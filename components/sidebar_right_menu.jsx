@@ -82,7 +82,7 @@ export default class SidebarRightMenu extends React.Component {
     getFlagged(e) {
         e.preventDefault();
         getFlaggedPosts();
-        this.hideSidebars();
+        this.closeRightSidebar();
     }
 
     componentDidMount() {
@@ -113,11 +113,12 @@ export default class SidebarRightMenu extends React.Component {
     searchMentions(e) {
         e.preventDefault();
         const user = this.state.currentUser;
+
         if (SearchStore.isMentionSearch) {
             GlobalActions.toggleSideBarAction(false);
         } else {
+            this.closeRightSidebar();
             GlobalActions.emitSearchMentionsEvent(user);
-            this.hideSidebars();
         }
     }
 
@@ -139,9 +140,12 @@ export default class SidebarRightMenu extends React.Component {
         }
     }
 
-    hideSidebars() {
+    closeRightSidebar() {
         if (Utils.isMobile()) {
-            GlobalActions.toggleSideBarRightMenuAction();
+            setTimeout(() => {
+                document.querySelector('.app__body .inner-wrap').classList.remove('move--left-small');
+                document.querySelector('.app__body .sidebar--menu').classList.remove('move--left');
+            });
         }
     }
 
