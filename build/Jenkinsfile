@@ -1,0 +1,42 @@
+#!/usr/bin/env groovy
+
+podTemplate(label: 'jenkins-slave-webapp', 
+    containers: [
+        containerTemplate(
+            name: 'mattermost-node', 
+            image: 'node', 
+            ttyEnabled: true, 
+            command: 'cat',
+            alwaysPullImage: false,
+            resourceRequestCpu: '1000m',
+            resourceLimitCpu: '2000m',
+            resourceRequestMemory: '2Gi',
+            resourceLimitMemory: '4Gi'
+        )
+    ]
+)
+{
+    node('jenkins-slave-webapp') {
+        stage('Checkout') {
+            container('mattermost-node') {
+                dir('mattermost-webapp') {
+                    git credentialsId: 'a8f2d76b-8a29-4525-b57a-eb0447d7779c', url: 'https://github.com/mattermost/mattermost-webapp.git'
+                }
+            }
+        }
+        stage('Check Style') {
+            container('mattermost-node') {
+                dir('mattermost-webapp') {
+                    sh 'make check-style'
+                }
+            }
+        }
+        stage('Build') {
+            container('mattermost-node') {
+                dir('mattermost-webapp') {
+                    sh 'make build'
+                }
+            }
+        }
+    }
+}
