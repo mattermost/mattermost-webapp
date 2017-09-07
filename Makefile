@@ -1,6 +1,6 @@
 .PHONY: build test run clean stop check-style run-unit emojis
 
-BUILD_SERVER_DIR = ..
+BUILD_SERVER_DIR = ../mattermost-server
 
 check-style: .yarninstall
 	@echo Checking for style guide compliance
