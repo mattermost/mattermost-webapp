@@ -14,7 +14,6 @@ import ChannelInviteModal from 'components/channel_invite_modal';
 import {openDirectChannelToUser} from 'actions/channel_actions.jsx';
 
 import {Client4} from 'mattermost-redux/client';
-import {getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 import * as Utils from 'utils/utils.jsx';
 import Constants from 'utils/constants.jsx';
 import {canManageMembers} from 'utils/channel_utils.jsx';
@@ -31,6 +30,7 @@ export default class PopoverListMembers extends React.Component {
         channel: PropTypes.object.isRequired,
         members: PropTypes.array.isRequired,
         memberCount: PropTypes.number,
+        statuses: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             getProfilesInChannel: PropTypes.func.isRequired
         }).isRequired
@@ -125,9 +125,8 @@ export default class PopoverListMembers extends React.Component {
                             key={'popover-member-' + i}
                         >
                             <ProfilePicture
-                                className='user__picture'
                                 src={Client4.getProfilePictureUrl(m.id, m.last_picture_update)}
-                                status={getStatusForUserId(state, m.id)}
+                                status={this.props.statuses[m.id]}
                             />
                             <div className='more-modal__details'>
                                 <div
