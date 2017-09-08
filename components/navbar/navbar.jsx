@@ -78,6 +78,8 @@ export default class Navbar extends React.Component {
         ModalStore.addModalListener(ActionTypes.TOGGLE_CHANNEL_HEADER_UPDATE_MODAL, this.showEditChannelHeaderModal);
         ModalStore.addModalListener(ActionTypes.TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL, this.showChannelPurposeModal);
         ModalStore.addModalListener(ActionTypes.TOGGLE_CHANNEL_NAME_UPDATE_MODAL, this.showRenameChannelModal);
+        WebrtcStore.addChangedListener(this.onChange);
+        WebrtcStore.addBusyListener(this.onBusy);
         $('.inner-wrap').click(this.hideSidebars);
         document.addEventListener('keydown', this.handleQuickSwitchKeyPress);
     }
@@ -92,6 +94,8 @@ export default class Navbar extends React.Component {
         ModalStore.addModalListener(ActionTypes.TOGGLE_CHANNEL_HEADER_UPDATE_MODAL, this.hideEditChannelHeaderModal);
         ModalStore.addModalListener(ActionTypes.TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL, this.hideChannelPurposeModal);
         ModalStore.addModalListener(ActionTypes.TOGGLE_CHANNEL_NAME_UPDATE_MODAL, this.hideRenameChannelModal);
+        WebrtcStore.removeChangedListener(this.onChange);
+        WebrtcStore.removeBusyListener(this.onBusy);
         document.removeEventListener('keydown', this.handleQuickSwitchKeyPress);
     }
 
@@ -270,6 +274,7 @@ export default class Navbar extends React.Component {
     createDropdown = (channel, channelTitle, isSystemAdmin, isTeamAdmin, isChannelAdmin, isDirect, isGroup) => {
         if (channel) {
             let viewInfoOption;
+            let webrtcOption;
             let viewPinnedPostsOption;
             let addMembersOption;
             let manageMembersOption;
@@ -295,6 +300,8 @@ export default class Navbar extends React.Component {
                         </a>
                     </li>
                 );
+
+                webrtcOption = this.generateWebrtcDropdown();
             } else if (isGroup) {
                 setChannelHeaderOption = (
                     <li role='presentation'>
@@ -570,6 +577,23 @@ export default class Navbar extends React.Component {
             return (
                 <div className='navbar-brand'>
                     <div className='dropdown'>
+                        <OverlayTrigger
+                            ref='headerOverlay'
+                            trigger='click'
+                            placement='bottom'
+                            overlay={popoverContent}
+                            className='description'
+                            rootClose={true}
+                        >
+                            <div className='pull-right description navbar-right__icon info-popover'>
+                                <span
+                                    className='icon icon__info'
+                                    dangerouslySetInnerHTML={{__html: infoIcon}}
+                                    aria-hidden='true'
+                                />
+                            </div>
+                        </OverlayTrigger>
+                        {this.generateWebrtcIcon()}
                         <a
                             href='#'
                             className='dropdown-toggle theme'
@@ -585,6 +609,7 @@ export default class Navbar extends React.Component {
                             role='menu'
                         >
                             {viewInfoOption}
+                            {webrtcOption}
                             {viewPinnedPostsOption}
                             {notificationPreferenceOption}
                             {addMembersOption}
