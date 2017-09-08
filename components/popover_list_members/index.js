@@ -4,12 +4,14 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getProfilesInChannel} from 'mattermost-redux/actions/users';
+import {getUserStatuses} from 'mattermost-redux/selectors/entities/users';
 
 import PopoverListMembers from './popover_list_members.jsx';
 
 function mapStateToProps(state, ownProps) {
     return {
-        ...ownProps
+        ...ownProps,
+        statuses: getUserStatuses(state)
     };
 }
 
