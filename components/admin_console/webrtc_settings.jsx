@@ -24,6 +24,7 @@ export default class WebrtcSettings extends AdminSettings {
         config.WebrtcSettings.GatewayWebsocketUrl = this.state.gatewayWebsocketUrl;
         config.WebrtcSettings.GatewayAdminUrl = this.state.gatewayAdminUrl;
         config.WebrtcSettings.GatewayAdminSecret = this.state.gatewayAdminSecret;
+        config.WebrtcSettings.GatewayType = this.state.gatewayType;
         config.WebrtcSettings.StunURI = this.state.stunURI;
         config.WebrtcSettings.TurnURI = this.state.turnURI;
         config.WebrtcSettings.TurnUsername = this.state.turnUsername;
@@ -41,6 +42,7 @@ export default class WebrtcSettings extends AdminSettings {
             gatewayWebsocketUrl: settings.GatewayWebsocketUrl,
             gatewayAdminUrl: settings.GatewayAdminUrl,
             gatewayAdminSecret: settings.GatewayAdminSecret,
+            gatewayType: settings.GatewayType,
             stunURI: settings.StunURI,
             turnURI: settings.TurnURI,
             turnUsername: settings.TurnUsername,
@@ -133,6 +135,25 @@ export default class WebrtcSettings extends AdminSettings {
                         />
                     }
                     value={this.state.gatewayAdminSecret}
+                    onChange={this.handleChange}
+                    disabled={!this.state.enableWebrtc}
+                />
+                <TextSetting
+                    id='gatewayType'
+                    label={
+                        <FormattedMessage
+                            id='admin.webrtc.gatewayTypeTitle'
+                            defaultMessage='Gateway Type:'
+                        />
+                    }
+                    placeholder={Utils.localizeMessage('admin.webrtc.gatewayTypeExample', 'Ex "Janus"')}
+                    helpText={
+                        <FormattedMessage
+                            id='admin.webrtc.gatewayTypeDescription'
+                            defaultMessage='Enter the type of the WebRTC server Mattermost uses. Defaults to "Janus" when empty.'
+                        />
+                    }
+                    value={this.state.gatewayType}
                     onChange={this.handleChange}
                     disabled={!this.state.enableWebrtc}
                 />
