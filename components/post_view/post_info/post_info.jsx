@@ -147,6 +147,7 @@ export default class PostInfo extends React.PureComponent {
 
         let comments = null;
         let react = null;
+        let flagIcon = null;
         if (!isEphemeral && !post.failed && !isSystemMessage) {
             comments = (
                 <CommentIcon
@@ -183,6 +184,16 @@ export default class PostInfo extends React.PureComponent {
 
                 );
             }
+
+            flagIcon = (
+                <PostFlagIcon
+                    idPrefix='centerPostFlag'
+                    idCount={idCount}
+                    postId={post.id}
+                    isFlagged={this.props.isFlagged}
+                    isEphemeral={isEphemeral}
+                />
+            );
         }
 
         let options;
@@ -259,13 +270,7 @@ export default class PostInfo extends React.PureComponent {
                     />
                     {pinnedBadge}
                     {this.state.showEmojiPicker}
-                    <PostFlagIcon
-                        idPrefix={'centerPostFlag'}
-                        idCount={idCount}
-                        postId={post.id}
-                        isFlagged={this.props.isFlagged}
-                        isEphemeral={isEphemeral}
-                    />
+                    {flagIcon}
                     {visibleMessage}
                 </div>
                 {options}
