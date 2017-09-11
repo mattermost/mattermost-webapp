@@ -108,7 +108,8 @@ export default class Post extends React.PureComponent {
 
         AppDispatcher.handleServerAction({
             type: ActionTypes.RECEIVED_POST_SELECTED,
-            postId: Utils.getRootId(this.props.post)
+            postId: Utils.getRootId(this.props.post),
+            channelId: this.props.post.channel_id
         });
 
         AppDispatcher.handleServerAction({

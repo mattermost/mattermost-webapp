@@ -223,7 +223,8 @@ export function deletePost(channelId, post, success) {
             if (post.id === getState().views.rhs.selectedPostId) {
                 dispatch({
                     type: ActionTypes.SELECT_POST,
-                    postId: ''
+                    postId: '',
+                    channelId: ''
                 });
             }
 

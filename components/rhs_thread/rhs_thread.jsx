@@ -405,6 +405,20 @@ export default class RhsThread extends React.Component {
             );
         }
 
+        let createComment;
+        if (selected.type !== 'system_deleted') {
+            createComment = (
+                <div className='post-create__container'>
+                    <CreateComment
+                        channelId={selected.channel_id}
+                        rootId={selected.id}
+                        latestPostId={postsLength > 0 ? postsArray[postsLength - 1].id : selected.id}
+                        getSidebarBody={this.getSidebarBody}
+                    />
+                </div>
+            );
+        }
+
         return (
             <div
                 className='sidebar-right__body'
@@ -457,14 +471,7 @@ export default class RhsThread extends React.Component {
                         >
                             {commentsLists}
                         </div>
-                        <div className='post-create__container'>
-                            <CreateComment
-                                channelId={selected.channel_id}
-                                rootId={selected.id}
-                                latestPostId={postsLength > 0 ? postsArray[postsLength - 1].id : selected.id}
-                                getSidebarBody={this.getSidebarBody}
-                            />
-                        </div>
+                        {createComment}
                     </div>
                 </Scrollbars>
             </div>

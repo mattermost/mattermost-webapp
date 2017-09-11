@@ -144,7 +144,8 @@ export default class Navbar extends React.Component {
 
             AppDispatcher.handleServerAction({
                 type: ActionTypes.RECEIVED_POST_SELECTED,
-                postId: null
+                postId: null,
+                channelId: null
             });
 
             if (e.target.className !== 'navbar-toggle' && e.target.className !== 'icon-bar') {
