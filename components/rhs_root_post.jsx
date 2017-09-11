@@ -429,15 +429,14 @@ export default class RhsRootPost extends React.Component {
                             <div className={postClass}>
                                 <PostBodyAdditionalContent
                                     post={post}
-                                    message={
-                                        <PostMessageContainer
-                                            post={post}
-                                            isRHS={true}
-                                            hasMention={true}
-                                        />
-                                    }
                                     previewCollapsed={this.props.previewCollapsed}
-                                />
+                                >
+                                    <PostMessageContainer
+                                        post={post}
+                                        isRHS={true}
+                                        hasMention={true}
+                                    />
+                                </PostBodyAdditionalContent>
                             </div>
                             {fileAttachment}
                             <ReactionListContainer post={post}/>

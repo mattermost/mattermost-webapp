@@ -24,7 +24,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         /**
          * The post's message
          */
-        message: PropTypes.element.isRequired,
+        children: PropTypes.element.isRequired,
 
         /**
          * Set to collapse image and video previews
@@ -220,7 +220,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
             );
             const message = (
                 <div key='message'>
-                    {this.props.message}
+                    {this.props.children}
                 </div>
             );
 
@@ -257,13 +257,13 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         if (staticEmbed) {
             return (
                 <div>
-                    {this.props.message}
+                    {this.props.children}
                     {staticEmbed}
                 </div>
             );
         }
 
-        return this.props.message;
+        return this.props.children;
     }
 
     static isEmbedVisible(props) {

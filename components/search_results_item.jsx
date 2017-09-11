@@ -254,21 +254,16 @@ export default class SearchResultsItem extends React.Component {
                 </div>
             );
 
-            const messageWrapper = (
-                <PostMessageContainer
-                    post={post}
-                    options={{
-                        searchTerm: this.props.term,
-                        mentionHighlight: this.props.isMentionSearch
-                    }}
-                />
-            );
-
             message = (
-                <PostBodyAdditionalContent
-                    post={post}
-                    message={messageWrapper}
-                />
+                <PostBodyAdditionalContent post={post}>
+                    <PostMessageContainer
+                        post={post}
+                        options={{
+                            searchTerm: this.props.term,
+                            mentionHighlight: this.props.isMentionSearch
+                        }}
+                    />
+                </PostBodyAdditionalContent>
             );
         }
 
