@@ -184,9 +184,9 @@ export default class ThemeSetting extends React.Component {
         const displayCustom = this.state.type === 'custom';
         const allowCustomThemes = global.mm_config.AllowCustomThemes !== 'false';
 
-                let custom;
-                let premade;
-                if (displayCustom && allowCustomThemes) {
+        let custom;
+        let premade;
+        if (displayCustom && allowCustomThemes) {
             custom = (
                 <div key='customThemeChooser'>
                     <CustomThemeChooser
@@ -211,33 +211,33 @@ export default class ThemeSetting extends React.Component {
         if (this.props.selected) {
             const inputs = [];
 
-                if (allowCustomThemes) {
-                    inputs.push(
-                        <div
-                            className='radio'
-                            key='premadeThemeColorLabel'
-                        >
-                            <label>
-                                <input
-                                    id='standardThemes'
-                                    type='radio'
-                                    name='theme'
-                                    checked={!displayCustom}
-                                    onChange={this.updateType.bind(this, 'premade')}
-                                />
-                                <FormattedMessage
-                                    id='user.settings.display.theme.themeColors'
-                                    defaultMessage='Theme Colors'
-                                />
-                            </label>
-                            <br/>
-                        </div>
-                    );
-                }
+            if (allowCustomThemes) {
+                inputs.push(
+                    <div
+                        className='radio'
+                        key='premadeThemeColorLabel'
+                    >
+                        <label>
+                            <input
+                                id='standardThemes'
+                                type='radio'
+                                name='theme'
+                                checked={!displayCustom}
+                                onChange={this.updateType.bind(this, 'premade')}
+                            />
+                            <FormattedMessage
+                                id='user.settings.display.theme.themeColors'
+                                defaultMessage='Theme Colors'
+                            />
+                        </label>
+                        <br/>
+                    </div>
+                );
+            }
 
-                inputs.push(premade);
+            inputs.push(premade);
 
-                if (allowCustomThemes) {
+            if (allowCustomThemes) {
                 inputs.push(
                     <div
                         className='radio'
@@ -295,7 +295,7 @@ export default class ThemeSetting extends React.Component {
                         </a>
                     </div>
                 );
-        }
+            }
 
             let allTeamsCheckbox = null;
             if (this.state.showAllTeamsCheckbox) {
