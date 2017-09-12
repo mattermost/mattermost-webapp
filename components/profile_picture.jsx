@@ -3,7 +3,6 @@
 
 import ProfilePopover from './profile_popover.jsx';
 import Pluggable from 'plugins/pluggable';
-import * as Utils from 'utils/utils.jsx';
 
 import PropTypes from 'prop-types';
 
@@ -11,41 +10,26 @@ import React from 'react';
 import StatusIcon from './status_icon.jsx';
 import {OverlayTrigger} from 'react-bootstrap';
 
-export default class ProfilePicture extends React.Component {
-    constructor(props) {
-        super(props);
+export default class ProfilePicture extends React.PureComponent {
+    static defaultProps = {
+        width: '36',
+        height: '36',
+        isRHS: false,
+        hasMention: false
+    };
 
-        this.hideProfilePopover = this.hideProfilePopover.bind(this);
-    }
-    shouldComponentUpdate(nextProps) {
-        if (!Utils.areObjectsEqual(nextProps.user, this.props.user)) {
-            return true;
-        }
+    static propTypes = {
+        src: PropTypes.string.isRequired,
+        status: PropTypes.string,
+        width: PropTypes.string,
+        height: PropTypes.string,
+        user: PropTypes.object,
+        isBusy: PropTypes.bool,
+        isRHS: PropTypes.bool,
+        hasMention: PropTypes.bool
+    };
 
-        if (nextProps.src !== this.props.src) {
-            return true;
-        }
-
-        if (nextProps.status !== this.props.status) {
-            return true;
-        }
-
-        if (nextProps.width !== this.props.width) {
-            return true;
-        }
-
-        if (nextProps.height !== this.props.height) {
-            return true;
-        }
-
-        if (nextProps.isBusy !== this.props.isBusy) {
-            return true;
-        }
-
-        return false;
-    }
-
-    hideProfilePopover() {
+    hideProfilePopover = () => {
         this.refs.overlay.hide();
     }
 
@@ -96,20 +80,3 @@ export default class ProfilePicture extends React.Component {
         );
     }
 }
-
-ProfilePicture.defaultProps = {
-    width: '36',
-    height: '36',
-    isRHS: false,
-    hasMention: false
-};
-ProfilePicture.propTypes = {
-    src: PropTypes.string.isRequired,
-    status: PropTypes.string,
-    width: PropTypes.string,
-    height: PropTypes.string,
-    user: PropTypes.object,
-    isBusy: PropTypes.bool,
-    isRHS: PropTypes.bool,
-    hasMention: PropTypes.bool
-};
