@@ -10,7 +10,34 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Constants from 'utils/constants.jsx';
 
-export default class AboutBuildModal extends React.Component {
+export default class AboutBuildModal extends React.PureComponent {
+    static defaultProps = {
+        show: false
+    };
+
+    static propTypes = {
+
+        /**
+         * Determines whether modal is shown or not
+         */
+        show: PropTypes.bool.isRequired,
+
+        /**
+         * Function that is called when the modal is dismissed
+         */
+        onModalDismissed: PropTypes.func.isRequired,
+
+        /**
+         * Global config object
+         */
+        config: PropTypes.object.isRequired,
+
+        /**
+         * Global license object
+         */
+        license: PropTypes.object.isRequired
+    };
+
     constructor(props) {
         super(props);
         this.doHide = this.doHide.bind(this);
@@ -21,8 +48,8 @@ export default class AboutBuildModal extends React.Component {
     }
 
     render() {
-        const config = global.window.mm_config;
-        const license = global.window.mm_license;
+        const config = this.props.config;
+        const license = this.props.license;
         const mattermostLogo = Constants.MATTERMOST_ICON_SVG;
 
         let title = (
@@ -202,12 +229,3 @@ export default class AboutBuildModal extends React.Component {
         );
     }
 }
-
-AboutBuildModal.defaultProps = {
-    show: false
-};
-
-AboutBuildModal.propTypes = {
-    show: PropTypes.bool.isRequired,
-    onModalDismissed: PropTypes.func.isRequired
-};
