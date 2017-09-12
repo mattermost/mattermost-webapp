@@ -4,6 +4,7 @@
 import SettingItemMin from 'components/setting_item_min.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 
+import {NotificationLevels} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import PropTypes from 'prop-types';
@@ -26,9 +27,9 @@ export default class DesktopNotificationSettings extends React.Component {
         let extraInfo = null;
 
         const activityRadio = [false, false, false];
-        if (this.props.activity === 'mention') {
+        if (this.props.activity === NotificationLevels.MENTION) {
             activityRadio[1] = true;
-        } else if (this.props.activity === 'none') {
+        } else if (this.props.activity === NotificationLevels.NONE) {
             activityRadio[2] = true;
         } else {
             activityRadio[0] = true;
@@ -36,7 +37,7 @@ export default class DesktopNotificationSettings extends React.Component {
 
         let soundSection;
         let durationSection;
-        if (this.props.activity !== 'none') {
+        if (this.props.activity !== NotificationLevels.NONE) {
             const soundRadio = [false, false];
             if (this.props.sound === 'false') {
                 soundRadio[1] = true;
@@ -236,7 +237,7 @@ export default class DesktopNotificationSettings extends React.Component {
                             type='radio'
                             name='desktopNotificationLevel'
                             checked={activityRadio[0]}
-                            onChange={() => this.props.setParentState('desktopActivity', 'all')}
+                            onChange={() => this.props.setParentState('desktopActivity', NotificationLevels.ALL)}
                         />
                         <FormattedMessage
                             id='user.settings.notifications.allActivity'
@@ -252,7 +253,7 @@ export default class DesktopNotificationSettings extends React.Component {
                             type='radio'
                             name='desktopNotificationLevel'
                             checked={activityRadio[1]}
-                            onChange={() => this.props.setParentState('desktopActivity', 'mention')}
+                            onChange={() => this.props.setParentState('desktopActivity', NotificationLevels.MENTION)}
                         />
                         <FormattedMessage
                             id='user.settings.notifications.onlyMentions'
@@ -268,7 +269,7 @@ export default class DesktopNotificationSettings extends React.Component {
                             type='radio'
                             name='desktopNotificationLevel'
                             checked={activityRadio[2]}
-                            onChange={() => this.props.setParentState('desktopActivity', 'none')}
+                            onChange={() => this.props.setParentState('desktopActivity', NotificationLevels.NONE)}
                         />
                         <FormattedMessage
                             id='user.settings.notifications.never'
@@ -302,7 +303,7 @@ export default class DesktopNotificationSettings extends React.Component {
 
     buildMinimizedSetting() {
         let describe = '';
-        if (this.props.activity === 'mention') {
+        if (this.props.activity === NotificationLevels.MENTION) {
             if (Utils.hasSoundOptions() && this.props.sound !== 'false') {
                 if (this.props.duration === '0') { //eslint-disable-line no-lonely-if
                     describe = (
@@ -361,7 +362,7 @@ export default class DesktopNotificationSettings extends React.Component {
                     );
                 }
             }
-        } else if (this.props.activity === 'none') {
+        } else if (this.props.activity === NotificationLevels.NONE) {
             describe = (
                 <FormattedMessage
                     id='user.settings.notifications.off'

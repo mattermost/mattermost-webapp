@@ -9,7 +9,7 @@ import DesktopNotificationSettings from './desktop_notification_settings.jsx';
 import UserStore from 'stores/user_store.jsx';
 
 import * as Utils from 'utils/utils.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants, {Notifications} from 'utils/constants.jsx';
 import {updateUserNotifyProps} from 'actions/user_actions.jsx';
 
 import EmailNotificationSetting from './email_notification_setting.jsx';
@@ -18,12 +18,12 @@ import {FormattedMessage} from 'react-intl';
 function getNotificationsStateFromStores() {
     const user = UserStore.getCurrentUser();
 
-    let desktop = 'default';
+    let desktop = NotificationLevels.DEFAULT;
     let sound = 'true';
     let desktopDuration = '5';
     let comments = 'never';
     let enableEmail = 'true';
-    let pushActivity = 'mention';
+    let pushActivity = NotificationLevels.MENTION;
     let pushStatus = Constants.UserStatuses.ONLINE;
 
     if (user.notify_props) {
@@ -254,9 +254,9 @@ export default class NotificationsTab extends React.Component {
 
             if (global.window.mm_config.SendPushNotifications === 'true') {
                 const pushActivityRadio = [false, false, false];
-                if (this.state.pushActivity === 'all') {
+                if (this.state.pushActivity === NotificationLevels.ALL) {
                     pushActivityRadio[0] = true;
-                } else if (this.state.pushActivity === 'none') {
+                } else if (this.state.pushActivity === NotificationLevels.NONE) {
                     pushActivityRadio[2] = true;
                 } else {
                     pushActivityRadio[1] = true;
@@ -272,7 +272,7 @@ export default class NotificationsTab extends React.Component {
                 }
 
                 let pushStatusSettings;
-                if (this.state.pushActivity !== 'none') {
+                if (this.state.pushActivity !== NotificationLevels.NONE) {
                     pushStatusSettings = (
                         <div>
                             <hr/>
@@ -359,7 +359,7 @@ export default class NotificationsTab extends React.Component {
                                     type='radio'
                                     name='pushNotificationLevel'
                                     checked={pushActivityRadio[0]}
-                                    onChange={this.handlePushRadio.bind(this, 'all')}
+                                    onChange={this.handlePushRadio.bind(this, NotificationLevels.ALL)}
                                 />
                                 <FormattedMessage
                                     id='user.settings.push_notification.allActivity'
@@ -375,7 +375,7 @@ export default class NotificationsTab extends React.Component {
                                     type='radio'
                                     name='pushNotificationLevel'
                                     checked={pushActivityRadio[1]}
-                                    onChange={this.handlePushRadio.bind(this, 'mention')}
+                                    onChange={this.handlePushRadio.bind(this, NotificationLevels.MENTION)}
                                 />
                                 <FormattedMessage
                                     id='user.settings.push_notification.onlyMentions'
@@ -391,7 +391,7 @@ export default class NotificationsTab extends React.Component {
                                     type='radio'
                                     name='pushNotificationLevel'
                                     checked={pushActivityRadio[2]}
-                                    onChange={this.handlePushRadio.bind(this, 'none')}
+                                    onChange={this.handlePushRadio.bind(this, NotificationLevels.NONE)}
                                 />
                                 <FormattedMessage
                                     id='user.settings.notifications.never'
@@ -438,7 +438,7 @@ export default class NotificationsTab extends React.Component {
         }
 
         let describe = '';
-        if (this.state.pushActivity === 'all') {
+        if (this.state.pushActivity === NotificationLevels.ALL) {
             if (this.state.pushStatus === Constants.UserStatuses.AWAY) {
                 describe = (
                     <FormattedMessage
@@ -461,7 +461,7 @@ export default class NotificationsTab extends React.Component {
                     />
                 );
             }
-        } else if (this.state.pushActivity === 'none') {
+        } else if (this.state.pushActivity === NotificationLevels.NONE) {
             describe = (
                 <FormattedMessage
                     id='user.settings.notifications.never'
