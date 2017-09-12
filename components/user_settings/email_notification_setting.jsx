@@ -21,7 +21,8 @@ export default class EmailNotificationSetting extends React.Component {
         emailInterval: PropTypes.number.isRequired,
         onSubmit: PropTypes.func.isRequired,
         onCancel: PropTypes.func.isRequired,
-        serverError: PropTypes.string
+        serverError: PropTypes.string,
+        saving: PropTypes.bool
     };
 
     constructor(props) {
@@ -254,6 +255,7 @@ export default class EmailNotificationSetting extends React.Component {
                     </div>
                 ]}
                 submit={this.handleSubmit}
+                saving={this.props.saving}
                 server_error={this.props.serverError}
                 updateSection={this.handleCancel}
             />

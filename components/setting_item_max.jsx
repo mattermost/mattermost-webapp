@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import SaveButton from 'components/admin_console/save_button.jsx';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -71,13 +72,11 @@ export default class SettingItemMax extends React.Component {
         var submit = '';
         if (this.props.submit) {
             submit = (
-                <input
-                    id='saveSetting'
-                    type='submit'
-                    className='btn btn-sm btn-primary'
-                    href='#'
+                <SaveButton
+                    saving={this.props.saving}
+                    disabled={this.props.saving}
                     onClick={this.props.submit}
-                    value={Utils.localizeMessage('setting_item_max.save', 'Save')}
+                    messageId='setting_item_max.saving'
                 />
             );
         }
@@ -163,6 +162,7 @@ SettingItemMax.propTypes = {
     infoPosition: PropTypes.string,
     updateSection: PropTypes.func,
     submit: PropTypes.func,
+    saving: PropTypes.bool,
     title: PropTypes.node,
     width: PropTypes.string,
     submitExtra: PropTypes.node,
@@ -170,5 +170,6 @@ SettingItemMax.propTypes = {
 };
 
 SettingItemMax.defaultProps = {
-    infoPosition: 'bottom'
+    infoPosition: 'bottom',
+    saving: false
 };

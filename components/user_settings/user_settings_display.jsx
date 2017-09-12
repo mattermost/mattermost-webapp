@@ -44,6 +44,7 @@ export default class UserSettingsDisplay extends React.Component {
         this.createCollapseSection = this.createCollapseSection.bind(this);
 
         this.state = getDisplayStateFromStores();
+        this.setState({isSaving: false});
     }
 
     handleSubmit() {
@@ -74,6 +75,8 @@ export default class UserSettingsDisplay extends React.Component {
             name: Preferences.COLLAPSE_DISPLAY,
             value: this.state.collapseDisplay
         };
+
+        this.setState({isSaving: true});
 
         savePreferences([timePreference, channelDisplayModePreference, messageDisplayPreference, collapseDisplayPreference],
             () => {
@@ -111,6 +114,8 @@ export default class UserSettingsDisplay extends React.Component {
         if (!Utils.areObjectsEqual(newState, this.state)) {
             this.setState(newState);
         }
+
+        this.setState({isSaving: false});
     }
 
     createCollapseSection() {
@@ -181,6 +186,7 @@ export default class UserSettingsDisplay extends React.Component {
                     }
                     inputs={inputs}
                     submit={this.handleSubmit}
+                    saving={this.state.isSaving}
                     server_error={this.state.serverError}
                     updateSection={handleUpdateCollapseSection}
                 />
@@ -298,6 +304,7 @@ export default class UserSettingsDisplay extends React.Component {
                     }
                     inputs={inputs}
                     submit={this.handleSubmit}
+                    saving={this.state.isSaving}
                     server_error={serverError}
                     updateSection={handleUpdateClockSection}
                 />
@@ -414,6 +421,7 @@ export default class UserSettingsDisplay extends React.Component {
                     }
                     inputs={inputs}
                     submit={this.handleSubmit}
+                    saving={this.state.isSaving}
                     server_error={serverError}
                     updateSection={(e) => {
                         this.updateSection('');
@@ -517,6 +525,7 @@ export default class UserSettingsDisplay extends React.Component {
                     }
                     inputs={inputs}
                     submit={this.handleSubmit}
+                    saving={this.state.isSaving}
                     server_error={serverError}
                     updateSection={(e) => {
                         this.updateSection('');

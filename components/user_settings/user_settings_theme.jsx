@@ -34,6 +34,7 @@ export default class ThemeSetting extends React.Component {
         this.handleImportModal = this.handleImportModal.bind(this);
 
         this.state = this.getStateFromStores();
+        this.setState({isSaving: false});
 
         this.originalTheme = Object.assign({}, this.state.theme);
     }
@@ -115,6 +116,8 @@ export default class ThemeSetting extends React.Component {
 
         const teamId = this.state.applyToAllTeams ? '' : this.state.teamId;
 
+        this.setState({isSaving: true});
+
         UserActions.saveTheme(
             teamId,
             this.state.theme,
@@ -123,6 +126,7 @@ export default class ThemeSetting extends React.Component {
                 this.originalTheme = Object.assign({}, this.state.theme);
                 this.scrollToTop();
                 this.props.updateSection('');
+                this.setState({isSaving: false});
             }
         );
     }
@@ -180,9 +184,9 @@ export default class ThemeSetting extends React.Component {
         const displayCustom = this.state.type === 'custom';
         const allowCustomThemes = global.mm_config.AllowCustomThemes !== 'false';
 
-        let custom;
-        let premade;
-        if (displayCustom && allowCustomThemes) {
+                let custom;
+                let premade;
+                if (displayCustom && allowCustomThemes) {
             custom = (
                 <div key='customThemeChooser'>
                     <CustomThemeChooser
@@ -207,33 +211,33 @@ export default class ThemeSetting extends React.Component {
         if (this.props.selected) {
             const inputs = [];
 
-            if (allowCustomThemes) {
-                inputs.push(
-                    <div
-                        className='radio'
-                        key='premadeThemeColorLabel'
-                    >
-                        <label>
-                            <input
-                                id='standardThemes'
-                                type='radio'
-                                name='theme'
-                                checked={!displayCustom}
-                                onChange={this.updateType.bind(this, 'premade')}
-                            />
-                            <FormattedMessage
-                                id='user.settings.display.theme.themeColors'
-                                defaultMessage='Theme Colors'
-                            />
-                        </label>
-                        <br/>
-                    </div>
-                );
-            }
+                if (allowCustomThemes) {
+                    inputs.push(
+                        <div
+                            className='radio'
+                            key='premadeThemeColorLabel'
+                        >
+                            <label>
+                                <input
+                                    id='standardThemes'
+                                    type='radio'
+                                    name='theme'
+                                    checked={!displayCustom}
+                                    onChange={this.updateType.bind(this, 'premade')}
+                                />
+                                <FormattedMessage
+                                    id='user.settings.display.theme.themeColors'
+                                    defaultMessage='Theme Colors'
+                                />
+                            </label>
+                            <br/>
+                        </div>
+                    );
+                }
 
-            inputs.push(premade);
+                inputs.push(premade);
 
-            if (allowCustomThemes) {
+                if (allowCustomThemes) {
                 inputs.push(
                     <div
                         className='radio'
@@ -291,7 +295,7 @@ export default class ThemeSetting extends React.Component {
                         </a>
                     </div>
                 );
-            }
+        }
 
             let allTeamsCheckbox = null;
             if (this.state.showAllTeamsCheckbox) {
@@ -318,6 +322,7 @@ export default class ThemeSetting extends React.Component {
                     inputs={inputs}
                     submitExtra={allTeamsCheckbox}
                     submit={this.submitTheme}
+                    saving={this.state.isSaving}
                     server_error={serverError}
                     width='full'
                     updateSection={(e) => {
