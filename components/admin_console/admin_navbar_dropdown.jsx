@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom';
 
 import TeamStore from 'stores/team_store.jsx';
 import Constants from 'utils/constants.jsx';
-import AboutBuildModal from 'components/about_build_modal.jsx';
+import AboutBuildModal from 'components/about_build_modal';
 import {sortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 

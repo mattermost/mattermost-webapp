@@ -3,7 +3,7 @@
 
 import TeamMembersModal from './team_members_modal.jsx';
 import ToggleModalButton from './toggle_modal_button.jsx';
-import AboutBuildModal from './about_build_modal.jsx';
+import AboutBuildModal from 'components/about_build_modal';
 import AddUsersToTeam from 'components/add_users_to_team';
 
 import UserStore from 'stores/user_store.jsx';

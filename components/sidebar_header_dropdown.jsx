@@ -10,7 +10,7 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
-import AboutBuildModal from './about_build_modal.jsx';
+import AboutBuildModal from 'components/about_build_modal';
 import SidebarHeaderDropdownButton from './sidebar_header_dropdown_button.jsx';
 import TeamMembersModal from './team_members_modal.jsx';
 import AddUsersToTeam from 'components/add_users_to_team';
