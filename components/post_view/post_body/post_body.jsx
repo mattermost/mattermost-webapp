@@ -175,9 +175,10 @@ export default class PostBody extends React.PureComponent {
             messageWithAdditionalContent = (
                 <PostBodyAdditionalContent
                     post={this.props.post}
-                    message={messageWrapper}
                     previewCollapsed={this.props.previewCollapsed}
-                />
+                >
+                    {messageWrapper}
+                </PostBodyAdditionalContent>
             );
         }
 
