@@ -32,7 +32,7 @@ export function sendDesktopNotification(post, msgProps) {
 
     let notifyLevel = member && member.notify_props ? member.notify_props.desktop : NotificationLevels.DEFAULT;
     if (notifyLevel === NotificationLevels.DEFAULT) {
-        notifyLevel = user.notify_props.desktop;
+        notifyLevel = user && user.notify_props ? user.notify_props.desktop : NotificationLevels.ALL;
     }
 
     if (notifyLevel === NotificationLevels.NONE) {
