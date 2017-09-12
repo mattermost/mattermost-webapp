@@ -64,23 +64,24 @@ export default class EmojiList extends PureComponent {
     componentWillReceiveProps(nextProps) {
         const {itemCount, itemSize, scrollOffset} = this.props;
 
-        const itemPropsHaveChanged = nextProps.itemCount !== itemCount || nextProps.itemSize !== itemSize;
-
-        if (nextProps.itemCount !== itemCount) {
-            this.emojiListManager.updateConfig({
-                itemCount: nextProps.itemCount,
-                itemSize: nextProps.itemSize
-            });
-        }
-
         let recompute = false;
+        const itemPropsHaveChanged = nextProps.itemCount !== itemCount || nextProps.itemSize !== itemSize;
         if (itemPropsHaveChanged) {
             recompute = true;
             this.recomputeSizes();
         }
 
         let offset = 0;
-        if (nextProps.scrollOffset !== scrollOffset) {
+        if (nextProps.itemCount !== itemCount) {
+            this.setState({items: []});
+
+            this.emojiListManager.updateConfig({
+                itemCount: nextProps.itemCount,
+                itemSize: nextProps.itemSize
+            });
+
+            this.scrollTo(offset);
+        } else if (nextProps.scrollOffset !== scrollOffset) {
             offset = nextProps.scrollOffset;
             this.setState({offset});
         }
@@ -124,7 +125,6 @@ export default class EmojiList extends PureComponent {
         }
 
         this.setState({offset});
-
         this.setStopAndBottom(offset, false);
 
         setTimeout(() => {
@@ -197,8 +197,8 @@ export default class EmojiList extends PureComponent {
 
     render() {
         const {height, renderItem, width} = this.props;
-        const renderItems = this.state.items.map((index) => {
-            return renderItem({index, style: this.getStyle(index)});
+        const renderItems = this.state.items.map((item) => {
+            return renderItem({index: item, style: this.getStyle(item)});
         });
 
         return (

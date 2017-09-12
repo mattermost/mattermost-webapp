@@ -130,7 +130,7 @@ export default class EmojiPicker extends React.Component {
         };
 
         this.state = {
-            category: 'recent',
+            activeCategory: 'recent',
             filter: '',
             selected: null,
             list: this.generateList(''),
@@ -151,7 +151,7 @@ export default class EmojiPicker extends React.Component {
 
         this.setState({
             scrollOffset,
-            category
+            activeCategory: category
         });
     }
 
@@ -164,12 +164,21 @@ export default class EmojiPicker extends React.Component {
         }
 
         const filter = e.target.value;
+        const list = this.generateList(filter);
+
+        let activeCategory = 'recent';
+        for (const category of Object.keys(this.categories)) {
+            if (this.categories[category].enable) {
+                activeCategory = this.categories[category].name;
+                break;
+            }
+        }
 
         this.setState({
-            category: 'recent',
+            activeCategory,
             selected: null,
             scrollOffset: 0,
-            list: this.generateList(filter),
+            list,
             filter
         });
     }
@@ -205,16 +214,16 @@ export default class EmojiPicker extends React.Component {
     }
 
     handleOnScroll(offset) {
-        let category = 'recent';
+        let activeCategory = 'recent';
         for (const cat of Object.keys(this.categories)) {
             if (offset < this.categories[cat].offset) {
                 break;
             }
 
-            category = this.categories[cat].name;
+            activeCategory = this.categories[cat].name;
         }
 
-        this.setState({category});
+        this.setState({activeCategory});
     }
 
     generateEmojiHeaderRow(category) {
@@ -259,29 +268,27 @@ export default class EmojiPicker extends React.Component {
     }
 
     getEmojis(category, filter) {
-        const emojis = [];
-        if (filter) {
-            return this.filterEmojis(emojis, filter);
-        }
+        let emojis = [];
 
         if (category === 'recent') {
             const recentEmojis = [...EmojiStore.getRecentEmojis()].reverse();
 
-            return recentEmojis.
-                filter((name) => {
-                    return EmojiStore.has(name);
-                }).
-                map((name) => {
-                    return EmojiStore.get(name);
-                });
+            emojis = recentEmojis.filter((name) => {
+                return EmojiStore.has(name);
+            }).map((name) => {
+                return EmojiStore.get(name);
+            });
+        } else {
+            const indices = Emoji.EmojiIndicesByCategory.get(category) || [];
+
+            emojis = indices.map((index) => Emoji.Emojis[index]);
+
+            if (category === 'custom') {
+                emojis = emojis.concat([...EmojiStore.getCustomEmojiMap().values()]);
+            }
         }
 
-        if (category === 'custom') {
-            return [...EmojiStore.getCustomEmojiMap().values()];
-        }
-
-        const indices = Emoji.EmojiIndicesByCategory.get(category) || [];
-        return indices.map((index) => Emoji.Emojis[index]);
+        return filter ? this.filterEmojis(emojis, filter) : emojis;
     }
 
     filterEmojis(emojis, filter) {
@@ -336,7 +343,7 @@ export default class EmojiPicker extends React.Component {
                         />
                     }
                     onCategoryClick={this.handleCategoryClick}
-                    selected={this.state.category === categories[category].name}
+                    selected={this.state.activeCategory === categories[category].name}
                     enable={categories[category].enable}
                 />
             );

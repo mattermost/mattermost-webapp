@@ -72,7 +72,6 @@ export default class EmojiListManager {
         const maxOffset = nextOffset + containerSize;
         const start = this.findNearestItem(nextOffset);
         let stop = start;
-
         const datum = this.getSizeAndPositionForIndex(start);
         nextOffset = datum.offset + datum.size;
 
@@ -95,7 +94,6 @@ export default class EmojiListManager {
         const maxOffset = currentOffset + containerSize;
         let start = this.findNearestItem(currentOffset);
         let stop = start;
-
         const datum = this.getSizeAndPositionForIndex(start);
         currentOffset = datum.offset + datum.size;
 
