@@ -752,6 +752,14 @@
         }
 
         .attachment {
+            clear: both;
+            padding-top: 1px;
+
+            &.attachment--pretext {
+                clear: none;
+                padding: 0;
+            }
+
             .attachment__body__wrap {
                 .btn-close {
                     left: -2px;
