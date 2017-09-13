@@ -6,46 +6,122 @@
 import store from 'stores/redux_store.jsx';
 import {ActionTypes} from 'utils/constants.jsx';
 import {getSiteURL} from 'utils/url.jsx';
+import {Client4} from 'mattermost-redux/client';
 
 window.plugins = {};
 
-export function registerComponents(components) {
+export function registerComponents(id, components) {
+    const wrappedComponents = {};
+    Object.keys(components).forEach((name) => {
+        wrappedComponents[name] = {component: components[name], id};
+    });
+
     store.dispatch({
         type: ActionTypes.RECEIVED_PLUGIN_COMPONENTS,
-        data: components || {}
+        data: wrappedComponents
     });
 }
 
-export function initializePlugins() {
-    const pluginJson = window.mm_config.Plugins || '[]';
-
-    let pluginManifests;
-    try {
-        pluginManifests = JSON.parse(pluginJson);
-    } catch (error) {
-        console.error('Invalid plugins JSON: ' + error); //eslint-disable-line no-console
+export async function initializePlugins() {
+    if (store.getState().entities.general.config.PluginsEnabled !== 'true') {
         return;
     }
 
-    pluginManifests.forEach((m) => {
-        function onLoad() {
-            // Add the plugin's js to the page
-            const script = document.createElement('script');
-            script.type = 'text/javascript';
-            script.text = this.responseText;
-            document.getElementsByTagName('head')[0].appendChild(script);
+    const {data, error} = await getPlugins()(store.dispatch);
+    if (error) {
+        console.error(error); //eslint-disable-line no-console
+        return;
+    }
 
-            // Initialize the plugin
-            console.log('Registering ' + m.id + ' plugin...'); //eslint-disable-line no-console
-            const plugin = window.plugins[m.id];
-            plugin.initialize(registerComponents, store);
-            console.log('...done'); //eslint-disable-line no-console
+    if (data == null || data.length === 0) {
+        return;
+    }
+
+    data.forEach((m) => {
+        loadPlugin(m);
+    });
+}
+
+export function getPlugins() {
+    return async (dispatch) => {
+        let plugins;
+        try {
+            plugins = await Client4.getWebappPlugins();
+        } catch (error) {
+            return {error};
         }
 
-        // Fetch the plugin's bundled js
-        const xhrObj = new XMLHttpRequest();
-        xhrObj.open('GET', getSiteURL() + m.bundle_path, true);
-        xhrObj.addEventListener('load', onLoad);
-        xhrObj.send('');
+        dispatch({type: ActionTypes.RECEIVED_WEBAPP_PLUGINS, data: plugins});
+
+        return {data: plugins};
+    };
+}
+
+export function loadPlugin(manifest) {
+    function onLoad() {
+        // Add the plugin's js to the page
+        const script = document.createElement('script');
+        script.id = 'plugin_' + manifest.id;
+        script.type = 'text/javascript';
+        script.text = this.responseText;
+        document.getElementsByTagName('head')[0].appendChild(script);
+
+        // Initialize the plugin
+        console.log('Registering ' + manifest.id + ' plugin...'); //eslint-disable-line no-console
+        const plugin = window.plugins[manifest.id];
+        plugin.initialize(registerComponents.bind(null, manifest.id), store);
+        console.log('...done'); //eslint-disable-line no-console
+    }
+
+    // Fetch the plugin's bundled js
+    const xhrObj = new XMLHttpRequest();
+
+    // Backwards compatibility for old plugins
+    let bundlePath = manifest.webapp.bundle_path;
+    if (bundlePath.includes('/static/') && !bundlePath.includes('/static/plugins/')) {
+        bundlePath = bundlePath.replace('/static/', '/static/plugins/');
+    }
+
+    xhrObj.open('GET', getSiteURL() + bundlePath, true);
+    xhrObj.addEventListener('load', onLoad);
+    xhrObj.send('');
+}
+
+export function removePlugin(manifest) {
+    const script = document.getElementById('plugin_' + manifest.id);
+    script.parentNode.removeChild(script);
+    console.log('Removed ' + manifest.id + ' plugin'); //eslint-disable-line no-console
+}
+
+export async function loadPluginsIfNecessary() {
+    if (store.getState().entities.general.config.PluginsEnabled !== 'true') {
+        return;
+    }
+
+    const oldManifests = store.getState().plugins.plugins;
+
+    const {error} = await getPlugins()(store.dispatch);
+    if (error) {
+        console.error(error); //eslint-disable-line no-console
+        return;
+    }
+
+    const newManifests = store.getState().plugins.plugins;
+
+    // Get new plugins and update existing plugins if version changed
+    Object.values(newManifests).forEach((newManifest) => {
+        const oldManifest = oldManifests[newManifest.id];
+        if (!oldManifest || oldManifest.version !== newManifest.version) {
+            loadPlugin(newManifest);
+        }
+    });
+
+    // Remove old plugins
+    Object.keys(oldManifests).forEach((id) => {
+        if (!newManifests.hasOwnProperty(id)) {
+            const oldManifest = oldManifests[id];
+            store.dispatch({type: ActionTypes.REMOVED_WEBAPP_PLUGIN, data: oldManifest});
+            removePlugin(oldManifest);
+        }
     });
 }
