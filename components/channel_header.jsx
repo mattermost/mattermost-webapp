@@ -725,18 +725,23 @@ export default class ChannelHeader extends React.Component {
             let headerTextElement;
             if (this.state.enableFormatting) {
                 headerTextElement = (
-                    <div
-                        onClick={Utils.handleFormattedTextClick}
-                        className='channel-header__description'
-                        dangerouslySetInnerHTML={{__html: TextFormatting.formatText(channel.header, {singleline: true, mentionHighlight: false, siteURL: getSiteURL()})}}
-                    />
+                    <div className='channel-header__description light'>
+                        {dmHeaderIconStatus}
+                        {dmHeaderTextStatus}
+                        <span
+                            onClick={Utils.handleFormattedTextClick}
+                            dangerouslySetInnerHTML={{__html: TextFormatting.formatText(channel.header, {singleline: true, mentionHighlight: false, siteURL: getSiteURL()})}}
+                        />
+                    </div>
                 );
             } else {
                 headerTextElement = (
                     <div
                         onClick={Utils.handleFormattedTextClick}
-                        className='channel-header__description'
+                        className='channel-header__description light'
                     >
+                        {dmHeaderIconStatus}
+                        {dmHeaderTextStatus}
                         {channel.header}
                     </div>
                 );
@@ -755,16 +760,19 @@ export default class ChannelHeader extends React.Component {
             );
         } else {
             headerTextContainer = (
-                <a
-                    href='#'
-                    className='channel-header__description light'
-                    onClick={() => this.setState({showEditChannelHeaderModal: true})}
-                >
-                    <FormattedMessage
-                        id='channel_header.addChannelHeader'
-                        defaultMessage='Add a channel description'
-                    />
-                </a>
+                <div className='channel-header__description light'>
+                    {dmHeaderIconStatus}
+                    {dmHeaderTextStatus}
+                    <a
+                        href='#'
+                        onClick={() => this.setState({showEditChannelHeaderModal: true})}
+                    >
+                        <FormattedMessage
+                            id='channel_header.addChannelHeader'
+                            defaultMessage='Add a channel description'
+                        />
+                    </a>
+                </div>
             );
         }
 
@@ -872,8 +880,6 @@ export default class ChannelHeader extends React.Component {
                                     {dropdownContents}
                                 </ul>
                             </div>
-                            {dmHeaderIconStatus}
-                            {dmHeaderTextStatus}
                             {headerTextContainer}
                         </div>
                     </div>
