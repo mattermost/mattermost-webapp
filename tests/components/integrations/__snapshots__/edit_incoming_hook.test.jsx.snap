@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/integrations/EditIncomingWebhook should match snapshot 1`] = `
+<AbstractIncomingWebhook
+  action={[Function]}
+  footer={
+    Object {
+      "defaultMessage": "Update",
+      "id": "update_incoming_webhook.update",
+    }
+  }
+  header={
+    Object {
+      "defaultMessage": "Edit",
+      "id": "integrations.edit",
+    }
+  }
+  initialHook={
+    Object {
+      "channel_id": "r18hw9hgq3gtiymtpb6epf8qtr",
+      "create_at": 1504446863396,
+      "delete_at": 0,
+      "description": "description",
+      "display_name": "name",
+      "id": "s3i3h1zkr7nq3gj5fs6n63mu7o",
+      "team_id": "m5gix3oye3du8ghk4ko6h9cq7y",
+      "update_at": 1504446863396,
+      "user_id": "88oybd1dwfdoxpkpw1h5kpbyco",
+    }
+  }
+  serverError=""
+  team={
+    Object {
+      "id": "testteamid",
+      "name": "test",
+    }
+  }
+/>
+`;
+
+exports[`components/integrations/EditIncomingWebhook should match snapshot, loading 1`] = `
+<LoadingScreen
+  position="relative"
+/>
+`;
