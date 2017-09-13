@@ -201,6 +201,15 @@
         }
     }
 
+    .header-status__text {
+        margin-right: 3px;
+
+        &:after {
+            content: '\2022';
+            margin-left: 3px;
+        }
+    }
+
     .status {
         width: 18px;
 

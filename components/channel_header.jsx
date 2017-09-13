@@ -6,6 +6,7 @@ import 'bootstrap';
 import NavbarSearchBox from './search_bar.jsx';
 import MessageWrapper from './message_wrapper.jsx';
 import PopoverListMembers from 'components/popover_list_members';
+import StatusIcon from './status_icon.jsx';
 import EditChannelHeaderModal from './edit_channel_header_modal.jsx';
 import EditChannelPurposeModal from './edit_channel_purpose_modal.jsx';
 import ChannelInfoModal from './channel_info_modal.jsx';
@@ -705,6 +706,20 @@ export default class ChannelHeader extends React.Component {
             }
         }
 
+        let dmHeaderIconStatus;
+        let dmHeaderTextStatus;
+        if (channel.type === Constants.DM_CHANNEL) {
+            dmHeaderIconStatus = (
+                <StatusIcon
+                    type='avatar'
+                    status={channel.status}
+                />
+            );
+            dmHeaderTextStatus = (
+                <span className='header-status__text'>{Utils.toTitleCase(channel.status)}</span>
+            );
+        }
+
         let headerTextContainer;
         if (channel.header) {
             let headerTextElement;
@@ -857,6 +872,8 @@ export default class ChannelHeader extends React.Component {
                                     {dropdownContents}
                                 </ul>
                             </div>
+                            {dmHeaderIconStatus}
+                            {dmHeaderTextStatus}
                             {headerTextContainer}
                         </div>
                     </div>
