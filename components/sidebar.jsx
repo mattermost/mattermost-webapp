@@ -196,8 +196,6 @@ export default class Sidebar extends React.Component {
                 if (teammate != null) {
                     currentChannelName = teammate.username;
                 }
-            } else if (channel.type === Constants.GM_CHANNEL) {
-                currentChannelName = ChannelUtils.buildGroupChannelName(channel.id);
             }
 
             const unread = this.getTotalUnreadCount();
@@ -548,8 +546,6 @@ export default class Sidebar extends React.Component {
             rowClass += ' has-badge';
         }
 
-        let displayName = channel.display_name;
-
         var icon = null;
         const globeIcon = Constants.GLOBE_ICON_SVG;
         const lockIcon = Constants.LOCK_ICON_SVG;
@@ -568,7 +564,6 @@ export default class Sidebar extends React.Component {
                 />
             );
         } else if (channel.type === Constants.GM_CHANNEL) {
-            displayName = ChannelUtils.buildGroupChannelName(channel.id);
             icon = <div className='status status--group'>{UserStore.getProfileListInChannel(channel.id, true).length}</div>;
         } else {
             // set up status icon for direct message channels (status is null for other channel types)
@@ -630,6 +625,8 @@ export default class Sidebar extends React.Component {
         } else {
             link = '/' + this.state.currentTeam.name + '/channels/' + channel.name;
         }
+
+        const displayName = channel.display_name;
 
         return (
             <li
