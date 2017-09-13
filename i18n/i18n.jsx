@@ -58,7 +58,7 @@ const languages = {
     },
     it: {
         value: 'it',
-        name: 'Italiano (Beta)',
+        name: 'Italiano',
         order: 4,
         url: it
     },
@@ -82,7 +82,7 @@ const languages = {
     },
     pl: {
         value: 'pl',
-        name: 'Polski (Beta)',
+        name: 'Polski (Alpha)',
         order: 6,
         url: pl
     },
@@ -94,7 +94,7 @@ const languages = {
     },
     tr: {
         value: 'tr',
-        name: 'Türkçe (Beta)',
+        name: 'Türkçe',
         order: 8,
         url: tr
     },
