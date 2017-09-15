@@ -176,7 +176,7 @@ export default class Textbox extends React.Component {
         let editHeader;
         let helpTextClass = '';
 
-        if (this.props.value.length > this.props.characterLimit) {
+        if (this.props.value && this.props.value.length > this.props.characterLimit) {
             helpTextClass = 'hidden';
         }
 
