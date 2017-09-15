@@ -165,6 +165,11 @@ export function createOffTopicIntroMessage(channel, centeredIntro) {
         setHeaderButton = null;
     }
 
+    let channelInviteButton = createInviteChannelMemberButton(channel, uiType);
+    if (channel.type === Constants.PRIVATE_CHANNEL && !isCurrentUserPermitted(global.window.mm_config.RestrictPrivateChannelManageMembers)) {
+        channelInviteButton = null;
+    }
+
     return (
         <div className={'channel-intro ' + centeredIntro}>
             <FormattedHTMLMessage
@@ -174,29 +179,28 @@ export function createOffTopicIntroMessage(channel, centeredIntro) {
                     display_name: channel.display_name
                 }}
             />
-            {createInviteChannelMemberButton(channel, uiType)}
+            {channelInviteButton}
             {setHeaderButton}
         </div>
     );
 }
 
 export function createDefaultIntroMessage(channel, centeredIntro) {
-    let inviteModalLink = (
-        <a
-            className='intro-links'
-            href='#'
-            onClick={GlobalActions.showGetTeamInviteLinkModal}
-        >
-            <i className='fa fa-user-plus'/>
-            <FormattedMessage
-                id='intro_messages.inviteOthers'
-                defaultMessage='Invite others to this team'
-            />
-        </a>
-    );
-
-    if (!showComponent(global.window.mm_config.RestrictTeamInvite)) {
-        inviteModalLink = null;
+    let teamInviteLink = null;
+    if (isCurrentUserPermitted(global.window.mm_config.RestrictTeamInvite)) {
+        teamInviteLink = (
+            <a
+                className='intro-links'
+                href='#'
+                onClick={GlobalActions.showGetTeamInviteLinkModal}
+            >
+                <i className='fa fa-user-plus'/>
+                <FormattedMessage
+                    id='intro_messages.inviteOthers'
+                    defaultMessage='Invite others to this team'
+                />
+            </a>
+        );
     }
 
     let setHeaderButton = createSetHeaderButton(channel);
@@ -213,7 +217,7 @@ export function createDefaultIntroMessage(channel, centeredIntro) {
                     display_name: channel.display_name
                 }}
             />
-            {inviteModalLink}
+            {teamInviteLink}
             {setHeaderButton}
             <br/>
         </div>
@@ -314,6 +318,11 @@ export function createStandardIntroMessage(channel, centeredIntro) {
         setHeaderButton = null;
     }
 
+    let channelInviteButton = createInviteChannelMemberButton(channel, uiType);
+    if (channel.type === Constants.PRIVATE_CHANNEL && !isCurrentUserPermitted(global.window.mm_config.RestrictPrivateChannelManageMembers)) {
+        channelInviteButton = null;
+    }
+
     return (
         <div className={'channel-intro ' + centeredIntro}>
             <h4 className='channel-intro__title'>
@@ -331,17 +340,13 @@ export function createStandardIntroMessage(channel, centeredIntro) {
                 {purposeMessage}
                 <br/>
             </p>
-            {createInviteChannelMemberButton(channel, uiType)}
+            {channelInviteButton}
             {setHeaderButton}
         </div>
     );
 }
 
 function createInviteChannelMemberButton(channel, uiType) {
-    if (channel.type === Constants.PRIVATE_CHANNEL && !showComponent(global.window.mm_config.RestrictPrivateChannelManageMembers)) {
-        return null;
-    }
-
     return (
         <ToggleModalButton
             className='intro-links'
@@ -388,7 +393,7 @@ function showManagementOption(channel) {
     return true;
 }
 
-function showComponent(permission) {
+function isCurrentUserPermitted(permission) {
     if (global.window.mm_license.IsLicensed !== 'true') {
         return true;
     }
