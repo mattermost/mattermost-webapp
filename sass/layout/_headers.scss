@@ -157,9 +157,11 @@
 .channel-header__info {
     margin-top: 12px;
     white-space: nowrap;
+
     .header-dropdown__icon {
         color: $dark-gray;
     }
+
     .channel-header__title {
         > a {
             display: inline-block;
@@ -174,12 +176,16 @@
 
     .channel-header__description {
         height: 19px;
-        margin-top: 3px;
         margin-bottom: 13px;
+        margin-top: 3px;
         overflow: hidden;
         position: relative;
         text-overflow: ellipsis;
         width: calc(100% - 18px);
+
+        .status {
+            margin-right: 3px;
+        }
 
         .markdown__heading {
             font-size: 1em;
@@ -187,7 +193,7 @@
         }
 
         &.light {
-            @include opacity(.6);
+            @include opacity(.8);
             color: inherit;
 
             &:hover,
@@ -198,6 +204,17 @@
 
         .markdown-inline-img {
             max-height: 45px;
+        }
+    }
+
+    .header-status__text {
+        margin-right: 3px;
+
+        &:after {
+            content: '\2022';
+            margin: 0 2px 0 5px;
+            position: relative;
+            top: 1px;
         }
     }
 
