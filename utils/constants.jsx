@@ -332,6 +332,13 @@ export const ErrorBarTypes = {
     WEBSOCKET_PORT_ERROR: 'channel_loader.socketError'
 };
 
+export const NotificationLevels = {
+    DEFAULT: 'default',
+    ALL: 'all',
+    MENTION: 'mention',
+    NONE: 'none'
+};
+
 export const Constants = {
     Preferences,
     SocketEvents,
