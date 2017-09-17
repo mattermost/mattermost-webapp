@@ -19,6 +19,11 @@ export default class AbstractOAuthApp extends React.PureComponent {
         team: PropTypes.object.isRequired,
 
         /**
+        * Set if the current user is a system admin
+        */
+        isSystemAdmin: PropTypes.bool,
+
+        /**
         * The header text to render, has id and defaultMessage
         */
         header: PropTypes.object.isRequired,
@@ -221,6 +226,57 @@ export default class AbstractOAuthApp extends React.PureComponent {
             );
         }
 
+        let trusted;
+        if (this.props.isSystemAdmin) {
+            trusted = (
+                <div className='form-group'>
+                    <label
+                        className='control-label col-sm-4'
+                        htmlFor='is_trusted'
+                    >
+                        <FormattedMessage
+                            id='installed_oauth_apps.trusted'
+                            defaultMessage='Is Trusted'
+                        />
+                    </label>
+                    <div className='col-md-5 col-sm-8'>
+                        <label className='radio-inline'>
+                            <input
+                                type='radio'
+                                value='true'
+                                name='is_trusted'
+                                checked={this.state.is_trusted}
+                                onChange={this.updateTrusted}
+                            />
+                            <FormattedMessage
+                                id='installed_oauth_apps.trusted.yes'
+                                defaultMessage='Yes'
+                            />
+                        </label>
+                        <label className='radio-inline'>
+                            <input
+                                type='radio'
+                                value='false'
+                                name='is_trusted'
+                                checked={!this.state.is_trusted}
+                                onChange={this.updateTrusted}
+                            />
+                            <FormattedMessage
+                                id='installed_oauth_apps.trusted.no'
+                                defaultMessage='No'
+                            />
+                        </label>
+                        <div className='form__help'>
+                            <FormattedMessage
+                                id='add_oauth_app.trusted.help'
+                                defaultMessage="When true, the OAuth 2.0 application is considered trusted by the Mattermost server and doesn't require the user to accept authorization. When false, an additional window will appear, asking the user to accept or deny the authorization."
+                            />
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
         return (
             <div className='backstage-content'>
                 <BackstageHeader>
@@ -238,51 +294,7 @@ export default class AbstractOAuthApp extends React.PureComponent {
                 <div className='backstage-form'>
                     {icon}
                     <form className='form-horizontal'>
-                        <div className='form-group'>
-                            <label
-                                className='control-label col-sm-4'
-                                htmlFor='is_trusted'
-                            >
-                                <FormattedMessage
-                                    id='installed_oauth_apps.trusted'
-                                    defaultMessage='Is Trusted'
-                                />
-                            </label>
-                            <div className='col-md-5 col-sm-8'>
-                                <label className='radio-inline'>
-                                    <input
-                                        type='radio'
-                                        value='true'
-                                        name='is_trusted'
-                                        checked={this.state.is_trusted}
-                                        onChange={this.updateTrusted}
-                                    />
-                                    <FormattedMessage
-                                        id='installed_oauth_apps.trusted.yes'
-                                        defaultMessage='Yes'
-                                    />
-                                </label>
-                                <label className='radio-inline'>
-                                    <input
-                                        type='radio'
-                                        value='false'
-                                        name='is_trusted'
-                                        checked={!this.state.is_trusted}
-                                        onChange={this.updateTrusted}
-                                    />
-                                    <FormattedMessage
-                                        id='installed_oauth_apps.trusted.no'
-                                        defaultMessage='No'
-                                    />
-                                </label>
-                                <div className='form__help'>
-                                    <FormattedMessage
-                                        id='add_oauth_app.trusted.help'
-                                        defaultMessage="When true, the OAuth 2.0 application is considered trusted by the Mattermost server and doesn't require the user to accept authorization. When false, an additional window will appear, asking the user to accept or deny the authorization."
-                                    />
-                                </div>
-                            </div>
-                        </div>
+                        {trusted}
                         <div className='form-group'>
                             <label
                                 className='control-label col-sm-4'

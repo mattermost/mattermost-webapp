@@ -223,7 +223,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
             className="form-control"
             id="method"
             onChange={[Function]}
-            value="P"
+            value="G"
           >
             <option
               value="P"
@@ -336,7 +336,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
           className="col-md-5 col-sm-8 checkbox"
         >
           <input
-            checked={false}
+            checked={true}
             id="autocomplete"
             onChange={[Function]}
             type="checkbox"
@@ -347,6 +347,78 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
             <FormattedMessage
               defaultMessage="(Optional) Show slash command in autocomplete list."
               id="add_command.autocomplete.help"
+              values={Object {}}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+          htmlFor="autocompleteHint"
+        >
+          <FormattedMessage
+            defaultMessage="Autocomplete Hint"
+            id="add_command.autocompleteHint"
+            values={Object {}}
+          />
+        </label>
+        <div
+          className="col-md-5 col-sm-8"
+        >
+          <input
+            className="form-control"
+            id="autocompleteHint"
+            maxLength="1024"
+            onChange={[Function]}
+            placeholder="Example: [Patient Name]"
+            type="text"
+            value="auto_complete_hint"
+          />
+          <div
+            className="form__help"
+          >
+            <FormattedMessage
+              defaultMessage="(Optional) Arguments associated with your slash command, displayed as help in the autocomplete list."
+              id="add_command.autocompleteHint.help"
+              values={Object {}}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+          htmlFor="autocompleteDescription"
+        >
+          <FormattedMessage
+            defaultMessage="Autocomplete Description"
+            id="add_command.autocompleteDescription"
+            values={Object {}}
+          />
+        </label>
+        <div
+          className="col-md-5 col-sm-8"
+        >
+          <input
+            className="form-control"
+            id="description"
+            maxLength="128"
+            onChange={[Function]}
+            placeholder="Example: \\"Returns search results for patient records\\""
+            type="text"
+            value="auto_complete_desc"
+          />
+          <div
+            className="form__help"
+          >
+            <FormattedMessage
+              defaultMessage="(Optional) Short description of slash command for the autocomplete list."
+              id="add_command.autocompleteDescription.help"
               values={Object {}}
             />
           </div>
@@ -619,7 +691,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
             className="form-control"
             id="method"
             onChange={[Function]}
-            value="P"
+            value="G"
           >
             <option
               value="P"
@@ -732,7 +804,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
           className="col-md-5 col-sm-8 checkbox"
         >
           <input
-            checked={false}
+            checked={true}
             id="autocomplete"
             onChange={[Function]}
             type="checkbox"
@@ -743,6 +815,78 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
             <FormattedMessage
               defaultMessage="(Optional) Show slash command in autocomplete list."
               id="add_command.autocomplete.help"
+              values={Object {}}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+          htmlFor="autocompleteHint"
+        >
+          <FormattedMessage
+            defaultMessage="Autocomplete Hint"
+            id="add_command.autocompleteHint"
+            values={Object {}}
+          />
+        </label>
+        <div
+          className="col-md-5 col-sm-8"
+        >
+          <input
+            className="form-control"
+            id="autocompleteHint"
+            maxLength="1024"
+            onChange={[Function]}
+            placeholder="Example: [Patient Name]"
+            type="text"
+            value="auto_complete_hint"
+          />
+          <div
+            className="form__help"
+          >
+            <FormattedMessage
+              defaultMessage="(Optional) Arguments associated with your slash command, displayed as help in the autocomplete list."
+              id="add_command.autocompleteHint.help"
+              values={Object {}}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+          htmlFor="autocompleteDescription"
+        >
+          <FormattedMessage
+            defaultMessage="Autocomplete Description"
+            id="add_command.autocompleteDescription"
+            values={Object {}}
+          />
+        </label>
+        <div
+          className="col-md-5 col-sm-8"
+        >
+          <input
+            className="form-control"
+            id="description"
+            maxLength="128"
+            onChange={[Function]}
+            placeholder="Example: \\"Returns search results for patient records\\""
+            type="text"
+            value="auto_complete_desc"
+          />
+          <div
+            className="form__help"
+          >
+            <FormattedMessage
+              defaultMessage="(Optional) Short description of slash command for the autocomplete list."
+              id="add_command.autocompleteDescription.help"
               values={Object {}}
             />
           </div>

@@ -260,6 +260,15 @@ export default class InstalledOAuthApp extends React.PureComponent {
                     {' - '}
                     {regen}
                     {' - '}
+                    <a
+                        href={'oauth2-apps/edit?id=' + oauthApp.id}
+                    >
+                        <FormattedMessage
+                            id='installed_integrations.edit'
+                            defaultMessage='Edit'
+                        />
+                    </a>
+                    {' - '}
                     <DeleteIntegration
                         messageId='installed_oauth_apps.delete.confirm'
                         onDelete={this.handleDelete}

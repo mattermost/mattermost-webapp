@@ -146,6 +146,16 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot 1`] = `
       />
     </a>
      - 
+    <a
+      href="oauth2-apps/edit?id=facxd9wpzpbpfp8pad78xj75pr"
+    >
+      <FormattedMessage
+        defaultMessage="Edit"
+        id="installed_integrations.edit"
+        values={Object {}}
+      />
+    </a>
+     - 
     <DeleteIntegration
       messageId="installed_oauth_apps.delete.confirm"
       onDelete={[Function]}
