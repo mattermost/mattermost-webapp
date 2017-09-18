@@ -99,8 +99,8 @@ export default class PopoverListMembers extends React.Component {
 
         if (members && teamMembers) {
             members.sort((a, b) => {
-                const aName = Utils.displayEntireName(a.id);
-                const bName = Utils.displayEntireName(b.id);
+                const aName = Utils.displayUsernameForUser(a);
+                const bName = Utils.displayUsernameForUser(b);
 
                 return aName.localeCompare(bName);
             });
