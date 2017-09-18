@@ -9,7 +9,7 @@ import DesktopNotificationSettings from './desktop_notification_settings.jsx';
 import UserStore from 'stores/user_store.jsx';
 
 import * as Utils from 'utils/utils.jsx';
-import Constants, {Notifications} from 'utils/constants.jsx';
+import Constants, {NotificationLevels} from 'utils/constants.jsx';
 import {updateUserNotifyProps} from 'actions/user_actions.jsx';
 
 import EmailNotificationSetting from './email_notification_setting.jsx';
