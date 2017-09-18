@@ -43,7 +43,7 @@ export default class Pluggable extends React.PureComponent {
 
         // Override the default component with any registered plugin's component
         if (components.hasOwnProperty(childName)) {
-            const PluginComponent = components[childName];
+            const PluginComponent = components[childName].component;
             return (
                 <PluginComponent
                     {...props}

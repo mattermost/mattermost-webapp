@@ -195,7 +195,10 @@ export const ActionTypes = keyMirror({
 
     EMOJI_POSTED: null,
 
-    RECEIVED_PLUGIN_COMPONENTS: null
+    RECEIVED_PLUGIN_COMPONENTS: null,
+    RECEIVED_WEBAPP_PLUGINS: null,
+    RECEIVED_WEBAPP_PLUGIN: null,
+    REMOVED_WEBAPP_PLUGIN: null
 });
 
 export const WebrtcActionTypes = keyMirror({
@@ -254,7 +257,9 @@ export const SocketEvents = {
     WEBRTC: 'webrtc',
     REACTION_ADDED: 'reaction_added',
     REACTION_REMOVED: 'reaction_removed',
-    EMOJI_ADDED: 'emoji_added'
+    EMOJI_ADDED: 'emoji_added',
+    PLUGIN_ACTIVATED: 'plugin_activated',
+    PLUGIN_DEACTIVATED: 'plugin_deactivated'
 };
 
 export const TutorialSteps = {

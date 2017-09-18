@@ -20,8 +20,9 @@ import {handleNewPost} from 'actions/post_actions.jsx';
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
 import * as StatusActions from 'actions/status_actions.jsx';
+import {loadPlugin, removePlugin, loadPluginsIfNecessary} from 'plugins';
 
-import {Constants, Preferences, SocketEvents, UserStatuses, ErrorBarTypes} from 'utils/constants.jsx';
+import {ActionTypes, Constants, Preferences, SocketEvents, UserStatuses, ErrorBarTypes} from 'utils/constants.jsx';
 
 import {browserHistory} from 'react-router/es6';
 
@@ -89,6 +90,7 @@ export function reconnect(includeWebSocket = true) {
         reconnectWebSocket();
     }
 
+    loadPluginsIfNecessary();
     loadChannelsForCurrentUser();
     getPosts(ChannelStore.getCurrentId())(dispatch, getState);
     StatusActions.loadStatusesForChannelAndSidebar();
@@ -232,6 +234,14 @@ function handleEvent(msg) {
 
     case SocketEvents.CHANNEL_VIEWED:
         handleChannelViewedEvent(msg);
+        break;
+
+    case SocketEvents.PLUGIN_ACTIVATED:
+        handlePluginActivated(msg);
+        break;
+
+    case SocketEvents.PLUGIN_DEACTIVATED:
+        handlePluginDeactivated(msg);
         break;
 
     default:
@@ -470,4 +480,16 @@ function handleChannelViewedEvent(msg) {
         // Mark previous and next channel as read
         ChannelStore.resetCounts([msg.data.channel_id]);
     }
+}
+
+function handlePluginActivated(msg) {
+    const manifest = msg.data.manifest;
+    store.dispatch({type: ActionTypes.RECEIVED_WEBAPP_PLUGIN, data: manifest});
+    loadPlugin(manifest);
+}
+
+function handlePluginDeactivated(msg) {
+    const manifest = msg.data.manifest;
+    store.dispatch({type: ActionTypes.REMOVED_WEBAPP_PLUGIN, data: manifest});
+    removePlugin(manifest);
 }
