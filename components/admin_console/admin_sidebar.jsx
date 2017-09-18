@@ -278,6 +278,21 @@ export default class AdminSidebar extends React.Component {
             );
         }
 
+        let dataRetentionSettings = null;
+        if (window.mm_license.IsLicensed === 'true') {
+            dataRetentionSettings = (
+                <AdminSidebarSection
+                    name='dataretention'
+                    title={
+                        <FormattedMessage
+                            id='admin.sidebar.data_retention'
+                            defaultMessage='Data Retention Policy'
+                        />
+                    }
+                />
+            );
+        }
+
         if (window.mm_config.PluginsEnabled === 'true' && window.mm_license.IsLicensed === 'true') {
             pluginSettings = (
                 <AdminSidebarSection
@@ -679,6 +694,7 @@ export default class AdminSidebar extends React.Component {
                                         />
                                     }
                                 />
+                                {dataRetentionSettings}
                                 {elasticSearchSettings}
                                 <AdminSidebarSection
                                     name='developer'

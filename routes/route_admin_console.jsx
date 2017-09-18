@@ -49,6 +49,7 @@ import Audits from 'components/admin_console/audits';
 import Logs from 'components/admin_console/server_logs';
 import ElasticsearchSettings from 'components/admin_console/elasticsearch_settings.jsx';
 import JIRASettings from 'plugins/jira/components/settings.jsx';
+import DataRetentionSettings from 'components/admin_console/data_retention_settings.jsx';
 
 export default (
     <Route>
@@ -214,6 +215,10 @@ export default (
             <Route
                 path='database'
                 component={DatabaseSettings}
+            />
+            <Route
+                path='dataretention'
+                component={DataRetentionSettings}
             />
             <Route
                 path='elasticsearch'
