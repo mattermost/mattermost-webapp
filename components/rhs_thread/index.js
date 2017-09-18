@@ -7,6 +7,7 @@ import {getPost, makeGetPostsForThread} from 'mattermost-redux/selectors/entitie
 import {removePost} from 'mattermost-redux/actions/posts';
 
 import RhsThread from './rhs_thread.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 
 function makeMapStateToProps() {
     const getPostsForThread = makeGetPostsForThread();
@@ -20,7 +21,7 @@ function makeMapStateToProps() {
                 id: state.views.rhs.selectedPostId,
                 exists: false,
                 type: 'system_deleted',
-                message: 'Part of this thread has been deleted due to a data retention policy. You can no longer reply to this thread.',
+                message: localizeMessage('rhs_thread.rootPostDeletedMessage.body', 'Part of this thread has been deleted due to a data retention policy. You can no longer reply to this thread.'),
                 channel_id: state.views.rhs.selectedPostChannelId,
                 user_id: state.entities.users.currentUserId
             };
