@@ -20,7 +20,7 @@ podTemplate(label: 'jenkins-slave-webapp',
         stage('Checkout') {
             container('mattermost-node') {
                 dir('mattermost-webapp') {
-                    git credentialsId: 'a8f2d76b-8a29-4525-b57a-eb0447d7779c', url: 'https://github.com/mattermost/mattermost-webapp.git'
+                    checkout scm
                 }
             }
         }
