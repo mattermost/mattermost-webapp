@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`plugins/PostMessageView should match snapshot with extended post type 1`] = `
+<PostMessageView
+  emojis={Object {}}
+  enableFormatting={true}
+  hasMention={false}
+  isRHS={false}
+  mentionKeys={Array []}
+  options={Object {}}
+  pluginPostTypes={
+    Object {
+      "testtype": Object {
+        "component": [Function],
+      },
+    }
+  }
+  post={
+    Object {
+      "type": "testtype",
+    }
+  }
+  team={Object {}}
+  theme={Object {}}
+>
+  <PostTypePlugin
+    isRHS={false}
+    mentionKeys={Array []}
+    post={
+      Object {
+        "type": "testtype",
+      }
+    }
+    theme={Object {}}
+  >
+    <span>
+      PostTypePlugin
+    </span>
+  </PostTypePlugin>
+</PostMessageView>
+`;
+
+exports[`plugins/PostMessageView should match snapshot with no extended post type 1`] = `
+<PostMessageView
+  emojis={Object {}}
+  enableFormatting={true}
+  hasMention={false}
+  isRHS={false}
+  mentionKeys={Array []}
+  options={Object {}}
+  pluginPostTypes={Object {}}
+  post={
+    Object {
+      "type": "testtype",
+    }
+  }
+  team={Object {}}
+  theme={Object {}}
+>
+  <div>
+    <span
+      className="post-message__text"
+      id={null}
+      onClick={[Function]}
+    />
+  </div>
+</PostMessageView>
+`;

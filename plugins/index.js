@@ -10,7 +10,7 @@ import {Client4} from 'mattermost-redux/client';
 
 window.plugins = {};
 
-export function registerComponents(id, components) {
+export function registerComponents(id, components = {}, postTypes = {}) {
     const wrappedComponents = {};
     Object.keys(components).forEach((name) => {
         wrappedComponents[name] = {component: components[name], id};
@@ -19,6 +19,16 @@ export function registerComponents(id, components) {
     store.dispatch({
         type: ActionTypes.RECEIVED_PLUGIN_COMPONENTS,
         data: wrappedComponents
+    });
+
+    const wrappedPostTypes = {};
+    Object.keys(postTypes).forEach((type) => {
+        wrappedPostTypes[type] = {component: postTypes[type], id};
+    });
+
+    store.dispatch({
+        type: ActionTypes.RECEIVED_PLUGIN_POST_TYPES,
+        data: wrappedPostTypes
     });
 }
 

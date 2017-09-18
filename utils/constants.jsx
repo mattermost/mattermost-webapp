@@ -196,6 +196,7 @@ export const ActionTypes = keyMirror({
     EMOJI_POSTED: null,
 
     RECEIVED_PLUGIN_COMPONENTS: null,
+    RECEIVED_PLUGIN_POST_TYPES: null,
     RECEIVED_WEBAPP_PLUGINS: null,
     RECEIVED_WEBAPP_PLUGIN: null,
     REMOVED_WEBAPP_PLUGIN: null

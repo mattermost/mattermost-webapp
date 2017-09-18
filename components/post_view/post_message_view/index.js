@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
-import {getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {getTheme, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserMentionKeys, getUsersByUsername} from 'mattermost-redux/selectors/entities/users';
 
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -33,7 +33,9 @@ function makeMapStateToProps() {
             mentionKeys: getCurrentUserMentionKeys(state),
             usernameMap: getUsersByUsername(state),
             team: getCurrentTeam(state),
-            siteUrl: getSiteURL()
+            siteUrl: getSiteURL(),
+            theme: getTheme(state),
+            pluginPostTypes: state.plugins.postTypes
         };
     };
 }
