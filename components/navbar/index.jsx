@@ -252,7 +252,7 @@ export default class Navbar extends React.Component {
         AppDispatcher.handleViewAction({
             type: ActionTypes.TOGGLE_DM_MODAL,
             value: true,
-            startingUsers: UserStore.getProfileListInChannel(this.state.channel.id, true)
+            channelId: this.state.channel.id
         });
     }
 

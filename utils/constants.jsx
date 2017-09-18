@@ -345,6 +345,13 @@ export const NotificationLevels = {
     NONE: 'none'
 };
 
+export const RHSStates = {
+    MENTION: 'mention',
+    SEARCH: 'search',
+    FLAG: 'flag',
+    PIN: 'pin'
+};
+
 export const Constants = {
     Preferences,
     SocketEvents,
