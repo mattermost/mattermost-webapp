@@ -625,7 +625,7 @@ export function resetPassword(token, password, success, error) {
     UserActions.resetUserPassword(token, password)(dispatch, getState).then(
         (data) => {
             if (data) {
-                browserHistory.push('/login?extra=' + ActionTypes.PASSWORD_CHANGE);
+                browserHistory.push('/login?extra=' + Constants.PASSWORD_CHANGE);
                 if (success) {
                     success(data);
                 }
