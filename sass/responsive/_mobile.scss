@@ -889,30 +889,6 @@
                 display: block;
             }
 
-            .navbar-brand {
-                white-space: nowrap;
-
-                .heading {
-                    font-size: 17px;
-                    font-weight: 400;
-                    line-height: 50px;
-                    position: relative;
-                    vertical-align: top;
-
-                    .ios & {
-                        line-height: 48px;
-                    }
-                }
-
-                .header-dropdown__icon {
-                    font-size: 12px;
-                    line-height: 50px;
-                    margin-left: 5px;
-                    top: 0;
-                    vertical-align: top;
-                }
-            }
-
             .dropdown {
                 &.open {
                     .dropdown-menu {

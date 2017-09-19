@@ -50,6 +50,7 @@
         .navbar-toggle {
             border-color: transparent;
             border-radius: 0;
+            border-width: 0;
             fill: $white;
             float: left;
             height: 50px;
@@ -92,7 +93,24 @@
             &:hover,
             &:active,
             &:focus {
-                background: inherit;
+                background: transparent;
+            }
+        }
+
+        .navbar-info-button {
+            @include border-radius(50px);
+            cursor: pointer;
+            height: 32px;
+            line-height: 32px;
+            margin: 9px 10px 0 0;
+            position: relative;
+            text-align: center;
+            vertical-align: top;
+            width: 32px;
+
+            svg {
+                position: relative;
+                top: 5px;
             }
         }
 
@@ -121,33 +139,6 @@
 
             .dropdown-toggle {
                 color: $white;
-            }
-
-            .description {
-                color: $white;
-                display: inline-block;
-                margin-right: 1em;
-
-                &.info-popover {
-                    @include border-radius(50px);
-                    cursor: pointer;
-                    height: 32px;
-                    line-height: 32px;
-                    margin: 9px 10px 0 0;
-                    position: relative;
-                    text-align: center;
-                    vertical-align: top;
-                    width: 32px;
-
-                    &:hover {
-                        background: transparent;
-                    }
-
-                    svg {
-                        position: relative;
-                        top: 5px;
-                    }
-                }
             }
         }
     }

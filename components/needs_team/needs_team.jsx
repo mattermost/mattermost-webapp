@@ -24,7 +24,7 @@ const Preferences = Constants.Preferences;
 import AnnouncementBar from 'components/announcement_bar';
 import SidebarRight from 'components/sidebar_right';
 import SidebarRightMenu from 'components/sidebar_right_menu.jsx';
-import Navbar from 'components/navbar.jsx';
+import Navbar from 'components/navbar';
 import WebrtcSidebar from 'components/webrtc/components/webrtc_sidebar.jsx';
 
 import WebrtcNotification from 'components/webrtc/components/webrtc_notification.jsx';

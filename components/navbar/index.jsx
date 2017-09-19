@@ -2,18 +2,29 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-import EditChannelHeaderModal from './edit_channel_header_modal.jsx';
-import EditChannelPurposeModal from './edit_channel_purpose_modal.jsx';
-import MessageWrapper from './message_wrapper.jsx';
-import NotifyCounts from './notify_counts.jsx';
-import ChannelInfoModal from './channel_info_modal.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {FormattedMessage} from 'react-intl';
+import {Link} from 'react-router/es6';
+
+import * as ChannelActions from 'actions/channel_actions.jsx';
+import * as GlobalActions from 'actions/global_actions.jsx';
+import {getPinnedPosts} from 'actions/post_actions.jsx';
+
+import ChannelInfoModal from 'components/channel_info_modal.jsx';
 import ChannelInviteModal from 'components/channel_invite_modal';
-import ChannelMembersModal from './channel_members_modal.jsx';
-import ChannelNotificationsModal from './channel_notifications_modal.jsx';
-import DeleteChannelModal from './delete_channel_modal.jsx';
-import RenameChannelModal from './rename_channel_modal.jsx';
-import ToggleModalButton from './toggle_modal_button.jsx';
-import StatusIcon from './status_icon.jsx';
+import ChannelMembersModal from 'components/channel_members_modal.jsx';
+import ChannelNotificationsModal from 'components/channel_notifications_modal.jsx';
+import DeleteChannelModal from 'components/delete_channel_modal.jsx';
+import EditChannelHeaderModal from 'components/edit_channel_header_modal.jsx';
+import EditChannelPurposeModal from 'components/edit_channel_purpose_modal.jsx';
+import NotifyCounts from 'components/notify_counts.jsx';
+import QuickSwitchModal from 'components/quick_switch_modal';
+import RenameChannelModal from 'components/rename_channel_modal.jsx';
+import StatusIcon from 'components/status_icon.jsx';
+import ToggleModalButton from 'components/toggle_modal_button.jsx';
+
+import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 
 import UserStore from 'stores/user_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
@@ -22,28 +33,11 @@ import PreferenceStore from 'stores/preference_store.jsx';
 import SearchStore from 'stores/search_store.jsx';
 import ModalStore from 'stores/modal_store.jsx';
 
-import QuickSwitchModal from 'components/quick_switch_modal';
-
 import * as Utils from 'utils/utils.jsx';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
-import * as ChannelActions from 'actions/channel_actions.jsx';
-import * as GlobalActions from 'actions/global_actions.jsx';
-import {getPinnedPosts} from 'actions/post_actions.jsx';
+import {ActionTypes, Constants} from 'utils/constants.jsx';
 
-import Constants from 'utils/constants.jsx';
-const ActionTypes = Constants.ActionTypes;
-
-import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
-
-import {FormattedMessage} from 'react-intl';
-
-import {Popover, OverlayTrigger} from 'react-bootstrap';
-
-import {Link} from 'react-router/es6';
-
-import PropTypes from 'prop-types';
-
-import React from 'react';
+import NavbarInfoButton from './navbar_info_button.jsx';
 
 export default class Navbar extends React.Component {
     constructor(props) {
@@ -185,11 +179,6 @@ export default class Navbar extends React.Component {
     }
 
     showEditChannelHeaderModal() {
-        // this can't be done using a ToggleModalButton because we can't use one inside an OverlayTrigger
-        if (this.refs.headerOverlay) {
-            this.refs.headerOverlay.hide();
-        }
-
         this.setState({
             showEditChannelHeaderModal: true
         });
@@ -286,9 +275,7 @@ export default class Navbar extends React.Component {
         }
     };
 
-    createDropdown(channel, channelTitle, isSystemAdmin, isTeamAdmin, isChannelAdmin, isDirect, isGroup, popoverContent) {
-        const infoIcon = Constants.INFO_ICON_SVG;
-
+    createDropdown(channel, channelTitle, isSystemAdmin, isTeamAdmin, isChannelAdmin, isDirect, isGroup) {
         if (channel) {
             let viewInfoOption;
             let viewPinnedPostsOption;
@@ -599,22 +586,6 @@ export default class Navbar extends React.Component {
             return (
                 <div className='navbar-brand'>
                     <div className='dropdown'>
-                        <OverlayTrigger
-                            ref='headerOverlay'
-                            trigger='click'
-                            placement='bottom'
-                            overlay={popoverContent}
-                            className='description'
-                            rootClose={true}
-                        >
-                            <div className='pull-right description navbar-right__icon info-popover'>
-                                <span
-                                    className='icon icon__info'
-                                    dangerouslySetInnerHTML={{__html: infoIcon}}
-                                    aria-hidden='true'
-                                />
-                            </div>
-                        </OverlayTrigger>
                         <a
                             href='#'
                             className='dropdown-toggle theme'
@@ -752,7 +723,6 @@ export default class Navbar extends React.Component {
         var currentId = this.state.currentUser.id;
         var channel = this.state.channel;
         var channelTitle = this.props.teamDisplayName;
-        var popoverContent;
         var isTeamAdmin = TeamStore.isTeamAdminForCurrentTeam();
         var isSystemAdmin = UserStore.isSystemAdminForCurrentUser();
         var isChannelAdmin = false;
@@ -766,25 +736,6 @@ export default class Navbar extends React.Component {
         let quickSwitchModal = null;
 
         if (channel) {
-            popoverContent = (
-                <Popover
-                    bsStyle='info'
-                    placement='bottom'
-                    id='header-popover'
-                >
-                    <MessageWrapper
-                        message={channel.header}
-                        options={{singleline: true, mentionHighlight: false}}
-                    />
-                    <div
-                        className='close visible-xs-block'
-                        onClick={() => this.refs.headerOverlay.hide()}
-                    >
-                        {'×'}
-                    </div>
-                </Popover>
-            );
-
             isChannelAdmin = ChannelStore.isChannelAdminForCurrentChannel();
             channelTitle = channel.display_name;
 
@@ -794,44 +745,6 @@ export default class Navbar extends React.Component {
                 channelTitle = Utils.displayUsername(teammateId);
             } else if (channel.type === Constants.GM_CHANNEL) {
                 isGroup = true;
-            }
-
-            if (channel.header.length === 0) {
-                const link = (
-                    <a
-                        href='#'
-                        onClick={this.showEditChannelHeaderModal}
-                    >
-                        <FormattedMessage
-                            id='navbar.click'
-                            defaultMessage='Click here'
-                        />
-                    </a>
-                );
-                popoverContent = (
-                    <Popover
-                        bsStyle='info'
-                        placement='bottom'
-                        id='header-popover'
-                    >
-                        <div>
-                            <FormattedMessage
-                                id='navbar.noHeader'
-                                defaultMessage='No channel header yet.{newline}{link} to add one.'
-                                values={{
-                                    newline: (<br/>),
-                                    link
-                                }}
-                            />
-                        </div>
-                        <div
-                            className='close visible-xs-block'
-                            onClick={() => this.refs.headerOverlay.hide()}
-                        >
-                            {'×'}
-                        </div>
-                    </Popover>
-                );
             }
 
             if (this.state.showEditChannelHeaderModal) {
@@ -898,7 +811,7 @@ export default class Navbar extends React.Component {
             </button>
         );
 
-        var channelMenuDropdown = this.createDropdown(channel, channelTitle, isSystemAdmin, isTeamAdmin, isChannelAdmin, isDirect, isGroup, popoverContent);
+        var channelMenuDropdown = this.createDropdown(channel, channelTitle, isSystemAdmin, isTeamAdmin, isChannelAdmin, isDirect, isGroup);
 
         return (
             <div>
@@ -910,6 +823,10 @@ export default class Navbar extends React.Component {
                         <div className='navbar-header'>
                             {collapseButtons}
                             {searchButton}
+                            <NavbarInfoButton
+                                channel={channel}
+                                showEditChannelHeaderModal={this.showEditChannelHeaderModal}
+                            />
                             {channelMenuDropdown}
                         </div>
                     </div>
