@@ -23,7 +23,7 @@
     "jquery": "3.2.1",
     "key-mirror": "1.0.1",
     "localforage": "1.5.0",
-    "marked": "mattermost/marked#5194fc037b35036910c6542b04bb471fe56b27a9",
+    "marked": "mattermost/marked#b516702c460c68df0b68fa9f4916f3100572ce99",
     "match-at": "0.1.0",
     "mattermost-redux": "mattermost/mattermost-redux#master",
     "object-assign": "4.1.1",
