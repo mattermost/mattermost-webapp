@@ -824,6 +824,7 @@ export default class Navbar extends React.Component {
                             {collapseButtons}
                             {searchButton}
                             <NavbarInfoButton
+                                ref='headerOverlay'
                                 channel={channel}
                                 showEditChannelHeaderModal={this.showEditChannelHeaderModal}
                             />
