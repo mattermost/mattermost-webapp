@@ -76,14 +76,25 @@ export default class PostMessageView extends React.PureComponent {
         /**
          * Flags if the post_message_view is for the RHS (Reply).
          */
-        hasMention: PropTypes.bool
+        hasMention: PropTypes.bool,
+
+        /*
+         * Logged in user's theme
+         */
+        theme: PropTypes.object.isRequired,
+
+        /*
+         * Post type components from plugins
+         */
+        pluginPostTypes: PropTypes.object
     };
 
     static defaultProps = {
         options: {},
         mentionKeys: [],
         isRHS: false,
-        hasMention: false
+        hasMention: false,
+        pluginPostTypes: {}
     };
 
     renderDeletedPost() {
@@ -169,6 +180,23 @@ export default class PostMessageView extends React.PureComponent {
 
         if (!this.props.enableFormatting) {
             return <span>{this.props.post.message}</span>;
+        }
+
+        const postType = this.props.post.type;
+        const pluginPostTypes = this.props.pluginPostTypes;
+        if (postType) {
+            if (pluginPostTypes.hasOwnProperty(postType)) {
+                const PluginComponent = pluginPostTypes[postType].component;
+                return (
+                    <PluginComponent
+                        post={this.props.post}
+                        mentionKeys={this.props.mentionKeys}
+                        compactDisplay={this.props.compactDisplay}
+                        isRHS={this.props.isRHS}
+                        theme={this.props.theme}
+                    />
+                );
+            }
         }
 
         const options = Object.assign({}, this.props.options, {
