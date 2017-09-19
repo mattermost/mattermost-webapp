@@ -57,14 +57,14 @@ export default class ModalToggleButton extends React.Component {
         // nesting the dialog in the anchor tag looks like it shouldn't work, but it does due to how react-bootstrap
         // renders modals at the top level of the DOM instead of where you specify in the virtual DOM
         return (
-            <a
+            <div
                 {...props}
-                href='#'
+                className={props.className}
                 onClick={clickHandler}
             >
                 {children}
                 {dialog}
-            </a>
+            </div>
         );
     }
 }
@@ -73,9 +73,11 @@ ModalToggleButton.propTypes = {
     children: PropTypes.node.isRequired,
     dialogType: PropTypes.func.isRequired,
     dialogProps: PropTypes.object,
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    className: PropTypes.string
 };
 
 ModalToggleButton.defaultProps = {
-    dialogProps: {}
+    dialogProps: {},
+    className: ''
 };

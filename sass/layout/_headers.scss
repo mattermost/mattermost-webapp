@@ -8,6 +8,34 @@
     width: 100%;
     z-index: 9;
 
+
+    .channel-header__favorites {
+        @include opacity(.5);
+        float: left;
+        height: 20px;
+        margin: 0 8px 0 0;
+        padding-top: 3px;
+        position: relative;
+        z-index: 1;
+
+        &.inactive {
+            color: inherit;
+
+            &:hover,
+            &:active {
+                color: inherit;
+            }
+        }
+
+        &.active {
+            @include opacity(1);
+        }
+
+        i {
+            font-size: 17px;
+        }
+    }
+
     .flex-parent {
         display: flex;
     }
@@ -372,7 +400,8 @@
                 margin-top: 4px;
                 width: 199px;
 
-                a {
+                a,
+                div {
                     overflow: hidden;
                     padding: 3px 20px;
                     text-overflow: ellipsis;
@@ -458,32 +487,6 @@
 
     .header-dropdown__icon {
         top: 1px;
-    }
-}
-
-.channel-header__favorites {
-    @include opacity(.5);
-    float: left;
-    height: 20px;
-    margin: 0 8px 0 0;
-    padding-top: 3px;
-    position: relative;
-    z-index: 1;
-
-    &.inactive {
-        color: inherit;
-
-        &:active {
-            color: inherit;
-        }
-    }
-
-    &.active {
-        @include opacity(1);
-    }
-
-    i {
-        font-size: 17px;
     }
 }
 

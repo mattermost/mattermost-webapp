@@ -213,10 +213,9 @@ export default class DotMenu extends Component {
                 <div
                     id={this.props.idPrefix + '_dropdown' + this.props.post.id}
                 >
-                    <a
+                    <span
                         ref='dropdownToggle'
-                        href='#'
-                        className='dropdown-toggle post__dropdown theme'
+                        className='dropdown-toggle post__dropdown color--link'
                         type='button'
                         data-toggle='dropdown'
                         aria-expanded='false'

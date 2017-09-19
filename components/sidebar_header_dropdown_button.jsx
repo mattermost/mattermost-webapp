@@ -31,17 +31,16 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
                 placement='right'
                 overlay={mainMenuToolTip}
             >
-                <a
-                    href='#'
+                <div
                     id='sidebarHeaderDropdownButton'
-                    className='sidebar-header-dropdown__toggle'
+                    className='sidebar-header-dropdown__toggle cursor--pointer'
                     onClick={this.props.onClick}
                 >
                     <span
                         className='sidebar-header-dropdown__icon'
                         dangerouslySetInnerHTML={{__html: Constants.MENU_ICON}}
                     />
-                </a>
+                </div>
             </OverlayTrigger>
         );
     }

@@ -37,6 +37,19 @@
             }
         }
     }
+
+    > li {
+        > div {
+            clear: both;
+            color: inherit;
+            cursor: pointer;
+            display: block;
+            font-weight: normal;
+            line-height: 1.42857143;
+            padding: 5px 15px;
+            white-space: nowrap;
+        }
+    }
 }
 
 .open {

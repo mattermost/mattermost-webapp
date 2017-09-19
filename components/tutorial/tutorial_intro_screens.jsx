@@ -179,29 +179,27 @@ export default class TutorialIntroScreens extends React.Component {
         if (global.window.mm_license.IsLicensed !== 'true' || global.window.mm_config.RestrictTeamInvite === Constants.PERMISSIONS_ALL) {
             if (team.type === Constants.INVITE_TEAM) {
                 inviteModalLink = (
-                    <a
-                        className='intro-links'
-                        href='#'
+                    <span
+                        className='intro-links color--link'
                         onClick={GlobalActions.showInviteMemberModal}
                     >
                         <FormattedMessage
                             id='tutorial_intro.invite'
                             defaultMessage='Invite teammates'
                         />
-                    </a>
+                    </span>
                 );
             } else {
                 inviteModalLink = (
-                    <a
-                        className='intro-links'
-                        href='#'
+                    <span
+                        className='intro-links color--link'
                         onClick={GlobalActions.showGetTeamInviteLinkModal}
                     >
                         <FormattedMessage
                             id='tutorial_intro.teamInvite'
                             defaultMessage='Invite teammates'
                         />
-                    </a>
+                    </span>
                 );
             }
 

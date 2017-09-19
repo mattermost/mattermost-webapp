@@ -24,8 +24,7 @@ export default function DotMenuEdit(props) {
             key={props.idPrefix}
             role='presentation'
         >
-            <a
-                href='#'
+            <div
                 role='menuitem'
                 data-toggle='modal'
                 data-target='#edit_post'
@@ -40,7 +39,7 @@ export default function DotMenuEdit(props) {
                     id='post_info.edit'
                     defaultMessage='Edit'
                 />
-            </a>
+            </div>
         </li>
     );
 }

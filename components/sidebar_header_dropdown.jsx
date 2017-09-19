@@ -223,47 +223,44 @@ export default class SidebarHeaderDropdown extends React.Component {
 
             inviteLink = (
                 <li>
-                    <a
+                    <div
                         id='sendEmailInvite'
-                        href='#'
                         onClick={this.showInviteMemberModal}
                     >
                         <FormattedMessage
                             id='navbar_dropdown.inviteMember'
                             defaultMessage='Send Email Invite'
                         />
-                    </a>
+                    </div>
                 </li>
             );
 
             addMemberToTeam = (
                 <li>
-                    <a
+                    <div
                         id='addUsersToTeam'
-                        href='#'
                         onClick={this.showAddUsersToTeamModal}
                     >
                         <FormattedMessage
                             id='navbar_dropdown.addMemberToTeam'
                             defaultMessage='Add Members to Team'
                         />
-                    </a>
+                    </div>
                 </li>
             );
 
             if (this.props.teamType === Constants.OPEN_TEAM && config.EnableUserCreation === 'true') {
                 teamLink = (
                     <li>
-                        <a
+                        <div
                             id='getTeamInviteLink'
-                            href='#'
                             onClick={this.showGetTeamInviteLinkModal}
                         >
                             <FormattedMessage
                                 id='navbar_dropdown.teamLink'
                                 defaultMessage='Get Team Invite Link'
                             />
-                        </a>
+                        </div>
                     </li>
                 );
             }
@@ -291,9 +288,8 @@ export default class SidebarHeaderDropdown extends React.Component {
         if (isAdmin) {
             teamSettings = (
                 <li>
-                    <a
+                    <div
                         id='teamSettings'
-                        href='#'
                         data-toggle='modal'
                         data-target='#team_settings'
                         onClick={this.toggleDropdown}
@@ -302,7 +298,7 @@ export default class SidebarHeaderDropdown extends React.Component {
                             id='navbar_dropdown.teamSettings'
                             defaultMessage='Team Settings'
                         />
-                    </a>
+                    </div>
                 </li>
             );
         } else {
@@ -316,12 +312,9 @@ export default class SidebarHeaderDropdown extends React.Component {
 
         manageLink = (
             <li>
-                <a
-                    href='#'
-                    onClick={this.showTeamMembersModal}
-                >
+                <div onClick={this.showTeamMembersModal}>
                     {membersName}
-                </a>
+                </div>
             </li>
         );
 
@@ -416,16 +409,15 @@ export default class SidebarHeaderDropdown extends React.Component {
 
         teams.push(
             <li key='leaveTeam_li'>
-                <a
+                <div
                     id='leaveTeam'
-                    href='#'
                     onClick={GlobalActions.showLeaveTeamModal}
                 >
                     <FormattedMessage
                         id='navbar_dropdown.leave'
                         defaultMessage='Leave Team'
                     />
-                </a>
+                </div>
             </li>
         );
 
@@ -505,60 +497,54 @@ export default class SidebarHeaderDropdown extends React.Component {
 
         const keyboardShortcuts = (
             <li>
-                <a
+                <div
                     id='keyboardShortcuts'
-                    href='#'
                     onClick={this.showShortcutsModal}
                 >
                     <FormattedMessage
                         id='navbar_dropdown.keyboardShortcuts'
                         defaultMessage='Keyboard Shortcuts'
                     />
-                </a>
+                </div>
             </li>
         );
 
         const accountSettings = (
             <li>
-                <a
+                <div
                     id='accountSettings'
-                    href='#'
                     onClick={this.showAccountSettingsModal}
                 >
                     <FormattedMessage
                         id='navbar_dropdown.accountSettings'
                         defaultMessage='Account Settings'
                     />
-                </a>
+                </div>
             </li>
         );
 
         const about = (
             <li>
-                <a
-                    href='#'
-                    onClick={this.handleAboutModal}
-                >
+                <div onClick={this.handleAboutModal}>
                     <FormattedMessage
                         id='navbar_dropdown.about'
                         defaultMessage='About Mattermost'
                     />
-                </a>
+                </div>
             </li>
         );
 
         const logout = (
             <li>
-                <a
+                <div
                     id='logout'
-                    href='#'
                     onClick={() => GlobalActions.emitUserLoggedOutEvent()}
                 >
                     <FormattedMessage
                         id='navbar_dropdown.logout'
                         defaultMessage='Logout'
                     />
-                </a>
+                </div>
             </li>
         );
 

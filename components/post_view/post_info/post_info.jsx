@@ -112,14 +112,13 @@ export default class PostInfo extends React.PureComponent {
 
     createRemovePostButton() {
         return (
-            <a
-                href='#'
-                className='post__remove theme'
+            <span
+                className='post__remove theme color--link'
                 type='button'
                 onClick={this.removePost}
             >
                 {'×'}
-            </a>
+            </span>
         );
     }
 
@@ -172,16 +171,15 @@ export default class PostInfo extends React.PureComponent {
                             onEmojiClick={this.reactEmojiClick}
                             rightOffset={7}
                         />
-                        <a
-                            href='#'
-                            className='reacticon__container'
+                        <span
+                            className='reacticon__container color--link'
                             onClick={this.toggleEmojiPicker}
                         >
                             <span
                                 className='icon icon--emoji'
                                 dangerouslySetInnerHTML={{__html: Constants.EMOJI_ICON_SVG}}
                             />
-                        </a>
+                        </span>
                     </span>
 
                 );

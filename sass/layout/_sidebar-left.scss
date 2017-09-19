@@ -202,6 +202,17 @@
                 }
             }
 
+            > .nav-more {
+                border-radius: 0;
+                display: block;
+                line-height: 1.5;
+                outline: none;
+                overflow: hidden;
+                padding: 5px 0 5px 17px;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
             > a {
                 border-radius: 0;
                 line-height: 1.5;
