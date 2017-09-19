@@ -13,6 +13,7 @@ import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 
 import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
+import * as WebrtcActions from 'actions/webrtc_actions.jsx';
 import {getPinnedPosts} from 'actions/post_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
@@ -577,22 +578,6 @@ export default class Navbar extends React.Component {
             return (
                 <div className='navbar-brand'>
                     <div className='dropdown'>
-                        <OverlayTrigger
-                            ref='headerOverlay'
-                            trigger='click'
-                            placement='bottom'
-                            overlay={popoverContent}
-                            className='description'
-                            rootClose={true}
-                        >
-                            <div className='pull-right description navbar-right__icon info-popover'>
-                                <span
-                                    className='icon icon__info'
-                                    dangerouslySetInnerHTML={{__html: infoIcon}}
-                                    aria-hidden='true'
-                                />
-                            </div>
-                        </OverlayTrigger>
                         {this.generateWebrtcIcon()}
                         <a
                             href='#'
