@@ -12,7 +12,7 @@ import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/s
 
 import {getDirectChannelName, getUserIdFromChannelName} from 'utils/utils.jsx';
 
-import {Constants, ActionTypes, Preferences} from 'utils/constants.jsx';
+import {Constants, Preferences} from 'utils/constants.jsx';
 import {browserHistory} from 'react-router/es6';
 
 import store from 'stores/redux_store.jsx';
@@ -625,7 +625,7 @@ export function resetPassword(token, password, success, error) {
     UserActions.resetUserPassword(token, password)(dispatch, getState).then(
         (data) => {
             if (data) {
-                browserHistory.push('/login?extra=' + ActionTypes.PASSWORD_CHANGE);
+                browserHistory.push('/login?extra=' + Constants.PASSWORD_CHANGE);
                 if (success) {
                     success(data);
                 }
