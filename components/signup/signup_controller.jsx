@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 
 import FormError from 'components/form_error.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
+import BackButton from 'components/common/back_button.jsx';
 
 import UserStore from 'stores/user_store.jsx';
 import BrowserStore from 'stores/browser_store.jsx';
@@ -315,14 +316,7 @@ export default class SignupController extends React.Component {
         return (
             <div>
                 <AnnouncementBar/>
-                <div className='signup-header'>
-                    <Link to='/'>
-                        <span className='fa fa-chevron-left'/>
-                        <FormattedMessage
-                            id='web.header.back'
-                        />
-                    </Link>
-                </div>
+                <BackButton/>
                 <div className='col-sm-12'>
                     <div className='signup-team__container'>
                         <img

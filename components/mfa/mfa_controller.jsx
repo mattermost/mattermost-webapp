@@ -7,9 +7,10 @@ import PropTypes from 'prop-types';
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {browserHistory, Link} from 'react-router/es6';
+import {browserHistory} from 'react-router/es6';
 
 import logoImage from 'images/logo.png';
+import BackButton from 'components/common/back_button.jsx';
 
 export default class MFAController extends React.Component {
     componentDidMount() {
@@ -39,17 +40,7 @@ export default class MFAController extends React.Component {
                 </div>
             );
         } else {
-            backButton = (
-                <div className='signup-header'>
-                    <Link to='/'>
-                        <span className='fa fa-chevron-left'/>
-                        <FormattedMessage
-                            id='web.header.back'
-                            defaultMessage='Back'
-                        />
-                    </Link>
-                </div>
-            );
+            backButton = (<BackButton/>);
         }
 
         return (

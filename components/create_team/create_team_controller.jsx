@@ -2,11 +2,12 @@
 // See License.txt for license information.
 
 import AnnouncementBar from 'components/announcement_bar';
+import BackButton from 'components/common/back_button.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 
 import {FormattedMessage} from 'react-intl';
-import {browserHistory, Link} from 'react-router/es6';
+import {browserHistory} from 'react-router/es6';
 
 import PropTypes from 'prop-types';
 
@@ -64,14 +65,7 @@ export default class CreateTeamController extends React.Component {
         return (
             <div>
                 <AnnouncementBar/>
-                <div className='signup-header'>
-                    <Link to={url}>
-                        <span className='fa fa-chevron-left'/>
-                        <FormattedMessage
-                            id='web.header.back'
-                        />
-                    </Link>
-                </div>
+                <BackButton url={url}/>
                 <div className='col-sm-12'>
                     <div className='signup-team__container'>
                         <h1>{global.window.mm_config.SiteName}</h1>

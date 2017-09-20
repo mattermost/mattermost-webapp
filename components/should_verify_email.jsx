@@ -2,13 +2,11 @@
 // See License.txt for license information.
 
 import {FormattedMessage} from 'react-intl';
-
 import PropTypes from 'prop-types';
-
 import React from 'react';
-import {Link} from 'react-router/es6';
 
 import {resendVerification} from 'actions/user_actions.jsx';
+import BackButton from 'components/common/back_button.jsx';
 
 export default class ShouldVerifyEmail extends React.Component {
     constructor(props) {
@@ -66,14 +64,7 @@ export default class ShouldVerifyEmail extends React.Component {
 
         return (
             <div>
-                <div className='signup-header'>
-                    <Link to='/'>
-                        <span className='fa fa-chevron-left'/>
-                        <FormattedMessage
-                            id='web.header.back'
-                        />
-                    </Link>
-                </div>
+                <BackButton/>
                 <div className='col-sm-12'>
                     <div className='signup-team__container'>
                         <h3>

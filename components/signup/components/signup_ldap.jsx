@@ -17,6 +17,7 @@ import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
 import {browserHistory, Link} from 'react-router/es6';
 
 import logoImage from 'images/logo.png';
+import BackButton from 'components/common/back_button.jsx';
 
 export default class SignupLdap extends React.Component {
     static get propTypes() {
@@ -218,14 +219,7 @@ export default class SignupLdap extends React.Component {
 
         return (
             <div>
-                <div className='signup-header'>
-                    <Link to='/'>
-                        <span className='fa fa-chevron-left'/>
-                        <FormattedMessage
-                            id='web.header.back'
-                        />
-                    </Link>
-                </div>
+                <BackButton/>
                 <div className='col-sm-12'>
                     <div className='signup-team__container padding--less'>
                         <img

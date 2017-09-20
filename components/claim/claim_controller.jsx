@@ -1,13 +1,11 @@
-import PropTypes from 'prop-types';
-
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router/es6';
+import PropTypes from 'prop-types';
 
 import logoImage from 'images/logo.png';
+import BackButton from 'components/common/back_button.jsx';
 
 export default class ClaimController extends React.Component {
     constructor(props) {
@@ -25,14 +23,7 @@ export default class ClaimController extends React.Component {
     render() {
         return (
             <div>
-                <div className='signup-header'>
-                    <Link to='/'>
-                        <span className='fa fa-chevron-left'/>
-                        <FormattedMessage
-                            id='web.header.back'
-                        />
-                    </Link>
-                </div>
+                <BackButton/>
                 <div className='col-sm-12'>
                     <div className='signup-team__container'>
                         <img
