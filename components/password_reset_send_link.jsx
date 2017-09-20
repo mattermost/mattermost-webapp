@@ -5,13 +5,11 @@ import $ from 'jquery';
 import ReactDOM from 'react-dom';
 import * as Utils from 'utils/utils.jsx';
 import {sendPasswordResetEmail} from 'actions/user_actions.jsx';
+import BackButton from 'components/common/back_button.jsx';
 
 import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
-
 import PropTypes from 'prop-types';
-
 import React from 'react';
-import {Link} from 'react-router/es6';
 
 class PasswordResetSendLink extends React.Component {
     constructor(props) {
@@ -89,14 +87,7 @@ class PasswordResetSendLink extends React.Component {
 
         return (
             <div>
-                <div className='signup-header'>
-                    <Link to='/'>
-                        <span className='fa fa-chevron-left'/>
-                        <FormattedMessage
-                            id='web.header.back'
-                        />
-                    </Link>
-                </div>
+                <BackButton/>
                 <div className='col-sm-12'>
                     <div className='signup-team__container'>
                         <h3>

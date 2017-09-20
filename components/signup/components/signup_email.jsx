@@ -2,6 +2,7 @@
 // See License.txt for license information.
 
 import LoadingScreen from 'components/loading_screen.jsx';
+import BackButton from 'components/common/back_button.jsx';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
@@ -469,14 +470,7 @@ export default class SignupEmail extends React.Component {
 
         return (
             <div>
-                <div className='signup-header'>
-                    <Link to='/'>
-                        <span className='fa fa-chevron-left'/>
-                        <FormattedMessage
-                            id='web.header.back'
-                        />
-                    </Link>
-                </div>
+                <BackButton/>
                 <div className='col-sm-12'>
                     <div className='signup-team__container padding--less'>
                         <img

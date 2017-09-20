@@ -9,15 +9,13 @@ import AnnouncementBar from 'components/announcement_bar';
 import LoadingScreen from 'components/loading_screen.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import SelectTeamItem from './components/select_team_item.jsx';
+import BackButton from 'components/common/back_button.jsx';
+import logoImage from 'images/logo.png';
 
 import {Link} from 'react-router/es6';
-
 import {FormattedMessage} from 'react-intl';
-
 import PropTypes from 'prop-types';
-
 import React from 'react';
-import logoImage from 'images/logo.png';
 
 export default class SelectTeam extends React.Component {
     static propTypes = {
@@ -198,29 +196,24 @@ export default class SelectTeam extends React.Component {
 
         let headerButton;
         if (this.state.teamMembers.length) {
-            headerButton = (
-                <Link to='/'>
-                    <span className='fa fa-chevron-left'/>
-                    <FormattedMessage id='web.header.back'/>
-                </Link>
-            );
+            headerButton = (<BackButton/>);
         } else {
             headerButton = (
-                <a
-                    href='#'
-                    onClick={() => GlobalActions.emitUserLoggedOutEvent()}
-                >
-                    <span className='fa fa-chevron-left'/>
-                    <FormattedMessage id='web.header.logout'/>
-                </a>
+                <div className='signup-header'>
+                    <a
+                        href='#'
+                        onClick={() => GlobalActions.emitUserLoggedOutEvent()}
+                    >
+                        <span className='fa fa-chevron-left'/>
+                        <FormattedMessage id='web.header.logout'/>
+                    </a>
+                </div>
             );
         }
         return (
             <div>
                 <AnnouncementBar/>
-                <div className='signup-header'>
-                    {headerButton}
-                </div>
+                {headerButton}
                 <div className='col-sm-12'>
                     <div className={'signup-team__container'}>
                         <img

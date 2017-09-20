@@ -1,16 +1,15 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {FormattedMessage} from 'react-intl';
 import LoadingScreen from './loading_screen.jsx';
-
-import {browserHistory, Link} from 'react-router/es6';
+import BackButton from 'components/common/back_button.jsx';
 
 import {verifyEmail} from 'actions/user_actions.jsx';
 
-import PropTypes from 'prop-types';
-
 import React from 'react';
+import PropTypes from 'prop-types';
+import {browserHistory} from 'react-router/es6';
+import {FormattedMessage} from 'react-intl';
 
 export default class DoVerifyEmail extends React.Component {
     constructor(props) {
@@ -39,14 +38,7 @@ export default class DoVerifyEmail extends React.Component {
 
         return (
             <div>
-                <div className='signup-header'>
-                    <Link to='/'>
-                        <span className='fa fa-chevron-left'/>
-                        <FormattedMessage
-                            id='web.header.back'
-                        />
-                    </Link>
-                </div>
+                <BackButton/>
                 <div className='col-sm-12'>
                     <div className='signup-team__container'>
                         <h3>
