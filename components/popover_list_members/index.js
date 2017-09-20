@@ -3,13 +3,24 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
+import {makeGetProfilesInChannel} from 'mattermost-redux/selectors/entities/users';
+import {getAllChannelStats} from 'mattermost-redux/selectors/entities/channels';
+
 import {getProfilesInChannel} from 'mattermost-redux/actions/users';
 
 import PopoverListMembers from './popover_list_members.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps
+function makeMapStateToProps() {
+    const doGetProfilesInChannel = makeGetProfilesInChannel();
+
+    return function mapStateToProps(state, ownProps) {
+        const stats = getAllChannelStats(state)[ownProps.channel.id] || {};
+        return {
+            ...ownProps,
+            memberCount: stats.member_count,
+            members: doGetProfilesInChannel(state, ownProps.channel.id, true)
+        };
     };
 }
 
@@ -21,4 +32,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PopoverListMembers);
+export default connect(makeMapStateToProps, mapDispatchToProps)(PopoverListMembers);

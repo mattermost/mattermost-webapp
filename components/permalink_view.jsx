@@ -5,7 +5,7 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import ChannelHeader from 'components/channel_header.jsx';
+import ChannelHeader from 'components/channel_header';
 import PostView from 'components/post_view';
 
 import ChannelStore from 'stores/channel_store.jsx';

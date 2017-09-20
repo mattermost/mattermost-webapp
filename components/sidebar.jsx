@@ -162,7 +162,7 @@ export default class Sidebar extends React.Component {
     }
 
     onModalChange = (value, args) => {
-        this.showMoreDirectChannelsModal(args.startingUsers);
+        this.showMoreDirectChannelsModal(UserStore.getProfileListInChannel(args.channelId, true, false));
     }
 
     handleOpenMoreDirectChannelsModal = (e) => {

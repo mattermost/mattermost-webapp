@@ -7,7 +7,7 @@ import React from 'react';
 
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
-import ChannelHeader from 'components/channel_header.jsx';
+import ChannelHeader from 'components/channel_header';
 import FileUploadOverlay from 'components/file_upload_overlay.jsx';
 import CreatePost from 'components/create_post.jsx';
 import PostView from 'components/post_view';
