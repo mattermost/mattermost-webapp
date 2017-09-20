@@ -3,12 +3,13 @@
 
 import LoadingScreen from './loading_screen.jsx';
 import BackButton from 'components/common/back_button.jsx';
+import logoImage from 'images/logo.png';
 
 import {verifyEmail} from 'actions/user_actions.jsx';
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {browserHistory} from 'react-router/es6';
+import {browserHistory, Link} from 'react-router/es6';
 import {FormattedMessage} from 'react-intl';
 
 export default class DoVerifyEmail extends React.Component {
@@ -20,6 +21,7 @@ export default class DoVerifyEmail extends React.Component {
             serverError: ''
         };
     }
+
     componentWillMount() {
         verifyEmail(
             this.props.location.query.token,
@@ -27,13 +29,36 @@ export default class DoVerifyEmail extends React.Component {
                 browserHistory.push('/login?extra=verified&email=' + encodeURIComponent(this.props.location.query.email));
             },
             (err) => {
-                this.setState({verifyStatus: 'failure', serverError: err.message});
+                let serverError;
+                if (err) {
+                    serverError = (
+                        <FormattedMessage
+                            id='signup_user_completed.invalid_invite'
+                            defaultMessage='The invite link was invalid.  Please speak with your Administrator to receive an invitation.'
+                        />
+                    );
+                }
+
+                this.setState({
+                    verifyStatus: 'failure',
+                    serverError
+                });
             }
         );
     }
+
     render() {
         if (this.state.verifyStatus !== 'failure') {
             return (<LoadingScreen/>);
+        }
+
+        let serverError = null;
+        if (this.state.serverError) {
+            serverError = (
+                <div className={'form-group has-error'}>
+                    <label className='control-label'>{this.state.serverError}</label>
+                </div>
+            );
         }
 
         return (
@@ -41,24 +66,46 @@ export default class DoVerifyEmail extends React.Component {
                 <BackButton/>
                 <div className='col-sm-12'>
                     <div className='signup-team__container'>
-                        <h3>
-                            <FormattedMessage
-                                id='email_verify.almost'
-                                defaultMessage='{siteName}: You are almost done'
-                                values={{
-                                    siteName: global.window.mm_config.SiteName
-                                }}
-                            />
-                        </h3>
-                        <div>
-                            <p>
-                                <FormattedMessage id='email_verify.verifyFailed'/>
-                            </p>
-                            <p className='alert alert-danger'>
-                                <i className='fa fa-times'/>
-                                {this.state.serverError}
-                            </p>
+                        <img
+                            className='signup-team-logo'
+                            src={logoImage}
+                        />
+                        <div className='signup__content'>
+                            <h1>{global.window.mm_config.SiteName}</h1>
+                            <h4 className='color--light'>
+                                <FormattedMessage
+                                    id='web.root.signup_info'
+                                    defaultMessage='All team communication in one place, searchable and accessible anywhere'
+                                />
+                            </h4>
+                            <div className='margin--extra'>
+                                <h5>
+                                    <strong>
+                                        <FormattedMessage
+                                            id='signup.title'
+                                            defaultMessage='Create an account with:'
+                                        />
+                                    </strong>
+                                </h5>
+                            </div>
+                            {serverError}
                         </div>
+                        <span className='color--light'>
+                            <FormattedMessage
+                                id='signup_user_completed.haveAccount'
+                                defaultMessage='Already have an account?'
+                            />
+                            {' '}
+                            <Link
+                                to={'/login'}
+                                query={this.props.location.query}
+                            >
+                                <FormattedMessage
+                                    id='signup_user_completed.signIn'
+                                    defaultMessage='Click here to sign in.'
+                                />
+                            </Link>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -67,7 +114,9 @@ export default class DoVerifyEmail extends React.Component {
 }
 
 DoVerifyEmail.defaultProps = {
+    location: {}
 };
+
 DoVerifyEmail.propTypes = {
     location: PropTypes.object.isRequired
 };

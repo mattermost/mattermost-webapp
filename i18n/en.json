@@ -1464,7 +1464,6 @@
   "email_verify.sent": " Verification email sent.",
   "email_verify.verified": "{siteName} Email Verified",
   "email_verify.verifiedBody": "<p>Your email has been verified! Click <a href={url}>here</a> to log in.</p>",
-  "email_verify.verifyFailed": "Failed to verify your email.",
   "emoji_list.actions": "Actions",
   "emoji_list.add": "Add Custom Emoji",
   "emoji_list.creator": "Creator",
