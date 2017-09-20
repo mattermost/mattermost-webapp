@@ -20,11 +20,6 @@
 
         &.inactive {
             color: inherit;
-
-            &:hover,
-            &:active {
-                color: inherit;
-            }
         }
 
         &.active {
@@ -203,8 +198,8 @@
     }
 
     .channel-header__description {
-        height: 19px;
-        margin-bottom: 13px;
+        height: 24px;
+        margin-bottom: 3px;
         margin-top: 3px;
         overflow: hidden;
         position: relative;
@@ -325,7 +320,7 @@
         @include legacy-pie-clearfix;
         @include display-flex();
         @include flex-direction(row-reverse);
-        padding: 16px 40px 12px 12px;
+        padding: 17px 40px 14px 12px;
         position: relative;
 
         &:before {
