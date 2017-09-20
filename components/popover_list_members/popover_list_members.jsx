@@ -30,6 +30,7 @@ export default class PopoverListMembers extends React.Component {
         channel: PropTypes.object.isRequired,
         members: PropTypes.array.isRequired,
         memberCount: PropTypes.number,
+        statuses: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             getProfilesInChannel: PropTypes.func.isRequired
         }).isRequired
@@ -125,8 +126,7 @@ export default class PopoverListMembers extends React.Component {
                         >
                             <ProfilePicture
                                 src={Client4.getProfilePictureUrl(m.id, m.last_picture_update)}
-                                width='40'
-                                height='40'
+                                status={this.props.statuses[m.id]}
                             />
                             <div className='more-modal__details'>
                                 <div
