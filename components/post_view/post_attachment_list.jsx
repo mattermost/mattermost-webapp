@@ -33,7 +33,7 @@ export default class PostAttachmentList extends React.PureComponent {
         });
 
         return (
-            <div className='attachment_list'>
+            <div className='attachment__list'>
                 {content}
             </div>
         );

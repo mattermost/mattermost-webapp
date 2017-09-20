@@ -210,9 +210,11 @@ export default class PostAttachment extends React.PureComponent {
 
     render() {
         const data = this.props.attachment;
+        let preTextClass = '';
 
         let preText;
         if (data.pretext) {
+            preTextClass = 'attachment--pretext';
             preText = (
                 <div
                     className='attachment__thumb-pretext'
@@ -328,7 +330,7 @@ export default class PostAttachment extends React.PureComponent {
 
         return (
             <div
-                className='attachment'
+                className={'attachment ' + preTextClass}
                 ref='attachment'
             >
                 {preText}

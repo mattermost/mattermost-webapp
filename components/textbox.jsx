@@ -174,6 +174,12 @@ export default class Textbox extends React.Component {
         const hasText = this.props.value && this.props.value.length > 0;
 
         let editHeader;
+        let helpTextClass = '';
+
+        if (this.props.value && this.props.value.length > this.props.characterLimit) {
+            helpTextClass = 'hidden';
+        }
+
         if (this.props.previewMessageLink) {
             editHeader = (
                 <span>
@@ -297,7 +303,7 @@ export default class Textbox extends React.Component {
                     style={{display: this.state.preview ? 'block' : 'none'}}
                     dangerouslySetInnerHTML={{__html: this.state.preview ? TextFormatting.formatText(this.props.value) : ''}}
                 />
-                <div className='help__text'>
+                <div className={'help__text ' + helpTextClass}>
                     {helpText}
                     {previewLink}
                     <a
