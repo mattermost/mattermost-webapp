@@ -260,7 +260,7 @@
         -webkit-overflow-scrolling: touch;
         height: 100%;
         overflow-y: scroll;
-        padding: 1em 0 .5em;
+        padding: 1em 0 0;
         position: absolute;
         width: 100%;
 
@@ -642,6 +642,7 @@
     display: table;
     height: 100%;
     min-height: 350px;
+    padding-bottom: .5em;
     table-layout: fixed;
     width: 100%;
 
@@ -942,6 +943,10 @@
 
     .post--edited {
         // If the last paragraph of an edited post is a paragraph, make it inline-block so that the (edited) indicator can be on the same line as it
+        .post-message__text {
+            word-break: break-all;
+        }
+
         .post-message__text > p:last-child {
             display: inline-block;
             width: auto;
