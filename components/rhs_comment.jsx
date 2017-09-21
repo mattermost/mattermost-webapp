@@ -10,6 +10,7 @@ import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
 import FailedPostOptions from 'components/post_view/failed_post_options';
 import DotMenu from 'components/dot_menu';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
+import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content.jsx';
 
 import {addReaction, emitEmojiPosted} from 'actions/post_actions.jsx';
 
@@ -459,11 +460,13 @@ export default class RhsComment extends React.Component {
                         <div className='post__body' >
                             <div className={postClass}>
                                 {failedPostOptions}
-                                <PostMessageContainer
-                                    post={post}
-                                    isRHS={true}
-                                    hasMention={true}
-                                />
+                                <PostBodyAdditionalContent post={post}>
+                                    <PostMessageContainer
+                                        post={post}
+                                        isRHS={true}
+                                        hasMention={true}
+                                    />
+                                </PostBodyAdditionalContent>
                             </div>
                             {fileAttachment}
                             <ReactionListContainer post={post}/>
