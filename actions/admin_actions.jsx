@@ -142,19 +142,6 @@ export function samlCertificateStatus(success, error) {
     );
 }
 
-export function ldapSyncNow(success, error) {
-    AdminActions.syncLdap()(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.admin.syncLdap.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
-}
-
 export function getOAuthAppInfo(clientId, success, error) {
     Client4.getOAuthAppInfo(clientId).then(
         (data) => {
