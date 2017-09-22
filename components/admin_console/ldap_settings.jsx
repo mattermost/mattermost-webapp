@@ -111,7 +111,7 @@ export default class LdapSettings extends AdminSettings {
         return (
             <FormattedMessage
                 id='admin.ldap.jobExtraInfo'
-                defaultMessage='Scanned {ldapUsers} LDAP user, updated {updateCount}, deactivated {deleteCount}'
+                defaultMessage='Scanned {ldapUsers} LDAP users, updated {updateCount}, deactivated {deleteCount}'
                 values={{
                     matterMostUsers,
                     ldapUsers,

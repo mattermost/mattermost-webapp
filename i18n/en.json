@@ -311,6 +311,7 @@
   "admin.jobTable.headerFinishAt": "Finish At",
   "admin.jobTable.headerRunTime": "Run Time",
   "admin.jobTable.headerExtraInfo": "Extra Information",
+  "admin.ldap.jobExtraInfo": "Scanned {ldapUsers} LDAP users, updated {updateCount}, deactivated {deleteCount}",
   "admin.email.agreeHPNS": " I understand and accept the Mattermost Hosted Push Notification Service <a href=\"https://about.mattermost.com/hpns-terms/\" target='_blank'>Terms of Service</a> and <a href=\"https://about.mattermost.com/hpns-privacy/\" target='_blank'>Privacy Policy</a>.",
   "admin.email.allowEmailSignInDescription": "When true, Mattermost allows users to sign in using their email and password.",
   "admin.email.allowEmailSignInTitle": "Enable sign-in with email: ",
