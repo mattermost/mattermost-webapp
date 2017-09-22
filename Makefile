@@ -17,6 +17,16 @@ test: .yarninstall
 
 	touch $@
 
+package: build
+	@echo Packaging webapp
+
+	mkdir tmp
+	mv dist tmp/client
+	tar -C tmp -czf mattermost-webapp.tar.gz client
+	mv tmp/client dist
+	rmdir tmp
+
+
 build: .yarninstall
 	@echo Building mattermost Webapp
 

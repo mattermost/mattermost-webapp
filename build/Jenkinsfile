@@ -35,8 +35,12 @@ podTemplate(label: 'jenkins-slave-webapp',
             container('mattermost-node') {
                 dir('mattermost-webapp') {
                     sh 'make build'
+                    sh 'make package'
                 }
             }
+        }
+        stage('Push to S3') {
+            step([$class: 'S3BucketPublisher', dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: 'releases.mattermost.com/mattermost-webapp/${BRANCH_NAME}', excludedFile: '', flatten: true, gzipFiles: false, keepForever: false, managedArtifacts: false, noUploadOnFailure: true, selectedRegion: 'us-east-1', showDirectlyInBrowser: false, sourceFile: 'mattermost-webapp/*.tar.gz', storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false, userMetadata: [[key: 'Cache-Control', value: 'no-cache']]]], profileName: 'Releases', userMetadAta: []])
         }
     }
 }
