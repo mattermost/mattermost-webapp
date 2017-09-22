@@ -300,7 +300,7 @@ class JobTable extends React.PureComponent {
             cancelButton = (
                 <span
                     onClick={(e) => this.handleCancelJob(e, job)}
-                    className='job-table__cancel'
+                    className='job-table__cancel-button'
                     title={this.props.intl.formatMessage(holders.cancelButton)}
                 >
                     {'×'}
@@ -325,20 +325,9 @@ class JobTable extends React.PureComponent {
         });
 
         return (
-            <div
-                style={{
-                    margin: '10px',
-                    marginBottom: '50px',
-                    marginLeft: '20px'
-                }}
-            >
-                <div
-                    className='form-group'
-                    style={{
-                        marginLeft: '10px'
-                    }}
-                >
-                    <div>
+            <div className='job-table__panel'>
+                <div className='job-table__create-button'>
+                    <div className='form-group'>
                         <div>
                             <button
                                 className='btn btn-default'
@@ -353,9 +342,7 @@ class JobTable extends React.PureComponent {
                         </div>
                     </div>
                 </div>
-                <div
-                    className='jobs-panel__table'
-                >
+                <div className='job-table__table'>
                     <table className='table'>
                         <thead>
                             <tr>
