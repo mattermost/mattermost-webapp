@@ -6,14 +6,32 @@ import Constants from 'utils/constants.jsx';
 
 import {FormattedMessage} from 'react-intl';
 import {Modal} from 'react-bootstrap';
-import TeamStore from 'stores/team_store.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
+import {getSiteURL} from 'utils/url.jsx';
 
 import PropTypes from 'prop-types';
 
 import React from 'react';
 
-export default class ChannelInfoModal extends React.Component {
+export default class ChannelInfoModal extends React.PureComponent {
+    static propTypes = {
+
+        /**
+         * Function that is called when modal is hidden
+         */
+        onHide: PropTypes.func.isRequired,
+
+        /**
+         * Channel object
+         */
+        channel: PropTypes.object.isRequired,
+
+        /**
+         * Current team object
+         */
+        currentTeam: PropTypes.object.isRequired
+    };
+
     constructor(props) {
         super(props);
 
@@ -60,7 +78,7 @@ export default class ChannelInfoModal extends React.Component {
             );
         }
 
-        const channelURL = TeamStore.getCurrentTeamUrl() + '/channels/' + channel.name;
+        const channelURL = getSiteURL() + '/' + this.props.currentTeam.name + '/channels/' + channel.name;
 
         let channelPurpose;
         if (channel.purpose) {
@@ -149,8 +167,3 @@ export default class ChannelInfoModal extends React.Component {
         );
     }
 }
-
-ChannelInfoModal.propTypes = {
-    onHide: PropTypes.func.isRequired,
-    channel: PropTypes.object.isRequired
-};

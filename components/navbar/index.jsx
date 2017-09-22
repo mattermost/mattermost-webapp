@@ -11,7 +11,7 @@ import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {getPinnedPosts} from 'actions/post_actions.jsx';
 
-import ChannelInfoModal from 'components/channel_info_modal.jsx';
+import ChannelInfoModal from 'components/channel_info_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal.jsx';
 import ChannelNotificationsModal from 'components/channel_notifications_modal.jsx';
