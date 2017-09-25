@@ -4,46 +4,54 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage, FormattedDate, FormattedTime, injectIntl, intlShape, defineMessages} from 'react-intl';
+import * as Utils from 'utils/utils.jsx';
+
+import {FormattedMessage, FormattedDate, FormattedTime, injectIntl, intlShape} from 'react-intl';
 
 import {createJob, cancelJob} from 'actions/job_actions.jsx';
 import {JobTypes, JobStatuses} from 'utils/constants.jsx';
 import ErrorStore from 'stores/error_store.jsx';
 
-const holders = defineMessages({
-    jobId: {
-        id: 'admin.jobTable.jobId',
-        defaultMessage: 'Job ID: '
-    },
-    lastActivityAt: {
-        id: 'admin.jobTable.lastActivityAt',
-        defaultMessage: 'Last Activity: '
-    },
-    runLengthSeconds: {
-        id: 'admin.jobTable.runLengthSeconds',
-        defaultMessage: ' seconds'
-    },
-    runLengthMinutes: {
-        id: 'admin.jobTable.runLengthMinutes',
-        defaultMessage: ' minutes'
-    },
-    cancelButton: {
-        id: 'admin.jobTable.cancelButton',
-        defaultMessage: 'Cancel'
-    }
-});
-
 class JobTable extends React.PureComponent {
 
     static propTypes = {
+
+        /**
+         * Used for formatting dates
+         */
         intl: intlShape.isRequired,
+
+        /**
+         * Array of jobs
+         */
         jobs: PropTypes.arrayOf(PropTypes.object).isRequired,
+
         actions: PropTypes.shape({
+
+             /**
+             * Function to fetch jobs
+             */
             getJobsByType: PropTypes.func.isRequired
         }).isRequired,
+
+        /**
+         * Function called when displaying extra text.
+         */
         getExtraInfoText: PropTypes.func.isRequired,
+
+        /**
+         * Grey buttons out when disabled
+         */
         disabled: PropTypes.bool,
+
+        /**
+         * Help text under the create job button
+         */
         createJobHelpText: PropTypes.element.isRequired,
+
+        /**
+         * Button text to create a new job
+         */
         createJobButtonText: PropTypes.element.isRequired
     };
 
@@ -77,7 +85,7 @@ class JobTable extends React.PureComponent {
             return (
                 <span
                     className='status-icon-warning'
-                    title={this.props.intl.formatMessage(holders.jobId) + job.id}
+                    title={Utils.localizeMessage('admin.jobTable.jobId', 'Job ID: ') + job.id}
                 >
                     <FormattedMessage
                         id='admin.jobTable.statusPending'
@@ -89,7 +97,7 @@ class JobTable extends React.PureComponent {
             return (
                 <span
                     className='status-icon-warning'
-                    title={this.props.intl.formatMessage(holders.jobId) + job.id}
+                    title={Utils.localizeMessage('admin.jobTable.jobId', 'Job ID: ') + job.id}
                 >
                     <FormattedMessage
                         id='admin.jobTable.statusInProgress'
@@ -101,7 +109,7 @@ class JobTable extends React.PureComponent {
             return (
                 <span
                     className='status-icon-success'
-                    title={this.props.intl.formatMessage(holders.jobId) + job.id}
+                    title={Utils.localizeMessage('admin.jobTable.jobId', 'Job ID: ') + job.id}
                 >
                     <FormattedMessage
                         id='admin.jobTable.statusSuccess'
@@ -113,7 +121,7 @@ class JobTable extends React.PureComponent {
             return (
                 <span
                     className='status-icon-error'
-                    title={this.props.intl.formatMessage(holders.jobId) + job.id}
+                    title={Utils.localizeMessage('admin.jobTable.jobId', 'Job ID: ') + job.id}
                 >
                     <FormattedMessage
                         id='admin.jobTable.statusError'
@@ -125,7 +133,7 @@ class JobTable extends React.PureComponent {
             return (
                 <span
                     className='status-icon-warning'
-                    title={this.props.intl.formatMessage(holders.jobId) + job.id}
+                    title={Utils.localizeMessage('admin.jobTable.jobId', 'Job ID: ') + job.id}
                 >
                     <FormattedMessage
                         id='admin.jobTable.statusCanceling'
@@ -137,7 +145,7 @@ class JobTable extends React.PureComponent {
             return (
                 <span
                     className='status-icon-error'
-                    title={this.props.intl.formatMessage(holders.jobId) + job.id}
+                    title={Utils.localizeMessage('admin.jobTable.jobId', 'Job ID: ') + job.id}
                 >
                     <FormattedMessage
                         id='admin.jobTable.statusCanceled'
@@ -148,7 +156,7 @@ class JobTable extends React.PureComponent {
         }
 
         return (
-            <span title={this.props.intl.formatMessage(holders.jobId) + job.id}>{job.status}</span>
+            <span title={Utils.localizeMessage('admin.jobTable.jobId', 'Job ID: ') + job.id}>{job.status}</span>
         );
     }
 
@@ -173,10 +181,10 @@ class JobTable extends React.PureComponent {
             }
         }
 
-        let lastActivity = this.props.intl.formatMessage(holders.lastActivityAt) + '--';
+        let lastActivity = Utils.localizeMessage('admin.jobTable.lastActivityAt', 'Last Activity: ') + '--';
 
         if (job.last_activity_at > 0) {
-            lastActivity = this.props.intl.formatMessage(holders.lastActivityAt) +
+            lastActivity = Utils.localizeMessage('admin.jobTable.lastActivityAt', 'Last Activity: ') +
                 this.props.intl.formatDate(new Date(job.last_activity_at), {
                     year: 'numeric',
                     month: 'short',
@@ -204,7 +212,7 @@ class JobTable extends React.PureComponent {
                     style={{whiteSpace: 'nowrap'}}
                     title={lastActivity}
                 >
-                    {seconds + this.props.intl.formatMessage(holders.runLengthSeconds)}
+                    {seconds + Utils.localizeMessage('admin.jobTable.runLengthSeconds', ' seconds')}
                 </span>
             );
         }
@@ -214,7 +222,7 @@ class JobTable extends React.PureComponent {
                 style={{whiteSpace: 'nowrap'}}
                 title={lastActivity}
             >
-                {minutes + this.props.intl.formatMessage(holders.runLengthMinutes)}
+                {minutes + Utils.localizeMessage('admin.jobTable.runLengthMinutes', ' minutes')}
             </span>
         );
     }
@@ -301,7 +309,7 @@ class JobTable extends React.PureComponent {
                 <span
                     onClick={(e) => this.handleCancelJob(e, job)}
                     className='job-table__cancel-button'
-                    title={this.props.intl.formatMessage(holders.cancelButton)}
+                    title={Utils.localizeMessage('admin.jobTable.cancelButton', 'Cancel')}
                 >
                     {'×'}
                 </span>
@@ -356,7 +364,7 @@ class JobTable extends React.PureComponent {
                                 <th>
                                     <FormattedMessage
                                         id='admin.jobTable.headerFinishAt'
-                                        defaultMessage='Finish At'
+                                        defaultMessage='Finish Time'
                                     />
                                 </th>
                                 <th>

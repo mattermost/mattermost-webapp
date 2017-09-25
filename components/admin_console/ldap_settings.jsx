@@ -85,14 +85,14 @@ export default class LdapSettings extends AdminSettings {
     }
 
     renderJobData(job) {
-        var matterMostUsers = '0';
-        var ldapUsers = '0';
-        var deleteCount = '0';
-        var updateCount = '0';
+        let mattermostUsers = '0';
+        let ldapUsers = '0';
+        let deleteCount = '0';
+        let updateCount = '0';
 
         if (job && job.data) {
             if (job.data.mattermost_users_count && job.data.mattermost_users_count.length > 0) {
-                matterMostUsers = job.data.mattermost_users_count;
+                mattermostUsers = job.data.mattermost_users_count;
             }
 
             if (job.data.ldap_users_count && job.data.ldap_users_count.length > 0) {
@@ -113,7 +113,7 @@ export default class LdapSettings extends AdminSettings {
                 id='admin.ldap.jobExtraInfo'
                 defaultMessage='Scanned {ldapUsers} LDAP users, updated {updateCount}, deactivated {deleteCount}'
                 values={{
-                    matterMostUsers,
+                    mattermostUsers,
                     ldapUsers,
                     deleteCount,
                     updateCount

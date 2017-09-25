@@ -308,7 +308,7 @@
   "admin.jobTable.runLengthMinutes": " minutes",
   "admin.jobTable.cancelButton": "Cancel",
   "admin.jobTable.headerStatus": "Status",
-  "admin.jobTable.headerFinishAt": "Finish At",
+  "admin.jobTable.headerFinishAt": "Finish Time",
   "admin.jobTable.headerRunTime": "Run Time",
   "admin.jobTable.headerExtraInfo": "Extra Information",
   "admin.ldap.jobExtraInfo": "Scanned {ldapUsers} LDAP users, updated {updateCount}, deactivated {deleteCount}",
