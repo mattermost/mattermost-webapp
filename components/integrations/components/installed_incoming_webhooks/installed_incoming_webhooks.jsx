@@ -1,15 +1,13 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
+import React from 'react';
+import PropTypes from 'prop-types';
+import {FormattedMessage} from 'react-intl';
+import * as Utils from 'utils/utils.jsx';
+import Constants from 'utils/constants.jsx';
 
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
 import InstalledIncomingWebhook from 'components/integrations/components/installed_incoming_webhook.jsx';
-
-import * as Utils from 'utils/utils.jsx';
-
-import PropTypes from 'prop-types';
-
-import React from 'react';
-import {FormattedMessage} from 'react-intl';
 
 export default class InstalledIncomingWebhooks extends React.PureComponent {
     static propTypes = {
@@ -44,6 +42,11 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
         */
         users: PropTypes.object,
 
+        /**
+        *  Data used in passing as argument for loading webhooks
+        */
+
+        teamId: PropTypes.string,
         actions: PropTypes.shape({
 
             /**
@@ -70,7 +73,11 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
 
     componentDidMount() {
         if (window.mm_config.EnableIncomingWebhooks === 'true') {
-            this.props.actions.getIncomingHooks().then(
+            this.props.actions.getIncomingHooks(
+              this.props.teamId,
+              Constants.Integrations.START_PAGE_NUM,
+              Constants.Integrations.PAGE_SIZE
+            ).then(
               () => this.setState({loading: false})
             );
         }
