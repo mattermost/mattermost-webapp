@@ -38,7 +38,7 @@ function mapStateToProps(state, ownProps) {
         currentUser: user,
         dmUser,
         dmUserStatus,
-        enableFormatting: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'formatting', false)
+        enableFormatting: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'formatting', true)
     };
 }
 
