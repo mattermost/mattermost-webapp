@@ -6,7 +6,7 @@ import MessageWrapper from 'components/message_wrapper.jsx';
 import PopoverListMembers from 'components/popover_list_members';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal.jsx';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal.jsx';
-import ChannelInfoModal from 'components/channel_info_modal.jsx';
+import ChannelInfoModal from 'components/channel_info_modal/channel_info_modal.jsx';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal.jsx';
 import ChannelNotificationsModal from 'components/channel_notifications_modal.jsx';
