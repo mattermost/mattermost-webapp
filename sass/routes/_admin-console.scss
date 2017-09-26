@@ -344,6 +344,35 @@
     }
 }
 
+.job-table__cancel-button {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.job-table__table {
+    background-color: $white;
+    border: 1px solid $border-gray;
+    margin-top: 10px;
+    max-height: 240px;
+    min-height: 100px;
+    overflow: auto;
+    padding: 5px;
+    width: 100%;
+}
+
+.job-table__panel {
+    margin: 10px;
+    margin-bottom: 50px;
+    margin-left: 20px;
+}
+
+.job-table__create-button {
+    margin-left: 15px;
+}
+
 .brand-img {
     margin-bottom: 1.5em;
     max-width: 150px;

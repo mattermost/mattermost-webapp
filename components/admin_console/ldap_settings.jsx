@@ -7,20 +7,21 @@ import {ConnectionSecurityDropdownSettingLdap} from './connection_security_dropd
 import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting.jsx';
 
-import {ldapSyncNow, ldapTest} from 'actions/admin_actions.jsx';
+import {ldapTest} from 'actions/admin_actions.jsx';
 
 import * as Utils from 'utils/utils.jsx';
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import RequestButton from './request_button/request_button.jsx';
+import {JobTypes} from 'utils/constants.jsx';
+import JobsTable from './jobs';
 
 export default class LdapSettings extends AdminSettings {
     constructor(props) {
         super(props);
 
         this.getConfigFromState = this.getConfigFromState.bind(this);
-
         this.renderSettings = this.renderSettings.bind(this);
     }
 
@@ -79,6 +80,44 @@ export default class LdapSettings extends AdminSettings {
             <FormattedMessage
                 id='admin.authentication.ldap'
                 defaultMessage='AD/LDAP'
+            />
+        );
+    }
+
+    renderJobData(job) {
+        let mattermostUsers = '0';
+        let ldapUsers = '0';
+        let deleteCount = '0';
+        let updateCount = '0';
+
+        if (job && job.data) {
+            if (job.data.mattermost_users_count && job.data.mattermost_users_count.length > 0) {
+                mattermostUsers = job.data.mattermost_users_count;
+            }
+
+            if (job.data.ldap_users_count && job.data.ldap_users_count.length > 0) {
+                ldapUsers = job.data.ldap_users_count;
+            }
+
+            if (job.data.delete_count && job.data.delete_count.length > 0) {
+                deleteCount = job.data.delete_count;
+            }
+
+            if (job.data.update_count && job.data.update_count.length > 0) {
+                updateCount = job.data.update_count;
+            }
+        }
+
+        return (
+            <FormattedMessage
+                id='admin.ldap.jobExtraInfo'
+                defaultMessage='Scanned {ldapUsers} LDAP users, updated {updateCount}, deactivated {deleteCount}'
+                values={{
+                    mattermostUsers,
+                    ldapUsers,
+                    deleteCount,
+                    updateCount
+                }}
             />
         );
     }
@@ -451,28 +490,6 @@ export default class LdapSettings extends AdminSettings {
                     disabled={!this.state.enable}
                 />
                 <RequestButton
-                    requestAction={ldapSyncNow}
-                    helpText={
-                        <FormattedMessage
-                            id='admin.ldap.syncNowHelpText'
-                            defaultMessage='Initiates an AD/LDAP synchronization immediately.'
-                        />
-                    }
-                    buttonText={
-                        <FormattedMessage
-                            id='admin.ldap.sync_button'
-                            defaultMessage='AD/LDAP Synchronize Now'
-                        />
-                    }
-                    disabled={!this.state.enable}
-                    showSuccessMessage={false}
-                    errorMessage={{
-                        id: 'admin.ldap.syncFailure',
-                        defaultMessage: 'Sync Failure: {error}'
-                    }}
-                    includeDetailedError={true}
-                />
-                <RequestButton
                     requestAction={ldapTest}
                     helpText={
                         <FormattedMessage
@@ -497,6 +514,23 @@ export default class LdapSettings extends AdminSettings {
                         id: 'admin.ldap.testSuccess',
                         defaultMessage: 'AD/LDAP Test Successful'
                     }}
+                />
+                <JobsTable
+                    jobType={JobTypes.LDAP_SYNC}
+                    getExtraInfoText={this.renderJobData}
+                    disabled={!this.state.enable}
+                    createJobButtonText={
+                        <FormattedMessage
+                            id='admin.ldap.sync_button'
+                            defaultMessage='AD/LDAP Synchronize Now'
+                        />
+                    }
+                    createJobHelpText={
+                        <FormattedMessage
+                            id='admin.ldap.syncNowHelpText'
+                            defaultMessage='Initiates an AD/LDAP synchronization immediately.'
+                        />
+                    }
                 />
             </SettingsGroup>
         );
