@@ -90,7 +90,7 @@
     "remote-redux-devtools": "0.5.12",
     "remote-redux-devtools-on-debugger": "0.8.2",
     "sass-loader": "6.0.6",
-    "selenium-standalone": "6.9.0",
+    "selenium-standalone": "6.6.0",
     "style-loader": "0.18.2",
     "url-loader": "0.5.9",
     "webpack": "3.5.5",
@@ -139,11 +139,11 @@
     "updatesnapshot": "jest --updateSnapshot",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "e2e": "./tests/test.sh",
+    "e2e": "./tests/e2e/test.sh",
     "e2e-local-chrome": "nightwatch -e chrome --suiteRetries 1",
     "e2e-local-firefox": "nightwatch -e firefox --suiteRetries 1",
     "e2e-tag": "nightwatch -e chrome --suiteRetries 1 --tag",
-    "selenium-install": "selenium-standalone install",
-    "selenium-start": "selenium-standalone start"
+    "selenium-install": "selenium-standalone install --config=./tests/e2e/config.js",
+    "selenium-start": "selenium-standalone start --config=./tests/e2e/config.js"
   }
 }

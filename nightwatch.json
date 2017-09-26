@@ -9,18 +9,19 @@
         "start_process" : false,
         "server_path" : "",
         "log_path" : "",
-        "host" : "127.0.0.1",
+        "host" : "localhost",
         "port" : 4444,
         "cli_args" : {
           "webdriver.chrome.driver" : "",
-          "webdriver.ie.driver" : ""
+          "webdriver.ie.driver" : "",
+          "webdriver.gecko.driver": ""
         }
       },
     "test_settings": {
         "default": {
-            "launch_url": "http://127.0.0.1:8065/",
+            "launch_url": "http://localhost:8065/",
             "selenium_port": 4444,
-            "selenium_host": "127.0.0.1",
+            "selenium_host": "localhost",
             "silent": true,
             "skip_testcases_on_fail": false,
             "end_session_on_fail": false,

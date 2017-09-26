@@ -1,11 +1,24 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import _ from 'lodash';
+export const utils = {
+    cmdOrCtrl() {
+        if (process.platform === 'darwin') {
+            return '\uE03D';
+        }
 
-const Constants = {
-    NIGHTWATCH_METHODS: ['tags', 'before', 'after', 'afterEach', 'beforeEach'],
-    TEST_BASE_URL: 'localhost:8065',
+        return '\uE009';
+    },
+    testBaseUrl() {
+        return Constants.TEST_BASE_URL;
+    }
+};
+
+export default utils;
+
+export const Constants = {
+    TEST_BASE_URL: 'http://localhost:8065',
+    DEFAULT_WAIT: 20000,
     USERS: {
         admin: {
             username: 'admin',
@@ -34,37 +47,3 @@ const Constants = {
         }
     }
 };
-
-function addTestNamePrefixes(config) {
-    const prefix = config.tags.join(',');
-
-    return _.mapKeys(config, (value, key) => {
-        if (_.includes(Constants.NIGHTWATCH_METHODS, key)) {
-            return key;
-        }
-
-        return `[${prefix}] ${key}`;
-    });
-}
-
-export {addTestNamePrefixes, Constants};
-
-const utils = {
-
-    // Method to determine whether to use COMMAND or CONTROL key
-    // Based on the operating system. The unicode values are taken from the W3 Webdriver spec:
-    // https://www.w3.org/TR/webdriver/#character-types
-    cmdOrCtrl() {
-        if (process.platform === 'darwin') {
-            return '\uE03D';
-        }
-
-        return '\uE009';
-    },
-
-    testBaseUrl() {
-        return Constants.TEST_BASE_URL;
-    }
-};
-
-export default utils;

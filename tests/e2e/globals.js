@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
 module.exports = {
@@ -24,7 +24,7 @@ module.exports = {
 
     default: {
         myGlobal: function() {
-            return "I'm a method";
+            return "";
         }
     },
 
@@ -50,7 +50,6 @@ module.exports = {
     },
 
     reporter: function(results, cb) {
-        //console.log(results);
         cb();
     }
 };

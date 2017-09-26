@@ -5291,14 +5291,14 @@ mattermost-redux@mattermost/mattermost-redux#master:
     deep-equal "1.0.1"
     harmony-reflect "1.5.1"
     isomorphic-fetch "2.2.1"
-    mime-db "1.27.0"
-    redux "3.6.0"
-    redux-action-buffer "1.0.1"
+    mime-db "1.30.0"
+    redux "3.7.2"
+    redux-action-buffer "1.1.0"
     redux-batched-actions "0.2.0"
     redux-offline "git+https://github.com/enahum/redux-offline.git"
-    redux-persist "4.6.0"
+    redux-persist "4.9.1"
     redux-thunk "2.2.0"
-    reselect "3.0.0"
+    reselect "3.0.1"
     serialize-error "2.1.0"
 
 media-typer@0.3.0:
@@ -6484,13 +6484,9 @@ punycode@^1.2.4, punycode@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.4.1.tgz#c0d5a63b2718800ad8e1eb0fa5269c84dd41845e"
 
-q@1.4.1:
+q@1.4.1, q@^1.1.2:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.4.1.tgz#55705bcd93c5f3673530c2c2cbc0c2b3addc286e"
-
-q@^1.1.2:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/q/-/q-1.5.0.tgz#dd01bac9d06d30e6f219aecb8253ee9ebdc308f1"
 
 qs@6.4.0, qs@^6.1.0, qs@~6.4.0:
   version "6.4.0"
@@ -7304,9 +7300,9 @@ seek-bzip@^1.0.3:
   dependencies:
     commander "~2.8.1"
 
-selenium-standalone@6.9.0:
-  version "6.9.0"
-  resolved "https://registry.yarnpkg.com/selenium-standalone/-/selenium-standalone-6.9.0.tgz#5805f403c82b48b4e136d8a97f1832aad7852bd5"
+selenium-standalone@6.6.0:
+  version "6.6.0"
+  resolved "https://registry.yarnpkg.com/selenium-standalone/-/selenium-standalone-6.6.0.tgz#00973b979732a54fa2662afd8be3fb06cb6004f1"
   dependencies:
     async "^2.1.4"
     commander "^2.9.0"

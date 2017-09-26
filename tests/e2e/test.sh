@@ -24,7 +24,6 @@ function selenium_install {
 }
 
 function selenium_start {
-    # Use defult config for selenium-standalone lib
     nohup yarn run selenium-start > ./tests/reports/selenium.log 2>&1&
 }
 

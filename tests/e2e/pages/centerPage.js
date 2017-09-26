@@ -1,18 +1,18 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
 import {Constants} from '../utils';
 
 const centerCommands = {
     navigateToPage() {
-        return this.waitForElementVisible('@postTextBox', 3000);
+        return this.waitForElementVisible('@postTextBox', Constants.DEFAULT_WAIT);
     },
     postAMessage(message) {
         return this
-            .waitForElementVisible('@postTextBox', 3000)
+            .waitForElementVisible('@postTextBox', Constants.DEFAULT_WAIT)
             .setValue('@postTextBox', message)
             .keys(this.Keys.ENTER)
-            .waitForElementVisible('@postListContent', 3000);
+            .waitForElementVisible('@postListContent', Constants.DEFAULT_WAIT);
     }
 };
 

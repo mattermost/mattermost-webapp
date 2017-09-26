@@ -1,20 +1,20 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
 import {Constants} from '../utils';
 
 const loginCommands = {
     navigateToPage() {
-        return this.waitForElementVisible('@loginInput', 3000);
+        return this.waitForElementVisible('@loginInput', Constants.DEFAULT_WAIT);
     },
     login(email, pass) {
         return this
-            .waitForElementVisible('@loginInput', 3000)
+            .waitForElementVisible('@loginInput', Constants.DEFAULT_WAIT)
             .setValue('@loginInput', email)
             .setValue('@passwordInput', pass)
-            .waitForElementVisible('@signinButton', 3000)
+            .waitForElementVisible('@signinButton', Constants.DEFAULT_WAIT)
             .click('@signinButton')
-            .waitForElementVisible('@postTextBox', 3000);
+            .waitForElementVisible('@postTextBox', Constants.DEFAULT_WAIT);
     }
 };
 

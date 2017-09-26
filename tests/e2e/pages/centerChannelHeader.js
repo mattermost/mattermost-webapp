@@ -1,11 +1,11 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
 import {Constants} from '../utils';
 
 const centerChannelHeaderCommands = {
     navigateToPage() {
-        return this.waitForElementVisible('@headerContainer', 3000);
+        return this.waitForElementVisible('@headerContainer', Constants.DEFAULT_WAIT);
     }
 };
 
