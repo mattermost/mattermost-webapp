@@ -44,7 +44,7 @@ export default class DataRetentionSettings extends AdminSettings {
         return (
             <FormattedMessage
                 id='admin.data_retention.title'
-                defaultMessage='Data Retention Policy'
+                defaultMessage='Data Retention Policy (Beta)'
             />
         );
     }
@@ -160,6 +160,24 @@ export default class DataRetentionSettings extends AdminSettings {
                     onChange={this.handleChange}
                 />
                 {fileRetentionDaysSetting}
+                <TextSetting
+                    id='deletionJobStartTime'
+                    label={
+                        <FormattedMessage
+                            id='admin.data_retention.deletionJobStartTime.title'
+                            defaultMessage='Data Deletion Time:'
+                        />
+                    }
+                    placeholder={Utils.localizeMessage('admin.data_retention.deletionJobStartTime.example', 'E.g.: "02:00"')}
+                    helpText={
+                        <FormattedMessage
+                            id='admin.data_retention.deletionJobStartTime.description'
+                            defaultMessage='Set the start time of the daily scheduled data retention job. Choose a time when fewer people are using your system. Must be a 24-hour time stamp in the form HH:MM.'
+                        />
+                    }
+                    value={this.state.deletionJobStartTime}
+                    onChange={this.handleChange}
+                />
             </SettingsGroup>
         );
     }
