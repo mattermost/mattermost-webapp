@@ -157,6 +157,16 @@ class SearchStoreClass extends EventEmitter {
             delete results.posts[post.id];
             results.order.splice(index, 1);
         }
+
+        for (let i = results.order.length - 1; i >= 0; i--) {
+            const postId = results.order[i];
+            const iterationPost = results.posts[postId];
+
+            if (iterationPost.root_id === post.id) {
+                delete results.posts[postId];
+                results.order.splice(i, 1);
+            }
+        }
     }
 
     setLoading(loading) {
