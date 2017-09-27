@@ -368,7 +368,7 @@
   "admin.email.pushServerEx": "E.g.: \"http://push-test.mattermost.com\"",
   "admin.email.pushServerTitle": "Push Notification Server:",
   "admin.email.pushTitle": "Enable Push Notifications: ",
-  "admin.email.requireVerificationDescription": "Typically set to true in production. When true, Mattermost requires email verification after account creation prior to allowing login. Developers may set this field to false so skip sending verification emails for faster development.",
+  "admin.email.requireVerificationDescription": "Typically set to true in production. When true, Mattermost requires email verification after account creation prior to allowing login. Developers may set this field to false to skip sending verification emails for faster development.",
   "admin.email.requireVerificationTitle": "Require Email Verification: ",
   "admin.email.selfPush": "Manually enter Push Notification Service location",
   "admin.email.skipServerCertificateVerification.description": "When true, Mattermost will not verify the email server certificate.",
