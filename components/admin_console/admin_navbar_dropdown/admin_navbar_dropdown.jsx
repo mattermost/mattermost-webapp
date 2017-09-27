@@ -40,11 +40,6 @@ export default class AdminNavbarDropdown extends React.Component {
 
     constructor(props) {
         super(props);
-        this.blockToggle = false;
-        this.onTeamChange = this.onTeamChange.bind(this);
-        this.handleAboutModal = this.handleAboutModal.bind(this);
-        this.aboutModalDismissed = this.aboutModalDismissed.bind(this);
-        this.handleLogout = this.handleLogout.bind(this);
 
         this.state = {
             teams: TeamStore.getAll(),
@@ -69,31 +64,31 @@ export default class AdminNavbarDropdown extends React.Component {
         TeamStore.removeChangeListener(this.onTeamChange);
     }
 
-    handleAboutModal(e) {
+    handleAboutModal = (e) => {
         e.preventDefault();
 
         this.setState({showAboutModal: true});
-    }
+    };
 
-    handleLogout(e) {
+    handleLogout = (e) => {
         if (this.props.navigationBlocked) {
             e.preventDefault();
             this.props.actions.deferNavigation(GlobalActions.emitUserLoggedOutEvent);
         } else {
             GlobalActions.emitUserLoggedOutEvent();
         }
-    }
+    };
 
-    aboutModalDismissed() {
+    aboutModalDismissed = () => {
         this.setState({showAboutModal: false});
-    }
+    };
 
-    onTeamChange() {
+    onTeamChange = () => {
         this.setState({
             teams: TeamStore.getAll(),
             teamMembers: TeamStore.getMyTeamMembers()
         });
-    }
+    };
 
     render() {
         var teamsArray = []; // Array of team objects

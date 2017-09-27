@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 import {Link, browserHistory} from 'react-router/es6';
 
-export default class BlockableLink extends React.Component {
+export default class BlockableLink extends React.PureComponent {
     static propTypes = {
 
         /*
@@ -27,14 +27,9 @@ export default class BlockableLink extends React.Component {
              */
             deferNavigation: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
-    constructor(props) {
-        super(props);
-        this.handleClick = this.handleClick.bind(this);
-    }
-
-    handleClick(e) {
+    handleClick = (e) => {
         if (this.props.blocked) {
             e.preventDefault();
 
@@ -46,7 +41,7 @@ export default class BlockableLink extends React.Component {
                 browserHistory.push(this.props.to);
             });
         }
-    }
+    };
 
     render() {
         const props = {...this.props};

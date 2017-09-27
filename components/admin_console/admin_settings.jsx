@@ -26,10 +26,6 @@ export default class AdminSettings extends React.Component {
     constructor(props) {
         super(props);
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.doSubmit = this.doSubmit.bind(this);
-
         this.state = Object.assign(this.getStateFromConfig(props.config), {
             saveNeeded: false,
             saving: false,
@@ -37,22 +33,16 @@ export default class AdminSettings extends React.Component {
         });
     }
 
-    handleChange(id, value) {
+    handleChange = (id, value) => {
         this.setState({
             saveNeeded: true,
             [id]: value
         });
 
         this.props.setNavigationBlocked(true);
-    }
+    };
 
-    handleSubmit(e) {
-        e.preventDefault();
-
-        this.doSubmit();
-    }
-
-    doSubmit(callback) {
+    doSubmit = (callback) => {
         this.setState({
             saving: true,
             serverError: null
@@ -97,9 +87,9 @@ export default class AdminSettings extends React.Component {
                 }
             }
         );
-    }
+    };
 
-    parseInt(str, defaultValue) {
+    parseInt = (str, defaultValue) => {
         const n = parseInt(str, 10);
 
         if (isNaN(n)) {
@@ -110,9 +100,9 @@ export default class AdminSettings extends React.Component {
         }
 
         return n;
-    }
+    };
 
-    parseIntNonZero(str, defaultValue) {
+    parseIntNonZero = (str, defaultValue) => {
         const n = parseInt(str, 10);
 
         if (isNaN(n) || n < 1) {
@@ -123,7 +113,7 @@ export default class AdminSettings extends React.Component {
         }
 
         return n;
-    }
+    };
 
     render() {
         return (

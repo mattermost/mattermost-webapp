@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
 
-export default class DiscardChangesModal extends React.Component {
+export default class DiscardChangesModal extends React.PureComponent {
     static propTypes = {
 
         /*
