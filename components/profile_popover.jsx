@@ -264,11 +264,13 @@ export default class ProfilePopover extends React.Component {
                 <div
                     data-toggle='tooltip'
                     key='user-popover-settings'
+                    className='popover__row first'
                 >
                     <a
                         href='#'
                         onClick={this.handleEditAccountSettings}
                     >
+                        <i className='fa fa-pencil-square-o'/>
                         <FormattedMessage
                             id='user_profile.account.editSettings'
                             defaultMessage='Edit Account Settings'
