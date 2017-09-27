@@ -137,22 +137,23 @@
             display: inline-block;
             height: 21px;
             margin: 3px;
-            vertical-align: top;
+            padding: 1px;
+            vertical-align: middle;
             width: 21px;
-            padding: 3px;
         }
+
         > span {
+            border-radius: 6px;
+            border: 0;
+            cursor: pointer;
             display: inline-block;
             height: 21px;
             margin: 3px;
+            overflow: hidden;
+            padding: 0;
+            text-align: center;
             vertical-align: top;
             width: 21px;
-            padding: 0px;
-            border: 0px;
-            text-align: center;
-            border-radius: 6px;
-            overflow: hidden;
-            cursor: pointer;
         }
     }
 
