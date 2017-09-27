@@ -134,7 +134,8 @@ export default class EmojiPicker extends React.Component {
             filter: '',
             selected: null,
             list: this.generateList(''),
-            scrollOffset: 0
+            scrollOffset: 0,
+            loadedItems: EmojiStore.getEmojiItems() || []
         };
     }
 
@@ -224,6 +225,12 @@ export default class EmojiPicker extends React.Component {
         }
 
         this.setState({activeCategory});
+    }
+
+    handleLoadedItems = (loadedItems) => {
+        if (!this.state.filter) {
+            EmojiStore.saveEmojiItems(loadedItems);
+        }
     }
 
     generateEmojiHeaderRow(category) {
@@ -398,10 +405,12 @@ export default class EmojiPicker extends React.Component {
                 <EmojiList
                     width='100%'
                     height={300}
+                    loadedItems={this.state.loadedItems}
                     itemCount={this.state.list.length}
                     itemSize={ROW_SIZE}
                     scrollOffset={this.state.scrollOffset}
                     onScroll={this.handleOnScroll}
+                    onLoadedItems={this.handleLoadedItems}
                     renderItem={({index, style}) => (
                         <div
                             key={index}

@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-const OVERSCAN_COUNT = 5;
+const OVERSCAN_COUNT = 10;
 
 export default class EmojiListManager {
     constructor({itemCount, itemSizeGetter, itemSize}) {

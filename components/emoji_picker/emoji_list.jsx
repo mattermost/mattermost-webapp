@@ -5,7 +5,7 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import EmojiListManager from './emoji_list_manager';
 
-const SCROLL_STOP_DELAY = 70;
+const SCROLL_STOP_DELAY = 50;
 const STYLE_WRAPPER = {
     willChange: 'transform',
     WebkitOverflowScrolling: 'touch'
@@ -20,17 +20,20 @@ const STYLE_ITEM = {position: 'absolute', left: 0, width: '100%'};
 
 export default class EmojiList extends PureComponent {
     static defaultProps = {
-        width: '100%'
+        width: '100%',
+        loadedItems: []
     };
 
     static propTypes = {
         height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+        loadedItems: PropTypes.array.isRequired,
         itemCount: PropTypes.number.isRequired,
         itemSize: PropTypes.oneOfType([PropTypes.number, PropTypes.array, PropTypes.func]).isRequired,
         renderItem: PropTypes.func.isRequired,
         scrollOffset: PropTypes.number,
         onScroll: PropTypes.func.isRequired,
-        width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired
+        width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+        onLoadedItems: PropTypes.func
     };
 
     constructor(props) {
@@ -42,11 +45,12 @@ export default class EmojiList extends PureComponent {
             itemSize: props.itemSize
         });
 
+        const items = this.filterItems(props.loadedItems, props.itemCount);
         this.state = {
             offset: props.scrollOffset || 0,
             bottom: 0,
             stop: 0,
-            items: []
+            items
         };
 
         this.styleCache = {};
@@ -62,7 +66,7 @@ export default class EmojiList extends PureComponent {
     }
 
     componentWillReceiveProps(nextProps) {
-        const {itemCount, itemSize, scrollOffset} = this.props;
+        const {itemCount, itemSize, scrollOffset, loadedItems} = this.props;
 
         let recompute = false;
         const itemPropsHaveChanged = nextProps.itemCount !== itemCount || nextProps.itemSize !== itemSize;
@@ -72,8 +76,12 @@ export default class EmojiList extends PureComponent {
         }
 
         let offset = 0;
+        let {items} = this.state;
         if (nextProps.itemCount !== itemCount) {
-            this.setState({items: []});
+            items = [];
+            if (nextProps.itemCount > loadedItems.length) {
+                items = loadedItems;
+            }
 
             this.emojiListManager.updateConfig({
                 itemCount: nextProps.itemCount,
@@ -86,7 +94,7 @@ export default class EmojiList extends PureComponent {
             this.setState({offset});
         }
 
-        this.setStopAndBottom(offset, recompute);
+        this.setStopAndBottom(items, offset, recompute);
     }
 
     componentDidUpdate(nextProps, nextState) {
@@ -125,14 +133,24 @@ export default class EmojiList extends PureComponent {
         }
 
         this.setState({offset});
-        this.setStopAndBottom(offset, false);
+
+        const {items} = this.state;
+        this.setStopAndBottom(items, offset, false);
 
         setTimeout(() => {
             this.props.onScroll(offset);
         }, 0);
     }
 
-    setStopAndBottom(offset, recompute) {
+    handleLoadedItems(items) {
+        this.props.onLoadedItems(items);
+    }
+
+    filterItems(items, itemCount) {
+        return items.filter((item) => item < itemCount);
+    }
+
+    setStopAndBottom(items, offset, recompute) {
         const {bottom} = this.state;
         const containerSize = this.props.height;
         const nextStop = this.emojiListManager.getNextStop({
@@ -141,12 +159,13 @@ export default class EmojiList extends PureComponent {
         });
 
         const {start, stop} = this.emojiListManager.getVisibleRange({containerSize, offset});
-        const {items} = this.state;
         for (let i = start; i <= stop; i++) {
-            if (items.indexOf(i) === -1) {
+            if (i <= this.props.itemCount && items.indexOf(i) === -1) {
                 items.push(i);
             }
         }
+
+        this.handleLoadedItems(items);
 
         this.setState({
             stop: nextStop,
