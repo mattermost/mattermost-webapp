@@ -335,7 +335,7 @@ export default class Status extends React.PureComponent {
             );
         }
 
-        statusClass = 'fa fa-circle margin--right ' + statusClass;
+        statusClass = 'fa fa-circle margin-right margin-left ' + statusClass;
 
         return (
             <div>
