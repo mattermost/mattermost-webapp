@@ -352,7 +352,7 @@
   "admin.email.pushServerEx": "예시 \"http://push-test.mattermost.com\"",
   "admin.email.pushServerTitle": "푸시 알림 서버:",
   "admin.email.pushTitle": "모바일 푸시 알림: ",
-  "admin.email.requireVerificationDescription": "Typically set to true in production. When true, Mattermost requires email verification after account creation prior to allowing login. Developers may set this field to false to skip sending verification emails for faster development.",
+  "admin.email.requireVerificationDescription": "Typically set to true in production. When true, Mattermost requires email verification after account creation prior to allowing login. Developers may set this field to false so skip sending verification emails for faster development.",
   "admin.email.requireVerificationTitle": "이메일 검증: ",
   "admin.email.selfPush": "Manually enter Push Notification Service location",
   "admin.email.skipServerCertificateVerification.description": "When true, Mattermost will not verify the email server certificate.",
