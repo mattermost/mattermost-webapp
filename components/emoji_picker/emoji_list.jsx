@@ -8,7 +8,8 @@ import EmojiListManager from './emoji_list_manager';
 const SCROLL_STOP_DELAY = 50;
 const STYLE_WRAPPER = {
     willChange: 'transform',
-    WebkitOverflowScrolling: 'touch'
+    WebkitOverflowScrolling: 'touch',
+    width: '100%'
 };
 const STYLE_INNER = {
     position: 'relative',
@@ -20,19 +21,49 @@ const STYLE_ITEM = {position: 'absolute', left: 0, width: '100%'};
 
 export default class EmojiList extends PureComponent {
     static defaultProps = {
-        width: '100%',
         loadedItems: []
     };
 
     static propTypes = {
-        height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+
+        /**
+         * Height of the list which is used to determine the number of rendered items
+         */
+        height: PropTypes.number.isRequired,
+
+        /**
+         * An array on number representing loaded items. Each item represents emoji rows
+         */
         loadedItems: PropTypes.array.isRequired,
+
+        /**
+         * The number of items to render
+         */
         itemCount: PropTypes.number.isRequired,
-        itemSize: PropTypes.oneOfType([PropTypes.number, PropTypes.array, PropTypes.func]).isRequired,
-        renderItem: PropTypes.func.isRequired,
+
+        /**
+         * Height of item
+         */
+        itemSize: PropTypes.number.isRequired,
+
+        /**
+         * Used to control scroll offset from the top
+         */
         scrollOffset: PropTypes.number,
+
+        /**
+         * Function to render an item given its index and style
+         */
+        renderItem: PropTypes.func.isRequired,
+
+        /**
+         * Function to call whenever the scroll offset changes
+         */
         onScroll: PropTypes.func.isRequired,
-        width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+
+        /**
+         * Function to call whenever items are loaded
+         */
         onLoadedItems: PropTypes.func
     };
 
@@ -215,7 +246,7 @@ export default class EmojiList extends PureComponent {
     }
 
     render() {
-        const {height, renderItem, width} = this.props;
+        const {height, renderItem} = this.props;
         const renderItems = this.state.items.map((item) => {
             return renderItem({index: item, style: this.getStyle(item)});
         });
@@ -224,7 +255,7 @@ export default class EmojiList extends PureComponent {
             <div
                 ref={this.getRef}
                 onScroll={this.handleScroll}
-                style={{...STYLE_WRAPPER, height, width}}
+                style={{...STYLE_WRAPPER, height}}
                 className={'emoji-picker__items'}
             >
                 <div
