@@ -134,7 +134,7 @@ export default class DataRetentionSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.data_retention.enableMessageDeletion.description'
-                            defaultMessage='Set how long Mattermost keeps messages in public channels, private groups and direct messages.'
+                            defaultMessage='Set how long Mattermost keeps messages in channels and direct messages.'
                         />
                     }
                     value={this.state.enableMessageDeletion}
@@ -153,7 +153,7 @@ export default class DataRetentionSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.data_retention.enableFileDeletion.description'
-                            defaultMessage='Set how long Mattermost keeps file uploads in public channels, private groups and direct messages.'
+                            defaultMessage='Set how long Mattermost keeps file uploads in channels and direct messages.'
                         />
                     }
                     value={this.state.enableFileDeletion}
