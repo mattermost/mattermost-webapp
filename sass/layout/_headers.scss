@@ -218,10 +218,12 @@
         &.light {
             @include opacity(.8);
             color: inherit;
+            cursor: pointer;
 
             &:hover,
             &:focus {
                 color: inherit;
+                text-decoration: underline;
             }
         }
 

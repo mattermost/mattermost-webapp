@@ -191,9 +191,8 @@ export function createDefaultIntroMessage(channel, centeredIntro) {
     let teamInviteLink = null;
     if (isCurrentUserPermitted(global.window.mm_config.RestrictTeamInvite)) {
         teamInviteLink = (
-            <a
-                className='intro-links'
-                href='#'
+            <span
+                className='intro-links color--link cursor--pointer'
                 onClick={GlobalActions.showGetTeamInviteLinkModal}
             >
                 <i className='fa fa-user-plus'/>
@@ -201,7 +200,7 @@ export function createDefaultIntroMessage(channel, centeredIntro) {
                     id='intro_messages.inviteOthers'
                     defaultMessage='Invite others to this team'
                 />
-            </a>
+            </span>
         );
     }
 
