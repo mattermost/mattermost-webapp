@@ -3,36 +3,25 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getPost, makeGetPostsForThread} from 'mattermost-redux/selectors/entities/posts';
+import {makeGetPostsForThread} from 'mattermost-redux/selectors/entities/posts';
 import {removePost} from 'mattermost-redux/actions/posts';
 
+import {getSelectedPost} from 'selectors/rhs.jsx';
 import RhsThread from './rhs_thread.jsx';
-import {localizeMessage} from 'utils/utils.jsx';
+import {PostTypes} from 'utils/constants.jsx';
 
 function makeMapStateToProps() {
     const getPostsForThread = makeGetPostsForThread();
 
     return function mapStateToProps(state, ownProps) {
-        let selected = getPost(state, state.views.rhs.selectedPostId);
-
-        // If there is no root post found, assume it has been deleted by data retention policy, and create a fake one.
-        if (!selected) {
-            selected = {
-                id: state.views.rhs.selectedPostId,
-                exists: false,
-                type: 'system_deleted',
-                message: localizeMessage('rhs_thread.rootPostDeletedMessage.body', 'Part of this thread has been deleted due to a data retention policy. You can no longer reply to this thread.'),
-                channel_id: state.views.rhs.selectedPostChannelId,
-                user_id: state.entities.users.currentUserId
-            };
-        }
+        const selected = getSelectedPost(state);
 
         let posts = [];
         if (selected) {
             posts = getPostsForThread(state, {rootId: selected.id, channelId: selected.channel_id});
         }
 
-        if (posts.length > 0 && selected.type === 'system_deleted') {
+        if (posts.length > 0 && selected.type === PostTypes.FAKE_PARENT_DELETED) {
             selected.create_at = posts[0].create_at;
         }
 

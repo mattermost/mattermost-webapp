@@ -133,7 +133,7 @@ export default class RhsRootPost extends React.Component {
     }
 
     renderTimeTag(post, timeOptions) {
-        if (post.type === 'system_deleted') {
+        if (post.type === Constants.PostTypes.FAKE_PARENT_DELETED) {
             return null;
         }
 
@@ -403,7 +403,7 @@ export default class RhsRootPost extends React.Component {
         );
 
         let dotMenuContainer;
-        if (this.props.post.type !== 'system_deleted') {
+        if (this.props.post.type !== Constants.PostTypes.FAKE_PARENT_DELETED) {
             dotMenuContainer = (
                 <div
                     ref='dotMenu'
@@ -416,7 +416,7 @@ export default class RhsRootPost extends React.Component {
         }
 
         let postFlagIcon;
-        if (this.props.post.type !== 'system_deleted') {
+        if (this.props.post.type !== Constants.PostTypes.FAKE_PARENT_DELETED) {
             postFlagIcon = (
                 <PostFlagIcon
                     idPrefix={'rhsRootPostFlag'}

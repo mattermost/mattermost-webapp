@@ -53,7 +53,7 @@ export function getProfilePicSrcForPost(post, user) {
 }
 
 export function canDeletePost(post) {
-    if (post.type === 'system_deleted') {
+    if (post.type === Constants.PostTypes.FAKE_PARENT_DELETED) {
         return false;
     }
 

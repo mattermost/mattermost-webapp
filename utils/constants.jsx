@@ -281,6 +281,7 @@ export const PostTypes = {
     DISPLAYNAME_CHANGE: 'system_displayname_change',
     PURPOSE_CHANGE: 'system_purpose_change',
     CHANNEL_DELETED: 'system_channel_deleted',
+    FAKE_PARENT_DELETED: 'system_fake_parent_deleted',
     EPHEMERAL: 'system_ephemeral',
     REMOVE_LINK_PREVIEW: 'remove_link_preview'
 };

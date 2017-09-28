@@ -406,7 +406,7 @@ export default class RhsThread extends React.Component {
         }
 
         let createComment;
-        if (selected.type !== 'system_deleted') {
+        if (selected.type !== Constants.PostTypes.FAKE_PARENT_DELETED) {
             createComment = (
                 <div className='post-create__container'>
                     <CreateComment
