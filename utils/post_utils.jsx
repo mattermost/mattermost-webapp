@@ -53,6 +53,10 @@ export function getProfilePicSrcForPost(post, user) {
 }
 
 export function canDeletePost(post) {
+    if (post.type === Constants.PostTypes.FAKE_PARENT_DELETED) {
+        return false;
+    }
+
     const isOwner = isPostOwner(post);
     const isSystemAdmin = UserStore.isSystemAdminForCurrentUser();
     const isTeamAdmin = TeamStore.isTeamAdminForCurrentTeam() || isSystemAdmin;

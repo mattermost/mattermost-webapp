@@ -51,7 +51,8 @@ export default class RhsHeaderPost extends React.Component {
 
             AppDispatcher.handleServerAction({
                 type: ActionTypes.RECEIVED_POST_SELECTED,
-                postId: null
+                postId: null,
+                channelId: null
             });
         } else if (this.props.fromFlaggedPosts) {
             getFlaggedPosts();

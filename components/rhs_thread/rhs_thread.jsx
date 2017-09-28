@@ -351,7 +351,11 @@ export default class RhsThread extends React.Component {
             rootStatus = this.state.statuses[selected.user_id] || 'offline';
         }
 
-        const rootPostDay = Utils.getDateForUnixTicks(selected.create_at);
+        let createAt = selected.create_at;
+        if (!createAt) {
+            createAt = this.props.posts[0].create_at;
+        }
+        const rootPostDay = Utils.getDateForUnixTicks(createAt);
         let previousPostDay = rootPostDay;
 
         const commentsLists = [];
@@ -400,6 +404,20 @@ export default class RhsThread extends React.Component {
                         status={status}
                         isBusy={this.state.isBusy}
                         removePost={this.props.actions.removePost}
+                    />
+                </div>
+            );
+        }
+
+        let createComment;
+        if (selected.type !== Constants.PostTypes.FAKE_PARENT_DELETED) {
+            createComment = (
+                <div className='post-create__container'>
+                    <CreateComment
+                        channelId={selected.channel_id}
+                        rootId={selected.id}
+                        latestPostId={postsLength > 0 ? postsArray[postsLength - 1].id : selected.id}
+                        getSidebarBody={this.getSidebarBody}
                     />
                 </div>
             );
@@ -457,14 +475,7 @@ export default class RhsThread extends React.Component {
                         >
                             {commentsLists}
                         </div>
-                        <div className='post-create__container'>
-                            <CreateComment
-                                channelId={selected.channel_id}
-                                rootId={selected.id}
-                                latestPostId={postsLength > 0 ? postsArray[postsLength - 1].id : selected.id}
-                                getSidebarBody={this.getSidebarBody}
-                            />
-                        </div>
+                        {createComment}
                     </div>
                 </Scrollbars>
             </div>

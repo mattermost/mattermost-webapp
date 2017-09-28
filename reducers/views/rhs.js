@@ -19,6 +19,15 @@ function selectedPostId(state = '', action) {
     }
 }
 
+function selectedPostChannelId(state = '', action) {
+    switch (action.type) {
+    case ActionTypes.SELECT_POST:
+        return action.channelId;
+    default:
+        return state;
+    }
+}
+
 function fromSearch(state = '', action) {
     switch (action.type) {
     case ActionTypes.SELECT_POST:
@@ -57,6 +66,7 @@ function fromPinnedPosts(state = false, action) {
 
 export default combineReducers({
     selectedPostId,
+    selectedPostChannelId,
     fromSearch,
     fromFlaggedPosts,
     fromPinnedPosts

@@ -2205,6 +2205,7 @@
   "rhs_root.permalink": "Permalink",
   "rhs_root.pin": "Pin to channel",
   "rhs_root.unpin": "Un-pin from channel",
+  "rhs_thread.rootPostDeletedMessage.body": "Part of this thread has been deleted due to a data retention policy. You can no longer reply to this thread.",
   "search_bar.search": "Search",
   "search_bar.usage": "<h4>Search Options</h4><ul><li><span>Use </span><b>\"quotation marks\"</b><span> to search for phrases</span></li><li><span>Use </span><b>from:</b><span> to find posts from specific users and </span><b>in:</b><span> to find posts in specific channels</span></li></ul>",
   "search_header.results": "Search Results",

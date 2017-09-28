@@ -157,7 +157,8 @@ export function emitCloseRightHandSide() {
 
     dispatch({
         type: ActionTypes.SELECT_POST,
-        postId: ''
+        postId: '',
+        channelId: ''
     });
 }
 
@@ -167,6 +168,7 @@ export function emitPostFocusRightHandSideFromSearch(post, isMentionSearch) {
             AppDispatcher.handleServerAction({
                 type: ActionTypes.RECEIVED_POST_SELECTED,
                 postId: Utils.getRootId(post),
+                channelId: post.channel_id,
                 from_search: SearchStore.getSearchTerm(),
                 from_flagged_posts: SearchStore.getIsFlaggedPosts(),
                 from_pinned_posts: SearchStore.getIsPinnedPosts()
@@ -522,7 +524,8 @@ export function toggleSideBarAction(visible) {
 
         AppDispatcher.handleServerAction({
             type: ActionTypes.RECEIVED_POST_SELECTED,
-            postId: null
+            postId: null,
+            channelId: null
         });
     }
 }
@@ -535,7 +538,8 @@ export function toggleSideBarRightMenuAction() {
 
     AppDispatcher.handleServerAction({
         type: ActionTypes.RECEIVED_POST_SELECTED,
-        postId: null
+        postId: null,
+        channelId: null
     });
 
     document.querySelector('.app__body .inner-wrap').classList.remove('move--right', 'move--left', 'move--left-small');

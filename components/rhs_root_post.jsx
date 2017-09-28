@@ -133,17 +133,23 @@ export default class RhsRootPost extends React.Component {
     }
 
     renderTimeTag(post, timeOptions) {
-        return Utils.isMobile() ?
-            this.timeTag(post, timeOptions) :
-            (
-                <Link
-                    to={`/${this.state.currentTeamDisplayName}/pl/${post.id}`}
-                    target='_blank'
-                    className='post__permalink'
-                >
-                    {this.timeTag(post, timeOptions)}
-                </Link>
-            );
+        if (post.type === Constants.PostTypes.FAKE_PARENT_DELETED) {
+            return null;
+        }
+
+        if (Utils.isMobile()) {
+            return this.timeTag(post, timeOptions);
+        }
+
+        return (
+            <Link
+                to={`/${this.state.currentTeamDisplayName}/pl/${post.id}`}
+                target='_blank'
+                className='post__permalink'
+            >
+                {this.timeTag(post, timeOptions)}
+            </Link>
+        );
     }
 
     toggleEmojiPicker = () => {
@@ -257,18 +263,23 @@ export default class RhsRootPost extends React.Component {
             );
         }
 
-        let userProfile = (
-            <UserProfile
-                user={user}
-                status={this.props.status}
-                isBusy={this.props.isBusy}
-                isRHS={true}
-                hasMention={true}
-            />
-        );
+        let userProfile;
         let botIndicator;
-
-        if (post.props && post.props.from_webhook) {
+        if (isSystemMessage) {
+            userProfile = (
+                <UserProfile
+                    user={{}}
+                    overwriteName={
+                        <FormattedMessage
+                            id='post_info.system'
+                            defaultMessage='System'
+                        />
+                    }
+                    overwriteImage={Constants.SYSTEM_MESSAGE_PROFILE_IMAGE}
+                    disablePopover={true}
+                />
+            );
+        } else if (post.props && post.props.from_webhook) {
             if (post.props.override_username && global.window.mm_config.EnablePostUsernameOverride === 'true') {
                 userProfile = (
                     <UserProfile
@@ -287,18 +298,14 @@ export default class RhsRootPost extends React.Component {
             }
 
             botIndicator = <div className='col col__name bot-indicator'>{'BOT'}</div>;
-        } else if (isSystemMessage) {
+        } else {
             userProfile = (
                 <UserProfile
-                    user={{}}
-                    overwriteName={
-                        <FormattedMessage
-                            id='post_info.system'
-                            defaultMessage='System'
-                        />
-                    }
-                    overwriteImage={Constants.SYSTEM_MESSAGE_PROFILE_IMAGE}
-                    disablePopover={true}
+                    user={user}
+                    status={this.props.status}
+                    isBusy={this.props.isBusy}
+                    isRHS={true}
+                    hasMention={true}
                 />
             );
         }
@@ -308,20 +315,15 @@ export default class RhsRootPost extends React.Component {
             status = null;
         }
 
-        let profilePic = (
-            <ProfilePicture
-                src={PostUtils.getProfilePicSrcForPost(post, user)}
-                status={status}
-                width='36'
-                height='36'
-                user={this.props.user}
-                isBusy={this.props.isBusy}
-                isRHS={true}
-                hasMention={true}
-            />
-        );
-
-        if (post.props && post.props.from_webhook) {
+        let profilePic;
+        if (isSystemMessage) {
+            profilePic = (
+                <span
+                    className='icon'
+                    dangerouslySetInnerHTML={{__html: mattermostLogo}}
+                />
+            );
+        } else if (post.props && post.props.from_webhook) {
             profilePic = (
                 <ProfilePicture
                     src={PostUtils.getProfilePicSrcForPost(post, user)}
@@ -329,13 +331,17 @@ export default class RhsRootPost extends React.Component {
                     height='36'
                 />
             );
-        }
-
-        if (isSystemMessage) {
+        } else {
             profilePic = (
-                <span
-                    className='icon'
-                    dangerouslySetInnerHTML={{__html: mattermostLogo}}
+                <ProfilePicture
+                    src={PostUtils.getProfilePicSrcForPost(post, user)}
+                    status={status}
+                    width='36'
+                    height='36'
+                    user={this.props.user}
+                    isBusy={this.props.isBusy}
+                    isRHS={true}
+                    hasMention={true}
                 />
             );
         }
@@ -396,6 +402,30 @@ export default class RhsRootPost extends React.Component {
             />
         );
 
+        let dotMenuContainer;
+        if (this.props.post.type !== Constants.PostTypes.FAKE_PARENT_DELETED) {
+            dotMenuContainer = (
+                <div
+                    ref='dotMenu'
+                    className='col col__reply'
+                >
+                    {dotMenu}
+                    {react}
+                </div>
+            );
+        }
+
+        let postFlagIcon;
+        if (this.props.post.type !== Constants.PostTypes.FAKE_PARENT_DELETED) {
+            postFlagIcon = (
+                <PostFlagIcon
+                    idPrefix={'rhsRootPostFlag'}
+                    postId={post.id}
+                    isFlagged={this.props.isFlagged}
+                />
+            );
+        }
+
         return (
             <div
                 id='thread--root'
@@ -411,19 +441,9 @@ export default class RhsRootPost extends React.Component {
                             <div className='col'>
                                 {this.renderTimeTag(post, timeOptions)}
                                 {pinnedBadge}
-                                <PostFlagIcon
-                                    idPrefix={'rhsRootPostFlag'}
-                                    postId={post.id}
-                                    isFlagged={this.props.isFlagged}
-                                />
+                                {postFlagIcon}
                             </div>
-                            <div
-                                ref='dotMenu'
-                                className='col col__reply'
-                            >
-                                {dotMenu}
-                                {react}
-                            </div>
+                            {dotMenuContainer}
                         </div>
                         <div className='post__body'>
                             <div className={postClass}>
