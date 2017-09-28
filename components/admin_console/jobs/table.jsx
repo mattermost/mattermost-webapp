@@ -1,4 +1,3 @@
-
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
@@ -9,7 +8,7 @@ import * as Utils from 'utils/utils.jsx';
 import {FormattedMessage, FormattedDate, FormattedTime, injectIntl, intlShape} from 'react-intl';
 
 import {createJob, cancelJob} from 'actions/job_actions.jsx';
-import {JobTypes, JobStatuses} from 'utils/constants.jsx';
+import {JobStatuses} from 'utils/constants.jsx';
 import ErrorStore from 'stores/error_store.jsx';
 
 class JobTable extends React.PureComponent {
@@ -37,7 +36,7 @@ class JobTable extends React.PureComponent {
         /**
          * Function called when displaying extra text.
          */
-        getExtraInfoText: PropTypes.func.isRequired,
+        getExtraInfoText: PropTypes.func,
 
         /**
          * Grey buttons out when disabled
@@ -52,7 +51,12 @@ class JobTable extends React.PureComponent {
         /**
          * Button text to create a new job
          */
-        createJobButtonText: PropTypes.element.isRequired
+        createJobButtonText: PropTypes.element.isRequired,
+
+        /**
+         * The type of jobs to include in this table.
+         */
+        jobType: PropTypes.string.isRequired
     };
 
     constructor(props) {
@@ -69,7 +73,7 @@ class JobTable extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.props.actions.getJobsByType(JobTypes.LDAP_SYNC).then(
+        this.props.actions.getJobsByType(this.props.jobType).then(
             () => this.setState({loading: false})
          );
     }
@@ -256,7 +260,7 @@ class JobTable extends React.PureComponent {
     reload = () => {
         this.setState({loading: true});
 
-        this.props.actions.getJobsByType(JobTypes.LDAP_SYNC).then(
+        this.props.actions.getJobsByType(this.props.jobType).then(
             () => {
                 this.setState({
                     loading: false
@@ -285,7 +289,7 @@ class JobTable extends React.PureComponent {
         e.preventDefault();
 
         const job = {
-            type: JobTypes.LDAP_SYNC
+            type: this.props.jobType
         };
 
         createJob(

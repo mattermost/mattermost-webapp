@@ -10,6 +10,8 @@ import DropdownSetting from './dropdown_setting.jsx';
 import {FormattedMessage} from 'react-intl';
 import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting.jsx';
+import {JobTypes} from 'utils/constants.jsx';
+import JobsTable from './jobs';
 
 export default class DataRetentionSettings extends AdminSettings {
     constructor(props) {
@@ -177,6 +179,22 @@ export default class DataRetentionSettings extends AdminSettings {
                     }
                     value={this.state.deletionJobStartTime}
                     onChange={this.handleChange}
+                />
+                <JobsTable
+                    jobType={JobTypes.DATA_RETENTION}
+                    disabled={!this.state.enableMessageDeletion && !this.state.enableFileDeletion}
+                    createJobButtonText={
+                        <FormattedMessage
+                            id='admin.data_retention.createJob.title'
+                            defaultMessage='Run Deletion Job Now'
+                        />
+                    }
+                    createJobHelpText={
+                        <FormattedMessage
+                            id='admin.data_retention.createJob.help'
+                            defaultMessage='Initiates a Data Retention deletion job immediately.'
+                        />
+                    }
                 />
             </SettingsGroup>
         );
