@@ -22,16 +22,7 @@ export default class StatusDropdown extends React.Component {
     }
 
     state = {
-        showDropdown: false,
-        mouseOver: false
-    }
-
-    onMouseEnter = () => {
-        this.setState({mouseOver: true});
-    }
-
-    onMouseLeave = () => {
-        this.setState({mouseOver: false});
+        showDropdown: false
     }
 
     onToggle = (showDropdown) => {
@@ -105,25 +96,7 @@ export default class StatusDropdown extends React.Component {
         );
     }
 
-    renderStatusIcon = () => {
-        if (this.state.mouseOver) {
-            return (
-                <span className={'status status-edit'}>
-                    <i
-                        className={'fa fa-caret-down'}
-                    />
-                </span>
-            );
-        }
-        return (
-            <StatusIcon
-                status={this.props.status}
-            />
-        );
-    }
-
     render() {
-        const statusIcon = this.renderStatusIcon();
         const profilePicture = this.renderProfilePicture();
         const actions = [
             this.renderStatusOnlineAction(),
@@ -139,14 +112,13 @@ export default class StatusDropdown extends React.Component {
             >
                 <BootstrapSpan
                     bsRole={'toggle'}
-                    onMouseEnter={this.onMouseEnter}
-                    onMouseLeave={this.onMouseLeave}
                 >
-                    <div className='status-wrapper'>
+                    <div className='status-wrapper status-selector'>
                         {profilePicture}
-                        <div className='status_dropdown__toggle'>
-                            {statusIcon}
-                        </div>
+                        <StatusIcon status={this.props.status}/>
+                        <span className={'status status-edit edit'}>
+                            <i className={'fa fa-caret-down'}/>
+                        </span>
                     </div>
                 </BootstrapSpan>
                 <Dropdown.Menu>

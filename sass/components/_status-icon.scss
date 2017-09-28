@@ -31,13 +31,25 @@
             }
         }
 
-
         svg {
             max-height: 11px;
             position: relative;
             top: 2px;
         }
     }
+}
+
+.status-selector:hover > .status {
+    display: none;
+}
+.status-selector > .status {
+    display: inherit;
+}
+.status-selector > .status-edit {
+    display: none;
+}
+.status-selector:hover > .status-edit {
+    display: inherit;
 }
 
 .status {
