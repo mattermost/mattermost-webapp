@@ -1,0 +1,85 @@
+{
+    "src_folders": ["./tests/e2e/tests"],
+    "output_folder": "./tests/reports",
+    "custom_commands_path": "tests/e2e/commands",
+    "custom_assertions_path": "",
+    "page_objects_path": "tests/e2e/pages",
+    "globals_path": "tests/e2e/globals.js",
+    "selenium" : {
+        "start_process" : false,
+        "server_path" : "",
+        "log_path" : "",
+        "host" : "localhost",
+        "port" : 4444,
+        "cli_args" : {
+          "webdriver.chrome.driver" : "",
+          "webdriver.ie.driver" : "",
+          "webdriver.gecko.driver": ""
+        }
+      },
+    "test_settings": {
+        "default": {
+            "launch_url": "http://localhost:8065/",
+            "selenium_port": 4444,
+            "selenium_host": "localhost",
+            "silent": true,
+            "skip_testcases_on_fail": false,
+            "end_session_on_fail": false,
+            "resolution": "1920x1080",
+            "exclude": "utils.js",
+            "screenshots": {
+                "enabled": true,
+                "on_failure": true,
+                "path": "./tests/reports/screenshots"
+            },
+            "desiredCapabilities": {
+                "browserName": "firefox",
+                "unexpectedAlertBehaviour": "dismiss",
+                "javascriptEnabled": true,
+                "acceptSslCerts": true,
+                "elementScrollBehavior": "1"
+            }
+        },
+        "chrome": {
+            "desiredCapabilities": {
+                "browserName": "chrome",
+                "javascriptEnabled": true,
+                "acceptSslCerts": true,
+                "chromeOptions": {
+                    "args": ["window-position=0,0", "window-size=1920,1080", "--disable-popup-blocking"]
+                }
+            }
+        },
+        "firefox": {
+            "desiredCapabilities": {
+                "browserName": "firefox",
+                "unexpectedAlertBehaviour": "dismiss",
+                "javascriptEnabled": true,
+                "acceptSslCerts": true,
+                "elementScrollBehavior": "1"
+            }
+        },
+        "360x640": {
+            "resolution": "360x640",
+            "desiredCapabilities": {
+                "browserName": "chrome",
+                "javascriptEnabled": true,
+                "acceptSslCerts": true,
+                "chromeOptions": {
+                    "args": ["window-position=0,0", "window-size=360,640"]
+                }
+            }
+        },
+        "768x1024": {
+            "resolution": "768x1024",
+            "desiredCapabilities": {
+                "browserName": "chrome",
+                "javascriptEnabled": true,
+                "acceptSslCerts": true,
+                "chromeOptions": {
+                    "args": ["window-position=0,0", "window-size=768,1024"]
+                }
+            }
+        }
+    }
+}

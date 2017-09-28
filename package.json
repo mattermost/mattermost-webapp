@@ -83,12 +83,14 @@
     "jsdom": "11.1.0",
     "jsdom-global": "3.0.2",
     "json-loader": "0.5.7",
+    "nightwatch": "0.9.16",
     "node-sass": "4.5.3",
     "raw-loader": "0.5.1",
     "react-addons-test-utils": "15.6.0",
     "remote-redux-devtools": "0.5.12",
     "remote-redux-devtools-on-debugger": "0.8.2",
     "sass-loader": "6.0.6",
+    "selenium-standalone": "6.6.0",
     "style-loader": "0.18.2",
     "url-loader": "0.5.9",
     "webpack": "3.5.5",
@@ -136,6 +138,12 @@
     "test": "jest",
     "updatesnapshot": "jest --updateSnapshot",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "e2e": "./tests/e2e/test.sh",
+    "e2e-local-chrome": "nightwatch -e chrome --suiteRetries 1",
+    "e2e-local-firefox": "nightwatch -e firefox --suiteRetries 1",
+    "e2e-tag": "nightwatch -e chrome --suiteRetries 1 --tag",
+    "selenium-install": "selenium-standalone install --config=./tests/e2e/config.js",
+    "selenium-start": "selenium-standalone start --config=./tests/e2e/config.js"
   }
 }
