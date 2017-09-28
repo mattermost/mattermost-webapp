@@ -110,14 +110,14 @@ export default {
                     getComponents: (location, callback) => {
                         System.import('components/integrations/components/edit_oauth_app').then(RouteUtils.importComponentSuccess(callback));
                     }
+                },
+                {
+                    path: 'confirm',
+                    getComponents: (location, callback) => {
+                        System.import('components/integrations/components/confirm_integration').then(RouteUtils.importComponentSuccess(callback));
+                    }
                 }
             ]
-        },
-        {
-            path: 'confirm',
-            getComponents: (location, callback) => {
-                System.import('components/integrations/components/confirm_integration').then(RouteUtils.importComponentSuccess(callback));
-            }
         }
     ]
 };

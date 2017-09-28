@@ -4,7 +4,6 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getOAuthApp, editOAuthApp} from 'mattermost-redux/actions/integrations';
-import {getOAuthApps} from 'mattermost-redux/selectors/entities/integrations';
 
 import EditOAuthApp from './edit_oauth_app.jsx';
 
@@ -14,7 +13,7 @@ function mapStateToProps(state, ownProps) {
     return {
         ...ownProps,
         oauthAppId,
-        oauthApp: getOAuthApps(state)[oauthAppId],
+        oauthApp: state.entities.integrations.oauthApps[oauthAppId],
         editOAuthAppRequest: state.requests.integrations.updateOAuthApp
     };
 }
