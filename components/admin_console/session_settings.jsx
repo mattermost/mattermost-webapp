@@ -64,7 +64,7 @@ export default class SessionSettings extends AdminSettings {
                     helpText={
                         <FormattedHTMLMessage
                             id='admin.service.sessionIdleTimeoutDesc'
-                            defaultMessage="The number of minutes from the last time a user was active on the system to the expiry of the user's session. Once expired, the user will need to log in to continue.<br/><br/>Applies to the desktop app and browsers. For mobile apps, use an EMM provider to lock the app when not in use. In High Availability mode, enable IP hash load balancing for reliable timeout measurement."
+                            defaultMessage="The number of minutes from the last time a user was active on the system to the expiry of the user's session. Once expired, the user will need to log in to continue. 0 is unlimited.<br/><br/>Applies to the desktop app and browsers. For mobile apps, use an EMM provider to lock the app when not in use. In High Availability mode, enable IP hash load balancing for reliable timeout measurement."
                         />
                     }
                     value={this.state.sessionIdleTimeoutInMinutes}
