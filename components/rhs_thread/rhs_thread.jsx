@@ -351,7 +351,11 @@ export default class RhsThread extends React.Component {
             rootStatus = this.state.statuses[selected.user_id] || 'offline';
         }
 
-        const rootPostDay = Utils.getDateForUnixTicks(selected.create_at);
+        let createAt = selected.create_at;
+        if (!createAt) {
+            createAt = this.props.posts[0].create_at;
+        }
+        const rootPostDay = Utils.getDateForUnixTicks(createAt);
         let previousPostDay = rootPostDay;
 
         const commentsLists = [];

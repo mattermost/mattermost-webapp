@@ -2,6 +2,8 @@
 // See License.txt for license information.
 
 import {createSelector} from 'reselect';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+
 import {localizeMessage} from 'utils/utils.jsx';
 import {PostTypes} from 'utils/constants.jsx';
 
@@ -11,10 +13,6 @@ export function getSelectedPostId(state) {
 
 function getSelectedPostChannelId(state) {
     return state.views.rhs.selectedPostChannelId;
-}
-
-function getCurrentUserId(state) {
-    return state.entities.users.currentUserId;
 }
 
 function getRealSelectedPost(state) {
