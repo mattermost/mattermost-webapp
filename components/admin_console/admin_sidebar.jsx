@@ -286,7 +286,7 @@ export default class AdminSidebar extends React.Component {
                     title={
                         <FormattedMessage
                             id='admin.sidebar.data_retention'
-                            defaultMessage='Data Retention Policy'
+                            defaultMessage='Data Retention Policy (Beta)'
                         />
                     }
                 />

@@ -141,7 +141,7 @@
   "add_outgoing_webhook.triggerWordsTriggerWhenFullWord": "First word matches a trigger word exactly",
   "add_outgoing_webhook.triggerWordsTriggerWhenStartsWith": "First word starts with a trigger word",
   "add_users_to_team.title": "Add New Members To {teamName} Team",
-  "admin.sidebar.data_retention": "Data Retention Policy",
+  "admin.sidebar.data_retention": "Data Retention Policy (Beta)",
   "admin.data_retention.title": "Data Retention Policy (Beta)",
   "admin.data_retention.deletionJobStartTime.description": "Set the start time of the daily scheduled data retention job. Choose a time when fewer people are using your system. Must be a 24-hour time stamp in the form HH:MM.",
   "admin.data_retention.deletionJobStartTime.example": "E.g.: \"02:00\"",
