@@ -938,6 +938,8 @@ export const Constants = {
     },
     Integrations: {
         COMMAND: 'commands',
+        PAGE_SIZE: '10000',
+        START_PAGE_NUM: 0,
         INCOMING_WEBHOOK: 'incoming_webhooks',
         OUTGOING_WEBHOOK: 'outgoing_webhooks',
         OAUTH_APP: 'oauth2-apps'
