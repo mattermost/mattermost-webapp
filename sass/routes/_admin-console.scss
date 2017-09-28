@@ -12,6 +12,10 @@
     overflow: auto;
     padding: 0 20px;
 
+    .table {
+        margin-bottom: 0;
+    }
+
     .color-picker__popover {
         position: absolute;
         right: 0;
@@ -345,11 +349,13 @@
 }
 
 .job-table__cancel-button {
+    cursor: pointer;
     font-family: 'Open Sans', sans-serif;
     font-size: 20px;
     font-weight: 600;
+    line-height: 0;
     text-decoration: none;
-    cursor: pointer;
+    vertical-align: middle;
 }
 
 .job-table__table {
