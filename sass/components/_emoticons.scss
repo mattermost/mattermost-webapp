@@ -75,6 +75,10 @@
         &:hover {
             color: #666666;
         }
+
+        &.disable {
+            pointer-events: none;
+        }
     }
 }
 
@@ -104,7 +108,6 @@
 }
 
 .emoji-picker__items {
-    max-height: 278px;
     overflow-x: hidden;
     overflow-y: auto;
     padding: 0px 8px 8px 8px;
@@ -121,7 +124,7 @@
     }
 
     .emoji-picker__preview_sprite {
-        isplay: inline-block;
+        display: inline-block;
         height: 45px;
         margin: 3px;
         vertical-align: top;
@@ -130,26 +133,27 @@
     }
 
     .emoji-picker-items__container {
-        > div {
+        .emoji-picker__item {
             display: inline-block;
             height: 21px;
             margin: 3px;
-            vertical-align: top;
+            padding: 1px;
+            vertical-align: middle;
             width: 21px;
-            padding: 3px;
         }
+
         > span {
+            border-radius: 6px;
+            border: 0;
+            cursor: pointer;
             display: inline-block;
             height: 21px;
             margin: 3px;
+            overflow: hidden;
+            padding: 0;
+            text-align: center;
             vertical-align: top;
             width: 21px;
-            padding: 0px;
-            border: 0px;
-            text-align: center;
-            border-radius: 6px;
-            overflow: hidden;
-            cursor: pointer;
         }
     }
 

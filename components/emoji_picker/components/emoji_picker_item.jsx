@@ -14,8 +14,7 @@ export default class EmojiPickerItem extends React.PureComponent {
         onItemOut: PropTypes.func.isRequired,
         onItemClick: PropTypes.func.isRequired,
         onItemUnmount: PropTypes.func.isRequired,
-        category: PropTypes.string.isRequired,
-        isLoaded: PropTypes.bool.isRequired
+        category: PropTypes.string.isRequired
     }
 
     constructor(props) {
@@ -44,20 +43,16 @@ export default class EmojiPickerItem extends React.PureComponent {
 
     render() {
         let item = null;
+        const {emoji} = this.props;
 
-        if (this.props.emoji.category) {
-            let className;
-            if (this.props.isLoaded) {
-                className = 'emojisprite';
-            } else {
-                className = 'emojisprite-loading';
-            }
+        if (emoji.category && emoji.batch) {
+            let className = 'emojisprite';
 
-            className += ' emoji-category-' + this.props.emoji.category;
-            className += ' emoji-' + this.props.emoji.filename;
+            className += ' emoji-category-' + emoji.category + '-' + emoji.batch;
+            className += ' emoji-' + emoji.filename;
 
             item = (
-                <div>
+                <div className={'emoji-picker__item'}>
                     <img
                         src='/static/images/img_trans.gif'
                         className={className}
@@ -77,7 +72,7 @@ export default class EmojiPickerItem extends React.PureComponent {
                 >
                     <img
                         className='emoji-picker__item emoticon'
-                        src={EmojiStore.getEmojiImageUrl(this.props.emoji)}
+                        src={EmojiStore.getEmojiImageUrl(emoji)}
                     />
                 </span>
             );

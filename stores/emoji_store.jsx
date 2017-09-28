@@ -14,6 +14,7 @@ const ActionTypes = Constants.ActionTypes;
 
 const CHANGE_EVENT = 'changed';
 const MAXIMUM_RECENT_EMOJI = 27;
+const LOADED_EMOJI_ITEMS = 'loadedEmojiItems';
 
 // Wrap the contents of the store so that we don't need to construct an ES6 map where most of the content
 // (the system emojis) will never change. It provides the get/has functions of a map and an iterator so
@@ -171,6 +172,28 @@ class EmojiStore extends EventEmitter {
         }
 
         return recentEmojis;
+    }
+
+    saveEmojiItems(emojiItems) {
+        const loadedEmojis = this.getEmojiItems();
+        if (loadedEmojis.length < emojiItems.length) {
+            localStorage.setItem(LOADED_EMOJI_ITEMS, JSON.stringify(emojiItems));
+        }
+    }
+
+    getEmojiItems() {
+        let emojiItems;
+        try {
+            emojiItems = JSON.parse(localStorage.getItem(LOADED_EMOJI_ITEMS));
+        } catch (e) {
+            // Error is handled below
+        }
+
+        if (!emojiItems) {
+            return [];
+        }
+
+        return emojiItems;
     }
 
     hasUnicode(codepoint) {
