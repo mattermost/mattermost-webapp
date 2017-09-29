@@ -160,6 +160,8 @@
   "admin.data_retention.enableMessageDeletion.description": "Set how long Mattermost keeps messages in channels and direct messages.",
   "admin.data_retention.enableFileDeletion.title": "File Retention:",
   "admin.data_retention.enableFileDeletion.description": "Set how long Mattermost keeps file uploads in channels and direct messages.",
+  "admin.data_retention.createJob.title": "Run Deletion Job Now",
+  "admin.data_retention.createJob.help": "Initiates a Data Retention deletion job immediately.",
   "admin.advance.cluster": "High Availability",
   "admin.advance.metrics": "Performance Monitoring",
   "admin.audits.reload": "Reload User Activity Logs",
