@@ -9,7 +9,7 @@ import {verifyEmail} from 'actions/user_actions.jsx';
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {browserHistory, Link} from 'react-router/es6';
+import {browserHistory} from 'react-router/es6';
 import {FormattedMessage} from 'react-intl';
 
 export default class DoVerifyEmail extends React.Component {
@@ -78,34 +78,8 @@ export default class DoVerifyEmail extends React.Component {
                                     defaultMessage='All team communication in one place, searchable and accessible anywhere'
                                 />
                             </h4>
-                            <div className='margin--extra'>
-                                <h5>
-                                    <strong>
-                                        <FormattedMessage
-                                            id='signup.title'
-                                            defaultMessage='Create an account with:'
-                                        />
-                                    </strong>
-                                </h5>
-                            </div>
                             {serverError}
                         </div>
-                        <span className='color--light'>
-                            <FormattedMessage
-                                id='signup_user_completed.haveAccount'
-                                defaultMessage='Already have an account?'
-                            />
-                            {' '}
-                            <Link
-                                to={'/login'}
-                                query={this.props.location.query}
-                            >
-                                <FormattedMessage
-                                    id='signup_user_completed.signIn'
-                                    defaultMessage='Click here to sign in.'
-                                />
-                            </Link>
-                        </span>
                     </div>
                 </div>
             </div>
