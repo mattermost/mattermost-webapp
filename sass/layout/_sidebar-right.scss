@@ -77,8 +77,14 @@
 
         .post__header {
             .col__name {
+                flex: 10;
+
                 .user-popover {
-                    max-width: 120px;
+                    width: 100%;
+                }
+
+                + .col {
+                    flex: auto;
                 }
             }
 
