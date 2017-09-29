@@ -3,6 +3,7 @@
 
 import LoadingScreen from './loading_screen.jsx';
 import BackButton from 'components/common/back_button.jsx';
+import logoImage from 'images/logo.png';
 
 import {verifyEmail} from 'actions/user_actions.jsx';
 
@@ -20,6 +21,7 @@ export default class DoVerifyEmail extends React.Component {
             serverError: ''
         };
     }
+
     componentWillMount() {
         verifyEmail(
             this.props.location.query.token,
@@ -27,13 +29,36 @@ export default class DoVerifyEmail extends React.Component {
                 browserHistory.push('/login?extra=verified&email=' + encodeURIComponent(this.props.location.query.email));
             },
             (err) => {
-                this.setState({verifyStatus: 'failure', serverError: err.message});
+                let serverError;
+                if (err) {
+                    serverError = (
+                        <FormattedMessage
+                            id='signup_user_completed.invalid_invite'
+                            defaultMessage='The invite link was invalid.  Please speak with your Administrator to receive an invitation.'
+                        />
+                    );
+                }
+
+                this.setState({
+                    verifyStatus: 'failure',
+                    serverError
+                });
             }
         );
     }
+
     render() {
         if (this.state.verifyStatus !== 'failure') {
             return (<LoadingScreen/>);
+        }
+
+        let serverError = null;
+        if (this.state.serverError) {
+            serverError = (
+                <div className={'form-group has-error'}>
+                    <label className='control-label'>{this.state.serverError}</label>
+                </div>
+            );
         }
 
         return (
@@ -41,23 +66,19 @@ export default class DoVerifyEmail extends React.Component {
                 <BackButton/>
                 <div className='col-sm-12'>
                     <div className='signup-team__container'>
-                        <h3>
-                            <FormattedMessage
-                                id='email_verify.almost'
-                                defaultMessage='{siteName}: You are almost done'
-                                values={{
-                                    siteName: global.window.mm_config.SiteName
-                                }}
-                            />
-                        </h3>
-                        <div>
-                            <p>
-                                <FormattedMessage id='email_verify.verifyFailed'/>
-                            </p>
-                            <p className='alert alert-danger'>
-                                <i className='fa fa-times'/>
-                                {this.state.serverError}
-                            </p>
+                        <img
+                            className='signup-team-logo'
+                            src={logoImage}
+                        />
+                        <div className='signup__content'>
+                            <h1>{global.window.mm_config.SiteName}</h1>
+                            <h4 className='color--light'>
+                                <FormattedMessage
+                                    id='web.root.signup_info'
+                                    defaultMessage='All team communication in one place, searchable and accessible anywhere'
+                                />
+                            </h4>
+                            {serverError}
                         </div>
                     </div>
                 </div>
@@ -67,7 +88,9 @@ export default class DoVerifyEmail extends React.Component {
 }
 
 DoVerifyEmail.defaultProps = {
+    location: {}
 };
+
 DoVerifyEmail.propTypes = {
     location: PropTypes.object.isRequired
 };
