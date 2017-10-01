@@ -1,21 +1,22 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import * as GlobalActions from 'actions/global_actions.jsx';
-import LocalizationStore from 'stores/localization_store.jsx';
-import {Client4} from 'mattermost-redux/client';
-
-import {IntlProvider} from 'react-intl';
-
-import PropTypes from 'prop-types';
-
-import React from 'react';
-import FastClick from 'fastclick';
 import $ from 'jquery';
 
+import PropTypes from 'prop-types';
+import React from 'react';
+import {IntlProvider} from 'react-intl';
 import {browserHistory} from 'react-router/es6';
-import UserStore from 'stores/user_store.jsx';
+
+import FastClick from 'fastclick';
+
+import {Client4} from 'mattermost-redux/client';
+
+import * as GlobalActions from 'actions/global_actions.jsx';
 import BrowserStore from 'stores/browser_store.jsx';
+import LocalizationStore from 'stores/localization_store.jsx';
+import UserStore from 'stores/user_store.jsx';
+
 import Constants from 'utils/constants.jsx';
 
 export default class Root extends React.Component {

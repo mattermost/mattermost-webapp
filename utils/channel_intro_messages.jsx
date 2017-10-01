@@ -1,22 +1,24 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import * as Utils from './utils.jsx';
+import React from 'react';
+import {FormattedDate, FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+
+import * as GlobalActions from 'actions/global_actions.jsx';
+import ChannelStore from 'stores/channel_store.jsx';
+import TeamStore from 'stores/team_store.jsx';
+import UserStore from 'stores/user_store.jsx';
+
+import Constants from 'utils/constants.jsx';
+
 import ChannelInviteModal from 'components/channel_invite_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal.jsx';
+import ProfilePicture from 'components/profile_picture.jsx';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
 import UserProfile from 'components/user_profile.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
-import UserStore from 'stores/user_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import Constants from 'utils/constants.jsx';
-import * as GlobalActions from 'actions/global_actions.jsx';
-import ProfilePicture from 'components/profile_picture.jsx';
 
 import {showManagementOptions} from './channel_utils.jsx';
-
-import React from 'react';
-import {FormattedMessage, FormattedHTMLMessage, FormattedDate} from 'react-intl';
+import * as Utils from './utils.jsx';
 
 export function createChannelIntroMessage(channel, fullWidthIntro) {
     let centeredIntro = '';

@@ -1,15 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import FormError from 'components/form_error.jsx';
-
-import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
 import PropTypes from 'prop-types';
 import React from 'react';
+import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+
+import {allowOAuth2, getOAuthAppInfo} from 'actions/admin_actions.jsx';
 
 import icon50 from 'images/icon50x50.png';
 
-import {getOAuthAppInfo, allowOAuth2} from 'actions/admin_actions.jsx';
+import FormError from 'components/form_error.jsx';
 
 export default class Authorize extends React.Component {
     static get propTypes() {

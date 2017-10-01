@@ -1,13 +1,13 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import LoadingScreen from 'components/loading_screen.jsx';
-import AuditTable from 'components/audit_table.jsx';
-import ComplianceReports from 'components/admin_console/compliance_reports';
-
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import {FormattedMessage} from 'react-intl';
+
+import ComplianceReports from 'components/admin_console/compliance_reports';
+import AuditTable from 'components/audit_table.jsx';
+import LoadingScreen from 'components/loading_screen.jsx';
 
 export default class Audits extends React.PureComponent {
     static propTypes = {

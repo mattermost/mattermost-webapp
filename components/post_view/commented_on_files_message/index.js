@@ -3,8 +3,8 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getFilesForPost} from 'mattermost-redux/actions/files';
 
+import {getFilesForPost} from 'mattermost-redux/actions/files';
 import {makeGetFilesForPost} from 'mattermost-redux/selectors/entities/files';
 
 import CommentedOnFilesMessage from './commented_on_files_message.jsx';

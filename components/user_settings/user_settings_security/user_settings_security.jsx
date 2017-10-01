@@ -1,30 +1,31 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import SettingItemMin from 'components/setting_item_min.jsx';
-import SettingItemMax from 'components/setting_item_max.jsx';
-import AccessHistoryModal from 'components/access_history_modal';
-import ActivityLogModal from 'components/activity_log_modal';
-import ToggleModalButton from 'components/toggle_modal_button.jsx';
-import ConfirmModal from 'components/confirm_modal.jsx';
-
-import PreferenceStore from 'stores/preference_store.jsx';
-
-import * as Utils from 'utils/utils.jsx';
-import Constants from 'utils/constants.jsx';
-
-import {updatePassword, getAuthorizedApps, deactivateMfa, deauthorizeOAuthApp} from 'actions/user_actions.jsx';
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import {isMobile} from 'utils/user_agent.jsx';
-
 import $ from 'jquery';
+
 import PropTypes from 'prop-types';
 import React from 'react';
-import * as UserUtils from 'mattermost-redux/utils/user_utils';
-import {FormattedMessage, FormattedTime, FormattedDate, FormattedHTMLMessage} from 'react-intl';
+import {FormattedDate, FormattedHTMLMessage, FormattedMessage, FormattedTime} from 'react-intl';
 import {browserHistory, Link} from 'react-router/es6';
 
+import * as UserUtils from 'mattermost-redux/utils/user_utils';
+
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {deactivateMfa, deauthorizeOAuthApp, getAuthorizedApps, updatePassword} from 'actions/user_actions.jsx';
+import PreferenceStore from 'stores/preference_store.jsx';
+
+import Constants from 'utils/constants.jsx';
+import {isMobile} from 'utils/user_agent.jsx';
+import * as Utils from 'utils/utils.jsx';
+
 import icon50 from 'images/icon50x50.png';
+
+import AccessHistoryModal from 'components/access_history_modal';
+import ActivityLogModal from 'components/activity_log_modal';
+import ConfirmModal from 'components/confirm_modal.jsx';
+import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMin from 'components/setting_item_min.jsx';
+import ToggleModalButton from 'components/toggle_modal_button.jsx';
 
 const TOKEN_CREATING = 'creating';
 const TOKEN_CREATED = 'created';

@@ -2,11 +2,15 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-import ReactDOM from 'react-dom';
-import * as UserAgent from 'utils/user_agent.jsx';
-import UserList from './user_list.jsx';
 
-import {intlShape, injectIntl, defineMessages, FormattedMessage} from 'react-intl';
+import PropTypes from 'prop-types';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
+
+import * as UserAgent from 'utils/user_agent.jsx';
+
+import UserList from './user_list.jsx';
 
 const holders = defineMessages({
     member: {
@@ -26,10 +30,6 @@ const holders = defineMessages({
         defaultMessage: 'Members of this Team'
     }
 });
-
-import PropTypes from 'prop-types';
-
-import React from 'react';
 
 class FilteredUserList extends React.Component {
     constructor(props) {

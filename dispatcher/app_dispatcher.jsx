@@ -4,6 +4,7 @@
 import * as Flux from 'flux';
 
 import Constants from 'utils/constants.jsx';
+
 const PayloadSources = Constants.PayloadSources;
 
 const AppDispatcher = Object.assign(new Flux.Dispatcher(), {

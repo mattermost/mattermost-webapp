@@ -1,10 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 import logoImage from 'images/logo.png';
+
 import BackButton from 'components/common/back_button.jsx';
 
 export default class ClaimController extends React.Component {

@@ -2,10 +2,12 @@
 // See License.txt for license information.
 
 import React from 'react';
-import {mount} from 'enzyme';
 import {IntlProvider} from 'react-intl';
 
+import {mount} from 'enzyme';
+
 import Pluggable from 'plugins/pluggable/pluggable.jsx';
+
 import ProfilePopover from 'components/profile_popover.jsx';
 
 class ProfilePopoverPlugin extends React.PureComponent {

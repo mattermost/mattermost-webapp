@@ -1,12 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-import {Tooltip, OverlayTrigger} from 'react-bootstrap';
 
 import {flagPost, unflagPost} from 'actions/post_actions.jsx';
+
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 

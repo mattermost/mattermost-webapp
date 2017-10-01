@@ -2,15 +2,18 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
+
 import PropTypes from 'prop-types';
 import React from 'react';
+import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
-import * as Utils from 'utils/utils.jsx';
+
 import {uploadBrandImage} from 'actions/admin_actions.jsx';
 
+import * as Utils from 'utils/utils.jsx';
+
 import FormError from 'components/form_error.jsx';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 const HTTP_STATUS_OK = 200;
 

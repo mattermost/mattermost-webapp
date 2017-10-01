@@ -2,6 +2,7 @@
 // See License.txt for license information.
 
 import UserStore from 'stores/user_store.jsx';
+
 import {ErrorPageTypes} from 'utils/constants.jsx';
 
 export function importComponentSuccess(callback) {

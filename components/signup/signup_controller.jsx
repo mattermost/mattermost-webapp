@@ -1,26 +1,25 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import React from 'react';
 import PropTypes from 'prop-types';
-
-import FormError from 'components/form_error.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
-import BackButton from 'components/common/back_button.jsx';
-
-import UserStore from 'stores/user_store.jsx';
-import BrowserStore from 'stores/browser_store.jsx';
+import React from 'react';
+import {FormattedMessage} from 'react-intl';
+import {browserHistory, Link} from 'react-router/es6';
 
 import {Client4} from 'mattermost-redux/client';
+
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {addUserToTeamFromInvite, getInviteInfo} from 'actions/team_actions.jsx';
 import {loadMe} from 'actions/user_actions.jsx';
+import BrowserStore from 'stores/browser_store.jsx';
+import UserStore from 'stores/user_store.jsx';
 
 import logoImage from 'images/logo.png';
-import AnnouncementBar from 'components/announcement_bar';
 
-import {FormattedMessage} from 'react-intl';
-import {browserHistory, Link} from 'react-router/es6';
+import AnnouncementBar from 'components/announcement_bar';
+import BackButton from 'components/common/back_button.jsx';
+import FormError from 'components/form_error.jsx';
+import LoadingScreen from 'components/loading_screen.jsx';
 
 export default class SignupController extends React.Component {
     constructor(props) {

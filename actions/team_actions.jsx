@@ -1,23 +1,20 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import TeamStore from 'stores/team_store.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
-
 import {browserHistory} from 'react-router/es6';
 
-// Redux actions
-import store from 'stores/redux_store.jsx';
-const dispatch = store.dispatch;
-const getState = store.getState;
-
-import {Client4} from 'mattermost-redux/client';
-
-import {getUser} from 'mattermost-redux/actions/users';
+import {TeamTypes} from 'mattermost-redux/action_types';
 import {viewChannel} from 'mattermost-redux/actions/channels';
 import * as TeamActions from 'mattermost-redux/actions/teams';
+import {getUser} from 'mattermost-redux/actions/users';
+import {Client4} from 'mattermost-redux/client';
 
-import {TeamTypes} from 'mattermost-redux/action_types';
+import ChannelStore from 'stores/channel_store.jsx';
+import store from 'stores/redux_store.jsx';
+import TeamStore from 'stores/team_store.jsx';
+
+const dispatch = store.dispatch;
+const getState = store.getState;
 
 export function checkIfTeamExists(teamName, onSuccess, onError) {
     TeamActions.checkIfTeamExists(teamName)(dispatch, getState).then(

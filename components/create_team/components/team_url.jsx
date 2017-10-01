@@ -1,19 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {checkIfTeamExists, createTeam} from 'actions/team_actions.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {Button, OverlayTrigger, Tooltip} from 'react-bootstrap';
+import ReactDOM from 'react-dom';
+import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {checkIfTeamExists, createTeam} from 'actions/team_actions.jsx';
+
 import Constants from 'utils/constants.jsx';
 import * as URL from 'utils/url.jsx';
 
 import logoImage from 'images/logo.png';
-
-import PropTypes from 'prop-types';
-
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {Button, Tooltip, OverlayTrigger} from 'react-bootstrap';
-import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
 
 export default class TeamUrl extends React.Component {
     constructor(props) {

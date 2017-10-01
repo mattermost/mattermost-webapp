@@ -2,6 +2,7 @@
 // See License.txt for license information.
 
 import React from 'react';
+
 import {shallow} from 'enzyme';
 
 import InstalledOAuthApps from 'components/integrations/components/installed_oauth_apps/installed_oauth_apps.jsx';

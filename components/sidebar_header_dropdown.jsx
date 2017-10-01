@@ -2,28 +2,28 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-import ReactDOM from 'react-dom';
-import * as UserAgent from 'utils/user_agent.jsx';
-import * as Utils from 'utils/utils.jsx';
-import * as GlobalActions from 'actions/global_actions.jsx';
 
-import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
-import WebrtcStore from 'stores/webrtc_store.jsx';
-import AboutBuildModal from 'components/about_build_modal';
-import SidebarHeaderDropdownButton from './sidebar_header_dropdown_button.jsx';
-import TeamMembersModal from './team_members_modal.jsx';
-import AddUsersToTeam from 'components/add_users_to_team';
-
-import {Constants, WebrtcActionTypes} from 'utils/constants.jsx';
-
+import PropTypes from 'prop-types';
+import React from 'react';
 import {Dropdown} from 'react-bootstrap';
+import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router/es6';
 
-import PropTypes from 'prop-types';
+import * as GlobalActions from 'actions/global_actions.jsx';
+import TeamStore from 'stores/team_store.jsx';
+import UserStore from 'stores/user_store.jsx';
+import WebrtcStore from 'stores/webrtc_store.jsx';
 
-import React from 'react';
+import {Constants, WebrtcActionTypes} from 'utils/constants.jsx';
+import * as UserAgent from 'utils/user_agent.jsx';
+import * as Utils from 'utils/utils.jsx';
+
+import AboutBuildModal from 'components/about_build_modal';
+import AddUsersToTeam from 'components/add_users_to_team';
+
+import SidebarHeaderDropdownButton from './sidebar_header_dropdown_button.jsx';
+import TeamMembersModal from './team_members_modal.jsx';
 
 export default class SidebarHeaderDropdown extends React.Component {
     static propTypes = {

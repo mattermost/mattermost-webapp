@@ -2,18 +2,18 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-import SettingItemMin from './setting_item_min.jsx';
-import SettingItemMax from './setting_item_max.jsx';
-
-import * as Utils from 'utils/utils.jsx';
-import Constants from 'utils/constants.jsx';
-
-import {FormattedMessage} from 'react-intl';
-import {updateTeam} from 'actions/team_actions.jsx';
 
 import PropTypes from 'prop-types';
-
 import React from 'react';
+import {FormattedMessage} from 'react-intl';
+
+import {updateTeam} from 'actions/team_actions.jsx';
+
+import Constants from 'utils/constants.jsx';
+import * as Utils from 'utils/utils.jsx';
+
+import SettingItemMax from './setting_item_max.jsx';
+import SettingItemMin from './setting_item_min.jsx';
 
 class GeneralTab extends React.Component {
     constructor(props) {

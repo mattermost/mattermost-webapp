@@ -1,11 +1,11 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import Setting from './setting.jsx';
-
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import {ChromePicker} from 'react-color';
+
+import Setting from './setting.jsx';
 
 export default class ColorSetting extends React.PureComponent {
     static propTypes = {

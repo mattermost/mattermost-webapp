@@ -1,17 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import ProfilePicture from 'components/profile_picture.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {FormattedHTMLMessage} from 'react-intl';
+
+import {Client4} from 'mattermost-redux/client';
 
 import UserStore from 'stores/user_store.jsx';
 
 import * as Utils from 'utils/utils.jsx';
-import {Client4} from 'mattermost-redux/client';
 
-import PropTypes from 'prop-types';
-
-import React from 'react';
-import {FormattedHTMLMessage} from 'react-intl';
+import ProfilePicture from 'components/profile_picture.jsx';
 
 export default function UserListRow({user, extraInfo, actions, actionProps, actionUserProps, userCount}) {
     let buttons = null;

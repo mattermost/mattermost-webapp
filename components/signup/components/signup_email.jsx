@@ -1,26 +1,24 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import LoadingScreen from 'components/loading_screen.jsx';
-import BackButton from 'components/common/back_button.jsx';
-
-import * as GlobalActions from 'actions/global_actions.jsx';
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
-
-import BrowserStore from 'stores/browser_store.jsx';
-import {getInviteInfo} from 'actions/team_actions.jsx';
-import {loadMe, loginById, createUserWithInvite} from 'actions/user_actions.jsx';
-
-import * as Utils from 'utils/utils.jsx';
-import Constants from 'utils/constants.jsx';
-
 import PropTypes from 'prop-types';
-
 import React from 'react';
-import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
+import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import {browserHistory, Link} from 'react-router/es6';
 
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import * as GlobalActions from 'actions/global_actions.jsx';
+import {getInviteInfo} from 'actions/team_actions.jsx';
+import {createUserWithInvite, loadMe, loginById} from 'actions/user_actions.jsx';
+import BrowserStore from 'stores/browser_store.jsx';
+
+import Constants from 'utils/constants.jsx';
+import * as Utils from 'utils/utils.jsx';
+
 import logoImage from 'images/logo.png';
+
+import BackButton from 'components/common/back_button.jsx';
+import LoadingScreen from 'components/loading_screen.jsx';
 
 export default class SignupEmail extends React.Component {
     static get propTypes() {

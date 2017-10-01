@@ -1,36 +1,32 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import PreferenceStore from 'stores/preference_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
-
-import {getChannelMembersForUserIds} from 'actions/channel_actions.jsx';
-import {loadCurrentLocale, clientLogout} from 'actions/global_actions.jsx';
-import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
-
-import {getDirectChannelName, getUserIdFromChannelName} from 'utils/utils.jsx';
-
-import {Constants, Preferences} from 'utils/constants.jsx';
 import {browserHistory} from 'react-router/es6';
 
-import store from 'stores/redux_store.jsx';
-const dispatch = store.dispatch;
-const getState = store.getState;
-
-import * as Selectors from 'mattermost-redux/selectors/entities/users';
-import {getBool} from 'mattermost-redux/selectors/entities/preferences';
-
+import {getChannelAndMyMember} from 'mattermost-redux/actions/channels';
+import {getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
+import {deletePreferences, savePreferences as savePreferencesRedux} from 'mattermost-redux/actions/preferences';
+import {getMyTeamMembers, getMyTeamUnreads, getTeamMembersByIds} from 'mattermost-redux/actions/teams';
 import * as UserActions from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
-
-import {getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
-import {getTeamMembersByIds, getMyTeamMembers, getMyTeamUnreads} from 'mattermost-redux/actions/teams';
-import {getChannelAndMyMember} from 'mattermost-redux/actions/channels';
-import {savePreferences as savePreferencesRedux, deletePreferences} from 'mattermost-redux/actions/preferences';
-
 import {Preferences as PreferencesRedux} from 'mattermost-redux/constants';
+import {getBool} from 'mattermost-redux/selectors/entities/preferences';
+import * as Selectors from 'mattermost-redux/selectors/entities/users';
+
+import {getChannelMembersForUserIds} from 'actions/channel_actions.jsx';
+import {clientLogout, loadCurrentLocale} from 'actions/global_actions.jsx';
+import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
+import ChannelStore from 'stores/channel_store.jsx';
+import PreferenceStore from 'stores/preference_store.jsx';
+import store from 'stores/redux_store.jsx';
+import TeamStore from 'stores/team_store.jsx';
+import UserStore from 'stores/user_store.jsx';
+
+import {Constants, Preferences} from 'utils/constants.jsx';
+import {getDirectChannelName, getUserIdFromChannelName} from 'utils/utils.jsx';
+
+const dispatch = store.dispatch;
+const getState = store.getState;
 
 export async function loadMe() {
     await UserActions.loadMe()(dispatch, getState);

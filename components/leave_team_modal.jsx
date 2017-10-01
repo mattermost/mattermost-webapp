@@ -1,17 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {ActionTypes, WebrtcActionTypes} from 'utils/constants.jsx';
+import React from 'react';
+import {Modal} from 'react-bootstrap';
+import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
+
 import * as GlobalActions from 'actions/global_actions.jsx';
 import ModalStore from 'stores/modal_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 
-import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
-
-import {Modal} from 'react-bootstrap';
-
-import React from 'react';
+import {ActionTypes, WebrtcActionTypes} from 'utils/constants.jsx';
 
 class LeaveTeamModal extends React.Component {
     constructor(props) {

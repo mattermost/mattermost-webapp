@@ -1,13 +1,13 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import Constants, {NotificationLevels} from 'utils/constants.jsx';
-import UserStore from 'stores/user_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import NotificationStore from 'stores/notification_store.jsx';
+import UserStore from 'stores/user_store.jsx';
 
+import Constants, {NotificationLevels} from 'utils/constants.jsx';
 import {isSystemMessage} from 'utils/post_utils.jsx';
-import {isWindowsApp, isMacApp, isMobileApp} from 'utils/user_agent.jsx';
+import {isMacApp, isMobileApp, isWindowsApp} from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 export function sendDesktopNotification(post, msgProps) {

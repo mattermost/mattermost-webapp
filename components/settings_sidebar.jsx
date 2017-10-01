@@ -2,11 +2,11 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-import * as UserAgent from 'utils/user_agent.jsx';
 
 import PropTypes from 'prop-types';
-
 import React from 'react';
+
+import * as UserAgent from 'utils/user_agent.jsx';
 
 export default class SettingsSidebar extends React.Component {
     constructor(props) {

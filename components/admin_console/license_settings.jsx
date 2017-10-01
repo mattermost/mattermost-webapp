@@ -2,13 +2,16 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
+
+import PropTypes from 'prop-types';
+import React from 'react';
 import ReactDOM from 'react-dom';
-import * as Utils from 'utils/utils.jsx';
+import {defineMessages, FormattedHTMLMessage, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 
+import {removeLicenseFile, uploadLicenseFile} from 'actions/admin_actions.jsx';
 import ErrorStore from 'stores/error_store.jsx';
-import {uploadLicenseFile, removeLicenseFile} from 'actions/admin_actions.jsx';
 
-import {injectIntl, intlShape, defineMessages, FormattedMessage, FormattedHTMLMessage} from 'react-intl';
+import * as Utils from 'utils/utils.jsx';
 
 const holders = defineMessages({
     removing: {
@@ -20,10 +23,6 @@ const holders = defineMessages({
         defaultMessage: 'Uploading License...'
     }
 });
-
-import PropTypes from 'prop-types';
-
-import React from 'react';
 
 class LicenseSettings extends React.Component {
     constructor(props) {

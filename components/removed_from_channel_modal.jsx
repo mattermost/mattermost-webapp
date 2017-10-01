@@ -2,16 +2,16 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-import ReactDOM from 'react-dom';
-import ChannelStore from 'stores/channel_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
-import BrowserStore from 'stores/browser_store.jsx';
 
+import React from 'react';
+import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 import {browserHistory} from 'react-router/es6';
 
-import React from 'react';
+import BrowserStore from 'stores/browser_store.jsx';
+import ChannelStore from 'stores/channel_store.jsx';
+import TeamStore from 'stores/team_store.jsx';
+import UserStore from 'stores/user_store.jsx';
 
 export default class RemovedFromChannelModal extends React.Component {
     constructor(props) {

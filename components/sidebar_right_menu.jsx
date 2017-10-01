@@ -1,33 +1,32 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import TeamMembersModal from './team_members_modal.jsx';
-import ToggleModalButton from './toggle_modal_button.jsx';
-import AboutBuildModal from 'components/about_build_modal';
-import AddUsersToTeam from 'components/add_users_to_team';
-
-import UserStore from 'stores/user_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import SearchStore from 'stores/search_store.jsx';
-import PreferenceStore from 'stores/preference_store.jsx';
-import WebrtcStore from 'stores/webrtc_store.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {FormattedMessage} from 'react-intl';
+import {Link} from 'react-router/es6';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {getFlaggedPosts} from 'actions/post_actions.jsx';
+import PreferenceStore from 'stores/preference_store.jsx';
+import SearchStore from 'stores/search_store.jsx';
+import TeamStore from 'stores/team_store.jsx';
+import UserStore from 'stores/user_store.jsx';
+import WebrtcStore from 'stores/webrtc_store.jsx';
+
+import {Constants, WebrtcActionTypes} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {Constants, WebrtcActionTypes} from 'utils/constants.jsx';
+
+import AboutBuildModal from 'components/about_build_modal';
+import AddUsersToTeam from 'components/add_users_to_team';
+import {createMenuTip} from 'components/tutorial/tutorial_tip.jsx';
+
+import TeamMembersModal from './team_members_modal.jsx';
+import ToggleModalButton from './toggle_modal_button.jsx';
 
 const Preferences = Constants.Preferences;
 const TutorialSteps = Constants.TutorialSteps;
-
-import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router/es6';
-import {createMenuTip} from 'components/tutorial/tutorial_tip.jsx';
-
-import PropTypes from 'prop-types';
-
-import React from 'react';
 
 export default class SidebarRightMenu extends React.Component {
     constructor(props) {

@@ -1,15 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import ProfilePopover from './profile_popover.jsx';
-import Pluggable from 'plugins/pluggable';
-import * as Utils from 'utils/utils.jsx';
-
+import PropTypes from 'prop-types';
+import React from 'react';
 import {OverlayTrigger} from 'react-bootstrap';
 
-import PropTypes from 'prop-types';
+import Pluggable from 'plugins/pluggable';
 
-import React from 'react';
+import * as Utils from 'utils/utils.jsx';
+
+import ProfilePopover from './profile_popover.jsx';
 
 export default class UserProfile extends React.Component {
     constructor(props) {

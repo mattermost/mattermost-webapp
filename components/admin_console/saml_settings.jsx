@@ -2,19 +2,18 @@
 // See License.txt for license information.
 
 import React from 'react';
+import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
-import AdminSettings from './admin_settings.jsx';
-import BooleanSetting from './boolean_setting.jsx';
-import TextSetting from './text_setting.jsx';
-import FileUploadSetting from './file_upload_setting.jsx';
-import RemoveFileSetting from './remove_file_setting.jsx';
-
-import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
-import SettingsGroup from './settings_group.jsx';
+import * as AdminActions from 'actions/admin_actions.jsx';
 
 import * as Utils from 'utils/utils.jsx';
 
-import * as AdminActions from 'actions/admin_actions.jsx';
+import AdminSettings from './admin_settings.jsx';
+import BooleanSetting from './boolean_setting.jsx';
+import FileUploadSetting from './file_upload_setting.jsx';
+import RemoveFileSetting from './remove_file_setting.jsx';
+import SettingsGroup from './settings_group.jsx';
+import TextSetting from './text_setting.jsx';
 
 export default class SamlSettings extends AdminSettings {
     constructor(props) {

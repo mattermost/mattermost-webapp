@@ -1,9 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import LoginMfa from './components/login_mfa.jsx';
-import AnnouncementBar from 'components/announcement_bar';
-import FormError from 'components/form_error.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {FormattedMessage} from 'react-intl';
+import {browserHistory, Link} from 'react-router/es6';
+
+import {Client4} from 'mattermost-redux/client';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
@@ -11,19 +14,16 @@ import {checkMfa, webLogin} from 'actions/user_actions.jsx';
 import BrowserStore from 'stores/browser_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
-import {Client4} from 'mattermost-redux/client';
-import * as TextFormatting from 'utils/text_formatting.jsx';
-
-import * as Utils from 'utils/utils.jsx';
 import Constants from 'utils/constants.jsx';
+import * as TextFormatting from 'utils/text_formatting.jsx';
+import * as Utils from 'utils/utils.jsx';
 
-import {FormattedMessage} from 'react-intl';
-import {browserHistory, Link} from 'react-router/es6';
-
-import PropTypes from 'prop-types';
-
-import React from 'react';
 import logoImage from 'images/logo.png';
+
+import AnnouncementBar from 'components/announcement_bar';
+import FormError from 'components/form_error.jsx';
+
+import LoginMfa from './components/login_mfa.jsx';
 
 export default class LoginController extends React.Component {
     static get propTypes() {

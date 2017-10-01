@@ -1,39 +1,39 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import NavbarSearchBox from 'components/search_bar.jsx';
-import MessageWrapper from 'components/message_wrapper.jsx';
-import PopoverListMembers from 'components/popover_list_members';
-import EditChannelHeaderModal from 'components/edit_channel_header_modal.jsx';
-import EditChannelPurposeModal from 'components/edit_channel_purpose_modal.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
+import {FormattedMessage} from 'react-intl';
+
+import 'bootstrap';
+
+import * as GlobalActions from 'actions/global_actions.jsx';
+import {getFlaggedPosts, getPinnedPosts} from 'actions/post_actions.jsx';
+import * as WebrtcActions from 'actions/webrtc_actions.jsx';
+import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
+import SearchStore from 'stores/search_store.jsx';
+import WebrtcStore from 'stores/webrtc_store.jsx';
+
+import * as ChannelUtils from 'utils/channel_utils.jsx';
+import {ActionTypes, Constants, RHSStates, UserStatuses} from 'utils/constants.jsx';
+import * as TextFormatting from 'utils/text_formatting.jsx';
+import {getSiteURL} from 'utils/url.jsx';
+import * as Utils from 'utils/utils.jsx';
+
 import ChannelInfoModal from 'components/channel_info_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal.jsx';
 import ChannelNotificationsModal from 'components/channel_notifications_modal.jsx';
 import DeleteChannelModal from 'components/delete_channel_modal.jsx';
+import EditChannelHeaderModal from 'components/edit_channel_header_modal.jsx';
+import EditChannelPurposeModal from 'components/edit_channel_purpose_modal.jsx';
+import MessageWrapper from 'components/message_wrapper.jsx';
+import PopoverListMembers from 'components/popover_list_members';
 import RenameChannelModal from 'components/rename_channel_modal.jsx';
-import ToggleModalButton from 'components/toggle_modal_button.jsx';
+import NavbarSearchBox from 'components/search_bar.jsx';
 import StatusIcon from 'components/status_icon.jsx';
-
-import * as GlobalActions from 'actions/global_actions.jsx';
-import * as WebrtcActions from 'actions/webrtc_actions.jsx';
-import * as Utils from 'utils/utils.jsx';
-import * as ChannelUtils from 'utils/channel_utils.jsx';
-import {getSiteURL} from 'utils/url.jsx';
-import * as TextFormatting from 'utils/text_formatting.jsx';
-
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import {getFlaggedPosts, getPinnedPosts} from 'actions/post_actions.jsx';
-import SearchStore from 'stores/search_store.jsx';
-import WebrtcStore from 'stores/webrtc_store.jsx';
-
-import {Constants, UserStatuses, ActionTypes, RHSStates} from 'utils/constants.jsx';
-
-import 'bootstrap';
-import React from 'react';
-import PropTypes from 'prop-types';
-import {FormattedMessage} from 'react-intl';
-import {Tooltip, OverlayTrigger, Popover} from 'react-bootstrap';
+import ToggleModalButton from 'components/toggle_modal_button.jsx';
 
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 

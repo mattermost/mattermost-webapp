@@ -1,27 +1,28 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import React from 'react';
-
 import crypto from 'crypto';
 
-import Suggestion from 'components/suggestion/suggestion.jsx';
-import Provider from 'components/suggestion/provider.jsx';
-import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
-import SuggestionList from 'components/suggestion/suggestion_list.jsx';
-import {autocompleteUsersInTeam} from 'actions/user_actions.jsx';
+import React from 'react';
+import {FormattedMessage} from 'react-intl';
 
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import {Client4} from 'mattermost-redux/client';
+
+import {autocompleteUsersInTeam} from 'actions/user_actions.jsx';
+import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
+
 import {ActionTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import AdminSettings from 'components/admin_console/admin_settings.jsx';
-import {FormattedMessage} from 'react-intl';
-import SettingsGroup from 'components/admin_console/settings_group.jsx';
 import BooleanSetting from 'components/admin_console/boolean_setting.jsx';
 import GeneratedSetting from 'components/admin_console/generated_setting.jsx';
 import Setting from 'components/admin_console/setting.jsx';
+import SettingsGroup from 'components/admin_console/settings_group.jsx';
+import Provider from 'components/suggestion/provider.jsx';
+import Suggestion from 'components/suggestion/suggestion.jsx';
+import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
+import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 
 import './style.scss';
 

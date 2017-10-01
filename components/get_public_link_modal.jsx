@@ -2,11 +2,12 @@
 // See License.txt for license information.
 
 import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import {getPublicLink} from 'actions/file_actions.jsx';
-import Constants from 'utils/constants.jsx';
 import ModalStore from 'stores/modal_store.jsx';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
+
+import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import GetLinkModal from './get_link_modal.jsx';

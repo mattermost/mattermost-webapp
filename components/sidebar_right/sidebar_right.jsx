@@ -3,25 +3,25 @@
 
 import $ from 'jquery';
 
-import SearchResults from 'components/search_results.jsx';
-import RhsThread from 'components/rhs_thread';
-import SearchBox from 'components/search_bar.jsx';
-import FileUploadOverlay from 'components/file_upload_overlay.jsx';
-import SearchStore from 'stores/search_store.jsx';
-import PostStore from 'stores/post_store.jsx';
-import UserStore from 'stores/user_store.jsx';
-import PreferenceStore from 'stores/preference_store.jsx';
-import WebrtcStore from 'stores/webrtc_store.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
 
-import {getFlaggedPosts, getPinnedPosts} from 'actions/post_actions.jsx';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {postListScrollChange} from 'actions/global_actions.jsx';
+import {getFlaggedPosts, getPinnedPosts} from 'actions/post_actions.jsx';
+import PostStore from 'stores/post_store.jsx';
+import PreferenceStore from 'stores/preference_store.jsx';
+import SearchStore from 'stores/search_store.jsx';
+import UserStore from 'stores/user_store.jsx';
+import WebrtcStore from 'stores/webrtc_store.jsx';
 
-import * as Utils from 'utils/utils.jsx';
 import Constants from 'utils/constants.jsx';
+import * as Utils from 'utils/utils.jsx';
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import FileUploadOverlay from 'components/file_upload_overlay.jsx';
+import RhsThread from 'components/rhs_thread';
+import SearchBox from 'components/search_bar.jsx';
+import SearchResults from 'components/search_results.jsx';
 
 export default class SidebarRight extends React.Component {
     static propTypes = {

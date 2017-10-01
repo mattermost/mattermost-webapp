@@ -1,13 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import PropTypes from 'prop-types';
+import React from 'react';
+import {Link} from 'react-router/es6';
+
+import TeamStore from 'stores/team_store.jsx';
+
 import Constants from 'utils/constants.jsx';
 import {getDateForUnixTicks, isMobile, updateWindowDimensions} from 'utils/utils.jsx';
-
-import React from 'react';
-import PropTypes from 'prop-types';
-import {Link} from 'react-router/es6';
-import TeamStore from 'stores/team_store.jsx';
 
 export default class PostTime extends React.PureComponent {
     static propTypes = {

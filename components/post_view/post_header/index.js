@@ -3,8 +3,8 @@
 
 import {connect} from 'react-redux';
 
-import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {Preferences} from 'mattermost-redux/constants';
+import {get} from 'mattermost-redux/selectors/entities/preferences';
 
 import PostHeader from './post_header.jsx';
 

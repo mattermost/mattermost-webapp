@@ -2,20 +2,18 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-import ReactDOM from 'react-dom';
 
+import PropTypes from 'prop-types';
+import React from 'react';
+import {Modal} from 'react-bootstrap';
+import ReactDOM from 'react-dom';
+import {FormattedMessage} from 'react-intl';
+
+import * as ChannelUtils from 'utils/channel_utils.jsx';
+import Constants from 'utils/constants.jsx';
 import {getShortenedURL} from 'utils/url.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-import * as ChannelUtils from 'utils/channel_utils.jsx';
-import Constants from 'utils/constants.jsx';
-
-import {FormattedMessage} from 'react-intl';
-
-import {Modal} from 'react-bootstrap';
-
-import React from 'react';
-import PropTypes from 'prop-types';
 
 export default class NewChannelModal extends React.PureComponent {
     static propTypes = {

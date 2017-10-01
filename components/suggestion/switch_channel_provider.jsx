@@ -1,26 +1,26 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import Suggestion from './suggestion.jsx';
-import Provider from './provider.jsx';
-
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import {Constants, ActionTypes} from 'utils/constants.jsx';
-import * as Utils from 'utils/utils.jsx';
-import {sortChannelsByDisplayName, getChannelDisplayName} from 'utils/channel_utils.jsx';
-
 import React from 'react';
 
-import store from 'stores/redux_store.jsx';
-const getState = store.getState;
-
 import {Client4} from 'mattermost-redux/client';
-
-import {getCurrentUserId, searchProfiles} from 'mattermost-redux/selectors/entities/users';
-import {getChannelsInCurrentTeam, getMyChannelMemberships, getGroupChannels} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {Preferences} from 'mattermost-redux/constants';
+import {getChannelsInCurrentTeam, getGroupChannels, getMyChannelMemberships} from 'mattermost-redux/selectors/entities/channels';
+import {getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentUserId, searchProfiles} from 'mattermost-redux/selectors/entities/users';
+
+import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
+import store from 'stores/redux_store.jsx';
+
+import {getChannelDisplayName, sortChannelsByDisplayName} from 'utils/channel_utils.jsx';
+import {ActionTypes, Constants} from 'utils/constants.jsx';
+import * as Utils from 'utils/utils.jsx';
+
+import Provider from './provider.jsx';
+import Suggestion from './suggestion.jsx';
+
+const getState = store.getState;
 
 class SwitchChannelSuggestion extends Suggestion {
     render() {

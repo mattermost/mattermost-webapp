@@ -2,6 +2,7 @@
 // See License.txt for license information.
 
 import React from 'react';
+
 import {mount} from 'enzyme';
 
 import PostMessageView from 'components/post_view/post_message_view/post_message_view.jsx';

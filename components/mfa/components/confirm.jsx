@@ -1,14 +1,15 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import Constants from 'utils/constants.jsx';
-const KeyCodes = Constants.KeyCodes;
-
 import React from 'react';
-import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
+import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import {browserHistory} from 'react-router/es6';
 
 import {loadMe} from 'actions/user_actions.jsx';
+
+import Constants from 'utils/constants.jsx';
+
+const KeyCodes = Constants.KeyCodes;
 
 export default class Confirm extends React.Component {
     constructor(props) {

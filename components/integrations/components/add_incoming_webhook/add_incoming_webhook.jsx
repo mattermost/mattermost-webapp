@@ -1,9 +1,9 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import PropTypes from 'prop-types';
 import React from 'react';
 import {browserHistory} from 'react-router/es6';
-import PropTypes from 'prop-types';
 
 import AbstractIncomingWebhook from 'components/integrations/components/abstract_incoming_webhook.jsx';
 

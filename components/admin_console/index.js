@@ -3,8 +3,8 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getConfig} from 'mattermost-redux/actions/admin';
 
+import {getConfig} from 'mattermost-redux/actions/admin';
 import * as Selectors from 'mattermost-redux/selectors/entities/admin';
 
 import AdminConsole from './admin_console.jsx';

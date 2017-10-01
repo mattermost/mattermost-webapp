@@ -2,17 +2,17 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
+
 import PropTypes from 'prop-types';
 import React from 'react';
-
-import ChannelHeader from 'components/channel_header';
-import PostView from 'components/post_view';
+import {FormattedMessage} from 'react-intl';
+import {Link} from 'react-router/es6';
 
 import ChannelStore from 'stores/channel_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 
-import {Link} from 'react-router/es6';
-import {FormattedMessage} from 'react-intl';
+import ChannelHeader from 'components/channel_header';
+import PostView from 'components/post_view';
 
 export default class PermalinkView extends React.PureComponent {
     static propTypes = {

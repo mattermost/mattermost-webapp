@@ -2,17 +2,18 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-import ReactDOM from 'react-dom';
-import {Modal} from 'react-bootstrap';
-import ModalStore from 'stores/modal_store.jsx';
-import {deletePost} from 'actions/post_actions.jsx';
-import Constants from 'utils/constants.jsx';
-
-import {FormattedMessage} from 'react-intl';
-
-var ActionTypes = Constants.ActionTypes;
 
 import React from 'react';
+import {Modal} from 'react-bootstrap';
+import ReactDOM from 'react-dom';
+import {FormattedMessage} from 'react-intl';
+
+import {deletePost} from 'actions/post_actions.jsx';
+import ModalStore from 'stores/modal_store.jsx';
+
+import Constants from 'utils/constants.jsx';
+
+var ActionTypes = Constants.ActionTypes;
 
 export default class DeletePostModal extends React.Component {
     constructor(props) {

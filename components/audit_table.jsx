@@ -1,11 +1,14 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import UserStore from 'stores/user_store.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
-import * as Utils from 'utils/utils.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {defineMessages, FormattedDate, FormattedMessage, FormattedTime, injectIntl, intlShape} from 'react-intl';
 
-import {intlShape, injectIntl, defineMessages, FormattedMessage, FormattedDate, FormattedTime} from 'react-intl';
+import ChannelStore from 'stores/channel_store.jsx';
+import UserStore from 'stores/user_store.jsx';
+
+import * as Utils from 'utils/utils.jsx';
 
 const holders = defineMessages({
     sessionRevoked: {
@@ -205,10 +208,6 @@ const holders = defineMessages({
         defaultMessage: 'Successfully removed a license'
     }
 });
-
-import PropTypes from 'prop-types';
-
-import React from 'react';
 
 function AuditTable(props) {
     var accessList = [];

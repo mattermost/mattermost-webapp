@@ -3,8 +3,8 @@
 
 import {combineReducers} from 'redux';
 
-import rhs from './rhs';
 import channel from './channel';
+import rhs from './rhs';
 
 export default combineReducers({
     rhs,

@@ -1,34 +1,29 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
+import {browserHistory} from 'react-router/es6';
+import {batchActions} from 'redux-batched-actions';
 
-import ChannelStore from 'stores/channel_store.jsx';
-import UserStore from 'stores/user_store.jsx';
-import PostStore from 'stores/post_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
+import {PostTypes} from 'mattermost-redux/action_types';
+import {getMyChannelMember} from 'mattermost-redux/actions/channels';
+import * as PostActions from 'mattermost-redux/actions/posts';
+import {Client4} from 'mattermost-redux/client';
+import * as Selectors from 'mattermost-redux/selectors/entities/posts';
 
-import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import {sendDesktopNotification} from 'actions/notification_actions.jsx';
+import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
+import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
+import ChannelStore from 'stores/channel_store.jsx';
+import PostStore from 'stores/post_store.jsx';
+import store from 'stores/redux_store.jsx';
+import TeamStore from 'stores/team_store.jsx';
+import UserStore from 'stores/user_store.jsx';
 
 import {ActionTypes, Constants} from 'utils/constants.jsx';
 import {EMOJI_PATTERN} from 'utils/emoticons.jsx';
 
-import {browserHistory} from 'react-router/es6';
-
-// Redux actions
-import store from 'stores/redux_store.jsx';
 const dispatch = store.dispatch;
 const getState = store.getState;
-
-import * as PostActions from 'mattermost-redux/actions/posts';
-import {getMyChannelMember} from 'mattermost-redux/actions/channels';
-
-import {Client4} from 'mattermost-redux/client';
-
-import {PostTypes} from 'mattermost-redux/action_types';
-import * as Selectors from 'mattermost-redux/selectors/entities/posts';
-import {batchActions} from 'redux-batched-actions';
 
 export function handleNewPost(post, msg) {
     let websocketMessageProps = {};

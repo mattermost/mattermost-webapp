@@ -3,12 +3,12 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Popover, OverlayTrigger} from 'react-bootstrap';
+import {OverlayTrigger, Popover} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import MessageWrapper from 'components/message_wrapper.jsx';
-
 import Constants from 'utils/constants.jsx';
+
+import MessageWrapper from 'components/message_wrapper.jsx';
 
 export default class NavbarInfoButton extends React.PureComponent {
     static propTypes = {

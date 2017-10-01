@@ -1,15 +1,17 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import LoadingScreen from 'components/loading_screen.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 
-import * as Utils from 'utils/utils.jsx';
-import UserStore from 'stores/user_store.jsx';
 import {Client4} from 'mattermost-redux/client';
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import {FormattedMessage, FormattedDate, FormattedTime} from 'react-intl';
+import UserStore from 'stores/user_store.jsx';
+
+import * as Utils from 'utils/utils.jsx';
+
+import LoadingScreen from 'components/loading_screen.jsx';
 
 export default class ComplianceReports extends React.PureComponent {
     static propTypes = {

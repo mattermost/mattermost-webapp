@@ -1,26 +1,28 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
 import EventEmitter from 'events';
 
-import ChannelStore from 'stores/channel_store.jsx';
+import * as Selectors from 'mattermost-redux/selectors/entities/posts';
+
 import BrowserStore from 'stores/browser_store.jsx';
+import ChannelStore from 'stores/channel_store.jsx';
+import store from 'stores/redux_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
-import * as PostUtils from 'utils/post_utils.jsx';
 import {Constants} from 'utils/constants.jsx';
+import * as PostUtils from 'utils/post_utils.jsx';
+
+import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
+
 const ActionTypes = Constants.ActionTypes;
 
 const FOCUSED_POST_CHANGE = 'focused_post_change';
 const EDIT_POST_EVENT = 'edit_post';
 const POST_PINNED_CHANGE_EVENT = 'post_pinned_change';
 
-import store from 'stores/redux_store.jsx';
 const dispatch = store.dispatch;
 const getState = store.getState;
-
-import * as Selectors from 'mattermost-redux/selectors/entities/posts';
 
 class PostStoreClass extends EventEmitter {
     constructor() {

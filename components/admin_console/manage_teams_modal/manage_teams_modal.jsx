@@ -1,19 +1,19 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-import PropTypes from 'prop-types';
-
-import * as TeamActions from 'actions/team_actions.jsx';
 
 import {Client4} from 'mattermost-redux/client';
 
-import LoadingScreen from 'components/loading_screen.jsx';
+import * as TeamActions from 'actions/team_actions.jsx';
 
 import {sortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
+
+import LoadingScreen from 'components/loading_screen.jsx';
 
 import ManageTeamsDropdown from './manage_teams_dropdown.jsx';
 import RemoveFromTeamButton from './remove_from_team_button.jsx';

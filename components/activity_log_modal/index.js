@@ -3,7 +3,8 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {revokeSession, getSessions} from 'mattermost-redux/actions/users';
+
+import {getSessions, revokeSession} from 'mattermost-redux/actions/users';
 
 import ActivityLogModal from './activity_log_modal.jsx';
 

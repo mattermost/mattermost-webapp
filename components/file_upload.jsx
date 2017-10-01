@@ -2,18 +2,22 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-import 'jquery-dragster/jquery.dragster.js';
-import ReactDOM from 'react-dom';
-import Constants from 'utils/constants.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
-import DelayedAction from 'utils/delayed_action.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
-import * as FileUtils from 'utils/file_utils';
-import * as Utils from 'utils/utils.jsx';
 
-import {intlShape, injectIntl, defineMessages} from 'react-intl';
+import PropTypes from 'prop-types';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {defineMessages, injectIntl, intlShape} from 'react-intl';
+
+import 'jquery-dragster/jquery.dragster.js';
 
 import {uploadFile} from 'actions/file_actions.jsx';
+import ChannelStore from 'stores/channel_store.jsx';
+
+import Constants from 'utils/constants.jsx';
+import DelayedAction from 'utils/delayed_action.jsx';
+import * as FileUtils from 'utils/file_utils';
+import * as UserAgent from 'utils/user_agent.jsx';
+import * as Utils from 'utils/utils.jsx';
 
 const holders = defineMessages({
     limited: {
@@ -33,10 +37,6 @@ const holders = defineMessages({
         defaultMessage: 'Image Pasted at '
     }
 });
-
-import PropTypes from 'prop-types';
-
-import React from 'react';
 
 const OverlayTimeout = 500;
 

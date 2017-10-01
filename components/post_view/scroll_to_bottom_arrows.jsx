@@ -3,11 +3,10 @@
 
 import $ from 'jquery';
 
-import Constants from 'utils/constants.jsx';
-
 import PropTypes from 'prop-types';
-
 import React from 'react';
+
+import Constants from 'utils/constants.jsx';
 
 export default function ScrollToBottomArrows(props) {
     // only show on mobile

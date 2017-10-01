@@ -1,19 +1,18 @@
-import PropTypes from 'prop-types';
-
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import PropTypes from 'prop-types';
 import React from 'react';
-
 import {FormattedMessage} from 'react-intl';
-import IntegrationOption from './integration_option.jsx';
-
-import IncomingWebhookIcon from 'images/incoming_webhook.jpg';
-import OutgoingWebhookIcon from 'images/outgoing_webhook.jpg';
-import SlashCommandIcon from 'images/slash_command_icon.jpg';
-import OAuthIcon from 'images/oauth_icon.png';
 
 import * as Utils from 'utils/utils.jsx';
+
+import IncomingWebhookIcon from 'images/incoming_webhook.jpg';
+import OAuthIcon from 'images/oauth_icon.png';
+import OutgoingWebhookIcon from 'images/outgoing_webhook.jpg';
+import SlashCommandIcon from 'images/slash_command_icon.jpg';
+
+import IntegrationOption from './integration_option.jsx';
 
 export default class Integrations extends React.Component {
     static get propTypes() {
@@ -172,4 +171,3 @@ export default class Integrations extends React.Component {
         );
     }
 }
-

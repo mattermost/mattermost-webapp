@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import {getJobsByType} from 'mattermost-redux/actions/jobs';
 import * as Selectors from 'mattermost-redux/selectors/entities/jobs';
 

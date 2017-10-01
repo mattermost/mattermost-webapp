@@ -3,8 +3,8 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getAudits} from 'mattermost-redux/actions/admin';
 
+import {getAudits} from 'mattermost-redux/actions/admin';
 import * as Selectors from 'mattermost-redux/selectors/entities/admin';
 
 import Audits from './audits.jsx';

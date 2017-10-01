@@ -3,10 +3,12 @@
 
 // EXPERIMENTAL - SUBJECT TO CHANGE
 
+import {Client4} from 'mattermost-redux/client';
+
 import store from 'stores/redux_store.jsx';
+
 import {ActionTypes} from 'utils/constants.jsx';
 import {getSiteURL} from 'utils/url.jsx';
-import {Client4} from 'mattermost-redux/client';
 
 window.plugins = {};
 

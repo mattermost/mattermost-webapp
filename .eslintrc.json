@@ -12,7 +12,8 @@
     },
     "parser": "babel-eslint",
     "plugins": [
-        "react"
+        "react",
+        "import"
     ],
     "env": {
         "browser": true,
@@ -27,6 +28,9 @@
         "expect": true,
         "before": true,
         "after": true
+    },
+    "settings": {
+        "import/resolver": "webpack"
     },
     "rules": {
         "array-bracket-spacing": [2, "never"],
@@ -59,6 +63,8 @@
         "global-require": 2,
         "guard-for-in": 2,
         "id-blacklist": 0,
+        "import/no-unresolved": 2,
+        "import/order": ["error", {"newlines-between": "always-and-inside-groups", "groups": ["builtin", "external", ["internal", "parent"], "sibling", "index"]}],
         "indent": [2, 4, {"SwitchCase": 0}],
         "jsx-quotes": [2, "prefer-single"],
         "key-spacing": [2, {"beforeColon": false, "afterColon": true, "mode": "strict"}],

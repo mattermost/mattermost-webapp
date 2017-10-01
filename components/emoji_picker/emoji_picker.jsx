@@ -1,14 +1,15 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+import {FormattedMessage} from 'react-intl';
+
+import EmojiStore from 'stores/emoji_store.jsx';
 
 import * as Emoji from 'utils/emoji.jsx';
-import EmojiStore from 'stores/emoji_store.jsx';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import * as Utils from 'utils/utils.jsx';
-import {FormattedMessage} from 'react-intl';
 
 import EmojiPickerCategory from './components/emoji_picker_category.jsx';
 import EmojiPickerItem from './components/emoji_picker_item.jsx';

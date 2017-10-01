@@ -2,10 +2,11 @@
 // See License.txt for license information.
 
 import {connect} from 'react-redux';
-import {getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
-import {isCurrentUserCurrentTeamAdmin} from 'mattermost-redux/selectors/entities/teams';
+
 import {Preferences} from 'mattermost-redux/constants';
+import {getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {isCurrentUserCurrentTeamAdmin} from 'mattermost-redux/selectors/entities/teams';
+import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import NewChannelModal from './new_channel_modal.jsx';
 

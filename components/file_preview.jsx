@@ -4,12 +4,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import loadingGif from 'images/load.gif';
+import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import {getFileUrl, getFileThumbnailUrl} from 'mattermost-redux/utils/file_utils';
+import loadingGif from 'images/load.gif';
 
 export default class FilePreview extends React.Component {
     static propTypes = {

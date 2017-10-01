@@ -3,7 +3,8 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {regenCommandToken, deleteCommand} from 'mattermost-redux/actions/integrations';
+
+import {deleteCommand, regenCommandToken} from 'mattermost-redux/actions/integrations';
 
 import InstalledCommands from './installed_commands.jsx';
 

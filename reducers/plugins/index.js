@@ -2,6 +2,7 @@
 // See License.txt for license information.
 
 import {combineReducers} from 'redux';
+
 import {ActionTypes} from 'utils/constants.jsx';
 
 function removePluginComponents(state, action) {

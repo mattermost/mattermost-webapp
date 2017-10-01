@@ -1,27 +1,25 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import ChannelInviteButton from 'components/channel_invite_button.jsx';
-import SearchableUserList from 'components/searchable_user_list/searchable_user_list_container.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
-
-import ChannelStore from 'stores/channel_store.jsx';
-import UserStore from 'stores/user_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-
-import {searchUsers} from 'actions/user_actions.jsx';
-
-import * as UserAgent from 'utils/user_agent.jsx';
-import Constants from 'utils/constants.jsx';
-
 import PropTypes from 'prop-types';
-
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import store from 'stores/redux_store.jsx';
 import {searchProfilesNotInCurrentChannel} from 'mattermost-redux/selectors/entities/users';
+
+import {searchUsers} from 'actions/user_actions.jsx';
+import ChannelStore from 'stores/channel_store.jsx';
+import store from 'stores/redux_store.jsx';
+import TeamStore from 'stores/team_store.jsx';
+import UserStore from 'stores/user_store.jsx';
+
+import Constants from 'utils/constants.jsx';
+import * as UserAgent from 'utils/user_agent.jsx';
+
+import ChannelInviteButton from 'components/channel_invite_button.jsx';
+import LoadingScreen from 'components/loading_screen.jsx';
+import SearchableUserList from 'components/searchable_user_list/searchable_user_list_container.jsx';
 
 const USERS_PER_PAGE = 50;
 

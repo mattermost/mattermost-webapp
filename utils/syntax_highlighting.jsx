@@ -1,11 +1,7 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import * as TextFormatting from './text_formatting.jsx';
-import Constants from './constants.jsx';
-
 import hlJS from 'highlight.js/lib/highlight.js';
-
 import hljsActionscript from 'highlight.js/lib/languages/actionscript.js';
 import hljsApplescript from 'highlight.js/lib/languages/applescript.js';
 import hljsBash from 'highlight.js/lib/languages/bash.js';
@@ -63,6 +59,9 @@ import hljsVbscript from 'highlight.js/lib/languages/vbscript.js';
 import hljsVerilog from 'highlight.js/lib/languages/verilog.js';
 import hljsXml from 'highlight.js/lib/languages/xml.js';
 import hljsYaml from 'highlight.js/lib/languages/yaml.js';
+
+import Constants from './constants.jsx';
+import * as TextFormatting from './text_formatting.jsx';
 
 hlJS.registerLanguage('actionscript', hljsActionscript);
 hlJS.registerLanguage('applescript', hljsApplescript);

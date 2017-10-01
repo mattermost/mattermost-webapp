@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import {getTeams} from 'mattermost-redux/actions/teams';
 
 import TeamSidebar from './team_sidebar_controller.jsx';

@@ -1,13 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import ViewImageModal from 'components/view_image.jsx';
-import FileAttachment from 'components/file_attachment.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+
 import Constants from 'utils/constants.jsx';
 
-import PropTypes from 'prop-types';
-
-import React from 'react';
+import FileAttachment from 'components/file_attachment.jsx';
+import ViewImageModal from 'components/view_image.jsx';
 
 export default class FileAttachmentList extends React.Component {
     static propTypes = {

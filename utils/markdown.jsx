@@ -2,6 +2,7 @@
 // See License.txt for license information.
 
 import marked from 'marked';
+
 import katex from 'katex';
 
 import * as SyntaxHighlighting from 'utils/syntax_highlighting.jsx';

@@ -1,18 +1,19 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import LoadingScreen from './loading_screen.jsx';
-
-import * as UserAgent from 'utils/user_agent.jsx';
-
 import $ from 'jquery';
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {localizeMessage} from 'utils/utils.jsx';
 import {FormattedMessage} from 'react-intl';
 
+import * as UserAgent from 'utils/user_agent.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
+
 import loadingGif from 'images/load.gif';
+
+import LoadingScreen from './loading_screen.jsx';
 
 const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
 

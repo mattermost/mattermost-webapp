@@ -1,17 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import LoginMfa from 'components/login/components/login_mfa.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {FormattedMessage} from 'react-intl';
+
+import {emailToLdap} from 'actions/admin_actions.jsx';
+import {checkMfa} from 'actions/user_actions.jsx';
 
 import * as Utils from 'utils/utils.jsx';
 
-import {checkMfa} from 'actions/user_actions.jsx';
-import {emailToLdap} from 'actions/admin_actions.jsx';
-
-import PropTypes from 'prop-types';
-
-import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import LoginMfa from 'components/login/components/login_mfa.jsx';
 
 export default class EmailToLDAP extends React.Component {
     constructor(props) {

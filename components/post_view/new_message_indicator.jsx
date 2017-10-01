@@ -1,10 +1,11 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import React from 'react';
 import PropTypes from 'prop-types';
-import Constants from 'utils/constants.jsx';
+import React from 'react';
 import {FormattedMessage} from 'react-intl';
+
+import Constants from 'utils/constants.jsx';
 
 export default class NewMessageIndicator extends React.PureComponent {
     static propTypes = {

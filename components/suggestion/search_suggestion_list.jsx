@@ -2,14 +2,15 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Constants from 'utils/constants.jsx';
-import SuggestionList from './suggestion_list.jsx';
 
+import React from 'react';
+import {Popover} from 'react-bootstrap';
+import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
-import {Popover} from 'react-bootstrap';
+import Constants from 'utils/constants.jsx';
+
+import SuggestionList from './suggestion_list.jsx';
 
 export default class SearchSuggestionList extends SuggestionList {
     static propTypes = {

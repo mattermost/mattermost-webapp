@@ -1,17 +1,17 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
+import {FormattedMessage} from 'react-intl';
+import {browserHistory, Link} from 'react-router/es6';
 
+import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
-import {FormattedMessage} from 'react-intl';
 import FormError from 'components/form_error.jsx';
-import {browserHistory, Link} from 'react-router/es6';
 import SpinnerButton from 'components/spinner_button.jsx';
-import Constants from 'utils/constants.jsx';
 
 const REQUEST_POST = 'P';
 const REQUEST_GET = 'G';

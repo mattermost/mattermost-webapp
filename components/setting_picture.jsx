@@ -1,16 +1,17 @@
-import PropTypes from 'prop-types';
-
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
+
 import exif2css from 'exif2css';
 
-import FormError from 'components/form_error.jsx';
+import Constants from 'utils/constants.jsx';
+
 import loadingGif from 'images/load.gif';
 
-import Constants from 'utils/constants.jsx';
+import FormError from 'components/form_error.jsx';
 
 export default class SettingPicture extends Component {
     static propTypes = {

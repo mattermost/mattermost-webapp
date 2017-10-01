@@ -2,14 +2,15 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-import ReactDOM from 'react-dom';
-import Constants from 'utils/constants.jsx';
-import FileInfoPreview from './file_info_preview.jsx';
-import * as Utils from 'utils/utils.jsx';
 
 import PropTypes from 'prop-types';
-
 import React from 'react';
+import ReactDOM from 'react-dom';
+
+import Constants from 'utils/constants.jsx';
+import * as Utils from 'utils/utils.jsx';
+
+import FileInfoPreview from './file_info_preview.jsx';
 
 export default class AudioVideoPreview extends React.Component {
     constructor(props) {

@@ -1,15 +1,15 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import React from 'react';
 import PropTypes from 'prop-types';
-import * as Utils from 'utils/utils.jsx';
+import React from 'react';
+import {FormattedDate, FormattedMessage, FormattedTime, injectIntl, intlShape} from 'react-intl';
 
-import {FormattedMessage, FormattedDate, FormattedTime, injectIntl, intlShape} from 'react-intl';
-
-import {createJob, cancelJob} from 'actions/job_actions.jsx';
-import {JobStatuses} from 'utils/constants.jsx';
+import {cancelJob, createJob} from 'actions/job_actions.jsx';
 import ErrorStore from 'stores/error_store.jsx';
+
+import {JobStatuses} from 'utils/constants.jsx';
+import * as Utils from 'utils/utils.jsx';
 
 class JobTable extends React.PureComponent {
 

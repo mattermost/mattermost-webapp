@@ -3,9 +3,9 @@
 
 import {connect} from 'react-redux';
 
-import {getCurrentUser, getUser, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
-import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
+import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUser, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 
 import {Preferences} from 'utils/constants.jsx';
 

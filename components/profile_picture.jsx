@@ -1,14 +1,14 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import ProfilePopover from './profile_popover.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {OverlayTrigger} from 'react-bootstrap';
+
 import Pluggable from 'plugins/pluggable';
 
-import PropTypes from 'prop-types';
-
-import React from 'react';
+import ProfilePopover from './profile_popover.jsx';
 import StatusIcon from './status_icon.jsx';
-import {OverlayTrigger} from 'react-bootstrap';
 
 export default class ProfilePicture extends React.PureComponent {
     static defaultProps = {

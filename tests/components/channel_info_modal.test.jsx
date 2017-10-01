@@ -2,11 +2,13 @@
 // See License.txt for license information.
 
 import React from 'react';
+import {Modal} from 'react-bootstrap';
+
 import {shallow} from 'enzyme';
+
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
 import ChannelInfoModal from 'components/channel_info_modal/channel_info_modal.jsx';
-import {Modal} from 'react-bootstrap';
 
 describe('components/ChannelInfoModal', () => {
     test('should match snapshot', () => {

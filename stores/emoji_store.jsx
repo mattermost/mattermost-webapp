@@ -1,14 +1,16 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import Constants from 'utils/constants.jsx';
 import EventEmitter from 'events';
-import * as Emoji from 'utils/emoji.jsx';
 
-import store from 'stores/redux_store.jsx';
-import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 import {Client4} from 'mattermost-redux/client';
+import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
+
+import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
+import store from 'stores/redux_store.jsx';
+
+import Constants from 'utils/constants.jsx';
+import * as Emoji from 'utils/emoji.jsx';
 
 const ActionTypes = Constants.ActionTypes;
 

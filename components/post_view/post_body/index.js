@@ -3,9 +3,9 @@
 
 import {connect} from 'react-redux';
 
-import {getUser} from 'mattermost-redux/selectors/entities/users';
-import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
+import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {getUser} from 'mattermost-redux/selectors/entities/users';
 
 import {Preferences} from 'utils/constants.jsx';
 

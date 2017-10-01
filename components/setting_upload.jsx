@@ -2,12 +2,11 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-import ReactDOM from 'react-dom';
-import {FormattedMessage} from 'react-intl';
 
 import PropTypes from 'prop-types';
-
 import React from 'react';
+import ReactDOM from 'react-dom';
+import {FormattedMessage} from 'react-intl';
 
 export default class SettingsUpload extends React.Component {
     constructor(props) {

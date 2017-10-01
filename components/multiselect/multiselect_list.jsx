@@ -1,14 +1,14 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {cmdOrCtrlPressed} from 'utils/utils.jsx';
-import Constants from 'utils/constants.jsx';
-const KeyCodes = Constants.KeyCodes;
-
 import PropTypes from 'prop-types';
-
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+
+import Constants from 'utils/constants.jsx';
+import {cmdOrCtrlPressed} from 'utils/utils.jsx';
+
+const KeyCodes = Constants.KeyCodes;
 
 export default class MultiSelectList extends React.Component {
     constructor(props) {

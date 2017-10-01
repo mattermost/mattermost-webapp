@@ -1,20 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import Suggestion from './suggestion.jsx';
-import Provider from './provider.jsx';
-
-import UserStore from 'stores/user_store.jsx';
-
-import {autocompleteUsersInChannel} from 'actions/user_actions.jsx';
-
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import * as Utils from 'utils/utils.jsx';
-import {Constants, ActionTypes} from 'utils/constants.jsx';
-
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+
 import XRegExp from 'xregexp';
+
+import {autocompleteUsersInChannel} from 'actions/user_actions.jsx';
+import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
+import UserStore from 'stores/user_store.jsx';
+
+import {ActionTypes, Constants} from 'utils/constants.jsx';
+import * as Utils from 'utils/utils.jsx';
+
+import Provider from './provider.jsx';
+import Suggestion from './suggestion.jsx';
 
 class AtMentionSuggestion extends Suggestion {
     render() {
