@@ -10,6 +10,8 @@ import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
 import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting.jsx';
 
+const MINIMUM_IDLE_TIMEOUT = 5;
+
 export default class SessionSettings extends AdminSettings {
     constructor(props) {
         super(props);
@@ -24,7 +26,13 @@ export default class SessionSettings extends AdminSettings {
         config.ServiceSettings.SessionLengthMobileInDays = this.parseIntNonZero(this.state.sessionLengthMobileInDays);
         config.ServiceSettings.SessionLengthSSOInDays = this.parseIntNonZero(this.state.sessionLengthSSOInDays);
         config.ServiceSettings.SessionCacheInMinutes = this.parseIntNonZero(this.state.sessionCacheInMinutes);
-        config.ServiceSettings.SessionIdleTimeoutInMinutes = this.parseInt(this.state.sessionIdleTimeoutInMinutes);
+
+        const timeout = this.parseInt(this.state.sessionIdleTimeoutInMinutes);
+        if (timeout !== 0 && timeout < MINIMUM_IDLE_TIMEOUT) {
+            config.ServiceSettings.SessionIdleTimeoutInMinutes = MINIMUM_IDLE_TIMEOUT;
+        } else {
+            config.ServiceSettings.SessionIdleTimeoutInMinutes = timeout;
+        }
 
         return config;
     }
@@ -64,7 +72,7 @@ export default class SessionSettings extends AdminSettings {
                     helpText={
                         <FormattedHTMLMessage
                             id='admin.service.sessionIdleTimeoutDesc'
-                            defaultMessage="The number of minutes from the last time a user was active on the system to the expiry of the user's session. Once expired, the user will need to log in to continue. 0 is unlimited.<br/><br/>Applies to the desktop app and browsers. For mobile apps, use an EMM provider to lock the app when not in use. In High Availability mode, enable IP hash load balancing for reliable timeout measurement."
+                            defaultMessage="The number of minutes from the last time a user was active on the system to the expiry of the user's session. Once expired, the user will need to log in to continue. Minimum is 5 minutes, and 0 is unlimited.<br/><br/>Applies to the desktop app and browsers. For mobile apps, use an EMM provider to lock the app when not in use. In High Availability mode, enable IP hash load balancing for reliable timeout measurement."
                         />
                     }
                     value={this.state.sessionIdleTimeoutInMinutes}
