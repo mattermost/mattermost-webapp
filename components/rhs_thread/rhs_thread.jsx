@@ -61,6 +61,7 @@ export default class RhsThread extends React.Component {
         useMilitaryTime: PropTypes.bool.isRequired,
         toggleSize: PropTypes.func,
         shrink: PropTypes.func,
+        previewCollapsed: PropTypes.string.isRequired,
         actions: PropTypes.shape({
             removePost: PropTypes.func.isRequired
         }).isRequired
@@ -189,6 +190,9 @@ export default class RhsThread extends React.Component {
         }
 
         if (nextState.topRhsPostCreateAt !== this.state.topRhsPostCreateAt) {
+            return true;
+        }
+        if (nextProps.previewCollapsed !== this.props.previewCollapsed) {
             return true;
         }
 
@@ -405,6 +409,7 @@ export default class RhsThread extends React.Component {
                         status={status}
                         isBusy={this.state.isBusy}
                         removePost={this.props.actions.removePost}
+                        previewCollapsed={this.props.previewCollapsed}
                     />
                 </div>
             );
