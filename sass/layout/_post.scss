@@ -564,6 +564,11 @@
                     color: inherit;
                 }
             }
+
+            .android &,
+            .ios & {
+                display: block;
+            }
         }
 
 

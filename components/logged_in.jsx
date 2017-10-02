@@ -31,8 +31,13 @@ export default class LoggedIn extends React.Component {
 
         // Device tracking setup
         var iOS = (/(iPad|iPhone|iPod)/g).test(navigator.userAgent);
+        var android = (/(Android)/g).test(navigator.userAgent);
         if (iOS) {
             $('body').addClass('ios');
+        }
+
+        if (android) {
+            $('body').addClass('android');
         }
 
         this.state = {
