@@ -16,7 +16,6 @@ export default class LocalizationSettings extends AdminSettings {
         super(props);
 
         this.getConfigFromState = this.getConfigFromState.bind(this);
-
         this.renderSettings = this.renderSettings.bind(this);
         this.canSave = this.canSave.bind(this);
 
@@ -31,7 +30,7 @@ export default class LocalizationSettings extends AdminSettings {
     }
 
     canSave() {
-        return this.state.availableLocales.join(',').indexOf(this.state.defaultClientLocale) !== -1 || this.state.availableLocales.length === 0;
+        return true;
     }
 
     getConfigFromState(config) {
