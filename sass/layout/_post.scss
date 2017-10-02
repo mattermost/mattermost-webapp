@@ -829,8 +829,11 @@
         }
 
         .post__header {
+            display: block;
             height: 22px;
             margin-bottom: 0;
+            padding: 0;
+            width: auto;
         }
 
         .post__body {
@@ -943,10 +946,6 @@
 
     .post--edited {
         // If the last paragraph of an edited post is a paragraph, make it inline-block so that the (edited) indicator can be on the same line as it
-        .post-message__text {
-            word-break: break-all;
-        }
-
         .post-message__text > p:last-child {
             display: inline-block;
             width: auto;
@@ -1120,8 +1119,12 @@
     }
 
     .post__header {
+        display: flex;
         margin-bottom: 2px;
-        padding: 0;
+        padding: 0 50px 0 0;
+        white-space: nowrap;
+        width: 100%;
+
 
         > div {
             display: inline-block;
@@ -1131,13 +1134,15 @@
         .col__name {
             font-weight: 600;
             margin-right: 7px;
+            overflow: hidden;
+            text-overflow: ellipsis;
 
             .user-popover {
                 @include clearfix;
-                max-width: 200px;
                 text-overflow: ellipsis;
                 vertical-align: top;
                 white-space: nowrap;
+                width: 100%;
             }
 
             .colon {
@@ -1200,9 +1205,9 @@
         img {
             @include border-radius(50px);
             height: 32px;
+            max-width: none;
             vertical-align: inherit;
             width: 32px;
-            max-width:none;
         }
     }
 
