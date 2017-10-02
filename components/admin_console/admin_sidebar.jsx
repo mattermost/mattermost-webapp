@@ -264,7 +264,7 @@ export default class AdminSidebar extends React.Component {
         );
 
         let elasticSearchSettings = null;
-        if (window.mm_license.IsLicensed === 'true') {
+        if (window.mm_license.IsLicensed === 'true' && window.mm_license.Elasticsearch === 'true') {
             elasticSearchSettings = (
                 <AdminSidebarSection
                     name='elasticsearch'
@@ -279,7 +279,7 @@ export default class AdminSidebar extends React.Component {
         }
 
         let dataRetentionSettings = null;
-        if (window.mm_license.IsLicensed === 'true') {
+        if (window.mm_license.IsLicensed === 'true' && window.mm_license.DataRetention === 'true') {
             dataRetentionSettings = (
                 <AdminSidebarSection
                     name='dataretention'
