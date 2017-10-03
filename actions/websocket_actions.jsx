@@ -255,6 +255,11 @@ function handleChannelUpdatedEvent(msg) {
 
 function handleNewPostEvent(msg) {
     const post = JSON.parse(msg.data.post);
+
+    if (post.message === '' && post.type === 'system_ephemeral') {
+        return;
+    }
+
     handleNewPost(post, msg);
 
     getProfilesAndStatusesForPosts([post], dispatch, getState);
