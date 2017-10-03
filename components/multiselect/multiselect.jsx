@@ -85,7 +85,6 @@ export default class MultiSelect extends React.Component {
         } else {
             this.refs.list.setSelected(0);
         }
-        this.selected = null;
 
         this.props.handleInput(input);
     }
