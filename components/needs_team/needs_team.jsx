@@ -29,6 +29,8 @@ import WebrtcSidebar from 'components/webrtc/components/webrtc_sidebar.jsx';
 
 import WebrtcNotification from 'components/webrtc/components/webrtc_notification.jsx';
 
+import Pluggable from 'plugins/pluggable';
+
 import store from 'stores/redux_store.jsx';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
@@ -221,6 +223,7 @@ export default class NeedsTeam extends React.Component {
                     <WebrtcSidebar/>
                     {content}
 
+                    <Pluggable pluggableName='Root'/>
                     <UserSettingsModal/>
                     <GetPostLinkModal/>
                     <GetPublicLinkModal/>
