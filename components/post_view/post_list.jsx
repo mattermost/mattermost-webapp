@@ -109,6 +109,7 @@ export default class PostList extends React.PureComponent {
         this.state = {
             atEnd: false,
             unViewedCount: 0,
+            isDoingInitialLoad: true,
             isScrolling: false,
             lastViewed: props.lastViewedAt
         };
@@ -131,7 +132,7 @@ export default class PostList extends React.PureComponent {
         if (nextProps.focusedPostId && this.props.focusedPostId !== nextProps.focusedPostId) {
             this.hasScrolledToFocusedPost = false;
             this.hasScrolledToNewMessageSeparator = false;
-            this.setState({atEnd: false});
+            this.setState({atEnd: false, isDoingInitialLoad: !nextProps.posts});
             this.loadPosts(nextProps.channel.id, nextProps.focusedPostId);
             return;
         }
@@ -146,7 +147,7 @@ export default class PostList extends React.PureComponent {
                 this.hasScrolledToFocusedPost = false;
                 this.hasScrolledToNewMessageSeparator = false;
                 this.atBottom = false;
-                this.setState({atEnd: false, lastViewed: nextProps.lastViewedAt});
+                this.setState({atEnd: false, lastViewed: nextProps.lastViewedAt, isDoingInitialLoad: !nextProps.posts});
 
                 if (nextChannel.id) {
                     this.loadPosts(nextChannel.id);
@@ -315,6 +316,7 @@ export default class PostList extends React.PureComponent {
             this.hasScrolledToNewMessageSeparator = true;
         }
 
+        this.setState({isDoingInitialLoad: false});
         if (posts && posts.order.length < POSTS_PER_PAGE) {
             this.setState({atEnd: true});
         }
@@ -493,10 +495,10 @@ export default class PostList extends React.PureComponent {
     }
 
     render() {
-        const posts = this.props.posts;
+        const posts = this.props.posts || [];
         const channel = this.props.channel;
 
-        if (posts == null || channel == null) {
+        if ((!posts && this.state.isDoingInitialLoad) || channel == null) {
             return (
                 <div id='post-list'>
                     <LoadingScreen
