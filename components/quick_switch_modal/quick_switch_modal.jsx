@@ -10,6 +10,7 @@ import {goToChannel, openDirectChannelToUser} from 'actions/channel_actions.jsx'
 
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+import * as UserAgent from 'utils/user_agent.jsx';
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -114,9 +115,11 @@ export default class QuickSwitchModal extends React.PureComponent {
     }
 
     onExited() {
-        setTimeout(() => {
-            document.querySelector('#post_textbox').focus();
-        });
+        if (!UserAgent.isMobile()) {
+            setTimeout(() => {
+                document.querySelector('#post_textbox').focus();
+            });
+        }
     }
 
     onChange(e) {
