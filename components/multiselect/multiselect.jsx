@@ -39,7 +39,7 @@ export default class MultiSelect extends React.Component {
         }
         this.refs.list.setSelected(0);
         this.setState({page: this.state.page + 1});
-    }
+    };
 
     prevPage = () => {
         if (this.state.page === 0) {
@@ -51,18 +51,21 @@ export default class MultiSelect extends React.Component {
         }
         this.refs.list.setSelected(0);
         this.setState({page: this.state.page - 1});
-    }
+    };
 
     resetPaging = () => {
         this.setState({page: 0});
-    }
+    };
 
     onSelect = (selected) => {
         this.selected = selected;
-    }
+    };
 
     onAdd = (value) => {
-        if (this.props.maxValues && this.props.values.length >= this.props.maxValues) {
+        if (
+            this.props.maxValues &&
+            this.props.values.length >= this.props.maxValues
+        ) {
             return;
         }
 
@@ -77,7 +80,7 @@ export default class MultiSelect extends React.Component {
         this.refs.select.handleInputChange({target: {value: ''}});
         this.onInput('');
         this.refs.select.focus();
-    }
+    };
 
     onInput = (input) => {
         if (input === '') {
@@ -88,7 +91,7 @@ export default class MultiSelect extends React.Component {
         this.selected = null;
 
         this.props.handleInput(input);
-    }
+    };
 
     handleEnterPress = (e) => {
         switch (e.keyCode) {
@@ -100,13 +103,13 @@ export default class MultiSelect extends React.Component {
             this.onAdd(this.selected);
             break;
         }
-    }
+    };
 
     onChange = (values) => {
         if (values.length < this.props.values.length) {
             this.props.handleDelete(values);
         }
-    }
+    };
 
     render() {
         const options = Object.assign([], this.props.options);
@@ -147,7 +150,9 @@ export default class MultiSelect extends React.Component {
         if (this.props.noteText) {
             noteTextContainer = (
                 <div className='multi-select__note'>
-                    <div className='note__icon'><span className='fa fa-info'/></div>
+                    <div className='note__icon'>
+                        <span className='fa fa-info'/>
+                    </div>
                     <div>{this.props.noteText}</div>
                 </div>
             );
@@ -200,6 +205,18 @@ export default class MultiSelect extends React.Component {
             optionsToDisplay = options;
         }
 
+        let submitButton = null;
+        if (this.props.handleSubmit) {
+            submitButton = (
+                <button
+                    className='btn btn-primary btn-sm'
+                    onClick={this.props.handleSubmit}
+                >
+                    {buttonSubmitText}
+                </button>
+            );
+        }
+
         return (
             <div className='filtered-user-list'>
                 <div className='filter-row filter-row--full'>
@@ -220,14 +237,12 @@ export default class MultiSelect extends React.Component {
                             menuRenderer={() => null}
                             arrowRenderer={() => null}
                             noResultsText={null}
-                            placeholder={localizeMessage('multiselect.placeholder', 'Search and add members')}
+                            placeholder={localizeMessage(
+                                this.props.localizationKey,
+                                this.props.placeholderMessage
+                            )}
                         />
-                        <button
-                            className='btn btn-primary btn-sm'
-                            onClick={this.props.handleSubmit}
-                        >
-                            {buttonSubmitText}
-                        </button>
+                        {submitButton}
                     </div>
                     <div className='multi-select__help'>
                         {numRemainingText}
@@ -267,5 +282,12 @@ MultiSelect.propTypes = {
     noteText: PropTypes.node,
     maxValues: PropTypes.number,
     numRemainingText: PropTypes.node,
-    buttonSubmitText: PropTypes.node
+    buttonSubmitText: PropTypes.node,
+    placeholderMessage: PropTypes.string,
+    localizationKey: PropTypes.string
+};
+
+MultiSelect.defaultProps = {
+    placeholderMessage: 'Search and add members',
+    localizationKey: 'multiselect.placeholder'
 };

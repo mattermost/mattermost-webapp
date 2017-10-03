@@ -1,26 +1,31 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import SearchableUserList from 'components/searchable_user_list/searchable_user_list_container.jsx';
 import TeamMembersDropdown from 'components/team_members_dropdown';
+import MultiSelect from 'components/multiselect/multiselect.jsx';
+import UserListRow from 'components/user_list_row.jsx';
 
 import UserStore from 'stores/user_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 
-import {searchUsers, loadProfilesAndTeamMembers, loadTeamMembersForProfilesList} from 'actions/user_actions.jsx';
+import {
+    searchUsers,
+    loadProfilesAndTeamMembers,
+    loadTeamMembersForProfilesList
+} from 'actions/user_actions.jsx';
 
 import Constants from 'utils/constants.jsx';
-
-import * as UserAgent from 'utils/user_agent.jsx';
 
 import PropTypes from 'prop-types';
 
 import React from 'react';
+import {FormattedMessage} from 'react-intl';
 
 import store from 'stores/redux_store.jsx';
 import {searchProfilesInCurrentTeam} from 'mattermost-redux/selectors/entities/users';
 
 const USERS_PER_PAGE = 50;
+const MAX_SELECTABLE_VALUES = 20;
 
 export default class MemberListTeam extends React.Component {
     static propTypes = {
@@ -28,7 +33,7 @@ export default class MemberListTeam extends React.Component {
         actions: PropTypes.shape({
             getTeamStats: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -37,6 +42,7 @@ export default class MemberListTeam extends React.Component {
         this.onStatsChange = this.onStatsChange.bind(this);
         this.search = this.search.bind(this);
         this.loadComplete = this.loadComplete.bind(this);
+        this.renderOption = this.renderOption.bind(this);
 
         this.searchTimeoutId = 0;
         this.term = '';
@@ -47,7 +53,8 @@ export default class MemberListTeam extends React.Component {
             users: UserStore.getProfileListInTeam(),
             teamMembers: Object.assign([], TeamStore.getMembersInTeam()),
             total: stats.active_member_count,
-            loading: true
+            loading: true,
+            values: []
         };
     }
 
@@ -57,7 +64,12 @@ export default class MemberListTeam extends React.Component {
         TeamStore.addChangeListener(this.onChange);
         TeamStore.addStatsChangeListener(this.onStatsChange);
 
-        loadProfilesAndTeamMembers(0, Constants.PROFILE_CHUNK_SIZE, TeamStore.getCurrentId(), this.loadComplete);
+        loadProfilesAndTeamMembers(
+            0,
+            Constants.PROFILE_CHUNK_SIZE,
+            TeamStore.getCurrentId(),
+            this.loadComplete
+        );
         this.props.actions.getTeamStats(TeamStore.getCurrentId());
     }
 
@@ -80,16 +92,15 @@ export default class MemberListTeam extends React.Component {
             users = UserStore.getProfileListInTeam();
         }
 
-        this.setState({users, teamMembers: Object.assign([], TeamStore.getMembersInTeam())});
+        this.setState({
+            users,
+            teamMembers: Object.assign([], TeamStore.getMembersInTeam())
+        });
     }
 
     onStatsChange() {
         const stats = TeamStore.getCurrentStats();
         this.setState({total: stats.active_member_count});
-    }
-
-    nextPage(page) {
-        loadProfilesAndTeamMembers(page, USERS_PER_PAGE);
     }
 
     search(term) {
@@ -103,36 +114,70 @@ export default class MemberListTeam extends React.Component {
             return;
         }
 
-        const searchTimeoutId = setTimeout(
-            () => {
-                searchUsers(
-                    term,
+        const searchTimeoutId = setTimeout(() => {
+            searchUsers(term, TeamStore.getCurrentId(), {}, (users) => {
+                if (searchTimeoutId !== this.searchTimeoutId) {
+                    return;
+                }
+                this.setState({loading: true});
+                loadTeamMembersForProfilesList(
+                    users,
                     TeamStore.getCurrentId(),
-                    {},
-                    (users) => {
-                        if (searchTimeoutId !== this.searchTimeoutId) {
-                            return;
-                        }
-                        this.setState({loading: true});
-                        loadTeamMembersForProfilesList(users, TeamStore.getCurrentId(), this.loadComplete);
-                    }
+                    this.loadComplete
                 );
-            },
-            Constants.SEARCH_TIMEOUT_MILLISECONDS
-        );
+            });
+        }, Constants.SEARCH_TIMEOUT_MILLISECONDS);
 
         this.searchTimeoutId = searchTimeoutId;
     }
 
-    render() {
+    handlePageChange(page, prevPage) {
+        if (page > prevPage) {
+            loadProfilesAndTeamMembers(page + 1, USERS_PER_PAGE);
+        }
+    }
+
+    renderOption(option, isSelected) {
         let teamMembersDropdown = null;
         if (this.props.isAdmin) {
             teamMembersDropdown = [TeamMembersDropdown];
         }
-
         const teamMembers = this.state.teamMembers;
+        const actionUserProps = {
+            teamMember: teamMembers[option.id]
+        };
+
+        return (
+            <div
+                key={option.id}
+                ref={isSelected ? 'selected' : option.id}
+            >
+                <UserListRow
+                    isSelected={isSelected}
+                    user={option}
+                    actions={teamMembersDropdown}
+                    actionUserProps={actionUserProps}
+                />
+            </div>
+        );
+    }
+
+    renderValue(user) {
+        return user.username;
+    }
+
+    render() {
+        const numRemainingText = (
+            <FormattedMessage
+                id='multiselect.numPeopleRemaining'
+                defaultMessage='Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. '
+                values={{
+                    num: MAX_SELECTABLE_VALUES - this.state.values.length
+                }}
+            />
+        );
+
         const users = this.state.users;
-        const actionUserProps = {};
 
         let usersToDisplay;
         if (this.state.loading) {
@@ -141,27 +186,31 @@ export default class MemberListTeam extends React.Component {
             usersToDisplay = [];
 
             for (let i = 0; i < users.length; i++) {
-                const user = users[i];
+                const user = Object.assign({}, users[i]);
+                user.value = user.id;
+                user.label = '@' + user.username;
+                users[i] = user;
 
-                if (teamMembers[user.id] && user.delete_at === 0) {
+                if (user.delete_at === 0) {
                     usersToDisplay.push(user);
-                    actionUserProps[user.id] = {
-                        teamMember: teamMembers[user.id]
-                    };
                 }
             }
         }
 
         return (
-            <SearchableUserList
-                users={usersToDisplay}
-                usersPerPage={USERS_PER_PAGE}
-                total={this.state.total}
-                nextPage={this.nextPage}
-                search={this.search}
-                actions={teamMembersDropdown}
-                actionUserProps={actionUserProps}
-                focusOnMount={!UserAgent.isMobile()}
+            <MultiSelect
+                key='viewManageUsersKey'
+                options={usersToDisplay}
+                optionRenderer={this.renderOption}
+                values={this.state.values}
+                valueRenderer={this.renderValue}
+                perPage={USERS_PER_PAGE}
+                handlePageChange={this.handlePageChange}
+                handleInput={this.search}
+                maxValues={MAX_SELECTABLE_VALUES}
+                numRemainingText={numRemainingText}
+                placeholderMessage='Search users'
+                localizationKey='filtered_user_list.search'
             />
         );
     }
