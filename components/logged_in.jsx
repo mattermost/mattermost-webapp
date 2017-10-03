@@ -7,6 +7,7 @@ import UserStore from 'stores/user_store.jsx';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as WebSocketActions from 'actions/websocket_actions.jsx';
+import * as UserAgent from 'utils/user_agent.jsx';
 import {loadEmoji} from 'actions/emoji_actions.jsx';
 
 import * as Utils from 'utils/utils.jsx';
@@ -30,13 +31,9 @@ export default class LoggedIn extends React.Component {
         $('#root').attr('class', 'channel-view');
 
         // Device tracking setup
-        var iOS = (/(iPad|iPhone|iPod)/g).test(navigator.userAgent);
-        var android = (/(Android)/g).test(navigator.userAgent);
-        if (iOS) {
+        if (UserAgent.isIos()) {
             $('body').addClass('ios');
-        }
-
-        if (android) {
+        } else if (UserAgent.isAndroid()) {
             $('body').addClass('android');
         }
 
