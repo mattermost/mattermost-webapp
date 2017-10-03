@@ -10,14 +10,14 @@ export default class Pluggable extends React.PureComponent {
     static propTypes = {
 
         /*
-         * Should be a single overridable React component. One of this or overrideName is required
+         * Should be a single overridable React component. One of this or pluggableName is required
          */
         children: PropTypes.element,
 
         /*
          * Override the component to be plugged. One of this or children is required
          */
-        overrideName: PropTypes.string,
+        pluggableName: PropTypes.string,
 
         /*
          * Components for overriding provided by plugins
@@ -31,24 +31,24 @@ export default class Pluggable extends React.PureComponent {
     }
 
     render() {
-        const overrideName = this.props.overrideName;
+        const pluggableName = this.props.pluggableName;
 
         let child;
         if (this.props.children) {
             child = React.Children.only(this.props.children).type;
-        } else if (!overrideName) {
+        } else if (!pluggableName) {
             return null;
         }
 
         const components = this.props.components;
         const childrenProps = child ? this.props.children.props : {};
-        const componentName = overrideName || child.getComponentName();
+        const componentName = pluggableName || child.getComponentName();
 
         // Include any props passed to this component or to the child component
         let props = {...this.props};
         Reflect.deleteProperty(props, 'children');
         Reflect.deleteProperty(props, 'components');
-        Reflect.deleteProperty(props, 'overrideName');
+        Reflect.deleteProperty(props, 'pluggableName');
         props = {...props, ...childrenProps};
 
         // Override the default component with any registered plugin's component

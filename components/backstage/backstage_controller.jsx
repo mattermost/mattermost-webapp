@@ -58,7 +58,7 @@ export default class BackstageController extends React.Component {
             <div className='backstage'>
                 <AnnouncementBar/>
                 <BackstageNavbar team={this.state.team}/>
-                <Pluggable overrideName='Root'/>
+                <Pluggable pluggableName='Root'/>
                 <div className='backstage-body'>
                     <BackstageSidebar
                         team={this.state.team}

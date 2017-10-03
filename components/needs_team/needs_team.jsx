@@ -223,7 +223,7 @@ export default class NeedsTeam extends React.Component {
                     <WebrtcSidebar/>
                     {content}
 
-                    <Pluggable overrideName='Root'/>
+                    <Pluggable pluggableName='Root'/>
                     <UserSettingsModal/>
                     <GetPostLinkModal/>
                     <GetPublicLinkModal/>
