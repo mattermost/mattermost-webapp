@@ -7,6 +7,9 @@ import * as SyntaxHighlighting from './syntax_highlighting.jsx';
 import marked from 'marked';
 import katex from 'katex';
 
+const COLOR_REGEX = /^(\w+|#([0-9a-f]{3}){1,2})$/i;
+const COLOR_MAGIC = 'color://';
+
 class MattermostMarkdownRenderer extends marked.Renderer {
     constructor(options, formattingOptions = {}) {
         super(options);
@@ -146,6 +149,13 @@ class MattermostMarkdownRenderer extends marked.Renderer {
 
     link(href, title, text) {
         let outHref = href;
+
+        if (href.startsWith(COLOR_MAGIC) && !title) {
+            const color = href.substr(COLOR_MAGIC.length);
+            if (color.match(COLOR_REGEX)) {
+                return `<span style="color:${color}">${text}</span>`;
+            }
+        }
 
         if (this.formattingOptions.linkFilter && !this.formattingOptions.linkFilter(outHref)) {
             return text;
