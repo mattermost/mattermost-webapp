@@ -186,8 +186,7 @@ SearchStore.dispatchToken = AppDispatcher.register((payload) => {
     switch (action.type) {
     case ActionTypes.RECEIVED_SEARCH: {
         const results = SearchStore.getSearchResults() || {};
-        const posts = Object.values(results.posts || {});
-        const channelId = posts.length > 0 ? posts[0].channel_id : '';
+        const channelId = results.channelId;
         if (SearchStore.getIsPinnedPosts() === action.is_pinned_posts &&
             action.is_pinned_posts === true &&
             channelId !== '' &&
