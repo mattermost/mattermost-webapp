@@ -90,6 +90,14 @@ export default class MultiSelect extends React.Component {
         this.props.handleInput(input);
     }
 
+    onInputKeyDown = (e) => {
+        switch (e.keyCode) {
+        case KeyCodes.ENTER:
+            e.preventDefault();
+            break;
+        }
+    }
+
     handleEnterPress = (e) => {
         switch (e.keyCode) {
         case KeyCodes.ENTER:
@@ -212,6 +220,7 @@ export default class MultiSelect extends React.Component {
                             clearable={false}
                             openOnFocus={true}
                             onInputChange={this.onInput}
+                            onInputKeyDown={this.onInputKeyDown}
                             onBlurResetsInput={false}
                             onCloseResetsInput={false}
                             onChange={this.onChange}

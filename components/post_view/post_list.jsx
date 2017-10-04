@@ -498,7 +498,7 @@ export default class PostList extends React.PureComponent {
         const posts = this.props.posts || [];
         const channel = this.props.channel;
 
-        if ((!posts && this.state.isDoingInitialLoad) || channel == null) {
+        if ((posts.length === 0 && this.state.isDoingInitialLoad) || channel == null) {
             return (
                 <div id='post-list'>
                     <LoadingScreen
