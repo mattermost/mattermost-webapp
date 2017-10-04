@@ -97,11 +97,11 @@ const allShortcuts = defineMessages({
     },
     navMentions: {
         default: {
-            id: 'shortcuts.nav.mentions',
+            id: 'shortcuts.nav.recent_mentions',
             defaultMessage: 'Recent mentions:\tCtrl|Shift|M'
         },
         mac: {
-            id: 'shortcuts.nav.mentions.mac',
+            id: 'shortcuts.nav.recent_mentions.mac',
             defaultMessage: 'Recent mentions:\t⌘|Shift|M'
         }
     },
