@@ -143,7 +143,7 @@ export function getPinnedPosts(channelId = ChannelStore.getCurrentId()) {
 
             AppDispatcher.handleServerAction({
                 type: ActionTypes.RECEIVED_SEARCH,
-                results: data,
+                results: {...data, channelId},
                 is_flagged_posts: false,
                 is_pinned_posts: true
             });
