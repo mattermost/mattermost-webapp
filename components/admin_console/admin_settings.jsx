@@ -42,6 +42,12 @@ export default class AdminSettings extends React.Component {
         this.props.setNavigationBlocked(true);
     };
 
+    handleSubmit = (e) => {
+        e.preventDefault();
+
+        this.doSubmit();
+    }
+
     doSubmit = (callback) => {
         this.setState({
             saving: true,

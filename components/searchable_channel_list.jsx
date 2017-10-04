@@ -71,6 +71,7 @@ export default class SearchableChannelList extends React.Component {
                 <button
                     onClick={this.handleJoin.bind(this, channel)}
                     className='btn btn-primary'
+                    disabled={this.state.joiningChannel !== '' && this.state.joiningChannel !== channel.id}
                 >
                     <FormattedMessage
                         id='more_channels.join'

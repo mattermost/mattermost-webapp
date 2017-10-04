@@ -16,9 +16,7 @@ export default class LocalizationSettings extends AdminSettings {
         super(props);
 
         this.getConfigFromState = this.getConfigFromState.bind(this);
-
         this.renderSettings = this.renderSettings.bind(this);
-        this.canSave = this.canSave.bind(this);
 
         const locales = I18n.getAllLanguages();
 
@@ -28,10 +26,6 @@ export default class LocalizationSettings extends AdminSettings {
                 return {value: locales[l].value, text: locales[l].name, order: locales[l].order};
             }).sort((a, b) => a.order - b.order)
         });
-    }
-
-    canSave() {
-        return this.state.availableLocales.join(',').indexOf(this.state.defaultClientLocale) !== -1 || this.state.availableLocales.length === 0;
     }
 
     getConfigFromState(config) {

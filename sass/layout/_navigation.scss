@@ -130,11 +130,12 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
                 vertical-align: top;
+                white-space: nowrap;
             }
 
             .header-dropdown__icon {
                 margin-left: 0;
-                top: -1px;
+                top: 2px;
             }
 
             .dropdown-toggle {

@@ -6,9 +6,11 @@ import React from 'react';
 import * as Utils from 'utils/utils.jsx';
 
 import AdminSettings from './admin_settings.jsx';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
 import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting.jsx';
+
+const MINIMUM_IDLE_TIMEOUT = 5;
 
 export default class SessionSettings extends AdminSettings {
     constructor(props) {
@@ -25,6 +27,13 @@ export default class SessionSettings extends AdminSettings {
         config.ServiceSettings.SessionLengthSSOInDays = this.parseIntNonZero(this.state.sessionLengthSSOInDays);
         config.ServiceSettings.SessionCacheInMinutes = this.parseIntNonZero(this.state.sessionCacheInMinutes);
 
+        const timeout = this.parseInt(this.state.sessionIdleTimeoutInMinutes);
+        if (timeout !== 0 && timeout < MINIMUM_IDLE_TIMEOUT) {
+            config.ServiceSettings.SessionIdleTimeoutInMinutes = MINIMUM_IDLE_TIMEOUT;
+        } else {
+            config.ServiceSettings.SessionIdleTimeoutInMinutes = timeout;
+        }
+
         return config;
     }
 
@@ -33,7 +42,8 @@ export default class SessionSettings extends AdminSettings {
             sessionLengthWebInDays: config.ServiceSettings.SessionLengthWebInDays,
             sessionLengthMobileInDays: config.ServiceSettings.SessionLengthMobileInDays,
             sessionLengthSSOInDays: config.ServiceSettings.SessionLengthSSOInDays,
-            sessionCacheInMinutes: config.ServiceSettings.SessionCacheInMinutes
+            sessionCacheInMinutes: config.ServiceSettings.SessionCacheInMinutes,
+            sessionIdleTimeoutInMinutes: config.ServiceSettings.SessionIdleTimeoutInMinutes
         };
     }
 
@@ -47,6 +57,30 @@ export default class SessionSettings extends AdminSettings {
     }
 
     renderSettings() {
+        let idleTimeout;
+        if (window.mm_license.IsLicensed === 'true' && global.window.mm_license.Compliance === 'true') {
+            idleTimeout = (
+                <TextSetting
+                    id='sessionIdleTimeoutInMinutes'
+                    label={
+                        <FormattedMessage
+                            id='admin.service.sessionIdleTimeout'
+                            defaultMessage='Session Idle Timeout (minutes):'
+                        />
+                    }
+                    placeholder={Utils.localizeMessage('admin.service.sessionIdleTimeoutEx', 'Ex "60"')}
+                    helpText={
+                        <FormattedHTMLMessage
+                            id='admin.service.sessionIdleTimeoutDesc'
+                            defaultMessage="The number of minutes from the last time a user was active on the system to the expiry of the user's session. Once expired, the user will need to log in to continue. Minimum is 5 minutes, and 0 is unlimited.<br/><br/>Applies to the desktop app and browsers. For mobile apps, use an EMM provider to lock the app when not in use. In High Availability mode, enable IP hash load balancing for reliable timeout measurement."
+                        />
+                    }
+                    value={this.state.sessionIdleTimeoutInMinutes}
+                    onChange={this.handleChange}
+                />
+            );
+        }
+
         return (
             <SettingsGroup>
                 <TextSetting
@@ -54,7 +88,7 @@ export default class SessionSettings extends AdminSettings {
                     label={
                         <FormattedMessage
                             id='admin.service.webSessionDays'
-                            defaultMessage='Session length AD/LDAP and email (days):'
+                            defaultMessage='Session Length AD/LDAP and Email (days):'
                         />
                     }
                     placeholder={Utils.localizeMessage('admin.service.sessionDaysEx', 'Ex "30"')}
@@ -72,7 +106,7 @@ export default class SessionSettings extends AdminSettings {
                     label={
                         <FormattedMessage
                             id='admin.service.mobileSessionDays'
-                            defaultMessage='Session length mobile (days):'
+                            defaultMessage='Session Length Mobile (days):'
                         />
                     }
                     placeholder={Utils.localizeMessage('admin.service.sessionDaysEx', 'Ex "30"')}
@@ -90,7 +124,7 @@ export default class SessionSettings extends AdminSettings {
                     label={
                         <FormattedMessage
                             id='admin.service.ssoSessionDays'
-                            defaultMessage='Session length SSO (days):'
+                            defaultMessage='Session Length SSO (days):'
                         />
                     }
                     placeholder={Utils.localizeMessage('admin.service.sessionDaysEx', 'Ex "30"')}
@@ -121,6 +155,7 @@ export default class SessionSettings extends AdminSettings {
                     value={this.state.sessionCacheInMinutes}
                     onChange={this.handleChange}
                 />
+                {idleTimeout}
             </SettingsGroup>
         );
     }

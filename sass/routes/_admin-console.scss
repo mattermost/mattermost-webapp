@@ -605,6 +605,10 @@
 }
 
 .manage-teams {
+    .modal-body {
+        padding: 15px 15px 0;
+    }
+
     .manage-teams__user {
         align-items: center;
         display: flex;
