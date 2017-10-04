@@ -179,22 +179,9 @@ export default class MemberListTeam extends React.Component {
 
         const users = this.state.users;
 
-        let usersToDisplay;
-        if (this.state.loading) {
-            usersToDisplay = null;
-        } else {
-            usersToDisplay = [];
-
-            for (let i = 0; i < users.length; i++) {
-                const user = Object.assign({}, users[i]);
-                user.value = user.id;
-                user.label = '@' + user.username;
-                users[i] = user;
-
-                if (user.delete_at === 0) {
-                    usersToDisplay.push(user);
-                }
-            }
+        let usersToDisplay = null;
+        if (!this.state.loading) {
+            usersToDisplay = users.filter((user) => user.delete_at === 0);
         }
 
         return (
