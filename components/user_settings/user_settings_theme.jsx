@@ -2,28 +2,26 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-import ReactDOM from 'react-dom';
-import CustomThemeChooser from './custom_theme_chooser.jsx';
-import PremadeThemeChooser from './premade_theme_chooser.jsx';
-import SettingItemMin from '../setting_item_min.jsx';
-import SettingItemMax from '../setting_item_max.jsx';
 
+import PropTypes from 'prop-types';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {FormattedMessage} from 'react-intl';
+
+import * as UserActions from 'actions/user_actions.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
-import AppDispatcher from '../../dispatcher/app_dispatcher.jsx';
-import * as UserActions from 'actions/user_actions.jsx';
-
+import {ActionTypes, Constants, Preferences} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import {FormattedMessage} from 'react-intl';
+import AppDispatcher from '../../dispatcher/app_dispatcher.jsx';
+import SettingItemMax from '../setting_item_max.jsx';
+import SettingItemMin from '../setting_item_min.jsx';
 
-import {ActionTypes, Constants, Preferences} from 'utils/constants.jsx';
-
-import PropTypes from 'prop-types';
-
-import React from 'react';
+import CustomThemeChooser from './custom_theme_chooser.jsx';
+import PremadeThemeChooser from './premade_theme_chooser.jsx';
 
 export default class ThemeSetting extends React.Component {
     constructor(props) {

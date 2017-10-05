@@ -1,11 +1,12 @@
-import {setStatus} from 'mattermost-redux/actions/users';
+// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
+// See License.txt for license information.
+
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {
-    getCurrentUser,
-    getStatusForUserId
-} from 'mattermost-redux/selectors/entities/users';
+
+import {setStatus} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
+import {getCurrentUser, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 
 import StatusDropdown from 'components/status_dropdown/status_dropdown.jsx';
 

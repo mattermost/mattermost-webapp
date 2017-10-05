@@ -1,13 +1,15 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import ProfilePopover from 'components/profile_popover.jsx';
-import Pluggable from 'plugins/pluggable';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {OverlayTrigger} from 'react-bootstrap';
+
 import {Client4} from 'mattermost-redux/client';
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import {OverlayTrigger} from 'react-bootstrap';
+import Pluggable from 'plugins/pluggable';
+
+import ProfilePopover from 'components/profile_popover.jsx';
 
 export default class AtMention extends React.PureComponent {
     static propTypes = {

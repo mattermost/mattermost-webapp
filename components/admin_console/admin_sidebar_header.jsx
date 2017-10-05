@@ -2,13 +2,15 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-import AdminNavbarDropdown from './admin_navbar_dropdown.jsx';
-import UserStore from 'stores/user_store.jsx';
-import {Client4} from 'mattermost-redux/client';
-
-import {FormattedMessage} from 'react-intl';
 
 import React from 'react';
+import {FormattedMessage} from 'react-intl';
+
+import {Client4} from 'mattermost-redux/client';
+
+import UserStore from 'stores/user_store.jsx';
+
+import AdminNavbarDropdown from './admin_navbar_dropdown.jsx';
 
 export default class SidebarHeader extends React.Component {
     constructor(props) {

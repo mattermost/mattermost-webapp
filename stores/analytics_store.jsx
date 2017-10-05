@@ -3,9 +3,9 @@
 
 import EventEmitter from 'events';
 
-const CHANGE_EVENT = 'change';
-
 import store from 'stores/redux_store.jsx';
+
+const CHANGE_EVENT = 'change';
 
 class AnalyticsStoreClass extends EventEmitter {
     constructor() {

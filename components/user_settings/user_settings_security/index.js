@@ -3,7 +3,8 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getMe, getUserAccessTokensForUser, createUserAccessToken, revokeUserAccessToken, clearUserAccessTokens} from 'mattermost-redux/actions/users';
+
+import {clearUserAccessTokens, createUserAccessToken, getMe, getUserAccessTokensForUser, revokeUserAccessToken} from 'mattermost-redux/actions/users';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 
 import SecurityTab from './user_settings_security.jsx';

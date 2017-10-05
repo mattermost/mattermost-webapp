@@ -1,22 +1,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import ConfirmModal from 'components/confirm_modal.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {FormattedMessage} from 'react-intl';
 
+import * as UserUtils from 'mattermost-redux/utils/user_utils';
+
+import {adminResetMfa} from 'actions/admin_actions.jsx';
+import {updateActive} from 'actions/user_actions.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {updateActive} from 'actions/user_actions.jsx';
-import {adminResetMfa} from 'actions/admin_actions.jsx';
-import * as UserUtils from 'mattermost-redux/utils/user_utils';
 
-import {FormattedMessage} from 'react-intl';
-
-import PropTypes from 'prop-types';
-
-import React from 'react';
+import ConfirmModal from 'components/confirm_modal.jsx';
 
 export default class SystemUsersDropdown extends React.Component {
     static propTypes = {

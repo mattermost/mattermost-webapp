@@ -1,16 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import ConfirmModal from 'components/confirm_modal.jsx';
+import React from 'react';
+import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 
 import * as ChannelActions from 'actions/channel_actions.jsx';
-
 import ModalStore from 'stores/modal_store.jsx';
+
 import Constants from 'utils/constants.jsx';
 
-import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
-
-import React from 'react';
+import ConfirmModal from 'components/confirm_modal.jsx';
 
 class LeavePrivateChannelModal extends React.Component {
     constructor(props) {

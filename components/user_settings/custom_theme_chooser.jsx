@@ -2,13 +2,17 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
+
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Popover, OverlayTrigger} from 'react-bootstrap';
-import {defineMessages, FormattedMessage, intlShape, injectIntl} from 'react-intl';
+import {OverlayTrigger, Popover} from 'react-bootstrap';
+import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
+
+import 'bootstrap-colorpicker';
 
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
+
 import ColorChooser from './color_chooser.jsx';
 
 const messages = defineMessages({

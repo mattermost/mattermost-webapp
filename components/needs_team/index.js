@@ -3,7 +3,8 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {viewChannel, getMyChannelMembers} from 'mattermost-redux/actions/channels';
+
+import {getMyChannelMembers, viewChannel} from 'mattermost-redux/actions/channels';
 
 import NeedsTeam from './needs_team.jsx';
 

@@ -1,10 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import * as utils from 'utils/utils.jsx';
-import SettingUpload from './setting_upload.jsx';
+import React from 'react';
+import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 
-import {intlShape, injectIntl, defineMessages, FormattedMessage} from 'react-intl';
+import * as utils from 'utils/utils.jsx';
+
+import SettingUpload from './setting_upload.jsx';
 
 const holders = defineMessages({
     importSlack: {
@@ -12,8 +14,6 @@ const holders = defineMessages({
         defaultMessage: 'Import from Slack (Beta)'
     }
 });
-
-import React from 'react';
 
 class TeamImportTab extends React.Component {
     constructor(props) {

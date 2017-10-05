@@ -1,11 +1,11 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import AbstractOutgoingWebhook from 'components/integrations/components/abstract_outgoing_webhook.jsx';
-
+import PropTypes from 'prop-types';
 import React from 'react';
 import {browserHistory} from 'react-router/es6';
-import PropTypes from 'prop-types';
+
+import AbstractOutgoingWebhook from 'components/integrations/components/abstract_outgoing_webhook.jsx';
 
 const HEADER = {id: 'integrations.add', defaultMessage: 'Add'};
 const FOOTER = {id: 'add_outgoing_webhook.save', defaultMessage: 'Save'};

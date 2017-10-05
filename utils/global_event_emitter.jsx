@@ -1,8 +1,9 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import EventEmitter from 'events';
+
+import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 
 import EventTypes from 'utils/event_types.jsx';
 

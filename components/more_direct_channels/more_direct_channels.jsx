@@ -1,28 +1,26 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import MultiSelect from 'components/multiselect/multiselect.jsx';
-import ProfilePicture from 'components/profile_picture.jsx';
-
-import {searchUsers} from 'actions/user_actions.jsx';
-import {openDirectChannelToUser, openGroupChannelToUsers} from 'actions/channel_actions.jsx';
-
-import UserStore from 'stores/user_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-
-import Constants from 'utils/constants.jsx';
-import {displayEntireNameForUser} from 'utils/utils.jsx';
-import {Client4} from 'mattermost-redux/client';
-
 import PropTypes from 'prop-types';
-
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {browserHistory} from 'react-router/es6';
 
-import store from 'stores/redux_store.jsx';
+import {Client4} from 'mattermost-redux/client';
 import {searchProfiles, searchProfilesInCurrentTeam} from 'mattermost-redux/selectors/entities/users';
+
+import {openDirectChannelToUser, openGroupChannelToUsers} from 'actions/channel_actions.jsx';
+import {searchUsers} from 'actions/user_actions.jsx';
+import store from 'stores/redux_store.jsx';
+import TeamStore from 'stores/team_store.jsx';
+import UserStore from 'stores/user_store.jsx';
+
+import Constants from 'utils/constants.jsx';
+import {displayEntireNameForUser} from 'utils/utils.jsx';
+
+import MultiSelect from 'components/multiselect/multiselect.jsx';
+import ProfilePicture from 'components/profile_picture.jsx';
 
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = Constants.MAX_USERS_IN_GM - 1;

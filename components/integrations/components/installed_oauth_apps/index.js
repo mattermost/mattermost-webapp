@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import * as Actions from 'mattermost-redux/actions/integrations';
 import {getOAuthApps} from 'mattermost-redux/selectors/entities/integrations';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';

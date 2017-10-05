@@ -1,25 +1,28 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
 import EventEmitter from 'events';
-import UserStore from 'stores/user_store.jsx';
+
+import {TeamTypes} from 'mattermost-redux/action_types';
+import * as Selectors from 'mattermost-redux/selectors/entities/teams';
+
 import ChannelStore from 'stores/channel_store.jsx';
+import store from 'stores/redux_store.jsx';
+import UserStore from 'stores/user_store.jsx';
 
 import Constants from 'utils/constants.jsx';
+import {isFromWebhook, isSystemMessage} from 'utils/post_utils.jsx';
+import {getSiteURL} from 'utils/url.jsx';
+
+import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
+
 const NotificationPrefs = Constants.NotificationPrefs;
 
-import {getSiteURL} from 'utils/url.jsx';
-import {isSystemMessage, isFromWebhook} from 'utils/post_utils.jsx';
 const ActionTypes = Constants.ActionTypes;
 
 const CHANGE_EVENT = 'change';
 const STATS_EVENT = 'stats';
 const UNREAD_EVENT = 'unread';
-
-import store from 'stores/redux_store.jsx';
-import * as Selectors from 'mattermost-redux/selectors/entities/teams';
-import {TeamTypes} from 'mattermost-redux/action_types';
 
 var Utils;
 

@@ -2,6 +2,7 @@
 // See License.txt for license information.
 
 import React from 'react';
+
 import {shallow} from 'enzyme';
 
 import InstalledCommand from 'components/integrations/components/installed_command.jsx';

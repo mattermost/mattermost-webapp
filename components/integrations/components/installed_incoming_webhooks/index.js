@@ -3,11 +3,13 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import * as Actions from 'mattermost-redux/actions/integrations';
+import {getAllChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getIncomingHooks} from 'mattermost-redux/selectors/entities/integrations';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getAllChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getUsers} from 'mattermost-redux/selectors/entities/users';
+
 import InstalledIncomingWebhooks from './installed_incoming_webhooks.jsx';
 
 function mapStateToProps(state, ownProps) {

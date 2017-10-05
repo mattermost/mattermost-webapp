@@ -2,12 +2,15 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
+
+import React from 'react';
 import ReactDOM from 'react-dom';
-import SettingsSidebar from './settings_sidebar.jsx';
-import TeamSettings from './team_settings.jsx';
+import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
+
 import * as Utils from 'utils/utils.jsx';
 
-import {intlShape, injectIntl, defineMessages, FormattedMessage} from 'react-intl';
+import SettingsSidebar from './settings_sidebar.jsx';
+import TeamSettings from './team_settings.jsx';
 
 const holders = defineMessages({
     generalTab: {
@@ -19,8 +22,6 @@ const holders = defineMessages({
         defaultMessage: 'Import'
     }
 });
-
-import React from 'react';
 
 class TeamSettingsModal extends React.Component {
     constructor(props) {

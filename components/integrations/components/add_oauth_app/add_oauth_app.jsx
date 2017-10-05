@@ -1,13 +1,13 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
+import {FormattedMessage} from 'react-intl';
+import {browserHistory, Link} from 'react-router/es6';
 
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
-import {FormattedMessage} from 'react-intl';
 import FormError from 'components/form_error.jsx';
-import {browserHistory, Link} from 'react-router/es6';
 import SpinnerButton from 'components/spinner_button.jsx';
 
 export default class AddOAuthApp extends React.PureComponent {

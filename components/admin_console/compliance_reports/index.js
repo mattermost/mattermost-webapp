@@ -3,8 +3,8 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getComplianceReports, createComplianceReport} from 'mattermost-redux/actions/admin';
 
+import {createComplianceReport, getComplianceReports} from 'mattermost-redux/actions/admin';
 import {getComplianceReports as selectComplianceReports, getConfig} from 'mattermost-redux/selectors/entities/admin';
 
 import ComplianceReports from './compliance_reports.jsx';

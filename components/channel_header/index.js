@@ -4,15 +4,13 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {getChannel, getMyChannelMember} from 'mattermost-redux/selectors/entities/channels';
-import {getMyTeamMember} from 'mattermost-redux/selectors/entities/teams';
-import {getUser, getStatusForUserId, getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-
-import {leaveChannel, favoriteChannel, unfavoriteChannel} from 'mattermost-redux/actions/channels';
-
-import {isFavoriteChannel, isDefault, getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
+import {favoriteChannel, leaveChannel, unfavoriteChannel} from 'mattermost-redux/actions/channels';
 import {General, Preferences} from 'mattermost-redux/constants';
+import {getChannel, getMyChannelMember} from 'mattermost-redux/selectors/entities/channels';
+import {getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {getMyTeamMember} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentUser, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
+import {getUserIdFromChannelName, isDefault, isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
 
 import ChannelHeader from './channel_header.jsx';
 

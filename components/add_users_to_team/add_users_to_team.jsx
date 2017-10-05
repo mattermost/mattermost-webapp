@@ -1,28 +1,26 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import MultiSelect from 'components/multiselect/multiselect.jsx';
-import ProfilePicture from 'components/profile_picture.jsx';
-
-import {addUsersToTeam} from 'actions/team_actions.jsx';
-import {searchUsersNotInTeam} from 'actions/user_actions.jsx';
-
-import UserStore from 'stores/user_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-
-import Constants from 'utils/constants.jsx';
-import {displayEntireNameForUser} from 'utils/utils.jsx';
-import {Client4} from 'mattermost-redux/client';
-
 import PropTypes from 'prop-types';
-
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {browserHistory} from 'react-router/es6';
 
-import store from 'stores/redux_store.jsx';
+import {Client4} from 'mattermost-redux/client';
 import {searchProfilesNotInCurrentTeam} from 'mattermost-redux/selectors/entities/users';
+
+import {addUsersToTeam} from 'actions/team_actions.jsx';
+import {searchUsersNotInTeam} from 'actions/user_actions.jsx';
+import store from 'stores/redux_store.jsx';
+import TeamStore from 'stores/team_store.jsx';
+import UserStore from 'stores/user_store.jsx';
+
+import Constants from 'utils/constants.jsx';
+import {displayEntireNameForUser} from 'utils/utils.jsx';
+
+import MultiSelect from 'components/multiselect/multiselect.jsx';
+import ProfilePicture from 'components/profile_picture.jsx';
 
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = 20;

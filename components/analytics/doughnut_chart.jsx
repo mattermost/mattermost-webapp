@@ -1,15 +1,14 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {FormattedMessage} from 'react-intl';
-
-import * as Utils from 'utils/utils.jsx';
-
 import PropTypes from 'prop-types';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {FormattedMessage} from 'react-intl';
+
 import Chart from 'chart.js';
+
+import * as Utils from 'utils/utils.jsx';
 
 export default class DoughnutChart extends React.Component {
     constructor(props) {

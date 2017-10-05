@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import {getTeamStats} from 'mattermost-redux/actions/teams';
 
 import MemberListTeam from './member_list_team.jsx';

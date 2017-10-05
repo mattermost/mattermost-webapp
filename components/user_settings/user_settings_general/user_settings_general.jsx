@@ -2,19 +2,22 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-import SettingItemMin from 'components/setting_item_min.jsx';
-import SettingItemMax from 'components/setting_item_max.jsx';
-import SettingPicture from 'components/setting_picture.jsx';
 
-import UserStore from 'stores/user_store.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {defineMessages, FormattedDate, FormattedHTMLMessage, FormattedMessage, injectIntl, intlShape} from 'react-intl';
+
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {updateUser, uploadProfileImage} from 'actions/user_actions.jsx';
 import ErrorStore from 'stores/error_store.jsx';
+import UserStore from 'stores/user_store.jsx';
 
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import {intlShape, injectIntl, defineMessages, FormattedMessage, FormattedHTMLMessage, FormattedDate} from 'react-intl';
-import {updateUser, uploadProfileImage} from 'actions/user_actions.jsx';
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMin from 'components/setting_item_min.jsx';
+import SettingPicture from 'components/setting_picture.jsx';
 
 const holders = defineMessages({
     usernameReserved: {
@@ -78,10 +81,6 @@ const holders = defineMessages({
         defaultMessage: 'Position'
     }
 });
-
-import PropTypes from 'prop-types';
-
-import React from 'react';
 
 class UserSettingsGeneralTab extends React.Component {
     static propTypes = {

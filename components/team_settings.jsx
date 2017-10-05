@@ -1,14 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import PropTypes from 'prop-types';
+import React from 'react';
+
 import TeamStore from 'stores/team_store.jsx';
-import ImportTab from './team_import_tab.jsx';
-import GeneralTab from './team_general_tab.jsx';
+
 import * as Utils from 'utils/utils.jsx';
 
-import PropTypes from 'prop-types';
-
-import React from 'react';
+import GeneralTab from './team_general_tab.jsx';
+import ImportTab from './team_import_tab.jsx';
 
 export default class TeamSettings extends React.Component {
     constructor(props) {

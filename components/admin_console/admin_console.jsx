@@ -1,14 +1,16 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
+
 import 'bootstrap';
 
-import AnnouncementBar from 'components/announcement_bar';
-import AdminSidebar from './admin_sidebar.jsx';
-
 import {reloadIfServerVersionChanged} from 'actions/global_actions.jsx';
+
+import AnnouncementBar from 'components/announcement_bar';
+
+import AdminSidebar from './admin_sidebar.jsx';
 
 export default class AdminConsole extends React.Component {
     static propTypes = {

@@ -1,24 +1,24 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import * as Utils from 'utils/utils.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {FormattedMessage} from 'react-intl';
+import {browserHistory} from 'react-router/es6';
+
+import {createChannel} from 'actions/channel_actions.jsx';
 import TeamStore from 'stores/team_store.jsx';
+
 import {cleanUpUrlable} from 'utils/url.jsx';
+import * as Utils from 'utils/utils.jsx';
 
 import NewChannelModal from 'components/new_channel_modal';
-import ChangeURLModal from './change_url_modal.jsx';
 
-import {FormattedMessage} from 'react-intl';
-import {createChannel} from 'actions/channel_actions.jsx';
-import {browserHistory} from 'react-router/es6';
+import ChangeURLModal from './change_url_modal.jsx';
 
 const SHOW_NEW_CHANNEL = 1;
 const SHOW_EDIT_URL = 2;
 const SHOW_EDIT_URL_THEN_COMPLETE = 3;
-
-import PropTypes from 'prop-types';
-
-import React from 'react';
 
 export default class NewChannelFlow extends React.Component {
     constructor(props) {

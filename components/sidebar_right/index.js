@@ -2,6 +2,7 @@
 // See License.txt for license information.
 
 import {connect} from 'react-redux';
+
 import SidebarRight from './sidebar_right.jsx';
 
 function mapStateToProps(state, ownProps) {

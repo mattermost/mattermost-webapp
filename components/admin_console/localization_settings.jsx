@@ -2,14 +2,14 @@
 // See License.txt for license information.
 
 import React from 'react';
+import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import * as I18n from 'i18n/i18n.jsx';
 
 import AdminSettings from './admin_settings.jsx';
-import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
-import SettingsGroup from './settings_group.jsx';
 import DropdownSetting from './dropdown_setting.jsx';
 import MultiSelectSetting from './multiselect_settings.jsx';
+import SettingsGroup from './settings_group.jsx';
 
 export default class LocalizationSettings extends AdminSettings {
     constructor(props) {

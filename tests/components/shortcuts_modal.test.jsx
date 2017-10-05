@@ -4,6 +4,7 @@
 import React from 'react';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+
 import ShortcutsModal from 'components/shortcuts_modal.jsx';
 
 describe('components/ShortcutsModal', () => {

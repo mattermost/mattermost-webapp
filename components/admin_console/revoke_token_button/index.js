@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import {revokeUserAccessToken} from 'mattermost-redux/actions/users';
 
 import RevokeTokenButton from './revoke_token_button.jsx';

@@ -2,19 +2,22 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
+
+import React from 'react';
+import {Modal} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
-import ConfirmModal from '../confirm_modal.jsx';
-import UserSettings from './user_settings.jsx';
-import SettingsSidebar from '../settings_sidebar.jsx';
+import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 
 import ModalStore from 'stores/modal_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-import * as Utils from 'utils/utils.jsx';
+
 import Constants from 'utils/constants.jsx';
+import * as Utils from 'utils/utils.jsx';
 
-import {Modal} from 'react-bootstrap';
+import ConfirmModal from '../confirm_modal.jsx';
+import SettingsSidebar from '../settings_sidebar.jsx';
 
-import {intlShape, injectIntl, defineMessages, FormattedMessage} from 'react-intl';
+import UserSettings from './user_settings.jsx';
 
 const holders = defineMessages({
     general: {
@@ -50,8 +53,6 @@ const holders = defineMessages({
         defaultMessage: 'Yes, Discard'
     }
 });
-
-import React from 'react';
 
 class UserSettingsModal extends React.Component {
     constructor(props) {

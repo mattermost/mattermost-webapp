@@ -1,18 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import LoadingScreen from 'components/loading_screen.jsx';
+import $ from 'jquery';
+
+import PropTypes from 'prop-types';
+import React from 'react';
+import {Modal} from 'react-bootstrap';
+import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
+
+import {General} from 'mattermost-redux/constants';
 
 import UserStore from 'stores/user_store.jsx';
 
 import * as Utils from 'utils/utils.jsx';
 
-import $ from 'jquery';
-import PropTypes from 'prop-types';
-import React from 'react';
-import {Modal} from 'react-bootstrap';
-import {FormattedMessage, FormattedTime, FormattedDate} from 'react-intl';
-import {General} from 'mattermost-redux/constants';
+import LoadingScreen from 'components/loading_screen.jsx';
 
 export default class ActivityLogModal extends React.Component {
     static propTypes = {

@@ -1,16 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import Constants from 'utils/constants.jsx';
-const ActionTypes = Constants.ActionTypes;
-import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
 import EventEmitter from 'events';
 
-const CHANGE_EVENT = 'change';
+import {PreferenceTypes} from 'mattermost-redux/action_types';
+import * as Selectors from 'mattermost-redux/selectors/entities/preferences';
 
 import store from 'stores/redux_store.jsx';
-import * as Selectors from 'mattermost-redux/selectors/entities/preferences';
-import {PreferenceTypes} from 'mattermost-redux/action_types';
+
+import Constants from 'utils/constants.jsx';
+
+import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
+
+const ActionTypes = Constants.ActionTypes;
+
+const CHANGE_EVENT = 'change';
 
 class PreferenceStore extends EventEmitter {
     constructor() {

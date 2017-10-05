@@ -4,6 +4,7 @@
 import * as JobsActions from 'mattermost-redux/actions/jobs';
 
 import store from 'stores/redux_store.jsx';
+
 const dispatch = store.dispatch;
 const getState = store.getState;
 

@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import {getTeams} from 'mattermost-redux/actions/teams';
 
 import SelectTeam from './select_team.jsx';

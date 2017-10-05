@@ -2,16 +2,17 @@
 // See License.txt for license information.
 
 import {batchActions} from 'redux-batched-actions';
+
 import request from 'superagent';
+
+import {FileTypes} from 'mattermost-redux/action_types';
+import {getLogErrorAction} from 'mattermost-redux/actions/errors';
+import {forceLogoutIfNecessary} from 'mattermost-redux/actions/helpers';
+import {Client4} from 'mattermost-redux/client';
 
 import store from 'stores/redux_store.jsx';
 
 import * as Utils from 'utils/utils.jsx';
-
-import {FileTypes} from 'mattermost-redux/action_types';
-import {forceLogoutIfNecessary} from 'mattermost-redux/actions/helpers';
-import {getLogErrorAction} from 'mattermost-redux/actions/errors';
-import {Client4} from 'mattermost-redux/client';
 
 export function uploadFile(file, name, channelId, clientId, successCallback, errorCallback) {
     const {dispatch, getState} = store;

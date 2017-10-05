@@ -1,24 +1,24 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedDate, FormattedMessage, FormattedHTMLMessage} from 'react-intl';
+import React from 'react';
+import {FormattedDate, FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
-import Banner from 'components/admin_console/banner.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
+import {General} from 'mattermost-redux/constants';
 
+import * as AdminActions from 'actions/admin_actions.jsx';
 import AnalyticsStore from 'stores/analytics_store.jsx';
 import BrowserStore from 'stores/browser_store.jsx';
 
-import * as AdminActions from 'actions/admin_actions.jsx';
 import {StatTypes} from 'utils/constants.jsx';
-import {General} from 'mattermost-redux/constants';
 
+import Banner from 'components/admin_console/banner.jsx';
 import LineChart from 'components/analytics/line_chart.jsx';
 import StatisticCount from 'components/analytics/statistic_count.jsx';
-import TableChart from 'components/analytics/table_chart.jsx';
 import {formatPostsPerDayData, formatUsersWithPostsPerDayData} from 'components/analytics/system_analytics.jsx';
+import TableChart from 'components/analytics/table_chart.jsx';
+import LoadingScreen from 'components/loading_screen.jsx';
 
 const LAST_ANALYTICS_TEAM = 'last_analytics_team';
 

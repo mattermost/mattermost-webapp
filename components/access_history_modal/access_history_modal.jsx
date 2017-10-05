@@ -1,19 +1,19 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import LoadingScreen from 'components/loading_screen.jsx';
-import AuditTable from 'components/audit_table.jsx';
+import $ from 'jquery';
+
+import PropTypes from 'prop-types';
+import React from 'react';
+import {Modal} from 'react-bootstrap';
+import {FormattedMessage} from 'react-intl';
 
 import UserStore from 'stores/user_store.jsx';
 
 import * as Utils from 'utils/utils.jsx';
 
-import $ from 'jquery';
-import PropTypes from 'prop-types';
-import React from 'react';
-
-import {Modal} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
+import AuditTable from 'components/audit_table.jsx';
+import LoadingScreen from 'components/loading_screen.jsx';
 
 export default class AccessHistoryModal extends React.Component {
     static propTypes = {

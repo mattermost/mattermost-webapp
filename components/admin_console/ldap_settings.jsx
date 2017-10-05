@@ -1,21 +1,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import AdminSettings from './admin_settings.jsx';
-import BooleanSetting from './boolean_setting.jsx';
-import {ConnectionSecurityDropdownSettingLdap} from './connection_security_dropdown_setting.jsx';
-import SettingsGroup from './settings_group.jsx';
-import TextSetting from './text_setting.jsx';
+import React from 'react';
+import {FormattedMessage} from 'react-intl';
 
 import {ldapTest} from 'actions/admin_actions.jsx';
 
+import {JobTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import React from 'react';
-import {FormattedMessage} from 'react-intl';
-import RequestButton from './request_button/request_button.jsx';
-import {JobTypes} from 'utils/constants.jsx';
+import AdminSettings from './admin_settings.jsx';
+import BooleanSetting from './boolean_setting.jsx';
+import {ConnectionSecurityDropdownSettingLdap} from './connection_security_dropdown_setting.jsx';
 import JobsTable from './jobs';
+import RequestButton from './request_button/request_button.jsx';
+import SettingsGroup from './settings_group.jsx';
+import TextSetting from './text_setting.jsx';
 
 export default class LdapSettings extends AdminSettings {
     constructor(props) {

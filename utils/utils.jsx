@@ -2,25 +2,29 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
+
+import React from 'react';
+import {FormattedMessage} from 'react-intl';
+import {browserHistory} from 'react-router/es6';
+
+import {Client4} from 'mattermost-redux/client';
+import {Posts} from 'mattermost-redux/constants';
+
 import ChannelStore from 'stores/channel_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 import LocalizationStore from 'stores/localization_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
+import UserStore from 'stores/user_store.jsx';
+
 import Constants from 'utils/constants.jsx';
-var ActionTypes = Constants.ActionTypes;
 import * as UserAgent from 'utils/user_agent.jsx';
-import {Posts} from 'mattermost-redux/constants';
-import {Client4} from 'mattermost-redux/client';
 
-import {browserHistory} from 'react-router/es6';
-import {FormattedMessage} from 'react-intl';
-
-import icon50 from 'images/icon50x50.png';
 import bing from 'images/bing.mp3';
+import icon50 from 'images/icon50x50.png';
 
-import React from 'react';
+import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
+
+var ActionTypes = Constants.ActionTypes;
 
 export function isEmail(email) {
     // writing a regex to match all valid email addresses is really, really hard (see http://stackoverflow.com/a/201378)

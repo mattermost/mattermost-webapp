@@ -3,10 +3,12 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getCurrentUserId, makeGetProfilesForReactions} from 'mattermost-redux/selectors/entities/users';
-import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
+
 import {addReaction, removeReaction} from 'mattermost-redux/actions/posts';
+import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
+import {getCurrentUserId, makeGetProfilesForReactions} from 'mattermost-redux/selectors/entities/users';
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
+
 import * as Emoji from 'utils/emoji.jsx';
 
 import Reaction from './reaction.jsx';

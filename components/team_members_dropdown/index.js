@@ -3,9 +3,10 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getUser} from 'mattermost-redux/actions/users';
-import {getTeamStats} from 'mattermost-redux/actions/teams';
+
 import {getChannelStats} from 'mattermost-redux/actions/channels';
+import {getTeamStats} from 'mattermost-redux/actions/teams';
+import {getUser} from 'mattermost-redux/actions/users';
 
 import TeamMembersDropdown from './team_members_dropdown.jsx';
 

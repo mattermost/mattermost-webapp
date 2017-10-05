@@ -2,18 +2,21 @@
 // See License.txt for license information.
 
 import {batchActions} from 'redux-batched-actions';
-import configureServiceStore from 'mattermost-redux/store';
-import {General, RequestStatus} from 'mattermost-redux/constants';
-import reduxInitialState from 'mattermost-redux/store/initial_state';
 import {createTransform, persistStore} from 'redux-persist';
+
 import localForage from 'localforage';
+
+import {General, RequestStatus} from 'mattermost-redux/constants';
+import configureServiceStore from 'mattermost-redux/store';
+import reduxInitialState from 'mattermost-redux/store/initial_state';
+
 import appReducer from 'reducers';
+
+import {transformSet} from './utils';
 
 function getAppReducer() {
     return require('../reducers'); // eslint-disable-line global-require
 }
-
-import {transformSet} from './utils';
 
 const usersSetTransform = [
     'profilesInChannel',
@@ -114,4 +117,3 @@ export default function configureStore(initialState) {
 
     return configureServiceStore({}, appReducer, offlineOptions, getAppReducer, {enableBuffer: false});
 }
-

@@ -1,18 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import Suggestion from './suggestion.jsx';
-import Provider from './provider.jsx';
+import React from 'react';
 
 import {autocompleteChannels} from 'actions/channel_actions.jsx';
-
+import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import {Constants, ActionTypes} from 'utils/constants.jsx';
 import {sortChannelsByDisplayName} from 'utils/channel_utils.jsx';
+import {ActionTypes, Constants} from 'utils/constants.jsx';
 
-import React from 'react';
+import Provider from './provider.jsx';
+import Suggestion from './suggestion.jsx';
 
 class SearchChannelSuggestion extends Suggestion {
     render() {

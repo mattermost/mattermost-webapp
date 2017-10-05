@@ -1,30 +1,29 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import UserProfile from './user_profile.jsx';
-import FileAttachmentListContainer from 'components/file_attachment_list';
-import PostMessageContainer from 'components/post_view/post_message_view';
-import ProfilePicture from 'components/profile_picture.jsx';
-import ReactionListContainer from 'components/post_view/reaction_list';
-import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
-import FailedPostOptions from 'components/post_view/failed_post_options';
-import DotMenu from 'components/dot_menu';
-import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
-import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {FormattedMessage} from 'react-intl';
+import {Link} from 'react-router/es6';
 
 import {addReaction, emitEmojiPosted} from 'actions/post_actions.jsx';
-
 import TeamStore from 'stores/team_store.jsx';
 
-import * as Utils from 'utils/utils.jsx';
-import * as PostUtils from 'utils/post_utils.jsx';
-
 import Constants from 'utils/constants.jsx';
+import * as PostUtils from 'utils/post_utils.jsx';
+import * as Utils from 'utils/utils.jsx';
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import {Link} from 'react-router/es6';
-import {FormattedMessage} from 'react-intl';
+import DotMenu from 'components/dot_menu';
+import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
+import FileAttachmentListContainer from 'components/file_attachment_list';
+import FailedPostOptions from 'components/post_view/failed_post_options';
+import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content.jsx';
+import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
+import PostMessageContainer from 'components/post_view/post_message_view';
+import ReactionListContainer from 'components/post_view/reaction_list';
+import ProfilePicture from 'components/profile_picture.jsx';
+
+import UserProfile from './user_profile.jsx';
 
 export default class RhsComment extends React.Component {
     static propTypes = {

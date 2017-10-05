@@ -2,24 +2,26 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
+
 import PropTypes from 'prop-types';
 import React from 'react';
-
-import Constants from 'utils/constants.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
-import ChannelHeader from 'components/channel_header';
-import FileUploadOverlay from 'components/file_upload_overlay.jsx';
-import CreatePost from 'components/create_post.jsx';
-import PostView from 'components/post_view';
-import TutorialView from 'components/tutorial/tutorial_view.jsx';
-const TutorialSteps = Constants.TutorialSteps;
-const Preferences = Constants.Preferences;
 
 import ChannelStore from 'stores/channel_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
+import Constants from 'utils/constants.jsx';
+import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
+
+import ChannelHeader from 'components/channel_header';
+import CreatePost from 'components/create_post.jsx';
+import FileUploadOverlay from 'components/file_upload_overlay.jsx';
+import PostView from 'components/post_view';
+import TutorialView from 'components/tutorial/tutorial_view.jsx';
+
+const TutorialSteps = Constants.TutorialSteps;
+const Preferences = Constants.Preferences;
 
 export default class ChannelView extends React.Component {
     constructor(props) {

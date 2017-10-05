@@ -2,10 +2,11 @@
 // See License.txt for license information.
 
 import {connect} from 'react-redux';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {bindActionCreators} from 'redux';
+
 import {getOpenGraphMetadata} from 'mattermost-redux/actions/posts';
 import {getOpenGraphMetadataForUrl} from 'mattermost-redux/selectors/entities/posts';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
 import PostAttachmentOpenGraph from './post_attachment_opengraph.jsx';
 

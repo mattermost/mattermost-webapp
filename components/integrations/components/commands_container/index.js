@@ -3,8 +3,8 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getCustomTeamCommands} from 'mattermost-redux/actions/integrations';
 
+import {getCustomTeamCommands} from 'mattermost-redux/actions/integrations';
 import {getCommands} from 'mattermost-redux/selectors/entities/integrations';
 import {getUsers} from 'mattermost-redux/selectors/entities/users';
 

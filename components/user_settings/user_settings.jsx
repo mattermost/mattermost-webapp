@@ -1,17 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import PropTypes from 'prop-types';
+import React from 'react';
+
 import UserStore from 'stores/user_store.jsx';
+
 import * as utils from 'utils/utils.jsx';
+
+import AdvancedTab from './user_settings_advanced.jsx';
+import DisplayTab from './user_settings_display.jsx';
+import GeneralTab from './user_settings_general';
 import NotificationsTab from './user_settings_notifications.jsx';
 import SecurityTab from './user_settings_security';
-import GeneralTab from './user_settings_general';
-import DisplayTab from './user_settings_display.jsx';
-import AdvancedTab from './user_settings_advanced.jsx';
-
-import PropTypes from 'prop-types';
-
-import React from 'react';
 
 export default class UserSettings extends React.Component {
     constructor(props) {

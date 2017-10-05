@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import {createOutgoingHook} from 'mattermost-redux/actions/integrations';
 
 import AddOutgoingWebhook from './add_outgoing_webhook.jsx';

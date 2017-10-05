@@ -1,16 +1,17 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import UserStore from 'stores/user_store.jsx';
+import * as EmojiActions from 'mattermost-redux/actions/emojis';
+import {getProfilesByIds} from 'mattermost-redux/actions/users';
 
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
+import store from 'stores/redux_store.jsx';
+import UserStore from 'stores/user_store.jsx';
+
 import {ActionTypes} from 'utils/constants.jsx';
 
-import store from 'stores/redux_store.jsx';
 const dispatch = store.dispatch;
 const getState = store.getState;
-import {getProfilesByIds} from 'mattermost-redux/actions/users';
-import * as EmojiActions from 'mattermost-redux/actions/emojis';
 
 export async function loadEmoji(getProfiles = true) {
     const data = await EmojiActions.getAllCustomEmojis()(dispatch, getState);

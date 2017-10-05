@@ -1,13 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
-import Constants from 'utils/constants.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
-import * as Utils from 'utils/utils.jsx';
+
 import {sortChannelsByDisplayName} from 'utils/channel_utils.jsx';
+import Constants from 'utils/constants.jsx';
+import * as Utils from 'utils/utils.jsx';
 
 export default class ChannelSelect extends React.Component {
     static get propTypes() {

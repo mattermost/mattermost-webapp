@@ -6,34 +6,29 @@
 import keyMirror from 'key-mirror';
 
 import audioIcon from 'images/icons/audio.png';
-import videoIcon from 'images/icons/video.png';
-import excelIcon from 'images/icons/excel.png';
-import pptIcon from 'images/icons/ppt.png';
-import pdfIcon from 'images/icons/pdf.png';
 import codeIcon from 'images/icons/code.png';
-import wordIcon from 'images/icons/word.png';
-import patchIcon from 'images/icons/patch.png';
+import excelIcon from 'images/icons/excel.png';
 import genericIcon from 'images/icons/generic.png';
-
+import patchIcon from 'images/icons/patch.png';
+import pdfIcon from 'images/icons/pdf.png';
+import pptIcon from 'images/icons/ppt.png';
+import videoIcon from 'images/icons/video.png';
+import wordIcon from 'images/icons/word.png';
 import logoImage from 'images/logo_compact.png';
+import githubIcon from 'images/themes/code_themes/github.png';
+import monokaiIcon from 'images/themes/code_themes/monokai.png';
+import solarizedDarkIcon from 'images/themes/code_themes/solarized-dark.png';
+import solarizedLightIcon from 'images/themes/code_themes/solarized-light.png';
+import mattermostThemeImage from 'images/themes/mattermost.png';
+import mattermostDarkThemeImage from 'images/themes/mattermost_dark.png';
+import defaultThemeImage from 'images/themes/organization.png';
+import windows10ThemeImage from 'images/themes/windows_dark.png';
 import logoWebhook from 'images/webhook_icon.jpg';
 
-import solarizedDarkCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-dark.css';
-import solarizedDarkIcon from 'images/themes/code_themes/solarized-dark.png';
-
-import solarizedLightCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-light.css';
-import solarizedLightIcon from 'images/themes/code_themes/solarized-light.png';
-
-import githubCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/github.css';
-import githubIcon from 'images/themes/code_themes/github.png';
-
-import monokaiCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/monokai.css';
-import monokaiIcon from 'images/themes/code_themes/monokai.png';
-
-import defaultThemeImage from 'images/themes/organization.png';
-import mattermostDarkThemeImage from 'images/themes/mattermost_dark.png';
-import mattermostThemeImage from 'images/themes/mattermost.png';
-import windows10ThemeImage from 'images/themes/windows_dark.png';
+import githubCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/github.css';                   // eslint-disable-line import/order
+import monokaiCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/monokai.css';                 // eslint-disable-line import/order
+import solarizedDarkCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-dark.css';    // eslint-disable-line import/order
+import solarizedLightCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-light.css';  // eslint-disable-line import/order
 
 export const Preferences = {
     CATEGORY_DIRECT_CHANNEL_SHOW: 'direct_channel_show',

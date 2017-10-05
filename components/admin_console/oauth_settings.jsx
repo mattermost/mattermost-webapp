@@ -1,16 +1,16 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import * as Utils from 'utils/utils.jsx';
+import React from 'react';
+import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+
 import Constants from 'utils/constants.jsx';
+import * as Utils from 'utils/utils.jsx';
 
 import AdminSettings from './admin_settings.jsx';
 import DropdownSetting from './dropdown_setting.jsx';
 import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting.jsx';
-
-import React from 'react';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 export default class OAuthSettings extends AdminSettings {
     constructor(props) {

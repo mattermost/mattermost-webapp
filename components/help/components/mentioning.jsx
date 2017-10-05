@@ -1,12 +1,12 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {localizeMessage} from 'utils/utils.jsx';
-import {formatText} from 'utils/text_formatting.jsx';
+import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router/es6';
 
-import React from 'react';
+import {formatText} from 'utils/text_formatting.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 
 export default function HelpMentioning() {
     const message = [];

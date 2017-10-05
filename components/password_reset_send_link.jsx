@@ -2,14 +2,17 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-import ReactDOM from 'react-dom';
-import * as Utils from 'utils/utils.jsx';
-import {sendPasswordResetEmail} from 'actions/user_actions.jsx';
-import BackButton from 'components/common/back_button.jsx';
 
-import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
 import PropTypes from 'prop-types';
 import React from 'react';
+import ReactDOM from 'react-dom';
+import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+
+import {sendPasswordResetEmail} from 'actions/user_actions.jsx';
+
+import * as Utils from 'utils/utils.jsx';
+
+import BackButton from 'components/common/back_button.jsx';
 
 class PasswordResetSendLink extends React.Component {
     constructor(props) {

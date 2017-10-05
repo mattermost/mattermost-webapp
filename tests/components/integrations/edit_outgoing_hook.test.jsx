@@ -2,6 +2,7 @@
 // See License.txt for license information.
 
 import React from 'react';
+
 import {shallow} from 'enzyme';
 
 import EditOutgoingWebhook from 'components/integrations/components/edit_outgoing_webhook/edit_outgoing_webhook.jsx';
@@ -28,4 +29,3 @@ describe('components/integrations/EditOutgoingWebhook', () => {
         expect(wrapper).toMatchSnapshot();
     });
 });
-

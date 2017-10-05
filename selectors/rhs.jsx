@@ -2,10 +2,11 @@
 // See License.txt for license information.
 
 import {createSelector} from 'reselect';
+
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-import {localizeMessage} from 'utils/utils.jsx';
 import {PostTypes} from 'utils/constants.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 
 export function getSelectedPostId(state) {
     return state.views.rhs.selectedPostId;

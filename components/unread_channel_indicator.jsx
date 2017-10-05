@@ -1,11 +1,9 @@
-import PropTypes from 'prop-types';
-
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-// Indicator for the left sidebar which indicate if there's unread posts in a channel that is not shown
-// because it is either above or below the screen
+import PropTypes from 'prop-types';
 import React from 'react';
+
 import Constants from 'utils/constants.jsx';
 
 export default function UnreadChannelIndicator(props) {

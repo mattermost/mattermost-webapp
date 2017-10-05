@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import {getUserAudits} from 'mattermost-redux/actions/users';
 
 import AccessHistoryModal from './access_history_modal.jsx';

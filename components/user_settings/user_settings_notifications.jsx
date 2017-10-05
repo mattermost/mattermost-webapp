@@ -2,18 +2,22 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-import SettingItemMin from 'components/setting_item_min.jsx';
-import SettingItemMax from 'components/setting_item_max.jsx';
-import DesktopNotificationSettings from './desktop_notification_settings.jsx';
 
+import PropTypes from 'prop-types';
+import React from 'react';
+import {FormattedMessage} from 'react-intl';
+
+import {updateUserNotifyProps} from 'actions/user_actions.jsx';
 import UserStore from 'stores/user_store.jsx';
 
-import * as Utils from 'utils/utils.jsx';
 import Constants, {NotificationLevels} from 'utils/constants.jsx';
-import {updateUserNotifyProps} from 'actions/user_actions.jsx';
+import * as Utils from 'utils/utils.jsx';
 
+import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMin from 'components/setting_item_min.jsx';
+
+import DesktopNotificationSettings from './desktop_notification_settings.jsx';
 import EmailNotificationSetting from './email_notification_setting.jsx';
-import {FormattedMessage} from 'react-intl';
 
 function getNotificationsStateFromStores() {
     const user = UserStore.getCurrentUser();
@@ -96,10 +100,6 @@ function getNotificationsStateFromStores() {
         notifyCommentsLevel: comments
     };
 }
-
-import PropTypes from 'prop-types';
-
-import React from 'react';
 
 export default class NotificationsTab extends React.Component {
     constructor(props) {

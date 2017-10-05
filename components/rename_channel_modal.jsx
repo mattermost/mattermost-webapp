@@ -1,18 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import PropTypes from 'prop-types';
+import React from 'react';
+import {Modal, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
+import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import {browserHistory} from 'react-router/es6';
-import * as Utils from 'utils/utils.jsx';
-import Constants from 'utils/constants.jsx';
-import {cleanUpUrlable, getShortenedURL} from 'utils/url.jsx';
 
+import {updateChannel} from 'actions/channel_actions.jsx';
 import TeamStore from 'stores/team_store.jsx';
 
-import {intlShape, injectIntl, defineMessages, FormattedMessage} from 'react-intl';
-import {updateChannel} from 'actions/channel_actions.jsx';
-
-import {Modal, Tooltip, OverlayTrigger} from 'react-bootstrap';
+import Constants from 'utils/constants.jsx';
+import {cleanUpUrlable, getShortenedURL} from 'utils/url.jsx';
+import * as Utils from 'utils/utils.jsx';
 
 const holders = defineMessages({
     required: {
@@ -44,10 +45,6 @@ const holders = defineMessages({
         defaultMessage: 'lowercase alphanumeric characters'
     }
 });
-
-import PropTypes from 'prop-types';
-
-import React from 'react';
 
 export class RenameChannelModal extends React.Component {
     constructor(props) {

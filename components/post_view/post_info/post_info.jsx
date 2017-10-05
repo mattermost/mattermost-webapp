@@ -1,22 +1,24 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import PostTime from 'components/post_view/post_time.jsx';
-import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
-import CommentIcon from 'components/common/comment_icon.jsx';
-import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
-import DotMenu from 'components/dot_menu';
-
-import * as Utils from 'utils/utils.jsx';
-import * as PostUtils from 'utils/post_utils.jsx';
-import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
-import {emitEmojiPosted} from 'actions/post_actions.jsx';
-import Constants from 'utils/constants.jsx';
-import {Posts} from 'mattermost-redux/constants';
-
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import {FormattedMessage} from 'react-intl';
+
+import {Posts} from 'mattermost-redux/constants';
+import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
+
+import {emitEmojiPosted} from 'actions/post_actions.jsx';
+
+import Constants from 'utils/constants.jsx';
+import * as PostUtils from 'utils/post_utils.jsx';
+import * as Utils from 'utils/utils.jsx';
+
+import CommentIcon from 'components/common/comment_icon.jsx';
+import DotMenu from 'components/dot_menu';
+import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
+import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
+import PostTime from 'components/post_view/post_time.jsx';
 
 export default class PostInfo extends React.PureComponent {
     static propTypes = {

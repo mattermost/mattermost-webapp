@@ -1,20 +1,20 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import LineChart from './line_chart.jsx';
-import DoughnutChart from './doughnut_chart.jsx';
-import StatisticCount from './statistic_count.jsx';
+import React from 'react';
+import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
+import * as AdminActions from 'actions/admin_actions.jsx';
 import AnalyticsStore from 'stores/analytics_store.jsx';
 
-import * as Utils from 'utils/utils.jsx';
-import * as AdminActions from 'actions/admin_actions.jsx';
 import Constants from 'utils/constants.jsx';
+import * as Utils from 'utils/utils.jsx';
+
+import DoughnutChart from './doughnut_chart.jsx';
+import LineChart from './line_chart.jsx';
+import StatisticCount from './statistic_count.jsx';
+
 const StatTypes = Constants.StatTypes;
-
-import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
-
-import React from 'react';
 
 export default class SystemAnalytics extends React.Component {
     constructor(props) {

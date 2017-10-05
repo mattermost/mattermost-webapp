@@ -5,6 +5,7 @@
 // the configured Redux store for use by actions and selectors.
 
 import configureStore from 'store';
+
 const store = configureStore();
 
 export function bindActionToRedux(action, ...args) {
@@ -16,4 +17,3 @@ export function bindActionToRedux(action, ...args) {
 window.store = store;
 
 export default store;
-

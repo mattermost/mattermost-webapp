@@ -1,21 +1,25 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import UserStore from 'stores/user_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
-import * as Utils from 'utils/utils.jsx';
-import AnnouncementBar from 'components/announcement_bar';
-import LoadingScreen from 'components/loading_screen.jsx';
-import * as GlobalActions from 'actions/global_actions.jsx';
-import SelectTeamItem from './components/select_team_item.jsx';
-import BackButton from 'components/common/back_button.jsx';
-import logoImage from 'images/logo.png';
-
-import {Link} from 'react-router/es6';
-import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
 import React from 'react';
+import {FormattedMessage} from 'react-intl';
+import {Link} from 'react-router/es6';
+
+import * as GlobalActions from 'actions/global_actions.jsx';
+import TeamStore from 'stores/team_store.jsx';
+import UserStore from 'stores/user_store.jsx';
+
+import * as UserAgent from 'utils/user_agent.jsx';
+import * as Utils from 'utils/utils.jsx';
+
+import logoImage from 'images/logo.png';
+
+import AnnouncementBar from 'components/announcement_bar';
+import BackButton from 'components/common/back_button.jsx';
+import LoadingScreen from 'components/loading_screen.jsx';
+
+import SelectTeamItem from './components/select_team_item.jsx';
 
 export default class SelectTeam extends React.Component {
     static propTypes = {

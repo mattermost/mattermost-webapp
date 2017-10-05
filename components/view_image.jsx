@@ -2,19 +2,20 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 
+import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
+
 import * as GlobalActions from 'actions/global_actions.jsx';
 
+import Constants from 'utils/constants.jsx';
 import * as FileUtils from 'utils/file_utils';
 import * as Utils from 'utils/utils.jsx';
 
-import Constants from 'utils/constants.jsx';
-const KeyCodes = Constants.KeyCodes;
-
-import {getFileUrl, getFilePreviewUrl} from 'mattermost-redux/utils/file_utils';
+import loadingGif from 'images/load.gif';
 
 import AudioVideoPreview from './audio_video_preview.jsx';
 import CodePreview from './code_preview.jsx';
@@ -22,7 +23,7 @@ import FileInfoPreview from './file_info_preview.jsx';
 import PDFPreview from './pdf_preview.jsx';
 import ViewImagePopoverBar from './view_image_popover_bar.jsx';
 
-import loadingGif from 'images/load.gif';
+const KeyCodes = Constants.KeyCodes;
 
 export default class ViewImageModal extends React.Component {
     constructor(props) {

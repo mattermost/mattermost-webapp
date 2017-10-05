@@ -1,20 +1,22 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import Textbox from './textbox.jsx';
-
+import PropTypes from 'prop-types';
+import React from 'react';
+import {Modal} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
-import Constants from 'utils/constants.jsx';
-import * as Utils from 'utils/utils.jsx';
+import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
+
+import {updateChannelHeader} from 'actions/channel_actions.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 
-import {intlShape, injectIntl, defineMessages, FormattedMessage} from 'react-intl';
-import {updateChannelHeader} from 'actions/channel_actions.jsx';
+import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
+import * as Utils from 'utils/utils.jsx';
+
+import Textbox from './textbox.jsx';
 
 const KeyCodes = Constants.KeyCodes;
-
-import {Modal} from 'react-bootstrap';
 
 const holders = defineMessages({
     error: {
@@ -22,10 +24,6 @@ const holders = defineMessages({
         defaultMessage: 'This channel header is too long, please enter a shorter one'
     }
 });
-
-import PropTypes from 'prop-types';
-
-import React from 'react';
 
 class EditChannelHeaderModal extends React.Component {
     constructor(props) {

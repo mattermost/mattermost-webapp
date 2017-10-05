@@ -2,8 +2,10 @@
 // See License.txt for license information.
 
 import {combineReducers} from 'redux';
-import {ActionTypes, Constants} from 'utils/constants.jsx';
+
 import {ChannelTypes, PostTypes} from 'mattermost-redux/action_types';
+
+import {ActionTypes, Constants} from 'utils/constants.jsx';
 
 function postVisibility(state = {}, action) {
     switch (action.type) {

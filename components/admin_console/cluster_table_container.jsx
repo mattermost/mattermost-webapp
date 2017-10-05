@@ -2,10 +2,12 @@
 // See License.txt for license information.
 
 import React from 'react';
-import ClusterTable from './cluster_table.jsx';
-import LoadingScreen from '../loading_screen.jsx';
 
 import {getClusterStatus} from 'actions/admin_actions.jsx';
+
+import LoadingScreen from '../loading_screen.jsx';
+
+import ClusterTable from './cluster_table.jsx';
 
 export default class ClusterTableContainer extends React.Component {
     constructor(props) {

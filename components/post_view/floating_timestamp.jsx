@@ -1,10 +1,9 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {FormattedDate} from 'react-intl';
-
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
+import {FormattedDate} from 'react-intl';
 
 export default class FloatingTimestamp extends React.PureComponent {
     static propTypes = {

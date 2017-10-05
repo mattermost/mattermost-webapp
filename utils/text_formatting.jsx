@@ -2,12 +2,14 @@
 // See License.txt for license information.
 
 import Autolinker from 'autolinker';
-import Constants from './constants.jsx';
-import EmojiStore from 'stores/emoji_store.jsx';
-import * as Emoticons from './emoticons.jsx';
-import * as Markdown from './markdown.jsx';
 import twemoji from 'twemoji';
 import XRegExp from 'xregexp';
+
+import EmojiStore from 'stores/emoji_store.jsx';
+
+import Constants from './constants.jsx';
+import * as Emoticons from './emoticons.jsx';
+import * as Markdown from './markdown.jsx';
 
 const punctuation = XRegExp.cache('[^\\pL\\d]');
 

@@ -1,29 +1,29 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import ProfilePicture from 'components/profile_picture.jsx';
-
-import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
-
-import TeamMembersModal from 'components/team_members_modal.jsx';
-import ChannelMembersModal from 'components/channel_members_modal.jsx';
-import ChannelInviteModal from 'components/channel_invite_modal';
-
-import {openDirectChannelToUser} from 'actions/channel_actions.jsx';
-
-import {Client4} from 'mattermost-redux/client';
-import * as Utils from 'utils/utils.jsx';
-import Constants from 'utils/constants.jsx';
-import {canManageMembers} from 'utils/channel_utils.jsx';
-
 import $ from 'jquery';
+
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Tooltip, OverlayTrigger, Popover, Overlay} from 'react-bootstrap';
+import {Overlay, OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {browserHistory} from 'react-router/es6';
+
+import {Client4} from 'mattermost-redux/client';
+
+import {openDirectChannelToUser} from 'actions/channel_actions.jsx';
+import ChannelStore from 'stores/channel_store.jsx';
+import TeamStore from 'stores/team_store.jsx';
+import UserStore from 'stores/user_store.jsx';
+
+import {canManageMembers} from 'utils/channel_utils.jsx';
+import Constants from 'utils/constants.jsx';
+import * as Utils from 'utils/utils.jsx';
+
+import ChannelInviteModal from 'components/channel_invite_modal';
+import ChannelMembersModal from 'components/channel_members_modal.jsx';
+import ProfilePicture from 'components/profile_picture.jsx';
+import TeamMembersModal from 'components/team_members_modal.jsx';
 
 export default class PopoverListMembers extends React.Component {
     static propTypes = {
@@ -291,4 +291,3 @@ export default class PopoverListMembers extends React.Component {
         );
     }
 }
-

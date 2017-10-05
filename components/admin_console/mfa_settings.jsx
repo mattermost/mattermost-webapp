@@ -1,12 +1,12 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import AdminSettings from './admin_settings.jsx';
-import SettingsGroup from './settings_group.jsx';
-import BooleanSetting from './boolean_setting.jsx';
-
 import React from 'react';
-import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
+import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+
+import AdminSettings from './admin_settings.jsx';
+import BooleanSetting from './boolean_setting.jsx';
+import SettingsGroup from './settings_group.jsx';
 
 export default class MfaSettings extends AdminSettings {
     constructor(props) {

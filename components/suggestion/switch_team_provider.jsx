@@ -1,20 +1,20 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import Suggestion from './suggestion.jsx';
-import Provider from './provider.jsx';
-
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import {ActionTypes} from 'utils/constants.jsx';
-import LocalizationStore from 'stores/localization_store.jsx';
-
 import React from 'react';
 
-// Redux actions
-import store from 'stores/redux_store.jsx';
-const getState = store.getState;
-
 import * as Selectors from 'mattermost-redux/selectors/entities/teams';
+
+import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
+import LocalizationStore from 'stores/localization_store.jsx';
+import store from 'stores/redux_store.jsx';
+
+import {ActionTypes} from 'utils/constants.jsx';
+
+import Provider from './provider.jsx';
+import Suggestion from './suggestion.jsx';
+
+const getState = store.getState;
 
 class SwitchTeamSuggestion extends Suggestion {
     render() {

@@ -1,15 +1,13 @@
-import PropTypes from 'prop-types';
-
-// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import PropTypes from 'prop-types';
 import React from 'react';
-
-import Setting from './setting.jsx';
-
 import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
+
+import Setting from './setting.jsx';
 
 export default class BooleanSetting extends React.Component {
     constructor(props) {

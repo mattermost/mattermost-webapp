@@ -1,18 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import Constants from 'utils/constants.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+
 import * as GlobalActions from 'actions/global_actions.jsx';
 import SuggestionStore from 'stores/suggestion_store.jsx';
+
+import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import AutosizeTextarea from 'components/autosize_textarea.jsx';
 
 const KeyCodes = Constants.KeyCodes;
-
-import PropTypes from 'prop-types';
-
-import React from 'react';
 
 export default class SuggestionBox extends React.Component {
     static propTypes = {

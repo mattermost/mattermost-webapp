@@ -1,46 +1,45 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import PropTypes from 'prop-types';
+import React from 'react';
 import ReactDOM from 'react-dom';
-import MsgTyping from './msg_typing.jsx';
-import Textbox from './textbox.jsx';
-import FileUpload from './file_upload.jsx';
-import FilePreview from './file_preview.jsx';
-import PostDeletedModal from './post_deleted_modal.jsx';
-import TutorialTip from './tutorial/tutorial_tip.jsx';
-import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
+import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {browserHistory} from 'react-router/es6';
 
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import * as GlobalActions from 'actions/global_actions.jsx';
-import {isUrlSafe} from 'utils/url.jsx';
-import * as Utils from 'utils/utils.jsx';
-import * as PostUtils from 'utils/post_utils.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
 import * as ChannelActions from 'actions/channel_actions.jsx';
+import * as GlobalActions from 'actions/global_actions.jsx';
 import * as PostActions from 'actions/post_actions.jsx';
-
+import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import EmojiStore from 'stores/emoji_store.jsx';
-import PostStore from 'stores/post_store.jsx';
 import MessageHistoryStore from 'stores/message_history_store.jsx';
-import UserStore from 'stores/user_store.jsx';
+import PostStore from 'stores/post_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
-import ConfirmModal from './confirm_modal.jsx';
+import UserStore from 'stores/user_store.jsx';
 
 import Constants from 'utils/constants.jsx';
 import * as FileUtils from 'utils/file_utils';
+import * as PostUtils from 'utils/post_utils.jsx';
+import * as UserAgent from 'utils/user_agent.jsx';
+import * as Utils from 'utils/utils.jsx';
+import {isUrlSafe} from 'utils/url.jsx';
 
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router/es6';
+import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
+
+import ConfirmModal from './confirm_modal.jsx';
+import FilePreview from './file_preview.jsx';
+import FileUpload from './file_upload.jsx';
+import MsgTyping from './msg_typing.jsx';
+import PostDeletedModal from './post_deleted_modal.jsx';
+import Textbox from './textbox.jsx';
+import TutorialTip from './tutorial/tutorial_tip.jsx';
 
 const Preferences = Constants.Preferences;
 const TutorialSteps = Constants.TutorialSteps;
 const ActionTypes = Constants.ActionTypes;
 const KeyCodes = Constants.KeyCodes;
-
-import React from 'react';
-import PropTypes from 'prop-types';
 
 export const REACTION_PATTERN = /^(\+|-):([^:\s]+):\s*$/;
 
