@@ -1,11 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import SaveButton from 'components/admin_console/save_button.jsx';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import SaveButton from 'components/admin_console/save_button.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -76,7 +76,6 @@ export default class SettingItemMax extends React.Component {
                     saving={this.props.saving}
                     disabled={this.props.saving}
                     onClick={this.props.submit}
-                    messageId='setting_item_max.saving'
                 />
             );
         }

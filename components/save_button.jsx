@@ -10,19 +10,21 @@ export default class SaveButton extends React.Component {
         return {
             saving: PropTypes.bool.isRequired,
             disabled: PropTypes.bool,
-            savingMessageId: PropTypes.string
+            savingMessageId: PropTypes.string,
+            defaultMessage: ProTypes.string
         };
     }
 
     static get defaultProps() {
         return {
             disabled: false,
-            savingMessageId: 'admin.saving'
+            savingMessageId: 'setting_item_max.saving',
+            defaultMessage: 'Saving'
         };
     }
 
     render() {
-        const {saving, disabled, savingMessageId, ...props} = this.props; // eslint-disable-line no-use-before-define
+        const {saving, disabled, savingMessageId, defaultMessage, ...props} = this.props; // eslint-disable-line no-use-before-define
 
         let contents;
         if (saving) {
@@ -31,7 +33,7 @@ export default class SaveButton extends React.Component {
                     <span className='icon fa fa-refresh icon--rotate'/>
                     <FormattedMessage
                         id={savingMessageId}
-                        defaultMessage='Saving Config...'
+                        defaultMessage={defaultMessage}
                     />
                 </span>
             );
