@@ -11,6 +11,7 @@
     "bootstrap-colorpicker": "2.5.2",
     "chart.js": "2.7.0",
     "compass-mixins": "0.12.10",
+    "enzyme-adapter-react-15": "1.0.1",
     "exif2css": "1.2.0",
     "fastclick": "1.0.6",
     "flux": "3.1.3",
@@ -40,6 +41,7 @@
     "react-redux": "5.0.6",
     "react-router": "2.8.1",
     "react-select": "1.0.0-rc.10",
+    "react-test-renderer": "15",
     "redux": "3.7.2",
     "redux-batched-actions": "0.2.0",
     "redux-persist": "4.10.1",
@@ -132,7 +134,8 @@
     ],
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|react-router)"
-    ]
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/tests/setup.js"
   },
   "scripts": {
     "check": "eslint --ext \".jsx\" --ignore-pattern node_modules --quiet .",

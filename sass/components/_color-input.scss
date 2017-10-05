@@ -1,0 +1,19 @@
+@charset 'UTF-8';
+
+.color-input {
+    position: relative;
+}
+
+.color-icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+}
+
+.color-popover {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    padding-top: 8px;
+    z-index: 12;
+}

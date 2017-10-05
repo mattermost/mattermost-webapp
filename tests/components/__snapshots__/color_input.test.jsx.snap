@@ -1,0 +1,153 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/ColorInput should match snapshot, click on picker 1`] = `
+<div
+  className="color-input input-group"
+>
+  <input
+    className="form-control"
+    readOnly={true}
+    style={
+      Object {
+        "background": "#fff",
+      }
+    }
+    type="text"
+  />
+  <span
+    className="input-group-addon"
+    onClick={[Function]}
+  >
+    <i
+      className="color-icon"
+      style={
+        Object {
+          "backgroundColor": undefined,
+        }
+      }
+    />
+  </span>
+  <div
+    className="color-popover"
+  >
+    <ColorPicker
+      color={
+        Object {
+          "a": 1,
+          "h": 250,
+          "l": 0.2,
+          "s": 0.5,
+        }
+      }
+      disableAlpha={false}
+      onChange={[Function]}
+    />
+  </div>
+</div>
+`;
+
+exports[`components/ColorInput should match snapshot, init 1`] = `
+<div
+  className="color-input input-group"
+>
+  <input
+    className="form-control"
+    readOnly={true}
+    style={
+      Object {
+        "background": "#fff",
+      }
+    }
+    type="text"
+  />
+  <span
+    className="input-group-addon"
+    onClick={[Function]}
+  >
+    <i
+      className="color-icon"
+      style={
+        Object {
+          "backgroundColor": undefined,
+        }
+      }
+    />
+  </span>
+</div>
+`;
+
+exports[`components/ColorInput should match snapshot, opened 1`] = `
+<div
+  className="color-input input-group"
+>
+  <input
+    className="form-control"
+    readOnly={true}
+    style={
+      Object {
+        "background": "#fff",
+      }
+    }
+    type="text"
+  />
+  <span
+    className="input-group-addon"
+    onClick={[Function]}
+  >
+    <i
+      className="color-icon"
+      style={
+        Object {
+          "backgroundColor": undefined,
+        }
+      }
+    />
+  </span>
+  <div
+    className="color-popover"
+  >
+    <ColorPicker
+      color={
+        Object {
+          "a": 1,
+          "h": 250,
+          "l": 0.2,
+          "s": 0.5,
+        }
+      }
+      disableAlpha={false}
+      onChange={[Function]}
+    />
+  </div>
+</div>
+`;
+
+exports[`components/ColorInput should match snapshot, toggle picker 1`] = `
+<div
+  className="color-input input-group"
+>
+  <input
+    className="form-control"
+    readOnly={true}
+    style={
+      Object {
+        "background": "#fff",
+      }
+    }
+    type="text"
+  />
+  <span
+    className="input-group-addon"
+    onClick={[Function]}
+  >
+    <i
+      className="color-icon"
+      style={
+        Object {
+          "backgroundColor": undefined,
+        }
+      }
+    />
+  </span>
+</div>
+`;
