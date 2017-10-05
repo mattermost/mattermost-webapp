@@ -13,7 +13,20 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedHTMLMessage} from 'react-intl';
 
-export default function UserListRow({user, extraInfo, actions, actionProps, actionUserProps, userCount}) {
+export default function UserListRow({
+    user,
+    extraInfo,
+    actions,
+    actionProps,
+    actionUserProps,
+    userCount,
+    isSelected
+}) {
+    let rowSelected = '';
+    if (isSelected) {
+        rowSelected = 'more-modal__row--selected';
+    }
+
     let buttons = null;
     if (actions) {
         buttons = actions.map((Action, index) => {
@@ -57,19 +70,17 @@ export default function UserListRow({user, extraInfo, actions, actionProps, acti
     }
 
     return (
-        <div
-            key={user.id}
-            className='more-modal__row'
-        >
+        <div key={user.id} className={'more-modal__row ' + rowSelected}>
             <ProfilePicture
-                src={Client4.getProfilePictureUrl(user.id, user.last_picture_update)}
+                src={Client4.getProfilePictureUrl(
+                    user.id,
+                    user.last_picture_update
+                )}
                 status={status}
                 width='32'
                 height='32'
             />
-            <div
-                className='more-modal__details'
-            >
+            <div className='more-modal__details'>
                 <div
                     id={userCountID}
                     className='more-modal__name'
@@ -84,11 +95,7 @@ export default function UserListRow({user, extraInfo, actions, actionProps, acti
                 </div>
                 {extraInfo}
             </div>
-            <div
-                className='more-modal__actions'
-            >
-                {buttons}
-            </div>
+            <div className='more-modal__actions'>{buttons}</div>
         </div>
     );
 }
@@ -97,7 +104,8 @@ UserListRow.defaultProps = {
     extraInfo: [],
     actions: [],
     actionProps: {},
-    actionUserProps: {}
+    actionUserProps: {},
+    isSelected: false
 };
 
 UserListRow.propTypes = {
@@ -106,5 +114,6 @@ UserListRow.propTypes = {
     actions: PropTypes.arrayOf(PropTypes.func),
     actionProps: PropTypes.object,
     actionUserProps: PropTypes.object,
-    userCount: PropTypes.number
+    userCount: PropTypes.number,
+    isSelected: PropTypes.bool
 };

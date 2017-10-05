@@ -2,34 +2,40 @@
 // See License.txt for license information.
 
 import ChannelMembersDropdown from 'components/channel_members_dropdown';
-import SearchableUserList from 'components/searchable_user_list/searchable_user_list_container.jsx';
+import MultiSelect from 'components/multiselect/multiselect.jsx';
+import UserListRow from 'components/user_list_row.jsx';
 
 import ChannelStore from 'stores/channel_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 
-import {searchUsers, loadProfilesAndTeamMembersAndChannelMembers, loadTeamMembersAndChannelMembersForProfilesList} from 'actions/user_actions.jsx';
+import {
+    searchUsers,
+    loadProfilesAndTeamMembersAndChannelMembers,
+    loadTeamMembersAndChannelMembersForProfilesList
+} from 'actions/user_actions.jsx';
 
 import Constants from 'utils/constants.jsx';
-
-import * as UserAgent from 'utils/user_agent.jsx';
 
 import PropTypes from 'prop-types';
 
 import React from 'react';
+import {FormattedMessage} from 'react-intl';
 
 import store from 'stores/redux_store.jsx';
 import {searchProfilesInCurrentChannel} from 'mattermost-redux/selectors/entities/users';
 
 const USERS_PER_PAGE = 50;
+const MAX_SELECTABLE_VALUES = 20;
 
 export default class MemberListChannel extends React.Component {
     static propTypes = {
+        isAdmin: PropTypes.bool,
         channel: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             getChannelStats: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -38,6 +44,7 @@ export default class MemberListChannel extends React.Component {
         this.onStatsChange = this.onStatsChange.bind(this);
         this.search = this.search.bind(this);
         this.loadComplete = this.loadComplete.bind(this);
+        this.renderOption = this.renderOption.bind(this);
 
         this.searchTimeoutId = 0;
         this.term = '';
@@ -45,11 +52,19 @@ export default class MemberListChannel extends React.Component {
         const stats = ChannelStore.getCurrentStats();
 
         this.state = {
-            users: UserStore.getProfileListInChannel(ChannelStore.getCurrentId(), false, true),
+            users: UserStore.getProfileListInChannel(
+                ChannelStore.getCurrentId(),
+                false,
+                true
+            ),
             teamMembers: Object.assign({}, TeamStore.getMembersInTeam()),
-            channelMembers: Object.assign({}, ChannelStore.getMembersInChannel()),
+            channelMembers: Object.assign(
+                {},
+                ChannelStore.getMembersInChannel()
+            ),
             total: stats.member_count,
-            loading: true
+            loading: true,
+            values: []
         };
     }
 
@@ -60,7 +75,13 @@ export default class MemberListChannel extends React.Component {
         ChannelStore.addChangeListener(this.onChange);
         ChannelStore.addStatsChangeListener(this.onStatsChange);
 
-        loadProfilesAndTeamMembersAndChannelMembers(0, Constants.PROFILE_CHUNK_SIZE, TeamStore.getCurrentId(), ChannelStore.getCurrentId(), this.loadComplete);
+        loadProfilesAndTeamMembersAndChannelMembers(
+            0,
+            Constants.PROFILE_CHUNK_SIZE,
+            TeamStore.getCurrentId(),
+            ChannelStore.getCurrentId(),
+            this.loadComplete
+        );
         this.props.actions.getChannelStats(ChannelStore.getCurrentId());
     }
 
@@ -81,23 +102,26 @@ export default class MemberListChannel extends React.Component {
         if (this.term) {
             users = searchProfilesInCurrentChannel(store.getState(), this.term);
         } else {
-            users = UserStore.getProfileListInChannel(ChannelStore.getCurrentId(), false, true);
+            users = UserStore.getProfileListInChannel(
+                ChannelStore.getCurrentId(),
+                false,
+                true
+            );
         }
 
         this.setState({
             users,
             teamMembers: Object.assign({}, TeamStore.getMembersInTeam()),
-            channelMembers: Object.assign({}, ChannelStore.getMembersInChannel())
+            channelMembers: Object.assign(
+                {},
+                ChannelStore.getMembersInChannel()
+            )
         });
     }
 
     onStatsChange() {
         const stats = ChannelStore.getCurrentStats();
         this.setState({total: stats.member_count});
-    }
-
-    nextPage(page) {
-        loadProfilesAndTeamMembersAndChannelMembers(page + 1, USERS_PER_PAGE);
     }
 
     search(term) {
@@ -111,62 +135,100 @@ export default class MemberListChannel extends React.Component {
             return;
         }
 
-        const searchTimeoutId = setTimeout(
-            () => {
-                searchUsers(term, '', {in_channel_id: ChannelStore.getCurrentId()},
-                    (users) => {
-                        if (searchTimeoutId !== this.searchTimeoutId) {
-                            return;
-                        }
-
-                        this.setState({loading: true});
-
-                        loadTeamMembersAndChannelMembersForProfilesList(users, TeamStore.getCurrentId(), ChannelStore.getCurrentId(), this.loadComplete);
+        const searchTimeoutId = setTimeout(() => {
+            searchUsers(
+                term,
+                '',
+                {in_channel_id: ChannelStore.getCurrentId()},
+                (users) => {
+                    if (searchTimeoutId !== this.searchTimeoutId) {
+                        return;
                     }
-                );
-            },
-            Constants.SEARCH_TIMEOUT_MILLISECONDS
-        );
+
+                    this.setState({loading: true});
+
+                    loadTeamMembersAndChannelMembersForProfilesList(
+                        users,
+                        TeamStore.getCurrentId(),
+                        ChannelStore.getCurrentId(),
+                        this.loadComplete
+                    );
+                }
+            );
+        }, Constants.SEARCH_TIMEOUT_MILLISECONDS);
 
         this.searchTimeoutId = searchTimeoutId;
     }
 
-    render() {
+    handlePageChange(page, prevPage) {
+        if (page > prevPage) {
+            loadProfilesAndTeamMembersAndChannelMembers(
+                page + 1,
+                USERS_PER_PAGE
+            );
+        }
+    }
+
+    renderOption(option, isSelected) {
         const teamMembers = this.state.teamMembers;
         const channelMembers = this.state.channelMembers;
+        const actionUserProps = {
+            channel: this.props.channel,
+            teamMember: teamMembers[option.id],
+            channelMember: channelMembers[option.id]
+        };
+
+        return (
+            <div
+                key={option.id}
+                ref={isSelected ? 'selected' : option.id}
+            >
+                <UserListRow
+                    isSelected={isSelected}
+                    user={option}
+                    actions={[ChannelMembersDropdown]}
+                    actionUserProps={actionUserProps}
+                />
+            </div>
+        );
+    }
+
+    renderValue(user) {
+        return user.username;
+    }
+
+    render() {
+        const numRemainingText = (
+            <FormattedMessage
+                id='multiselect.numPeopleRemaining'
+                defaultMessage='Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. '
+                values={{
+                    num: MAX_SELECTABLE_VALUES - this.state.values.length
+                }}
+            />
+        );
+
         const users = this.state.users;
-        const actionUserProps = {};
 
-        let usersToDisplay;
-        if (this.state.loading) {
-            usersToDisplay = null;
-        } else {
-            usersToDisplay = [];
-
-            for (let i = 0; i < users.length; i++) {
-                const user = users[i];
-
-                if (teamMembers[user.id] && channelMembers[user.id] && user.delete_at === 0) {
-                    usersToDisplay.push(user);
-                    actionUserProps[user.id] = {
-                        channel: this.props.channel,
-                        teamMember: teamMembers[user.id],
-                        channelMember: channelMembers[user.id]
-                    };
-                }
-            }
+        let usersToDisplay = null;
+        if (!this.state.loading) {
+            usersToDisplay = users.filter((user) => user.delete_at === 0);
         }
 
         return (
-            <SearchableUserList
-                users={usersToDisplay}
-                usersPerPage={USERS_PER_PAGE}
-                total={this.state.total}
-                nextPage={this.nextPage}
-                search={this.search}
-                actions={[ChannelMembersDropdown]}
-                actionUserProps={actionUserProps}
-                focusOnMount={!UserAgent.isMobile()}
+            <MultiSelect
+                key='viewManageChannelUsersKey'
+                options={usersToDisplay}
+                optionRenderer={this.renderOption}
+                values={this.state.values}
+                valueRenderer={this.renderValue}
+                perPage={USERS_PER_PAGE}
+                handlePageChange={this.handlePageChange}
+                handleInput={this.search}
+                maxValues={MAX_SELECTABLE_VALUES}
+                numRemainingText={numRemainingText}
+                placeholderMessage='Search users'
+                localizationKey='filtered_user_list.search'
             />
         );
     }
