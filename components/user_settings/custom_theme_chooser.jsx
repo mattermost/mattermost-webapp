@@ -12,6 +12,7 @@ import 'bootstrap-colorpicker';
 
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
+
 import ColorChooser from './color_chooser.jsx';
 
 const messages = defineMessages({
