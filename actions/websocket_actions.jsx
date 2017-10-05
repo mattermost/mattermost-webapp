@@ -267,7 +267,15 @@ function handleNewPostEvent(msg) {
 function handlePostEditEvent(msg) {
     // Store post
     const post = JSON.parse(msg.data.post);
-    dispatch({type: PostTypes.RECEIVED_POST, data: post});
+    dispatch({
+        type: PostTypes.RECEIVED_POSTS,
+        data: {
+            order: [],
+            posts: {
+                [post.id]: post
+            }
+        }
+    });
 
     // Update channel state
     if (ChannelStore.getCurrentId() === msg.broadcast.channel_id) {
