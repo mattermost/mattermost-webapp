@@ -124,11 +124,11 @@ export default class GitLabSettings extends AdminSettings {
                             defaultMessage='User API Endpoint:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.gitlab.userExample', 'Ex "https://<your-gitlab-url>/api/v3/user"')}
+                    placeholder={Utils.localizeMessage('admin.gitlab.userExample', 'Ex "https://<your-gitlab-url>/api/v4/user"')}
                     helpText={
                         <FormattedMessage
                             id='admin.gitlab.userDescription'
-                            defaultMessage='Enter https://<your-gitlab-url>/api/v3/user.   Make sure you use HTTP or HTTPS in your URL depending on your server configuration.'
+                            defaultMessage='Enter https://<your-gitlab-url>/api/v4/user.   Make sure you use HTTP or HTTPS in your URL depending on your server configuration.'
                         />
                     }
                     value={this.state.userApiEndpoint}
