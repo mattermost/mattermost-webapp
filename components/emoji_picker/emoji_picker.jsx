@@ -169,10 +169,12 @@ export default class EmojiPicker extends React.Component {
         const list = this.generateList(filter);
 
         let activeCategory = 'recent';
-        for (const category of Object.keys(this.categories)) {
-            if (this.categories[category].enable) {
-                activeCategory = this.categories[category].name;
-                break;
+        if (!filter) {
+            for (const category of Object.keys(this.categories)) {
+                if (this.categories[category].enable) {
+                    activeCategory = this.categories[category].name;
+                    break;
+                }
             }
         }
 
@@ -217,6 +219,10 @@ export default class EmojiPicker extends React.Component {
 
     handleOnScroll(offset) {
         let activeCategory = 'recent';
+        if (this.state.filter) {
+            this.setState({activeCategory});
+            return;
+        }
         for (const cat of Object.keys(this.categories)) {
             if (offset < this.categories[cat].offset) {
                 break;
@@ -319,14 +325,19 @@ export default class EmojiPicker extends React.Component {
         let list = [];
 
         for (const category of Object.keys(this.categories)) {
+            if (filter && category === 'recent') {
+                continue;
+            }
             const emojis = this.getEmojis(category, filter);
 
             if (emojis.length) {
                 this.categories[category].offset = list.length * ROW_SIZE;
                 this.categories[category].enable = true;
 
-                const emojiHeaderRow = this.generateEmojiHeaderRow(category);
-                list.push(emojiHeaderRow);
+                if (!filter) {
+                    const emojiHeaderRow = this.generateEmojiHeaderRow(category);
+                    list.push(emojiHeaderRow);
+                }
 
                 const emojiRows = this.generateEmojiRows(emojis, category);
                 list = this.addEmojiRow(list, emojiRows);
