@@ -12,7 +12,7 @@ import UserStore from 'stores/user_store.jsx';
 import Constants from 'utils/constants.jsx';
 
 import ChannelInviteModal from 'components/channel_invite_modal';
-import EditChannelHeaderModal from 'components/edit_channel_header_modal.jsx';
+import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import ProfilePicture from 'components/profile_picture.jsx';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
 import UserProfile from 'components/user_profile.jsx';
