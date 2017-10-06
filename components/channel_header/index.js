@@ -17,7 +17,7 @@ import {General, Preferences} from 'mattermost-redux/constants';
 import ChannelHeader from './channel_header.jsx';
 
 function mapStateToProps(state, ownProps) {
-    const channel = getChannel(state, ownProps.channelId);
+    const channel = getChannel(state, ownProps.channelId) || {};
     const prefs = state.entities.preferences.myPreferences;
     const user = getCurrentUser(state);
 
