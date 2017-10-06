@@ -666,13 +666,13 @@ export default class WebrtcController extends React.Component {
 
                     if (info.stun_uri) {
                         iceServers.push({
-                            urls: [info.stun_uri]
+                            urls: info.stun_uri.split(' ')
                         });
                     }
 
                     if (info.turn_uri) {
                         iceServers.push({
-                            urls: [info.turn_uri],
+                            urls: info.turn_uri.split(' '),
                             username: info.turn_username,
                             credential: info.turn_password
                         });
