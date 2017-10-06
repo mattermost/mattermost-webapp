@@ -65,7 +65,7 @@ describe('components/edit_channel_header_modal/edit_channel_header_modal', () =>
     test('error with intl message', () => {
         const serverError = {
             server_error_id: 'model.channel.is_valid.header.app_error',
-            message: 'some error',
+            message: 'some error'
         };
 
         const wrapper = shallowWithIntl(
@@ -93,7 +93,7 @@ describe('components/edit_channel_header_modal/edit_channel_header_modal', () =>
     test('error without intl message', () => {
         const serverError = {
             server_error_id: 'fake-server-errror',
-            message: 'some error',
+            message: 'some error'
         };
 
         const wrapper = shallowWithIntl(
@@ -133,7 +133,7 @@ describe('components/edit_channel_header_modal/edit_channel_header_modal', () =>
         wrapper.find('.save-button').simulate('click');
 
         expect(patchChannel.mock.calls.length).toBe(1);
-        expect(patchChannel.mock.calls[0][0]).toBe('fake-id', {header: 'Fake Channel'})
+        expect(patchChannel.mock.calls[0][0]).toBe('fake-id', {header: 'Fake Channel'});
     });
 });
 
