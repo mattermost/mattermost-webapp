@@ -3,7 +3,6 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
 import {browserHistory} from 'react-router/es6';
 
 import AbstractOAuthApp from '../abstract_oauth_app.jsx';

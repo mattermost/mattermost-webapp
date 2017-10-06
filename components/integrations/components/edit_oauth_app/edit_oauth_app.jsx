@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 
 import {browserHistory} from 'react-router/es6';
 import {FormattedMessage} from 'react-intl';
+
 import LoadingScreen from 'components/loading_screen.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import AbstractOAuthApp from '../abstract_oauth_app.jsx';

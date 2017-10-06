@@ -40,65 +40,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot 1`] = `
       >
         <label
           className="control-label col-sm-4"
-          htmlFor="is_trusted"
-        >
-          <FormattedMessage
-            defaultMessage="Is Trusted"
-            id="installed_oauth_apps.trusted"
-            values={Object {}}
-          />
-        </label>
-        <div
-          className="col-md-5 col-sm-8"
-        >
-          <label
-            className="radio-inline"
-          >
-            <input
-              checked={true}
-              name="is_trusted"
-              onChange={[Function]}
-              type="radio"
-              value="true"
-            />
-            <FormattedMessage
-              defaultMessage="Yes"
-              id="installed_oauth_apps.trusted.yes"
-              values={Object {}}
-            />
-          </label>
-          <label
-            className="radio-inline"
-          >
-            <input
-              checked={false}
-              name="is_trusted"
-              onChange={[Function]}
-              type="radio"
-              value="false"
-            />
-            <FormattedMessage
-              defaultMessage="No"
-              id="installed_oauth_apps.trusted.no"
-              values={Object {}}
-            />
-          </label>
-          <div
-            className="form__help"
-          >
-            <FormattedMessage
-              defaultMessage="When true, the OAuth 2.0 application is considered trusted by the Mattermost server and doesn't require the user to accept authorization. When false, an additional window will appear, asking the user to accept or deny the authorization."
-              id="add_oauth_app.trusted.help"
-              values={Object {}}
-            />
-          </div>
-        </div>
-      </div>
-      <div
-        className="form-group"
-      >
-        <label
-          className="control-label col-sm-4"
           htmlFor="name"
         >
           <FormattedMessage
@@ -257,7 +198,7 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot 1`] = `
             onChange={[Function]}
             rows="3"
             value="https://test.com/callback
-          https://test.com/callback2"
+https://test.com/callback2"
           />
           <div
             className="form__help"
@@ -349,65 +290,6 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
     <form
       className="form-horizontal"
     >
-      <div
-        className="form-group"
-      >
-        <label
-          className="control-label col-sm-4"
-          htmlFor="is_trusted"
-        >
-          <FormattedMessage
-            defaultMessage="Is Trusted"
-            id="installed_oauth_apps.trusted"
-            values={Object {}}
-          />
-        </label>
-        <div
-          className="col-md-5 col-sm-8"
-        >
-          <label
-            className="radio-inline"
-          >
-            <input
-              checked={true}
-              name="is_trusted"
-              onChange={[Function]}
-              type="radio"
-              value="true"
-            />
-            <FormattedMessage
-              defaultMessage="Yes"
-              id="installed_oauth_apps.trusted.yes"
-              values={Object {}}
-            />
-          </label>
-          <label
-            className="radio-inline"
-          >
-            <input
-              checked={false}
-              name="is_trusted"
-              onChange={[Function]}
-              type="radio"
-              value="false"
-            />
-            <FormattedMessage
-              defaultMessage="No"
-              id="installed_oauth_apps.trusted.no"
-              values={Object {}}
-            />
-          </label>
-          <div
-            className="form__help"
-          >
-            <FormattedMessage
-              defaultMessage="When true, the OAuth 2.0 application is considered trusted by the Mattermost server and doesn't require the user to accept authorization. When false, an additional window will appear, asking the user to accept or deny the authorization."
-              id="add_oauth_app.trusted.help"
-              values={Object {}}
-            />
-          </div>
-        </div>
-      </div>
       <div
         className="form-group"
       >
@@ -595,7 +477,7 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
                 defaultMessage="One or more callback URLs are required."
                 id="add_oauth_app.callbackUrlsRequired"
                 values={Object {}}
-            />,
+              />,
             ]
           }
           type="backstage"

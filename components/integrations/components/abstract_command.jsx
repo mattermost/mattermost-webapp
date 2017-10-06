@@ -3,14 +3,15 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import {FormattedMessage} from 'react-intl';
+import {Link} from 'react-router/es6';
 
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
-import {FormattedMessage} from 'react-intl';
+
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import FormError from 'components/form_error.jsx';
 import SpinnerButton from 'components/spinner_button.jsx';
-import {Link} from 'react-router/es6';
 
 const REQUEST_POST = 'P';
 const REQUEST_GET = 'G';
