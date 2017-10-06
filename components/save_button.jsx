@@ -11,7 +11,7 @@ export default class SaveButton extends React.Component {
             saving: PropTypes.bool.isRequired,
             disabled: PropTypes.bool,
             savingMessageId: PropTypes.string,
-            defaultMessage: ProTypes.string
+            defaultMessage: PropTypes.string
         };
     }
 

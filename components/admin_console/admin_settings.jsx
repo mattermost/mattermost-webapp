@@ -134,6 +134,7 @@ export default class AdminSettings extends React.Component {
                                 disabled={!this.state.saveNeeded || (this.canSave && !this.canSave())}
                                 onClick={this.handleSubmit}
                                 savingMessageId='admin.saving'
+                                defaultMessage='Saving'
                             />
                         </div>
                     </div>
