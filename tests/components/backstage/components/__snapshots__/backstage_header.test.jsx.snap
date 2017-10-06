@@ -10,6 +10,7 @@ exports[`components/backstage/components/BackstageHeader should match snapshot w
     </div>
     <span
       className="backstage-header__divider"
+      key="divider1"
     >
       <i
         className="fa fa-angle-right"
