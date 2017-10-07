@@ -1006,24 +1006,6 @@
     }
 
     &.same--root {
-        &.post--pinned {
-            h1,
-            h2 {
-                &:first-child {
-                    margin-top: 15px;
-                }
-            }
-
-            h3,
-            h4,
-            h5,
-            h6 {
-                &:first-child {
-                    margin-top: 20px;
-                }
-            }
-        }
-
         &.same--user {
             padding: 0 .5em 0 1em;
 
@@ -1147,7 +1129,6 @@
                 text-overflow: ellipsis;
                 vertical-align: top;
                 white-space: nowrap;
-                width: 100%;
             }
 
             .colon {
