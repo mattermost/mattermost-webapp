@@ -8,6 +8,15 @@ import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import Constants from 'utils/constants.jsx';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal/edit_channel_header_modal.jsx';
+import Textbox from 'components/textbox';
+
+const KeyCodes = Constants.KeyCodes;
+
+jest.mock('react-dom', () => ({
+    findDOMNode: () => ({
+        blur: jest.fn()
+    })
+}));
 
 describe('components/edit_channel_header_modal/edit_channel_header_modal', () => {
     const channel = {
@@ -24,7 +33,7 @@ describe('components/edit_channel_header_modal/edit_channel_header_modal', () =>
                 ctrlSend={false}
                 requestStatus={RequestStatus.NOT_STARTED}
                 onHide={emptyFunction}
-                onPatchChannel={emptyFunction}
+                actions={{patchChannel: emptyFunction}}
             />
         ).dive({disableLifecycleMethods: true});
         expect(wrapper).toMatchSnapshot();
@@ -41,7 +50,7 @@ describe('components/edit_channel_header_modal/edit_channel_header_modal', () =>
                 ctrlSend={false}
                 requestStatus={RequestStatus.NOT_STARTED}
                 onHide={emptyFunction}
-                onPatchChannel={emptyFunction}
+                actions={{patchChannel: emptyFunction}}
             />
         ).dive({disableLifecycleMethods: true});
 
@@ -55,7 +64,7 @@ describe('components/edit_channel_header_modal/edit_channel_header_modal', () =>
                 ctrlSend={false}
                 requestStatus={RequestStatus.STARTED}
                 onHide={emptyFunction}
-                onPatchChannel={emptyFunction}
+                actions={{patchChannel: emptyFunction}}
             />
         ).dive({disableLifecycleMethods: true});
 
@@ -74,7 +83,7 @@ describe('components/edit_channel_header_modal/edit_channel_header_modal', () =>
                 ctrlSend={false}
                 requestStatus={RequestStatus.NOT_STARTED}
                 onHide={emptyFunction}
-                onPatchChannel={emptyFunction}
+                actions={{patchChannel: emptyFunction}}
             />
         ).dive({disableLifecycleMethods: true});
 
@@ -84,7 +93,7 @@ describe('components/edit_channel_header_modal/edit_channel_header_modal', () =>
             ctrSend: false,
             requestStatus: RequestStatus.FAILURE,
             onHide: emptyFunction,
-            onPatchChannel: emptyFunction
+            actions: {patchChannel: emptyFunction}
         });
 
         expect(wrapper).toMatchSnapshot();
@@ -102,7 +111,7 @@ describe('components/edit_channel_header_modal/edit_channel_header_modal', () =>
                 ctrlSend={false}
                 requestStatus={RequestStatus.NOT_STARTED}
                 onHide={emptyFunction}
-                onPatchChannel={emptyFunction}
+                actions={{patchChannel: emptyFunction}}
             />
         ).dive({disableLifecycleMethods: true});
 
@@ -112,10 +121,88 @@ describe('components/edit_channel_header_modal/edit_channel_header_modal', () =>
             ctrSend: false,
             requestStatus: RequestStatus.FAILURE,
             onHide: emptyFunction,
-            onPatchChannel: emptyFunction
+            actions: {patchChannel: emptyFunction}
         });
 
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('hide error message on new request', () => {
+        const serverError = {
+            server_error_id: 'fake-server-errror',
+            message: 'some error'
+        };
+
+        const wrapper = shallowWithIntl(
+            <EditChannelHeaderModal
+                channel={channel}
+                ctrlSend={false}
+                requestStatus={RequestStatus.NOT_STARTED}
+                onHide={emptyFunction}
+                actions={{patchChannel: emptyFunction}}
+            />
+        ).dive({disableLifecycleMethods: true});
+
+        wrapper.setProps({
+            channel,
+            serverError,
+            ctrSend: false,
+            requestStatus: RequestStatus.FAILURE,
+            onHide: emptyFunction,
+            actions: {patchChannel: emptyFunction}
+        });
+        wrapper.setProps({
+            channel,
+            serverError,
+            ctrSend: false,
+            requestStatus: RequestStatus.STARTED,
+            onHide: emptyFunction,
+            actions: {patchChannel: emptyFunction}
+        });
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('hide on requestsStatus changed to success', () => {
+        const wrapper = shallowWithIntl(
+            <EditChannelHeaderModal
+                channel={channel}
+                ctrlSend={false}
+                requestStatus={RequestStatus.STARTED}
+                onHide={emptyFunction}
+                actions={{patchChannel: emptyFunction}}
+            />
+        ).dive({disableLifecycleMethods: true});
+
+        wrapper.setProps({
+            channel,
+            ctrSend: false,
+            requestStatus: RequestStatus.SUCCESS,
+            onHide: emptyFunction,
+            actions: {patchChannel: emptyFunction}
+        });
+
+        expect(
+            wrapper.state('show')
+        ).toBeFalsy();
+    });
+
+    test('change header', () => {
+        const wrapper = shallowWithIntl(
+            <EditChannelHeaderModal
+                channel={channel}
+                ctrlSend={false}
+                requestStatus={RequestStatus.NOT_STARTED}
+                onHide={emptyFunction}
+                actions={{patchChannel: emptyFunction}}
+            />
+        ).dive({disableLifecycleMethods: true});
+
+        wrapper.find(Textbox).simulate('change', {target: {value: 'header'}});
+
+        expect(
+            wrapper.state('header')
+        ).toBe('header');
     });
 
     test('patch on save button click', () => {
@@ -126,14 +213,82 @@ describe('components/edit_channel_header_modal/edit_channel_header_modal', () =>
                 ctrlSend={false}
                 requestStatus={RequestStatus.NOT_STARTED}
                 onHide={emptyFunction}
-                onPatchChannel={patchChannel}
+                actions={{patchChannel}}
             />
         ).dive({disableLifecycleMethods: true});
 
         wrapper.find('.save-button').simulate('click');
 
-        expect(patchChannel.mock.calls.length).toBe(1);
-        expect(patchChannel.mock.calls[0][0]).toBe('fake-id', {header: 'Fake Channel'});
+        expect(patchChannel).toBeCalledWith('fake-id', {header: 'Fake Channel'});
+    });
+
+    test('patch on enter keypress event with ctrl', () => {
+        const patchChannel = jest.fn();
+        const wrapper = shallowWithIntl(
+            <EditChannelHeaderModal
+                channel={channel}
+                ctrlSend={true}
+                requestStatus={RequestStatus.NOT_STARTED}
+                onHide={emptyFunction}
+                actions={{patchChannel}}
+            />
+        ).dive({disableLifecycleMethods: true});
+
+        wrapper.find(Textbox).simulate('keypress', {
+            preventDefault: emptyFunction,
+            which: KeyCodes.ENTER,
+            shiftKey: false,
+            altKey: false,
+            ctrlKey: true
+        });
+
+        expect(patchChannel).toBeCalledWith('fake-id', {header: 'Fake Channel'});
+    });
+
+    test('patch on enter keypress', () => {
+        const patchChannel = jest.fn();
+        const wrapper = shallowWithIntl(
+            <EditChannelHeaderModal
+                channel={channel}
+                ctrlSend={false}
+                requestStatus={RequestStatus.NOT_STARTED}
+                onHide={emptyFunction}
+                actions={{patchChannel}}
+            />
+        ).dive({disableLifecycleMethods: true});
+
+        wrapper.find(Textbox).simulate('keypress', {
+            preventDefault: emptyFunction,
+            which: KeyCodes.ENTER,
+            shiftKey: false,
+            altKey: false,
+            ctrlKey: false,
+        });
+
+        expect(patchChannel).toBeCalledWith('fake-id', {header: 'Fake Channel'});
+    });
+
+    test('patch on enter keydown', () => {
+        const patchChannel = jest.fn();
+        const wrapper = shallowWithIntl(
+            <EditChannelHeaderModal
+                channel={channel}
+                ctrlSend={true}
+                requestStatus={RequestStatus.NOT_STARTED}
+                onHide={emptyFunction}
+                actions={{patchChannel}}
+            />
+        ).dive({disableLifecycleMethods: true});
+
+        wrapper.find(Textbox).simulate('keydown', {
+            preventDefault: emptyFunction,
+            keyCode: KeyCodes.ENTER,
+            which: KeyCodes.ENTER,
+            shiftKey: false,
+            altKey: false,
+            ctrlKey: true,
+        });
+
+        expect(patchChannel).toBeCalledWith('fake-id', {header: 'Fake Channel'});
     });
 });
-
