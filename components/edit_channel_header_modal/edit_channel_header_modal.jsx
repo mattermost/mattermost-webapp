@@ -69,13 +69,6 @@ class EditChannelHeaderModal extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSave = this.handleSave.bind(this);
-        this.handleKeyDown = this.handleKeyDown.bind(this);
-        this.handleKeyPress = this.handleKeyPress.bind(this);
-        this.onHide = this.onHide.bind(this);
-        this.focusTextbox = this.focusTextbox.bind(this);
-
         this.state = {
             header: props.channel.header,
             show: true,
@@ -100,7 +93,7 @@ class EditChannelHeaderModal extends React.PureComponent {
         }
     }
 
-    handleChange(e) {
+    handleChange = (e) => {
         this.setState({
             header: e.target.value
         });
@@ -112,24 +105,24 @@ class EditChannelHeaderModal extends React.PureComponent {
         patchChannel(channel.id, {header});
     }
 
-    onHide() {
+    onHide = () => {
         this.setState({show: false});
     }
 
-    focusTextbox() {
+    focusTextbox = () => {
         if (!Utils.isMobile()) {
             this.refs.editChannelHeaderTextbox.focus();
         }
     }
 
-    handleKeyDown(e) {
+    handleKeyDown = (e) => {
         const {ctrlSend} = this.props;
         if (ctrlSend && e.keyCode === KeyCodes.ENTER && e.ctrlKey === true) {
             this.handleKeyPress(e);
         }
     }
 
-    handleKeyPress(e) {
+    handleKeyPress = (e) => {
         const {ctrlSend} = this.props;
         if (!UserAgent.isMobile() && ((ctrlSend && e.ctrlKey) || !ctrlSend)) {
             if (e.which === KeyCodes.ENTER && !e.shiftKey && !e.altKey) {
