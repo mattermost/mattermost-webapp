@@ -23,13 +23,47 @@ const holders = defineMessages({
 
 class EditChannelHeaderModal extends React.PureComponent {
     static propTypes = {
+
+        /*
+         * react-intl helper object
+         */
         intl: intlShape.isRequired,
+
+        /*
+         * callback to call when modal will hide
+         */
         onHide: PropTypes.func.isRequired,
+
+        /*
+         * Object with info about current channel ,
+         */
         channel: PropTypes.object.isRequired,
+
+        /*
+         * boolean should be `ctrl` button pressed to send
+         */
         ctrlSend: PropTypes.bool.isRequired,
+
+        /*
+         * object with info about server error
+         */
         serverError: PropTypes.object,
+
+        /*
+         * string with info about about request
+         */
         requestStatus: PropTypes.string.isRequired,
-        onPatchChannel: PropTypes.func.isRequired
+
+        /*
+         * Collection of redux actions
+         */
+        actions: PropTypes.shape({
+
+            /*
+             * patch channel redux-action
+             */
+            patchChannel: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -73,7 +107,7 @@ class EditChannelHeaderModal extends React.PureComponent {
     }
 
     handleSave = () => {
-        const {channel, onPatchChannel: patchChannel} = this.props;
+        const {channel, actions: {patchChannel}} = this.props;
         const {header} = this.state;
         patchChannel(channel.id, {header});
     }

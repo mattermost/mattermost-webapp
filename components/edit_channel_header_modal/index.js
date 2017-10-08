@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
+import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
-
-import Constants from 'utils/constants.jsx';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {patchChannel} from 'mattermost-redux/actions/channels';
+
+import Constants from 'utils/constants.jsx';
 
 import EditChannelHeaderModal from './edit_channel_header_modal.jsx';
 
@@ -20,13 +21,19 @@ const mapStateToProps = createSelector(
     },
     (ctrlSend, submitInfo) => ({
         ctrlSend,
-        ...submitInfo,
+        ...submitInfo
     }),
 );
 
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: {
+            patchChannel: bindActionCreators(patchChannel, dispatch)
+        }
+    };
+}
+
 export default connect(
     mapStateToProps,
-    {
-        onPatchChannel: patchChannel
-    }
+    mapDispatchToProps,
 )(EditChannelHeaderModal);
