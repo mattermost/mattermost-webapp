@@ -967,6 +967,7 @@
     }
 
     p {
+        @include clearfix;
         font-size: 13.5px;
         line-height: 1.6em;
         margin: 0;
@@ -1006,24 +1007,6 @@
     }
 
     &.same--root {
-        &.post--pinned {
-            h1,
-            h2 {
-                &:first-child {
-                    margin-top: 15px;
-                }
-            }
-
-            h3,
-            h4,
-            h5,
-            h6 {
-                &:first-child {
-                    margin-top: 20px;
-                }
-            }
-        }
-
         &.same--user {
             padding: 0 .5em 0 1em;
 
@@ -1130,6 +1113,10 @@
         white-space: nowrap;
         width: 100%;
 
+        .post-list__content & {
+            padding-right: 80px;
+        }
+
 
         > div {
             display: inline-block;
@@ -1147,7 +1134,6 @@
                 text-overflow: ellipsis;
                 vertical-align: top;
                 white-space: nowrap;
-                width: 100%;
             }
 
             .colon {

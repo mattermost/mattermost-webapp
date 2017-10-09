@@ -84,6 +84,10 @@
                 + .col {
                     flex: auto;
                 }
+
+                &.bot-indicator {
+                    flex: none;
+                }
             }
 
             .flag-icon__container {

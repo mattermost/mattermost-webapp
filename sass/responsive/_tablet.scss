@@ -348,7 +348,24 @@
                     }
                 }
 
+                &.post--pinned {
+                    .post__body {
+                        &:before {
+                            content: '';
+                            display: block;
+                            height: 21px;
+                            width: 1px;
+                        }
+                    }
+                }
+
                 &:not(.post--compact) {
+                    .post__header {
+                        .post__pinned-badge {
+                            top: 3px;
+                        }
+                    }
+
                     .post__time {
                         display: inline-block;
                         font-size: 11px;
