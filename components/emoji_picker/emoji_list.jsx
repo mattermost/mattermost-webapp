@@ -125,7 +125,7 @@ export default class EmojiList extends PureComponent {
             this.setState({offset});
         }
 
-        this.setStopAndBottom(items, offset, recompute);
+        this.setStopAndBottom(items, offset, recompute, nextProps.itemCount);
     }
 
     componentDidUpdate(nextProps, nextState) {
@@ -181,7 +181,7 @@ export default class EmojiList extends PureComponent {
         return items.filter((item) => item < itemCount);
     }
 
-    setStopAndBottom(items, offset, recompute) {
+    setStopAndBottom(items, offset, recompute, itemCount = this.props.itemCount) {
         const {bottom} = this.state;
         const containerSize = this.props.height;
         const nextStop = this.emojiListManager.getNextStop({
@@ -191,7 +191,7 @@ export default class EmojiList extends PureComponent {
 
         const {start, stop} = this.emojiListManager.getVisibleRange({containerSize, offset});
         for (let i = start; i <= stop; i++) {
-            if (i <= this.props.itemCount && items.indexOf(i) === -1) {
+            if (i <= itemCount && items.indexOf(i) === -1) {
                 items.push(i);
             }
         }
@@ -247,9 +247,11 @@ export default class EmojiList extends PureComponent {
 
     render() {
         const {height, renderItem} = this.props;
-        const renderItems = this.state.items.map((item) => {
-            return renderItem({index: item, style: this.getStyle(item)});
-        });
+        const renderItems = this.state.items.
+            filter((item) => item < this.props.itemCount).
+            map((item) => {
+                return renderItem({index: item, style: this.getStyle(item)});
+            });
 
         return (
             <div
