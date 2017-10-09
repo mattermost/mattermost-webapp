@@ -62,8 +62,8 @@ class EditChannelHeaderModal extends React.PureComponent {
             /*
              * patch channel redux-action
              */
-            patchChannel: PropTypes.func.isRequired,
-        }).isRequired,
+            patchChannel: PropTypes.func.isRequired
+        }).isRequired
     }
 
     constructor(props) {

@@ -262,7 +262,7 @@ describe('components/edit_channel_header_modal/edit_channel_header_modal', () =>
             which: KeyCodes.ENTER,
             shiftKey: false,
             altKey: false,
-            ctrlKey: false,
+            ctrlKey: false
         });
 
         expect(patchChannel).toBeCalledWith('fake-id', {header: 'Fake Channel'});
@@ -286,7 +286,7 @@ describe('components/edit_channel_header_modal/edit_channel_header_modal', () =>
             which: KeyCodes.ENTER,
             shiftKey: false,
             altKey: false,
-            ctrlKey: true,
+            ctrlKey: true
         });
 
         expect(patchChannel).toBeCalledWith('fake-id', {header: 'Fake Channel'});
