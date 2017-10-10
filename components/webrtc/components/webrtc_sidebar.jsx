@@ -48,14 +48,14 @@ export default class SidebarRight extends React.Component {
         // We should have a better way to do this stuff
         // Hence the function name.
         $('.app__body .inner-wrap').removeClass('move--right');
-        $('.app__body .inner-wrap').addClass('webrtc--show');
+        $('.app__body .inner-wrap').addClass('webrtc--show move--left');
         $('.app__body .sidebar--left').removeClass('move--right');
         $('.multi-teams .team-sidebar').removeClass('move--right');
         $('.app__body .webrtc').addClass('webrtc--show');
 
         //$('.sidebar--right').prepend('<div class="sidebar__overlay"></div>');
         if (!this.state.videoCallVisible) {
-            $('.app__body .inner-wrap').removeClass('webrtc--show').removeClass('move--right');
+            $('.app__body .inner-wrap').removeClass('webrtc--show move--left move--right');
             $('.app__body .webrtc').removeClass('webrtc--show');
             return (
                 <div/>

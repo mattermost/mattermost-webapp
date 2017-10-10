@@ -1,6 +1,8 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import $ from 'jquery';
+
 import WebSocketClient from 'client/web_websocket_client.jsx';
 
 import UserStore from 'stores/user_store.jsx';
@@ -81,6 +83,9 @@ export default class WebrtcNotification extends React.Component {
     closeRightHandSide(e) {
         e.preventDefault();
         GlobalActions.emitCloseRightHandSide();
+        setTimeout(() => {
+            $('.app__body .inner-wrap').addClass('move--left');
+        }, 0);
     }
 
     onIncomingCall(incoming) {
