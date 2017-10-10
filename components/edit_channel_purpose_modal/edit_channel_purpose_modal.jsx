@@ -5,25 +5,56 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-
-import {updateChannelPurpose} from 'actions/channel_actions.jsx';
-import PreferenceStore from 'stores/preference_store.jsx';
+import {RequestStatus} from 'mattermost-redux/constants';
 
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 export default class EditChannelPurposeModal extends React.Component {
+    static propTypes = {
+
+        /*
+         * Channel info object
+         */
+        channel: PropTypes.object,
+
+        /*
+         * Check should we send purpose on CTRL + ENTER
+         */
+        ctrlSend: PropTypes.bool.isRequired,
+
+        /*
+         * Info about patch serverError
+         */
+        serverError: PropTypes.object,
+
+        /*
+         *  Status of patch info about channel request
+         */
+        requestStatus: PropTypes.string.isRequired,
+
+        /*
+         * Callback to call on modal hide
+         */
+        onModalDismissed: PropTypes.func.isRequired,
+
+        /*
+         * Object with redux action creators
+         */
+        actions: PropTypes.shape({
+
+            /*
+             * Action creator to patch current channel
+             */
+            patchChannel: PropTypes.func.isRequired
+        }).isRequired
+    }
+
     constructor(props) {
         super(props);
 
-        this.handleHide = this.handleHide.bind(this);
-        this.handleSave = this.handleSave.bind(this);
-        this.handleKeyDown = this.handleKeyDown.bind(this);
-        this.onPreferenceChange = this.onPreferenceChange.bind(this);
-
-        this.ctrlSend = PreferenceStore.getBool(Constants.Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter');
-
         this.state = {
+            purpose: props.channel.purpose || '',
             serverError: '',
             show: true,
             submitted: false
@@ -31,53 +62,70 @@ export default class EditChannelPurposeModal extends React.Component {
     }
 
     componentDidMount() {
-        PreferenceStore.addChangeListener(this.onPreferenceChange);
         Utils.placeCaretAtEnd(this.refs.purpose);
     }
 
-    componentWillUnmount() {
-        PreferenceStore.removeChangeListener(this.onPreferenceChange);
+    componentWillReceiveProps(nextProps) {
+        const {requestStatus: nextRequestStatus, serverError: nextServerError} = nextProps;
+        const {requestStatus} = this.props;
+
+        if (requestStatus !== nextRequestStatus && nextRequestStatus === RequestStatus.SUCCESS) {
+            this.handleHide();
+        }
+
+        if (requestStatus !== nextRequestStatus && nextRequestStatus === RequestStatus.FAILURE) {
+            this.setError(nextServerError);
+        } else {
+            this.unsetError();
+        }
     }
 
-    handleHide() {
+    setError = (err) => {
+        if (err.id === 'api.context.invalid_param.app_error') {
+            this.setState({
+                serverError: Utils.localizeMessage(
+                    'edit_channel_purpose_modal.error',
+                    'This channel purpose is too long, please enter a shorter one'
+                )
+            });
+        } else {
+            this.setState({serverError: err.message});
+        }
+    }
+
+    unsetError = () => {
+        this.setState({serverError: ''});
+    }
+
+    handleHide = () => {
         this.setState({show: false});
     }
 
-    onPreferenceChange() {
-        this.ctrlSend = PreferenceStore.getBool(Constants.Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter');
-    }
+    handleKeyDown = (e) => {
+        const {ctrlSend} = this.props;
 
-    handleKeyDown(e) {
-        if (this.ctrlSend && e.keyCode === Constants.KeyCodes.ENTER && e.ctrlKey) {
+        if (ctrlSend && e.keyCode === Constants.KeyCodes.ENTER && e.ctrlKey) {
             e.preventDefault();
             this.handleSave(e);
-        } else if (!this.ctrlSend && e.keyCode === Constants.KeyCodes.ENTER && !e.shiftKey && !e.altKey) {
+        } else if (!ctrlSend && e.keyCode === Constants.KeyCodes.ENTER && !e.shiftKey && !e.altKey) {
             e.preventDefault();
             this.handleSave(e);
         }
     }
 
-    handleSave() {
-        if (!this.props.channel) {
+    handleSave = () => {
+        const {channel, actions: {patchChannel}} = this.props;
+        const {purpose} = this.state;
+        if (!channel) {
             return;
         }
 
-        this.setState({submitted: true});
+        patchChannel(channel.id, {purpose});
+    }
 
-        updateChannelPurpose(
-            this.props.channel.id,
-            this.refs.purpose.value.trim(),
-            () => {
-                this.handleHide();
-            },
-            (err) => {
-                if (err.id === 'api.context.invalid_param.app_error') {
-                    this.setState({serverError: Utils.localizeMessage('edit_channel_purpose_modal.error', 'This channel purpose is too long, please enter a shorter one')});
-                } else {
-                    this.setState({serverError: err.message});
-                }
-            }
-        );
+    handleChange = (e) => {
+        e.preventDefault();
+        this.setState({purpose: e.target.value});
     }
 
     render() {
@@ -148,15 +196,16 @@ export default class EditChannelPurposeModal extends React.Component {
                         className='form-control no-resize'
                         rows='6'
                         maxLength='250'
-                        defaultValue={this.props.channel.purpose}
+                        value={this.state.purpose}
                         onKeyDown={this.handleKeyDown}
+                        onChange={this.handleChange}
                     />
                     {serverError}
                 </Modal.Body>
                 <Modal.Footer>
                     <button
                         type='button'
-                        className='btn btn-default'
+                        className='btn btn-default cancel-button'
                         onClick={this.handleHide}
                     >
                         <FormattedMessage
@@ -166,8 +215,8 @@ export default class EditChannelPurposeModal extends React.Component {
                     </button>
                     <button
                         type='button'
-                        className='btn btn-primary'
-                        disabled={this.state.submitted}
+                        className='btn btn-primary save-button'
+                        disabled={this.props.requestStatus === RequestStatus.STARTED}
                         onClick={this.handleSave}
                     >
                         <FormattedMessage
@@ -180,8 +229,3 @@ export default class EditChannelPurposeModal extends React.Component {
         );
     }
 }
-
-EditChannelPurposeModal.propTypes = {
-    channel: PropTypes.object,
-    onModalDismissed: PropTypes.func.isRequired
-};
