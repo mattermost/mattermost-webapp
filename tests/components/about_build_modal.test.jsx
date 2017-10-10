@@ -4,14 +4,11 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 
-import {configure, shallow} from 'enzyme';
-import Adapter from 'enzyme-adapter-react-15';
+import {shallow} from 'enzyme';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
 import AboutBuildModal from 'components/about_build_modal/about_build_modal.jsx';
-
-configure({adapter: new Adapter()});
 
 describe('components/AboutBuildModal', () => {
     let config = null;

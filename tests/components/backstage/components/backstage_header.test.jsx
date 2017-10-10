@@ -2,12 +2,9 @@
 // See License.txt for license information.
 
 import React from 'react';
-import {configure, shallow} from 'enzyme';
-import Adapter from 'enzyme-adapter-react-15';
+import {shallow} from 'enzyme';
 
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
-
-configure({adapter: new Adapter()});
 
 describe('components/backstage/components/BackstageHeader', () => {
     test('should match snapshot without children', () => {
