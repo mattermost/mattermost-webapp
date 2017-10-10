@@ -27,7 +27,7 @@ function makeMapStateToProps() {
         }
 
         return {
-            channel: getChannel(state, ownProps.channelId),
+            channel: getChannel(state, ownProps.channelId) || {},
             lastViewedAt: state.views.channel.lastChannelViewTime[ownProps.channelId],
             posts,
             postVisibility: state.views.channel.postVisibility[ownProps.channelId],
