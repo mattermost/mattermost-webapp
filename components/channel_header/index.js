@@ -30,11 +30,11 @@ function mapStateToProps(state, ownProps) {
     }
 
     return {
-        channel: channel || {},
+        channel,
         channelMember: getMyChannelMember(state, ownProps.channelId),
-        teamMember: channel ? getMyTeamMember(state, channel.team_id) : {},
+        teamMember: getMyTeamMember(state, channel.team_id),
         isFavorite: isFavoriteChannel(prefs, {...channel}),
-        isDefault: channel && isDefault(channel),
+        isDefault: isDefault(channel),
         currentUser: user,
         dmUser,
         dmUserStatus,
