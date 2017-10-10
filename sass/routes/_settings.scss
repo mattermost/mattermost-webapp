@@ -413,7 +413,7 @@
         > li {
             margin: 0;
 
-            a {
+            div {
                 border-radius: 0;
                 color: $gray;
                 overflow: hidden;
@@ -431,13 +431,13 @@
             }
 
             &:hover {
-                a {
+                div {
                     @include alpha-property(background-color, $black, .1);
                 }
             }
 
             &.active {
-                a {
+                div {
                     background-color: #e1e1e1;
                     color: #111;
 
@@ -452,9 +452,9 @@
                     }
                 }
 
-                a,
-                a:hover,
-                a:focus {
+                div,
+                div:hover,
+                div:focus {
                     @include alpha-property(background-color, $black, .1);
                     border-radius: 0;
                     font-weight: 400;

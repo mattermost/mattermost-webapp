@@ -368,16 +368,15 @@ export default class TeamMembersDropdown extends React.Component {
 
         return (
             <div className='dropdown member-drop'>
-                <a
-                    href='#'
-                    className='dropdown-toggle theme'
+                <div
+                    className='dropdown-toggle theme color--link'
                     type='button'
                     data-toggle='dropdown'
                     aria-expanded='true'
                 >
                     <span>{currentRoles} </span>
                     <span className='fa fa-chevron-down'/>
-                </a>
+                </div>
                 <ul
                     className='dropdown-menu member-menu'
                     role='menu'

@@ -65,14 +65,13 @@ export default function PostFlagIcon(props) {
                 placement='top'
                 overlay={flagToolTip(props.isFlagged)}
             >
-                <a
+                <span
                     id={flagIconId}
-                    href='#'
-                    className={'flag-icon__container ' + flagVisible}
+                    className={'cursor--pointer flag-icon__container ' + flagVisible}
                     onClick={flagFunc}
                 >
                     {flagIcon(props.isFlagged)}
-                </a>
+                </span>
             </OverlayTrigger>
         );
     }

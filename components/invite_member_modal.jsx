@@ -431,6 +431,7 @@ class InviteMemberModal extends React.Component {
                 if (currentUser && this.state.teamType === 'O') {
                     var link = (
                         <span
+                            className='color--link'
                             onClick={this.showGetTeamInviteLinkModal}
                         >
                             <FormattedMessage
