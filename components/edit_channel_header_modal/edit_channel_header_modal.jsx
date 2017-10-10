@@ -1,20 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
-
-import PropTypes from 'prop-types';
 import React from 'react';
-import {Modal} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
+import {Modal} from 'react-bootstrap';
 import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import {RequestStatus} from 'mattermost-redux/constants';
 
-import {updateChannelHeader} from 'actions/channel_actions.jsx';
-import PreferenceStore from 'stores/preference_store.jsx';
-
+import Textbox from 'components/textbox.jsx';
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-
-import Textbox from './textbox.jsx';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -25,98 +21,110 @@ const holders = defineMessages({
     }
 });
 
-class EditChannelHeaderModal extends React.Component {
+class EditChannelHeaderModal extends React.PureComponent {
+    static propTypes = {
+
+        /*
+         * react-intl helper object
+         */
+        intl: intlShape.isRequired,
+
+        /*
+         * callback to call when modal will hide
+         */
+        onHide: PropTypes.func.isRequired,
+
+        /*
+         * Object with info about current channel ,
+         */
+        channel: PropTypes.object.isRequired,
+
+        /*
+         * boolean should be `ctrl` button pressed to send
+         */
+        ctrlSend: PropTypes.bool.isRequired,
+
+        /*
+         * object with info about server error
+         */
+        serverError: PropTypes.object,
+
+        /*
+         * string with info about about request
+         */
+        requestStatus: PropTypes.string.isRequired,
+
+        /*
+         * Collection of redux actions
+         */
+        actions: PropTypes.shape({
+
+            /*
+             * patch channel redux-action
+             */
+            patchChannel: PropTypes.func.isRequired
+        }).isRequired
+    }
+
     constructor(props) {
         super(props);
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSave = this.handleSave.bind(this);
-        this.handleKeyDown = this.handleKeyDown.bind(this);
-        this.handleKeyPress = this.handleKeyPress.bind(this);
-        this.onShow = this.onShow.bind(this);
-        this.onHide = this.onHide.bind(this);
-        this.handlePostError = this.handlePostError.bind(this);
-        this.focusTextbox = this.focusTextbox.bind(this);
-        this.onPreferenceChange = this.onPreferenceChange.bind(this);
 
         this.state = {
             header: props.channel.header,
             show: true,
-            serverError: '',
-            submitted: false,
-            ctrlSend: PreferenceStore.getBool(Constants.Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter')
+            showError: false
         };
     }
 
-    componentWillMount() {
-        this.setState({
-            ctrlSend: PreferenceStore.getBool(Constants.Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter')
-        });
-    }
-
     componentDidMount() {
-        PreferenceStore.addChangeListener(this.onPreferenceChange);
-        this.onShow();
         this.focusTextbox();
     }
 
-    componentWillUnmount() {
-        PreferenceStore.removeChangeListener(this.onPreferenceChange);
+    componentWillReceiveProps(nextProps) {
+        const {requestStatus: nextRequestStatus} = nextProps;
+        const {requestStatus} = this.props;
+
+        if (requestStatus !== nextRequestStatus && nextRequestStatus === RequestStatus.FAILURE) {
+            this.setState({showError: true});
+        } else if (requestStatus !== nextRequestStatus && nextRequestStatus === RequestStatus.SUCCESS) {
+            this.onHide();
+        } else {
+            this.setState({showError: false});
+        }
     }
 
-    handleChange(e) {
+    handleChange = (e) => {
         this.setState({
             header: e.target.value
         });
     }
 
-    onPreferenceChange() {
-        this.setState({
-            ctrlSend: PreferenceStore.getBool(Constants.Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter')
-        });
+    handleSave = () => {
+        const {channel, actions: {patchChannel}} = this.props;
+        const {header} = this.state;
+        patchChannel(channel.id, {header});
     }
 
-    handleSave() {
-        this.setState({submitted: true});
-
-        updateChannelHeader(
-            this.props.channel.id,
-            this.state.header,
-            () => {
-                this.setState({serverError: '', submitted: false});
-                this.onHide();
-            },
-            (err) => {
-                if (err.id === 'api.context.invalid_param.app_error') {
-                    this.setState({serverError: this.props.intl.formatMessage(holders.error)});
-                }
-                this.setState({submitted: false});
-            }
-        );
-    }
-
-    onShow() {
-        this.submitted = false;
-    }
-
-    onHide() {
+    onHide = () => {
         this.setState({show: false});
     }
 
-    focusTextbox() {
+    focusTextbox = () => {
         if (!Utils.isMobile()) {
             this.refs.editChannelHeaderTextbox.focus();
         }
     }
 
-    handleKeyDown(e) {
-        if (this.state.ctrlSend && e.keyCode === KeyCodes.ENTER && e.ctrlKey === true) {
+    handleKeyDown = (e) => {
+        const {ctrlSend} = this.props;
+        if (ctrlSend && e.keyCode === KeyCodes.ENTER && e.ctrlKey === true) {
             this.handleKeyPress(e);
         }
     }
 
-    handleKeyPress(e) {
-        if (!UserAgent.isMobile() && ((this.state.ctrlSend && e.ctrlKey) || !this.state.ctrlSend)) {
+    handleKeyPress = (e) => {
+        const {ctrlSend} = this.props;
+        if (!UserAgent.isMobile() && ((ctrlSend && e.ctrlKey) || !ctrlSend)) {
             if (e.which === KeyCodes.ENTER && !e.shiftKey && !e.altKey) {
                 e.preventDefault();
                 ReactDOM.findDOMNode(this.refs.editChannelHeaderTextbox).blur();
@@ -125,14 +133,24 @@ class EditChannelHeaderModal extends React.Component {
         }
     }
 
-    handlePostError(postError) {
-        this.setState({serverError: postError});
-    }
-
     render() {
-        var serverError = null;
-        if (this.state.serverError) {
-            serverError = <div className='form-group has-error'><br/><label className='control-label'>{this.state.serverError}</label></div>;
+        let serverError = null;
+        if (this.props.serverError && this.state.showError) {
+            let errorMsg;
+            if (this.props.serverError.server_error_id === 'model.channel.is_valid.header.app_error') {
+                errorMsg = this.props.intl.formatMessage(holders.error);
+            } else {
+                errorMsg = this.props.serverError.message;
+            }
+
+            serverError = (
+                <div className='form-group has-error'>
+                    <br/>
+                    <label className='control-label'>
+                        {errorMsg}
+                    </label>
+                </div>
+            );
         }
 
         let headerTitle = null;
@@ -195,7 +213,7 @@ class EditChannelHeaderModal extends React.Component {
                 <Modal.Footer>
                     <button
                         type='button'
-                        className='btn btn-default'
+                        className='btn btn-default cancel-button'
                         onClick={this.onHide}
                     >
                         <FormattedMessage
@@ -204,9 +222,9 @@ class EditChannelHeaderModal extends React.Component {
                         />
                     </button>
                     <button
-                        disabled={this.state.submitted}
+                        disabled={this.props.requestStatus === RequestStatus.STARTED}
                         type='button'
-                        className='btn btn-primary'
+                        className='btn btn-primary save-button'
                         onClick={this.handleSave}
                     >
                         <FormattedMessage
@@ -220,10 +238,5 @@ class EditChannelHeaderModal extends React.Component {
     }
 }
 
-EditChannelHeaderModal.propTypes = {
-    intl: intlShape.isRequired,
-    onHide: PropTypes.func.isRequired,
-    channel: PropTypes.object.isRequired
-};
-
 export default injectIntl(EditChannelHeaderModal);
+
