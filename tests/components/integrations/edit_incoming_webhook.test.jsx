@@ -2,12 +2,9 @@
 // See License.txt for license information.
 
 import React from 'react';
-import {configure, shallow} from 'enzyme';
-import Adapter from 'enzyme-adapter-react-15';
+import {shallow} from 'enzyme';
 
 import EditIncomingWebhook from 'components/integrations/components/edit_incoming_webhook/edit_incoming_webhook.jsx';
-
-configure({adapter: new Adapter()});
 
 describe('components/integrations/EditIncomingWebhook', () => {
     global.window.mm_config = {};
@@ -79,9 +76,51 @@ describe('components/integrations/EditIncomingWebhook', () => {
         expect(getIncomingHook).toHaveBeenCalledTimes(0);
     });
 
-    // // Should find way how to test editIncomingHook and submitHook
-    // test('should have called editIncomingHook and submitHook', () => {
-    //     // assertion for editIncomingHook
-    //     // assertion for submitHook
-    // }
+    test('should have called submitHook when editIncomingHook is initiated (no server error)', () => {
+        const asyncHook = {
+            id: 'id',
+            token: 'token'
+        };
+        const props = {...requiredProps, actions, hook};
+        const wrapper = shallow(<EditIncomingWebhook {...props}/>);
+
+        wrapper.instance().editIncomingHook(asyncHook);
+        expect(wrapper).toMatchSnapshot();
+        expect(updateIncomingHook).toHaveBeenCalledTimes(1);
+        expect(updateIncomingHook).toBeCalledWith(asyncHook);
+    });
+
+    test('should have called submitHook when editIncomingHook is initiated (with server error)', () => {
+        const asyncHook = {
+            id: 'id',
+            token: 'token'
+        };
+        const updateIncomingHookRequest = {
+            status: 'error',
+            error: {message: 'error message'}
+        };
+        const props = {...requiredProps, actions, hook, updateIncomingHookRequest};
+        const wrapper = shallow(<EditIncomingWebhook {...props}/>);
+
+        wrapper.instance().editIncomingHook(asyncHook);
+        expect(wrapper).toMatchSnapshot();
+        expect(updateIncomingHook).toHaveBeenCalledTimes(1);
+        expect(updateIncomingHook).toBeCalledWith(asyncHook);
+    });
+
+    test('should have called submitHook when editIncomingHook is initiated (with data)', () => {
+        const newUpdateIncomingHook = jest.fn(() => 'data');
+        const newActions = {...actions, updateIncomingHook: newUpdateIncomingHook};
+        const asyncHook = {
+            id: 'id',
+            token: 'token'
+        };
+        const props = {...requiredProps, actions: newActions, hook};
+        const wrapper = shallow(<EditIncomingWebhook {...props}/>);
+
+        wrapper.instance().editIncomingHook(asyncHook);
+        expect(wrapper).toMatchSnapshot();
+        expect(newUpdateIncomingHook).toHaveBeenCalledTimes(1);
+        expect(newUpdateIncomingHook).toBeCalledWith(asyncHook);
+    });
 });

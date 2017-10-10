@@ -2,12 +2,9 @@
 // See License.txt for license information.
 
 import React from 'react';
-import {configure, shallow} from 'enzyme';
-import Adapter from 'enzyme-adapter-react-15';
+import {shallow} from 'enzyme';
 
 import AddIncomingWebhook from 'components/integrations/components/add_incoming_webhook/add_incoming_webhook.jsx';
-
-configure({adapter: new Adapter()});
 
 describe('components/integrations/AddIncomingWebhook', () => {
     const createIncomingHook = jest.fn();
