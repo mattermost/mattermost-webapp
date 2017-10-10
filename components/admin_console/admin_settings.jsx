@@ -6,7 +6,7 @@ import React from 'react';
 
 import {saveConfig} from 'actions/admin_actions.jsx';
 
-import SaveButton from 'components/admin_console/save_button.jsx';
+import SaveButton from 'components/save_button.jsx';
 import FormError from 'components/form_error.jsx';
 
 export default class AdminSettings extends React.Component {
@@ -133,6 +133,8 @@ export default class AdminSettings extends React.Component {
                                 saving={this.state.saving}
                                 disabled={!this.state.saveNeeded || (this.canSave && !this.canSave())}
                                 onClick={this.handleSubmit}
+                                savingMessageId='admin.saving'
+                                defaultMessage='Saving'
                             />
                         </div>
                     </div>

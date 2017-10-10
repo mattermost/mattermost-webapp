@@ -91,7 +91,8 @@ export default class SecurityTab extends React.Component {
             serverError: '',
             tokenError: '',
             showConfirmModal: false,
-            authService: this.props.user.auth_service
+            authService: this.props.user.auth_service,
+            savingPassword: false
         };
     }
 
@@ -141,6 +142,8 @@ export default class SecurityTab extends React.Component {
             this.setState(defaultState);
             return;
         }
+
+        this.setState({savingPassword: true});
 
         updatePassword(
             user.id,
@@ -524,6 +527,7 @@ export default class SecurityTab extends React.Component {
                     }
                     inputs={inputs}
                     submit={submit}
+                    saving={this.state.savingPassword}
                     server_error={this.state.serverError}
                     client_error={this.state.passwordError}
                     updateSection={updateSectionStatus}
