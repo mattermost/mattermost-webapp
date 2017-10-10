@@ -27,6 +27,7 @@ const getState = store.getState;
 
 export function handleNewPost(post, msg) {
     let websocketMessageProps = {};
+
     if (msg) {
         websocketMessageProps = msg.data;
     }

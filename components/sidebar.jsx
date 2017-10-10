@@ -548,21 +548,7 @@ export default class Sidebar extends React.Component {
         var icon = null;
         const globeIcon = Constants.GLOBE_ICON_SVG;
         const lockIcon = Constants.LOCK_ICON_SVG;
-        if (channel.type === Constants.OPEN_CHANNEL) {
-            icon = (
-                <span
-                    className='icon icon__globe'
-                    dangerouslySetInnerHTML={{__html: globeIcon}}
-                />
-            );
-        } else if (channel.type === Constants.PRIVATE_CHANNEL) {
-            icon = (
-                <span
-                    className='icon icon__lock'
-                    dangerouslySetInnerHTML={{__html: lockIcon}}
-                />
-            );
-        } else if (channel.type === Constants.GM_CHANNEL) {
+        if (channel.type === Constants.GM_CHANNEL) {
             icon = <div className='status status--group'>{UserStore.getProfileListInChannel(channel.id, true).length}</div>;
         } else {
             // set up status icon for direct message channels (status is null for other channel types)
@@ -583,14 +569,7 @@ export default class Sidebar extends React.Component {
             </Tooltip>
         );
         if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {
-            removeTooltip = (
-                <Tooltip id='remove-dm-tooltip'>
-                    <FormattedMessage
-                        id='sidebar.leave'
-                        defaultMessage='Leave channel'
-                    />
-                </Tooltip>
-            );
+            removeTooltip = null;
         }
         if (handleClose && !badge) {
             closeButton = (
@@ -788,41 +767,47 @@ export default class Sidebar extends React.Component {
         const isTeamAdmin = TeamStore.isTeamAdminForCurrentTeam();
         const isSystemAdmin = UserStore.isSystemAdminForCurrentUser();
 
-        let createPublicChannelIcon = (
-            <OverlayTrigger
-                trigger={['hover', 'focus']}
-                delayShow={500}
-                placement='top'
-                overlay={createChannelTootlip}
-            >
-                <a
-                    id='createPublicChannel'
-                    className='add-channel-btn'
-                    href='#'
-                    onClick={this.showNewChannelModal.bind(this, Constants.OPEN_CHANNEL)}
+        if(isSystemAdmin) {
+            let createPublicChannelIcon = (
+                <OverlayTrigger
+                    trigger={['hover', 'focus']}
+                    delayShow={500}
+                    placement='top'
+                    overlay={createChannelTootlip}
                 >
-                    {'+'}
-                </a>
-            </OverlayTrigger>
-        );
+                    <a
+                        id='createPublicChannel'
+                        className='add-channel-btn'
+                        href='#'
+                        onClick={this.showNewChannelModal.bind(this, Constants.OPEN_CHANNEL)}
+                    >
+                        {'+'}
+                    </a>
+                </OverlayTrigger>
+            );
+        }
 
-        let createPrivateChannelIcon = (
-            <OverlayTrigger
-                trigger={['hover', 'focus']}
-                delayShow={500}
-                placement='top'
-                overlay={createGroupTootlip}
-            >
-                <a
-                    id='createPrivateChannel'
-                    className='add-channel-btn'
-                    href='#'
-                    onClick={this.showNewChannelModal.bind(this, Constants.PRIVATE_CHANNEL)}
+        let createPrivateChannelIcon;
+
+        if(isSystemAdmin) {
+            let createPrivateChannelIcon = (
+                <OverlayTrigger
+                    trigger={['hover', 'focus']}
+                    delayShow={500}
+                    placement='top'
+                    overlay={createGroupTootlip}
                 >
-                    {'+'}
-                </a>
-            </OverlayTrigger>
-        );
+                    <a
+                        id='createPrivateChannel'
+                        className='add-channel-btn'
+                        href='#'
+                        onClick={this.showNewChannelModal.bind(this, Constants.PRIVATE_CHANNEL)}
+                    >
+                        {'+'}
+                    </a>
+                </OverlayTrigger>
+            );
+        }
 
         if (!ChannelUtils.showCreateOption(Constants.OPEN_CHANNEL, isTeamAdmin, isSystemAdmin)) {
             createPublicChannelIcon = null;
@@ -939,31 +924,6 @@ export default class Sidebar extends React.Component {
                         </li>
                         {favoriteItems}
                     </ul>}
-                    <ul className='nav nav-pills nav-stacked'>
-                        <li>
-                            <h4>
-                                <FormattedMessage
-                                    id='sidebar.channels'
-                                    defaultMessage='PUBLIC CHANNELS'
-                                />
-                                {createPublicChannelIcon}
-                            </h4>
-                        </li>
-                        {publicChannelItems}
-                        <li>
-                            <a
-                                id='sidebarChannelsMore'
-                                href='#'
-                                className='nav-more'
-                                onClick={this.showMoreChannelsModal}
-                            >
-                                <FormattedMessage
-                                    id='sidebar.moreElips'
-                                    defaultMessage='More...'
-                                />
-                            </a>
-                        </li>
-                    </ul>
 
                     <ul className='nav nav-pills nav-stacked'>
                         <li>
@@ -975,6 +935,7 @@ export default class Sidebar extends React.Component {
                                 {createPrivateChannelIcon}
                             </h4>
                         </li>
+                        {publicChannelItems}
                         {privateChannelItems}
                     </ul>
                     <ul className='nav nav-pills nav-stacked'>

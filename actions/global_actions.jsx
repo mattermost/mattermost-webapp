@@ -483,12 +483,12 @@ export function emitSearchMentionsEvent(user) {
     if (user.notify_props) {
         const termKeys = UserStore.getMentionKeys(user.id);
 
-        if (termKeys.indexOf('@channel') !== -1) {
-            termKeys[termKeys.indexOf('@channel')] = '';
+        if (termKeys.indexOf('@canal') !== -1) {
+            termKeys[termKeys.indexOf('@canal')] = '';
         }
 
-        if (termKeys.indexOf('@all') !== -1) {
-            termKeys[termKeys.indexOf('@all')] = '';
+        if (termKeys.indexOf('@tudo') !== -1) {
+            termKeys[termKeys.indexOf('@tudo')] = '';
         }
 
         terms = termKeys.join(' ');

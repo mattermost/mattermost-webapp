@@ -177,8 +177,8 @@ export default class ThemeSetting extends React.Component {
             serverError = this.state.serverError;
         }
 
-        const displayCustom = this.state.type === 'custom';
-        const allowCustomThemes = global.mm_config.AllowCustomThemes !== 'false';
+        const displayCustom = false;
+        const allowCustomThemes = false;
 
         let custom;
         let premade;
@@ -232,66 +232,6 @@ export default class ThemeSetting extends React.Component {
             }
 
             inputs.push(premade);
-
-            if (allowCustomThemes) {
-                inputs.push(
-                    <div
-                        className='radio'
-                        key='customThemeColorLabel'
-                    >
-                        <label>
-                            <input
-                                id='customThemes'
-                                type='radio'
-                                name='theme'
-                                checked={displayCustom}
-                                onChange={this.updateType.bind(this, 'custom')}
-                            />
-                            <FormattedMessage
-                                id='user.settings.display.theme.customTheme'
-                                defaultMessage='Custom Theme'
-                            />
-                        </label>
-                    </div>
-                );
-
-                inputs.push(custom);
-
-                inputs.push(
-                    <div key='otherThemes'>
-                        <br/>
-                        <a
-                            id='otherThemes'
-                            href='http://docs.mattermost.com/help/settings/theme-colors.html#custom-theme-examples'
-                            target='_blank'
-                            rel='noopener noreferrer'
-                        >
-                            <FormattedMessage
-                                id='user.settings.display.theme.otherThemes'
-                                defaultMessage='See other themes'
-                            />
-                        </a>
-                    </div>
-                );
-
-                inputs.push(
-                    <div
-                        key='importSlackThemeButton'
-                        className='padding-top'
-                    >
-                        <a
-                            id='slackImportTheme'
-                            className='theme'
-                            onClick={this.handleImportModal}
-                        >
-                            <FormattedMessage
-                                id='user.settings.display.theme.import'
-                                defaultMessage='Import theme colors from Slack'
-                            />
-                        </a>
-                    </div>
-                );
-            }
 
             let allTeamsCheckbox = null;
             if (this.state.showAllTeamsCheckbox) {

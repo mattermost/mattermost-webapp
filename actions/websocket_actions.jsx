@@ -145,7 +145,7 @@ function handleEvent(msg) {
     case SocketEvents.POST_DELETED:
         handlePostDeleteEvent(msg);
         break;
-
+/*
     case SocketEvents.LEAVE_TEAM:
         handleLeaveTeamEvent(msg);
         break;
@@ -185,7 +185,7 @@ function handleEvent(msg) {
     case SocketEvents.CHANNEL_UPDATED:
         handleChannelUpdatedEvent(msg);
         break;
-
+*/
     case SocketEvents.DIRECT_ADDED:
         handleDirectAddedEvent(msg);
         break;
@@ -291,7 +291,7 @@ function handlePostDeleteEvent(msg) {
         post
     });
 }
-
+/*
 async function handleTeamAddedEvent(msg) {
     await TeamActions.getTeam(msg.data.team_id)(dispatch, getState);
     await TeamActions.getMyTeamMembers()(dispatch, getState);
@@ -327,7 +327,7 @@ function handleLeaveTeamEvent(msg) {
         UserStore.removeProfileFromTeam(msg.data.team_id, msg.data.user_id);
         TeamStore.removeMemberInTeam(msg.data.team_id, msg.data.user_id);
     }
-}
+}*/
 
 function handleUpdateTeamEvent(msg) {
     TeamStore.updateTeam(msg.data.team);

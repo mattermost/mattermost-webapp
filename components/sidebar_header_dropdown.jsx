@@ -221,53 +221,55 @@ export default class SidebarHeaderDropdown extends React.Component {
             isAdmin = TeamStore.isTeamAdminForCurrentTeam() || UserStore.isSystemAdminForCurrentUser();
             isSystemAdmin = UserStore.isSystemAdminForCurrentUser();
 
-            inviteLink = (
-                <li>
-                    <a
-                        id='sendEmailInvite'
-                        href='#'
-                        onClick={this.showInviteMemberModal}
-                    >
-                        <FormattedMessage
-                            id='navbar_dropdown.inviteMember'
-                            defaultMessage='Send Email Invite'
-                        />
-                    </a>
-                </li>
-            );
-
-            addMemberToTeam = (
-                <li>
-                    <a
-                        id='addUsersToTeam'
-                        href='#'
-                        onClick={this.showAddUsersToTeamModal}
-                    >
-                        <FormattedMessage
-                            id='navbar_dropdown.addMemberToTeam'
-                            defaultMessage='Add Members to Team'
-                        />
-                    </a>
-                </li>
-            );
-
-            if (this.props.teamType === Constants.OPEN_TEAM && config.EnableUserCreation === 'true') {
-                teamLink = (
+            if(isSystemAdmin) {
+                inviteLink = (
                     <li>
                         <a
-                            id='getTeamInviteLink'
+                            id='sendEmailInvite'
                             href='#'
-                            onClick={this.showGetTeamInviteLinkModal}
+                            onClick={this.showInviteMemberModal}
                         >
                             <FormattedMessage
-                                id='navbar_dropdown.teamLink'
-                                defaultMessage='Get Team Invite Link'
+                                id='navbar_dropdown.inviteMember'
+                                defaultMessage='Send Email Invite'
+                            />
+                        </a>
+                    </li>
+                );    
+            
+                addMemberToTeam = (
+                    <li>
+                        <a
+                            id='addUsersToTeam'
+                            href='#'
+                            onClick={this.showAddUsersToTeamModal}
+                        >
+                            <FormattedMessage
+                                id='navbar_dropdown.addMemberToTeam'
+                                defaultMessage='Add Members to Team'
                             />
                         </a>
                     </li>
                 );
-            }
 
+                if (this.props.teamType === Constants.OPEN_TEAM && config.EnableUserCreation === 'true' && isSystemAdmin) {
+                    teamLink = (
+                        <li>
+                            <a
+                                id='getTeamInviteLink'
+                                href='#'
+                                onClick={this.showGetTeamInviteLinkModal}
+                            >
+                                <FormattedMessage
+                                    id='navbar_dropdown.teamLink'
+                                    defaultMessage='Get Team Invite Link'
+                                />
+                            </a>
+                        </li>
+                    );
+                }
+            }
+            
             if (global.window.mm_license.IsLicensed === 'true') {
                 if (config.RestrictTeamInvite === Constants.PERMISSIONS_SYSTEM_ADMIN && !isSystemAdmin) {
                     teamLink = null;
@@ -288,7 +290,7 @@ export default class SidebarHeaderDropdown extends React.Component {
             />
         );
 
-        if (isAdmin) {
+        if (isSystemAdmin) {
             teamSettings = (
                 <li>
                     <a
@@ -305,25 +307,20 @@ export default class SidebarHeaderDropdown extends React.Component {
                     </a>
                 </li>
             );
-        } else {
-            membersName = (
-                <FormattedMessage
-                    id='navbar_dropdown.viewMembers'
-                    defaultMessage='View Members'
-                />
-            );
         }
 
-        manageLink = (
-            <li>
-                <a
-                    href='#'
-                    onClick={this.showTeamMembersModal}
-                >
-                    {membersName}
-                </a>
-            </li>
-        );
+        if (isSystemAdmin) {
+            manageLink = (
+                <li>
+                    <a
+                        href='#'
+                        onClick={this.showTeamMembersModal}
+                    >
+                        {membersName}
+                    </a>
+                </li>
+            );
+        }
 
         const integrationsEnabled =
             config.EnableIncomingWebhooks === 'true' ||
@@ -331,20 +328,22 @@ export default class SidebarHeaderDropdown extends React.Component {
             config.EnableCommands === 'true' ||
             (config.EnableOAuthServiceProvider === 'true' && (isSystemAdmin || config.EnableOnlyAdminIntegrations !== 'true'));
         if (integrationsEnabled && (isAdmin || config.EnableOnlyAdminIntegrations !== 'true')) {
-            integrationsLink = (
-                <li>
-                    <Link
-                        id='Integrations'
-                        to={'/' + this.props.teamName + '/integrations'}
-                        onClick={this.handleClick}
-                    >
-                        <FormattedMessage
-                            id='navbar_dropdown.integrations'
-                            defaultMessage='Integrations'
-                        />
-                    </Link>
-                </li>
-            );
+            if (isSystemAdmin) {
+                integrationsLink = (
+                    <li>
+                        <Link
+                            id='Integrations'
+                            to={'/' + this.props.teamName + '/integrations'}
+                            onClick={this.handleClick}
+                        >
+                            <FormattedMessage
+                                id='navbar_dropdown.integrations'
+                                defaultMessage='Integrations'
+                            />
+                        </Link>
+                    </li>
+                );
+            }
         }
 
         if (isSystemAdmin) {
@@ -367,7 +366,7 @@ export default class SidebarHeaderDropdown extends React.Component {
         const teams = [];
         let moreTeams = false;
 
-        if (config.EnableTeamCreation === 'true' || UserStore.isSystemAdminForCurrentUser()) {
+        if (config.EnableTeamCreation === 'true' && UserStore.isSystemAdminForCurrentUser()) {
             teams.push(
                 <li key='newTeam_li'>
                     <Link
@@ -397,7 +396,7 @@ export default class SidebarHeaderDropdown extends React.Component {
             }
         }
 
-        if (moreTeams) {
+        if (moreTeams &&  UserStore.isSystemAdminForCurrentUser()) {
             teams.push(
                 <li key='joinTeam_li'>
                     <Link
@@ -413,21 +412,22 @@ export default class SidebarHeaderDropdown extends React.Component {
                 </li>
             );
         }
-
-        teams.push(
-            <li key='leaveTeam_li'>
-                <a
-                    id='leaveTeam'
-                    href='#'
-                    onClick={GlobalActions.showLeaveTeamModal}
-                >
-                    <FormattedMessage
-                        id='navbar_dropdown.leave'
-                        defaultMessage='Leave Team'
-                    />
-                </a>
-            </li>
-        );
+        if( UserStore.isSystemAdminForCurrentUser()) {
+            teams.push(
+                <li key='leaveTeam_li'>
+                    <a
+                        id='leaveTeam'
+                        href='#'
+                        onClick={GlobalActions.showLeaveTeamModal}
+                    >
+                        <FormattedMessage
+                            id='navbar_dropdown.leave'
+                            defaultMessage='Leave Team'
+                        />
+                    </a>
+                </li>
+            );
+        }
 
         let helpLink = null;
         if (config.HelpLink) {
@@ -609,25 +609,22 @@ export default class SidebarHeaderDropdown extends React.Component {
                 />
                 <Dropdown.Menu>
                     {accountSettings}
-                    {inviteDivider}
-                    {inviteLink}
-                    {teamLink}
-                    {addMemberToTeam}
-                    {teamDivider}
-                    {teamSettings}
-                    {manageLink}
-                    {teams}
-                    {backstageDivider}
-                    {integrationsLink}
                     {customEmoji}
-                    {sysAdminDivider}
-                    {sysAdminLink}
-                    {helpDivider}
                     {helpLink}
                     {keyboardShortcuts}
                     {reportLink}
                     {nativeAppLink}
                     {about}
+                    
+                    {sysAdminDivider}
+                    {sysAdminLink}
+                    {inviteLink}
+                    {teamLink}
+                    {teamSettings}
+                    {manageLink}
+                    {teams}
+                    {integrationsLink}
+                    
                     {logoutDivider}
                     {logout}
                     {teamMembersModal}

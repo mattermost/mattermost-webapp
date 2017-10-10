@@ -137,7 +137,7 @@
         color: #555555;
         display: inline-block;
         font-size: 13px;
-        font-weight: 700;
+        font-weight: 400;
         line-height: 2em;
         padding: 0 1em;
         position: relative;
@@ -152,14 +152,14 @@
 
     .separator__text {
         color: #ff8800;
-        font-weight: normal;
+        font-weight: 400;
     }
 }
 
 .file-overlay {
     color: $white;
     font-size: em(20px);
-    font-weight: 600;
+    font-weight: 400;
     height: 100%;
     left: 0;
     pointer-events: none;
@@ -387,7 +387,7 @@
     z-index: 5;
 
     label {
-        font-weight: normal;
+        font-weight: 400;
     }
 
     form {
@@ -624,7 +624,7 @@
             @include opacity(.55);
             display: inline-block;
             font-size: .85em;
-            font-weight: normal;
+            font-weight: 400;
             margin-bottom: 0;
             position: absolute;
             top: 4px;
@@ -1137,7 +1137,7 @@
         }
 
         .col__name {
-            font-weight: 600;
+            font-weight: 400;
             margin-right: 7px;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -1152,7 +1152,7 @@
 
             .colon {
                 display: none;
-                font-weight: 900;
+                font-weight: 400;
                 margin-left: 2px;
             }
         }
@@ -1268,7 +1268,7 @@
         float: right;
         font-family: 'Open Sans', sans-serif;
         font-size: 20px;
-        font-weight: 600;
+        font-weight: 400;
         height: 20px;
         line-height: 20px;
         position: relative;

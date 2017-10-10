@@ -94,7 +94,7 @@ export default class UserSettings extends React.Component {
                     />
                 </div>
             );
-        } else if (this.props.activeTab === 'advanced') {
+        } else if (this.props.activeTab === 'advanced' && UserStore.isSystemAdminForCurrentUser()) {
             return (
                 <div>
                     <AdvancedTab

@@ -384,7 +384,7 @@ export function saveTheme(teamId, theme, cb) {
         user_id: currentUserId,
         category: Preferences.CATEGORY_THEME,
         name: teamId,
-        value: JSON.stringify(theme)
+        value: '{"sidebarBg":"#000000","sidebarText":"#e0e0e0","sidebarUnreadText":"#f0f0f0","sidebarTextHoverBg":"#333333","sidebarTextActiveBorder":"#00a9cf","sidebarTextActiveColor":"#ffffff","sidebarHeaderBg":"#000000","sidebarHeaderTextColor":"#e0e0e0","onlineIndicator":"#00ff6c","awayIndicator":"#ffbc42","mentionBj":"#ffffff","mentionColor":"#00a9cf","centerChannelBg":"#000000","centerChannelColor":"#e0e0e0","newMessageSeparator":"#00a9cf","linkColor":"#00a9cf","buttonBg":"#00a9cf","buttonColor":"#e0e0e0","errorTextColor":"#fd5960","mentionHighlightBg":"#000000","mentionHighlightLink":"#00a9cf","codeTheme":"monokai"}'
     }];
 
     savePreferencesRedux(currentUserId, preference)(dispatch, getState).then(

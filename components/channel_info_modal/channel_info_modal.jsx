@@ -141,25 +141,6 @@ export default class ChannelInfoModal extends React.PureComponent {
                 </Modal.Header>
                 <Modal.Body ref='modalBody'>
                     {channelPurposeElement}
-                    {channelHeader}
-                    <div className='form-group'>
-                        <div className='info__label'>
-                            <FormattedMessage
-                                id='channel_info.url'
-                                defaultMessage='URL:'
-                            />
-                        </div>
-                        <div className='info__value'>{channelURL}</div>
-                    </div>
-                    <div className='about-modal__hash form-group padding-top x2'>
-                        <p>
-                            <FormattedMessage
-                                id='channel_info.id'
-                                defaultMessage='ID: '
-                            />
-                            {channel.id}
-                        </p>
-                    </div>
                 </Modal.Body>
             </Modal>
         );

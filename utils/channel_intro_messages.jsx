@@ -342,45 +342,17 @@ export function createStandardIntroMessage(channel, centeredIntro) {
                 {purposeMessage}
                 <br/>
             </p>
-            {channelInviteButton}
             {setHeaderButton}
         </div>
     );
 }
 
 function createInviteChannelMemberButton(channel, uiType) {
-    return (
-        <ToggleModalButton
-            className='intro-links'
-            dialogType={ChannelInviteModal}
-            dialogProps={{channel}}
-        >
-            <i className='fa fa-user-plus'/>
-            <FormattedMessage
-                id='intro_messages.invite'
-                defaultMessage='Invite others to this {type}'
-                values={{
-                    type: (uiType)
-                }}
-            />
-        </ToggleModalButton>
-    );
+    return null;
 }
 
 function createSetHeaderButton(channel) {
-    return (
-        <ToggleModalButton
-            className='intro-links'
-            dialogType={EditChannelHeaderModal}
-            dialogProps={{channel}}
-        >
-            <i className='fa fa-pencil'/>
-            <FormattedMessage
-                id='intro_messages.setHeader'
-                defaultMessage='Set a Header'
-            />
-        </ToggleModalButton>
-    );
+    return null;
 }
 
 function showManagementOption(channel) {

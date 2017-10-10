@@ -391,7 +391,7 @@ export const Constants = {
         POST: 5
     },
 
-    SPECIAL_MENTIONS: ['all', 'channel', 'here'],
+    SPECIAL_MENTIONS: ['todos', 'canal'],
     NOTIFY_ALL_MEMBERS: 5,
     CHARACTER_LIMIT: 4000,
     IMAGE_TYPES: ['jpg', 'gif', 'bmp', 'png', 'jpeg'],
@@ -488,6 +488,7 @@ export const Constants = {
     GM_CHANNEL: 'G',
     OPEN_CHANNEL: 'O',
     PRIVATE_CHANNEL: 'P',
+    MODERATE_CHANNEL: 'M',
     INVITE_TEAM: 'I',
     OPEN_TEAM: 'O',
     MAX_POST_LEN: 4000,

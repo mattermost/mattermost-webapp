@@ -209,11 +209,6 @@ export default class PostMessageView extends React.PureComponent {
             team: this.props.team
         });
 
-        const renderedSystemMessage = renderSystemMessage(this.props.post, options);
-        if (renderedSystemMessage) {
-            return <div>{renderedSystemMessage}</div>;
-        }
-
         let postId = null;
         if (this.props.lastPostCount >= 0) {
             postId = Utils.createSafeId('lastPostMessageText' + this.props.lastPostCount);
