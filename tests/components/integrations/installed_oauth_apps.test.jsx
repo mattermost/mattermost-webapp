@@ -45,6 +45,10 @@ describe('components/integrations/InstalledOAuthApps', () => {
                 team={{name: 'test'}}
                 oauthApps={oauthApps}
                 isSystemAdmin={true}
+                regenOAuthAppSecretRequest={{
+                    status: 'not_started',
+                    error: null
+                }}
                 actions={{
                     getOAuthApps: emptyFunction,
                     regenOAuthAppSecret: emptyFunction,

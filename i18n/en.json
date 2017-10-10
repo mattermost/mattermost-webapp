@@ -2460,6 +2460,8 @@
   "update_outgoing_webhook.confirm": "Edit Outgoing Webhook",
   "update_outgoing_webhook.question": "Your changes may break the existing outgoing webhook. Are you sure you would like to update it?",
   "update_outgoing_webhook.update": "Update",
+  "update_oauth_app.confirm": "Edit OAuth 2.0 application",
+  "update_oauth_app.question": "Your changes may break the existing OAuth 2.0 application. Are you sure you would like to update it?",
   "upload_overlay.info": "Drop a file to upload it.",
   "user.settings.advance.embed_preview": "For the first web link in a message, display a preview of website content below the message, if available",
   "user.settings.advance.embed_toggle": "Show toggle for all embed previews",

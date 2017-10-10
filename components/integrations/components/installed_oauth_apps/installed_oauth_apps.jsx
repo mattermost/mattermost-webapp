@@ -91,6 +91,7 @@ export default class InstalledOAuthApps extends React.PureComponent {
             return (
                 <InstalledOAuthApp
                     key={app.id}
+                    team={this.props.team}
                     oauthApp={app}
                     regenOAuthAppSecretRequest={this.props.regenOAuthAppSecretRequest}
                     onRegenerateSecret={this.props.actions.regenOAuthAppSecret}

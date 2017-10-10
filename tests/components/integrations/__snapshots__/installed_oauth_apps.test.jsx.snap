@@ -73,6 +73,12 @@ exports[`components/integrations/InstalledOAuthApps should match snapshot 1`] = 
     }
     onDelete={[Function]}
     onRegenerateSecret={[Function]}
+    regenOAuthAppSecretRequest={
+      Object {
+        "error": null,
+        "status": "not_started",
+      }
+    }
   />
   <InstalledOAuthApp
     oauthApp={
@@ -95,6 +101,12 @@ exports[`components/integrations/InstalledOAuthApps should match snapshot 1`] = 
     }
     onDelete={[Function]}
     onRegenerateSecret={[Function]}
+    regenOAuthAppSecretRequest={
+      Object {
+        "error": null,
+        "status": "not_started",
+      }
+    }
   />
 </BackstageList>
 `;

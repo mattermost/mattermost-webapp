@@ -14,7 +14,7 @@ describe('components/integrations/InstalledCommand', () => {
         display_name: 'test',
         description: 'test',
         trigger: 'trigger',
-        auto_complete: 'test',
+        auto_complete: true,
         auto_complete_hint: 'test',
         token: 'testToken',
         create_at: '1499722850203'

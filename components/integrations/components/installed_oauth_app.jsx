@@ -3,7 +3,8 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
+import {Link} from 'react-router';
 
 import * as Utils from 'utils/utils.jsx';
 
@@ -15,6 +16,11 @@ const FAKE_SECRET = '***************';
 
 export default class InstalledOAuthApp extends React.PureComponent {
     static propTypes = {
+
+        /**
+        * The team data
+        */
+        team: PropTypes.object,
 
         /**
         * The oauthApp data
@@ -259,6 +265,13 @@ export default class InstalledOAuthApp extends React.PureComponent {
                     {showHide}
                     {' - '}
                     {regen}
+                    {' - '}
+                    <Link to={`/${this.props.team.name}/integrations/oauth2-apps/edit?id=${oauthApp.id}`}>
+                        <FormattedMessage
+                            id='installed_integrations.edit'
+                            defaultMessage='Edit'
+                        />
+                    </Link>
                     {' - '}
                     <DeleteIntegration
                         messageId='installed_oauth_apps.delete.confirm'

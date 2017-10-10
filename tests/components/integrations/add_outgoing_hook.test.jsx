@@ -2,14 +2,13 @@
 // See License.txt for license information.
 
 import React from 'react';
-
 import {shallow} from 'enzyme';
 
 import AddOutgoingWebhook from 'components/integrations/components/add_outgoing_webhook/add_outgoing_webhook.jsx';
 
 describe('components/integrations/AddOutgoingWebhook', () => {
     test('should match snapshot', () => {
-        function emptyFunction() {} //eslint-disable-line no-empty-function
+        const emptyFunction = jest.fn();
         const teamId = 'testteamid';
 
         const wrapper = shallow(
