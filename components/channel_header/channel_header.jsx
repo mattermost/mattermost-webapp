@@ -719,10 +719,9 @@ export default class ChannelHeader extends React.Component {
                 </OverlayTrigger>
             );
         } else {
-            headerTextContainer = (
-                <div className='channel-header__description light'>
-                    {dmHeaderIconStatus}
-                    {dmHeaderTextStatus}
+            let editMessage;
+            if (ChannelUtils.showManagementOptions(channel, isChannelAdmin, isTeamAdmin, isSystemAdmin)) {
+                editMessage = (
                     <a
                         href='#'
                         onClick={() => this.setState({showEditChannelHeaderModal: true})}
@@ -732,6 +731,13 @@ export default class ChannelHeader extends React.Component {
                             defaultMessage='Add a channel description'
                         />
                     </a>
+                );
+            }
+            headerTextContainer = (
+                <div className='channel-header__description light'>
+                    {dmHeaderIconStatus}
+                    {dmHeaderTextStatus}
+                    {editMessage}
                 </div>
             );
         }
