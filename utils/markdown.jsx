@@ -157,7 +157,7 @@ class MattermostMarkdownRenderer extends marked.Renderer {
             return text;
         }
 
-        if (!(/[a-z+.-]+:/i).test(outHref)) {
+        if (!(/[a-z0-9+.-]+:/i).test(outHref)) {
             outHref = `http://${outHref}`;
         }
 
