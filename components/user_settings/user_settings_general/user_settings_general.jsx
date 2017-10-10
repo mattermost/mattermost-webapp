@@ -217,6 +217,8 @@ class UserSettingsGeneralTab extends React.Component {
     }
 
     submitUser(user, type, emailUpdated) {
+        this.setState({sectionIsSaving: true});
+
         updateUser(user, type,
             () => {
                 this.updateSection('');
@@ -236,7 +238,7 @@ class UserSettingsGeneralTab extends React.Component {
                 } else {
                     serverError = err;
                 }
-                this.setState({serverError, emailError: '', clientError: ''});
+                this.setState({serverError, emailError: '', clientError: '', sectionIsSaving: false});
             }
         );
     }
@@ -343,7 +345,7 @@ class UserSettingsGeneralTab extends React.Component {
             $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
         }
         const emailChangeInProgress = this.state.emailChangeInProgress;
-        this.setState(Object.assign({}, this.setupInitialState(this.props), {emailChangeInProgress, clientError: '', serverError: '', emailError: ''}));
+        this.setState(Object.assign({}, this.setupInitialState(this.props), {emailChangeInProgress, clientError: '', serverError: '', emailError: '', sectionIsSaving: false}));
         this.submitActive = false;
         this.props.updateSection(section);
     }
@@ -363,7 +365,8 @@ class UserSettingsGeneralTab extends React.Component {
             pictureFile: null,
             loadingPicture: false,
             emailChangeInProgress: false,
-            maxFileSize: global.window.mm_config.MaxFileSize
+            maxFileSize: global.window.mm_config.MaxFileSize,
+            sectionIsSaving: false
         };
     }
 
@@ -579,6 +582,7 @@ class UserSettingsGeneralTab extends React.Component {
                     }
                     inputs={inputs}
                     submit={submit}
+                    saving={this.state.sectionIsSaving}
                     server_error={this.state.serverError}
                     client_error={this.state.emailError}
                     updateSection={(e) => {
@@ -799,6 +803,7 @@ class UserSettingsGeneralTab extends React.Component {
                     title={formatMessage(holders.fullName)}
                     inputs={inputs}
                     submit={submit}
+                    saving={this.state.sectionIsSaving}
                     server_error={serverError}
                     client_error={clientError}
                     updateSection={(e) => {
@@ -906,6 +911,7 @@ class UserSettingsGeneralTab extends React.Component {
                     title={formatMessage(holders.nickname)}
                     inputs={inputs}
                     submit={submit}
+                    saving={this.state.sectionIsSaving}
                     server_error={serverError}
                     client_error={clientError}
                     updateSection={(e) => {
@@ -1008,6 +1014,7 @@ class UserSettingsGeneralTab extends React.Component {
                     title={formatMessage(holders.username)}
                     inputs={inputs}
                     submit={submit}
+                    saving={this.state.sectionIsSaving}
                     server_error={serverError}
                     client_error={clientError}
                     updateSection={(e) => {
@@ -1090,6 +1097,7 @@ class UserSettingsGeneralTab extends React.Component {
                     title={formatMessage(holders.position)}
                     inputs={inputs}
                     submit={submit}
+                    saving={this.state.sectionIsSaving}
                     server_error={serverError}
                     client_error={clientError}
                     updateSection={(e) => {
