@@ -22,6 +22,7 @@ import * as ChannelUtils from 'utils/channel_utils.jsx';
 import {Constants, Preferences} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {isUrlSafe} from 'utils/url.jsx';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -105,7 +106,28 @@ export function executeCommand(message, args, success, error) {
         return;
     }
 
-    Client4.executeCommand(msg, args).then(success).catch(
+    Client4.executeCommand(msg, args).then(
+        (data) => {
+            if (success) {
+                success(data);
+            }
+
+            const hasGotoLocation = data.goto_location && isUrlSafe(data.goto_location);
+
+            if (msg.trim() === '/logout') {
+                GlobalActions.clientLogout(hasGotoLocation ? data.goto_location : '/');
+                return;
+            }
+
+            if (hasGotoLocation) {
+                if (data.goto_location.startsWith('/') || data.goto_location.includes(window.location.hostname)) {
+                    browserHistory.push(data.goto_location);
+                } else {
+                    window.open(data.goto_location);
+                }
+            }
+        },
+    ).catch(
         (err) => {
             if (error) {
                 error(err);

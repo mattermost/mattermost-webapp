@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router/es6';
 
 import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
@@ -21,7 +20,6 @@ import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
 import Constants from 'utils/constants.jsx';
-import {isUrlSafe} from 'utils/url.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -196,23 +194,8 @@ export default class CreateComment extends React.Component {
         ChannelActions.executeCommand(
             message,
             args,
-            (data) => {
+            () => {
                 this.setState({submitting: false});
-
-                const hasGotoLocation = data.goto_location && isUrlSafe(data.goto_location);
-
-                if (message.trim() === '/logout') {
-                    GlobalActions.clientLogout(hasGotoLocation ? data.goto_location : '/');
-                    return;
-                }
-
-                if (hasGotoLocation) {
-                    if (data.goto_location.startsWith('/') || data.goto_location.includes(window.location.hostname)) {
-                        browserHistory.push(data.goto_location);
-                    } else {
-                        window.open(data.goto_location);
-                    }
-                }
             },
             (err) => {
                 if (err.sendMessage) {

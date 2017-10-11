@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router/es6';
 
 import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
@@ -24,7 +23,6 @@ import * as FileUtils from 'utils/file_utils';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {isUrlSafe} from 'utils/url.jsx';
 
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 
@@ -157,23 +155,8 @@ export default class CreatePost extends React.Component {
             ChannelActions.executeCommand(
                 post.message,
                 args,
-                (data) => {
+                () => {
                     this.setState({submitting: false});
-
-                    const hasGotoLocation = data.goto_location && isUrlSafe(data.goto_location);
-
-                    if (post.message.trim() === '/logout') {
-                        GlobalActions.clientLogout(hasGotoLocation ? data.goto_location : '/');
-                        return;
-                    }
-
-                    if (hasGotoLocation) {
-                        if (data.goto_location.startsWith('/') || data.goto_location.includes(window.location.hostname)) {
-                            browserHistory.push(data.goto_location);
-                        } else {
-                            window.open(data.goto_location);
-                        }
-                    }
                 },
                 (err) => {
                     if (err.sendMessage) {
