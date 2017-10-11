@@ -256,7 +256,10 @@ export default class SearchResultsItem extends React.Component {
             );
 
             message = (
-                <PostBodyAdditionalContent post={post}>
+                <PostBodyAdditionalContent
+                    showLinksPreview={false}
+                    post={post}
+                >
                     <PostMessageContainer
                         post={post}
                         options={{

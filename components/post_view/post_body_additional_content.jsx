@@ -29,12 +29,18 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         children: PropTypes.element.isRequired,
 
         /**
+         * Show or not the link previews
+         */
+        showLinksPreview: PropTypes.bool,
+
+        /**
          * Set to collapse image and video previews
          */
         previewCollapsed: PropTypes.string
     }
 
     static defaultProps = {
+        showLinksPreview: true,
         previewCollapsed: ''
     }
 
@@ -192,7 +198,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         }
 
         const link = Utils.extractFirstLink(this.props.post.message);
-        if (link && Utils.isFeatureEnabled(Constants.PRE_RELEASE_FEATURES.EMBED_PREVIEW) && global.window.mm_config.EnableLinkPreviews === 'true') {
+        if (this.props.showLinksPreview && link && Utils.isFeatureEnabled(Constants.PRE_RELEASE_FEATURES.EMBED_PREVIEW) && global.window.mm_config.EnableLinkPreviews === 'true') {
             return (
                 <PostAttachmentOpenGraph
                     link={link}
