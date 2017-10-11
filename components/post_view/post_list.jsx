@@ -306,13 +306,15 @@ export default class PostList extends React.PureComponent {
             const getPostsBeforeAsync = this.props.actions.getPostsBefore(channelId, focusedPostId, 0, POSTS_PER_PAGE);
             const getPostsAfterAsync = this.props.actions.getPostsAfter(channelId, focusedPostId, 0, POSTS_PER_PAGE);
 
-            posts = await getPostsBeforeAsync;
+            const result = await getPostsBeforeAsync;
+            posts = result.data;
             await getPostsAfterAsync;
             await getPostThreadAsync;
 
             this.hasScrolledToFocusedPost = true;
         } else {
-            posts = await this.props.actions.getPosts(channelId, 0, POSTS_PER_PAGE);
+            const result = await this.props.actions.getPosts(channelId, 0, POSTS_PER_PAGE);
+            posts = result.data;
             this.hasScrolledToNewMessageSeparator = true;
         }
 

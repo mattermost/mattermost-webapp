@@ -18,32 +18,26 @@ import * as UserAgent from 'utils/user_agent.jsx';
 const dispatch = store.dispatch;
 const getState = store.getState;
 
-export function loadIncomingHooks(complete) {
-    IntegrationActions.getIncomingHooks('', 0, 10000)(dispatch, getState).then(
-        (data) => {
-            if (data) {
-                loadProfilesForIncomingHooks(data);
-            }
+export async function loadIncomingHooks(complete) {
+    const {data} = await IntegrationActions.getIncomingHooks('', 0, 10000)(dispatch, getState);
+    if (data) {
+        loadProfilesForIncomingHooks(data);
+    }
 
-            if (complete) {
-                complete(data);
-            }
-        }
-    );
+    if (complete) {
+        complete(data);
+    }
 }
 
-export function loadIncomingHooksForTeam(teamId, complete) {
-    IntegrationActions.getIncomingHooks(teamId, 0, 10000)(dispatch, getState).then(
-        (data) => {
-            if (data) {
-                loadProfilesForIncomingHooks(data);
-            }
+export async function loadIncomingHooksForTeam(teamId, complete) {
+    const {data} = await IntegrationActions.getIncomingHooks(teamId, 0, 10000)(dispatch, getState);
+    if (data) {
+        loadProfilesForIncomingHooks(data);
+    }
 
-            if (complete) {
-                complete(data);
-            }
-        }
-    );
+    if (complete) {
+        complete(data);
+    }
 }
 
 function loadProfilesForIncomingHooks(hooks) {
@@ -63,32 +57,26 @@ function loadProfilesForIncomingHooks(hooks) {
     getProfilesByIds(list)(dispatch, getState);
 }
 
-export function loadOutgoingHooks(complete) {
-    IntegrationActions.getOutgoingHooks('', '', 0, 10000)(dispatch, getState).then(
-        (data) => {
-            if (data) {
-                loadProfilesForOutgoingHooks(data);
-            }
+export async function loadOutgoingHooks(complete) {
+    const {data} = await IntegrationActions.getOutgoingHooks('', '', 0, 10000)(dispatch, getState);
+    if (data) {
+        loadProfilesForOutgoingHooks(data);
+    }
 
-            if (complete) {
-                complete(data);
-            }
-        }
-    );
+    if (complete) {
+        complete(data);
+    }
 }
 
-export function loadOutgoingHooksForTeam(teamId, complete) {
-    IntegrationActions.getOutgoingHooks('', teamId, 0, 10000)(dispatch, getState).then(
-        (data) => {
-            if (data) {
-                loadProfilesForOutgoingHooks(data);
-            }
+export async function loadOutgoingHooksForTeam(teamId, complete) {
+    const {data} = await IntegrationActions.getOutgoingHooks('', teamId, 0, 10000)(dispatch, getState);
+    if (data) {
+        loadProfilesForOutgoingHooks(data);
+    }
 
-            if (complete) {
-                complete(data);
-            }
-        }
-    );
+    if (complete) {
+        complete(data);
+    }
 }
 
 function loadProfilesForOutgoingHooks(hooks) {
@@ -108,18 +96,15 @@ function loadProfilesForOutgoingHooks(hooks) {
     getProfilesByIds(list)(dispatch, getState);
 }
 
-export function loadTeamCommands(complete) {
-    IntegrationActions.getCustomTeamCommands(TeamStore.getCurrentId())(dispatch, getState).then(
-        (data) => {
-            if (data) {
-                loadProfilesForCommands(data);
-            }
+export async function loadTeamCommands(complete) {
+    const {data} = await IntegrationActions.getCustomTeamCommands(TeamStore.getCurrentId())(dispatch, getState);
+    if (data) {
+        loadProfilesForCommands(data);
+    }
 
-            if (complete) {
-                complete(data);
-            }
-        }
-    );
+    if (complete) {
+        complete(data);
+    }
 }
 
 function loadProfilesForCommands(commands) {
@@ -139,56 +124,40 @@ function loadProfilesForCommands(commands) {
     getProfilesByIds(list)(dispatch, getState);
 }
 
-export function addIncomingHook(hook, success, error) {
-    IntegrationActions.createIncomingHook(hook)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.integrations.createIncomingHook.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function addIncomingHook(hook, success, error) {
+    const {data, error: err} = await IntegrationActions.createIncomingHook(hook)(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
-export function updateIncomingHook(hook, success, error) {
-    IntegrationActions.updateIncomingHook(hook)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.integrations.updateIncomingHook.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function updateIncomingHook(hook, success, error) {
+    const {data, error: err} = await IntegrationActions.updateIncomingHook(hook)(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
-export function addOutgoingHook(hook, success, error) {
-    IntegrationActions.createOutgoingHook(hook)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.integrations.createOutgoingHook.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function addOutgoingHook(hook, success, error) {
+    const {data, error: err} = await IntegrationActions.createOutgoingHook(hook)(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
-export function updateOutgoingHook(hook, success, error) {
-    IntegrationActions.updateOutgoingHook(hook)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.integrations.updateOutgoingHook.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function updateOutgoingHook(hook, success, error) {
+    const {data, error: err} = await IntegrationActions.updateOutgoingHook(hook)(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
 export function deleteIncomingHook(id) {
@@ -203,30 +172,22 @@ export function regenOutgoingHookToken(id) {
     IntegrationActions.regenOutgoingHookToken(id)(dispatch, getState);
 }
 
-export function addCommand(command, success, error) {
-    IntegrationActions.addCommand(command)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.integrations.addCommand.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function addCommand(command, success, error) {
+    const {data, error: err} = await IntegrationActions.addCommand(command)(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
-export function editCommand(command, success, error) {
-    IntegrationActions.editCommand(command)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.integrations.editCommand.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function editCommand(command, success, error) {
+    const {data, error: err} = await IntegrationActions.editCommand(command)(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
 export function deleteCommand(id) {

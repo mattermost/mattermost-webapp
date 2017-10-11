@@ -11,135 +11,95 @@ import store from 'stores/redux_store.jsx';
 const dispatch = store.dispatch;
 const getState = store.getState;
 
-export function saveConfig(config, success, error) {
-    AdminActions.updateConfig(config)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.admin.updateConfig.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function saveConfig(config, success, error) {
+    const {data, error: err} = await AdminActions.updateConfig(config)(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
-export function reloadConfig(success, error) {
-    AdminActions.reloadConfig()(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                AdminActions.getConfig()(dispatch, getState);
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.admin.reloadConfig.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function reloadConfig(success, error) {
+    const {data, error: err} = await AdminActions.reloadConfig()(dispatch, getState);
+    if (data && success) {
+        AdminActions.getConfig()(dispatch, getState);
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
-export function adminResetMfa(userId, success, error) {
-    UserActions.updateUserMfa(userId, false)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.users.updateUser.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function adminResetMfa(userId, success, error) {
+    const {data, error: err} = await UserActions.updateUserMfa(userId, false)(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
-export function getClusterStatus(success, error) {
-    AdminActions.getClusterStatus()(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.admin.getClusterStatus.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function getClusterStatus(success, error) {
+    const {data, error: err} = await AdminActions.getClusterStatus()(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
-export function testEmail(config, success, error) {
-    AdminActions.testEmail(config)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.admin.testEmail.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function testEmail(config, success, error) {
+    const {data, error: err} = await AdminActions.testEmail(config)(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
-export function ldapTest(success, error) {
-    AdminActions.testLdap()(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.admin.testLdap.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function ldapTest(success, error) {
+    const {data, error: err} = await AdminActions.testLdap()(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
-export function invalidateAllCaches(success, error) {
-    AdminActions.invalidateCaches()(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.admin.invalidateCaches.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function invalidateAllCaches(success, error) {
+    const {data, error: err} = await AdminActions.invalidateCaches()(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
-export function recycleDatabaseConnection(success, error) {
-    AdminActions.recycleDatabase()(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.admin.recycleDatabase.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function recycleDatabaseConnection(success, error) {
+    const {data, error: err} = await AdminActions.recycleDatabase()(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
-export function adminResetPassword(userId, password, success, error) {
-    UserActions.updateUserPassword(userId, '', password)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.users.updateUser.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function adminResetPassword(userId, password, success, error) {
+    const {data, error: err} = await UserActions.updateUserPassword(userId, '', password)(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
-export function samlCertificateStatus(success, error) {
-    AdminActions.getSamlCertificateStatus()(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.admin.getSamlCertificateStatus.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function samlCertificateStatus(success, error) {
+    const {data, error: err} = await AdminActions.getSamlCertificateStatus()(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
 export function getOAuthAppInfo(clientId, success, error) {
@@ -180,205 +140,149 @@ export function allowOAuth2(params, success, error) {
     );
 }
 
-export function emailToLdap(loginId, password, token, ldapId, ldapPassword, success, error) {
-    UserActions.switchEmailToLdap(loginId, password, ldapId, ldapPassword, token)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.users.switchLogin.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
+export async function emailToLdap(loginId, password, token, ldapId, ldapPassword, success, error) {
+    const {data, error: err} = await UserActions.switchEmailToLdap(loginId, password, ldapId, ldapPassword, token)(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
+}
+
+export async function emailToOAuth(loginId, password, token, newType, success, error) {
+    const {data, error: err} = await UserActions.switchEmailToOAuth(newType, loginId, password, token)(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
+}
+
+export async function oauthToEmail(currentService, email, password, success, error) {
+    const {data, error: err} = await UserActions.switchOAuthToEmail(currentService, email, password)(dispatch, getState);
+    if (data) {
+        if (data.follow_link) {
+            clientLogout(data.follow_link);
         }
-    );
-}
-
-export function emailToOAuth(loginId, password, token, newType, success, error) {
-    UserActions.switchEmailToOAuth(newType, loginId, password, token)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.users.switchLogin.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
+        if (success) {
+            success(data);
         }
-    );
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
-export function oauthToEmail(currentService, email, password, success, error) {
-    UserActions.switchOAuthToEmail(currentService, email, password)(dispatch, getState).then(
-        (data) => {
-            if (data) {
-                if (data.follow_link) {
-                    clientLogout(data.follow_link);
-                }
-                if (success) {
-                    success(data);
-                }
-            } else if (data == null && error) {
-                const serverError = getState().requests.users.switchLogin.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function uploadBrandImage(brandImage, success, error) {
+    const {data, error: err} = await AdminActions.uploadBrandImage(brandImage)(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
-export function uploadBrandImage(brandImage, success, error) {
-    AdminActions.uploadBrandImage(brandImage)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.admin.uploadBrandImage.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function uploadLicenseFile(file, success, error) {
+    const {data, error: err} = await AdminActions.uploadLicense(file)(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
-export function uploadLicenseFile(file, success, error) {
-    AdminActions.uploadLicense(file)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.admin.uploadLicense.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function removeLicenseFile(success, error) {
+    const {data, error: err} = await AdminActions.removeLicense()(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
-export function removeLicenseFile(success, error) {
-    AdminActions.removeLicense()(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.admin.removeLicense.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function uploadPublicSamlCertificate(file, success, error) {
+    const {data, error: err} = await AdminActions.uploadPublicSamlCertificate(file)(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
-export function uploadPublicSamlCertificate(file, success, error) {
-    AdminActions.uploadPublicSamlCertificate(file)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.admin.uploadPublicSamlCertificate.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function uploadPrivateSamlCertificate(file, success, error) {
+    const {data, error: err} = await AdminActions.uploadPrivateSamlCertificate(file)(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
-export function uploadPrivateSamlCertificate(file, success, error) {
-    AdminActions.uploadPrivateSamlCertificate(file)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.admin.uploadPrivateSamlCertificate.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function uploadIdpSamlCertificate(file, success, error) {
+    const {data, error: err} = await AdminActions.uploadIdpSamlCertificate(file)(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
-export function uploadIdpSamlCertificate(file, success, error) {
-    AdminActions.uploadIdpSamlCertificate(file)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.admin.uploadIdpSamlCertificate.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function removePublicSamlCertificate(success, error) {
+    const {data, error: err} = await AdminActions.removePublicSamlCertificate()(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
-export function removePublicSamlCertificate(success, error) {
-    AdminActions.removePublicSamlCertificate()(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.admin.removePublicSamlCertificate.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function removePrivateSamlCertificate(success, error) {
+    const {data, error: err} = await AdminActions.removePrivateSamlCertificate()(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
-export function removePrivateSamlCertificate(success, error) {
-    AdminActions.removePrivateSamlCertificate()(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.admin.removePrivateSamlCertificate.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function removeIdpSamlCertificate(success, error) {
+    const {data, error: err} = await AdminActions.removeIdpSamlCertificate()(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
-export function removeIdpSamlCertificate(success, error) {
-    AdminActions.removeIdpSamlCertificate()(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.admin.removeIdpSamlCertificate.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function getStandardAnalytics(teamId) {
+    await AdminActions.getStandardAnalytics(teamId)(dispatch, getState);
 }
 
-export function getStandardAnalytics(teamId) {
-    AdminActions.getStandardAnalytics(teamId)(dispatch, getState);
+export async function getAdvancedAnalytics(teamId) {
+    await AdminActions.getAdvancedAnalytics(teamId)(dispatch, getState);
 }
 
-export function getAdvancedAnalytics(teamId) {
-    AdminActions.getAdvancedAnalytics(teamId)(dispatch, getState);
+export async function getPostsPerDayAnalytics(teamId) {
+    await AdminActions.getPostsPerDayAnalytics(teamId)(dispatch, getState);
 }
 
-export function getPostsPerDayAnalytics(teamId) {
-    AdminActions.getPostsPerDayAnalytics(teamId)(dispatch, getState);
+export async function getUsersPerDayAnalytics(teamId) {
+    await AdminActions.getUsersPerDayAnalytics(teamId)(dispatch, getState);
 }
 
-export function getUsersPerDayAnalytics(teamId) {
-    AdminActions.getUsersPerDayAnalytics(teamId)(dispatch, getState);
+export async function elasticsearchTest(config, success, error) {
+    const {data, error: err} = await AdminActions.testElasticsearch(config)(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
-export function elasticsearchTest(config, success, error) {
-    AdminActions.testElasticsearch(config)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.admin.testElasticsearch.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
-}
-
-export function elasticsearchPurgeIndexes(success, error) {
-    AdminActions.purgeElasticsearchIndexes()(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.admin.purgeElasticsearchIndexes.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function elasticsearchPurgeIndexes(success, error) {
+    const {data, error: err} = await AdminActions.purgeElasticsearchIndexes()(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }

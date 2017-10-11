@@ -8,28 +8,20 @@ import store from 'stores/redux_store.jsx';
 const dispatch = store.dispatch;
 const getState = store.getState;
 
-export function createJob(job, success, error) {
-    JobsActions.createJob(job)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.jobs.createJob.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function createJob(job, success, error) {
+    const {data, error: err} = await JobsActions.createJob(job)(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
-export function cancelJob(jobId, success, error) {
-    JobsActions.cancelJob(jobId)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.jobs.cancelJob.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function cancelJob(jobId, success, error) {
+    const {data, error: err} = await JobsActions.cancelJob(jobId)(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }

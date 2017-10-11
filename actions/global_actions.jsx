@@ -37,20 +37,15 @@ const dispatch = store.dispatch;
 const getState = store.getState;
 
 export function emitChannelClickEvent(channel) {
-    function userVisitedFakeChannel(chan, success, fail) {
+    async function userVisitedFakeChannel(chan, success, fail) {
         const currentUserId = UserStore.getCurrentId();
         const otherUserId = Utils.getUserIdFromChannelName(chan);
-        createDirectChannel(currentUserId, otherUserId)(dispatch, getState).then(
-            (result) => {
-                const receivedChannel = result.data;
-
-                if (receivedChannel) {
-                    success(receivedChannel);
-                } else {
-                    fail();
-                }
-            }
-        );
+        const {data: receivedChannel} = await createDirectChannel(currentUserId, otherUserId)(dispatch, getState);
+        if (receivedChannel) {
+            success(receivedChannel);
+        } else {
+            fail();
+        }
     }
     function switchToChannel(chan) {
         const channelMember = ChannelStore.getMyMember(chan.id);
@@ -123,29 +118,27 @@ export async function doFocusPost(channelId, postId, data) {
     getChannelStats(channelId)(dispatch, getState);
 }
 
-export function emitPostFocusEvent(postId, onSuccess) {
+export async function emitPostFocusEvent(postId, onSuccess) {
     loadChannelsForCurrentUser();
-    getPostThread(postId)(dispatch, getState).then(
-        (data) => {
-            if (data) {
-                const channelId = data.posts[data.order[0]].channel_id;
-                const channel = ChannelStore.getChannelById(channelId);
-                if (channel && channel.type === Constants.DM_CHANNEL) {
-                    loadNewDMIfNeeded(channel.id);
-                } else if (channel && channel.type === Constants.GM_CHANNEL) {
-                    loadNewGMIfNeeded(channel.id);
-                }
+    const {data} = await getPostThread(postId)(dispatch, getState);
 
-                doFocusPost(channelId, postId, data).then(() => {
-                    if (onSuccess) {
-                        onSuccess();
-                    }
-                });
-            } else {
-                browserHistory.push('/error?type=' + ErrorPageTypes.PERMALINK_NOT_FOUND);
-            }
+    if (data) {
+        const channelId = data.posts[data.order[0]].channel_id;
+        const channel = ChannelStore.getChannelById(channelId);
+        if (channel && channel.type === Constants.DM_CHANNEL) {
+            loadNewDMIfNeeded(channel.id);
+        } else if (channel && channel.type === Constants.GM_CHANNEL) {
+            loadNewGMIfNeeded(channel.id);
         }
-    );
+
+        doFocusPost(channelId, postId, data).then(() => {
+            if (onSuccess) {
+                onSuccess();
+            }
+        });
+    } else {
+        browserHistory.push('/error?type=' + ErrorPageTypes.PERMALINK_NOT_FOUND);
+    }
 }
 
 export function emitCloseRightHandSide() {
@@ -159,25 +152,23 @@ export function emitCloseRightHandSide() {
     });
 }
 
-export function emitPostFocusRightHandSideFromSearch(post, isMentionSearch) {
-    getPostThread(post.id)(dispatch, getState).then(
-        () => {
-            AppDispatcher.handleServerAction({
-                type: ActionTypes.RECEIVED_POST_SELECTED,
-                postId: Utils.getRootId(post),
-                channelId: post.channel_id,
-                from_search: SearchStore.getSearchTerm(),
-                from_flagged_posts: SearchStore.getIsFlaggedPosts(),
-                from_pinned_posts: SearchStore.getIsPinnedPosts()
-            });
+export async function emitPostFocusRightHandSideFromSearch(post, isMentionSearch) {
+    await getPostThread(post.id)(dispatch, getState);
 
-            AppDispatcher.handleServerAction({
-                type: ActionTypes.RECEIVED_SEARCH,
-                results: null,
-                is_mention_search: isMentionSearch
-            });
-        }
-    );
+    AppDispatcher.handleServerAction({
+        type: ActionTypes.RECEIVED_POST_SELECTED,
+        postId: Utils.getRootId(post),
+        channelId: post.channel_id,
+        from_search: SearchStore.getSearchTerm(),
+        from_flagged_posts: SearchStore.getIsFlaggedPosts(),
+        from_pinned_posts: SearchStore.getIsPinnedPosts()
+    });
+
+    AppDispatcher.handleServerAction({
+        type: ActionTypes.RECEIVED_SEARCH,
+        results: null,
+        is_mention_search: isMentionSearch
+    });
 }
 
 export function emitLeaveTeam() {
@@ -552,7 +543,7 @@ export function emitBrowserFocus(focus) {
     });
 }
 
-export function redirectUserToDefaultTeam() {
+export async function redirectUserToDefaultTeam() {
     const teams = TeamStore.getAll();
     const teamMembers = TeamStore.getMyTeamMembers();
     let teamId = BrowserStore.getGlobalItem('team');
@@ -582,15 +573,12 @@ export function redirectUserToDefaultTeam() {
         if (channel) {
             redirect(teams[teamId].name, channel);
         } else if (channelId) {
-            getChannelAndMyMember(channelId)(dispatch, getState).then(
-                (data) => {
-                    if (data) {
-                        redirect(teams[teamId].name, data.channel.name);
-                    } else {
-                        redirect(teams[teamId].name, 'town-square');
-                    }
-                }
-            );
+            const {data} = await getChannelAndMyMember(channelId)(dispatch, getState);
+            if (data) {
+                redirect(teams[teamId].name, data.channel.name);
+            } else {
+                redirect(teams[teamId].name, 'town-square');
+            }
         } else {
             redirect(teams[teamId].name, 'town-square');
         }

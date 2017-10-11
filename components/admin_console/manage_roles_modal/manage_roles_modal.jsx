@@ -137,7 +137,7 @@ export default class ManageRolesModal extends React.PureComponent {
             }
         }
 
-        const data = await this.props.actions.updateUserRoles(this.props.user.id, roles);
+        const {data} = await this.props.actions.updateUserRoles(this.props.user.id, roles);
 
         this.trackRoleChanges(roles, this.props.user.roles);
 
