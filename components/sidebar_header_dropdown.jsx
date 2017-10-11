@@ -366,24 +366,6 @@ export default class SidebarHeaderDropdown extends React.Component {
         const teams = [];
         let moreTeams = false;
 
-        if (config.EnableTeamCreation === 'true' && UserStore.isSystemAdminForCurrentUser()) {
-            teams.push(
-                <li key='newTeam_li'>
-                    <Link
-                        id='createTeam'
-                        key='newTeam_a'
-                        to='/create_team'
-                        onClick={this.handleClick}
-                    >
-                        <FormattedMessage
-                            id='navbar_dropdown.create'
-                            defaultMessage='Create a New Team'
-                        />
-                    </Link>
-                </li>
-            );
-        }
-
         const isAlreadyMember = this.state.teamMembers.reduce((result, item) => {
             result[item.team_id] = true;
             return result;
@@ -395,40 +377,7 @@ export default class SidebarHeaderDropdown extends React.Component {
                 break;
             }
         }
-
-        if (moreTeams &&  UserStore.isSystemAdminForCurrentUser()) {
-            teams.push(
-                <li key='joinTeam_li'>
-                    <Link
-                        id='joinAnotherTeam'
-                        onClick={this.handleClick}
-                        to='/select_team'
-                    >
-                        <FormattedMessage
-                            id='navbar_dropdown.join'
-                            defaultMessage='Join Another Team'
-                        />
-                    </Link>
-                </li>
-            );
-        }
-        if( UserStore.isSystemAdminForCurrentUser()) {
-            teams.push(
-                <li key='leaveTeam_li'>
-                    <a
-                        id='leaveTeam'
-                        href='#'
-                        onClick={GlobalActions.showLeaveTeamModal}
-                    >
-                        <FormattedMessage
-                            id='navbar_dropdown.leave'
-                            defaultMessage='Leave Team'
-                        />
-                    </a>
-                </li>
-            );
-        }
-
+        
         let helpLink = null;
         if (config.HelpLink) {
             helpLink = (

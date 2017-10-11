@@ -524,7 +524,7 @@ export const Constants = {
     LOCK_ICON_SVG: "<svg width='12px' height='13px' viewBox='0 0 13 15' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'> <g stroke='none' stroke-width='1' fill='inherit' fill-rule='evenodd'> <g transform='translate(-116.000000, -175.000000)' fill-rule='nonzero' fill='inherit'> <g transform='translate(95.000000, 0.000000)'> <g transform='translate(20.000000, 113.000000)'> <g transform='translate(1.000000, 62.000000)'> <path d='M12.0714286,6.5 L11.1428571,6.5 L11.1428571,4.64285714 C11.1428571,2.07814286 9.06471429,0 6.5,0 C3.93528571,0 1.85714286,2.07814286 1.85714286,4.64285714 L1.85714286,6.5 L0.928571429,6.5 C0.415071429,6.5 0,7.00792857 0,7.52142857 L0,13.9285714 C0,14.4420714 0.415071429,14.8571429 0.928571429,14.8571429 L12.0714286,14.8571429 C12.5849286,14.8571429 13,14.4420714 13,13.9285714 L13,7.52142857 C13,7.00792857 12.5849286,6.5 12.0714286,6.5 Z M6.5,1.85714286 C8.03585714,1.85714286 9.28571429,3.107 9.28571429,4.64285714 L9.28571429,6.5 L8.35714286,6.5 L4.64285714,6.5 L3.71428571,6.5 L3.71428571,4.64285714 C3.71428571,3.107 4.96414286,1.85714286 6.5,1.85714286 Z'></path> </g> </g> </g> </g> </g> </svg>",
     THEMES: {
         default: {
-            type: 'Mattermost',
+            type: 'Day',
             sidebarBg: '#145dbf',
             sidebarText: '#ffffff',
             sidebarUnreadText: '#ffffff',
@@ -549,60 +549,8 @@ export const Constants = {
             codeTheme: 'github',
             image: mattermostThemeImage
         },
-        organization: {
-            type: 'Organization',
-            sidebarBg: '#2071a7',
-            sidebarText: '#ffffff',
-            sidebarUnreadText: '#ffffff',
-            sidebarTextHoverBg: '#136197',
-            sidebarTextActiveBorder: '#7ab0d6',
-            sidebarTextActiveColor: '#ffffff',
-            sidebarHeaderBg: '#2f81b7',
-            sidebarHeaderTextColor: '#ffffff',
-            onlineIndicator: '#7dbe00',
-            awayIndicator: '#dcbd4e',
-            mentionBj: '#fbfbfb',
-            mentionColor: '#2071f7',
-            centerChannelBg: '#f2f4f8',
-            centerChannelColor: '#333333',
-            newMessageSeparator: '#ff8800',
-            linkColor: '#2f81b7',
-            buttonBg: '#1dacfc',
-            buttonColor: '#ffffff',
-            errorTextColor: '#a94442',
-            mentionHighlightBg: '#f3e197',
-            mentionHighlightLink: '#2f81b7',
-            codeTheme: 'github',
-            image: defaultThemeImage
-        },
-        mattermostDark: {
-            type: 'Mattermost Dark',
-            sidebarBg: '#1b2c3e',
-            sidebarText: '#ffffff',
-            sidebarUnreadText: '#ffffff',
-            sidebarTextHoverBg: '#4a5664',
-            sidebarTextActiveBorder: '#66b9a7',
-            sidebarTextActiveColor: '#ffffff',
-            sidebarHeaderBg: '#1b2c3e',
-            sidebarHeaderTextColor: '#ffffff',
-            onlineIndicator: '#65dcc8',
-            awayIndicator: '#c1b966',
-            mentionBj: '#b74a4a',
-            mentionColor: '#ffffff',
-            centerChannelBg: '#2f3e4e',
-            centerChannelColor: '#dddddd',
-            newMessageSeparator: '#5de5da',
-            linkColor: '#a4ffeb',
-            buttonBg: '#4cbba4',
-            buttonColor: '#ffffff',
-            errorTextColor: '#ff6461',
-            mentionHighlightBg: '#984063',
-            mentionHighlightLink: '#a4ffeb',
-            codeTheme: 'solarized-dark',
-            image: mattermostDarkThemeImage
-        },
-        windows10: {
-            type: 'Windows Dark',
+        dark: {
+            type: 'Night',
             sidebarBg: '#171717',
             sidebarText: '#ffffff',
             sidebarUnreadText: '#ffffff',
@@ -739,18 +687,6 @@ export const Constants = {
             id: 'codeTheme',
             uiName: 'Code Theme',
             themes: [
-                {
-                    id: 'solarized-dark',
-                    uiName: 'Solarized Dark',
-                    cssURL: solarizedDarkCSS,
-                    iconURL: solarizedDarkIcon
-                },
-                {
-                    id: 'solarized-light',
-                    uiName: 'Solarized Light',
-                    cssURL: solarizedLightCSS,
-                    iconURL: solarizedLightIcon
-                },
                 {
                     id: 'github',
                     uiName: 'GitHub',

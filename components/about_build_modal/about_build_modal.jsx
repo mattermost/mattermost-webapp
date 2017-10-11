@@ -159,68 +159,24 @@ export default class AboutBuildModal extends React.PureComponent {
                             />
                         </div>
                         <div>
-                            <h3 className='about-modal__title'>{'Mattermost'} {title}</h3>
-                            <p className='about-modal__subtitle padding-bottom'>{subTitle}</p>
-                            <div className='form-group less'>
-                                <div>
-                                    <FormattedMessage
-                                        id='about.version'
-                                        defaultMessage='Version:'
-                                    />
-                                    <span id='versionString'>{version}</span>
-                                </div>
-                                <div>
-                                    <FormattedMessage
-                                        id='about.database'
-                                        defaultMessage='Database:'
-                                    />
-                                    {'\u00a0' + config.SQLDriverName}
-                                </div>
-                            </div>
-                            {licensee}
+                            <h3 className='about-modal__title'>TradersClub</h3>
+                            <p className='about-modal__subtitle padding-bottom'>
+                                Somos o que há de mais novo para análise de informações do mercado financeiro. De notícias a discussões de operações em tempo real, estamos atentos a tudo que está acontecendo. <br/>
+                                As conversas acontecem na presença de especialistas e ninguém fala "economiquês". Tudo de forma simples e direta, justamente para você, que está começando a investir agora. <br/>
+                                Além disso, jornalistas de vários veículos também fazem parte da comunidade e postam notícias quentinhas. Assim, você pode ficar esperto antes de dar o próximo passo, seja comprando ou vendendo. 
+                            </p>
                         </div>
                     </div>
                     <div className='about-modal__footer'>
-                        {learnMore}
                         <div className='form-group about-modal__copyright'>
                             <FormattedMessage
                                 id='about.copyright'
-                                defaultMessage='Copyright 2015 - {currentYear} Mattermost, Inc. All rights reserved'
+                                defaultMessage='Copyright 2016 - {currentYear} TradersClub. Todos os direitos reservados'
                                 values={{
                                     currentYear: new Date().getFullYear()
                                 }}
                             />
                         </div>
-                    </div>
-                    <div className='about-modal__notice form-group padding-top x2'>
-                        <p>
-                            <FormattedHTMLMessage
-                                id='about.notice'
-                                defaultMessage='Mattermost is made possible by the open source software used in our <a href="https://about.mattermost.com/platform-notice-txt/" target="_blank">platform</a>, <a href="https://about.mattermost.com/desktop-notice-txt/" target="_blank">desktop</a> and <a href="https://about.mattermost.com/mobile-notice-txt/" target="_blank">mobile</a> apps.'
-                            />
-                        </p>
-                    </div>
-                    <div className='about-modal__hash'>
-                        <p>
-                            <FormattedMessage
-                                id='about.hash'
-                                defaultMessage='Build Hash:'
-                            />
-                            &nbsp;{config.BuildHash}
-                            <br/>
-                            <FormattedMessage
-                                id='about.hashee'
-                                defaultMessage='EE Build Hash:'
-                            />
-                            &nbsp;{config.BuildHashEnterprise}
-                        </p>
-                        <p>
-                            <FormattedMessage
-                                id='about.date'
-                                defaultMessage='Build Date:'
-                            />
-                            &nbsp;{config.BuildDate}
-                        </p>
                     </div>
                 </Modal.Body>
             </Modal>

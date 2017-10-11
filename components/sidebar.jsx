@@ -790,7 +790,7 @@ export default class Sidebar extends React.Component {
         let createPrivateChannelIcon;
 
         if(isSystemAdmin) {
-            let createPrivateChannelIcon = (
+            createPrivateChannelIcon = (
                 <OverlayTrigger
                     trigger={['hover', 'focus']}
                     delayShow={500}
@@ -851,7 +851,6 @@ export default class Sidebar extends React.Component {
                     onModalDismissed={this.hideMoreChannelsModal}
                     handleNewChannel={() => {
                         this.hideMoreChannelsModal();
-                        this.showNewChannelModal(Constants.OPEN_CHANNEL);
                     }}
                 />
             );
