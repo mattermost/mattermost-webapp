@@ -38,7 +38,7 @@ module.exports = {
             locateStrategy: 'xpath'
         },
         headerDescription: {
-            selector: '//*[@id="channel-header"]/div/div[1]/div/a[2]',
+            selector: '//*[@id="channel-header"]/div/div[1]/div/div[2]',
             locateStrategy: 'xpath'
         },
         headerMember: {

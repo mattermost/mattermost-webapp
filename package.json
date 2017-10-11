@@ -148,7 +148,7 @@
     "test:coverage": "jest --coverage",
     "e2e": "./tests/e2e/test.sh",
     "e2e-local-chrome": "nightwatch -e chrome --suiteRetries 1",
-    "e2e-local-firefox": "nightwatch -e firefox --suiteRetries 1",
+    "e2e-local-firefox": "nightwatch -e firefox --skiptags tutorial --suiteRetries 1",
     "e2e-tag": "nightwatch -e chrome --suiteRetries 1 --tag",
     "selenium-install": "selenium-standalone install --config=./tests/e2e/config.js",
     "selenium-start": "selenium-standalone start --config=./tests/e2e/config.js"

@@ -301,6 +301,7 @@ export default class TutorialIntroScreens extends React.Component {
                         {screen}
                         <div className='tutorial__footer'>
                             <button
+                                id='tutorialNextButton'
                                 className='btn btn-primary'
                                 tabIndex='1'
                                 onClick={this.handleNext}
@@ -311,6 +312,7 @@ export default class TutorialIntroScreens extends React.Component {
                                 />
                             </button>
                             <a
+                                id='tutorialSkipLink'
                                 className='tutorial-skip'
                                 href='#'
                                 onClick={this.skipTutorial}

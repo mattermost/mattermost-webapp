@@ -41,6 +41,30 @@ function local_setup {
     trap local_cleanup EXIT
     selenium_start
     sleep 5
+
+    message "Adding test users..."
+    cd ../mattermost-server
+
+    echo "reset the database"
+    go run cmd/platform/*.go reset --confirm true
+
+    # echo "adding 'admin' user"
+    # go run cmd/platform/*.go user create --email admin@test.com --username admin --password passwd
+    echo "adding 'test' user"
+    go run cmd/platform/*.go user create --email test@test.com --username test --password passwd
+    # echo "adding 'test2' user"
+    # go run cmd/platform/*.go user create --email test2@test.com --username test2 --password passwd
+    # echo "adding 'test3' user"
+    # go run cmd/platform/*.go user create --email test@3test.com --username test3 --password passwd
+    # echo "adding 'test4' user"
+    # go run cmd/platform/*.go user create --email test@4test.com --username test4 --password passwd
+    echo "adding 'ui-automation' team"
+    go run cmd/platform/*.go team create --name ui-automation --display_name "UI Automation" --email "test@test.com"
+    echo "adding users to 'ui-automation' team"
+    go run cmd/platform/*.go team add ui-automation test@test.com
+
+    cd ../mattermost-webapp
+    sleep 5
 }
 
 function local_tests {

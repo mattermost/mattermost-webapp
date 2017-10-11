@@ -136,6 +136,7 @@ export default class TutorialTip extends React.Component {
 
         return (
             <div
+                id='tipButton'
                 className={'tip-div ' + this.props.overlayClass}
                 onClick={this.toggle}
             >
@@ -167,6 +168,7 @@ export default class TutorialTip extends React.Component {
                             <div className='tutorial__circles'>{dots}</div>
                             <div className='text-right'>
                                 <button
+                                    id='tipNextButton'
                                     className='btn btn-primary'
                                     onClick={this.handleNext}
                                 >
