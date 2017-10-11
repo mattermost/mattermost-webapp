@@ -54,8 +54,8 @@ export default class SamlSettings extends AdminSettings {
         // pre-populate Service Provider Login URL page
         const siteUrl = config.ServiceSettings.SiteURL;
         let consumerServiceUrl = settings.AssertionConsumerServiceURL;
-        if(siteUrl.length > 0 && consumerServiceUrl.length == 0) {
-           consumerServiceUrl = siteUrl + '/login/sso/saml';
+        if (siteUrl.length > 0 && consumerServiceUrl.length === 0) {
+            consumerServiceUrl = siteUrl + '/login/sso/saml';
         }
 
         return {
@@ -311,17 +311,17 @@ export default class SamlSettings extends AdminSettings {
         }
 
         let consumerServiceUrlHelp;
-        if(this.state.siteUrlSet) {
-           consumerServiceUrlHelp = <FormattedMessage
-               id='admin.saml.assertionConsumerServiceURLPopulatedDesc'
-               defaultMessage='This field is also known as the Assertion Consumer Service URL.'
-           />
-         } else {
-            consumerServiceUrlHelp = <FormattedMessage
+        if (this.state.siteUrlSet) {
+            consumerServiceUrlHelp = (<FormattedMessage
+                id='admin.saml.assertionConsumerServiceURLPopulatedDesc'
+                defaultMessage='This field is also known as the Assertion Consumer Service URL.'
+                                      />);
+        } else {
+            consumerServiceUrlHelp = (<FormattedMessage
                 id='admin.saml.assertionConsumerServiceURLDesc'
                 defaultMessage='Enter https://<your-mattermost-url>/login/sso/saml. Make sure you use HTTP or HTTPS in your URL depending on your server configuration. This field is also known as the Assertion Consumer Service URL.'
-            />
-         }
+                                      />);
+        }
 
         return (
             <SettingsGroup>
