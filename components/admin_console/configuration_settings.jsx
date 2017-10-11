@@ -82,8 +82,6 @@ export default class ConfigurationSettings extends AdminSettings {
     handleSamlUrlChange(config, siteURL) {
         if (config.SamlSettings.AssertionConsumerServiceURL.length > 0 && siteURL.length > 0) {
             config.SamlSettings.AssertionConsumerServiceURL = this.state.siteURL + '/login/sso/saml';
-        } else {
-            config.SamlSettings.AssertionConsumerServiceURL = 'https://';
         }
     }
 
