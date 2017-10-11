@@ -167,7 +167,7 @@ export default class SearchableUserList extends React.Component {
         let usersToDisplay;
 
         if (this.props.term || !this.props.users) {
-            usersToDisplay = this.props.users;
+            usersToDisplay = [...this.props.users];
 
             if (this.props.term && usersToDisplay) {
                 const searchTerm = this.props.term.replace(/^@/, '');
