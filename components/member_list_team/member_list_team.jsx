@@ -89,7 +89,7 @@ export default class MemberListTeam extends React.Component {
     }
 
     nextPage(page) {
-        loadProfilesAndTeamMembers(page, USERS_PER_PAGE);
+        loadProfilesAndTeamMembers(page + 1, USERS_PER_PAGE);
     }
 
     search(term) {
