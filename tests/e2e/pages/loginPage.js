@@ -14,7 +14,7 @@ const loginCommands = {
             .setValue('@passwordInput', pass)
             .waitForElementVisible('@signinButton', Constants.DEFAULT_WAIT)
             .click('@signinButton')
-            .waitForElementVisible('@postTextBox', Constants.DEFAULT_WAIT);
+            .waitForElementVisible('@appContent', Constants.DEFAULT_WAIT);
     }
 };
 
@@ -31,9 +31,8 @@ module.exports = {
         signinButton: {
             selector: 'button[type=submit]'
         },
-        postTextBox: {
-            selector: '//*[@id="post_textbox"]',
-            locateStrategy: 'xpath'
+        appContent: {
+            selector: '#app-content'
         }
     }
 };
