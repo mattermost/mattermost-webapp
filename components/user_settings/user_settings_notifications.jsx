@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import $ from 'jquery';
 import SettingItemMin from 'components/setting_item_min.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import DesktopNotificationSettings from './desktop_notification_settings.jsx';
@@ -151,7 +150,6 @@ export default class NotificationsTab extends React.Component {
             data,
             () => {
                 this.props.updateSection('');
-                $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
             },
             (err) => {
                 this.setState({serverError: err.message});
@@ -163,7 +161,6 @@ export default class NotificationsTab extends React.Component {
         e.preventDefault();
         this.updateState();
         this.props.updateSection('');
-        $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
     }
 
     setStateValue(key, value) {

@@ -107,7 +107,7 @@ class UserSettingsModal extends React.Component {
     componentDidUpdate() {
         UserStore.removeChangeListener(this.onUserChanged);
         if (!Utils.isMobile()) {
-            $('.settings-modal .modal-body').perfectScrollbar();
+            $('.settings-content .minimize-settings').perfectScrollbar('update');
         }
     }
 
@@ -217,10 +217,6 @@ class UserSettingsModal extends React.Component {
                 active_tab: tab,
                 active_section: ''
             });
-        }
-
-        if (!Utils.isMobile()) {
-            $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
         }
     }
 
