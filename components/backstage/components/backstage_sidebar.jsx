@@ -1,16 +1,16 @@
-import PropTypes from 'prop-types';
-
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import PropTypes from 'prop-types';
 import React from 'react';
+import {FormattedMessage} from 'react-intl';
 
 import TeamStore from 'stores/team_store.jsx';
+
 import * as Utils from 'utils/utils.jsx';
 
 import BackstageCategory from './backstage_category.jsx';
 import BackstageSection from './backstage_section.jsx';
-import {FormattedMessage} from 'react-intl';
 
 export default class BackstageSidebar extends React.Component {
     static get propTypes() {

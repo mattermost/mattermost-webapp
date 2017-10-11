@@ -3,13 +3,13 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Tooltip, OverlayTrigger} from 'react-bootstrap';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+
+import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
 import Constants from 'utils/constants.jsx';
 import * as FileUtils from 'utils/file_utils';
 import * as Utils from 'utils/utils.jsx';
-
-import {getFileUrl, getFileThumbnailUrl} from 'mattermost-redux/utils/file_utils';
 
 export default class FileAttachment extends React.Component {
     constructor(props) {

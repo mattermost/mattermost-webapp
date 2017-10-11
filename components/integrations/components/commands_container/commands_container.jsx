@@ -1,8 +1,8 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 export default class CommandsContainer extends React.PureComponent {
     static propTypes = {

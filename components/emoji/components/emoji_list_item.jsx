@@ -1,16 +1,15 @@
-import PropTypes from 'prop-types';
-
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import PropTypes from 'prop-types';
 import React from 'react';
+import {FormattedMessage} from 'react-intl';
 
 import EmojiStore from 'stores/emoji_store.jsx';
-import DeleteEmoji from './delete_emoji_modal.jsx';
 
 import * as Utils from 'utils/utils.jsx';
 
-import {FormattedMessage} from 'react-intl';
+import DeleteEmoji from './delete_emoji_modal.jsx';
 
 export default class EmojiListItem extends React.Component {
     static get propTypes() {

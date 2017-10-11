@@ -2,18 +2,22 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-import SettingItemMin from 'components/setting_item_min.jsx';
-import SettingItemMax from 'components/setting_item_max.jsx';
-import DesktopNotificationSettings from './desktop_notification_settings.jsx';
 
+import PropTypes from 'prop-types';
+import React from 'react';
+import {FormattedMessage} from 'react-intl';
+
+import {updateUserNotifyProps} from 'actions/user_actions.jsx';
 import UserStore from 'stores/user_store.jsx';
 
-import * as Utils from 'utils/utils.jsx';
 import Constants, {NotificationLevels} from 'utils/constants.jsx';
-import {updateUserNotifyProps} from 'actions/user_actions.jsx';
+import * as Utils from 'utils/utils.jsx';
 
+import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMin from 'components/setting_item_min.jsx';
+
+import DesktopNotificationSettings from './desktop_notification_settings.jsx';
 import EmailNotificationSetting from './email_notification_setting.jsx';
-import {FormattedMessage} from 'react-intl';
 
 function getNotificationsStateFromStores() {
     const user = UserStore.getCurrentUser();
@@ -93,13 +97,10 @@ function getNotificationsStateFromStores() {
         customKeysChecked: customKeys.length > 0,
         firstNameKey,
         channelKey,
-        notifyCommentsLevel: comments
+        notifyCommentsLevel: comments,
+        isSaving: false
     };
 }
-
-import PropTypes from 'prop-types';
-
-import React from 'react';
 
 export default class NotificationsTab extends React.Component {
     constructor(props) {
@@ -147,6 +148,8 @@ export default class NotificationsTab extends React.Component {
         data.first_name = this.state.firstNameKey.toString();
         data.channel = this.state.channelKey.toString();
 
+        this.setState({isSaving: true});
+
         updateUserNotifyProps(
             data,
             () => {
@@ -154,7 +157,7 @@ export default class NotificationsTab extends React.Component {
                 $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
             },
             (err) => {
-                this.setState({serverError: err.message});
+                this.setState({serverError: err.message, isSaving: false});
             }
         );
     }
@@ -182,6 +185,8 @@ export default class NotificationsTab extends React.Component {
         if (!Utils.areObjectsEqual(newState, this.state)) {
             this.setState(newState);
         }
+
+        this.setState({isSaving: false});
     }
 
     componentDidMount() {
@@ -641,6 +646,7 @@ export default class NotificationsTab extends React.Component {
                     title={Utils.localizeMessage('user.settings.notifications.wordsTrigger', 'Words that trigger mentions')}
                     inputs={inputs}
                     submit={this.handleSubmit}
+                    saving={this.state.isSaving}
                     server_error={serverError}
                     updateSection={this.handleCancel}
                     extraInfo={extraInfo}
@@ -776,6 +782,7 @@ export default class NotificationsTab extends React.Component {
                     extraInfo={extraInfo}
                     inputs={inputs}
                     submit={this.handleSubmit}
+                    saving={this.state.isSaving}
                     server_error={serverError}
                     updateSection={this.handleCancel}
                 />
@@ -867,6 +874,7 @@ export default class NotificationsTab extends React.Component {
                         updateSection={this.updateSection}
                         setParentState={this.setStateValue}
                         submit={this.handleSubmit}
+                        saving={this.state.isSaving}
                         cancel={this.handleCancel}
                         error={this.state.serverError}
                         active={this.props.activeSection === 'desktop'}
@@ -879,6 +887,7 @@ export default class NotificationsTab extends React.Component {
                         emailInterval={Utils.getEmailInterval(enableEmail)}
                         onSubmit={this.handleSubmit}
                         onCancel={this.handleCancel}
+                        saving={this.state.isSaving}
                         serverError={this.state.serverError}
                     />
                     <div className='divider-light'/>

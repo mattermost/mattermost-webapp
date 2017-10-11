@@ -1,16 +1,17 @@
-import PropTypes from 'prop-types';
-
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
+
 import exif2css from 'exif2css';
 
-import FormError from 'components/form_error.jsx';
+import Constants from 'utils/constants.jsx';
+
 import loadingGif from 'images/load.gif';
 
-import Constants from 'utils/constants.jsx';
+import FormError from 'components/form_error.jsx';
 
 export default class SettingPicture extends Component {
     static propTypes = {
@@ -138,6 +139,8 @@ export default class SettingPicture extends Component {
         }
 
         let confirmButton;
+        let selectButtonSpinner;
+        let fileInputDisabled = false;
         if (this.props.loadingPicture) {
             confirmButton = (
                 <img
@@ -145,6 +148,10 @@ export default class SettingPicture extends Component {
                     src={loadingGif}
                 />
             );
+            selectButtonSpinner = (
+                <span className='icon fa fa-refresh icon--rotate'/>
+            );
+            fileInputDisabled = true;
         } else {
             let confirmButtonClass = 'btn btn-sm';
             if (this.props.submitActive) {
@@ -190,7 +197,11 @@ export default class SettingPicture extends Component {
                                 errors={[this.props.clientError, this.props.serverError]}
                                 type={'modal'}
                             />
-                            <span className='btn btn-sm btn-primary btn-file sel-btn'>
+                            <button
+                                className='btn btn-sm btn-primary btn-file sel-btn'
+                                disabled={fileInputDisabled}
+                            >
+                                {selectButtonSpinner}
                                 <FormattedMessage
                                     id='setting_picture.select'
                                     defaultMessage='Select'
@@ -200,8 +211,9 @@ export default class SettingPicture extends Component {
                                     accept='.jpg,.png,.bmp'
                                     type='file'
                                     onChange={this.props.onFileChange}
+                                    disabled={fileInputDisabled}
                                 />
-                            </span>
+                            </button>
                             {confirmButton}
                             <a
                                 className='btn btn-sm theme'

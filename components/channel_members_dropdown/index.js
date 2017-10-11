@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import {getChannelStats} from 'mattermost-redux/actions/channels';
 
 import ChannelMembersDropdown from './channel_members_dropdown.jsx';

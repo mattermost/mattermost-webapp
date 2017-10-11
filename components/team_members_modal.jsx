@@ -1,16 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import MemberListTeam from 'components/member_list_team';
-import TeamStore from 'stores/team_store.jsx';
-
+import PropTypes from 'prop-types';
+import React from 'react';
+import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {Modal} from 'react-bootstrap';
+import TeamStore from 'stores/team_store.jsx';
 
-import PropTypes from 'prop-types';
-
-import React from 'react';
+import MemberListTeam from 'components/member_list_team';
 
 export default class TeamMembersModal extends React.Component {
     constructor(props) {

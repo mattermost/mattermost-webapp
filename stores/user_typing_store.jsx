@@ -1,12 +1,15 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
-import UserStore from 'stores/user_store.jsx';
 import EventEmitter from 'events';
-import * as Utils from 'utils/utils.jsx';
+
+import UserStore from 'stores/user_store.jsx';
 
 import Constants from 'utils/constants.jsx';
+import * as Utils from 'utils/utils.jsx';
+
+import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
+
 const ActionTypes = Constants.ActionTypes;
 
 const CHANGE_EVENT = 'change';

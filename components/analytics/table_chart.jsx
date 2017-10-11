@@ -1,13 +1,11 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import Constants from 'utils/constants.jsx';
-
-import {Tooltip, OverlayTrigger} from 'react-bootstrap';
-
 import PropTypes from 'prop-types';
-
 import React from 'react';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+
+import Constants from 'utils/constants.jsx';
 
 export default function TableChart(props) {
     return (

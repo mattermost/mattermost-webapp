@@ -2,17 +2,18 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-import React, {Component} from 'react';
+
 import PropTypes from 'prop-types';
+import React, {Component} from 'react';
 
-import DotMenuFlag from './dot_menu_flag.jsx';
-import DotMenuItem from './dot_menu_item.jsx';
-import DotMenuEdit from './dot_menu_edit.jsx';
-
-import * as Utils from 'utils/utils.jsx';
-import * as PostUtils from 'utils/post_utils.jsx';
 import Constants from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
+import * as PostUtils from 'utils/post_utils.jsx';
+import * as Utils from 'utils/utils.jsx';
+
+import DotMenuEdit from './dot_menu_edit.jsx';
+import DotMenuFlag from './dot_menu_flag.jsx';
+import DotMenuItem from './dot_menu_item.jsx';
 
 export default class DotMenu extends Component {
     static propTypes = {

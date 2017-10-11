@@ -1,16 +1,15 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import SettingItemMin from 'components/setting_item_min.jsx';
-import SettingItemMax from 'components/setting_item_max.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {FormattedMessage} from 'react-intl';
 
 import {NotificationLevels} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import PropTypes from 'prop-types';
-
-import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMin from 'components/setting_item_min.jsx';
 
 export default class DesktopNotificationSettings extends React.Component {
     constructor(props) {
@@ -295,6 +294,7 @@ export default class DesktopNotificationSettings extends React.Component {
                 extraInfo={extraInfo}
                 inputs={inputs}
                 submit={this.props.submit}
+                saving={this.props.saving}
                 server_error={this.props.error}
                 updateSection={this.props.cancel}
             />
@@ -461,5 +461,6 @@ DesktopNotificationSettings.propTypes = {
     submit: PropTypes.func,
     cancel: PropTypes.func,
     error: PropTypes.string,
-    active: PropTypes.bool
+    active: PropTypes.bool,
+    saving: PropTypes.bool
 };

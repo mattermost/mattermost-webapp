@@ -1,22 +1,21 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import BackstageList from 'components/backstage/components/backstage_list.jsx';
-import InstalledOutgoingWebhook from './installed_outgoing_webhook.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {FormattedMessage} from 'react-intl';
 
+import {deleteOutgoingHook, loadOutgoingHooksForTeam, regenOutgoingHookToken} from 'actions/integration_actions.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import IntegrationStore from 'stores/integration_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
-import {loadOutgoingHooksForTeam, regenOutgoingHookToken, deleteOutgoingHook} from 'actions/integration_actions.jsx';
-
 import * as Utils from 'utils/utils.jsx';
 
-import PropTypes from 'prop-types';
+import BackstageList from 'components/backstage/components/backstage_list.jsx';
 
-import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import InstalledOutgoingWebhook from './installed_outgoing_webhook.jsx';
 
 export default class InstalledOutgoingWebhooks extends React.Component {
     static get propTypes() {

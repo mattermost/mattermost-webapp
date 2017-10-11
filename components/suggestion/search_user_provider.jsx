@@ -1,16 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import Suggestion from './suggestion.jsx';
-import Provider from './provider.jsx';
+import React from 'react';
 
 import {autocompleteUsersInTeam} from 'actions/user_actions.jsx';
-
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import * as Utils from 'utils/utils.jsx';
-import {ActionTypes} from 'utils/constants.jsx';
 
-import React from 'react';
+import {ActionTypes} from 'utils/constants.jsx';
+import * as Utils from 'utils/utils.jsx';
+
+import Provider from './provider.jsx';
+import Suggestion from './suggestion.jsx';
 
 class SearchUserSuggestion extends Suggestion {
     render() {

@@ -3,9 +3,9 @@
 
 import React from 'react';
 
-import Suggestion from './suggestion.jsx';
-
 import {getSuggestedCommands} from 'actions/integration_actions.jsx';
+
+import Suggestion from './suggestion.jsx';
 
 class CommandSuggestion extends Suggestion {
     render() {

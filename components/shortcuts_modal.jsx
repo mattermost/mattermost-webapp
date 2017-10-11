@@ -1,14 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import Constants from 'utils/constants.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {Modal} from 'react-bootstrap';
+import {defineMessages, injectIntl, intlShape} from 'react-intl';
 
 import ModalStore from 'stores/modal_store.jsx';
 
-import {intlShape, injectIntl, defineMessages} from 'react-intl';
-import {Modal} from 'react-bootstrap';
-import React from 'react';
-import PropTypes from 'prop-types';
+import Constants from 'utils/constants.jsx';
 
 const allShortcuts = defineMessages({
     mainHeader: {
@@ -97,11 +97,11 @@ const allShortcuts = defineMessages({
     },
     navMentions: {
         default: {
-            id: 'shortcuts.nav.mentions',
+            id: 'shortcuts.nav.recent_mentions',
             defaultMessage: 'Recent mentions:\tCtrl|Shift|M'
         },
         mac: {
-            id: 'shortcuts.nav.mentions.mac',
+            id: 'shortcuts.nav.recent_mentions.mac',
             defaultMessage: 'Recent mentions:\t⌘|Shift|M'
         }
     },

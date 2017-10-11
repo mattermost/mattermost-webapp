@@ -2,6 +2,7 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -10,32 +11,30 @@ import {Link} from 'react-router/es6';
 import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {getPinnedPosts} from 'actions/post_actions.jsx';
+import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
+import ChannelStore from 'stores/channel_store.jsx';
+import ModalStore from 'stores/modal_store.jsx';
+import PreferenceStore from 'stores/preference_store.jsx';
+import SearchStore from 'stores/search_store.jsx';
+import TeamStore from 'stores/team_store.jsx';
+import UserStore from 'stores/user_store.jsx';
+
+import * as ChannelUtils from 'utils/channel_utils.jsx';
+import {ActionTypes, Constants} from 'utils/constants.jsx';
+import * as Utils from 'utils/utils.jsx';
 
 import ChannelInfoModal from 'components/channel_info_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal.jsx';
 import ChannelNotificationsModal from 'components/channel_notifications_modal.jsx';
 import DeleteChannelModal from 'components/delete_channel_modal.jsx';
-import EditChannelHeaderModal from 'components/edit_channel_header_modal.jsx';
-import EditChannelPurposeModal from 'components/edit_channel_purpose_modal.jsx';
+import EditChannelHeaderModal from 'components/edit_channel_header_modal';
+import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import NotifyCounts from 'components/notify_counts.jsx';
 import QuickSwitchModal from 'components/quick_switch_modal';
 import RenameChannelModal from 'components/rename_channel_modal.jsx';
 import StatusIcon from 'components/status_icon.jsx';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
-
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-
-import UserStore from 'stores/user_store.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import PreferenceStore from 'stores/preference_store.jsx';
-import SearchStore from 'stores/search_store.jsx';
-import ModalStore from 'stores/modal_store.jsx';
-
-import * as Utils from 'utils/utils.jsx';
-import * as ChannelUtils from 'utils/channel_utils.jsx';
-import {ActionTypes, Constants} from 'utils/constants.jsx';
 
 import NavbarInfoButton from './navbar_info_button.jsx';
 

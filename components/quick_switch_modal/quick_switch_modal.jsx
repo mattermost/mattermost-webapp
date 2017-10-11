@@ -1,28 +1,27 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import SuggestionList from 'components/suggestion/suggestion_list.jsx';
-import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
-import SwitchChannelProvider from 'components/suggestion/switch_channel_provider.jsx';
-import SwitchTeamProvider from 'components/suggestion/switch_team_provider.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {Modal} from 'react-bootstrap';
+import {FormattedMessage} from 'react-intl';
+import {browserHistory} from 'react-router/es6';
+
+import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import {goToChannel, openDirectChannelToUser} from 'actions/channel_actions.jsx';
+import store from 'stores/redux_store.jsx';
 
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import {browserHistory} from 'react-router/es6';
-import {Modal} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
+import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
+import SuggestionList from 'components/suggestion/suggestion_list.jsx';
+import SwitchChannelProvider from 'components/suggestion/switch_channel_provider.jsx';
+import SwitchTeamProvider from 'components/suggestion/switch_team_provider.jsx';
 
-// Redux actions
-import store from 'stores/redux_store.jsx';
 const getState = store.getState;
-
-import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 
 const CHANNEL_MODE = 'channel';
 const TEAM_MODE = 'team';

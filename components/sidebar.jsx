@@ -2,50 +2,49 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
+
+import React from 'react';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
-import NewChannelFlow from './new_channel_flow.jsx';
-import MoreDirectChannels from 'components/more_direct_channels';
-import MoreChannels from 'components/more_channels';
-import SidebarHeader from './sidebar_header.jsx';
-import UnreadChannelIndicator from './unread_channel_indicator.jsx';
-import TutorialTip from './tutorial/tutorial_tip.jsx';
-import StatusIcon from './status_icon.jsx';
+import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {browserHistory, Link} from 'react-router/es6';
 
-import ChannelStore from 'stores/channel_store.jsx';
-import UserStore from 'stores/user_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import PreferenceStore from 'stores/preference_store.jsx';
-import ModalStore from 'stores/modal_store.jsx';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
+import {getChannelsByCategory} from 'mattermost-redux/selectors/entities/channels';
 
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import * as Utils from 'utils/utils.jsx';
-import * as ChannelUtils from 'utils/channel_utils.jsx';
 import * as ChannelActions from 'actions/channel_actions.jsx';
-import * as GlobalActions from 'actions/global_actions.jsx';
-
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import {ActionTypes, Constants} from 'utils/constants.jsx';
+import * as GlobalActions from 'actions/global_actions.jsx';
+import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
+import ChannelStore from 'stores/channel_store.jsx';
+import ModalStore from 'stores/modal_store.jsx';
+import PreferenceStore from 'stores/preference_store.jsx';
+import store from 'stores/redux_store.jsx';
+import TeamStore from 'stores/team_store.jsx';
+import UserStore from 'stores/user_store.jsx';
 
-import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
+import * as ChannelUtils from 'utils/channel_utils.jsx';
+import {ActionTypes, Constants} from 'utils/constants.jsx';
+import * as Utils from 'utils/utils.jsx';
+
+import favicon from 'images/favicon/favicon-16x16.png';
+import redFavicon from 'images/favicon/redfavicon-16x16.png';
+import loadingGif from 'images/load.gif';
+
+import MoreChannels from 'components/more_channels';
+import MoreDirectChannels from 'components/more_direct_channels';
+
+import NewChannelFlow from './new_channel_flow.jsx';
+import SidebarHeader from './sidebar_header.jsx';
+import StatusIcon from './status_icon.jsx';
+import TutorialTip from './tutorial/tutorial_tip.jsx';
+import UnreadChannelIndicator from './unread_channel_indicator.jsx';
 
 const Preferences = Constants.Preferences;
 const TutorialSteps = Constants.TutorialSteps;
 
-import {Tooltip, OverlayTrigger} from 'react-bootstrap';
-import loadingGif from 'images/load.gif';
-
-import React from 'react';
-import {browserHistory, Link} from 'react-router/es6';
-
-import favicon from 'images/favicon/favicon-16x16.png';
-import redFavicon from 'images/favicon/redfavicon-16x16.png';
-
-import store from 'stores/redux_store.jsx';
 const dispatch = store.dispatch;
 const getState = store.getState;
-
-import {getChannelsByCategory} from 'mattermost-redux/selectors/entities/channels';
-import {savePreferences} from 'mattermost-redux/actions/preferences';
 
 export default class Sidebar extends React.Component {
     constructor(props) {

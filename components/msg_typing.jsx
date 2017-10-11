@@ -1,13 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import UserTypingStore from 'stores/user_typing_store.jsx';
-
+import PropTypes from 'prop-types';
+import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import PropTypes from 'prop-types';
-
-import React from 'react';
+import UserTypingStore from 'stores/user_typing_store.jsx';
 
 class MsgTyping extends React.Component {
     constructor(props) {

@@ -2,12 +2,12 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-import * as Utils from 'utils/utils.jsx';
-import Constants from 'utils/constants.jsx';
 
 import PropTypes from 'prop-types';
-
 import React from 'react';
+
+import Constants from 'utils/constants.jsx';
+import * as Utils from 'utils/utils.jsx';
 
 export default class PremadeThemeChooser extends React.Component {
     constructor(props) {

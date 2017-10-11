@@ -1,11 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {createPost} from 'actions/post_actions.jsx';
-
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import {FormattedMessage} from 'react-intl';
+
+import {createPost} from 'actions/post_actions.jsx';
 
 export default class FailedPostOptions extends React.Component {
     static propTypes = {

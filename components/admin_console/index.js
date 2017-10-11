@@ -3,11 +3,12 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import {getConfig} from 'mattermost-redux/actions/admin';
+import * as Selectors from 'mattermost-redux/selectors/entities/admin';
+
 import {setNavigationBlocked, deferNavigation, cancelNavigation, confirmNavigation} from 'actions/admin_actions.jsx';
 import {getNavigationBlocked, showNavigationPrompt} from 'selectors/views/admin';
-
-import * as Selectors from 'mattermost-redux/selectors/entities/admin';
 
 import AdminConsole from './admin_console.jsx';
 

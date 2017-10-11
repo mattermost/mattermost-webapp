@@ -3,8 +3,10 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {Link} from 'react-router/es6';
 
 import BlockableLink from 'components/admin_console/blockable_link';
+
 import * as Utils from 'utils/utils.jsx';
 
 export default class AdminSidebarSection extends React.Component {

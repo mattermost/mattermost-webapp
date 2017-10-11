@@ -4,10 +4,9 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {makeGetProfilesInChannel} from 'mattermost-redux/selectors/entities/users';
-import {getAllChannelStats} from 'mattermost-redux/selectors/entities/channels';
-
 import {getProfilesInChannel} from 'mattermost-redux/actions/users';
+import {getAllChannelStats} from 'mattermost-redux/selectors/entities/channels';
+import {makeGetProfilesInChannel} from 'mattermost-redux/selectors/entities/users';
 
 import PopoverListMembers from './popover_list_members.jsx';
 

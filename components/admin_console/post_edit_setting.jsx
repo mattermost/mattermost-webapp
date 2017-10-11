@@ -1,14 +1,13 @@
-import PropTypes from 'prop-types';
-
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import PropTypes from 'prop-types';
 import React from 'react';
-
-import Setting from './setting.jsx';
 
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+
+import Setting from './setting.jsx';
 
 export default class PostEditSetting extends React.Component {
     constructor(props) {

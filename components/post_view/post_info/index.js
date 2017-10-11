@@ -3,8 +3,8 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {removePost, addReaction} from 'mattermost-redux/actions/posts';
 
+import {addReaction, removePost} from 'mattermost-redux/actions/posts';
 import {get, getBool} from 'mattermost-redux/selectors/entities/preferences';
 
 import {Preferences} from 'utils/constants.jsx';

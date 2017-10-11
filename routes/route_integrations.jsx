@@ -104,6 +104,12 @@ export default {
                     getComponents: (location, callback) => {
                         System.import('components/integrations/components/add_oauth_app').then(RouteUtils.importComponentSuccess(callback));
                     }
+                },
+                {
+                    path: 'edit',
+                    getComponents: (location, callback) => {
+                        System.import('components/integrations/components/edit_oauth_app').then(RouteUtils.importComponentSuccess(callback));
+                    }
                 }
             ]
         },

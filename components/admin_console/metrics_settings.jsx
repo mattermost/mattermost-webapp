@@ -2,15 +2,14 @@
 // See License.txt for license information.
 
 import React from 'react';
+import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+
+import * as Utils from 'utils/utils.jsx';
 
 import AdminSettings from './admin_settings.jsx';
 import BooleanSetting from './boolean_setting.jsx';
-import TextSetting from './text_setting.jsx';
-
-import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
 import SettingsGroup from './settings_group.jsx';
-
-import * as Utils from 'utils/utils.jsx';
+import TextSetting from './text_setting.jsx';
 
 export default class MetricsSettings extends AdminSettings {
     constructor(props) {

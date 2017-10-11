@@ -1,16 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import UserProfile from 'components/user_profile.jsx';
-import PostInfo from 'components/post_view/post_info';
+import PropTypes from 'prop-types';
+import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import Constants from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 
-import Constants from 'utils/constants.jsx';
-
-import React from 'react';
-import PropTypes from 'prop-types';
+import PostInfo from 'components/post_view/post_info';
+import UserProfile from 'components/user_profile.jsx';
 
 export default class PostHeader extends React.PureComponent {
     static propTypes = {

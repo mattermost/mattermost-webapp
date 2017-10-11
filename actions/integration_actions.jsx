@@ -1,23 +1,22 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import UserStore from 'stores/user_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
+import request from 'superagent';
 
-import * as UserAgent from 'utils/user_agent.jsx';
-import {ActionTypes} from 'utils/constants.jsx';
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-
-import store from 'stores/redux_store.jsx';
-const dispatch = store.dispatch;
-const getState = store.getState;
-
+import * as IntegrationActions from 'mattermost-redux/actions/integrations';
+import {getProfilesByIds} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 
-import {getProfilesByIds} from 'mattermost-redux/actions/users';
-import * as IntegrationActions from 'mattermost-redux/actions/integrations';
+import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
+import store from 'stores/redux_store.jsx';
+import TeamStore from 'stores/team_store.jsx';
+import UserStore from 'stores/user_store.jsx';
 
-import request from 'superagent';
+import {ActionTypes} from 'utils/constants.jsx';
+import * as UserAgent from 'utils/user_agent.jsx';
+
+const dispatch = store.dispatch;
+const getState = store.getState;
 
 export function loadIncomingHooks(complete) {
     IntegrationActions.getIncomingHooks('', 0, 10000)(dispatch, getState).then(

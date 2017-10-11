@@ -1,12 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {FormattedMessage} from 'react-intl';
-import * as Utils from 'utils/utils.jsx';
-
 import PropTypes from 'prop-types';
-
 import React from 'react';
+import {FormattedMessage} from 'react-intl';
+
+import * as Utils from 'utils/utils.jsx';
 
 export default function SettingItemMin(props) {
     let editButton = null;

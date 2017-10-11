@@ -3,10 +3,11 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getJobsByType} from 'mattermost-redux/actions/jobs';
-import {JobTypes} from 'utils/constants.jsx';
 
+import {getJobsByType} from 'mattermost-redux/actions/jobs';
 import * as Selectors from 'mattermost-redux/selectors/entities/jobs';
+
+import {JobTypes} from 'utils/constants.jsx';
 
 import Status from './status.jsx';
 

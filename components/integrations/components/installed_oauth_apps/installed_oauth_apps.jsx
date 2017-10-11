@@ -1,12 +1,14 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
+import {FormattedMessage} from 'react-intl';
 
 import {localizeMessage} from 'utils/utils.jsx';
+
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
-import {FormattedMessage} from 'react-intl';
+
 import InstalledOAuthApp from '../installed_oauth_app.jsx';
 
 export default class InstalledOAuthApps extends React.PureComponent {
@@ -89,6 +91,7 @@ export default class InstalledOAuthApps extends React.PureComponent {
             return (
                 <InstalledOAuthApp
                     key={app.id}
+                    team={this.props.team}
                     oauthApp={app}
                     regenOAuthAppSecretRequest={this.props.regenOAuthAppSecretRequest}
                     onRegenerateSecret={this.props.actions.regenOAuthAppSecret}

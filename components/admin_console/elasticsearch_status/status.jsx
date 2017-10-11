@@ -1,12 +1,14 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {createJob, cancelJob} from 'actions/job_actions.jsx';
-import {JobTypes, JobStatuses} from 'utils/constants.jsx';
+import {cancelJob, createJob} from 'actions/job_actions.jsx';
+
+import {JobStatuses, JobTypes} from 'utils/constants.jsx';
+
 import RequestButton from '../request_button/request_button.jsx';
 
 export default class Status extends React.PureComponent {

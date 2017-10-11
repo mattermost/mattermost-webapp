@@ -1,9 +1,11 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import Client from 'client/client.jsx';
-import WebSocketClient from 'client/websocket_client.jsx';
 import jqd from 'jquery-deferred';
+
+import {Client4} from 'mattermost-redux/client';
+
+import WebSocketClient from 'client/websocket_client.jsx';
 
 var HEADER_TOKEN = 'token';
 
@@ -53,7 +55,7 @@ class TestHelperClass {
     }
 
     createClient() {
-        var c = new Client();
+        var c = new Client4();
         c.setUrl('http://localhost:8065');
         c.useHeaderToken();
         c.enableLogErrorsToConsole(true);

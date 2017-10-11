@@ -2,21 +2,27 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-import SettingItemMin from '../setting_item_min.jsx';
+
+import PropTypes from 'prop-types';
+import React from 'react';
+import {FormattedMessage} from 'react-intl';
+
+import {savePreferences} from 'actions/user_actions.jsx';
+import PreferenceStore from 'stores/preference_store.jsx';
+import UserStore from 'stores/user_store.jsx';
+
+import Constants from 'utils/constants.jsx';
+import * as Utils from 'utils/utils.jsx';
+
+import * as I18n from 'i18n/i18n.jsx';
+
 import SettingItemMax from '../setting_item_max.jsx';
+import SettingItemMin from '../setting_item_min.jsx';
+
 import ManageLanguages from './manage_languages.jsx';
 import ThemeSetting from './user_settings_theme.jsx';
 
-import PreferenceStore from 'stores/preference_store.jsx';
-import UserStore from 'stores/user_store.jsx';
-import * as Utils from 'utils/utils.jsx';
-import * as I18n from 'i18n/i18n.jsx';
-import {savePreferences} from 'actions/user_actions.jsx';
-
-import Constants from 'utils/constants.jsx';
 const Preferences = Constants.Preferences;
-
-import {FormattedMessage} from 'react-intl';
 
 function getDisplayStateFromStores() {
     return {
@@ -26,9 +32,6 @@ function getDisplayStateFromStores() {
         collapseDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, Preferences.COLLAPSE_DISPLAY_DEFAULT)
     };
 }
-
-import React from 'react';
-import PropTypes from 'prop-types';
 
 export default class UserSettingsDisplay extends React.Component {
     constructor(props) {
@@ -41,6 +44,7 @@ export default class UserSettingsDisplay extends React.Component {
         this.createCollapseSection = this.createCollapseSection.bind(this);
 
         this.state = getDisplayStateFromStores();
+        this.setState({isSaving: false});
     }
 
     handleSubmit() {
@@ -71,6 +75,8 @@ export default class UserSettingsDisplay extends React.Component {
             name: Preferences.COLLAPSE_DISPLAY,
             value: this.state.collapseDisplay
         };
+
+        this.setState({isSaving: true});
 
         savePreferences([timePreference, channelDisplayModePreference, messageDisplayPreference, collapseDisplayPreference],
             () => {
@@ -108,6 +114,8 @@ export default class UserSettingsDisplay extends React.Component {
         if (!Utils.areObjectsEqual(newState, this.state)) {
             this.setState(newState);
         }
+
+        this.setState({isSaving: false});
     }
 
     createCollapseSection() {
@@ -178,6 +186,7 @@ export default class UserSettingsDisplay extends React.Component {
                     }
                     inputs={inputs}
                     submit={this.handleSubmit}
+                    saving={this.state.isSaving}
                     server_error={this.state.serverError}
                     updateSection={handleUpdateCollapseSection}
                 />
@@ -295,6 +304,7 @@ export default class UserSettingsDisplay extends React.Component {
                     }
                     inputs={inputs}
                     submit={this.handleSubmit}
+                    saving={this.state.isSaving}
                     server_error={serverError}
                     updateSection={handleUpdateClockSection}
                 />
@@ -411,6 +421,7 @@ export default class UserSettingsDisplay extends React.Component {
                     }
                     inputs={inputs}
                     submit={this.handleSubmit}
+                    saving={this.state.isSaving}
                     server_error={serverError}
                     updateSection={(e) => {
                         this.updateSection('');
@@ -514,6 +525,7 @@ export default class UserSettingsDisplay extends React.Component {
                     }
                     inputs={inputs}
                     submit={this.handleSubmit}
+                    saving={this.state.isSaving}
                     server_error={serverError}
                     updateSection={(e) => {
                         this.updateSection('');

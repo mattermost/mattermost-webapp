@@ -1,16 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import ModalStore from 'stores/modal_store.jsx';
+import React from 'react';
 import {Modal} from 'react-bootstrap';
+import {FormattedMessage} from 'react-intl';
+
+import ModalStore from 'stores/modal_store.jsx';
 
 import Constants from 'utils/constants.jsx';
 
-import {FormattedMessage} from 'react-intl';
-
 const ActionTypes = Constants.ActionTypes;
-
-import React from 'react';
 
 export default class ImportThemeModal extends React.Component {
     constructor(props) {

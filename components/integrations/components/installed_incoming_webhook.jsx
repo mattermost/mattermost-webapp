@@ -1,15 +1,14 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import React from 'react';
 import PropTypes from 'prop-types';
-
-import DeleteIntegration from './delete_integration.jsx';
+import React from 'react';
+import {FormattedMessage} from 'react-intl';
+import {Link} from 'react-router';
 
 import {getSiteURL} from 'utils/url.jsx';
 
-import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router';
+import DeleteIntegration from './delete_integration.jsx';
 
 export default class InstalledIncomingWebhook extends React.PureComponent {
     static propTypes = {

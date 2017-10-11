@@ -1,16 +1,15 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import Constants from 'utils/constants.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Link} from 'react-router/es6';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {switchTeams} from 'actions/team_actions.jsx';
 
-import PropTypes from 'prop-types';
-
-import React from 'react';
-import {Link} from 'react-router/es6';
-import {Tooltip, OverlayTrigger} from 'react-bootstrap';
+import Constants from 'utils/constants.jsx';
 
 export default class TeamButton extends React.Component {
     constructor(props) {

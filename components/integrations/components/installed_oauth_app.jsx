@@ -1,19 +1,26 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
+import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
+import {Link} from 'react-router';
 
 import * as Utils from 'utils/utils.jsx';
 
-import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
 import FormError from 'components/form_error.jsx';
+
 import DeleteIntegration from './delete_integration.jsx';
 
 const FAKE_SECRET = '***************';
 
 export default class InstalledOAuthApp extends React.PureComponent {
     static propTypes = {
+
+        /**
+        * The team data
+        */
+        team: PropTypes.object,
 
         /**
         * The oauthApp data
@@ -258,6 +265,13 @@ export default class InstalledOAuthApp extends React.PureComponent {
                     {showHide}
                     {' - '}
                     {regen}
+                    {' - '}
+                    <Link to={`/${this.props.team.name}/integrations/oauth2-apps/edit?id=${oauthApp.id}`}>
+                        <FormattedMessage
+                            id='installed_integrations.edit'
+                            defaultMessage='Edit'
+                        />
+                    </Link>
                     {' - '}
                     <DeleteIntegration
                         messageId='installed_oauth_apps.delete.confirm'

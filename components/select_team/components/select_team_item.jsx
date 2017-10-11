@@ -1,14 +1,15 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import * as Utils from 'utils/utils.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {browserHistory, Link} from 'react-router/es6';
+
 import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import {Link, browserHistory} from 'react-router/es6';
-import {Tooltip, OverlayTrigger} from 'react-bootstrap';
 import {Constants} from 'utils/constants.jsx';
+import * as Utils from 'utils/utils.jsx';
 
 export default class SelectTeamItem extends React.PureComponent {
     static propTypes = {

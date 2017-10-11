@@ -1,25 +1,23 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import LoadingScreen from 'components/loading_screen.jsx';
-
-import UserStore from 'stores/user_store.jsx';
-
-import * as GlobalActions from 'actions/global_actions.jsx';
-import * as WebSocketActions from 'actions/websocket_actions.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
-import {loadEmoji} from 'actions/emoji_actions.jsx';
-
-import * as Utils from 'utils/utils.jsx';
-
-const BACKSPACE_CHAR = 8;
-
 import $ from 'jquery';
+
 import PropTypes from 'prop-types';
 import React from 'react';
 
-// import the EmojiStore so that it'll register to receive the results of the listEmojis call further down
+import {loadEmoji} from 'actions/emoji_actions.jsx';
+import * as GlobalActions from 'actions/global_actions.jsx';
+import * as WebSocketActions from 'actions/websocket_actions.jsx';
 import 'stores/emoji_store.jsx';
+import UserStore from 'stores/user_store.jsx';
+
+import * as UserAgent from 'utils/user_agent.jsx';
+import * as Utils from 'utils/utils.jsx';
+
+import LoadingScreen from 'components/loading_screen.jsx';
+
+const BACKSPACE_CHAR = 8;
 
 export default class LoggedIn extends React.Component {
     constructor(params) {

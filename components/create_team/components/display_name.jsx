@@ -1,18 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import PropTypes from 'prop-types';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {FormattedMessage} from 'react-intl';
+
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 import Constants from 'utils/constants.jsx';
 import {cleanUpUrlable} from 'utils/url.jsx';
 
 import logoImage from 'images/logo.png';
-
-import PropTypes from 'prop-types';
-
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {FormattedMessage} from 'react-intl';
 
 export default class TeamSignupDisplayNamePage extends React.Component {
     constructor(props) {

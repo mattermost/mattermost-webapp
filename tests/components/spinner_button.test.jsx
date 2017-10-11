@@ -2,7 +2,8 @@
 // See License.txt for license information.
 
 import React from 'react';
-import {shallow, mount} from 'enzyme';
+
+import {mount, shallow} from 'enzyme';
 
 import SpinnerButton from 'components/spinner_button.jsx';
 

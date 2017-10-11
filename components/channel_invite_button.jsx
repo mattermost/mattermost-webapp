@@ -1,14 +1,13 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import SpinnerButton from 'components/spinner_button.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {FormattedMessage} from 'react-intl';
 
 import {addUserToChannel} from 'actions/channel_actions.jsx';
 
-import PropTypes from 'prop-types';
-
-import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import SpinnerButton from 'components/spinner_button.jsx';
 
 export default class ChannelInviteButton extends React.Component {
     static get propTypes() {

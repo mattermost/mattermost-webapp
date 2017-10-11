@@ -1,21 +1,24 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import ReactDOM from 'react-dom';
-import * as utils from 'utils/utils.jsx';
-import Constants from 'utils/constants.jsx';
-const ActionTypes = Constants.ActionTypes;
-import * as GlobalActions from 'actions/global_actions.jsx';
-import ModalStore from 'stores/modal_store.jsx';
-import UserStore from 'stores/user_store.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import ConfirmModal from './confirm_modal.jsx';
-import {inviteMembers} from 'actions/team_actions.jsx';
-
-import {intlShape, injectIntl, defineMessages, FormattedMessage, FormattedHTMLMessage} from 'react-intl';
-
+import React from 'react';
 import {Modal} from 'react-bootstrap';
+import ReactDOM from 'react-dom';
+import {defineMessages, FormattedHTMLMessage, FormattedMessage, injectIntl, intlShape} from 'react-intl';
+
+import * as GlobalActions from 'actions/global_actions.jsx';
+import {inviteMembers} from 'actions/team_actions.jsx';
+import ChannelStore from 'stores/channel_store.jsx';
+import ModalStore from 'stores/modal_store.jsx';
+import TeamStore from 'stores/team_store.jsx';
+import UserStore from 'stores/user_store.jsx';
+
+import Constants from 'utils/constants.jsx';
+import * as utils from 'utils/utils.jsx';
+
+import ConfirmModal from './confirm_modal.jsx';
+
+const ActionTypes = Constants.ActionTypes;
 
 const holders = defineMessages({
     emailError: {
@@ -43,8 +46,6 @@ const holders = defineMessages({
         defaultMessage: 'Yes, Discard'
     }
 });
-
-import React from 'react';
 
 class InviteMemberModal extends React.Component {
     constructor(props) {

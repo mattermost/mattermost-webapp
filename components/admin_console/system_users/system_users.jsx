@@ -1,30 +1,24 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {
-    loadProfiles,
-    loadProfilesAndTeamMembers,
-    loadProfilesWithoutTeam,
-    searchUsers
-} from 'actions/user_actions.jsx';
+import {searchProfiles, searchProfilesInTeam} from 'mattermost-redux/selectors/entities/users';
 
+import {getStandardAnalytics} from 'actions/admin_actions.jsx';
+import {reloadIfServerVersionChanged} from 'actions/global_actions.jsx';
+import {loadProfiles, loadProfilesAndTeamMembers, loadProfilesWithoutTeam, searchUsers} from 'actions/user_actions.jsx';
 import AnalyticsStore from 'stores/analytics_store.jsx';
+import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
-import {reloadIfServerVersionChanged} from 'actions/global_actions.jsx';
-import {getStandardAnalytics} from 'actions/admin_actions.jsx';
 import {Constants, StatTypes, UserSearchOptions} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import SystemUsersList from './system_users_list.jsx';
-
-import store from 'stores/redux_store.jsx';
-import {searchProfiles, searchProfilesInTeam} from 'mattermost-redux/selectors/entities/users';
 
 const ALL_USERS = '';
 const NO_TEAM = 'no_team';

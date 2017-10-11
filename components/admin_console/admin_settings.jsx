@@ -1,13 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import React from 'react';
 import PropTypes from 'prop-types';
-
-import FormError from 'components/form_error.jsx';
-import SaveButton from 'components/admin_console/save_button.jsx';
+import React from 'react';
 
 import {saveConfig} from 'actions/admin_actions.jsx';
+
+import SaveButton from 'components/save_button.jsx';
+import FormError from 'components/form_error.jsx';
 
 export default class AdminSettings extends React.Component {
     static propTypes = {
@@ -142,6 +142,8 @@ export default class AdminSettings extends React.Component {
                                 saving={this.state.saving}
                                 disabled={!this.state.saveNeeded || (this.canSave && !this.canSave())}
                                 onClick={this.handleSubmit}
+                                savingMessageId='admin.saving'
+                                defaultMessage='Saving'
                             />
                         </div>
                     </div>

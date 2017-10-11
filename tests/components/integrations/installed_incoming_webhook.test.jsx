@@ -2,8 +2,10 @@
 // See License.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
 import {Link} from 'react-router';
+
+import {shallow} from 'enzyme';
+
 import DeleteIntegration from 'components/integrations/components/delete_integration.jsx';
 import InstalledIncomingWebhook from 'components/integrations/components/installed_incoming_webhook.jsx';
 

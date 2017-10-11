@@ -1,16 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import 'bootstrap-colorpicker';
 import $ from 'jquery';
+
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Popover, OverlayTrigger} from 'react-bootstrap';
-import {defineMessages, FormattedMessage, intlShape, injectIntl} from 'react-intl';
+import {OverlayTrigger, Popover} from 'react-bootstrap';
+import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
+
+import 'bootstrap-colorpicker';
 
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
-import * as Utils from 'utils/utils.jsx';
+
+import ColorChooser from './color_chooser.jsx';
 
 const messages = defineMessages({
     sidebarBg: {
@@ -103,8 +106,6 @@ const messages = defineMessages({
     }
 });
 
-const HEX_CODE_LENGTH = 7;
-
 class CustomThemeChooser extends React.Component {
     constructor(props) {
         super(props);
@@ -120,47 +121,21 @@ class CustomThemeChooser extends React.Component {
     }
 
     componentDidMount() {
-        $('.color-picker').colorpicker({
-            format: 'hex'
-        });
-        $('.color-picker').on('changeColor', this.onPickerChange);
         $('.group--code').on('change', this.onCodeThemeChange);
-        document.addEventListener('click', this.closeColorpicker);
     }
 
     componentWillUnmount() {
-        $('.color-picker').off('changeColor', this.onPickerChange);
         $('.group--code').off('change', this.onCodeThemeChange);
-        document.removeEventListener('click', this.closeColorpicker);
     }
 
-    componentDidUpdate() {
-        const theme = this.props.theme;
-        Constants.THEME_ELEMENTS.forEach((element) => {
-            if (theme.hasOwnProperty(element.id) && element.id !== 'codeTheme') {
-                $('#' + element.id).data('colorpicker').color.setColor(theme[element.id]);
-                $('#' + element.id).colorpicker('update');
-            }
-        });
-    }
-
-    closeColorpicker(e) {
-        if (!$(e.target).closest('.color-picker').length && Utils.isMobile()) {
-            $('.color-picker').colorpicker('hide');
-        }
-    }
-
-    onPickerChange = (e) => {
-        const inputBox = e.target.childNodes[0];
-        if (document.activeElement === inputBox && inputBox.value.length !== HEX_CODE_LENGTH) {
-            return;
-        }
-
-        const theme = this.props.theme;
-        if (theme[e.target.id] !== e.color.toHex()) {
-            theme[e.target.id] = e.color.toHex();
-            theme.type = 'custom';
-            this.props.updateTheme(theme);
+    handleColorChange = (settingId, color) => {
+        const {updateTheme, theme} = this.props;
+        if (theme[settingId] !== color) {
+            updateTheme({
+                ...theme,
+                type: 'custom',
+                [settingId]: color
+            });
         }
     }
 
@@ -315,18 +290,12 @@ class CustomThemeChooser extends React.Component {
                         className='col-sm-6 form-group element'
                         key={'custom-theme-key' + index}
                     >
-                        <label className='custom-label'>{formatMessage(messages[element.id])}</label>
-                        <div
-                            className='input-group color-picker'
+                        <ColorChooser
                             id={element.id}
-                        >
-                            <input
-                                className='form-control'
-                                type='text'
-                                defaultValue={theme[element.id]}
-                            />
-                            <span className='input-group-addon'><i/></span>
-                        </div>
+                            label={formatMessage(messages[element.id])}
+                            color={theme[element.id]}
+                            onChange={this.handleColorChange}
+                        />
                     </div>
                 );
             } else if (element.group === 'sidebarElements') {
@@ -335,18 +304,12 @@ class CustomThemeChooser extends React.Component {
                         className='col-sm-6 form-group element'
                         key={'custom-theme-key' + index}
                     >
-                        <label className='custom-label'>{formatMessage(messages[element.id])}</label>
-                        <div
-                            className='input-group color-picker'
+                        <ColorChooser
                             id={element.id}
-                        >
-                            <input
-                                className='form-control'
-                                type='text'
-                                defaultValue={theme[element.id]}
-                            />
-                            <span className='input-group-addon'><i/></span>
-                        </div>
+                            label={formatMessage(messages[element.id])}
+                            color={theme[element.id]}
+                            onChange={this.handleColorChange}
+                        />
                     </div>
                 );
             } else {
@@ -355,18 +318,12 @@ class CustomThemeChooser extends React.Component {
                         className='col-sm-6 form-group element'
                         key={'custom-theme-key' + index}
                     >
-                        <label className='custom-label'>{formatMessage(messages[element.id])}</label>
-                        <div
-                            className='input-group color-picker'
+                        <ColorChooser
                             id={element.id}
-                        >
-                            <input
-                                className='form-control'
-                                type='text'
-                                defaultValue={theme[element.id]}
-                            />
-                            <span className='input-group-addon'><i/></span>
-                        </div>
+                            label={formatMessage(messages[element.id])}
+                            color={theme[element.id]}
+                            onChange={this.handleColorChange}
+                        />
                     </div>
                 );
             }

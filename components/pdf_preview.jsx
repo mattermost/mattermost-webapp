@@ -1,15 +1,15 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import FileInfoPreview from './file_info_preview.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {FormattedMessage} from 'react-intl';
+
+import PDFJS from 'pdfjs-dist';
 
 import loadingGif from 'images/load.gif';
 
-import PropTypes from 'prop-types';
-
-import React from 'react';
-import PDFJS from 'pdfjs-dist';
-import {FormattedMessage} from 'react-intl';
+import FileInfoPreview from './file_info_preview.jsx';
 
 const MAX_PDF_PAGES = 5;
 

@@ -1,15 +1,15 @@
 // Copyright (c) 2017 Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import BackstageList from 'components/backstage/components/backstage_list.jsx';
-import InstalledCommand from '../installed_command.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 
-import PropTypes from 'prop-types';
+import BackstageList from 'components/backstage/components/backstage_list.jsx';
 
-import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import InstalledCommand from '../installed_command.jsx';
 
 export default class InstalledCommands extends React.PureComponent {
     static propTypes = {

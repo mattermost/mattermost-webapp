@@ -2,23 +2,20 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
-
-import TeamStore from 'stores/team_store.jsx';
-import Constants from 'utils/constants.jsx';
-import AboutBuildModal from 'components/about_build_modal';
-import {sortTeamsByDisplayName} from 'utils/team_utils.jsx';
-import * as GlobalActions from 'actions/global_actions.jsx';
-
-import {FormattedMessage} from 'react-intl';
-
-import {Link} from 'react-router/es6';
-import BlockableLink from 'components/admin_console/blockable_link';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
+import {FormattedMessage} from 'react-intl';
+import {Link} from 'react-router/es6';
 
-import * as Utils from 'utils/utils.jsx';
+import * as GlobalActions from 'actions/global_actions.jsx';
+import TeamStore from 'stores/team_store.jsx';
+
+import Constants from 'utils/constants.jsx';
+import {sortTeamsByDisplayName} from 'utils/team_utils.jsx';
+
+import AboutBuildModal from 'components/about_build_modal';
+import BlockableLink from 'components/admin_console/blockable_link';
 
 export default class AdminNavbarDropdown extends React.Component {
     static propTypes = {

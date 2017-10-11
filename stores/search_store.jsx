@@ -1,11 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
 import EventEmitter from 'events';
 
-import Constants from 'utils/constants.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
+
+import Constants from 'utils/constants.jsx';
+
+import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
 
 var ActionTypes = Constants.ActionTypes;
 
@@ -186,8 +188,7 @@ SearchStore.dispatchToken = AppDispatcher.register((payload) => {
     switch (action.type) {
     case ActionTypes.RECEIVED_SEARCH: {
         const results = SearchStore.getSearchResults() || {};
-        const posts = Object.values(results.posts || {});
-        const channelId = posts.length > 0 ? posts[0].channel_id : '';
+        const channelId = results.channelId;
         if (SearchStore.getIsPinnedPosts() === action.is_pinned_posts &&
             action.is_pinned_posts === true &&
             channelId !== '' &&

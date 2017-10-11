@@ -1,16 +1,18 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import LoadingScreen from './loading_screen.jsx';
-import BackButton from 'components/common/back_button.jsx';
-import logoImage from 'images/logo.png';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {FormattedMessage} from 'react-intl';
+import {browserHistory} from 'react-router/es6';
 
 import {verifyEmail} from 'actions/user_actions.jsx';
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import {browserHistory} from 'react-router/es6';
-import {FormattedMessage} from 'react-intl';
+import logoImage from 'images/logo.png';
+
+import BackButton from 'components/common/back_button.jsx';
+
+import LoadingScreen from './loading_screen.jsx';
 
 export default class DoVerifyEmail extends React.Component {
     constructor(props) {

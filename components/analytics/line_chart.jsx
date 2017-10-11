@@ -1,15 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {FormattedMessage} from 'react-intl';
-
-import * as Utils from 'utils/utils.jsx';
-
 import PropTypes from 'prop-types';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {FormattedMessage} from 'react-intl';
+
 import Chart from 'chart.js';
+
+import * as Utils from 'utils/utils.jsx';
 
 export default class LineChart extends React.Component {
     constructor(props) {
@@ -118,4 +117,3 @@ LineChart.propTypes = {
     data: PropTypes.object,
     options: PropTypes.object
 };
-

@@ -8,7 +8,7 @@ import AddOutgoingWebhook from 'components/integrations/components/add_outgoing_
 
 describe('components/integrations/AddOutgoingWebhook', () => {
     test('should match snapshot', () => {
-        function emptyFunction() {} //eslint-disable-line no-empty-function
+        const emptyFunction = jest.fn();
         const teamId = 'testteamid';
 
         const wrapper = shallow(

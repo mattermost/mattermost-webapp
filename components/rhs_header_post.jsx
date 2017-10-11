@@ -1,20 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
-import Constants from 'utils/constants.jsx';
-import {Tooltip, OverlayTrigger} from 'react-bootstrap';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {FormattedMessage} from 'react-intl';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {getFlaggedPosts, getPinnedPosts} from 'actions/post_actions.jsx';
 
-import {FormattedMessage} from 'react-intl';
+import Constants from 'utils/constants.jsx';
+
+import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
 
 const ActionTypes = Constants.ActionTypes;
-
-import PropTypes from 'prop-types';
-
-import React from 'react';
 
 export default class RhsHeaderPost extends React.Component {
     constructor(props) {

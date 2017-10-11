@@ -2,6 +2,7 @@
 // See License.txt for license information.
 
 import React from 'react';
+
 import {shallow} from 'enzyme';
 
 import InstalledOAuthApp from 'components/integrations/components/installed_oauth_app.jsx';
@@ -21,11 +22,16 @@ describe('components/integrations/InstalledOAuthApp', () => {
         update_at: 1501365458934,
         callback_urls: ['https://test.com/callback', 'https://test.com/callback2']
     };
+    const request = {
+        status: 'not_started',
+        error: null
+    };
 
     test('should match snapshot', () => {
         const wrapper = shallow(
             <InstalledOAuthApp
                 oauthApp={app}
+                regenOAuthAppSecretRequest={request}
                 onRegenerateSecret={emptyFunction}
                 onDelete={emptyFunction}
                 filter={''}
@@ -46,6 +52,7 @@ describe('components/integrations/InstalledOAuthApp', () => {
         const wrapper = shallow(
             <InstalledOAuthApp
                 oauthApp={app}
+                regenOAuthAppSecretRequest={request}
                 onRegenerateSecret={onRegenerateSecret}
                 onDelete={emptyFunction}
                 filter={''}
@@ -61,6 +68,7 @@ describe('components/integrations/InstalledOAuthApp', () => {
         const wrapper = shallow(
             <InstalledOAuthApp
                 oauthApp={app}
+                regenOAuthAppSecretRequest={request}
                 onRegenerateSecret={emptyFunction}
                 onDelete={emptyFunction}
                 filter={'filter'}

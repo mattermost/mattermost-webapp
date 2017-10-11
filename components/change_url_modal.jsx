@@ -1,17 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import PropTypes from 'prop-types';
+import React from 'react';
+import {Modal, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
-import Constants from 'utils/constants.jsx';
-import {Modal, Tooltip, OverlayTrigger} from 'react-bootstrap';
-import TeamStore from 'stores/team_store.jsx';
-import * as URL from 'utils/url.jsx';
-
 import {FormattedMessage} from 'react-intl';
 
-import PropTypes from 'prop-types';
+import TeamStore from 'stores/team_store.jsx';
 
-import React from 'react';
+import Constants from 'utils/constants.jsx';
+import * as URL from 'utils/url.jsx';
 
 export default class ChangeUrlModal extends React.Component {
     constructor(props) {

@@ -1,22 +1,24 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import * as Utils from 'utils/utils.jsx';
-import UserStore from 'stores/user_store.jsx';
-import WebrtcStore from 'stores/webrtc_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import * as GlobalActions from 'actions/global_actions.jsx';
-import * as WebrtcActions from 'actions/webrtc_actions.jsx';
-import {openDirectChannelToUser} from 'actions/channel_actions.jsx';
-import Constants from 'utils/constants.jsx';
-const UserStatuses = Constants.UserStatuses;
-const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
-
-import {Popover, OverlayTrigger, Tooltip} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router/es6';
 import PropTypes from 'prop-types';
 import React from 'react';
+import {OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
+import {FormattedMessage} from 'react-intl';
+import {browserHistory} from 'react-router/es6';
+
+import {openDirectChannelToUser} from 'actions/channel_actions.jsx';
+import * as GlobalActions from 'actions/global_actions.jsx';
+import * as WebrtcActions from 'actions/webrtc_actions.jsx';
+import TeamStore from 'stores/team_store.jsx';
+import UserStore from 'stores/user_store.jsx';
+import WebrtcStore from 'stores/webrtc_store.jsx';
+
+import Constants from 'utils/constants.jsx';
+import * as Utils from 'utils/utils.jsx';
+
+const UserStatuses = Constants.UserStatuses;
+const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
 export default class ProfilePopover extends React.Component {
     static getComponentName() {

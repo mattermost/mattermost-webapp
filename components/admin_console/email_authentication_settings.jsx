@@ -2,10 +2,10 @@
 // See License.txt for license information.
 
 import React from 'react';
+import {FormattedMessage} from 'react-intl';
 
 import AdminSettings from './admin_settings.jsx';
 import BooleanSetting from './boolean_setting.jsx';
-import {FormattedMessage} from 'react-intl';
 import SettingsGroup from './settings_group.jsx';
 
 export default class EmailAuthenticationSettings extends AdminSettings {

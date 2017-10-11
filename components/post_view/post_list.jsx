@@ -1,25 +1,25 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import Post from './post';
-import LoadingScreen from 'components/loading_screen.jsx';
-import FloatingTimestamp from './floating_timestamp.jsx';
-import ScrollToBottomArrows from './scroll_to_bottom_arrows.jsx';
-import NewMessageIndicator from './new_message_indicator.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {FormattedDate, FormattedMessage} from 'react-intl';
 
-import * as UserAgent from 'utils/user_agent.jsx';
-import * as Utils from 'utils/utils.jsx';
-import Constants from 'utils/constants.jsx';
 import {createChannelIntroMessage} from 'utils/channel_intro_messages.jsx';
+import Constants from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
 import EventTypes from 'utils/event_types.jsx';
 import GlobalEventEmitter from 'utils/global_event_emitter.jsx';
+import * as UserAgent from 'utils/user_agent.jsx';
+import * as Utils from 'utils/utils.jsx';
 
-import {FormattedDate, FormattedMessage} from 'react-intl';
+import LoadingScreen from 'components/loading_screen.jsx';
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
+import FloatingTimestamp from './floating_timestamp.jsx';
+import NewMessageIndicator from './new_message_indicator.jsx';
+import Post from './post';
+import ScrollToBottomArrows from './scroll_to_bottom_arrows.jsx';
 
 const CLOSE_TO_BOTTOM_SCROLL_MARGIN = 10;
 const POSTS_PER_PAGE = Constants.POST_CHUNK_SIZE / 2;

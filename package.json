@@ -68,8 +68,11 @@
     "cross-env": "5.0.5",
     "css-loader": "0.28.7",
     "enzyme": "3.0.0",
+    "enzyme-adapter-react-15": "1.0.1",
     "enzyme-to-json": "3.0.1",
     "eslint": "3.17.1",
+    "eslint-import-resolver-webpack": "0.8.3",
+    "eslint-plugin-import": "2.7.0",
     "eslint-plugin-react": "6.10.0",
     "exports-loader": "0.6.4",
     "extract-text-webpack-plugin": "3.0.0",
@@ -89,6 +92,7 @@
     "node-sass": "4.5.3",
     "raw-loader": "0.5.1",
     "react-addons-test-utils": "15.6.2",
+    "react-test-renderer": "15",
     "remote-redux-devtools": "0.5.12",
     "remote-redux-devtools-on-debugger": "0.8.2",
     "sass-loader": "6.0.6",
@@ -109,7 +113,7 @@
     "collectCoverageFrom": [
       "actions/**/*.{js,jsx}",
       "client/**/*.{js,jsx}",
-      "components/**/*.{js,jsx}",
+      "components/**/*.jsx",
       "routes/**/*.{js,jsx}",
       "stores/**/*.{js,jsx}",
       "utils/**/*.{js,jsx}"
@@ -130,7 +134,8 @@
     ],
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|react-router)"
-    ]
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/tests/setup.js"
   },
   "scripts": {
     "check": "eslint --ext \".jsx\" --ignore-pattern node_modules --quiet .",

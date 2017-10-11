@@ -1,14 +1,17 @@
 
-import Constants from 'utils/constants.jsx';
-const Preferences = Constants.Preferences;
+// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
+// See License.txt for license information.
 
+import ChannelStore from 'stores/channel_store.jsx';
+import LocalizationStore from 'stores/localization_store.jsx';
+import PreferenceStore from 'stores/preference_store.jsx';
+import TeamStore from 'stores/team_store.jsx';
+import UserStore from 'stores/user_store.jsx';
+
+import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import UserStore from 'stores/user_store.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import PreferenceStore from 'stores/preference_store.jsx';
-import LocalizationStore from 'stores/localization_store.jsx';
+const Preferences = Constants.Preferences;
 
 /**
  * Returns list of sorted channels grouped by type. Favorites here is considered as separated type.

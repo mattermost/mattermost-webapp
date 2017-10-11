@@ -1,9 +1,10 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {mount, shallow} from 'enzyme';
 import React from 'react';
 import {IntlProvider, intlShape} from 'react-intl';
+
+import {mount, shallow} from 'enzyme';
 
 const intlProvider = new IntlProvider({locale: 'en'}, {});
 const {intl} = intlProvider.getChildContext();

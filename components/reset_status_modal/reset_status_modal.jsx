@@ -1,14 +1,15 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import ConfirmModal from 'components/confirm_modal.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {FormattedMessage} from 'react-intl';
+
+import {Preferences} from 'mattermost-redux/constants';
 
 import {toTitleCase} from 'utils/utils.jsx';
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import {FormattedMessage} from 'react-intl';
-import {Preferences} from 'mattermost-redux/constants';
+import ConfirmModal from 'components/confirm_modal.jsx';
 
 export default class ResetStatusModal extends React.PureComponent {
     static propTypes = {

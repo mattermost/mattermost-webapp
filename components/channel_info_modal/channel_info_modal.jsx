@@ -1,17 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import * as Utils from 'utils/utils.jsx';
-import Constants from 'utils/constants.jsx';
-
-import {FormattedMessage} from 'react-intl';
+import PropTypes from 'prop-types';
+import React from 'react';
 import {Modal} from 'react-bootstrap';
+import {FormattedMessage} from 'react-intl';
+
+import Constants from 'utils/constants.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import {getSiteURL} from 'utils/url.jsx';
-
-import PropTypes from 'prop-types';
-
-import React from 'react';
+import * as Utils from 'utils/utils.jsx';
 
 export default class ChannelInfoModal extends React.PureComponent {
     static propTypes = {

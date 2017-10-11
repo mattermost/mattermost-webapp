@@ -2,21 +2,22 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-import SettingItemMin from '../setting_item_min.jsx';
-import SettingItemMax from '../setting_item_max.jsx';
 
+import PropTypes from 'prop-types';
+import React from 'react';
+import {FormattedMessage} from 'react-intl';
+
+import {savePreferences} from 'actions/user_actions.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
 import Constants from 'utils/constants.jsx';
-const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 import * as Utils from 'utils/utils.jsx';
 
-import {savePreferences} from 'actions/user_actions.jsx';
+import SettingItemMax from '../setting_item_max.jsx';
+import SettingItemMin from '../setting_item_min.jsx';
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import {FormattedMessage} from 'react-intl';
+const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
 export default class AdvancedSettingsDisplay extends React.Component {
     constructor(props) {
@@ -81,10 +82,13 @@ export default class AdvancedSettingsDisplay extends React.Component {
             }
         }
 
+        const isSaving = false;
+
         return {preReleaseFeatures: PreReleaseFeatures,
             settings,
             preReleaseFeaturesKeys,
-            enabledFeatures
+            enabledFeatures,
+            isSaving
         };
     }
 
@@ -133,6 +137,8 @@ export default class AdvancedSettingsDisplay extends React.Component {
             });
         });
 
+        this.setState({isSaving: true});
+
         savePreferences(
             preferences,
             () => {
@@ -148,6 +154,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
         if (!section) {
             this.setState(this.getStateFromStores());
         }
+        this.setState({isSaving: false});
         this.props.updateSection(section);
     }
 
@@ -223,6 +230,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
                         </div>
                     ]}
                     submit={() => this.handleSubmit('formatting')}
+                    saving={this.state.isSaving}
                     server_error={this.state.serverError}
                     updateSection={(e) => {
                         this.updateSection('');
@@ -301,6 +309,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
                             </div>
                         ]}
                         submit={() => this.handleSubmit('join_leave')}
+                        saving={this.state.isSaving}
                         server_error={this.state.serverError}
                         updateSection={(e) => {
                             this.updateSection('');
@@ -418,6 +427,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
                     }
                     inputs={inputs}
                     submit={() => this.handleSubmit('send_on_ctrl_enter')}
+                    saving={this.state.isSaving}
                     server_error={serverError}
                     updateSection={(e) => {
                         this.updateSection('');
@@ -502,6 +512,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
                         }
                         inputs={inputs}
                         submit={this.saveEnabledFeatures}
+                        saving={this.state.isSaving}
                         server_error={serverError}
                         updateSection={(e) => {
                             this.updateSection('');

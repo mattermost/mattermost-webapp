@@ -2,10 +2,11 @@
 // See License.txt for license information.
 
 import {browserHistory} from 'react-router/es6';
-import * as Utils from 'utils/utils.jsx';
-import {Constants, ErrorPageTypes} from 'utils/constants.jsx';
 
 import store from 'stores/redux_store.jsx';
+
+import {Constants, ErrorPageTypes} from 'utils/constants.jsx';
+import * as Utils from 'utils/utils.jsx';
 
 function getPrefix() {
     const state = store.getState();

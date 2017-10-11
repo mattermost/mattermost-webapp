@@ -1,15 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import UserListRow from './user_list_row.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
-
 import PropTypes from 'prop-types';
-
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants.jsx';
+
+import LoadingScreen from 'components/loading_screen.jsx';
+
+import UserListRow from './user_list_row.jsx';
 
 export default class UserList extends React.Component {
     constructor(props) {

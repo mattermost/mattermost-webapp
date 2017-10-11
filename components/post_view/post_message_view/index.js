@@ -2,16 +2,16 @@
 // See License.txt for license information.
 
 import {connect} from 'react-redux';
-import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
-import {getTheme, getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUserMentionKeys, getUsersByUsername} from 'mattermost-redux/selectors/entities/users';
-
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {Preferences} from 'mattermost-redux/constants';
-import {getSiteURL} from 'utils/url.jsx';
+import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
+import {getBool, getTheme} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentUserMentionKeys, getUsersByUsername} from 'mattermost-redux/selectors/entities/users';
 
 import {EmojiMap} from 'stores/emoji_store.jsx';
+
+import {getSiteURL} from 'utils/url.jsx';
 
 import PostMessageView from './post_message_view.jsx';
 

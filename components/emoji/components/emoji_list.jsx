@@ -1,20 +1,20 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import EmojiListItem from './emoji_list_item.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {FormattedMessage} from 'react-intl';
+import {Link} from 'react-router';
 
+import * as EmojiActions from 'actions/emoji_actions.jsx';
 import EmojiStore from 'stores/emoji_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
-import * as EmojiActions from 'actions/emoji_actions.jsx';
-
 import * as Utils from 'utils/utils.jsx';
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import {Link} from 'react-router';
-import {FormattedMessage} from 'react-intl';
+import LoadingScreen from 'components/loading_screen.jsx';
+
+import EmojiListItem from './emoji_list_item.jsx';
 
 export default class EmojiList extends React.Component {
     static get propTypes() {

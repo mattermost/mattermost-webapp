@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import {getProfiles, getProfilesInTeam} from 'mattermost-redux/actions/users';
 
 import MoreDirectChannels from './more_direct_channels.jsx';

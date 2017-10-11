@@ -1,13 +1,12 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import PropTypes from 'prop-types';
+import React from 'react';
 import {browserHistory} from 'react-router/es6';
-import LoadingScreen from 'components/loading_screen.jsx';
 
 import AbstractIncomingWebhook from 'components/integrations/components/abstract_incoming_webhook.jsx';
-
-import React from 'react';
-import PropTypes from 'prop-types';
+import LoadingScreen from 'components/loading_screen.jsx';
 
 const HEADER = {id: 'integrations.edit', defaultMessage: 'Edit'};
 const FOOTER = {id: 'update_incoming_webhook.update', defaultMessage: 'Update'};

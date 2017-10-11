@@ -4,12 +4,14 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {makeGetPostsInChannel, makeGetPostsAroundPost} from 'mattermost-redux/selectors/entities/posts';
-import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {getPosts, getPostsAfter, getPostsBefore, getPostThread} from 'mattermost-redux/actions/posts';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
+import {makeGetPostsAroundPost, makeGetPostsInChannel} from 'mattermost-redux/selectors/entities/posts';
+import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getPosts, getPostsBefore, getPostsAfter, getPostThread} from 'mattermost-redux/actions/posts';
+
 import {increasePostVisibility} from 'actions/post_actions.jsx';
+
 import {Preferences} from 'utils/constants.jsx';
 
 import PostList from './post_list.jsx';

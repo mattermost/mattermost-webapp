@@ -3,14 +3,15 @@
 
 import React from 'react';
 
+import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
+
 import {default as EmojiStore, EmojiMap} from 'stores/emoji_store.jsx';
-import * as Emoticons from 'utils/emoticons.jsx';
+import store from 'stores/redux_store.jsx';
 import SuggestionStore from 'stores/suggestion_store.jsx';
 
-import Suggestion from './suggestion.jsx';
+import * as Emoticons from 'utils/emoticons.jsx';
 
-import store from 'stores/redux_store.jsx';
-import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
+import Suggestion from './suggestion.jsx';
 
 const MIN_EMOTICON_LENGTH = 2;
 

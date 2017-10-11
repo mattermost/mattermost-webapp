@@ -1,16 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import SettingItemMax from '../setting_item_max.jsx';
-
-import * as I18n from 'i18n/i18n.jsx';
-import * as GlobalActions from 'actions/global_actions.jsx';
-import Constants from 'utils/constants.jsx';
-
-import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
-import {updateUser} from 'actions/user_actions.jsx';
 import PropTypes from 'prop-types';
 import React from 'react';
+import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+
+import * as GlobalActions from 'actions/global_actions.jsx';
+import {updateUser} from 'actions/user_actions.jsx';
+
+import Constants from 'utils/constants.jsx';
+
+import * as I18n from 'i18n/i18n.jsx';
+
+import SettingItemMax from '../setting_item_max.jsx';
 
 export default class ManageLanguage extends React.Component {
     constructor(props) {
@@ -20,7 +22,8 @@ export default class ManageLanguage extends React.Component {
         this.changeLanguage = this.changeLanguage.bind(this);
         this.submitUser = this.submitUser.bind(this);
         this.state = {
-            locale: props.locale
+            locale: props.locale,
+            isSaving: false
         };
     }
 
@@ -36,9 +39,12 @@ export default class ManageLanguage extends React.Component {
         });
     }
     submitUser(user) {
+        this.setState({isSaving: true});
+
         updateUser(user, Constants.UserUpdateEvents.LANGUAGE,
             () => {
                 GlobalActions.newLocalizationSelected(user.locale);
+                this.setState({isSaving: false});
             },
             (err) => {
                 let serverError;
@@ -47,7 +53,7 @@ export default class ManageLanguage extends React.Component {
                 } else {
                     serverError = err;
                 }
-                this.setState({serverError});
+                this.setState({serverError, isSaving: false});
             }
         );
     }
@@ -121,6 +127,7 @@ export default class ManageLanguage extends React.Component {
                 }
                 width='medium'
                 submit={this.changeLanguage}
+                saving={this.state.isSaving}
                 inputs={[input]}
                 updateSection={this.props.updateSection}
             />

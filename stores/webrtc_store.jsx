@@ -1,8 +1,10 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import EventEmitter from 'events';
+
+import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
+
 import {WebrtcActionTypes} from 'utils/constants.jsx';
 
 class WebrtcStoreClass extends EventEmitter {

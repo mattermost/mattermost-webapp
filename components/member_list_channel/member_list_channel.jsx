@@ -1,25 +1,22 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import ChannelMembersDropdown from 'components/channel_members_dropdown';
-import SearchableUserList from 'components/searchable_user_list/searchable_user_list_container.jsx';
-
-import ChannelStore from 'stores/channel_store.jsx';
-import UserStore from 'stores/user_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-
-import {searchUsers, loadProfilesAndTeamMembersAndChannelMembers, loadTeamMembersAndChannelMembersForProfilesList} from 'actions/user_actions.jsx';
-
-import Constants from 'utils/constants.jsx';
-
-import * as UserAgent from 'utils/user_agent.jsx';
-
 import PropTypes from 'prop-types';
-
 import React from 'react';
 
-import store from 'stores/redux_store.jsx';
 import {searchProfilesInCurrentChannel} from 'mattermost-redux/selectors/entities/users';
+
+import {loadProfilesAndTeamMembersAndChannelMembers, loadTeamMembersAndChannelMembersForProfilesList, searchUsers} from 'actions/user_actions.jsx';
+import ChannelStore from 'stores/channel_store.jsx';
+import store from 'stores/redux_store.jsx';
+import TeamStore from 'stores/team_store.jsx';
+import UserStore from 'stores/user_store.jsx';
+
+import Constants from 'utils/constants.jsx';
+import * as UserAgent from 'utils/user_agent.jsx';
+
+import ChannelMembersDropdown from 'components/channel_members_dropdown';
+import SearchableUserList from 'components/searchable_user_list/searchable_user_list_container.jsx';
 
 const USERS_PER_PAGE = 50;
 

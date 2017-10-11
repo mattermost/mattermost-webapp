@@ -3,7 +3,15 @@
 
 import EventEmitter from 'events';
 
+import {UserTypes} from 'mattermost-redux/action_types';
+import * as Selectors from 'mattermost-redux/selectors/entities/users';
+
+import ChannelStore from 'stores/channel_store.jsx';
+import store from 'stores/redux_store.jsx';
+import TeamStore from 'stores/team_store.jsx';
+
 import Constants from 'utils/constants.jsx';
+
 const UserStatuses = Constants.UserStatuses;
 
 const CHANGE_EVENT_NOT_IN_CHANNEL = 'change_not_in_channel';
@@ -15,13 +23,6 @@ const CHANGE_EVENT = 'change';
 const CHANGE_EVENT_SESSIONS = 'change_sessions';
 const CHANGE_EVENT_AUDITS = 'change_audits';
 const CHANGE_EVENT_STATUSES = 'change_statuses';
-
-import store from 'stores/redux_store.jsx';
-import * as Selectors from 'mattermost-redux/selectors/entities/users';
-import {UserTypes} from 'mattermost-redux/action_types';
-
-import ChannelStore from 'stores/channel_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
 
 var Utils;
 

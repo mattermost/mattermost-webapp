@@ -2,13 +2,14 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import Setting from './setting.jsx';
-
 import * as Utils from 'utils/utils.jsx';
+
+import Setting from './setting.jsx';
 
 export default class FileUploadSetting extends Setting {
     static get propTypes() {

@@ -1,17 +1,17 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
+import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {browserHistory, Link} from 'react-router/es6';
 
-import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
-import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
-import {Link, browserHistory} from 'react-router/es6';
-
-import UserStore from 'stores/user_store.jsx';
 import IntegrationStore from 'stores/integration_store.jsx';
+import UserStore from 'stores/user_store.jsx';
 
 import Constants from 'utils/constants.jsx';
+
+import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
 
 export default class ConfirmIntegration extends React.Component {
     static get propTypes() {

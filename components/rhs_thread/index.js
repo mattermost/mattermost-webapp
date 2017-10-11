@@ -3,10 +3,12 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {makeGetPostsForThread} from 'mattermost-redux/selectors/entities/posts';
+
 import {removePost} from 'mattermost-redux/actions/posts';
+import {makeGetPostsForThread} from 'mattermost-redux/selectors/entities/posts';
 
 import {getSelectedPost} from 'selectors/rhs.jsx';
+
 import RhsThread from './rhs_thread.jsx';
 
 function makeMapStateToProps() {

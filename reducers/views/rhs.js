@@ -2,8 +2,10 @@
 // See License.txt for license information.
 
 import {combineReducers} from 'redux';
-import {ActionTypes} from 'utils/constants.jsx';
+
 import {PostTypes} from 'mattermost-redux/action_types';
+
+import {ActionTypes} from 'utils/constants.jsx';
 
 function selectedPostId(state = '', action) {
     switch (action.type) {

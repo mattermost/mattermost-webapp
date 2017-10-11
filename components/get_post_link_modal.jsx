@@ -1,15 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import GetLinkModal from './get_link_modal.jsx';
+import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+
 import ModalStore from 'stores/modal_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 
-import * as Utils from 'utils/utils.jsx';
 import Constants from 'utils/constants.jsx';
+import * as Utils from 'utils/utils.jsx';
 
-import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
+import GetLinkModal from './get_link_modal.jsx';
 
 export default class GetPostLinkModal extends React.Component {
     constructor(props) {

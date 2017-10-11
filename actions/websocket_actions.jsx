@@ -2,43 +2,41 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-
-import UserStore from 'stores/user_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import PreferenceStore from 'stores/preference_store.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
-import BrowserStore from 'stores/browser_store.jsx';
-import ErrorStore from 'stores/error_store.jsx';
-import NotificationStore from 'stores/notification_store.jsx'; //eslint-disable-line no-unused-vars
-
-import WebSocketClient from 'client/web_websocket_client.jsx';
-import * as WebrtcActions from './webrtc_actions.jsx';
-
-import * as GlobalActions from 'actions/global_actions.jsx';
-import {handleNewPost} from 'actions/post_actions.jsx';
-import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
-import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
-import * as StatusActions from 'actions/status_actions.jsx';
-import {loadPlugin, removePlugin, loadPluginsIfNecessary} from 'plugins';
-
-import {ActionTypes, Constants, Preferences, SocketEvents, UserStatuses, ErrorBarTypes} from 'utils/constants.jsx';
 
 import {browserHistory} from 'react-router/es6';
-
-import store from 'stores/redux_store.jsx';
-const dispatch = store.dispatch;
-const getState = store.getState;
-
 import {batchActions} from 'redux-batched-actions';
+
+import {ChannelTypes, EmojiTypes, PostTypes, TeamTypes, UserTypes} from 'mattermost-redux/action_types';
+import {getChannelAndMyMember, getChannelStats, viewChannel} from 'mattermost-redux/actions/channels';
+import {setServerVersion} from 'mattermost-redux/actions/general';
+import {getPosts, getProfilesAndStatusesForPosts} from 'mattermost-redux/actions/posts';
+import * as TeamActions from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
+
+import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
+import * as GlobalActions from 'actions/global_actions.jsx';
+import {handleNewPost} from 'actions/post_actions.jsx';
+import * as StatusActions from 'actions/status_actions.jsx';
+import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
+import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
+import BrowserStore from 'stores/browser_store.jsx';
+import ChannelStore from 'stores/channel_store.jsx';
+import ErrorStore from 'stores/error_store.jsx';
+import PreferenceStore from 'stores/preference_store.jsx';
+import store from 'stores/redux_store.jsx';
+import TeamStore from 'stores/team_store.jsx';
+import UserStore from 'stores/user_store.jsx';
+
+import WebSocketClient from 'client/web_websocket_client.jsx';
+import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
+
+import {ActionTypes, Constants, ErrorBarTypes, Preferences, SocketEvents, UserStatuses} from 'utils/constants.jsx';
 import {getSiteURL} from 'utils/url.jsx';
 
-import * as TeamActions from 'mattermost-redux/actions/teams';
-import {viewChannel, getChannelAndMyMember, getChannelStats} from 'mattermost-redux/actions/channels';
-import {getPosts, getProfilesAndStatusesForPosts} from 'mattermost-redux/actions/posts';
-import {setServerVersion} from 'mattermost-redux/actions/general';
-import {ChannelTypes, TeamTypes, UserTypes, PostTypes, EmojiTypes} from 'mattermost-redux/action_types';
+import * as WebrtcActions from './webrtc_actions.jsx';
+
+const dispatch = store.dispatch;
+const getState = store.getState;
 
 const MAX_WEBSOCKET_FAILS = 7;
 

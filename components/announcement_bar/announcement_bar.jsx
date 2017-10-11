@@ -2,18 +2,18 @@
 // See License.txt for license information.
 
 import React from 'react';
-import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
+import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import {Link} from 'react-router';
 
+import * as AdminActions from 'actions/admin_actions.jsx';
 import AnalyticsStore from 'stores/analytics_store.jsx';
 import ErrorStore from 'stores/error_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
-import * as AdminActions from 'actions/admin_actions.jsx';
 import {ErrorBarTypes, StatTypes} from 'utils/constants.jsx';
-import {isLicenseExpiring, isLicenseExpired, isLicensePastGracePeriod, displayExpiryDate} from 'utils/license_utils.jsx';
-import * as Utils from 'utils/utils.jsx';
+import {displayExpiryDate, isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod} from 'utils/license_utils.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
+import * as Utils from 'utils/utils.jsx';
 
 const RENEWAL_LINK = 'https://licensing.mattermost.com/renew';
 

@@ -2,17 +2,18 @@
 // See License.txt for license information.
 
 import React from 'react';
+import {FormattedMessage} from 'react-intl';
+
+import {elasticsearchPurgeIndexes, elasticsearchTest} from 'actions/admin_actions.jsx';
 
 import * as Utils from 'utils/utils.jsx';
 
 import AdminSettings from './admin_settings.jsx';
-import {elasticsearchTest, elasticsearchPurgeIndexes} from 'actions/admin_actions.jsx';
 import BooleanSetting from './boolean_setting.jsx';
-import {FormattedMessage} from 'react-intl';
+import ElasticsearchStatus from './elasticsearch_status';
+import RequestButton from './request_button/request_button.jsx';
 import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting.jsx';
-import RequestButton from './request_button/request_button.jsx';
-import ElasticsearchStatus from './elasticsearch_status';
 
 export default class ElasticsearchSettings extends AdminSettings {
     constructor(props) {
