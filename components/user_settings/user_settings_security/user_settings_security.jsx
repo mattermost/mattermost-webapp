@@ -17,7 +17,6 @@ import {updatePassword, getAuthorizedApps, deactivateMfa, deauthorizeOAuthApp} f
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {isMobile} from 'utils/user_agent.jsx';
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
@@ -510,7 +509,6 @@ export default class SecurityTab extends React.Component {
                 this.props.updateSection('');
                 this.setState({currentPassword: '', newPassword: '', confirmPassword: '', serverError: null, passwordError: null});
                 e.preventDefault();
-                $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
             }.bind(this);
 
             return (
