@@ -2,10 +2,10 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
+import PropTypes from 'prop-types';
 
 import * as Selectors from 'mattermost-redux/selectors/entities/posts';
 
@@ -22,6 +22,7 @@ import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import Textbox from './textbox.jsx';
+import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -53,8 +54,48 @@ export default class EditPostModal extends React.Component {
             comments: 0,
             refocusId: '',
             ctrlSend: PreferenceStore.getBool(Constants.Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
-            postError: ''
+            postError: '',
+            showEmojiPicker: false
         };
+    }
+
+    getContainer = () => {
+        return this;
+    }
+
+    toggleEmojiPicker = () => {
+        this.setState({showEmojiPicker: !this.state.showEmojiPicker});
+    }
+
+    hideEmojiPicker = () => {
+        this.setState({showEmojiPicker: false});
+    }
+
+    handleEmojiClick = (emoji) => {
+        const emojiAlias = emoji.name || emoji.aliases[0];
+
+        if (!emojiAlias) {
+            //Oops.. There went something wrong
+            return;
+        }
+
+        if (this.state.editText === '') {
+            this.setState({editText: ':' + emojiAlias + ': '});
+        } else {
+            //check whether there is already a blank at the end of the current message
+            const newMessage = (/\s+$/.test(this.state.editText)) ?
+                this.state.editText + ':' + emojiAlias + ': ' : this.state.editText + ' :' + emojiAlias + ': ';
+
+            this.setState({editText: newMessage});
+        }
+
+        this.setState({showEmojiPicker: false});
+
+        this.refs.editbox.focus();
+    }
+
+    getEditPostControls = () => {
+        return this.refs.editPostEmoji;
     }
 
     handlePostError(postError) {
@@ -235,6 +276,28 @@ export default class EditPostModal extends React.Component {
             postError = (<label className={postErrorClass}>{this.state.postError}</label>);
         }
 
+        let emojiPicker = null;
+        if (window.mm_config.EnableEmojiPicker === 'true') {
+            emojiPicker = (
+                <span className='emoji-picker__container'>
+                    <EmojiPickerOverlay
+                        show={this.state.showEmojiPicker}
+                        container={this.getContainer}
+                        target={this.getEditPostControls}
+                        onHide={this.hideEmojiPicker}
+                        onEmojiClick={this.handleEmojiClick}
+                        rightOffset={100}
+                        topOffset={-100}
+                    />
+                    <span
+                        className='icon icon--emoji'
+                        onClick={this.toggleEmojiPicker}
+                        dangerouslySetInnerHTML={{__html: Constants.EMOJI_ICON_SVG}}
+                    />
+                </span>
+            );
+        }
+
         return (
             <div
                 className='modal fade edit-modal'
@@ -273,12 +336,19 @@ export default class EditPostModal extends React.Component {
                                 handlePostError={this.handlePostError}
                                 value={this.state.editText}
                                 channelId={this.state.channel_id}
+                                emojiEnabled={window.mm_config.EnableEmojiPicker === 'true'}
                                 createMessage={Utils.localizeMessage('edit_post.editPost', 'Edit the post...')}
                                 supportsCommands={false}
                                 suggestionListStyle='bottom'
                                 id='edit_textbox'
                                 ref='editbox'
                             />
+                            <span
+                                ref='editPostEmoji'
+                                className='edit-post__actions'
+                            >
+                                {emojiPicker}
+                            </span>
                             <div className={errorBoxClass}>
                                 {postError}
                             </div>
@@ -311,3 +381,7 @@ export default class EditPostModal extends React.Component {
         );
     }
 }
+
+EditPostModal.propTypes = {
+    getChannelView: PropTypes.func
+};
