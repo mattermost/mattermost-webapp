@@ -644,6 +644,7 @@
 }
 
 .post-list__table {
+    @include clearfix;
     display: table;
     height: 100%;
     min-height: 350px;
@@ -970,7 +971,6 @@
         font-size: 13.5px;
         line-height: 1.6em;
         margin: 0;
-        overflow: hidden;
         white-space: pre-wrap;
         width: 100%;
         word-break: break-word;
