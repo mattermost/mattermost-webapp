@@ -1037,6 +1037,8 @@
   "admin.team.maxNotificationsPerChannelDescription": "Maximum total number of users in a channel before users typing messages, @all, @here, and @channel no longer send notifications because of performance.",
   "admin.team.maxNotificationsPerChannelExample": "E.g.: \"1000\"",
   "admin.team.maxNotificationsPerChannelTitle": "Max Notifications Per Channel:",
+  "admin.team.enableConfirmNotificationsToChannelTitle": "Show @channel and @all confirmation dialog: ",
+  "admin.team.enableConfirmNotificationsToChannelDescription": "When true, users will be prompted to confirm when posting @channel and @all in channels with over five members. When false, no confirmation is required.",
   "admin.team.maxUsersDescription": "Maximum total number of users per team, including both active and inactive users.",
   "admin.team.maxUsersExample": "E.g.: \"25\"",
   "admin.team.maxUsersTitle": "Max Users Per Team:",

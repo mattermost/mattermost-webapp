@@ -209,7 +209,7 @@ export default class CreatePost extends React.Component {
         const members = stats.member_count - 1;
         const updateChannel = ChannelStore.getCurrent();
 
-        if ((PostUtils.containsAtMention(this.state.message, '@all') || PostUtils.containsAtMention(this.state.message, '@channel')) && members >= Constants.NOTIFY_ALL_MEMBERS) {
+        if ((PostUtils.containsAtMention(this.state.message, '@all') || PostUtils.containsAtMention(this.state.message, '@channel')) && members >= Constants.NOTIFY_ALL_MEMBERS && window.mm_config.EnableConfirmNotificationsToChannel === 'true') {
             this.setState({totalMembers: members});
             this.showNotifyAllModal();
             return;
