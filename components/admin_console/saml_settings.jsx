@@ -312,15 +312,19 @@ export default class SamlSettings extends AdminSettings {
 
         let consumerServiceUrlHelp;
         if (this.state.siteUrlSet) {
-            consumerServiceUrlHelp = (<FormattedMessage
-                id='admin.saml.assertionConsumerServiceURLPopulatedDesc'
-                defaultMessage='This field is also known as the Assertion Consumer Service URL.'
-                                      />);
+            consumerServiceUrlHelp = (
+                <FormattedMessage
+                    id='admin.saml.assertionConsumerServiceURLPopulatedDesc'
+                    defaultMessage='This field is also known as the Assertion Consumer Service URL.'
+                />
+            );
         } else {
-            consumerServiceUrlHelp = (<FormattedMessage
-                id='admin.saml.assertionConsumerServiceURLDesc'
-                defaultMessage='Enter https://<your-mattermost-url>/login/sso/saml. Make sure you use HTTP or HTTPS in your URL depending on your server configuration. This field is also known as the Assertion Consumer Service URL.'
-                                      />);
+            consumerServiceUrlHelp = (
+                <FormattedMessage
+                    id='admin.saml.assertionConsumerServiceURLDesc'
+                    defaultMessage='Enter https://<your-mattermost-url>/login/sso/saml. Make sure you use HTTP or HTTPS in your URL depending on your server configuration. This field is also known as the Assertion Consumer Service URL.'
+                />
+            );
         }
 
         return (
