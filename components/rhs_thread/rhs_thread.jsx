@@ -96,6 +96,7 @@ export default class RhsThread extends React.Component {
         state.flaggedPosts = PreferenceStore.getCategory(Constants.Preferences.CATEGORY_FLAGGED_POST);
         state.statuses = Object.assign({}, UserStore.getStatuses());
         state.previewsCollapsed = PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, 'false');
+        state.previewEnabled = PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT) === 'true';
         state.isBusy = WebrtcStore.isBusy();
 
         this.state = {
@@ -169,6 +170,10 @@ export default class RhsThread extends React.Component {
             return true;
         }
 
+        if (nextState.previewEnabled !== this.state.previewEnabled) {
+            return true;
+        }
+
         if (!Utils.areObjectsEqual(nextState.flaggedPosts, this.state.flaggedPosts)) {
             return true;
         }
@@ -237,7 +242,8 @@ export default class RhsThread extends React.Component {
         this.setState({
             compactDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
             flaggedPosts: PreferenceStore.getCategory(Constants.Preferences.CATEGORY_FLAGGED_POST),
-            previewsCollapsed: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, 'false') + previewSuffix
+            previewsCollapsed: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, 'false') + previewSuffix,
+            previewEnabled: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT) === 'true'
         });
         this.forceUpdateInfo();
     }
@@ -473,6 +479,7 @@ export default class RhsThread extends React.Component {
                             isFlagged={isRootFlagged}
                             status={rootStatus}
                             previewCollapsed={this.state.previewsCollapsed}
+                            previewEnabled={this.state.previewEnabled}
                             isBusy={this.state.isBusy}
                         />
                         <div

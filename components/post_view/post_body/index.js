@@ -23,7 +23,8 @@ function mapStateToProps(state, ownProps) {
         ...ownProps,
         parentPost,
         parentPostUser,
-        previewCollapsed: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, 'false')
+        previewCollapsed: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, 'false'),
+        previewEnabled: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT) === 'true'
     };
 }
 
