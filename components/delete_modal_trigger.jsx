@@ -51,11 +51,8 @@ export default class DeleteModalTrigger extends React.Component {
     render() {
         return (
             <span>
-                <a
-                    href='#'
-                    onClick={this.handleOpenModal}
-                >
-                    { this.triggerTitle }
+                <a href="#" onClick={this.handleOpenModal}>
+                    {this.triggerTitle}
                 </a>
                 <ConfirmModal
                     show={this.state.showDeleteModal}

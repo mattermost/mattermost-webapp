@@ -25,9 +25,7 @@ export default class BooleanSetting extends React.Component {
         if (this.props.disabled && this.props.disabledText) {
             helpText = (
                 <div>
-                    <span className='admin-console__disabled-text'>
-                        {this.props.disabledText}
-                    </span>
+                    <span className="admin-console__disabled-text">{this.props.disabledText}</span>
                     {this.props.helpText}
                 </div>
             );
@@ -36,14 +34,11 @@ export default class BooleanSetting extends React.Component {
         }
 
         return (
-            <Setting
-                label={this.props.label}
-                helpText={helpText}
-            >
-                <label className='radio-inline'>
+            <Setting label={this.props.label} helpText={helpText}>
+                <label className="radio-inline">
                     <input
-                        type='radio'
-                        value='true'
+                        type="radio"
+                        value="true"
                         id={Utils.createSafeId(this.props.id) + 'true'}
                         name={this.props.id}
                         checked={this.props.value}
@@ -52,10 +47,10 @@ export default class BooleanSetting extends React.Component {
                     />
                     {this.props.trueText}
                 </label>
-                <label className='radio-inline'>
+                <label className="radio-inline">
                     <input
-                        type='radio'
-                        value='false'
+                        type="radio"
+                        value="false"
                         id={Utils.createSafeId(this.props.id) + 'false'}
                         name={this.props.id}
                         checked={!this.props.value}
@@ -69,18 +64,8 @@ export default class BooleanSetting extends React.Component {
     }
 }
 BooleanSetting.defaultProps = {
-    trueText: (
-        <FormattedMessage
-            id='admin.true'
-            defaultMessage='true'
-        />
-    ),
-    falseText: (
-        <FormattedMessage
-            id='admin.false'
-            defaultMessage='false'
-        />
-    ),
+    trueText: <FormattedMessage id="admin.true" defaultMessage="true" />,
+    falseText: <FormattedMessage id="admin.false" defaultMessage="false" />,
     disabled: false
 };
 

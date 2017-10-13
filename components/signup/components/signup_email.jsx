@@ -65,7 +65,7 @@ export default class SignupEmail extends React.Component {
             loading = true;
             getInviteInfo(
                 inviteId,
-                (inviteData) => {
+                inviteData => {
                     if (!inviteData) {
                         this.setState({loading: false});
                         return;
@@ -85,8 +85,8 @@ export default class SignupEmail extends React.Component {
                         noOpenServerError: true,
                         serverError: (
                             <FormattedMessage
-                                id='signup_user_completed.invalid_invite'
-                                defaultMessage='The invite link was invalid.  Please speak with your Administrator to receive an invitation.'
+                                id="signup_user_completed.invalid_invite"
+                                defaultMessage="The invite link was invalid.  Please speak with your Administrator to receive an invitation."
                             />
                         )
                     });
@@ -122,20 +122,23 @@ export default class SignupEmail extends React.Component {
                     BrowserStore.setGlobalItem(this.state.hash, JSON.stringify({usedBefore: true}));
                 }
 
-                loadMe().then(
-                    () => {
-                        const query = this.props.location.query;
-                        if (query.redirect_to) {
-                            browserHistory.push(query.redirect_to);
-                        } else {
-                            GlobalActions.redirectUserToDefaultTeam();
-                        }
+                loadMe().then(() => {
+                    const query = this.props.location.query;
+                    if (query.redirect_to) {
+                        browserHistory.push(query.redirect_to);
+                    } else {
+                        GlobalActions.redirectUserToDefaultTeam();
                     }
-                );
+                });
             },
-            (err) => {
+            err => {
                 if (err.id === 'api.user.login.not_verified.app_error') {
-                    browserHistory.push('/should_verify_email?email=' + encodeURIComponent(user.email) + '&teamname=' + encodeURIComponent(this.state.teamName));
+                    browserHistory.push(
+                        '/should_verify_email?email=' +
+                            encodeURIComponent(user.email) +
+                            '&teamname=' +
+                            encodeURIComponent(this.state.teamName)
+                    );
                 } else {
                     this.setState({
                         serverError: err.message,
@@ -151,7 +154,7 @@ export default class SignupEmail extends React.Component {
         if (!providedEmail) {
             this.setState({
                 nameError: '',
-                emailError: (<FormattedMessage id='signup_user_completed.required'/>),
+                emailError: <FormattedMessage id="signup_user_completed.required" />,
                 passwordError: '',
                 serverError: ''
             });
@@ -161,7 +164,7 @@ export default class SignupEmail extends React.Component {
         if (!Utils.isEmail(providedEmail)) {
             this.setState({
                 nameError: '',
-                emailError: (<FormattedMessage id='signup_user_completed.validEmail'/>),
+                emailError: <FormattedMessage id="signup_user_completed.validEmail" />,
                 passwordError: '',
                 serverError: ''
             });
@@ -171,7 +174,7 @@ export default class SignupEmail extends React.Component {
         const providedUsername = this.refs.name.value.trim().toLowerCase();
         if (!providedUsername) {
             this.setState({
-                nameError: (<FormattedMessage id='signup_user_completed.required'/>),
+                nameError: <FormattedMessage id="signup_user_completed.required" />,
                 emailError: '',
                 passwordError: '',
                 serverError: ''
@@ -182,7 +185,7 @@ export default class SignupEmail extends React.Component {
         const usernameError = Utils.isValidUsername(providedUsername);
         if (usernameError === 'Cannot use a reserved word as a username.') {
             this.setState({
-                nameError: (<FormattedMessage id='signup_user_completed.reserved'/>),
+                nameError: <FormattedMessage id="signup_user_completed.reserved" />,
                 emailError: '',
                 passwordError: '',
                 serverError: ''
@@ -192,7 +195,7 @@ export default class SignupEmail extends React.Component {
             this.setState({
                 nameError: (
                     <FormattedMessage
-                        id='signup_user_completed.usernameLength'
+                        id="signup_user_completed.usernameLength"
                         values={{
                             min: Constants.MIN_USERNAME_LENGTH,
                             max: Constants.MAX_USERNAME_LENGTH
@@ -245,12 +248,13 @@ export default class SignupEmail extends React.Component {
                 allow_marketing: true
             };
 
-            createUserWithInvite(user,
+            createUserWithInvite(
+                user,
                 this.state.data,
                 this.state.hash,
                 this.state.inviteId,
                 this.handleSignupSuccess.bind(this, user),
-                (err) => {
+                err => {
                     this.setState({
                         serverError: err.message,
                         isSubmitting: false
@@ -263,25 +267,25 @@ export default class SignupEmail extends React.Component {
     renderEmailSignup() {
         let emailError = null;
         let emailHelpText = (
-            <span className='help-block'>
+            <span className="help-block">
                 <FormattedMessage
-                    id='signup_user_completed.emailHelp'
-                    defaultMessage='Valid email required for sign-up'
+                    id="signup_user_completed.emailHelp"
+                    defaultMessage="Valid email required for sign-up"
                 />
             </span>
         );
         let emailDivStyle = 'form-group';
         if (this.state.emailError) {
-            emailError = (<label className='control-label'>{this.state.emailError}</label>);
+            emailError = <label className="control-label">{this.state.emailError}</label>;
             emailHelpText = '';
             emailDivStyle += ' has-error';
         }
 
         let nameError = null;
         let nameHelpText = (
-            <span className='help-block'>
+            <span className="help-block">
                 <FormattedMessage
-                    id='signup_user_completed.userHelp'
+                    id="signup_user_completed.userHelp"
                     defaultMessage="Username must begin with a letter, and contain between {min} to {max} lowercase characters made up of numbers, letters, and the symbols '.', '-' and '_'"
                     values={{
                         min: Constants.MIN_USERNAME_LENGTH,
@@ -292,7 +296,7 @@ export default class SignupEmail extends React.Component {
         );
         let nameDivStyle = 'form-group';
         if (this.state.nameError) {
-            nameError = <label className='control-label'>{this.state.nameError}</label>;
+            nameError = <label className="control-label">{this.state.nameError}</label>;
             nameHelpText = '';
             nameDivStyle += ' has-error';
         }
@@ -300,7 +304,7 @@ export default class SignupEmail extends React.Component {
         let passwordError = null;
         let passwordDivStyle = 'form-group';
         if (this.state.passwordError) {
-            passwordError = <label className='control-label'>{this.state.passwordError}</label>;
+            passwordError = <label className="control-label">{this.state.passwordError}</label>;
             passwordDivStyle += ' has-error';
         }
 
@@ -308,7 +312,7 @@ export default class SignupEmail extends React.Component {
         if (this.state.email) {
             yourEmailIs = (
                 <FormattedHTMLMessage
-                    id='signup_user_completed.emailIs'
+                    id="signup_user_completed.emailIs"
                     defaultMessage="Your email address is <strong>{email}</strong>. You'll use this address to sign in to {siteName}."
                     values={{
                         email: this.state.email,
@@ -325,86 +329,89 @@ export default class SignupEmail extends React.Component {
 
         return (
             <form>
-                <div className='inner__content'>
+                <div className="inner__content">
                     <div className={emailContainerStyle}>
-                        <h5><strong>
-                            <FormattedMessage
-                                id='signup_user_completed.whatis'
-                                defaultMessage="What's your email address?"
-                            />
-                        </strong></h5>
+                        <h5>
+                            <strong>
+                                <FormattedMessage
+                                    id="signup_user_completed.whatis"
+                                    defaultMessage="What's your email address?"
+                                />
+                            </strong>
+                        </h5>
                         <div className={emailDivStyle}>
                             <input
-                                id='email'
-                                type='email'
-                                ref='email'
-                                className='form-control'
+                                id="email"
+                                type="email"
+                                ref="email"
+                                className="form-control"
                                 defaultValue={this.state.email}
-                                placeholder=''
-                                maxLength='128'
+                                placeholder=""
+                                maxLength="128"
                                 autoFocus={true}
-                                spellCheck='false'
-                                autoCapitalize='off'
+                                spellCheck="false"
+                                autoCapitalize="off"
                             />
                             {emailError}
                             {emailHelpText}
                         </div>
                     </div>
                     {yourEmailIs}
-                    <div className='margin--extra'>
-                        <h5><strong>
-                            <FormattedMessage
-                                id='signup_user_completed.chooseUser'
-                                defaultMessage='Choose your username'
-                            />
-                        </strong></h5>
+                    <div className="margin--extra">
+                        <h5>
+                            <strong>
+                                <FormattedMessage
+                                    id="signup_user_completed.chooseUser"
+                                    defaultMessage="Choose your username"
+                                />
+                            </strong>
+                        </h5>
                         <div className={nameDivStyle}>
                             <input
-                                id='name'
-                                type='text'
-                                ref='name'
-                                className='form-control'
-                                placeholder=''
+                                id="name"
+                                type="text"
+                                ref="name"
+                                className="form-control"
+                                placeholder=""
                                 maxLength={Constants.MAX_USERNAME_LENGTH}
-                                spellCheck='false'
-                                autoCapitalize='off'
+                                spellCheck="false"
+                                autoCapitalize="off"
                             />
                             {nameError}
                             {nameHelpText}
                         </div>
                     </div>
-                    <div className='margin--extra'>
-                        <h5><strong>
-                            <FormattedMessage
-                                id='signup_user_completed.choosePwd'
-                                defaultMessage='Choose your password'
-                            />
-                        </strong></h5>
+                    <div className="margin--extra">
+                        <h5>
+                            <strong>
+                                <FormattedMessage
+                                    id="signup_user_completed.choosePwd"
+                                    defaultMessage="Choose your password"
+                                />
+                            </strong>
+                        </h5>
                         <div className={passwordDivStyle}>
                             <input
-                                id='password'
-                                type='password'
-                                ref='password'
-                                className='form-control'
-                                placeholder=''
-                                maxLength='128'
-                                spellCheck='false'
+                                id="password"
+                                type="password"
+                                ref="password"
+                                className="form-control"
+                                placeholder=""
+                                maxLength="128"
+                                spellCheck="false"
                             />
                             {passwordError}
                         </div>
                     </div>
-                    <p className='margin--extra'>
+                    <p className="margin--extra">
                         <button
-                            id='createAccountButton'
-                            type='submit'
+                            id="createAccountButton"
+                            type="submit"
                             onClick={this.handleSubmit}
-                            className='btn-primary btn'
+                            className="btn-primary btn"
                             disabled={this.state.isSubmitting}
                         >
-                            <FormattedMessage
-                                id='signup_user_completed.create'
-                                defaultMessage='Create Account'
-                            />
+                            <FormattedMessage id="signup_user_completed.create" defaultMessage="Create Account" />
                         </button>
                     </p>
                 </div>
@@ -417,13 +424,13 @@ export default class SignupEmail extends React.Component {
         if (this.state.serverError) {
             serverError = (
                 <div className={'form-group has-error'}>
-                    <label className='control-label'>{this.state.serverError}</label>
+                    <label className="control-label">{this.state.serverError}</label>
                 </div>
             );
         }
 
         if (this.state.loading) {
-            return (<LoadingScreen/>);
+            return <LoadingScreen />;
         }
 
         let emailSignup;
@@ -438,7 +445,7 @@ export default class SignupEmail extends React.Component {
             terms = (
                 <p>
                     <FormattedHTMLMessage
-                        id='create_team.agreement'
+                        id="create_team.agreement"
                         defaultMessage="By proceeding to create your account and use {siteName}, you agree to our <a href='{TermsOfServiceLink}'>Terms of Service</a> and <a href='{PrivacyPolicyLink}'>Privacy Policy</a>. If you do not agree, you cannot use {siteName}."
                         values={{
                             siteName: global.window.mm_config.SiteName,
@@ -455,49 +462,44 @@ export default class SignupEmail extends React.Component {
         }
 
         let description = null;
-        if (global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.CustomBrand === 'true' && global.window.mm_config.EnableCustomBrand === 'true') {
+        if (
+            global.window.mm_license.IsLicensed === 'true' &&
+            global.window.mm_license.CustomBrand === 'true' &&
+            global.window.mm_config.EnableCustomBrand === 'true'
+        ) {
             description = global.window.mm_config.CustomDescriptionText;
         } else {
             description = (
                 <FormattedMessage
-                    id='web.root.signup_info'
-                    defaultMessage='All team communication in one place, searchable and accessible anywhere'
+                    id="web.root.signup_info"
+                    defaultMessage="All team communication in one place, searchable and accessible anywhere"
                 />
             );
         }
 
         return (
             <div>
-                <BackButton/>
-                <div className='col-sm-12'>
-                    <div className='signup-team__container padding--less'>
-                        <img
-                            className='signup-team-logo'
-                            src={logoImage}
-                        />
+                <BackButton />
+                <div className="col-sm-12">
+                    <div className="signup-team__container padding--less">
+                        <img className="signup-team-logo" src={logoImage} />
                         <h1>{global.window.mm_config.SiteName}</h1>
-                        <h4 className='color--light'>
-                            {description}
-                        </h4>
-                        <h4 className='color--light'>
+                        <h4 className="color--light">{description}</h4>
+                        <h4 className="color--light">
                             <FormattedMessage
-                                id='signup_user_completed.lets'
+                                id="signup_user_completed.lets"
                                 defaultMessage="Let's create your account"
                             />
                         </h4>
-                        <span className='color--light'>
+                        <span className="color--light">
                             <FormattedMessage
-                                id='signup_user_completed.haveAccount'
-                                defaultMessage='Already have an account?'
-                            />
-                            {' '}
-                            <Link
-                                to={'/login'}
-                                query={this.props.location.query}
-                            >
+                                id="signup_user_completed.haveAccount"
+                                defaultMessage="Already have an account?"
+                            />{' '}
+                            <Link to={'/login'} query={this.props.location.query}>
                                 <FormattedMessage
-                                    id='signup_user_completed.signIn'
-                                    defaultMessage='Click here to sign in.'
+                                    id="signup_user_completed.signIn"
+                                    defaultMessage="Click here to sign in."
                                 />
                             </Link>
                         </span>

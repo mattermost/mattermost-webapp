@@ -44,10 +44,7 @@ export default class ClientVersionsSettings extends AdminSettings {
     renderTitle() {
         return (
             <h3>
-                <FormattedMessage
-                    id='admin.security.client_versions'
-                    defaultMessage='Client Versions'
-                />
+                <FormattedMessage id="admin.security.client_versions" defaultMessage="Client Versions" />
             </h3>
         );
     }
@@ -56,108 +53,108 @@ export default class ClientVersionsSettings extends AdminSettings {
         return (
             <SettingsGroup>
                 <TextSetting
-                    id='androidLatestVersion'
+                    id="androidLatestVersion"
                     label={
                         <FormattedMessage
-                            id='admin.client_versions.androidLatestVersion'
-                            defaultMessage='Latest Android Version'
+                            id="admin.client_versions.androidLatestVersion"
+                            defaultMessage="Latest Android Version"
                         />
                     }
                     placeholder={Utils.localizeMessage('admin.client_versions.androidLatestVersion', 'X.X.X')}
                     helpText={
                         <FormattedMessage
-                            id='admin.client_versions.androidLatestVersionHelp'
-                            defaultMessage='The latest released Android version'
+                            id="admin.client_versions.androidLatestVersionHelp"
+                            defaultMessage="The latest released Android version"
                         />
                     }
                     value={this.state.androidLatestVersion}
                     onChange={this.handleChange}
                 />
                 <TextSetting
-                    id='androidMinVersion'
+                    id="androidMinVersion"
                     label={
                         <FormattedMessage
-                            id='admin.client_versions.androidMinVersion'
-                            defaultMessage='Minimum Android Version'
+                            id="admin.client_versions.androidMinVersion"
+                            defaultMessage="Minimum Android Version"
                         />
                     }
                     placeholder={Utils.localizeMessage('admin.client_versions.androidMinVersion', 'X.X.X')}
                     helpText={
                         <FormattedMessage
-                            id='admin.client_versions.androidMinVersionHelp'
-                            defaultMessage='The minimum compliant Android version'
+                            id="admin.client_versions.androidMinVersionHelp"
+                            defaultMessage="The minimum compliant Android version"
                         />
                     }
                     value={this.state.androidMinVersion}
                     onChange={this.handleChange}
                 />
                 <TextSetting
-                    id='desktopLatestVersion'
+                    id="desktopLatestVersion"
                     label={
                         <FormattedMessage
-                            id='admin.client_versions.desktopLatestVersion'
-                            defaultMessage='Latest Desktop Version'
+                            id="admin.client_versions.desktopLatestVersion"
+                            defaultMessage="Latest Desktop Version"
                         />
                     }
                     placeholder={Utils.localizeMessage('admin.client_versions.desktopLatestVersion', 'X.X.X')}
                     helpText={
                         <FormattedMessage
-                            id='admin.client_versions.desktopLatestVersionHelp'
-                            defaultMessage='The latest released Desktop version'
+                            id="admin.client_versions.desktopLatestVersionHelp"
+                            defaultMessage="The latest released Desktop version"
                         />
                     }
                     value={this.state.desktopLatestVersion}
                     onChange={this.handleChange}
                 />
                 <TextSetting
-                    id='desktopMinVersion'
+                    id="desktopMinVersion"
                     label={
                         <FormattedMessage
-                            id='admin.client_versions.desktopMinVersion'
-                            defaultMessage='Minimum Destop Version'
+                            id="admin.client_versions.desktopMinVersion"
+                            defaultMessage="Minimum Destop Version"
                         />
                     }
                     placeholder={Utils.localizeMessage('admin.client_versions.desktopMinVersion', 'X.X.X')}
                     helpText={
                         <FormattedMessage
-                            id='admin.client_versions.desktopMinVersionHelp'
-                            defaultMessage='The minimum compliant Desktop version'
+                            id="admin.client_versions.desktopMinVersionHelp"
+                            defaultMessage="The minimum compliant Desktop version"
                         />
                     }
                     value={this.state.desktopMinVersion}
                     onChange={this.handleChange}
                 />
                 <TextSetting
-                    id='iosLatestVersion'
+                    id="iosLatestVersion"
                     label={
                         <FormattedMessage
-                            id='admin.client_versions.iosLatestVersion'
-                            defaultMessage='Latest IOS Version'
+                            id="admin.client_versions.iosLatestVersion"
+                            defaultMessage="Latest IOS Version"
                         />
                     }
                     placeholder={Utils.localizeMessage('admin.client_versions.iosLatestVersion', 'X.X.X')}
                     helpText={
                         <FormattedMessage
-                            id='admin.client_versions.iosLatestVersionHelp'
-                            defaultMessage='The latest released IOS version'
+                            id="admin.client_versions.iosLatestVersionHelp"
+                            defaultMessage="The latest released IOS version"
                         />
                     }
                     value={this.state.iosLatestVersion}
                     onChange={this.handleChange}
                 />
                 <TextSetting
-                    id='iosMinVersion'
+                    id="iosMinVersion"
                     label={
                         <FormattedMessage
-                            id='admin.client_versions.iosMinVersion'
-                            defaultMessage='Minimum IOS Version'
+                            id="admin.client_versions.iosMinVersion"
+                            defaultMessage="Minimum IOS Version"
                         />
                     }
                     placeholder={Utils.localizeMessage('admin.client_versions.iosMinVersion', 'X.X.X')}
                     helpText={
                         <FormattedMessage
-                            id='admin.client_versions.iosMinVersionHelp'
-                            defaultMessage='The minimum compliant IOS version'
+                            id="admin.client_versions.iosMinVersionHelp"
+                            defaultMessage="The minimum compliant IOS version"
                         />
                     }
                     value={this.state.iosMinVersion}

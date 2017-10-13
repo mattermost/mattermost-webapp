@@ -35,47 +35,42 @@ export default class ConnectionSettings extends AdminSettings {
     }
 
     renderTitle() {
-        return (
-            <FormattedMessage
-                id='admin.security.connection'
-                defaultMessage='Connections'
-            />
-        );
+        return <FormattedMessage id="admin.security.connection" defaultMessage="Connections" />;
     }
 
     renderSettings() {
         return (
             <SettingsGroup>
                 <TextSetting
-                    id='allowCorsFrom'
+                    id="allowCorsFrom"
                     label={
                         <FormattedMessage
-                            id='admin.service.corsTitle'
-                            defaultMessage='Enable cross-origin requests from:'
+                            id="admin.service.corsTitle"
+                            defaultMessage="Enable cross-origin requests from:"
                         />
                     }
                     placeholder={Utils.localizeMessage('admin.service.corsEx', 'http://example.com')}
                     helpText={
                         <FormattedMessage
-                            id='admin.service.corsDescription'
-                            defaultMessage='Enable HTTP Cross origin request from a specific domain. Use "*" if you want to allow CORS from any domain or leave it blank to disable it.'
+                            id="admin.service.corsDescription"
+                            defaultMessage="Enable HTTP Cross origin request from a specific domain. Use &quot;*&quot; if you want to allow CORS from any domain or leave it blank to disable it."
                         />
                     }
                     value={this.state.allowCorsFrom}
                     onChange={this.handleChange}
                 />
                 <BooleanSetting
-                    id='enableInsecureOutgoingConnections'
+                    id="enableInsecureOutgoingConnections"
                     label={
                         <FormattedMessage
-                            id='admin.service.insecureTlsTitle'
-                            defaultMessage='Enable Insecure Outgoing Connections: '
+                            id="admin.service.insecureTlsTitle"
+                            defaultMessage="Enable Insecure Outgoing Connections: "
                         />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.service.insecureTlsDesc'
-                            defaultMessage='When true, any outgoing HTTPS requests will accept unverified, self-signed certificates. For example, outgoing webhooks to a server with a self-signed TLS certificate, using any domain, will be allowed. Note that this makes these connections susceptible to man-in-the-middle attacks.'
+                            id="admin.service.insecureTlsDesc"
+                            defaultMessage="When true, any outgoing HTTPS requests will accept unverified, self-signed certificates. For example, outgoing webhooks to a server with a self-signed TLS certificate, using any domain, will be allowed. Note that this makes these connections susceptible to man-in-the-middle attacks."
                         />
                     }
                     value={this.state.enableInsecureOutgoingConnections}

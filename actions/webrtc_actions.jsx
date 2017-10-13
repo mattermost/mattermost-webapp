@@ -23,17 +23,15 @@ export function handle(message) {
 }
 
 export function webrtcToken(success, error) {
-    Client4.webrtcToken().then(
-        (data) => {
+    Client4.webrtcToken()
+        .then(data => {
             if (success) {
                 success(data);
             }
-        }
-    ).catch(
-        () => {
+        })
+        .catch(() => {
             if (error) {
                 error();
             }
-        }
-    );
+        });
 }

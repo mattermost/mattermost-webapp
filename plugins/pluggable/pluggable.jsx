@@ -8,7 +8,6 @@ import React from 'react';
 
 export default class Pluggable extends React.PureComponent {
     static propTypes = {
-
         /*
          * Should be a single overridable React component. One of this or pluggableName is required
          */
@@ -28,7 +27,7 @@ export default class Pluggable extends React.PureComponent {
          * Logged in user's theme
          */
         theme: PropTypes.object.isRequired
-    }
+    };
 
     render() {
         const pluggableName = this.props.pluggableName;
@@ -54,12 +53,7 @@ export default class Pluggable extends React.PureComponent {
         // Override the default component with any registered plugin's component
         if (components.hasOwnProperty(componentName)) {
             const PluginComponent = components[componentName].component;
-            return (
-                <PluginComponent
-                    {...props}
-                    theme={this.props.theme}
-                />
-            );
+            return <PluginComponent {...props} theme={this.props.theme} />;
         }
 
         if (child == null) {

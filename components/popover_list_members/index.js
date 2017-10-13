@@ -25,9 +25,12 @@ function makeMapStateToProps() {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({
-            getProfilesInChannel
-        }, dispatch)
+        actions: bindActionCreators(
+            {
+                getProfilesInChannel
+            },
+            dispatch
+        )
     };
 }
 

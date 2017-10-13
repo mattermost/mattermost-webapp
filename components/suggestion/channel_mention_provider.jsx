@@ -28,22 +28,12 @@ class ChannelMentionSuggestion extends Suggestion {
         const description = '(~' + item.channel.name + ')';
 
         return (
-            <div
-                className={className}
-                onClick={this.handleClick}
-            >
-                <div className='mention__align'>
-                    <span>
-                        {channelName}
-                    </span>
-                    <span className='mention__channelname'>
-                        {' '}
-                        {description}
-                    </span>
+            <div className={className} onClick={this.handleClick}>
+                <div className="mention__align">
+                    <span>{channelName}</span>
+                    <span className="mention__channelname"> {description}</span>
                 </div>
-                <div className='mention__purpose'>
-                    {purpose}
-                </div>
+                <div className="mention__purpose">{purpose}</div>
             </div>
         );
     }
@@ -58,7 +48,7 @@ export default class ChannelMentionProvider extends Provider {
     }
 
     handlePretextChanged(suggestionId, pretext) {
-        const captured = (/(^|\s)(~([^~\r\n]*))$/i).exec(pretext.toLowerCase());
+        const captured = /(^|\s)(~([^~\r\n]*))$/i.exec(pretext.toLowerCase());
 
         if (!captured) {
             // Not a channel mention
@@ -82,56 +72,53 @@ export default class ChannelMentionProvider extends Provider {
 
         this.startNewRequest(suggestionId, prefix);
 
-        autocompleteChannels(
-            prefix,
-            (channels) => {
-                if (this.shouldCancelDispatch(prefix)) {
+        autocompleteChannels(prefix, channels => {
+            if (this.shouldCancelDispatch(prefix)) {
+                return;
+            }
+
+            if (channels.length === 0) {
+                this.lastTermWithNoResults = pretext;
+            }
+
+            // Wrap channels in an outer object to avoid overwriting the 'type' property.
+            const wrappedChannels = [];
+            const wrappedMoreChannels = [];
+            const moreChannels = [];
+            channels.forEach(item => {
+                if (ChannelStore.get(item.id)) {
+                    wrappedChannels.push({
+                        type: Constants.MENTION_CHANNELS,
+                        channel: item
+                    });
                     return;
                 }
 
-                if (channels.length === 0) {
-                    this.lastTermWithNoResults = pretext;
-                }
-
-                // Wrap channels in an outer object to avoid overwriting the 'type' property.
-                const wrappedChannels = [];
-                const wrappedMoreChannels = [];
-                const moreChannels = [];
-                channels.forEach((item) => {
-                    if (ChannelStore.get(item.id)) {
-                        wrappedChannels.push({
-                            type: Constants.MENTION_CHANNELS,
-                            channel: item
-                        });
-                        return;
-                    }
-
-                    wrappedMoreChannels.push({
-                        type: Constants.MENTION_MORE_CHANNELS,
-                        channel: item
-                    });
-
-                    moreChannels.push(item);
+                wrappedMoreChannels.push({
+                    type: Constants.MENTION_MORE_CHANNELS,
+                    channel: item
                 });
 
-                const wrapped = wrappedChannels.concat(wrappedMoreChannels);
-                const mentions = wrapped.map((item) => '~' + item.channel.name);
+                moreChannels.push(item);
+            });
 
-                AppDispatcher.handleServerAction({
-                    type: ActionTypes.RECEIVED_MORE_CHANNELS,
-                    channels: moreChannels
-                });
+            const wrapped = wrappedChannels.concat(wrappedMoreChannels);
+            const mentions = wrapped.map(item => '~' + item.channel.name);
 
-                AppDispatcher.handleServerAction({
-                    type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
-                    id: suggestionId,
-                    matchedPretext: captured[2],
-                    terms: mentions,
-                    items: wrapped,
-                    component: ChannelMentionSuggestion
-                });
-            }
-        );
+            AppDispatcher.handleServerAction({
+                type: ActionTypes.RECEIVED_MORE_CHANNELS,
+                channels: moreChannels
+            });
+
+            AppDispatcher.handleServerAction({
+                type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
+                id: suggestionId,
+                matchedPretext: captured[2],
+                terms: mentions,
+                items: wrapped,
+                component: ChannelMentionSuggestion
+            });
+        });
 
         return true;
     }

@@ -42,18 +42,13 @@ export default class FilePreview extends React.Component {
     render() {
         var previews = [];
         const fileInfos = this.props.fileInfos.sort((a, b) => a.create_at - b.create_at);
-        fileInfos.forEach((info) => {
+        fileInfos.forEach(info => {
             const type = Utils.getFileType(info.extension);
 
             let className = 'file-preview';
             let previewImage;
             if (type === 'svg') {
-                previewImage = (
-                    <img
-                        className='post-image normal'
-                        src={getFileUrl(info.id)}
-                    />
-                );
+                previewImage = <img className="post-image normal" src={getFileUrl(info.id)} />;
             } else if (type === 'image') {
                 let imageClassName = 'post-image';
 
@@ -73,52 +68,32 @@ export default class FilePreview extends React.Component {
                 );
             } else {
                 className += ' custom-file';
-                previewImage = <div className={'file-icon ' + Utils.getIconClassName(type)}/>;
+                previewImage = <div className={'file-icon ' + Utils.getIconClassName(type)} />;
             }
 
             previews.push(
-                <div
-                    key={info.id}
-                    className={className}
-                >
+                <div key={info.id} className={className}>
                     {previewImage}
-                    <a
-                        className='file-preview__remove'
-                        onClick={this.handleRemove.bind(this, info.id)}
-                    >
-                        <i className='fa fa-remove'/>
+                    <a className="file-preview__remove" onClick={this.handleRemove.bind(this, info.id)}>
+                        <i className="fa fa-remove" />
                     </a>
                 </div>
             );
         });
 
-        this.props.uploadsInProgress.forEach((clientId) => {
+        this.props.uploadsInProgress.forEach(clientId => {
             previews.push(
-                <div
-                    ref={clientId}
-                    key={clientId}
-                    className='file-preview'
-                    data-client-id={clientId}
-                >
-                    <img
-                        className='spinner'
-                        src={loadingGif}
-                    />
-                    <a
-                        className='file-preview__remove'
-                        onClick={this.handleRemove.bind(this, clientId)}
-                    >
-                        <i className='fa fa-remove'/>
+                <div ref={clientId} key={clientId} className="file-preview" data-client-id={clientId}>
+                    <img className="spinner" src={loadingGif} />
+                    <a className="file-preview__remove" onClick={this.handleRemove.bind(this, clientId)}>
+                        <i className="fa fa-remove" />
                     </a>
                 </div>
             );
         });
 
         return (
-            <div
-                className='file-preview__container'
-                ref='container'
-            >
+            <div className="file-preview__container" ref="container">
                 {previews}
             </div>
         );

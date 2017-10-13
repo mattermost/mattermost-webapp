@@ -14,15 +14,18 @@ function mapStateToProps(state, ownProps) {
     return {
         ...ownProps,
         openGraphData: getOpenGraphMetadataForUrl(state, ownProps.link),
-        currentUser: getCurrentUser(state),
+        currentUser: getCurrentUser(state)
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({
-            getOpenGraphMetadata
-        }, dispatch)
+        actions: bindActionCreators(
+            {
+                getOpenGraphMetadata
+            },
+            dispatch
+        )
     };
 }
 

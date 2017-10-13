@@ -82,22 +82,14 @@ export default class CodePreview extends React.Component {
     render() {
         if (this.state.loading) {
             return (
-                <div className='view-image__loading'>
-                    <img
-                        className='loader-image'
-                        src={loadingGif}
-                    />
+                <div className="view-image__loading">
+                    <img className="loader-image" src={loadingGif} />
                 </div>
             );
         }
 
         if (!this.state.success) {
-            return (
-                <FileInfoPreview
-                    fileInfo={this.props.fileInfo}
-                    fileUrl={this.props.fileUrl}
-                />
-            );
+            return <FileInfoPreview fileInfo={this.props.fileInfo} fileUrl={this.props.fileUrl} />;
         }
 
         // add line numbers when viewing a code file preview
@@ -116,17 +108,15 @@ export default class CodePreview extends React.Component {
         const highlighted = SyntaxHighlighting.highlight(this.state.lang, this.state.code);
 
         return (
-            <div className='post-code'>
-                <span className='post-code__language'>
-                    {`${this.props.fileInfo.name} - ${language}`}
-                </span>
-                <div className='post-code__container'>
-                    <code className='hljs'>
+            <div className="post-code">
+                <span className="post-code__language">{`${this.props.fileInfo.name} - ${language}`}</span>
+                <div className="post-code__container">
+                    <code className="hljs">
                         <table>
                             <tbody>
                                 <tr>
-                                    <td className='post-code__lineno'>{strlines}</td>
-                                    <td dangerouslySetInnerHTML={{__html: highlighted}}/>
+                                    <td className="post-code__lineno">{strlines}</td>
+                                    <td dangerouslySetInnerHTML={{__html: highlighted}} />
                                 </tr>
                             </tbody>
                         </table>

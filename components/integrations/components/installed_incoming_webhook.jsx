@@ -12,7 +12,6 @@ import DeleteIntegration from './delete_integration.jsx';
 
 export default class InstalledIncomingWebhook extends React.PureComponent {
     static propTypes = {
-
         /**
         * Data used for showing webhook details
         */
@@ -47,7 +46,7 @@ export default class InstalledIncomingWebhook extends React.PureComponent {
         *  Data used for filtering of webhook based on filter prop
         */
         channel: PropTypes.object
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -64,8 +63,10 @@ export default class InstalledIncomingWebhook extends React.PureComponent {
             return true;
         }
 
-        if (incomingWebhook.display_name.toLowerCase().indexOf(filter) !== -1 ||
-            incomingWebhook.description.toLowerCase().indexOf(filter) !== -1) {
+        if (
+            incomingWebhook.display_name.toLowerCase().indexOf(filter) !== -1 ||
+            incomingWebhook.description.toLowerCase().indexOf(filter) !== -1
+        ) {
             return true;
         }
 
@@ -94,20 +95,15 @@ export default class InstalledIncomingWebhook extends React.PureComponent {
             displayName = channel.display_name;
         } else {
             displayName = (
-                <FormattedMessage
-                    id='installed_incoming_webhooks.unknown_channel'
-                    defaultMessage='A Private Webhook'
-                />
+                <FormattedMessage id="installed_incoming_webhooks.unknown_channel" defaultMessage="A Private Webhook" />
             );
         }
 
         let description = null;
         if (incomingWebhook.description) {
             description = (
-                <div className='item-details__row'>
-                    <span className='item-details__description'>
-                        {incomingWebhook.description}
-                    </span>
+                <div className="item-details__row">
+                    <span className="item-details__description">{incomingWebhook.description}</span>
                 </div>
             );
         }
@@ -115,16 +111,13 @@ export default class InstalledIncomingWebhook extends React.PureComponent {
         let actions = null;
         if (this.props.canChange) {
             actions = (
-                <div className='item-actions'>
+                <div className="item-actions">
                     <Link to={`/${this.props.team.name}/integrations/incoming_webhooks/edit?id=${incomingWebhook.id}`}>
-                        <FormattedMessage
-                            id='installed_integrations.edit'
-                            defaultMessage='Edit'
-                        />
+                        <FormattedMessage id="installed_integrations.edit" defaultMessage="Edit" />
                     </Link>
                     {' - '}
                     <DeleteIntegration
-                        messageId='installed_incoming_webhooks.delete.confirm'
+                        messageId="installed_incoming_webhooks.delete.confirm"
                         onDelete={this.handleDelete}
                     />
                 </div>
@@ -132,30 +125,28 @@ export default class InstalledIncomingWebhook extends React.PureComponent {
         }
 
         return (
-            <div className='backstage-list__item'>
-                <div className='item-details'>
-                    <div className='item-details__row'>
-                        <span className='item-details__name'>
-                            {displayName}
-                        </span>
+            <div className="backstage-list__item">
+                <div className="item-details">
+                    <div className="item-details__row">
+                        <span className="item-details__name">{displayName}</span>
                     </div>
                     {description}
-                    <div className='item-details__row'>
-                        <span className='item-details__url'>
+                    <div className="item-details__row">
+                        <span className="item-details__url">
                             <FormattedMessage
-                                id='installed_integrations.url'
-                                defaultMessage='URL: {url}'
+                                id="installed_integrations.url"
+                                defaultMessage="URL: {url}"
                                 values={{
                                     url: getSiteURL() + '/hooks/' + incomingWebhook.id
                                 }}
                             />
                         </span>
                     </div>
-                    <div className='item-details__row'>
-                        <span className='item-details__creation'>
+                    <div className="item-details__row">
+                        <span className="item-details__creation">
                             <FormattedMessage
-                                id='installed_integrations.creation'
-                                defaultMessage='Created by {creator} on {createAt, date, full}'
+                                id="installed_integrations.creation"
+                                defaultMessage="Created by {creator} on {createAt, date, full}"
                                 values={{
                                     creator: this.props.creator.username,
                                     createAt: incomingWebhook.create_at

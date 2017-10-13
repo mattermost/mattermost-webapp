@@ -138,7 +138,7 @@ export default class ViewImageModal extends React.Component {
             Utils.loadImage(
                 previewUrl,
                 () => this.handleImageLoaded(index),
-                (completedPercentage) => this.handleImageProgress(index, completedPercentage)
+                completedPercentage => this.handleImageProgress(index, completedPercentage)
             );
         } else {
             // there's nothing to load for non-image files
@@ -146,8 +146,8 @@ export default class ViewImageModal extends React.Component {
         }
     }
 
-    handleImageLoaded = (index) => {
-        this.setState((prevState) => {
+    handleImageLoaded = index => {
+        this.setState(prevState => {
             return {
                 loaded: {
                     ...prevState.loaded,
@@ -155,10 +155,10 @@ export default class ViewImageModal extends React.Component {
                 }
             };
         });
-    }
+    };
 
     handleImageProgress = (index, completedPercentage) => {
-        this.setState((prevState) => {
+        this.setState(prevState => {
             return {
                 progress: {
                     ...prevState.progress,
@@ -166,7 +166,7 @@ export default class ViewImageModal extends React.Component {
                 }
             };
         });
-    }
+    };
 
     handleGetPublicLink() {
         this.props.onModalDismissed();
@@ -195,40 +195,15 @@ export default class ViewImageModal extends React.Component {
             const fileType = Utils.getFileType(fileInfo.extension);
 
             if (fileType === 'image' || fileType === 'svg') {
-                content = (
-                    <ImagePreview
-                        fileInfo={fileInfo}
-                        fileUrl={fileUrl}
-                    />
-                );
+                content = <ImagePreview fileInfo={fileInfo} fileUrl={fileUrl} />;
             } else if (fileType === 'video' || fileType === 'audio') {
-                content = (
-                    <AudioVideoPreview
-                        fileInfo={fileInfo}
-                        fileUrl={fileUrl}
-                    />
-                );
+                content = <AudioVideoPreview fileInfo={fileInfo} fileUrl={fileUrl} />;
             } else if (PDFPreview.supports(fileInfo)) {
-                content = (
-                    <PDFPreview
-                        fileInfo={fileInfo}
-                        fileUrl={fileUrl}
-                    />
-                );
+                content = <PDFPreview fileInfo={fileInfo} fileUrl={fileUrl} />;
             } else if (CodePreview.supports(fileInfo)) {
-                content = (
-                    <CodePreview
-                        fileInfo={fileInfo}
-                        fileUrl={fileUrl}
-                    />
-                );
+                content = <CodePreview fileInfo={fileInfo} fileUrl={fileUrl} />;
             } else {
-                content = (
-                    <FileInfoPreview
-                        fileInfo={fileInfo}
-                        fileUrl={fileUrl}
-                    />
-                );
+                content = <FileInfoPreview fileInfo={fileInfo} fileUrl={fileUrl} />;
             }
         } else {
             // display a progress indicator when the preview for an image is still loading
@@ -246,24 +221,14 @@ export default class ViewImageModal extends React.Component {
         let rightArrow = null;
         if (this.props.fileInfos.length > 1) {
             leftArrow = (
-                <a
-                    ref='previewArrowLeft'
-                    className='modal-prev-bar'
-                    href='#'
-                    onClick={this.handlePrev}
-                >
-                    <i className='image-control image-prev'/>
+                <a ref="previewArrowLeft" className="modal-prev-bar" href="#" onClick={this.handlePrev}>
+                    <i className="image-control image-prev" />
                 </a>
             );
 
             rightArrow = (
-                <a
-                    ref='previewArrowRight'
-                    className='modal-next-bar'
-                    href='#'
-                    onClick={this.handleNext}
-                >
-                    <i className='image-control image-next'/>
+                <a ref="previewArrowRight" className="modal-next-bar" href="#" onClick={this.handleNext}>
+                    <i className="image-control image-next" />
                 </a>
             );
         }
@@ -277,29 +242,18 @@ export default class ViewImageModal extends React.Component {
             <Modal
                 show={this.props.show}
                 onHide={this.props.onModalDismissed}
-                className='modal-image'
-                dialogClassName='modal-image'
+                className="modal-image"
+                dialogClassName="modal-image"
             >
-                <Modal.Body
-                    modalClassName='modal-image__body'
-                    onClick={this.props.onModalDismissed}
-                >
-                    <div
-                        className={'modal-image__wrapper'}
-                        onClick={this.props.onModalDismissed}
-                    >
+                <Modal.Body modalClassName="modal-image__body" onClick={this.props.onModalDismissed}>
+                    <div className={'modal-image__wrapper'} onClick={this.props.onModalDismissed}>
                         <div
                             onMouseEnter={this.onMouseEnterImage}
                             onMouseLeave={this.onMouseLeaveImage}
-                            onClick={(e) => e.stopPropagation()}
+                            onClick={e => e.stopPropagation()}
                         >
-                            <div
-                                className={closeButtonClass}
-                                onClick={this.props.onModalDismissed}
-                            />
-                            <div className='modal-image__content'>
-                                {content}
-                            </div>
+                            <div className={closeButtonClass} onClick={this.props.onModalDismissed} />
+                            <div className="modal-image__content">{content}</div>
                             <ViewImagePopoverBar
                                 show={this.state.showFooter}
                                 fileId={this.state.imgId}
@@ -333,19 +287,12 @@ ViewImageModal.propTypes = {
 function LoadingImagePreview({progress, loading}) {
     let progressView = null;
     if (progress) {
-        progressView = (
-            <span className='loader-percent'>
-                {loading + progress + '%'}
-            </span>
-        );
+        progressView = <span className="loader-percent">{loading + progress + '%'}</span>;
     }
 
     return (
-        <div className='view-image__loading'>
-            <img
-                className='loader-image'
-                src={loadingGif}
-            />
+        <div className="view-image__loading">
+            <img className="loader-image" src={loadingGif} />
             {progressView}
         </div>
     );
@@ -365,17 +312,12 @@ function ImagePreview({fileInfo, fileUrl}) {
     }
 
     if (!FileUtils.canDownloadFiles()) {
-        return <img src={previewUrl}/>;
+        return <img src={previewUrl} />;
     }
 
     return (
-        <a
-            href={fileUrl}
-            target='_blank'
-            rel='noopener noreferrer'
-            download={true}
-        >
-            <img src={previewUrl}/>
+        <a href={fileUrl} target="_blank" rel="noopener noreferrer" download={true}>
+            <img src={previewUrl} />
         </a>
     );
 }

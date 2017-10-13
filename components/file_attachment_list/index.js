@@ -32,9 +32,12 @@ function makeMapStateToProps() {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({
-            getMissingFilesForPost
-        }, dispatch)
+        actions: bindActionCreators(
+            {
+                getMissingFilesForPost
+            },
+            dispatch
+        )
     };
 }
 

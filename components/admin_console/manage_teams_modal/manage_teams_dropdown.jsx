@@ -37,7 +37,7 @@ export default class ManageTeamsDropdown extends React.Component {
     }
 
     toggleDropdown() {
-        this.setState((prevState) => {
+        this.setState(prevState => {
             return {show: !prevState.show};
         });
     }
@@ -92,14 +92,8 @@ export default class ManageTeamsDropdown extends React.Component {
         let makeTeamAdmin = null;
         if (!isTeamAdmin) {
             makeTeamAdmin = (
-                <MenuItem
-                    id='makeTeamAdmin'
-                    onSelect={this.makeTeamAdmin}
-                >
-                    <FormattedMessage
-                        id='admin.user_item.makeTeamAdmin'
-                        defaultMessage='Make Team Admin'
-                    />
+                <MenuItem id="makeTeamAdmin" onSelect={this.makeTeamAdmin}>
+                    <FormattedMessage id="admin.user_item.makeTeamAdmin" defaultMessage="Make Team Admin" />
                 </MenuItem>
             );
         }
@@ -107,14 +101,8 @@ export default class ManageTeamsDropdown extends React.Component {
         let makeMember = null;
         if (isTeamAdmin) {
             makeMember = (
-                <MenuItem
-                    id='makeMember'
-                    onSelect={this.makeMember}
-                >
-                    <FormattedMessage
-                        id='admin.user_item.makeMember'
-                        defaultMessage='Make Member'
-                    />
+                <MenuItem id="makeMember" onSelect={this.makeMember}>
+                    <FormattedMessage id="admin.user_item.makeMember" defaultMessage="Make Member" />
                 </MenuItem>
             );
         }
@@ -125,20 +113,12 @@ export default class ManageTeamsDropdown extends React.Component {
                 open={this.state.show}
                 onToggle={this.toggleDropdown}
             >
-                <Dropdown.Toggle useAnchor={true}>
-                    {title}
-                </Dropdown.Toggle>
+                <Dropdown.Toggle useAnchor={true}>{title}</Dropdown.Toggle>
                 <Dropdown.Menu>
                     {makeTeamAdmin}
                     {makeMember}
-                    <MenuItem
-                        id='removeFromTeam'
-                        onSelect={this.removeFromTeam}
-                    >
-                        <FormattedMessage
-                            id='team_members_dropdown.leave_team'
-                            defaultMessage='Remove from Team'
-                        />
+                    <MenuItem id="removeFromTeam" onSelect={this.removeFromTeam}>
+                        <FormattedMessage id="team_members_dropdown.leave_team" defaultMessage="Remove from Team" />
                     </MenuItem>
                 </Dropdown.Menu>
             </Dropdown>

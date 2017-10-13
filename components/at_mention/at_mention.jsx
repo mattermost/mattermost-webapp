@@ -22,7 +22,7 @@ export default class AtMention extends React.PureComponent {
     static defaultProps = {
         isRHS: false,
         hasMention: false
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -35,7 +35,10 @@ export default class AtMention extends React.PureComponent {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.mentionName !== this.props.mentionName || nextProps.usersByUsername !== this.props.usersByUsername) {
+        if (
+            nextProps.mentionName !== this.props.mentionName ||
+            nextProps.usersByUsername !== this.props.usersByUsername
+        ) {
             this.setState({
                 user: this.getUserFromMentionName(nextProps)
             });
@@ -56,7 +59,7 @@ export default class AtMention extends React.PureComponent {
             }
 
             // Repeatedly trim off trailing punctuation in case this is at the end of a sentence
-            if ((/[._-]$/).test(mentionName)) {
+            if (/[._-]$/.test(mentionName)) {
                 mentionName = mentionName.substring(0, mentionName.length - 1);
             } else {
                 break;
@@ -77,9 +80,9 @@ export default class AtMention extends React.PureComponent {
         return (
             <span>
                 <OverlayTrigger
-                    ref='overlay'
-                    trigger='click'
-                    placement='right'
+                    ref="overlay"
+                    trigger="click"
+                    placement="right"
                     rootClose={true}
                     overlay={
                         <Pluggable>
@@ -93,7 +96,7 @@ export default class AtMention extends React.PureComponent {
                         </Pluggable>
                     }
                 >
-                    <a className='mention-link'>{'@' + user.username}</a>
+                    <a className="mention-link">{'@' + user.username}</a>
                 </OverlayTrigger>
                 {suffix}
             </span>

@@ -26,11 +26,10 @@ class SwitchTeamSuggestion extends Suggestion {
         }
 
         return (
-            <div
-                onClick={this.handleClick}
-                className={className}
-            >
-                <div className='status'><i className='fa fa-group'/></div>
+            <div onClick={this.handleClick} className={className}>
+                <div className="status">
+                    <i className="fa fa-group" />
+                </div>
                 {item.display_name}
             </div>
         );
@@ -68,14 +67,13 @@ export default class SwitchTeamProvider extends Provider {
 
             const allTeams = Selectors.getMyTeams(getState());
 
-            const teams = allTeams.filter((team) => {
-                return team.display_name.toLowerCase().indexOf(teamPrefix) !== -1 ||
-                    team.name.indexOf(teamPrefix) !== -1;
+            const teams = allTeams.filter(team => {
+                return (
+                    team.display_name.toLowerCase().indexOf(teamPrefix) !== -1 || team.name.indexOf(teamPrefix) !== -1
+                );
             });
 
-            const teamNames = teams.
-                sort(quickSwitchSorter).
-                map((team) => team.name);
+            const teamNames = teams.sort(quickSwitchSorter).map(team => team.name);
 
             setTimeout(() => {
                 AppDispatcher.handleServerAction({

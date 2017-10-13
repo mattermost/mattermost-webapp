@@ -41,12 +41,14 @@ export default class ManageLanguage extends React.Component {
     submitUser(user) {
         this.setState({isSaving: true});
 
-        updateUser(user, Constants.UserUpdateEvents.LANGUAGE,
+        updateUser(
+            user,
+            Constants.UserUpdateEvents.LANGUAGE,
             () => {
                 GlobalActions.newLocalizationSelected(user.locale);
                 this.setState({isSaving: false});
             },
-            (err) => {
+            err => {
                 let serverError;
                 if (err.message) {
                     serverError = err.message;
@@ -60,46 +62,41 @@ export default class ManageLanguage extends React.Component {
     render() {
         let serverError;
         if (this.state.serverError) {
-            serverError = <label className='has-error'>{this.state.serverError}</label>;
+            serverError = <label className="has-error">{this.state.serverError}</label>;
         }
 
         const options = [];
         const locales = I18n.getLanguages();
 
-        const languages = Object.keys(locales).map((l) => {
-            return {
-                value: locales[l].value,
-                name: locales[l].name,
-                order: locales[l].order
-            };
-        }).
-        sort((a, b) => a.order - b.order);
+        const languages = Object.keys(locales)
+            .map(l => {
+                return {
+                    value: locales[l].value,
+                    name: locales[l].name,
+                    order: locales[l].order
+                };
+            })
+            .sort((a, b) => a.order - b.order);
 
-        languages.forEach((lang) => {
+        languages.forEach(lang => {
             options.push(
-                <option
-                    key={lang.value}
-                    value={lang.value}
-                >
+                <option key={lang.value} value={lang.value}>
                     {lang.name}
                 </option>
             );
         });
 
         const input = (
-            <div key='changeLanguage'>
-                <br/>
-                <label className='control-label'>
-                    <FormattedMessage
-                        id='user.settings.languages.change'
-                        defaultMessage='Change interface language'
-                    />
+            <div key="changeLanguage">
+                <br />
+                <label className="control-label">
+                    <FormattedMessage id="user.settings.languages.change" defaultMessage="Change interface language" />
                 </label>
-                <div className='padding-top'>
+                <div className="padding-top">
                     <select
-                        id='displayLanguage'
-                        ref='language'
-                        className='form-control'
+                        id="displayLanguage"
+                        ref="language"
+                        className="form-control"
                         value={this.state.locale}
                         onChange={this.setLanguage}
                     >
@@ -108,10 +105,10 @@ export default class ManageLanguage extends React.Component {
                     {serverError}
                 </div>
                 <div>
-                    <br/>
+                    <br />
                     <FormattedHTMLMessage
-                        id='user.settings.languages.promote'
-                        defaultMessage='Select which language Mattermost displays in the user interface.<br /><br />Would like to help with translations? Join the <a href="http://translate.mattermost.com/" target="_blank">Mattermost Translation Server</a> to contribute.'
+                        id="user.settings.languages.promote"
+                        defaultMessage="Select which language Mattermost displays in the user interface.<br /><br />Would like to help with translations? Join the <a href=&quot;http://translate.mattermost.com/&quot; target=&quot;_blank&quot;>Mattermost Translation Server</a> to contribute."
                     />
                 </div>
             </div>
@@ -119,13 +116,8 @@ export default class ManageLanguage extends React.Component {
 
         return (
             <SettingItemMax
-                title={
-                    <FormattedMessage
-                        id='user.settings.display.language'
-                        defaultMessage='Language'
-                    />
-                }
-                width='medium'
+                title={<FormattedMessage id="user.settings.display.language" defaultMessage="Language" />}
+                width="medium"
                 submit={this.changeLanguage}
                 saving={this.state.isSaving}
                 inputs={[input]}

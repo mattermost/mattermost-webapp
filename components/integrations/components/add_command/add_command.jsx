@@ -12,7 +12,6 @@ const FOOTER = {id: 'add_command.save', defaultMessage: 'Save'};
 
 export default class AddCommand extends React.PureComponent {
     static propTypes = {
-
         /**
         * The team data
         */
@@ -24,13 +23,12 @@ export default class AddCommand extends React.PureComponent {
         addCommandRequest: PropTypes.object.isRequired,
 
         actions: PropTypes.shape({
-
             /**
             * The function to call to add new command
             */
             addCommand: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -40,7 +38,7 @@ export default class AddCommand extends React.PureComponent {
         };
     }
 
-    addCommand = async (command) => {
+    addCommand = async command => {
         this.setState({serverError: ''});
 
         const data = await this.props.actions.addCommand(command);
@@ -52,7 +50,7 @@ export default class AddCommand extends React.PureComponent {
         if (this.props.addCommandRequest.error) {
             this.setState({serverError: this.props.addCommandRequest.error.message});
         }
-    }
+    };
 
     render() {
         return (

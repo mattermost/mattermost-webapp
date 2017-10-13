@@ -8,7 +8,6 @@ import {postListScrollChange} from 'actions/global_actions.jsx';
 
 export default class PostImageEmbed extends React.PureComponent {
     static propTypes = {
-
         /**
          * The link to load the image from
          */
@@ -23,7 +22,7 @@ export default class PostImageEmbed extends React.PureComponent {
          * The function to call if image load fails
          */
         onLinkLoadError: PropTypes.func
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -92,13 +91,8 @@ export default class PostImageEmbed extends React.PureComponent {
         }
 
         return (
-            <div
-                className='post__embed-container'
-            >
-                <img
-                    className='img-div'
-                    src={this.props.link}
-                />
+            <div className="post__embed-container">
+                <img className="img-div" src={this.props.link} />
             </div>
         );
     }

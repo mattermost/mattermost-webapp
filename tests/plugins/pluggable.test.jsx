@@ -19,14 +19,8 @@ class ProfilePopoverPlugin extends React.PureComponent {
 describe('plugins/Pluggable', () => {
     test('should match snapshot with overridden component', () => {
         const wrapper = mount(
-            <Pluggable
-                components={{ProfilePopover: ProfilePopoverPlugin}}
-                theme={{}}
-            >
-                <ProfilePopover
-                    user={{}}
-                    src='src'
-                />
+            <Pluggable components={{ProfilePopover: ProfilePopoverPlugin}} theme={{}}>
+                <ProfilePopover user={{}} src="src" />
             </Pluggable>
         );
         expect(wrapper).toMatchSnapshot();
@@ -36,14 +30,8 @@ describe('plugins/Pluggable', () => {
         window.mm_config = {};
         const wrapper = mount(
             <IntlProvider>
-                <Pluggable
-                    components={{}}
-                    theme={{}}
-                >
-                    <ProfilePopover
-                        user={{}}
-                        src='src'
-                    />
+                <Pluggable components={{}} theme={{}}>
+                    <ProfilePopover user={{}} src="src" />
                 </Pluggable>
             </IntlProvider>
         );

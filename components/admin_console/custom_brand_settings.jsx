@@ -43,12 +43,7 @@ export default class CustomBrandSettings extends AdminSettings {
     }
 
     renderTitle() {
-        return (
-            <FormattedMessage
-                id='admin.customization.customBrand'
-                defaultMessage='Custom Branding'
-            />
-        );
+        return <FormattedMessage id="admin.customization.customBrand" defaultMessage="Custom Branding" />;
     }
 
     renderSettings() {
@@ -56,40 +51,35 @@ export default class CustomBrandSettings extends AdminSettings {
         if (global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.CustomBrand === 'true') {
             enterpriseSettings.push(
                 <TextSetting
-                    key='customDescriptionText'
-                    id='customDescriptionText'
+                    key="customDescriptionText"
+                    id="customDescriptionText"
                     label={
-                        <FormattedMessage
-                            id='admin.team.brandDescriptionTitle'
-                            defaultMessage='Site Description: '
-                        />
+                        <FormattedMessage id="admin.team.brandDescriptionTitle" defaultMessage="Site Description: " />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.team.brandDescriptionHelp'
-                            defaultMessage='Description of service shown in login screens and UI. When not specified, "All team communication in one place, searchable and accessible anywhere" is displayed.'
+                            id="admin.team.brandDescriptionHelp"
+                            defaultMessage="Description of service shown in login screens and UI. When not specified, &quot;All team communication in one place, searchable and accessible anywhere&quot; is displayed."
                         />
                     }
                     value={this.state.customDescriptionText}
-                    placeholder={Utils.localizeMessage('web.root.signup_info', 'All team communication in one place, searchable and accessible anywhere')}
+                    placeholder={Utils.localizeMessage(
+                        'web.root.signup_info',
+                        'All team communication in one place, searchable and accessible anywhere'
+                    )}
                     onChange={this.handleChange}
                 />
             );
 
             enterpriseSettings.push(
                 <BooleanSetting
-                    key='enableCustomBrand'
-                    id='enableCustomBrand'
-                    label={
-                        <FormattedMessage
-                            id='admin.team.brandTitle'
-                            defaultMessage='Enable Custom Branding: '
-                        />
-                    }
+                    key="enableCustomBrand"
+                    id="enableCustomBrand"
+                    label={<FormattedMessage id="admin.team.brandTitle" defaultMessage="Enable Custom Branding: " />}
                     helpText={
                         <FormattedMessage
-                            id='admin.team.brandDesc'
-                            defaultMessage='Enable custom branding to show an image of your choice, uploaded below, and some help text, written below, on the login page.'
+                            id="admin.team.brandDesc"
+                            defaultMessage="Enable custom branding to show an image of your choice, uploaded below, and some help text, written below, on the login page."
                         />
                     }
                     value={this.state.enableCustomBrand}
@@ -98,27 +88,19 @@ export default class CustomBrandSettings extends AdminSettings {
             );
 
             enterpriseSettings.push(
-                <BrandImageSetting
-                    key='customBrandImage'
-                    disabled={!this.state.enableCustomBrand}
-                />
+                <BrandImageSetting key="customBrandImage" disabled={!this.state.enableCustomBrand} />
             );
 
             enterpriseSettings.push(
                 <TextSetting
-                    key='customBrandText'
-                    id='customBrandText'
-                    type='textarea'
-                    label={
-                        <FormattedMessage
-                            id='admin.team.brandTextTitle'
-                            defaultMessage='Custom Brand Text:'
-                        />
-                    }
+                    key="customBrandText"
+                    id="customBrandText"
+                    type="textarea"
+                    label={<FormattedMessage id="admin.team.brandTextTitle" defaultMessage="Custom Brand Text:" />}
                     helpText={
                         <FormattedMessage
-                            id='admin.team.brandTextDescription'
-                            defaultMessage='Text that will appear below your custom brand image on your login screen. Supports Markdown-formatted text. Maximum 500 characters allowed.'
+                            id="admin.team.brandTextDescription"
+                            defaultMessage="Text that will appear below your custom brand image on your login screen. Supports Markdown-formatted text. Maximum 500 characters allowed."
                         />
                     }
                     value={this.state.customBrandText}
@@ -131,19 +113,14 @@ export default class CustomBrandSettings extends AdminSettings {
         return (
             <SettingsGroup>
                 <TextSetting
-                    id='siteName'
-                    label={
-                        <FormattedMessage
-                            id='admin.team.siteNameTitle'
-                            defaultMessage='Site Name:'
-                        />
-                    }
+                    id="siteName"
+                    label={<FormattedMessage id="admin.team.siteNameTitle" defaultMessage="Site Name:" />}
                     maxLength={Constants.MAX_SITENAME_LENGTH}
                     placeholder={Utils.localizeMessage('admin.team.siteNameExample', 'Ex "Mattermost"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.team.siteNameDescription'
-                            defaultMessage='Name of service shown in login screens and UI.'
+                            id="admin.team.siteNameDescription"
+                            defaultMessage="Name of service shown in login screens and UI."
                         />
                     }
                     value={this.state.siteName}

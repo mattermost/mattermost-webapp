@@ -6,7 +6,6 @@ import React from 'react';
 
 export default class CommandsContainer extends React.PureComponent {
     static propTypes = {
-
         /**
         * The team data needed to pass into child components
         */
@@ -38,13 +37,12 @@ export default class CommandsContainer extends React.PureComponent {
         commands: PropTypes.array,
 
         actions: PropTypes.shape({
-
             /**
             * The function to call to fetch team commands
             */
             getCustomTeamCommands: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -55,9 +53,7 @@ export default class CommandsContainer extends React.PureComponent {
 
     componentDidMount() {
         if (window.mm_config.EnableCommands === 'true') {
-            this.props.actions.getCustomTeamCommands(this.props.team.id).then(
-                () => this.setState({loading: false})
-            );
+            this.props.actions.getCustomTeamCommands(this.props.team.id).then(() => this.setState({loading: false}));
         }
     }
 

@@ -189,13 +189,10 @@ describe('comoponents/edit_channel_purpose_modal/edit_channel_purpose_modal.jsx'
             {disableLifecycleMethods: true}
         );
 
-        wrapper.find('textarea').simulate(
-            'change',
-            {
-                preventDefault: jest.fn(),
-                target: {value: 'new info'}
-            }
-         );
+        wrapper.find('textarea').simulate('change', {
+            preventDefault: jest.fn(),
+            target: {value: 'new info'}
+        });
 
         expect(wrapper.state('purpose')).toBe('new info');
     });

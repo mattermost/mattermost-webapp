@@ -9,7 +9,7 @@ import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 export function isSystemMessage(post) {
-    return Boolean(post.type && (post.type.lastIndexOf(Constants.SYSTEM_MESSAGE_PREFIX) === 0));
+    return Boolean(post.type && post.type.lastIndexOf(Constants.SYSTEM_MESSAGE_PREFIX) === 0);
 }
 
 export function isFromWebhook(post) {
@@ -39,7 +39,12 @@ export function getProfilePicSrcForPost(post, user) {
         src = Utils.imageURLForUser(post.user_id);
     }
 
-    if (post.props && post.props.from_webhook && !post.props.use_user_icon && global.window.mm_config.EnablePostIconOverride === 'true') {
+    if (
+        post.props &&
+        post.props.from_webhook &&
+        !post.props.use_user_icon &&
+        global.window.mm_config.EnablePostIconOverride === 'true'
+    ) {
         if (post.props.override_icon_url) {
             src = post.props.override_icon_url;
         } else {
@@ -64,9 +69,14 @@ export function canDeletePost(post) {
     const isAdmin = isChannelAdmin || isTeamAdmin || isSystemAdmin;
 
     if (global.window.mm_license.IsLicensed === 'true') {
-        return (global.window.mm_config.RestrictPostDelete === Constants.PERMISSIONS_DELETE_POST_ALL && (isOwner || isChannelAdmin)) ||
-            (global.window.mm_config.RestrictPostDelete === Constants.PERMISSIONS_DELETE_POST_TEAM_ADMIN && isTeamAdmin) ||
-            (global.window.mm_config.RestrictPostDelete === Constants.PERMISSIONS_DELETE_POST_SYSTEM_ADMIN && isSystemAdmin);
+        return (
+            (global.window.mm_config.RestrictPostDelete === Constants.PERMISSIONS_DELETE_POST_ALL &&
+                (isOwner || isChannelAdmin)) ||
+            (global.window.mm_config.RestrictPostDelete === Constants.PERMISSIONS_DELETE_POST_TEAM_ADMIN &&
+                isTeamAdmin) ||
+            (global.window.mm_config.RestrictPostDelete === Constants.PERMISSIONS_DELETE_POST_SYSTEM_ADMIN &&
+                isSystemAdmin)
+        );
     }
 
     return isOwner || isAdmin;
@@ -80,7 +90,7 @@ export function canEditPost(post, editDisableAction) {
         if (global.window.mm_config.AllowEditPost === Constants.ALLOW_EDIT_POST_NEVER) {
             canEdit = false;
         } else if (global.window.mm_config.AllowEditPost === Constants.ALLOW_EDIT_POST_TIME_LIMIT) {
-            const timeLeft = (post.create_at + (global.window.mm_config.PostEditTimeLimit * 1000)) - Utils.getTimestamp();
+            const timeLeft = post.create_at + global.window.mm_config.PostEditTimeLimit * 1000 - Utils.getTimestamp();
             if (timeLeft > 0) {
                 editDisableAction.fireAfter(timeLeft + 1000);
             } else {

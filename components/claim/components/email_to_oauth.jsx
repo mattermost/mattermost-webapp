@@ -42,14 +42,14 @@ export default class EmailToOAuth extends React.Component {
 
         checkMfa(
             this.props.email,
-            (requiresMfa) => {
+            requiresMfa => {
                 if (requiresMfa) {
                     this.setState({showMfa: true});
                 } else {
                     this.submit(this.props.email, password, '');
                 }
             },
-            (err) => {
+            err => {
                 this.setState({error: err.message});
             }
         );
@@ -61,12 +61,12 @@ export default class EmailToOAuth extends React.Component {
             password,
             token,
             this.props.newType,
-            (data) => {
+            data => {
                 if (data.follow_link) {
                     window.location.href = data.follow_link;
                 }
             },
-            (err) => {
+            err => {
                 this.setState({error: err.message, showMfa: false});
             }
         );
@@ -75,7 +75,11 @@ export default class EmailToOAuth extends React.Component {
     render() {
         var error = null;
         if (this.state.error) {
-            error = <div className='form-group has-error'><label className='control-label'>{this.state.error}</label></div>;
+            error = (
+                <div className="form-group has-error">
+                    <label className="control-label">{this.state.error}</label>
+                </div>
+            );
         }
 
         var formClass = 'form-group';
@@ -83,25 +87,22 @@ export default class EmailToOAuth extends React.Component {
             formClass += ' has-error';
         }
 
-        const type = (this.props.newType === Constants.SAML_SERVICE ? Constants.SAML_SERVICE.toUpperCase() : Utils.toTitleCase(this.props.newType));
+        const type =
+            this.props.newType === Constants.SAML_SERVICE
+                ? Constants.SAML_SERVICE.toUpperCase()
+                : Utils.toTitleCase(this.props.newType);
         const uiType = `${type} SSO`;
 
         let content;
         if (this.state.showMfa) {
-            content = (
-                <LoginMfa
-                    loginId={this.props.email}
-                    password={this.state.password}
-                    submit={this.submit}
-                />
-            );
+            content = <LoginMfa loginId={this.props.email} password={this.state.password} submit={this.submit} />;
         } else {
             content = (
                 <form onSubmit={this.preSubmit}>
                     <p>
                         <FormattedMessage
-                            id='claim.email_to_oauth.ssoType'
-                            defaultMessage='Upon claiming your account, you will only be able to login with {type} SSO'
+                            id="claim.email_to_oauth.ssoType"
+                            defaultMessage="Upon claiming your account, you will only be able to login with {type} SSO"
                             values={{
                                 type
                             }}
@@ -109,8 +110,8 @@ export default class EmailToOAuth extends React.Component {
                     </p>
                     <p>
                         <FormattedMessage
-                            id='claim.email_to_oauth.ssoNote'
-                            defaultMessage='You must already have a valid {type} account'
+                            id="claim.email_to_oauth.ssoNote"
+                            defaultMessage="You must already have a valid {type} account"
                             values={{
                                 type
                             }}
@@ -118,8 +119,8 @@ export default class EmailToOAuth extends React.Component {
                     </p>
                     <p>
                         <FormattedMessage
-                            id='claim.email_to_oauth.enterPwd'
-                            defaultMessage='Enter the password for your {site} account'
+                            id="claim.email_to_oauth.enterPwd"
+                            defaultMessage="Enter the password for your {site} account"
                             values={{
                                 site: global.window.mm_config.SiteName
                             }}
@@ -127,22 +128,19 @@ export default class EmailToOAuth extends React.Component {
                     </p>
                     <div className={formClass}>
                         <input
-                            type='password'
-                            className='form-control'
-                            name='password'
-                            ref='password'
+                            type="password"
+                            className="form-control"
+                            name="password"
+                            ref="password"
                             placeholder={Utils.localizeMessage('claim.email_to_oauth.pwd', 'Password')}
-                            spellCheck='false'
+                            spellCheck="false"
                         />
                     </div>
                     {error}
-                    <button
-                        type='submit'
-                        className='btn btn-primary'
-                    >
+                    <button type="submit" className="btn btn-primary">
                         <FormattedMessage
-                            id='claim.email_to_oauth.switchTo'
-                            defaultMessage='Switch account to {uiType}'
+                            id="claim.email_to_oauth.switchTo"
+                            defaultMessage="Switch account to {uiType}"
                             values={{
                                 uiType
                             }}
@@ -156,8 +154,8 @@ export default class EmailToOAuth extends React.Component {
             <div>
                 <h3>
                     <FormattedMessage
-                        id='claim.email_to_oauth.title'
-                        defaultMessage='Switch Email/Password Account to {uiType}'
+                        id="claim.email_to_oauth.title"
+                        defaultMessage="Switch Email/Password Account to {uiType}"
                         values={{
                             uiType
                         }}
@@ -169,8 +167,7 @@ export default class EmailToOAuth extends React.Component {
     }
 }
 
-EmailToOAuth.defaultProps = {
-};
+EmailToOAuth.defaultProps = {};
 EmailToOAuth.propTypes = {
     newType: PropTypes.string,
     email: PropTypes.string

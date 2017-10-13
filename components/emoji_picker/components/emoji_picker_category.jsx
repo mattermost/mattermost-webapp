@@ -11,7 +11,7 @@ export default class EmojiPickerCategory extends React.Component {
         onCategoryClick: PropTypes.func.isRequired,
         selected: PropTypes.bool.isRequired,
         enable: PropTypes.bool.isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -36,11 +36,7 @@ export default class EmojiPickerCategory extends React.Component {
         }
 
         return (
-            <a
-                className={className}
-                href='#'
-                onClick={this.handleClick}
-            >
+            <a className={className} href="#" onClick={this.handleClick}>
                 {this.props.icon}
             </a>
         );

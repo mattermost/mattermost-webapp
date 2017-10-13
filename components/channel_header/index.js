@@ -42,11 +42,14 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({
-            leaveChannel,
-            favoriteChannel,
-            unfavoriteChannel
-        }, dispatch)
+        actions: bindActionCreators(
+            {
+                leaveChannel,
+                favoriteChannel,
+                unfavoriteChannel
+            },
+            dispatch
+        )
     };
 }
 

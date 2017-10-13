@@ -51,7 +51,9 @@ export function handleEmoticons(text, tokens, emojis) {
     }
 
     // match named emoticons like :goat:
-    output = output.replace(EMOJI_PATTERN, (fullMatch, matchText, name) => replaceEmoticonWithToken(fullMatch, '', matchText, name));
+    output = output.replace(EMOJI_PATTERN, (fullMatch, matchText, name) =>
+        replaceEmoticonWithToken(fullMatch, '', matchText, name)
+    );
 
     // match text smilies like :D
     for (const name of Object.keys(emoticonPatterns)) {
@@ -59,7 +61,9 @@ export function handleEmoticons(text, tokens, emojis) {
 
         // this might look a bit funny, but since the name isn't contained in the actual match
         // like with the named emoticons, we need to add it in manually
-        output = output.replace(pattern, (fullMatch, prefix, matchText) => replaceEmoticonWithToken(fullMatch, prefix, matchText, name));
+        output = output.replace(pattern, (fullMatch, prefix, matchText) =>
+            replaceEmoticonWithToken(fullMatch, prefix, matchText, name)
+        );
     }
 
     return output;

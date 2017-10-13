@@ -24,26 +24,13 @@ export default class SearchSuggestionList extends SuggestionList {
     renderChannelDivider(type) {
         let text;
         if (type === Constants.OPEN_CHANNEL) {
-            text = (
-                <FormattedMessage
-                    id='suggestion.search.public'
-                    defaultMessage='Public Channels'
-                />
-            );
+            text = <FormattedMessage id="suggestion.search.public" defaultMessage="Public Channels" />;
         } else {
-            text = (
-                <FormattedMessage
-                    id='suggestion.search.private'
-                    defaultMessage='Private Channels'
-                />
-            );
+            text = <FormattedMessage id="suggestion.search.private" defaultMessage="Private Channels" />;
         }
 
         return (
-            <div
-                key={type + '-divider'}
-                className='search-autocomplete__divider'
-            >
+            <div key={type + '-divider'} className="search-autocomplete__divider">
                 <span>{text}</span>
             </div>
         );
@@ -87,10 +74,10 @@ export default class SearchSuggestionList extends SuggestionList {
 
         return (
             <Popover
-                ref='popover'
-                id='search-autocomplete__popover'
-                className='search-help-popover autocomplete visible'
-                placement='bottom'
+                ref="popover"
+                id="search-autocomplete__popover"
+                className="search-help-popover autocomplete visible"
+                placement="bottom"
             >
                 {items}
             </Popover>

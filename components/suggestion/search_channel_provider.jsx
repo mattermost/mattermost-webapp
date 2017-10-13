@@ -23,11 +23,9 @@ class SearchChannelSuggestion extends Suggestion {
         }
 
         return (
-            <div
-                onClick={this.handleClick}
-                className={className}
-            >
-                <i className='fa fa fa-plus-square'/>{item.name}
+            <div onClick={this.handleClick} className={className}>
+                <i className="fa fa fa-plus-square" />
+                {item.name}
             </div>
         );
     }
@@ -35,54 +33,51 @@ class SearchChannelSuggestion extends Suggestion {
 
 export default class SearchChannelProvider extends Provider {
     handlePretextChanged(suggestionId, pretext) {
-        const captured = (/\b(?:in|channel):\s*(\S*)$/i).exec(pretext.toLowerCase());
+        const captured = /\b(?:in|channel):\s*(\S*)$/i.exec(pretext.toLowerCase());
         if (captured) {
             const channelPrefix = captured[1];
 
             this.startNewRequest(suggestionId, channelPrefix);
 
-            autocompleteChannels(
-                channelPrefix,
-                (data) => {
-                    if (this.shouldCancelDispatch(channelPrefix)) {
-                        return;
-                    }
-
-                    const publicChannels = data;
-
-                    const localChannels = ChannelStore.getAll();
-                    let privateChannels = [];
-
-                    for (const id of Object.keys(localChannels)) {
-                        const channel = localChannels[id];
-                        if (channel.name.startsWith(channelPrefix) && channel.type === Constants.PRIVATE_CHANNEL) {
-                            privateChannels.push(channel);
-                        }
-                    }
-
-                    let filteredPublicChannels = [];
-                    publicChannels.forEach((item) => {
-                        if (item.name.startsWith(channelPrefix)) {
-                            filteredPublicChannels.push(item);
-                        }
-                    });
-
-                    privateChannels = privateChannels.sort(sortChannelsByDisplayName);
-                    filteredPublicChannels = filteredPublicChannels.sort(sortChannelsByDisplayName);
-
-                    const channels = filteredPublicChannels.concat(privateChannels);
-                    const channelNames = channels.map((channel) => channel.name);
-
-                    AppDispatcher.handleServerAction({
-                        type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
-                        id: suggestionId,
-                        matchedPretext: channelPrefix,
-                        terms: channelNames,
-                        items: channels,
-                        component: SearchChannelSuggestion
-                    });
+            autocompleteChannels(channelPrefix, data => {
+                if (this.shouldCancelDispatch(channelPrefix)) {
+                    return;
                 }
-            );
+
+                const publicChannels = data;
+
+                const localChannels = ChannelStore.getAll();
+                let privateChannels = [];
+
+                for (const id of Object.keys(localChannels)) {
+                    const channel = localChannels[id];
+                    if (channel.name.startsWith(channelPrefix) && channel.type === Constants.PRIVATE_CHANNEL) {
+                        privateChannels.push(channel);
+                    }
+                }
+
+                let filteredPublicChannels = [];
+                publicChannels.forEach(item => {
+                    if (item.name.startsWith(channelPrefix)) {
+                        filteredPublicChannels.push(item);
+                    }
+                });
+
+                privateChannels = privateChannels.sort(sortChannelsByDisplayName);
+                filteredPublicChannels = filteredPublicChannels.sort(sortChannelsByDisplayName);
+
+                const channels = filteredPublicChannels.concat(privateChannels);
+                const channelNames = channels.map(channel => channel.name);
+
+                AppDispatcher.handleServerAction({
+                    type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
+                    id: suggestionId,
+                    matchedPretext: channelPrefix,
+                    terms: channelNames,
+                    items: channels,
+                    component: SearchChannelSuggestion
+                });
+            });
         }
 
         return Boolean(captured);

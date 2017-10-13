@@ -137,15 +137,16 @@ class CustomThemeChooser extends React.Component {
                 [settingId]: color
             });
         }
-    }
+    };
 
-    pasteBoxChange = (e) => {
+    pasteBoxChange = e => {
         let text = '';
 
-        if (window.clipboardData && window.clipboardData.getData) { // IE
+        if (window.clipboardData && window.clipboardData.getData) {
+            // IE
             text = window.clipboardData.getData('Text');
         } else {
-            text = e.clipboardData.getData('Text');//e.clipboardData.getData('text/plain');
+            text = e.clipboardData.getData('Text'); //e.clipboardData.getData('text/plain');
         }
 
         if (text.length === 0) {
@@ -165,11 +166,11 @@ class CustomThemeChooser extends React.Component {
 
         theme.type = 'custom';
         this.props.updateTheme(theme);
-    }
+    };
 
-    onChangeHandle = (e) => {
+    onChangeHandle = e => {
         e.stopPropagation();
-    }
+    };
 
     selectTheme() {
         const textarea = this.refs.textarea;
@@ -177,26 +178,26 @@ class CustomThemeChooser extends React.Component {
         textarea.setSelectionRange(0, this.state.copyTheme.length);
     }
 
-    toggleSidebarStyles = (e) => {
+    toggleSidebarStyles = e => {
         e.preventDefault();
 
         $(this.refs.sidebarStylesHeader).toggleClass('open');
         this.toggleSection(this.refs.sidebarStyles);
-    }
+    };
 
-    toggleCenterChannelStyles = (e) => {
+    toggleCenterChannelStyles = e => {
         e.preventDefault();
 
         $(this.refs.centerChannelStylesHeader).toggleClass('open');
         this.toggleSection(this.refs.centerChannelStyles);
-    }
+    };
 
-    toggleLinkAndButtonStyles = (e) => {
+    toggleLinkAndButtonStyles = e => {
         e.preventDefault();
 
         $(this.refs.linkAndButtonStylesHeader).toggleClass('open');
         this.toggleSection(this.refs.linkAndButtonStyles);
-    }
+    };
 
     toggleSection(node) {
         if (UserAgent.isIos()) {
@@ -207,11 +208,11 @@ class CustomThemeChooser extends React.Component {
         }
     }
 
-    onCodeThemeChange = (e) => {
+    onCodeThemeChange = e => {
         const theme = this.props.theme;
         theme.codeTheme = e.target.value;
         this.props.updateTheme(theme);
-    }
+    };
 
     render() {
         const {formatMessage} = this.props.intl;
@@ -230,55 +231,33 @@ class CustomThemeChooser extends React.Component {
                         codeThemeURL = codeTheme.iconURL;
                     }
                     codeThemeOptions.push(
-                        <option
-                            key={'code-theme-key' + codeThemeIndex}
-                            value={codeTheme.id}
-                        >
+                        <option key={'code-theme-key' + codeThemeIndex} value={codeTheme.id}>
                             {codeTheme.uiName}
                         </option>
                     );
                 });
 
                 var popoverContent = (
-                    <Popover
-                        bsStyle='info'
-                        id='code-popover'
-                        className='code-popover'
-                    >
-                        <img
-                            width='200'
-                            src={codeThemeURL}
-                        />
+                    <Popover bsStyle="info" id="code-popover" className="code-popover">
+                        <img width="200" src={codeThemeURL} />
                     </Popover>
                 );
 
                 centerChannelElements.push(
-                    <div
-                        className='col-sm-6 form-group'
-                        key={'custom-theme-key' + index}
-                    >
-                        <label className='custom-label'>{formatMessage(messages[element.id])}</label>
-                        <div
-                            className='input-group theme-group group--code dropdown'
-                            id={element.id}
-                        >
-                            <select
-                                className='form-control'
-                                type='text'
-                                defaultValue={theme[element.id]}
-                            >
+                    <div className="col-sm-6 form-group" key={'custom-theme-key' + index}>
+                        <label className="custom-label">{formatMessage(messages[element.id])}</label>
+                        <div className="input-group theme-group group--code dropdown" id={element.id}>
+                            <select className="form-control" type="text" defaultValue={theme[element.id]}>
                                 {codeThemeOptions}
                             </select>
                             <OverlayTrigger
                                 trigger={['hover', 'focus']}
-                                placement='top'
+                                placement="top"
                                 overlay={popoverContent}
-                                ref='headerOverlay'
+                                ref="headerOverlay"
                             >
-                                <span className='input-group-addon'>
-                                    <img
-                                        src={codeThemeURL}
-                                    />
+                                <span className="input-group-addon">
+                                    <img src={codeThemeURL} />
                                 </span>
                             </OverlayTrigger>
                         </div>
@@ -286,10 +265,7 @@ class CustomThemeChooser extends React.Component {
                 );
             } else if (element.group === 'centerChannelElements') {
                 centerChannelElements.push(
-                    <div
-                        className='col-sm-6 form-group element'
-                        key={'custom-theme-key' + index}
-                    >
+                    <div className="col-sm-6 form-group element" key={'custom-theme-key' + index}>
                         <ColorChooser
                             id={element.id}
                             label={formatMessage(messages[element.id])}
@@ -300,10 +276,7 @@ class CustomThemeChooser extends React.Component {
                 );
             } else if (element.group === 'sidebarElements') {
                 sidebarElements.push(
-                    <div
-                        className='col-sm-6 form-group element'
-                        key={'custom-theme-key' + index}
-                    >
+                    <div className="col-sm-6 form-group element" key={'custom-theme-key' + index}>
                         <ColorChooser
                             id={element.id}
                             label={formatMessage(messages[element.id])}
@@ -314,10 +287,7 @@ class CustomThemeChooser extends React.Component {
                 );
             } else {
                 linkAndButtonElements.push(
-                    <div
-                        className='col-sm-6 form-group element'
-                        key={'custom-theme-key' + index}
-                    >
+                    <div className="col-sm-6 form-group element" key={'custom-theme-key' + index}>
                         <ColorChooser
                             id={element.id}
                             label={formatMessage(messages[element.id])}
@@ -330,16 +300,16 @@ class CustomThemeChooser extends React.Component {
         });
 
         const pasteBox = (
-            <div className='col-sm-12'>
-                <label className='custom-label'>
+            <div className="col-sm-12">
+                <label className="custom-label">
                     <FormattedMessage
-                        id='user.settings.custom_theme.copyPaste'
-                        defaultMessage='Copy and paste to share theme colors:'
+                        id="user.settings.custom_theme.copyPaste"
+                        defaultMessage="Copy and paste to share theme colors:"
                     />
                 </label>
                 <textarea
-                    ref='textarea'
-                    className='form-control'
+                    ref="textarea"
+                    className="form-control"
                     value={this.state.copyTheme}
                     onPaste={this.pasteBoxChange}
                     onChange={this.onChangeHandle}
@@ -349,76 +319,65 @@ class CustomThemeChooser extends React.Component {
         );
 
         return (
-            <div className='appearance-section padding-top'>
-                <div className='theme-elements row'>
+            <div className="appearance-section padding-top">
+                <div className="theme-elements row">
                     <div
-                        ref='sidebarStylesHeader'
-                        className='theme-elements__header'
+                        ref="sidebarStylesHeader"
+                        className="theme-elements__header"
                         onClick={this.toggleSidebarStyles}
                     >
                         <FormattedMessage
-                            id='user.settings.custom_theme.sidebarTitle'
-                            defaultMessage='Sidebar Styles'
+                            id="user.settings.custom_theme.sidebarTitle"
+                            defaultMessage="Sidebar Styles"
                         />
-                        <div className='header__icon'>
-                            <i className='fa fa-plus'/>
-                            <i className='fa fa-minus'/>
+                        <div className="header__icon">
+                            <i className="fa fa-plus" />
+                            <i className="fa fa-minus" />
                         </div>
                     </div>
-                    <div
-                        ref='sidebarStyles'
-                        className='theme-elements__body'
-                    >
+                    <div ref="sidebarStyles" className="theme-elements__body">
                         {sidebarElements}
                     </div>
                 </div>
-                <div className='theme-elements row'>
+                <div className="theme-elements row">
                     <div
-                        ref='centerChannelStylesHeader'
-                        className='theme-elements__header'
+                        ref="centerChannelStylesHeader"
+                        className="theme-elements__header"
                         onClick={this.toggleCenterChannelStyles}
                     >
                         <FormattedMessage
-                            id='user.settings.custom_theme.centerChannelTitle'
-                            defaultMessage='Center Channel Styles'
+                            id="user.settings.custom_theme.centerChannelTitle"
+                            defaultMessage="Center Channel Styles"
                         />
-                        <div className='header__icon'>
-                            <i className='fa fa-plus'/>
-                            <i className='fa fa-minus'/>
+                        <div className="header__icon">
+                            <i className="fa fa-plus" />
+                            <i className="fa fa-minus" />
                         </div>
                     </div>
-                    <div
-                        ref='centerChannelStyles'
-                        className='theme-elements__body'
-                    >
+                    <div ref="centerChannelStyles" className="theme-elements__body">
                         {centerChannelElements}
                     </div>
                 </div>
-                <div className='theme-elements row form-group'>
+                <div className="theme-elements row form-group">
                     <div
-                        ref='linkAndButtonStylesHeader'
-                        className='theme-elements__header'
+                        ref="linkAndButtonStylesHeader"
+                        className="theme-elements__header"
                         onClick={this.toggleLinkAndButtonStyles}
                     >
                         <FormattedMessage
-                            id='user.settings.custom_theme.linkButtonTitle'
-                            defaultMessage='Link and Button Styles'
+                            id="user.settings.custom_theme.linkButtonTitle"
+                            defaultMessage="Link and Button Styles"
                         />
-                        <div className='header__icon'>
-                            <i className='fa fa-plus'/>
-                            <i className='fa fa-minus'/>
+                        <div className="header__icon">
+                            <i className="fa fa-plus" />
+                            <i className="fa fa-minus" />
                         </div>
                     </div>
-                    <div
-                        ref='linkAndButtonStyles'
-                        className='theme-elements__body'
-                    >
+                    <div ref="linkAndButtonStyles" className="theme-elements__body">
                         {linkAndButtonElements}
                     </div>
                 </div>
-                <div className='row'>
-                    {pasteBox}
-                </div>
+                <div className="row">{pasteBox}</div>
             </div>
         );
     }

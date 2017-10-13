@@ -64,38 +64,25 @@ export default class EmojiListItem extends React.Component {
                 creatorName += ' (@' + creator.username + ')';
             }
         } else {
-            creatorName = (
-                <FormattedMessage
-                    id='emoji_list.somebody'
-                    defaultMessage='Somebody on another team'
-                />
-            );
+            creatorName = <FormattedMessage id="emoji_list.somebody" defaultMessage="Somebody on another team" />;
         }
 
         let deleteButton = null;
         if (this.props.onDelete) {
-            deleteButton = (
-                <DeleteEmoji onDelete={this.handleDelete}/>
-            );
+            deleteButton = <DeleteEmoji onDelete={this.handleDelete} />;
         }
 
         return (
-            <tr className='backstage-list__item'>
-                <td className='emoji-list__name'>
-                    {':' + emoji.name + ':'}
-                </td>
-                <td className='emoji-list__image'>
+            <tr className="backstage-list__item">
+                <td className="emoji-list__name">{':' + emoji.name + ':'}</td>
+                <td className="emoji-list__image">
                     <span
-                        className='emoticon'
+                        className="emoticon"
                         style={{backgroundImage: 'url(' + EmojiStore.getEmojiImageUrl(emoji) + ')'}}
                     />
                 </td>
-                <td className='emoji-list__creator'>
-                    {creatorName}
-                </td>
-                <td className='emoji-list-item_actions'>
-                    {deleteButton}
-                </td>
+                <td className="emoji-list__creator">{creatorName}</td>
+                <td className="emoji-list-item_actions">{deleteButton}</td>
             </tr>
         );
     }

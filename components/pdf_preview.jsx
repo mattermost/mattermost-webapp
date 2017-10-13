@@ -116,59 +116,34 @@ export default class PDFPreview extends React.Component {
     render() {
         if (this.state.loading) {
             return (
-                <div className='view-image__loading'>
-                    <img
-                        className='loader-image'
-                        src={loadingGif}
-                    />
+                <div className="view-image__loading">
+                    <img className="loader-image" src={loadingGif} />
                 </div>
             );
         }
 
         if (!this.state.success) {
-            return (
-                <FileInfoPreview
-                    fileInfo={this.props.fileInfo}
-                    fileUrl={this.props.fileUrl}
-                />
-            );
+            return <FileInfoPreview fileInfo={this.props.fileInfo} fileUrl={this.props.fileUrl} />;
         }
 
         const pdfCanvases = [];
         for (let i = 0; i < this.state.numPages; i++) {
-            pdfCanvases.push(
-                <canvas
-                    ref={'pdfCanvas' + i}
-                    key={'previewpdfcanvas' + i}
-                />
-            );
+            pdfCanvases.push(<canvas ref={'pdfCanvas' + i} key={'previewpdfcanvas' + i} />);
 
             if (i < this.state.numPages - 1 && this.state.numPages > 1) {
-                pdfCanvases.push(
-                    <div className='pdf-preview-spacer'/>
-                );
+                pdfCanvases.push(<div className="pdf-preview-spacer" />);
             }
         }
 
         if (this.state.pdf.numPages > MAX_PDF_PAGES) {
             pdfCanvases.push(
-                <a
-                    href={this.props.fileUrl}
-                    className='pdf-max-pages'
-                >
-                    <FormattedMessage
-                        id='pdf_preview.max_pages'
-                        defaultMessage='Download to read more pages'
-                    />
+                <a href={this.props.fileUrl} className="pdf-max-pages">
+                    <FormattedMessage id="pdf_preview.max_pages" defaultMessage="Download to read more pages" />
                 </a>
             );
         }
 
-        return (
-            <div className='post-code'>
-                {pdfCanvases}
-            </div>
-        );
+        return <div className="post-code">{pdfCanvases}</div>;
     }
 }
 

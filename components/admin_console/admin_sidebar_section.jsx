@@ -40,19 +40,17 @@ export default class AdminSidebarSection extends React.Component {
         let clonedChildren = null;
         if (this.props.children) {
             clonedChildren = (
-                <ul className='nav nav__sub-menu subsections'>
-                    {
-                        React.Children.map(this.props.children, (child) => {
-                            if (child === null) {
-                                return null;
-                            }
+                <ul className="nav nav__sub-menu subsections">
+                    {React.Children.map(this.props.children, child => {
+                        if (child === null) {
+                            return null;
+                        }
 
-                            return React.cloneElement(child, {
-                                parentLink: link,
-                                subsection: true
-                            });
-                        })
-                    }
+                        return React.cloneElement(child, {
+                            parentLink: link,
+                            subsection: true
+                        });
+                    })}
                 </ul>
             );
         }
@@ -71,21 +69,15 @@ export default class AdminSidebarSection extends React.Component {
                 onClick={this.handleClick}
                 to={link}
             >
-                <span className={`${className}-title__text`}>
-                    {this.props.title}
-                </span>
+                <span className={`${className}-title__text`}>{this.props.title}</span>
                 {this.props.action}
             </Link>
         );
 
         if (this.props.type === 'text') {
             sidebarItem = (
-                <div
-                    className={`${className}-title`}
-                >
-                    <span className={`${className}-title__text`}>
-                        {this.props.title}
-                    </span>
+                <div className={`${className}-title`}>
+                    <span className={`${className}-title__text`}>{this.props.title}</span>
                     {this.props.action}
                 </div>
             );

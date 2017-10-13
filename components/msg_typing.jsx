@@ -49,43 +49,41 @@ class MsgTyping extends React.Component {
         }
 
         switch (numUsers) {
-        case 0:
-            text = '';
-            break;
-        case 1:
-            text = (
-                <FormattedMessage
-                    id='msg_typing.isTyping'
-                    defaultMessage='{user} is typing...'
-                    values={{
-                        user: users[0]
-                    }}
-                />
-            );
-            break;
-        default: {
-            const last = users.pop();
-            text = (
-                <FormattedMessage
-                    id='msg_typing.areTyping'
-                    defaultMessage='{users} and {last} are typing...'
-                    values={{
-                        users: (users.join(', ')),
-                        last
-                    }}
-                />
-            );
-            break;
-        }
+            case 0:
+                text = '';
+                break;
+            case 1:
+                text = (
+                    <FormattedMessage
+                        id="msg_typing.isTyping"
+                        defaultMessage="{user} is typing..."
+                        values={{
+                            user: users[0]
+                        }}
+                    />
+                );
+                break;
+            default: {
+                const last = users.pop();
+                text = (
+                    <FormattedMessage
+                        id="msg_typing.areTyping"
+                        defaultMessage="{users} and {last} are typing..."
+                        values={{
+                            users: users.join(', '),
+                            last
+                        }}
+                    />
+                );
+                break;
+            }
         }
 
         this.setState({text});
     }
 
     render() {
-        return (
-            <span className='msg-typing'>{this.state.text}</span>
-        );
+        return <span className="msg-typing">{this.state.text}</span>;
     }
 }
 

@@ -24,9 +24,12 @@ function makeMapStateToProps() {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({
-            getReactionsForPost: Actions.getReactionsForPost
-        }, dispatch)
+        actions: bindActionCreators(
+            {
+                getReactionsForPost: Actions.getReactionsForPost
+            },
+            dispatch
+        )
     };
 }
 

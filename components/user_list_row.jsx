@@ -17,14 +17,7 @@ export default function UserListRow({user, extraInfo, actions, actionProps, acti
     let buttons = null;
     if (actions) {
         buttons = actions.map((Action, index) => {
-            return (
-                <Action
-                    key={index.toString()}
-                    user={user}
-                    {...actionProps}
-                    {...actionUserProps}
-                />
-            );
+            return <Action key={index.toString()} user={user} {...actionProps} {...actionUserProps} />;
         });
     }
 
@@ -35,8 +28,8 @@ export default function UserListRow({user, extraInfo, actions, actionProps, acti
     if (extraInfo && extraInfo.length > 0) {
         email = (
             <FormattedHTMLMessage
-                id='admin.user_item.emailTitle'
-                defaultMessage='<strong>Email:</strong> {email}'
+                id="admin.user_item.emailTitle"
+                defaultMessage="<strong>Email:</strong> {email}"
                 values={{
                     email: user.email
                 }}
@@ -57,38 +50,23 @@ export default function UserListRow({user, extraInfo, actions, actionProps, acti
     }
 
     return (
-        <div
-            key={user.id}
-            className='more-modal__row'
-        >
+        <div key={user.id} className="more-modal__row">
             <ProfilePicture
                 src={Client4.getProfilePictureUrl(user.id, user.last_picture_update)}
                 status={status}
-                width='32'
-                height='32'
+                width="32"
+                height="32"
             />
-            <div
-                className='more-modal__details'
-            >
-                <div
-                    id={userCountID}
-                    className='more-modal__name'
-                >
+            <div className="more-modal__details">
+                <div id={userCountID} className="more-modal__name">
                     {Utils.displayEntireNameForUser(user)}
                 </div>
-                <div
-                    id={userCountEmail}
-                    className={emailStyle}
-                >
+                <div id={userCountEmail} className={emailStyle}>
                     {email}
                 </div>
                 {extraInfo}
             </div>
-            <div
-                className='more-modal__actions'
-            >
-                {buttons}
-            </div>
+            <div className="more-modal__actions">{buttons}</div>
         </div>
     );
 }

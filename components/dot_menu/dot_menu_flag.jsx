@@ -40,15 +40,8 @@ export default function DotMenuFlag(props) {
     }
 
     return (
-        <li
-            key={props.idPrefix}
-            role='presentation'
-        >
-            <a
-                id={flagId}
-                href='#'
-                onClick={flagFunc}
-            >
+        <li key={props.idPrefix} role="presentation">
+            <a id={flagId} href="#" onClick={flagFunc}>
                 {formatMessage(props.isFlagged)}
             </a>
         </li>
@@ -62,7 +55,6 @@ DotMenuFlag.propTypes = {
     isFlagged: PropTypes.bool.isRequired,
 
     actions: PropTypes.shape({
-
         /*
          * Function flag the post
          */
@@ -72,7 +64,6 @@ DotMenuFlag.propTypes = {
          * Function to unflag the post
          */
         unflagPost: PropTypes.func.isRequired
-
     }).isRequired
 };
 

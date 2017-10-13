@@ -10,12 +10,11 @@ const WAIT_FOR_HEIGHT_TIMEOUT = 100;
 
 export default class MarkdownImage extends React.PureComponent {
     static propTypes = {
-
         /*
          * The href of the image to be loaded
          */
         href: PropTypes.string
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -45,23 +44,18 @@ export default class MarkdownImage extends React.PureComponent {
         } else {
             this.heightTimeout = setTimeout(this.waitForHeight, WAIT_FOR_HEIGHT_TIMEOUT);
         }
-    }
+    };
 
     stopWaitingForHeight = () => {
         if (this.heightTimeout !== 0) {
             clearTimeout(this.heightTimeout);
             this.heightTimeout = 0;
         }
-    }
+    };
 
     render() {
         return (
-            <img
-                {...this.props}
-                ref='image'
-                onLoad={this.stopWaitingForHeight}
-                onError={this.stopWaitingForHeight}
-            />
+            <img {...this.props} ref="image" onLoad={this.stopWaitingForHeight} onError={this.stopWaitingForHeight} />
         );
     }
 }

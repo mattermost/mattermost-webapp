@@ -24,14 +24,11 @@ export default class ClusterTableContainer extends React.Component {
     }
 
     load() {
-        getClusterStatus(
-            (data) => {
-                this.setState({
-                    clusterInfos: data
-                });
-            },
-            null
-        );
+        getClusterStatus(data => {
+            this.setState({
+                clusterInfos: data
+            });
+        }, null);
     }
 
     componentWillMount() {
@@ -61,14 +58,9 @@ export default class ClusterTableContainer extends React.Component {
 
     render() {
         if (this.state.clusterInfos == null) {
-            return (<LoadingScreen/>);
+            return <LoadingScreen />;
         }
 
-        return (
-            <ClusterTable
-                clusterInfos={this.state.clusterInfos}
-                reload={this.reload}
-            />
-        );
+        return <ClusterTable clusterInfos={this.state.clusterInfos} reload={this.reload} />;
     }
 }

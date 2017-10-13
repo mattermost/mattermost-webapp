@@ -139,7 +139,7 @@ export function highlight(lang, code) {
 
 export function getLanguageFromFileExtension(extension) {
     for (var key in HighlightedLanguages) {
-        if (HighlightedLanguages[key].extensions.find((x) => x === extension)) {
+        if (HighlightedLanguages[key].extensions.find(x => x === extension)) {
             return key;
         }
     }
@@ -165,8 +165,8 @@ function getLanguageFromNameOrAlias(name) {
         return langName;
     }
 
-    return Object.keys(HighlightedLanguages).find((key) => {
+    return Object.keys(HighlightedLanguages).find(key => {
         const aliases = HighlightedLanguages[key].aliases;
-        return aliases && aliases.find((a) => a === langName);
+        return aliases && aliases.find(a => a === langName);
     });
 }

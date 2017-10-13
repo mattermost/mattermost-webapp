@@ -80,28 +80,33 @@ export default class NewChannelFlow extends React.Component {
 
         createChannel(
             channel,
-            (data) => {
+            data => {
                 this.doOnModalExited = () => {
                     browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + data.name);
                 };
 
                 this.props.onModalDismissed();
             },
-            (err) => {
+            err => {
                 if (err.id === 'model.channel.is_valid.2_or_more.app_error') {
                     this.setState({
                         flowState: SHOW_EDIT_URL_THEN_COMPLETE,
                         serverError: (
                             <FormattedMessage
-                                id='channel_flow.handleTooShort'
-                                defaultMessage='Channel URL must be 2 or more lowercase alphanumeric characters'
+                                id="channel_flow.handleTooShort"
+                                defaultMessage="Channel URL must be 2 or more lowercase alphanumeric characters"
                             />
                         )
                     });
                     return;
                 }
                 if (err.id === 'store.sql_channel.update.exists.app_error') {
-                    this.setState({serverError: Utils.localizeMessage('channel_flow.alreadyExist', 'A channel with that URL already exists')});
+                    this.setState({
+                        serverError: Utils.localizeMessage(
+                            'channel_flow.alreadyExist',
+                            'A channel with that URL already exists'
+                        )
+                    });
                     return;
                 }
                 this.setState({serverError: err.message});
@@ -160,38 +165,29 @@ export default class NewChannelFlow extends React.Component {
         // Only listen to flow state if we are being shown
         if (this.props.show) {
             switch (this.state.flowState) {
-            case SHOW_NEW_CHANNEL:
-                if (this.state.channelType === 'O') {
-                    showChannelModal = true;
-                } else {
-                    showGroupModal = true;
-                }
-                break;
-            case SHOW_EDIT_URL:
-                showChangeURLModal = true;
-                changeURLTitle = (
-                    <FormattedMessage
-                        id='channel_flow.changeUrlTitle'
-                        defaultMessage='Change Channel URL'
-                    />
-                );
-                changeURLSubmitButtonText = changeURLTitle;
-                break;
-            case SHOW_EDIT_URL_THEN_COMPLETE:
-                showChangeURLModal = true;
-                changeURLTitle = (
-                    <FormattedMessage
-                        id='channel_flow.set_url_title'
-                        defaultMessage='Set Channel URL'
-                    />
-                );
-                changeURLSubmitButtonText = (
-                    <FormattedMessage
-                        id='channel_flow.create'
-                        defaultMessage='Create Channel'
-                    />
-                );
-                break;
+                case SHOW_NEW_CHANNEL:
+                    if (this.state.channelType === 'O') {
+                        showChannelModal = true;
+                    } else {
+                        showGroupModal = true;
+                    }
+                    break;
+                case SHOW_EDIT_URL:
+                    showChangeURLModal = true;
+                    changeURLTitle = (
+                        <FormattedMessage id="channel_flow.changeUrlTitle" defaultMessage="Change Channel URL" />
+                    );
+                    changeURLSubmitButtonText = changeURLTitle;
+                    break;
+                case SHOW_EDIT_URL_THEN_COMPLETE:
+                    showChangeURLModal = true;
+                    changeURLTitle = (
+                        <FormattedMessage id="channel_flow.set_url_title" defaultMessage="Set Channel URL" />
+                    );
+                    changeURLSubmitButtonText = (
+                        <FormattedMessage id="channel_flow.create" defaultMessage="Create Channel" />
+                    );
+                    break;
             }
         }
         return (

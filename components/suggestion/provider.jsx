@@ -10,7 +10,8 @@ export default class Provider {
         this.disableDispatches = false;
     }
 
-    handlePretextChanged(suggestionId, pretext) { // eslint-disable-line no-unused-vars
+    handlePretextChanged(suggestionId, pretext) {
+        // eslint-disable-line no-unused-vars
         // NO-OP for inherited classes to override
     }
 

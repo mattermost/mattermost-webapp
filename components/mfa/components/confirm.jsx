@@ -42,31 +42,21 @@ export default class Confirm extends React.Component {
     render() {
         return (
             <div>
-                <form
-                    onSubmit={this.submit}
-                    onKeyPress={this.onKeyPress}
-                    className='form-group'
-                >
+                <form onSubmit={this.submit} onKeyPress={this.onKeyPress} className="form-group">
                     <p>
                         <FormattedHTMLMessage
-                            id='mfa.confirm.complete'
-                            defaultMessage='<strong>Set up complete!</strong>'
+                            id="mfa.confirm.complete"
+                            defaultMessage="<strong>Set up complete!</strong>"
                         />
                     </p>
                     <p>
                         <FormattedMessage
-                            id='mfa.confirm.secure'
-                            defaultMessage='Your account is now secure. Next time you sign in, you will be asked to enter a code from the Google Authenticator app on your phone.'
+                            id="mfa.confirm.secure"
+                            defaultMessage="Your account is now secure. Next time you sign in, you will be asked to enter a code from the Google Authenticator app on your phone."
                         />
                     </p>
-                    <button
-                        type='submit'
-                        className='btn btn-primary'
-                    >
-                        <FormattedMessage
-                            id='mfa.confirm.okay'
-                            defaultMessage='Okay'
-                        />
+                    <button type="submit" className="btn btn-primary">
+                        <FormattedMessage id="mfa.confirm.okay" defaultMessage="Okay" />
                     </button>
                 </form>
             </div>
@@ -74,7 +64,5 @@ export default class Confirm extends React.Component {
     }
 }
 
-Confirm.defaultProps = {
-};
-Confirm.propTypes = {
-};
+Confirm.defaultProps = {};
+Confirm.propTypes = {};

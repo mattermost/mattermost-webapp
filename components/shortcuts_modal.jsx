@@ -241,7 +241,7 @@ class ShortcutsModal extends React.PureComponent {
     static propTypes = {
         intl: intlShape.isRequired,
         isMac: PropTypes.bool.isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -259,20 +259,20 @@ class ShortcutsModal extends React.PureComponent {
         ModalStore.removeModalListener(Constants.ActionTypes.TOGGLE_SHORTCUTS_MODAL, this.handleToggle);
     }
 
-    handleToggle = (value) => {
+    handleToggle = value => {
         this.setState({
             show: value
         });
-    }
+    };
 
     handleHide = () => {
         this.setState({show: false});
-    }
+    };
 
     getShortcuts() {
         const {isMac} = this.props;
         const shortcuts = {};
-        Object.keys(allShortcuts).forEach((s) => {
+        Object.keys(allShortcuts).forEach(s => {
             if (isMac && allShortcuts[s].mac) {
                 shortcuts[s] = allShortcuts[s].mac;
             } else if (!isMac && allShortcuts[s].default) {
@@ -291,23 +291,25 @@ class ShortcutsModal extends React.PureComponent {
 
         return (
             <Modal
-                dialogClassName='shortcuts-modal'
+                dialogClassName="shortcuts-modal"
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleHide}
             >
-                <div className='shortcuts-content'>
+                <div className="shortcuts-content">
                     <Modal.Header closeButton={true}>
                         <Modal.Title>
                             <strong>{renderShortcut(formatMessage(shortcuts.mainHeader))}</strong>
                         </Modal.Title>
                     </Modal.Header>
-                    <Modal.Body ref='modalBody'>
-                        <div className='row'>
-                            <div className='col-sm-4'>
-                                <div className='section'>
+                    <Modal.Body ref="modalBody">
+                        <div className="row">
+                            <div className="col-sm-4">
+                                <div className="section">
                                     <div>
-                                        <h4 className='section-title'><strong>{formatMessage(shortcuts.navHeader)}</strong></h4>
+                                        <h4 className="section-title">
+                                            <strong>{formatMessage(shortcuts.navHeader)}</strong>
+                                        </h4>
                                         {renderShortcut(formatMessage(shortcuts.navPrev))}
                                         {renderShortcut(formatMessage(shortcuts.navNext))}
                                         {renderShortcut(formatMessage(shortcuts.navUnreadPrev))}
@@ -319,19 +321,25 @@ class ShortcutsModal extends React.PureComponent {
                                     </div>
                                 </div>
                             </div>
-                            <div className='col-sm-4'>
-                                <div className='section'>
+                            <div className="col-sm-4">
+                                <div className="section">
                                     <div>
-                                        <h4 className='section-title'><strong>{formatMessage(shortcuts.msgHeader)}</strong></h4>
-                                        <span><strong>{formatMessage(shortcuts.msgInputHeader)}</strong></span>
-                                        <div className='subsection'>
+                                        <h4 className="section-title">
+                                            <strong>{formatMessage(shortcuts.msgHeader)}</strong>
+                                        </h4>
+                                        <span>
+                                            <strong>{formatMessage(shortcuts.msgInputHeader)}</strong>
+                                        </span>
+                                        <div className="subsection">
                                             {renderShortcut(formatMessage(shortcuts.msgEdit))}
                                             {renderShortcut(formatMessage(shortcuts.msgReply))}
                                             {renderShortcut(formatMessage(shortcuts.msgReprintPrev))}
                                             {renderShortcut(formatMessage(shortcuts.msgReprintNext))}
                                         </div>
-                                        <span><strong>{formatMessage(shortcuts.msgCompHeader)}</strong></span>
-                                        <div className='subsection'>
+                                        <span>
+                                            <strong>{formatMessage(shortcuts.msgCompHeader)}</strong>
+                                        </span>
+                                        <div className="subsection">
                                             {renderShortcut(formatMessage(shortcuts.msgCompUsername))}
                                             {renderShortcut(formatMessage(shortcuts.msgCompChannel))}
                                             {renderShortcut(formatMessage(shortcuts.msgCompEmoji))}
@@ -339,20 +347,26 @@ class ShortcutsModal extends React.PureComponent {
                                     </div>
                                 </div>
                             </div>
-                            <div className='col-sm-4'>
-                                <div className='section'>
+                            <div className="col-sm-4">
+                                <div className="section">
                                     <div>
-                                        <h4 className='section-title'><strong>{formatMessage(shortcuts.filesHeader)}</strong></h4>
+                                        <h4 className="section-title">
+                                            <strong>{formatMessage(shortcuts.filesHeader)}</strong>
+                                        </h4>
                                         {renderShortcut(formatMessage(shortcuts.filesUpload))}
                                     </div>
-                                    <div className='section--lower'>
-                                        <h4 className='section-title'><strong>{formatMessage(shortcuts.browserHeader)}</strong></h4>
+                                    <div className="section--lower">
+                                        <h4 className="section-title">
+                                            <strong>{formatMessage(shortcuts.browserHeader)}</strong>
+                                        </h4>
                                         {renderShortcut(formatMessage(shortcuts.browserChannelPrev))}
                                         {renderShortcut(formatMessage(shortcuts.browserChannelNext))}
                                         {renderShortcut(formatMessage(shortcuts.browserFontIncrease))}
                                         {renderShortcut(formatMessage(shortcuts.browserFontDecrease))}
-                                        <span><strong>{formatMessage(shortcuts.browserInputHeader)}</strong></span>
-                                        <div className='subsection'>
+                                        <span>
+                                            <strong>{formatMessage(shortcuts.browserInputHeader)}</strong>
+                                        </span>
+                                        <div className="subsection">
                                             {renderShortcut(formatMessage(shortcuts.browserHighlightPrev))}
                                             {renderShortcut(formatMessage(shortcuts.browserHighlightNext))}
                                             {renderShortcut(formatMessage(shortcuts.browserNewline))}
@@ -361,7 +375,7 @@ class ShortcutsModal extends React.PureComponent {
                                 </div>
                             </div>
                         </div>
-                        <div className='info__label'>{formatMessage(shortcuts.info)}</div>
+                        <div className="info__label">{formatMessage(shortcuts.info)}</div>
                     </Modal.Body>
                 </div>
             </Modal>
@@ -379,18 +393,15 @@ function renderShortcut(text) {
 
     let keys = null;
     if (shortcut.length > 1) {
-        keys = shortcut[1].split('|').map((key) =>
-            <span
-                className='shortcut-key'
-                key={key}
-            >
+        keys = shortcut[1].split('|').map(key => (
+            <span className="shortcut-key" key={key}>
                 {key}
             </span>
-        );
+        ));
     }
 
     return (
-        <div className='shortcut-line'>
+        <div className="shortcut-line">
             {description}
             {keys}
         </div>

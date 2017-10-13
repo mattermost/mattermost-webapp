@@ -19,9 +19,12 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({
-            addOAuthApp
-        }, dispatch)
+        actions: bindActionCreators(
+            {
+                addOAuthApp
+            },
+            dispatch
+        )
     };
 }
 

@@ -33,46 +33,31 @@ export default class PublicLinkSettings extends AdminSettings {
     }
 
     renderTitle() {
-        return (
-            <FormattedMessage
-                id='admin.security.public_links'
-                defaultMessage='Public Links'
-            />
-        );
+        return <FormattedMessage id="admin.security.public_links" defaultMessage="Public Links" />;
     }
 
     renderSettings() {
         return (
             <SettingsGroup>
                 <BooleanSetting
-                    id='enablePublicLink'
-                    label={
-                        <FormattedMessage
-                            id='admin.image.shareTitle'
-                            defaultMessage='Enable Public File Links: '
-                        />
-                    }
+                    id="enablePublicLink"
+                    label={<FormattedMessage id="admin.image.shareTitle" defaultMessage="Enable Public File Links: " />}
                     helpText={
                         <FormattedMessage
-                            id='admin.image.shareDescription'
-                            defaultMessage='Allow users to share public links to files and images.'
+                            id="admin.image.shareDescription"
+                            defaultMessage="Allow users to share public links to files and images."
                         />
                     }
                     value={this.state.enablePublicLink}
                     onChange={this.handleChange}
                 />
                 <GeneratedSetting
-                    id='publicLinkSalt'
-                    label={
-                        <FormattedMessage
-                            id='admin.image.publicLinkTitle'
-                            defaultMessage='Public Link Salt:'
-                        />
-                    }
+                    id="publicLinkSalt"
+                    label={<FormattedMessage id="admin.image.publicLinkTitle" defaultMessage="Public Link Salt:" />}
                     helpText={
                         <FormattedMessage
-                            id='admin.image.publicLinkDescription'
-                            defaultMessage='32-character salt added to signing of public image links. Randomly generated on install. Click "Regenerate" to create new salt.'
+                            id="admin.image.publicLinkDescription"
+                            defaultMessage="32-character salt added to signing of public image links. Randomly generated on install. Click &quot;Regenerate&quot; to create new salt."
                         />
                     }
                     value={this.state.publicLinkSalt}

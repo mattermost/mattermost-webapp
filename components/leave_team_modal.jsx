@@ -74,45 +74,24 @@ class LeaveTeamModal extends React.Component {
 
         if (currentUser != null) {
             return (
-                <Modal
-                    className='modal-confirm'
-                    show={this.state.show}
-                    onHide={this.handleHide}
-                >
+                <Modal className="modal-confirm" show={this.state.show} onHide={this.handleHide}>
                     <Modal.Header closeButton={false}>
                         <Modal.Title>
-                            <FormattedMessage
-                                id='leave_team_modal.title'
-                                defaultMessage='Leave the team?'
-                            />
+                            <FormattedMessage id="leave_team_modal.title" defaultMessage="Leave the team?" />
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <FormattedMessage
-                            id='leave_team_modal.desc'
-                            defaultMessage='You will be removed from all public and private channels.  If the team is private you will not be able to rejoin the team.  Are you sure?'
+                            id="leave_team_modal.desc"
+                            defaultMessage="You will be removed from all public and private channels.  If the team is private you will not be able to rejoin the team.  Are you sure?"
                         />
                     </Modal.Body>
                     <Modal.Footer>
-                        <button
-                            type='button'
-                            className='btn btn-default'
-                            onClick={this.handleHide}
-                        >
-                            <FormattedMessage
-                                id='leave_team_modal.no'
-                                defaultMessage='No'
-                            />
+                        <button type="button" className="btn btn-default" onClick={this.handleHide}>
+                            <FormattedMessage id="leave_team_modal.no" defaultMessage="No" />
                         </button>
-                        <button
-                            type='button'
-                            className='btn btn-danger'
-                            onClick={this.handleSubmit}
-                        >
-                            <FormattedMessage
-                                id='leave_team_modal.yes'
-                                defaultMessage='Yes'
-                            />
+                        <button type="button" className="btn btn-danger" onClick={this.handleSubmit}>
+                            <FormattedMessage id="leave_team_modal.yes" defaultMessage="Yes" />
                         </button>
                     </Modal.Footer>
                 </Modal>

@@ -9,7 +9,7 @@ import Constants from 'utils/constants.jsx';
 import EditChannelPurposeModal from './edit_channel_purpose_modal.jsx';
 
 const mapStateToProps = createSelector(
-    (state) => getBool(state, Constants.Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
+    state => getBool(state, Constants.Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
     ({requests}) => {
         const {channels: {updateChannel}} = requests;
         return {
@@ -28,8 +28,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(EditChannelPurposeModal);
-
+export default connect(mapStateToProps, mapDispatchToProps)(EditChannelPurposeModal);

@@ -37,34 +37,30 @@ export default class BackstageCategory extends React.Component {
         let clonedChildren = null;
         if (children.length > 0 && this.context.router.isActive(link)) {
             clonedChildren = (
-                <ul className='sections'>
-                    {
-                        React.Children.map(children, (child) => {
-                            if (!child) {
-                                return child;
-                            }
+                <ul className="sections">
+                    {React.Children.map(children, child => {
+                        if (!child) {
+                            return child;
+                        }
 
-                            return React.cloneElement(child, {
-                                parentLink: link
-                            });
-                        })
-                    }
+                        return React.cloneElement(child, {
+                            parentLink: link
+                        });
+                    })}
                 </ul>
             );
         }
 
         return (
-            <li className='backstage-sidebar__category'>
+            <li className="backstage-sidebar__category">
                 <Link
                     to={link}
-                    className='category-title'
-                    activeClassName='category-title--active'
+                    className="category-title"
+                    activeClassName="category-title--active"
                     onlyActiveOnIndex={true}
                 >
-                    <i className={'fa ' + icon}/>
-                    <span className='category-title__text'>
-                        {title}
-                    </span>
+                    <i className={'fa ' + icon} />
+                    <span className="category-title__text">{title}</span>
                 </Link>
                 {clonedChildren}
             </li>

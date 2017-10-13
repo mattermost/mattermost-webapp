@@ -11,13 +11,14 @@ describe('components/ResetStatusModal', () => {
     test('should match snapshot', () => {
         function emptyFunction() {} //eslint-disable-line no-empty-function
 
-        async function fakeAutoReset() { //eslint-disable-line require-await
+        async function fakeAutoReset() {
+            //eslint-disable-line require-await
             return {status: 'away', manual: true, user_id: 'fake'};
         }
 
         const wrapper = shallow(
             <ResetStatusModal
-                autoResetPref=''
+                autoResetPref=""
                 actions={{
                     autoResetStatus: fakeAutoReset,
                     setStatus: emptyFunction,

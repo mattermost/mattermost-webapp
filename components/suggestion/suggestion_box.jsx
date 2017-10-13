@@ -16,7 +16,6 @@ const KeyCodes = Constants.KeyCodes;
 
 export default class SuggestionBox extends React.Component {
     static propTypes = {
-
         /**
          * The list component to render, usually SuggestionList
          */
@@ -96,7 +95,7 @@ export default class SuggestionBox extends React.Component {
          * If true, the suggestion box is opened on focus, default to false
          */
         openOnFocus: PropTypes.bool
-    }
+    };
 
     static defaultProps = {
         type: 'input',
@@ -106,7 +105,7 @@ export default class SuggestionBox extends React.Component {
         isRHS: false,
         requiredCharacters: 1,
         openOnFocus: false
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -203,7 +202,11 @@ export default class SuggestionBox extends React.Component {
         const textbox = this.getTextbox();
         const pretext = textbox.value.substring(0, textbox.selectionEnd);
 
-        if (!this.composing && SuggestionStore.getPretext(this.suggestionId) !== pretext && pretext.length >= this.props.requiredCharacters) {
+        if (
+            !this.composing &&
+            SuggestionStore.getPretext(this.suggestionId) !== pretext &&
+            pretext.length >= this.props.requiredCharacters
+        ) {
             GlobalActions.emitSuggestionPretextChanged(this.suggestionId, pretext);
         }
 
@@ -238,7 +241,7 @@ export default class SuggestionBox extends React.Component {
         let insertText = '@' + mentionKey;
 
         // if the current text does not end with a whitespace, then insert a space
-        if (this.refs.textbox.value && (/[^\s]$/).test(this.refs.textbox.value)) {
+        if (this.refs.textbox.value && /[^\s]$/.test(this.refs.textbox.value)) {
             insertText = ' ' + insertText;
         }
 
@@ -316,7 +319,10 @@ export default class SuggestionBox extends React.Component {
                 GlobalActions.emitSelectNextSuggestion(this.suggestionId);
                 e.preventDefault();
             } else if (e.which === KeyCodes.ENTER || (this.props.completeOnTab && e.which === KeyCodes.TAB)) {
-                this.handleCompleteWord(SuggestionStore.getSelection(this.suggestionId), SuggestionStore.getSelectedMatchedPretext(this.suggestionId));
+                this.handleCompleteWord(
+                    SuggestionStore.getSelection(this.suggestionId),
+                    SuggestionStore.getSelectedMatchedPretext(this.suggestionId)
+                );
                 if (this.props.onKeyDown) {
                     this.props.onKeyDown(e);
                 }
@@ -349,13 +355,7 @@ export default class SuggestionBox extends React.Component {
     }
 
     render() {
-        const {
-            type,
-            listComponent,
-            listStyle,
-            renderDividers,
-            ...props
-        } = this.props;
+        const {type, listComponent, listStyle, renderDividers, ...props} = this.props;
 
         // Don't pass props used by SuggestionBox
         Reflect.deleteProperty(props, 'providers');
@@ -372,7 +372,9 @@ export default class SuggestionBox extends React.Component {
             onBlur: this.handleBlur,
             onFocus: this.handleFocus,
             onInput: this.handleChange,
-            onChange() { /* this is only here to suppress warnings about onChange not being implemented for read-write inputs */ },
+            onChange() {
+                /* this is only here to suppress warnings about onChange not being implemented for read-write inputs */
+            },
             onCompositionStart: this.handleCompositionStart,
             onCompositionUpdate: this.handleCompositionUpdate,
             onCompositionEnd: this.handleCompositionEnd,
@@ -381,46 +383,27 @@ export default class SuggestionBox extends React.Component {
 
         let textbox = null;
         if (type === 'input') {
-            textbox = (
-                <input
-                    type='text'
-                    autoComplete='off'
-                    {...props}
-                    {...childProps}
-                />
-            );
+            textbox = <input type="text" autoComplete="off" {...props} {...childProps} />;
         } else if (type === 'search') {
-            textbox = (
-                <input
-                    type='search'
-                    autoComplete='off'
-                    {...props}
-                    {...childProps}
-                />
-            );
+            textbox = <input type="search" autoComplete="off" {...props} {...childProps} />;
         } else if (type === 'textarea') {
-            textbox = (
-                <AutosizeTextarea
-                    {...props}
-                    {...childProps}
-                />
-            );
+            textbox = <AutosizeTextarea {...props} {...childProps} />;
         }
 
         // This needs to be upper case so React doesn't think it's an html tag
         const SuggestionListComponent = listComponent;
 
         return (
-            <div ref='container'>
+            <div ref="container">
                 {textbox}
-                {this.props.value.length >= this.props.requiredCharacters &&
+                {this.props.value.length >= this.props.requiredCharacters && (
                     <SuggestionListComponent
                         suggestionId={this.suggestionId}
                         location={listStyle}
                         renderDividers={renderDividers}
                         onCompleteWord={this.handleCompleteWord}
                     />
-                }
+                )}
             </div>
         );
     }

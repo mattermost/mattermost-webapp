@@ -16,12 +16,15 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({
-            flagPost,
-            unflagPost,
-            pinPost,
-            unpinPost
-        }, dispatch)
+        actions: bindActionCreators(
+            {
+                flagPost,
+                unflagPost,
+                pinPost,
+                unpinPost
+            },
+            dispatch
+        )
     };
 }
 

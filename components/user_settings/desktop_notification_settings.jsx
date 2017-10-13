@@ -47,51 +47,45 @@ export default class DesktopNotificationSettings extends React.Component {
             if (Utils.hasSoundOptions()) {
                 soundSection = (
                     <div>
-                        <hr/>
+                        <hr />
                         <label>
                             <FormattedMessage
-                                id='user.settings.notifications.desktop.sound'
-                                defaultMessage='Notification sound'
+                                id="user.settings.notifications.desktop.sound"
+                                defaultMessage="Notification sound"
                             />
                         </label>
-                        <br/>
-                        <div className='radio'>
+                        <br />
+                        <div className="radio">
                             <label>
                                 <input
-                                    id='soundOn'
-                                    type='radio'
-                                    name='notificationSounds'
+                                    id="soundOn"
+                                    type="radio"
+                                    name="notificationSounds"
                                     checked={soundRadio[0]}
                                     onChange={() => this.props.setParentState('desktopSound', 'true')}
                                 />
-                                <FormattedMessage
-                                    id='user.settings.notifications.on'
-                                    defaultMessage='On'
-                                />
+                                <FormattedMessage id="user.settings.notifications.on" defaultMessage="On" />
                             </label>
-                            <br/>
+                            <br />
                         </div>
-                        <div className='radio'>
+                        <div className="radio">
                             <label>
                                 <input
-                                    id='soundOff'
-                                    type='radio'
-                                    name='notificationSounds'
+                                    id="soundOff"
+                                    type="radio"
+                                    name="notificationSounds"
                                     checked={soundRadio[1]}
                                     onChange={() => this.props.setParentState('desktopSound', 'false')}
                                 />
-                                <FormattedMessage
-                                    id='user.settings.notifications.off'
-                                    defaultMessage='Off'
-                                />
+                                <FormattedMessage id="user.settings.notifications.off" defaultMessage="Off" />
                             </label>
-                            <br/>
+                            <br />
                         </div>
-                        <br/>
+                        <br />
                         <span>
                             <FormattedMessage
-                                id='user.settings.notifications.sounds_info'
-                                defaultMessage='Notification sounds are available on IE11, Safari, Chrome and Mattermost Desktop Apps.'
+                                id="user.settings.notifications.sounds_info"
+                                defaultMessage="Notification sounds are available on IE11, Safari, Chrome and Mattermost Desktop Apps."
                             />
                         </span>
                     </div>
@@ -99,17 +93,17 @@ export default class DesktopNotificationSettings extends React.Component {
             } else {
                 soundSection = (
                     <div>
-                        <hr/>
+                        <hr />
                         <label>
                             <FormattedMessage
-                                id='user.settings.notifications.desktop.sound'
-                                defaultMessage='Notification sound'
+                                id="user.settings.notifications.desktop.sound"
+                                defaultMessage="Notification sound"
                             />
                         </label>
-                        <br/>
+                        <br />
                         <FormattedMessage
-                            id='user.settings.notifications.soundConfig'
-                            defaultMessage='Please configure notification sounds in your browser settings'
+                            id="user.settings.notifications.soundConfig"
+                            defaultMessage="Please configure notification sounds in your browser settings"
                         />
                     </div>
                 );
@@ -128,82 +122,82 @@ export default class DesktopNotificationSettings extends React.Component {
 
             durationSection = (
                 <div>
-                    <hr/>
+                    <hr />
                     <label>
                         <FormattedMessage
-                            id='user.settings.notifications.desktop.duration'
-                            defaultMessage='Notification duration'
+                            id="user.settings.notifications.desktop.duration"
+                            defaultMessage="Notification duration"
                         />
                     </label>
-                    <br/>
-                    <div className='radio'>
+                    <br />
+                    <div className="radio">
                         <label>
                             <input
-                                id='soundDuration3'
-                                type='radio'
-                                name='desktopDuration'
+                                id="soundDuration3"
+                                type="radio"
+                                name="desktopDuration"
                                 checked={durationRadio[0]}
                                 onChange={() => this.props.setParentState('desktopDuration', '3')}
                             />
                             <FormattedMessage
-                                id='user.settings.notifications.desktop.seconds'
-                                defaultMessage='{seconds} seconds'
+                                id="user.settings.notifications.desktop.seconds"
+                                defaultMessage="{seconds} seconds"
                                 values={{
                                     seconds: '3'
                                 }}
                             />
                         </label>
-                        <br/>
+                        <br />
                     </div>
-                    <div className='radio'>
+                    <div className="radio">
                         <label>
                             <input
-                                id='soundDuration5'
-                                type='radio'
-                                name='desktopDuration'
+                                id="soundDuration5"
+                                type="radio"
+                                name="desktopDuration"
                                 checked={durationRadio[1]}
                                 onChange={() => this.props.setParentState('desktopDuration', '5')}
                             />
                             <FormattedMessage
-                                id='user.settings.notifications.desktop.seconds'
-                                defaultMessage='{seconds} seconds'
+                                id="user.settings.notifications.desktop.seconds"
+                                defaultMessage="{seconds} seconds"
                                 values={{
                                     seconds: '5'
                                 }}
                             />
                         </label>
-                        <br/>
+                        <br />
                     </div>
-                    <div className='radio'>
+                    <div className="radio">
                         <label>
                             <input
-                                id='soundDuration10'
-                                type='radio'
-                                name='desktopDuration'
+                                id="soundDuration10"
+                                type="radio"
+                                name="desktopDuration"
                                 checked={durationRadio[2]}
                                 onChange={() => this.props.setParentState('desktopDuration', '10')}
                             />
                             <FormattedMessage
-                                id='user.settings.notifications.desktop.seconds'
-                                defaultMessage='{seconds} seconds'
+                                id="user.settings.notifications.desktop.seconds"
+                                defaultMessage="{seconds} seconds"
                                 values={{
                                     seconds: '10'
                                 }}
                             />
                         </label>
                     </div>
-                    <div className='radio'>
+                    <div className="radio">
                         <label>
                             <input
-                                id='soundDurationUnlimited'
-                                type='radio'
-                                name='desktopDuration'
+                                id="soundDurationUnlimited"
+                                type="radio"
+                                name="desktopDuration"
                                 checked={durationRadio[3]}
                                 onChange={() => this.props.setParentState('desktopDuration', '0')}
                             />
                             <FormattedMessage
-                                id='user.settings.notifications.desktop.unlimited'
-                                defaultMessage='Unlimited'
+                                id="user.settings.notifications.desktop.unlimited"
+                                defaultMessage="Unlimited"
                             />
                         </label>
                     </div>
@@ -213,74 +207,71 @@ export default class DesktopNotificationSettings extends React.Component {
             extraInfo = (
                 <span>
                     <FormattedMessage
-                        id='user.settings.notifications.desktop.durationInfo'
-                        defaultMessage='Sets how long desktop notifications will remain on screen when using Firefox or Chrome. Desktop notifications in Edge and Safari can only stay on screen for a maximum of 5 seconds.'
+                        id="user.settings.notifications.desktop.durationInfo"
+                        defaultMessage="Sets how long desktop notifications will remain on screen when using Firefox or Chrome. Desktop notifications in Edge and Safari can only stay on screen for a maximum of 5 seconds."
                     />
                 </span>
             );
         }
 
         inputs.push(
-            <div key='userNotificationLevelOption'>
+            <div key="userNotificationLevelOption">
                 <label>
                     <FormattedMessage
-                        id='user.settings.notifications.desktop'
-                        defaultMessage='Send desktop notifications'
+                        id="user.settings.notifications.desktop"
+                        defaultMessage="Send desktop notifications"
                     />
                 </label>
-                <br/>
-                <div className='radio'>
+                <br />
+                <div className="radio">
                     <label>
                         <input
-                            id='desktopNotificationAllActivity'
-                            type='radio'
-                            name='desktopNotificationLevel'
+                            id="desktopNotificationAllActivity"
+                            type="radio"
+                            name="desktopNotificationLevel"
                             checked={activityRadio[0]}
                             onChange={() => this.props.setParentState('desktopActivity', NotificationLevels.ALL)}
                         />
                         <FormattedMessage
-                            id='user.settings.notifications.allActivity'
-                            defaultMessage='For all activity'
+                            id="user.settings.notifications.allActivity"
+                            defaultMessage="For all activity"
                         />
                     </label>
-                    <br/>
+                    <br />
                 </div>
-                <div className='radio'>
+                <div className="radio">
                     <label>
                         <input
-                            id='desktopNotificationMentions'
-                            type='radio'
-                            name='desktopNotificationLevel'
+                            id="desktopNotificationMentions"
+                            type="radio"
+                            name="desktopNotificationLevel"
                             checked={activityRadio[1]}
                             onChange={() => this.props.setParentState('desktopActivity', NotificationLevels.MENTION)}
                         />
                         <FormattedMessage
-                            id='user.settings.notifications.onlyMentions'
-                            defaultMessage='Only for mentions and direct messages'
+                            id="user.settings.notifications.onlyMentions"
+                            defaultMessage="Only for mentions and direct messages"
                         />
                     </label>
-                    <br/>
+                    <br />
                 </div>
-                <div className='radio'>
+                <div className="radio">
                     <label>
                         <input
-                            id='desktopNotificationNever'
-                            type='radio'
-                            name='desktopNotificationLevel'
+                            id="desktopNotificationNever"
+                            type="radio"
+                            name="desktopNotificationLevel"
                             checked={activityRadio[2]}
                             onChange={() => this.props.setParentState('desktopActivity', NotificationLevels.NONE)}
                         />
-                        <FormattedMessage
-                            id='user.settings.notifications.never'
-                            defaultMessage='Never'
-                        />
+                        <FormattedMessage id="user.settings.notifications.never" defaultMessage="Never" />
                     </label>
                 </div>
-                <br/>
+                <br />
                 <span>
                     <FormattedMessage
-                        id='user.settings.notifications.info'
-                        defaultMessage='Desktop notifications are available on Edge, Firefox, Safari, Chrome and Mattermost Desktop Apps.'
+                        id="user.settings.notifications.info"
+                        defaultMessage="Desktop notifications are available on Edge, Firefox, Safari, Chrome and Mattermost Desktop Apps."
                     />
                 </span>
                 {soundSection}
@@ -305,18 +296,19 @@ export default class DesktopNotificationSettings extends React.Component {
         let describe = '';
         if (this.props.activity === NotificationLevels.MENTION) {
             if (Utils.hasSoundOptions() && this.props.sound !== 'false') {
-                if (this.props.duration === '0') { //eslint-disable-line no-lonely-if
+                if (this.props.duration === '0') {
+                    //eslint-disable-line no-lonely-if
                     describe = (
                         <FormattedMessage
-                            id='user.settings.notifications.desktop.mentionsSoundForever'
-                            defaultMessage='For mentions and direct messages, with sound, shown indefinitely'
+                            id="user.settings.notifications.desktop.mentionsSoundForever"
+                            defaultMessage="For mentions and direct messages, with sound, shown indefinitely"
                         />
                     );
                 } else {
                     describe = (
                         <FormattedMessage
-                            id='user.settings.notifications.desktop.mentionsSoundTimed'
-                            defaultMessage='For mentions and direct messages, with sound, shown for {seconds} seconds'
+                            id="user.settings.notifications.desktop.mentionsSoundTimed"
+                            defaultMessage="For mentions and direct messages, with sound, shown for {seconds} seconds"
                             values={{
                                 seconds: this.props.duration
                             }}
@@ -327,15 +319,15 @@ export default class DesktopNotificationSettings extends React.Component {
                 if (this.props.duration === '0') {
                     describe = (
                         <FormattedMessage
-                            id='user.settings.notifications.desktop.mentionsNoSoundForever'
-                            defaultMessage='For mentions and direct messages, without sound, shown indefinitely'
+                            id="user.settings.notifications.desktop.mentionsNoSoundForever"
+                            defaultMessage="For mentions and direct messages, without sound, shown indefinitely"
                         />
                     );
                 } else {
                     describe = (
                         <FormattedMessage
-                            id='user.settings.notifications.desktop.mentionsNoSoundTimed'
-                            defaultMessage='For mentions and direct messages, without sound, shown for {seconds} seconds'
+                            id="user.settings.notifications.desktop.mentionsNoSoundTimed"
+                            defaultMessage="For mentions and direct messages, without sound, shown for {seconds} seconds"
                             values={{
                                 seconds: this.props.duration
                             }}
@@ -343,18 +335,19 @@ export default class DesktopNotificationSettings extends React.Component {
                     );
                 }
             } else {
-                if (this.props.duration === '0') { //eslint-disable-line no-lonely-if
+                if (this.props.duration === '0') {
+                    //eslint-disable-line no-lonely-if
                     describe = (
                         <FormattedMessage
-                            id='user.settings.notifications.desktop.mentionsSoundHiddenForever'
-                            defaultMessage='For mentions and direct messages, shown indefinitely'
+                            id="user.settings.notifications.desktop.mentionsSoundHiddenForever"
+                            defaultMessage="For mentions and direct messages, shown indefinitely"
                         />
                     );
                 } else {
                     describe = (
                         <FormattedMessage
-                            id='user.settings.notifications.desktop.mentionsSoundHiddenTimed'
-                            defaultMessage='For mentions and direct messages, shown for {seconds} seconds'
+                            id="user.settings.notifications.desktop.mentionsSoundHiddenTimed"
+                            defaultMessage="For mentions and direct messages, shown for {seconds} seconds"
                             values={{
                                 seconds: this.props.duration
                             }}
@@ -363,26 +356,23 @@ export default class DesktopNotificationSettings extends React.Component {
                 }
             }
         } else if (this.props.activity === NotificationLevels.NONE) {
-            describe = (
-                <FormattedMessage
-                    id='user.settings.notifications.off'
-                    defaultMessage='Off'
-                />
-            );
+            describe = <FormattedMessage id="user.settings.notifications.off" defaultMessage="Off" />;
         } else {
-            if (Utils.hasSoundOptions() && this.props.sound !== 'false') {  //eslint-disable-line no-lonely-if
-                if (this.props.duration === '0') { //eslint-disable-line no-lonely-if
+            if (Utils.hasSoundOptions() && this.props.sound !== 'false') {
+                //eslint-disable-line no-lonely-if
+                if (this.props.duration === '0') {
+                    //eslint-disable-line no-lonely-if
                     describe = (
                         <FormattedMessage
-                            id='user.settings.notifications.desktop.allSoundForever'
-                            defaultMessage='For all activity, with sound, shown indefinitely'
+                            id="user.settings.notifications.desktop.allSoundForever"
+                            defaultMessage="For all activity, with sound, shown indefinitely"
                         />
                     );
                 } else {
                     describe = (
                         <FormattedMessage
-                            id='user.settings.notifications.desktop.allSoundTimed'
-                            defaultMessage='For all activity, with sound, shown for {seconds} seconds'
+                            id="user.settings.notifications.desktop.allSoundTimed"
+                            defaultMessage="For all activity, with sound, shown for {seconds} seconds"
                             values={{
                                 seconds: this.props.duration
                             }}
@@ -393,15 +383,15 @@ export default class DesktopNotificationSettings extends React.Component {
                 if (this.props.duration === '0') {
                     describe = (
                         <FormattedMessage
-                            id='user.settings.notifications.desktop.allNoSoundForever'
-                            defaultMessage='For all activity, without sound, shown indefinitely'
+                            id="user.settings.notifications.desktop.allNoSoundForever"
+                            defaultMessage="For all activity, without sound, shown indefinitely"
                         />
                     );
                 } else {
                     describe = (
                         <FormattedMessage
-                            id='user.settings.notifications.desktop.allNoSoundTimed'
-                            defaultMessage='For all activity, without sound, shown for {seconds} seconds'
+                            id="user.settings.notifications.desktop.allNoSoundTimed"
+                            defaultMessage="For all activity, without sound, shown for {seconds} seconds"
                             values={{
                                 seconds: this.props.duration
                             }}
@@ -409,18 +399,19 @@ export default class DesktopNotificationSettings extends React.Component {
                     );
                 }
             } else {
-                if (this.props.duration === '0') { //eslint-disable-line no-lonely-if
+                if (this.props.duration === '0') {
+                    //eslint-disable-line no-lonely-if
                     describe = (
                         <FormattedMessage
-                            id='user.settings.notifications.desktop.allSoundHiddenForever'
-                            defaultMessage='For all activity, shown indefinitely'
+                            id="user.settings.notifications.desktop.allSoundHiddenForever"
+                            defaultMessage="For all activity, shown indefinitely"
                         />
                     );
                 } else {
                     describe = (
                         <FormattedMessage
-                            id='user.settings.notifications.desktop.allSoundHiddenTimed'
-                            defaultMessage='For all activity, shown for {seconds} seconds'
+                            id="user.settings.notifications.desktop.allSoundHiddenTimed"
+                            defaultMessage="For all activity, shown for {seconds} seconds"
                             values={{
                                 seconds: this.props.duration
                             }}

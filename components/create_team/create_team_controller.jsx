@@ -40,13 +40,17 @@ export default class CreateTeamController extends React.Component {
 
     render() {
         let description = null;
-        if (global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.CustomBrand === 'true' && global.window.mm_config.EnableCustomBrand === 'true') {
+        if (
+            global.window.mm_license.IsLicensed === 'true' &&
+            global.window.mm_license.CustomBrand === 'true' &&
+            global.window.mm_config.EnableCustomBrand === 'true'
+        ) {
             description = global.window.mm_config.CustomDescriptionText;
         } else {
             description = (
                 <FormattedMessage
-                    id='web.root.signup_info'
-                    defaultMessage='All team communication in one place, searchable and accessible anywhere'
+                    id="web.root.signup_info"
+                    defaultMessage="All team communication in one place, searchable and accessible anywhere"
                 />
             );
         }
@@ -63,15 +67,13 @@ export default class CreateTeamController extends React.Component {
 
         return (
             <div>
-                <AnnouncementBar/>
-                <BackButton url={url}/>
-                <div className='col-sm-12'>
-                    <div className='signup-team__container'>
+                <AnnouncementBar />
+                <BackButton url={url} />
+                <div className="col-sm-12">
+                    <div className="signup-team__container">
                         <h1>{global.window.mm_config.SiteName}</h1>
-                        <h4 className='color--light'>
-                            {description}
-                        </h4>
-                        <div className='signup__content'>
+                        <h4 className="color--light">{description}</h4>
+                        <div className="signup__content">
                             {React.cloneElement(this.props.children, {
                                 state: this.state,
                                 updateParent: this.updateParent

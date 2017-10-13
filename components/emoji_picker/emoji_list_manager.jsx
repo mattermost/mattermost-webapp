@@ -49,9 +49,9 @@ export default class EmojiListManager {
     }
 
     getSizeAndPositionOfLastMeasuredItem() {
-        return this.lastMeasuredIndex >= 0 ?
-            this.itemSizeAndPositionData[this.lastMeasuredIndex] :
-            {offset: 0, size: 0};
+        return this.lastMeasuredIndex >= 0
+            ? this.itemSizeAndPositionData[this.lastMeasuredIndex]
+            : {offset: 0, size: 0};
     }
 
     getTotalSize() {

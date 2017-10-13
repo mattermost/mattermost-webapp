@@ -10,7 +10,6 @@ import * as Utils from 'utils/utils.jsx';
 
 export default class Reaction extends React.PureComponent {
     static propTypes = {
-
         /*
          * The post to render the reaction for
          */
@@ -52,7 +51,6 @@ export default class Reaction extends React.PureComponent {
         emojiImageUrl: PropTypes.string.isRequired,
 
         actions: PropTypes.shape({
-
             /*
              * Function to add a reaction to a post
              */
@@ -68,7 +66,7 @@ export default class Reaction extends React.PureComponent {
              */
             removeReaction: PropTypes.func.isRequired
         })
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -88,9 +86,9 @@ export default class Reaction extends React.PureComponent {
     }
 
     loadMissingProfiles = () => {
-        const ids = this.props.reactions.map((reaction) => reaction.user_id);
+        const ids = this.props.reactions.map(reaction => reaction.user_id);
         this.props.actions.getMissingProfilesByIds(ids);
-    }
+    };
 
     render() {
         if (!this.props.emojiImageUrl) {
@@ -119,8 +117,8 @@ export default class Reaction extends React.PureComponent {
             if (users.length > 0) {
                 names = (
                     <FormattedMessage
-                        id='reaction.usersAndOthersReacted'
-                        defaultMessage='{users} and {otherUsers, number} other {otherUsers, plural, one {user} other {users}}'
+                        id="reaction.usersAndOthersReacted"
+                        defaultMessage="{users} and {otherUsers, number} other {otherUsers, plural, one {user} other {users}}"
                         values={{
                             users: users.join(', '),
                             otherUsers: otherUsersCount
@@ -130,8 +128,8 @@ export default class Reaction extends React.PureComponent {
             } else {
                 names = (
                     <FormattedMessage
-                        id='reaction.othersReacted'
-                        defaultMessage='{otherUsers, number} {otherUsers, plural, one {user} other {users}}'
+                        id="reaction.othersReacted"
+                        defaultMessage="{otherUsers, number} {otherUsers, plural, one {user} other {users}}"
                         values={{
                             otherUsers: otherUsersCount
                         }}
@@ -141,8 +139,8 @@ export default class Reaction extends React.PureComponent {
         } else if (users.length > 1) {
             names = (
                 <FormattedMessage
-                    id='reaction.usersReacted'
-                    defaultMessage='{users} and {lastUser}'
+                    id="reaction.usersReacted"
+                    defaultMessage="{users} and {lastUser}"
                     values={{
                         users: users.slice(0, -1).join(', '),
                         lastUser: users[users.length - 1]
@@ -156,40 +154,20 @@ export default class Reaction extends React.PureComponent {
         let reactionVerb;
         if (users.length + otherUsersCount > 1) {
             if (currentUserReacted) {
-                reactionVerb = (
-                    <FormattedMessage
-                        id='reaction.reactionVerb.youAndUsers'
-                        defaultMessage='reacted'
-                    />
-                );
+                reactionVerb = <FormattedMessage id="reaction.reactionVerb.youAndUsers" defaultMessage="reacted" />;
             } else {
-                reactionVerb = (
-                    <FormattedMessage
-                        id='reaction.reactionVerb.users'
-                        defaultMessage='reacted'
-                    />
-                );
+                reactionVerb = <FormattedMessage id="reaction.reactionVerb.users" defaultMessage="reacted" />;
             }
         } else if (currentUserReacted) {
-            reactionVerb = (
-                <FormattedMessage
-                    id='reaction.reactionVerb.you'
-                    defaultMessage='reacted'
-                />
-            );
+            reactionVerb = <FormattedMessage id="reaction.reactionVerb.you" defaultMessage="reacted" />;
         } else {
-            reactionVerb = (
-                <FormattedMessage
-                    id='reaction.reactionVerb.user'
-                    defaultMessage='reacted'
-                />
-            );
+            reactionVerb = <FormattedMessage id="reaction.reactionVerb.user" defaultMessage="reacted" />;
         }
 
         const tooltip = (
             <FormattedMessage
-                id='reaction.reacted'
-                defaultMessage='{users} {reactionVerb} with {emoji}'
+                id="reaction.reacted"
+                defaultMessage="{users} {reactionVerb} with {emoji}"
                 values={{
                     users: <b>{names}</b>,
                     reactionVerb,
@@ -203,50 +181,35 @@ export default class Reaction extends React.PureComponent {
         let className = 'post-reaction';
         if (currentUserReacted) {
             handleClick = this.removeReaction;
-            clickTooltip = (
-                <FormattedMessage
-                    id='reaction.clickToRemove'
-                    defaultMessage='(click to remove)'
-                />
-            );
+            clickTooltip = <FormattedMessage id="reaction.clickToRemove" defaultMessage="(click to remove)" />;
 
             className += ' post-reaction--current-user';
         } else {
             handleClick = this.addReaction;
-            clickTooltip = (
-                <FormattedMessage
-                    id='reaction.clickToAdd'
-                    defaultMessage='(click to add)'
-                />
-            );
+            clickTooltip = <FormattedMessage id="reaction.clickToAdd" defaultMessage="(click to add)" />;
         }
 
         return (
             <OverlayTrigger
                 trigger={['hover', 'focus']}
                 delayShow={1000}
-                placement='top'
+                placement="top"
                 shouldUpdatePosition={true}
                 overlay={
                     <Tooltip id={`${this.props.post.id}-${this.props.emojiName}-reaction`}>
                         {tooltip}
-                        <br/>
+                        <br />
                         {clickTooltip}
                     </Tooltip>
                 }
                 onEnter={this.loadMissingProfiles}
             >
-                <div
-                    className={className}
-                    onClick={handleClick}
-                >
+                <div className={className} onClick={handleClick}>
                     <span
-                        className='post-reaction__emoji emoticon'
+                        className="post-reaction__emoji emoticon"
                         style={{backgroundImage: 'url(' + this.props.emojiImageUrl + ')'}}
                     />
-                    <span className='post-reaction__count'>
-                        {this.props.reactionCount}
-                    </span>
+                    <span className="post-reaction__count">{this.props.reactionCount}</span>
                 </div>
             </OverlayTrigger>
         );

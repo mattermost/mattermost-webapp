@@ -11,7 +11,7 @@ import EmojiPicker from './emoji_picker.jsx';
 export default class EmojiPickerContainer extends React.Component {
     static propTypes = {
         onEmojiClick: PropTypes.func.isRequred
-    }
+    };
 
     constructor(props) {
         super(props);

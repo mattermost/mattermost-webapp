@@ -12,7 +12,7 @@ function renderUsername(value, options) {
 }
 
 function renderFormattedText(value, options) {
-    return <span dangerouslySetInnerHTML={{__html: formatText(value, options)}}/>;
+    return <span dangerouslySetInnerHTML={{__html: formatText(value, options)}} />;
 }
 
 function renderJoinChannelMessage(post, options) {
@@ -20,8 +20,8 @@ function renderJoinChannelMessage(post, options) {
 
     return (
         <FormattedMessage
-            id='api.channel.join_channel.post_and_forget'
-            defaultMessage='{username} has joined the channel.'
+            id="api.channel.join_channel.post_and_forget"
+            defaultMessage="{username} has joined the channel."
             values={{username}}
         />
     );
@@ -32,8 +32,8 @@ function renderLeaveChannelMessage(post, options) {
 
     return (
         <FormattedMessage
-            id='api.channel.leave.left'
-            defaultMessage='{username} has left the channel.'
+            id="api.channel.leave.left"
+            defaultMessage="{username} has left the channel."
             values={{username}}
         />
     );
@@ -45,8 +45,8 @@ function renderAddToChannelMessage(post, options) {
 
     return (
         <FormattedMessage
-            id='api.channel.add_member.added'
-            defaultMessage='{addedUsername} added to the channel by {username}'
+            id="api.channel.add_member.added"
+            defaultMessage="{addedUsername} added to the channel by {username}"
             values={{
                 username,
                 addedUsername
@@ -60,8 +60,8 @@ function renderRemoveFromChannelMessage(post, options) {
 
     return (
         <FormattedMessage
-            id='api.channel.remove_member.removed'
-            defaultMessage='{removedUsername} was removed from the channel'
+            id="api.channel.remove_member.removed"
+            defaultMessage="{removedUsername} was removed from the channel"
             values={{
                 removedUsername
             }}
@@ -87,8 +87,8 @@ function renderHeaderChangeMessage(post, options) {
         if (post.props.old_header) {
             return (
                 <FormattedMessage
-                    id='api.channel.post_update_channel_header_message_and_forget.updated_from'
-                    defaultMessage='{username} updated the channel header from: {old} to: {new}'
+                    id="api.channel.post_update_channel_header_message_and_forget.updated_from"
+                    defaultMessage="{username} updated the channel header from: {old} to: {new}"
                     values={{
                         username,
                         old: oldHeader,
@@ -100,8 +100,8 @@ function renderHeaderChangeMessage(post, options) {
 
         return (
             <FormattedMessage
-                id='api.channel.post_update_channel_header_message_and_forget.updated_to'
-                defaultMessage='{username} updated the channel header to: {new}'
+                id="api.channel.post_update_channel_header_message_and_forget.updated_to"
+                defaultMessage="{username} updated the channel header to: {new}"
                 values={{
                     username,
                     new: newHeader
@@ -111,8 +111,8 @@ function renderHeaderChangeMessage(post, options) {
     } else if (post.props.old_header) {
         return (
             <FormattedMessage
-                id='api.channel.post_update_channel_header_message_and_forget.removed'
-                defaultMessage='{username} removed the channel header (was: {old})'
+                id="api.channel.post_update_channel_header_message_and_forget.removed"
+                defaultMessage="{username} removed the channel header (was: {old})"
                 values={{
                     username,
                     old: oldHeader
@@ -135,8 +135,8 @@ function renderDisplayNameChangeMessage(post, options) {
 
     return (
         <FormattedMessage
-            id='api.channel.post_update_channel_displayname_message_and_forget.updated_from'
-            defaultMessage='{username} updated the channel display name from: {old} to: {new}'
+            id="api.channel.post_update_channel_displayname_message_and_forget.updated_from"
+            defaultMessage="{username} updated the channel display name from: {old} to: {new}"
             values={{
                 username,
                 old: oldDisplayName,
@@ -159,8 +159,8 @@ function renderPurposeChangeMessage(post, options) {
         if (post.props.old_purpose) {
             return (
                 <FormattedMessage
-                    id='app.channel.post_update_channel_purpose_message.updated_from'
-                    defaultMessage='{username} updated the channel purpose from: {old} to: {new}'
+                    id="app.channel.post_update_channel_purpose_message.updated_from"
+                    defaultMessage="{username} updated the channel purpose from: {old} to: {new}"
                     values={{
                         username,
                         old: oldPurpose,
@@ -172,8 +172,8 @@ function renderPurposeChangeMessage(post, options) {
 
         return (
             <FormattedMessage
-                id='app.channel.post_update_channel_purpose_message.updated_to'
-                defaultMessage='{username} updated the channel purpose to: {new}'
+                id="app.channel.post_update_channel_purpose_message.updated_to"
+                defaultMessage="{username} updated the channel purpose to: {new}"
                 values={{
                     username,
                     new: newPurpose
@@ -183,8 +183,8 @@ function renderPurposeChangeMessage(post, options) {
     } else if (post.props.old_purpose) {
         return (
             <FormattedMessage
-                id='app.channel.post_update_channel_purpose_message.removed'
-                defaultMessage='{username} removed the channel purpose (was: {old})'
+                id="app.channel.post_update_channel_purpose_message.removed"
+                defaultMessage="{username} removed the channel purpose (was: {old})"
                 values={{
                     username,
                     old: oldPurpose
@@ -205,8 +205,8 @@ function renderChannelDeletedMessage(post, options) {
 
     return (
         <FormattedMessage
-            id='api.channel.delete_channel.archived'
-            defaultMessage='{username} has archived the channel.'
+            id="api.channel.delete_channel.archived"
+            defaultMessage="{username} has archived the channel."
             values={{username}}
         />
     );

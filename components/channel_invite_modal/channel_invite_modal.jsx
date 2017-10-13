@@ -31,7 +31,7 @@ export default class ChannelInviteModal extends React.Component {
             getProfilesNotInChannel: PropTypes.func.isRequired,
             getTeamStats: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -82,20 +82,20 @@ export default class ChannelInviteModal extends React.Component {
             users,
             total: teamStats.active_member_count - channelStats.member_count
         });
-    }
+    };
 
     onStatusChange = () => {
         // Initiate a render to pick up on new statuses
         this.setState({
             statusChange: !this.state.statusChange
         });
-    }
+    };
 
     onHide = () => {
         this.setState({show: false});
-    }
+    };
 
-    handleInviteError = (err) => {
+    handleInviteError = err => {
         if (err) {
             this.setState({
                 inviteError: err.message
@@ -105,13 +105,18 @@ export default class ChannelInviteModal extends React.Component {
                 inviteError: null
             });
         }
-    }
+    };
 
-    nextPage = (page) => {
-        this.props.actions.getProfilesNotInChannel(TeamStore.getCurrentId(), this.props.channel.id, page + 1, USERS_PER_PAGE);
-    }
+    nextPage = page => {
+        this.props.actions.getProfilesNotInChannel(
+            TeamStore.getCurrentId(),
+            this.props.channel.id,
+            page + 1,
+            USERS_PER_PAGE
+        );
+    };
 
-    search = (term) => {
+    search = term => {
         clearTimeout(this.searchTimeoutId);
         this.term = term;
 
@@ -120,28 +125,25 @@ export default class ChannelInviteModal extends React.Component {
             return;
         }
 
-        this.searchTimeoutId = setTimeout(
-            () => {
-                searchUsers(term, TeamStore.getCurrentId(), {not_in_channel_id: this.props.channel.id});
-            },
-            Constants.SEARCH_TIMEOUT_MILLISECONDS
-        );
-    }
+        this.searchTimeoutId = setTimeout(() => {
+            searchUsers(term, TeamStore.getCurrentId(), {not_in_channel_id: this.props.channel.id});
+        }, Constants.SEARCH_TIMEOUT_MILLISECONDS);
+    };
 
     render() {
         let inviteError = null;
         if (this.state.inviteError) {
-            inviteError = (<label className='has-error control-label'>{this.state.inviteError}</label>);
+            inviteError = <label className="has-error control-label">{this.state.inviteError}</label>;
         }
 
         let users = [];
         if (this.state.users) {
-            users = this.state.users.filter((user) => user.delete_at === 0);
+            users = this.state.users.filter(user => user.delete_at === 0);
         }
 
         let content;
         if (this.state.loading) {
-            content = (<LoadingScreen/>);
+            content = <LoadingScreen />;
         } else {
             content = (
                 <SearchableUserList
@@ -162,18 +164,15 @@ export default class ChannelInviteModal extends React.Component {
 
         return (
             <Modal
-                dialogClassName='more-modal'
+                dialogClassName="more-modal"
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title>
-                        <FormattedMessage
-                            id='channel_invite.addNewMembers'
-                            defaultMessage='Add New Members to '
-                        />
-                        <span className='name'>{this.props.channel.display_name}</span>
+                        <FormattedMessage id="channel_invite.addNewMembers" defaultMessage="Add New Members to " />
+                        <span className="name">{this.props.channel.display_name}</span>
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>

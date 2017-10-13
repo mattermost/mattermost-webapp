@@ -27,15 +27,10 @@ export default class BackstageSidebar extends React.Component {
 
         return (
             <BackstageCategory
-                name='emoji'
+                name="emoji"
                 parentLink={'/' + this.props.team.name}
-                icon='fa-smile-o'
-                title={
-                    <FormattedMessage
-                        id='backstage_sidebar.emoji'
-                        defaultMessage='Custom Emoji'
-                    />
-                }
+                icon="fa-smile-o"
+                title={<FormattedMessage id="backstage_sidebar.emoji" defaultMessage="Custom Emoji" />}
             />
         );
     }
@@ -43,16 +38,20 @@ export default class BackstageSidebar extends React.Component {
     renderIntegrations() {
         const config = window.mm_config;
         const isSystemAdmin = Utils.isSystemAdmin(this.props.user.roles);
-        if (config.EnableIncomingWebhooks !== 'true' &&
+        if (
+            config.EnableIncomingWebhooks !== 'true' &&
             config.EnableOutgoingWebhooks !== 'true' &&
             config.EnableCommands !== 'true' &&
-            config.EnableOAuthServiceProvider !== 'true') {
+            config.EnableOAuthServiceProvider !== 'true'
+        ) {
             return null;
         }
 
-        if (config.EnableOnlyAdminIntegrations !== 'false' &&
+        if (
+            config.EnableOnlyAdminIntegrations !== 'false' &&
             !isSystemAdmin &&
-            !TeamStore.isTeamAdmin(this.props.user.id, this.props.team.id)) {
+            !TeamStore.isTeamAdmin(this.props.user.id, this.props.team.id)
+        ) {
             return null;
         }
 
@@ -60,13 +59,13 @@ export default class BackstageSidebar extends React.Component {
         if (config.EnableIncomingWebhooks === 'true') {
             incomingWebhooks = (
                 <BackstageSection
-                    name='incoming_webhooks'
-                    title={(
+                    name="incoming_webhooks"
+                    title={
                         <FormattedMessage
-                            id='backstage_sidebar.integrations.incoming_webhooks'
-                            defaultMessage='Incoming Webhooks'
+                            id="backstage_sidebar.integrations.incoming_webhooks"
+                            defaultMessage="Incoming Webhooks"
                         />
-                    )}
+                    }
                 />
             );
         }
@@ -75,13 +74,13 @@ export default class BackstageSidebar extends React.Component {
         if (config.EnableOutgoingWebhooks === 'true') {
             outgoingWebhooks = (
                 <BackstageSection
-                    name='outgoing_webhooks'
-                    title={(
+                    name="outgoing_webhooks"
+                    title={
                         <FormattedMessage
-                            id='backstage_sidebar.integrations.outgoing_webhooks'
-                            defaultMessage='Outgoing Webhooks'
+                            id="backstage_sidebar.integrations.outgoing_webhooks"
+                            defaultMessage="Outgoing Webhooks"
                         />
-                    )}
+                    }
                 />
             );
         }
@@ -90,26 +89,29 @@ export default class BackstageSidebar extends React.Component {
         if (config.EnableCommands === 'true') {
             commands = (
                 <BackstageSection
-                    name='commands'
-                    title={(
+                    name="commands"
+                    title={
                         <FormattedMessage
-                            id='backstage_sidebar.integrations.commands'
-                            defaultMessage='Slash Commands'
+                            id="backstage_sidebar.integrations.commands"
+                            defaultMessage="Slash Commands"
                         />
-                    )}
+                    }
                 />
             );
         }
 
         let oauthApps = null;
-        if (config.EnableOAuthServiceProvider === 'true' && (isSystemAdmin || config.EnableOnlyAdminIntegrations !== 'true')) {
+        if (
+            config.EnableOAuthServiceProvider === 'true' &&
+            (isSystemAdmin || config.EnableOnlyAdminIntegrations !== 'true')
+        ) {
             oauthApps = (
                 <BackstageSection
-                    name='oauth2-apps'
+                    name="oauth2-apps"
                     title={
                         <FormattedMessage
-                            id='backstage_sidebar.integrations.oauthApps'
-                            defaultMessage='OAuth 2.0 Applications'
+                            id="backstage_sidebar.integrations.oauthApps"
+                            defaultMessage="OAuth 2.0 Applications"
                         />
                     }
                 />
@@ -118,15 +120,10 @@ export default class BackstageSidebar extends React.Component {
 
         return (
             <BackstageCategory
-                name='integrations'
+                name="integrations"
                 parentLink={'/' + this.props.team.name}
-                icon='fa-link'
-                title={
-                    <FormattedMessage
-                        id='backstage_sidebar.integrations'
-                        defaultMessage='Integrations'
-                    />
-                }
+                icon="fa-link"
+                title={<FormattedMessage id="backstage_sidebar.integrations" defaultMessage="Integrations" />}
             >
                 {incomingWebhooks}
                 {outgoingWebhooks}
@@ -138,7 +135,7 @@ export default class BackstageSidebar extends React.Component {
 
     render() {
         return (
-            <div className='backstage-sidebar'>
+            <div className="backstage-sidebar">
                 <ul>
                     {this.renderCustomEmoji()}
                     {this.renderIntegrations()}

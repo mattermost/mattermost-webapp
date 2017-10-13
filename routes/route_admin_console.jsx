@@ -54,228 +54,80 @@ import TeamAnalytics from 'components/analytics/team_analytics';
 
 export default (
     <Route>
-        <Route
-            path='system_analytics'
-            component={SystemAnalytics}
-        />
-        <Route path='general'>
-            <IndexRedirect to='configuration'/>
-            <Route
-                path='configuration'
-                component={ConfigurationSettings}
-            />
-            <Route
-                path='localization'
-                component={LocalizationSettings}
-            />
-            <Route
-                path='users_and_teams'
-                component={UsersAndTeamsSettings}
-            />
-            <Route
-                path='privacy'
-                component={PrivacySettings}
-            />
-            <Route
-                path='policy'
-                component={PolicySettings}
-            />
-            <Route
-                path='compliance'
-                component={ComplianceSettings}
-            />
-            <Route
-                path='logging'
-                component={LogSettings}
-            />
+        <Route path="system_analytics" component={SystemAnalytics} />
+        <Route path="general">
+            <IndexRedirect to="configuration" />
+            <Route path="configuration" component={ConfigurationSettings} />
+            <Route path="localization" component={LocalizationSettings} />
+            <Route path="users_and_teams" component={UsersAndTeamsSettings} />
+            <Route path="privacy" component={PrivacySettings} />
+            <Route path="policy" component={PolicySettings} />
+            <Route path="compliance" component={ComplianceSettings} />
+            <Route path="logging" component={LogSettings} />
         </Route>
-        <Route path='authentication'>
-            <IndexRedirect to='authentication_email'/>
-            <Route
-                path='authentication_email'
-                component={EmailAuthenticationSettings}
-            />
-            <Route
-                path='gitlab'
-                component={GitLabSettings}
-            />
-            <Route
-                path='oauth'
-                component={OAuthSettings}
-            />
-            <Route
-                path='ldap'
-                component={LdapSettings}
-            />
-            <Route
-                path='saml'
-                component={SamlSettings}
-            />
-            <Route
-                path='mfa'
-                component={MfaSettings}
-            />
+        <Route path="authentication">
+            <IndexRedirect to="authentication_email" />
+            <Route path="authentication_email" component={EmailAuthenticationSettings} />
+            <Route path="gitlab" component={GitLabSettings} />
+            <Route path="oauth" component={OAuthSettings} />
+            <Route path="ldap" component={LdapSettings} />
+            <Route path="saml" component={SamlSettings} />
+            <Route path="mfa" component={MfaSettings} />
         </Route>
-        <Route path='security'>
-            <IndexRedirect to='sign_up'/>
-            <Route
-                path='sign_up'
-                component={SignupSettings}
-            />
-            <Route
-                path='password'
-                component={PasswordSettings}
-            />
-            <Route
-                path='public_links'
-                component={PublicLinkSettings}
-            />
-            <Route
-                path='sessions'
-                component={SessionSettings}
-            />
-            <Route
-                path='connections'
-                component={ConnectionSettings}
-            />
-            <Route
-                path='client_versions'
-                component={ClientVersionsSettings}
-            />
+        <Route path="security">
+            <IndexRedirect to="sign_up" />
+            <Route path="sign_up" component={SignupSettings} />
+            <Route path="password" component={PasswordSettings} />
+            <Route path="public_links" component={PublicLinkSettings} />
+            <Route path="sessions" component={SessionSettings} />
+            <Route path="connections" component={ConnectionSettings} />
+            <Route path="client_versions" component={ClientVersionsSettings} />
         </Route>
-        <Route path='notifications'>
-            <IndexRedirect to='notifications_email'/>
-            <Route
-                path='notifications_email'
-                component={EmailSettings}
-            />
-            <Route
-                path='push'
-                component={PushSettings}
-            />
+        <Route path="notifications">
+            <IndexRedirect to="notifications_email" />
+            <Route path="notifications_email" component={EmailSettings} />
+            <Route path="push" component={PushSettings} />
         </Route>
-        <Route path='integrations'>
-            <IndexRedirect to='custom'/>
-            <Route
-                path='custom'
-                component={CustomIntegrationsSettings}
-            />
-            <Route
-                path='external'
-                component={ExternalServiceSettings}
-            />
-            <Route
-                path='webrtc'
-                component={WebrtcSettings}
-            />
-            <Route
-                path='jira'
-                component={JIRASettings}
-            />
-            <Route
-                path='plugins'
-                component={PluginSettings}
-            />
+        <Route path="integrations">
+            <IndexRedirect to="custom" />
+            <Route path="custom" component={CustomIntegrationsSettings} />
+            <Route path="external" component={ExternalServiceSettings} />
+            <Route path="webrtc" component={WebrtcSettings} />
+            <Route path="jira" component={JIRASettings} />
+            <Route path="plugins" component={PluginSettings} />
         </Route>
-        <Route path='files'>
-            <IndexRedirect to='storage'/>
-            <Route
-                path='storage'
-                component={StorageSettings}
-            />
+        <Route path="files">
+            <IndexRedirect to="storage" />
+            <Route path="storage" component={StorageSettings} />
         </Route>
-        <Route path='customization'>
-            <IndexRedirect to='custom_brand'/>
-            <Route
-                path='custom_brand'
-                component={CustomBrandSettings}
-            />
-            <Route
-                path='emoji'
-                component={CustomEmojiSettings}
-            />
-            <Route
-                path='link_previews'
-                component={LinkPreviewsSettings}
-            />
-            <Route
-                path='legal_and_support'
-                component={LegalAndSupportSettings}
-            />
-            <Route
-                path='native_app_links'
-                component={NativeAppLinkSettings}
-            />
+        <Route path="customization">
+            <IndexRedirect to="custom_brand" />
+            <Route path="custom_brand" component={CustomBrandSettings} />
+            <Route path="emoji" component={CustomEmojiSettings} />
+            <Route path="link_previews" component={LinkPreviewsSettings} />
+            <Route path="legal_and_support" component={LegalAndSupportSettings} />
+            <Route path="native_app_links" component={NativeAppLinkSettings} />
         </Route>
-        <Route path='advanced'>
-            <IndexRedirect to='rate'/>
-            <Route
-                path='rate'
-                component={RateSettings}
-            />
-            <Route
-                path='database'
-                component={DatabaseSettings}
-            />
-            <Route
-                path='dataretention'
-                component={DataRetentionSettings}
-            />
-            <Route
-                path='elasticsearch'
-                component={ElasticsearchSettings}
-            />
-            <Route
-                path='developer'
-                component={DeveloperSettings}
-            />
-            <Route
-                path='cluster'
-                component={ClusterSettings}
-            />
-            <Route
-                path='metrics'
-                component={MetricsSettings}
-            />
+        <Route path="advanced">
+            <IndexRedirect to="rate" />
+            <Route path="rate" component={RateSettings} />
+            <Route path="database" component={DatabaseSettings} />
+            <Route path="dataretention" component={DataRetentionSettings} />
+            <Route path="elasticsearch" component={ElasticsearchSettings} />
+            <Route path="developer" component={DeveloperSettings} />
+            <Route path="cluster" component={ClusterSettings} />
+            <Route path="metrics" component={MetricsSettings} />
         </Route>
-        <Route
-            path='users'
-            component={SystemUsers}
-        />
-        <Route
-            path='team_analytics'
-            component={TeamAnalytics}
-        />
-        <Route path='team'>
-            <Redirect
-                from=':team'
-                to='../users'
-            />
-            <Redirect
-                from=':team/users'
-                to='../users'
-            />
-            <Redirect
-                from=':team/analytics'
-                to='../team_analytics'
-            />
-            <Redirect
-                from='*'
-                to='/error'
-                query={RouteUtils.notFoundParams}
-            />
+        <Route path="users" component={SystemUsers} />
+        <Route path="team_analytics" component={TeamAnalytics} />
+        <Route path="team">
+            <Redirect from=":team" to="../users" />
+            <Redirect from=":team/users" to="../users" />
+            <Redirect from=":team/analytics" to="../team_analytics" />
+            <Redirect from="*" to="/error" query={RouteUtils.notFoundParams} />
         </Route>
-        <Route
-            path='license'
-            component={LicenseSettings}
-        />
-        <Route
-            path='audits'
-            component={Audits}
-        />
-        <Route
-            path='logs'
-            component={Logs}
-        />
+        <Route path="license" component={LicenseSettings} />
+        <Route path="audits" component={Audits} />
+        <Route path="logs" component={Logs} />
     </Route>
 );

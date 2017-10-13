@@ -219,14 +219,10 @@ export default class SearchBar extends React.Component {
         }
 
         return (
-            <Popover
-                id='searchbar-help-popup'
-                placement='bottom'
-                className={helpClass}
-            >
+            <Popover id="searchbar-help-popup" placement="bottom" className={helpClass}>
                 <FormattedHTMLMessage
-                    id='search_bar.usage'
-                    defaultMessage='<h4>Search Options</h4><ul><li><span>Use </span><b>"quotation marks"</b><span> to search for phrases</span></li><li><span>Use </span><b>from:</b><span> to find posts from specific users and </span><b>in:</b><span> to find posts in specific channels</span></li></ul>'
+                    id="search_bar.usage"
+                    defaultMessage="<h4>Search Options</h4><ul><li><span>Use </span><b>&quot;quotation marks&quot;</b><span> to search for phrases</span></li><li><span>Use </span><b>from:</b><span> to find posts from specific users and </span><b>in:</b><span> to find posts in specific channels</span></li></ul>"
                 />
             </Popover>
         );
@@ -239,7 +235,7 @@ export default class SearchBar extends React.Component {
 
         var isSearching = null;
         if (this.state.isSearching) {
-            isSearching = <span className={'fa fa-spin fa-spinner'}/>;
+            isSearching = <span className={'fa fa-spin fa-spinner'} />;
         }
 
         let helpClass = 'search-help-popover';
@@ -248,23 +244,14 @@ export default class SearchBar extends React.Component {
         }
 
         const recentMentionsTooltip = (
-            <Tooltip id='recentMentionsTooltip'>
-                <FormattedMessage
-                    id='channel_header.recentMentions'
-                    defaultMessage='Recent Mentions'
-                />
+            <Tooltip id="recentMentionsTooltip">
+                <FormattedMessage id="channel_header.recentMentions" defaultMessage="Recent Mentions" />
             </Tooltip>
         );
 
         const flaggedTooltip = (
-            <Tooltip
-                id='flaggedTooltip'
-                className='text-nowrap'
-            >
-                <FormattedMessage
-                    id='channel_header.flagged'
-                    defaultMessage='Flagged Posts'
-                />
+            <Tooltip id="flaggedTooltip" className="text-nowrap">
+                <FormattedMessage id="channel_header.flagged" defaultMessage="Flagged Posts" />
             </Tooltip>
         );
 
@@ -277,17 +264,14 @@ export default class SearchBar extends React.Component {
                 <OverlayTrigger
                     trigger={['hover', 'focus']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='bottom'
+                    placement="bottom"
                     overlay={recentMentionsTooltip}
                 >
-                    <div
-                        className={'channel-header__icon ' + mentionBtnClass}
-                        onClick={this.searchMentions}
-                    >
+                    <div className={'channel-header__icon ' + mentionBtnClass} onClick={this.searchMentions}>
                         <span
-                            className='icon icon__mentions'
+                            className="icon icon__mentions"
                             dangerouslySetInnerHTML={{__html: mentionsIcon}}
-                            aria-hidden='true'
+                            aria-hidden="true"
                         />
                     </div>
                 </OverlayTrigger>
@@ -299,21 +283,12 @@ export default class SearchBar extends React.Component {
                 <OverlayTrigger
                     trigger={['hover', 'focus']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='bottom'
+                    placement="bottom"
                     overlay={flaggedTooltip}
                 >
-                    <div
-                        className={'channel-header__icon ' + flagBtnClass}
-                    >
-                        <a
-                            href='#'
-                            type='button'
-                            onClick={this.getFlagged}
-                        >
-                            <span
-                                className='icon icon__flag'
-                                dangerouslySetInnerHTML={{__html: flagIcon}}
-                            />
+                    <div className={'channel-header__icon ' + flagBtnClass}>
+                        <a href="#" type="button" onClick={this.getFlagged}>
+                            <span className="icon icon__flag" dangerouslySetInnerHTML={{__html: flagIcon}} />
                         </a>
                     </div>
                 </OverlayTrigger>
@@ -331,33 +306,30 @@ export default class SearchBar extends React.Component {
         }
 
         return (
-            <div className='sidebar-right__table'>
-                <div className='sidebar-collapse__container'>
-                    <div
-                        className='sidebar-collapse'
-                        onClick={this.handleClose}
-                    >
-                        <span className='fa fa-chevron-left'/>
+            <div className="sidebar-right__table">
+                <div className="sidebar-collapse__container">
+                    <div className="sidebar-collapse" onClick={this.handleClose}>
+                        <span className="fa fa-chevron-left" />
                     </div>
                 </div>
-                <div className='search-form__container'>
+                <div className="search-form__container">
                     <form
-                        role='form'
+                        role="form"
                         className={searchFormClass}
                         onSubmit={this.handleSubmit}
                         style={{overflow: 'visible'}}
-                        autoComplete='off'
+                        autoComplete="off"
                     >
                         <span
-                            className='search__icon'
+                            className="search__icon"
                             dangerouslySetInnerHTML={{__html: searchIcon}}
-                            aria-hidden='true'
+                            aria-hidden="true"
                         />
                         <SuggestionBox
-                            ref={(search) => {
+                            ref={search => {
                                 this.search = search;
                             }}
-                            className='search-bar'
+                            className="search-bar"
                             placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
                             value={this.state.searchTerm}
                             onFocus={this.handleUserFocus}
@@ -366,17 +338,11 @@ export default class SearchBar extends React.Component {
                             onKeyDown={this.handleKeyDown}
                             listComponent={SearchSuggestionList}
                             providers={this.suggestionProviders}
-                            type='search'
+                            type="search"
                             autoFocus={this.props.isFocus && this.state.searchTerm === ''}
                         />
-                        <div
-                            className={clearClass}
-                            onClick={this.handleClear}
-                        >
-                            <span
-                                className='sidebar__search-clear-x'
-                                aria-hidden='true'
-                            >
+                        <div className={clearClass} onClick={this.handleClear}>
+                            <span className="sidebar__search-clear-x" aria-hidden="true">
                                 {'×'}
                             </span>
                         </div>
@@ -384,12 +350,8 @@ export default class SearchBar extends React.Component {
                         {this.renderHintPopover(helpClass)}
                     </form>
                 </div>
-                <div>
-                    {mentionBtn}
-                </div>
-                <div>
-                    {flagBtn}
-                </div>
+                <div>{mentionBtn}</div>
+                <div>{flagBtn}</div>
             </div>
         );
     }

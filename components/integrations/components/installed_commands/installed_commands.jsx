@@ -13,7 +13,6 @@ import InstalledCommand from '../installed_command.jsx';
 
 export default class InstalledCommands extends React.PureComponent {
     static propTypes = {
-
         /**
         * The team object
         */
@@ -45,7 +44,6 @@ export default class InstalledCommands extends React.PureComponent {
         isAdmin: PropTypes.bool,
 
         actions: PropTypes.shape({
-
             /**
             * The function to call when Regenerate Token link is clicked
             */
@@ -56,15 +54,15 @@ export default class InstalledCommands extends React.PureComponent {
             */
             deleteCommand: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
-    regenCommandToken = (command) => {
+    regenCommandToken = command => {
         this.props.actions.regenCommandToken(command.id);
-    }
+    };
 
-    deleteCommand = (command) => {
+    deleteCommand = command => {
         this.props.actions.deleteCommand(command.id);
-    }
+    };
 
     commandCompare(a, b) {
         let nameA = a.display_name;
@@ -81,7 +79,7 @@ export default class InstalledCommands extends React.PureComponent {
     }
 
     render() {
-        const commands = this.props.commands.sort(this.commandCompare).map((command) => {
+        const commands = this.props.commands.sort(this.commandCompare).map(command => {
             const canChange = this.props.isAdmin || this.props.user.id === command.creator_id;
 
             return (
@@ -99,51 +97,36 @@ export default class InstalledCommands extends React.PureComponent {
 
         return (
             <BackstageList
-                header={
-                    <FormattedMessage
-                        id='installed_commands.header'
-                        defaultMessage='Installed Slash Commands'
-                    />
-                }
-                addText={
-                    <FormattedMessage
-                        id='installed_commands.add'
-                        defaultMessage='Add Slash Command'
-                    />
-                }
+                header={<FormattedMessage id="installed_commands.header" defaultMessage="Installed Slash Commands" />}
+                addText={<FormattedMessage id="installed_commands.add" defaultMessage="Add Slash Command" />}
                 addLink={'/' + this.props.team.name + '/integrations/commands/add'}
-                emptyText={
-                    <FormattedMessage
-                        id='installed_commands.empty'
-                        defaultMessage='No slash commands found'
-                    />
-                }
+                emptyText={<FormattedMessage id="installed_commands.empty" defaultMessage="No slash commands found" />}
                 helpText={
                     <FormattedMessage
-                        id='installed_commands.help'
-                        defaultMessage='Use slash commands to connect external tools to Mattermost. {buildYourOwn} or visit the {appDirectory} to find self-hosted, third-party apps and integrations.'
+                        id="installed_commands.help"
+                        defaultMessage="Use slash commands to connect external tools to Mattermost. {buildYourOwn} or visit the {appDirectory} to find self-hosted, third-party apps and integrations."
                         values={{
                             buildYourOwn: (
                                 <a
-                                    target='_blank'
-                                    rel='noopener noreferrer'
-                                    href='http://docs.mattermost.com/developer/slash-commands.html'
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    href="http://docs.mattermost.com/developer/slash-commands.html"
                                 >
                                     <FormattedMessage
-                                        id='installed_commands.help.buildYourOwn'
-                                        defaultMessage='Build your own'
+                                        id="installed_commands.help.buildYourOwn"
+                                        defaultMessage="Build your own"
                                     />
                                 </a>
                             ),
                             appDirectory: (
                                 <a
-                                    target='_blank'
-                                    rel='noopener noreferrer'
-                                    href='https://about.mattermost.com/default-app-directory/'
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    href="https://about.mattermost.com/default-app-directory/"
                                 >
                                     <FormattedMessage
-                                        id='installed_commands.help.appDirectory'
-                                        defaultMessage='App Directory'
+                                        id="installed_commands.help.appDirectory"
+                                        defaultMessage="App Directory"
                                     />
                                 </a>
                             )

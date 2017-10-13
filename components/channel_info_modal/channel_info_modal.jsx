@@ -13,7 +13,6 @@ import * as Utils from 'utils/utils.jsx';
 
 export default class ChannelInfoModal extends React.PureComponent {
     static propTypes = {
-
         /**
          * Function that is called when modal is hidden
          */
@@ -62,18 +61,10 @@ export default class ChannelInfoModal extends React.PureComponent {
 
         if (channel.type === 'O') {
             channelIcon = (
-                <span
-                    className='icon icon__globe icon--body'
-                    dangerouslySetInnerHTML={{__html: globeIcon}}
-                />
+                <span className="icon icon__globe icon--body" dangerouslySetInnerHTML={{__html: globeIcon}} />
             );
         } else if (channel.type === 'P') {
-            channelIcon = (
-                <span
-                    className='icon icon__globe icon--body'
-                    dangerouslySetInnerHTML={{__html: lockIcon}}
-                />
-            );
+            channelIcon = <span className="icon icon__globe icon--body" dangerouslySetInnerHTML={{__html: lockIcon}} />;
         }
 
         const channelURL = getSiteURL() + '/' + this.props.currentTeam.name + '/channels/' + channel.name;
@@ -84,8 +75,8 @@ export default class ChannelInfoModal extends React.PureComponent {
         } else if (channel.name === Constants.DEFAULT_CHANNEL) {
             channelPurpose = (
                 <FormattedMessage
-                    id='default_channel.purpose'
-                    defaultMessage='Post messages here that you want everyone to see. Everyone automatically becomes a permanent member of this channel when they join the team.'
+                    id="default_channel.purpose"
+                    defaultMessage="Post messages here that you want everyone to see. Everyone automatically becomes a permanent member of this channel when they join the team."
                 />
             );
         }
@@ -93,14 +84,11 @@ export default class ChannelInfoModal extends React.PureComponent {
         let channelPurposeElement;
         if (channelPurpose) {
             channelPurposeElement = (
-                <div className='form-group'>
-                    <div className='info__label'>
-                        <FormattedMessage
-                            id='channel_info.purpose'
-                            defaultMessage='Purpose:'
-                        />
+                <div className="form-group">
+                    <div className="info__label">
+                        <FormattedMessage id="channel_info.purpose" defaultMessage="Purpose:" />
                     </div>
-                    <div className='info__value'>{channelPurpose}</div>
+                    <div className="info__value">{channelPurpose}</div>
                 </div>
             );
         }
@@ -108,16 +96,18 @@ export default class ChannelInfoModal extends React.PureComponent {
         let channelHeader = null;
         if (channel.header) {
             channelHeader = (
-                <div className='form-group'>
-                    <div className='info__label'>
-                        <FormattedMessage
-                            id='channel_info.header'
-                            defaultMessage='Header:'
-                        />
+                <div className="form-group">
+                    <div className="info__label">
+                        <FormattedMessage id="channel_info.header" defaultMessage="Header:" />
                     </div>
                     <div
-                        className='info__value'
-                        dangerouslySetInnerHTML={{__html: TextFormatting.formatText(channel.header, {singleline: false, mentionHighlight: false})}}
+                        className="info__value"
+                        dangerouslySetInnerHTML={{
+                            __html: TextFormatting.formatText(channel.header, {
+                                singleline: false,
+                                mentionHighlight: false
+                            })
+                        }}
                     />
                 </div>
             );
@@ -125,38 +115,32 @@ export default class ChannelInfoModal extends React.PureComponent {
 
         return (
             <Modal
-                dialogClassName='about-modal'
+                dialogClassName="about-modal"
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title>
-                        <FormattedMessage
-                            id='channel_info.about'
-                            defaultMessage='About'
-                        />
-                        <strong>{channelIcon}{channel.display_name}</strong>
+                        <FormattedMessage id="channel_info.about" defaultMessage="About" />
+                        <strong>
+                            {channelIcon}
+                            {channel.display_name}
+                        </strong>
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body ref='modalBody'>
+                <Modal.Body ref="modalBody">
                     {channelPurposeElement}
                     {channelHeader}
-                    <div className='form-group'>
-                        <div className='info__label'>
-                            <FormattedMessage
-                                id='channel_info.url'
-                                defaultMessage='URL:'
-                            />
+                    <div className="form-group">
+                        <div className="info__label">
+                            <FormattedMessage id="channel_info.url" defaultMessage="URL:" />
                         </div>
-                        <div className='info__value'>{channelURL}</div>
+                        <div className="info__value">{channelURL}</div>
                     </div>
-                    <div className='about-modal__hash form-group padding-top x2'>
+                    <div className="about-modal__hash form-group padding-top x2">
                         <p>
-                            <FormattedMessage
-                                id='channel_info.id'
-                                defaultMessage='ID: '
-                            />
+                            <FormattedMessage id="channel_info.id" defaultMessage="ID: " />
                             {channel.id}
                         </p>
                     </div>

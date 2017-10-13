@@ -34,63 +34,58 @@ export default class EmailAuthenticationSettings extends AdminSettings {
     }
 
     renderTitle() {
-        return (
-            <FormattedMessage
-                id='admin.authentication.email'
-                defaultMessage='Email Authentication'
-            />
-        );
+        return <FormattedMessage id="admin.authentication.email" defaultMessage="Email Authentication" />;
     }
 
     renderSettings() {
         return (
             <SettingsGroup>
                 <BooleanSetting
-                    id='enableSignUpWithEmail'
+                    id="enableSignUpWithEmail"
                     label={
                         <FormattedMessage
-                            id='admin.email.allowSignupTitle'
-                            defaultMessage='Enable account creation with email: '
+                            id="admin.email.allowSignupTitle"
+                            defaultMessage="Enable account creation with email: "
                         />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.email.allowSignupDescription'
-                            defaultMessage='When true, Mattermost allows account creation using email and password. This value should be false only when you want to limit sign up to a single sign-on service like AD/LDAP, SAML or GitLab.'
+                            id="admin.email.allowSignupDescription"
+                            defaultMessage="When true, Mattermost allows account creation using email and password. This value should be false only when you want to limit sign up to a single sign-on service like AD/LDAP, SAML or GitLab."
                         />
                     }
                     value={this.state.enableSignUpWithEmail}
                     onChange={this.handleChange}
                 />
                 <BooleanSetting
-                    id='enableSignInWithEmail'
+                    id="enableSignInWithEmail"
                     label={
                         <FormattedMessage
-                            id='admin.email.allowEmailSignInTitle'
-                            defaultMessage='Enable sign-in with email: '
+                            id="admin.email.allowEmailSignInTitle"
+                            defaultMessage="Enable sign-in with email: "
                         />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.email.allowEmailSignInDescription'
-                            defaultMessage='When true, Mattermost allows users to sign in using their email and password.'
+                            id="admin.email.allowEmailSignInDescription"
+                            defaultMessage="When true, Mattermost allows users to sign in using their email and password."
                         />
                     }
                     value={this.state.enableSignInWithEmail}
                     onChange={this.handleChange}
                 />
                 <BooleanSetting
-                    id='enableSignInWithUsername'
+                    id="enableSignInWithUsername"
                     label={
                         <FormattedMessage
-                            id='admin.email.allowUsernameSignInTitle'
-                            defaultMessage='Enable sign-in with username: '
+                            id="admin.email.allowUsernameSignInTitle"
+                            defaultMessage="Enable sign-in with username: "
                         />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.email.allowUsernameSignInDescription'
-                            defaultMessage='When true, users with email login can sign in using their username and password. This setting does not affect AD/LDAP login.'
+                            id="admin.email.allowUsernameSignInDescription"
+                            defaultMessage="When true, users with email login can sign in using their username and password. This setting does not affect AD/LDAP login."
                         />
                     }
                     value={this.state.enableSignInWithUsername}

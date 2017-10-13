@@ -27,9 +27,21 @@ const Preferences = Constants.Preferences;
 function getDisplayStateFromStores() {
     return {
         militaryTime: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, 'use_military_time', 'false'),
-        channelDisplayMode: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT),
-        messageDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT),
-        collapseDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, Preferences.COLLAPSE_DISPLAY_DEFAULT)
+        channelDisplayMode: PreferenceStore.get(
+            Preferences.CATEGORY_DISPLAY_SETTINGS,
+            Preferences.CHANNEL_DISPLAY_MODE,
+            Preferences.CHANNEL_DISPLAY_MODE_DEFAULT
+        ),
+        messageDisplay: PreferenceStore.get(
+            Preferences.CATEGORY_DISPLAY_SETTINGS,
+            Preferences.MESSAGE_DISPLAY,
+            Preferences.MESSAGE_DISPLAY_DEFAULT
+        ),
+        collapseDisplay: PreferenceStore.get(
+            Preferences.CATEGORY_DISPLAY_SETTINGS,
+            Preferences.COLLAPSE_DISPLAY,
+            Preferences.COLLAPSE_DISPLAY_DEFAULT
+        )
     };
 }
 
@@ -78,7 +90,8 @@ export default class UserSettingsDisplay extends React.Component {
 
         this.setState({isSaving: true});
 
-        savePreferences([timePreference, channelDisplayModePreference, messageDisplayPreference, collapseDisplayPreference],
+        savePreferences(
+            [timePreference, channelDisplayModePreference, messageDisplayPreference, collapseDisplayPreference],
             () => {
                 this.updateSection('');
             }
@@ -103,7 +116,9 @@ export default class UserSettingsDisplay extends React.Component {
 
     updateSection(section) {
         if ($('.section-max').length) {
-            $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
+            $('.settings-modal .modal-body')
+                .scrollTop(0)
+                .perfectScrollbar('update');
         }
         this.updateState();
         this.props.updateSection(section);
@@ -127,50 +142,44 @@ export default class UserSettingsDisplay extends React.Component {
                 collapseFormat[1] = true;
             }
 
-            const handleUpdateCollapseSection = (e) => {
+            const handleUpdateCollapseSection = e => {
                 this.updateSection('');
                 e.preventDefault();
             };
 
             const inputs = [
-                <div key='userDisplayCollapseOptions'>
-                    <div className='radio'>
+                <div key="userDisplayCollapseOptions">
+                    <div className="radio">
                         <label>
                             <input
-                                id='collapseFormat'
-                                type='radio'
-                                name='collapseFormat'
+                                id="collapseFormat"
+                                type="radio"
+                                name="collapseFormat"
                                 checked={collapseFormat[0]}
                                 onChange={this.handleCollapseRadio.bind(this, 'false')}
                             />
-                            <FormattedMessage
-                                id='user.settings.display.collapseOn'
-                                defaultMessage='On'
-                            />
+                            <FormattedMessage id="user.settings.display.collapseOn" defaultMessage="On" />
                         </label>
-                        <br/>
+                        <br />
                     </div>
-                    <div className='radio'>
+                    <div className="radio">
                         <label>
                             <input
-                                id='collapseFormatOff'
-                                type='radio'
-                                name='collapseFormat'
+                                id="collapseFormatOff"
+                                type="radio"
+                                name="collapseFormat"
                                 checked={collapseFormat[1]}
                                 onChange={this.handleCollapseRadio.bind(this, 'true')}
                             />
-                            <FormattedMessage
-                                id='user.settings.display.collapseOff'
-                                defaultMessage='Off'
-                            />
+                            <FormattedMessage id="user.settings.display.collapseOff" defaultMessage="Off" />
                         </label>
-                        <br/>
+                        <br />
                     </div>
                     <div>
-                        <br/>
+                        <br />
                         <FormattedMessage
-                            id='user.settings.display.collapseDesc'
-                            defaultMessage='Set whether previews of image links show as expanded or collapsed by default. This setting can also be controlled using the slash commands /expand and /collapse.'
+                            id="user.settings.display.collapseDesc"
+                            defaultMessage="Set whether previews of image links show as expanded or collapsed by default. This setting can also be controlled using the slash commands /expand and /collapse."
                         />
                     </div>
                 </div>
@@ -180,8 +189,8 @@ export default class UserSettingsDisplay extends React.Component {
                 <SettingItemMax
                     title={
                         <FormattedMessage
-                            id='user.settings.display.collapseDisplay'
-                            defaultMessage='Default appearance of image link previews'
+                            id="user.settings.display.collapseDisplay"
+                            defaultMessage="Default appearance of image link previews"
                         />
                     }
                     inputs={inputs}
@@ -195,19 +204,9 @@ export default class UserSettingsDisplay extends React.Component {
 
         let describe;
         if (this.state.collapseDisplay === 'false') {
-            describe = (
-                <FormattedMessage
-                    id='user.settings.display.collapseOn'
-                    defaultMessage='Expanded'
-                />
-            );
+            describe = <FormattedMessage id="user.settings.display.collapseOn" defaultMessage="Expanded" />;
         } else {
-            describe = (
-                <FormattedMessage
-                    id='user.settings.display.collapseOff'
-                    defaultMessage='Collapsed'
-                />
-            );
+            describe = <FormattedMessage id="user.settings.display.collapseOff" defaultMessage="Collapsed" />;
         }
 
         const handleUpdateCollapseSection = () => {
@@ -218,8 +217,8 @@ export default class UserSettingsDisplay extends React.Component {
             <SettingItemMin
                 title={
                     <FormattedMessage
-                        id='user.settings.display.collapseDisplay'
-                        defaultMessage='Default appearance of image link previews'
+                        id="user.settings.display.collapseDisplay"
+                        defaultMessage="Default appearance of image link previews"
                     />
                 }
                 describe={describe}
@@ -245,50 +244,50 @@ export default class UserSettingsDisplay extends React.Component {
                 clockFormat[0] = true;
             }
 
-            const handleUpdateClockSection = (e) => {
+            const handleUpdateClockSection = e => {
                 this.updateSection('');
                 e.preventDefault();
             };
 
             const inputs = [
-                <div key='userDisplayClockOptions'>
-                    <div className='radio'>
+                <div key="userDisplayClockOptions">
+                    <div className="radio">
                         <label>
                             <input
-                                id='clockFormat12h'
-                                type='radio'
-                                name='clockFormat'
+                                id="clockFormat12h"
+                                type="radio"
+                                name="clockFormat"
                                 checked={clockFormat[0]}
                                 onChange={this.handleClockRadio.bind(this, 'false')}
                             />
                             <FormattedMessage
-                                id='user.settings.display.normalClock'
-                                defaultMessage='12-hour clock (example: 4:00 PM)'
+                                id="user.settings.display.normalClock"
+                                defaultMessage="12-hour clock (example: 4:00 PM)"
                             />
                         </label>
-                        <br/>
+                        <br />
                     </div>
-                    <div className='radio'>
+                    <div className="radio">
                         <label>
                             <input
-                                id='clockFormat24h'
-                                type='radio'
-                                name='clockFormat'
+                                id="clockFormat24h"
+                                type="radio"
+                                name="clockFormat"
                                 checked={clockFormat[1]}
                                 onChange={this.handleClockRadio.bind(this, 'true')}
                             />
                             <FormattedMessage
-                                id='user.settings.display.militaryClock'
-                                defaultMessage='24-hour clock (example: 16:00)'
+                                id="user.settings.display.militaryClock"
+                                defaultMessage="24-hour clock (example: 16:00)"
                             />
                         </label>
-                        <br/>
+                        <br />
                     </div>
                     <div>
-                        <br/>
+                        <br />
                         <FormattedMessage
-                            id='user.settings.display.preferTime'
-                            defaultMessage='Select how you prefer time displayed.'
+                            id="user.settings.display.preferTime"
+                            defaultMessage="Select how you prefer time displayed."
                         />
                     </div>
                 </div>
@@ -296,12 +295,7 @@ export default class UserSettingsDisplay extends React.Component {
 
             clockSection = (
                 <SettingItemMax
-                    title={
-                        <FormattedMessage
-                            id='user.settings.display.clockDisplay'
-                            defaultMessage='Clock Display'
-                        />
-                    }
+                    title={<FormattedMessage id="user.settings.display.clockDisplay" defaultMessage="Clock Display" />}
                     inputs={inputs}
                     submit={this.handleSubmit}
                     saving={this.state.isSaving}
@@ -314,15 +308,15 @@ export default class UserSettingsDisplay extends React.Component {
             if (this.state.militaryTime === 'true') {
                 describe = (
                     <FormattedMessage
-                        id='user.settings.display.militaryClock'
-                        defaultMessage='24-hour clock (example: 16:00)'
+                        id="user.settings.display.militaryClock"
+                        defaultMessage="24-hour clock (example: 16:00)"
                     />
                 );
             } else {
                 describe = (
                     <FormattedMessage
-                        id='user.settings.display.normalClock'
-                        defaultMessage='12-hour clock (example: 4:00 PM)'
+                        id="user.settings.display.normalClock"
+                        defaultMessage="12-hour clock (example: 4:00 PM)"
                     />
                 );
             }
@@ -333,12 +327,7 @@ export default class UserSettingsDisplay extends React.Component {
 
             clockSection = (
                 <SettingItemMin
-                    title={
-                        <FormattedMessage
-                            id='user.settings.display.clockDisplay'
-                            defaultMessage='Clock Display'
-                        />
-                    }
+                    title={<FormattedMessage id="user.settings.display.clockDisplay" defaultMessage="Clock Display" />}
                     describe={describe}
                     updateSection={handleUpdateClockSection}
                 />
@@ -354,58 +343,61 @@ export default class UserSettingsDisplay extends React.Component {
             }
 
             const inputs = [
-                <div key='userDisplayNameOptions'>
-                    <div className='radio'>
+                <div key="userDisplayNameOptions">
+                    <div className="radio">
                         <label>
                             <input
-                                id='messageFormatStandard'
-                                type='radio'
-                                name='messageDisplay'
+                                id="messageFormatStandard"
+                                type="radio"
+                                name="messageDisplay"
                                 checked={messageDisplay[0]}
                                 onChange={this.handlemessageDisplayRadio.bind(this, Preferences.MESSAGE_DISPLAY_CLEAN)}
                             />
                             <FormattedMessage
-                                id='user.settings.display.messageDisplayClean'
-                                defaultMessage='Standard'
+                                id="user.settings.display.messageDisplayClean"
+                                defaultMessage="Standard"
                             />
                             {': '}
-                            <span className='font-weight--normal'>
+                            <span className="font-weight--normal">
                                 <FormattedMessage
-                                    id='user.settings.display.messageDisplayCleanDes'
-                                    defaultMessage='Easy to scan and read.'
+                                    id="user.settings.display.messageDisplayCleanDes"
+                                    defaultMessage="Easy to scan and read."
                                 />
                             </span>
                         </label>
-                        <br/>
+                        <br />
                     </div>
-                    <div className='radio'>
+                    <div className="radio">
                         <label>
                             <input
-                                id='messageFormatCompact'
-                                type='radio'
-                                name='messageDisplay'
+                                id="messageFormatCompact"
+                                type="radio"
+                                name="messageDisplay"
                                 checked={messageDisplay[1]}
-                                onChange={this.handlemessageDisplayRadio.bind(this, Preferences.MESSAGE_DISPLAY_COMPACT)}
+                                onChange={this.handlemessageDisplayRadio.bind(
+                                    this,
+                                    Preferences.MESSAGE_DISPLAY_COMPACT
+                                )}
                             />
                             <FormattedMessage
-                                id='user.settings.display.messageDisplayCompact'
-                                defaultMessage='Compact'
+                                id="user.settings.display.messageDisplayCompact"
+                                defaultMessage="Compact"
                             />
                             {': '}
-                            <span className='font-weight--normal'>
+                            <span className="font-weight--normal">
                                 <FormattedMessage
-                                    id='user.settings.display.messageDisplayCompactDes'
-                                    defaultMessage='Fit as many messages on the screen as we can.'
+                                    id="user.settings.display.messageDisplayCompactDes"
+                                    defaultMessage="Fit as many messages on the screen as we can."
                                 />
                             </span>
                         </label>
-                        <br/>
+                        <br />
                     </div>
                     <div>
-                        <br/>
+                        <br />
                         <FormattedMessage
-                            id='user.settings.display.messageDisplayDescription'
-                            defaultMessage='Select how messages in a channel should be displayed.'
+                            id="user.settings.display.messageDisplayDescription"
+                            defaultMessage="Select how messages in a channel should be displayed."
                         />
                     </div>
                 </div>
@@ -415,15 +407,15 @@ export default class UserSettingsDisplay extends React.Component {
                 <SettingItemMax
                     title={
                         <FormattedMessage
-                            id='user.settings.display.messageDisplayTitle'
-                            defaultMessage='Message Display'
+                            id="user.settings.display.messageDisplayTitle"
+                            defaultMessage="Message Display"
                         />
                     }
                     inputs={inputs}
                     submit={this.handleSubmit}
                     saving={this.state.isSaving}
                     server_error={serverError}
-                    updateSection={(e) => {
+                    updateSection={e => {
                         this.updateSection('');
                         e.preventDefault();
                     }}
@@ -433,17 +425,11 @@ export default class UserSettingsDisplay extends React.Component {
             let describe;
             if (this.state.messageDisplay === Preferences.MESSAGE_DISPLAY_CLEAN) {
                 describe = (
-                    <FormattedMessage
-                        id='user.settings.display.messageDisplayClean'
-                        defaultMessage='Standard'
-                    />
+                    <FormattedMessage id="user.settings.display.messageDisplayClean" defaultMessage="Standard" />
                 );
             } else {
                 describe = (
-                    <FormattedMessage
-                        id='user.settings.display.messageDisplayCompact'
-                        defaultMessage='Compact'
-                    />
+                    <FormattedMessage id="user.settings.display.messageDisplayCompact" defaultMessage="Compact" />
                 );
             }
 
@@ -451,8 +437,8 @@ export default class UserSettingsDisplay extends React.Component {
                 <SettingItemMin
                     title={
                         <FormattedMessage
-                            id='user.settings.display.messageDisplayTitle'
-                            defaultMessage='Message Display'
+                            id="user.settings.display.messageDisplayTitle"
+                            defaultMessage="Message Display"
                         />
                     }
                     describe={describe}
@@ -472,44 +458,47 @@ export default class UserSettingsDisplay extends React.Component {
             }
 
             const inputs = [
-                <div key='userDisplayNameOptions'>
-                    <div className='radio'>
+                <div key="userDisplayNameOptions">
+                    <div className="radio">
                         <label>
                             <input
-                                id='channelDisplayFormatFullScreen'
-                                type='radio'
-                                name='channelDisplayMode'
+                                id="channelDisplayFormatFullScreen"
+                                type="radio"
+                                name="channelDisplayMode"
                                 checked={channelDisplayMode[0]}
-                                onChange={this.handleChannelDisplayModeRadio.bind(this, Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN)}
+                                onChange={this.handleChannelDisplayModeRadio.bind(
+                                    this,
+                                    Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN
+                                )}
                             />
-                            <FormattedMessage
-                                id='user.settings.display.fullScreen'
-                                defaultMessage='Full width'
-                            />
+                            <FormattedMessage id="user.settings.display.fullScreen" defaultMessage="Full width" />
                         </label>
-                        <br/>
+                        <br />
                     </div>
-                    <div className='radio'>
+                    <div className="radio">
                         <label>
                             <input
-                                id='channelDisplayFormatCentered'
-                                type='radio'
-                                name='channelDisplayMode'
+                                id="channelDisplayFormatCentered"
+                                type="radio"
+                                name="channelDisplayMode"
                                 checked={channelDisplayMode[1]}
-                                onChange={this.handleChannelDisplayModeRadio.bind(this, Preferences.CHANNEL_DISPLAY_MODE_CENTERED)}
+                                onChange={this.handleChannelDisplayModeRadio.bind(
+                                    this,
+                                    Preferences.CHANNEL_DISPLAY_MODE_CENTERED
+                                )}
                             />
                             <FormattedMessage
-                                id='user.settings.display.fixedWidthCentered'
-                                defaultMessage='Fixed width, centered'
+                                id="user.settings.display.fixedWidthCentered"
+                                defaultMessage="Fixed width, centered"
                             />
                         </label>
-                        <br/>
+                        <br />
                     </div>
                     <div>
-                        <br/>
+                        <br />
                         <FormattedMessage
-                            id='user.settings.display.channeldisplaymode'
-                            defaultMessage='Select the width of the center channel.'
+                            id="user.settings.display.channeldisplaymode"
+                            defaultMessage="Select the width of the center channel."
                         />
                     </div>
                 </div>
@@ -519,15 +508,15 @@ export default class UserSettingsDisplay extends React.Component {
                 <SettingItemMax
                     title={
                         <FormattedMessage
-                            id='user.settings.display.channelDisplayTitle'
-                            defaultMessage='Channel Display Mode'
+                            id="user.settings.display.channelDisplayTitle"
+                            defaultMessage="Channel Display Mode"
                         />
                     }
                     inputs={inputs}
                     submit={this.handleSubmit}
                     saving={this.state.isSaving}
                     server_error={serverError}
-                    updateSection={(e) => {
+                    updateSection={e => {
                         this.updateSection('');
                         e.preventDefault();
                     }}
@@ -536,17 +525,12 @@ export default class UserSettingsDisplay extends React.Component {
         } else {
             let describe;
             if (this.state.channelDisplayMode === Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN) {
-                describe = (
-                    <FormattedMessage
-                        id='user.settings.display.fullScreen'
-                        defaultMessage='Full width'
-                    />
-                );
+                describe = <FormattedMessage id="user.settings.display.fullScreen" defaultMessage="Full width" />;
             } else {
                 describe = (
                     <FormattedMessage
-                        id='user.settings.display.fixedWidthCentered'
-                        defaultMessage='Fixed width, centered'
+                        id="user.settings.display.fixedWidthCentered"
+                        defaultMessage="Fixed width, centered"
                     />
                 );
             }
@@ -555,8 +539,8 @@ export default class UserSettingsDisplay extends React.Component {
                 <SettingItemMin
                     title={
                         <FormattedMessage
-                            id='user.settings.display.channelDisplayTitle'
-                            defaultMessage='Channel Display Mode'
+                            id="user.settings.display.channelDisplayTitle"
+                            defaultMessage="Channel Display Mode"
                         />
                     }
                     describe={describe}
@@ -576,7 +560,7 @@ export default class UserSettingsDisplay extends React.Component {
                 <ManageLanguages
                     user={this.props.user}
                     locale={userLocale}
-                    updateSection={(e) => {
+                    updateSection={e => {
                         this.updateSection('');
                         e.preventDefault();
                     }}
@@ -592,13 +576,8 @@ export default class UserSettingsDisplay extends React.Component {
 
             languagesSection = (
                 <SettingItemMin
-                    title={
-                        <FormattedMessage
-                            id='user.settings.display.language'
-                            defaultMessage='Language'
-                        />
-                    }
-                    width='medium'
+                    title={<FormattedMessage id="user.settings.display.language" defaultMessage="Language" />}
+                    width="medium"
                     describe={locale}
                     updateSection={() => {
                         this.updateSection('languages');
@@ -621,51 +600,39 @@ export default class UserSettingsDisplay extends React.Component {
 
         return (
             <div>
-                <div className='modal-header'>
+                <div className="modal-header">
                     <button
-                        id='closeButton'
-                        type='button'
-                        className='close'
-                        data-dismiss='modal'
-                        aria-label='Close'
+                        id="closeButton"
+                        type="button"
+                        className="close"
+                        data-dismiss="modal"
+                        aria-label="Close"
                         onClick={this.props.closeModal}
                     >
-                        <span aria-hidden='true'>{'×'}</span>
+                        <span aria-hidden="true">{'×'}</span>
                     </button>
-                    <h4
-                        className='modal-title'
-                        ref='title'
-                    >
-                        <div className='modal-back'>
-                            <i
-                                className='fa fa-angle-left'
-                                onClick={this.props.collapseModal}
-                            />
+                    <h4 className="modal-title" ref="title">
+                        <div className="modal-back">
+                            <i className="fa fa-angle-left" onClick={this.props.collapseModal} />
                         </div>
-                        <FormattedMessage
-                            id='user.settings.display.title'
-                            defaultMessage='Display Settings'
-                        />
+                        <FormattedMessage id="user.settings.display.title" defaultMessage="Display Settings" />
                     </h4>
                 </div>
-                <div className='user-settings'>
-                    <h3 className='tab-header'>
-                        <FormattedMessage
-                            id='user.settings.display.title'
-                            defaultMessage='Display Settings'
-                        />
+                <div className="user-settings">
+                    <h3 className="tab-header">
+                        <FormattedMessage id="user.settings.display.title" defaultMessage="Display Settings" />
                     </h3>
-                    <div className='divider-dark first'/>
+                    <div className="divider-dark first" />
                     {themeSection}
-                    <div className='divider-dark'/>
+                    <div className="divider-dark" />
                     {clockSection}
-                    <div className='divider-dark'/>
+                    <div className="divider-dark" />
                     {collapseSection}
-                    <div className='divider-dark'/>
+                    <div className="divider-dark" />
                     {messageDisplaySection}
-                    <div className='divider-dark'/>
+                    <div className="divider-dark" />
                     {channelDisplayModeSection}
-                    <div className='divider-dark'/>
+                    <div className="divider-dark" />
                     {languagesSection}
                 </div>
             </div>

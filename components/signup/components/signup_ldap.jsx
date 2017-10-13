@@ -34,11 +34,11 @@ export default class SignupLdap extends React.Component {
         this.handleLdapIdChange = this.handleLdapIdChange.bind(this);
         this.handleLdapPasswordChange = this.handleLdapPasswordChange.bind(this);
 
-        this.state = ({
+        this.state = {
             ldapError: '',
             ldapId: '',
             ldapPassword: ''
-        });
+        };
     }
 
     componentDidMount() {
@@ -62,17 +62,11 @@ export default class SignupLdap extends React.Component {
 
         this.setState({ldapError: ''});
 
-        webLoginByLdap(
-            this.state.ldapId,
-            this.state.ldapPassword,
-            null,
-            this.handleLdapSignupSuccess,
-            (err) => {
-                this.setState({
-                    ldapError: err.message
-                });
-            }
-        );
+        webLoginByLdap(this.state.ldapId, this.state.ldapPassword, null, this.handleLdapSignupSuccess, err => {
+            this.setState({
+                ldapError: err.message
+            });
+        });
     }
 
     handleLdapSignupSuccess() {
@@ -99,17 +93,15 @@ export default class SignupLdap extends React.Component {
     }
 
     finishSignup() {
-        loadMe().then(
-            () => {
-                const query = this.props.location.query;
-                GlobalActions.loadDefaultLocale();
-                if (query.redirect_to) {
-                    browserHistory.push(query.redirect_to);
-                } else {
-                    GlobalActions.redirectUserToDefaultTeam();
-                }
+        loadMe().then(() => {
+            const query = this.props.location.query;
+            GlobalActions.loadDefaultLocale();
+            if (query.redirect_to) {
+                browserHistory.push(query.redirect_to);
+            } else {
+                GlobalActions.redirectUserToDefaultTeam();
             }
-        );
+        });
     }
 
     render() {
@@ -126,57 +118,50 @@ export default class SignupLdap extends React.Component {
         }
 
         let ldapSignup;
-        if (global.window.mm_config.EnableLdap === 'true' && global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.LDAP) {
+        if (
+            global.window.mm_config.EnableLdap === 'true' &&
+            global.window.mm_license.IsLicensed === 'true' &&
+            global.window.mm_license.LDAP
+        ) {
             ldapSignup = (
-                <div className='inner__content'>
+                <div className="inner__content">
                     <h5>
                         <strong>
-                            <FormattedMessage
-                                id='signup.ldap'
-                                defaultMessage='AD/LDAP Credentials'
-                            />
+                            <FormattedMessage id="signup.ldap" defaultMessage="AD/LDAP Credentials" />
                         </strong>
                     </h5>
-                    <form
-                        onSubmit={this.handleLdapSignup}
-                    >
-                        <div className='signup__email-container'>
-                            <FormError
-                                error={this.state.ldapError}
-                                margin={true}
-                            />
+                    <form onSubmit={this.handleLdapSignup}>
+                        <div className="signup__email-container">
+                            <FormError error={this.state.ldapError} margin={true} />
                             <div className={'form-group' + errorClass}>
                                 <input
-                                    className='form-control'
-                                    name='ldapId'
+                                    className="form-control"
+                                    name="ldapId"
                                     value={this.state.ldapId}
                                     placeholder={ldapIdPlaceholder}
                                     onChange={this.handleLdapIdChange}
-                                    spellCheck='false'
-                                    autoCapitalize='off'
+                                    spellCheck="false"
+                                    autoCapitalize="off"
                                 />
                             </div>
                             <div className={'form-group' + errorClass}>
                                 <input
-                                    type='password'
-                                    className='form-control'
-                                    name='password'
+                                    type="password"
+                                    className="form-control"
+                                    name="password"
                                     value={this.state.ldapPassword}
                                     placeholder={Utils.localizeMessage('login.password', 'Password')}
                                     onChange={this.handleLdapPasswordChange}
-                                    spellCheck='false'
+                                    spellCheck="false"
                                 />
                             </div>
-                            <div className='form-group'>
+                            <div className="form-group">
                                 <button
-                                    type='submit'
-                                    className='btn btn-primary'
+                                    type="submit"
+                                    className="btn btn-primary"
                                     disabled={!this.state.ldapId || !this.state.ldapPassword}
                                 >
-                                    <FormattedMessage
-                                        id='login.signIn'
-                                        defaultMessage='Sign in'
-                                    />
+                                    <FormattedMessage id="login.signIn" defaultMessage="Sign in" />
                                 </button>
                             </div>
                         </div>
@@ -192,7 +177,7 @@ export default class SignupLdap extends React.Component {
             terms = (
                 <p>
                     <FormattedHTMLMessage
-                        id='create_team.agreement'
+                        id="create_team.agreement"
                         defaultMessage="By proceeding to create your account and use {siteName}, you agree to our <a href='{TermsOfServiceLink}'>Terms of Service</a> and <a href='{PrivacyPolicyLink}'>Privacy Policy</a>. If you do not agree, you cannot use {siteName}."
                         values={{
                             siteName: global.window.mm_config.SiteName,
@@ -205,49 +190,44 @@ export default class SignupLdap extends React.Component {
         }
 
         let description = null;
-        if (global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.CustomBrand === 'true' && global.window.mm_config.EnableCustomBrand === 'true') {
+        if (
+            global.window.mm_license.IsLicensed === 'true' &&
+            global.window.mm_license.CustomBrand === 'true' &&
+            global.window.mm_config.EnableCustomBrand === 'true'
+        ) {
             description = global.window.mm_config.CustomDescriptionText;
         } else {
             description = (
                 <FormattedMessage
-                    id='web.root.signup_info'
-                    defaultMessage='All team communication in one place, searchable and accessible anywhere'
+                    id="web.root.signup_info"
+                    defaultMessage="All team communication in one place, searchable and accessible anywhere"
                 />
             );
         }
 
         return (
             <div>
-                <BackButton/>
-                <div className='col-sm-12'>
-                    <div className='signup-team__container padding--less'>
-                        <img
-                            className='signup-team-logo'
-                            src={logoImage}
-                        />
+                <BackButton />
+                <div className="col-sm-12">
+                    <div className="signup-team__container padding--less">
+                        <img className="signup-team-logo" src={logoImage} />
                         <h1>{global.window.mm_config.SiteName}</h1>
-                        <h4 className='color--light'>
-                            {description}
-                        </h4>
-                        <h4 className='color--light'>
+                        <h4 className="color--light">{description}</h4>
+                        <h4 className="color--light">
                             <FormattedMessage
-                                id='signup_user_completed.lets'
+                                id="signup_user_completed.lets"
                                 defaultMessage="Let's create your account"
                             />
                         </h4>
-                        <span className='color--light'>
+                        <span className="color--light">
                             <FormattedMessage
-                                id='signup_user_completed.haveAccount'
-                                defaultMessage='Already have an account?'
-                            />
-                            {' '}
-                            <Link
-                                to={'/login'}
-                                query={this.props.location.query}
-                            >
+                                id="signup_user_completed.haveAccount"
+                                defaultMessage="Already have an account?"
+                            />{' '}
+                            <Link to={'/login'} query={this.props.location.query}>
                                 <FormattedMessage
-                                    id='signup_user_completed.signIn'
-                                    defaultMessage='Click here to sign in.'
+                                    id="signup_user_completed.signIn"
+                                    defaultMessage="Click here to sign in."
                                 />
                             </Link>
                         </span>

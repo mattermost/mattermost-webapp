@@ -11,20 +11,18 @@ import LoadingScreen from 'components/loading_screen.jsx';
 
 export default class Audits extends React.PureComponent {
     static propTypes = {
-
         /*
          * Array of audits to render
          */
         audits: PropTypes.arrayOf(PropTypes.object).isRequired,
 
         actions: PropTypes.shape({
-
             /*
              * Function to fetch audits
              */
             getAudits: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -35,65 +33,44 @@ export default class Audits extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.props.actions.getAudits().then(
-            () => this.setState({loadingAudits: false})
-        );
+        this.props.actions.getAudits().then(() => this.setState({loadingAudits: false}));
     }
 
     reload = () => {
         this.setState({loadingAudits: true});
-        this.props.actions.getAudits().then(
-            () => this.setState({loadingAudits: false})
-        );
-    }
+        this.props.actions.getAudits().then(() => this.setState({loadingAudits: false}));
+    };
 
     render() {
         let content = null;
 
         if (global.window.mm_license.IsLicensed !== 'true') {
-            return <div/>;
+            return <div />;
         }
 
         if (this.state.loadingAudits) {
-            content = <LoadingScreen/>;
+            content = <LoadingScreen />;
         } else {
             content = (
                 <div style={{margin: '10px'}}>
-                    <AuditTable
-                        audits={this.props.audits}
-                        showUserId={true}
-                        showIp={true}
-                        showSession={true}
-                    />
+                    <AuditTable audits={this.props.audits} showUserId={true} showIp={true} showSession={true} />
                 </div>
             );
         }
 
         return (
             <div>
-                <ComplianceReports/>
+                <ComplianceReports />
 
-                <div className='panel audit-panel'>
-                    <h3 className='admin-console-header'>
-                        <FormattedMessage
-                            id='admin.audits.title'
-                            defaultMessage='User Activity Logs'
-                        />
-                        <button
-                            type='submit'
-                            className='btn btn-link pull-right'
-                            onClick={this.reload}
-                        >
-                            <i className='fa fa-refresh'/>
-                            <FormattedMessage
-                                id='admin.audits.reload'
-                                defaultMessage='Reload User Activity Logs'
-                            />
+                <div className="panel audit-panel">
+                    <h3 className="admin-console-header">
+                        <FormattedMessage id="admin.audits.title" defaultMessage="User Activity Logs" />
+                        <button type="submit" className="btn btn-link pull-right" onClick={this.reload}>
+                            <i className="fa fa-refresh" />
+                            <FormattedMessage id="admin.audits.reload" defaultMessage="Reload User Activity Logs" />
                         </button>
                     </h3>
-                    <div className='audit-panel__table'>
-                        {content}
-                    </div>
+                    <div className="audit-panel__table">{content}</div>
                 </div>
             </div>
         );

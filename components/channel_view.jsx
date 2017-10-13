@@ -84,42 +84,26 @@ export default class ChannelView extends React.Component {
 
     getChannelView = () => {
         return this.refs.channelView;
-    }
+    };
 
     render() {
         if (this.state.tutorialStep <= TutorialSteps.INTRO_SCREENS) {
-            return (
-                <TutorialView
-                    isRoot={false}
-                />
-            );
+            return <TutorialView isRoot={false} />;
         }
 
         return (
-            <div
-                ref='channelView'
-                id='app-content'
-                className='app__content'
-            >
-                <FileUploadOverlay overlayType='center'/>
-                <ChannelHeader
-                    channelId={this.state.channelId}
-                />
-                <PostView
-                    channelId={this.state.channelId}
-                />
-                <div
-                    className='post-create__container'
-                    id='post-create'
-                >
-                    <CreatePost getChannelView={this.getChannelView}/>
+            <div ref="channelView" id="app-content" className="app__content">
+                <FileUploadOverlay overlayType="center" />
+                <ChannelHeader channelId={this.state.channelId} />
+                <PostView channelId={this.state.channelId} />
+                <div className="post-create__container" id="post-create">
+                    <CreatePost getChannelView={this.getChannelView} />
                 </div>
             </div>
         );
     }
 }
-ChannelView.defaultProps = {
-};
+ChannelView.defaultProps = {};
 
 ChannelView.propTypes = {
     params: PropTypes.object.isRequired

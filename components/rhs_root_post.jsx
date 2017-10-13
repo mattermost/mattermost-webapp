@@ -38,11 +38,11 @@ export default class RhsRootPost extends React.Component {
         status: PropTypes.string,
         previewCollapsed: PropTypes.string,
         isBusy: PropTypes.bool
-    }
+    };
 
     static defaultProps = {
         commentCount: 0
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -122,10 +122,7 @@ export default class RhsRootPost extends React.Component {
 
     timeTag(post, timeOptions) {
         return (
-            <time
-                className='post__time'
-                dateTime={Utils.getDateForUnixTicks(post.create_at).toISOString()}
-            >
+            <time className="post__time" dateTime={Utils.getDateForUnixTicks(post.create_at).toISOString()}>
                 {Utils.getDateForUnixTicks(post.create_at).toLocaleString('en', timeOptions)}
             </time>
         );
@@ -143,8 +140,8 @@ export default class RhsRootPost extends React.Component {
         return (
             <Link
                 to={`/${this.state.currentTeamDisplayName}/pl/${post.id}`}
-                target='_blank'
-                className='post__permalink'
+                target="_blank"
+                className="post__permalink"
             >
                 {this.timeTag(post, timeOptions)}
             </Link>
@@ -158,7 +155,7 @@ export default class RhsRootPost extends React.Component {
             showEmojiPicker,
             dropdownOpened: showEmojiPicker
         });
-    }
+    };
 
     reactEmojiClick(emoji) {
         this.setState({showEmojiPicker: false});
@@ -191,7 +188,7 @@ export default class RhsRootPost extends React.Component {
         }
 
         return className;
-    }
+    };
 
     handleDropdownOpened(isOpened) {
         this.setState({
@@ -211,12 +208,7 @@ export default class RhsRootPost extends React.Component {
         var channelName;
         if (channel) {
             if (channel.type === 'D') {
-                channelName = (
-                    <FormattedMessage
-                        id='rhs_root.direct'
-                        defaultMessage='Direct Message'
-                    />
-                );
+                channelName = <FormattedMessage id="rhs_root.direct" defaultMessage="Direct Message" />;
             } else {
                 channelName = channel.display_name;
             }
@@ -237,29 +229,23 @@ export default class RhsRootPost extends React.Component {
                         spaceRequiredBelow={342}
                     />
                     <a
-                        href='#'
-                        className='reacticon__container reaction'
+                        href="#"
+                        className="reacticon__container reaction"
                         onClick={this.toggleEmojiPicker}
-                        ref='rhs_root_reacticon'
+                        ref="rhs_root_reacticon"
                     >
                         <span
-                            className='icon icon--emoji'
+                            className="icon icon--emoji"
                             dangerouslySetInnerHTML={{__html: Constants.EMOJI_ICON_SVG}}
                         />
                     </a>
                 </span>
-
             );
         }
 
         let fileAttachment = null;
         if (post.file_ids && post.file_ids.length > 0) {
-            fileAttachment = (
-                <FileAttachmentListContainer
-                    post={post}
-                    compactDisplay={this.props.compactDisplay}
-                />
-            );
+            fileAttachment = <FileAttachmentListContainer post={post} compactDisplay={this.props.compactDisplay} />;
         }
 
         let userProfile;
@@ -268,12 +254,7 @@ export default class RhsRootPost extends React.Component {
             userProfile = (
                 <UserProfile
                     user={{}}
-                    overwriteName={
-                        <FormattedMessage
-                            id='post_info.system'
-                            defaultMessage='System'
-                        />
-                    }
+                    overwriteName={<FormattedMessage id="post_info.system" defaultMessage="System" />}
                     overwriteImage={Constants.SYSTEM_MESSAGE_PROFILE_IMAGE}
                     disablePopover={true}
                 />
@@ -281,22 +262,13 @@ export default class RhsRootPost extends React.Component {
         } else if (post.props && post.props.from_webhook) {
             if (post.props.override_username && global.window.mm_config.EnablePostUsernameOverride === 'true') {
                 userProfile = (
-                    <UserProfile
-                        user={user}
-                        overwriteName={post.props.override_username}
-                        disablePopover={true}
-                    />
+                    <UserProfile user={user} overwriteName={post.props.override_username} disablePopover={true} />
                 );
             } else {
-                userProfile = (
-                    <UserProfile
-                        user={user}
-                        disablePopover={true}
-                    />
-                );
+                userProfile = <UserProfile user={user} disablePopover={true} />;
             }
 
-            botIndicator = <div className='col col__name bot-indicator'>{'BOT'}</div>;
+            botIndicator = <div className="col col__name bot-indicator">{'BOT'}</div>;
         } else {
             userProfile = (
                 <UserProfile
@@ -316,27 +288,16 @@ export default class RhsRootPost extends React.Component {
 
         let profilePic;
         if (isSystemMessage) {
-            profilePic = (
-                <span
-                    className='icon'
-                    dangerouslySetInnerHTML={{__html: mattermostLogo}}
-                />
-            );
+            profilePic = <span className="icon" dangerouslySetInnerHTML={{__html: mattermostLogo}} />;
         } else if (post.props && post.props.from_webhook) {
-            profilePic = (
-                <ProfilePicture
-                    src={PostUtils.getProfilePicSrcForPost(post, user)}
-                    width='36'
-                    height='36'
-                />
-            );
+            profilePic = <ProfilePicture src={PostUtils.getProfilePicSrcForPost(post, user)} width="36" height="36" />;
         } else {
             profilePic = (
                 <ProfilePicture
                     src={PostUtils.getProfilePicSrcForPost(post, user)}
                     status={status}
-                    width='36'
-                    height='36'
+                    width="36"
+                    height="36"
                     user={this.props.user}
                     isBusy={this.props.isBusy}
                     isRHS={true}
@@ -347,15 +308,11 @@ export default class RhsRootPost extends React.Component {
 
         if (this.props.compactDisplay) {
             if (post.props && post.props.from_webhook) {
-                profilePic = (
-                    <ProfilePicture
-                        src=''
-                    />
-                );
+                profilePic = <ProfilePicture src="" />;
             } else {
                 profilePic = (
                     <ProfilePicture
-                        src=''
+                        src=""
                         status={status}
                         user={this.props.user}
                         isBusy={this.props.isBusy}
@@ -371,16 +328,13 @@ export default class RhsRootPost extends React.Component {
             postClass += ' post--edited';
         }
 
-        const profilePicContainer = (<div className='post__img'>{profilePic}</div>);
+        const profilePicContainer = <div className="post__img">{profilePic}</div>;
 
         let pinnedBadge;
         if (post.is_pinned) {
             pinnedBadge = (
-                <span className='post__pinned-badge'>
-                    <FormattedMessage
-                        id='post_info.pinned'
-                        defaultMessage='Pinned'
-                    />
+                <span className="post__pinned-badge">
+                    <FormattedMessage id="post_info.pinned" defaultMessage="Pinned" />
                 </span>
             );
         }
@@ -404,10 +358,7 @@ export default class RhsRootPost extends React.Component {
         let dotMenuContainer;
         if (this.props.post.type !== Constants.PostTypes.FAKE_PARENT_DELETED) {
             dotMenuContainer = (
-                <div
-                    ref='dotMenu'
-                    className='col col__reply'
-                >
+                <div ref="dotMenu" className="col col__reply">
                     {dotMenu}
                     {react}
                 </div>
@@ -417,48 +368,34 @@ export default class RhsRootPost extends React.Component {
         let postFlagIcon;
         if (this.props.post.type !== Constants.PostTypes.FAKE_PARENT_DELETED) {
             postFlagIcon = (
-                <PostFlagIcon
-                    idPrefix={'rhsRootPostFlag'}
-                    postId={post.id}
-                    isFlagged={this.props.isFlagged}
-                />
+                <PostFlagIcon idPrefix={'rhsRootPostFlag'} postId={post.id} isFlagged={this.props.isFlagged} />
             );
         }
 
         return (
-            <div
-                id='thread--root'
-                className={this.getClassName(post, isSystemMessage)}
-            >
-                <div className='post-right-channel__name'>{channelName}</div>
-                <div className='post__content'>
+            <div id="thread--root" className={this.getClassName(post, isSystemMessage)}>
+                <div className="post-right-channel__name">{channelName}</div>
+                <div className="post__content">
                     {profilePicContainer}
                     <div>
-                        <div className='post__header'>
-                            <div className='col__name'>{userProfile}</div>
+                        <div className="post__header">
+                            <div className="col__name">{userProfile}</div>
                             {botIndicator}
-                            <div className='col'>
+                            <div className="col">
                                 {this.renderTimeTag(post, timeOptions)}
                                 {pinnedBadge}
                                 {postFlagIcon}
                             </div>
                             {dotMenuContainer}
                         </div>
-                        <div className='post__body'>
+                        <div className="post__body">
                             <div className={postClass}>
-                                <PostBodyAdditionalContent
-                                    post={post}
-                                    previewCollapsed={this.props.previewCollapsed}
-                                >
-                                    <PostMessageContainer
-                                        post={post}
-                                        isRHS={true}
-                                        hasMention={true}
-                                    />
+                                <PostBodyAdditionalContent post={post} previewCollapsed={this.props.previewCollapsed}>
+                                    <PostMessageContainer post={post} isRHS={true} hasMention={true} />
                                 </PostBodyAdditionalContent>
                             </div>
                             {fileAttachment}
-                            <ReactionListContainer post={post}/>
+                            <ReactionListContainer post={post} />
                         </div>
                     </div>
                 </div>

@@ -19,27 +19,24 @@ export default function DotMenuEdit(props) {
     }
 
     return (
-        <li
-            id={Utils.createSafeId(editId)}
-            key={props.idPrefix}
-            role='presentation'
-        >
+        <li id={Utils.createSafeId(editId)} key={props.idPrefix} role="presentation">
             <a
-                href='#'
-                role='menuitem'
-                data-toggle='modal'
-                data-target='#edit_post'
+                href="#"
+                role="menuitem"
+                data-toggle="modal"
+                data-target="#edit_post"
                 data-refocusid={props.idPrefix.indexOf(Constants.CENTER) === 0 ? '#post_textbox' : '#reply_textbox'}
-                data-title={props.idPrefix.indexOf(Constants.CENTER) === 0 ? props.type : Utils.localizeMessage('rhs_comment.comment', 'Comment')}
+                data-title={
+                    props.idPrefix.indexOf(Constants.CENTER) === 0
+                        ? props.type
+                        : Utils.localizeMessage('rhs_comment.comment', 'Comment')
+                }
                 data-message={props.post.message}
                 data-postid={props.post.id}
                 data-channelid={props.post.channel_id}
                 data-comments={props.commentCount}
             >
-                <FormattedMessage
-                    id='post_info.edit'
-                    defaultMessage='Edit'
-                />
+                <FormattedMessage id="post_info.edit" defaultMessage="Edit" />
             </a>
         </li>
     );

@@ -30,7 +30,7 @@ export default class SidebarRight extends React.Component {
         fromSearch: PropTypes.string,
         fromFlaggedPosts: PropTypes.bool,
         fromPinnedPosts: PropTypes.bool
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -55,7 +55,11 @@ export default class SidebarRight extends React.Component {
             expanded: false,
             fromSearch: false,
             currentUser: UserStore.getCurrentUser(),
-            useMilitaryTime: PreferenceStore.getBool(Constants.Preferences.CATEGORY_DISPLAY_SETTINGS, Constants.Preferences.USE_MILITARY_TIME, false)
+            useMilitaryTime: PreferenceStore.getBool(
+                Constants.Preferences.CATEGORY_DISPLAY_SETTINGS,
+                Constants.Preferences.USE_MILITARY_TIME,
+                false
+            )
         };
     }
 
@@ -77,7 +81,9 @@ export default class SidebarRight extends React.Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        return !Utils.areObjectsEqual(nextState, this.state) || this.props.postRightVisible !== nextProps.postRightVisible;
+        return (
+            !Utils.areObjectsEqual(nextState, this.state) || this.props.postRightVisible !== nextProps.postRightVisible
+        );
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -106,11 +112,11 @@ export default class SidebarRight extends React.Component {
 
         //$('.sidebar--right').prepend('<div class="sidebar__overlay"></div>');
         if (!this.state.searchVisible && !this.props.postRightVisible) {
-            $('.app__body .inner-wrap').removeClass('move--left').removeClass('move--right');
+            $('.app__body .inner-wrap')
+                .removeClass('move--left')
+                .removeClass('move--right');
             $('.app__body .sidebar--right').removeClass('move--left');
-            return (
-                <div/>
-            );
+            return <div />;
         }
 
         /*setTimeout(() => {
@@ -139,7 +145,11 @@ export default class SidebarRight extends React.Component {
         }
 
         this.setState({
-            useMilitaryTime: PreferenceStore.getBool(Constants.Preferences.CATEGORY_DISPLAY_SETTINGS, Constants.Preferences.USE_MILITARY_TIME, false)
+            useMilitaryTime: PreferenceStore.getBool(
+                Constants.Preferences.CATEGORY_DISPLAY_SETTINGS,
+                Constants.Preferences.USE_MILITARY_TIME,
+                false
+            )
         });
     }
 
@@ -193,7 +203,7 @@ export default class SidebarRight extends React.Component {
         var currentId = UserStore.getCurrentId();
         var searchForm = null;
         if (currentId) {
-            searchForm = <SearchBox isFocus={this.state.searchVisible && Utils.isMobile()}/>;
+            searchForm = <SearchBox isFocus={this.state.searchVisible && Utils.isMobile()} />;
         }
 
         const channel = this.props.channel;
@@ -209,8 +219,8 @@ export default class SidebarRight extends React.Component {
 
         if (this.state.searchVisible) {
             content = (
-                <div className='sidebar--right__content'>
-                    <div className='search-bar__container channel-header alt'>{searchForm}</div>
+                <div className="sidebar--right__content">
+                    <div className="search-bar__container channel-header alt">{searchForm}</div>
                     <SearchResults
                         isMentionSearch={this.state.isMentionSearch}
                         isFlaggedPosts={this.state.isFlaggedPosts}
@@ -224,9 +234,9 @@ export default class SidebarRight extends React.Component {
             );
         } else if (this.props.postRightVisible) {
             content = (
-                <div className='post-right__container'>
-                    <FileUploadOverlay overlayType='right'/>
-                    <div className='search-bar__container channel-header alt'>{searchForm}</div>
+                <div className="post-right__container">
+                    <FileUploadOverlay overlayType="right" />
+                    <div className="search-bar__container channel-header alt">{searchForm}</div>
                     <RhsThread
                         fromFlaggedPosts={this.props.fromFlaggedPosts}
                         fromSearch={this.props.fromSearch}
@@ -247,17 +257,9 @@ export default class SidebarRight extends React.Component {
         }
 
         return (
-            <div
-                className={'sidebar--right ' + expandedClass}
-                id='sidebar-right'
-            >
-                <div
-                    onClick={this.onShrink}
-                    className='sidebar--right__bg'
-                />
-                <div className='sidebar-right-container'>
-                    {content}
-                </div>
+            <div className={'sidebar--right ' + expandedClass} id="sidebar-right">
+                <div onClick={this.onShrink} className="sidebar--right__bg" />
+                <div className="sidebar-right-container">{content}</div>
             </div>
         );
     }

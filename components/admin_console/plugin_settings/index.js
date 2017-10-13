@@ -17,11 +17,14 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({
-            uploadPlugin,
-            removePlugin,
-            getPlugins
-        }, dispatch)
+        actions: bindActionCreators(
+            {
+                uploadPlugin,
+                removePlugin,
+                getPlugins
+            },
+            dispatch
+        )
     };
 }
 

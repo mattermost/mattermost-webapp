@@ -22,10 +22,13 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({
-            getCustomTeamCommands,
-            editCommand
-        }, dispatch)
+        actions: bindActionCreators(
+            {
+                getCustomTeamCommands,
+                editCommand
+            },
+            dispatch
+        )
     };
 }
 

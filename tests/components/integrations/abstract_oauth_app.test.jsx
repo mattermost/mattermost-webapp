@@ -23,13 +23,11 @@ describe('components/integrations/AbstractOAuthApp', () => {
         update_at: 1501365458934,
         callback_urls: ['https://test.com/callback', 'https://test.com/callback2']
     };
-    const action = jest.genMockFunction().mockImplementation(
-        () => {
-            return new Promise((resolve) => {
-                process.nextTick(() => resolve());
-            });
-        }
-    );
+    const action = jest.genMockFunction().mockImplementation(() => {
+        return new Promise(resolve => {
+            process.nextTick(() => resolve());
+        });
+    });
 
     test('should match snapshot', () => {
         const wrapper = shallow(
@@ -60,9 +58,11 @@ describe('components/integrations/AbstractOAuthApp', () => {
         );
 
         wrapper.find('#callbackUrls').simulate('change', {target: {value: ''}});
-        wrapper.find('.btn-primary').simulate('click', {preventDefault() {
-            return jest.fn();
-        }});
+        wrapper.find('.btn-primary').simulate('click', {
+            preventDefault() {
+                return jest.fn();
+            }
+        });
 
         expect(action).not.toBeCalled();
         expect(wrapper).toMatchSnapshot();
@@ -82,9 +82,11 @@ describe('components/integrations/AbstractOAuthApp', () => {
         );
 
         wrapper.find('#name').simulate('change', {target: {value: 'name'}});
-        wrapper.find('.btn-primary').simulate('click', {preventDefault() {
-            return jest.fn();
-        }});
+        wrapper.find('.btn-primary').simulate('click', {
+            preventDefault() {
+                return jest.fn();
+            }
+        });
 
         expect(action).toBeCalled();
     });

@@ -41,13 +41,11 @@ describe('components/integrations/InstalledOAuthApp', () => {
     });
 
     test('should call onRegenerateSecret function', () => {
-        const onRegenerateSecret = jest.genMockFunction().mockImplementation(
-            () => {
-                return new Promise((resolve) => {
-                    process.nextTick(() => resolve());
-                });
-            }
-        );
+        const onRegenerateSecret = jest.genMockFunction().mockImplementation(() => {
+            return new Promise(resolve => {
+                process.nextTick(() => resolve());
+            });
+        });
 
         const wrapper = shallow(
             <InstalledOAuthApp
@@ -58,9 +56,14 @@ describe('components/integrations/InstalledOAuthApp', () => {
                 filter={''}
             />
         );
-        wrapper.find('div.item-actions a').at(1).simulate('click', {preventDefault() {
-            return jest.fn();
-        }});
+        wrapper
+            .find('div.item-actions a')
+            .at(1)
+            .simulate('click', {
+                preventDefault() {
+                    return jest.fn();
+                }
+            });
         expect(onRegenerateSecret).toBeCalled();
     });
 

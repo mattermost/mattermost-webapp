@@ -8,7 +8,6 @@ import PostAttachment from './post_attachment.jsx';
 
 export default class PostAttachmentList extends React.PureComponent {
     static propTypes = {
-
         /**
          * The post id
          */
@@ -18,24 +17,14 @@ export default class PostAttachmentList extends React.PureComponent {
          * Array of attachments to render
          */
         attachments: PropTypes.array.isRequired
-    }
+    };
 
     render() {
         const content = [];
         this.props.attachments.forEach((attachment, i) => {
-            content.push(
-                <PostAttachment
-                    attachment={attachment}
-                    postId={this.props.postId}
-                    key={'att_' + i}
-                />
-            );
+            content.push(<PostAttachment attachment={attachment} postId={this.props.postId} key={'att_' + i} />);
         });
 
-        return (
-            <div className='attachment__list'>
-                {content}
-            </div>
-        );
+        return <div className="attachment__list">{content}</div>;
     }
 }

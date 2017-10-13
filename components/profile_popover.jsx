@@ -88,19 +88,16 @@ export default class ProfilePopover extends React.Component {
 
         this.setState({loadingDMChannel: user.id});
 
-        openDirectChannelToUser(
-            user.id,
-            (channel) => {
-                if (Utils.isMobile()) {
-                    GlobalActions.emitCloseRightHandSide();
-                }
-                this.setState({loadingDMChannel: -1});
-                if (this.props.hide) {
-                    this.props.hide();
-                }
-                browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + channel.name);
+        openDirectChannelToUser(user.id, channel => {
+            if (Utils.isMobile()) {
+                GlobalActions.emitCloseRightHandSide();
             }
-        );
+            this.setState({loadingDMChannel: -1});
+            if (this.props.hide) {
+                this.props.hide();
+            }
+            browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + channel.name);
+        });
     }
 
     initWebrtc() {
@@ -135,47 +132,38 @@ export default class ProfilePopover extends React.Component {
         let webrtc;
         const userMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
-        const webrtcEnabled = global.mm_config.EnableWebrtc === 'true' && userMedia && Utils.isFeatureEnabled(PreReleaseFeatures.WEBRTC_PREVIEW);
+        const webrtcEnabled =
+            global.mm_config.EnableWebrtc === 'true' &&
+            userMedia &&
+            Utils.isFeatureEnabled(PreReleaseFeatures.WEBRTC_PREVIEW);
 
         if (webrtcEnabled && this.props.user.id !== this.state.currentUserId) {
             const isOnline = this.props.status !== UserStatuses.OFFLINE;
             let webrtcMessage;
             if (isOnline && !this.props.isBusy) {
-                webrtcMessage = (
-                    <FormattedMessage
-                        id='user_profile.webrtc.call'
-                        defaultMessage='Start Video Call'
-                    />
-                );
+                webrtcMessage = <FormattedMessage id="user_profile.webrtc.call" defaultMessage="Start Video Call" />;
             } else if (this.props.isBusy) {
                 webrtcMessage = (
                     <FormattedMessage
-                        id='user_profile.webrtc.unavailable'
-                        defaultMessage='New call unavailable until your existing call ends'
+                        id="user_profile.webrtc.unavailable"
+                        defaultMessage="New call unavailable until your existing call ends"
                     />
                 );
             } else {
                 webrtcMessage = (
-                    <FormattedMessage
-                        id='user_profile.webrtc.offline'
-                        defaultMessage='The user is offline'
-                    />
+                    <FormattedMessage id="user_profile.webrtc.offline" defaultMessage="The user is offline" />
                 );
             }
 
             webrtc = (
-                <div
-                    data-toggle='tooltip'
-                    key='makeCall'
-                    className='popover__row'
-                >
+                <div data-toggle="tooltip" key="makeCall" className="popover__row">
                     <a
-                        href='#'
-                        className='text-nowrap user-popover__email'
+                        href="#"
+                        className="text-nowrap user-popover__email"
                         onClick={() => this.initWebrtc()}
                         disabled={!isOnline}
                     >
-                        <i className='fa fa-video-camera'/>
+                        <i className="fa fa-video-camera" />
                         {webrtcMessage}
                     </a>
                 </div>
@@ -185,11 +173,11 @@ export default class ProfilePopover extends React.Component {
         var dataContent = [];
         dataContent.push(
             <img
-                className='user-popover__image'
+                className="user-popover__image"
                 src={this.props.src}
-                height='128'
-                width='128'
-                key='user-popover-image'
+                height="128"
+                width="128"
+                key="user-popover-image"
             />
         );
 
@@ -198,15 +186,11 @@ export default class ProfilePopover extends React.Component {
             dataContent.push(
                 <OverlayTrigger
                     delayShow={Constants.WEBRTC_TIME_DELAY}
-                    placement='top'
-                    overlay={<Tooltip id='fullNameTooltip'>{fullname}</Tooltip>}
-                    key='user-popover-fullname'
+                    placement="top"
+                    overlay={<Tooltip id="fullNameTooltip">{fullname}</Tooltip>}
+                    key="user-popover-fullname"
                 >
-                    <div
-                        className='overflow--ellipsis text-nowrap padding-bottom'
-                    >
-                        {fullname}
-                    </div>
+                    <div className="overflow--ellipsis text-nowrap padding-bottom">{fullname}</div>
                 </OverlayTrigger>
             );
         }
@@ -216,30 +200,23 @@ export default class ProfilePopover extends React.Component {
             dataContent.push(
                 <OverlayTrigger
                     delayShow={Constants.WEBRTC_TIME_DELAY}
-                    placement='top'
-                    overlay={<Tooltip id='positionTooltip'>{position}</Tooltip>}
+                    placement="top"
+                    overlay={<Tooltip id="positionTooltip">{position}</Tooltip>}
                 >
-                    <div
-                        className='overflow--ellipsis text-nowrap padding-bottom'
-                    >
-                        {position}
-                    </div>
+                    <div className="overflow--ellipsis text-nowrap padding-bottom">{position}</div>
                 </OverlayTrigger>
             );
         }
 
         const email = this.props.user.email;
-        if (global.window.mm_config.ShowEmailAddress === 'true' || UserStore.isSystemAdminForCurrentUser() || this.props.user === UserStore.getCurrentUser()) {
+        if (
+            global.window.mm_config.ShowEmailAddress === 'true' ||
+            UserStore.isSystemAdminForCurrentUser() ||
+            this.props.user === UserStore.getCurrentUser()
+        ) {
             dataContent.push(
-                <div
-                    data-toggle='tooltip'
-                    title={email}
-                    key='user-popover-email'
-                >
-                    <a
-                        href={'mailto:' + email}
-                        className='text-nowrap text-lowercase user-popover__email'
-                    >
+                <div data-toggle="tooltip" title={email} key="user-popover-email">
+                    <a href={'mailto:' + email} className="text-nowrap text-lowercase user-popover__email">
                         {email}
                     </a>
                 </div>
@@ -248,21 +225,14 @@ export default class ProfilePopover extends React.Component {
 
         if (this.props.user.id !== UserStore.getCurrentId()) {
             dataContent.push(
-                <div
-                    data-toggle='tooltip'
-                    key='user-popover-dm'
-                    className='popover__row first'
-                >
+                <div data-toggle="tooltip" key="user-popover-dm" className="popover__row first">
                     <a
-                        href='#'
-                        className='text-nowrap text-lowercase user-popover__email'
+                        href="#"
+                        className="text-nowrap text-lowercase user-popover__email"
                         onClick={this.handleShowDirectChannel}
                     >
-                        <i className='fa fa-paper-plane'/>
-                        <FormattedMessage
-                            id='user_profile.send.dm'
-                            defaultMessage='Send Message'
-                        />
+                        <i className="fa fa-paper-plane" />
+                        <FormattedMessage id="user_profile.send.dm" defaultMessage="Send Message" />
                     </a>
                 </div>
             );
@@ -275,11 +245,7 @@ export default class ProfilePopover extends React.Component {
         }
 
         return (
-            <Popover
-                {...popoverProps}
-                title={title}
-                id='user-profile-popover'
-            >
+            <Popover {...popoverProps} title={title} id="user-profile-popover">
                 {dataContent}
             </Popover>
         );
@@ -291,13 +257,16 @@ ProfilePopover.defaultProps = {
     hasMention: false
 };
 
-ProfilePopover.propTypes = Object.assign({
-    src: PropTypes.string.isRequired,
-    user: PropTypes.object.isRequired,
-    status: PropTypes.string,
-    isBusy: PropTypes.bool,
-    hide: PropTypes.func,
-    isRHS: PropTypes.bool,
-    hasMention: PropTypes.bool
-}, Popover.propTypes);
+ProfilePopover.propTypes = Object.assign(
+    {
+        src: PropTypes.string.isRequired,
+        user: PropTypes.object.isRequired,
+        status: PropTypes.string,
+        isBusy: PropTypes.bool,
+        hide: PropTypes.func,
+        isRHS: PropTypes.bool,
+        hasMention: PropTypes.bool
+    },
+    Popover.propTypes
+);
 delete ProfilePopover.propTypes.id;

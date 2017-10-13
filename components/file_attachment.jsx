@@ -56,7 +56,7 @@ export default class FileAttachment extends React.Component {
         this.setState({
             loaded: true
         });
-    }
+    };
 
     onAttachmentClick(e) {
         e.preventDefault();
@@ -90,10 +90,10 @@ export default class FileAttachment extends React.Component {
                     />
                 );
             } else {
-                thumbnail = <div className={'file-icon ' + Utils.getIconClassName(type)}/>;
+                thumbnail = <div className={'file-icon ' + Utils.getIconClassName(type)} />;
             }
         } else {
-            thumbnail = <div className='post-image__load'/>;
+            thumbnail = <div className="post-image__load" />;
         }
 
         let trimmedFilename;
@@ -111,19 +111,11 @@ export default class FileAttachment extends React.Component {
                 <OverlayTrigger
                     trigger={['hover', 'focus']}
                     delayShow={1000}
-                    placement='top'
-                    overlay={<Tooltip id='file-name__tooltip'>{fileName}</Tooltip>}
+                    placement="top"
+                    overlay={<Tooltip id="file-name__tooltip">{fileName}</Tooltip>}
                 >
-                    <a
-                        href='#'
-                        onClick={this.onAttachmentClick}
-                        className='post-image__name'
-                        rel='noopener noreferrer'
-                    >
-                        <span
-                            className='icon'
-                            dangerouslySetInnerHTML={{__html: Constants.ATTACHMENT_ICON_SVG}}
-                        />
+                    <a href="#" onClick={this.onAttachmentClick} className="post-image__name" rel="noopener noreferrer">
+                        <span className="icon" dangerouslySetInnerHTML={{__html: Constants.ATTACHMENT_ICON_SVG}} />
                         {trimmedFilename}
                     </a>
                 </OverlayTrigger>
@@ -133,26 +125,26 @@ export default class FileAttachment extends React.Component {
                 <OverlayTrigger
                     trigger={['hover', 'focus']}
                     delayShow={1000}
-                    placement='top'
-                    overlay={<Tooltip id='file-name__tooltip'>{Utils.localizeMessage('file_attachment.download', 'Download') + ' "' + fileName + '"'}</Tooltip>}
+                    placement="top"
+                    overlay={
+                        <Tooltip id="file-name__tooltip">
+                            {Utils.localizeMessage('file_attachment.download', 'Download') + ' "' + fileName + '"'}
+                        </Tooltip>
+                    }
                 >
                     <a
                         href={fileUrl}
                         download={fileName}
-                        className='post-image__name'
-                        target='_blank'
-                        rel='noopener noreferrer'
+                        className="post-image__name"
+                        target="_blank"
+                        rel="noopener noreferrer"
                     >
                         {trimmedFilename}
                     </a>
                 </OverlayTrigger>
             );
         } else {
-            filenameOverlay = (
-                <span className='post-image__name'>
-                    {trimmedFilename}
-                </span>
-            );
+            filenameOverlay = <span className="post-image__name">{trimmedFilename}</span>;
         }
 
         let downloadButton = null;
@@ -161,30 +153,26 @@ export default class FileAttachment extends React.Component {
                 <a
                     href={fileUrl}
                     download={fileName}
-                    className='post-image__download'
-                    target='_blank'
-                    rel='noopener noreferrer'
+                    className="post-image__download"
+                    target="_blank"
+                    rel="noopener noreferrer"
                 >
-                    <span className='fa fa-download'/>
+                    <span className="fa fa-download" />
                 </a>
             );
         }
 
         return (
-            <div className='post-image__column'>
-                <a
-                    className='post-image__thumbnail'
-                    href='#'
-                    onClick={this.onAttachmentClick}
-                >
+            <div className="post-image__column">
+                <a className="post-image__thumbnail" href="#" onClick={this.onAttachmentClick}>
                     {thumbnail}
                 </a>
-                <div className='post-image__details'>
+                <div className="post-image__details">
                     {filenameOverlay}
                     <div>
                         {downloadButton}
-                        <span className='post-image__type'>{fileInfo.extension.toUpperCase()}</span>
-                        <span className='post-image__size'>{Utils.fileSizeToString(fileInfo.size)}</span>
+                        <span className="post-image__type">{fileInfo.extension.toUpperCase()}</span>
+                        <span className="post-image__size">{Utils.fileSizeToString(fileInfo.size)}</span>
                     </div>
                 </div>
             </div>

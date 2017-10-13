@@ -38,9 +38,9 @@ export default class NotifyCounts extends React.Component {
     }
     render() {
         if (this.state.mentionCount) {
-            return <span className='badge badge-notify'>{this.state.mentionCount}</span>;
+            return <span className="badge badge-notify">{this.state.mentionCount}</span>;
         } else if (this.state.messageCount) {
-            return <span className='badge badge-notify'>{'•'}</span>;
+            return <span className="badge badge-notify">{'•'}</span>;
         }
         return null;
     }

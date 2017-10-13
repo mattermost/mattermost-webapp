@@ -47,24 +47,16 @@ class UserSuggestion extends Suggestion {
         }
 
         return (
-            <div
-                className={className}
-                onClick={this.handleClick}
-            >
-                <div className='pull-left'>
+            <div className={className} onClick={this.handleClick}>
+                <div className="pull-left">
                     <img
-                        className='jirabot__image'
+                        className="jirabot__image"
                         src={Client4.getUsersRoute() + '/' + item.id + '/image?_=' + (item.last_picture_update || 0)}
                     />
                 </div>
-                <div className='pull-left jirabot--align'>
-                    <span>
-                        {'@' + username}
-                    </span>
-                    <span className='jirabot__fullname'>
-                        {' '}
-                        {description}
-                    </span>
+                <div className="pull-left jirabot--align">
+                    <span>{'@' + username}</span>
+                    <span className="jirabot__fullname"> {description}</span>
                 </div>
             </div>
         );
@@ -76,25 +68,22 @@ class UserProvider extends Provider {
         const normalizedPretext = pretext.toLowerCase();
         this.startNewRequest(suggestionId, normalizedPretext);
 
-        autocompleteUsersInTeam(
-            normalizedPretext,
-            (data) => {
-                if (this.shouldCancelDispatch(normalizedPretext)) {
-                    return;
-                }
-
-                const users = Object.assign([], data.users);
-
-                AppDispatcher.handleServerAction({
-                    type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
-                    id: suggestionId,
-                    matchedPretext: normalizedPretext,
-                    terms: users.map((user) => user.username),
-                    items: users,
-                    component: UserSuggestion
-                });
+        autocompleteUsersInTeam(normalizedPretext, data => {
+            if (this.shouldCancelDispatch(normalizedPretext)) {
+                return;
             }
-        );
+
+            const users = Object.assign([], data.users);
+
+            AppDispatcher.handleServerAction({
+                type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
+                id: suggestionId,
+                matchedPretext: normalizedPretext,
+                terms: users.map(user => user.username),
+                items: users,
+                component: UserSuggestion
+            });
+        });
 
         return true;
     }
@@ -150,7 +139,13 @@ export default class JIRASettings extends AdminSettings {
 
     handleEnabledChange(enabled) {
         if (enabled && this.state.secret === '') {
-            this.handleSecretChange('secret', crypto.randomBytes(256).toString('base64').substring(0, 32));
+            this.handleSecretChange(
+                'secret',
+                crypto
+                    .randomBytes(256)
+                    .toString('base64')
+                    .substring(0, 32)
+            );
         }
         this.handleChange('enabled', enabled);
     }
@@ -165,82 +160,96 @@ export default class JIRASettings extends AdminSettings {
 
     renderSettings() {
         var webhookDocsLink = (
-            <a
-                href='https://about.mattermost.com/default-jira-plugin'
-                target='_blank'
-                rel='noopener noreferrer'
-            >
-                <FormattedMessage
-                    id='admin.plugins.jira.webhookDocsLink'
-                    defaultMessage='documentation'
-                />
+            <a href="https://about.mattermost.com/default-jira-plugin" target="_blank" rel="noopener noreferrer">
+                <FormattedMessage id="admin.plugins.jira.webhookDocsLink" defaultMessage="documentation" />
             </a>
         );
 
         return (
             <SettingsGroup>
                 <BooleanSetting
-                    id='enabled'
+                    id="enabled"
                     label={Utils.localizeMessage('admin.plugins.jira.enabledLabel', 'Enable JIRA:')}
-                    helpText={Utils.localizeMessage('admin.plugins.jira.enabledDescription', 'When true, you can configure JIRA webhooks to post message in Mattermost. To help combat phishing attacks, all posts are labelled by a BOT tag.')}
+                    helpText={Utils.localizeMessage(
+                        'admin.plugins.jira.enabledDescription',
+                        'When true, you can configure JIRA webhooks to post message in Mattermost. To help combat phishing attacks, all posts are labelled by a BOT tag.'
+                    )}
                     value={this.state.enabled}
                     onChange={(id, value) => this.handleEnabledChange(value)}
                 />
                 <Setting
                     label={Utils.localizeMessage('admin.plugins.jira.userLabel', 'User:')}
-                    helpText={Utils.localizeMessage('admin.plugins.jira.userDescription', 'Select the username that this integration is attached to.')}
-                    inputId='userName'
+                    helpText={Utils.localizeMessage(
+                        'admin.plugins.jira.userDescription',
+                        'Select the username that this integration is attached to.'
+                    )}
+                    inputId="userName"
                 >
-                    <div
-                        className='jirabots__dropdown'
-                    >
+                    <div className="jirabots__dropdown">
                         <SuggestionBox
-                            id='userName'
-                            className='form-control'
+                            id="userName"
+                            className="form-control"
                             placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
                             value={this.state.userName}
-                            onChange={(e) => this.handleChange('userName', e.target.value)}
+                            onChange={e => this.handleChange('userName', e.target.value)}
                             onItemSelected={this.handleUserSelected}
                             listComponent={SuggestionList}
-                            listStyle='bottom'
+                            listStyle="bottom"
                             providers={this.userSuggestionProviders}
                             disabled={!this.state.enabled}
-                            type='input'
+                            type="input"
                             requiredCharacters={0}
                             openOnFocus={true}
                         />
                     </div>
                 </Setting>
                 <GeneratedSetting
-                    id='secret'
+                    id="secret"
                     label={Utils.localizeMessage('admin.plugins.jira.secretLabel', 'Secret:')}
-                    helpText={Utils.localizeMessage('admin.plugins.jira.secretDescription', 'This secret is used to authenticate to Mattermost.')}
-                    regenerateHelpText={Utils.localizeMessage('admin.plugins.jira.secretRegenerateDescription', 'Regenerates the secret for the webhook URL endpoint. Regenerating the secret invalidates your existing JIRA integrations.')}
+                    helpText={Utils.localizeMessage(
+                        'admin.plugins.jira.secretDescription',
+                        'This secret is used to authenticate to Mattermost.'
+                    )}
+                    regenerateHelpText={Utils.localizeMessage(
+                        'admin.plugins.jira.secretRegenerateDescription',
+                        'Regenerates the secret for the webhook URL endpoint. Regenerating the secret invalidates your existing JIRA integrations.'
+                    )}
                     value={this.state.secret}
                     onChange={this.handleSecretChange}
                     disabled={!this.state.enabled}
                 />
-                <div className='banner banner--url'>
-                    <div className='banner__content'>
+                <div className="banner banner--url">
+                    <div className="banner__content">
                         <p>
                             <FormattedMessage
-                                id='admin.plugins.jira.setupDescription'
-                                defaultMessage='Use this webhook URL to set up the JIRA integration. See {webhookDocsLink} to learn more.'
+                                id="admin.plugins.jira.setupDescription"
+                                defaultMessage="Use this webhook URL to set up the JIRA integration. See {webhookDocsLink} to learn more."
                                 values={{
                                     webhookDocsLink
                                 }}
                             />
                         </p>
-                        <div className='banner__url'>
+                        <div className="banner__url">
                             <span
                                 dangerouslySetInnerHTML={{
-                                    __html: encodeURI(this.state.siteURL) +
+                                    __html:
+                                        encodeURI(this.state.siteURL) +
                                         '/plugins/jira/webhook?secret=' +
-                                        (this.state.secret ? encodeURIComponent(this.state.secret) : ('<b>' + Utils.localizeMessage('admin.plugins.jira.secretParamPlaceholder', 'secret') + '</b>')) +
+                                        (this.state.secret
+                                            ? encodeURIComponent(this.state.secret)
+                                            : '<b>' +
+                                              Utils.localizeMessage(
+                                                  'admin.plugins.jira.secretParamPlaceholder',
+                                                  'secret'
+                                              ) +
+                                              '</b>') +
                                         '&team=<b>' +
                                         Utils.localizeMessage('admin.plugins.jira.teamParamPlaceholder', 'teamurl') +
                                         '</b>&channel=<b>' +
-                                        Utils.localizeMessage('admin.plugins.jira.channelParamNamePlaceholder', 'channelurl') +
+                                        Utils.localizeMessage(
+                                            'admin.plugins.jira.channelParamNamePlaceholder',
+                                            'channelurl'
+                                        ) +
                                         '</b>'
                                 }}
                             />

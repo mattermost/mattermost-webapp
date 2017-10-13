@@ -8,8 +8,7 @@ const loginCommands = {
         return this.waitForElementVisible('@loginInput', Constants.DEFAULT_WAIT);
     },
     login(email, pass) {
-        return this
-            .waitForElementVisible('@loginInput', Constants.DEFAULT_WAIT)
+        return this.waitForElementVisible('@loginInput', Constants.DEFAULT_WAIT)
             .setValue('@loginInput', email)
             .setValue('@passwordInput', pass)
             .waitForElementVisible('@signinButton', Constants.DEFAULT_WAIT)

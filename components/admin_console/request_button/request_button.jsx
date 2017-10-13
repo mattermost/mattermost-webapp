@@ -14,7 +14,6 @@ import * as Utils from 'utils/utils.jsx';
  */
 export default class RequestButton extends React.Component {
     static propTypes = {
-
         /**
          * The action to be called to carry out the request.
          */
@@ -70,7 +69,6 @@ export default class RequestButton extends React.Component {
          * The message to show when the request completes successfully.
          */
         successMessage: PropTypes.shape({
-
             /**
              * The i18n string ID for the success message.
              */
@@ -86,7 +84,6 @@ export default class RequestButton extends React.Component {
          * The message to show when the request returns an error.
          */
         errorMessage: PropTypes.shape({
-
             /**
              * The i18n string ID for the error message.
              */
@@ -112,7 +109,7 @@ export default class RequestButton extends React.Component {
          * An element to display adjacent to the request button.
          */
         alternativeActionElement: PropTypes.element
-    }
+    };
 
     static defaultProps = {
         disabled: false,
@@ -127,7 +124,7 @@ export default class RequestButton extends React.Component {
             id: 'admin.requestButton.requestFailure',
             defaultMessage: 'Test Failure: {error}'
         }
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -150,7 +147,8 @@ export default class RequestButton extends React.Component {
             success: false
         });
 
-        const doRequest = () => { //eslint-disable-line func-style
+        const doRequest = () => {
+            //eslint-disable-line func-style
             this.props.requestAction(
                 () => {
                     this.setState({
@@ -158,7 +156,7 @@ export default class RequestButton extends React.Component {
                         success: true
                     });
                 },
-                (err) => {
+                err => {
                     let errMsg = err.message;
                     if (this.props.includeDetailedError) {
                         errMsg += ' - ' + err.detailed_error;
@@ -184,8 +182,8 @@ export default class RequestButton extends React.Component {
         if (this.state.fail) {
             message = (
                 <div>
-                    <div className='alert alert-warning'>
-                        <i className='fa fa-warning'/>
+                    <div className="alert alert-warning">
+                        <i className="fa fa-warning" />
                         <FormattedMessage
                             id={this.props.errorMessage.id}
                             defaultMessage={this.props.errorMessage.defaultMessage}
@@ -199,8 +197,8 @@ export default class RequestButton extends React.Component {
         } else if (this.state.success && this.props.showSuccessMessage) {
             message = (
                 <div>
-                    <div className='alert alert-success'>
-                        <i className='fa fa-success'/>
+                    <div className="alert alert-success">
+                        <i className="fa fa-success" />
                         <FormattedMessage
                             id={this.props.successMessage.id}
                             defaultMessage={this.props.successMessage.defaultMessage}
@@ -214,7 +212,7 @@ export default class RequestButton extends React.Component {
         if (this.state.busy) {
             contents = (
                 <span>
-                    <span className='fa fa-refresh icon--rotate'/>
+                    <span className="fa fa-refresh icon--rotate" />
                     {Utils.localizeMessage('admin.requestButton.loading', ' Loading...')}
                 </span>
             );
@@ -225,35 +223,23 @@ export default class RequestButton extends React.Component {
         let widgetClassNames = 'col-sm-8';
         let label = null;
         if (this.props.label) {
-            label = (
-                <label
-                    className='control-label col-sm-4'
-                >
-                    {this.props.label}
-                </label>
-            );
+            label = <label className="control-label col-sm-4">{this.props.label}</label>;
         } else {
             widgetClassNames = 'col-sm-offset-4 ' + widgetClassNames;
         }
 
         return (
-            <div className='form-group'>
+            <div className="form-group">
                 {label}
                 <div className={widgetClassNames}>
                     <div>
-                        <button
-                            className='btn btn-default'
-                            onClick={this.handleRequest}
-                            disabled={this.props.disabled}
-                        >
+                        <button className="btn btn-default" onClick={this.handleRequest} disabled={this.props.disabled}>
                             {contents}
                         </button>
                         {this.props.alternativeActionElement}
                         {message}
                     </div>
-                    <div className='help-text'>
-                        {this.props.helpText}
-                    </div>
+                    <div className="help-text">{this.props.helpText}</div>
                 </div>
             </div>
         );

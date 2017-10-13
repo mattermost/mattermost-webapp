@@ -17,11 +17,8 @@ export default class BackstageHeader extends React.Component {
         React.Children.forEach(this.props.children, (child, index) => {
             if (index !== 0) {
                 children.push(
-                    <span
-                        key={'divider' + index}
-                        className='backstage-header__divider'
-                    >
-                        <i className='fa fa-angle-right'/>
+                    <span key={'divider' + index} className="backstage-header__divider">
+                        <i className="fa fa-angle-right" />
                     </span>
                 );
             }
@@ -30,10 +27,8 @@ export default class BackstageHeader extends React.Component {
         });
 
         return (
-            <div className='backstage-header'>
-                <h1>
-                    {children}
-                </h1>
+            <div className="backstage-header">
+                <h1>{children}</h1>
             </div>
         );
     }

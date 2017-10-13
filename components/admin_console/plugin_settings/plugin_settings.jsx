@@ -12,7 +12,6 @@ import LoadingScreen from 'components/loading_screen.jsx';
 
 export default class PluginSettings extends React.Component {
     static propTypes = {
-
         /*
          * The config
          */
@@ -24,7 +23,6 @@ export default class PluginSettings extends React.Component {
         plugins: PropTypes.object.isRequired,
 
         actions: PropTypes.shape({
-
             /*
              * Function to upload a plugin
              */
@@ -40,7 +38,7 @@ export default class PluginSettings extends React.Component {
              */
             getPlugins: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -54,9 +52,7 @@ export default class PluginSettings extends React.Component {
     }
 
     componentDidMount() {
-        this.props.actions.getPlugins().then(
-            () => this.setState({loading: false})
-        );
+        this.props.actions.getPlugins().then(() => this.setState({loading: false}));
     }
 
     handleChange = () => {
@@ -64,9 +60,9 @@ export default class PluginSettings extends React.Component {
         if (element.files.length > 0) {
             this.setState({fileSelected: true, fileName: element.files[0].name});
         }
-    }
+    };
 
-    handleSubmit = async (e) => {
+    handleSubmit = async e => {
         e.preventDefault();
 
         const element = this.refs.fileInput;
@@ -83,16 +79,26 @@ export default class PluginSettings extends React.Component {
 
         if (error) {
             if (error.server_error_id === 'app.plugin.activate.app_error') {
-                this.setState({serverError: Utils.localizeMessage('admin.plugin.error.activate', 'Unable to upload the plugin. It may conflict with another plugin on your server.')});
+                this.setState({
+                    serverError: Utils.localizeMessage(
+                        'admin.plugin.error.activate',
+                        'Unable to upload the plugin. It may conflict with another plugin on your server.'
+                    )
+                });
             } else if (error.server_error_id === 'app.plugin.extract.app_error') {
-                this.setState({serverError: Utils.localizeMessage('admin.plugin.error.extract', 'Encountered an error when extracting the plugin. Review your plugin file content and try again.')});
+                this.setState({
+                    serverError: Utils.localizeMessage(
+                        'admin.plugin.error.extract',
+                        'Encountered an error when extracting the plugin. Review your plugin file content and try again.'
+                    )
+                });
             } else {
                 this.setState({serverError: error.message});
             }
         }
-    }
+    };
 
-    handleRemove = async (pluginId) => {
+    handleRemove = async pluginId => {
         this.setState({removing: pluginId});
 
         const {error} = await this.props.actions.removePlugin(pluginId);
@@ -101,12 +107,18 @@ export default class PluginSettings extends React.Component {
         if (error) {
             this.setState({serverError: error.message});
         }
-    }
+    };
 
     render() {
         let serverError = '';
         if (this.state.serverError) {
-            serverError = <div className='col-sm-12'><div className='form-group has-error half'><label className='control-label'>{this.state.serverError}</label></div></div>;
+            serverError = (
+                <div className="col-sm-12">
+                    <div className="form-group has-error half">
+                        <label className="control-label">{this.state.serverError}</label>
+                    </div>
+                </div>
+            );
         }
 
         let btnClass = 'btn';
@@ -121,138 +133,81 @@ export default class PluginSettings extends React.Component {
 
         let uploadButtonText;
         if (this.state.uploading) {
-            uploadButtonText = (
-                <FormattedMessage
-                    id='admin.plugin.uploading'
-                    defaultMessage='Uploading...'
-                />
-            );
+            uploadButtonText = <FormattedMessage id="admin.plugin.uploading" defaultMessage="Uploading..." />;
         } else {
-            uploadButtonText = (
-                <FormattedMessage
-                    id='admin.plugin.upload'
-                    defaultMessage='Upload'
-                />
-            );
+            uploadButtonText = <FormattedMessage id="admin.plugin.upload" defaultMessage="Upload" />;
         }
 
         let activePluginsList;
         let activePluginsContainer;
         const plugins = Object.values(this.props.plugins);
         if (this.state.loading) {
-            activePluginsList = <LoadingScreen/>;
+            activePluginsList = <LoadingScreen />;
         } else if (plugins.length === 0) {
             activePluginsContainer = (
-                <FormattedMessage
-                    id='admin.plugin.no_plugins'
-                    defaultMessage='No active plugins.'
-                />
+                <FormattedMessage id="admin.plugin.no_plugins" defaultMessage="No active plugins." />
             );
         } else {
-            activePluginsList = plugins.map(
-                (p) => {
-                    let removeButtonText;
-                    if (this.state.removing === p.id) {
-                        removeButtonText = (
-                            <FormattedMessage
-                                id='admin.plugin.removing'
-                                defaultMessage='Removing...'
-                            />
-                        );
-                    } else {
-                        removeButtonText = (
-                            <FormattedMessage
-                                id='admin.plugin.remove'
-                                defaultMessage='Remove'
-                            />
-                        );
-                    }
-
-                    return (
-                        <div key={p.id}>
-                            <div>
-                                <strong>
-                                    <FormattedMessage
-                                        id='admin.plugin.id'
-                                        defaultMessage='ID:'
-                                    />
-                                </strong>
-                                {' ' + p.id}
-                            </div>
-                            <div className='padding-top'>
-                                <strong>
-                                    <FormattedMessage
-                                        id='admin.plugin.desc'
-                                        defaultMessage='Description:'
-                                    />
-                                </strong>
-                                {' ' + p.description}
-                            </div>
-                            <div className='padding-top'>
-                                <a
-                                    disabled={this.state.removing === p.id}
-                                    onClick={() => this.handleRemove(p.id)}
-                                >
-                                    {removeButtonText}
-                                </a>
-                            </div>
-                            <hr/>
-                        </div>
-                    );
+            activePluginsList = plugins.map(p => {
+                let removeButtonText;
+                if (this.state.removing === p.id) {
+                    removeButtonText = <FormattedMessage id="admin.plugin.removing" defaultMessage="Removing..." />;
+                } else {
+                    removeButtonText = <FormattedMessage id="admin.plugin.remove" defaultMessage="Remove" />;
                 }
-            );
 
-            activePluginsContainer = (
-                <div className='alert alert-transparent'>
-                    {activePluginsList}
-                </div>
-            );
+                return (
+                    <div key={p.id}>
+                        <div>
+                            <strong>
+                                <FormattedMessage id="admin.plugin.id" defaultMessage="ID:" />
+                            </strong>
+                            {' ' + p.id}
+                        </div>
+                        <div className="padding-top">
+                            <strong>
+                                <FormattedMessage id="admin.plugin.desc" defaultMessage="Description:" />
+                            </strong>
+                            {' ' + p.description}
+                        </div>
+                        <div className="padding-top">
+                            <a disabled={this.state.removing === p.id} onClick={() => this.handleRemove(p.id)}>
+                                {removeButtonText}
+                            </a>
+                        </div>
+                        <hr />
+                    </div>
+                );
+            });
+
+            activePluginsContainer = <div className="alert alert-transparent">{activePluginsList}</div>;
         }
 
         return (
-            <div className='wrapper--fixed'>
-                <h3 className='admin-console-header'>
-                    <FormattedMessage
-                        id='admin.plugin.title'
-                        defaultMessage='Plugins (experimental)'
-                    />
+            <div className="wrapper--fixed">
+                <h3 className="admin-console-header">
+                    <FormattedMessage id="admin.plugin.title" defaultMessage="Plugins (experimental)" />
                 </h3>
                 <Banner
-                    title={<div/>}
+                    title={<div />}
                     description={
                         <FormattedHTMLMessage
-                            id='admin.plugin.banner'
-                            defaultMessage='Plugins are experimental stage and are not yet recommended for use in production environments. <br/><br/> Webapp plugins will require users to refresh their browsers or desktop apps before the plugin will take effect. Similarly when a plugin is removed, users will continue to see the plugin until they refresh their browser or app.'
+                            id="admin.plugin.banner"
+                            defaultMessage="Plugins are experimental stage and are not yet recommended for use in production environments. <br/><br/> Webapp plugins will require users to refresh their browsers or desktop apps before the plugin will take effect. Similarly when a plugin is removed, users will continue to see the plugin until they refresh their browser or app."
                         />
                     }
                 />
-                <form
-                    className='form-horizontal'
-                    role='form'
-                >
-                    <div className='form-group'>
-                        <label
-                            className='control-label col-sm-4'
-                        >
-                            <FormattedMessage
-                                id='admin.plugin.uploadTitle'
-                                defaultMessage='Upload Plugin: '
-                            />
+                <form className="form-horizontal" role="form">
+                    <div className="form-group">
+                        <label className="control-label col-sm-4">
+                            <FormattedMessage id="admin.plugin.uploadTitle" defaultMessage="Upload Plugin: " />
                         </label>
-                        <div className='col-sm-8'>
-                            <div className='file__upload'>
-                                <button className='btn btn-primary'>
-                                    <FormattedMessage
-                                        id='admin.plugin.choose'
-                                        defaultMessage='Choose File'
-                                    />
+                        <div className="col-sm-8">
+                            <div className="file__upload">
+                                <button className="btn btn-primary">
+                                    <FormattedMessage id="admin.plugin.choose" defaultMessage="Choose File" />
                                 </button>
-                                <input
-                                    ref='fileInput'
-                                    type='file'
-                                    accept='.gz'
-                                    onChange={this.handleChange}
-                                />
+                                <input ref="fileInput" type="file" accept=".gz" onChange={this.handleChange} />
                             </div>
                             <button
                                 className={btnClass}
@@ -261,30 +216,21 @@ export default class PluginSettings extends React.Component {
                             >
                                 {uploadButtonText}
                             </button>
-                            <div className='help-text no-margin'>
-                                {fileName}
-                            </div>
+                            <div className="help-text no-margin">{fileName}</div>
                             {serverError}
-                            <p className='help-text'>
+                            <p className="help-text">
                                 <FormattedHTMLMessage
-                                    id='admin.plugin.uploadDesc'
-                                    defaultMessage='Upload a plugin for your Mattermost server. Adding or removing a webapp plugin requires users to refresh their browser or Desktop App before taking effect. See <a href="https://about.mattermost.com/default-plugins">documentation</a> to learn more.'
+                                    id="admin.plugin.uploadDesc"
+                                    defaultMessage="Upload a plugin for your Mattermost server. Adding or removing a webapp plugin requires users to refresh their browser or Desktop App before taking effect. See <a href=&quot;https://about.mattermost.com/default-plugins&quot;>documentation</a> to learn more."
                                 />
                             </p>
                         </div>
                     </div>
-                    <div className='form-group'>
-                        <label
-                            className='control-label col-sm-4'
-                        >
-                            <FormattedMessage
-                                id='admin.plugin.activeTitle'
-                                defaultMessage='Active Plugins: '
-                            />
+                    <div className="form-group">
+                        <label className="control-label col-sm-4">
+                            <FormattedMessage id="admin.plugin.activeTitle" defaultMessage="Active Plugins: " />
                         </label>
-                        <div className='col-sm-8 padding-top'>
-                            {activePluginsContainer}
-                        </div>
+                        <div className="col-sm-8 padding-top">{activePluginsContainer}</div>
                     </div>
                 </form>
             </div>

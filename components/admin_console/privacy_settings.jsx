@@ -32,46 +32,31 @@ export default class PrivacySettings extends AdminSettings {
     }
 
     renderTitle() {
-        return (
-            <FormattedMessage
-                id='admin.general.privacy'
-                defaultMessage='Privacy'
-            />
-        );
+        return <FormattedMessage id="admin.general.privacy" defaultMessage="Privacy" />;
     }
 
     renderSettings() {
         return (
             <SettingsGroup>
                 <BooleanSetting
-                    id='showEmailAddress'
-                    label={
-                        <FormattedMessage
-                            id='admin.privacy.showEmailTitle'
-                            defaultMessage='Show Email Address: '
-                        />
-                    }
+                    id="showEmailAddress"
+                    label={<FormattedMessage id="admin.privacy.showEmailTitle" defaultMessage="Show Email Address: " />}
                     helpText={
                         <FormattedMessage
-                            id='admin.privacy.showEmailDescription'
-                            defaultMessage='When false, hides the email address of members from everyone except System Administrators.'
+                            id="admin.privacy.showEmailDescription"
+                            defaultMessage="When false, hides the email address of members from everyone except System Administrators."
                         />
                     }
                     value={this.state.showEmailAddress}
                     onChange={this.handleChange}
                 />
                 <BooleanSetting
-                    id='showFullName'
-                    label={
-                        <FormattedMessage
-                            id='admin.privacy.showFullNameTitle'
-                            defaultMessage='Show Full Name: '
-                        />
-                    }
+                    id="showFullName"
+                    label={<FormattedMessage id="admin.privacy.showFullNameTitle" defaultMessage="Show Full Name: " />}
                     helpText={
                         <FormattedMessage
-                            id='admin.privacy.showFullNameDescription'
-                            defaultMessage='When false, hides the full name of members from everyone except System Administrators. Username is shown in place of full name.'
+                            id="admin.privacy.showFullNameDescription"
+                            defaultMessage="When false, hides the full name of members from everyone except System Administrators. Username is shown in place of full name."
                         />
                     }
                     value={this.state.showFullName}

@@ -182,59 +182,66 @@ class SearchStoreClass extends EventEmitter {
 
 var SearchStore = new SearchStoreClass();
 
-SearchStore.dispatchToken = AppDispatcher.register((payload) => {
+SearchStore.dispatchToken = AppDispatcher.register(payload => {
     var action = payload.action;
 
     switch (action.type) {
-    case ActionTypes.RECEIVED_SEARCH: {
-        const results = SearchStore.getSearchResults() || {};
-        const channelId = results.channelId;
-        if (SearchStore.getIsPinnedPosts() === action.is_pinned_posts &&
-            action.is_pinned_posts === true &&
-            channelId !== '' &&
-            ChannelStore.getCurrentId() !== channelId) {
-            // ignore pin posts update after switch to a new channel
-            return;
-        }
-        SearchStore.setLoading(false);
-        SearchStore.storeSearchResults(action.results, action.is_mention_search, action.is_flagged_posts, action.is_pinned_posts);
-        SearchStore.emitSearchChange();
-        break;
-    }
-    case ActionTypes.RECEIVED_SEARCH_TERM:
-        if (action.do_search) {
-            // while a search is in progress, hide results from previous search
-            SearchStore.setLoading(true);
-            SearchStore.storeSearchResults(null, false, false, false);
+        case ActionTypes.RECEIVED_SEARCH: {
+            const results = SearchStore.getSearchResults() || {};
+            const channelId = results.channelId;
+            if (
+                SearchStore.getIsPinnedPosts() === action.is_pinned_posts &&
+                action.is_pinned_posts === true &&
+                channelId !== '' &&
+                ChannelStore.getCurrentId() !== channelId
+            ) {
+                // ignore pin posts update after switch to a new channel
+                return;
+            }
+            SearchStore.setLoading(false);
+            SearchStore.storeSearchResults(
+                action.results,
+                action.is_mention_search,
+                action.is_flagged_posts,
+                action.is_pinned_posts
+            );
             SearchStore.emitSearchChange();
+            break;
         }
-        SearchStore.storeSearchTerm(action.term);
-        SearchStore.emitSearchTermChange(action.do_search, action.is_mention_search);
-        break;
-    case ActionTypes.SHOW_SEARCH:
-        SearchStore.emitShowSearch();
-        break;
-    case ActionTypes.POST_DELETED:
-        SearchStore.deletePost(action.post);
-        SearchStore.emitSearchChange();
-        break;
-    case ActionTypes.POST_UPDATED:
-        SearchStore.updatePost(action.post);
-        SearchStore.emitSearchChange();
-        break;
-    case ActionTypes.RECEIVED_POST_PINNED:
-        SearchStore.togglePinPost(action.postId, true);
-        SearchStore.emitSearchChange();
-        break;
-    case ActionTypes.RECEIVED_POST_UNPINNED:
-        SearchStore.togglePinPost(action.postId, false);
-        SearchStore.emitSearchChange();
-        break;
-    case ActionTypes.REMOVE_POST:
-        SearchStore.removePost(action.post);
-        SearchStore.emitSearchChange();
-        break;
-    default:
+        case ActionTypes.RECEIVED_SEARCH_TERM:
+            if (action.do_search) {
+                // while a search is in progress, hide results from previous search
+                SearchStore.setLoading(true);
+                SearchStore.storeSearchResults(null, false, false, false);
+                SearchStore.emitSearchChange();
+            }
+            SearchStore.storeSearchTerm(action.term);
+            SearchStore.emitSearchTermChange(action.do_search, action.is_mention_search);
+            break;
+        case ActionTypes.SHOW_SEARCH:
+            SearchStore.emitShowSearch();
+            break;
+        case ActionTypes.POST_DELETED:
+            SearchStore.deletePost(action.post);
+            SearchStore.emitSearchChange();
+            break;
+        case ActionTypes.POST_UPDATED:
+            SearchStore.updatePost(action.post);
+            SearchStore.emitSearchChange();
+            break;
+        case ActionTypes.RECEIVED_POST_PINNED:
+            SearchStore.togglePinPost(action.postId, true);
+            SearchStore.emitSearchChange();
+            break;
+        case ActionTypes.RECEIVED_POST_UNPINNED:
+            SearchStore.togglePinPost(action.postId, false);
+            SearchStore.emitSearchChange();
+            break;
+        case ActionTypes.REMOVE_POST:
+            SearchStore.removePost(action.post);
+            SearchStore.emitSearchChange();
+            break;
+        default:
     }
 });
 

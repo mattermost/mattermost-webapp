@@ -4,14 +4,21 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {clearUserAccessTokens, createUserAccessToken, getMe, getUserAccessTokensForUser, revokeUserAccessToken} from 'mattermost-redux/actions/users';
+import {
+    clearUserAccessTokens,
+    createUserAccessToken,
+    getMe,
+    getUserAccessTokensForUser,
+    revokeUserAccessToken
+} from 'mattermost-redux/actions/users';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 
 import SecurityTab from './user_settings_security.jsx';
 
 function mapStateToProps(state, ownProps) {
     const tokensEnabled = state.entities.general.config.EnableUserAccessTokens === 'true';
-    const userHasTokenRole = UserUtils.hasUserAccessTokenRole(ownProps.user.roles) || UserUtils.isSystemAdmin(ownProps.user.roles);
+    const userHasTokenRole =
+        UserUtils.hasUserAccessTokenRole(ownProps.user.roles) || UserUtils.isSystemAdmin(ownProps.user.roles);
 
     return {
         ...ownProps,
@@ -22,13 +29,16 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({
-            getMe,
-            getUserAccessTokensForUser,
-            createUserAccessToken,
-            revokeUserAccessToken,
-            clearUserAccessTokens
-        }, dispatch)
+        actions: bindActionCreators(
+            {
+                getMe,
+                getUserAccessTokensForUser,
+                createUserAccessToken,
+                revokeUserAccessToken,
+                clearUserAccessTokens
+            },
+            dispatch
+        )
     };
 }
 

@@ -12,7 +12,7 @@ function removePluginComponents(state, action) {
 
     const nextState = {...state};
     let modified = false;
-    Object.keys(nextState).forEach((k) => {
+    Object.keys(nextState).forEach(k => {
         const c = nextState[k];
         if (c.id === action.data.id) {
             Reflect.deleteProperty(nextState, k);
@@ -29,72 +29,71 @@ function removePluginComponents(state, action) {
 
 function plugins(state = {}, action) {
     switch (action.type) {
-    case ActionTypes.RECEIVED_WEBAPP_PLUGINS: {
-        if (action.data) {
-            const nextState = {};
-            action.data.forEach((p) => {
-                nextState[p.id] = p;
-            });
-            return nextState;
+        case ActionTypes.RECEIVED_WEBAPP_PLUGINS: {
+            if (action.data) {
+                const nextState = {};
+                action.data.forEach(p => {
+                    nextState[p.id] = p;
+                });
+                return nextState;
+            }
+            return state;
         }
-        return state;
-    }
-    case ActionTypes.RECEIVED_WEBAPP_PLUGIN: {
-        if (action.data) {
-            const nextState = {...state};
-            nextState[action.data.id] = action.data;
-            return nextState;
+        case ActionTypes.RECEIVED_WEBAPP_PLUGIN: {
+            if (action.data) {
+                const nextState = {...state};
+                nextState[action.data.id] = action.data;
+                return nextState;
+            }
+            return state;
         }
-        return state;
-    }
-    case ActionTypes.REMOVED_WEBAPP_PLUGIN: {
-        if (action.data && state[action.data.id]) {
-            const nextState = {...state};
-            Reflect.deleteProperty(nextState, action.data.id);
-            return nextState;
+        case ActionTypes.REMOVED_WEBAPP_PLUGIN: {
+            if (action.data && state[action.data.id]) {
+                const nextState = {...state};
+                Reflect.deleteProperty(nextState, action.data.id);
+                return nextState;
+            }
+            return state;
         }
-        return state;
-    }
 
-    default:
-        return state;
+        default:
+            return state;
     }
 }
 
 function components(state = {}, action) {
     switch (action.type) {
-    case ActionTypes.RECEIVED_PLUGIN_COMPONENTS: {
-        if (action.data) {
-            return {...action.data, ...state};
+        case ActionTypes.RECEIVED_PLUGIN_COMPONENTS: {
+            if (action.data) {
+                return {...action.data, ...state};
+            }
+            return state;
         }
-        return state;
-    }
-    case ActionTypes.RECEIVED_WEBAPP_PLUGIN:
-    case ActionTypes.REMOVED_WEBAPP_PLUGIN:
-        return removePluginComponents(state, action);
-    default:
-        return state;
+        case ActionTypes.RECEIVED_WEBAPP_PLUGIN:
+        case ActionTypes.REMOVED_WEBAPP_PLUGIN:
+            return removePluginComponents(state, action);
+        default:
+            return state;
     }
 }
 
 function postTypes(state = {}, action) {
     switch (action.type) {
-    case ActionTypes.RECEIVED_PLUGIN_POST_TYPES: {
-        if (action.data) {
-            return {...action.data, ...state};
+        case ActionTypes.RECEIVED_PLUGIN_POST_TYPES: {
+            if (action.data) {
+                return {...action.data, ...state};
+            }
+            return state;
         }
-        return state;
-    }
-    case ActionTypes.RECEIVED_WEBAPP_PLUGIN:
-    case ActionTypes.REMOVED_WEBAPP_PLUGIN:
-        return removePluginComponents(state, action);
-    default:
-        return state;
+        case ActionTypes.RECEIVED_WEBAPP_PLUGIN:
+        case ActionTypes.REMOVED_WEBAPP_PLUGIN:
+            return removePluginComponents(state, action);
+        default:
+            return state;
     }
 }
 
 export default combineReducers({
-
     // object where every key is a plugin id and values are webapp plugin manifests
     plugins,
 

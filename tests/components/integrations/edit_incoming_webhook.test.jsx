@@ -52,7 +52,7 @@ describe('components/integrations/EditIncomingWebhook', () => {
 
     test('should show Loading screen when no hook is provided', () => {
         const props = {...requiredProps, actions};
-        const wrapper = shallow(<EditIncomingWebhook {...props}/>);
+        const wrapper = shallow(<EditIncomingWebhook {...props} />);
 
         expect(wrapper).toMatchSnapshot();
         expect(getIncomingHook).toHaveBeenCalledTimes(1);
@@ -61,7 +61,7 @@ describe('components/integrations/EditIncomingWebhook', () => {
 
     test('should show AbstractIncomingWebhook', () => {
         const props = {...requiredProps, actions, hook};
-        const wrapper = shallow(<EditIncomingWebhook {...props}/>);
+        const wrapper = shallow(<EditIncomingWebhook {...props} />);
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -70,7 +70,7 @@ describe('components/integrations/EditIncomingWebhook', () => {
         global.window.mm_config.EnableIncomingWebhooks = 'false';
 
         const props = {...requiredProps, actions};
-        const wrapper = shallow(<EditIncomingWebhook {...props}/>);
+        const wrapper = shallow(<EditIncomingWebhook {...props} />);
 
         expect(wrapper).toMatchSnapshot();
         expect(getIncomingHook).toHaveBeenCalledTimes(0);
@@ -82,7 +82,7 @@ describe('components/integrations/EditIncomingWebhook', () => {
             token: 'token'
         };
         const props = {...requiredProps, actions, hook};
-        const wrapper = shallow(<EditIncomingWebhook {...props}/>);
+        const wrapper = shallow(<EditIncomingWebhook {...props} />);
 
         wrapper.instance().editIncomingHook(asyncHook);
         expect(wrapper).toMatchSnapshot();
@@ -100,7 +100,7 @@ describe('components/integrations/EditIncomingWebhook', () => {
             error: {message: 'error message'}
         };
         const props = {...requiredProps, actions, hook, updateIncomingHookRequest};
-        const wrapper = shallow(<EditIncomingWebhook {...props}/>);
+        const wrapper = shallow(<EditIncomingWebhook {...props} />);
 
         wrapper.instance().editIncomingHook(asyncHook);
         expect(wrapper).toMatchSnapshot();
@@ -116,7 +116,7 @@ describe('components/integrations/EditIncomingWebhook', () => {
             token: 'token'
         };
         const props = {...requiredProps, actions: newActions, hook};
-        const wrapper = shallow(<EditIncomingWebhook {...props}/>);
+        const wrapper = shallow(<EditIncomingWebhook {...props} />);
 
         wrapper.instance().editIncomingHook(asyncHook);
         expect(wrapper).toMatchSnapshot();

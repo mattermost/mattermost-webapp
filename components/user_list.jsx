@@ -29,7 +29,7 @@ export default class UserList extends React.Component {
 
         let content;
         if (users == null) {
-            return <LoadingScreen/>;
+            return <LoadingScreen />;
         } else if (users.length > 0) {
             content = users.map((user, index) => {
                 return (
@@ -40,31 +40,21 @@ export default class UserList extends React.Component {
                         actions={this.props.actions}
                         actionProps={this.props.actionProps}
                         actionUserProps={this.props.actionUserProps[user.id]}
-                        userCount={(index >= 0 && index < Constants.TEST_ID_COUNT) ? index : -1}
+                        userCount={index >= 0 && index < Constants.TEST_ID_COUNT ? index : -1}
                     />
                 );
             });
         } else {
             content = (
-                <div
-                    key='no-users-found'
-                    className='more-modal__placeholder-row'
-                >
+                <div key="no-users-found" className="more-modal__placeholder-row">
                     <p>
-                        <FormattedMessage
-                            id='user_list.notFound'
-                            defaultMessage='No users found'
-                        />
+                        <FormattedMessage id="user_list.notFound" defaultMessage="No users found" />
                     </p>
                 </div>
             );
         }
 
-        return (
-            <div ref='container'>
-                {content}
-            </div>
-        );
+        return <div ref="container">{content}</div>;
     }
 }
 

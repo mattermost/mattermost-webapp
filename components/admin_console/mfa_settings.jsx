@@ -24,7 +24,8 @@ export default class MfaSettings extends AdminSettings {
 
     getConfigFromState(config) {
         config.ServiceSettings.EnableMultifactorAuthentication = this.state.enableMultifactorAuthentication;
-        config.ServiceSettings.EnforceMultifactorAuthentication = this.state.enableMultifactorAuthentication && this.state.enforceMultifactorAuthentication;
+        config.ServiceSettings.EnforceMultifactorAuthentication =
+            this.state.enableMultifactorAuthentication && this.state.enforceMultifactorAuthentication;
 
         return config;
     }
@@ -32,58 +33,55 @@ export default class MfaSettings extends AdminSettings {
     getStateFromConfig(config) {
         return {
             enableMultifactorAuthentication: config.ServiceSettings.EnableMultifactorAuthentication,
-            enforceMultifactorAuthentication: config.ServiceSettings.EnableMultifactorAuthentication && config.ServiceSettings.EnforceMultifactorAuthentication
+            enforceMultifactorAuthentication:
+                config.ServiceSettings.EnableMultifactorAuthentication &&
+                config.ServiceSettings.EnforceMultifactorAuthentication
         };
     }
 
     renderTitle() {
-        return (
-            <FormattedMessage
-                id='admin.mfa.title'
-                defaultMessage='Multi-factor Authentication'
-            />
-        );
+        return <FormattedMessage id="admin.mfa.title" defaultMessage="Multi-factor Authentication" />;
     }
 
     renderSettings() {
         return (
             <SettingsGroup>
-                <div className='banner'>
-                    <div className='banner__content'>
+                <div className="banner">
+                    <div className="banner__content">
                         <FormattedHTMLMessage
-                            id='admin.mfa.bannerDesc'
+                            id="admin.mfa.bannerDesc"
                             defaultMessage="<a href='https://docs.mattermost.com/deployment/auth.html' target='_blank'>Multi-factor authentication</a> is available for accounts with AD/LDAP or email login. If other login methods are used, MFA should be configured with the authentication provider."
                         />
                     </div>
                 </div>
                 <BooleanSetting
-                    id='enableMultifactorAuthentication'
+                    id="enableMultifactorAuthentication"
                     label={
                         <FormattedMessage
-                            id='admin.service.mfaTitle'
-                            defaultMessage='Enable Multi-factor Authentication:'
+                            id="admin.service.mfaTitle"
+                            defaultMessage="Enable Multi-factor Authentication:"
                         />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.service.mfaDesc'
-                            defaultMessage='When true, users with AD/LDAP or email login can add multi-factor authentication to their account using Google Authenticator.'
+                            id="admin.service.mfaDesc"
+                            defaultMessage="When true, users with AD/LDAP or email login can add multi-factor authentication to their account using Google Authenticator."
                         />
                     }
                     value={this.state.enableMultifactorAuthentication}
                     onChange={this.handleChange}
                 />
                 <BooleanSetting
-                    id='enforceMultifactorAuthentication'
+                    id="enforceMultifactorAuthentication"
                     label={
                         <FormattedMessage
-                            id='admin.service.enforceMfaTitle'
-                            defaultMessage='Enforce Multi-factor Authentication:'
+                            id="admin.service.enforceMfaTitle"
+                            defaultMessage="Enforce Multi-factor Authentication:"
                         />
                     }
                     helpText={
                         <FormattedHTMLMessage
-                            id='admin.service.enforceMfaDesc'
+                            id="admin.service.enforceMfaDesc"
                             defaultMessage="When true, <a href='https://docs.mattermost.com/deployment/auth.html' target='_blank'>multi-factor authentication</a> is required for login. New users will be required to configure MFA on signup. Logged in users without MFA configured are redirected to the MFA setup page until configuration is complete.<br/><br/>If your system has users with login methods other than AD/LDAP and email, MFA must be enforced with the authentication provider outside of Mattermost."
                         />
                     }

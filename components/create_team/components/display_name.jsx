@@ -31,23 +31,27 @@ export default class TeamSignupDisplayNamePage extends React.Component {
 
         var displayName = ReactDOM.findDOMNode(this.refs.name).value.trim();
         if (!displayName) {
-            this.setState({nameError: (
-                <FormattedMessage
-                    id='create_team.display_name.required'
-                    defaultMessage='This field is required'
-                />)
+            this.setState({
+                nameError: (
+                    <FormattedMessage id="create_team.display_name.required" defaultMessage="This field is required" />
+                )
             });
             return;
-        } else if (displayName.length < Constants.MIN_TEAMNAME_LENGTH || displayName.length > Constants.MAX_TEAMNAME_LENGTH) {
-            this.setState({nameError: (
-                <FormattedMessage
-                    id='create_team.display_name.charLength'
-                    defaultMessage='Name must be {min} or more characters up to a maximum of {max}. You can add a longer team description later.'
-                    values={{
-                        min: Constants.MIN_TEAMNAME_LENGTH,
-                        max: Constants.MAX_TEAMNAME_LENGTH
-                    }}
-                />)
+        } else if (
+            displayName.length < Constants.MIN_TEAMNAME_LENGTH ||
+            displayName.length > Constants.MAX_TEAMNAME_LENGTH
+        ) {
+            this.setState({
+                nameError: (
+                    <FormattedMessage
+                        id="create_team.display_name.charLength"
+                        defaultMessage="Name must be {min} or more characters up to a maximum of {max}. You can add a longer team description later."
+                        values={{
+                            min: Constants.MIN_TEAMNAME_LENGTH,
+                            max: Constants.MAX_TEAMNAME_LENGTH
+                        }}
+                    />
+                )
             });
             return;
         }
@@ -67,36 +71,30 @@ export default class TeamSignupDisplayNamePage extends React.Component {
         var nameError = null;
         var nameDivClass = 'form-group';
         if (this.state.nameError) {
-            nameError = <label className='control-label'>{this.state.nameError}</label>;
+            nameError = <label className="control-label">{this.state.nameError}</label>;
             nameDivClass += ' has-error';
         }
 
         return (
             <div>
                 <form>
-                    <img
-                        className='signup-team-logo'
-                        src={logoImage}
-                    />
+                    <img className="signup-team-logo" src={logoImage} />
                     <h2>
-                        <FormattedMessage
-                            id='create_team.display_name.teamName'
-                            defaultMessage='Team Name'
-                        />
+                        <FormattedMessage id="create_team.display_name.teamName" defaultMessage="Team Name" />
                     </h2>
                     <div className={nameDivClass}>
-                        <div className='row'>
-                            <div className='col-sm-9'>
+                        <div className="row">
+                            <div className="col-sm-9">
                                 <input
-                                    type='text'
-                                    ref='name'
-                                    className='form-control'
-                                    placeholder=''
-                                    maxLength='128'
+                                    type="text"
+                                    ref="name"
+                                    className="form-control"
+                                    placeholder=""
+                                    maxLength="128"
                                     defaultValue={this.props.state.team.display_name}
                                     autoFocus={true}
                                     onFocus={this.handleFocus}
-                                    spellCheck='false'
+                                    spellCheck="false"
                                 />
                             </div>
                         </div>
@@ -104,19 +102,13 @@ export default class TeamSignupDisplayNamePage extends React.Component {
                     </div>
                     <div>
                         <FormattedMessage
-                            id='create_team.display_name.nameHelp'
-                            defaultMessage='Name your team in any language. Your team name shows in menus and headings.'
+                            id="create_team.display_name.nameHelp"
+                            defaultMessage="Name your team in any language. Your team name shows in menus and headings."
                         />
                     </div>
-                    <button
-                        type='submit'
-                        className='btn btn-primary margin--extra'
-                        onClick={this.submitNext}
-                    >
-                        <FormattedMessage
-                            id='create_team.display_name.next'
-                            defaultMessage='Next'
-                        /><i className='fa fa-chevron-right'/>
+                    <button type="submit" className="btn btn-primary margin--extra" onClick={this.submitNext}>
+                        <FormattedMessage id="create_team.display_name.next" defaultMessage="Next" />
+                        <i className="fa fa-chevron-right" />
                     </button>
                 </form>
             </div>

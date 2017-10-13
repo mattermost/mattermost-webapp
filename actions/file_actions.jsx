@@ -23,9 +23,23 @@ export function uploadFile(file, name, channelId, clientId, successCallback, err
             if (res && res.body && res.body.id) {
                 e = res.body;
             } else if (err.status === 0 || !err.status) {
-                e = {message: Utils.localizeMessage('channel_loader.connection_error', 'There appears to be a problem with your internet connection.')};
+                e = {
+                    message: Utils.localizeMessage(
+                        'channel_loader.connection_error',
+                        'There appears to be a problem with your internet connection.'
+                    )
+                };
             } else {
-                e = {message: Utils.localizeMessage('channel_loader.unknown_error', 'We received an unexpected status code from the server.') + ' (' + err.status + ')'};
+                e = {
+                    message:
+                        Utils.localizeMessage(
+                            'channel_loader.unknown_error',
+                            'We received an unexpected status code from the server.'
+                        ) +
+                        ' (' +
+                        err.status +
+                        ')'
+                };
             }
 
             forceLogoutIfNecessary(err, dispatch);
@@ -51,17 +65,20 @@ export function uploadFile(file, name, channelId, clientId, successCallback, err
                 };
             });
 
-            dispatch(batchActions([
-                {
-                    type: FileTypes.RECEIVED_UPLOAD_FILES,
-                    data,
-                    channelId,
-                    rootId: null
-                },
-                {
-                    type: FileTypes.UPLOAD_FILES_SUCCESS
-                }
-            ]), getState);
+            dispatch(
+                batchActions([
+                    {
+                        type: FileTypes.RECEIVED_UPLOAD_FILES,
+                        data,
+                        channelId,
+                        rootId: null
+                    },
+                    {
+                        type: FileTypes.UPLOAD_FILES_SUCCESS
+                    }
+                ]),
+                getState
+            );
 
             if (successCallback) {
                 successCallback(res.body, res);
@@ -71,24 +88,24 @@ export function uploadFile(file, name, channelId, clientId, successCallback, err
 
     dispatch({type: FileTypes.UPLOAD_FILES_REQUEST}, getState);
 
-    return request.
-        post(Client4.getFilesRoute()).
-        set(Client4.getOptions().headers).
-        attach('files', file, name).
-        field('channel_id', channelId).
-        field('client_ids', clientId).
-        accept('application/json').
-        end(handleResponse);
+    return request
+        .post(Client4.getFilesRoute())
+        .set(Client4.getOptions().headers)
+        .attach('files', file, name)
+        .field('channel_id', channelId)
+        .field('client_ids', clientId)
+        .accept('application/json')
+        .end(handleResponse);
 }
 
 export async function getPublicLink(fileId, success) {
-    Client4.getFilePublicLink(fileId).then(
-        (data) => {
+    Client4.getFilePublicLink(fileId)
+        .then(data => {
             if (data && success) {
                 success(data.link);
             }
-        }
-    ).catch(
-        () => {} //eslint-disable-line no-empty-function
-    );
+        })
+        .catch(
+            () => {} //eslint-disable-line no-empty-function
+        );
 }

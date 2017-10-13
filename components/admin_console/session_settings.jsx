@@ -48,12 +48,7 @@ export default class SessionSettings extends AdminSettings {
     }
 
     renderTitle() {
-        return (
-            <FormattedMessage
-                id='admin.security.session'
-                defaultMessage='Sessions'
-            />
-        );
+        return <FormattedMessage id="admin.security.session" defaultMessage="Sessions" />;
     }
 
     renderSettings() {
@@ -61,17 +56,17 @@ export default class SessionSettings extends AdminSettings {
         if (window.mm_license.IsLicensed === 'true' && global.window.mm_license.Compliance === 'true') {
             idleTimeout = (
                 <TextSetting
-                    id='sessionIdleTimeoutInMinutes'
+                    id="sessionIdleTimeoutInMinutes"
                     label={
                         <FormattedMessage
-                            id='admin.service.sessionIdleTimeout'
-                            defaultMessage='Session Idle Timeout (minutes):'
+                            id="admin.service.sessionIdleTimeout"
+                            defaultMessage="Session Idle Timeout (minutes):"
                         />
                     }
                     placeholder={Utils.localizeMessage('admin.service.sessionIdleTimeoutEx', 'Ex "60"')}
                     helpText={
                         <FormattedHTMLMessage
-                            id='admin.service.sessionIdleTimeoutDesc'
+                            id="admin.service.sessionIdleTimeoutDesc"
                             defaultMessage="The number of minutes from the last time a user was active on the system to the expiry of the user's session. Once expired, the user will need to log in to continue. Minimum is 5 minutes, and 0 is unlimited.<br/><br/>Applies to the desktop app and browsers. For mobile apps, use an EMM provider to lock the app when not in use. In High Availability mode, enable IP hash load balancing for reliable timeout measurement."
                         />
                     }
@@ -84,72 +79,69 @@ export default class SessionSettings extends AdminSettings {
         return (
             <SettingsGroup>
                 <TextSetting
-                    id='sessionLengthWebInDays'
+                    id="sessionLengthWebInDays"
                     label={
                         <FormattedMessage
-                            id='admin.service.webSessionDays'
-                            defaultMessage='Session Length AD/LDAP and Email (days):'
+                            id="admin.service.webSessionDays"
+                            defaultMessage="Session Length AD/LDAP and Email (days):"
                         />
                     }
                     placeholder={Utils.localizeMessage('admin.service.sessionDaysEx', 'Ex "30"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.service.webSessionDaysDesc'
-                            defaultMessage='The number of days from the last time a user entered their credentials to the expiry of the users session. After changing this setting, the new session length will take effect after the next time the user enters their credentials.'
+                            id="admin.service.webSessionDaysDesc"
+                            defaultMessage="The number of days from the last time a user entered their credentials to the expiry of the users session. After changing this setting, the new session length will take effect after the next time the user enters their credentials."
                         />
                     }
                     value={this.state.sessionLengthWebInDays}
                     onChange={this.handleChange}
                 />
                 <TextSetting
-                    id='sessionLengthMobileInDays'
+                    id="sessionLengthMobileInDays"
                     label={
                         <FormattedMessage
-                            id='admin.service.mobileSessionDays'
-                            defaultMessage='Session Length Mobile (days):'
+                            id="admin.service.mobileSessionDays"
+                            defaultMessage="Session Length Mobile (days):"
                         />
                     }
                     placeholder={Utils.localizeMessage('admin.service.sessionDaysEx', 'Ex "30"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.service.mobileSessionDaysDesc'
-                            defaultMessage='The number of days from the last time a user entered their credentials to the expiry of the users session. After changing this setting, the new session length will take effect after the next time the user enters their credentials.'
+                            id="admin.service.mobileSessionDaysDesc"
+                            defaultMessage="The number of days from the last time a user entered their credentials to the expiry of the users session. After changing this setting, the new session length will take effect after the next time the user enters their credentials."
                         />
                     }
                     value={this.state.sessionLengthMobileInDays}
                     onChange={this.handleChange}
                 />
                 <TextSetting
-                    id='sessionLengthSSOInDays'
+                    id="sessionLengthSSOInDays"
                     label={
                         <FormattedMessage
-                            id='admin.service.ssoSessionDays'
-                            defaultMessage='Session Length SSO (days):'
+                            id="admin.service.ssoSessionDays"
+                            defaultMessage="Session Length SSO (days):"
                         />
                     }
                     placeholder={Utils.localizeMessage('admin.service.sessionDaysEx', 'Ex "30"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.service.ssoSessionDaysDesc'
-                            defaultMessage='The number of days from the last time a user entered their credentials to the expiry of the users session. If the authentication method is SAML or GitLab, the user may automatically be logged back in to Mattermost if they are already logged in to SAML or GitLab. After changing this setting, the setting will take effect after the next time the user enters their credentials. '
+                            id="admin.service.ssoSessionDaysDesc"
+                            defaultMessage="The number of days from the last time a user entered their credentials to the expiry of the users session. If the authentication method is SAML or GitLab, the user may automatically be logged back in to Mattermost if they are already logged in to SAML or GitLab. After changing this setting, the setting will take effect after the next time the user enters their credentials. "
                         />
                     }
                     value={this.state.sessionLengthSSOInDays}
                     onChange={this.handleChange}
                 />
                 <TextSetting
-                    id='sessionCacheInMinutes'
+                    id="sessionCacheInMinutes"
                     label={
-                        <FormattedMessage
-                            id='admin.service.sessionCache'
-                            defaultMessage='Session Cache (minutes):'
-                        />
+                        <FormattedMessage id="admin.service.sessionCache" defaultMessage="Session Cache (minutes):" />
                     }
                     placeholder={Utils.localizeMessage('admin.service.sessionDaysEx', 'Ex "30"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.service.sessionCacheDesc'
-                            defaultMessage='The number of minutes to cache a session in memory.'
+                            id="admin.service.sessionCacheDesc"
+                            defaultMessage="The number of minutes to cache a session in memory."
                         />
                     }
                     value={this.state.sessionCacheInMinutes}

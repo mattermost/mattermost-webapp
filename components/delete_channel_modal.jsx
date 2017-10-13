@@ -52,18 +52,15 @@ export default class DeleteChannelModal extends React.Component {
                 onKeyDown={this.handleKeyDown}
             >
                 <Modal.Header closeButton={true}>
-                    <h4 className='modal-title'>
-                        <FormattedMessage
-                            id='delete_channel.confirm'
-                            defaultMessage='Confirm DELETE Channel'
-                        />
+                    <h4 className="modal-title">
+                        <FormattedMessage id="delete_channel.confirm" defaultMessage="Confirm DELETE Channel" />
                     </h4>
                 </Modal.Header>
                 <Modal.Body>
-                    <div className='alert alert-danger'>
+                    <div className="alert alert-danger">
                         <FormattedHTMLMessage
-                            id='delete_channel.question'
-                            defaultMessage='This will delete the channel from the team and make its contents inaccessible for all users. <br /><br />Are you sure you wish to delete the <strong>{display_name}</strong> channel?'
+                            id="delete_channel.question"
+                            defaultMessage="This will delete the channel from the team and make its contents inaccessible for all users. <br /><br />Are you sure you wish to delete the <strong>{display_name}</strong> channel?"
                             values={{
                                 display_name: this.props.channel.display_name
                             }}
@@ -71,26 +68,11 @@ export default class DeleteChannelModal extends React.Component {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <button
-                        type='button'
-                        className='btn btn-default'
-                        onClick={this.onHide}
-                    >
-                        <FormattedMessage
-                            id='delete_channel.cancel'
-                            defaultMessage='Cancel'
-                        />
+                    <button type="button" className="btn btn-default" onClick={this.onHide}>
+                        <FormattedMessage id="delete_channel.cancel" defaultMessage="Cancel" />
                     </button>
-                    <button
-                        type='button'
-                        className='btn btn-danger'
-                        data-dismiss='modal'
-                        onClick={this.handleDelete}
-                    >
-                        <FormattedMessage
-                            id='delete_channel.del'
-                            defaultMessage='Delete'
-                        />
+                    <button type="button" className="btn btn-danger" data-dismiss="modal" onClick={this.handleDelete}>
+                        <FormattedMessage id="delete_channel.del" defaultMessage="Delete" />
                     </button>
                 </Modal.Footer>
             </Modal>

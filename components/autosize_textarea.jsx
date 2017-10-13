@@ -9,7 +9,7 @@ export default class AutosizeTextarea extends React.Component {
         value: PropTypes.string,
         placeholder: PropTypes.string,
         onHeightChange: PropTypes.func
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -60,12 +60,7 @@ export default class AutosizeTextarea extends React.Component {
         Reflect.deleteProperty(props, 'providers');
         Reflect.deleteProperty(props, 'channelId');
 
-        const {
-            value,
-            placeholder,
-            id,
-            ...otherProps
-        } = props;
+        const {value, placeholder, id, ...otherProps} = props;
 
         const heightProps = {};
         if (this.height <= 0) {
@@ -77,21 +72,16 @@ export default class AutosizeTextarea extends React.Component {
 
         return (
             <div>
-                <textarea
-                    ref='textarea'
-                    id={id + '-textarea'}
-                    {...heightProps}
-                    {...props}
-                />
+                <textarea ref="textarea" id={id + '-textarea'} {...heightProps} {...props} />
                 <div style={{height: 0, overflow: 'hidden'}}>
                     <textarea
-                        ref='reference'
+                        ref="reference"
                         id={id + '-reference'}
                         style={{height: 'auto', width: '100%'}}
                         disabled={true}
                         value={value}
                         placeholder={placeholder}
-                        rows='1'
+                        rows="1"
                         {...otherProps}
                     />
                 </div>

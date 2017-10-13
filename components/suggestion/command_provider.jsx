@@ -17,16 +17,13 @@ class CommandSuggestion extends Suggestion {
         }
 
         return (
-            <div
-                className={className}
-                onClick={this.handleClick}
-            >
-                <div className='command__title'>
-                    <string>{item.suggestion} {item.hint}</string>
+            <div className={className} onClick={this.handleClick}>
+                <div className="command__title">
+                    <string>
+                        {item.suggestion} {item.hint}
+                    </string>
                 </div>
-                <div className='command__desc'>
-                    {item.description}
-                </div>
+                <div className="command__desc">{item.description}</div>
             </div>
         );
     }

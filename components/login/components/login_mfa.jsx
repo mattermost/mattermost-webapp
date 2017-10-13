@@ -39,43 +39,35 @@ export default class LoginMfa extends React.Component {
         let serverError;
         let errorClass = '';
         if (this.state.serverError) {
-            serverError = <label className='control-label'>{this.state.serverError}</label>;
+            serverError = <label className="control-label">{this.state.serverError}</label>;
             errorClass = ' has-error';
         }
 
         return (
             <form onSubmit={this.handleSubmit}>
-                <div className='signup__email-container'>
+                <div className="signup__email-container">
                     <p>
                         <FormattedMessage
-                            id='login_mfa.enterToken'
+                            id="login_mfa.enterToken"
                             defaultMessage="To complete the sign in process, please enter a token from your smartphone's authenticator"
                         />
                     </p>
-                    <div className={'form-group' + errorClass}>
-                        {serverError}
-                    </div>
+                    <div className={'form-group' + errorClass}>{serverError}</div>
                     <div className={'form-group' + errorClass}>
                         <input
-                            type='text'
-                            className='form-control'
-                            name='token'
-                            ref='token'
+                            type="text"
+                            className="form-control"
+                            name="token"
+                            ref="token"
                             placeholder={Utils.localizeMessage('login_mfa.token', 'MFA Token')}
-                            spellCheck='false'
-                            autoComplete='off'
+                            spellCheck="false"
+                            autoComplete="off"
                             autoFocus={true}
                         />
                     </div>
-                    <div className='form-group'>
-                        <button
-                            type='submit'
-                            className='btn btn-primary'
-                        >
-                            <FormattedMessage
-                                id='login_mfa.submit'
-                                defaultMessage='Submit'
-                            />
+                    <div className="form-group">
+                        <button type="submit" className="btn btn-primary">
+                            <FormattedMessage id="login_mfa.submit" defaultMessage="Submit" />
                         </button>
                     </div>
                 </div>
@@ -83,8 +75,7 @@ export default class LoginMfa extends React.Component {
         );
     }
 }
-LoginMfa.defaultProps = {
-};
+LoginMfa.defaultProps = {};
 
 LoginMfa.propTypes = {
     loginId: PropTypes.string.isRequired,

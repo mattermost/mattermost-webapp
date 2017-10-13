@@ -51,8 +51,8 @@ export default class ImportThemeModal extends React.Component {
             this.setState({
                 inputError: (
                     <FormattedMessage
-                        id='user.settings.import_theme.submitError'
-                        defaultMessage='Invalid format, please try copying and pasting in again.'
+                        id="user.settings.import_theme.submitError"
+                        defaultMessage="Invalid format, please try copying and pasting in again."
                     />
                 )
             });
@@ -135,8 +135,8 @@ export default class ImportThemeModal extends React.Component {
             this.setState({
                 inputError: (
                     <FormattedMessage
-                        id='user.settings.import_theme.submitError'
-                        defaultMessage='Invalid format, please try copying and pasting in again.'
+                        id="user.settings.import_theme.submitError"
+                        defaultMessage="Invalid format, please try copying and pasting in again."
                     />
                 )
             });
@@ -146,67 +146,53 @@ export default class ImportThemeModal extends React.Component {
     render() {
         return (
             <span>
-                <Modal
-                    show={this.state.show}
-                    onHide={() => this.setState({show: false})}
-                >
+                <Modal show={this.state.show} onHide={() => this.setState({show: false})}>
                     <Modal.Header closeButton={true}>
                         <Modal.Title>
                             <FormattedMessage
-                                id='user.settings.import_theme.importHeader'
-                                defaultMessage='Import Slack Theme'
+                                id="user.settings.import_theme.importHeader"
+                                defaultMessage="Import Slack Theme"
                             />
                         </Modal.Title>
                     </Modal.Header>
-                    <form
-                        role='form'
-                        className='form-horizontal'
-                    >
+                    <form role="form" className="form-horizontal">
                         <Modal.Body>
                             <p>
                                 <FormattedMessage
-                                    id='user.settings.import_theme.importBody'
-                                    defaultMessage='To import a theme, go to a Slack team and look for "Preferences -> Sidebar Theme". Open the custom theme option, copy the theme color values and paste them here:'
+                                    id="user.settings.import_theme.importBody"
+                                    defaultMessage="To import a theme, go to a Slack team and look for &quot;Preferences -> Sidebar Theme&quot;. Open the custom theme option, copy the theme color values and paste them here:"
                                 />
                             </p>
-                            <div className='form-group less'>
-                                <div className='col-sm-12'>
+                            <div className="form-group less">
+                                <div className="col-sm-12">
                                     <input
-                                        id='themeVector'
-                                        type='text'
-                                        className='form-control'
+                                        id="themeVector"
+                                        type="text"
+                                        className="form-control"
                                         value={this.state.value}
                                         onChange={this.handleChange}
                                     />
-                                    <div className='input__help'>
-                                        {this.state.inputError}
-                                    </div>
+                                    <div className="input__help">{this.state.inputError}</div>
                                 </div>
                             </div>
                         </Modal.Body>
                         <Modal.Footer>
                             <button
-                                id='cancelButton'
-                                type='button'
-                                className='btn btn-default'
+                                id="cancelButton"
+                                type="button"
+                                className="btn btn-default"
                                 onClick={() => this.setState({show: false})}
                             >
-                                <FormattedMessage
-                                    id='user.settings.import_theme.cancel'
-                                    defaultMessage='Cancel'
-                                />
+                                <FormattedMessage id="user.settings.import_theme.cancel" defaultMessage="Cancel" />
                             </button>
                             <button
-                                id='submitButton'
+                                id="submitButton"
                                 onClick={this.handleSubmit}
-                                type='submit'
-                                className='btn btn-primary'
-                                tabIndex='3'
+                                type="submit"
+                                className="btn btn-primary"
+                                tabIndex="3"
                             >
-                                <FormattedMessage
-                                    id='user.settings.import_theme.submit'
-                                    defaultMessage='Submit'
-                                />
+                                <FormattedMessage id="user.settings.import_theme.submit" defaultMessage="Submit" />
                             </button>
                         </Modal.Footer>
                     </form>

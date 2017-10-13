@@ -18,25 +18,14 @@ export default function FileUploadOverlay(props) {
 
     return (
         <div className={overlayClass}>
-            <div className='overlay__indent'>
-                <div className='overlay__circle'>
-                    <img
-                        className='overlay__files'
-                        src={fileOverlayImage}
-                        alt='Files'
-                    />
-                    <span><i className='fa fa-upload'/>
-                        <FormattedMessage
-                            id='upload_overlay.info'
-                            defaultMessage='Drop a file to upload it.'
-                        />
+            <div className="overlay__indent">
+                <div className="overlay__circle">
+                    <img className="overlay__files" src={fileOverlayImage} alt="Files" />
+                    <span>
+                        <i className="fa fa-upload" />
+                        <FormattedMessage id="upload_overlay.info" defaultMessage="Drop a file to upload it." />
                     </span>
-                    <img
-                        className='overlay__logo'
-                        src={overlayLogoImage}
-                        width='100'
-                        alt='Logo'
-                    />
+                    <img className="overlay__logo" src={overlayLogoImage} width="100" alt="Logo" />
                 </div>
             </div>
         </div>

@@ -49,48 +49,43 @@ export default class WebrtcSettings extends AdminSettings {
     }
 
     renderTitle() {
-        return (
-            <FormattedMessage
-                id='admin.integrations.webrtc'
-                defaultMessage='Mattermost WebRTC (Beta)'
-            />
-        );
+        return <FormattedMessage id="admin.integrations.webrtc" defaultMessage="Mattermost WebRTC (Beta)" />;
     }
 
     renderSettings() {
         return (
             <SettingsGroup>
                 <BooleanSetting
-                    id='enableWebrtc'
+                    id="enableWebrtc"
                     label={
-                        <FormattedMessage
-                            id='admin.webrtc.enableTitle'
-                            defaultMessage='Enable Mattermost WebRTC: '
-                        />
+                        <FormattedMessage id="admin.webrtc.enableTitle" defaultMessage="Enable Mattermost WebRTC: " />
                     }
                     helpText={
                         <FormattedHTMLMessage
-                            id='admin.webrtc.enableDescription'
-                            defaultMessage='When true, Mattermost allows making <strong>one-on-one</strong> video calls. WebRTC calls are available on Chrome, Firefox and Mattermost Desktop Apps.'
+                            id="admin.webrtc.enableDescription"
+                            defaultMessage="When true, Mattermost allows making <strong>one-on-one</strong> video calls. WebRTC calls are available on Chrome, Firefox and Mattermost Desktop Apps."
                         />
                     }
                     value={this.state.enableWebrtc}
                     onChange={this.handleChange}
                 />
                 <TextSetting
-                    id='gatewayWebsocketUrl'
+                    id="gatewayWebsocketUrl"
                     label={
                         <FormattedMessage
-                            id='admin.webrtc.gatewayWebsocketUrlTitle'
-                            defaultMessage='Gateway WebSocket URL:'
+                            id="admin.webrtc.gatewayWebsocketUrlTitle"
+                            defaultMessage="Gateway WebSocket URL:"
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.webrtc.gatewayWebsocketUrlExample', 'Ex "wss://webrtc.mattermost.com:8189"')}
+                    placeholder={Utils.localizeMessage(
+                        'admin.webrtc.gatewayWebsocketUrlExample',
+                        'Ex "wss://webrtc.mattermost.com:8189"'
+                    )}
                     helpText={
                         <FormattedMessage
-                            id='admin.webrtc.gatewayWebsocketUrlDescription'
-                            defaultMessage='Enter wss://<mattermost-webrtc-gateway-url>:<port>. Make sure you use WS or WSS in your URL depending on your server configuration.
-                            This is the WebSocket used to signal and establish communication between the peers.'
+                            id="admin.webrtc.gatewayWebsocketUrlDescription"
+                            defaultMessage="Enter wss://<mattermost-webrtc-gateway-url>:<port>. Make sure you use WS or WSS in your URL depending on your server configuration.
+                            This is the WebSocket used to signal and establish communication between the peers."
                         />
                     }
                     value={this.state.gatewayWebsocketUrl}
@@ -98,19 +93,19 @@ export default class WebrtcSettings extends AdminSettings {
                     disabled={!this.state.enableWebrtc}
                 />
                 <TextSetting
-                    id='gatewayAdminUrl'
+                    id="gatewayAdminUrl"
                     label={
-                        <FormattedMessage
-                            id='admin.webrtc.gatewayAdminUrlTitle'
-                            defaultMessage='Gateway Admin URL:'
-                        />
+                        <FormattedMessage id="admin.webrtc.gatewayAdminUrlTitle" defaultMessage="Gateway Admin URL:" />
                     }
-                    placeholder={Utils.localizeMessage('admin.webrtc.gatewayAdminUrlExample', 'Ex "https://webrtc.mattermost.com:7089/admin"')}
+                    placeholder={Utils.localizeMessage(
+                        'admin.webrtc.gatewayAdminUrlExample',
+                        'Ex "https://webrtc.mattermost.com:7089/admin"'
+                    )}
                     helpText={
                         <FormattedMessage
-                            id='admin.webrtc.gatewayAdminUrlDescription'
-                            defaultMessage='Enter https://<mattermost-webrtc-gateway-url>:<port>/admin. Make sure you use HTTP or HTTPS in your URL depending on your server configuration.
-                            Mattermost WebRTC uses this URL to obtain valid tokens for each peer to establish the connection.'
+                            id="admin.webrtc.gatewayAdminUrlDescription"
+                            defaultMessage="Enter https://<mattermost-webrtc-gateway-url>:<port>/admin. Make sure you use HTTP or HTTPS in your URL depending on your server configuration.
+                            Mattermost WebRTC uses this URL to obtain valid tokens for each peer to establish the connection."
                         />
                     }
                     value={this.state.gatewayAdminUrl}
@@ -118,18 +113,21 @@ export default class WebrtcSettings extends AdminSettings {
                     disabled={!this.state.enableWebrtc}
                 />
                 <TextSetting
-                    id='gatewayAdminSecret'
+                    id="gatewayAdminSecret"
                     label={
                         <FormattedMessage
-                            id='admin.webrtc.gatewayAdminSecretTitle'
-                            defaultMessage='Gateway Admin Secret:'
+                            id="admin.webrtc.gatewayAdminSecretTitle"
+                            defaultMessage="Gateway Admin Secret:"
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.webrtc.gatewayAdminSecretExample', 'Ex "PVRzWNN1Tg6szn7IQWvhpAvLByScWxdy"')}
+                    placeholder={Utils.localizeMessage(
+                        'admin.webrtc.gatewayAdminSecretExample',
+                        'Ex "PVRzWNN1Tg6szn7IQWvhpAvLByScWxdy"'
+                    )}
                     helpText={
                         <FormattedMessage
-                            id='admin.webrtc.gatewayAdminSecretDescription'
-                            defaultMessage='Enter your admin secret password to access the Gateway Admin URL.'
+                            id="admin.webrtc.gatewayAdminSecretDescription"
+                            defaultMessage="Enter your admin secret password to access the Gateway Admin URL."
                         />
                     }
                     value={this.state.gatewayAdminSecret}
@@ -137,18 +135,16 @@ export default class WebrtcSettings extends AdminSettings {
                     disabled={!this.state.enableWebrtc}
                 />
                 <TextSetting
-                    id='stunURI'
-                    label={
-                        <FormattedMessage
-                            id='admin.webrtc.stunUriTitle'
-                            defaultMessage='STUN URI:'
-                        />
-                    }
-                    placeholder={Utils.localizeMessage('admin.webrtc.stunUriExample', 'Ex "stun:webrtc.mattermost.com:5349"')}
+                    id="stunURI"
+                    label={<FormattedMessage id="admin.webrtc.stunUriTitle" defaultMessage="STUN URI:" />}
+                    placeholder={Utils.localizeMessage(
+                        'admin.webrtc.stunUriExample',
+                        'Ex "stun:webrtc.mattermost.com:5349"'
+                    )}
                     helpText={
                         <FormattedMessage
-                            id='admin.webrtc.stunUriDescription'
-                            defaultMessage='Enter your STUN URI as stun:<your-stun-url>:<port>. STUN is a standardized network protocol to allow an end host to assist devices to access its public IP address if it is located behind a NAT.'
+                            id="admin.webrtc.stunUriDescription"
+                            defaultMessage="Enter your STUN URI as stun:<your-stun-url>:<port>. STUN is a standardized network protocol to allow an end host to assist devices to access its public IP address if it is located behind a NAT."
                         />
                     }
                     value={this.state.stunURI}
@@ -156,18 +152,16 @@ export default class WebrtcSettings extends AdminSettings {
                     disabled={!this.state.enableWebrtc}
                 />
                 <TextSetting
-                    id='turnURI'
-                    label={
-                        <FormattedMessage
-                            id='admin.webrtc.turnUriTitle'
-                            defaultMessage='TURN URI:'
-                        />
-                    }
-                    placeholder={Utils.localizeMessage('admin.webrtc.turnUriExample', 'Ex "turn:webrtc.mattermost.com:5349"')}
+                    id="turnURI"
+                    label={<FormattedMessage id="admin.webrtc.turnUriTitle" defaultMessage="TURN URI:" />}
+                    placeholder={Utils.localizeMessage(
+                        'admin.webrtc.turnUriExample',
+                        'Ex "turn:webrtc.mattermost.com:5349"'
+                    )}
                     helpText={
                         <FormattedMessage
-                            id='admin.webrtc.turnUriDescription'
-                            defaultMessage='Enter your TURN URI as turn:<your-turn-url>:<port>. TURN is a standardized network protocol to allow an end host to assist devices to establish a connection by using a relay public IP address if it is located behind a symmetric NAT.'
+                            id="admin.webrtc.turnUriDescription"
+                            defaultMessage="Enter your TURN URI as turn:<your-turn-url>:<port>. TURN is a standardized network protocol to allow an end host to assist devices to establish a connection by using a relay public IP address if it is located behind a symmetric NAT."
                         />
                     }
                     value={this.state.turnURI}
@@ -175,18 +169,13 @@ export default class WebrtcSettings extends AdminSettings {
                     disabled={!this.state.enableWebrtc}
                 />
                 <TextSetting
-                    id='turnUsername'
-                    label={
-                        <FormattedMessage
-                            id='admin.webrtc.turnUsernameTitle'
-                            defaultMessage='TURN Username:'
-                        />
-                    }
+                    id="turnUsername"
+                    label={<FormattedMessage id="admin.webrtc.turnUsernameTitle" defaultMessage="TURN Username:" />}
                     placeholder={Utils.localizeMessage('admin.webrtc.turnUsernameExample', 'Ex "myusername"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.webrtc.turnUsernameDescription'
-                            defaultMessage='Enter your TURN Server Username.'
+                            id="admin.webrtc.turnUsernameDescription"
+                            defaultMessage="Enter your TURN Server Username."
                         />
                     }
                     value={this.state.turnUsername}
@@ -194,18 +183,16 @@ export default class WebrtcSettings extends AdminSettings {
                     disabled={!this.state.enableWebrtc || !this.state.turnURI}
                 />
                 <TextSetting
-                    id='turnSharedKey'
-                    label={
-                        <FormattedMessage
-                            id='admin.webrtc.turnSharedKeyTitle'
-                            defaultMessage='TURN Shared Key:'
-                        />
-                    }
-                    placeholder={Utils.localizeMessage('admin.webrtc.turnSharedKeyExample', 'Ex "bXdkOWQxc3d0Ynk3emY5ZmsxZ3NtazRjaWg="')}
+                    id="turnSharedKey"
+                    label={<FormattedMessage id="admin.webrtc.turnSharedKeyTitle" defaultMessage="TURN Shared Key:" />}
+                    placeholder={Utils.localizeMessage(
+                        'admin.webrtc.turnSharedKeyExample',
+                        'Ex "bXdkOWQxc3d0Ynk3emY5ZmsxZ3NtazRjaWg="'
+                    )}
                     helpText={
                         <FormattedMessage
-                            id='admin.webrtc.turnSharedKeyDescription'
-                            defaultMessage='Enter your TURN Server Shared Key. This is used to created dynamic passwords to establish the connection. Each password is valid for a short period of time.'
+                            id="admin.webrtc.turnSharedKeyDescription"
+                            defaultMessage="Enter your TURN Server Shared Key. This is used to created dynamic passwords to establish the connection. Each password is valid for a short period of time."
                         />
                     }
                     value={this.state.turnSharedKey}

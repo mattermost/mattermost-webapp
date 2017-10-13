@@ -36,7 +36,9 @@ export default class ChannelSelect extends React.Component {
         this.filterChannels = this.filterChannels.bind(this);
 
         this.state = {
-            channels: ChannelStore.getAll().filter(this.filterChannels).sort(sortChannelsByDisplayName)
+            channels: ChannelStore.getAll()
+                .filter(this.filterChannels)
+                .sort(sortChannelsByDisplayName)
         };
     }
 
@@ -50,8 +52,9 @@ export default class ChannelSelect extends React.Component {
 
     handleChannelChange() {
         this.setState({
-            channels: ChannelStore.getAll().
-                filter(this.filterChannels).sort(sortChannelsByDisplayName)
+            channels: ChannelStore.getAll()
+                .filter(this.filterChannels)
+                .sort(sortChannelsByDisplayName)
         });
     }
 
@@ -65,39 +68,27 @@ export default class ChannelSelect extends React.Component {
 
     render() {
         const options = [
-            <option
-                key=''
-                value=''
-            >
+            <option key="" value="">
                 {Utils.localizeMessage('channel_select.placeholder', '--- Select a channel ---')}
             </option>
         ];
 
-        this.state.channels.forEach((channel) => {
+        this.state.channels.forEach(channel => {
             if (channel.type === Constants.OPEN_CHANNEL && this.props.selectOpen) {
                 options.push(
-                    <option
-                        key={channel.id}
-                        value={channel.id}
-                    >
+                    <option key={channel.id} value={channel.id}>
                         {channel.display_name}
                     </option>
                 );
             } else if (channel.type === Constants.PRIVATE_CHANNEL && this.props.selectPrivate) {
                 options.push(
-                    <option
-                        key={channel.id}
-                        value={channel.id}
-                    >
+                    <option key={channel.id} value={channel.id}>
                         {channel.display_name}
                     </option>
                 );
             } else if (channel.type === Constants.DM_CHANNEL && this.props.selectDm) {
                 options.push(
-                    <option
-                        key={channel.id}
-                        value={channel.id}
-                    >
+                    <option key={channel.id} value={channel.id}>
                         {channel.display_name}
                     </option>
                 );
@@ -105,11 +96,7 @@ export default class ChannelSelect extends React.Component {
         });
 
         return (
-            <select
-                className='form-control'
-                value={this.props.value}
-                onChange={this.props.onChange}
-            >
+            <select className="form-control" value={this.props.value} onChange={this.props.onChange}>
                 {options}
             </select>
         );

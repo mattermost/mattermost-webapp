@@ -11,7 +11,7 @@ export default class NewMessageIndicator extends React.PureComponent {
     static propTypes = {
         onClick: PropTypes.func.isRequired,
         newMessages: PropTypes.number
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -41,21 +41,14 @@ export default class NewMessageIndicator extends React.PureComponent {
             className += ' disabled';
         }
         return (
-            <div
-                className={className}
-                onTransitionEnd={this.setRendered.bind(this)}
-                ref='indicator'
-            >
+            <div className={className} onTransitionEnd={this.setRendered.bind(this)} ref="indicator">
                 <div onClick={this.props.onClick}>
                     <FormattedMessage
-                        id='posts_view.newMsgBelow'
-                        defaultMessage='New {count, plural, one {message} other {messages}}'
+                        id="posts_view.newMsgBelow"
+                        defaultMessage="New {count, plural, one {message} other {messages}}"
                         values={{count: this.props.newMessages}}
                     />
-                    <span
-                        className='icon icon__unread'
-                        dangerouslySetInnerHTML={{__html: unreadIcon}}
-                    />
+                    <span className="icon icon__unread" dangerouslySetInnerHTML={{__html: unreadIcon}} />
                 </div>
             </div>
         );

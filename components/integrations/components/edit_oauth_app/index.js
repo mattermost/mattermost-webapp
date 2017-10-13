@@ -22,10 +22,13 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({
-            getOAuthApp,
-            editOAuthApp
-        }, dispatch)
+        actions: bindActionCreators(
+            {
+                getOAuthApp,
+                editOAuthApp
+            },
+            dispatch
+        )
     };
 }
 

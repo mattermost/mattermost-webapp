@@ -39,7 +39,7 @@ export default class MultiSelect extends React.Component {
         }
         this.refs.list.setSelected(0);
         this.setState({page: this.state.page + 1});
-    }
+    };
 
     prevPage = () => {
         if (this.state.page === 0) {
@@ -51,17 +51,17 @@ export default class MultiSelect extends React.Component {
         }
         this.refs.list.setSelected(0);
         this.setState({page: this.state.page - 1});
-    }
+    };
 
     resetPaging = () => {
         this.setState({page: 0});
-    }
+    };
 
-    onSelect = (selected) => {
+    onSelect = selected => {
         this.selected = selected;
-    }
+    };
 
-    onAdd = (value) => {
+    onAdd = value => {
         if (this.props.maxValues && this.props.values.length >= this.props.maxValues) {
             return;
         }
@@ -77,9 +77,9 @@ export default class MultiSelect extends React.Component {
         this.refs.select.handleInputChange({target: {value: ''}});
         this.onInput('');
         this.refs.select.focus();
-    }
+    };
 
-    onInput = (input) => {
+    onInput = input => {
         if (input === '') {
             this.refs.list.setSelected(-1);
         } else {
@@ -88,33 +88,33 @@ export default class MultiSelect extends React.Component {
         this.selected = null;
 
         this.props.handleInput(input);
-    }
+    };
 
-    onInputKeyDown = (e) => {
+    onInputKeyDown = e => {
         switch (e.keyCode) {
-        case KeyCodes.ENTER:
-            e.preventDefault();
-            break;
+            case KeyCodes.ENTER:
+                e.preventDefault();
+                break;
         }
-    }
+    };
 
-    handleEnterPress = (e) => {
+    handleEnterPress = e => {
         switch (e.keyCode) {
-        case KeyCodes.ENTER:
-            if (this.selected == null) {
-                this.props.handleSubmit();
-                return;
-            }
-            this.onAdd(this.selected);
-            break;
+            case KeyCodes.ENTER:
+                if (this.selected == null) {
+                    this.props.handleSubmit();
+                    return;
+                }
+                this.onAdd(this.selected);
+                break;
         }
-    }
+    };
 
-    onChange = (values) => {
+    onChange = values => {
         if (values.length < this.props.values.length) {
             this.props.handleDelete(values);
         }
-    }
+    };
 
     render() {
         const options = Object.assign([], this.props.options);
@@ -126,8 +126,8 @@ export default class MultiSelect extends React.Component {
         } else if (this.props.maxValues != null) {
             numRemainingText = (
                 <FormattedMessage
-                    id='multiselect.numRemaining'
-                    defaultMessage='You can add {num, number} more. '
+                    id="multiselect.numRemaining"
+                    defaultMessage="You can add {num, number} more. "
                     values={{
                         num: this.props.maxValues - this.props.values.length
                     }}
@@ -139,12 +139,7 @@ export default class MultiSelect extends React.Component {
         if (this.props.buttonSubmitText) {
             buttonSubmitText = this.props.buttonSubmitText;
         } else if (this.props.maxValues != null) {
-            buttonSubmitText = (
-                <FormattedMessage
-                    id='multiselect.go'
-                    defaultMessage='Go'
-                />
-            );
+            buttonSubmitText = <FormattedMessage id="multiselect.go" defaultMessage="Go" />;
         }
 
         let optionsToDisplay = [];
@@ -154,8 +149,10 @@ export default class MultiSelect extends React.Component {
 
         if (this.props.noteText) {
             noteTextContainer = (
-                <div className='multi-select__note'>
-                    <div className='note__icon'><span className='fa fa-info'/></div>
+                <div className="multi-select__note">
+                    <div className="note__icon">
+                        <span className="fa fa-info" />
+                    </div>
                     <div>{this.props.noteText}</div>
                 </div>
             );
@@ -179,28 +176,16 @@ export default class MultiSelect extends React.Component {
 
             if (options.length > pageEnd) {
                 nextButton = (
-                    <button
-                        className='btn btn-default filter-control filter-control__next'
-                        onClick={this.nextPage}
-                    >
-                        <FormattedMessage
-                            id='filtered_user_list.next'
-                            defaultMessage='Next'
-                        />
+                    <button className="btn btn-default filter-control filter-control__next" onClick={this.nextPage}>
+                        <FormattedMessage id="filtered_user_list.next" defaultMessage="Next" />
                     </button>
                 );
             }
 
             if (this.state.page > 0) {
                 previousButton = (
-                    <button
-                        className='btn btn-default filter-control filter-control__prev'
-                        onClick={this.prevPage}
-                    >
-                        <FormattedMessage
-                            id='filtered_user_list.prev'
-                            defaultMessage='Previous'
-                        />
+                    <button className="btn btn-default filter-control filter-control__prev" onClick={this.prevPage}>
+                        <FormattedMessage id="filtered_user_list.prev" defaultMessage="Previous" />
                     </button>
                 );
             }
@@ -209,11 +194,11 @@ export default class MultiSelect extends React.Component {
         }
 
         return (
-            <div className='filtered-user-list'>
-                <div className='filter-row filter-row--full'>
-                    <div className='multi-select__container'>
+            <div className="filtered-user-list">
+                <div className="filter-row filter-row--full">
+                    <div className="multi-select__container">
                         <ReactSelect
-                            ref='select'
+                            ref="select"
                             multi={true}
                             options={this.props.options}
                             joinValues={true}
@@ -231,20 +216,17 @@ export default class MultiSelect extends React.Component {
                             noResultsText={null}
                             placeholder={localizeMessage('multiselect.placeholder', 'Search and add members')}
                         />
-                        <button
-                            className='btn btn-primary btn-sm'
-                            onClick={this.props.handleSubmit}
-                        >
+                        <button className="btn btn-primary btn-sm" onClick={this.props.handleSubmit}>
                             {buttonSubmitText}
                         </button>
                     </div>
-                    <div className='multi-select__help'>
+                    <div className="multi-select__help">
                         {numRemainingText}
                         {noteTextContainer}
                     </div>
                 </div>
                 <MultiSelectList
-                    ref='list'
+                    ref="list"
                     options={optionsToDisplay}
                     optionRenderer={this.props.optionRenderer}
                     page={this.state.page}
@@ -253,7 +235,7 @@ export default class MultiSelect extends React.Component {
                     onAdd={this.onAdd}
                     onSelect={this.onSelect}
                 />
-                <div className='filter-controls'>
+                <div className="filter-controls">
                     {previousButton}
                     {nextButton}
                 </div>

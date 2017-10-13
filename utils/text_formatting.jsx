@@ -91,7 +91,7 @@ export function doFormatText(text, options) {
     if (!('emoticons' in options) || options.emoticon) {
         output = twemoji.parse(output, {
             className: 'emoticon',
-            callback: (icon) => {
+            callback: icon => {
                 if (!EmojiStore.hasUnicode(icon)) {
                     // just leave the unicode characters and hope the browser can handle it
                     return null;
@@ -198,7 +198,11 @@ function autolinkChannelMentions(text, tokens, channelNamesMap, team) {
 
         if (channelMentionExists(channelNameLower)) {
             // Exact match
-            const alias = addToken(channelNameLower, mention, escapeHtml(channelNamesMap[channelNameLower].display_name));
+            const alias = addToken(
+                channelNameLower,
+                mention,
+                escapeHtml(channelNamesMap[channelNameLower].display_name)
+            );
             return spacer + alias;
         }
 
@@ -211,8 +215,11 @@ function autolinkChannelMentions(text, tokens, channelNamesMap, team) {
 
                 if (channelMentionExists(channelNameLower)) {
                     const suffix = originalChannelName.substr(c - 1);
-                    const alias = addToken(channelNameLower, '~' + channelNameLower,
-                        escapeHtml(channelNamesMap[channelNameLower].display_name));
+                    const alias = addToken(
+                        channelNameLower,
+                        '~' + channelNameLower,
+                        escapeHtml(channelNamesMap[channelNameLower].display_name)
+                    );
                     return spacer + alias + suffix;
                 }
             } else {
@@ -243,7 +250,7 @@ const htmlEntities = {
 };
 
 export function escapeHtml(text) {
-    return text.replace(/[&<>"']/g, (match) => htmlEntities[match]);
+    return text.replace(/[&<>"']/g, match => htmlEntities[match]);
 }
 
 function highlightCurrentMentions(text, tokens, mentionKeys = []) {
@@ -287,7 +294,10 @@ function highlightCurrentMentions(text, tokens, mentionKeys = []) {
             continue;
         }
 
-        output = output.replace(new RegExp(`(^|\\W)(${escapeRegex(mention)})\\b`, 'gi'), replaceCurrentMentionWithToken);
+        output = output.replace(
+            new RegExp(`(^|\\W)(${escapeRegex(mention)})\\b`, 'gi'),
+            replaceCurrentMentionWithToken
+        );
     }
 
     return output;
@@ -351,7 +361,7 @@ function parseSearchTerms(searchTerm) {
         let captured;
 
         // check for a quoted string
-        captured = (/^"(.*?)"/).exec(termString);
+        captured = /^"(.*?)"/.exec(termString);
         if (captured) {
             termString = termString.substring(captured[0].length);
             terms.push(captured[1]);
@@ -359,14 +369,14 @@ function parseSearchTerms(searchTerm) {
         }
 
         // check for a search flag (and don't add it to terms)
-        captured = (/^(?:in|from|channel): ?\S+/).exec(termString);
+        captured = /^(?:in|from|channel): ?\S+/.exec(termString);
         if (captured) {
             termString = termString.substring(captured[0].length);
             continue;
         }
 
         // capture at mentions differently from the server so we can highlight them with the preceeding at sign
-        captured = (/^@\w+\b/).exec(termString);
+        captured = /^@\w+\b/.exec(termString);
         if (captured) {
             termString = termString.substring(captured[0].length);
 
@@ -375,12 +385,12 @@ function parseSearchTerms(searchTerm) {
         }
 
         // capture any plain text up until the next quote or search flag
-        captured = (/^.+?(?=\bin:|\bfrom:|\bchannel:|"|$)/).exec(termString);
+        captured = /^.+?(?=\bin:|\bfrom:|\bchannel:|"|$)/.exec(termString);
         if (captured) {
             termString = termString.substring(captured[0].length);
 
             // break the text up into words based on how the server splits them in SqlPostStore.SearchPosts and then discard empty terms
-            terms.push(...captured[0].split(/[ <>+()~@]/).filter((term) => Boolean(term)));
+            terms.push(...captured[0].split(/[ <>+()~@]/).filter(term => Boolean(term)));
             continue;
         }
 
@@ -389,7 +399,7 @@ function parseSearchTerms(searchTerm) {
     }
 
     // remove punctuation from each term
-    terms = terms.map((term) => {
+    terms = terms.map(term => {
         term.replace(puncStart, '');
         if (term.charAt(term.length - 1) !== '*') {
             term.replace(puncEnd, '');

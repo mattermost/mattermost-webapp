@@ -31,12 +31,7 @@ export default function StatusIcon(props) {
         statusIcon = Constants.OFFLINE_ICON_SVG;
     }
 
-    return (
-        <span
-            className={'status ' + props.className}
-            dangerouslySetInnerHTML={{__html: statusIcon}}
-        />
-    );
+    return <span className={'status ' + props.className} dangerouslySetInnerHTML={{__html: statusIcon}} />;
 }
 
 StatusIcon.defaultProps = {

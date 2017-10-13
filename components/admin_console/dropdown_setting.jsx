@@ -21,23 +21,16 @@ export default class DropdownSetting extends React.Component {
         const options = [];
         for (const {value, text} of this.props.values) {
             options.push(
-                <option
-                    value={value}
-                    key={value}
-                >
+                <option value={value} key={value}>
                     {text}
                 </option>
             );
         }
 
         return (
-            <Setting
-                label={this.props.label}
-                inputId={this.props.id}
-                helpText={this.props.helpText}
-            >
+            <Setting label={this.props.label} inputId={this.props.id} helpText={this.props.helpText}>
                 <select
-                    className='form-control'
+                    className="form-control"
                     id={this.props.id}
                     value={this.props.value}
                     onChange={this.handleChange}

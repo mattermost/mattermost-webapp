@@ -7,20 +7,11 @@ import * as TextFormatting from 'utils/text_formatting.jsx';
 
 describe('TextFormatting.Hashtags', function() {
     it('Not hashtags', function(done) {
-        assert.equal(
-            TextFormatting.formatText('# hashtag').trim(),
-            '<h1 class="markdown__heading">hashtag</h1>'
-        );
+        assert.equal(TextFormatting.formatText('# hashtag').trim(), '<h1 class="markdown__heading">hashtag</h1>');
 
-        assert.equal(
-            TextFormatting.formatText('#ab').trim(),
-            '<p>#ab</p>'
-        );
+        assert.equal(TextFormatting.formatText('#ab').trim(), '<p>#ab</p>');
 
-        assert.equal(
-            TextFormatting.formatText('#123test').trim(),
-            '<p>#123test</p>'
-        );
+        assert.equal(TextFormatting.formatText('#123test').trim(), '<p>#123test</p>');
 
         done();
     });
@@ -107,13 +98,7 @@ describe('TextFormatting.Hashtags', function() {
 
         assert.equal(
             TextFormatting.formatText('`#test`').trim(),
-            '<p>' +
-                '<span class="codespan__pre-wrap">' +
-                    '<code>' +
-                        '#test' +
-                    '</code>' +
-                '</span>' +
-            '</p>'
+            '<p>' + '<span class="codespan__pre-wrap">' + '<code>' + '#test' + '</code>' + '</span>' + '</p>'
         );
 
         assert.equal(
@@ -145,19 +130,13 @@ describe('TextFormatting.Hashtags', function() {
             "<p><a class='mention-link' href='#' data-hashtag='#foo'>#foo</a>/<span class='search-highlight'><a class='mention-link' href='#' data-hashtag='#bar'>#bar</a></span></p>"
         );
 
-        assert.equal(
-            TextFormatting.formatText('not#test', {searchTerm: '#test'}).trim(),
-            '<p>not#test</p>'
-        );
+        assert.equal(TextFormatting.formatText('not#test', {searchTerm: '#test'}).trim(), '<p>not#test</p>');
 
         done();
     });
 
     it('Potential hashtags with other entities nested', function(done) {
-        assert.equal(
-            TextFormatting.formatText('#@test').trim(),
-            '<p>#@test</p>'
-        );
+        assert.equal(TextFormatting.formatText('#@test').trim(), '<p>#@test</p>');
 
         let options = {
             atMentions: true
@@ -167,10 +146,7 @@ describe('TextFormatting.Hashtags', function() {
             '<p>#<span data-mention="test">@test</span></p>'
         );
 
-        assert.equal(
-            TextFormatting.formatText('#~test').trim(),
-            '<p>#~test</p>'
-        );
+        assert.equal(TextFormatting.formatText('#~test').trim(), '<p>#~test</p>');
 
         options = {
             channelNamesMap: {
@@ -178,10 +154,7 @@ describe('TextFormatting.Hashtags', function() {
             },
             team: {id: 'abcd', name: 'abcd', display_name: 'Alphabet'}
         };
-        assert.equal(
-            TextFormatting.formatText('#~test', options).trim(),
-            '<p>#~test</p>'
-        );
+        assert.equal(TextFormatting.formatText('#~test', options).trim(), '<p>#~test</p>');
 
         assert.equal(
             TextFormatting.formatText('#:mattermost:').trim(),

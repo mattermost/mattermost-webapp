@@ -26,21 +26,16 @@ class EmoticonSuggestion extends Suggestion {
         }
 
         return (
-            <div
-                className={className}
-                onClick={this.handleClick}
-            >
-                <div className='pull-left'>
+            <div className={className} onClick={this.handleClick}>
+                <div className="pull-left">
                     <img
                         alt={text}
-                        className='emoticon-suggestion__image'
+                        className="emoticon-suggestion__image"
                         src={EmojiStore.getEmojiImageUrl(emoji)}
                         title={text}
                     />
                 </div>
-                <div className='pull-left'>
-                    {text}
-                </div>
+                <div className="pull-left">{text}</div>
             </div>
         );
     }
@@ -51,7 +46,7 @@ export default class EmoticonProvider {
         let hasSuggestions = false;
 
         // look for the potential emoticons at the start of the text, after whitespace, and at the start of emoji reaction commands
-        const captured = (/(^|\s|^\+|^-)(:([^:\s]*))$/g).exec(pretext);
+        const captured = /(^|\s|^\+|^-)(:([^:\s]*))$/g.exec(pretext);
         if (captured) {
             const prefix = captured[1];
             const text = captured[2];
@@ -68,7 +63,13 @@ export default class EmoticonProvider {
             if (prefix !== '-' && prefix !== '+') {
                 for (const emoticon of Object.keys(Emoticons.emoticonPatterns)) {
                     if (Emoticons.emoticonPatterns[emoticon].test(text)) {
-                        SuggestionStore.addSuggestion(suggestionId, text, EmojiStore.get(emoticon), EmoticonSuggestion, text);
+                        SuggestionStore.addSuggestion(
+                            suggestionId,
+                            text,
+                            EmojiStore.get(emoticon),
+                            EmoticonSuggestion,
+                            text
+                        );
 
                         hasSuggestions = true;
                     }
@@ -110,7 +111,7 @@ export default class EmoticonProvider {
                 return 1;
             });
 
-            const terms = matched.map((item) => ':' + item.name + ':');
+            const terms = matched.map(item => ':' + item.name + ':');
 
             SuggestionStore.clearSuggestions(suggestionId);
             if (terms.length > 0) {

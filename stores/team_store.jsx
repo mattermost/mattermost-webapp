@@ -119,7 +119,7 @@ class TeamStoreClass extends EventEmitter {
     getAll() {
         const list = Selectors.getMyTeams(store.getState());
         const teams = {};
-        list.forEach((t) => {
+        list.forEach(t => {
             teams[t.id] = t;
         });
         return teams;
@@ -248,15 +248,13 @@ class TeamStoreClass extends EventEmitter {
         const myMembers = this.getMyTeamMembers();
         for (let i = 0; i < myMembers.length; i++) {
             const team = myMembers[i];
-            const member = members.filter((m) => m.team_id === team.team_id)[0];
+            const member = members.filter(m => m.team_id === team.team_id)[0];
 
             if (member) {
-                myMembers[i] = Object.assign({},
-                    team,
-                    {
-                        msg_count: member.msg_count,
-                        mention_count: member.mention_count
-                    });
+                myMembers[i] = Object.assign({}, team, {
+                    msg_count: member.msg_count,
+                    mention_count: member.mention_count
+                });
             }
         }
 
@@ -336,7 +334,7 @@ class TeamStoreClass extends EventEmitter {
         }
 
         var teamMembers = this.getMyTeamMembers();
-        const teamMember = teamMembers.find((m) => m.user_id === userId && m.team_id === teamId);
+        const teamMember = teamMembers.find(m => m.user_id === userId && m.team_id === teamId);
 
         if (teamMember) {
             return Utils.isAdmin(teamMember.roles);
@@ -347,7 +345,7 @@ class TeamStoreClass extends EventEmitter {
 
     updateMyRoles(member) {
         const teamMembers = this.getMyTeamMembers();
-        const teamMember = teamMembers.find((m) => m.user_id === member.user_id && m.team_id === member.team_id);
+        const teamMember = teamMembers.find(m => m.user_id === member.user_id && m.team_id === member.team_id);
 
         if (teamMember) {
             const newMember = Object.assign({}, teamMember, {
@@ -362,14 +360,14 @@ class TeamStoreClass extends EventEmitter {
     }
 
     subtractUnread(teamId, msgs, mentions) {
-        let member = this.getMyTeamMembers().filter((m) => m.team_id === teamId)[0];
+        let member = this.getMyTeamMembers().filter(m => m.team_id === teamId)[0];
         if (member) {
             const msgCount = member.msg_count - msgs;
             const mentionCount = member.mention_count - mentions;
 
             member = Object.assign({}, member);
-            member.msg_count = (msgCount > 0) ? msgCount : 0;
-            member.mention_count = (mentionCount > 0) ? mentionCount : 0;
+            member.msg_count = msgCount > 0 ? msgCount : 0;
+            member.mention_count = mentionCount > 0 ? mentionCount : 0;
 
             store.dispatch({
                 type: TeamTypes.RECEIVED_MY_TEAM_MEMBER,
@@ -380,11 +378,15 @@ class TeamStoreClass extends EventEmitter {
 
     incrementMessages(id, channelId) {
         const channelMember = ChannelStore.getMyMember(channelId);
-        if (channelMember && channelMember.notify_props && channelMember.notify_props.mark_unread === NotificationPrefs.MENTION) {
+        if (
+            channelMember &&
+            channelMember.notify_props &&
+            channelMember.notify_props.mark_unread === NotificationPrefs.MENTION
+        ) {
             return;
         }
 
-        const member = Object.assign({}, this.getMyTeamMembers().filter((m) => m.team_id === id)[0]);
+        const member = Object.assign({}, this.getMyTeamMembers().filter(m => m.team_id === id)[0]);
         member.msg_count++;
 
         store.dispatch({
@@ -400,7 +402,7 @@ class TeamStoreClass extends EventEmitter {
         }
 
         if (mentions.indexOf(UserStore.getCurrentId()) !== -1) {
-            const member = Object.assign({}, this.getMyTeamMembers().filter((m) => m.team_id === id)[0]);
+            const member = Object.assign({}, this.getMyTeamMembers().filter(m => m.team_id === id)[0]);
             member.mention_count++;
 
             store.dispatch({
@@ -413,57 +415,61 @@ class TeamStoreClass extends EventEmitter {
 
 var TeamStore = new TeamStoreClass();
 
-TeamStore.dispatchToken = AppDispatcher.register((payload) => {
+TeamStore.dispatchToken = AppDispatcher.register(payload => {
     var action = payload.action;
 
     switch (action.type) {
-    case ActionTypes.RECEIVED_MY_TEAM:
-        TeamStore.saveMyTeam(action.team);
-        break;
-    case ActionTypes.RECEIVED_TEAM:
-        TeamStore.saveTeam(action.team);
-        break;
-    case ActionTypes.CREATED_TEAM:
-        TeamStore.saveTeam(action.team);
-        TeamStore.appendMyTeamMember(action.member);
-        break;
-    case ActionTypes.UPDATE_TEAM:
-        TeamStore.saveTeam(action.team);
-        break;
-    case ActionTypes.RECEIVED_ALL_TEAMS:
-        TeamStore.saveTeams(action.teams);
-        break;
-    case ActionTypes.RECEIVED_MY_TEAM_MEMBERS:
-        TeamStore.saveMyTeamMembers(action.team_members);
-        break;
-    case ActionTypes.RECEIVED_MY_TEAMS_UNREAD:
-        TeamStore.saveMyTeamMembersUnread(action.team_members);
-        break;
-    case ActionTypes.RECEIVED_ALL_TEAM_LISTINGS:
-        TeamStore.saveTeamListings(action.teams);
-        break;
-    case ActionTypes.RECEIVED_MEMBERS_IN_TEAM:
-        TeamStore.saveMembersInTeam(action.team_id, action.team_members);
-        break;
-    case ActionTypes.RECEIVED_TEAM_STATS:
-        TeamStore.saveStats(action.team_id, action.stats);
-        break;
-    case ActionTypes.RECEIVED_POST:
-        if (Constants.IGNORE_POST_TYPES.indexOf(action.post.type) !== -1) {
-            return;
-        }
+        case ActionTypes.RECEIVED_MY_TEAM:
+            TeamStore.saveMyTeam(action.team);
+            break;
+        case ActionTypes.RECEIVED_TEAM:
+            TeamStore.saveTeam(action.team);
+            break;
+        case ActionTypes.CREATED_TEAM:
+            TeamStore.saveTeam(action.team);
+            TeamStore.appendMyTeamMember(action.member);
+            break;
+        case ActionTypes.UPDATE_TEAM:
+            TeamStore.saveTeam(action.team);
+            break;
+        case ActionTypes.RECEIVED_ALL_TEAMS:
+            TeamStore.saveTeams(action.teams);
+            break;
+        case ActionTypes.RECEIVED_MY_TEAM_MEMBERS:
+            TeamStore.saveMyTeamMembers(action.team_members);
+            break;
+        case ActionTypes.RECEIVED_MY_TEAMS_UNREAD:
+            TeamStore.saveMyTeamMembersUnread(action.team_members);
+            break;
+        case ActionTypes.RECEIVED_ALL_TEAM_LISTINGS:
+            TeamStore.saveTeamListings(action.teams);
+            break;
+        case ActionTypes.RECEIVED_MEMBERS_IN_TEAM:
+            TeamStore.saveMembersInTeam(action.team_id, action.team_members);
+            break;
+        case ActionTypes.RECEIVED_TEAM_STATS:
+            TeamStore.saveStats(action.team_id, action.stats);
+            break;
+        case ActionTypes.RECEIVED_POST:
+            if (Constants.IGNORE_POST_TYPES.indexOf(action.post.type) !== -1) {
+                return;
+            }
 
-        if (action.post.user_id === UserStore.getCurrentId() && !isSystemMessage(action.post) && !isFromWebhook(action.post)) {
-            return;
-        }
+            if (
+                action.post.user_id === UserStore.getCurrentId() &&
+                !isSystemMessage(action.post) &&
+                !isFromWebhook(action.post)
+            ) {
+                return;
+            }
 
-        var id = action.websocketMessageProps ? action.websocketMessageProps.team_id : null;
-        if (id && TeamStore.getCurrentId() !== id) {
-            TeamStore.incrementMessages(id, action.post.channel_id);
-            TeamStore.incrementMentionsIfNeeded(id, action.websocketMessageProps);
-        }
-        break;
-    default:
+            var id = action.websocketMessageProps ? action.websocketMessageProps.team_id : null;
+            if (id && TeamStore.getCurrentId() !== id) {
+                TeamStore.incrementMessages(id, action.post.channel_id);
+                TeamStore.incrementMentionsIfNeeded(id, action.websocketMessageProps);
+            }
+            break;
+        default:
     }
 });
 

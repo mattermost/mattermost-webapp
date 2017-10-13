@@ -73,12 +73,7 @@ export default class RhsComment extends React.Component {
 
     createRemovePostButton() {
         return (
-            <a
-                href='#'
-                className='post__remove theme'
-                type='button'
-                onClick={this.removePost}
-            >
+            <a href="#" className="post__remove theme" type="button" onClick={this.removePost}>
                 {'×'}
             </a>
         );
@@ -130,27 +125,24 @@ export default class RhsComment extends React.Component {
 
     timeTag(post, timeOptions) {
         return (
-            <time
-                className='post__time'
-                dateTime={Utils.getDateForUnixTicks(post.create_at).toISOString()}
-            >
+            <time className="post__time" dateTime={Utils.getDateForUnixTicks(post.create_at).toISOString()}>
                 {Utils.getDateForUnixTicks(post.create_at).toLocaleString('en', timeOptions)}
             </time>
         );
     }
 
     renderTimeTag(post, timeOptions) {
-        return Utils.isMobile() ?
-            this.timeTag(post, timeOptions) :
-            (
-                <Link
-                    to={`/${this.state.currentTeamDisplayName}/pl/${post.id}`}
-                    target='_blank'
-                    className='post__permalink'
-                >
-                    {this.timeTag(post, timeOptions)}
-                </Link>
-            );
+        return Utils.isMobile() ? (
+            this.timeTag(post, timeOptions)
+        ) : (
+            <Link
+                to={`/${this.state.currentTeamDisplayName}/pl/${post.id}`}
+                target="_blank"
+                className="post__permalink"
+            >
+                {this.timeTag(post, timeOptions)}
+            </Link>
+        );
     }
 
     toggleEmojiPicker = () => {
@@ -160,7 +152,7 @@ export default class RhsComment extends React.Component {
             showEmojiPicker,
             dropdownOpened: showEmojiPicker
         });
-    }
+    };
 
     reactEmojiClick(emoji) {
         this.setState({showEmojiPicker: false});
@@ -194,7 +186,7 @@ export default class RhsComment extends React.Component {
         }
 
         return className;
-    }
+    };
 
     handleDropdownOpened(isOpened) {
         this.setState({
@@ -241,36 +233,23 @@ export default class RhsComment extends React.Component {
                     />
                 );
             } else {
-                userProfile = (
-                    <UserProfile
-                        user={this.props.user}
-                        disablePopover={true}
-                    />
-                );
+                userProfile = <UserProfile user={this.props.user} disablePopover={true} />;
             }
 
-            botIndicator = <div className='col col__name bot-indicator'>{'BOT'}</div>;
+            botIndicator = <div className="col col__name bot-indicator">{'BOT'}</div>;
         } else if (isSystemMessage) {
             userProfile = (
                 <UserProfile
                     user={{}}
-                    overwriteName={
-                        <FormattedMessage
-                            id='post_info.system'
-                            defaultMessage='System'
-                        />
-                    }
+                    overwriteName={<FormattedMessage id="post_info.system" defaultMessage="System" />}
                     overwriteImage={Constants.SYSTEM_MESSAGE_PROFILE_IMAGE}
                     disablePopover={true}
                 />
             );
 
             visibleMessage = (
-                <span className='post__visibility'>
-                    <FormattedMessage
-                        id='post_info.message.visible'
-                        defaultMessage='(Only visible to you)'
-                    />
+                <span className="post__visibility">
+                    <FormattedMessage id="post_info.message.visible" defaultMessage="(Only visible to you)" />
                 </span>
             );
         }
@@ -280,7 +259,7 @@ export default class RhsComment extends React.Component {
 
         if (post.failed) {
             postClass += ' post-failed';
-            failedPostOptions = <FailedPostOptions post={this.props.post}/>;
+            failedPostOptions = <FailedPostOptions post={this.props.post} />;
         }
 
         if (PostUtils.isEdited(this.props.post)) {
@@ -291,8 +270,8 @@ export default class RhsComment extends React.Component {
             <ProfilePicture
                 src={PostUtils.getProfilePicSrcForPost(post, this.props.user)}
                 status={status}
-                width='36'
-                height='36'
+                width="36"
+                height="36"
                 user={this.props.user}
                 isBusy={this.props.isBusy}
                 isRHS={true}
@@ -302,34 +281,21 @@ export default class RhsComment extends React.Component {
 
         if (post.props && post.props.from_webhook) {
             profilePic = (
-                <ProfilePicture
-                    src={PostUtils.getProfilePicSrcForPost(post, this.props.user)}
-                    width='36'
-                    height='36'
-                />
+                <ProfilePicture src={PostUtils.getProfilePicSrcForPost(post, this.props.user)} width="36" height="36" />
             );
         }
 
         if (isSystemMessage) {
-            profilePic = (
-                <span
-                    className='icon'
-                    dangerouslySetInnerHTML={{__html: mattermostLogo}}
-                />
-            );
+            profilePic = <span className="icon" dangerouslySetInnerHTML={{__html: mattermostLogo}} />;
         }
 
         if (this.props.compactDisplay) {
             if (post.props && post.props.from_webhook) {
-                profilePic = (
-                    <ProfilePicture
-                        src=''
-                    />
-                );
+                profilePic = <ProfilePicture src="" />;
             } else {
                 profilePic = (
                     <ProfilePicture
-                        src=''
+                        src=""
                         status={status}
                         user={this.props.user}
                         isBusy={this.props.isBusy}
@@ -340,16 +306,11 @@ export default class RhsComment extends React.Component {
             }
         }
 
-        const profilePicContainer = (<div className='post__img'>{profilePic}</div>);
+        const profilePicContainer = <div className="post__img">{profilePic}</div>;
 
         let fileAttachment = null;
         if (post.file_ids && post.file_ids.length > 0) {
-            fileAttachment = (
-                <FileAttachmentListContainer
-                    post={post}
-                    compactDisplay={this.props.compactDisplay}
-                />
-            );
+            fileAttachment = <FileAttachmentListContainer post={post} compactDisplay={this.props.compactDisplay} />;
         }
 
         let react;
@@ -367,28 +328,23 @@ export default class RhsComment extends React.Component {
                         spaceRequiredBelow={342}
                     />
                     <a
-                        href='#'
-                        className='reacticon__container reaction'
+                        href="#"
+                        className="reacticon__container reaction"
                         onClick={this.toggleEmojiPicker}
                         ref={'rhs_reacticon_' + post.id}
                     >
                         <span
-                            className='icon icon--emoji'
+                            className="icon icon--emoji"
                             dangerouslySetInnerHTML={{__html: Constants.EMOJI_ICON_SVG}}
                         />
                     </a>
                 </span>
-
             );
         }
 
         let options;
         if (isEphemeral) {
-            options = (
-                <div className='col col__remove'>
-                    {this.createRemovePostButton()}
-                </div>
-            );
+            options = <div className="col col__remove">{this.createRemovePostButton()}</div>;
         } else if (!isSystemMessage) {
             const dotMenu = (
                 <DotMenu
@@ -401,10 +357,7 @@ export default class RhsComment extends React.Component {
             );
 
             options = (
-                <div
-                    ref='dotMenu'
-                    className='col col__reply'
-                >
+                <div ref="dotMenu" className="col col__reply">
                     {dotMenu}
                     {react}
                 </div>
@@ -414,11 +367,8 @@ export default class RhsComment extends React.Component {
         let pinnedBadge;
         if (post.is_pinned) {
             pinnedBadge = (
-                <span className='post__pinned-badge'>
-                    <FormattedMessage
-                        id='post_info.pinned'
-                        defaultMessage='Pinned'
-                    />
+                <span className="post__pinned-badge">
+                    <FormattedMessage id="post_info.pinned" defaultMessage="Pinned" />
                 </span>
             );
         }
@@ -430,19 +380,16 @@ export default class RhsComment extends React.Component {
         };
 
         return (
-            <div
-                ref={'post_body_' + post.id}
-                className={this.getClassName(post, isSystemMessage)}
-            >
-                <div className='post__content'>
+            <div ref={'post_body_' + post.id} className={this.getClassName(post, isSystemMessage)}>
+                <div className="post__content">
                     {profilePicContainer}
                     <div>
-                        <div className='post__header'>
-                            <div className='col col__name'>
+                        <div className="post__header">
+                            <div className="col col__name">
                                 <strong>{userProfile}</strong>
                             </div>
                             {botIndicator}
-                            <div className='col'>
+                            <div className="col">
                                 {this.renderTimeTag(post, timeOptions)}
                                 {pinnedBadge}
                                 <PostFlagIcon
@@ -456,19 +403,15 @@ export default class RhsComment extends React.Component {
                             </div>
                             {options}
                         </div>
-                        <div className='post__body' >
+                        <div className="post__body">
                             <div className={postClass}>
                                 {failedPostOptions}
                                 <PostBodyAdditionalContent post={post}>
-                                    <PostMessageContainer
-                                        post={post}
-                                        isRHS={true}
-                                        hasMention={true}
-                                    />
+                                    <PostMessageContainer post={post} isRHS={true} hasMention={true} />
                                 </PostBodyAdditionalContent>
                             </div>
                             {fileAttachment}
-                            <ReactionListContainer post={post}/>
+                            <ReactionListContainer post={post} />
                         </div>
                     </div>
                 </div>

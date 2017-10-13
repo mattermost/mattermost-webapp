@@ -31,15 +31,15 @@ export default class ProfilePicture extends React.PureComponent {
 
     hideProfilePopover = () => {
         this.refs.overlay.hide();
-    }
+    };
 
     render() {
         if (this.props.user) {
             return (
                 <OverlayTrigger
-                    ref='overlay'
-                    trigger='click'
-                    placement='right'
+                    ref="overlay"
+                    trigger="click"
+                    placement="right"
                     rootClose={true}
                     overlay={
                         <Pluggable>
@@ -55,27 +55,27 @@ export default class ProfilePicture extends React.PureComponent {
                         </Pluggable>
                     }
                 >
-                    <span className='status-wrapper'>
+                    <span className="status-wrapper">
                         <img
-                            className='more-modal__image'
+                            className="more-modal__image"
                             width={this.props.width}
                             height={this.props.width}
                             src={this.props.src}
                         />
-                        <StatusIcon status={this.props.status}/>
+                        <StatusIcon status={this.props.status} />
                     </span>
                 </OverlayTrigger>
             );
         }
         return (
-            <span className='status-wrapper'>
+            <span className="status-wrapper">
                 <img
-                    className='more-modal__image'
+                    className="more-modal__image"
                     width={this.props.width}
                     height={this.props.width}
                     src={this.props.src}
                 />
-                <StatusIcon status={this.props.status}/>
+                <StatusIcon status={this.props.status} />
             </span>
         );
     }

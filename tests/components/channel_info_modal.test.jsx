@@ -25,7 +25,7 @@ describe('components/ChannelInfoModal', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should call onHide callback when modal is hidden', (done) => {
+    test('should call onHide callback when modal is hidden', done => {
         function onHide() {
             done();
         }
@@ -38,6 +38,10 @@ describe('components/ChannelInfoModal', () => {
             />
         );
 
-        wrapper.find(Modal).first().props().onExited();
+        wrapper
+            .find(Modal)
+            .first()
+            .props()
+            .onExited();
     });
 });

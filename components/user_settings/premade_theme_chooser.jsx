@@ -35,20 +35,11 @@ export default class PremadeThemeChooser extends React.Component {
                 }
 
                 premadeThemes.push(
-                    <div
-                        className='col-xs-6 col-sm-3 premade-themes'
-                        key={'premade-theme-key' + k}
-                    >
-                        <div
-                            className={activeClass}
-                            onClick={() => this.props.updateTheme(premadeTheme)}
-                        >
+                    <div className="col-xs-6 col-sm-3 premade-themes" key={'premade-theme-key' + k}>
+                        <div className={activeClass} onClick={() => this.props.updateTheme(premadeTheme)}>
                             <label>
-                                <img
-                                    className='img-responsive'
-                                    src={premadeTheme.image}
-                                />
-                                <div className='theme-label'>{Utils.toTitleCase(premadeTheme.type)}</div>
+                                <img className="img-responsive" src={premadeTheme.image} />
+                                <div className="theme-label">{Utils.toTitleCase(premadeTheme.type)}</div>
                             </label>
                         </div>
                     </div>
@@ -57,10 +48,8 @@ export default class PremadeThemeChooser extends React.Component {
         }
 
         return (
-            <div className='row appearance-section'>
-                <div className='clearfix'>
-                    {premadeThemes}
-                </div>
+            <div className="row appearance-section">
+                <div className="clearfix">{premadeThemes}</div>
             </div>
         );
     }

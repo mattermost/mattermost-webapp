@@ -19,16 +19,13 @@ export default class BackstageNavbar extends React.Component {
         }
 
         return (
-            <div className='backstage-navbar'>
-                <Link
-                    className='backstage-navbar__back'
-                    to={`/${this.props.team.name}/channels/town-square`}
-                >
-                    <i className='fa fa-angle-left'/>
+            <div className="backstage-navbar">
+                <Link className="backstage-navbar__back" to={`/${this.props.team.name}/channels/town-square`}>
+                    <i className="fa fa-angle-left" />
                     <span>
                         <FormattedMessage
-                            id='backstage_navbar.backToMattermost'
-                            defaultMessage='Back to {siteName}'
+                            id="backstage_navbar.backToMattermost"
+                            defaultMessage="Back to {siteName}"
                             values={{
                                 siteName: global.window.mm_config.SiteName
                             }}

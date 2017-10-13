@@ -17,7 +17,7 @@ export default class YoutubeVideo extends React.PureComponent {
         link: PropTypes.string.isRequired,
         show: PropTypes.bool.isRequired,
         onLinkLoaded: PropTypes.func
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -100,8 +100,7 @@ export default class YoutubeVideo extends React.PureComponent {
     componentDidMount() {
         const key = global.window.mm_config.GoogleDeveloperKey;
         if (key) {
-            getYoutubeVideoInfo(key, this.state.videoId,
-                this.handleReceivedMetadata, this.handleMetadataError);
+            getYoutubeVideoInfo(key, this.state.videoId, this.handleReceivedMetadata, this.handleMetadataError);
         } else {
             this.loadWithoutKey();
         }
@@ -158,10 +157,8 @@ export default class YoutubeVideo extends React.PureComponent {
     render() {
         if (!this.state.loaded) {
             return (
-                <div
-                    className='post__embed-container'
-                >
-                    <div className='video-loading'/>
+                <div className="post__embed-container">
+                    <div className="video-loading" />
                 </div>
             );
         }
@@ -170,13 +167,9 @@ export default class YoutubeVideo extends React.PureComponent {
         if (this.state.title) {
             header = (
                 <h4>
-                    <span className='video-type'>{'Youtube - '}</span>
-                    <span className='video-title'>
-                        <a
-                            href={this.props.link}
-                            target='blank'
-                            rel='noopener noreferrer'
-                        >
+                    <span className="video-type">{'Youtube - '}</span>
+                    <span className="video-title">
+                        <a href={this.props.link} target="blank" rel="noopener noreferrer">
                             {this.state.title}
                         </a>
                     </span>
@@ -188,9 +181,11 @@ export default class YoutubeVideo extends React.PureComponent {
         if (this.state.failed) {
             content = (
                 <div>
-                    <div className='video-thumbnail__container'>
-                        <div className='video-thumbnail__error'>
-                            <div><i className='fa fa-warning fa-2x'/></div>
+                    <div className="video-thumbnail__container">
+                        <div className="video-thumbnail__error">
+                            <div>
+                                <i className="fa fa-warning fa-2x" />
+                            </div>
                             <div>{Utils.localizeMessage('youtube_video.notFound', 'Video not found')}</div>
                         </div>
                     </div>
@@ -199,24 +194,28 @@ export default class YoutubeVideo extends React.PureComponent {
         } else if (this.state.playing) {
             content = (
                 <iframe
-                    src={'https://www.youtube.com/embed/' + this.state.videoId + '?autoplay=1&autohide=1&border=0&wmode=opaque&fs=1&enablejsapi=1' + this.state.time}
-                    width='480px'
-                    height='360px'
-                    type='text/html'
-                    frameBorder='0'
-                    allowFullScreen='allowfullscreen'
+                    src={
+                        'https://www.youtube.com/embed/' +
+                        this.state.videoId +
+                        '?autoplay=1&autohide=1&border=0&wmode=opaque&fs=1&enablejsapi=1' +
+                        this.state.time
+                    }
+                    width="480px"
+                    height="360px"
+                    type="text/html"
+                    frameBorder="0"
+                    allowFullScreen="allowfullscreen"
                 />
             );
         } else {
             content = (
-                <div className='embed-responsive embed-responsive-4by3 video-div__placeholder'>
-                    <div className='video-thumbnail__container'>
-                        <img
-                            className='video-thumbnail'
-                            src={this.state.thumb}
-                        />
-                        <div className='block'>
-                            <span className='play-button'><span/></span>
+                <div className="embed-responsive embed-responsive-4by3 video-div__placeholder">
+                    <div className="video-thumbnail__container">
+                        <img className="video-thumbnail" src={this.state.thumb} />
+                        <div className="block">
+                            <span className="play-button">
+                                <span />
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -224,15 +223,10 @@ export default class YoutubeVideo extends React.PureComponent {
         }
 
         return (
-            <div
-                className='post__embed-container'
-            >
+            <div className="post__embed-container">
                 <div>
                     {header}
-                    <div
-                        className='video-div embed-responsive-item'
-                        onClick={this.play}
-                    >
+                    <div className="video-div embed-responsive-item" onClick={this.play}>
                         {content}
                     </div>
                 </div>

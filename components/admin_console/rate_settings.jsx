@@ -43,55 +43,44 @@ export default class RateSettings extends AdminSettings {
     }
 
     renderTitle() {
-        return (
-            <FormattedMessage
-                id='admin.rate.title'
-                defaultMessage='Rate Limit Settings'
-            />
-        );
+        return <FormattedMessage id="admin.rate.title" defaultMessage="Rate Limit Settings" />;
     }
 
     renderSettings() {
         return (
             <SettingsGroup>
-                <div className='banner'>
-                    <div className='banner__content'>
+                <div className="banner">
+                    <div className="banner__content">
                         <FormattedMessage
-                            id='admin.rate.noteDescription'
-                            defaultMessage='Changing properties in this section will require a server restart before taking effect.'
+                            id="admin.rate.noteDescription"
+                            defaultMessage="Changing properties in this section will require a server restart before taking effect."
                         />
                     </div>
                 </div>
                 <BooleanSetting
-                    id='enable'
+                    id="enable"
                     label={
-                        <FormattedMessage
-                            id='admin.rate.enableLimiterTitle'
-                            defaultMessage='Enable Rate Limiting: '
-                        />
+                        <FormattedMessage id="admin.rate.enableLimiterTitle" defaultMessage="Enable Rate Limiting: " />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.rate.enableLimiterDescription'
-                            defaultMessage='When true, APIs are throttled at rates specified below.'
+                            id="admin.rate.enableLimiterDescription"
+                            defaultMessage="When true, APIs are throttled at rates specified below."
                         />
                     }
                     value={this.state.enable}
                     onChange={this.handleChange}
                 />
                 <TextSetting
-                    id='perSec'
+                    id="perSec"
                     label={
-                        <FormattedMessage
-                            id='admin.rate.queriesTitle'
-                            defaultMessage='Maximum Queries per Second:'
-                        />
+                        <FormattedMessage id="admin.rate.queriesTitle" defaultMessage="Maximum Queries per Second:" />
                     }
                     placeholder={Utils.localizeMessage('admin.rate.queriesExample', 'Ex "10"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.rate.queriesDescription'
-                            defaultMessage='Throttles API at this number of requests per second.'
+                            id="admin.rate.queriesDescription"
+                            defaultMessage="Throttles API at this number of requests per second."
                         />
                     }
                     value={this.state.perSec}
@@ -99,18 +88,13 @@ export default class RateSettings extends AdminSettings {
                     disabled={!this.state.enable}
                 />
                 <TextSetting
-                    id='maxBurst'
-                    label={
-                        <FormattedMessage
-                            id='admin.rate.maxBurst'
-                            defaultMessage='Maximum Burst Size:'
-                        />
-                    }
+                    id="maxBurst"
+                    label={<FormattedMessage id="admin.rate.maxBurst" defaultMessage="Maximum Burst Size:" />}
                     placeholder={Utils.localizeMessage('admin.rate.maxBurstExample', 'Ex "100"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.rate.maxBurstDescription'
-                            defaultMessage='Maximum number of requests allowed beyond the per second query limit.'
+                            id="admin.rate.maxBurstDescription"
+                            defaultMessage="Maximum number of requests allowed beyond the per second query limit."
                         />
                     }
                     value={this.state.maxBurst}
@@ -118,18 +102,13 @@ export default class RateSettings extends AdminSettings {
                     disabled={!this.state.enable}
                 />
                 <TextSetting
-                    id='memoryStoreSize'
-                    label={
-                        <FormattedMessage
-                            id='admin.rate.memoryTitle'
-                            defaultMessage='Memory Store Size:'
-                        />
-                    }
+                    id="memoryStoreSize"
+                    label={<FormattedMessage id="admin.rate.memoryTitle" defaultMessage="Memory Store Size:" />}
                     placeholder={Utils.localizeMessage('admin.rate.memoryExample', 'Ex "10000"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.rate.memoryDescription'
-                            defaultMessage='Maximum number of users sessions connected to the system as determined by "Vary rate limit by remote address" and "Vary rate limit by HTTP header".'
+                            id="admin.rate.memoryDescription"
+                            defaultMessage="Maximum number of users sessions connected to the system as determined by &quot;Vary rate limit by remote address&quot; and &quot;Vary rate limit by HTTP header&quot;."
                         />
                     }
                     value={this.state.memoryStoreSize}
@@ -137,17 +116,17 @@ export default class RateSettings extends AdminSettings {
                     disabled={!this.state.enable}
                 />
                 <BooleanSetting
-                    id='varyByRemoteAddr'
+                    id="varyByRemoteAddr"
                     label={
                         <FormattedMessage
-                            id='admin.rate.remoteTitle'
-                            defaultMessage='Vary rate limit by remote address: '
+                            id="admin.rate.remoteTitle"
+                            defaultMessage="Vary rate limit by remote address: "
                         />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.rate.remoteDescription'
-                            defaultMessage='When true, rate limit API access by IP address.'
+                            id="admin.rate.remoteDescription"
+                            defaultMessage="When true, rate limit API access by IP address."
                         />
                     }
                     value={this.state.varyByRemoteAddr}
@@ -155,18 +134,21 @@ export default class RateSettings extends AdminSettings {
                     disabled={!this.state.enable}
                 />
                 <TextSetting
-                    id='varyByHeader'
+                    id="varyByHeader"
                     label={
                         <FormattedMessage
-                            id='admin.rate.httpHeaderTitle'
-                            defaultMessage='Vary rate limit by HTTP header:'
+                            id="admin.rate.httpHeaderTitle"
+                            defaultMessage="Vary rate limit by HTTP header:"
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.rate.httpHeaderExample', 'Ex "X-Real-IP", "X-Forwarded-For"')}
+                    placeholder={Utils.localizeMessage(
+                        'admin.rate.httpHeaderExample',
+                        'Ex "X-Real-IP", "X-Forwarded-For"'
+                    )}
                     helpText={
                         <FormattedMessage
-                            id='admin.rate.httpHeaderDescription'
-                            defaultMessage='When filled in, vary rate limiting by HTTP header field specified (e.g. when configuring NGINX set to "X-Real-IP", when configuring AmazonELB set to "X-Forwarded-For").'
+                            id="admin.rate.httpHeaderDescription"
+                            defaultMessage="When filled in, vary rate limiting by HTTP header field specified (e.g. when configuring NGINX set to &quot;X-Real-IP&quot;, when configuring AmazonELB set to &quot;X-Forwarded-For&quot;)."
                         />
                     }
                     value={this.state.varyByHeader}

@@ -21,10 +21,10 @@ export default class RadioSetting extends React.Component {
         const options = [];
         for (const {value, text} of this.props.values) {
             options.push(
-                <div className='radio'>
+                <div className="radio">
                     <label>
                         <input
-                            type='radio'
+                            type="radio"
                             value={value}
                             name={this.props.id}
                             checked={value === this.props.value}
@@ -38,11 +38,7 @@ export default class RadioSetting extends React.Component {
         }
 
         return (
-            <Setting
-                label={this.props.label}
-                inputId={this.props.id}
-                helpText={this.props.helpText}
-            >
+            <Setting label={this.props.label} inputId={this.props.id} helpText={this.props.helpText}>
                 {options}
             </Setting>
         );

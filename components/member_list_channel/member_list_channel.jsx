@@ -6,7 +6,11 @@ import React from 'react';
 
 import {searchProfilesInCurrentChannel} from 'mattermost-redux/selectors/entities/users';
 
-import {loadProfilesAndTeamMembersAndChannelMembers, loadTeamMembersAndChannelMembersForProfilesList, searchUsers} from 'actions/user_actions.jsx';
+import {
+    loadProfilesAndTeamMembersAndChannelMembers,
+    loadTeamMembersAndChannelMembersForProfilesList,
+    searchUsers
+} from 'actions/user_actions.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
@@ -26,7 +30,7 @@ export default class MemberListChannel extends React.Component {
         actions: PropTypes.shape({
             getChannelStats: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -57,7 +61,13 @@ export default class MemberListChannel extends React.Component {
         ChannelStore.addChangeListener(this.onChange);
         ChannelStore.addStatsChangeListener(this.onStatsChange);
 
-        loadProfilesAndTeamMembersAndChannelMembers(0, Constants.PROFILE_CHUNK_SIZE, TeamStore.getCurrentId(), ChannelStore.getCurrentId(), this.loadComplete);
+        loadProfilesAndTeamMembersAndChannelMembers(
+            0,
+            Constants.PROFILE_CHUNK_SIZE,
+            TeamStore.getCurrentId(),
+            ChannelStore.getCurrentId(),
+            this.loadComplete
+        );
         this.props.actions.getChannelStats(ChannelStore.getCurrentId());
     }
 
@@ -108,22 +118,22 @@ export default class MemberListChannel extends React.Component {
             return;
         }
 
-        const searchTimeoutId = setTimeout(
-            () => {
-                searchUsers(term, '', {in_channel_id: ChannelStore.getCurrentId()},
-                    (users) => {
-                        if (searchTimeoutId !== this.searchTimeoutId) {
-                            return;
-                        }
+        const searchTimeoutId = setTimeout(() => {
+            searchUsers(term, '', {in_channel_id: ChannelStore.getCurrentId()}, users => {
+                if (searchTimeoutId !== this.searchTimeoutId) {
+                    return;
+                }
 
-                        this.setState({loading: true});
+                this.setState({loading: true});
 
-                        loadTeamMembersAndChannelMembersForProfilesList(users, TeamStore.getCurrentId(), ChannelStore.getCurrentId(), this.loadComplete);
-                    }
+                loadTeamMembersAndChannelMembersForProfilesList(
+                    users,
+                    TeamStore.getCurrentId(),
+                    ChannelStore.getCurrentId(),
+                    this.loadComplete
                 );
-            },
-            Constants.SEARCH_TIMEOUT_MILLISECONDS
-        );
+            });
+        }, Constants.SEARCH_TIMEOUT_MILLISECONDS);
 
         this.searchTimeoutId = searchTimeoutId;
     }

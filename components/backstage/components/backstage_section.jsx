@@ -42,15 +42,13 @@ export default class BackstageSection extends React.Component {
         let clonedChildren = null;
         if (children.length > 0) {
             clonedChildren = (
-                <ul className='subsections'>
-                    {
-                        React.Children.map(children, (child) => {
-                            return React.cloneElement(child, {
-                                parentLink: link,
-                                subsection: true
-                            });
-                        })
-                    }
+                <ul className="subsections">
+                    {React.Children.map(children, child => {
+                        return React.cloneElement(child, {
+                            parentLink: link,
+                            subsection: true
+                        });
+                    })}
                 </ul>
             );
         }
@@ -62,14 +60,8 @@ export default class BackstageSection extends React.Component {
 
         return (
             <li className={className}>
-                <Link
-                    className={`${className}-title`}
-                    activeClassName={`${className}-title--active`}
-                    to={link}
-                >
-                    <span className={`${className}-title__text`}>
-                        {title}
-                    </span>
+                <Link className={`${className}-title`} activeClassName={`${className}-title--active`} to={link}>
+                    <span className={`${className}-title__text`}>{title}</span>
                 </Link>
                 {clonedChildren}
             </li>

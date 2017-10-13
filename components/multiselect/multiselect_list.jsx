@@ -73,22 +73,22 @@ export default class MultiSelectList extends React.Component {
 
         let selected;
         switch (e.keyCode) {
-        case KeyCodes.DOWN:
-            if (this.state.selected === -1) {
-                selected = 0;
+            case KeyCodes.DOWN:
+                if (this.state.selected === -1) {
+                    selected = 0;
+                    break;
+                }
+                selected = Math.min(this.state.selected + 1, options.length - 1);
                 break;
-            }
-            selected = Math.min(this.state.selected + 1, options.length - 1);
-            break;
-        case KeyCodes.UP:
-            if (this.state.selected === -1) {
-                selected = 0;
+            case KeyCodes.UP:
+                if (this.state.selected === -1) {
+                    selected = 0;
+                    break;
+                }
+                selected = Math.max(this.state.selected - 1, 0);
                 break;
-            }
-            selected = Math.max(this.state.selected - 1, 0);
-            break;
-        default:
-            return;
+            default:
+                return;
         }
 
         e.preventDefault();
@@ -119,15 +119,9 @@ export default class MultiSelectList extends React.Component {
 
         if (options == null || options.length === 0) {
             return (
-                <div
-                    key='no-users-found'
-                    className='no-channel-message'
-                >
-                    <p className='primary-message'>
-                        <FormattedMessage
-                            id='multiselect.list.notFound'
-                            defaultMessage='No items found'
-                        />
+                <div key="no-users-found" className="no-channel-message">
+                    <p className="primary-message">
+                        <FormattedMessage id="multiselect.list.notFound" defaultMessage="No items found" />
                     </p>
                 </div>
             );
@@ -143,12 +137,8 @@ export default class MultiSelectList extends React.Component {
         const optionControls = options.map((o, i) => renderer(o, this.state.selected === i, this.props.onAdd));
 
         return (
-            <div className='more-modal__list'>
-                <div
-                    ref='list'
-                >
-                    {optionControls}
-                </div>
+            <div className="more-modal__list">
+                <div ref="list">{optionControls}</div>
             </div>
         );
     }

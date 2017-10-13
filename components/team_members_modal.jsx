@@ -50,7 +50,7 @@ export default class TeamMembersModal extends React.Component {
 
         return (
             <Modal
-                dialogClassName='more-modal'
+                dialogClassName="more-modal"
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}
@@ -58,8 +58,8 @@ export default class TeamMembersModal extends React.Component {
                 <Modal.Header closeButton={true}>
                     <Modal.Title>
                         <FormattedMessage
-                            id='team_member_modal.members'
-                            defaultMessage='{team} Members'
+                            id="team_member_modal.members"
+                            defaultMessage="{team} Members"
                             values={{
                                 team: teamDisplayName
                             }}
@@ -67,9 +67,7 @@ export default class TeamMembersModal extends React.Component {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <MemberListTeam
-                        isAdmin={this.props.isAdmin}
-                    />
+                    <MemberListTeam isAdmin={this.props.isAdmin} />
                 </Modal.Body>
             </Modal>
         );

@@ -8,7 +8,6 @@ import ColorInput from 'components/color_input';
 
 class ColorChooser extends React.Component {
     static propTypes = {
-
         /*
          * The id of setting that we will change
          */
@@ -28,24 +27,21 @@ class ColorChooser extends React.Component {
          * Function called when color changed takes 2 arguments: Id of changing setting and new color
          */
         onChange: PropTypes.func
-    }
+    };
 
-    handleChange = (newColor) => {
+    handleChange = newColor => {
         const {id, onChange: handleChange} = this.props;
         if (handleChange) {
             handleChange(id, newColor);
         }
-    }
+    };
 
     render() {
         const {label, color} = this.props;
         return (
             <div>
-                <label className='custom-label'>{label}</label>
-                <ColorInput
-                    color={color}
-                    onChange={this.handleChange}
-                />
+                <label className="custom-label">{label}</label>
+                <ColorInput color={color} onChange={this.handleChange} />
             </div>
         );
     }

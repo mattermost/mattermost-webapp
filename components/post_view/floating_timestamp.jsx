@@ -11,25 +11,19 @@ export default class FloatingTimestamp extends React.PureComponent {
         isMobile: PropTypes.bool,
         createAt: PropTypes.number,
         isRhsPost: PropTypes.bool
-    }
+    };
 
     render() {
         if (!this.props.isMobile) {
-            return <noscript/>;
+            return <noscript />;
         }
 
         if (this.props.createAt === 0) {
-            return <noscript/>;
+            return <noscript />;
         }
 
         const dateString = (
-            <FormattedDate
-                value={this.props.createAt}
-                weekday='short'
-                day='2-digit'
-                month='short'
-                year='numeric'
-            />
+            <FormattedDate value={this.props.createAt} weekday="short" day="2-digit" month="short" year="numeric" />
         );
 
         let className = 'post-list__timestamp';

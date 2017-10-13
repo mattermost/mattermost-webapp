@@ -21,13 +21,11 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
         description: 'testing',
         update_at: 1501365458934
     };
-    const action = jest.genMockFunction().mockImplementation(
-        () => {
-            return new Promise((resolve) => {
-                process.nextTick(() => resolve());
-            });
-        }
-    );
+    const action = jest.genMockFunction().mockImplementation(() => {
+        return new Promise(resolve => {
+            process.nextTick(() => resolve());
+        });
+    });
 
     test('should match snapshot', () => {
         const wrapper = shallow(
@@ -55,9 +53,11 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
             />
         );
 
-        wrapper.find('.btn-primary').simulate('click', {preventDefault() {
-            return jest.fn();
-        }});
+        wrapper.find('.btn-primary').simulate('click', {
+            preventDefault() {
+                return jest.fn();
+            }
+        });
 
         expect(action).not.toBeCalled();
         expect(wrapper).toMatchSnapshot();
@@ -76,9 +76,11 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
         );
 
         wrapper.find('#displayName').simulate('change', {target: {value: 'name'}});
-        wrapper.find('.btn-primary').simulate('click', {preventDefault() {
-            return jest.fn();
-        }});
+        wrapper.find('.btn-primary').simulate('click', {
+            preventDefault() {
+                return jest.fn();
+            }
+        });
 
         expect(action).toBeCalled();
     });

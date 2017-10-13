@@ -62,84 +62,84 @@ export default class SystemUsersList extends React.Component {
         this.setState({page: this.state.page + 1});
 
         this.props.nextPage(this.state.page + 1);
-    }
+    };
 
     previousPage = () => {
         this.setState({page: this.state.page - 1});
-    }
+    };
 
-    search = (term) => {
+    search = term => {
         this.props.search(term);
 
         if (term !== '') {
             this.setState({page: 0});
         }
-    }
+    };
 
-    doManageTeams = (user) => {
+    doManageTeams = user => {
         this.setState({
             showManageTeamsModal: true,
             user
         });
-    }
+    };
 
-    doManageRoles = (user) => {
+    doManageRoles = user => {
         this.setState({
             showManageRolesModal: true,
             user
         });
-    }
+    };
 
-    doManageTokens = (user) => {
+    doManageTokens = user => {
         this.setState({
             showManageTokensModal: true,
             user
         });
-    }
+    };
 
     doManageTeamsDismiss = () => {
         this.setState({
             showManageTeamsModal: false,
             user: null
         });
-    }
+    };
 
     doManageRolesDismiss = () => {
         this.setState({
             showManageRolesModal: false,
             user: null
         });
-    }
+    };
 
     doManageTokensDismiss = () => {
         this.setState({
             showManageTokensModal: false,
             user: null
         });
-    }
+    };
 
-    doPasswordReset = (user) => {
+    doPasswordReset = user => {
         this.setState({
             showPasswordModal: true,
             user
         });
-    }
+    };
 
     doPasswordResetDismiss = () => {
         this.setState({
             showPasswordModal: false,
             user: null
         });
-    }
+    };
 
-    doPasswordResetSubmit = (user) => {
+    doPasswordResetSubmit = user => {
         getUser(user.id)(dispatch, getState);
 
         this.setState({
             showPasswordModal: false,
             user: null
         });
-    }
+    };
 
     getInfoForUser(user) {
         const info = [];
@@ -154,9 +154,9 @@ export default class SystemUsersList extends React.Component {
 
             info.push(
                 <FormattedHTMLMessage
-                    key='admin.user_item.authServiceNotEmail'
-                    id='admin.user_item.authServiceNotEmail'
-                    defaultMessage='<strong>Sign-in Method:</strong> {service}'
+                    key="admin.user_item.authServiceNotEmail"
+                    id="admin.user_item.authServiceNotEmail"
+                    defaultMessage="<strong>Sign-in Method:</strong> {service}"
                     values={{
                         service
                     }}
@@ -165,14 +165,15 @@ export default class SystemUsersList extends React.Component {
         } else {
             info.push(
                 <FormattedHTMLMessage
-                    key='admin.user_item.authServiceEmail'
-                    id='admin.user_item.authServiceEmail'
-                    defaultMessage='<strong>Sign-in Method:</strong> Email'
+                    key="admin.user_item.authServiceEmail"
+                    id="admin.user_item.authServiceEmail"
+                    defaultMessage="<strong>Sign-in Method:</strong> Email"
                 />
             );
         }
 
-        const mfaEnabled = global.window.mm_license.IsLicensed === 'true' &&
+        const mfaEnabled =
+            global.window.mm_license.IsLicensed === 'true' &&
             global.window.mm_license.MFA === 'true' &&
             global.window.mm_config.EnableMultifactorAuthentication === 'true';
         if (mfaEnabled) {
@@ -181,17 +182,17 @@ export default class SystemUsersList extends React.Component {
             if (user.mfa_active) {
                 info.push(
                     <FormattedHTMLMessage
-                        key='admin.user_item.mfaYes'
-                        id='admin.user_item.mfaYes'
-                        defaultMessage='<strong>MFA</strong>: Yes'
+                        key="admin.user_item.mfaYes"
+                        id="admin.user_item.mfaYes"
+                        defaultMessage="<strong>MFA</strong>: Yes"
                     />
                 );
             } else {
                 info.push(
                     <FormattedHTMLMessage
-                        key='admin.user_item.mfaNo'
-                        id='admin.user_item.mfaNo'
-                        defaultMessage='<strong>MFA</strong>: No'
+                        key="admin.user_item.mfaNo"
+                        id="admin.user_item.mfaNo"
+                        defaultMessage="<strong>MFA</strong>: No"
                     />
                 );
             }
@@ -205,8 +206,8 @@ export default class SystemUsersList extends React.Component {
             if (isSearch) {
                 return (
                     <FormattedMessage
-                        id='system_users_list.countSearch'
-                        defaultMessage='{count, number} {count, plural, one {user} other {users}} of {total, number} total'
+                        id="system_users_list.countSearch"
+                        defaultMessage="{count, number} {count, plural, one {user} other {users}} of {total, number} total"
                         values={{
                             count,
                             total
@@ -216,8 +217,8 @@ export default class SystemUsersList extends React.Component {
             } else if (startCount !== 0 || endCount !== total) {
                 return (
                     <FormattedMessage
-                        id='system_users_list.countPage'
-                        defaultMessage='{startCount, number} - {endCount, number} {count, plural, one {user} other {users}} of {total, number} total'
+                        id="system_users_list.countPage"
+                        defaultMessage="{startCount, number} - {endCount, number} {count, plural, one {user} other {users}} of {total, number} total"
                         values={{
                             count,
                             startCount: startCount + 1,
@@ -230,8 +231,8 @@ export default class SystemUsersList extends React.Component {
 
             return (
                 <FormattedMessage
-                    id='system_users_list.count'
-                    defaultMessage='{count, number} {count, plural, one {user} other {users}}'
+                    id="system_users_list.count"
+                    defaultMessage="{count, number} {count, plural, one {user} other {users}}"
                     values={{
                         count
                     }}

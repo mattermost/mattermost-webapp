@@ -24,14 +24,11 @@ export default class ClaimController extends React.Component {
     render() {
         return (
             <div>
-                <BackButton/>
-                <div className='col-sm-12'>
-                    <div className='signup-team__container'>
-                        <img
-                            className='signup-team-logo'
-                            src={logoImage}
-                        />
-                        <div id='claim'>
+                <BackButton />
+                <div className="col-sm-12">
+                    <div className="signup-team__container">
+                        <img className="signup-team-logo" src={logoImage} />
+                        <div id="claim">
                             {React.cloneElement(this.props.children, {
                                 currentType: this.state.oldType,
                                 newType: this.state.newType,
@@ -45,8 +42,7 @@ export default class ClaimController extends React.Component {
     }
 }
 
-ClaimController.defaultProps = {
-};
+ClaimController.defaultProps = {};
 ClaimController.propTypes = {
     location: PropTypes.object.isRequired,
     children: PropTypes.node

@@ -39,7 +39,7 @@ class IntegrationStore extends EventEmitter {
         const hooks = store.getState().entities.integrations.incomingHooks || {};
 
         let hasTeam = false;
-        Object.values(hooks).forEach((hook) => {
+        Object.values(hooks).forEach(hook => {
             if (hook.team_id === teamId) {
                 hasTeam = true;
             }
@@ -52,7 +52,7 @@ class IntegrationStore extends EventEmitter {
         const hooks = store.getState().entities.integrations.incomingHooks;
 
         const teamHooks = [];
-        Object.values(hooks).forEach((hook) => {
+        Object.values(hooks).forEach(hook => {
             if (hook.team_id === teamId) {
                 teamHooks.push(hook);
             }
@@ -65,7 +65,7 @@ class IntegrationStore extends EventEmitter {
         const hooks = store.getState().entities.integrations.outgoingHooks;
 
         let hasTeam = false;
-        Object.values(hooks).forEach((hook) => {
+        Object.values(hooks).forEach(hook => {
             if (hook.team_id === teamId) {
                 hasTeam = true;
             }
@@ -78,7 +78,7 @@ class IntegrationStore extends EventEmitter {
         const hooks = store.getState().entities.integrations.outgoingHooks;
 
         const teamHooks = [];
-        Object.values(hooks).forEach((hook) => {
+        Object.values(hooks).forEach(hook => {
             if (hook.team_id === teamId) {
                 teamHooks.push(hook);
             }

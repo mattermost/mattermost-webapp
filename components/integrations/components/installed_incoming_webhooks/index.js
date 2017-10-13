@@ -24,10 +24,13 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({
-            getIncomingHooks: Actions.getIncomingHooks,
-            removeIncomingHook: Actions.removeIncomingHook
-        }, dispatch)
+        actions: bindActionCreators(
+            {
+                getIncomingHooks: Actions.getIncomingHooks,
+                removeIncomingHook: Actions.removeIncomingHook
+            },
+            dispatch
+        )
     };
 }
 

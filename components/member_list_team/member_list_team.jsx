@@ -25,7 +25,7 @@ export default class MemberListTeam extends React.Component {
         actions: PropTypes.shape({
             getTeamStats: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -100,23 +100,15 @@ export default class MemberListTeam extends React.Component {
             return;
         }
 
-        const searchTimeoutId = setTimeout(
-            () => {
-                searchUsers(
-                    term,
-                    TeamStore.getCurrentId(),
-                    {},
-                    (users) => {
-                        if (searchTimeoutId !== this.searchTimeoutId) {
-                            return;
-                        }
-                        this.setState({loading: true});
-                        loadTeamMembersForProfilesList(users, TeamStore.getCurrentId(), this.loadComplete);
-                    }
-                );
-            },
-            Constants.SEARCH_TIMEOUT_MILLISECONDS
-        );
+        const searchTimeoutId = setTimeout(() => {
+            searchUsers(term, TeamStore.getCurrentId(), {}, users => {
+                if (searchTimeoutId !== this.searchTimeoutId) {
+                    return;
+                }
+                this.setState({loading: true});
+                loadTeamMembersForProfilesList(users, TeamStore.getCurrentId(), this.loadComplete);
+            });
+        }, Constants.SEARCH_TIMEOUT_MILLISECONDS);
 
         this.searchTimeoutId = searchTimeoutId;
     }

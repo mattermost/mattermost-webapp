@@ -13,10 +13,10 @@ describe('components/ColorSetting', () => {
 
         const wrapper = shallow(
             <ColorSetting
-                id='id'
-                label='label'
-                helpText='helptext'
-                value='#fff'
+                id="id"
+                label="label"
+                helpText="helptext"
+                value="#fff"
                 onChange={emptyFunction}
                 disabled={false}
             />
@@ -28,13 +28,7 @@ describe('components/ColorSetting', () => {
         function emptyFunction() {} //eslint-disable-line no-empty-function
 
         const wrapper = shallow(
-            <ColorSetting
-                id='id'
-                label='label'
-                value='#fff'
-                onChange={emptyFunction}
-                disabled={false}
-            />
+            <ColorSetting id="id" label="label" value="#fff" onChange={emptyFunction} disabled={false} />
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -43,13 +37,7 @@ describe('components/ColorSetting', () => {
         function emptyFunction() {} //eslint-disable-line no-empty-function
 
         const wrapper = shallow(
-            <ColorSetting
-                id='id'
-                label='label'
-                value='#fff'
-                onChange={emptyFunction}
-                disabled={true}
-            />
+            <ColorSetting id="id" label="label" value="#fff" onChange={emptyFunction} disabled={true} />
         );
         expect(wrapper).toMatchSnapshot();
     });

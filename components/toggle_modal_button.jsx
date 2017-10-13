@@ -33,7 +33,7 @@ export default class ModalToggleButton extends React.Component {
         // allow callers to provide an onClick which will be called before the modal is shown
         let clickHandler = this.show;
         if (onClick) {
-            clickHandler = (e) => {
+            clickHandler = e => {
                 onClick();
 
                 this.show(e);
@@ -43,25 +43,24 @@ export default class ModalToggleButton extends React.Component {
         let dialog;
         if (this.state.show) {
             // this assumes that all modals will have an onHide event and will show when mounted
-            dialog = React.createElement(dialogType, Object.assign({}, dialogProps, {
-                onHide: () => {
-                    this.hide();
+            dialog = React.createElement(
+                dialogType,
+                Object.assign({}, dialogProps, {
+                    onHide: () => {
+                        this.hide();
 
-                    if (dialogProps.onHide) {
-                        dialogProps.onHide();
+                        if (dialogProps.onHide) {
+                            dialogProps.onHide();
+                        }
                     }
-                }
-            }));
+                })
+            );
         }
 
         // nesting the dialog in the anchor tag looks like it shouldn't work, but it does due to how react-bootstrap
         // renders modals at the top level of the DOM instead of where you specify in the virtual DOM
         return (
-            <a
-                {...props}
-                href='#'
-                onClick={clickHandler}
-            >
+            <a {...props} href="#" onClick={clickHandler}>
                 {children}
                 {dialog}
             </a>

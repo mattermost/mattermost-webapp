@@ -13,7 +13,6 @@ import UserProfile from 'components/user_profile.jsx';
 
 export default class PostHeader extends React.PureComponent {
     static propTypes = {
-
         /*
          * The post to render the header for
          */
@@ -73,7 +72,7 @@ export default class PostHeader extends React.PureComponent {
          * Function to get the post list HTML element
          */
         getPostList: PropTypes.func.isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -115,17 +114,12 @@ export default class PostHeader extends React.PureComponent {
                 );
             }
 
-            botIndicator = <div className='bot-indicator'>{Constants.BOT_NAME}</div>;
+            botIndicator = <div className="bot-indicator">{Constants.BOT_NAME}</div>;
         } else if (isSystemMessage) {
             userProfile = (
                 <UserProfile
                     user={{}}
-                    overwriteName={
-                        <FormattedMessage
-                            id='post_info.system'
-                            defaultMessage='System'
-                        />
-                    }
+                    overwriteName={<FormattedMessage id="post_info.system" defaultMessage="System" />}
                     overwriteImage={Constants.SYSTEM_MESSAGE_PROFILE_IMAGE}
                     disablePopover={true}
                 />
@@ -133,14 +127,17 @@ export default class PostHeader extends React.PureComponent {
         }
 
         if (this.props.compactDisplay) {
-            colon = (<strong className='colon'>{':'}</strong>);
+            colon = <strong className="colon">{':'}</strong>;
         }
 
         return (
-            <div className='post__header'>
-                <div className='col col__name'>{userProfile}{colon}</div>
+            <div className="post__header">
+                <div className="col col__name">
+                    {userProfile}
+                    {colon}
+                </div>
                 {botIndicator}
-                <div className='col'>
+                <div className="col">
                     <PostInfo
                         post={post}
                         handleCommentClick={this.props.handleCommentClick}

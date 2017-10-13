@@ -42,9 +42,15 @@ export default class GetTeamInviteLinkModal extends React.Component {
     render() {
         let helpText;
         if (global.window.mm_config.EnableUserCreation === 'true') {
-            helpText = Utils.localizeMessage('get_team_invite_link_modal.help', 'Send teammates the link below for them to sign-up to this team site. The Team Invite Link can be shared with multiple teammates as it does not change unless it\'s regenerated in Team Settings by a Team Admin.');
+            helpText = Utils.localizeMessage(
+                'get_team_invite_link_modal.help',
+                "Send teammates the link below for them to sign-up to this team site. The Team Invite Link can be shared with multiple teammates as it does not change unless it's regenerated in Team Settings by a Team Admin."
+            );
         } else {
-            helpText = Utils.localizeMessage('get_team_invite_link_modal.helpDisabled', 'User creation has been disabled for your team. Please ask your team administrator for details.');
+            helpText = Utils.localizeMessage(
+                'get_team_invite_link_modal.helpDisabled',
+                'User creation has been disabled for your team. Please ask your team administrator for details.'
+            );
         }
 
         return (

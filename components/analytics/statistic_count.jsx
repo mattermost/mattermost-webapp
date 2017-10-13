@@ -6,21 +6,16 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 export default function StatisticCount(props) {
-    const loading = (
-        <FormattedMessage
-            id='analytics.chart.loading'
-            defaultMessage='Loading...'
-        />
-    );
+    const loading = <FormattedMessage id="analytics.chart.loading" defaultMessage="Loading..." />;
 
     return (
-        <div className='col-md-3 col-sm-6'>
-            <div className='total-count'>
-                <div className='title'>
+        <div className="col-md-3 col-sm-6">
+            <div className="total-count">
+                <div className="title">
                     {props.title}
-                    <i className={'fa ' + props.icon}/>
+                    <i className={'fa ' + props.icon} />
                 </div>
-                <div className='content'>{props.count == null ? loading : props.count}</div>
+                <div className="content">{props.count == null ? loading : props.count}</div>
             </div>
         </div>
     );

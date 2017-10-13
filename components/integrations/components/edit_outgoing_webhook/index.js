@@ -21,10 +21,13 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({
-            updateOutgoingHook,
-            getOutgoingHook
-        }, dispatch)
+        actions: bindActionCreators(
+            {
+                updateOutgoingHook,
+                getOutgoingHook
+            },
+            dispatch
+        )
     };
 }
 

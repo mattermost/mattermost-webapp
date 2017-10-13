@@ -15,7 +15,6 @@ const FOOTER = {id: 'update_outgoing_webhook.update', defaultMessage: 'Update'};
 
 export default class EditOutgoingWebhook extends React.PureComponent {
     static propTypes = {
-
         /**
          * The current team
          */
@@ -37,7 +36,6 @@ export default class EditOutgoingWebhook extends React.PureComponent {
         updateOutgoingHookRequest: PropTypes.object.isRequired,
 
         actions: PropTypes.shape({
-
             /**
              * The function to call to update an outgoing webhook
              */
@@ -48,7 +46,7 @@ export default class EditOutgoingWebhook extends React.PureComponent {
              */
             getOutgoingHook: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -65,7 +63,7 @@ export default class EditOutgoingWebhook extends React.PureComponent {
         }
     }
 
-    editOutgoingHook = async (hook) => {
+    editOutgoingHook = async hook => {
         this.newHook = hook;
 
         if (this.props.hook.id) {
@@ -76,27 +74,28 @@ export default class EditOutgoingWebhook extends React.PureComponent {
             hook.token = this.props.hook.token;
         }
 
-        const triggerWordsSame = (this.props.hook.trigger_words.length === hook.trigger_words.length) &&
+        const triggerWordsSame =
+            this.props.hook.trigger_words.length === hook.trigger_words.length &&
             this.props.hook.trigger_words.every((v, i) => v === hook.trigger_words[i]);
 
-        const callbackUrlsSame = (this.props.hook.callback_urls.length === hook.callback_urls.length) &&
+        const callbackUrlsSame =
+            this.props.hook.callback_urls.length === hook.callback_urls.length &&
             this.props.hook.callback_urls.every((v, i) => v === hook.callback_urls[i]);
 
-        if (this.props.hook.content_type !== hook.content_type ||
-            !triggerWordsSame || !callbackUrlsSame) {
+        if (this.props.hook.content_type !== hook.content_type || !triggerWordsSame || !callbackUrlsSame) {
             this.handleConfirmModal();
         } else {
             await this.submitHook();
         }
-    }
+    };
 
     handleConfirmModal = () => {
         this.setState({showConfirmModal: true});
-    }
+    };
 
     confirmModalDismissed = () => {
         this.setState({showConfirmModal: false});
-    }
+    };
 
     submitHook = async () => {
         this.setState({serverError: ''});
@@ -113,27 +112,19 @@ export default class EditOutgoingWebhook extends React.PureComponent {
         if (this.props.updateOutgoingHookRequest.error) {
             this.setState({serverError: this.props.updateOutgoingHookRequest.error.message});
         }
-    }
+    };
 
     renderExtra = () => {
-        const confirmButton = (
-            <FormattedMessage
-                id='update_outgoing_webhook.update'
-                defaultMessage='Update'
-            />
-        );
+        const confirmButton = <FormattedMessage id="update_outgoing_webhook.update" defaultMessage="Update" />;
 
         const confirmTitle = (
-            <FormattedMessage
-                id='update_outgoing_webhook.confirm'
-                defaultMessage='Edit Outgoing Webhook'
-            />
+            <FormattedMessage id="update_outgoing_webhook.confirm" defaultMessage="Edit Outgoing Webhook" />
         );
 
         const confirmMessage = (
             <FormattedMessage
-                id='update_outgoing_webhook.question'
-                defaultMessage='Your changes may break the existing outgoing webhook. Are you sure you would like to update it?'
+                id="update_outgoing_webhook.question"
+                defaultMessage="Your changes may break the existing outgoing webhook. Are you sure you would like to update it?"
             />
         );
 
@@ -147,11 +138,11 @@ export default class EditOutgoingWebhook extends React.PureComponent {
                 onCancel={this.confirmModalDismissed}
             />
         );
-    }
+    };
 
     render() {
         if (!this.props.hook) {
-            return <LoadingScreen/>;
+            return <LoadingScreen />;
         }
 
         return (

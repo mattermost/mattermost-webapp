@@ -26,7 +26,6 @@ export default class DotMenu extends Component {
         handleDropdownOpened: PropTypes.func,
 
         actions: PropTypes.shape({
-
             /*
              * Function flag the post
              */
@@ -47,14 +46,14 @@ export default class DotMenu extends Component {
              */
             unpinPost: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     static defaultProps = {
         idCount: -1,
         post: {},
         commentCount: 0,
         isFlagged: false
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -68,8 +67,13 @@ export default class DotMenu extends Component {
     }
 
     componentDidMount() {
-        $('#' + this.props.idPrefix + '_dropdown' + this.props.post.id).on('shown.bs.dropdown', this.handleDropdownOpened);
-        $('#' + this.props.idPrefix + '_dropdown' + this.props.post.id).on('hidden.bs.dropdown', () => this.props.handleDropdownOpened(false));
+        $('#' + this.props.idPrefix + '_dropdown' + this.props.post.id).on(
+            'shown.bs.dropdown',
+            this.handleDropdownOpened
+        );
+        $('#' + this.props.idPrefix + '_dropdown' + this.props.post.id).on('hidden.bs.dropdown', () =>
+            this.props.handleDropdownOpened(false)
+        );
     }
 
     componentWillReceiveProps(nextProps) {
@@ -94,21 +98,27 @@ export default class DotMenu extends Component {
         if (position < dropdown.height()) {
             dropdown.addClass('bottom');
         }
-    }
+    };
 
     handleEditDisable = () => {
         this.setState({canEdit: false});
-    }
+    };
 
     render() {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const isMobile = Utils.isMobile();
 
-        if (this.props.idPrefix === Constants.CENTER && (!isMobile && isSystemMessage && !this.state.canDelete && !this.state.canEdit)) {
+        if (
+            this.props.idPrefix === Constants.CENTER &&
+            (!isMobile && isSystemMessage && !this.state.canDelete && !this.state.canEdit)
+        ) {
             return null;
         }
 
-        if (this.props.idPrefix === Constants.RHS && (this.props.post.state === Constants.POST_FAILED || this.props.post.state === Constants.POST_LOADING)) {
+        if (
+            this.props.idPrefix === Constants.RHS &&
+            (this.props.post.state === Constants.POST_FAILED || this.props.post.state === Constants.POST_LOADING)
+        ) {
             return null;
         }
 
@@ -150,11 +160,7 @@ export default class DotMenu extends Component {
             }
 
             dotMenuPermalink = (
-                <DotMenuItem
-                    idPrefix={idPrefix + 'Permalink'}
-                    idCount={this.props.idCount}
-                    post={this.props.post}
-                />
+                <DotMenuItem idPrefix={idPrefix + 'Permalink'} idCount={this.props.idCount} post={this.props.post} />
             );
 
             dotMenuPin = (
@@ -205,28 +211,18 @@ export default class DotMenu extends Component {
         }
 
         return (
-            <div
-                id={dotMenuId}
-                className='dropdown'
-                ref='dotMenu'
-            >
-                <div
-                    id={this.props.idPrefix + '_dropdown' + this.props.post.id}
-                >
+            <div id={dotMenuId} className="dropdown" ref="dotMenu">
+                <div id={this.props.idPrefix + '_dropdown' + this.props.post.id}>
                     <a
-                        ref='dropdownToggle'
-                        href='#'
-                        className='dropdown-toggle post__dropdown theme'
-                        type='button'
-                        data-toggle='dropdown'
-                        aria-expanded='false'
+                        ref="dropdownToggle"
+                        href="#"
+                        className="dropdown-toggle post__dropdown theme"
+                        type="button"
+                        data-toggle="dropdown"
+                        aria-expanded="false"
                     />
-                    <div className='dropdown-menu__content'>
-                        <ul
-                            ref='dropdown'
-                            className='dropdown-menu'
-                            role='menu'
-                        >
+                    <div className="dropdown-menu__content">
+                        <ul ref="dropdown" className="dropdown-menu" role="menu">
                             {dotMenuReply}
                             {dotMenuFlag}
                             {dotMenuPermalink}

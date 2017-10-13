@@ -66,10 +66,10 @@ export default class SystemAnalytics extends React.Component {
         let activeUserGraph;
         if (skippedIntensiveQueries) {
             banner = (
-                <div className='banner'>
-                    <div className='banner__content'>
+                <div className="banner">
+                    <div className="banner__content">
                         <FormattedHTMLMessage
-                            id='analytics.system.skippedIntensiveQueries'
+                            id="analytics.system.skippedIntensiveQueries"
                             defaultMessage="To maximize performance, some statistics are disabled. You can re-enable them in config.json. See: <a href='https://docs.mattermost.com/administration/statistics.html' target='_blank'>https://docs.mattermost.com/administration/statistics.html</a>"
                         />
                     </div>
@@ -78,45 +78,35 @@ export default class SystemAnalytics extends React.Component {
         } else {
             postCount = (
                 <StatisticCount
-                    title={
-                        <FormattedMessage
-                            id='analytics.system.totalPosts'
-                            defaultMessage='Total Posts'
-                        />
-                    }
-                    icon='fa-comment'
+                    title={<FormattedMessage id="analytics.system.totalPosts" defaultMessage="Total Posts" />}
+                    icon="fa-comment"
                     count={stats[StatTypes.TOTAL_POSTS]}
                 />
             );
 
             postTotalGraph = (
-                <div className='row'>
+                <div className="row">
                     <LineChart
-                        title={
-                            <FormattedMessage
-                                id='analytics.system.totalPosts'
-                                defaultMessage='Total Posts'
-                            />
-                        }
+                        title={<FormattedMessage id="analytics.system.totalPosts" defaultMessage="Total Posts" />}
                         data={postCountsDay}
                         options={{
                             legend: {
                                 display: false
                             }
                         }}
-                        width='740'
-                        height='225'
+                        width="740"
+                        height="225"
                     />
                 </div>
             );
 
             activeUserGraph = (
-                <div className='row'>
+                <div className="row">
                     <LineChart
                         title={
                             <FormattedMessage
-                                id='analytics.system.activeUsers'
-                                defaultMessage='Active Users With Posts'
+                                id="analytics.system.activeUsers"
+                                defaultMessage="Active Users With Posts"
                             />
                         }
                         data={userCountsWithPostsDay}
@@ -125,8 +115,8 @@ export default class SystemAnalytics extends React.Component {
                                 display: false
                             }
                         }}
-                        width='740'
-                        height='225'
+                        width="740"
+                        height="225"
                     />
                 </div>
             );
@@ -141,26 +131,16 @@ export default class SystemAnalytics extends React.Component {
         if (global.window.mm_license.IsLicensed === 'true') {
             sessionCount = (
                 <StatisticCount
-                    title={
-                        <FormattedMessage
-                            id='analytics.system.totalSessions'
-                            defaultMessage='Total Sessions'
-                        />
-                    }
-                    icon='fa-signal'
+                    title={<FormattedMessage id="analytics.system.totalSessions" defaultMessage="Total Sessions" />}
+                    icon="fa-signal"
                     count={stats[StatTypes.TOTAL_SESSIONS]}
                 />
             );
 
             commandCount = (
                 <StatisticCount
-                    title={
-                        <FormattedMessage
-                            id='analytics.system.totalCommands'
-                            defaultMessage='Total Commands'
-                        />
-                    }
-                    icon='fa-terminal'
+                    title={<FormattedMessage id="analytics.system.totalCommands" defaultMessage="Total Commands" />}
+                    icon="fa-terminal"
                     count={stats[StatTypes.TOTAL_COMMANDS]}
                 />
             );
@@ -169,11 +149,11 @@ export default class SystemAnalytics extends React.Component {
                 <StatisticCount
                     title={
                         <FormattedMessage
-                            id='analytics.system.totalIncomingWebhooks'
-                            defaultMessage='Incoming Webhooks'
+                            id="analytics.system.totalIncomingWebhooks"
+                            defaultMessage="Incoming Webhooks"
                         />
                     }
-                    icon='fa-arrow-down'
+                    icon="fa-arrow-down"
                     count={stats[StatTypes.TOTAL_IHOOKS]}
                 />
             );
@@ -182,11 +162,11 @@ export default class SystemAnalytics extends React.Component {
                 <StatisticCount
                     title={
                         <FormattedMessage
-                            id='analytics.system.totalOutgoingWebhooks'
-                            defaultMessage='Outgoing Webhooks'
+                            id="analytics.system.totalOutgoingWebhooks"
+                            defaultMessage="Outgoing Webhooks"
                         />
                     }
-                    icon='fa-arrow-up'
+                    icon="fa-arrow-up"
                     count={stats[StatTypes.TOTAL_OHOOKS]}
                 />
             );
@@ -195,39 +175,43 @@ export default class SystemAnalytics extends React.Component {
                 <div>
                     <StatisticCount
                         title={
-                            <FormattedMessage
-                                id='analytics.system.totalWebsockets'
-                                defaultMessage='WebSocket Conns'
-                            />
+                            <FormattedMessage id="analytics.system.totalWebsockets" defaultMessage="WebSocket Conns" />
                         }
-                        icon='fa-user'
+                        icon="fa-user"
                         count={stats[StatTypes.TOTAL_WEBSOCKET_CONNECTIONS]}
                     />
                     <StatisticCount
                         title={
                             <FormattedMessage
-                                id='analytics.system.totalMasterDbConnections'
-                                defaultMessage='Master DB Conns'
+                                id="analytics.system.totalMasterDbConnections"
+                                defaultMessage="Master DB Conns"
                             />
                         }
-                        icon='fa-terminal'
+                        icon="fa-terminal"
                         count={stats[StatTypes.TOTAL_MASTER_DB_CONNECTIONS]}
                     />
                     <StatisticCount
                         title={
                             <FormattedMessage
-                                id='analytics.system.totalReadDbConnections'
-                                defaultMessage='Replica DB Conns'
+                                id="analytics.system.totalReadDbConnections"
+                                defaultMessage="Replica DB Conns"
                             />
                         }
-                        icon='fa-terminal'
+                        icon="fa-terminal"
                         count={stats[StatTypes.TOTAL_READ_DB_CONNECTIONS]}
                     />
                 </div>
             );
 
-            const channelTypeData = formatChannelDoughtnutData(stats[StatTypes.TOTAL_PUBLIC_CHANNELS], stats[StatTypes.TOTAL_PRIVATE_GROUPS]);
-            const postTypeData = formatPostDoughtnutData(stats[StatTypes.TOTAL_FILE_POSTS], stats[StatTypes.TOTAL_HASHTAG_POSTS], stats[StatTypes.TOTAL_POSTS]);
+            const channelTypeData = formatChannelDoughtnutData(
+                stats[StatTypes.TOTAL_PUBLIC_CHANNELS],
+                stats[StatTypes.TOTAL_PRIVATE_GROUPS]
+            );
+            const postTypeData = formatPostDoughtnutData(
+                stats[StatTypes.TOTAL_FILE_POSTS],
+                stats[StatTypes.TOTAL_HASHTAG_POSTS],
+                stats[StatTypes.TOTAL_POSTS]
+            );
 
             let postTypeGraph;
             if (stats[StatTypes.TOTAL_POSTS] !== -1) {
@@ -235,29 +219,24 @@ export default class SystemAnalytics extends React.Component {
                     <DoughnutChart
                         title={
                             <FormattedMessage
-                                id='analytics.system.postTypes'
-                                defaultMessage='Posts, Files and Hashtags'
+                                id="analytics.system.postTypes"
+                                defaultMessage="Posts, Files and Hashtags"
                             />
                         }
                         data={postTypeData}
-                        width='300'
-                        height='225'
+                        width="300"
+                        height="225"
                     />
                 );
             }
 
             advancedGraphs = (
-                <div className='row'>
+                <div className="row">
                     <DoughnutChart
-                        title={
-                            <FormattedMessage
-                                id='analytics.system.channelTypes'
-                                defaultMessage='Channel Types'
-                            />
-                        }
+                        title={<FormattedMessage id="analytics.system.channelTypes" defaultMessage="Channel Types" />}
                         data={channelTypeData}
-                        width='300'
-                        height='225'
+                        width="300"
+                        height="225"
                     />
                     {postTypeGraph}
                 </div>
@@ -266,52 +245,32 @@ export default class SystemAnalytics extends React.Component {
 
         const userCount = (
             <StatisticCount
-                title={
-                    <FormattedMessage
-                        id='analytics.system.totalUsers'
-                        defaultMessage='Total Users'
-                    />
-                }
-                icon='fa-user'
+                title={<FormattedMessage id="analytics.system.totalUsers" defaultMessage="Total Users" />}
+                icon="fa-user"
                 count={stats[StatTypes.TOTAL_USERS]}
             />
         );
 
         const teamCount = (
             <StatisticCount
-                title={
-                    <FormattedMessage
-                        id='analytics.system.totalTeams'
-                        defaultMessage='Total Teams'
-                    />
-                }
-                icon='fa-users'
+                title={<FormattedMessage id="analytics.system.totalTeams" defaultMessage="Total Teams" />}
+                icon="fa-users"
                 count={stats[StatTypes.TOTAL_TEAMS]}
             />
         );
 
         const channelCount = (
             <StatisticCount
-                title={
-                    <FormattedMessage
-                        id='analytics.system.totalChannels'
-                        defaultMessage='Total Channels'
-                    />
-                }
-                icon='fa-globe'
+                title={<FormattedMessage id="analytics.system.totalChannels" defaultMessage="Total Channels" />}
+                icon="fa-globe"
                 count={stats[StatTypes.TOTAL_PUBLIC_CHANNELS] + stats[StatTypes.TOTAL_PRIVATE_GROUPS]}
             />
         );
 
         const dailyActiveUsers = (
             <StatisticCount
-                title={
-                    <FormattedMessage
-                        id='analytics.system.dailyActiveUsers'
-                        defaultMessage='Daily Active Users'
-                    />
-                }
-                icon='fa-users'
+                title={<FormattedMessage id="analytics.system.dailyActiveUsers" defaultMessage="Daily Active Users" />}
+                icon="fa-users"
                 count={stats[StatTypes.DAILY_ACTIVE_USERS]}
             />
         );
@@ -319,12 +278,9 @@ export default class SystemAnalytics extends React.Component {
         const monthlyActiveUsers = (
             <StatisticCount
                 title={
-                    <FormattedMessage
-                        id='analytics.system.monthlyActiveUsers'
-                        defaultMessage='Monthly Active Users'
-                    />
+                    <FormattedMessage id="analytics.system.monthlyActiveUsers" defaultMessage="Monthly Active Users" />
                 }
-                icon='fa-users'
+                icon="fa-users"
                 count={stats[StatTypes.MONTHLY_ACTIVE_USERS]}
             />
         );
@@ -385,15 +341,12 @@ export default class SystemAnalytics extends React.Component {
         );
 
         return (
-            <div className='wrapper--fixed team_statistics'>
-                <h3 className='admin-console-header'>
-                    <FormattedMessage
-                        id='analytics.system.title'
-                        defaultMessage='System Statistics'
-                    />
+            <div className="wrapper--fixed team_statistics">
+                <h3 className="admin-console-header">
+                    <FormattedMessage id="analytics.system.title" defaultMessage="System Statistics" />
                 </h3>
                 {banner}
-                <div className='row'>
+                <div className="row">
                     {firstRow}
                     {secondRow}
                     {thirdRow}
@@ -413,11 +366,13 @@ export function formatChannelDoughtnutData(totalPublic, totalPrivate) {
             Utils.localizeMessage('analytics.system.publicChannels', 'Public Channels'),
             Utils.localizeMessage('analytics.system.privateGroups', 'Private Channels')
         ],
-        datasets: [{
-            data: [totalPublic, totalPrivate],
-            backgroundColor: ['#46BFBD', '#FDB45C'],
-            hoverBackgroundColor: ['#5AD3D1', '#FFC870']
-        }]
+        datasets: [
+            {
+                data: [totalPublic, totalPrivate],
+                backgroundColor: ['#46BFBD', '#FDB45C'],
+                hoverBackgroundColor: ['#5AD3D1', '#FFC870']
+            }
+        ]
     };
 
     return channelTypeData;
@@ -430,11 +385,13 @@ export function formatPostDoughtnutData(filePosts, hashtagPosts, totalPosts) {
             Utils.localizeMessage('analytics.system.totalHashtagPosts', 'Posts with Hashtags'),
             Utils.localizeMessage('analytics.system.textPosts', 'Posts with Text-only')
         ],
-        datasets: [{
-            data: [filePosts, hashtagPosts, (totalPosts - filePosts - hashtagPosts)],
-            backgroundColor: ['#46BFBD', '#F7464A', '#FDB45C'],
-            hoverBackgroundColor: ['#5AD3D1', '#FF5A5E', '#FFC870']
-        }]
+        datasets: [
+            {
+                data: [filePosts, hashtagPosts, totalPosts - filePosts - hashtagPosts],
+                backgroundColor: ['#46BFBD', '#F7464A', '#FDB45C'],
+                hoverBackgroundColor: ['#5AD3D1', '#FF5A5E', '#FFC870']
+            }
+        ]
     };
 
     return postTypeData;
@@ -443,15 +400,17 @@ export function formatPostDoughtnutData(filePosts, hashtagPosts, totalPosts) {
 export function formatPostsPerDayData(data) {
     var chartData = {
         labels: [],
-        datasets: [{
-            fillColor: 'rgba(151,187,205,0.2)',
-            borderColor: 'rgba(151,187,205,1)',
-            pointBackgroundColor: 'rgba(151,187,205,1)',
-            pointBorderColor: '#fff',
-            pointHoverBackgroundColor: '#fff',
-            pointHoverBorderColor: 'rgba(151,187,205,1)',
-            data: []
-        }]
+        datasets: [
+            {
+                fillColor: 'rgba(151,187,205,0.2)',
+                borderColor: 'rgba(151,187,205,1)',
+                pointBackgroundColor: 'rgba(151,187,205,1)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgba(151,187,205,1)',
+                data: []
+            }
+        ]
     };
 
     for (var index in data) {
@@ -468,16 +427,18 @@ export function formatPostsPerDayData(data) {
 export function formatUsersWithPostsPerDayData(data) {
     var chartData = {
         labels: [],
-        datasets: [{
-            label: '',
-            fillColor: 'rgba(151,187,205,0.2)',
-            borderColor: 'rgba(151,187,205,1)',
-            pointBackgroundColor: 'rgba(151,187,205,1)',
-            pointBorderColor: '#fff',
-            pointHoverBackgroundColor: '#fff',
-            pointHoverBorderColor: 'rgba(151,187,205,1)',
-            data: []
-        }]
+        datasets: [
+            {
+                label: '',
+                fillColor: 'rgba(151,187,205,0.2)',
+                borderColor: 'rgba(151,187,205,1)',
+                pointBackgroundColor: 'rgba(151,187,205,1)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgba(151,187,205,1)',
+                data: []
+            }
+        ]
     };
 
     for (var index in data) {

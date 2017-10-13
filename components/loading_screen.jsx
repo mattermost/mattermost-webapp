@@ -11,29 +11,19 @@ export default class LoadingScreen extends React.Component {
         this.state = {};
     }
     render() {
-        let message = (
-            <FormattedMessage
-                id='loading_screen.loading'
-                defaultMessage='Loading'
-            />
-        );
+        let message = <FormattedMessage id="loading_screen.loading" defaultMessage="Loading" />;
 
         if (this.props.message) {
             message = this.props.message;
         }
 
         return (
-            <div
-                className='loading-screen'
-                style={{position: this.props.position}}
-            >
-                <div className='loading__content'>
-                    <h3>
-                        {message}
-                    </h3>
-                    <div className='round round-1'/>
-                    <div className='round round-2'/>
-                    <div className='round round-3'/>
+            <div className="loading-screen" style={{position: this.props.position}}>
+                <div className="loading__content">
+                    <h3>{message}</h3>
+                    <div className="round round-1" />
+                    <div className="round round-2" />
+                    <div className="round round-3" />
                 </div>
             </div>
         );

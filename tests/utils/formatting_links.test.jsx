@@ -8,46 +8,28 @@ import * as TextFormatting from 'utils/text_formatting.jsx';
 
 describe('Markdown.Links', function() {
     it('Not links', function(done) {
-        assert.equal(
-            Markdown.format('example.com').trim(),
-            '<p>example.com</p>'
-        );
+        assert.equal(Markdown.format('example.com').trim(), '<p>example.com</p>');
 
-        assert.equal(
-            Markdown.format('readme.md').trim(),
-            '<p>readme.md</p>'
-        );
+        assert.equal(Markdown.format('readme.md').trim(), '<p>readme.md</p>');
 
-        assert.equal(
-            Markdown.format('@example.com').trim(),
-            '<p>@example.com</p>'
-        );
+        assert.equal(Markdown.format('@example.com').trim(), '<p>@example.com</p>');
 
-        assert.equal(
-            Markdown.format('./make-compiled-client.sh').trim(),
-            '<p>./make-compiled-client.sh</p>'
-        );
+        assert.equal(Markdown.format('./make-compiled-client.sh').trim(), '<p>./make-compiled-client.sh</p>');
 
-        assert.equal(
-            Markdown.format('test.:test').trim(),
-            '<p>test.:test</p>'
-        );
+        assert.equal(Markdown.format('test.:test').trim(), '<p>test.:test</p>');
 
         assert.equal(
             Markdown.format('`https://example.com`').trim(),
             '<p>' +
                 '<span class="codespan__pre-wrap">' +
-                    '<code>' +
-                        'https://example.com' +
-                    '</code>' +
+                '<code>' +
+                'https://example.com' +
+                '</code>' +
                 '</span>' +
-            '</p>'
+                '</p>'
         );
 
-        assert.equal(
-            Markdown.format('[link](example.com').trim(),
-            '<p>[link](example.com</p>'
-        );
+        assert.equal(Markdown.format('[link](example.com').trim(), '<p>[link](example.com</p>');
 
         done();
     });
@@ -396,7 +378,9 @@ describe('Markdown.Links', function() {
         );
 
         assert.equal(
-            Markdown.format('This is a link containing http://example.com/something?with,commas,in,url, but not at the end').trim(),
+            Markdown.format(
+                'This is a link containing http://example.com/something?with,commas,in,url, but not at the end'
+            ).trim(),
             '<p>This is a link containing <a class="theme markdown__link" href="http://example.com/something?with,commas,in,url" rel="noreferrer" target="_blank">http://example.com/something?with,commas,in,url</a>, but not at the end</p>'
         );
 
@@ -479,7 +463,9 @@ describe('Markdown.Links', function() {
         );
 
         assert.equal(
-            Markdown.format('This is a sentence with a (https://en.wikipedia.org/wiki/Rendering_(computer_graphics)) in it.').trim(),
+            Markdown.format(
+                'This is a sentence with a (https://en.wikipedia.org/wiki/Rendering_(computer_graphics)) in it.'
+            ).trim(),
             '<p>This is a sentence with a (<a class="theme markdown__link" href="https://en.wikipedia.org/wiki/Rendering_(computer_graphics)" rel="noreferrer" target="_blank">https://en.wikipedia.org/wiki/Rendering_(computer_graphics)</a>) in it.</p>'
         );
 

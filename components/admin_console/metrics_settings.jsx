@@ -36,16 +36,12 @@ export default class MetricsSettings extends AdminSettings {
     }
 
     renderTitle() {
-        return (
-            <FormattedMessage
-                id='admin.advance.metrics'
-                defaultMessage='Performance Monitoring'
-            />
-        );
+        return <FormattedMessage id="admin.advance.metrics" defaultMessage="Performance Monitoring" />;
     }
 
     renderSettings() {
-        const licenseEnabled = global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.Metrics === 'true';
+        const licenseEnabled =
+            global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.Metrics === 'true';
         if (!licenseEnabled) {
             return null;
         }
@@ -53,35 +49,30 @@ export default class MetricsSettings extends AdminSettings {
         return (
             <SettingsGroup>
                 <BooleanSetting
-                    id='enable'
+                    id="enable"
                     label={
                         <FormattedMessage
-                            id='admin.metrics.enableTitle'
-                            defaultMessage='Enable Performance Monitoring:'
+                            id="admin.metrics.enableTitle"
+                            defaultMessage="Enable Performance Monitoring:"
                         />
                     }
                     helpText={
                         <FormattedHTMLMessage
-                            id='admin.metrics.enableDescription'
-                            defaultMessage='When true, Mattermost will enable performance monitoring collection and profiling. Please see <a href="http://docs.mattermost.com/deployment/metrics.html" target="_blank">documentation</a> to learn more about configuring performance monitoring for Mattermost.'
+                            id="admin.metrics.enableDescription"
+                            defaultMessage="When true, Mattermost will enable performance monitoring collection and profiling. Please see <a href=&quot;http://docs.mattermost.com/deployment/metrics.html&quot; target=&quot;_blank&quot;>documentation</a> to learn more about configuring performance monitoring for Mattermost."
                         />
                     }
                     value={this.state.enable}
                     onChange={this.handleChange}
                 />
                 <TextSetting
-                    id='listenAddress'
-                    label={
-                        <FormattedMessage
-                            id='admin.metrics.listenAddressTitle'
-                            defaultMessage='Listen Address:'
-                        />
-                    }
+                    id="listenAddress"
+                    label={<FormattedMessage id="admin.metrics.listenAddressTitle" defaultMessage="Listen Address:" />}
                     placeholder={Utils.localizeMessage('admin.metrics.listenAddressEx', 'Ex ":8067"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.metrics.listenAddressDesc'
-                            defaultMessage='The address the server will listen on to expose performance metrics.'
+                            id="admin.metrics.listenAddressDesc"
+                            defaultMessage="The address the server will listen on to expose performance metrics."
                         />
                     }
                     value={this.state.listenAddress}

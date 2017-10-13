@@ -13,17 +13,11 @@ export default class TextSetting extends React.Component {
             label: PropTypes.node.isRequired,
             placeholder: PropTypes.string,
             helpText: PropTypes.node,
-            value: PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.number
-            ]).isRequired,
+            value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
             maxLength: PropTypes.number,
             onChange: PropTypes.func,
             disabled: PropTypes.bool,
-            type: PropTypes.oneOf([
-                'input',
-                'textarea'
-            ])
+            type: PropTypes.oneOf(['input', 'textarea'])
         };
     }
 
@@ -50,8 +44,8 @@ export default class TextSetting extends React.Component {
             input = (
                 <input
                     id={this.props.id}
-                    className='form-control'
-                    type='text'
+                    className="form-control"
+                    type="text"
                     placeholder={this.props.placeholder}
                     value={this.props.value}
                     maxLength={this.props.maxLength}
@@ -63,8 +57,8 @@ export default class TextSetting extends React.Component {
             input = (
                 <textarea
                     id={this.props.id}
-                    className='form-control'
-                    rows='5'
+                    className="form-control"
+                    rows="5"
                     placeholder={this.props.placeholder}
                     value={this.props.value}
                     maxLength={this.props.maxLength}
@@ -75,11 +69,7 @@ export default class TextSetting extends React.Component {
         }
 
         return (
-            <Setting
-                label={this.props.label}
-                helpText={this.props.helpText}
-                inputId={this.props.id}
-            >
+            <Setting label={this.props.label} helpText={this.props.helpText} inputId={this.props.id}>
                 {input}
             </Setting>
         );

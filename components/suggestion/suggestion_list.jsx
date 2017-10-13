@@ -94,19 +94,16 @@ export default class SuggestionList extends React.Component {
                 content.scrollTop(itemTop - contentTopPadding);
             } else if (itemBottom + contentTopPadding + contentBottomPadding > contentTop + visibleContentHeight) {
                 // the item has gone off the bottom of the visible space
-                content.scrollTop((itemBottom - visibleContentHeight) + contentTopPadding + contentBottomPadding);
+                content.scrollTop(itemBottom - visibleContentHeight + contentTopPadding + contentBottomPadding);
             }
         }
     }
 
     renderDivider(type) {
         return (
-            <div
-                key={type + '-divider'}
-                className='suggestion-list__divider'
-            >
+            <div key={type + '-divider'} className="suggestion-list__divider">
                 <span>
-                    <FormattedMessage id={'suggestion.' + type}/>
+                    <FormattedMessage id={'suggestion.' + type} />
                 </span>
             </div>
         );
@@ -114,11 +111,8 @@ export default class SuggestionList extends React.Component {
 
     renderLoading(type) {
         return (
-            <div
-                key={type + '-loading'}
-                className='suggestion-loader'
-            >
-                <i className='fa fa-spinner fa-pulse fa-fw margin-bottom'/>
+            <div key={type + '-loading'} className="suggestion-loader">
+                <i className="fa fa-spinner fa-pulse fa-fw margin-bottom" />
             </div>
         );
     }
@@ -166,10 +160,7 @@ export default class SuggestionList extends React.Component {
 
         return (
             <div className={mainClass}>
-                <div
-                    ref='content'
-                    className={contentClass}
-                >
+                <div ref="content" className={contentClass}>
                     {items}
                 </div>
             </div>

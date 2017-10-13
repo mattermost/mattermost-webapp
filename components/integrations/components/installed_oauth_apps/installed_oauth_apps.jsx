@@ -13,7 +13,6 @@ import InstalledOAuthApp from '../installed_oauth_app.jsx';
 
 export default class InstalledOAuthApps extends React.PureComponent {
     static propTypes = {
-
         /**
         * The team data
         */
@@ -35,7 +34,6 @@ export default class InstalledOAuthApps extends React.PureComponent {
         regenOAuthAppSecretRequest: PropTypes.object.isRequired,
 
         actions: PropTypes.shape({
-
             /**
             * The function to call to fetch OAuth apps
             */
@@ -51,7 +49,7 @@ export default class InstalledOAuthApps extends React.PureComponent {
             */
             deleteOAuthApp: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -62,15 +60,13 @@ export default class InstalledOAuthApps extends React.PureComponent {
 
     componentDidMount() {
         if (window.mm_config.EnableOAuthServiceProvider === 'true') {
-            this.props.actions.getOAuthApps().then(
-                () => this.setState({loading: false})
-            );
+            this.props.actions.getOAuthApps().then(() => this.setState({loading: false}));
         }
     }
 
-    deleteOAuthApp = (app) => {
+    deleteOAuthApp = app => {
         this.props.actions.deleteOAuthApp(app.id);
-    }
+    };
 
     oauthAppCompare(a, b) {
         let nameA = a.name;
@@ -87,22 +83,25 @@ export default class InstalledOAuthApps extends React.PureComponent {
     }
 
     render() {
-        const oauthApps = Object.values(this.props.oauthApps).sort(this.oauthAppCompare).map((app) => {
-            return (
-                <InstalledOAuthApp
-                    key={app.id}
-                    team={this.props.team}
-                    oauthApp={app}
-                    regenOAuthAppSecretRequest={this.props.regenOAuthAppSecretRequest}
-                    onRegenerateSecret={this.props.actions.regenOAuthAppSecret}
-                    onDelete={this.deleteOAuthApp}
-                />
-            );
-        });
+        const oauthApps = Object.values(this.props.oauthApps)
+            .sort(this.oauthAppCompare)
+            .map(app => {
+                return (
+                    <InstalledOAuthApp
+                        key={app.id}
+                        team={this.props.team}
+                        oauthApp={app}
+                        regenOAuthAppSecretRequest={this.props.regenOAuthAppSecretRequest}
+                        onRegenerateSecret={this.props.actions.regenOAuthAppSecret}
+                        onDelete={this.deleteOAuthApp}
+                    />
+                );
+            });
 
         const config = global.mm_config;
-        const integrationsEnabled = (config.EnableOAuthServiceProvider === 'true' &&
-            (this.props.isSystemAdmin || config.EnableOnlyAdminIntegrations !== 'true'));
+        const integrationsEnabled =
+            config.EnableOAuthServiceProvider === 'true' &&
+            (this.props.isSystemAdmin || config.EnableOnlyAdminIntegrations !== 'true');
         let props;
         if (integrationsEnabled) {
             props = {
@@ -113,38 +112,33 @@ export default class InstalledOAuthApps extends React.PureComponent {
 
         return (
             <BackstageList
-                header={
-                    <FormattedMessage
-                        id='installed_oauth_apps.header'
-                        defaultMessage='OAuth 2.0 Applications'
-                    />
-                }
+                header={<FormattedMessage id="installed_oauth_apps.header" defaultMessage="OAuth 2.0 Applications" />}
                 helpText={
                     <FormattedMessage
-                        id='installed_oauth_apps.help'
-                        defaultMessage='Create {oauthApplications} to securely integrate bots and third-party apps with Mattermost. Visit the {appDirectory} to find available self-hosted apps.'
+                        id="installed_oauth_apps.help"
+                        defaultMessage="Create {oauthApplications} to securely integrate bots and third-party apps with Mattermost. Visit the {appDirectory} to find available self-hosted apps."
                         values={{
                             oauthApplications: (
                                 <a
-                                    target='_blank'
-                                    rel='noopener noreferrer'
-                                    href='https://docs.mattermost.com/developer/oauth-2-0-applications.html'
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    href="https://docs.mattermost.com/developer/oauth-2-0-applications.html"
                                 >
                                     <FormattedMessage
-                                        id='installed_oauth_apps.help.oauthApplications'
-                                        defaultMessage='OAuth 2.0 applications'
+                                        id="installed_oauth_apps.help.oauthApplications"
+                                        defaultMessage="OAuth 2.0 applications"
                                     />
                                 </a>
                             ),
                             appDirectory: (
                                 <a
-                                    target='_blank'
-                                    rel='noopener noreferrer'
-                                    href='https://about.mattermost.com/default-app-directory/'
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    href="https://about.mattermost.com/default-app-directory/"
                                 >
                                     <FormattedMessage
-                                        id='installed_oauth_apps.help.appDirectory'
-                                        defaultMessage='App Directory'
+                                        id="installed_oauth_apps.help.appDirectory"
+                                        defaultMessage="App Directory"
                                     />
                                 </a>
                             )
@@ -153,8 +147,8 @@ export default class InstalledOAuthApps extends React.PureComponent {
                 }
                 emptyText={
                     <FormattedMessage
-                        id='installed_oauth_apps.empty'
-                        defaultMessage='No OAuth 2.0 Applications found'
+                        id="installed_oauth_apps.empty"
+                        defaultMessage="No OAuth 2.0 Applications found"
                     />
                 }
                 searchPlaceholder={localizeMessage('installed_oauth_apps.search', 'Search OAuth 2.0 Applications')}

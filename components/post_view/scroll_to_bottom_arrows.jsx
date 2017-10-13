@@ -11,7 +11,7 @@ import Constants from 'utils/constants.jsx';
 export default function ScrollToBottomArrows(props) {
     // only show on mobile
     if ($(window).width() > 768) {
-        return <noscript/>;
+        return <noscript />;
     }
 
     let className = 'post-list__arrows';
@@ -20,11 +20,8 @@ export default function ScrollToBottomArrows(props) {
     }
 
     return (
-        <div
-            className={className}
-            onClick={props.onClick}
-        >
-            <span dangerouslySetInnerHTML={{__html: Constants.SCROLL_BOTTOM_ICON}}/>
+        <div className={className} onClick={props.onClick}>
+            <span dangerouslySetInnerHTML={{__html: Constants.SCROLL_BOTTOM_ICON}} />
         </div>
     );
 }

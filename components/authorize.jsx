@@ -30,16 +30,13 @@ export default class Authorize extends React.Component {
 
     componentWillMount() {
         const clientId = this.props.location.query.client_id;
-        if (!(/^[a-z0-9]+$/.test(clientId))) {
+        if (!/^[a-z0-9]+$/.test(clientId)) {
             return;
         }
 
-        getOAuthAppInfo(
-            clientId,
-            (app) => {
-                this.setState({app});
-            }
-        );
+        getOAuthAppInfo(clientId, app => {
+            this.setState({app});
+        });
     }
 
     componentDidMount() {
@@ -53,13 +50,14 @@ export default class Authorize extends React.Component {
     handleAllow() {
         const params = this.props.location.query;
 
-        allowOAuth2(params,
-            (data) => {
+        allowOAuth2(
+            params,
+            data => {
                 if (data.redirect) {
                     window.location.href = data.redirect;
                 }
             },
-            (err) => {
+            err => {
                 this.setState({error: err.message});
             }
         );
@@ -91,28 +89,23 @@ export default class Authorize extends React.Component {
         let error;
         if (this.state.error) {
             error = (
-                <div className='prompt__error form-group'>
-                    <FormError error={this.state.error}/>
+                <div className="prompt__error form-group">
+                    <FormError error={this.state.error} />
                 </div>
             );
         }
 
         return (
-            <div className='container-fluid'>
-                <div className='prompt'>
-                    <div className='prompt__heading'>
-                        <div className='prompt__app-icon'>
-                            <img
-                                src={icon}
-                                width='50'
-                                height='50'
-                                alt=''
-                            />
+            <div className="container-fluid">
+                <div className="prompt">
+                    <div className="prompt__heading">
+                        <div className="prompt__app-icon">
+                            <img src={icon} width="50" height="50" alt="" />
                         </div>
-                        <div className='text'>
+                        <div className="text">
                             <FormattedHTMLMessage
-                                id='authorize.title'
-                                defaultMessage='<strong>{appName}</strong> would like to connect to your <strong>Mattermost</strong> user account'
+                                id="authorize.title"
+                                defaultMessage="<strong>{appName}</strong> would like to connect to your <strong>Mattermost</strong> user account"
                                 values={{
                                     appName: app.name
                                 }}
@@ -121,42 +114,28 @@ export default class Authorize extends React.Component {
                     </div>
                     <p>
                         <FormattedHTMLMessage
-                            id='authorize.app'
-                            defaultMessage='The app <strong>{appName}</strong> would like the ability to access and modify your basic information.'
+                            id="authorize.app"
+                            defaultMessage="The app <strong>{appName}</strong> would like the ability to access and modify your basic information."
                             values={{
                                 appName: app.name
                             }}
                         />
                     </p>
-                    <h2 className='prompt__allow'>
+                    <h2 className="prompt__allow">
                         <FormattedHTMLMessage
-                            id='authorize.access'
-                            defaultMessage='Allow <strong>{appName}</strong> access?'
+                            id="authorize.access"
+                            defaultMessage="Allow <strong>{appName}</strong> access?"
                             values={{
                                 appName: app.name
                             }}
                         />
                     </h2>
-                    <div className='prompt__buttons'>
-                        <button
-                            type='submit'
-                            className='btn btn-link authorize-btn'
-                            onClick={this.handleDeny}
-                        >
-                            <FormattedMessage
-                                id='authorize.deny'
-                                defaultMessage='Deny'
-                            />
+                    <div className="prompt__buttons">
+                        <button type="submit" className="btn btn-link authorize-btn" onClick={this.handleDeny}>
+                            <FormattedMessage id="authorize.deny" defaultMessage="Deny" />
                         </button>
-                        <button
-                            type='submit'
-                            className='btn btn-primary authorize-btn'
-                            onClick={this.handleAllow}
-                        >
-                            <FormattedMessage
-                                id='authorize.allow'
-                                defaultMessage='Allow'
-                            />
+                        <button type="submit" className="btn btn-primary authorize-btn" onClick={this.handleAllow}>
+                            <FormattedMessage id="authorize.allow" defaultMessage="Allow" />
                         </button>
                     </div>
                     {error}

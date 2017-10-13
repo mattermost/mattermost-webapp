@@ -22,7 +22,6 @@ import PostTime from 'components/post_view/post_time.jsx';
 
 export default class PostInfo extends React.PureComponent {
     static propTypes = {
-
         /*
          * The post to render the info for
          */
@@ -69,7 +68,6 @@ export default class PostInfo extends React.PureComponent {
         getPostList: PropTypes.func.isRequired,
 
         actions: PropTypes.shape({
-
             /*
              * Function to remove the post
              */
@@ -112,12 +110,7 @@ export default class PostInfo extends React.PureComponent {
 
     createRemovePostButton() {
         return (
-            <a
-                href='#'
-                className='post__remove theme'
-                type='button'
-                onClick={this.removePost}
-            >
+            <a href="#" className="post__remove theme" type="button" onClick={this.removePost}>
                 {'×'}
             </a>
         );
@@ -153,7 +146,7 @@ export default class PostInfo extends React.PureComponent {
         if (!isEphemeral && !post.failed && !isSystemMessage) {
             comments = (
                 <CommentIcon
-                    idPrefix='commentIcon'
+                    idPrefix="commentIcon"
                     idCount={idCount}
                     handleCommentClick={this.props.handleCommentClick}
                     commentCount={this.props.replyCount}
@@ -172,24 +165,19 @@ export default class PostInfo extends React.PureComponent {
                             onEmojiClick={this.reactEmojiClick}
                             rightOffset={7}
                         />
-                        <a
-                            href='#'
-                            className='reacticon__container'
-                            onClick={this.toggleEmojiPicker}
-                        >
+                        <a href="#" className="reacticon__container" onClick={this.toggleEmojiPicker}>
                             <span
-                                className='icon icon--emoji'
+                                className="icon icon--emoji"
                                 dangerouslySetInnerHTML={{__html: Constants.EMOJI_ICON_SVG}}
                             />
                         </a>
                     </span>
-
                 );
             }
 
             flagIcon = (
                 <PostFlagIcon
-                    idPrefix='centerPostFlag'
+                    idPrefix="centerPostFlag"
                     idCount={idCount}
                     postId={post.id}
                     isFlagged={this.props.isFlagged}
@@ -200,11 +188,7 @@ export default class PostInfo extends React.PureComponent {
 
         let options;
         if (isEphemeral) {
-            options = (
-                <div className='col col__remove'>
-                    {this.createRemovePostButton()}
-                </div>
-            );
+            options = <div className="col col__remove">{this.createRemovePostButton()}</div>;
         } else if (!post.failed) {
             const dotMenu = (
                 <DotMenu
@@ -220,10 +204,7 @@ export default class PostInfo extends React.PureComponent {
 
             if (PostUtils.shouldShowDotMenu(this.props.post)) {
                 options = (
-                    <div
-                        ref='dotMenu'
-                        className='col col__reply'
-                    >
+                    <div ref="dotMenu" className="col col__reply">
                         {dotMenu}
                         {react}
                         {comments}
@@ -235,11 +216,8 @@ export default class PostInfo extends React.PureComponent {
         let visibleMessage;
         if (isEphemeral && !this.props.compactDisplay && post.state !== Posts.POST_DELETED) {
             visibleMessage = (
-                <span className='post__visibility'>
-                    <FormattedMessage
-                        id='post_info.message.visible'
-                        defaultMessage='(Only visible to you)'
-                    />
+                <span className="post__visibility">
+                    <FormattedMessage id="post_info.message.visible" defaultMessage="(Only visible to you)" />
                 </span>
             );
         }
@@ -247,23 +225,22 @@ export default class PostInfo extends React.PureComponent {
         let pinnedBadge;
         if (post.is_pinned) {
             pinnedBadge = (
-                <span className='post__pinned-badge'>
-                    <FormattedMessage
-                        id='post_info.pinned'
-                        defaultMessage='Pinned'
-                    />
+                <span className="post__pinned-badge">
+                    <FormattedMessage id="post_info.pinned" defaultMessage="Pinned" />
                 </span>
             );
         }
 
         // timestamp should not be a permalink if the post has been deleted, is ephemeral message, or is pending
-        const isPermalink = !(isEphemeral ||
+        const isPermalink = !(
+            isEphemeral ||
             Posts.POST_DELETED === this.props.post.state ||
-            ReduxPostUtils.isPostPendingOrFailed(this.props.post));
+            ReduxPostUtils.isPostPendingOrFailed(this.props.post)
+        );
 
         return (
-            <div className='post__header--info'>
-                <div className='col'>
+            <div className="post__header--info">
+                <div className="col">
                     <PostTime
                         isPermalink={isPermalink}
                         eventTime={post.create_at}

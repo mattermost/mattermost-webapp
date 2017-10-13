@@ -18,9 +18,12 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({
-            getConfig
-        }, dispatch)
+        actions: bindActionCreators(
+            {
+                getConfig
+            },
+            dispatch
+        )
     };
 }
 

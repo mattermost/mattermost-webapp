@@ -86,43 +86,44 @@ export default class Textbox extends React.Component {
         } else {
             this.setState({connection: ''});
         }
-    }
+    };
 
-    handleChange = (e) => {
+    handleChange = e => {
         this.checkMessageLength(e.target.value);
         this.props.onChange(e);
-    }
+    };
 
-    checkMessageLength = (message) => {
+    checkMessageLength = message => {
         if (this.props.handlePostError) {
             if (message.length > this.props.characterLimit) {
                 const errorMessage = (
                     <FormattedMessage
-                        id='create_post.error_message'
-                        defaultMessage='Your message is too long. Character count: {length}/{limit}'
+                        id="create_post.error_message"
+                        defaultMessage="Your message is too long. Character count: {length}/{limit}"
                         values={{
                             length: message.length,
                             limit: this.props.characterLimit
                         }}
-                    />);
+                    />
+                );
                 this.props.handlePostError(errorMessage);
             } else {
                 this.props.handlePostError(null);
             }
         }
-    }
+    };
 
-    handleKeyDown = (e) => {
+    handleKeyDown = e => {
         if (this.props.onKeyDown) {
             this.props.onKeyDown(e);
         }
-    }
+    };
 
-    handleBlur = (e) => {
+    handleBlur = e => {
         if (this.props.onBlur) {
             this.props.onBlur(e);
         }
-    }
+    };
 
     handleHeightChange = (height, maxHeight) => {
         const wrapper = $(this.refs.wrapper);
@@ -133,30 +134,30 @@ export default class Textbox extends React.Component {
         } else {
             wrapper.closest('.post-create').removeClass('scroll');
         }
-    }
+    };
 
     focus = () => {
         const textbox = this.refs.message.getTextbox();
 
         textbox.focus();
         Utils.placeCaretAtEnd(textbox);
-    }
+    };
 
     recalculateSize = () => {
         this.refs.message.recalculateSize();
-    }
+    };
 
-    togglePreview = (e) => {
+    togglePreview = e => {
         e.preventDefault();
         e.target.blur();
-        this.setState((prevState) => {
+        this.setState(prevState => {
             return {preview: !prevState.preview};
         });
-    }
+    };
 
     hidePreview = () => {
         this.setState({preview: false});
-    }
+    };
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.channelId !== this.props.channelId) {
@@ -181,34 +182,19 @@ export default class Textbox extends React.Component {
         }
 
         if (this.props.previewMessageLink) {
-            editHeader = (
-                <span>
-                    {this.props.previewMessageLink}
-                </span>
-            );
+            editHeader = <span>{this.props.previewMessageLink}</span>;
         } else {
-            editHeader = (
-                <FormattedMessage
-                    id='textbox.edit'
-                    defaultMessage='Edit message'
-                />
-            );
+            editHeader = <FormattedMessage id="textbox.edit" defaultMessage="Edit message" />;
         }
 
         let previewLink = null;
         if (Utils.isFeatureEnabled(PreReleaseFeatures.MARKDOWN_PREVIEW)) {
             previewLink = (
-                <a
-                    onClick={this.togglePreview}
-                    className='textbox-preview-link'
-                >
+                <a onClick={this.togglePreview} className="textbox-preview-link">
                     {this.state.preview ? (
                         editHeader
                     ) : (
-                        <FormattedMessage
-                            id='textbox.preview'
-                            defaultMessage='Preview'
-                        />
+                        <FormattedMessage id="textbox.preview" defaultMessage="Preview" />
                     )}
                 </a>
             );
@@ -217,47 +203,29 @@ export default class Textbox extends React.Component {
         const helpText = (
             <div
                 style={{visibility: hasText ? 'visible' : 'hidden', opacity: hasText ? '0.45' : '0'}}
-                className='help__format-text'
+                className="help__format-text"
             >
                 <b>
-                    <FormattedMessage
-                        id='textbox.bold'
-                        defaultMessage='**bold**'
-                    />
+                    <FormattedMessage id="textbox.bold" defaultMessage="**bold**" />
                 </b>
                 <i>
-                    <FormattedMessage
-                        id='textbox.italic'
-                        defaultMessage='_italic_'
-                    />
+                    <FormattedMessage id="textbox.italic" defaultMessage="_italic_" />
                 </i>
                 <span>
                     {'~~'}
                     <strike>
-                        <FormattedMessage
-                            id='textbox.strike'
-                            defaultMessage='strike'
-                        />
+                        <FormattedMessage id="textbox.strike" defaultMessage="strike" />
                     </strike>
                     {'~~ '}
                 </span>
                 <span>
-                    <FormattedMessage
-                        id='textbox.inlinecode'
-                        defaultMessage='`inline code`'
-                    />
+                    <FormattedMessage id="textbox.inlinecode" defaultMessage="`inline code`" />
                 </span>
                 <span>
-                    <FormattedMessage
-                        id='textbox.preformatted'
-                        defaultMessage='```preformatted```'
-                    />
+                    <FormattedMessage id="textbox.preformatted" defaultMessage="```preformatted```" />
                 </span>
                 <span>
-                    <FormattedMessage
-                        id='textbox.quote'
-                        defaultMessage='>quote'
-                    />
+                    <FormattedMessage id="textbox.quote" defaultMessage=">quote" />
                 </span>
             </div>
         );
@@ -271,16 +239,13 @@ export default class Textbox extends React.Component {
         }
 
         return (
-            <div
-                ref='wrapper'
-                className='textarea-wrapper'
-            >
+            <div ref="wrapper" className="textarea-wrapper">
                 <SuggestionBox
                     id={this.props.id}
-                    ref='message'
+                    ref="message"
                     className={textboxClassName}
-                    type='textarea'
-                    spellCheck='true'
+                    type="textarea"
+                    spellCheck="true"
                     placeholder={this.props.createMessage}
                     onChange={this.handleChange}
                     onKeyPress={this.props.onKeyPress}
@@ -298,24 +263,18 @@ export default class Textbox extends React.Component {
                     popoverMentionKeyClick={this.props.popoverMentionKeyClick}
                 />
                 <div
-                    ref='preview'
-                    className='form-control custom-textarea textbox-preview-area'
+                    ref="preview"
+                    className="form-control custom-textarea textbox-preview-area"
                     style={{display: this.state.preview ? 'block' : 'none'}}
-                    dangerouslySetInnerHTML={{__html: this.state.preview ? TextFormatting.formatText(this.props.value) : ''}}
+                    dangerouslySetInnerHTML={{
+                        __html: this.state.preview ? TextFormatting.formatText(this.props.value) : ''
+                    }}
                 />
                 <div className={'help__text ' + helpTextClass}>
                     {helpText}
                     {previewLink}
-                    <a
-                        target='_blank'
-                        rel='noopener noreferrer'
-                        href='/help/messaging'
-                        className='textbox-help-link'
-                    >
-                        <FormattedMessage
-                            id='textbox.help'
-                            defaultMessage='Help'
-                        />
+                    <a target="_blank" rel="noopener noreferrer" href="/help/messaging" className="textbox-help-link">
+                        <FormattedMessage id="textbox.help" defaultMessage="Help" />
                     </a>
                 </div>
             </div>

@@ -37,21 +37,21 @@ export default class ChannelMembersModal extends React.Component {
         const isChannelAdmin = ChannelStore.isChannelAdminForCurrentChannel();
 
         let addMembersButton = null;
-        if (canManageMembers(this.state.channel, isChannelAdmin, isTeamAdmin, isSystemAdmin) && this.state.channel.name !== Constants.DEFAULT_CHANNEL) {
+        if (
+            canManageMembers(this.state.channel, isChannelAdmin, isTeamAdmin, isSystemAdmin) &&
+            this.state.channel.name !== Constants.DEFAULT_CHANNEL
+        ) {
             addMembersButton = (
                 <a
-                    id='showInviteModal'
-                    className='btn btn-md btn-primary'
-                    href='#'
+                    id="showInviteModal"
+                    className="btn btn-md btn-primary"
+                    href="#"
                     onClick={() => {
                         this.props.showInviteModal();
                         this.onHide();
                     }}
                 >
-                    <FormattedMessage
-                        id='channel_members_modal.addNew'
-                        defaultMessage=' Add New Members'
-                    />
+                    <FormattedMessage id="channel_members_modal.addNew" defaultMessage=" Add New Members" />
                 </a>
             );
         }
@@ -59,27 +59,20 @@ export default class ChannelMembersModal extends React.Component {
         return (
             <div>
                 <Modal
-                    dialogClassName='more-modal more-modal--action'
+                    dialogClassName="more-modal more-modal--action"
                     show={this.state.show}
                     onHide={this.onHide}
                     onExited={this.props.onModalDismissed}
                 >
                     <Modal.Header closeButton={true}>
                         <Modal.Title>
-                            <span className='name'>{this.props.channel.display_name}</span>
-                            <FormattedMessage
-                                id='channel_members_modal.members'
-                                defaultMessage=' Members'
-                            />
+                            <span className="name">{this.props.channel.display_name}</span>
+                            <FormattedMessage id="channel_members_modal.members" defaultMessage=" Members" />
                         </Modal.Title>
                         {addMembersButton}
                     </Modal.Header>
-                    <Modal.Body
-                        ref='modalBody'
-                    >
-                        <MemberListChannel
-                            channel={this.props.channel}
-                        />
+                    <Modal.Body ref="modalBody">
+                        <MemberListChannel channel={this.props.channel} />
                     </Modal.Body>
                 </Modal>
             </div>

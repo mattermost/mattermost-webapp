@@ -74,7 +74,7 @@ export default class SecurityTab extends React.Component {
              */
             clearUserAccessTokens: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -99,10 +99,10 @@ export default class SecurityTab extends React.Component {
     componentDidMount() {
         if (global.mm_config.EnableOAuthServiceProvider === 'true') {
             getAuthorizedApps(
-                (authorizedApps) => {
+                authorizedApps => {
                     this.setState({authorizedApps, serverError: null}); //eslint-disable-line react/no-did-mount-set-state
                 },
-                (err) => {
+                err => {
                     this.setState({serverError: err.message}); //eslint-disable-line react/no-did-mount-set-state
                 }
             );
@@ -115,7 +115,7 @@ export default class SecurityTab extends React.Component {
         }
     }
 
-    submitPassword = (e) => {
+    submitPassword = e => {
         e.preventDefault();
 
         var user = this.props.user;
@@ -124,7 +124,13 @@ export default class SecurityTab extends React.Component {
         var confirmPassword = this.state.confirmPassword;
 
         if (currentPassword === '') {
-            this.setState({passwordError: Utils.localizeMessage('user.settings.security.currentPasswordError', 'Please enter your current password.'), serverError: ''});
+            this.setState({
+                passwordError: Utils.localizeMessage(
+                    'user.settings.security.currentPasswordError',
+                    'Please enter your current password.'
+                ),
+                serverError: ''
+            });
             return;
         }
 
@@ -138,7 +144,13 @@ export default class SecurityTab extends React.Component {
         }
 
         if (newPassword !== confirmPassword) {
-            var defaultState = Object.assign(this.getDefaultState(), {passwordError: Utils.localizeMessage('user.settings.security.passwordMatchError', 'The new passwords you entered do not match.'), serverError: ''});
+            var defaultState = Object.assign(this.getDefaultState(), {
+                passwordError: Utils.localizeMessage(
+                    'user.settings.security.passwordMatchError',
+                    'The new passwords you entered do not match.'
+                ),
+                serverError: ''
+            });
             this.setState(defaultState);
             return;
         }
@@ -154,7 +166,7 @@ export default class SecurityTab extends React.Component {
                 this.props.actions.getMe();
                 this.setState(this.getDefaultState());
             },
-            (err) => {
+            err => {
                 var state = this.getDefaultState();
                 if (err.message) {
                     state.serverError = err.message;
@@ -165,19 +177,21 @@ export default class SecurityTab extends React.Component {
                 this.setState(state);
             }
         );
-    }
+    };
 
-    setupMfa = (e) => {
+    setupMfa = e => {
         e.preventDefault();
         browserHistory.push('/mfa/setup');
-    }
+    };
 
     removeMfa = () => {
         deactivateMfa(
             () => {
-                if (global.window.mm_license.MFA === 'true' &&
-                        global.window.mm_config.EnableMultifactorAuthentication === 'true' &&
-                        global.window.mm_config.EnforceMultifactorAuthentication === 'true') {
+                if (
+                    global.window.mm_license.MFA === 'true' &&
+                    global.window.mm_config.EnableMultifactorAuthentication === 'true' &&
+                    global.window.mm_config.EnforceMultifactorAuthentication === 'true'
+                ) {
                     window.location.href = '/mfa/setup';
                     return;
                 }
@@ -185,7 +199,7 @@ export default class SecurityTab extends React.Component {
                 this.props.updateSection('');
                 this.setState(this.getDefaultState());
             },
-            (err) => {
+            err => {
                 const state = this.getDefaultState();
                 if (err.message) {
                     state.serverError = err.message;
@@ -195,37 +209,37 @@ export default class SecurityTab extends React.Component {
                 this.setState(state);
             }
         );
-    }
+    };
 
-    updateCurrentPassword = (e) => {
+    updateCurrentPassword = e => {
         this.setState({currentPassword: e.target.value});
-    }
+    };
 
-    updateNewPassword = (e) => {
+    updateNewPassword = e => {
         this.setState({newPassword: e.target.value});
-    }
+    };
 
-    updateConfirmPassword = (e) => {
+    updateConfirmPassword = e => {
         this.setState({confirmPassword: e.target.value});
-    }
+    };
 
-    deauthorizeApp = (e) => {
+    deauthorizeApp = e => {
         e.preventDefault();
         const appId = e.currentTarget.getAttribute('data-app');
         deauthorizeOAuthApp(
             appId,
             () => {
-                const authorizedApps = this.state.authorizedApps.filter((app) => {
+                const authorizedApps = this.state.authorizedApps.filter(app => {
                     return app.id !== appId;
                 });
 
                 this.setState({authorizedApps, serverError: null});
             },
-            (err) => {
+            err => {
                 this.setState({serverError: err.message});
             }
         );
-    }
+    };
 
     createMfaSection = () => {
         let updateSectionStatus;
@@ -241,73 +255,52 @@ export default class SecurityTab extends React.Component {
                 if (global.window.mm_config.EnforceMultifactorAuthentication === 'true') {
                     mfaRemoveHelp = (
                         <FormattedMessage
-                            id='user.settings.mfa.requiredHelp'
-                            defaultMessage='Multi-factor authentication is required on this server. Resetting is only recommended when you need to switch code generation to a new mobile device. You will be required to set it up again immediately.'
+                            id="user.settings.mfa.requiredHelp"
+                            defaultMessage="Multi-factor authentication is required on this server. Resetting is only recommended when you need to switch code generation to a new mobile device. You will be required to set it up again immediately."
                         />
                     );
 
                     mfaButtonText = (
-                        <FormattedMessage
-                            id='user.settings.mfa.reset'
-                            defaultMessage='Reset MFA on your account'
-                        />
+                        <FormattedMessage id="user.settings.mfa.reset" defaultMessage="Reset MFA on your account" />
                     );
                 } else {
                     mfaRemoveHelp = (
                         <FormattedMessage
-                            id='user.settings.mfa.removeHelp'
-                            defaultMessage='Removing multi-factor authentication means you will no longer require a phone-based passcode to sign-in to your account.'
+                            id="user.settings.mfa.removeHelp"
+                            defaultMessage="Removing multi-factor authentication means you will no longer require a phone-based passcode to sign-in to your account."
                         />
                     );
 
                     mfaButtonText = (
-                        <FormattedMessage
-                            id='user.settings.mfa.remove'
-                            defaultMessage='Remove MFA from your account'
-                        />
+                        <FormattedMessage id="user.settings.mfa.remove" defaultMessage="Remove MFA from your account" />
                     );
                 }
 
                 content = (
-                    <div key='mfaQrCode'>
-                        <a
-                            className='btn btn-primary'
-                            href='#'
-                            onClick={this.removeMfa}
-                        >
+                    <div key="mfaQrCode">
+                        <a className="btn btn-primary" href="#" onClick={this.removeMfa}>
                             {mfaButtonText}
                         </a>
-                        <br/>
+                        <br />
                     </div>
                 );
 
-                extraInfo = (
-                    <span>
-                        {mfaRemoveHelp}
-                    </span>
-                );
+                extraInfo = <span>{mfaRemoveHelp}</span>;
             } else {
                 content = (
-                    <div key='mfaQrCode'>
-                        <a
-                            className='btn btn-primary'
-                            href='#'
-                            onClick={this.setupMfa}
-                        >
-                            <FormattedMessage
-                                id='user.settings.mfa.add'
-                                defaultMessage='Add MFA to your account'
-                            />
+                    <div key="mfaQrCode">
+                        <a className="btn btn-primary" href="#" onClick={this.setupMfa}>
+                            <FormattedMessage id="user.settings.mfa.add" defaultMessage="Add MFA to your account" />
                         </a>
-                        <br/>
+                        <br />
                     </div>
                 );
 
                 extraInfo = (
                     <span>
                         <FormattedMessage
-                            id='user.settings.mfa.addHelp'
-                            defaultMessage='Adding multi-factor authentication will make your account more secure by requiring a code from your mobile phone each time you sign in.'
+                            id="user.settings.mfa.addHelp"
+                            defaultMessage="Adding multi-factor authentication will make your account more secure by requiring a code from your mobile phone each time you sign in."
                         />
                     </span>
                 );
@@ -315,10 +308,7 @@ export default class SecurityTab extends React.Component {
 
             const inputs = [];
             inputs.push(
-                <div
-                    key='mfaSetting'
-                    className='padding-top'
-                >
+                <div key="mfaSetting" className="padding-top">
                     {content}
                 </div>
             );
@@ -337,7 +327,7 @@ export default class SecurityTab extends React.Component {
                     submit={submit}
                     server_error={this.state.serverError}
                     updateSection={updateSectionStatus}
-                    width='medium'
+                    width="medium"
                 />
             );
         }
@@ -360,7 +350,7 @@ export default class SecurityTab extends React.Component {
                 updateSection={updateSectionStatus}
             />
         );
-    }
+    };
 
     createPasswordSection = () => {
         let updateSectionStatus;
@@ -373,21 +363,18 @@ export default class SecurityTab extends React.Component {
                 submit = this.submitPassword;
 
                 inputs.push(
-                    <div
-                        key='currentPasswordUpdateForm'
-                        className='form-group'
-                    >
-                        <label className='col-sm-5 control-label'>
+                    <div key="currentPasswordUpdateForm" className="form-group">
+                        <label className="col-sm-5 control-label">
                             <FormattedMessage
-                                id='user.settings.security.currentPassword'
-                                defaultMessage='Current Password'
+                                id="user.settings.security.currentPassword"
+                                defaultMessage="Current Password"
                             />
                         </label>
-                        <div className='col-sm-7'>
+                        <div className="col-sm-7">
                             <input
-                                id='currentPassword'
-                                className='form-control'
-                                type='password'
+                                id="currentPassword"
+                                className="form-control"
+                                type="password"
                                 onChange={this.updateCurrentPassword}
                                 value={this.state.currentPassword}
                             />
@@ -395,21 +382,15 @@ export default class SecurityTab extends React.Component {
                     </div>
                 );
                 inputs.push(
-                    <div
-                        key='newPasswordUpdateForm'
-                        className='form-group'
-                    >
-                        <label className='col-sm-5 control-label'>
-                            <FormattedMessage
-                                id='user.settings.security.newPassword'
-                                defaultMessage='New Password'
-                            />
+                    <div key="newPasswordUpdateForm" className="form-group">
+                        <label className="col-sm-5 control-label">
+                            <FormattedMessage id="user.settings.security.newPassword" defaultMessage="New Password" />
                         </label>
-                        <div className='col-sm-7'>
+                        <div className="col-sm-7">
                             <input
-                                id='newPassword'
-                                className='form-control'
-                                type='password'
+                                id="newPassword"
+                                className="form-control"
+                                type="password"
                                 onChange={this.updateNewPassword}
                                 value={this.state.newPassword}
                             />
@@ -417,21 +398,18 @@ export default class SecurityTab extends React.Component {
                     </div>
                 );
                 inputs.push(
-                    <div
-                        key='retypeNewPasswordUpdateForm'
-                        className='form-group'
-                    >
-                        <label className='col-sm-5 control-label'>
+                    <div key="retypeNewPasswordUpdateForm" className="form-group">
+                        <label className="col-sm-5 control-label">
                             <FormattedMessage
-                                id='user.settings.security.retypePassword'
-                                defaultMessage='Retype New Password'
+                                id="user.settings.security.retypePassword"
+                                defaultMessage="Retype New Password"
                             />
                         </label>
-                        <div className='col-sm-7'>
+                        <div className="col-sm-7">
                             <input
-                                id='confirmPassword'
-                                className='form-control'
-                                type='password'
+                                id="confirmPassword"
+                                className="form-control"
+                                type="password"
                                 onChange={this.updateConfirmPassword}
                                 value={this.state.confirmPassword}
                             />
@@ -440,70 +418,55 @@ export default class SecurityTab extends React.Component {
                 );
             } else if (this.props.user.auth_service === Constants.GITLAB_SERVICE) {
                 inputs.push(
-                    <div
-                        key='oauthEmailInfo'
-                        className='form-group'
-                    >
-                        <div className='setting-list__hint col-sm-12'>
+                    <div key="oauthEmailInfo" className="form-group">
+                        <div className="setting-list__hint col-sm-12">
                             <FormattedMessage
-                                id='user.settings.security.passwordGitlabCantUpdate'
-                                defaultMessage='Login occurs through GitLab. Password cannot be updated.'
+                                id="user.settings.security.passwordGitlabCantUpdate"
+                                defaultMessage="Login occurs through GitLab. Password cannot be updated."
                             />
                         </div>
                     </div>
                 );
             } else if (this.props.user.auth_service === Constants.LDAP_SERVICE) {
                 inputs.push(
-                    <div
-                        key='oauthEmailInfo'
-                        className='form-group'
-                    >
-                        <div className='setting-list__hint col-sm-12'>
+                    <div key="oauthEmailInfo" className="form-group">
+                        <div className="setting-list__hint col-sm-12">
                             <FormattedMessage
-                                id='user.settings.security.passwordLdapCantUpdate'
-                                defaultMessage='Login occurs through AD/LDAP. Password cannot be updated.'
+                                id="user.settings.security.passwordLdapCantUpdate"
+                                defaultMessage="Login occurs through AD/LDAP. Password cannot be updated."
                             />
                         </div>
                     </div>
                 );
             } else if (this.props.user.auth_service === Constants.SAML_SERVICE) {
                 inputs.push(
-                    <div
-                        key='oauthEmailInfo'
-                        className='form-group'
-                    >
-                        <div className='setting-list__hint col-sm-12'>
+                    <div key="oauthEmailInfo" className="form-group">
+                        <div className="setting-list__hint col-sm-12">
                             <FormattedMessage
-                                id='user.settings.security.passwordSamlCantUpdate'
-                                defaultMessage='This field is handled through your login provider. If you want to change it, you need to do so through your login provider.'
+                                id="user.settings.security.passwordSamlCantUpdate"
+                                defaultMessage="This field is handled through your login provider. If you want to change it, you need to do so through your login provider."
                             />
                         </div>
                     </div>
                 );
             } else if (this.props.user.auth_service === Constants.GOOGLE_SERVICE) {
                 inputs.push(
-                    <div
-                        key='oauthEmailInfo'
-                        className='form-group'
-                    >
-                        <div className='setting-list__hint col-sm-12'>
+                    <div key="oauthEmailInfo" className="form-group">
+                        <div className="setting-list__hint col-sm-12">
                             <FormattedMessage
-                                id='user.settings.security.passwordGoogleCantUpdate'
-                                defaultMessage='Login occurs through Google Apps. Password cannot be updated.'
+                                id="user.settings.security.passwordGoogleCantUpdate"
+                                defaultMessage="Login occurs through Google Apps. Password cannot be updated."
                             />
                         </div>
                     </div>
                 );
             } else if (this.props.user.auth_service === Constants.OFFICE365_SERVICE) {
                 inputs.push(
-                    <div
-                        key='oauthEmailInfo'
-                        className='form-group'
-                    >
-                        <div className='setting-list__hint col-sm-12'>
+                    <div key="oauthEmailInfo" className="form-group">
+                        <div className="setting-list__hint col-sm-12">
                             <FormattedMessage
-                                id='user.settings.security.passwordOffice365CantUpdate'
-                                defaultMessage='Login occurs through Office 365. Password cannot be updated.'
+                                id="user.settings.security.passwordOffice365CantUpdate"
+                                defaultMessage="Login occurs through Office 365. Password cannot be updated."
                             />
                         </div>
                     </div>
@@ -512,19 +475,22 @@ export default class SecurityTab extends React.Component {
 
             updateSectionStatus = function resetSection(e) {
                 this.props.updateSection('');
-                this.setState({currentPassword: '', newPassword: '', confirmPassword: '', serverError: null, passwordError: null});
+                this.setState({
+                    currentPassword: '',
+                    newPassword: '',
+                    confirmPassword: '',
+                    serverError: null,
+                    passwordError: null
+                });
                 e.preventDefault();
-                $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
+                $('.settings-modal .modal-body')
+                    .scrollTop(0)
+                    .perfectScrollbar('update');
             }.bind(this);
 
             return (
                 <SettingItemMax
-                    title={
-                        <FormattedMessage
-                            id='user.settings.security.password'
-                            defaultMessage='Password'
-                        />
-                    }
+                    title={<FormattedMessage id="user.settings.security.password" defaultMessage="Password" />}
                     inputs={inputs}
                     submit={submit}
                     saving={this.state.savingPassword}
@@ -539,65 +505,46 @@ export default class SecurityTab extends React.Component {
 
         if (this.props.user.auth_service === '') {
             const d = new Date(this.props.user.last_password_update);
-            const hours12 = !PreferenceStore.getBool(Constants.Preferences.CATEGORY_DISPLAY_SETTINGS, Constants.Preferences.USE_MILITARY_TIME, false);
+            const hours12 = !PreferenceStore.getBool(
+                Constants.Preferences.CATEGORY_DISPLAY_SETTINGS,
+                Constants.Preferences.USE_MILITARY_TIME,
+                false
+            );
 
             describe = (
                 <FormattedMessage
-                    id='user.settings.security.lastUpdated'
-                    defaultMessage='Last updated {date} at {time}'
+                    id="user.settings.security.lastUpdated"
+                    defaultMessage="Last updated {date} at {time}"
                     values={{
-                        date: (
-                            <FormattedDate
-                                value={d}
-                                day='2-digit'
-                                month='short'
-                                year='numeric'
-                            />
-                        ),
-                        time: (
-                            <FormattedTime
-                                value={d}
-                                hour12={hours12}
-                                hour='2-digit'
-                                minute='2-digit'
-                            />
-                        )
+                        date: <FormattedDate value={d} day="2-digit" month="short" year="numeric" />,
+                        time: <FormattedTime value={d} hour12={hours12} hour="2-digit" minute="2-digit" />
                     }}
                 />
             );
         } else if (this.props.user.auth_service === Constants.GITLAB_SERVICE) {
             describe = (
-                <FormattedMessage
-                    id='user.settings.security.loginGitlab'
-                    defaultMessage='Login done through GitLab'
-                />
+                <FormattedMessage id="user.settings.security.loginGitlab" defaultMessage="Login done through GitLab" />
             );
         } else if (this.props.user.auth_service === Constants.LDAP_SERVICE) {
             describe = (
-                <FormattedMessage
-                    id='user.settings.security.loginLdap'
-                    defaultMessage='Login done through AD/LDAP'
-                />
+                <FormattedMessage id="user.settings.security.loginLdap" defaultMessage="Login done through AD/LDAP" />
             );
         } else if (this.props.user.auth_service === Constants.SAML_SERVICE) {
             describe = (
-                <FormattedMessage
-                    id='user.settings.security.loginSaml'
-                    defaultMessage='Login done through SAML'
-                />
+                <FormattedMessage id="user.settings.security.loginSaml" defaultMessage="Login done through SAML" />
             );
         } else if (this.props.user.auth_service === Constants.GOOGLE_SERVICE) {
             describe = (
                 <FormattedMessage
-                    id='user.settings.security.loginGoogle'
-                    defaultMessage='Login done through Google Apps'
+                    id="user.settings.security.loginGoogle"
+                    defaultMessage="Login done through Google Apps"
                 />
             );
         } else if (this.props.user.auth_service === Constants.OFFICE365_SERVICE) {
             describe = (
                 <FormattedMessage
-                    id='user.settings.security.loginOffice365'
-                    defaultMessage='Login done through Office 365'
+                    id="user.settings.security.loginOffice365"
+                    defaultMessage="Login done through Office 365"
                 />
             );
         }
@@ -608,17 +555,12 @@ export default class SecurityTab extends React.Component {
 
         return (
             <SettingItemMin
-                title={
-                    <FormattedMessage
-                        id='user.settings.security.password'
-                        defaultMessage='Password'
-                    />
-                }
+                title={<FormattedMessage id="user.settings.security.password" defaultMessage="Password" />}
                 describe={describe}
                 updateSection={updateSectionStatus}
             />
         );
-    }
+    };
 
     createSignInSection = () => {
         let updateSectionStatus;
@@ -635,85 +577,113 @@ export default class SecurityTab extends React.Component {
             if (user.auth_service === '') {
                 if (global.window.mm_config.EnableSignUpWithGitLab === 'true') {
                     gitlabOption = (
-                        <div className='padding-bottom x2'>
+                        <div className="padding-bottom x2">
                             <Link
-                                className='btn btn-primary'
-                                to={'/claim/email_to_oauth?email=' + encodeURIComponent(user.email) + '&old_type=' + user.auth_service + '&new_type=' + Constants.GITLAB_SERVICE}
+                                className="btn btn-primary"
+                                to={
+                                    '/claim/email_to_oauth?email=' +
+                                    encodeURIComponent(user.email) +
+                                    '&old_type=' +
+                                    user.auth_service +
+                                    '&new_type=' +
+                                    Constants.GITLAB_SERVICE
+                                }
                             >
                                 <FormattedMessage
-                                    id='user.settings.security.switchGitlab'
-                                    defaultMessage='Switch to using GitLab SSO'
+                                    id="user.settings.security.switchGitlab"
+                                    defaultMessage="Switch to using GitLab SSO"
                                 />
                             </Link>
-                            <br/>
+                            <br />
                         </div>
                     );
                 }
 
                 if (global.window.mm_config.EnableSignUpWithGoogle === 'true') {
                     googleOption = (
-                        <div className='padding-bottom x2'>
+                        <div className="padding-bottom x2">
                             <Link
-                                className='btn btn-primary'
-                                to={'/claim/email_to_oauth?email=' + encodeURIComponent(user.email) + '&old_type=' + user.auth_service + '&new_type=' + Constants.GOOGLE_SERVICE}
+                                className="btn btn-primary"
+                                to={
+                                    '/claim/email_to_oauth?email=' +
+                                    encodeURIComponent(user.email) +
+                                    '&old_type=' +
+                                    user.auth_service +
+                                    '&new_type=' +
+                                    Constants.GOOGLE_SERVICE
+                                }
                             >
                                 <FormattedMessage
-                                    id='user.settings.security.switchGoogle'
-                                    defaultMessage='Switch to using Google SSO'
+                                    id="user.settings.security.switchGoogle"
+                                    defaultMessage="Switch to using Google SSO"
                                 />
                             </Link>
-                            <br/>
+                            <br />
                         </div>
                     );
                 }
 
                 if (global.window.mm_config.EnableSignUpWithOffice365 === 'true') {
                     office365Option = (
-                        <div className='padding-bottom x2'>
+                        <div className="padding-bottom x2">
                             <Link
-                                className='btn btn-primary'
-                                to={'/claim/email_to_oauth?email=' + encodeURIComponent(user.email) + '&old_type=' + user.auth_service + '&new_type=' + Constants.OFFICE365_SERVICE}
+                                className="btn btn-primary"
+                                to={
+                                    '/claim/email_to_oauth?email=' +
+                                    encodeURIComponent(user.email) +
+                                    '&old_type=' +
+                                    user.auth_service +
+                                    '&new_type=' +
+                                    Constants.OFFICE365_SERVICE
+                                }
                             >
                                 <FormattedMessage
-                                    id='user.settings.security.switchOffice365'
-                                    defaultMessage='Switch to using Office 365 SSO'
+                                    id="user.settings.security.switchOffice365"
+                                    defaultMessage="Switch to using Office 365 SSO"
                                 />
                             </Link>
-                            <br/>
+                            <br />
                         </div>
                     );
                 }
 
                 if (global.window.mm_config.EnableLdap === 'true') {
                     ldapOption = (
-                        <div className='padding-bottom x2'>
+                        <div className="padding-bottom x2">
                             <Link
-                                className='btn btn-primary'
+                                className="btn btn-primary"
                                 to={'/claim/email_to_ldap?email=' + encodeURIComponent(user.email)}
                             >
                                 <FormattedMessage
-                                    id='user.settings.security.switchLdap'
-                                    defaultMessage='Switch to using AD/LDAP'
+                                    id="user.settings.security.switchLdap"
+                                    defaultMessage="Switch to using AD/LDAP"
                                 />
                             </Link>
-                            <br/>
+                            <br />
                         </div>
                     );
                 }
 
                 if (global.window.mm_config.EnableSaml === 'true') {
                     samlOption = (
-                        <div className='padding-bottom x2'>
+                        <div className="padding-bottom x2">
                             <Link
-                                className='btn btn-primary'
-                                to={'/claim/email_to_oauth?email=' + encodeURIComponent(user.email) + '&old_type=' + user.auth_service + '&new_type=' + Constants.SAML_SERVICE}
+                                className="btn btn-primary"
+                                to={
+                                    '/claim/email_to_oauth?email=' +
+                                    encodeURIComponent(user.email) +
+                                    '&old_type=' +
+                                    user.auth_service +
+                                    '&new_type=' +
+                                    Constants.SAML_SERVICE
+                                }
                             >
                                 <FormattedMessage
-                                    id='user.settings.security.switchSaml'
-                                    defaultMessage='Switch to using SAML SSO'
+                                    id="user.settings.security.switchSaml"
+                                    defaultMessage="Switch to using SAML SSO"
                                 />
                             </Link>
-                            <br/>
+                            <br />
                         </div>
                     );
                 }
@@ -722,28 +692,29 @@ export default class SecurityTab extends React.Component {
                 if (user.auth_service === Constants.LDAP_SERVICE) {
                     link = '/claim/ldap_to_email?email=' + encodeURIComponent(user.email);
                 } else {
-                    link = '/claim/oauth_to_email?email=' + encodeURIComponent(user.email) + '&old_type=' + user.auth_service;
+                    link =
+                        '/claim/oauth_to_email?email=' +
+                        encodeURIComponent(user.email) +
+                        '&old_type=' +
+                        user.auth_service;
                 }
 
                 emailOption = (
-                    <div className='padding-bottom x2'>
-                        <Link
-                            className='btn btn-primary'
-                            to={link}
-                        >
+                    <div className="padding-bottom x2">
+                        <Link className="btn btn-primary" to={link}>
                             <FormattedMessage
-                                id='user.settings.security.switchEmail'
-                                defaultMessage='Switch to using email and password'
+                                id="user.settings.security.switchEmail"
+                                defaultMessage="Switch to using email and password"
                             />
                         </Link>
-                        <br/>
+                        <br />
                     </div>
                 );
             }
 
             const inputs = [];
             inputs.push(
-                <div key='userSignInOption'>
+                <div key="userSignInOption">
                     {emailOption}
                     {gitlabOption}
                     {googleOption}
@@ -762,8 +733,8 @@ export default class SecurityTab extends React.Component {
             const extraInfo = (
                 <span>
                     <FormattedMessage
-                        id='user.settings.security.oneSignin'
-                        defaultMessage='You may only have one sign-in method at a time. Switching sign-in method will send an email notifying you if the change was successful.'
+                        id="user.settings.security.oneSignin"
+                        defaultMessage="You may only have one sign-in method at a time. Switching sign-in method will send an email notifying you if the change was successful."
                     />
                 </span>
             );
@@ -783,47 +754,17 @@ export default class SecurityTab extends React.Component {
             this.props.updateSection('signin');
         }.bind(this);
 
-        let describe = (
-            <FormattedMessage
-                id='user.settings.security.emailPwd'
-                defaultMessage='Email and Password'
-            />
-        );
+        let describe = <FormattedMessage id="user.settings.security.emailPwd" defaultMessage="Email and Password" />;
         if (this.props.user.auth_service === Constants.GITLAB_SERVICE) {
-            describe = (
-                <FormattedMessage
-                    id='user.settings.security.gitlab'
-                    defaultMessage='GitLab'
-                />
-            );
+            describe = <FormattedMessage id="user.settings.security.gitlab" defaultMessage="GitLab" />;
         } else if (this.props.user.auth_service === Constants.GOOGLE_SERVICE) {
-            describe = (
-                <FormattedMessage
-                    id='user.settings.security.google'
-                    defaultMessage='Google'
-                />
-            );
+            describe = <FormattedMessage id="user.settings.security.google" defaultMessage="Google" />;
         } else if (this.props.user.auth_service === Constants.OFFICE365_SERVICE) {
-            describe = (
-                <FormattedMessage
-                    id='user.settings.security.office365'
-                    defaultMessage='Office 365'
-                />
-            );
+            describe = <FormattedMessage id="user.settings.security.office365" defaultMessage="Office 365" />;
         } else if (this.props.user.auth_service === Constants.LDAP_SERVICE) {
-            describe = (
-                <FormattedMessage
-                    id='user.settings.security.ldap'
-                    defaultMessage='AD/LDAP'
-                />
-            );
+            describe = <FormattedMessage id="user.settings.security.ldap" defaultMessage="AD/LDAP" />;
         } else if (this.props.user.auth_service === Constants.SAML_SERVICE) {
-            describe = (
-                <FormattedMessage
-                    id='user.settings.security.saml'
-                    defaultMessage='SAML'
-                />
-            );
+            describe = <FormattedMessage id="user.settings.security.saml" defaultMessage="SAML" />;
         }
 
         return (
@@ -833,7 +774,7 @@ export default class SecurityTab extends React.Component {
                 updateSection={updateSectionStatus}
             />
         );
-    }
+    };
 
     createOAuthAppsSection = () => {
         let updateSectionStatus;
@@ -841,60 +782,46 @@ export default class SecurityTab extends React.Component {
         if (this.props.activeSection === 'apps') {
             let apps;
             if (this.state.authorizedApps && this.state.authorizedApps.length > 0) {
-                apps = this.state.authorizedApps.map((app) => {
+                apps = this.state.authorizedApps.map(app => {
                     const homepage = (
-                        <a
-                            href={app.homepage}
-                            target='_blank'
-                            rel='noopener noreferrer'
-                        >
+                        <a href={app.homepage} target="_blank" rel="noopener noreferrer">
                             {app.homepage}
                         </a>
                     );
 
                     return (
-                        <div
-                            key={app.id}
-                            className='padding-bottom x2 authorized-app'
-                        >
-                            <div className='col-sm-10'>
-                                <div className='authorized-app__name'>
+                        <div key={app.id} className="padding-bottom x2 authorized-app">
+                            <div className="col-sm-10">
+                                <div className="authorized-app__name">
                                     {app.name}
-                                    <span className='authorized-app__url'>
+                                    <span className="authorized-app__url">
                                         {' -'} {homepage}
                                     </span>
                                 </div>
-                                <div className='authorized-app__description'>{app.description}</div>
-                                <div className='authorized-app__deauthorize'>
-                                    <a
-                                        href='#'
-                                        data-app={app.id}
-                                        onClick={this.deauthorizeApp}
-                                    >
+                                <div className="authorized-app__description">{app.description}</div>
+                                <div className="authorized-app__deauthorize">
+                                    <a href="#" data-app={app.id} onClick={this.deauthorizeApp}>
                                         <FormattedMessage
-                                            id='user.settings.security.deauthorize'
-                                            defaultMessage='Deauthorize'
+                                            id="user.settings.security.deauthorize"
+                                            defaultMessage="Deauthorize"
                                         />
                                     </a>
                                 </div>
                             </div>
-                            <div className='col-sm-2 pull-right'>
-                                <img
-                                    alt={app.name}
-                                    src={app.icon_url || icon50}
-                                />
+                            <div className="col-sm-2 pull-right">
+                                <img alt={app.name} src={app.icon_url || icon50} />
                             </div>
-                            <br/>
+                            <br />
                         </div>
                     );
                 });
             } else {
                 apps = (
-                    <div className='padding-bottom x2 authorized-app'>
-                        <div className='setting-list__hint'>
+                    <div className="padding-bottom x2 authorized-app">
+                        <div className="setting-list__hint">
                             <FormattedMessage
-                                id='user.settings.security.noApps'
-                                defaultMessage='No OAuth 2.0 Applications are authorized.'
+                                id="user.settings.security.noApps"
+                                defaultMessage="No OAuth 2.0 Applications are authorized."
                             />
                         </div>
                     </div>
@@ -908,20 +835,17 @@ export default class SecurityTab extends React.Component {
                 wrapperClass = 'authorized-apps__wrapper';
 
                 helpText = (
-                    <div className='authorized-apps__help'>
+                    <div className="authorized-apps__help">
                         <FormattedMessage
-                            id='user.settings.security.oauthAppsHelp'
-                            defaultMessage='Applications act on your behalf to access your data based on the permissions you grant them.'
+                            id="user.settings.security.oauthAppsHelp"
+                            defaultMessage="Applications act on your behalf to access your data based on the permissions you grant them."
                         />
                     </div>
                 );
             }
 
             inputs.push(
-                <div
-                    className={wrapperClass}
-                    key='authorizedApps'
-                >
+                <div className={wrapperClass} key="authorizedApps">
                     {apps}
                 </div>
             );
@@ -934,10 +858,7 @@ export default class SecurityTab extends React.Component {
 
             const title = (
                 <div>
-                    <FormattedMessage
-                        id='user.settings.security.oauthApps'
-                        defaultMessage='OAuth 2.0 Applications'
-                    />
+                    <FormattedMessage id="user.settings.security.oauthApps" defaultMessage="OAuth 2.0 Applications" />
                     {helpText}
                 </div>
             );
@@ -948,13 +869,8 @@ export default class SecurityTab extends React.Component {
                     inputs={inputs}
                     server_error={this.state.serverError}
                     updateSection={updateSectionStatus}
-                    width='full'
-                    cancelButtonText={
-                        <FormattedMessage
-                            id='user.settings.security.close'
-                            defaultMessage='Close'
-                        />
-                    }
+                    width="full"
+                    cancelButtonText={<FormattedMessage id="user.settings.security.close" defaultMessage="Close" />}
                 />
             );
         }
@@ -968,22 +884,22 @@ export default class SecurityTab extends React.Component {
                 title={Utils.localizeMessage('user.settings.security.oauthApps', 'OAuth 2.0 Applications')}
                 describe={
                     <FormattedMessage
-                        id='user.settings.security.oauthAppsDescription'
+                        id="user.settings.security.oauthAppsDescription"
                         defaultMessage="Click 'Edit' to manage your OAuth 2.0 Applications"
                     />
                 }
                 updateSection={updateSectionStatus}
             />
         );
-    }
+    };
 
     startCreatingToken = () => {
         this.setState({tokenCreationState: TOKEN_CREATING});
-    }
+    };
 
     stopCreatingToken = () => {
         this.setState({tokenCreationState: TOKEN_NOT_CREATING});
-    }
+    };
 
     handleCreateToken = async () => {
         this.handleCancelConfirm();
@@ -991,7 +907,9 @@ export default class SecurityTab extends React.Component {
         const description = this.refs.newtokendescription ? this.refs.newtokendescription.value : '';
 
         if (description === '') {
-            this.setState({tokenError: Utils.localizeMessage('user.settings.tokens.nameRequired', 'Please enter a description.')});
+            this.setState({
+                tokenError: Utils.localizeMessage('user.settings.tokens.nameRequired', 'Please enter a description.')
+            });
             return;
         }
 
@@ -1005,7 +923,7 @@ export default class SecurityTab extends React.Component {
         } else if (error) {
             this.setState({serverError: error.message});
         }
-    }
+    };
 
     handleCancelConfirm = () => {
         this.setState({
@@ -1015,7 +933,7 @@ export default class SecurityTab extends React.Component {
             confirmButton: null,
             confirmComplete: null
         });
-    }
+    };
 
     confirmCreateToken = () => {
         if (UserUtils.isSystemAdmin(this.props.user.roles)) {
@@ -1023,23 +941,20 @@ export default class SecurityTab extends React.Component {
                 showConfirmModal: true,
                 confirmTitle: (
                     <FormattedMessage
-                        id='user.settings.tokens.confirmCreateTitle'
-                        defaultMessage='Create System Admin Personal Access Token'
+                        id="user.settings.tokens.confirmCreateTitle"
+                        defaultMessage="Create System Admin Personal Access Token"
                     />
                 ),
                 confirmMessage: (
-                    <div className='alert alert-danger'>
+                    <div className="alert alert-danger">
                         <FormattedHTMLMessage
-                            id='user.settings.tokens.confirmCreateMessage'
-                            defaultMessage='You are generating a personal access token with System Admin permissions. Are you sure want to create this token?'
+                            id="user.settings.tokens.confirmCreateMessage"
+                            defaultMessage="You are generating a personal access token with System Admin permissions. Are you sure want to create this token?"
                         />
                     </div>
                 ),
                 confirmButton: (
-                    <FormattedMessage
-                        id='user.settings.tokens.confirmCreateButton'
-                        defaultMessage='Yes, Create'
-                    />
+                    <FormattedMessage id="user.settings.tokens.confirmCreateButton" defaultMessage="Yes, Create" />
                 ),
                 confirmComplete: () => {
                     this.handleCreateToken();
@@ -1051,30 +966,27 @@ export default class SecurityTab extends React.Component {
         }
 
         this.handleCreateToken();
-    }
+    };
 
-    saveTokenKeyPress = (e) => {
+    saveTokenKeyPress = e => {
         if (e.which === Constants.KeyCodes.ENTER) {
             this.confirmCreateToken();
         }
-    }
+    };
 
-    confirmRevokeToken = (tokenId) => {
+    confirmRevokeToken = tokenId => {
         const token = this.props.userAccessTokens[tokenId];
 
         this.setState({
             showConfirmModal: true,
             confirmTitle: (
-                <FormattedMessage
-                    id='user.settings.tokens.confirmDeleteTitle'
-                    defaultMessage='Delete Token?'
-                />
+                <FormattedMessage id="user.settings.tokens.confirmDeleteTitle" defaultMessage="Delete Token?" />
             ),
             confirmMessage: (
-                <div className='alert alert-danger'>
+                <div className="alert alert-danger">
                     <FormattedHTMLMessage
-                        id='user.settings.tokens.confirmDeleteMessage'
-                        defaultMessage='Any integrations using this token will no longer be able to access the Mattermost API. You cannot undo this action. <br /><br />Are you sure want to delete the {description} token?'
+                        id="user.settings.tokens.confirmDeleteMessage"
+                        defaultMessage="Any integrations using this token will no longer be able to access the Mattermost API. You cannot undo this action. <br /><br />Are you sure want to delete the {description} token?"
                         values={{
                             description: token.description
                         }}
@@ -1082,25 +994,22 @@ export default class SecurityTab extends React.Component {
                 </div>
             ),
             confirmButton: (
-                <FormattedMessage
-                    id='user.settings.tokens.confirmDeleteButton'
-                    defaultMessage='Yes, Delete'
-                />
+                <FormattedMessage id="user.settings.tokens.confirmDeleteButton" defaultMessage="Yes, Delete" />
             ),
             confirmComplete: () => {
                 this.revokeToken(tokenId);
                 trackEvent('settings', 'revoke_user_access_token');
             }
         });
-    }
+    };
 
-    revokeToken = async (tokenId) => {
+    revokeToken = async tokenId => {
         const {error} = await this.props.actions.revokeUserAccessToken(tokenId);
         if (error) {
             this.setState({serverError: error.message});
         }
         this.handleCancelConfirm();
-    }
+    };
 
     createTokensSection = () => {
         let updateSectionStatus;
@@ -1108,46 +1017,37 @@ export default class SecurityTab extends React.Component {
 
         if (this.props.activeSection === 'tokens') {
             const tokenList = [];
-            Object.values(this.props.userAccessTokens).forEach((token) => {
+            Object.values(this.props.userAccessTokens).forEach(token => {
                 if (this.state.newToken && this.state.newToken.id === token.id) {
                     return;
                 }
 
                 tokenList.push(
-                    <div
-                        key={token.id}
-                        className='setting-box__item'
-                    >
-                        <div className='whitespace--nowrap overflow--ellipsis'>
+                    <div key={token.id} className="setting-box__item">
+                        <div className="whitespace--nowrap overflow--ellipsis">
                             <FormattedMessage
-                                id='user.settings.tokens.tokenDesc'
-                                defaultMessage='Token Description: '
+                                id="user.settings.tokens.tokenDesc"
+                                defaultMessage="Token Description: "
                             />
                             {token.description}
                         </div>
-                        <div className='setting-box__token-id whitespace--nowrap overflow--ellipsis'>
-                            <FormattedMessage
-                                id='user.settings.tokens.tokenId'
-                                defaultMessage='Token ID: '
-                            />
+                        <div className="setting-box__token-id whitespace--nowrap overflow--ellipsis">
+                            <FormattedMessage id="user.settings.tokens.tokenId" defaultMessage="Token ID: " />
                             {token.id}
                         </div>
                         <div>
                             <a
                                 name={token.id}
-                                href='#'
-                                onClick={(e) => {
+                                href="#"
+                                onClick={e => {
                                     e.preventDefault();
                                     this.confirmRevokeToken(token.id);
                                 }}
                             >
-                                <FormattedMessage
-                                    id='user.settings.tokens.delete'
-                                    defaultMessage='Delete'
-                                />
+                                <FormattedMessage id="user.settings.tokens.delete" defaultMessage="Delete" />
                             </a>
                         </div>
-                        <hr className='margin-bottom margin-top x2'/>
+                        <hr className="margin-bottom margin-top x2" />
                     </div>
                 );
             });
@@ -1156,9 +1056,9 @@ export default class SecurityTab extends React.Component {
             if (tokenList.length === 0) {
                 noTokenText = (
                     <FormattedMessage
-                        key='notokens'
-                        id='user.settings.tokens.userAccessTokensNone'
-                        defaultMessage='No personal access tokens.'
+                        key="notokens"
+                        id="user.settings.tokens.userAccessTokensNone"
+                        defaultMessage="No personal access tokens."
                     />
                 );
             }
@@ -1168,8 +1068,8 @@ export default class SecurityTab extends React.Component {
                 extraInfo = (
                     <span>
                         <FormattedHTMLMessage
-                            id='user.settings.tokens.description_mobile'
-                            defaultMessage='<a href="https://about.mattermost.com/default-user-access-tokens" target="_blank">Personal access tokens</a> function similar to session tokens and can be used by integrations to <a href="https://about.mattermost.com/default-api-authentication" target="_blank">authenticate against the REST API</a>. Create new tokens on your desktop.'
+                            id="user.settings.tokens.description_mobile"
+                            defaultMessage="<a href=&quot;https://about.mattermost.com/default-user-access-tokens&quot; target=&quot;_blank&quot;>Personal access tokens</a> function similar to session tokens and can be used by integrations to <a href=&quot;https://about.mattermost.com/default-api-authentication&quot; target=&quot;_blank&quot;>authenticate against the REST API</a>. Create new tokens on your desktop."
                         />
                     </span>
                 );
@@ -1177,8 +1077,8 @@ export default class SecurityTab extends React.Component {
                 extraInfo = (
                     <span>
                         <FormattedHTMLMessage
-                            id='user.settings.tokens.description'
-                            defaultMessage='<a href="https://about.mattermost.com/default-user-access-tokens" target="_blank">Personal access tokens</a> function similar to session tokens and can be used by integrations to <a href="https://about.mattermost.com/default-api-authentication" target="_blank">authenticate against the REST API</a>.'
+                            id="user.settings.tokens.description"
+                            defaultMessage="<a href=&quot;https://about.mattermost.com/default-user-access-tokens&quot; target=&quot;_blank&quot;>Personal access tokens</a> function similar to session tokens and can be used by integrations to <a href=&quot;https://about.mattermost.com/default-api-authentication&quot; target=&quot;_blank&quot;>authenticate against the REST API</a>."
                         />
                     </span>
                 );
@@ -1187,56 +1087,38 @@ export default class SecurityTab extends React.Component {
             let newTokenSection;
             if (this.state.tokenCreationState === TOKEN_CREATING) {
                 newTokenSection = (
-                    <div className='padding-left x2'>
-                        <div className='row'>
-                            <label className='col-sm-auto control-label padding-right x2'>
-                                <FormattedMessage
-                                    id='user.settings.tokens.name'
-                                    defaultMessage='Token Description: '
-                                />
+                    <div className="padding-left x2">
+                        <div className="row">
+                            <label className="col-sm-auto control-label padding-right x2">
+                                <FormattedMessage id="user.settings.tokens.name" defaultMessage="Token Description: " />
                             </label>
-                            <div className='col-sm-5'>
+                            <div className="col-sm-5">
                                 <input
-                                    ref='newtokendescription'
-                                    className='form-control'
-                                    type='text'
+                                    ref="newtokendescription"
+                                    className="form-control"
+                                    type="text"
                                     maxLength={64}
                                     onKeyPress={this.saveTokenKeyPress}
                                 />
                             </div>
                         </div>
                         <div>
-                            <div className='padding-top x2'>
+                            <div className="padding-top x2">
                                 <FormattedMessage
-                                    id='user.settings.tokens.nameHelp'
-                                    defaultMessage='Enter a description for your token to remember what it does.'
+                                    id="user.settings.tokens.nameHelp"
+                                    defaultMessage="Enter a description for your token to remember what it does."
                                 />
                             </div>
                             <div>
-                                <label
-                                    id='clientError'
-                                    className='has-error margin-top margin-bottom'
-                                >
+                                <label id="clientError" className="has-error margin-top margin-bottom">
                                     {this.state.tokenError}
                                 </label>
                             </div>
-                            <button
-                                className='btn btn-primary'
-                                onClick={this.confirmCreateToken}
-                            >
-                                <FormattedMessage
-                                    id='user.settings.tokens.save'
-                                    defaultMessage='Save'
-                                />
+                            <button className="btn btn-primary" onClick={this.confirmCreateToken}>
+                                <FormattedMessage id="user.settings.tokens.save" defaultMessage="Save" />
                             </button>
-                            <button
-                                className='btn btn-default'
-                                onClick={this.stopCreatingToken}
-                            >
-                                <FormattedMessage
-                                    id='user.settings.tokens.cancel'
-                                    defaultMessage='Cancel'
-                                />
+                            <button className="btn btn-default" onClick={this.stopCreatingToken}>
+                                <FormattedMessage id="user.settings.tokens.cancel" defaultMessage="Cancel" />
                             </button>
                         </div>
                     </div>
@@ -1247,61 +1129,40 @@ export default class SecurityTab extends React.Component {
                 }
 
                 newTokenSection = (
-                    <div
-                        className='alert alert-warning'
-                    >
-                        <i className='fa fa-warning margin-right'/>
+                    <div className="alert alert-warning">
+                        <i className="fa fa-warning margin-right" />
                         <FormattedMessage
-                            id='user.settings.tokens.copy'
+                            id="user.settings.tokens.copy"
                             defaultMessage="Please copy the access token below. You won't be able to see it again!"
                         />
-                        <br/>
-                        <br/>
-                        <div className='whitespace--nowrap overflow--ellipsis'>
-                            <FormattedMessage
-                                id='user.settings.tokens.name'
-                                defaultMessage='Token Description: '
-                            />
+                        <br />
+                        <br />
+                        <div className="whitespace--nowrap overflow--ellipsis">
+                            <FormattedMessage id="user.settings.tokens.name" defaultMessage="Token Description: " />
                             {this.state.newToken.description}
                         </div>
-                        <div className='whitespace--nowrap overflow--ellipsis'>
-                            <FormattedMessage
-                                id='user.settings.tokens.id'
-                                defaultMessage='Token ID: '
-                            />
+                        <div className="whitespace--nowrap overflow--ellipsis">
+                            <FormattedMessage id="user.settings.tokens.id" defaultMessage="Token ID: " />
                             {this.state.newToken.id}
                         </div>
-                        <strong className='word-break--all'>
-                            <FormattedMessage
-                                id='user.settings.tokens.token'
-                                defaultMessage='Access Token: '
-                            />
+                        <strong className="word-break--all">
+                            <FormattedMessage id="user.settings.tokens.token" defaultMessage="Access Token: " />
                             {this.state.newToken.token}
                         </strong>
                     </div>
                 );
             } else {
                 newTokenSection = (
-                    <a
-                        className='btn btn-primary'
-                        href='#'
-                        onClick={this.startCreatingToken}
-                    >
-                        <FormattedMessage
-                            id='user.settings.tokens.create'
-                            defaultMessage='Create New Token'
-                        />
+                    <a className="btn btn-primary" href="#" onClick={this.startCreatingToken}>
+                        <FormattedMessage id="user.settings.tokens.create" defaultMessage="Create New Token" />
                     </a>
                 );
             }
 
             const inputs = [];
             inputs.push(
-                <div
-                    key='tokensSetting'
-                    className='padding-top'
-                >
-                    <div key='tokenList'>
+                <div key="tokensSetting" className="padding-top">
+                    <div key="tokenList">
                         <div className={'alert alert-transparent' + tokenListClass}>
                             {tokenList}
                             {noTokenText}
@@ -1313,7 +1174,12 @@ export default class SecurityTab extends React.Component {
 
             updateSectionStatus = function resetSection(e) {
                 this.props.updateSection('');
-                this.setState({newToken: null, tokenCreationState: TOKEN_NOT_CREATING, serverError: null, tokenError: ''});
+                this.setState({
+                    newToken: null,
+                    tokenCreationState: TOKEN_NOT_CREATING,
+                    serverError: null,
+                    tokenError: ''
+                });
                 e.preventDefault();
             }.bind(this);
 
@@ -1322,21 +1188,19 @@ export default class SecurityTab extends React.Component {
                     title={Utils.localizeMessage('user.settings.tokens.title', 'Personal Access Tokens')}
                     inputs={inputs}
                     extraInfo={extraInfo}
-                    infoPosition='top'
+                    infoPosition="top"
                     server_error={this.state.serverError}
                     updateSection={updateSectionStatus}
-                    width='full'
-                    cancelButtonText={
-                        <FormattedMessage
-                            id='user.settings.security.close'
-                            defaultMessage='Close'
-                        />
-                    }
+                    width="full"
+                    cancelButtonText={<FormattedMessage id="user.settings.security.close" defaultMessage="Close" />}
                 />
             );
         }
 
-        const describe = Utils.localizeMessage('user.settings.tokens.clickToEdit', "Click 'Edit' to manage your personal access tokens");
+        const describe = Utils.localizeMessage(
+            'user.settings.tokens.clickToEdit',
+            "Click 'Edit' to manage your personal access tokens"
+        );
 
         updateSectionStatus = function updateSection() {
             this.props.updateSection('tokens');
@@ -1349,7 +1213,7 @@ export default class SecurityTab extends React.Component {
                 updateSection={updateSectionStatus}
             />
         );
-    }
+    };
 
     render() {
         const user = this.props.user;
@@ -1370,9 +1234,11 @@ export default class SecurityTab extends React.Component {
         }
 
         let mfaSection;
-        if (config.EnableMultifactorAuthentication === 'true' &&
-                global.window.mm_license.IsLicensed === 'true' &&
-                (user.auth_service === '' || user.auth_service === Constants.LDAP_SERVICE)) {
+        if (
+            config.EnableMultifactorAuthentication === 'true' &&
+            global.window.mm_license.IsLicensed === 'true' &&
+            (user.auth_service === '' || user.auth_service === Constants.LDAP_SERVICE)
+        ) {
             mfaSection = this.createMfaSection();
         }
 
@@ -1388,70 +1254,52 @@ export default class SecurityTab extends React.Component {
 
         return (
             <div>
-                <div className='modal-header'>
+                <div className="modal-header">
                     <button
-                        type='button'
-                        className='close'
-                        data-dismiss='modal'
+                        type="button"
+                        className="close"
+                        data-dismiss="modal"
                         aria-label={Utils.localizeMessage('user.settings.security.close', 'Close')}
                         onClick={this.props.closeModal}
                     >
-                        <span aria-hidden='true'>{'×'}</span>
+                        <span aria-hidden="true">{'×'}</span>
                     </button>
-                    <h4
-                        className='modal-title'
-                        ref='title'
-                    >
-                        <div className='modal-back'>
-                            <i
-                                className='fa fa-angle-left'
-                                onClick={this.props.collapseModal}
-                            />
+                    <h4 className="modal-title" ref="title">
+                        <div className="modal-back">
+                            <i className="fa fa-angle-left" onClick={this.props.collapseModal} />
                         </div>
-                        <FormattedMessage
-                            id='user.settings.security.title'
-                            defaultMessage='Security Settings'
-                        />
+                        <FormattedMessage id="user.settings.security.title" defaultMessage="Security Settings" />
                     </h4>
                 </div>
-                <div className='user-settings'>
-                    <h3 className='tab-header'>
-                        <FormattedMessage
-                            id='user.settings.security.title'
-                            defaultMessage='Security Settings'
-                        />
+                <div className="user-settings">
+                    <h3 className="tab-header">
+                        <FormattedMessage id="user.settings.security.title" defaultMessage="Security Settings" />
                     </h3>
-                    <div className='divider-dark first'/>
+                    <div className="divider-dark first" />
                     {passwordSection}
-                    <div className='divider-light'/>
+                    <div className="divider-light" />
                     {mfaSection}
-                    <div className='divider-light'/>
+                    <div className="divider-light" />
                     {oauthSection}
-                    <div className='divider-light'/>
+                    <div className="divider-light" />
                     {tokensSection}
-                    <div className='divider-light'/>
+                    <div className="divider-light" />
                     {signInSection}
-                    <div className='divider-dark'/>
-                    <br/>
-                    <ToggleModalButton
-                        className='security-links theme'
-                        dialogType={AccessHistoryModal}
-                    >
-                        <i className='fa fa-clock-o'/>
+                    <div className="divider-dark" />
+                    <br />
+                    <ToggleModalButton className="security-links theme" dialogType={AccessHistoryModal}>
+                        <i className="fa fa-clock-o" />
                         <FormattedMessage
-                            id='user.settings.security.viewHistory'
-                            defaultMessage='View Access History'
+                            id="user.settings.security.viewHistory"
+                            defaultMessage="View Access History"
                         />
                     </ToggleModalButton>
-                    <br/>
-                    <ToggleModalButton
-                        className='security-links theme'
-                        dialogType={ActivityLogModal}
-                    >
-                        <i className='fa fa-clock-o'/>
+                    <br />
+                    <ToggleModalButton className="security-links theme" dialogType={ActivityLogModal}>
+                        <i className="fa fa-clock-o" />
                         <FormattedMessage
-                            id='user.settings.security.logoutActiveSessions'
-                            defaultMessage='View and Logout of Active Sessions'
+                            id="user.settings.security.logoutActiveSessions"
+                            defaultMessage="View and Logout of Active Sessions"
                         />
                     </ToggleModalButton>
                 </div>

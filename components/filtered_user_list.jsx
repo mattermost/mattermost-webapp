@@ -80,7 +80,7 @@ class FilteredUserList extends React.Component {
             return users;
         }
 
-        var filteredUsers = users.filter((user) => {
+        var filteredUsers = users.filter(user => {
             for (const index in teamMembers) {
                 if (teamMembers.hasOwnProperty(index) && teamMembers[index].user_id === user.id) {
                     if (teamMembers[index].delete_at > 0) {
@@ -124,12 +124,14 @@ class FilteredUserList extends React.Component {
         if (this.state.filter && this.state.filter.length > 0) {
             const filter = this.state.filter.toLowerCase();
 
-            users = users.filter((user) => {
-                return user.username.toLowerCase().indexOf(filter) !== -1 ||
+            users = users.filter(user => {
+                return (
+                    user.username.toLowerCase().indexOf(filter) !== -1 ||
                     (user.first_name && user.first_name.toLowerCase().indexOf(filter) !== -1) ||
                     (user.last_name && user.last_name.toLowerCase().indexOf(filter) !== -1) ||
                     (user.email && user.email.toLowerCase().indexOf(filter) !== -1) ||
-                    (user.nickname && user.nickname.toLowerCase().indexOf(filter) !== -1);
+                    (user.nickname && user.nickname.toLowerCase().indexOf(filter) !== -1)
+                );
             });
         }
 
@@ -137,8 +139,8 @@ class FilteredUserList extends React.Component {
         if (users.length === this.state.users.length) {
             count = (
                 <FormattedMessage
-                    id='filtered_user_list.count'
-                    defaultMessage='{count, number} {count, plural, one {member} other {members}}'
+                    id="filtered_user_list.count"
+                    defaultMessage="{count, number} {count, plural, one {member} other {members}}"
                     values={{
                         count: users.length
                     }}
@@ -147,8 +149,8 @@ class FilteredUserList extends React.Component {
         } else {
             count = (
                 <FormattedMessage
-                    id='filtered_user_list.countTotal'
-                    defaultMessage='{count, number} {count, plural, one {member} other {members}} of {total, number} total'
+                    id="filtered_user_list.countTotal"
+                    defaultMessage="{count, number} {count, plural, one {member} other {members}} of {total, number} total"
                     values={{
                         count: users.length,
                         total: this.state.users.length
@@ -164,54 +166,41 @@ class FilteredUserList extends React.Component {
             teamMembers = [];
 
             teamToggle = (
-                <div className='member-select__container'>
+                <div className="member-select__container">
                     <select
-                        className='form-control'
-                        id='restrictList'
-                        ref='restrictList'
-                        defaultValue='team'
+                        className="form-control"
+                        id="restrictList"
+                        ref="restrictList"
+                        defaultValue="team"
                         onChange={this.handleListChange}
                     >
-                        <option value='any'>{formatMessage(holders.anyTeam)}</option>
-                        <option value='team'>{formatMessage(holders.teamOnly)}</option>
+                        <option value="any">{formatMessage(holders.anyTeam)}</option>
+                        <option value="team">{formatMessage(holders.teamOnly)}</option>
                     </select>
-                    <span
-                        className='member-show'
-                    >
-                        <FormattedMessage
-                            id='filtered_user_list.show'
-                            defaultMessage='Filter:'
-                        />
+                    <span className="member-show">
+                        <FormattedMessage id="filtered_user_list.show" defaultMessage="Filter:" />
                     </span>
                 </div>
             );
         }
 
         return (
-            <div
-                className='filtered-user-list'
-                style={this.props.style}
-            >
-                <div className='filter-row'>
-                    <div className='col-sm-6'>
+            <div className="filtered-user-list" style={this.props.style}>
+                <div className="filter-row">
+                    <div className="col-sm-6">
                         <input
-                            ref='filter'
-                            className='form-control filter-textbox'
+                            ref="filter"
+                            className="form-control filter-textbox"
                             placeholder={formatMessage(holders.search)}
                             onInput={this.handleFilterChange}
                         />
                     </div>
-                    <div className='col-sm-6'>
-                        {teamToggle}
-                    </div>
-                    <div className='col-sm-12'>
-                        <span className='member-count pull-left'>{count}</span>
+                    <div className="col-sm-6">{teamToggle}</div>
+                    <div className="col-sm-12">
+                        <span className="member-count pull-left">{count}</span>
                     </div>
                 </div>
-                <div
-                    ref='userList'
-                    className='more-modal__list'
-                >
+                <div ref="userList" className="more-modal__list">
                     <UserList
                         users={users}
                         teamMembers={teamMembers}

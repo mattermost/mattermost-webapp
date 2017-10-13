@@ -12,9 +12,7 @@ import {JobStatuses} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 class JobTable extends React.PureComponent {
-
     static propTypes = {
-
         /**
          * Used for formatting dates
          */
@@ -26,8 +24,7 @@ class JobTable extends React.PureComponent {
         jobs: PropTypes.arrayOf(PropTypes.object).isRequired,
 
         actions: PropTypes.shape({
-
-             /**
+            /**
              * Function to fetch jobs
              */
             getJobsByType: PropTypes.func.isRequired
@@ -73,9 +70,7 @@ class JobTable extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.props.actions.getJobsByType(this.props.jobType).then(
-            () => this.setState({loading: false})
-         );
+        this.props.actions.getJobsByType(this.props.jobType).then(() => this.setState({loading: false}));
     }
 
     componentWillUnmount() {
@@ -84,87 +79,67 @@ class JobTable extends React.PureComponent {
         }
     }
 
-    getStatus = (job) => {
+    getStatus = job => {
         if (job.status === JobStatuses.PENDING) {
             return (
                 <span
-                    className='status-icon-warning'
+                    className="status-icon-warning"
                     title={Utils.localizeMessage('admin.jobTable.jobId', 'Job ID: ') + job.id}
                 >
-                    <FormattedMessage
-                        id='admin.jobTable.statusPending'
-                        defaultMessage='Pending'
-                    />
+                    <FormattedMessage id="admin.jobTable.statusPending" defaultMessage="Pending" />
                 </span>
             );
         } else if (job.status === JobStatuses.IN_PROGRESS) {
             return (
                 <span
-                    className='status-icon-warning'
+                    className="status-icon-warning"
                     title={Utils.localizeMessage('admin.jobTable.jobId', 'Job ID: ') + job.id}
                 >
-                    <FormattedMessage
-                        id='admin.jobTable.statusInProgress'
-                        defaultMessage='In Progress'
-                    />
+                    <FormattedMessage id="admin.jobTable.statusInProgress" defaultMessage="In Progress" />
                 </span>
             );
         } else if (job.status === JobStatuses.SUCCESS) {
             return (
                 <span
-                    className='status-icon-success'
+                    className="status-icon-success"
                     title={Utils.localizeMessage('admin.jobTable.jobId', 'Job ID: ') + job.id}
                 >
-                    <FormattedMessage
-                        id='admin.jobTable.statusSuccess'
-                        defaultMessage='Success'
-                    />
+                    <FormattedMessage id="admin.jobTable.statusSuccess" defaultMessage="Success" />
                 </span>
             );
         } else if (job.status === JobStatuses.ERROR) {
             return (
                 <span
-                    className='status-icon-error'
+                    className="status-icon-error"
                     title={Utils.localizeMessage('admin.jobTable.jobId', 'Job ID: ') + job.id}
                 >
-                    <FormattedMessage
-                        id='admin.jobTable.statusError'
-                        defaultMessage='Error'
-                    />
+                    <FormattedMessage id="admin.jobTable.statusError" defaultMessage="Error" />
                 </span>
             );
         } else if (job.status === JobStatuses.CANCEL_REQUESTED) {
             return (
                 <span
-                    className='status-icon-warning'
+                    className="status-icon-warning"
                     title={Utils.localizeMessage('admin.jobTable.jobId', 'Job ID: ') + job.id}
                 >
-                    <FormattedMessage
-                        id='admin.jobTable.statusCanceling'
-                        defaultMessage='Canceling...'
-                    />
+                    <FormattedMessage id="admin.jobTable.statusCanceling" defaultMessage="Canceling..." />
                 </span>
             );
         } else if (job.status === JobStatuses.CANCELED) {
             return (
                 <span
-                    className='status-icon-error'
+                    className="status-icon-error"
                     title={Utils.localizeMessage('admin.jobTable.jobId', 'Job ID: ') + job.id}
                 >
-                    <FormattedMessage
-                        id='admin.jobTable.statusCanceled'
-                        defaultMessage='Canceled'
-                    />
+                    <FormattedMessage id="admin.jobTable.statusCanceled" defaultMessage="Canceled" />
                 </span>
             );
         }
 
-        return (
-            <span title={Utils.localizeMessage('admin.jobTable.jobId', 'Job ID: ') + job.id}>{job.status}</span>
-        );
-    }
+        return <span title={Utils.localizeMessage('admin.jobTable.jobId', 'Job ID: ') + job.id}>{job.status}</span>;
+    };
 
-    getExtraInfoText = (job) => {
+    getExtraInfoText = job => {
         if (job.data && job.data.error && job.data.error.length > 0) {
             return <span title={job.data.error}>{job.data.error}</span>;
         }
@@ -173,10 +148,10 @@ class JobTable extends React.PureComponent {
             return this.props.getExtraInfoText(job);
         }
 
-        return <span/>;
-    }
+        return <span />;
+    };
 
-    getRunLength = (job) => {
+    getRunLength = job => {
         let millis = job.last_activity_at - job.start_at;
         if (job.status === JobStatuses.IN_PROGRESS) {
             const runningMillis = Date.now() - job.start_at;
@@ -188,12 +163,14 @@ class JobTable extends React.PureComponent {
         let lastActivity = Utils.localizeMessage('admin.jobTable.lastActivityAt', 'Last Activity: ') + '--';
 
         if (job.last_activity_at > 0) {
-            lastActivity = Utils.localizeMessage('admin.jobTable.lastActivityAt', 'Last Activity: ') +
+            lastActivity =
+                Utils.localizeMessage('admin.jobTable.lastActivityAt', 'Last Activity: ') +
                 this.props.intl.formatDate(new Date(job.last_activity_at), {
                     year: 'numeric',
                     month: 'short',
                     day: '2-digit'
-                }) + ' - ' +
+                }) +
+                ' - ' +
                 this.props.intl.formatTime(new Date(job.last_activity_at), {
                     hour: '2-digit',
                     minute: '2-digit',
@@ -205,68 +182,52 @@ class JobTable extends React.PureComponent {
         var minutes = Math.round(millis / (1000 * 60));
 
         if (millis <= 0 || job.status === JobStatuses.CANCELED) {
-            return (
-                <span style={{whiteSpace: 'nowrap'}}>{'--'}</span>
-            );
+            return <span style={{whiteSpace: 'nowrap'}}>{'--'}</span>;
         }
 
         if (seconds <= 120) {
             return (
-                <span
-                    style={{whiteSpace: 'nowrap'}}
-                    title={lastActivity}
-                >
+                <span style={{whiteSpace: 'nowrap'}} title={lastActivity}>
                     {seconds + Utils.localizeMessage('admin.jobTable.runLengthSeconds', ' seconds')}
                 </span>
             );
         }
 
         return (
-            <span
-                style={{whiteSpace: 'nowrap'}}
-                title={lastActivity}
-            >
+            <span style={{whiteSpace: 'nowrap'}} title={lastActivity}>
                 {minutes + Utils.localizeMessage('admin.jobTable.runLengthMinutes', ' minutes')}
             </span>
         );
-    }
+    };
 
     getFinishAt = (status, millis) => {
-        if (millis === 0 || status === JobStatuses.PENDING || status === JobStatuses.IN_PROGRESS || status === JobStatuses.CANCEL_REQUESTED) {
-            return (
-                <span style={{whiteSpace: 'nowrap'}}>{'--'}</span>
-            );
+        if (
+            millis === 0 ||
+            status === JobStatuses.PENDING ||
+            status === JobStatuses.IN_PROGRESS ||
+            status === JobStatuses.CANCEL_REQUESTED
+        ) {
+            return <span style={{whiteSpace: 'nowrap'}}>{'--'}</span>;
         }
 
         const date = new Date(millis);
         return (
             <span style={{whiteSpace: 'nowrap'}}>
-                <FormattedDate
-                    value={date}
-                    day='2-digit'
-                    month='short'
-                    year='numeric'
-                />
+                <FormattedDate value={date} day="2-digit" month="short" year="numeric" />
                 {' - '}
-                <FormattedTime
-                    value={date}
-                    hour='2-digit'
-                    minute='2-digit'
-                />
+                <FormattedTime value={date} hour="2-digit" minute="2-digit" />
             </span>
         );
-    }
+    };
 
     reload = () => {
         this.setState({loading: true});
 
-        this.props.actions.getJobsByType(this.props.jobType).then(
-            () => {
-                this.setState({
-                    loading: false
-                });
-            }
-        );
+        this.props.actions.getJobsByType(this.props.jobType).then(() => {
+            this.setState({
+                loading: false
+            });
+        });
     };
 
     handleCancelJob = (e, job) => {
@@ -277,7 +238,7 @@ class JobTable extends React.PureComponent {
             () => {
                 this.reload();
             },
-            (err) => {
+            err => {
                 ErrorStore.storeLastError(err);
                 ErrorStore.emitChange();
                 this.reload();
@@ -285,7 +246,7 @@ class JobTable extends React.PureComponent {
         );
     };
 
-    handleCreateJob = (e) => {
+    handleCreateJob = e => {
         e.preventDefault();
 
         const job = {
@@ -297,7 +258,7 @@ class JobTable extends React.PureComponent {
             () => {
                 this.reload();
             },
-            (err) => {
+            err => {
                 ErrorStore.storeLastError(err);
                 ErrorStore.emitChange();
                 this.reload();
@@ -305,14 +266,14 @@ class JobTable extends React.PureComponent {
         );
     };
 
-    getCancelButton = (job) => {
+    getCancelButton = job => {
         let cancelButton = null;
 
         if (!this.props.disabled && (job.status === JobStatuses.PENDING || job.status === JobStatuses.IN_PROGRESS)) {
             cancelButton = (
                 <span
-                    onClick={(e) => this.handleCancelJob(e, job)}
-                    className='job-table__cancel-button'
+                    onClick={e => this.handleCancelJob(e, job)}
+                    className="job-table__cancel-button"
                     title={Utils.localizeMessage('admin.jobTable.cancelButton', 'Cancel')}
                 >
                     {'×'}
@@ -321,73 +282,60 @@ class JobTable extends React.PureComponent {
         }
 
         return cancelButton;
-    }
+    };
 
     render() {
-        var items = this.props.jobs.map((job) => {
+        var items = this.props.jobs.map(job => {
             return (
                 <tr key={job.id}>
                     <td style={{whiteSpace: 'nowrap'}}>{this.getCancelButton(job)}</td>
                     <td style={{whiteSpace: 'nowrap'}}>{this.getStatus(job)}</td>
                     <td style={{whiteSpace: 'nowrap'}}>{this.getFinishAt(job.status, job.last_activity_at)}</td>
                     <td style={{whiteSpace: 'nowrap'}}>{this.getRunLength(job)}</td>
-                    <td colSpan='3'>{this.getExtraInfoText(job)}</td>
+                    <td colSpan="3">{this.getExtraInfoText(job)}</td>
                 </tr>
             );
         });
 
         return (
-            <div className='job-table__panel'>
-                <div className='job-table__create-button'>
-                    <div className='form-group'>
+            <div className="job-table__panel">
+                <div className="job-table__create-button">
+                    <div className="form-group">
                         <div>
                             <button
-                                className='btn btn-default'
+                                className="btn btn-default"
                                 onClick={this.handleCreateJob}
                                 disabled={this.props.disabled}
                             >
                                 {this.props.createJobButtonText}
                             </button>
                         </div>
-                        <div className='help-text'>
-                            {this.props.createJobHelpText}
-                        </div>
+                        <div className="help-text">{this.props.createJobHelpText}</div>
                     </div>
                 </div>
-                <div className='job-table__table'>
-                    <table className='table'>
+                <div className="job-table__table">
+                    <table className="table">
                         <thead>
                             <tr>
-                                <th/>
+                                <th />
                                 <th>
-                                    <FormattedMessage
-                                        id='admin.jobTable.headerStatus'
-                                        defaultMessage='Status'
-                                    />
+                                    <FormattedMessage id="admin.jobTable.headerStatus" defaultMessage="Status" />
                                 </th>
                                 <th>
-                                    <FormattedMessage
-                                        id='admin.jobTable.headerFinishAt'
-                                        defaultMessage='Finish Time'
-                                    />
+                                    <FormattedMessage id="admin.jobTable.headerFinishAt" defaultMessage="Finish Time" />
                                 </th>
                                 <th>
-                                    <FormattedMessage
-                                        id='admin.jobTable.headerRunTime'
-                                        defaultMessage='Run Time'
-                                    />
+                                    <FormattedMessage id="admin.jobTable.headerRunTime" defaultMessage="Run Time" />
                                 </th>
-                                <th colSpan='3'>
+                                <th colSpan="3">
                                     <FormattedMessage
-                                        id='admin.jobTable.headerExtraInfo'
-                                        defaultMessage='Extra Information'
+                                        id="admin.jobTable.headerExtraInfo"
+                                        defaultMessage="Extra Information"
                                     />
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
-                            {items}
-                        </tbody>
+                        <tbody>{items}</tbody>
                     </table>
                 </div>
             </div>

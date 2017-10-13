@@ -25,36 +25,23 @@ export default class PostDeletedModal extends React.Component {
 
     render() {
         return (
-            <Modal
-                show={this.props.show}
-                onHide={this.handleHide}
-            >
+            <Modal show={this.props.show} onHide={this.handleHide}>
                 <Modal.Header closeButton={true}>
                     <Modal.Title>
-                        <FormattedMessage
-                            id='post_delete.notPosted'
-                            defaultMessage='Comment could not be posted'
-                        />
+                        <FormattedMessage id="post_delete.notPosted" defaultMessage="Comment could not be posted" />
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <p>
                         <FormattedMessage
-                            id='post_delete.someone'
-                            defaultMessage='Someone deleted the message on which you tried to post a comment.'
+                            id="post_delete.someone"
+                            defaultMessage="Someone deleted the message on which you tried to post a comment."
                         />
                     </p>
                 </Modal.Body>
                 <Modal.Footer>
-                    <button
-                        type='button'
-                        className='btn btn-primary'
-                        onClick={this.handleHide}
-                    >
-                        <FormattedMessage
-                            id='post_delete.okay'
-                            defaultMessage='Okay'
-                        />
+                    <button type="button" className="btn btn-primary" onClick={this.handleHide}>
+                        <FormattedMessage id="post_delete.okay" defaultMessage="Okay" />
                     </button>
                 </Modal.Footer>
             </Modal>

@@ -14,7 +14,6 @@ import AdminSidebar from './admin_sidebar.jsx';
 
 export default class AdminConsole extends React.Component {
     static propTypes = {
-
         /*
          * Children components to render
          */
@@ -26,13 +25,12 @@ export default class AdminConsole extends React.Component {
         config: PropTypes.object.isRequired,
 
         actions: PropTypes.shape({
-
             /*
              * Function to get the config file
              */
             getConfig: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     componentWillMount() {
         this.props.actions.getConfig();
@@ -42,13 +40,13 @@ export default class AdminConsole extends React.Component {
     render() {
         const config = this.props.config;
         if (Object.keys(config).length === 0) {
-            return <div/>;
+            return <div />;
         }
         if (config && Object.keys(config).length === 0 && config.constructor === 'Object') {
             return (
-                <div className='admin-console__wrapper'>
-                    <AnnouncementBar/>
-                    <div className='admin-console'/>
+                <div className="admin-console__wrapper">
+                    <AnnouncementBar />
+                    <div className="admin-console" />
                 </div>
             );
         }
@@ -58,10 +56,10 @@ export default class AdminConsole extends React.Component {
             config
         });
         return (
-            <div className='admin-console__wrapper'>
-                <AnnouncementBar/>
-                <div className='admin-console'>
-                    <AdminSidebar/>
+            <div className="admin-console__wrapper">
+                <AnnouncementBar />
+                <div className="admin-console">
+                    <AdminSidebar />
                     {children}
                 </div>
             </div>

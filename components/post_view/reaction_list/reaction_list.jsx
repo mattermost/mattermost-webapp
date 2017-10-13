@@ -10,7 +10,6 @@ import Reaction from 'components/post_view/reaction';
 
 export default class ReactionListView extends React.PureComponent {
     static propTypes = {
-
         /**
          * The post to render reactions for
          */
@@ -26,13 +25,12 @@ export default class ReactionListView extends React.PureComponent {
          */
         emojis: PropTypes.object.isRequired,
         actions: PropTypes.shape({
-
             /**
              * Function to get reactions for a post
              */
             getReactionsForPost: PropTypes.func.isRequired
         })
-    }
+    };
 
     componentDidMount() {
         if (this.props.post.has_reactions) {
@@ -67,7 +65,7 @@ export default class ReactionListView extends React.PureComponent {
             }
         }
 
-        const children = emojiNames.map((emojiName) => {
+        const children = emojiNames.map(emojiName => {
             return (
                 <Reaction
                     key={emojiName}
@@ -79,10 +77,6 @@ export default class ReactionListView extends React.PureComponent {
             );
         });
 
-        return (
-            <div className='post-reaction-list'>
-                {children}
-            </div>
-        );
+        return <div className="post-reaction-list">{children}</div>;
     }
 }

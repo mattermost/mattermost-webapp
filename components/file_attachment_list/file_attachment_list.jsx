@@ -11,7 +11,6 @@ import ViewImageModal from 'components/view_image.jsx';
 
 export default class FileAttachmentList extends React.Component {
     static propTypes = {
-
         /*
          * The post the files are attached to
          */
@@ -33,13 +32,12 @@ export default class FileAttachmentList extends React.Component {
         compactDisplay: PropTypes.bool,
 
         actions: PropTypes.shape({
-
             /*
              * Function to get file metadata for a post
              */
             getMissingFilesForPost: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -81,19 +79,14 @@ export default class FileAttachmentList extends React.Component {
             for (let i = 0; i < Math.min(this.props.fileCount, Constants.MAX_DISPLAY_FILES); i++) {
                 // Add a placeholder to avoid pop-in once we get the file infos for this post
                 postFiles.push(
-                    <div
-                        key={`fileCount-${i}`}
-                        className='post-image__column post-image__column--placeholder'
-                    />
-            );
+                    <div key={`fileCount-${i}`} className="post-image__column post-image__column--placeholder" />
+                );
             }
         }
 
         return (
             <div>
-                <div className='post-image__columns clearfix'>
-                    {postFiles}
-                </div>
+                <div className="post-image__columns clearfix">{postFiles}</div>
                 <ViewImageModal
                     show={this.state.showPreviewModal}
                     onModalDismissed={() => this.setState({showPreviewModal: false})}

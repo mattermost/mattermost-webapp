@@ -40,7 +40,9 @@ class GeneralTab extends React.Component {
 
     updateSection(section) {
         if ($('.section-max').length) {
-            $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
+            $('.settings-modal .modal-body')
+                .scrollTop(0)
+                .perfectScrollbar('update');
         }
         this.setState(this.setupInitialState(this.props));
         this.props.updateSection(section);
@@ -90,11 +92,12 @@ class GeneralTab extends React.Component {
 
         var data = {...this.props.team};
         data.allow_open_invite = this.state.allow_open_invite;
-        updateTeam(data,
+        updateTeam(
+            data,
             () => {
                 this.updateSection('');
             },
-            (err) => {
+            err => {
                 state.serverError = err.message;
                 this.setState(state);
             }
@@ -123,11 +126,12 @@ class GeneralTab extends React.Component {
 
         var data = {...this.props.team};
         data.display_name = this.state.name;
-        updateTeam(data,
+        updateTeam(
+            data,
             () => {
                 this.updateSection('');
             },
-            (err) => {
+            err => {
                 state.serverError = err.message;
                 this.setState(state);
             }
@@ -156,11 +160,12 @@ class GeneralTab extends React.Component {
 
         var data = {...this.props.team};
         data.invite_id = this.state.invite_id;
-        updateTeam(data,
+        updateTeam(
+            data,
             () => {
                 this.updateSection('');
             },
-            (err) => {
+            err => {
                 state.serverError = err.message;
                 this.setState(state);
             }
@@ -179,7 +184,10 @@ class GeneralTab extends React.Component {
 
         const description = this.state.description.trim();
         if (description === this.props.team.description) {
-            state.clientError = Utils.localizeMessage('general_tab.chooseDescription', 'Please choose a new description for your team');
+            state.clientError = Utils.localizeMessage(
+                'general_tab.chooseDescription',
+                'Please choose a new description for your team'
+            );
             valid = false;
         } else {
             state.clientError = '';
@@ -193,11 +201,12 @@ class GeneralTab extends React.Component {
 
         var data = {...this.props.team};
         data.description = this.state.description;
-        updateTeam(data,
+        updateTeam(
+            data,
             () => {
                 this.updateSection('');
             },
-            (err) => {
+            err => {
                 state.serverError = err.message;
                 this.setState(state);
             }
@@ -273,44 +282,38 @@ class GeneralTab extends React.Component {
         let openInviteSection;
         if (this.props.activeSection === 'open_invite') {
             const inputs = [
-                <div key='userOpenInviteOptions'>
-                    <div className='radio'>
+                <div key="userOpenInviteOptions">
+                    <div className="radio">
                         <label>
                             <input
-                                id='teamOpenInvite'
-                                name='userOpenInviteOptions'
-                                type='radio'
+                                id="teamOpenInvite"
+                                name="userOpenInviteOptions"
+                                type="radio"
                                 defaultChecked={this.state.allow_open_invite}
                                 onChange={this.handleOpenInviteRadio.bind(this, true)}
                             />
-                            <FormattedMessage
-                                id='general_tab.yes'
-                                defaultMessage='Yes'
-                            />
+                            <FormattedMessage id="general_tab.yes" defaultMessage="Yes" />
                         </label>
-                        <br/>
+                        <br />
                     </div>
-                    <div className='radio'>
+                    <div className="radio">
                         <label>
                             <input
-                                id='teamOpenInviteNo'
-                                name='userOpenInviteOptions'
-                                type='radio'
+                                id="teamOpenInviteNo"
+                                name="userOpenInviteOptions"
+                                type="radio"
                                 defaultChecked={!this.state.allow_open_invite}
                                 onChange={this.handleOpenInviteRadio.bind(this, false)}
                             />
-                            <FormattedMessage
-                                id='general_tab.no'
-                                defaultMessage='No'
-                            />
+                            <FormattedMessage id="general_tab.no" defaultMessage="No" />
                         </label>
-                        <br/>
+                        <br />
                     </div>
                     <div>
-                        <br/>
+                        <br />
                         <FormattedMessage
-                            id='general_tab.openInviteDesc'
-                            defaultMessage='When allowed, a link to this team will be included on the landing page allowing anyone with an account to join this team.'
+                            id="general_tab.openInviteDesc"
+                            defaultMessage="When allowed, a link to this team will be included on the landing page allowing anyone with an account to join this team."
                         />
                     </div>
                 </div>
@@ -318,7 +321,10 @@ class GeneralTab extends React.Component {
 
             openInviteSection = (
                 <SettingItemMax
-                    title={Utils.localizeMessage('general_tab.openInviteTitle', 'Allow any user with an account on this server to join this team')}
+                    title={Utils.localizeMessage(
+                        'general_tab.openInviteTitle',
+                        'Allow any user with an account on this server to join this team'
+                    )}
                     inputs={inputs}
                     submit={this.handleOpenInviteSubmit}
                     server_error={serverError}
@@ -335,7 +341,10 @@ class GeneralTab extends React.Component {
 
             openInviteSection = (
                 <SettingItemMin
-                    title={Utils.localizeMessage('general_tab.openInviteTitle', 'Allow any user with an account on this server to join this team')}
+                    title={Utils.localizeMessage(
+                        'general_tab.openInviteTitle',
+                        'Allow any user with an account on this server to join this team'
+                    )}
                     describe={describe}
                     updateSection={this.onUpdateOpenInviteSection}
                 />
@@ -348,42 +357,35 @@ class GeneralTab extends React.Component {
             const inputs = [];
 
             inputs.push(
-                <div key='teamInviteSetting'>
-                    <div className='row'>
-                        <label className='col-sm-5 control-label visible-xs-block'/>
-                        <div className='col-sm-12'>
+                <div key="teamInviteSetting">
+                    <div className="row">
+                        <label className="col-sm-5 control-label visible-xs-block" />
+                        <div className="col-sm-12">
                             <input
-                                id='teamInviteId'
-                                className='form-control'
-                                type='text'
+                                id="teamInviteId"
+                                className="form-control"
+                                type="text"
                                 onChange={this.updateInviteId}
                                 value={this.state.invite_id}
-                                maxLength='32'
+                                maxLength="32"
                             />
-                            <div className='padding-top x2'>
-                                <a
-                                    id='teamInviteIdRegenerate'
-                                    href='#'
-                                    onClick={this.handleGenerateInviteId}
-                                >
-                                    <FormattedMessage
-                                        id='general_tab.regenerate'
-                                        defaultMessage='Regenerate'
-                                    />
+                            <div className="padding-top x2">
+                                <a id="teamInviteIdRegenerate" href="#" onClick={this.handleGenerateInviteId}>
+                                    <FormattedMessage id="general_tab.regenerate" defaultMessage="Regenerate" />
                                 </a>
                             </div>
                         </div>
                     </div>
-                    <div className='setting-list__hint'>
+                    <div className="setting-list__hint">
                         <FormattedMessage
-                            id='general_tab.codeLongDesc'
-                            defaultMessage='The Invite Code is used as part of the URL in the team invitation link created by {getTeamInviteLink} in the main menu. Regenerating creates a new team invitation link and invalidates the previous link.'
+                            id="general_tab.codeLongDesc"
+                            defaultMessage="The Invite Code is used as part of the URL in the team invitation link created by {getTeamInviteLink} in the main menu. Regenerating creates a new team invitation link and invalidates the previous link."
                             values={{
                                 getTeamInviteLink: (
                                     <strong>
                                         <FormattedMessage
-                                            id='general_tab.getTeamInviteLink'
-                                            defaultMessage='Get Team Invite Link'
+                                            id="general_tab.getTeamInviteLink"
+                                            defaultMessage="Get Team Invite Link"
                                         />
                                     </strong>
                                 )
@@ -418,27 +420,19 @@ class GeneralTab extends React.Component {
         if (this.props.activeSection === 'name') {
             const inputs = [];
 
-            let teamNameLabel = (
-                <FormattedMessage
-                    id='general_tab.teamName'
-                    defaultMessage='Team Name'
-                />
-            );
+            let teamNameLabel = <FormattedMessage id="general_tab.teamName" defaultMessage="Team Name" />;
             if (Utils.isMobile()) {
                 teamNameLabel = '';
             }
 
             inputs.push(
-                <div
-                    key='teamNameSetting'
-                    className='form-group'
-                >
-                    <label className='col-sm-5 control-label'>{teamNameLabel}</label>
-                    <div className='col-sm-7'>
+                <div key="teamNameSetting" className="form-group">
+                    <label className="col-sm-5 control-label">{teamNameLabel}</label>
+                    <div className="col-sm-7">
                         <input
-                            id='teamName'
-                            className='form-control'
-                            type='text'
+                            id="teamName"
+                            className="form-control"
+                            type="text"
                             maxLength={Constants.MAX_TEAMNAME_LENGTH.toString()}
                             onChange={this.updateName}
                             value={this.state.name}
@@ -447,7 +441,14 @@ class GeneralTab extends React.Component {
                 </div>
             );
 
-            const nameExtraInfo = <span>{Utils.localizeMessage('general_tab.teamNameInfo', 'Set the name of the team as it appears on your sign-in screen and at the top of the left-hand sidebar.')}</span>;
+            const nameExtraInfo = (
+                <span>
+                    {Utils.localizeMessage(
+                        'general_tab.teamNameInfo',
+                        'Set the name of the team as it appears on your sign-in screen and at the top of the left-hand sidebar.'
+                    )}
+                </span>
+            );
 
             nameSection = (
                 <SettingItemMax
@@ -478,26 +479,20 @@ class GeneralTab extends React.Component {
             const inputs = [];
 
             let teamDescriptionLabel = (
-                <FormattedMessage
-                    id='general_tab.teamDescription'
-                    defaultMessage='Team Description'
-                />
+                <FormattedMessage id="general_tab.teamDescription" defaultMessage="Team Description" />
             );
             if (Utils.isMobile()) {
                 teamDescriptionLabel = '';
             }
 
             inputs.push(
-                <div
-                    key='teamDescriptionSetting'
-                    className='form-group'
-                >
-                    <label className='col-sm-5 control-label'>{teamDescriptionLabel}</label>
-                    <div className='col-sm-7'>
+                <div key="teamDescriptionSetting" className="form-group">
+                    <label className="col-sm-5 control-label">{teamDescriptionLabel}</label>
+                    <div className="col-sm-7">
                         <input
-                            id='teamDescription'
-                            className='form-control'
-                            type='text'
+                            id="teamDescription"
+                            className="form-control"
+                            type="text"
                             maxLength={Constants.MAX_TEAMDESCRIPTION_LENGTH.toString()}
                             onChange={this.updateDescription}
                             value={this.state.description}
@@ -506,7 +501,14 @@ class GeneralTab extends React.Component {
                 </div>
             );
 
-            const descriptionExtraInfo = <span>{Utils.localizeMessage('general_tab.teamDescriptionInfo', 'Team description provides additional information to help users select the right team. Maximum of 50 characters.')}</span>;
+            const descriptionExtraInfo = (
+                <span>
+                    {Utils.localizeMessage(
+                        'general_tab.teamDescriptionInfo',
+                        'Team description provides additional information to help users select the right team. Maximum of 50 characters.'
+                    )}
+                </span>
+            );
 
             descriptionSection = (
                 <SettingItemMax
@@ -526,7 +528,7 @@ class GeneralTab extends React.Component {
             } else {
                 describemsg = (
                     <FormattedMessage
-                        id='general_tab.emptyDescription'
+                        id="general_tab.emptyDescription"
                         defaultMessage="Click 'Edit' to add a team description."
                     />
                 );
@@ -543,50 +545,30 @@ class GeneralTab extends React.Component {
 
         return (
             <div>
-                <div className='modal-header'>
-                    <button
-                        id='closeButton'
-                        type='button'
-                        className='close'
-                        data-dismiss='modal'
-                        aria-label='Close'
-                    >
-                        <span aria-hidden='true'>
-                            {'×'}
-                        </span>
+                <div className="modal-header">
+                    <button id="closeButton" type="button" className="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">{'×'}</span>
                     </button>
-                    <h4
-                        className='modal-title'
-                        ref='title'
-                    >
-                        <div className='modal-back'>
-                            <i className='fa fa-angle-left'/>
+                    <h4 className="modal-title" ref="title">
+                        <div className="modal-back">
+                            <i className="fa fa-angle-left" />
                         </div>
-                        <FormattedMessage
-                            id='general_tab.title'
-                            defaultMessage='General Settings'
-                        />
+                        <FormattedMessage id="general_tab.title" defaultMessage="General Settings" />
                     </h4>
                 </div>
-                <div
-                    ref='wrapper'
-                    className='user-settings'
-                >
-                    <h3 className='tab-header'>
-                        <FormattedMessage
-                            id='general_tab.title'
-                            defaultMessage='General Settings'
-                        />
+                <div ref="wrapper" className="user-settings">
+                    <h3 className="tab-header">
+                        <FormattedMessage id="general_tab.title" defaultMessage="General Settings" />
                     </h3>
-                    <div className='divider-dark first'/>
+                    <div className="divider-dark first" />
                     {nameSection}
-                    <div className='divider-light'/>
+                    <div className="divider-light" />
                     {descriptionSection}
-                    <div className='divider-light'/>
+                    <div className="divider-light" />
                     {openInviteSection}
-                    <div className='divider-light'/>
+                    <div className="divider-light" />
                     {inviteSection}
-                    <div className='divider-dark'/>
+                    <div className="divider-dark" />
                 </div>
             </div>
         );

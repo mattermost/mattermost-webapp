@@ -12,52 +12,43 @@ export default function SettingItemMin(props) {
     let describeSection = null;
     if (!props.disableOpen && Utils.isMobile()) {
         editButton = (
-            <li className='col-xs-12 col-sm-3 section-edit'>
+            <li className="col-xs-12 col-sm-3 section-edit">
                 <a
                     id={Utils.createSafeId(props.title) + 'Edit'}
-                    className='theme'
-                    href='#'
+                    className="theme"
+                    href="#"
                     onClick={props.updateSection}
                 >
-                    <i className='fa fa-pencil'/>
+                    <i className="fa fa-pencil" />
                     {props.describe}
                 </a>
             </li>
         );
     } else if (!props.disableOpen) {
         editButton = (
-            <li className='col-xs-12 col-sm-3 section-edit'>
+            <li className="col-xs-12 col-sm-3 section-edit">
                 <a
                     id={Utils.createSafeId(props.title) + 'Edit'}
-                    className='theme'
-                    href='#'
+                    className="theme"
+                    href="#"
                     onClick={props.updateSection}
                 >
-                    <i className='fa fa-pencil'/>
-                    <FormattedMessage
-                        id='setting_item_min.edit'
-                        defaultMessage='Edit'
-                    />
+                    <i className="fa fa-pencil" />
+                    <FormattedMessage id="setting_item_min.edit" defaultMessage="Edit" />
                 </a>
             </li>
         );
 
         describeSection = (
-            <li
-                id={Utils.createSafeId(props.title) + 'Desc'}
-                className='col-xs-12 section-describe'
-            >
+            <li id={Utils.createSafeId(props.title) + 'Desc'} className="col-xs-12 section-describe">
                 {props.describe}
             </li>
         );
     }
 
     return (
-        <ul
-            className='section-min'
-            onClick={props.updateSection}
-        >
-            <li className='col-xs-12 col-sm-9 section-title'>{props.title}</li>
+        <ul className="section-min" onClick={props.updateSection}>
+            <li className="col-xs-12 col-sm-9 section-title">{props.title}</li>
             {editButton}
             {describeSection}
         </ul>

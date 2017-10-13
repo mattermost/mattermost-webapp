@@ -12,7 +12,6 @@ import * as Utils from 'utils/utils.jsx';
 
 export default class EditChannelPurposeModal extends React.Component {
     static propTypes = {
-
         /*
          * Channel info object
          */
@@ -42,13 +41,12 @@ export default class EditChannelPurposeModal extends React.Component {
          * Object with redux action creators
          */
         actions: PropTypes.shape({
-
             /*
              * Action creator to patch current channel
              */
             patchChannel: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -80,7 +78,7 @@ export default class EditChannelPurposeModal extends React.Component {
         }
     }
 
-    setError = (err) => {
+    setError = err => {
         if (err.id === 'api.context.invalid_param.app_error') {
             this.setState({
                 serverError: Utils.localizeMessage(
@@ -91,17 +89,17 @@ export default class EditChannelPurposeModal extends React.Component {
         } else {
             this.setState({serverError: err.message});
         }
-    }
+    };
 
     unsetError = () => {
         this.setState({serverError: ''});
-    }
+    };
 
     handleHide = () => {
         this.setState({show: false});
-    }
+    };
 
-    handleKeyDown = (e) => {
+    handleKeyDown = e => {
         const {ctrlSend} = this.props;
 
         if (ctrlSend && e.keyCode === Constants.KeyCodes.ENTER && e.ctrlKey) {
@@ -111,7 +109,7 @@ export default class EditChannelPurposeModal extends React.Component {
             e.preventDefault();
             this.handleSave(e);
         }
-    }
+    };
 
     handleSave = () => {
         const {channel, actions: {patchChannel}} = this.props;
@@ -121,81 +119,71 @@ export default class EditChannelPurposeModal extends React.Component {
         }
 
         patchChannel(channel.id, {purpose});
-    }
+    };
 
-    handleChange = (e) => {
+    handleChange = e => {
         e.preventDefault();
         this.setState({purpose: e.target.value});
-    }
+    };
 
     render() {
         let serverError = null;
         if (this.state.serverError) {
             serverError = (
-                <div className='form-group has-error'>
-                    <br/>
-                    <label className='control-label'>{this.state.serverError}</label>
+                <div className="form-group has-error">
+                    <br />
+                    <label className="control-label">{this.state.serverError}</label>
                 </div>
             );
         }
 
         let title = (
             <span>
-                <FormattedMessage
-                    id='edit_channel_purpose_modal.title1'
-                    defaultMessage='Edit Purpose'
-                />
+                <FormattedMessage id="edit_channel_purpose_modal.title1" defaultMessage="Edit Purpose" />
             </span>
         );
         if (this.props.channel.display_name) {
             title = (
                 <span>
-                    <FormattedMessage
-                        id='edit_channel_purpose_modal.title2'
-                        defaultMessage='Edit Purpose for '
-                    />
-                    <span className='name'>{this.props.channel.display_name}</span>
+                    <FormattedMessage id="edit_channel_purpose_modal.title2" defaultMessage="Edit Purpose for " />
+                    <span className="name">{this.props.channel.display_name}</span>
                 </span>
             );
         }
 
         let channelPurposeModal = (
             <FormattedMessage
-                id='edit_channel_purpose_modal.body'
-                defaultMessage='Describe how this channel should be used. This text appears in the channel list in the "More..." menu and helps others decide whether to join.'
+                id="edit_channel_purpose_modal.body"
+                defaultMessage="Describe how this channel should be used. This text appears in the channel list in the &quot;More...&quot; menu and helps others decide whether to join."
             />
         );
         if (this.props.channel.type === 'P') {
             channelPurposeModal = (
                 <FormattedMessage
-                    id='edit_channel_private_purpose_modal.body'
-                    defaultMessage='This text appears in the \"View Info\" modal of the private channel.'
+                    id="edit_channel_private_purpose_modal.body"
+                    defaultMessage="This text appears in the \&quot;View Info\&quot; modal of the private channel."
                 />
             );
         }
 
         return (
             <Modal
-                className='modal-edit-channel-purpose'
-                ref='modal'
+                className="modal-edit-channel-purpose"
+                ref="modal"
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.props.onModalDismissed}
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
-                        {title}
-                    </Modal.Title>
+                    <Modal.Title>{title}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p>
-                        {channelPurposeModal}
-                    </p>
+                    <p>{channelPurposeModal}</p>
                     <textarea
-                        ref='purpose'
-                        className='form-control no-resize'
-                        rows='6'
-                        maxLength='250'
+                        ref="purpose"
+                        className="form-control no-resize"
+                        rows="6"
+                        maxLength="250"
                         value={this.state.purpose}
                         onKeyDown={this.handleKeyDown}
                         onChange={this.handleChange}
@@ -203,26 +191,16 @@ export default class EditChannelPurposeModal extends React.Component {
                     {serverError}
                 </Modal.Body>
                 <Modal.Footer>
-                    <button
-                        type='button'
-                        className='btn btn-default cancel-button'
-                        onClick={this.handleHide}
-                    >
-                        <FormattedMessage
-                            id='edit_channel_purpose_modal.cancel'
-                            defaultMessage='Cancel'
-                        />
+                    <button type="button" className="btn btn-default cancel-button" onClick={this.handleHide}>
+                        <FormattedMessage id="edit_channel_purpose_modal.cancel" defaultMessage="Cancel" />
                     </button>
                     <button
-                        type='button'
-                        className='btn btn-primary save-button'
+                        type="button"
+                        className="btn btn-primary save-button"
                         disabled={this.props.requestStatus === RequestStatus.STARTED}
                         onClick={this.handleSave}
                     >
-                        <FormattedMessage
-                            id='edit_channel_purpose_modal.save'
-                            defaultMessage='Save'
-                        />
+                        <FormattedMessage id="edit_channel_purpose_modal.save" defaultMessage="Save" />
                     </button>
                 </Modal.Footer>
             </Modal>

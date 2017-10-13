@@ -95,12 +95,9 @@ export default class EditPostModal extends React.Component {
             return;
         }
 
-        updatePost(
-            updatedPost,
-            () => {
-                window.scrollTo(0, 0);
-            }
-        );
+        updatePost(updatedPost, () => {
+            window.scrollTo(0, 0);
+        });
 
         $('#edit_post').modal('hide');
     }
@@ -131,7 +128,7 @@ export default class EditPostModal extends React.Component {
                 return;
             }
             if (global.window.mm_config.AllowEditPost === Constants.ALLOW_EDIT_POST_TIME_LIMIT) {
-                if ((post.create_at + (global.window.mm_config.PostEditTimeLimit * 1000)) < Utils.getTimestamp()) {
+                if (post.create_at + global.window.mm_config.PostEditTimeLimit * 1000 < Utils.getTimestamp()) {
                     return;
                 }
             }
@@ -162,7 +159,17 @@ export default class EditPostModal extends React.Component {
     }
 
     onModalHidden() {
-        this.setState({editText: '', originalText: '', title: '', channel_id: '', post_id: '', comments: 0, refocusId: '', error: '', typing: false});
+        this.setState({
+            editText: '',
+            originalText: '',
+            title: '',
+            channel_id: '',
+            post_id: '',
+            comments: 0,
+            refocusId: '',
+            error: '',
+            typing: false
+        });
     }
 
     onModalShow(e) {
@@ -231,41 +238,36 @@ export default class EditPostModal extends React.Component {
         const errorBoxClass = 'edit-post-footer' + (this.state.postError ? ' has-error' : '');
         let postError = null;
         if (this.state.postError) {
-            const postErrorClass = 'post-error' + (this.state.errorClass ? (' ' + this.state.errorClass) : '');
-            postError = (<label className={postErrorClass}>{this.state.postError}</label>);
+            const postErrorClass = 'post-error' + (this.state.errorClass ? ' ' + this.state.errorClass : '');
+            postError = <label className={postErrorClass}>{this.state.postError}</label>;
         }
 
         return (
             <div
-                className='modal fade edit-modal'
-                ref='modal'
-                id='edit_post'
-                role='dialog'
-                tabIndex='-1'
-                aria-hidden='true'
+                className="modal fade edit-modal"
+                ref="modal"
+                id="edit_post"
+                role="dialog"
+                tabIndex="-1"
+                aria-hidden="true"
             >
-                <div className='modal-dialog modal-push-down modal-xl'>
-                    <div className='modal-content'>
-                        <div className='modal-header'>
-                            <button
-                                type='button'
-                                className='close'
-                                data-dismiss='modal'
-                                aria-label='Close'
-                            >
-                                <span aria-hidden='true'>{'×'}</span>
+                <div className="modal-dialog modal-push-down modal-xl">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">{'×'}</span>
                             </button>
-                            <h4 className='modal-title'>
+                            <h4 className="modal-title">
                                 <FormattedMessage
-                                    id='edit_post.edit'
-                                    defaultMessage='Edit {title}'
+                                    id="edit_post.edit"
+                                    defaultMessage="Edit {title}"
                                     values={{
                                         title: this.state.title
                                     }}
                                 />
                             </h4>
                         </div>
-                        <div className='edit-modal-body modal-body'>
+                        <div className="edit-modal-body modal-body">
                             <Textbox
                                 onChange={this.handleChange}
                                 onKeyPress={this.handleEditKeyPress}
@@ -275,34 +277,18 @@ export default class EditPostModal extends React.Component {
                                 channelId={this.state.channel_id}
                                 createMessage={Utils.localizeMessage('edit_post.editPost', 'Edit the post...')}
                                 supportsCommands={false}
-                                suggestionListStyle='bottom'
-                                id='edit_textbox'
-                                ref='editbox'
+                                suggestionListStyle="bottom"
+                                id="edit_textbox"
+                                ref="editbox"
                             />
-                            <div className={errorBoxClass}>
-                                {postError}
-                            </div>
+                            <div className={errorBoxClass}>{postError}</div>
                         </div>
-                        <div className='modal-footer'>
-                            <button
-                                type='button'
-                                className='btn btn-default'
-                                data-dismiss='modal'
-                            >
-                                <FormattedMessage
-                                    id='edit_post.cancel'
-                                    defaultMessage='Cancel'
-                                />
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-default" data-dismiss="modal">
+                                <FormattedMessage id="edit_post.cancel" defaultMessage="Cancel" />
                             </button>
-                            <button
-                                type='button'
-                                className='btn btn-primary'
-                                onClick={this.handleEdit}
-                            >
-                                <FormattedMessage
-                                    id='edit_post.save'
-                                    defaultMessage='Save'
-                                />
+                            <button type="button" className="btn btn-primary" onClick={this.handleEdit}>
+                                <FormattedMessage id="edit_post.save" defaultMessage="Save" />
                             </button>
                         </div>
                     </div>

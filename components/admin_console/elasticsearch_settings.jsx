@@ -107,7 +107,7 @@ export default class ElasticsearchSettings extends AdminSettings {
                 success();
                 this.doSubmit();
             },
-            (err) => {
+            err => {
                 this.setState({
                     configTested: false,
                     canSave: false
@@ -118,47 +118,42 @@ export default class ElasticsearchSettings extends AdminSettings {
     }
 
     renderTitle() {
-        return (
-            <FormattedMessage
-                id='admin.elasticsearch.title'
-                defaultMessage='Elasticsearch (Beta)'
-            />
-        );
+        return <FormattedMessage id="admin.elasticsearch.title" defaultMessage="Elasticsearch (Beta)" />;
     }
 
     renderSettings() {
         return (
             <SettingsGroup>
-                <div className='banner'>
-                    <div className='banner__content'>
+                <div className="banner">
+                    <div className="banner__content">
                         <FormattedMessage
-                            id='admin.elasticsearch.noteDescription'
-                            defaultMessage='Changing properties in this section will require a server restart before taking effect.'
+                            id="admin.elasticsearch.noteDescription"
+                            defaultMessage="Changing properties in this section will require a server restart before taking effect."
                         />
                     </div>
                 </div>
                 <BooleanSetting
-                    id='enableIndexing'
+                    id="enableIndexing"
                     label={
                         <FormattedMessage
-                            id='admin.elasticsearch.enableIndexingTitle'
-                            defaultMessage='Enable Elasticsearch Indexing:'
+                            id="admin.elasticsearch.enableIndexingTitle"
+                            defaultMessage="Enable Elasticsearch Indexing:"
                         />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.elasticsearch.enableIndexingDescription'
-                            defaultMessage='When true, indexing of new posts occurs automatically. Search queries will use database search until "Enable Elasticsearch for search queries" is enabled. {documentationLink}'
+                            id="admin.elasticsearch.enableIndexingDescription"
+                            defaultMessage="When true, indexing of new posts occurs automatically. Search queries will use database search until &quot;Enable Elasticsearch for search queries&quot; is enabled. {documentationLink}"
                             values={{
                                 documentationLink: (
                                     <a
-                                        href='https://about.mattermost.com/default-elasticsearch-documentation/'
-                                        rel='noopener noreferrer'
-                                        target='_blank'
+                                        href="https://about.mattermost.com/default-elasticsearch-documentation/"
+                                        rel="noopener noreferrer"
+                                        target="_blank"
                                     >
                                         <FormattedMessage
-                                            id='admin.elasticsearch.enableIndexingDescription.documentationLinkText'
-                                            defaultMessage='Learn more about Elasticsearch in our documentation.'
+                                            id="admin.elasticsearch.enableIndexingDescription.documentationLinkText"
+                                            defaultMessage="Learn more about Elasticsearch in our documentation."
                                         />
                                     </a>
                                 )
@@ -169,28 +164,31 @@ export default class ElasticsearchSettings extends AdminSettings {
                     onChange={this.handleChange}
                 />
                 <TextSetting
-                    id='connectionUrl'
+                    id="connectionUrl"
                     label={
                         <FormattedMessage
-                            id='admin.elasticsearch.connectionUrlTitle'
-                            defaultMessage='Server Connection Address:'
+                            id="admin.elasticsearch.connectionUrlTitle"
+                            defaultMessage="Server Connection Address:"
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.elasticsearch.connectionUrlExample', 'E.g.: "https://elasticsearch.example.org:9200"')}
+                    placeholder={Utils.localizeMessage(
+                        'admin.elasticsearch.connectionUrlExample',
+                        'E.g.: "https://elasticsearch.example.org:9200"'
+                    )}
                     helpText={
                         <FormattedMessage
-                            id='admin.elasticsearch.connectionUrlDescription'
-                            defaultMessage='The address of the Elasticsearch server. {documentationLink}'
+                            id="admin.elasticsearch.connectionUrlDescription"
+                            defaultMessage="The address of the Elasticsearch server. {documentationLink}"
                             values={{
                                 documentationLink: (
                                     <a
-                                        href='https://about.mattermost.com/default-elasticsearch-server-setup/'
-                                        rel='noopener noreferrer'
-                                        target='_blank'
+                                        href="https://about.mattermost.com/default-elasticsearch-server-setup/"
+                                        rel="noopener noreferrer"
+                                        target="_blank"
                                     >
                                         <FormattedMessage
-                                            id='admin.elasticsearch.connectionUrlExample.documentationLinkText'
-                                            defaultMessage='Please see documentation with server setup instructions.'
+                                            id="admin.elasticsearch.connectionUrlExample.documentationLinkText"
+                                            defaultMessage="Please see documentation with server setup instructions."
                                         />
                                     </a>
                                 )
@@ -202,18 +200,15 @@ export default class ElasticsearchSettings extends AdminSettings {
                     onChange={this.handleChange}
                 />
                 <TextSetting
-                    id='username'
+                    id="username"
                     label={
-                        <FormattedMessage
-                            id='admin.elasticsearch.usernameTitle'
-                            defaultMessage='Server Username:'
-                        />
+                        <FormattedMessage id="admin.elasticsearch.usernameTitle" defaultMessage="Server Username:" />
                     }
                     placeholder={Utils.localizeMessage('admin.elasticsearch.usernameExample', 'E.g.: "elastic"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.elasticsearch.usernameDescription'
-                            defaultMessage='(Optional) The username to authenticate to the Elasticsearch server.'
+                            id="admin.elasticsearch.usernameDescription"
+                            defaultMessage="(Optional) The username to authenticate to the Elasticsearch server."
                         />
                     }
                     value={this.state.username}
@@ -221,18 +216,15 @@ export default class ElasticsearchSettings extends AdminSettings {
                     onChange={this.handleChange}
                 />
                 <TextSetting
-                    id='password'
+                    id="password"
                     label={
-                        <FormattedMessage
-                            id='admin.elasticsearch.passwordTitle'
-                            defaultMessage='Server Password:'
-                        />
+                        <FormattedMessage id="admin.elasticsearch.passwordTitle" defaultMessage="Server Password:" />
                     }
                     placeholder={Utils.localizeMessage('admin.elasticsearch.password', 'E.g.: "yourpassword"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.elasticsearch.passwordDescription'
-                            defaultMessage='(Optional) The password to authenticate to the Elasticsearch server.'
+                            id="admin.elasticsearch.passwordDescription"
+                            defaultMessage="(Optional) The password to authenticate to the Elasticsearch server."
                         />
                     }
                     value={this.state.password}
@@ -240,17 +232,17 @@ export default class ElasticsearchSettings extends AdminSettings {
                     onChange={this.handleChange}
                 />
                 <BooleanSetting
-                    id='sniff'
+                    id="sniff"
                     label={
                         <FormattedMessage
-                            id='admin.elasticsearch.sniffTitle'
-                            defaultMessage='Enable Cluster Sniffing:'
+                            id="admin.elasticsearch.sniffTitle"
+                            defaultMessage="Enable Cluster Sniffing:"
                         />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.elasticsearch.sniffDescription'
-                            defaultMessage='When true, sniffing finds and connects to all data nodes in your cluster automatically.'
+                            id="admin.elasticsearch.sniffDescription"
+                            defaultMessage="When true, sniffing finds and connects to all data nodes in your cluster automatically."
                         />
                     }
                     value={this.state.sniff}
@@ -261,14 +253,14 @@ export default class ElasticsearchSettings extends AdminSettings {
                     requestAction={this.doTestConfig}
                     helpText={
                         <FormattedMessage
-                            id='admin.elasticsearch.testHelpText'
-                            defaultMessage='Tests if the Mattermost server can connect to the Elasticsearch server specified. Testing the connection only saves the configuration if the test is successful. See log file for more detailed error messages.'
+                            id="admin.elasticsearch.testHelpText"
+                            defaultMessage="Tests if the Mattermost server can connect to the Elasticsearch server specified. Testing the connection only saves the configuration if the test is successful. See log file for more detailed error messages."
                         />
                     }
                     buttonText={
                         <FormattedMessage
-                            id='admin.elasticsearch.elasticsearch_test_button'
-                            defaultMessage='Test Connection'
+                            id="admin.elasticsearch.elasticsearch_test_button"
+                            defaultMessage="Test Connection"
                         />
                     }
                     successMessage={{
@@ -277,22 +269,17 @@ export default class ElasticsearchSettings extends AdminSettings {
                     }}
                     disabled={!this.state.enableIndexing}
                 />
-                <ElasticsearchStatus
-                    isConfigured={this.state.canPurgeAndIndex}
-                />
+                <ElasticsearchStatus isConfigured={this.state.canPurgeAndIndex} />
                 <RequestButton
                     requestAction={elasticsearchPurgeIndexes}
                     helpText={
                         <FormattedMessage
-                            id='admin.elasticsearch.purgeIndexesHelpText'
-                            defaultMessage='Purging will entirely remove the index on the Elasticsearch server. Search results may be incomplete until a bulk index of the existing post database is rebuilt.'
+                            id="admin.elasticsearch.purgeIndexesHelpText"
+                            defaultMessage="Purging will entirely remove the index on the Elasticsearch server. Search results may be incomplete until a bulk index of the existing post database is rebuilt."
                         />
                     }
                     buttonText={
-                        <FormattedMessage
-                            id='admin.elasticsearch.purgeIndexesButton'
-                            defaultMessage='Purge Index'
-                        />
+                        <FormattedMessage id="admin.elasticsearch.purgeIndexesButton" defaultMessage="Purge Index" />
                     }
                     successMessage={{
                         id: 'admin.elasticsearch.purgeIndexesButton.success',
@@ -303,25 +290,25 @@ export default class ElasticsearchSettings extends AdminSettings {
                         defaultMessage: 'Failed to purge indexes: {error}'
                     }}
                     disabled={!this.state.canPurgeAndIndex}
-                    label={(
-                        <FormattedMessage
-                            id='admin.elasticsearch.purgeIndexesButton.label'
-                            defaultMessage='Purge Indexes:'
-                        />
-                    )}
-                />
-                <BooleanSetting
-                    id='enableSearching'
                     label={
                         <FormattedMessage
-                            id='admin.elasticsearch.enableSearchingTitle'
-                            defaultMessage='Enable Elasticsearch for search queries:'
+                            id="admin.elasticsearch.purgeIndexesButton.label"
+                            defaultMessage="Purge Indexes:"
+                        />
+                    }
+                />
+                <BooleanSetting
+                    id="enableSearching"
+                    label={
+                        <FormattedMessage
+                            id="admin.elasticsearch.enableSearchingTitle"
+                            defaultMessage="Enable Elasticsearch for search queries:"
                         />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.elasticsearch.enableSearchingDescription'
-                            defaultMessage='Requires a successful connection to the Elasticsearch server. When true, Elasticsearch will be used for all search queries using the latest index. Search results may be incomplete until a bulk index of the existing post database is finished. When false, database search is used.'
+                            id="admin.elasticsearch.enableSearchingDescription"
+                            defaultMessage="Requires a successful connection to the Elasticsearch server. When true, Elasticsearch will be used for all search queries using the latest index. Search results may be incomplete until a bulk index of the existing post database is finished. When false, database search is used."
                         />
                     }
                     value={this.state.enableSearching}

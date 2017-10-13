@@ -24,7 +24,7 @@ module.exports = {
 
     default: {
         myGlobal: function() {
-            return "";
+            return '';
         }
     },
 
