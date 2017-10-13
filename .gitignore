@@ -6,3 +6,4 @@ node_modules
 *.tar.gz
 tests/reports
 .DS_Store
+mattermost-webapp.iml
