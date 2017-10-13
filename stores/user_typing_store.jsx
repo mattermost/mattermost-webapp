@@ -95,16 +95,16 @@ class UserTypingStoreClass extends EventEmitter {
 
 var UserTypingStore = new UserTypingStoreClass();
 
-UserTypingStore.dispatchToken = AppDispatcher.register((payload) => {
+UserTypingStore.dispatchToken = AppDispatcher.register(payload => {
     var action = payload.action;
 
     switch (action.type) {
-    case ActionTypes.RECEIVED_POST:
-        UserTypingStore.userPosted(action.post.user_id, action.post.channel_id, action.post.parent_id);
-        break;
-    case ActionTypes.USER_TYPING:
-        UserTypingStore.userTyping(action.channelId, action.userId, action.postParentId);
-        break;
+        case ActionTypes.RECEIVED_POST:
+            UserTypingStore.userPosted(action.post.user_id, action.post.channel_id, action.post.parent_id);
+            break;
+        case ActionTypes.USER_TYPING:
+            UserTypingStore.userTyping(action.channelId, action.userId, action.postParentId);
+            break;
     }
 });
 

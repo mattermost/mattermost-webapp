@@ -49,20 +49,18 @@ export default class OAuthToEmail extends React.Component {
         state.error = null;
         this.setState(state);
 
-        oauthToEmail(
-            this.props.currentType,
-            this.props.email,
-            password,
-            null,
-            (err) => {
-                this.setState({error: err.message});
-            }
-        );
+        oauthToEmail(this.props.currentType, this.props.email, password, null, err => {
+            this.setState({error: err.message});
+        });
     }
     render() {
         var error = null;
         if (this.state.error) {
-            error = <div className='form-group has-error'><label className='control-label'>{this.state.error}</label></div>;
+            error = (
+                <div className="form-group has-error">
+                    <label className="control-label">{this.state.error}</label>
+                </div>
+            );
         }
 
         var formClass = 'form-group';
@@ -70,14 +68,16 @@ export default class OAuthToEmail extends React.Component {
             formClass += ' has-error';
         }
 
-        const uiType = `${(this.props.currentType === Constants.SAML_SERVICE ? Constants.SAML_SERVICE.toUpperCase() : Utils.toTitleCase(this.props.currentType))} SSO`;
+        const uiType = `${this.props.currentType === Constants.SAML_SERVICE
+            ? Constants.SAML_SERVICE.toUpperCase()
+            : Utils.toTitleCase(this.props.currentType)} SSO`;
 
         return (
             <div>
                 <h3>
                     <FormattedMessage
-                        id='claim.oauth_to_email.title'
-                        defaultMessage='Switch {type} Account to Email'
+                        id="claim.oauth_to_email.title"
+                        defaultMessage="Switch {type} Account to Email"
                         values={{
                             type: uiType
                         }}
@@ -86,14 +86,14 @@ export default class OAuthToEmail extends React.Component {
                 <form onSubmit={this.submit}>
                     <p>
                         <FormattedMessage
-                            id='claim.oauth_to_email.description'
-                            defaultMessage='Upon changing your account type, you will only be able to login with your email and password.'
+                            id="claim.oauth_to_email.description"
+                            defaultMessage="Upon changing your account type, you will only be able to login with your email and password."
                         />
                     </p>
                     <p>
                         <FormattedMessage
-                            id='claim.oauth_to_email.enterNewPwd'
-                            defaultMessage='Enter a new password for your {site} email account'
+                            id="claim.oauth_to_email.enterNewPwd"
+                            defaultMessage="Enter a new password for your {site} email account"
                             values={{
                                 site: global.window.mm_config.SiteName
                             }}
@@ -101,32 +101,29 @@ export default class OAuthToEmail extends React.Component {
                     </p>
                     <div className={formClass}>
                         <input
-                            type='password'
-                            className='form-control'
-                            name='password'
-                            ref='password'
+                            type="password"
+                            className="form-control"
+                            name="password"
+                            ref="password"
                             placeholder={Utils.localizeMessage('claim.oauth_to_email.newPwd', 'New Password')}
-                            spellCheck='false'
+                            spellCheck="false"
                         />
                     </div>
                     <div className={formClass}>
                         <input
-                            type='password'
-                            className='form-control'
-                            name='passwordconfirm'
-                            ref='passwordconfirm'
+                            type="password"
+                            className="form-control"
+                            name="passwordconfirm"
+                            ref="passwordconfirm"
                             placeholder={Utils.localizeMessage('claim.oauth_to_email.confirm', 'Confirm Password')}
-                            spellCheck='false'
+                            spellCheck="false"
                         />
                     </div>
                     {error}
-                    <button
-                        type='submit'
-                        className='btn btn-primary'
-                    >
+                    <button type="submit" className="btn btn-primary">
                         <FormattedMessage
-                            id='claim.oauth_to_email.switchTo'
-                            defaultMessage='Switch {type} to email and password'
+                            id="claim.oauth_to_email.switchTo"
+                            defaultMessage="Switch {type} to email and password"
                             values={{
                                 type: uiType
                             }}
@@ -138,8 +135,7 @@ export default class OAuthToEmail extends React.Component {
     }
 }
 
-OAuthToEmail.defaultProps = {
-};
+OAuthToEmail.defaultProps = {};
 OAuthToEmail.propTypes = {
     currentType: PropTypes.string,
     email: PropTypes.string

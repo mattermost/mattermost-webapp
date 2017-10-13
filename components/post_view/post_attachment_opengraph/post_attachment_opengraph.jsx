@@ -13,7 +13,6 @@ import * as Utils from 'utils/utils.jsx';
 
 export default class PostAttachmentOpenGraph extends React.PureComponent {
     static propTypes = {
-
         /**
          * The link to display the open graph data for
          */
@@ -39,18 +38,18 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
          */
         previewCollapsed: PropTypes.string,
         actions: PropTypes.shape({
-
             /**
              * The function to get open graph data for a link
              */
             getOpenGraphMetadata: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
         this.largeImageMinWidth = 150;
-        this.imageDimentions = {  // Image dimentions in pixels.
+        this.imageDimentions = {
+            // Image dimentions in pixels.
             height: 80,
             width: 80
         };
@@ -162,7 +161,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                 <a
                     className={'post__embed-visibility'}
                     data-expanded={this.state.imageVisible}
-                    aria-label='Toggle Embed Visibility'
+                    aria-label="Toggle Embed Visibility"
                     onClick={this.toggleImageVisibility}
                 />
             );
@@ -173,8 +172,8 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
     wrapInSmallImageContainer(imageElement) {
         return (
             <div
-                className='attachment__image__container--openraph'
-                ref={(div) => {
+                className="attachment__image__container--openraph"
+                ref={div => {
                     this.smallImageContainer = div;
                 }}
             >
@@ -186,31 +185,29 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
     imageTag(imageUrl, renderingForLargeImage = false) {
         var element = null;
         if (
-            imageUrl && renderingForLargeImage === this.state.hasLargeImage &&
+            imageUrl &&
+            renderingForLargeImage === this.state.hasLargeImage &&
             (!renderingForLargeImage || (renderingForLargeImage && this.state.imageVisible))
         ) {
             if (this.state.imageLoaded === this.IMAGE_LOADED.LOADING) {
                 if (renderingForLargeImage) {
-                    element = <img className={'attachment__image attachment__image--openraph loading large_image'}/>;
+                    element = <img className={'attachment__image attachment__image--openraph loading large_image'} />;
                 } else {
                     element = this.wrapInSmallImageContainer(
-                        <img className={'attachment__image attachment__image--openraph loading '}/>
+                        <img className={'attachment__image attachment__image--openraph loading '} />
                     );
                 }
             } else if (this.state.imageLoaded === this.IMAGE_LOADED.YES) {
                 if (renderingForLargeImage) {
                     element = (
-                        <img
-                            className={'attachment__image attachment__image--openraph large_image'}
-                            src={imageUrl}
-                        />
+                        <img className={'attachment__image attachment__image--openraph large_image'} src={imageUrl} />
                     );
                 } else {
                     element = this.wrapInSmallImageContainer(
                         <img
                             className={'attachment__image attachment__image--openraph'}
                             src={imageUrl}
-                            ref={(img) => {
+                            ref={img => {
                                 this.smallImageElement = img;
                             }}
                         />
@@ -234,10 +231,10 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         const props = Object.assign({}, this.props.post.props);
         props[PostTypes.REMOVE_LINK_PREVIEW] = 'true';
 
-        const patchedPost = ({
+        const patchedPost = {
             id: this.props.post.id,
             props
-        });
+        };
 
         updatePost(patchedPost, () => {
             this.setState({removePreview: true});
@@ -262,13 +259,13 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         if (this.props.currentUser.id === this.props.post.user_id) {
             removePreviewButton = (
                 <button
-                    id='removePreviewButton'
-                    type='button'
-                    className='btn-close'
-                    aria-label='Close'
+                    id="removePreviewButton"
+                    type="button"
+                    className="btn-close"
+                    aria-label="Close"
                     onClick={this.handleRemovePreview}
                 >
-                    <span aria-hidden='true'>{'×'}</span>
+                    <span aria-hidden="true">{'×'}</span>
                 </button>
             );
         }
@@ -279,36 +276,29 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         }
 
         return (
-            <div
-                className='attachment attachment--opengraph'
-                ref='attachment'
-            >
-                <div className='attachment__content'>
-                    <div
-                        className={'clearfix attachment__container attachment__container--opengraph'}
-                    >
-                        <div
-                            className={'attachment__body__wrap attachment__body__wrap--opengraph'}
-                        >
-                            <span className='sitename'>{this.truncateText(data.site_name)}</span>
+            <div className="attachment attachment--opengraph" ref="attachment">
+                <div className="attachment__content">
+                    <div className={'clearfix attachment__container attachment__container--opengraph'}>
+                        <div className={'attachment__body__wrap attachment__body__wrap--opengraph'}>
+                            <span className="sitename">{this.truncateText(data.site_name)}</span>
                             {removePreviewButton}
                             <h1
-                                className={'attachment__title attachment__title--opengraph' + (data.title ? '' : ' is-url')}
+                                className={
+                                    'attachment__title attachment__title--opengraph' + (data.title ? '' : ' is-url')
+                                }
                             >
                                 <a
-                                    className='attachment__title-link attachment__title-link--opengraph'
+                                    className="attachment__title-link attachment__title-link--opengraph"
                                     href={data.url || this.props.link}
-                                    target='_blank'
-                                    rel='noopener noreferrer'
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                     title={data.title || data.url || this.props.link}
                                 >
                                     {this.truncateText(data.title || data.url || this.props.link)}
                                 </a>
                             </h1>
-                            <div >
-                                <div
-                                    className={'attachment__body attachment__body--opengraph'}
-                                >
+                            <div>
+                                <div className={'attachment__body attachment__body--opengraph'}>
                                     <div>
                                         <div>
                                             {this.truncateText(data.description)} &nbsp;

@@ -268,62 +268,62 @@ class SuggestionStore extends EventEmitter {
         const {type, id, ...other} = payload.action;
 
         switch (type) {
-        case ActionTypes.SUGGESTION_PRETEXT_CHANGED:
-            // Clear the suggestions if the pretext is empty or ends with whitespace
-            if (other.pretext === '') {
-                this.clearSuggestions(id);
-            }
+            case ActionTypes.SUGGESTION_PRETEXT_CHANGED:
+                // Clear the suggestions if the pretext is empty or ends with whitespace
+                if (other.pretext === '') {
+                    this.clearSuggestions(id);
+                }
 
-            other.pretext = other.pretext.toLowerCase();
+                other.pretext = other.pretext.toLowerCase();
 
-            this.setPretext(id, other.pretext);
-            this.emitPretextChanged(id, other.pretext);
+                this.setPretext(id, other.pretext);
+                this.emitPretextChanged(id, other.pretext);
 
-            this.ensureSelectionExists(id);
-            this.emitSuggestionsChanged(id);
-            break;
-        case ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS:
-            if (!this.checkIfPretextMatches(id, other.matchedPretext)) {
-                // These suggestions are out of date since the pretext has changed
-                return;
-            }
-
-            this.clearSuggestions(id);
-            this.addSuggestions(id, other.terms, other.items, other.component, other.matchedPretext);
-            this.ensureSelectionExists(id);
-
-            this.setSuggestionsPending(id, false);
-
-            if (this.isCompletePending(id)) {
-                this.completeWord(id);
-            } else {
+                this.ensureSelectionExists(id);
                 this.emitSuggestionsChanged(id);
-            }
-            break;
-        case ActionTypes.SUGGESTION_CLEAR_SUGGESTIONS:
-            this.setPretext(id, '');
-            this.clearSuggestions(id);
-            this.clearSelection(id);
-            this.emitSuggestionsChanged(id);
-            break;
-        case ActionTypes.SUGGESTION_SELECT_NEXT:
-            this.selectNext(id);
-            this.emitSuggestionsChanged(id);
-            break;
-        case ActionTypes.SUGGESTION_SELECT_PREVIOUS:
-            this.selectPrevious(id);
-            this.emitSuggestionsChanged(id);
-            break;
-        case ActionTypes.SUGGESTION_COMPLETE_WORD:
-            if (this.areSuggestionsPending(id)) {
-                this.setCompletePending(id, true);
-            } else {
-                this.completeWord(id, other.term, other.matchedPretext);
-            }
-            break;
-        case ActionTypes.POPOVER_MENTION_KEY_CLICK:
-            this.emitPopoverMentionKeyClick(other.isRHS, other.mentionKey);
-            break;
+                break;
+            case ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS:
+                if (!this.checkIfPretextMatches(id, other.matchedPretext)) {
+                    // These suggestions are out of date since the pretext has changed
+                    return;
+                }
+
+                this.clearSuggestions(id);
+                this.addSuggestions(id, other.terms, other.items, other.component, other.matchedPretext);
+                this.ensureSelectionExists(id);
+
+                this.setSuggestionsPending(id, false);
+
+                if (this.isCompletePending(id)) {
+                    this.completeWord(id);
+                } else {
+                    this.emitSuggestionsChanged(id);
+                }
+                break;
+            case ActionTypes.SUGGESTION_CLEAR_SUGGESTIONS:
+                this.setPretext(id, '');
+                this.clearSuggestions(id);
+                this.clearSelection(id);
+                this.emitSuggestionsChanged(id);
+                break;
+            case ActionTypes.SUGGESTION_SELECT_NEXT:
+                this.selectNext(id);
+                this.emitSuggestionsChanged(id);
+                break;
+            case ActionTypes.SUGGESTION_SELECT_PREVIOUS:
+                this.selectPrevious(id);
+                this.emitSuggestionsChanged(id);
+                break;
+            case ActionTypes.SUGGESTION_COMPLETE_WORD:
+                if (this.areSuggestionsPending(id)) {
+                    this.setCompletePending(id, true);
+                } else {
+                    this.completeWord(id, other.term, other.matchedPretext);
+                }
+                break;
+            case ActionTypes.POPOVER_MENTION_KEY_CLICK:
+                this.emitPopoverMentionKeyClick(other.isRHS, other.mentionKey);
+                break;
         }
     }
 }

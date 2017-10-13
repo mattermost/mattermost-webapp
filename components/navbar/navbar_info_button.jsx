@@ -20,11 +20,11 @@ export default class NavbarInfoButton extends React.PureComponent {
         this.refs.headerOverlay.hide();
 
         this.props.showEditChannelHeaderModal();
-    }
+    };
 
     hide = () => {
         this.refs.headerOverlay.hide();
-    }
+    };
 
     render() {
         let popoverContent = null;
@@ -38,24 +38,18 @@ export default class NavbarInfoButton extends React.PureComponent {
                 );
             } else {
                 const link = (
-                    <a
-                        href='#'
-                        onClick={this.showEditChannelHeaderModal}
-                    >
-                        <FormattedMessage
-                            id='navbar.click'
-                            defaultMessage='Click here'
-                        />
+                    <a href="#" onClick={this.showEditChannelHeaderModal}>
+                        <FormattedMessage id="navbar.click" defaultMessage="Click here" />
                     </a>
                 );
 
                 popoverContent = (
                     <div>
                         <FormattedMessage
-                            id='navbar.noHeader'
-                            defaultMessage='No channel header yet.{newline}{link} to add one.'
+                            id="navbar.noHeader"
+                            defaultMessage="No channel header yet.{newline}{link} to add one."
                             values={{
-                                newline: (<br/>),
+                                newline: <br />,
                                 link
                             }}
                         />
@@ -65,16 +59,9 @@ export default class NavbarInfoButton extends React.PureComponent {
         }
 
         const popover = (
-            <Popover
-                bsStyle='info'
-                placement='bottom'
-                id='header-popover'
-            >
+            <Popover bsStyle="info" placement="bottom" id="header-popover">
                 {popoverContent}
-                <div
-                    className='close visible-xs-block'
-                    onClick={this.hide}
-                >
+                <div className="close visible-xs-block" onClick={this.hide}>
                     {'×'}
                 </div>
             </Popover>
@@ -82,18 +69,18 @@ export default class NavbarInfoButton extends React.PureComponent {
 
         return (
             <OverlayTrigger
-                ref='headerOverlay'
-                trigger='click'
-                placement='bottom'
+                ref="headerOverlay"
+                trigger="click"
+                placement="bottom"
                 overlay={popover}
-                className='description'
+                className="description"
                 rootClose={true}
             >
-                <div className='navbar-toggle navbar-right__icon navbar-info-button pull-right'>
+                <div className="navbar-toggle navbar-right__icon navbar-info-button pull-right">
                     <span
-                        className='icon icon__info'
+                        className="icon icon__info"
                         dangerouslySetInnerHTML={{__html: Constants.INFO_ICON_SVG}}
-                        aria-hidden='true'
+                        aria-hidden="true"
                     />
                 </div>
             </OverlayTrigger>

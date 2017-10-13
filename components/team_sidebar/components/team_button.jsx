@@ -33,16 +33,14 @@ export default class TeamButton extends React.Component {
         let teamClass = this.props.active ? 'active' : '';
         const btnClass = this.props.btnClass;
         const disabled = this.props.disabled ? 'team-disabled' : '';
-        const handleClick = (this.props.active || this.props.disabled) ? this.handleDisabled : this.handleSwitch;
+        const handleClick = this.props.active || this.props.disabled ? this.handleDisabled : this.handleSwitch;
         let badge;
 
         if (!teamClass) {
             teamClass = this.props.unread ? 'unread' : '';
 
             if (this.props.mentions) {
-                badge = (
-                    <span className='badge pull-right small'>{this.props.mentions}</span>
-                );
+                badge = <span className="badge pull-right small">{this.props.mentions}</span>;
             }
         }
 
@@ -50,11 +48,9 @@ export default class TeamButton extends React.Component {
         let content = this.props.content;
         if (!content) {
             content = (
-                <div className='team-btn__initials'>
+                <div className="team-btn__initials">
                     {this.props.displayName.substring(0, 2)}
-                    <div className='team-btn__content'>
-                        {this.props.displayName}
-                    </div>
+                    <div className="team-btn__content">{this.props.displayName}</div>
                 </div>
             );
         }
@@ -71,11 +67,7 @@ export default class TeamButton extends React.Component {
                     trigger={['hover', 'focus']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement={this.props.placement}
-                    overlay={
-                        <Tooltip id={`tooltip-${this.props.url}`}>
-                            {this.props.tip}
-                        </Tooltip>
-                    }
+                    overlay={<Tooltip id={`tooltip-${this.props.url}`}>{this.props.tip}</Tooltip>}
                 >
                     <div className={'team-btn ' + btnClass}>
                         {badge}
@@ -86,14 +78,8 @@ export default class TeamButton extends React.Component {
         }
 
         return (
-            <div
-                className={`team-container ${teamClass}`}
-            >
-                <Link
-                    className={disabled}
-                    to={this.props.url}
-                    onClick={handleClick}
-                >
+            <div className={`team-container ${teamClass}`}>
+                <Link className={disabled} to={this.props.url} onClick={handleClick}>
                     {btn}
                 </Link>
             </div>

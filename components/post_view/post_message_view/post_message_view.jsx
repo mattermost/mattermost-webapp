@@ -23,7 +23,6 @@ import {renderSystemMessage} from './system_message_helpers.jsx';
 
 export default class PostMessageView extends React.PureComponent {
     static propTypes = {
-
         /*
          * The post to render the message for
          */
@@ -101,10 +100,7 @@ export default class PostMessageView extends React.PureComponent {
     renderDeletedPost() {
         return (
             <p>
-                <FormattedMessage
-                    id='post_body.deleted'
-                    defaultMessage='(message deleted)'
-                />
+                <FormattedMessage id="post_body.deleted" defaultMessage="(message deleted)" />
             </p>
         );
     }
@@ -115,11 +111,8 @@ export default class PostMessageView extends React.PureComponent {
         }
 
         return (
-            <span className='post-edited-indicator'>
-                <FormattedMessage
-                    id='post_message_view.edited'
-                    defaultMessage='(edited)'
-                />
+            <span className="post-edited-indicator">
+                <FormattedMessage id="post_message_view.edited" defaultMessage="(edited)" />
             </span>
         );
     }
@@ -136,8 +129,8 @@ export default class PostMessageView extends React.PureComponent {
         const processingInstructions = [
             {
                 replaceChildren: true,
-                shouldProcessNode: (node) => node.attribs && node.attribs[attrib],
-                processNode: (node) => {
+                shouldProcessNode: node => node.attribs && node.attribs[attrib],
+                processNode: node => {
                     const mentionName = node.attribs[attrib];
 
                     return (
@@ -150,19 +143,11 @@ export default class PostMessageView extends React.PureComponent {
                 }
             },
             {
-                shouldProcessNode: (node) => node.type === 'tag' && node.name === 'img',
-                processNode: (node) => {
-                    const {
-                        class: className,
-                        ...attribs
-                    } = node.attribs;
+                shouldProcessNode: node => node.type === 'tag' && node.name === 'img',
+                processNode: node => {
+                    const {class: className, ...attribs} = node.attribs;
 
-                    return (
-                        <MarkdownImage
-                            className={className}
-                            {...attribs}
-                        />
-                    );
+                    return <MarkdownImage className={className} {...attribs} />;
                 }
             },
             {
@@ -230,11 +215,7 @@ export default class PostMessageView extends React.PureComponent {
 
         return (
             <div>
-                <span
-                    id={postId}
-                    className='post-message__text'
-                    onClick={Utils.handleFormattedTextClick}
-                >
+                <span id={postId} className="post-message__text" onClick={Utils.handleFormattedTextClick}>
                     {postMessageComponent}
                 </span>
                 {this.renderEditedIndicator()}

@@ -25,7 +25,7 @@ export default class TeamMembersDropdown extends React.Component {
             getTeamStats: PropTypes.func.isRequired,
             getChannelStats: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -63,7 +63,7 @@ export default class TeamMembersDropdown extends React.Component {
                         loadMyTeamMembers();
                     }
                 },
-                (err) => {
+                err => {
                     this.setState({serverError: err.message});
                 }
             );
@@ -79,31 +79,35 @@ export default class TeamMembersDropdown extends React.Component {
                 UserStore.emitInTeamChange();
                 this.props.actions.getTeamStats(this.props.teamMember.team_id);
             },
-            (err) => {
+            err => {
                 this.setState({serverError: err.message});
             }
         );
     }
 
     handleMakeActive() {
-        updateActive(this.props.user.id, true,
+        updateActive(
+            this.props.user.id,
+            true,
             () => {
                 this.props.actions.getChannelStats(ChannelStore.getCurrentId());
                 this.props.actions.getTeamStats(this.props.teamMember.team_id);
             },
-            (err) => {
+            err => {
                 this.setState({serverError: err.message});
             }
         );
     }
 
     handleMakeNotActive() {
-        updateActive(this.props.user.id, false,
+        updateActive(
+            this.props.user.id,
+            false,
             () => {
                 this.props.actions.getChannelStats(ChannelStore.getCurrentId());
                 this.props.actions.getTeamStats(this.props.teamMember.team_id);
             },
-            (err) => {
+            err => {
                 this.setState({serverError: err.message});
             }
         );
@@ -121,7 +125,7 @@ export default class TeamMembersDropdown extends React.Component {
                 () => {
                     this.props.actions.getUser(this.props.user.id);
                 },
-                (err) => {
+                err => {
                     this.setState({serverError: err.message});
                 }
             );
@@ -163,7 +167,7 @@ export default class TeamMembersDropdown extends React.Component {
                     browserHistory.push('/');
                 }
             },
-            (err) => {
+            err => {
                 this.setState({serverError: err.message});
             }
         );
@@ -173,37 +177,22 @@ export default class TeamMembersDropdown extends React.Component {
         let serverError = null;
         if (this.state.serverError) {
             serverError = (
-                <div className='has-error'>
-                    <label className='has-error control-label'>{this.state.serverError}</label>
+                <div className="has-error">
+                    <label className="has-error control-label">{this.state.serverError}</label>
                 </div>
             );
         }
 
         const teamMember = this.props.teamMember;
         const user = this.props.user;
-        let currentRoles = (
-            <FormattedMessage
-                id='team_members_dropdown.member'
-                defaultMessage='Member'
-            />
-        );
+        let currentRoles = <FormattedMessage id="team_members_dropdown.member" defaultMessage="Member" />;
 
         if (teamMember.roles.length > 0 && Utils.isAdmin(teamMember.roles)) {
-            currentRoles = (
-                <FormattedMessage
-                    id='team_members_dropdown.teamAdmin'
-                    defaultMessage='Team Admin'
-                />
-            );
+            currentRoles = <FormattedMessage id="team_members_dropdown.teamAdmin" defaultMessage="Team Admin" />;
         }
 
         if (user.roles.length > 0 && Utils.isSystemAdmin(user.roles)) {
-            currentRoles = (
-                <FormattedMessage
-                    id='team_members_dropdown.systemAdmin'
-                    defaultMessage='System Admin'
-                />
-            );
+            currentRoles = <FormattedMessage id="team_members_dropdown.systemAdmin" defaultMessage="System Admin" />;
         }
 
         const me = UserStore.getCurrentUser();
@@ -213,12 +202,7 @@ export default class TeamMembersDropdown extends React.Component {
         let showMakeNotActive = Utils.isSystemAdmin(user.roles);
 
         if (user.delete_at > 0) {
-            currentRoles = (
-                <FormattedMessage
-                    id='team_members_dropdown.inactive'
-                    defaultMessage='Inactive'
-                />
-            );
+            currentRoles = <FormattedMessage id="team_members_dropdown.inactive" defaultMessage="Inactive" />;
             showMakeMember = false;
             showMakeAdmin = false;
             showMakeActive = true;
@@ -228,16 +212,9 @@ export default class TeamMembersDropdown extends React.Component {
         let makeAdmin = null;
         if (showMakeAdmin) {
             makeAdmin = (
-                <li role='presentation'>
-                    <a
-                        role='menuitem'
-                        href='#'
-                        onClick={this.handleMakeAdmin}
-                    >
-                        <FormattedMessage
-                            id='team_members_dropdown.makeAdmin'
-                            defaultMessage='Make Team Admin'
-                        />
+                <li role="presentation">
+                    <a role="menuitem" href="#" onClick={this.handleMakeAdmin}>
+                        <FormattedMessage id="team_members_dropdown.makeAdmin" defaultMessage="Make Team Admin" />
                     </a>
                 </li>
             );
@@ -246,16 +223,9 @@ export default class TeamMembersDropdown extends React.Component {
         let makeMember = null;
         if (showMakeMember) {
             makeMember = (
-                <li role='presentation'>
-                    <a
-                        role='menuitem'
-                        href='#'
-                        onClick={this.handleMakeMember}
-                    >
-                        <FormattedMessage
-                            id='team_members_dropdown.makeMember'
-                            defaultMessage='Make Member'
-                        />
+                <li role="presentation">
+                    <a role="menuitem" href="#" onClick={this.handleMakeMember}>
+                        <FormattedMessage id="team_members_dropdown.makeMember" defaultMessage="Make Member" />
                     </a>
                 </li>
             );
@@ -264,16 +234,9 @@ export default class TeamMembersDropdown extends React.Component {
         let removeFromTeam = null;
         if (this.props.user.id !== me.id) {
             removeFromTeam = (
-                <li role='presentation'>
-                    <a
-                        role='menuitem'
-                        href='#'
-                        onClick={this.handleRemoveFromTeam}
-                    >
-                        <FormattedMessage
-                            id='team_members_dropdown.leave_team'
-                            defaultMessage='Remove From Team'
-                        />
+                <li role="presentation">
+                    <a role="menuitem" href="#" onClick={this.handleRemoveFromTeam}>
+                        <FormattedMessage id="team_members_dropdown.leave_team" defaultMessage="Remove From Team" />
                     </a>
                 </li>
             );
@@ -319,22 +282,22 @@ export default class TeamMembersDropdown extends React.Component {
         if (this.props.user.id === me.id) {
             const title = (
                 <FormattedMessage
-                    id='team_members_dropdown.confirmDemoteRoleTitle'
-                    defaultMessage='Confirm demotion from System Admin role'
+                    id="team_members_dropdown.confirmDemoteRoleTitle"
+                    defaultMessage="Confirm demotion from System Admin role"
                 />
             );
 
             const message = (
                 <div>
                     <FormattedMessage
-                        id='team_members_dropdown.confirmDemoteDescription'
+                        id="team_members_dropdown.confirmDemoteDescription"
                         defaultMessage="If you demote yourself from the System Admin role and there is not another user with System Admin privileges, you'll need to re-assign a System Admin by accessing the Mattermost server through a terminal and running the following command."
                     />
-                    <br/>
-                    <br/>
+                    <br />
+                    <br />
                     <FormattedMessage
-                        id='team_members_dropdown.confirmDemotionCmd'
-                        defaultMessage='platform roles system_admin {username}'
+                        id="team_members_dropdown.confirmDemotionCmd"
+                        defaultMessage="platform roles system_admin {username}"
                         vallues={{
                             username: me.username
                         }}
@@ -344,10 +307,7 @@ export default class TeamMembersDropdown extends React.Component {
             );
 
             const confirmButton = (
-                <FormattedMessage
-                    id='team_members_dropdown.confirmDemotion'
-                    defaultMessage='Confirm Demotion'
-                />
+                <FormattedMessage id="team_members_dropdown.confirmDemotion" defaultMessage="Confirm Demotion" />
             );
 
             makeDemoteModal = (
@@ -367,21 +327,12 @@ export default class TeamMembersDropdown extends React.Component {
         }
 
         return (
-            <div className='dropdown member-drop'>
-                <a
-                    href='#'
-                    className='dropdown-toggle theme'
-                    type='button'
-                    data-toggle='dropdown'
-                    aria-expanded='true'
-                >
+            <div className="dropdown member-drop">
+                <a href="#" className="dropdown-toggle theme" type="button" data-toggle="dropdown" aria-expanded="true">
                     <span>{currentRoles} </span>
-                    <span className='fa fa-chevron-down'/>
+                    <span className="fa fa-chevron-down" />
                 </a>
-                <ul
-                    className='dropdown-menu member-menu'
-                    role='menu'
-                >
+                <ul className="dropdown-menu member-menu" role="menu">
                     {removeFromTeam}
                     {makeAdmin}
                     {makeMember}

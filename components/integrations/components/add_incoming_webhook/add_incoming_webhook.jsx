@@ -12,7 +12,6 @@ const FOOTER = {id: 'add_incoming_webhook.save', defaultMessage: 'Save'};
 
 export default class AddIncomingWebhook extends React.PureComponent {
     static propTypes = {
-
         /**
         * The current team
         */
@@ -24,13 +23,12 @@ export default class AddIncomingWebhook extends React.PureComponent {
         createIncomingHookRequest: PropTypes.object.isRequired,
 
         actions: PropTypes.shape({
-
             /**
             * The function to call to add a new incoming webhook
             */
             createIncomingHook: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -40,7 +38,7 @@ export default class AddIncomingWebhook extends React.PureComponent {
         };
     }
 
-    addIncomingHook = async (hook) => {
+    addIncomingHook = async hook => {
         this.setState({serverError: ''});
 
         const data = await this.props.actions.createIncomingHook(hook);
@@ -52,7 +50,7 @@ export default class AddIncomingWebhook extends React.PureComponent {
         if (this.props.createIncomingHookRequest.error) {
             this.setState({serverError: this.props.createIncomingHookRequest.error.message});
         }
-    }
+    };
 
     render() {
         return (

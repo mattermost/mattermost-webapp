@@ -9,7 +9,6 @@ import Setting from './setting.jsx';
 
 export default class ColorSetting extends React.PureComponent {
     static propTypes = {
-
         /*
          * The unique identifer for the admin console setting
          */
@@ -39,7 +38,7 @@ export default class ColorSetting extends React.PureComponent {
          * Set to disable the setting
          */
         disabled: PropTypes.bool
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -57,59 +56,49 @@ export default class ColorSetting extends React.PureComponent {
         document.removeEventListener('click', this.closePicker);
     }
 
-    handleChange = (color) => {
+    handleChange = color => {
         this.props.onChange(this.props.id, color.hex);
-    }
+    };
 
     togglePicker = () => {
         if (this.props.disabled) {
             this.setState({showPicker: false});
         }
         this.setState({showPicker: !this.state.showPicker});
-    }
+    };
 
-    closePicker = (e) => {
+    closePicker = e => {
         if (!e.target.closest('.picker-' + this.props.id)) {
             this.setState({showPicker: false});
         }
-    }
+    };
 
-    onTextInput = (e) => {
+    onTextInput = e => {
         this.props.onChange(this.props.id, e.target.value);
-    }
+    };
 
     render() {
         let picker;
         if (this.state.showPicker) {
             picker = (
                 <div className={'color-picker__popover picker-' + this.props.id}>
-                    <ChromePicker
-                        color={this.props.value}
-                        onChange={this.handleChange}
-                    />
+                    <ChromePicker color={this.props.value} onChange={this.handleChange} />
                 </div>
             );
         }
 
         return (
-            <Setting
-                label={this.props.label}
-                helpText={this.props.helpText}
-                inputId={this.props.id}
-            >
-                <div className='input-group color-picker colorpicker-element'>
+            <Setting label={this.props.label} helpText={this.props.helpText} inputId={this.props.id}>
+                <div className="input-group color-picker colorpicker-element">
                     <input
-                        type='text'
-                        className='form-control'
+                        type="text"
+                        className="form-control"
                         value={this.props.value}
                         onChange={this.onTextInput}
                         disabled={this.props.disabled}
                     />
-                    <span
-                        className={'input-group-addon picker-' + this.props.id}
-                        onClick={this.togglePicker}
-                    >
-                        <i style={{backgroundColor: this.props.value}}/>
+                    <span className={'input-group-addon picker-' + this.props.id} onClick={this.togglePicker}>
+                        <i style={{backgroundColor: this.props.value}} />
                     </span>
                     {picker}
                 </div>

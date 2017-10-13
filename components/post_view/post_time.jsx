@@ -12,7 +12,6 @@ import {getDateForUnixTicks, isMobile, updateWindowDimensions} from 'utils/utils
 
 export default class PostTime extends React.PureComponent {
     static propTypes = {
-
         /*
          * If true, time will be rendered as a permalink to the post
          */
@@ -69,11 +68,7 @@ export default class PostTime extends React.PureComponent {
         const date = getDateForUnixTicks(this.props.eventTime);
 
         return (
-            <time
-                className='post__time'
-                dateTime={date.toISOString()}
-                title={date}
-            >
+            <time className="post__time" dateTime={date.toISOString()} title={date}>
                 {date.toLocaleString('en', {hour: '2-digit', minute: '2-digit', hour12: !this.props.useMilitaryTime})}
             </time>
         );
@@ -87,8 +82,8 @@ export default class PostTime extends React.PureComponent {
         return (
             <Link
                 to={`/${this.state.currentTeamDisplayName}/pl/${this.props.postId}`}
-                target='_blank'
-                className='post__permalink'
+                target="_blank"
+                className="post__permalink"
             >
                 {this.renderTimeTag()}
             </Link>

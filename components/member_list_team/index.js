@@ -16,9 +16,12 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({
-            getTeamStats
-        }, dispatch)
+        actions: bindActionCreators(
+            {
+                getTeamStats
+            },
+            dispatch
+        )
     };
 }
 

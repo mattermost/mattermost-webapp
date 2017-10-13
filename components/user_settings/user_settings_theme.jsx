@@ -118,17 +118,13 @@ export default class ThemeSetting extends React.Component {
 
         this.setState({isSaving: true});
 
-        UserActions.saveTheme(
-            teamId,
-            this.state.theme,
-            () => {
-                this.props.setRequireConfirm(false);
-                this.originalTheme = Object.assign({}, this.state.theme);
-                this.scrollToTop();
-                this.props.updateSection('');
-                this.setState({isSaving: false});
-            }
-        );
+        UserActions.saveTheme(teamId, this.state.theme, () => {
+            this.props.setRequireConfirm(false);
+            this.originalTheme = Object.assign({}, this.state.theme);
+            this.scrollToTop();
+            this.props.updateSection('');
+            this.setState({isSaving: false});
+        });
     }
 
     updateTheme(theme) {
@@ -188,21 +184,15 @@ export default class ThemeSetting extends React.Component {
         let premade;
         if (displayCustom && allowCustomThemes) {
             custom = (
-                <div key='customThemeChooser'>
-                    <CustomThemeChooser
-                        theme={this.state.theme}
-                        updateTheme={this.updateTheme}
-                    />
+                <div key="customThemeChooser">
+                    <CustomThemeChooser theme={this.state.theme} updateTheme={this.updateTheme} />
                 </div>
             );
         } else {
             premade = (
-                <div key='premadeThemeChooser'>
-                    <br/>
-                    <PremadeThemeChooser
-                        theme={this.state.theme}
-                        updateTheme={this.updateTheme}
-                    />
+                <div key="premadeThemeChooser">
+                    <br />
+                    <PremadeThemeChooser theme={this.state.theme} updateTheme={this.updateTheme} />
                 </div>
             );
         }
@@ -213,24 +203,21 @@ export default class ThemeSetting extends React.Component {
 
             if (allowCustomThemes) {
                 inputs.push(
-                    <div
-                        className='radio'
-                        key='premadeThemeColorLabel'
-                    >
+                    <div className="radio" key="premadeThemeColorLabel">
                         <label>
                             <input
-                                id='standardThemes'
-                                type='radio'
-                                name='theme'
+                                id="standardThemes"
+                                type="radio"
+                                name="theme"
                                 checked={!displayCustom}
                                 onChange={this.updateType.bind(this, 'premade')}
                             />
                             <FormattedMessage
-                                id='user.settings.display.theme.themeColors'
-                                defaultMessage='Theme Colors'
+                                id="user.settings.display.theme.themeColors"
+                                defaultMessage="Theme Colors"
                             />
                         </label>
-                        <br/>
+                        <br />
                     </div>
                 );
             }
@@ -239,21 +226,18 @@ export default class ThemeSetting extends React.Component {
 
             if (allowCustomThemes) {
                 inputs.push(
-                    <div
-                        className='radio'
-                        key='customThemeColorLabel'
-                    >
+                    <div className="radio" key="customThemeColorLabel">
                         <label>
                             <input
-                                id='customThemes'
-                                type='radio'
-                                name='theme'
+                                id="customThemes"
+                                type="radio"
+                                name="theme"
                                 checked={displayCustom}
                                 onChange={this.updateType.bind(this, 'custom')}
                             />
                             <FormattedMessage
-                                id='user.settings.display.theme.customTheme'
-                                defaultMessage='Custom Theme'
+                                id="user.settings.display.theme.customTheme"
+                                defaultMessage="Custom Theme"
                             />
                         </label>
                     </div>
@@ -262,35 +246,28 @@ export default class ThemeSetting extends React.Component {
                 inputs.push(custom);
 
                 inputs.push(
-                    <div key='otherThemes'>
-                        <br/>
+                    <div key="otherThemes">
+                        <br />
                         <a
-                            id='otherThemes'
-                            href='http://docs.mattermost.com/help/settings/theme-colors.html#custom-theme-examples'
-                            target='_blank'
-                            rel='noopener noreferrer'
+                            id="otherThemes"
+                            href="http://docs.mattermost.com/help/settings/theme-colors.html#custom-theme-examples"
+                            target="_blank"
+                            rel="noopener noreferrer"
                         >
                             <FormattedMessage
-                                id='user.settings.display.theme.otherThemes'
-                                defaultMessage='See other themes'
+                                id="user.settings.display.theme.otherThemes"
+                                defaultMessage="See other themes"
                             />
                         </a>
                     </div>
                 );
 
                 inputs.push(
-                    <div
-                        key='importSlackThemeButton'
-                        className='padding-top'
-                    >
-                        <a
-                            id='slackImportTheme'
-                            className='theme'
-                            onClick={this.handleImportModal}
-                        >
+                    <div key="importSlackThemeButton" className="padding-top">
+                        <a id="slackImportTheme" className="theme" onClick={this.handleImportModal}>
                             <FormattedMessage
-                                id='user.settings.display.theme.import'
-                                defaultMessage='Import theme colors from Slack'
+                                id="user.settings.display.theme.import"
+                                defaultMessage="Import theme colors from Slack"
                             />
                         </a>
                     </div>
@@ -300,17 +277,17 @@ export default class ThemeSetting extends React.Component {
             let allTeamsCheckbox = null;
             if (this.state.showAllTeamsCheckbox) {
                 allTeamsCheckbox = (
-                    <div className='checkbox user-settings__submit-checkbox'>
+                    <div className="checkbox user-settings__submit-checkbox">
                         <label>
                             <input
-                                id='applyThemeToAllTeams'
-                                type='checkbox'
+                                id="applyThemeToAllTeams"
+                                type="checkbox"
                                 checked={this.state.applyToAllTeams}
-                                onChange={(e) => this.setState({applyToAllTeams: e.target.checked})}
+                                onChange={e => this.setState({applyToAllTeams: e.target.checked})}
                             />
                             <FormattedMessage
-                                id='user.settings.display.theme.applyToAllTeams'
-                                defaultMessage='Apply new theme to all my teams'
+                                id="user.settings.display.theme.applyToAllTeams"
+                                defaultMessage="Apply new theme to all my teams"
                             />
                         </label>
                     </div>
@@ -324,8 +301,8 @@ export default class ThemeSetting extends React.Component {
                     submit={this.submitTheme}
                     saving={this.state.isSaving}
                     server_error={serverError}
-                    width='full'
-                    updateSection={(e) => {
+                    width="full"
+                    updateSection={e => {
                         this.props.updateSection('');
                         e.preventDefault();
                     }}
@@ -334,16 +311,11 @@ export default class ThemeSetting extends React.Component {
         } else {
             themeUI = (
                 <SettingItemMin
-                    title={
-                        <FormattedMessage
-                            id='user.settings.display.theme.title'
-                            defaultMessage='Theme'
-                        />
-                    }
+                    title={<FormattedMessage id="user.settings.display.theme.title" defaultMessage="Theme" />}
                     describe={
                         <FormattedMessage
-                            id='user.settings.display.theme.describe'
-                            defaultMessage='Open to manage your theme'
+                            id="user.settings.display.theme.describe"
+                            defaultMessage="Open to manage your theme"
                         />
                     }
                     updateSection={() => {

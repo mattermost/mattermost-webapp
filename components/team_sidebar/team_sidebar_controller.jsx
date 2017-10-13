@@ -20,7 +20,7 @@ export default class TeamSidebar extends React.Component {
         actions: PropTypes.shape({
             getTeams: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -113,10 +113,15 @@ export default class TeamSidebar extends React.Component {
                     continue;
                 }
                 const teamId = teamMember.team_id;
-                myTeams.push(Object.assign({
-                    unread: teamMember.msg_count > 0,
-                    mentions: teamMember.mention_count
-                }, this.state.teams[teamId]));
+                myTeams.push(
+                    Object.assign(
+                        {
+                            unread: teamMember.msg_count > 0,
+                            mentions: teamMember.mention_count
+                        },
+                        this.state.teams[teamId]
+                    )
+                );
                 isAlreadyMember[teamId] = true;
             }
         }
@@ -128,62 +133,48 @@ export default class TeamSidebar extends React.Component {
             }
         }
 
-        const teams = myTeams.
-            sort(sortTeamsByDisplayName).
-            map((team) => {
-                return (
-                    <TeamButton
-                        key={'switch_team_' + team.name}
-                        url={`/${team.name}`}
-                        tip={team.display_name}
-                        active={team.id === this.state.currentTeamId}
-                        isMobile={this.state.isMobile}
-                        displayName={team.display_name}
-                        unread={team.unread}
-                        mentions={team.mentions}
-                    />
-                );
-            });
+        const teams = myTeams.sort(sortTeamsByDisplayName).map(team => {
+            return (
+                <TeamButton
+                    key={'switch_team_' + team.name}
+                    url={`/${team.name}`}
+                    tip={team.display_name}
+                    active={team.id === this.state.currentTeamId}
+                    isMobile={this.state.isMobile}
+                    displayName={team.display_name}
+                    unread={team.unread}
+                    mentions={team.mentions}
+                />
+            );
+        });
 
         if (moreTeams) {
             teams.push(
                 <TeamButton
-                    btnClass='team-btn__add'
-                    key='more_teams'
-                    url='/select_team'
+                    btnClass="team-btn__add"
+                    key="more_teams"
+                    url="/select_team"
                     isMobile={this.state.isMobile}
-                    tip={
-                        <FormattedMessage
-                            id='team_sidebar.join'
-                            defaultMessage='Other teams you can join.'
-                        />
-                    }
-                    content={<i className='fa fa-plus'/>}
+                    tip={<FormattedMessage id="team_sidebar.join" defaultMessage="Other teams you can join." />}
+                    content={<i className="fa fa-plus" />}
                 />
             );
         } else if (global.window.mm_config.EnableTeamCreation === 'true' || isSystemAdmin) {
             teams.push(
                 <TeamButton
-                    btnClass='team-btn__add'
-                    key='more_teams'
-                    url='/create_team'
+                    btnClass="team-btn__add"
+                    key="more_teams"
+                    url="/create_team"
                     isMobile={this.state.isMobile}
-                    tip={
-                        <FormattedMessage
-                            id='navbar_dropdown.create'
-                            defaultMessage='Create a New Team'
-                        />
-                    }
-                    content={<i className='fa fa-plus'/>}
+                    tip={<FormattedMessage id="navbar_dropdown.create" defaultMessage="Create a New Team" />}
+                    content={<i className="fa fa-plus" />}
                 />
             );
         }
 
         return (
-            <div className='team-sidebar'>
-                <div className='team-wrapper'>
-                    {teams}
-                </div>
+            <div className="team-sidebar">
+                <div className="team-wrapper">{teams}</div>
             </div>
         );
     }

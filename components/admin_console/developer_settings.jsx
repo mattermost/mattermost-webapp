@@ -37,64 +37,56 @@ export default class DeveloperSettings extends AdminSettings {
     }
 
     renderTitle() {
-        return (
-            <FormattedMessage
-                id='admin.developer.title'
-                defaultMessage='Developer Settings'
-            />
-        );
+        return <FormattedMessage id="admin.developer.title" defaultMessage="Developer Settings" />;
     }
 
     renderSettings() {
         return (
             <SettingsGroup>
                 <BooleanSetting
-                    id='enableTesting'
+                    id="enableTesting"
                     label={
-                        <FormattedMessage
-                            id='admin.service.testingTitle'
-                            defaultMessage='Enable Testing Commands: '
-                        />
+                        <FormattedMessage id="admin.service.testingTitle" defaultMessage="Enable Testing Commands: " />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.service.testingDescription'
-                            defaultMessage='When true, /test slash command is enabled to load test accounts, data and text formatting. Changing this requires a server restart before taking effect.'
+                            id="admin.service.testingDescription"
+                            defaultMessage="When true, /test slash command is enabled to load test accounts, data and text formatting. Changing this requires a server restart before taking effect."
                         />
                     }
                     value={this.state.enableTesting}
                     onChange={this.handleChange}
                 />
                 <BooleanSetting
-                    id='enableDeveloper'
+                    id="enableDeveloper"
                     label={
-                        <FormattedMessage
-                            id='admin.service.developerTitle'
-                            defaultMessage='Enable Developer Mode: '
-                        />
+                        <FormattedMessage id="admin.service.developerTitle" defaultMessage="Enable Developer Mode: " />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.service.developerDesc'
-                            defaultMessage='When true, JavaScript errors are shown in a purple bar at the top of the user interface. Not recommended for use in production. '
+                            id="admin.service.developerDesc"
+                            defaultMessage="When true, JavaScript errors are shown in a purple bar at the top of the user interface. Not recommended for use in production. "
                         />
                     }
                     value={this.state.enableDeveloper}
                     onChange={this.handleChange}
                 />
                 <TextSetting
-                    id='allowedUntrustedInternalConnections'
+                    id="allowedUntrustedInternalConnections"
                     label={
                         <FormattedMessage
-                            id='admin.service.internalConnectionsTitle'
-                            defaultMessage='Allow untrusted internal connections to: '
+                            id="admin.service.internalConnectionsTitle"
+                            defaultMessage="Allow untrusted internal connections to: "
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.service.internalConnectionsEx', 'webhooks.internal.example.com 127.0.0.1 10.0.16.0/28')}
+                    placeholder={Utils.localizeMessage(
+                        'admin.service.internalConnectionsEx',
+                        'webhooks.internal.example.com 127.0.0.1 10.0.16.0/28'
+                    )}
                     helpText={
                         <FormattedHTMLMessage
-                            id='admin.service.internalConnectionsDesc'
-                            defaultMessage='In testing environments, such as when developing integrations locally on a development machine, use this setting to specify domains, IP addresses, or CIDR notations to allow internal connections. <b>Not recommended for use in production</b>, since this can allow a user to extract confidential data from your server or internal network.<br /><br />By default, user-supplied URLs such as those used for Open Graph metadata, webhooks, or slash commands will not be allowed to connect to reserved IP addresses including loopback or link-local addresses used for internal networks. Push notification, OAuth 2.0 and WebRTC server URLs are trusted and not affected by this setting.'
+                            id="admin.service.internalConnectionsDesc"
+                            defaultMessage="In testing environments, such as when developing integrations locally on a development machine, use this setting to specify domains, IP addresses, or CIDR notations to allow internal connections. <b>Not recommended for use in production</b>, since this can allow a user to extract confidential data from your server or internal network.<br /><br />By default, user-supplied URLs such as those used for Open Graph metadata, webhooks, or slash commands will not be allowed to connect to reserved IP addresses including loopback or link-local addresses used for internal networks. Push notification, OAuth 2.0 and WebRTC server URLs are trusted and not affected by this setting."
                         />
                     }
                     value={this.state.allowedUntrustedInternalConnections}

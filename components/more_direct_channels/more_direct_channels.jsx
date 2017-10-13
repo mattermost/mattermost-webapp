@@ -33,7 +33,7 @@ export default class MoreDirectChannels extends React.Component {
             getProfiles: PropTypes.func.isRequired,
             getProfilesInTeam: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -111,14 +111,14 @@ export default class MoreDirectChannels extends React.Component {
             return;
         }
 
-        const userIds = this.state.values.map((v) => v.id);
+        const userIds = this.state.values.map(v => v.id);
         if (userIds.length === 0) {
             return;
         }
 
         this.setState({loadingChannel: 1});
 
-        const success = (channel) => {
+        const success = channel => {
             // Due to how react-overlays Modal handles focus, we delay pushing
             // the new channel information until the modal is fully exited.
             // The channel information will be pushed in `handleExit`
@@ -187,7 +187,7 @@ export default class MoreDirectChannels extends React.Component {
         if (this.refs.multiselect) {
             this.refs.multiselect.resetPaging();
         }
-    }
+    };
 
     search(term) {
         clearTimeout(this.searchTimeoutId);
@@ -206,12 +206,9 @@ export default class MoreDirectChannels extends React.Component {
             teamId = TeamStore.getCurrentId();
         }
 
-        this.searchTimeoutId = setTimeout(
-            () => {
-                searchUsers(term, teamId, {}, this.resetPaging);
-            },
-            Constants.SEARCH_TIMEOUT_MILLISECONDS
-        );
+        this.searchTimeoutId = setTimeout(() => {
+            searchUsers(term, teamId, {}, this.resetPaging);
+        }, Constants.SEARCH_TIMEOUT_MILLISECONDS);
     }
 
     handleDelete(values) {
@@ -234,22 +231,16 @@ export default class MoreDirectChannels extends React.Component {
                 <ProfilePicture
                     src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}
                     status={`${UserStore.getStatus(option.id)}`}
-                    width='32'
-                    height='32'
+                    width="32"
+                    height="32"
                 />
-                <div
-                    className='more-modal__details'
-                >
-                    <div className='more-modal__name'>
-                        {displayEntireNameForUser(option)}
-                    </div>
-                    <div className='more-modal__description'>
-                        {option.email}
-                    </div>
+                <div className="more-modal__details">
+                    <div className="more-modal__name">{displayEntireNameForUser(option)}</div>
+                    <div className="more-modal__description">{option.email}</div>
                 </div>
-                <div className='more-modal__actions'>
-                    <div className='more-modal__actions--round'>
-                        <i className='fa fa-plus'/>
+                <div className="more-modal__actions">
+                    <div className="more-modal__actions--round">
+                        <i className="fa fa-plus" />
                     </div>
                 </div>
             </div>
@@ -266,31 +257,26 @@ export default class MoreDirectChannels extends React.Component {
             if (this.state.values && this.state.values.length >= MAX_SELECTABLE_VALUES) {
                 note = (
                     <FormattedMessage
-                        id='more_direct_channels.new_convo_note.full'
-                        defaultMessage='You’ve reached the maximum number of people for this conversation. Consider creating a private channel instead.'
+                        id="more_direct_channels.new_convo_note.full"
+                        defaultMessage="You’ve reached the maximum number of people for this conversation. Consider creating a private channel instead."
                     />
                 );
             } else {
                 note = (
                     <FormattedMessage
-                        id='more_direct_channels.new_convo_note'
-                        defaultMessage='This will start a new conversation. If you’re adding a lot of people, consider creating a private channel instead.'
+                        id="more_direct_channels.new_convo_note"
+                        defaultMessage="This will start a new conversation. If you’re adding a lot of people, consider creating a private channel instead."
                     />
                 );
             }
         }
 
-        const buttonSubmitText = (
-            <FormattedMessage
-                id='multiselect.go'
-                defaultMessage='Go'
-            />
-        );
+        const buttonSubmitText = <FormattedMessage id="multiselect.go" defaultMessage="Go" />;
 
         const numRemainingText = (
             <FormattedMessage
-                id='multiselect.numPeopleRemaining'
-                defaultMessage='Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. '
+                id="multiselect.numPeopleRemaining"
+                defaultMessage="Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. "
                 values={{
                     num: MAX_SELECTABLE_VALUES - this.state.values.length
                 }}
@@ -299,7 +285,7 @@ export default class MoreDirectChannels extends React.Component {
 
         let users = [];
         if (this.state.users) {
-            users = this.state.users.filter((user) => user.delete_at === 0);
+            users = this.state.users.filter(user => user.delete_at === 0);
         }
 
         return (
@@ -311,16 +297,13 @@ export default class MoreDirectChannels extends React.Component {
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title>
-                        <FormattedMessage
-                            id='more_direct_channels.title'
-                            defaultMessage='Direct Messages'
-                        />
+                        <FormattedMessage id="more_direct_channels.title" defaultMessage="Direct Messages" />
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <MultiSelect
-                        key='moreDirectChannelsList'
-                        ref='multiselect'
+                        key="moreDirectChannelsList"
+                        ref="multiselect"
                         options={users}
                         optionRenderer={this.renderOption}
                         values={this.state.values}

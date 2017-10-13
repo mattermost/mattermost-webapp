@@ -6,21 +6,15 @@ import assert from 'assert';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 
 describe('TextFormatting.ChannelLinks', () => {
-    it('Not channel links', (done) => {
-        assert.equal(
-            TextFormatting.formatText('~123').trim(),
-            '<p>~123</p>'
-        );
+    it('Not channel links', done => {
+        assert.equal(TextFormatting.formatText('~123').trim(), '<p>~123</p>');
 
-        assert.equal(
-            TextFormatting.formatText('~town-square').trim(),
-            '<p>~town-square</p>'
-        );
+        assert.equal(TextFormatting.formatText('~town-square').trim(), '<p>~town-square</p>');
 
         done();
     });
 
-    it('Channel links', (done) => {
+    it('Channel links', done => {
         assert.equal(
             TextFormatting.formatText('~town-square', {
                 channelNamesMap: {'town-square': {display_name: 'Town Square'}},

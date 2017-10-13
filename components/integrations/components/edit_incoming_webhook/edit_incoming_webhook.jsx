@@ -13,7 +13,6 @@ const FOOTER = {id: 'update_incoming_webhook.update', defaultMessage: 'Update'};
 
 export default class EditIncomingWebhook extends React.PureComponent {
     static propTypes = {
-
         /**
         * The current team
         */
@@ -35,7 +34,6 @@ export default class EditIncomingWebhook extends React.PureComponent {
         updateIncomingHookRequest: PropTypes.object.isRequired,
 
         actions: PropTypes.shape({
-
             /**
             * The function to call to update an incoming webhook
             */
@@ -46,7 +44,7 @@ export default class EditIncomingWebhook extends React.PureComponent {
             */
             getIncomingHook: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -63,7 +61,7 @@ export default class EditIncomingWebhook extends React.PureComponent {
         }
     }
 
-    editIncomingHook = async (hook) => {
+    editIncomingHook = async hook => {
         this.newHook = hook;
 
         if (this.props.hook.id) {
@@ -75,7 +73,7 @@ export default class EditIncomingWebhook extends React.PureComponent {
         }
 
         await this.submitHook();
-    }
+    };
 
     submitHook = async () => {
         this.setState({serverError: ''});
@@ -90,11 +88,11 @@ export default class EditIncomingWebhook extends React.PureComponent {
         if (this.props.updateIncomingHookRequest.error) {
             this.setState({serverError: this.props.updateIncomingHookRequest.error.message});
         }
-    }
+    };
 
     render() {
         if (!this.props.hook) {
-            return <LoadingScreen/>;
+            return <LoadingScreen />;
         }
 
         return (

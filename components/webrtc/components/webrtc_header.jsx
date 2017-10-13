@@ -11,8 +11,8 @@ import Constants from 'utils/constants.jsx';
 export default function WebrtcHeader(props) {
     const title = (
         <FormattedMessage
-            id='webrtc.header'
-            defaultMessage='Call with {username}'
+            id="webrtc.header"
+            defaultMessage="Call with {username}"
             values={{
                 username: props.username
             }}
@@ -20,72 +20,58 @@ export default function WebrtcHeader(props) {
     );
 
     const closeSidebarTooltip = (
-        <Tooltip id='closeSidebarTooltip'>
-            <FormattedMessage
-                id='rhs_header.closeTooltip'
-                defaultMessage='Close Sidebar'
-            />
+        <Tooltip id="closeSidebarTooltip">
+            <FormattedMessage id="rhs_header.closeTooltip" defaultMessage="Close Sidebar" />
         </Tooltip>
     );
 
     const expandSidebarTooltip = (
-        <Tooltip id='expandSidebarTooltip'>
-            <FormattedMessage
-                id='rhs_header.expandTooltip'
-                defaultMessage='Expand Sidebar'
-            />
+        <Tooltip id="expandSidebarTooltip">
+            <FormattedMessage id="rhs_header.expandTooltip" defaultMessage="Expand Sidebar" />
         </Tooltip>
     );
 
     const shrinkSidebarTooltip = (
-        <Tooltip id='shrinkSidebarTooltip'>
-            <FormattedMessage
-                id='rhs_header.expandTooltip'
-                defaultMessage='Shrink Sidebar'
-            />
+        <Tooltip id="shrinkSidebarTooltip">
+            <FormattedMessage id="rhs_header.expandTooltip" defaultMessage="Shrink Sidebar" />
         </Tooltip>
     );
 
     return (
-        <div className='sidebar--right__header'>
-            <span className='sidebar--right__title'>{title}</span>
-            <div className='pull-right'>
-                <button
-                    type='button'
-                    className='sidebar--right__expand'
-                    aria-label='Expand'
-                    onClick={props.toggleSize}
-                >
+        <div className="sidebar--right__header">
+            <span className="sidebar--right__title">{title}</span>
+            <div className="pull-right">
+                <button type="button" className="sidebar--right__expand" aria-label="Expand" onClick={props.toggleSize}>
                     <OverlayTrigger
                         trigger={['hover', 'focus']}
                         delayShow={Constants.OVERLAY_TIME_DELAY}
-                        placement='top'
+                        placement="top"
                         overlay={expandSidebarTooltip}
                     >
-                        <i className='fa fa-expand'/>
+                        <i className="fa fa-expand" />
                     </OverlayTrigger>
                     <OverlayTrigger
                         trigger={['hover', 'focus']}
                         delayShow={Constants.OVERLAY_TIME_DELAY}
-                        placement='top'
+                        placement="top"
                         overlay={shrinkSidebarTooltip}
                     >
-                        <i className='fa fa-compress'/>
+                        <i className="fa fa-compress" />
                     </OverlayTrigger>
                 </button>
                 <button
-                    type='button'
-                    className='sidebar--right__close'
-                    aria-label='Close'
-                    title='Close'
+                    type="button"
+                    className="sidebar--right__close"
+                    aria-label="Close"
+                    title="Close"
                     onClick={props.onClose}
                 >
                     <OverlayTrigger
                         delayShow={Constants.OVERLAY_TIME_DELAY}
-                        placement='top'
+                        placement="top"
                         overlay={closeSidebarTooltip}
                     >
-                        <i className='fa fa-sign-out'/>
+                        <i className="fa fa-sign-out" />
                     </OverlayTrigger>
                 </button>
             </div>

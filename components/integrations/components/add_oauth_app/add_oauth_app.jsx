@@ -12,7 +12,6 @@ const FOOTER = {id: 'installed_oauth_apps.save', defaultMessage: 'Save'};
 
 export default class AddOAuthApp extends React.PureComponent {
     static propTypes = {
-
         /**
         * The team data
         */
@@ -29,13 +28,12 @@ export default class AddOAuthApp extends React.PureComponent {
         isSystemAdmin: PropTypes.bool,
 
         actions: PropTypes.shape({
-
             /**
             * The function to call to add new OAuthApp
             */
             addOAuthApp: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -45,7 +43,7 @@ export default class AddOAuthApp extends React.PureComponent {
         };
     }
 
-    addOAuthApp = async (app) => {
+    addOAuthApp = async app => {
         this.setState({serverError: ''});
 
         const data = await this.props.actions.addOAuthApp(app);
@@ -57,7 +55,7 @@ export default class AddOAuthApp extends React.PureComponent {
         if (this.props.addOAuthAppRequest.error) {
             this.setState({serverError: this.props.addOAuthAppRequest.error.message});
         }
-    }
+    };
 
     render() {
         return (

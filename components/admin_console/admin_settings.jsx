@@ -11,12 +11,11 @@ import FormError from 'components/form_error.jsx';
 
 export default class AdminSettings extends React.Component {
     static propTypes = {
-
         /*
          * Object representing the config file
          */
         config: PropTypes.object
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -33,15 +32,15 @@ export default class AdminSettings extends React.Component {
             saveNeeded: true,
             [id]: value
         });
-    }
+    };
 
-    handleSubmit = (e) => {
+    handleSubmit = e => {
         e.preventDefault();
 
         this.doSubmit();
-    }
+    };
 
-    doSubmit = (callback) => {
+    doSubmit = callback => {
         this.setState({
             saving: true,
             serverError: null
@@ -53,7 +52,7 @@ export default class AdminSettings extends React.Component {
 
         saveConfig(
             config,
-            (savedConfig) => {
+            savedConfig => {
                 this.setState(this.getStateFromConfig(savedConfig));
 
                 this.setState({
@@ -69,7 +68,7 @@ export default class AdminSettings extends React.Component {
                     this.handleSaved(config);
                 }
             },
-            (err) => {
+            err => {
                 this.setState({
                     saving: false,
                     serverError: err.message
@@ -84,7 +83,7 @@ export default class AdminSettings extends React.Component {
                 }
             }
         );
-    }
+    };
 
     parseInt(str, defaultValue) {
         const n = parseInt(str, 10);
@@ -114,27 +113,21 @@ export default class AdminSettings extends React.Component {
 
     render() {
         return (
-            <div className='wrapper--fixed'>
-                <h3 className='admin-console-header'>
-                    {this.renderTitle()}
-                </h3>
-                <form
-                    className='form-horizontal'
-                    role='form'
-                    onSubmit={this.handleSubmit}
-                >
+            <div className="wrapper--fixed">
+                <h3 className="admin-console-header">{this.renderTitle()}</h3>
+                <form className="form-horizontal" role="form" onSubmit={this.handleSubmit}>
                     {this.renderSettings()}
-                    <div className='form-group'>
-                        <FormError error={this.state.serverError}/>
+                    <div className="form-group">
+                        <FormError error={this.state.serverError} />
                     </div>
-                    <div className='form-group'>
-                        <div className='col-sm-12'>
+                    <div className="form-group">
+                        <div className="col-sm-12">
                             <SaveButton
                                 saving={this.state.saving}
                                 disabled={!this.state.saveNeeded || (this.canSave && !this.canSave())}
                                 onClick={this.handleSubmit}
-                                savingMessageId='admin.saving'
-                                defaultMessage='Saving'
+                                savingMessageId="admin.saving"
+                                defaultMessage="Saving"
                             />
                         </div>
                     </div>

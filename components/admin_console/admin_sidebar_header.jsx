@@ -19,7 +19,7 @@ export default class SidebarHeader extends React.Component {
         this.state = {};
     }
 
-    toggleDropdown = (e) => {
+    toggleDropdown = e => {
         e.preventDefault();
 
         if (this.refs.dropdown.blockToggle) {
@@ -27,8 +27,10 @@ export default class SidebarHeader extends React.Component {
             return;
         }
 
-        $('.team__header').find('.dropdown-toggle').dropdown('toggle');
-    }
+        $('.team__header')
+            .find('.dropdown-toggle')
+            .dropdown('toggle');
+    };
 
     render() {
         var me = UserStore.getCurrentUser();
@@ -40,31 +42,22 @@ export default class SidebarHeader extends React.Component {
 
         if (me.last_picture_update) {
             profilePicture = (
-                <img
-                    className='user__picture'
-                    src={Client4.getProfilePictureUrl(me.id, me.last_picture_update)}
-                />
+                <img className="user__picture" src={Client4.getProfilePictureUrl(me.id, me.last_picture_update)} />
             );
         }
 
         return (
-            <div className='team__header theme'>
-                <a
-                    href='#'
-                    onClick={this.toggleDropdown}
-                >
+            <div className="team__header theme">
+                <a href="#" onClick={this.toggleDropdown}>
                     {profilePicture}
-                    <div className='header__info'>
-                        <div className='team__name'>
-                            <FormattedMessage
-                                id='admin.sidebarHeader.systemConsole'
-                                defaultMessage='System Console'
-                            />
+                    <div className="header__info">
+                        <div className="team__name">
+                            <FormattedMessage id="admin.sidebarHeader.systemConsole" defaultMessage="System Console" />
                         </div>
-                        <div className='user__name'>{'@' + me.username}</div>
+                        <div className="user__name">{'@' + me.username}</div>
                     </div>
                 </a>
-                <AdminNavbarDropdown ref='dropdown'/>
+                <AdminNavbarDropdown ref="dropdown" />
             </div>
         );
     }

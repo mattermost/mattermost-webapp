@@ -28,29 +28,26 @@ class AtMentionSuggestion extends Suggestion {
             username = 'all';
             description = (
                 <FormattedMessage
-                    id='suggestion.mention.all'
-                    defaultMessage='CAUTION: This mentions everyone in channel'
+                    id="suggestion.mention.all"
+                    defaultMessage="CAUTION: This mentions everyone in channel"
                 />
             );
-            icon = <i className='mention__image fa fa-users fa-2x'/>;
+            icon = <i className="mention__image fa fa-users fa-2x" />;
         } else if (user.username === 'channel') {
             username = 'channel';
             description = (
-                <FormattedMessage
-                    id='suggestion.mention.channel'
-                    defaultMessage='Notifies everyone in the channel'
-                />
+                <FormattedMessage id="suggestion.mention.channel" defaultMessage="Notifies everyone in the channel" />
             );
-            icon = <i className='mention__image fa fa-users fa-2x'/>;
+            icon = <i className="mention__image fa fa-users fa-2x" />;
         } else if (user.username === 'here') {
             username = 'here';
             description = (
                 <FormattedMessage
-                    id='suggestion.mention.here'
-                    defaultMessage='Notifies everyone in the channel and online'
+                    id="suggestion.mention.here"
+                    defaultMessage="Notifies everyone in the channel and online"
                 />
             );
-            icon = <i className='mention__image fa fa-users fa-2x'/>;
+            icon = <i className="mention__image fa fa-users fa-2x" />;
         } else {
             username = user.username;
 
@@ -62,12 +59,7 @@ class AtMentionSuggestion extends Suggestion {
                 description = `- ${Utils.getFullName(user)}`;
             }
 
-            icon = (
-                <img
-                    className='mention__image'
-                    src={Utils.imageURLForUser(user)}
-                />
-            );
+            icon = <img className="mention__image" src={Utils.imageURLForUser(user)} />;
         }
 
         let className = 'mentions__name';
@@ -76,21 +68,11 @@ class AtMentionSuggestion extends Suggestion {
         }
 
         return (
-            <div
-                className={className}
-                onClick={this.handleClick}
-            >
-                <div className='pull-left'>
-                    {icon}
-                </div>
-                <div className='pull-left mention--align'>
-                    <span>
-                        {'@' + username}
-                    </span>
-                    <span className='mention__fullname'>
-                        {' '}
-                        {description}
-                    </span>
+            <div className={className} onClick={this.handleClick}>
+                <div className="pull-left">{icon}</div>
+                <div className="pull-left mention--align">
+                    <span>{'@' + username}</span>
+                    <span className="mention__fullname"> {description}</span>
                 </div>
             </div>
         );
@@ -114,51 +96,49 @@ export default class AtMentionProvider extends Provider {
 
         this.startNewRequest(suggestionId, prefix);
 
-        autocompleteUsersInChannel(
-            prefix,
-            this.channelId,
-            (data) => {
-                if (this.shouldCancelDispatch(prefix)) {
-                    return;
-                }
+        autocompleteUsersInChannel(prefix, this.channelId, data => {
+            if (this.shouldCancelDispatch(prefix)) {
+                return;
+            }
 
-                const members = Object.assign([], data.users);
-                for (const id of Object.keys(members)) {
-                    members[id] = {...members[id], type: Constants.MENTION_MEMBERS};
-                }
+            const members = Object.assign([], data.users);
+            for (const id of Object.keys(members)) {
+                members[id] = {...members[id], type: Constants.MENTION_MEMBERS};
+            }
 
-                const nonmembers = data.out_of_channel || [];
-                for (const id of Object.keys(nonmembers)) {
-                    nonmembers[id] = {...nonmembers[id], type: Constants.MENTION_NONMEMBERS};
-                }
+            const nonmembers = data.out_of_channel || [];
+            for (const id of Object.keys(nonmembers)) {
+                nonmembers[id] = {...nonmembers[id], type: Constants.MENTION_NONMEMBERS};
+            }
 
-                let specialMentions = [];
-                if (!pretext.startsWith('/msg')) {
-                    specialMentions = ['here', 'channel', 'all'].filter((item) => {
+            let specialMentions = [];
+            if (!pretext.startsWith('/msg')) {
+                specialMentions = ['here', 'channel', 'all']
+                    .filter(item => {
                         return item.startsWith(prefix);
-                    }).map((name) => {
+                    })
+                    .map(name => {
                         return {username: name, type: Constants.MENTION_SPECIAL};
                     });
-                }
-
-                let users = members.concat(specialMentions).concat(nonmembers);
-                const me = UserStore.getCurrentUser();
-                users = users.filter((user) => {
-                    return user.id !== me.id;
-                });
-
-                const mentions = users.map((user) => '@' + user.username);
-
-                AppDispatcher.handleServerAction({
-                    type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
-                    id: suggestionId,
-                    matchedPretext: `@${captured[1]}`,
-                    terms: mentions,
-                    items: users,
-                    component: AtMentionSuggestion
-                });
             }
-        );
+
+            let users = members.concat(specialMentions).concat(nonmembers);
+            const me = UserStore.getCurrentUser();
+            users = users.filter(user => {
+                return user.id !== me.id;
+            });
+
+            const mentions = users.map(user => '@' + user.username);
+
+            AppDispatcher.handleServerAction({
+                type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
+                id: suggestionId,
+                matchedPretext: `@${captured[1]}`,
+                terms: mentions,
+                items: users,
+                component: AtMentionSuggestion
+            });
+        });
 
         return true;
     }

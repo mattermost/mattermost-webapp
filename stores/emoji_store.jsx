@@ -168,7 +168,7 @@ class EmojiStore extends EventEmitter {
         if (recentEmojis.length > 0 && typeof recentEmojis[0] === 'object') {
             // Prior to PLT-7267, recent emojis were stored with the entire object for the emoji, but this
             // has been changed to store only the names of the emojis, so we need to change that
-            recentEmojis = recentEmojis.map((emoji) => {
+            recentEmojis = recentEmojis.map(emoji => {
                 return emoji.name || emoji.aliases[0];
             });
         }
@@ -220,10 +220,10 @@ class EmojiStore extends EventEmitter {
         const action = payload.action;
 
         switch (action.type) {
-        case ActionTypes.EMOJI_POSTED:
-            this.addRecentEmoji(action.alias);
-            this.emitChange();
-            break;
+            case ActionTypes.EMOJI_POSTED:
+                this.addRecentEmoji(action.alias);
+                this.emitChange();
+                break;
         }
     }
 }

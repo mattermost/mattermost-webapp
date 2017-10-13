@@ -49,12 +49,12 @@ export default class SettingPicture extends Component {
         }
     }
 
-    setPicture = (file) => {
+    setPicture = file => {
         if (file) {
             this.previewBlob = URL.createObjectURL(file);
 
             var reader = new FileReader();
-            reader.onload = (e) => {
+            reader.onload = e => {
                 const orientation = this.getExifOrientation(e.target.result);
                 const orientationStyles = this.getOrientationStyles(orientation);
 
@@ -65,13 +65,13 @@ export default class SettingPicture extends Component {
             };
             reader.readAsArrayBuffer(file);
         }
-    }
+    };
 
     // based on https://stackoverflow.com/questions/7584794/accessing-jpeg-exif-rotation-data-in-javascript-on-the-client-side/32490603#32490603
     getExifOrientation(data) {
         var view = new DataView(data);
 
-        if (view.getUint16(0, false) !== 0xFFD8) {
+        if (view.getUint16(0, false) !== 0xffd8) {
             return -2;
         }
 
@@ -82,22 +82,22 @@ export default class SettingPicture extends Component {
             var marker = view.getUint16(offset, false);
             offset += 2;
 
-            if (marker === 0xFFE1) {
-                if (view.getUint32(offset += 2, false) !== 0x45786966) {
+            if (marker === 0xffe1) {
+                if (view.getUint32((offset += 2), false) !== 0x45786966) {
                     return -1;
                 }
 
-                var little = view.getUint16(offset += 6, false) === 0x4949;
+                var little = view.getUint16((offset += 6), false) === 0x4949;
                 offset += view.getUint32(offset + 4, little);
                 var tags = view.getUint16(offset, little);
                 offset += 2;
 
                 for (var i = 0; i < tags; i++) {
-                    if (view.getUint16(offset + (i * 12), little) === 0x0112) {
-                        return view.getUint16(offset + (i * 12) + 8, little);
+                    if (view.getUint16(offset + i * 12, little) === 0x0112) {
+                        return view.getUint16(offset + i * 12 + 8, little);
                     }
                 }
-            } else if ((marker & 0xFF00) === 0xFF00) {
+            } else if ((marker & 0xff00) === 0xff00) {
                 offset += view.getUint16(offset, false);
             } else {
                 break;
@@ -107,10 +107,7 @@ export default class SettingPicture extends Component {
     }
 
     getOrientationStyles(orientation) {
-        const {
-            transform,
-            'transform-origin': transformOrigin
-        } = exif2css(orientation);
+        const {transform, 'transform-origin': transformOrigin} = exif2css(orientation);
         return {transform, transformOrigin};
     }
 
@@ -122,35 +119,17 @@ export default class SettingPicture extends Component {
                 ...this.state.orientationStyles
             };
 
-            img = (
-                <div
-                    className='profile-img-preview'
-                    style={imageStyles}
-                />
-            );
+            img = <div className="profile-img-preview" style={imageStyles} />;
         } else {
-            img = (
-                <img
-                    ref='image'
-                    className='profile-img rounded'
-                    src={this.props.src}
-                />
-            );
+            img = <img ref="image" className="profile-img rounded" src={this.props.src} />;
         }
 
         let confirmButton;
         let selectButtonSpinner;
         let fileInputDisabled = false;
         if (this.props.loadingPicture) {
-            confirmButton = (
-                <img
-                    className='spinner'
-                    src={loadingGif}
-                />
-            );
-            selectButtonSpinner = (
-                <span className='icon fa fa-refresh icon--rotate'/>
-            );
+            confirmButton = <img className="spinner" src={loadingGif} />;
+            selectButtonSpinner = <span className="icon fa fa-refresh icon--rotate" />;
             fileInputDisabled = true;
         } else {
             let confirmButtonClass = 'btn btn-sm';
@@ -161,69 +140,45 @@ export default class SettingPicture extends Component {
             }
 
             confirmButton = (
-                <a
-                    className={confirmButtonClass}
-                    onClick={this.props.submit}
-                >
-                    <FormattedMessage
-                        id='setting_picture.save'
-                        defaultMessage='Save'
-                    />
+                <a className={confirmButtonClass} onClick={this.props.submit}>
+                    <FormattedMessage id="setting_picture.save" defaultMessage="Save" />
                 </a>
             );
         }
 
         return (
-            <ul className='section-max form-horizontal'>
-                <li className='col-xs-12 section-title'>{this.props.title}</li>
-                <li className='col-xs-offset-3 col-xs-8'>
-                    <ul className='setting-list'>
-                        <li className='setting-list-item'>
-                            {img}
-                        </li>
-                        <li className='setting-list-item padding-top x2'>
+            <ul className="section-max form-horizontal">
+                <li className="col-xs-12 section-title">{this.props.title}</li>
+                <li className="col-xs-offset-3 col-xs-8">
+                    <ul className="setting-list">
+                        <li className="setting-list-item">{img}</li>
+                        <li className="setting-list-item padding-top x2">
                             <FormattedMessage
-                                id='setting_picture.help'
-                                defaultMessage='Upload a profile picture in BMP, JPG, JPEG or PNG format, at least {width}px in width and {height}px height.'
+                                id="setting_picture.help"
+                                defaultMessage="Upload a profile picture in BMP, JPG, JPEG or PNG format, at least {width}px in width and {height}px height."
                                 values={{
                                     width: Constants.PROFILE_WIDTH,
                                     height: Constants.PROFILE_WIDTH
                                 }}
                             />
                         </li>
-                        <li className='setting-list-item'>
-                            <hr/>
-                            <FormError
-                                errors={[this.props.clientError, this.props.serverError]}
-                                type={'modal'}
-                            />
-                            <button
-                                className='btn btn-sm btn-primary btn-file sel-btn'
-                                disabled={fileInputDisabled}
-                            >
+                        <li className="setting-list-item">
+                            <hr />
+                            <FormError errors={[this.props.clientError, this.props.serverError]} type={'modal'} />
+                            <button className="btn btn-sm btn-primary btn-file sel-btn" disabled={fileInputDisabled}>
                                 {selectButtonSpinner}
-                                <FormattedMessage
-                                    id='setting_picture.select'
-                                    defaultMessage='Select'
-                                />
+                                <FormattedMessage id="setting_picture.select" defaultMessage="Select" />
                                 <input
-                                    ref='input'
-                                    accept='.jpg,.png,.bmp'
-                                    type='file'
+                                    ref="input"
+                                    accept=".jpg,.png,.bmp"
+                                    type="file"
                                     onChange={this.props.onFileChange}
                                     disabled={fileInputDisabled}
                                 />
                             </button>
                             {confirmButton}
-                            <a
-                                className='btn btn-sm theme'
-                                href='#'
-                                onClick={this.props.updateSection}
-                            >
-                                <FormattedMessage
-                                    id='setting_picture.cancel'
-                                    defaultMessage='Cancel'
-                                />
+                            <a className="btn btn-sm theme" href="#" onClick={this.props.updateSection}>
+                                <FormattedMessage id="setting_picture.cancel" defaultMessage="Cancel" />
                             </a>
                         </li>
                     </ul>

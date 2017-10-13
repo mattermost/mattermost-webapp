@@ -23,7 +23,7 @@ export default class ActivityLogModal extends React.Component {
             getSessions: PropTypes.func.isRequired,
             revokeSession: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -93,11 +93,11 @@ export default class ActivityLogModal extends React.Component {
         this.setState({moreInfo: newMoreInfo});
     }
 
-    isMobileSession = (session) => {
+    isMobileSession = session => {
         return session.device_id && (session.device_id.includes('apple') || session.device_id.includes('android'));
     };
 
-    mobileSessionInfo = (session) => {
+    mobileSessionInfo = session => {
         let deviceTypeId;
         let deviceTypeMessage;
         let devicePicture;
@@ -124,12 +124,7 @@ export default class ActivityLogModal extends React.Component {
 
         return {
             devicePicture,
-            devicePlatform: (
-                <FormattedMessage
-                    id={deviceTypeId}
-                    defaultMessage={deviceTypeMessage}
-                />
-            )
+            devicePlatform: <FormattedMessage id={deviceTypeId} defaultMessage={deviceTypeMessage} />
         };
     };
 
@@ -154,17 +149,11 @@ export default class ActivityLogModal extends React.Component {
 
                 devicePicture = sessionInfo.devicePicture;
                 devicePlatform = sessionInfo.devicePlatform;
-            } else if (currentSession.props.platform === 'Macintosh' ||
-                currentSession.props.platform === 'iPhone') {
+            } else if (currentSession.props.platform === 'Macintosh' || currentSession.props.platform === 'iPhone') {
                 devicePicture = 'fa fa-apple';
             } else if (currentSession.props.platform === 'Linux') {
                 if (currentSession.props.os.indexOf('Android') >= 0) {
-                    devicePlatform = (
-                        <FormattedMessage
-                            id='activity_log_modal.android'
-                            defaultMessage='Android'
-                        />
-                    );
+                    devicePlatform = <FormattedMessage id="activity_log_modal.android" defaultMessage="Android" />;
                     devicePicture = 'fa fa-android';
                 } else {
                     devicePicture = 'fa fa-linux';
@@ -175,10 +164,7 @@ export default class ActivityLogModal extends React.Component {
 
             if (currentSession.props.browser.indexOf('Desktop App') !== -1) {
                 devicePlatform = (
-                    <FormattedMessage
-                        id='activity_log_modal.desktop'
-                        defaultMessage='Native Desktop App'
-                    />
+                    <FormattedMessage id="activity_log_modal.desktop" defaultMessage="Native Desktop App" />
                 );
             }
 
@@ -188,31 +174,25 @@ export default class ActivityLogModal extends React.Component {
                     <div>
                         <div>
                             <FormattedMessage
-                                id='activity_log.firstTime'
-                                defaultMessage='First time active: {date}, {time}'
+                                id="activity_log.firstTime"
+                                defaultMessage="First time active: {date}, {time}"
                                 values={{
                                     date: (
                                         <FormattedDate
                                             value={firstAccessTime}
-                                            day='2-digit'
-                                            month='long'
-                                            year='numeric'
+                                            day="2-digit"
+                                            month="long"
+                                            year="numeric"
                                         />
                                     ),
-                                    time: (
-                                        <FormattedTime
-                                            value={firstAccessTime}
-                                            hour='2-digit'
-                                            minute='2-digit'
-                                        />
-                                    )
+                                    time: <FormattedTime value={firstAccessTime} hour="2-digit" minute="2-digit" />
                                 }}
                             />
                         </div>
                         <div>
                             <FormattedMessage
-                                id='activity_log.os'
-                                defaultMessage='OS: {os}'
+                                id="activity_log.os"
+                                defaultMessage="OS: {os}"
                                 values={{
                                     os: currentSession.props.os
                                 }}
@@ -220,8 +200,8 @@ export default class ActivityLogModal extends React.Component {
                         </div>
                         <div>
                             <FormattedMessage
-                                id='activity_log.browser'
-                                defaultMessage='Browser: {browser}'
+                                id="activity_log.browser"
+                                defaultMessage="Browser: {browser}"
                                 values={{
                                     browser: currentSession.props.browser
                                 }}
@@ -229,8 +209,8 @@ export default class ActivityLogModal extends React.Component {
                         </div>
                         <div>
                             <FormattedMessage
-                                id='activity_log.sessionId'
-                                defaultMessage='Session ID: {id}'
+                                id="activity_log.sessionId"
+                                defaultMessage="Session ID: {id}"
                                 values={{
                                     id: currentSession.id
                                 }}
@@ -240,62 +220,43 @@ export default class ActivityLogModal extends React.Component {
                 );
             } else {
                 moreInfo = (
-                    <a
-                        className='theme'
-                        href='#'
-                        onClick={this.handleMoreInfo.bind(this, i)}
-                    >
-                        <FormattedMessage
-                            id='activity_log.moreInfo'
-                            defaultMessage='More info'
-                        />
+                    <a className="theme" href="#" onClick={this.handleMoreInfo.bind(this, i)}>
+                        <FormattedMessage id="activity_log.moreInfo" defaultMessage="More info" />
                     </a>
                 );
             }
 
             activityList[i] = (
-                <div
-                    key={'activityLogEntryKey' + i}
-                    className='activity-log__table'
-                >
-                    <div className='activity-log__report'>
-                        <div className='report__platform'><i className={devicePicture}/>{devicePlatform}</div>
-                        <div className='report__info'>
+                <div key={'activityLogEntryKey' + i} className="activity-log__table">
+                    <div className="activity-log__report">
+                        <div className="report__platform">
+                            <i className={devicePicture} />
+                            {devicePlatform}
+                        </div>
+                        <div className="report__info">
                             <div>
                                 <FormattedMessage
-                                    id='activity_log.lastActivity'
-                                    defaultMessage='Last activity: {date}, {time}'
+                                    id="activity_log.lastActivity"
+                                    defaultMessage="Last activity: {date}, {time}"
                                     values={{
                                         date: (
                                             <FormattedDate
                                                 value={lastAccessTime}
-                                                day='2-digit'
-                                                month='long'
-                                                year='numeric'
+                                                day="2-digit"
+                                                month="long"
+                                                year="numeric"
                                             />
                                         ),
-                                        time: (
-                                            <FormattedTime
-                                                value={lastAccessTime}
-                                                hour='2-digit'
-                                                minute='2-digit'
-                                            />
-                                        )
+                                        time: <FormattedTime value={lastAccessTime} hour="2-digit" minute="2-digit" />
                                     }}
                                 />
                             </div>
                             {moreInfo}
                         </div>
                     </div>
-                    <div className='activity-log__action'>
-                        <button
-                            onClick={this.submitRevoke.bind(this, currentSession.id)}
-                            className='btn btn-primary'
-                        >
-                            <FormattedMessage
-                                id='activity_log.logout'
-                                defaultMessage='Logout'
-                            />
+                    <div className="activity-log__action">
+                        <button onClick={this.submitRevoke.bind(this, currentSession.id)} className="btn btn-primary">
+                            <FormattedMessage id="activity_log.logout" defaultMessage="Logout" />
                         </button>
                     </div>
                 </div>
@@ -304,31 +265,28 @@ export default class ActivityLogModal extends React.Component {
 
         let content;
         if (this.state.sessions.loading) {
-            content = <LoadingScreen/>;
+            content = <LoadingScreen />;
         } else {
-            content = <form role='form'>{activityList}</form>;
+            content = <form role="form">{activityList}</form>;
         }
 
         return (
             <Modal
-                dialogClassName='modal--scroll'
+                dialogClassName="modal--scroll"
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}
-                bsSize='large'
+                bsSize="large"
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title>
-                        <FormattedMessage
-                            id='activity_log.activeSessions'
-                            defaultMessage='Active Sessions'
-                        />
+                        <FormattedMessage id="activity_log.activeSessions" defaultMessage="Active Sessions" />
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body ref='modalBody'>
-                    <p className='session-help-text'>
+                <Modal.Body ref="modalBody">
+                    <p className="session-help-text">
                         <FormattedMessage
-                            id='activity_log.sessionsDescription'
+                            id="activity_log.sessionsDescription"
                             defaultMessage="Sessions are created when you log in to a new browser on a device. Sessions let you use Mattermost without having to log in again for a time period specified by the System Admin. If you want to log out sooner, use the 'Logout' button below to end a session."
                         />
                     </p>

@@ -150,7 +150,7 @@ class InviteMemberModal extends React.Component {
                 this.handleHide(false);
                 this.setState({isSendingEmails: false});
             },
-            (err) => {
+            err => {
                 if (err.id === 'api.team.invite_members.already.app_error') {
                     emailErrors[err.detailed_error] = err.message;
                     this.setState({emailErrors});
@@ -254,15 +254,15 @@ class InviteMemberModal extends React.Component {
                 var index = inviteIds[i];
                 var emailError = null;
                 if (this.state.emailErrors[index]) {
-                    emailError = <label className='control-label'>{this.state.emailErrors[index]}</label>;
+                    emailError = <label className="control-label">{this.state.emailErrors[index]}</label>;
                 }
                 var firstNameError = null;
                 if (this.state.firstNameErrors[index]) {
-                    firstNameError = <label className='control-label'>{this.state.firstNameErrors[index]}</label>;
+                    firstNameError = <label className="control-label">{this.state.firstNameErrors[index]}</label>;
                 }
                 var lastNameError = null;
                 if (this.state.lastNameErrors[index]) {
-                    lastNameError = <label className='control-label'>{this.state.lastNameErrors[index]}</label>;
+                    lastNameError = <label className="control-label">{this.state.lastNameErrors[index]}</label>;
                 }
 
                 var removeButton = null;
@@ -270,11 +270,11 @@ class InviteMemberModal extends React.Component {
                     removeButton = (
                         <div>
                             <button
-                                type='button'
-                                className='btn btn-link remove__member'
+                                type="button"
+                                className="btn btn-link remove__member"
                                 onClick={this.removeInviteFields.bind(this, index)}
                             >
-                                <span className='fa fa-trash'/>
+                                <span className="fa fa-trash" />
                             </button>
                         </div>
                     );
@@ -295,33 +295,33 @@ class InviteMemberModal extends React.Component {
                     lastNameClass += ' has-error';
                 }
                 nameFields = (
-                    <div className='row row--invite'>
-                        <div className='col-sm-6'>
+                    <div className="row row--invite">
+                        <div className="col-sm-6">
                             <div className={firstNameClass}>
                                 <input
                                     onKeyDown={this.handleKeyDown}
-                                    type='text'
-                                    className='form-control'
+                                    type="text"
+                                    className="form-control"
                                     ref={'first_name' + index}
                                     placeholder={formatMessage(holders.firstname)}
-                                    maxLength='64'
+                                    maxLength="64"
                                     disabled={!this.state.emailEnabled || !this.state.userCreationEnabled}
-                                    spellCheck='false'
+                                    spellCheck="false"
                                 />
                                 {firstNameError}
                             </div>
                         </div>
-                        <div className='col-sm-6'>
+                        <div className="col-sm-6">
                             <div className={lastNameClass}>
                                 <input
                                     onKeyDown={this.handleKeyDown}
-                                    type='text'
-                                    className='form-control'
+                                    type="text"
+                                    className="form-control"
                                     ref={'last_name' + index}
                                     placeholder={formatMessage(holders.lastname)}
-                                    maxLength='64'
+                                    maxLength="64"
                                     disabled={!this.state.emailEnabled || !this.state.userCreationEnabled}
-                                    spellCheck='false'
+                                    spellCheck="false"
                                 />
                                 {lastNameError}
                             </div>
@@ -336,13 +336,13 @@ class InviteMemberModal extends React.Component {
                             <input
                                 onKeyUp={this.displayNameKeyUp}
                                 onKeyDown={this.handleKeyDown}
-                                type='text'
+                                type="text"
                                 ref={'email' + index}
-                                className='form-control'
-                                placeholder='email@domain.com'
-                                maxLength='64'
+                                className="form-control"
+                                placeholder="email@domain.com"
+                                maxLength="64"
                                 disabled={!this.state.emailEnabled || !this.state.userCreationEnabled}
-                                spellCheck='false'
+                                spellCheck="false"
                             />
                             {emailError}
                         </div>
@@ -353,7 +353,11 @@ class InviteMemberModal extends React.Component {
 
             var serverError = null;
             if (this.state.serverError) {
-                serverError = <div className='form-group has-error'><label className='control-label'>{this.state.serverError}</label></div>;
+                serverError = (
+                    <div className="form-group has-error">
+                        <label className="control-label">{this.state.serverError}</label>
+                    </div>
+                );
             }
 
             var content = null;
@@ -368,22 +372,15 @@ class InviteMemberModal extends React.Component {
                 content = (
                     <div>
                         {serverError}
-                        <button
-                            type='button'
-                            className='btn btn-default'
-                            onClick={this.addInviteFields}
-                        >
-                            <FormattedMessage
-                                id='invite_member.addAnother'
-                                defaultMessage='Add another'
-                            />
+                        <button type="button" className="btn btn-default" onClick={this.addInviteFields}>
+                            <FormattedMessage id="invite_member.addAnother" defaultMessage="Add another" />
                         </button>
-                        <br/>
-                        <br/>
+                        <br />
+                        <br />
                         <span>
                             <FormattedHTMLMessage
-                                id='invite_member.autoJoin'
-                                defaultMessage='People invited automatically join the <strong>{channel}</strong> channel.'
+                                id="invite_member.autoJoin"
+                                defaultMessage="People invited automatically join the <strong>{channel}</strong> channel."
                                 values={{
                                     channel: defaultChannelName
                                 }}
@@ -392,35 +389,23 @@ class InviteMemberModal extends React.Component {
                     </div>
                 );
 
-                var sendButtonLabel = (
-                    <FormattedMessage
-                        id='invite_member.send'
-                        defaultMessage='Send Invitation'
-                    />
-                );
+                var sendButtonLabel = <FormattedMessage id="invite_member.send" defaultMessage="Send Invitation" />;
                 if (this.state.isSendingEmails) {
                     sendButtonLabel = (
-                        <span><i className='fa fa-spinner fa-spin'/>
-                            <FormattedMessage
-                                id='invite_member.sending'
-                                defaultMessage=' Sending'
-                            />
+                        <span>
+                            <i className="fa fa-spinner fa-spin" />
+                            <FormattedMessage id="invite_member.sending" defaultMessage=" Sending" />
                         </span>
                     );
                 } else if (this.state.inviteIds.length > 1) {
-                    sendButtonLabel = (
-                        <FormattedMessage
-                            id='invite_member.send2'
-                            defaultMessage='Send Invitations'
-                        />
-                    );
+                    sendButtonLabel = <FormattedMessage id="invite_member.send2" defaultMessage="Send Invitations" />;
                 }
 
                 sendButton = (
                     <button
                         onClick={this.handleSubmit}
-                        type='button'
-                        className='btn btn-primary'
+                        type="button"
+                        className="btn btn-primary"
                         disabled={this.state.isSendingEmails}
                     >
                         {sendButtonLabel}
@@ -430,22 +415,16 @@ class InviteMemberModal extends React.Component {
                 var teamInviteLink = null;
                 if (currentUser && this.state.teamType === 'O') {
                     var link = (
-                        <a
-                            href='#'
-                            onClick={this.showGetTeamInviteLinkModal}
-                        >
-                            <FormattedMessage
-                                id='invite_member.inviteLink'
-                                defaultMessage='Team Invite Link'
-                            />
+                        <a href="#" onClick={this.showGetTeamInviteLinkModal}>
+                            <FormattedMessage id="invite_member.inviteLink" defaultMessage="Team Invite Link" />
                         </a>
                     );
 
                     teamInviteLink = (
                         <p>
                             <FormattedMessage
-                                id='invite_member.teamInviteLink'
-                                defaultMessage='You can also invite people using the {link}.'
+                                id="invite_member.teamInviteLink"
+                                defaultMessage="You can also invite people using the {link}."
                                 values={{
                                     link
                                 }}
@@ -458,8 +437,8 @@ class InviteMemberModal extends React.Component {
                     <div>
                         <p>
                             <FormattedMessage
-                                id='invite_member.content'
-                                defaultMessage='Email is currently disabled for your team, and email invitations cannot be sent. Contact your System Administrator to enable email and email invitations.'
+                                id="invite_member.content"
+                                defaultMessage="Email is currently disabled for your team, and email invitations cannot be sent. Contact your System Administrator to enable email and email invitations."
                             />
                         </p>
                         {teamInviteLink}
@@ -470,8 +449,8 @@ class InviteMemberModal extends React.Component {
                     <div>
                         <p>
                             <FormattedMessage
-                                id='invite_member.disabled'
-                                defaultMessage='User creation has been disabled for your team. Please ask your Team Administrator for details.'
+                                id="invite_member.disabled"
+                                defaultMessage="User creation has been disabled for your team. Please ask your Team Administrator for details."
                             />
                         </p>
                     </div>
@@ -481,7 +460,7 @@ class InviteMemberModal extends React.Component {
             return (
                 <div>
                     <Modal
-                        dialogClassName='modal-invite-member'
+                        dialogClassName="modal-invite-member"
                         show={this.state.show}
                         onHide={this.handleHide.bind(this, true)}
                         enforceFocus={!this.state.showConfirmModal}
@@ -489,29 +468,21 @@ class InviteMemberModal extends React.Component {
                     >
                         <Modal.Header closeButton={!this.state.isSendingEmails}>
                             <Modal.Title>
-                                <FormattedMessage
-                                    id='invite_member.newMember'
-                                    defaultMessage='Send Email Invite'
-                                />
+                                <FormattedMessage id="invite_member.newMember" defaultMessage="Send Email Invite" />
                             </Modal.Title>
                         </Modal.Header>
-                        <Modal.Body ref='modalBody'>
-                            <form role='form'>
-                                {inviteSections}
-                            </form>
+                        <Modal.Body ref="modalBody">
+                            <form role="form">{inviteSections}</form>
                             {content}
                         </Modal.Body>
                         <Modal.Footer>
                             <button
-                                type='button'
-                                className='btn btn-default'
+                                type="button"
+                                className="btn btn-default"
                                 onClick={this.handleHide.bind(this, true)}
                                 disabled={this.state.isSendingEmails}
                             >
-                                <FormattedMessage
-                                    id='invite_member.cancel'
-                                    defaultMessage='Cancel'
-                                />
+                                <FormattedMessage id="invite_member.cancel" defaultMessage="Cancel" />
                             </button>
                             {sendButton}
                         </Modal.Footer>

@@ -34,11 +34,9 @@ export default class RemovedFromChannelModal extends React.Component {
         }
 
         var townSquare = ChannelStore.getByName('town-square');
-        setTimeout(
-            () => {
-                browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + townSquare.name);
-            },
-        1);
+        setTimeout(() => {
+            browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + townSquare.name);
+        }, 1);
 
         this.setState(newState);
     }
@@ -60,22 +58,12 @@ export default class RemovedFromChannelModal extends React.Component {
     render() {
         var currentUser = UserStore.getCurrentUser();
 
-        var channelName = (
-            <FormattedMessage
-                id='removed_channel.channelName'
-                defaultMessage='the channel'
-            />
-        );
+        var channelName = <FormattedMessage id="removed_channel.channelName" defaultMessage="the channel" />;
         if (this.state.channelName) {
             channelName = this.state.channelName;
         }
 
-        var remover = (
-            <FormattedMessage
-                id='removed_channel.someone'
-                defaultMessage='Someone'
-            />
-        );
+        var remover = <FormattedMessage id="removed_channel.someone" defaultMessage="Someone" />;
         if (this.state.remover) {
             remover = this.state.remover;
         }
@@ -83,55 +71,39 @@ export default class RemovedFromChannelModal extends React.Component {
         if (currentUser != null) {
             return (
                 <div
-                    className='modal fade'
-                    ref='modal'
-                    id='removed_from_channel'
-                    tabIndex='-1'
-                    role='dialog'
-                    aria-hidden='true'
+                    className="modal fade"
+                    ref="modal"
+                    id="removed_from_channel"
+                    tabIndex="-1"
+                    role="dialog"
+                    aria-hidden="true"
                 >
-                    <div className='modal-dialog'>
-                        <div className='modal-content'>
-                            <div className='modal-header'>
-                                <button
-                                    type='button'
-                                    className='close'
-                                    data-dismiss='modal'
-                                    aria-label='Close'
-                                >
-                                    <span aria-hidden='true'>
-                                        {'×'}
-                                    </span>
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">{'×'}</span>
                                 </button>
-                                <h4 className='modal-title'>
-                                    <FormattedMessage
-                                        id='removed_channel.from'
-                                        defaultMessage='Removed from '
-                                    />
-                                    <span className='name'>{channelName}</span></h4>
+                                <h4 className="modal-title">
+                                    <FormattedMessage id="removed_channel.from" defaultMessage="Removed from " />
+                                    <span className="name">{channelName}</span>
+                                </h4>
                             </div>
-                            <div className='modal-body'>
+                            <div className="modal-body">
                                 <p>
                                     <FormattedMessage
-                                        id='removed_channel.remover'
-                                        defaultMessage='{remover} removed you from {channel}'
+                                        id="removed_channel.remover"
+                                        defaultMessage="{remover} removed you from {channel}"
                                         values={{
                                             remover,
-                                            channel: (channelName)
+                                            channel: channelName
                                         }}
                                     />
                                 </p>
                             </div>
-                            <div className='modal-footer'>
-                                <button
-                                    type='button'
-                                    className='btn btn-primary'
-                                    data-dismiss='modal'
-                                >
-                                    <FormattedMessage
-                                        id='removed_channel.okay'
-                                        defaultMessage='Okay'
-                                    />
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-primary" data-dismiss="modal">
+                                    <FormattedMessage id="removed_channel.okay" defaultMessage="Okay" />
                                 </button>
                             </div>
                         </div>
@@ -140,6 +112,6 @@ export default class RemovedFromChannelModal extends React.Component {
             );
         }
 
-        return <div/>;
+        return <div />;
     }
 }

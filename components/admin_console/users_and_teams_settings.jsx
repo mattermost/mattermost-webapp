@@ -28,12 +28,21 @@ export default class UsersAndTeamsSettings extends AdminSettings {
     getConfigFromState(config) {
         config.TeamSettings.EnableUserCreation = this.state.enableUserCreation;
         config.TeamSettings.EnableTeamCreation = this.state.enableTeamCreation;
-        config.TeamSettings.MaxUsersPerTeam = this.parseIntNonZero(this.state.maxUsersPerTeam, Constants.DEFAULT_MAX_USERS_PER_TEAM);
+        config.TeamSettings.MaxUsersPerTeam = this.parseIntNonZero(
+            this.state.maxUsersPerTeam,
+            Constants.DEFAULT_MAX_USERS_PER_TEAM
+        );
         config.TeamSettings.RestrictCreationToDomains = this.state.restrictCreationToDomains;
         config.TeamSettings.RestrictDirectMessage = this.state.restrictDirectMessage;
         config.TeamSettings.TeammateNameDisplay = this.state.teammateNameDisplay;
-        config.TeamSettings.MaxChannelsPerTeam = this.parseIntNonZero(this.state.maxChannelsPerTeam, Constants.DEFAULT_MAX_CHANNELS_PER_TEAM);
-        config.TeamSettings.MaxNotificationsPerChannel = this.parseIntNonZero(this.state.maxNotificationsPerChannel, Constants.DEFAULT_MAX_NOTIFICATIONS_PER_CHANNEL);
+        config.TeamSettings.MaxChannelsPerTeam = this.parseIntNonZero(
+            this.state.maxChannelsPerTeam,
+            Constants.DEFAULT_MAX_CHANNELS_PER_TEAM
+        );
+        config.TeamSettings.MaxNotificationsPerChannel = this.parseIntNonZero(
+            this.state.maxNotificationsPerChannel,
+            Constants.DEFAULT_MAX_NOTIFICATIONS_PER_CHANNEL
+        );
         config.TeamSettings.EnableConfirmNotificationsToChannel = this.state.enableConfirmNotificationsToChannel;
 
         return config;
@@ -54,177 +63,185 @@ export default class UsersAndTeamsSettings extends AdminSettings {
     }
 
     renderTitle() {
-        return (
-            <FormattedMessage
-                id='admin.general.usersAndTeams'
-                defaultMessage='Users and Teams'
-            />
-        );
+        return <FormattedMessage id="admin.general.usersAndTeams" defaultMessage="Users and Teams" />;
     }
 
     renderSettings() {
         return (
             <SettingsGroup>
                 <BooleanSetting
-                    id='enableUserCreation'
+                    id="enableUserCreation"
                     label={
                         <FormattedMessage
-                            id='admin.team.userCreationTitle'
-                            defaultMessage='Enable Account Creation: '
+                            id="admin.team.userCreationTitle"
+                            defaultMessage="Enable Account Creation: "
                         />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.team.userCreationDescription'
-                            defaultMessage='When false, the ability to create accounts is disabled. The create account button displays error when pressed.'
+                            id="admin.team.userCreationDescription"
+                            defaultMessage="When false, the ability to create accounts is disabled. The create account button displays error when pressed."
                         />
                     }
                     value={this.state.enableUserCreation}
                     onChange={this.handleChange}
                 />
                 <BooleanSetting
-                    id='enableTeamCreation'
+                    id="enableTeamCreation"
                     label={
-                        <FormattedMessage
-                            id='admin.team.teamCreationTitle'
-                            defaultMessage='Enable Team Creation: '
-                        />
+                        <FormattedMessage id="admin.team.teamCreationTitle" defaultMessage="Enable Team Creation: " />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.team.teamCreationDescription'
-                            defaultMessage='When false, only System Administrators can create teams.'
+                            id="admin.team.teamCreationDescription"
+                            defaultMessage="When false, only System Administrators can create teams."
                         />
                     }
                     value={this.state.enableTeamCreation}
                     onChange={this.handleChange}
                 />
                 <TextSetting
-                    id='maxUsersPerTeam'
-                    label={
-                        <FormattedMessage
-                            id='admin.team.maxUsersTitle'
-                            defaultMessage='Max Users Per Team:'
-                        />
-                    }
+                    id="maxUsersPerTeam"
+                    label={<FormattedMessage id="admin.team.maxUsersTitle" defaultMessage="Max Users Per Team:" />}
                     placeholder={Utils.localizeMessage('admin.team.maxUsersExample', 'Ex "25"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.team.maxUsersDescription'
-                            defaultMessage='Maximum total number of users per team, including both active and inactive users.'
+                            id="admin.team.maxUsersDescription"
+                            defaultMessage="Maximum total number of users per team, including both active and inactive users."
                         />
                     }
                     value={this.state.maxUsersPerTeam}
                     onChange={this.handleChange}
                 />
                 <TextSetting
-                    id='maxChannelsPerTeam'
+                    id="maxChannelsPerTeam"
                     label={
-                        <FormattedMessage
-                            id='admin.team.maxChannelsTitle'
-                            defaultMessage='Max Channels Per Team:'
-                        />
+                        <FormattedMessage id="admin.team.maxChannelsTitle" defaultMessage="Max Channels Per Team:" />
                     }
                     placeholder={Utils.localizeMessage('admin.team.maxChannelsExample', 'Ex "100"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.team.maxChannelsDescription'
-                            defaultMessage='Maximum total number of channels per team, including both active and deleted channels.'
+                            id="admin.team.maxChannelsDescription"
+                            defaultMessage="Maximum total number of channels per team, including both active and deleted channels."
                         />
                     }
                     value={this.state.maxChannelsPerTeam}
                     onChange={this.handleChange}
                 />
                 <TextSetting
-                    id='maxNotificationsPerChannel'
+                    id="maxNotificationsPerChannel"
                     label={
                         <FormattedMessage
-                            id='admin.team.maxNotificationsPerChannelTitle'
-                            defaultMessage='Max Notifications Per Channel:'
+                            id="admin.team.maxNotificationsPerChannelTitle"
+                            defaultMessage="Max Notifications Per Channel:"
                         />
                     }
                     placeholder={Utils.localizeMessage('admin.team.maxNotificationsPerChannelExample', 'Ex "1000"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.team.maxNotificationsPerChannelDescription'
-                            defaultMessage='Maximum total number of users in a channel before users typing messages, @all, @here, and @channel no longer send notifications because of performance.'
+                            id="admin.team.maxNotificationsPerChannelDescription"
+                            defaultMessage="Maximum total number of users in a channel before users typing messages, @all, @here, and @channel no longer send notifications because of performance."
                         />
                     }
                     value={this.state.maxNotificationsPerChannel}
                     onChange={this.handleChange}
                 />
                 <BooleanSetting
-                    id='enableConfirmNotificationsToChannel'
+                    id="enableConfirmNotificationsToChannel"
                     label={
                         <FormattedMessage
-                            id='admin.team.enableConfirmNotificationsToChannelTitle'
-                            defaultMessage='Show @channel and @all confirmation dialog: '
+                            id="admin.team.enableConfirmNotificationsToChannelTitle"
+                            defaultMessage="Show @channel and @all confirmation dialog: "
                         />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.team.enableConfirmNotificationsToChannelDescription'
-                            defaultMessage='When true, users will be prompted to confirm when posting @channel and @all in channels with over five members. When false, no confirmation is required.'
+                            id="admin.team.enableConfirmNotificationsToChannelDescription"
+                            defaultMessage="When true, users will be prompted to confirm when posting @channel and @all in channels with over five members. When false, no confirmation is required."
                         />
                     }
                     value={this.state.enableConfirmNotificationsToChannel}
                     onChange={this.handleChange}
                 />
                 <TextSetting
-                    id='restrictCreationToDomains'
+                    id="restrictCreationToDomains"
                     label={
                         <FormattedMessage
-                            id='admin.team.restrictTitle'
-                            defaultMessage='Restrict account creation to specified email domains:'
+                            id="admin.team.restrictTitle"
+                            defaultMessage="Restrict account creation to specified email domains:"
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.team.restrictExample', 'Ex "corp.mattermost.com, mattermost.org"')}
+                    placeholder={Utils.localizeMessage(
+                        'admin.team.restrictExample',
+                        'Ex "corp.mattermost.com, mattermost.org"'
+                    )}
                     helpText={
                         <FormattedMessage
-                            id='admin.team.restrictDescription'
-                            defaultMessage='Teams and user accounts can only be created from a specific domain (e.g. "mattermost.org") or list of comma-separated domains (e.g. "corp.mattermost.com, mattermost.org").'
+                            id="admin.team.restrictDescription"
+                            defaultMessage="Teams and user accounts can only be created from a specific domain (e.g. &quot;mattermost.org&quot;) or list of comma-separated domains (e.g. &quot;corp.mattermost.com, mattermost.org&quot;)."
                         />
                     }
                     value={this.state.restrictCreationToDomains}
                     onChange={this.handleChange}
                 />
                 <DropdownSetting
-                    id='restrictDirectMessage'
+                    id="restrictDirectMessage"
                     values={[
-                        {value: RESTRICT_DIRECT_MESSAGE_ANY, text: Utils.localizeMessage('admin.team.restrict_direct_message_any', 'Any user on the Mattermost server')},
-                        {value: RESTRICT_DIRECT_MESSAGE_TEAM, text: Utils.localizeMessage('admin.team.restrict_direct_message_team', 'Any member of the team')}
+                        {
+                            value: RESTRICT_DIRECT_MESSAGE_ANY,
+                            text: Utils.localizeMessage(
+                                'admin.team.restrict_direct_message_any',
+                                'Any user on the Mattermost server'
+                            )
+                        },
+                        {
+                            value: RESTRICT_DIRECT_MESSAGE_TEAM,
+                            text: Utils.localizeMessage(
+                                'admin.team.restrict_direct_message_team',
+                                'Any member of the team'
+                            )
+                        }
                     ]}
                     label={
                         <FormattedMessage
-                            id='admin.team.restrictDirectMessage'
-                            defaultMessage='Enable users to open Direct Message channels with:'
+                            id="admin.team.restrictDirectMessage"
+                            defaultMessage="Enable users to open Direct Message channels with:"
                         />
                     }
                     helpText={
                         <FormattedHTMLMessage
-                            id='admin.team.restrictDirectMessageDesc'
-                            defaultMessage='"Any user on the Mattermost server" enables users to open a Direct Message channel with any user on the server, even if they are not on any teams together. "Any member of the team" limits the ability to open Direct Message channels to only users who are in the same team.'
+                            id="admin.team.restrictDirectMessageDesc"
+                            defaultMessage="&quot;Any user on the Mattermost server&quot; enables users to open a Direct Message channel with any user on the server, even if they are not on any teams together. &quot;Any member of the team&quot; limits the ability to open Direct Message channels to only users who are in the same team."
                         />
                     }
                     value={this.state.restrictDirectMessage}
                     onChange={this.handleChange}
                 />
                 <DropdownSetting
-                    id='teammateNameDisplay'
+                    id="teammateNameDisplay"
                     values={[
-                        {value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_USERNAME, text: Utils.localizeMessage('admin.team.showUsername', 'Show username (default)')},
-                        {value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME, text: Utils.localizeMessage('admin.team.showNickname', 'Show nickname if one exists, otherwise show first and last name')},
-                        {value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_FULLNAME, text: Utils.localizeMessage('admin.team.showFullname', 'Show first and last name')}
+                        {
+                            value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_USERNAME,
+                            text: Utils.localizeMessage('admin.team.showUsername', 'Show username (default)')
+                        },
+                        {
+                            value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME,
+                            text: Utils.localizeMessage(
+                                'admin.team.showNickname',
+                                'Show nickname if one exists, otherwise show first and last name'
+                            )
+                        },
+                        {
+                            value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_FULLNAME,
+                            text: Utils.localizeMessage('admin.team.showFullname', 'Show first and last name')
+                        }
                     ]}
                     label={
-                        <FormattedMessage
-                            id='admin.team.teammateNameDisplay'
-                            defaultMessage='Teammate Name Display:'
-                        />
+                        <FormattedMessage id="admin.team.teammateNameDisplay" defaultMessage="Teammate Name Display:" />
                     }
                     helpText={
                         <FormattedHTMLMessage
-                            id='admin.team.teammateNameDisplayDesc'
+                            id="admin.team.teammateNameDisplayDesc"
                             defaultMessage="Set how to display users' names in posts and the Direct Messages list."
                         />
                     }

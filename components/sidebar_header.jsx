@@ -35,7 +35,7 @@ export default class SidebarHeader extends React.Component {
     handleResize = () => {
         const isMobile = Utils.isMobile();
         this.setState({isMobile});
-    }
+    };
 
     getPreferences = () => {
         if (!this.props.currentUser) {
@@ -45,32 +45,30 @@ export default class SidebarHeader extends React.Component {
         const showTutorialTip = tutorialStep === TutorialSteps.MENU_POPOVER && !Utils.isMobile();
 
         return {showTutorialTip};
-    }
+    };
 
     getStateFromStores = () => {
         const preferences = this.getPreferences();
         const isMobile = Utils.isMobile();
         return {...preferences, isMobile};
-    }
+    };
 
     onPreferenceChange = () => {
         this.setState(this.getPreferences());
-    }
+    };
 
-    toggleDropdown = (e) => {
+    toggleDropdown = e => {
         e.preventDefault();
 
         this.refs.dropdown.toggleDropdown();
-    }
+    };
 
     renderStatusDropdown = () => {
         if (this.state.isMobile) {
             return null;
         }
-        return (
-            <StatusDropdown/>
-        );
-    }
+        return <StatusDropdown />;
+    };
 
     render() {
         const statusDropdown = this.renderStatusDropdown();
@@ -82,32 +80,30 @@ export default class SidebarHeader extends React.Component {
 
         let teamNameWithToolTip = null;
         if (this.props.teamDescription === '') {
-            teamNameWithToolTip = (
-                <div className='team__name'>{this.props.teamDisplayName}</div>
-            );
+            teamNameWithToolTip = <div className="team__name">{this.props.teamDisplayName}</div>;
         } else {
             teamNameWithToolTip = (
                 <OverlayTrigger
                     trigger={['hover', 'focus']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='bottom'
-                    overlay={<Tooltip id='team-name__tooltip'>{this.props.teamDescription}</Tooltip>}
-                    ref='descriptionOverlay'
+                    placement="bottom"
+                    overlay={<Tooltip id="team-name__tooltip">{this.props.teamDescription}</Tooltip>}
+                    ref="descriptionOverlay"
                 >
-                    <div className='team__name'>{this.props.teamDisplayName}</div>
+                    <div className="team__name">{this.props.teamDisplayName}</div>
                 </OverlayTrigger>
             );
         }
 
         return (
-            <div className='team__header theme'>
+            <div className="team__header theme">
                 {tutorialTip}
-                <div className='header__info'>
+                <div className="header__info">
                     {teamNameWithToolTip}
-                    <div className='user__name'>{'@' + this.props.currentUser.username}</div>
+                    <div className="user__name">{'@' + this.props.currentUser.username}</div>
                 </div>
                 <SidebarHeaderDropdown
-                    ref='dropdown'
+                    ref="dropdown"
                     teamType={this.props.teamType}
                     teamDisplayName={this.props.teamDisplayName}
                     teamName={this.props.teamName}

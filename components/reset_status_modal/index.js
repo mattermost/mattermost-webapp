@@ -23,11 +23,14 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({
-            autoResetStatus,
-            setStatus,
-            savePreferences
-        }, dispatch)
+        actions: bindActionCreators(
+            {
+                autoResetStatus,
+                setStatus,
+                savePreferences
+            },
+            dispatch
+        )
     };
 }
 

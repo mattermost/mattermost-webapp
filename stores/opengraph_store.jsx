@@ -1,4 +1,3 @@
-
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
@@ -16,7 +15,7 @@ const URL_DATA_CHANGE_EVENT = 'url_data_change';
 class OpenGraphStoreClass extends EventEmitter {
     constructor() {
         super();
-        this.ogDataObject = {};  // Format: {<url>: <data-object>}
+        this.ogDataObject = {}; // Format: {<url>: <data-object>}
     }
 
     emitChange() {
@@ -57,16 +56,16 @@ var OpenGraphStore = new OpenGraphStoreClass();
 // Not expecting more that `Constants.POST_CHUNK_SIZE` post previews rendered at a time
 OpenGraphStore.setMaxListeners(Constants.POST_CHUNK_SIZE);
 
-OpenGraphStore.dispatchToken = AppDispatcher.register((payload) => {
+OpenGraphStore.dispatchToken = AppDispatcher.register(payload => {
     var action = payload.action;
 
     switch (action.type) {
-    case ActionTypes.RECIVED_OPEN_GRAPH_METADATA:
-        OpenGraphStore.storeOgInfo(action.url, action.data);
-        OpenGraphStore.emitUrlDataChange(action.url);
-        OpenGraphStore.emitChange();
-        break;
-    default:
+        case ActionTypes.RECIVED_OPEN_GRAPH_METADATA:
+            OpenGraphStore.storeOgInfo(action.url, action.data);
+            OpenGraphStore.emitUrlDataChange(action.url);
+            OpenGraphStore.emitChange();
+            break;
+        default:
     }
 });
 

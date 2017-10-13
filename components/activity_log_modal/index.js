@@ -16,10 +16,13 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({
-            getSessions,
-            revokeSession
-        }, dispatch)
+        actions: bindActionCreators(
+            {
+                getSessions,
+                revokeSession
+            },
+            dispatch
+        )
     };
 }
 

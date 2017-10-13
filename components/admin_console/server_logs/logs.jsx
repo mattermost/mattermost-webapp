@@ -9,20 +9,18 @@ import LoadingScreen from 'components/loading_screen.jsx';
 
 export default class Logs extends React.PureComponent {
     static propTypes = {
-
         /*
          * Array of logs to render
          */
         logs: PropTypes.arrayOf(PropTypes.string).isRequired,
 
         actions: PropTypes.shape({
-
             /*
              * Function to fetch logs
              */
             getLogs: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -35,9 +33,7 @@ export default class Logs extends React.PureComponent {
     componentDidMount() {
         this.refs.logPanel.focus();
 
-        this.props.actions.getLogs().then(
-            () => this.setState({loadingLogs: false})
-        );
+        this.props.actions.getLogs().then(() => this.setState({loadingLogs: false}));
     }
 
     componentDidUpdate() {
@@ -49,16 +45,14 @@ export default class Logs extends React.PureComponent {
 
     reload = () => {
         this.setState({loadingLogs: true});
-        this.props.actions.getLogs().then(
-            () => this.setState({loadingLogs: false})
-        );
-    }
+        this.props.actions.getLogs().then(() => this.setState({loadingLogs: false}));
+    };
 
     render() {
         let content = null;
 
         if (this.state.loadingLogs) {
-            content = <LoadingScreen/>;
+            content = <LoadingScreen />;
         } else {
             content = [];
 
@@ -72,12 +66,9 @@ export default class Logs extends React.PureComponent {
                     style.color = 'red';
                 }
 
-                content.push(<br key={'br_' + i}/>);
+                content.push(<br key={'br_' + i} />);
                 content.push(
-                    <span
-                        key={'log_' + i}
-                        style={style}
-                    >
+                    <span key={'log_' + i} style={style}>
                         {this.props.logs[i]}
                     </span>
                 );
@@ -85,36 +76,22 @@ export default class Logs extends React.PureComponent {
         }
 
         return (
-            <div className='panel'>
-                <h3 className='admin-console-header'>
-                    <FormattedMessage
-                        id='admin.logs.title'
-                        defaultMessage='Server Logs'
-                    />
+            <div className="panel">
+                <h3 className="admin-console-header">
+                    <FormattedMessage id="admin.logs.title" defaultMessage="Server Logs" />
                 </h3>
-                <div className='banner'>
-                    <div className='banner__content'>
+                <div className="banner">
+                    <div className="banner__content">
                         <FormattedMessage
-                            id='admin.logs.bannerDesc'
-                            defaultMessage='To look up users by User ID or Token ID, go to Reporting > Users and paste the ID into the search filter.'
+                            id="admin.logs.bannerDesc"
+                            defaultMessage="To look up users by User ID or Token ID, go to Reporting > Users and paste the ID into the search filter."
                         />
                     </div>
                 </div>
-                <button
-                    type='submit'
-                    className='btn btn-primary'
-                    onClick={this.reload}
-                >
-                    <FormattedMessage
-                        id='admin.logs.reload'
-                        defaultMessage='Reload'
-                    />
+                <button type="submit" className="btn btn-primary" onClick={this.reload}>
+                    <FormattedMessage id="admin.logs.reload" defaultMessage="Reload" />
                 </button>
-                <div
-                    tabIndex='-1'
-                    ref='logPanel'
-                    className='log__panel'
-                >
+                <div tabIndex="-1" ref="logPanel" className="log__panel">
                     {content}
                 </div>
             </div>

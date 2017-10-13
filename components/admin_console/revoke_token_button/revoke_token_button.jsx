@@ -9,7 +9,6 @@ import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 export default class RevokeTokenButton extends React.PureComponent {
     static propTypes = {
-
         /*
          * Token id to revoke
          */
@@ -21,7 +20,6 @@ export default class RevokeTokenButton extends React.PureComponent {
         onError: PropTypes.func.isRequired,
 
         actions: PropTypes.shape({
-
             /**
              * Function to revoke a user access token
              */
@@ -29,7 +27,7 @@ export default class RevokeTokenButton extends React.PureComponent {
         }).isRequired
     };
 
-    handleClick = async (e) => {
+    handleClick = async e => {
         e.preventDefault();
 
         const {error} = await this.props.actions.revokeUserAccessToken(this.props.tokenId);
@@ -38,18 +36,12 @@ export default class RevokeTokenButton extends React.PureComponent {
         if (error) {
             this.props.onError(error.message);
         }
-    }
+    };
 
     render() {
         return (
-            <button
-                className='btn btn-danger'
-                onClick={this.handleClick}
-            >
-                <FormattedMessage
-                    id='admin.revoke_token_button.delete'
-                    defaultMessage='Delete'
-                />
+            <button className="btn btn-danger" onClick={this.handleClick}>
+                <FormattedMessage id="admin.revoke_token_button.delete" defaultMessage="Delete" />
             </button>
         );
     }

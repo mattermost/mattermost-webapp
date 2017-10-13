@@ -56,50 +56,34 @@ export default class SearchableChannelList extends React.Component {
 
     handleJoin(channel) {
         this.setState({joiningChannel: channel.id});
-        this.props.handleJoin(
-            channel,
-            () => {
-                this.setState({joiningChannel: ''});
-            }
-        );
+        this.props.handleJoin(channel, () => {
+            this.setState({joiningChannel: ''});
+        });
     }
 
     createChannelRow(channel) {
         let joinButton;
         if (this.state.joiningChannel === channel.id) {
-            joinButton = (
-                <img
-                    className='join-channel-loading-gif'
-                    src={loadingGif}
-                />
-            );
+            joinButton = <img className="join-channel-loading-gif" src={loadingGif} />;
         } else {
             joinButton = (
                 <button
                     onClick={this.handleJoin.bind(this, channel)}
-                    className='btn btn-primary'
+                    className="btn btn-primary"
                     disabled={this.state.joiningChannel !== '' && this.state.joiningChannel !== channel.id}
                 >
-                    <FormattedMessage
-                        id='more_channels.join'
-                        defaultMessage='Join'
-                    />
+                    <FormattedMessage id="more_channels.join" defaultMessage="Join" />
                 </button>
             );
         }
 
         return (
-            <div
-                className='more-modal__row'
-                key={channel.id}
-            >
-                <div className='more-modal__details'>
-                    <p className='more-modal__name'>{channel.display_name}</p>
-                    <p className='more-modal__description'>{channel.purpose}</p>
+            <div className="more-modal__row" key={channel.id}>
+                <div className="more-modal__details">
+                    <p className="more-modal__name">{channel.display_name}</p>
+                    <p className="more-modal__description">{channel.purpose}</p>
                 </div>
-                <div className='more-modal__actions'>
-                    {joinButton}
-                </div>
+                <div className="more-modal__actions">{joinButton}</div>
             </div>
         );
     }
@@ -133,15 +117,12 @@ export default class SearchableChannelList extends React.Component {
         let previousButton;
 
         if (channels == null) {
-            listContent = <LoadingScreen/>;
+            listContent = <LoadingScreen />;
         } else if (channels.length === 0) {
             listContent = (
-                <div className='no-channel-message'>
-                    <p className='primary-message'>
-                        <FormattedMessage
-                            id='more_channels.noMore'
-                            defaultMessage='No more channels to join'
-                        />
+                <div className="no-channel-message">
+                    <p className="primary-message">
+                        <FormattedMessage id="more_channels.noMore" defaultMessage="No more channels to join" />
                     </p>
                     {this.props.noResultsText}
                 </div>
@@ -155,55 +136,41 @@ export default class SearchableChannelList extends React.Component {
             if (channelsToDisplay.length >= this.props.channelsPerPage && pageEnd < this.props.channels.length) {
                 nextButton = (
                     <button
-                        className='btn btn-default filter-control filter-control__next'
+                        className="btn btn-default filter-control filter-control__next"
                         onClick={this.nextPage}
                         disabled={this.state.nextDisabled}
                     >
-                        <FormattedMessage
-                            id='more_channels.next'
-                            defaultMessage='Next'
-                        />
+                        <FormattedMessage id="more_channels.next" defaultMessage="Next" />
                     </button>
                 );
             }
 
             if (this.state.page > 0) {
                 previousButton = (
-                    <button
-                        className='btn btn-default filter-control filter-control__prev'
-                        onClick={this.previousPage}
-                    >
-                        <FormattedMessage
-                            id='more_channels.prev'
-                            defaultMessage='Previous'
-                        />
+                    <button className="btn btn-default filter-control filter-control__prev" onClick={this.previousPage}>
+                        <FormattedMessage id="more_channels.prev" defaultMessage="Previous" />
                     </button>
                 );
             }
         }
 
         return (
-            <div className='filtered-user-list'>
-                <div className='filter-row'>
-                    <div className='col-sm-12'>
+            <div className="filtered-user-list">
+                <div className="filter-row">
+                    <div className="col-sm-12">
                         <input
-                            id='searchChannelsTextbox'
-                            ref='filter'
-                            className='form-control filter-textbox'
+                            id="searchChannelsTextbox"
+                            ref="filter"
+                            className="form-control filter-textbox"
                             placeholder={localizeMessage('filtered_channels_list.search', 'Search channels')}
                             onInput={this.doSearch}
                         />
                     </div>
                 </div>
-                <div
-                    ref='channelList'
-                    className='more-modal__list'
-                >
-                    <div ref='channelListScroll'>
-                        {listContent}
-                    </div>
+                <div ref="channelList" className="more-modal__list">
+                    <div ref="channelListScroll">{listContent}</div>
                 </div>
-                <div className='filter-controls'>
+                <div className="filter-controls">
                     {previousButton}
                     {nextButton}
                 </div>

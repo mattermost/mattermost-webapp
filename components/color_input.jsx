@@ -8,7 +8,6 @@ import {ChromePicker} from 'react-color';
 
 class ColorInput extends React.Component {
     static propTypes = {
-
         /*
          * Selected color
          */
@@ -40,7 +39,7 @@ class ColorInput extends React.Component {
         }
     }
 
-    checkClick = (e) => {
+    checkClick = e => {
         const colorPickerDOMNode = ReactDom.findDOMNode(this.colorPicker);
         if (!colorPickerDOMNode.contains(e.target)) {
             this.setState({isOpened: false});
@@ -51,7 +50,7 @@ class ColorInput extends React.Component {
         this.setState({isOpened: !this.state.isOpened});
     };
 
-    handleChange = (newColorData) => {
+    handleChange = newColorData => {
         const {hex} = newColorData;
         const {onChange: handleChange} = this.props;
 
@@ -65,22 +64,19 @@ class ColorInput extends React.Component {
         const {isOpened} = this.state;
 
         return (
-            <div className='color-input input-group'>
+            <div className="color-input input-group">
                 <input
-                    className='form-control'
-                    type='text'
+                    className="form-control"
+                    type="text"
                     value={color}
                     style={{
                         background: '#fff'
                     }}
                     readOnly={true}
                 />
-                <span
-                    className='input-group-addon'
-                    onClick={this.togglePicker}
-                >
+                <span className="input-group-addon" onClick={this.togglePicker}>
                     <i
-                        className='color-icon'
+                        className="color-icon"
                         style={{
                             backgroundColor: color
                         }}
@@ -88,15 +84,12 @@ class ColorInput extends React.Component {
                 </span>
                 {isOpened && (
                     <div
-                        ref={(item) => {
+                        ref={item => {
                             this.colorPicker = item;
                         }}
-                        className='color-popover'
+                        className="color-popover"
                     >
-                        <ChromePicker
-                            color={color}
-                            onChange={this.handleChange}
-                        />
+                        <ChromePicker color={color} onChange={this.handleChange} />
                     </div>
                 )}
             </div>

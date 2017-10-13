@@ -13,7 +13,6 @@ import RequestButton from '../request_button/request_button.jsx';
 
 export default class Status extends React.PureComponent {
     static propTypes = {
-
         /**
          * Array of jobs
          */
@@ -25,7 +24,6 @@ export default class Status extends React.PureComponent {
         isConfigured: PropTypes.bool.isRequired,
 
         actions: PropTypes.shape({
-
             /**
              * Function to fetch jobs
              */
@@ -50,9 +48,9 @@ export default class Status extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.props.actions.getJobsByType(JobTypes.ELASTICSEARCH_POST_INDEXING).then(
-            () => this.setState({loading: false})
-        );
+        this.props.actions
+            .getJobsByType(JobTypes.ELASTICSEARCH_POST_INDEXING)
+            .then(() => this.setState({loading: false}));
     }
 
     componentWillUnmount() {
@@ -62,14 +60,12 @@ export default class Status extends React.PureComponent {
     }
 
     reload = () => {
-        this.props.actions.getJobsByType(JobTypes.ELASTICSEARCH_POST_INDEXING).then(
-            () => {
-                this.setState({
-                    loading: false,
-                    cancelInProgress: false
-                });
-            }
-        );
+        this.props.actions.getJobsByType(JobTypes.ELASTICSEARCH_POST_INDEXING).then(() => {
+            this.setState({
+                loading: false,
+                cancelInProgress: false
+            });
+        });
     };
 
     createIndexJob = (success, error) => {
@@ -87,7 +83,7 @@ export default class Status extends React.PureComponent {
         );
     };
 
-    cancelIndexJob = (e) => {
+    cancelIndexJob = e => {
         e.preventDefault();
 
         const chosenJob = this.getChosenJob();
@@ -143,56 +139,55 @@ export default class Status extends React.PureComponent {
         const chosenJob = this.getChosenJob();
 
         let indexButtonDisabled = !this.props.isConfigured;
-        let buttonText = (
-            <FormattedMessage
-                id='admin.elasticsearch.indexButton.ready'
-                defaultMessage='Build Index'
-            />
-        );
+        let buttonText = <FormattedMessage id="admin.elasticsearch.indexButton.ready" defaultMessage="Build Index" />;
         let cancelButton = null;
         let indexButtonHelp = (
             <FormattedMessage
-                id='admin.elasticsearch.indexHelpText.buildIndex'
-                defaultMessage='All posts in the database will be indexed from oldest to newest. Elasticsearch is available during indexing but search results may be incomplete until the indexing job is complete.'
+                id="admin.elasticsearch.indexHelpText.buildIndex"
+                defaultMessage="All posts in the database will be indexed from oldest to newest. Elasticsearch is available during indexing but search results may be incomplete until the indexing job is complete."
             />
         );
 
         if (this.state.loading) {
             indexButtonDisabled = true;
         } else if (chosenJob) {
-            if (chosenJob.status === JobStatuses.PENDING || chosenJob.status === JobStatuses.IN_PROGRESS || chosenJob.status === JobStatuses.CANCEL_REQUESTED) {
+            if (
+                chosenJob.status === JobStatuses.PENDING ||
+                chosenJob.status === JobStatuses.IN_PROGRESS ||
+                chosenJob.status === JobStatuses.CANCEL_REQUESTED
+            ) {
                 indexButtonDisabled = true;
                 buttonText = (
                     <span>
-                        <span className='fa fa-refresh icon--rotate'/>
+                        <span className="fa fa-refresh icon--rotate" />
                         <FormattedMessage
-                            id='admin.elasticsearch.indexButton.inProgress'
-                            defaultMessage='Indexing in progress'
+                            id="admin.elasticsearch.indexButton.inProgress"
+                            defaultMessage="Indexing in progress"
                         />
                     </span>
                 );
             }
 
-            if (chosenJob.status === JobStatuses.PENDING || chosenJob.status === JobStatuses.IN_PROGRESS || chosenJob.status === JobStatuses.CANCEL_REQUESTED) {
+            if (
+                chosenJob.status === JobStatuses.PENDING ||
+                chosenJob.status === JobStatuses.IN_PROGRESS ||
+                chosenJob.status === JobStatuses.CANCEL_REQUESTED
+            ) {
                 indexButtonHelp = (
                     <FormattedMessage
-                        id='admin.elasticsearch.indexHelpText.cancelIndexing'
-                        defaultMessage='Cancelling stops the indexing job and removes it from the queue. Posts that have already been indexed will not be deleted.'
+                        id="admin.elasticsearch.indexHelpText.cancelIndexing"
+                        defaultMessage="Cancelling stops the indexing job and removes it from the queue. Posts that have already been indexed will not be deleted."
                     />
                 );
             }
 
-            if (!this.state.cancelInProgress && (chosenJob.status === JobStatuses.PENDING || chosenJob.status === JobStatuses.IN_PROGRESS)) {
+            if (
+                !this.state.cancelInProgress &&
+                (chosenJob.status === JobStatuses.PENDING || chosenJob.status === JobStatuses.IN_PROGRESS)
+            ) {
                 cancelButton = (
-                    <a
-                        href='#'
-                        className='btn btn-link'
-                        onClick={this.cancelIndexJob}
-                    >
-                        <FormattedMessage
-                            id='admin.elasticsearchStatus.cancelButton'
-                            defaultMessage='Cancel'
-                        />
+                    <a href="#" className="btn btn-link" onClick={this.cancelIndexJob}>
+                        <FormattedMessage id="admin.elasticsearchStatus.cancelButton" defaultMessage="Cancel" />
                     </a>
                 );
             }
@@ -210,12 +205,9 @@ export default class Status extends React.PureComponent {
                     defaultMessage: 'Failed to schedule Bulk Index Job: {error}'
                 }}
                 alternativeActionElement={cancelButton}
-                label={(
-                    <FormattedMessage
-                        id='admin.elasticsearchStatus.bulkIndexLabel'
-                        defaultMessage='Bulk Indexing:'
-                    />
-                )}
+                label={
+                    <FormattedMessage id="admin.elasticsearchStatus.bulkIndexLabel" defaultMessage="Bulk Indexing:" />
+                }
             />
         );
 
@@ -225,38 +217,30 @@ export default class Status extends React.PureComponent {
         if (!this.props.isConfigured) {
             status = (
                 <FormattedMessage
-                    id='admin.elasticsearchStatus.statusIndexingDisabled'
-                    defaultMessage='Indexing disabled.'
+                    id="admin.elasticsearchStatus.statusIndexingDisabled"
+                    defaultMessage="Indexing disabled."
                 />
             );
         } else if (this.state.loading) {
-            status = (
-                <FormattedMessage
-                    id='admin.elasticsearchStatus.statusLoading'
-                    defaultMessage='Loading...'
-                />
-            );
+            status = <FormattedMessage id="admin.elasticsearchStatus.statusLoading" defaultMessage="Loading..." />;
             statusClass = 'status-icon-unknown';
         } else if (chosenJob) {
             if (chosenJob.status === JobStatuses.PENDING) {
                 status = (
-                    <FormattedMessage
-                        id='admin.elasticsearchStatus.statusPending'
-                        defaultMessage='Job pending.'
-                    />
+                    <FormattedMessage id="admin.elasticsearchStatus.statusPending" defaultMessage="Job pending." />
                 );
                 statusHelp = (
                     <FormattedMessage
-                        id='admin.elasticsearchStatus.statusPending.help'
-                        defaultMessage='Elasticsearch index job is queued on the job server. If Elasticsearch is enabled, search results may be incomplete until the job is finished.'
+                        id="admin.elasticsearchStatus.statusPending.help"
+                        defaultMessage="Elasticsearch index job is queued on the job server. If Elasticsearch is enabled, search results may be incomplete until the job is finished."
                     />
                 );
                 statusClass = 'status-icon-warning';
             } else if (chosenJob.status === JobStatuses.IN_PROGRESS) {
                 status = (
                     <FormattedMessage
-                        id='admin.elasticsearchStatus.statusInProgress'
-                        defaultMessage='Job in progress. {percent}% complete.'
+                        id="admin.elasticsearchStatus.statusInProgress"
+                        defaultMessage="Job in progress. {percent}% complete."
                         values={{
                             percent: chosenJob.progress
                         }}
@@ -264,38 +248,35 @@ export default class Status extends React.PureComponent {
                 );
                 statusHelp = (
                     <FormattedMessage
-                        id='admin.elasticsearchStatus.statusInProgress.help'
-                        defaultMessage='Indexing is in progress on the job server. If Elasticsearch is enabled, search results may be incomplete until the job is finished.'
+                        id="admin.elasticsearchStatus.statusInProgress.help"
+                        defaultMessage="Indexing is in progress on the job server. If Elasticsearch is enabled, search results may be incomplete until the job is finished."
                     />
                 );
                 statusClass = 'status-icon-warning';
             } else if (chosenJob.status === JobStatuses.SUCCESS) {
                 status = (
                     <FormattedMessage
-                        id='admin.elasticsearchStatus.statusSuccess'
-                        defaultMessage='Indexing complete.'
+                        id="admin.elasticsearchStatus.statusSuccess"
+                        defaultMessage="Indexing complete."
                     />
                 );
                 statusHelp = (
                     <FormattedMessage
-                        id='admin.elasticsearchStatus.statusSuccess.help'
-                        defaultMessage='Indexing is complete and new posts are being automatically indexed.'
+                        id="admin.elasticsearchStatus.statusSuccess.help"
+                        defaultMessage="Indexing is complete and new posts are being automatically indexed."
                     />
                 );
                 statusClass = 'status-icon-success';
             } else if (chosenJob.status === JobStatuses.ERROR) {
                 status = (
-                    <FormattedMessage
-                        id='admin.elasticsearchStatus.statusError'
-                        defaultMessage='Indexing error.'
-                    />
+                    <FormattedMessage id="admin.elasticsearchStatus.statusError" defaultMessage="Indexing error." />
                 );
                 statusHelp = (
                     <FormattedMessage
-                        id='admin.elasticsearchStatus.statusError.help'
-                        defaultMessage='Mattermost encountered an error building the Elasticsearch index: {error}'
+                        id="admin.elasticsearchStatus.statusError.help"
+                        defaultMessage="Mattermost encountered an error building the Elasticsearch index: {error}"
                         values={{
-                            error: chosenJob.data ? (chosenJob.data.error || '') : ''
+                            error: chosenJob.data ? chosenJob.data.error || '' : ''
                         }}
                     />
                 );
@@ -303,16 +284,16 @@ export default class Status extends React.PureComponent {
             } else if (chosenJob.status === JobStatuses.CANCEL_REQUESTED) {
                 status = (
                     <FormattedMessage
-                        id='admin.elasticsearchStatus.statusRequestCancel'
-                        defaultMessage='Canceling Job...'
+                        id="admin.elasticsearchStatus.statusRequestCancel"
+                        defaultMessage="Canceling Job..."
                     />
                 );
                 statusClass = 'status-icon-warning';
             } else if (chosenJob.status === JobStatuses.CANCELED) {
                 status = (
                     <FormattedMessage
-                        id='admin.elasticsearchStatus.statusCancelled'
-                        defaultMessage='Indexing job cancelled.'
+                        id="admin.elasticsearchStatus.statusCancelled"
+                        defaultMessage="Indexing job cancelled."
                     />
                 );
                 statusClass = 'status-icon-error';
@@ -320,8 +301,8 @@ export default class Status extends React.PureComponent {
         } else {
             status = (
                 <FormattedMessage
-                    id='admin.elasticsearchStatus.statusNoJobs'
-                    defaultMessage='No indexing jobs queued.'
+                    id="admin.elasticsearchStatus.statusNoJobs"
+                    defaultMessage="No indexing jobs queued."
                 />
             );
             statusClass = 'status-icon-unknown';
@@ -329,10 +310,8 @@ export default class Status extends React.PureComponent {
 
         if (statusHelp !== null) {
             statusHelp = (
-                <div className='col-sm-offset-4 col-sm-8'>
-                    <div className='help-text'>
-                        {statusHelp}
-                    </div>
+                <div className="col-sm-offset-4 col-sm-8">
+                    <div className="help-text">{statusHelp}</div>
                 </div>
             );
         }
@@ -342,16 +321,11 @@ export default class Status extends React.PureComponent {
         return (
             <div>
                 {indexButton}
-                <div className='form-group'>
-                    <div className='col-sm-offset-4 col-sm-8'>
-                        <div className='help-text no-margin'>
-                            <FormattedMessage
-                                id='admin.elasticsearchStatus.status'
-                                defaultMessage='Status: '
-                            />
-                            <i
-                                className={statusClass}
-                            />
+                <div className="form-group">
+                    <div className="col-sm-offset-4 col-sm-8">
+                        <div className="help-text no-margin">
+                            <FormattedMessage id="admin.elasticsearchStatus.status" defaultMessage="Status: " />
+                            <i className={statusClass} />
                             {status}
                         </div>
                     </div>

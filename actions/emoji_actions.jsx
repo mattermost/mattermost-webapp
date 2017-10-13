@@ -39,35 +39,31 @@ function loadProfilesForEmoji(emojiList) {
 }
 
 export function addEmoji(emoji, image, success, error) {
-    EmojiActions.createCustomEmoji(emoji, image)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.emojis.createCustomEmoji.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
+    EmojiActions.createCustomEmoji(emoji, image)(dispatch, getState).then(data => {
+        if (data && success) {
+            success(data);
+        } else if (data == null && error) {
+            const serverError = getState().requests.emojis.createCustomEmoji.error;
+            error({id: serverError.server_error_id, ...serverError});
         }
-    );
+    });
 }
 
 export function deleteEmoji(emojiId, success, error) {
-    EmojiActions.deleteCustomEmoji(emojiId)(dispatch, getState).then(
-        (data) => {
-            if (data) {
-                // Needed to remove recently used emoji
-                AppDispatcher.handleServerAction({
-                    type: ActionTypes.REMOVED_CUSTOM_EMOJI,
-                    id: emojiId
-                });
+    EmojiActions.deleteCustomEmoji(emojiId)(dispatch, getState).then(data => {
+        if (data) {
+            // Needed to remove recently used emoji
+            AppDispatcher.handleServerAction({
+                type: ActionTypes.REMOVED_CUSTOM_EMOJI,
+                id: emojiId
+            });
 
-                if (success) {
-                    success(data);
-                }
-            } else if (data == null && error) {
-                const serverError = getState().requests.emojis.deleteCustomEmoji.error;
-                error({id: serverError.server_error_id, ...serverError});
+            if (success) {
+                success(data);
             }
+        } else if (data == null && error) {
+            const serverError = getState().requests.emojis.deleteCustomEmoji.error;
+            error({id: serverError.server_error_id, ...serverError});
         }
-    );
+    });
 }

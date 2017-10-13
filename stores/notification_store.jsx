@@ -35,13 +35,13 @@ class NotificationStoreClass extends EventEmitter {
 
 var NotificationStore = new NotificationStoreClass();
 
-NotificationStore.dispatchToken = AppDispatcher.register((payload) => {
+NotificationStore.dispatchToken = AppDispatcher.register(payload => {
     const action = payload.action;
 
     switch (action.type) {
-    case ActionTypes.BROWSER_CHANGE_FOCUS:
-        NotificationStore.setFocus(action.focus);
-        break;
+        case ActionTypes.BROWSER_CHANGE_FOCUS:
+            NotificationStore.setFocus(action.focus);
+            break;
     }
 });
 

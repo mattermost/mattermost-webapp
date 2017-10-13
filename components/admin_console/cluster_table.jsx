@@ -14,22 +14,12 @@ export default class ClusterTable extends React.Component {
     static propTypes = {
         clusterInfos: PropTypes.array.isRequired,
         reload: PropTypes.func.isRequired
-    }
+    };
 
     render() {
-        var versionMismatch = (
-            <img
-                className='cluster-status'
-                src={statusGreen}
-            />
-        );
+        var versionMismatch = <img className="cluster-status" src={statusGreen} />;
 
-        var configMismatch = (
-            <img
-                className='cluster-status'
-                src={statusGreen}
-            />
-        );
+        var configMismatch = <img className="cluster-status" src={statusGreen} />;
 
         var version = '';
         var configHash = '';
@@ -41,29 +31,19 @@ export default class ClusterTable extends React.Component {
             singleItem = this.props.clusterInfos.length === 1;
         }
 
-        this.props.clusterInfos.map((clusterInfo) => {
+        this.props.clusterInfos.map(clusterInfo => {
             if (clusterInfo.version !== version) {
-                versionMismatch = (
-                    <img
-                        className='cluster-status'
-                        src={statusYellow}
-                    />
-                );
+                versionMismatch = <img className="cluster-status" src={statusYellow} />;
             }
 
             if (clusterInfo.config_hash !== configHash) {
-                configMismatch = (
-                    <img
-                        className='cluster-status'
-                        src={statusYellow}
-                    />
-                );
+                configMismatch = <img className="cluster-status" src={statusYellow} />;
             }
 
             return null;
         });
 
-        var items = this.props.clusterInfos.map((clusterInfo) => {
+        var items = this.props.clusterInfos.map(clusterInfo => {
             var status = null;
 
             if (clusterInfo.hostname === '') {
@@ -79,27 +59,23 @@ export default class ClusterTable extends React.Component {
             }
 
             if (singleItem) {
-                status = (
-                    <img
-                        className='cluster-status'
-                        src={statusYellow}
-                    />
-                );
+                status = <img className="cluster-status" src={statusYellow} />;
             } else {
-                status = (
-                    <img
-                        className='cluster-status'
-                        src={statusGreen}
-                    />
-                );
+                status = <img className="cluster-status" src={statusGreen} />;
             }
 
             return (
                 <tr key={clusterInfo.ipaddress}>
                     <td style={{whiteSpace: 'nowrap'}}>{status}</td>
                     <td style={{whiteSpace: 'nowrap'}}>{clusterInfo.hostname}</td>
-                    <td style={{whiteSpace: 'nowrap'}}>{versionMismatch} {clusterInfo.version}</td>
-                    <td style={{whiteSpace: 'nowrap'}}><div className='config-hash'>{configMismatch} {clusterInfo.config_hash}</div></td>
+                    <td style={{whiteSpace: 'nowrap'}}>
+                        {versionMismatch} {clusterInfo.version}
+                    </td>
+                    <td style={{whiteSpace: 'nowrap'}}>
+                        <div className="config-hash">
+                            {configMismatch} {clusterInfo.config_hash}
+                        </div>
+                    </td>
                     <td style={{whiteSpace: 'nowrap'}}>{clusterInfo.ipaddress}</td>
                 </tr>
             );
@@ -107,63 +83,45 @@ export default class ClusterTable extends React.Component {
 
         return (
             <div
-                className='cluster-panel__table'
+                className="cluster-panel__table"
                 style={{
                     margin: '10px',
                     marginBottom: '30px'
                 }}
             >
-                <div className='text-right'>
-                    <button
-                        type='submit'
-                        className='btn btn-link'
-                        onClick={this.props.reload}
-                    >
-                        <i className='fa fa-refresh'/>
+                <div className="text-right">
+                    <button type="submit" className="btn btn-link" onClick={this.props.reload}>
+                        <i className="fa fa-refresh" />
                         <FormattedMessage
-                            id='admin.cluster.status_table.reload'
-                            defaultMessage=' Reload Cluster Status'
+                            id="admin.cluster.status_table.reload"
+                            defaultMessage=" Reload Cluster Status"
                         />
                     </button>
                 </div>
-                <table className='table'>
+                <table className="table">
                     <thead>
                         <tr>
                             <th>
-                                <FormattedMessage
-                                    id='admin.cluster.status_table.status'
-                                    defaultMessage='Status'
-                                />
+                                <FormattedMessage id="admin.cluster.status_table.status" defaultMessage="Status" />
+                            </th>
+                            <th>
+                                <FormattedMessage id="admin.cluster.status_table.hostname" defaultMessage="Hostname" />
+                            </th>
+                            <th>
+                                <FormattedMessage id="admin.cluster.status_table.version" defaultMessage="Version" />
                             </th>
                             <th>
                                 <FormattedMessage
-                                    id='admin.cluster.status_table.hostname'
-                                    defaultMessage='Hostname'
+                                    id="admin.cluster.status_table.config_hash"
+                                    defaultMessage="Config File MD5"
                                 />
                             </th>
                             <th>
-                                <FormattedMessage
-                                    id='admin.cluster.status_table.version'
-                                    defaultMessage='Version'
-                                />
-                            </th>
-                            <th>
-                                <FormattedMessage
-                                    id='admin.cluster.status_table.config_hash'
-                                    defaultMessage='Config File MD5'
-                                />
-                            </th>
-                            <th>
-                                <FormattedMessage
-                                    id='admin.cluster.status_table.url'
-                                    defaultMessage='Gossip Address'
-                                />
+                                <FormattedMessage id="admin.cluster.status_table.url" defaultMessage="Gossip Address" />
                             </th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {items}
-                    </tbody>
+                    <tbody>{items}</tbody>
                 </table>
             </div>
         );

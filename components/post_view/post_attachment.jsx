@@ -14,7 +14,6 @@ import {localizeMessage} from 'utils/utils.jsx';
 
 export default class PostAttachment extends React.PureComponent {
     static propTypes = {
-
         /**
          * The post id
          */
@@ -24,7 +23,7 @@ export default class PostAttachment extends React.PureComponent {
          * The attachment to render
          */
         attachment: PropTypes.object.isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -52,7 +51,14 @@ export default class PostAttachment extends React.PureComponent {
     getInitState() {
         const shouldCollapse = this.shouldCollapse();
         const text = TextFormatting.formatText(this.props.attachment.text || '');
-        const uncollapsedText = text + (shouldCollapse ? `<div><a class="attachment-link-more" href="#">${localizeMessage('post_attachment.collapse', 'Show less...')}</a></div>` : '');
+        const uncollapsedText =
+            text +
+            (shouldCollapse
+                ? `<div><a class="attachment-link-more" href="#">${localizeMessage(
+                      'post_attachment.collapse',
+                      'Show less...'
+                  )}</a></div>`
+                : '');
         const collapsedText = shouldCollapse ? this.getCollapsedText() : text;
 
         return {
@@ -66,7 +72,7 @@ export default class PostAttachment extends React.PureComponent {
 
     toggleCollapseState(e) {
         e.preventDefault();
-        this.setState((prevState) => {
+        this.setState(prevState => {
             return {
                 text: prevState.collapsed ? prevState.uncollapsedText : prevState.collapsedText,
                 collapsed: !prevState.collapsed
@@ -82,13 +88,22 @@ export default class PostAttachment extends React.PureComponent {
     getCollapsedText() {
         let text = this.props.attachment.text || '';
         if ((text.match(/\n/g) || []).length >= 5) {
-            text = text.split('\n').splice(0, 5).join('\n');
+            text = text
+                .split('\n')
+                .splice(0, 5)
+                .join('\n');
         }
         if (text.length > 300) {
             text = text.substr(0, 300);
         }
 
-        return TextFormatting.formatText(text) + `<div><a class="attachment-link-more" href="#">${localizeMessage('post_attachment.more', 'Show more...')}</a></div>`;
+        return (
+            TextFormatting.formatText(text) +
+            `<div><a class="attachment-link-more" href="#">${localizeMessage(
+                'post_attachment.more',
+                'Show more...'
+            )}</a></div>`
+        );
     }
 
     getActionView() {
@@ -99,27 +114,18 @@ export default class PostAttachment extends React.PureComponent {
 
         const buttons = [];
 
-        actions.forEach((action) => {
+        actions.forEach(action => {
             if (!action.id || !action.name) {
                 return;
             }
             buttons.push(
-                <button
-                    key={action.id}
-                    onClick={() => this.handleActionButtonClick(action.id)}
-                >
+                <button key={action.id} onClick={() => this.handleActionButtonClick(action.id)}>
                     {action.name}
                 </button>
             );
         });
 
-        return (
-            <div
-                className='attachment-actions'
-            >
-                {buttons}
-            </div>
-        );
+        return <div className="attachment-actions">{buttons}</div>;
     }
 
     handleActionButtonClick(actionId) {
@@ -143,19 +149,12 @@ export default class PostAttachment extends React.PureComponent {
         fields.forEach((field, i) => {
             if (rowPos === 2 || !(field.short === true) || lastWasLong) {
                 fieldTables.push(
-                    <table
-                        className='attachment-fields'
-                        key={'attachment__table__' + nrTables}
-                    >
+                    <table className="attachment-fields" key={'attachment__table__' + nrTables}>
                         <thead>
-                            <tr>
-                                {headerCols}
-                            </tr>
+                            <tr>{headerCols}</tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                {bodyCols}
-                            </tr>
+                            <tr>{bodyCols}</tr>
                         </tbody>
                     </table>
                 );
@@ -167,16 +166,16 @@ export default class PostAttachment extends React.PureComponent {
             }
             headerCols.push(
                 <th
-                    className='attachment-field__caption'
+                    className="attachment-field__caption"
                     key={'attachment__field-caption-' + i + '__' + nrTables}
-                    width='50%'
+                    width="50%"
                 >
                     {field.title}
                 </th>
             );
             bodyCols.push(
                 <td
-                    className='attachment-field'
+                    className="attachment-field"
                     key={'attachment__field-' + i + '__' + nrTables}
                     dangerouslySetInnerHTML={{__html: TextFormatting.formatText(field.value || '')}}
                 />
@@ -184,30 +183,20 @@ export default class PostAttachment extends React.PureComponent {
             rowPos += 1;
             lastWasLong = !(field.short === true);
         });
-        if (headerCols.length > 0) { // Flush last fields
+        if (headerCols.length > 0) {
+            // Flush last fields
             fieldTables.push(
-                <table
-                    className='attachment-fields'
-                    key={'attachment__table__' + nrTables}
-                >
+                <table className="attachment-fields" key={'attachment__table__' + nrTables}>
                     <thead>
-                        <tr>
-                            {headerCols}
-                        </tr>
+                        <tr>{headerCols}</tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            {bodyCols}
-                        </tr>
+                        <tr>{bodyCols}</tr>
                     </tbody>
                 </table>
             );
         }
-        return (
-            <div>
-                {fieldTables}
-            </div>
-        );
+        return <div>{fieldTables}</div>;
     }
 
     render() {
@@ -219,7 +208,7 @@ export default class PostAttachment extends React.PureComponent {
             preTextClass = 'attachment--pretext';
             preText = (
                 <div
-                    className='attachment__thumb-pretext'
+                    className="attachment__thumb-pretext"
                     dangerouslySetInnerHTML={{__html: TextFormatting.formatText(data.pretext)}}
                 />
             );
@@ -230,20 +219,17 @@ export default class PostAttachment extends React.PureComponent {
             if (data.author_icon) {
                 author.push(
                     <img
-                        className='attachment__author-icon'
+                        className="attachment__author-icon"
                         src={data.author_icon}
                         key={'attachment__author-icon'}
-                        height='14'
-                        width='14'
+                        height="14"
+                        width="14"
                     />
                 );
             }
             if (data.author_name) {
                 author.push(
-                    <span
-                        className='attachment__author-name'
-                        key={'attachment__author-name'}
-                    >
+                    <span className="attachment__author-name" key={'attachment__author-name'}>
                         {data.author_name}
                     </span>
                 );
@@ -251,11 +237,7 @@ export default class PostAttachment extends React.PureComponent {
         }
         if (data.author_link && isUrlSafe(data.author_link)) {
             author = (
-                <a
-                    href={data.author_link}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                >
+                <a href={data.author_link} target="_blank" rel="noopener noreferrer">
                     {author}
                 </a>
             );
@@ -265,59 +247,37 @@ export default class PostAttachment extends React.PureComponent {
         if (data.title) {
             if (data.title_link && isUrlSafe(data.title_link)) {
                 title = (
-                    <h1
-                        className='attachment__title'
-                    >
+                    <h1 className="attachment__title">
                         <a
-                            className='attachment__title-link'
+                            className="attachment__title-link"
                             href={data.title_link}
-                            target='_blank'
-                            rel='noopener noreferrer'
+                            target="_blank"
+                            rel="noopener noreferrer"
                         >
                             {data.title}
                         </a>
                     </h1>
                 );
             } else {
-                title = (
-                    <h1
-                        className='attachment__title'
-                    >
-                        {data.title}
-                    </h1>
-                );
+                title = <h1 className="attachment__title">{data.title}</h1>;
             }
         }
 
         let text;
         if (data.text) {
-            text = (
-                <div
-                    className='attachment__text'
-                    dangerouslySetInnerHTML={{__html: this.state.text}}
-                />
-            );
+            text = <div className="attachment__text" dangerouslySetInnerHTML={{__html: this.state.text}} />;
         }
 
         let image;
         if (data.image_url) {
-            image = (
-                <img
-                    className='attachment__image'
-                    src={data.image_url}
-                />
-            );
+            image = <img className="attachment__image" src={data.image_url} />;
         }
 
         let thumb;
         if (data.thumb_url) {
             thumb = (
-                <div
-                    className='attachment__thumb-container'
-                >
-                    <img
-                        src={data.thumb_url}
-                    />
+                <div className="attachment__thumb-container">
+                    <img src={data.thumb_url} />
                 </div>
             );
         }
@@ -331,29 +291,28 @@ export default class PostAttachment extends React.PureComponent {
         }
 
         return (
-            <div
-                className={'attachment ' + preTextClass}
-                ref='attachment'
-            >
+            <div className={'attachment ' + preTextClass} ref="attachment">
                 {preText}
-                <div className='attachment__content'>
+                <div className="attachment__content">
                     <div
-                        className={useBorderStyle ? 'clearfix attachment__container' : 'clearfix attachment__container attachment__container--' + data.color}
+                        className={
+                            useBorderStyle
+                                ? 'clearfix attachment__container'
+                                : 'clearfix attachment__container attachment__container--' + data.color
+                        }
                         style={useBorderStyle}
                     >
                         {author}
                         {title}
                         <div>
-                            <div
-                                className={thumb ? 'attachment__body' : 'attachment__body attachment__body--no_thumb'}
-                            >
+                            <div className={thumb ? 'attachment__body' : 'attachment__body attachment__body--no_thumb'}>
                                 {text}
                                 {image}
                                 {fields}
                                 {actions}
                             </div>
                             {thumb}
-                            <div style={{clear: 'both'}}/>
+                            <div style={{clear: 'both'}} />
                         </div>
                     </div>
                 </div>

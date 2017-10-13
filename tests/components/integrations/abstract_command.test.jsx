@@ -33,13 +33,11 @@ describe('components/integrations/AbstractCommand', () => {
         name: 'test',
         id: command.team_id
     };
-    const action = jest.genMockFunction().mockImplementation(
-        () => {
-            return new Promise((resolve) => {
-                process.nextTick(() => resolve());
-            });
-        }
-    );
+    const action = jest.genMockFunction().mockImplementation(() => {
+        return new Promise(resolve => {
+            process.nextTick(() => resolve());
+        });
+    });
 
     test('should match snapshot', () => {
         const wrapper = shallow(
@@ -70,9 +68,11 @@ describe('components/integrations/AbstractCommand', () => {
         );
 
         wrapper.find('#trigger').simulate('change', {target: {value: ''}});
-        wrapper.find('.btn-primary').simulate('click', {preventDefault() {
-            return jest.fn();
-        }});
+        wrapper.find('.btn-primary').simulate('click', {
+            preventDefault() {
+                return jest.fn();
+            }
+        });
 
         expect(action).not.toBeCalled();
         expect(wrapper).toMatchSnapshot();
@@ -92,9 +92,11 @@ describe('components/integrations/AbstractCommand', () => {
         );
 
         wrapper.find('#displayName').simulate('change', {target: {value: 'name'}});
-        wrapper.find('.btn-primary').simulate('click', {preventDefault() {
-            return jest.fn();
-        }});
+        wrapper.find('.btn-primary').simulate('click', {
+            preventDefault() {
+                return jest.fn();
+            }
+        });
 
         expect(action).toBeCalled();
     });

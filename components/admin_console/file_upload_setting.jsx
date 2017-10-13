@@ -48,7 +48,7 @@ export default class FileUploadSetting extends Setting {
         e.preventDefault();
 
         $(this.refs.upload_button).button('loading');
-        this.props.onSubmit(this.props.id, this.refs.fileInput.files[0], (error) => {
+        this.props.onSubmit(this.props.id, this.refs.fileInput.files[0], error => {
             $(this.refs.upload_button).button('reset');
             if (error) {
                 Utils.clearFileInput(this.refs.fileInput);
@@ -59,7 +59,11 @@ export default class FileUploadSetting extends Setting {
     render() {
         let serverError;
         if (this.state.serverError) {
-            serverError = <div className='form-group has-error'><label className='control-label'>{this.state.serverError}</label></div>;
+            serverError = (
+                <div className="form-group has-error">
+                    <label className="control-label">{this.state.serverError}</label>
+                </div>
+            );
         }
 
         let btnClass = 'btn';
@@ -71,34 +75,19 @@ export default class FileUploadSetting extends Setting {
         if (this.state.fileName) {
             fileName = this.state.fileName;
         } else {
-            fileName = (
-                <FormattedMessage
-                    id='admin.file_upload.noFile'
-                    defaultMessage='No file uploaded'
-                />
-            );
+            fileName = <FormattedMessage id="admin.file_upload.noFile" defaultMessage="No file uploaded" />;
         }
 
         return (
-            <Setting
-                label={this.props.label}
-                helpText={this.props.helpText}
-                inputId={this.props.id}
-            >
+            <Setting label={this.props.label} helpText={this.props.helpText} inputId={this.props.id}>
                 <div>
-                    <div className='file__upload'>
-                        <button
-                            className='btn btn-default'
-                            disabled={this.props.disabled}
-                        >
-                            <FormattedMessage
-                                id='admin.file_upload.chooseFile'
-                                defaultMessage='Choose File'
-                            />
+                    <div className="file__upload">
+                        <button className="btn btn-default" disabled={this.props.disabled}>
+                            <FormattedMessage id="admin.file_upload.chooseFile" defaultMessage="Choose File" />
                         </button>
                         <input
-                            ref='fileInput'
-                            type='file'
+                            ref="fileInput"
+                            type="file"
                             disabled={this.props.disabled}
                             accept={this.props.fileType}
                             onChange={this.handleChange}
@@ -108,17 +97,13 @@ export default class FileUploadSetting extends Setting {
                         className={btnClass}
                         disabled={!this.state.fileSelected}
                         onClick={this.handleSubmit}
-                        ref='upload_button'
-                        data-loading-text={`<span class='glyphicon glyphicon-refresh glyphicon-refresh-animate'></span> ${this.props.uploadingText}`}
+                        ref="upload_button"
+                        data-loading-text={`<span class='glyphicon glyphicon-refresh glyphicon-refresh-animate'></span> ${this
+                            .props.uploadingText}`}
                     >
-                        <FormattedMessage
-                            id='admin.file_upload.uploadFile'
-                            defaultMessage='Upload'
-                        />
+                        <FormattedMessage id="admin.file_upload.uploadFile" defaultMessage="Upload" />
                     </button>
-                    <div className='help-text no-margin'>
-                        {fileName}
-                    </div>
+                    <div className="help-text no-margin">{fileName}</div>
                     {serverError}
                 </div>
             </Setting>

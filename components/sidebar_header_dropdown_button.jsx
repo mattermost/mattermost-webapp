@@ -16,11 +16,8 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
 
     render() {
         const mainMenuToolTip = (
-            <Tooltip id='main-menu__tooltip'>
-                <FormattedMessage
-                    id='sidebar.mainMenu'
-                    defaultMessage='Main menu'
-                />
+            <Tooltip id="main-menu__tooltip">
+                <FormattedMessage id="sidebar.mainMenu" defaultMessage="Main menu" />
             </Tooltip>
         );
 
@@ -28,17 +25,17 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
             <OverlayTrigger
                 trigger={['hover', 'focus']}
                 delayShow={Constants.OVERLAY_TIME_DELAY}
-                placement='right'
+                placement="right"
                 overlay={mainMenuToolTip}
             >
                 <a
-                    href='#'
-                    id='sidebarHeaderDropdownButton'
-                    className='sidebar-header-dropdown__toggle'
+                    href="#"
+                    id="sidebarHeaderDropdownButton"
+                    className="sidebar-header-dropdown__toggle"
                     onClick={this.props.onClick}
                 >
                     <span
-                        className='sidebar-header-dropdown__icon'
+                        className="sidebar-header-dropdown__icon"
                         dangerouslySetInnerHTML={{__html: Constants.MENU_ICON}}
                     />
                 </a>

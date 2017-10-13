@@ -14,7 +14,6 @@ export default class AboutBuildModal extends React.PureComponent {
     };
 
     static propTypes = {
-
         /**
          * Determines whether modal is shown or not
          */
@@ -50,31 +49,19 @@ export default class AboutBuildModal extends React.PureComponent {
         const license = this.props.license;
         const mattermostLogo = Constants.MATTERMOST_ICON_SVG;
 
-        let title = (
-            <FormattedMessage
-                id='about.teamEditiont0'
-                defaultMessage='Team Edition'
-            />
-        );
+        let title = <FormattedMessage id="about.teamEditiont0" defaultMessage="Team Edition" />;
 
         let subTitle = (
             <FormattedMessage
-                id='about.teamEditionSt'
-                defaultMessage='All your team communication in one place, instantly searchable and accessible anywhere.'
+                id="about.teamEditionSt"
+                defaultMessage="All your team communication in one place, instantly searchable and accessible anywhere."
             />
         );
 
         let learnMore = (
             <div>
-                <FormattedMessage
-                    id='about.teamEditionLearn'
-                    defaultMessage='Join the Mattermost community at '
-                />
-                <a
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    href='http://www.mattermost.org/'
-                >
+                <FormattedMessage id="about.teamEditionLearn" defaultMessage="Join the Mattermost community at " />
+                <a target="_blank" rel="noopener noreferrer" href="http://www.mattermost.org/">
                     {'mattermost.org'}
                 </a>
             </div>
@@ -82,49 +69,32 @@ export default class AboutBuildModal extends React.PureComponent {
 
         let licensee;
         if (config.BuildEnterpriseReady === 'true') {
-            title = (
-                <FormattedMessage
-                    id='about.teamEditiont1'
-                    defaultMessage='Enterprise Edition'
-                />
-            );
+            title = <FormattedMessage id="about.teamEditiont1" defaultMessage="Enterprise Edition" />;
 
             subTitle = (
                 <FormattedMessage
-                    id='about.enterpriseEditionSt'
-                    defaultMessage='Modern communication from behind your firewall.'
+                    id="about.enterpriseEditionSt"
+                    defaultMessage="Modern communication from behind your firewall."
                 />
             );
 
             learnMore = (
                 <div>
                     <FormattedMessage
-                        id='about.enterpriseEditionLearn'
-                        defaultMessage='Learn more about Enterprise Edition at '
+                        id="about.enterpriseEditionLearn"
+                        defaultMessage="Learn more about Enterprise Edition at "
                     />
-                    <a
-                        target='_blank'
-                        rel='noopener noreferrer'
-                        href='http://about.mattermost.com/'
-                    >
+                    <a target="_blank" rel="noopener noreferrer" href="http://about.mattermost.com/">
                         {'about.mattermost.com'}
                     </a>
                 </div>
             );
 
             if (license.IsLicensed === 'true') {
-                title = (
-                    <FormattedMessage
-                        id='about.enterpriseEditione1'
-                        defaultMessage='Enterprise Edition'
-                    />
-                );
+                title = <FormattedMessage id="about.enterpriseEditione1" defaultMessage="Enterprise Edition" />;
                 licensee = (
-                    <div className='form-group'>
-                        <FormattedMessage
-                            id='about.licensed'
-                            defaultMessage='Licensed to:'
-                        />
+                    <div className="form-group">
+                        <FormattedMessage id="about.licensed" defaultMessage="Licensed to:" />
                         &nbsp;{license.Company}
                     </div>
                 );
@@ -137,88 +107,65 @@ export default class AboutBuildModal extends React.PureComponent {
         }
 
         return (
-            <Modal
-                dialogClassName='about-modal'
-                show={this.props.show}
-                onHide={this.doHide}
-            >
+            <Modal dialogClassName="about-modal" show={this.props.show} onHide={this.doHide}>
                 <Modal.Header closeButton={true}>
                     <Modal.Title>
-                        <FormattedMessage
-                            id='about.title'
-                            defaultMessage='About Mattermost'
-                        />
+                        <FormattedMessage id="about.title" defaultMessage="About Mattermost" />
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div className='about-modal__content'>
-                        <div className='about-modal__logo'>
-                            <span
-                                className='icon'
-                                dangerouslySetInnerHTML={{__html: mattermostLogo}}
-                            />
+                    <div className="about-modal__content">
+                        <div className="about-modal__logo">
+                            <span className="icon" dangerouslySetInnerHTML={{__html: mattermostLogo}} />
                         </div>
                         <div>
-                            <h3 className='about-modal__title'>{'Mattermost'} {title}</h3>
-                            <p className='about-modal__subtitle padding-bottom'>{subTitle}</p>
-                            <div className='form-group less'>
+                            <h3 className="about-modal__title">
+                                {'Mattermost'} {title}
+                            </h3>
+                            <p className="about-modal__subtitle padding-bottom">{subTitle}</p>
+                            <div className="form-group less">
                                 <div>
-                                    <FormattedMessage
-                                        id='about.version'
-                                        defaultMessage='Version:'
-                                    />
-                                    <span id='versionString'>{version}</span>
+                                    <FormattedMessage id="about.version" defaultMessage="Version:" />
+                                    <span id="versionString">{version}</span>
                                 </div>
                                 <div>
-                                    <FormattedMessage
-                                        id='about.database'
-                                        defaultMessage='Database:'
-                                    />
+                                    <FormattedMessage id="about.database" defaultMessage="Database:" />
                                     {'\u00a0' + config.SQLDriverName}
                                 </div>
                             </div>
                             {licensee}
                         </div>
                     </div>
-                    <div className='about-modal__footer'>
+                    <div className="about-modal__footer">
                         {learnMore}
-                        <div className='form-group about-modal__copyright'>
+                        <div className="form-group about-modal__copyright">
                             <FormattedMessage
-                                id='about.copyright'
-                                defaultMessage='Copyright 2015 - {currentYear} Mattermost, Inc. All rights reserved'
+                                id="about.copyright"
+                                defaultMessage="Copyright 2015 - {currentYear} Mattermost, Inc. All rights reserved"
                                 values={{
                                     currentYear: new Date().getFullYear()
                                 }}
                             />
                         </div>
                     </div>
-                    <div className='about-modal__notice form-group padding-top x2'>
+                    <div className="about-modal__notice form-group padding-top x2">
                         <p>
                             <FormattedHTMLMessage
-                                id='about.notice'
-                                defaultMessage='Mattermost is made possible by the open source software used in our <a href="https://about.mattermost.com/platform-notice-txt/" target="_blank">platform</a>, <a href="https://about.mattermost.com/desktop-notice-txt/" target="_blank">desktop</a> and <a href="https://about.mattermost.com/mobile-notice-txt/" target="_blank">mobile</a> apps.'
+                                id="about.notice"
+                                defaultMessage="Mattermost is made possible by the open source software used in our <a href=&quot;https://about.mattermost.com/platform-notice-txt/&quot; target=&quot;_blank&quot;>platform</a>, <a href=&quot;https://about.mattermost.com/desktop-notice-txt/&quot; target=&quot;_blank&quot;>desktop</a> and <a href=&quot;https://about.mattermost.com/mobile-notice-txt/&quot; target=&quot;_blank&quot;>mobile</a> apps."
                             />
                         </p>
                     </div>
-                    <div className='about-modal__hash'>
+                    <div className="about-modal__hash">
                         <p>
-                            <FormattedMessage
-                                id='about.hash'
-                                defaultMessage='Build Hash:'
-                            />
+                            <FormattedMessage id="about.hash" defaultMessage="Build Hash:" />
                             &nbsp;{config.BuildHash}
-                            <br/>
-                            <FormattedMessage
-                                id='about.hashee'
-                                defaultMessage='EE Build Hash:'
-                            />
+                            <br />
+                            <FormattedMessage id="about.hashee" defaultMessage="EE Build Hash:" />
                             &nbsp;{config.BuildHashEnterprise}
                         </p>
                         <p>
-                            <FormattedMessage
-                                id='about.date'
-                                defaultMessage='Build Date:'
-                            />
+                            <FormattedMessage id="about.date" defaultMessage="Build Date:" />
                             &nbsp;{config.BuildDate}
                         </p>
                     </div>

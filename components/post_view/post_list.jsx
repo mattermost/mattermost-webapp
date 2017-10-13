@@ -26,7 +26,6 @@ const POSTS_PER_PAGE = Constants.POST_CHUNK_SIZE / 2;
 
 export default class PostList extends React.PureComponent {
     static propTypes = {
-
         /**
          * Array of posts in the channel, ordered from oldest to newest
          */
@@ -68,7 +67,6 @@ export default class PostList extends React.PureComponent {
         fullWidth: PropTypes.bool,
 
         actions: PropTypes.shape({
-
             /**
              * Function to get posts in the channel
              */
@@ -94,7 +92,7 @@ export default class PostList extends React.PureComponent {
              */
             increasePostVisibility: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -156,7 +154,9 @@ export default class PostList extends React.PureComponent {
 
             const nextPosts = nextProps.posts || [];
             const posts = this.props.posts || [];
-            const hasNewPosts = (posts.length === 0 && nextPosts.length > 0) || (posts.length > 0 && nextPosts.length > 0 && posts[0].id !== nextPosts[0].id);
+            const hasNewPosts =
+                (posts.length === 0 && nextPosts.length > 0) ||
+                (posts.length > 0 && nextPosts.length > 0 && posts[0].id !== nextPosts[0].id);
 
             if (!this.checkBottom() && hasNewPosts) {
                 this.setUnreadsBelow(nextPosts, nextProps.currentUserId);
@@ -174,7 +174,11 @@ export default class PostList extends React.PureComponent {
 
     componentDidUpdate(prevProps, prevState) {
         // Do not update scrolling unless posts, visibility or intro message change
-        if (this.props.posts === prevProps.posts && this.props.postVisibility === prevProps.postVisibility && this.state.atEnd === prevState.atEnd) {
+        if (
+            this.props.posts === prevProps.posts &&
+            this.props.postVisibility === prevProps.postVisibility &&
+            this.state.atEnd === prevState.atEnd
+        ) {
             return;
         }
 
@@ -249,21 +253,23 @@ export default class PostList extends React.PureComponent {
 
     setUnreadsBelow = (posts, currentUserId) => {
         const unViewedCount = posts.reduce((count, post) => {
-            if (post.create_at > this.state.lastViewed &&
+            if (
+                post.create_at > this.state.lastViewed &&
                 post.user_id !== currentUserId &&
-                post.state !== Constants.POST_DELETED) {
+                post.state !== Constants.POST_DELETED
+            ) {
                 return count + 1;
             }
             return count;
         }, 0);
         this.setState({unViewedCount});
-    }
+    };
 
     handleScrollStop = () => {
         this.setState({
             isScrolling: false
         });
-    }
+    };
 
     checkBottom = () => {
         if (!this.refs.postlist) {
@@ -275,10 +281,13 @@ export default class PostList extends React.PureComponent {
             return true;
         }
 
-        return this.refs.postlist.clientHeight + this.refs.postlist.scrollTop >= this.refs.postlist.scrollHeight - CLOSE_TO_BOTTOM_SCROLL_MARGIN;
-    }
+        return (
+            this.refs.postlist.clientHeight + this.refs.postlist.scrollTop >=
+            this.refs.postlist.scrollHeight - CLOSE_TO_BOTTOM_SCROLL_MARGIN
+        );
+    };
 
-    handleResize = (forceScrollToBottom) => {
+    handleResize = forceScrollToBottom => {
         const postList = this.refs.postlist;
         const messageSeparator = this.refs.newMessageSeparator;
         const doScrollToBottom = this.atBottom || forceScrollToBottom;
@@ -297,7 +306,7 @@ export default class PostList extends React.PureComponent {
 
             this.atBottom = this.checkBottom();
         }
-    }
+    };
 
     loadPosts = async (channelId, focusedPostId) => {
         let posts;
@@ -320,17 +329,17 @@ export default class PostList extends React.PureComponent {
         if (posts && posts.order.length < POSTS_PER_PAGE) {
             this.setState({atEnd: true});
         }
-    }
+    };
 
-    loadMorePosts = (e) => {
+    loadMorePosts = e => {
         if (e) {
             e.preventDefault();
         }
 
-        this.props.actions.increasePostVisibility(this.props.channel.id, this.props.focusedPostId).then((moreToLoad) => {
+        this.props.actions.increasePostVisibility(this.props.channel.id, this.props.focusedPostId).then(moreToLoad => {
             this.setState({atEnd: !moreToLoad && this.props.posts.length < this.props.postVisibility});
         });
-    }
+    };
 
     handleScroll = () => {
         // Only count as user scroll if we've already performed our first load scroll
@@ -362,7 +371,7 @@ export default class PostList extends React.PureComponent {
         }
 
         this.scrollStopAction.fireAfter(Constants.SCROLL_DELAY);
-    }
+    };
 
     updateFloatingTimestamp = () => {
         // skip this in non-mobile view since that's when the timestamp is visible
@@ -376,7 +385,11 @@ export default class PostList extends React.PureComponent {
                 const post = this.props.posts[i];
                 const element = this.refs[post.id];
 
-                if (!element || !element.domNode || element.domNode.offsetTop + element.domNode.clientHeight <= this.refs.postlist.scrollTop) {
+                if (
+                    !element ||
+                    !element.domNode ||
+                    element.domNode.offsetTop + element.domNode.clientHeight <= this.refs.postlist.scrollTop
+                ) {
                     // this post is off the top of the screen so the last one is at the top of the screen
                     let topPost;
 
@@ -397,15 +410,15 @@ export default class PostList extends React.PureComponent {
                 }
             }
         }
-    }
+    };
 
     scrollToBottom = () => {
         if (this.refs.postlist) {
             this.refs.postlist.scrollTop = this.refs.postlist.scrollHeight;
         }
-    }
+    };
 
-    createPosts = (posts) => {
+    createPosts = posts => {
         const postCtls = [];
         let previousPostDay = new Date(0);
         const currentUserId = this.props.currentUserId;
@@ -425,7 +438,7 @@ export default class PostList extends React.PureComponent {
                     ref={post.id}
                     key={'post ' + (post.id || post.pending_post_id)}
                     post={post}
-                    lastPostCount={(i >= 0 && i < Constants.TEST_ID_COUNT) ? i : -1}
+                    lastPostCount={i >= 0 && i < Constants.TEST_ID_COUNT ? i : -1}
                     getPostList={this.getPostList}
                 />
             );
@@ -433,29 +446,28 @@ export default class PostList extends React.PureComponent {
             const currentPostDay = Utils.getDateForUnixTicks(post.create_at);
             if (currentPostDay.toDateString() !== previousPostDay.toDateString()) {
                 postCtls.push(
-                    <div
-                        key={currentPostDay.toDateString()}
-                        className='date-separator'
-                    >
-                        <hr className='separator__hr'/>
-                        <div className='separator__text'>
+                    <div key={currentPostDay.toDateString()} className="date-separator">
+                        <hr className="separator__hr" />
+                        <div className="separator__text">
                             <FormattedDate
                                 value={currentPostDay}
-                                weekday='short'
-                                month='short'
-                                day='2-digit'
-                                year='numeric'
+                                weekday="short"
+                                month="short"
+                                day="2-digit"
+                                year="numeric"
                             />
                         </div>
                     </div>
                 );
             }
 
-            if (post.user_id !== currentUserId &&
-                    lastViewed !== 0 &&
-                    post.create_at > lastViewed &&
-                    !Utils.isPostEphemeral(post) &&
-                    !renderedLastViewed) {
+            if (
+                post.user_id !== currentUserId &&
+                lastViewed !== 0 &&
+                post.create_at > lastViewed &&
+                !Utils.isPostEphemeral(post) &&
+                !renderedLastViewed
+            ) {
                 renderedLastViewed = true;
 
                 // Temporary fix to solve ie11 rendering issue
@@ -464,20 +476,10 @@ export default class PostList extends React.PureComponent {
                     newSeparatorId = 'new_message_' + post.id;
                 }
                 postCtls.push(
-                    <div
-                        id={newSeparatorId}
-                        key='unviewed'
-                        ref='newMessageSeparator'
-                        className='new-separator'
-                    >
-                        <hr
-                            className='separator__hr'
-                        />
-                        <div className='separator__text'>
-                            <FormattedMessage
-                                id='posts_view.newMsg'
-                                defaultMessage='New Messages'
-                            />
+                    <div id={newSeparatorId} key="unviewed" ref="newMessageSeparator" className="new-separator">
+                        <hr className="separator__hr" />
+                        <div className="separator__text">
+                            <FormattedMessage id="posts_view.newMsg" defaultMessage="New Messages" />
                         </div>
                     </div>
                 );
@@ -488,11 +490,11 @@ export default class PostList extends React.PureComponent {
         }
 
         return postCtls;
-    }
+    };
 
     getPostList = () => {
         return this.refs.postlist;
-    }
+    };
 
     render() {
         const posts = this.props.posts || [];
@@ -500,11 +502,8 @@ export default class PostList extends React.PureComponent {
 
         if ((posts.length === 0 && this.state.isDoingInitialLoad) || channel == null) {
             return (
-                <div id='post-list'>
-                    <LoadingScreen
-                        position='absolute'
-                        key='loading'
-                    />
+                <div id="post-list">
+                    <LoadingScreen position="absolute" key="loading" />
                 </div>
             );
         }
@@ -514,25 +513,17 @@ export default class PostList extends React.PureComponent {
             topRow = createChannelIntroMessage(channel, this.props.fullWidth);
         } else if (this.props.postVisibility >= Constants.MAX_POST_VISIBILITY) {
             topRow = (
-                <div className='post-list__loading post-list__loading-search'>
+                <div className="post-list__loading post-list__loading-search">
                     <FormattedMessage
-                        id='posts_view.maxLoaded'
-                        defaultMessage='Looking for a specific message? Try searching for it'
+                        id="posts_view.maxLoaded"
+                        defaultMessage="Looking for a specific message? Try searching for it"
                     />
                 </div>
             );
         } else {
             topRow = (
-                <a
-                    ref='loadmoretop'
-                    className='more-messages-text theme'
-                    href='#'
-                    onClick={this.loadMorePosts}
-                >
-                    <FormattedMessage
-                        id='posts_view.loadMore'
-                        defaultMessage='Load more messages'
-                    />
+                <a ref="loadmoretop" className="more-messages-text theme" href="#" onClick={this.loadMorePosts}>
+                    <FormattedMessage id="posts_view.loadMore" defaultMessage="Load more messages" />
                 </a>
             );
         }
@@ -547,7 +538,7 @@ export default class PostList extends React.PureComponent {
         }
 
         return (
-            <div id='post-list'>
+            <div id="post-list">
                 <FloatingTimestamp
                     isScrolling={this.state.isScrolling}
                     isMobile={Utils.isMobile()}
@@ -558,21 +549,15 @@ export default class PostList extends React.PureComponent {
                     atBottom={this.atBottom}
                     onClick={this.scrollToBottom}
                 />
-                <NewMessageIndicator
-                    newMessages={this.state.unViewedCount}
-                    onClick={this.scrollToBottom}
-                />
+                <NewMessageIndicator newMessages={this.state.unViewedCount} onClick={this.scrollToBottom} />
                 <div
-                    ref='postlist'
-                    className='post-list-holder-by-time'
+                    ref="postlist"
+                    className="post-list-holder-by-time"
                     key={'postlist-' + channel.id}
                     onScroll={this.handleScroll}
                 >
-                    <div className='post-list__table'>
-                        <div
-                            ref='postlistcontent'
-                            className='post-list__content'
-                        >
+                    <div className="post-list__table">
+                        <div ref="postlistcontent" className="post-list__content">
                             {topRow}
                             {this.createPosts(posts.slice(0, postVisibility))}
                         </div>

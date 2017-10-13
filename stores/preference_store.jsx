@@ -25,7 +25,7 @@ class PreferenceStore extends EventEmitter {
 
         this.preferences = new Map();
         this.entities = Selectors.getMyPreferences(store.getState());
-        Object.keys(this.entities).forEach((key) => {
+        Object.keys(this.entities).forEach(key => {
             this.preferences.set(key, this.entities[key].value);
         });
 
@@ -33,7 +33,7 @@ class PreferenceStore extends EventEmitter {
             const newEntities = Selectors.getMyPreferences(store.getState());
             if (this.entities !== newEntities) {
                 this.preferences = new Map();
-                Object.keys(newEntities).forEach((key) => {
+                Object.keys(newEntities).forEach(key => {
                     this.preferences.set(key, newEntities[key].value);
                 });
                 this.emitChange();
@@ -158,25 +158,25 @@ class PreferenceStore extends EventEmitter {
         const action = payload.action;
 
         switch (action.type) {
-        case ActionTypes.RECEIVED_PREFERENCE: {
-            const preference = action.preference;
-            this.setPreference(preference.category, preference.name, preference.value);
-            this.emitChange(preference.category);
-            break;
-        }
-        case ActionTypes.RECEIVED_PREFERENCES:
-            this.setPreferencesFromServer(action.preferences);
-            this.emitChange();
-            break;
-        case ActionTypes.DELETED_PREFERENCES:
-            for (const preference of action.preferences) {
-                this.deletePreference(preference);
+            case ActionTypes.RECEIVED_PREFERENCE: {
+                const preference = action.preference;
+                this.setPreference(preference.category, preference.name, preference.value);
+                this.emitChange(preference.category);
+                break;
             }
-            this.emitChange();
-            break;
-        case ActionTypes.CLICK_CHANNEL:
-            this.setPreference(action.team_id, 'channel', action.id);
-            break;
+            case ActionTypes.RECEIVED_PREFERENCES:
+                this.setPreferencesFromServer(action.preferences);
+                this.emitChange();
+                break;
+            case ActionTypes.DELETED_PREFERENCES:
+                for (const preference of action.preferences) {
+                    this.deletePreference(preference);
+                }
+                this.emitChange();
+                break;
+            case ActionTypes.CLICK_CHANNEL:
+                this.setPreference(action.team_id, 'channel', action.id);
+                break;
         }
     }
 }

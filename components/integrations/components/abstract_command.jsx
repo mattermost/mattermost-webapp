@@ -18,7 +18,6 @@ const REQUEST_GET = 'G';
 
 export default class AbstractCommand extends React.PureComponent {
     static propTypes = {
-
         /**
         * The current team
         */
@@ -53,7 +52,7 @@ export default class AbstractCommand extends React.PureComponent {
         * The async function to run when the action button is pressed
         */
         action: PropTypes.func.isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -61,7 +60,7 @@ export default class AbstractCommand extends React.PureComponent {
         this.state = this.getStateFromCommand(this.props.initialCommand || {});
     }
 
-    getStateFromCommand = (command) => {
+    getStateFromCommand = command => {
         return {
             displayName: command.display_name || '',
             description: command.description || '',
@@ -77,9 +76,9 @@ export default class AbstractCommand extends React.PureComponent {
             serverError: this.props.serverError || '',
             clientError: null
         };
-    }
+    };
 
-    handleSubmit = (e) => {
+    handleSubmit = e => {
         e.preventDefault();
 
         if (this.state.saving) {
@@ -118,10 +117,7 @@ export default class AbstractCommand extends React.PureComponent {
             this.setState({
                 saving: false,
                 clientError: (
-                    <FormattedMessage
-                        id='add_command.triggerRequired'
-                        defaultMessage='A trigger word is required'
-                    />
+                    <FormattedMessage id="add_command.triggerRequired" defaultMessage="A trigger word is required" />
                 )
             });
 
@@ -133,8 +129,8 @@ export default class AbstractCommand extends React.PureComponent {
                 saving: false,
                 clientError: (
                     <FormattedMessage
-                        id='add_command.triggerInvalidSlash'
-                        defaultMessage='A trigger word cannot begin with a /'
+                        id="add_command.triggerInvalidSlash"
+                        defaultMessage="A trigger word cannot begin with a /"
                     />
                 )
             });
@@ -147,22 +143,24 @@ export default class AbstractCommand extends React.PureComponent {
                 saving: false,
                 clientError: (
                     <FormattedMessage
-                        id='add_command.triggerInvalidSpace'
-                        defaultMessage='A trigger word must not contain spaces'
+                        id="add_command.triggerInvalidSpace"
+                        defaultMessage="A trigger word must not contain spaces"
                     />
                 )
             });
             return;
         }
 
-        if (command.trigger.length < Constants.MIN_TRIGGER_LENGTH ||
-            command.trigger.length > Constants.MAX_TRIGGER_LENGTH) {
+        if (
+            command.trigger.length < Constants.MIN_TRIGGER_LENGTH ||
+            command.trigger.length > Constants.MAX_TRIGGER_LENGTH
+        ) {
             this.setState({
                 saving: false,
                 clientError: (
                     <FormattedMessage
-                        id='add_command.triggerInvalidLength'
-                        defaultMessage='A trigger word must contain between {min} and {max} characters'
+                        id="add_command.triggerInvalidLength"
+                        defaultMessage="A trigger word must contain between {min} and {max} characters"
                         values={{
                             min: Constants.MIN_TRIGGER_LENGTH,
                             max: Constants.MAX_TRIGGER_LENGTH
@@ -178,10 +176,7 @@ export default class AbstractCommand extends React.PureComponent {
             this.setState({
                 saving: false,
                 clientError: (
-                    <FormattedMessage
-                        id='add_command.urlRequired'
-                        defaultMessage='A request URL is required'
-                    />
+                    <FormattedMessage id="add_command.urlRequired" defaultMessage="A request URL is required" />
                 )
             });
 
@@ -189,258 +184,223 @@ export default class AbstractCommand extends React.PureComponent {
         }
 
         this.props.action(command).then(() => this.setState({saving: false}));
-    }
+    };
 
-    updateDisplayName = (e) => {
+    updateDisplayName = e => {
         this.setState({
             displayName: e.target.value
         });
-    }
+    };
 
-    updateDescription = (e) => {
+    updateDescription = e => {
         this.setState({
             description: e.target.value
         });
-    }
+    };
 
-    updateTrigger = (e) => {
+    updateTrigger = e => {
         this.setState({
             trigger: e.target.value
         });
-    }
+    };
 
-    updateUrl = (e) => {
+    updateUrl = e => {
         this.setState({
             url: e.target.value
         });
-    }
+    };
 
-    updateMethod = (e) => {
+    updateMethod = e => {
         this.setState({
             method: e.target.value
         });
-    }
+    };
 
-    updateUsername = (e) => {
+    updateUsername = e => {
         this.setState({
             username: e.target.value
         });
-    }
+    };
 
-    updateIconUrl = (e) => {
+    updateIconUrl = e => {
         this.setState({
             iconUrl: e.target.value
         });
-    }
+    };
 
-    updateAutocomplete = (e) => {
+    updateAutocomplete = e => {
         this.setState({
             autocomplete: e.target.checked
         });
-    }
+    };
 
-    updateAutocompleteHint = (e) => {
+    updateAutocompleteHint = e => {
         this.setState({
             autocompleteHint: e.target.value
         });
-    }
+    };
 
-    updateAutocompleteDescription = (e) => {
+    updateAutocompleteDescription = e => {
         this.setState({
             autocompleteDescription: e.target.value
         });
-    }
+    };
 
     render() {
         let autocompleteFields = null;
         if (this.state.autocomplete) {
-            autocompleteFields = [(
-                <div
-                    key='autocompleteHint'
-                    className='form-group'
-                >
-                    <label
-                        className='control-label col-sm-4'
-                        htmlFor='autocompleteHint'
-                    >
-                        <FormattedMessage
-                            id='add_command.autocompleteHint'
-                            defaultMessage='Autocomplete Hint'
-                        />
+            autocompleteFields = [
+                <div key="autocompleteHint" className="form-group">
+                    <label className="control-label col-sm-4" htmlFor="autocompleteHint">
+                        <FormattedMessage id="add_command.autocompleteHint" defaultMessage="Autocomplete Hint" />
                     </label>
-                    <div className='col-md-5 col-sm-8'>
+                    <div className="col-md-5 col-sm-8">
                         <input
-                            id='autocompleteHint'
-                            type='text'
-                            maxLength='1024'
-                            className='form-control'
+                            id="autocompleteHint"
+                            type="text"
+                            maxLength="1024"
+                            className="form-control"
                             value={this.state.autocompleteHint}
                             onChange={this.updateAutocompleteHint}
-                            placeholder={Utils.localizeMessage('add_command.autocompleteHint.placeholder', 'Example: [Patient Name]')}
+                            placeholder={Utils.localizeMessage(
+                                'add_command.autocompleteHint.placeholder',
+                                'Example: [Patient Name]'
+                            )}
                         />
-                        <div className='form__help'>
+                        <div className="form__help">
                             <FormattedMessage
-                                id='add_command.autocompleteHint.help'
-                                defaultMessage='(Optional) Arguments associated with your slash command, displayed as help in the autocomplete list.'
+                                id="add_command.autocompleteHint.help"
+                                defaultMessage="(Optional) Arguments associated with your slash command, displayed as help in the autocomplete list."
                             />
                         </div>
                     </div>
-                </div>
-            ),
-            (
-                <div
-                    key='autocompleteDescription'
-                    className='form-group'
-                >
-                    <label
-                        className='control-label col-sm-4'
-                        htmlFor='autocompleteDescription'
-                    >
+                </div>,
+                <div key="autocompleteDescription" className="form-group">
+                    <label className="control-label col-sm-4" htmlFor="autocompleteDescription">
                         <FormattedMessage
-                            id='add_command.autocompleteDescription'
-                            defaultMessage='Autocomplete Description'
+                            id="add_command.autocompleteDescription"
+                            defaultMessage="Autocomplete Description"
                         />
                     </label>
-                    <div className='col-md-5 col-sm-8'>
+                    <div className="col-md-5 col-sm-8">
                         <input
-                            id='description'
-                            type='text'
-                            maxLength='128'
-                            className='form-control'
+                            id="description"
+                            type="text"
+                            maxLength="128"
+                            className="form-control"
                             value={this.state.autocompleteDescription}
                             onChange={this.updateAutocompleteDescription}
-                            placeholder={Utils.localizeMessage('add_command.autocompleteDescription.placeholder', 'Example: "Returns search results for patient records"')}
+                            placeholder={Utils.localizeMessage(
+                                'add_command.autocompleteDescription.placeholder',
+                                'Example: "Returns search results for patient records"'
+                            )}
                         />
-                        <div className='form__help'>
+                        <div className="form__help">
                             <FormattedMessage
-                                id='add_command.autocompleteDescription.help'
-                                defaultMessage='(Optional) Short description of slash command for the autocomplete list.'
+                                id="add_command.autocompleteDescription.help"
+                                defaultMessage="(Optional) Short description of slash command for the autocomplete list."
                             />
                         </div>
                     </div>
                 </div>
-            )];
+            ];
         }
 
         return (
-            <div className='backstage-content row'>
+            <div className="backstage-content row">
                 <BackstageHeader>
                     <Link to={'/' + this.props.team.name + '/integrations/commands'}>
-                        <FormattedMessage
-                            id='installed_command.header'
-                            defaultMessage='Slash Commands'
-                        />
+                        <FormattedMessage id="installed_command.header" defaultMessage="Slash Commands" />
                     </Link>
-                    <FormattedMessage
-                        id={this.props.header.id}
-                        defaultMessage={this.props.header.defaultMessage}
-                    />
+                    <FormattedMessage id={this.props.header.id} defaultMessage={this.props.header.defaultMessage} />
                 </BackstageHeader>
-                <div className='backstage-form'>
-                    <form
-                        className='form-horizontal'
-                        onSubmit={this.handleSubmit}
-                    >
-                        <div className='form-group'>
-                            <label
-                                className='control-label col-sm-4'
-                                htmlFor='displayName'
-                            >
-                                <FormattedMessage
-                                    id='add_command.displayName'
-                                    defaultMessage='Display Name'
-                                />
+                <div className="backstage-form">
+                    <form className="form-horizontal" onSubmit={this.handleSubmit}>
+                        <div className="form-group">
+                            <label className="control-label col-sm-4" htmlFor="displayName">
+                                <FormattedMessage id="add_command.displayName" defaultMessage="Display Name" />
                             </label>
-                            <div className='col-md-5 col-sm-8'>
+                            <div className="col-md-5 col-sm-8">
                                 <input
-                                    id='displayName'
-                                    type='text'
-                                    maxLength='64'
-                                    className='form-control'
+                                    id="displayName"
+                                    type="text"
+                                    maxLength="64"
+                                    className="form-control"
                                     value={this.state.displayName}
                                     onChange={this.updateDisplayName}
                                 />
-                                <div className='form__help'>
+                                <div className="form__help">
                                     <FormattedMessage
-                                        id='add_command.displayName.help'
-                                        defaultMessage='Display name for your slash command made of up to 64 characters.'
+                                        id="add_command.displayName.help"
+                                        defaultMessage="Display name for your slash command made of up to 64 characters."
                                     />
                                 </div>
                             </div>
                         </div>
-                        <div className='form-group'>
-                            <label
-                                className='control-label col-sm-4'
-                                htmlFor='description'
-                            >
-                                <FormattedMessage
-                                    id='add_command.description'
-                                    defaultMessage='Description'
-                                />
+                        <div className="form-group">
+                            <label className="control-label col-sm-4" htmlFor="description">
+                                <FormattedMessage id="add_command.description" defaultMessage="Description" />
                             </label>
-                            <div className='col-md-5 col-sm-8'>
+                            <div className="col-md-5 col-sm-8">
                                 <input
-                                    id='description'
-                                    type='text'
-                                    maxLength='128'
-                                    className='form-control'
+                                    id="description"
+                                    type="text"
+                                    maxLength="128"
+                                    className="form-control"
                                     value={this.state.description}
                                     onChange={this.updateDescription}
                                 />
-                                <div className='form__help'>
+                                <div className="form__help">
                                     <FormattedMessage
-                                        id='add_command.description.help'
-                                        defaultMessage='Description for your incoming webhook.'
+                                        id="add_command.description.help"
+                                        defaultMessage="Description for your incoming webhook."
                                     />
                                 </div>
                             </div>
                         </div>
-                        <div className='form-group'>
-                            <label
-                                className='control-label col-sm-4'
-                                htmlFor='trigger'
-                            >
-                                <FormattedMessage
-                                    id='add_command.trigger'
-                                    defaultMessage='Command Trigger Word'
-                                />
+                        <div className="form-group">
+                            <label className="control-label col-sm-4" htmlFor="trigger">
+                                <FormattedMessage id="add_command.trigger" defaultMessage="Command Trigger Word" />
                             </label>
-                            <div className='col-md-5 col-sm-8'>
+                            <div className="col-md-5 col-sm-8">
                                 <input
-                                    id='trigger'
-                                    type='text'
+                                    id="trigger"
+                                    type="text"
                                     maxLength={Constants.MAX_TRIGGER_LENGTH}
-                                    className='form-control'
+                                    className="form-control"
                                     value={this.state.trigger}
                                     onChange={this.updateTrigger}
-                                    placeholder={Utils.localizeMessage('add_command.trigger.placeholder', 'Command trigger e.g. "hello" not including the slash')}
+                                    placeholder={Utils.localizeMessage(
+                                        'add_command.trigger.placeholder',
+                                        'Command trigger e.g. "hello" not including the slash'
+                                    )}
                                 />
-                                <div className='form__help'>
+                                <div className="form__help">
                                     <FormattedMessage
-                                        id='add_command.trigger.help'
-                                        defaultMessage='Trigger word must be unique, and cannot begin with a slash or contain any spaces.'
+                                        id="add_command.trigger.help"
+                                        defaultMessage="Trigger word must be unique, and cannot begin with a slash or contain any spaces."
                                     />
                                 </div>
-                                <div className='form__help'>
+                                <div className="form__help">
                                     <FormattedMessage
-                                        id='add_command.trigger.helpExamples'
-                                        defaultMessage='Examples: client, employee, patient, weather'
+                                        id="add_command.trigger.helpExamples"
+                                        defaultMessage="Examples: client, employee, patient, weather"
                                     />
                                 </div>
-                                <div className='form__help'>
+                                <div className="form__help">
                                     <FormattedMessage
-                                        id='add_command.trigger.helpReserved'
-                                        defaultMessage='Reserved: {link}'
+                                        id="add_command.trigger.helpReserved"
+                                        defaultMessage="Reserved: {link}"
                                         values={{
                                             link: (
                                                 <a
-                                                    href='https://docs.mattermost.com/help/messaging/executing-commands.html#built-in-commands'
-                                                    target='_blank'
-                                                    rel='noopener noreferrer'
+                                                    href="https://docs.mattermost.com/help/messaging/executing-commands.html#built-in-commands"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
                                                 >
                                                     <FormattedMessage
-                                                        id='add_command.trigger.helpReservedLinkText'
-                                                        defaultMessage='see list of built-in slash commands'
+                                                        id="add_command.trigger.helpReservedLinkText"
+                                                        defaultMessage="see list of built-in slash commands"
                                                     />
                                                 </a>
                                             )
@@ -449,48 +409,39 @@ export default class AbstractCommand extends React.PureComponent {
                                 </div>
                             </div>
                         </div>
-                        <div className='form-group'>
-                            <label
-                                className='control-label col-sm-4'
-                                htmlFor='url'
-                            >
-                                <FormattedMessage
-                                    id='add_command.url'
-                                    defaultMessage='Request URL'
-                                />
+                        <div className="form-group">
+                            <label className="control-label col-sm-4" htmlFor="url">
+                                <FormattedMessage id="add_command.url" defaultMessage="Request URL" />
                             </label>
-                            <div className='col-md-5 col-sm-8'>
+                            <div className="col-md-5 col-sm-8">
                                 <input
-                                    id='url'
-                                    type='text'
-                                    maxLength='1024'
-                                    className='form-control'
+                                    id="url"
+                                    type="text"
+                                    maxLength="1024"
+                                    className="form-control"
                                     value={this.state.url}
                                     onChange={this.updateUrl}
-                                    placeholder={Utils.localizeMessage('add_command.url.placeholder', 'Must start with http:// or https://')}
+                                    placeholder={Utils.localizeMessage(
+                                        'add_command.url.placeholder',
+                                        'Must start with http:// or https://'
+                                    )}
                                 />
-                                <div className='form__help'>
+                                <div className="form__help">
                                     <FormattedMessage
-                                        id='add_command.url.help'
-                                        defaultMessage='The callback URL to receive the HTTP POST or GET event request when the slash command is run.'
+                                        id="add_command.url.help"
+                                        defaultMessage="The callback URL to receive the HTTP POST or GET event request when the slash command is run."
                                     />
                                 </div>
                             </div>
                         </div>
-                        <div className='form-group'>
-                            <label
-                                className='control-label col-sm-4'
-                                htmlFor='method'
-                            >
-                                <FormattedMessage
-                                    id='add_command.method'
-                                    defaultMessage='Request Method'
-                                />
+                        <div className="form-group">
+                            <label className="control-label col-sm-4" htmlFor="method">
+                                <FormattedMessage id="add_command.method" defaultMessage="Request Method" />
                             </label>
-                            <div className='col-md-5 col-sm-8'>
+                            <div className="col-md-5 col-sm-8">
                                 <select
-                                    id='method'
-                                    className='form-control'
+                                    id="method"
+                                    className="form-control"
                                     value={this.state.method}
                                     onChange={this.updateMethod}
                                 >
@@ -501,113 +452,89 @@ export default class AbstractCommand extends React.PureComponent {
                                         {Utils.localizeMessage('add_command.method.get', 'GET')}
                                     </option>
                                 </select>
-                                <div className='form__help'>
+                                <div className="form__help">
                                     <FormattedMessage
-                                        id='add_command.method.help'
-                                        defaultMessage='The type of command request issued to the Request URL.'
+                                        id="add_command.method.help"
+                                        defaultMessage="The type of command request issued to the Request URL."
                                     />
                                 </div>
                             </div>
                         </div>
-                        <div className='form-group'>
-                            <label
-                                className='control-label col-sm-4'
-                                htmlFor='username'
-                            >
-                                <FormattedMessage
-                                    id='add_command.username'
-                                    defaultMessage='Response Username'
-                                />
+                        <div className="form-group">
+                            <label className="control-label col-sm-4" htmlFor="username">
+                                <FormattedMessage id="add_command.username" defaultMessage="Response Username" />
                             </label>
-                            <div className='col-md-5 col-sm-8'>
+                            <div className="col-md-5 col-sm-8">
                                 <input
-                                    id='username'
-                                    type='text'
-                                    maxLength='64'
-                                    className='form-control'
+                                    id="username"
+                                    type="text"
+                                    maxLength="64"
+                                    className="form-control"
                                     value={this.state.username}
                                     onChange={this.updateUsername}
                                     placeholder={Utils.localizeMessage('add_command.username.placeholder', 'Username')}
                                 />
-                                <div className='form__help'>
+                                <div className="form__help">
                                     <FormattedMessage
-                                        id='add_command.username.help'
-                                        defaultMessage='(Optional) Choose a username override for responses for this slash command. Usernames can consist of up to 22 characters consisting of lowercase letters, numbers and they symbols "-", "_", and "." .'
+                                        id="add_command.username.help"
+                                        defaultMessage="(Optional) Choose a username override for responses for this slash command. Usernames can consist of up to 22 characters consisting of lowercase letters, numbers and they symbols &quot;-&quot;, &quot;_&quot;, and &quot;.&quot; ."
                                     />
                                 </div>
                             </div>
                         </div>
-                        <div className='form-group'>
-                            <label
-                                className='control-label col-sm-4'
-                                htmlFor='iconUrl'
-                            >
-                                <FormattedMessage
-                                    id='add_command.iconUrl'
-                                    defaultMessage='Response Icon'
-                                />
+                        <div className="form-group">
+                            <label className="control-label col-sm-4" htmlFor="iconUrl">
+                                <FormattedMessage id="add_command.iconUrl" defaultMessage="Response Icon" />
                             </label>
-                            <div className='col-md-5 col-sm-8'>
+                            <div className="col-md-5 col-sm-8">
                                 <input
-                                    id='iconUrl'
-                                    type='text'
-                                    maxLength='1024'
-                                    className='form-control'
+                                    id="iconUrl"
+                                    type="text"
+                                    maxLength="1024"
+                                    className="form-control"
                                     value={this.state.iconUrl}
                                     onChange={this.updateIconUrl}
-                                    placeholder={Utils.localizeMessage('add_command.iconUrl.placeholder', 'https://www.example.com/myicon.png')}
+                                    placeholder={Utils.localizeMessage(
+                                        'add_command.iconUrl.placeholder',
+                                        'https://www.example.com/myicon.png'
+                                    )}
                                 />
-                                <div className='form__help'>
+                                <div className="form__help">
                                     <FormattedMessage
-                                        id='add_command.iconUrl.help'
-                                        defaultMessage='(Optional) Choose a profile picture override for the post responses to this slash command. Enter the URL of a .png or .jpg file at least 128 pixels by 128 pixels.'
+                                        id="add_command.iconUrl.help"
+                                        defaultMessage="(Optional) Choose a profile picture override for the post responses to this slash command. Enter the URL of a .png or .jpg file at least 128 pixels by 128 pixels."
                                     />
                                 </div>
                             </div>
                         </div>
-                        <div className='form-group'>
-                            <label
-                                className='control-label col-sm-4'
-                                htmlFor='autocomplete'
-                            >
-                                <FormattedMessage
-                                    id='add_command.autocomplete'
-                                    defaultMessage='Autocomplete'
-                                />
+                        <div className="form-group">
+                            <label className="control-label col-sm-4" htmlFor="autocomplete">
+                                <FormattedMessage id="add_command.autocomplete" defaultMessage="Autocomplete" />
                             </label>
-                            <div className='col-md-5 col-sm-8 checkbox'>
+                            <div className="col-md-5 col-sm-8 checkbox">
                                 <input
-                                    id='autocomplete'
-                                    type='checkbox'
+                                    id="autocomplete"
+                                    type="checkbox"
                                     checked={this.state.autocomplete}
                                     onChange={this.updateAutocomplete}
                                 />
-                                <div className='form__help'>
+                                <div className="form__help">
                                     <FormattedMessage
-                                        id='add_command.autocomplete.help'
-                                        defaultMessage='(Optional) Show slash command in autocomplete list.'
+                                        id="add_command.autocomplete.help"
+                                        defaultMessage="(Optional) Show slash command in autocomplete list."
                                     />
                                 </div>
                             </div>
                         </div>
                         {autocompleteFields}
-                        <div className='backstage-form__footer'>
-                            <FormError
-                                type='backstage'
-                                errors={[this.state.serverError, this.state.clientError]}
-                            />
-                            <Link
-                                className='btn btn-sm'
-                                to={'/' + this.props.team.name + '/integrations/commands'}
-                            >
-                                <FormattedMessage
-                                    id='add_command.cancel'
-                                    defaultMessage='Cancel'
-                                />
+                        <div className="backstage-form__footer">
+                            <FormError type="backstage" errors={[this.state.serverError, this.state.clientError]} />
+                            <Link className="btn btn-sm" to={'/' + this.props.team.name + '/integrations/commands'}>
+                                <FormattedMessage id="add_command.cancel" defaultMessage="Cancel" />
                             </Link>
                             <SpinnerButton
-                                className='btn btn-primary'
-                                type='submit'
+                                className="btn btn-primary"
+                                type="submit"
                                 spinning={this.state.saving}
                                 onClick={this.handleSubmit}
                             >

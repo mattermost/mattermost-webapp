@@ -63,137 +63,108 @@ export default class RhsHeaderPost extends React.Component {
     render() {
         let back;
         const closeSidebarTooltip = (
-            <Tooltip id='closeSidebarTooltip'>
-                <FormattedMessage
-                    id='rhs_header.closeSidebarTooltip'
-                    defaultMessage='Close Sidebar'
-                />
+            <Tooltip id="closeSidebarTooltip">
+                <FormattedMessage id="rhs_header.closeSidebarTooltip" defaultMessage="Close Sidebar" />
             </Tooltip>
         );
 
         let backToResultsTooltip;
         if (this.props.fromSearch) {
             backToResultsTooltip = (
-                <Tooltip id='backToResultsTooltip'>
-                    <FormattedMessage
-                        id='rhs_header.backToResultsTooltip'
-                        defaultMessage='Back to Search Results'
-                    />
+                <Tooltip id="backToResultsTooltip">
+                    <FormattedMessage id="rhs_header.backToResultsTooltip" defaultMessage="Back to Search Results" />
                 </Tooltip>
             );
         } else if (this.props.fromFlaggedPosts) {
             backToResultsTooltip = (
-                <Tooltip id='backToResultsTooltip'>
-                    <FormattedMessage
-                        id='rhs_header.backToFlaggedTooltip'
-                        defaultMessage='Back to Flagged Posts'
-                    />
+                <Tooltip id="backToResultsTooltip">
+                    <FormattedMessage id="rhs_header.backToFlaggedTooltip" defaultMessage="Back to Flagged Posts" />
                 </Tooltip>
             );
         } else if (this.props.isWebrtc) {
             backToResultsTooltip = (
-                <Tooltip id='backToResultsTooltip'>
-                    <FormattedMessage
-                        id='rhs_header.backToCallTooltip'
-                        defaultMessage='Back to Call'
-                    />
+                <Tooltip id="backToResultsTooltip">
+                    <FormattedMessage id="rhs_header.backToCallTooltip" defaultMessage="Back to Call" />
                 </Tooltip>
             );
         } else if (this.props.fromPinnedPosts) {
             backToResultsTooltip = (
-                <Tooltip id='backToResultsTooltip'>
-                    <FormattedMessage
-                        id='rhs_header.backToPinnedTooltip'
-                        defaultMessage='Back to Pinned Posts'
-                    />
+                <Tooltip id="backToResultsTooltip">
+                    <FormattedMessage id="rhs_header.backToPinnedTooltip" defaultMessage="Back to Pinned Posts" />
                 </Tooltip>
             );
         }
 
         const expandSidebarTooltip = (
-            <Tooltip id='expandSidebarTooltip'>
-                <FormattedMessage
-                    id='rhs_header.expandSidebarTooltip'
-                    defaultMessage='Expand Sidebar'
-                />
+            <Tooltip id="expandSidebarTooltip">
+                <FormattedMessage id="rhs_header.expandSidebarTooltip" defaultMessage="Expand Sidebar" />
             </Tooltip>
         );
 
         const shrinkSidebarTooltip = (
-            <Tooltip id='shrinkSidebarTooltip'>
-                <FormattedMessage
-                    id='rhs_header.shrinkSidebarTooltip'
-                    defaultMessage='Shrink Sidebar'
-                />
+            <Tooltip id="shrinkSidebarTooltip">
+                <FormattedMessage id="rhs_header.shrinkSidebarTooltip" defaultMessage="Shrink Sidebar" />
             </Tooltip>
         );
 
         if (this.props.fromSearch || this.props.fromFlaggedPosts || this.props.isWebrtc || this.props.fromPinnedPosts) {
             back = (
-                <a
-                    href='#'
-                    onClick={this.handleBack}
-                    className='sidebar--right__back'
-                >
+                <a href="#" onClick={this.handleBack} className="sidebar--right__back">
                     <OverlayTrigger
                         trigger={['hover', 'focus']}
                         delayShow={Constants.OVERLAY_TIME_DELAY}
-                        placement='top'
+                        placement="top"
                         overlay={backToResultsTooltip}
                     >
-                        <i className='fa fa-angle-left'/>
+                        <i className="fa fa-angle-left" />
                     </OverlayTrigger>
                 </a>
             );
         }
 
         return (
-            <div className='sidebar--right__header'>
-                <span className='sidebar--right__title'>
+            <div className="sidebar--right__header">
+                <span className="sidebar--right__title">
                     {back}
-                    <FormattedMessage
-                        id='rhs_header.details'
-                        defaultMessage='Message Details'
-                    />
+                    <FormattedMessage id="rhs_header.details" defaultMessage="Message Details" />
                 </span>
-                <div className='pull-right'>
+                <div className="pull-right">
                     <button
-                        type='button'
-                        className='sidebar--right__expand'
-                        aria-label='Expand'
+                        type="button"
+                        className="sidebar--right__expand"
+                        aria-label="Expand"
                         onClick={this.toggleSize}
                     >
                         <OverlayTrigger
                             trigger={['hover', 'focus']}
                             delayShow={Constants.OVERLAY_TIME_DELAY}
-                            placement='top'
+                            placement="top"
                             overlay={expandSidebarTooltip}
                         >
-                            <i className='fa fa-expand'/>
+                            <i className="fa fa-expand" />
                         </OverlayTrigger>
                         <OverlayTrigger
                             trigger={['hover', 'focus']}
                             delayShow={Constants.OVERLAY_TIME_DELAY}
-                            placement='top'
+                            placement="top"
                             overlay={shrinkSidebarTooltip}
                         >
-                            <i className='fa fa-compress'/>
+                            <i className="fa fa-compress" />
                         </OverlayTrigger>
                     </button>
                     <button
-                        type='button'
-                        className='sidebar--right__close'
-                        aria-label='Close'
+                        type="button"
+                        className="sidebar--right__close"
+                        aria-label="Close"
                         onClick={this.handleClose}
                     >
-
                         <OverlayTrigger
                             trigger={['hover', 'focus']}
                             delayShow={Constants.OVERLAY_TIME_DELAY}
-                            placement='top'
+                            placement="top"
                             overlay={closeSidebarTooltip}
                         >
-                            <i className='fa fa-sign-out'/>
+                            <i className="fa fa-sign-out" />
                         </OverlayTrigger>
                     </button>
                 </div>

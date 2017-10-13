@@ -11,7 +11,12 @@ import ErrorStore from 'stores/error_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
 import {ErrorBarTypes, StatTypes} from 'utils/constants.jsx';
-import {displayExpiryDate, isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod} from 'utils/license_utils.jsx';
+import {
+    displayExpiryDate,
+    isLicenseExpired,
+    isLicenseExpiring,
+    isLicensePastGracePeriod
+} from 'utils/license_utils.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -25,12 +30,11 @@ const ANNOUNCEMENT_KEY = 'announcement--';
 
 export default class AnnouncementBar extends React.PureComponent {
     static propTypes = {
-
         /*
          * Set if the user is logged in
          */
         isLoggedIn: React.PropTypes.bool.isRequired
-    }
+    };
 
     constructor() {
         super();
@@ -67,14 +71,30 @@ export default class AnnouncementBar extends React.PureComponent {
 
         if (isLicensePastGracePeriod()) {
             if (isSystemAdmin) {
-                ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.LICENSE_EXPIRED, type: BAR_CRITICAL_TYPE});
+                ErrorStore.storeLastError({
+                    notification: true,
+                    message: ErrorBarTypes.LICENSE_EXPIRED,
+                    type: BAR_CRITICAL_TYPE
+                });
             } else {
-                ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.LICENSE_PAST_GRACE, type: BAR_CRITICAL_TYPE});
+                ErrorStore.storeLastError({
+                    notification: true,
+                    message: ErrorBarTypes.LICENSE_PAST_GRACE,
+                    type: BAR_CRITICAL_TYPE
+                });
             }
         } else if (isLicenseExpired() && isSystemAdmin) {
-            ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.LICENSE_EXPIRED, type: BAR_CRITICAL_TYPE});
+            ErrorStore.storeLastError({
+                notification: true,
+                message: ErrorBarTypes.LICENSE_EXPIRED,
+                type: BAR_CRITICAL_TYPE
+            });
         } else if (isLicenseExpiring() && isSystemAdmin) {
-            ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.LICENSE_EXPIRING, type: BAR_CRITICAL_TYPE});
+            ErrorStore.storeLastError({
+                notification: true,
+                message: ErrorBarTypes.LICENSE_EXPIRING,
+                type: BAR_CRITICAL_TYPE
+            });
         }
     }
 
@@ -88,9 +108,11 @@ export default class AnnouncementBar extends React.PureComponent {
         const allowDismissal = global.window.mm_config.AllowBannerDismissal === 'true';
         const bannerDismissed = localStorage.getItem(ANNOUNCEMENT_KEY + global.window.mm_config.BannerText);
 
-        if (global.window.mm_config.EnableBanner === 'true' &&
-                bannerText.length > 0 &&
-                (!bannerDismissed || !allowDismissal)) {
+        if (
+            global.window.mm_config.EnableBanner === 'true' &&
+            bannerText.length > 0 &&
+            (!bannerDismissed || !allowDismissal)
+        ) {
             // Remove old local storage items
             Utils.removePrefixFromLocalStorage(ANNOUNCEMENT_KEY);
             return {
@@ -181,11 +203,11 @@ export default class AnnouncementBar extends React.PureComponent {
 
     render() {
         if (!this.isValidState(this.state)) {
-            return <div/>;
+            return <div />;
         }
 
         if (!this.props.isLoggedIn && this.state.type === BAR_ANNOUNCEMENT_TYPE) {
-            return <div/>;
+            return <div />;
         }
 
         let errClass = 'error-bar';
@@ -206,38 +228,36 @@ export default class AnnouncementBar extends React.PureComponent {
         if (this.state.allowDismissal) {
             dismissClass = '';
             closeButton = (
-                <a
-                    href='#'
-                    className='error-bar__close'
-                    style={linkStyle}
-                    onClick={this.handleClose}
-                >
+                <a href="#" className="error-bar__close" style={linkStyle} onClick={this.handleClose}>
                     {'×'}
                 </a>
             );
         }
 
-        const renewalLink = RENEWAL_LINK + '?id=' + global.window.mm_license.Id + '&user_count=' + this.state.totalUsers;
+        const renewalLink =
+            RENEWAL_LINK + '?id=' + global.window.mm_license.Id + '&user_count=' + this.state.totalUsers;
 
         let message = this.state.message;
         if (this.state.type === BAR_ANNOUNCEMENT_TYPE) {
             message = (
                 <span
-                    dangerouslySetInnerHTML={{__html: TextFormatting.formatText(message, {singleline: true, mentionHighlight: false})}}
+                    dangerouslySetInnerHTML={{
+                        __html: TextFormatting.formatText(message, {singleline: true, mentionHighlight: false})
+                    }}
                 />
             );
         } else if (message === ErrorBarTypes.PREVIEW_MODE) {
             message = (
                 <FormattedMessage
                     id={ErrorBarTypes.PREVIEW_MODE}
-                    defaultMessage='Preview Mode: Email notifications have not been configured'
+                    defaultMessage="Preview Mode: Email notifications have not been configured"
                 />
             );
         } else if (message === ErrorBarTypes.LICENSE_EXPIRING) {
             message = (
                 <FormattedHTMLMessage
                     id={ErrorBarTypes.LICENSE_EXPIRING}
-                    defaultMessage='Enterprise license expires on {date}. <a href="{link}" target="_blank">Please renew</a>.'
+                    defaultMessage="Enterprise license expires on {date}. <a href=&quot;{link}&quot; target=&quot;_blank&quot;>Please renew</a>."
                     values={{
                         date: displayExpiryDate(),
                         link: renewalLink
@@ -248,7 +268,7 @@ export default class AnnouncementBar extends React.PureComponent {
             message = (
                 <FormattedHTMLMessage
                     id={ErrorBarTypes.LICENSE_EXPIRED}
-                    defaultMessage='Enterprise license is expired and some features may be disabled. <a href="{link}" target="_blank">Please renew</a>.'
+                    defaultMessage="Enterprise license is expired and some features may be disabled. <a href=&quot;{link}&quot; target=&quot;_blank&quot;>Please renew</a>."
                     values={{
                         link: renewalLink
                     }}
@@ -258,14 +278,14 @@ export default class AnnouncementBar extends React.PureComponent {
             message = (
                 <FormattedMessage
                     id={ErrorBarTypes.LICENSE_PAST_GRACE}
-                    defaultMessage='Enterprise license is expired and some features may be disabled. Please contact your System Administrator for details.'
+                    defaultMessage="Enterprise license is expired and some features may be disabled. Please contact your System Administrator for details."
                 />
             );
         } else if (message === ErrorBarTypes.WEBSOCKET_PORT_ERROR) {
             message = (
                 <FormattedHTMLMessage
                     id={ErrorBarTypes.WEBSOCKET_PORT_ERROR}
-                    defaultMessage='Please check connection, Mattermost unreachable. If issue persists, ask administrator to <a href="https://about.mattermost.com/default-websocket-port-help" target="_blank">check WebSocket port</a>.'
+                    defaultMessage="Please check connection, Mattermost unreachable. If issue persists, ask administrator to <a href=&quot;https://about.mattermost.com/default-websocket-port-help&quot; target=&quot;_blank&quot;>check WebSocket port</a>."
                 />
             );
         } else if (message === ErrorBarTypes.SITE_URL) {
@@ -273,7 +293,8 @@ export default class AnnouncementBar extends React.PureComponent {
             let defaultMessage;
             if (global.mm_config.EnableSignUpWithGitLab === 'true') {
                 id = 'error_bar.site_url_gitlab';
-                defaultMessage = 'Please configure your {docsLink} in the System Console or in gitlab.rb if you\'re using GitLab Mattermost.';
+                defaultMessage =
+                    "Please configure your {docsLink} in the System Console or in gitlab.rb if you're using GitLab Mattermost.";
             } else {
                 id = 'error_bar.site_url';
                 defaultMessage = 'Please configure your {docsLink} in the System Console.';
@@ -286,22 +307,16 @@ export default class AnnouncementBar extends React.PureComponent {
                     values={{
                         docsLink: (
                             <a
-                                href='https://docs.mattermost.com/administration/config-settings.html#site-url'
-                                rel='noopener noreferrer'
-                                target='_blank'
+                                href="https://docs.mattermost.com/administration/config-settings.html#site-url"
+                                rel="noopener noreferrer"
+                                target="_blank"
                             >
-                                <FormattedMessage
-                                    id='error_bar.site_url.docsLink'
-                                    defaultMessage='Site URL'
-                                />
+                                <FormattedMessage id="error_bar.site_url.docsLink" defaultMessage="Site URL" />
                             </a>
                         ),
                         link: (
-                            <Link to='/admin_console/general/configuration'>
-                                <FormattedMessage
-                                    id='error_bar.site_url.link'
-                                    defaultMessage='the System Console'
-                                />
+                            <Link to="/admin_console/general/configuration">
+                                <FormattedMessage id="error_bar.site_url.link" defaultMessage="the System Console" />
                             </Link>
                         )
                     }}
@@ -310,10 +325,7 @@ export default class AnnouncementBar extends React.PureComponent {
         }
 
         return (
-            <div
-                className={errClass + dismissClass}
-                style={barStyle}
-            >
+            <div className={errClass + dismissClass} style={barStyle}>
                 <span>{message}</span>
                 {closeButton}
             </div>

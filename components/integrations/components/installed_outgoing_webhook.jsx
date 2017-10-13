@@ -45,8 +45,10 @@ export default class InstalledOutgoingWebhook extends React.Component {
             return true;
         }
 
-        if (outgoingWebhook.display_name.toLowerCase().indexOf(filter) !== -1 ||
-            outgoingWebhook.description.toLowerCase().indexOf(filter) !== -1) {
+        if (
+            outgoingWebhook.display_name.toLowerCase().indexOf(filter) !== -1 ||
+            outgoingWebhook.description.toLowerCase().indexOf(filter) !== -1
+        ) {
             return true;
         }
 
@@ -83,20 +85,15 @@ export default class InstalledOutgoingWebhook extends React.Component {
             displayName = channel.display_name;
         } else {
             displayName = (
-                <FormattedMessage
-                    id='installed_outgoing_webhooks.unknown_channel'
-                    defaultMessage='A Private Webhook'
-                />
+                <FormattedMessage id="installed_outgoing_webhooks.unknown_channel" defaultMessage="A Private Webhook" />
             );
         }
 
         let description = null;
         if (outgoingWebhook.description) {
             description = (
-                <div className='item-details__row'>
-                    <span className='item-details__description'>
-                        {outgoingWebhook.description}
-                    </span>
+                <div className="item-details__row">
+                    <span className="item-details__description">{outgoingWebhook.description}</span>
                 </div>
             );
         }
@@ -104,11 +101,11 @@ export default class InstalledOutgoingWebhook extends React.Component {
         let triggerWords = null;
         if (outgoingWebhook.trigger_words && outgoingWebhook.trigger_words.length > 0) {
             triggerWords = (
-                <div className='item-details__row'>
-                    <span className='item-details__trigger-words'>
+                <div className="item-details__row">
+                    <span className="item-details__trigger-words">
                         <FormattedMessage
-                            id='installed_integrations.triggerWords'
-                            defaultMessage='Trigger Words: {triggerWords}'
+                            id="installed_integrations.triggerWords"
+                            defaultMessage="Trigger Words: {triggerWords}"
                             values={{
                                 triggerWords: outgoingWebhook.trigger_words.join(', ')
                             }}
@@ -119,11 +116,11 @@ export default class InstalledOutgoingWebhook extends React.Component {
         }
 
         const urls = (
-            <div className='item-details__row'>
-                <span className='item-details__url'>
+            <div className="item-details__row">
+                <span className="item-details__url">
                     <FormattedMessage
-                        id='installed_integrations.callback_urls'
-                        defaultMessage='Callback URLs: {urls}'
+                        id="installed_integrations.callback_urls"
+                        defaultMessage="Callback URLs: {urls}"
                         values={{
                             urls: outgoingWebhook.callback_urls.join(', ')
                         }}
@@ -136,15 +133,15 @@ export default class InstalledOutgoingWebhook extends React.Component {
         if (outgoingWebhook.trigger_when === triggerWordsFull) {
             triggerWhen = (
                 <FormattedMessage
-                    id='add_outgoing_webhook.triggerWordsTriggerWhenFullWord'
-                    defaultMessage='First word matches a trigger word exactly'
+                    id="add_outgoing_webhook.triggerWordsTriggerWhenFullWord"
+                    defaultMessage="First word matches a trigger word exactly"
                 />
             );
         } else if (outgoingWebhook.trigger_when === triggerWordsStartsWith) {
             triggerWhen = (
                 <FormattedMessage
-                    id='add_outgoing_webhook.triggerWordsTriggerWhenStartsWith'
-                    defaultMessage='First word starts with a trigger word'
+                    id="add_outgoing_webhook.triggerWordsTriggerWhenStartsWith"
+                    defaultMessage="First word starts with a trigger word"
                 />
             );
         }
@@ -152,26 +149,17 @@ export default class InstalledOutgoingWebhook extends React.Component {
         let actions = null;
         if (this.props.canChange) {
             actions = (
-                <div className='item-actions'>
-                    <a
-                        href='#'
-                        onClick={this.handleRegenToken}
-                    >
-                        <FormattedMessage
-                            id='installed_integrations.regenToken'
-                            defaultMessage='Regen Token'
-                        />
+                <div className="item-actions">
+                    <a href="#" onClick={this.handleRegenToken}>
+                        <FormattedMessage id="installed_integrations.regenToken" defaultMessage="Regen Token" />
                     </a>
                     {' - '}
                     <Link to={`/${this.props.team.name}/integrations/outgoing_webhooks/edit?id=${outgoingWebhook.id}`}>
-                        <FormattedMessage
-                            id='installed_integrations.edit'
-                            defaultMessage='Edit'
-                        />
+                        <FormattedMessage id="installed_integrations.edit" defaultMessage="Edit" />
                     </Link>
                     {' - '}
                     <DeleteIntegration
-                        messageId='installed_outgoing_webhooks.delete.confirm'
+                        messageId="installed_outgoing_webhooks.delete.confirm"
                         onDelete={this.handleDelete}
                     />
                 </div>
@@ -179,19 +167,17 @@ export default class InstalledOutgoingWebhook extends React.Component {
         }
 
         return (
-            <div className='backstage-list__item'>
-                <div className='item-details'>
-                    <div className='item-details__row'>
-                        <span className='item-details__name'>
-                            {displayName}
-                        </span>
+            <div className="backstage-list__item">
+                <div className="item-details">
+                    <div className="item-details__row">
+                        <span className="item-details__name">{displayName}</span>
                     </div>
                     {description}
-                    <div className='item-details__row'>
-                        <span className='item-details__content_type'>
+                    <div className="item-details__row">
+                        <span className="item-details__content_type">
                             <FormattedMessage
-                                id='installed_integrations.content_type'
-                                defaultMessage='Content-Type: {contentType}'
+                                id="installed_integrations.content_type"
+                                defaultMessage="Content-Type: {contentType}"
                                 values={{
                                     contentType: outgoingWebhook.content_type || 'application/x-www-form-urlencoded'
                                 }}
@@ -199,33 +185,33 @@ export default class InstalledOutgoingWebhook extends React.Component {
                         </span>
                     </div>
                     {triggerWords}
-                    <div className='item-details__row'>
-                        <span className='item-details__trigger-when'>
+                    <div className="item-details__row">
+                        <span className="item-details__trigger-when">
                             <FormattedMessage
-                                id='installed_integrations.triggerWhen'
-                                defaultMessage='Trigger When: {triggerWhen}'
+                                id="installed_integrations.triggerWhen"
+                                defaultMessage="Trigger When: {triggerWhen}"
                                 values={{
                                     triggerWhen
                                 }}
                             />
                         </span>
                     </div>
-                    <div className='item-details__row'>
-                        <span className='item-details__token'>
+                    <div className="item-details__row">
+                        <span className="item-details__token">
                             <FormattedMessage
-                                id='installed_integrations.token'
-                                defaultMessage='Token: {token}'
+                                id="installed_integrations.token"
+                                defaultMessage="Token: {token}"
                                 values={{
                                     token: outgoingWebhook.token
                                 }}
                             />
                         </span>
                     </div>
-                    <div className='item-details__row'>
-                        <span className='item-details__creation'>
+                    <div className="item-details__row">
+                        <span className="item-details__creation">
                             <FormattedMessage
-                                id='installed_integrations.creation'
-                                defaultMessage='Created by {creator} on {createAt, date, full}'
+                                id="installed_integrations.creation"
+                                defaultMessage="Created by {creator} on {createAt, date, full}"
                                 values={{
                                     creator: this.props.creator.username,
                                     createAt: outgoingWebhook.create_at

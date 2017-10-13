@@ -16,7 +16,6 @@ const FOOTER = {id: 'update_incoming_webhook.update', defaultMessage: 'Update'};
 
 export default class EditOAuthApp extends React.PureComponent {
     static propTypes = {
-
         /**
         * The current team
         */
@@ -43,7 +42,6 @@ export default class EditOAuthApp extends React.PureComponent {
         editOAuthAppRequest: PropTypes.object.isRequired,
 
         actions: PropTypes.shape({
-
             /**
             * The function to call to get OAuthApp
             */
@@ -54,7 +52,7 @@ export default class EditOAuthApp extends React.PureComponent {
             */
             editOAuthApp: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -71,7 +69,7 @@ export default class EditOAuthApp extends React.PureComponent {
         }
     }
 
-    editOAuthApp = async (app) => {
+    editOAuthApp = async app => {
         this.newApp = app;
 
         if (this.props.oauthApp.id) {
@@ -82,7 +80,8 @@ export default class EditOAuthApp extends React.PureComponent {
             app.token = this.props.oauthApp.token;
         }
 
-        const callbackUrlsSame = (this.props.oauthApp.callback_urls.length === app.callback_urls.length) &&
+        const callbackUrlsSame =
+            this.props.oauthApp.callback_urls.length === app.callback_urls.length &&
             this.props.oauthApp.callback_urls.every((v, i) => v === app.callback_urls[i]);
 
         if (callbackUrlsSame === false) {
@@ -90,15 +89,15 @@ export default class EditOAuthApp extends React.PureComponent {
         } else {
             await this.submitOAuthApp();
         }
-    }
+    };
 
     handleConfirmModal = () => {
         this.setState({showConfirmModal: true});
-    }
+    };
 
     confirmModalDismissed = () => {
         this.setState({showConfirmModal: false});
-    }
+    };
 
     submitOAuthApp = async () => {
         this.setState({serverError: ''});
@@ -115,27 +114,19 @@ export default class EditOAuthApp extends React.PureComponent {
         if (this.props.editOAuthAppRequest.error) {
             this.setState({serverError: this.props.editOAuthAppRequest.error.message});
         }
-    }
+    };
 
     renderExtra = () => {
-        const confirmButton = (
-            <FormattedMessage
-                id='update_command.update'
-                defaultMessage='Update'
-            />
-        );
+        const confirmButton = <FormattedMessage id="update_command.update" defaultMessage="Update" />;
 
         const confirmTitle = (
-            <FormattedMessage
-                id='update_oauth_app.confirm'
-                defaultMessage='Edit OAuth 2.0 application'
-            />
+            <FormattedMessage id="update_oauth_app.confirm" defaultMessage="Edit OAuth 2.0 application" />
         );
 
         const confirmMessage = (
             <FormattedMessage
-                id='update_oauth_app.question'
-                defaultMessage='Your changes may break the existing OAuth 2.0 application. Are you sure you would like to update it?'
+                id="update_oauth_app.question"
+                defaultMessage="Your changes may break the existing OAuth 2.0 application. Are you sure you would like to update it?"
             />
         );
 
@@ -149,11 +140,11 @@ export default class EditOAuthApp extends React.PureComponent {
                 onCancel={this.confirmModalDismissed}
             />
         );
-    }
+    };
 
     render() {
         if (!this.props.oauthApp) {
-            return <LoadingScreen/>;
+            return <LoadingScreen />;
         }
 
         return (

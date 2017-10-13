@@ -8,8 +8,7 @@ const tutorialCommands = {
         return this.waitForElementVisible('@appContent', Constants.DEFAULT_WAIT);
     },
     nextTutorial() {
-        return this
-            .waitForElementVisible('@tutorialNextButton', Constants.DEFAULT_WAIT)
+        return this.waitForElementVisible('@tutorialNextButton', Constants.DEFAULT_WAIT)
             .click('@tutorialNextButton')
             .waitForElementVisible('@tutorialNextButton', Constants.DEFAULT_WAIT)
             .click('@tutorialNextButton')
@@ -30,12 +29,10 @@ const tutorialCommands = {
             .waitForElementVisible('@tipButton', Constants.DEFAULT_WAIT)
             .click('@tipButton')
             .waitForElementVisible('@tipNextButton', Constants.DEFAULT_WAIT)
-            .click('@tipNextButton')
+            .click('@tipNextButton');
     },
     skipTutorial() {
-        return this
-            .waitForElementVisible('@tutorialSkipButton', Constants.DEFAULT_WAIT)
-            .click('@tutorialSkipButton')
+        return this.waitForElementVisible('@tutorialSkipButton', Constants.DEFAULT_WAIT).click('@tutorialSkipButton');
     }
 };
 
@@ -47,10 +44,10 @@ module.exports = {
             selector: '#app-content'
         },
         tutorialNextButton: {
-            selector: '#tutorialNextButton',
+            selector: '#tutorialNextButton'
         },
         tutorialSkipLink: {
-            selector: '#tutorialSkipLink',
+            selector: '#tutorialSkipLink'
         },
         tipButton: {
             selector: '#tipButton'

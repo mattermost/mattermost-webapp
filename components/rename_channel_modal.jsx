@@ -139,8 +139,8 @@ export class RenameChannelModal extends React.Component {
         } else if (channel.display_name.length < Constants.MIN_CHANNELNAME_LENGTH) {
             state.displayNameError = (
                 <FormattedMessage
-                    id='rename_channel.minLength'
-                    defaultMessage='Channel name must be {minLength, number} or more characters'
+                    id="rename_channel.minLength"
+                    defaultMessage="Channel name must be {minLength, number} or more characters"
                     values={{
                         minLength: Constants.MIN_CHANNELNAME_LENGTH
                     }}
@@ -174,13 +174,14 @@ export class RenameChannelModal extends React.Component {
             return;
         }
 
-        updateChannel(channel,
-            (data) => {
+        updateChannel(
+            channel,
+            data => {
                 this.handleHide();
                 const team = TeamStore.get(data.team_id);
                 browserHistory.push('/' + team.name + '/channels/' + data.name);
             },
-            (err) => {
+            err => {
                 this.setState({
                     serverError: err.message,
                     invalid: true
@@ -210,20 +211,24 @@ export class RenameChannelModal extends React.Component {
         let displayNameError = null;
         let displayNameClass = 'form-group';
         if (this.state.displayNameError) {
-            displayNameError = <label className='control-label'>{this.state.displayNameError}</label>;
+            displayNameError = <label className="control-label">{this.state.displayNameError}</label>;
             displayNameClass += ' has-error';
         }
 
         let nameError = null;
         let nameClass = 'form-group';
         if (this.state.nameError) {
-            nameError = <label className='control-label'>{this.state.nameError}</label>;
+            nameError = <label className="control-label">{this.state.nameError}</label>;
             nameClass += ' has-error';
         }
 
         let serverError = null;
         if (this.state.serverError) {
-            serverError = <div className='form-group has-error'><label className='control-label'>{this.state.serverError}</label></div>;
+            serverError = (
+                <div className="form-group has-error">
+                    <label className="control-label">{this.state.serverError}</label>
+                </div>
+            );
         }
 
         const {formatMessage} = this.props.intl;
@@ -238,38 +243,27 @@ export class RenameChannelModal extends React.Component {
 
         const fullUrl = TeamStore.getCurrentTeamUrl() + '/channels';
         const shortUrl = getShortenedURL(fullUrl, 35);
-        const urlTooltip = (
-            <Tooltip id='urlTooltip'>{fullUrl}</Tooltip>
-        );
+        const urlTooltip = <Tooltip id="urlTooltip">{fullUrl}</Tooltip>;
 
         return (
-            <Modal
-                show={this.props.show}
-                onHide={this.handleCancel}
-            >
+            <Modal show={this.props.show} onHide={this.handleCancel}>
                 <Modal.Header closeButton={true}>
                     <Modal.Title>
-                        <FormattedMessage
-                            id='rename_channel.title'
-                            defaultMessage='Rename Channel'
-                        />
+                        <FormattedMessage id="rename_channel.title" defaultMessage="Rename Channel" />
                     </Modal.Title>
                 </Modal.Header>
-                <form role='form'>
+                <form role="form">
                     <Modal.Body>
                         <div className={displayNameClass}>
-                            <label className='control-label'>
-                                <FormattedMessage
-                                    id='rename_channel.displayName'
-                                    defaultMessage='Display Name'
-                                />
+                            <label className="control-label">
+                                <FormattedMessage id="rename_channel.displayName" defaultMessage="Display Name" />
                             </label>
                             <input
                                 onChange={this.onDisplayNameChange}
-                                type='text'
-                                ref='displayName'
-                                id='display_name'
-                                className='form-control'
+                                type="text"
+                                ref="displayName"
+                                id="display_name"
+                                className="form-control"
                                 placeholder={formatMessage(holders.displayNameHolder)}
                                 value={this.state.displayName}
                                 maxLength={Constants.MAX_CHANNELNAME_LENGTH}
@@ -277,22 +271,22 @@ export class RenameChannelModal extends React.Component {
                             {displayNameError}
                         </div>
                         <div className={nameClass}>
-                            <label className='control-label'>{urlInputLabel}</label>
+                            <label className="control-label">{urlInputLabel}</label>
 
-                            <div className='input-group input-group--limit'>
+                            <div className="input-group input-group--limit">
                                 <OverlayTrigger
                                     trigger={['hover', 'focus']}
                                     delayShow={Constants.OVERLAY_TIME_DELAY}
-                                    placement='top'
+                                    placement="top"
                                     overlay={urlTooltip}
                                 >
-                                    <span className='input-group-addon'>{shortUrl}</span>
+                                    <span className="input-group-addon">{shortUrl}</span>
                                 </OverlayTrigger>
                                 <input
                                     onChange={this.onNameChange}
-                                    type='text'
+                                    type="text"
                                     className={handleInputClass}
-                                    ref='channelName'
+                                    ref="channelName"
                                     placeholder={formatMessage(holders.handleHolder)}
                                     value={this.state.channelName}
                                     maxLength={Constants.MAX_CHANNELNAME_LENGTH}
@@ -304,25 +298,11 @@ export class RenameChannelModal extends React.Component {
                         {serverError}
                     </Modal.Body>
                     <Modal.Footer>
-                        <button
-                            type='button'
-                            className='btn btn-default'
-                            onClick={this.handleCancel}
-                        >
-                            <FormattedMessage
-                                id='rename_channel.cancel'
-                                defaultMessage='Cancel'
-                            />
+                        <button type="button" className="btn btn-default" onClick={this.handleCancel}>
+                            <FormattedMessage id="rename_channel.cancel" defaultMessage="Cancel" />
                         </button>
-                        <button
-                            onClick={this.handleSubmit}
-                            type='submit'
-                            className='btn btn-primary'
-                        >
-                            <FormattedMessage
-                                id='rename_channel.save'
-                                defaultMessage='Save'
-                            />
+                        <button onClick={this.handleSubmit} type="submit" className="btn btn-primary">
+                            <FormattedMessage id="rename_channel.save" defaultMessage="Save" />
                         </button>
                     </Modal.Footer>
                 </form>

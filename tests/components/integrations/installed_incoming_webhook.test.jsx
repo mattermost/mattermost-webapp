@@ -92,8 +92,18 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 }}
             />
         );
-        expect(wrapper.find('.item-actions').find(Link).exists()).toBe(true);
-        expect(wrapper.find('.item-actions').find(DeleteIntegration).exists()).toBe(true);
+        expect(
+            wrapper
+                .find('.item-actions')
+                .find(Link)
+                .exists()
+        ).toBe(true);
+        expect(
+            wrapper
+                .find('.item-actions')
+                .find(DeleteIntegration)
+                .exists()
+        ).toBe(true);
     });
 
     test('Should have the same name and description on view as it has in incomingWebhook', () => {

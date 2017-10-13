@@ -31,7 +31,7 @@ export default class AddUsersToTeam extends React.Component {
         actions: PropTypes.shape({
             getProfilesNotInTeam: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -88,7 +88,7 @@ export default class AddUsersToTeam extends React.Component {
             e.preventDefault();
         }
 
-        const userIds = this.state.values.map((v) => v.id);
+        const userIds = this.state.values.map(v => v.id);
         if (userIds.length === 0) {
             return;
         }
@@ -142,12 +142,9 @@ export default class AddUsersToTeam extends React.Component {
             return;
         }
 
-        this.searchTimeoutId = setTimeout(
-            () => {
-                searchUsersNotInTeam(term, TeamStore.getCurrentId(), {});
-            },
-            Constants.SEARCH_TIMEOUT_MILLISECONDS
-        );
+        this.searchTimeoutId = setTimeout(() => {
+            searchUsersNotInTeam(term, TeamStore.getCurrentId(), {});
+        }, Constants.SEARCH_TIMEOUT_MILLISECONDS);
     }
 
     handleDelete(values) {
@@ -169,22 +166,16 @@ export default class AddUsersToTeam extends React.Component {
             >
                 <ProfilePicture
                     src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}
-                    width='32'
-                    height='32'
+                    width="32"
+                    height="32"
                 />
-                <div
-                    className='more-modal__details'
-                >
-                    <div className='more-modal__name'>
-                        {displayEntireNameForUser(option)}
-                    </div>
-                    <div className='more-modal__description'>
-                        {option.email}
-                    </div>
+                <div className="more-modal__details">
+                    <div className="more-modal__name">{displayEntireNameForUser(option)}</div>
+                    <div className="more-modal__description">{option.email}</div>
                 </div>
-                <div className='more-modal__actions'>
-                    <div className='more-modal__actions--round'>
-                        <i className='fa fa-plus'/>
+                <div className="more-modal__actions">
+                    <div className="more-modal__actions--round">
+                        <i className="fa fa-plus" />
                     </div>
                 </div>
             </div>
@@ -198,24 +189,19 @@ export default class AddUsersToTeam extends React.Component {
     render() {
         const numRemainingText = (
             <FormattedMessage
-                id='multiselect.numPeopleRemaining'
-                defaultMessage='Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. '
+                id="multiselect.numPeopleRemaining"
+                defaultMessage="Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. "
                 values={{
                     num: MAX_SELECTABLE_VALUES - this.state.values.length
                 }}
             />
         );
 
-        const buttonSubmitText = (
-            <FormattedMessage
-                id='multiselect.add'
-                defaultMessage='Add'
-            />
-        );
+        const buttonSubmitText = <FormattedMessage id="multiselect.add" defaultMessage="Add" />;
 
         let users = [];
         if (this.state.users) {
-            users = this.state.users.filter((user) => user.delete_at === 0);
+            users = this.state.users.filter(user => user.delete_at === 0);
         }
 
         return (
@@ -228,19 +214,17 @@ export default class AddUsersToTeam extends React.Component {
                 <Modal.Header closeButton={true}>
                     <Modal.Title>
                         <FormattedMessage
-                            id='add_users_to_team.title'
-                            defaultMessage='Add New Members To {teamName} Team'
+                            id="add_users_to_team.title"
+                            defaultMessage="Add New Members To {teamName} Team"
                             values={{
-                                teamName: (
-                                    <strong>{TeamStore.getCurrent().display_name}</strong>
-                                )
+                                teamName: <strong>{TeamStore.getCurrent().display_name}</strong>
                             }}
                         />
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <MultiSelect
-                        key='addUsersToTeamKey'
+                        key="addUsersToTeamKey"
                         options={users}
                         optionRenderer={this.renderOption}
                         values={this.state.values}

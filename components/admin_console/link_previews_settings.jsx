@@ -30,29 +30,24 @@ export default class LinkPreviewsSettings extends AdminSettings {
     }
 
     renderTitle() {
-        return (
-            <FormattedMessage
-                id='admin.customization.linkPreviews'
-                defaultMessage='Link Previews'
-            />
-        );
+        return <FormattedMessage id="admin.customization.linkPreviews" defaultMessage="Link Previews" />;
     }
 
     renderSettings() {
         return (
             <SettingsGroup>
                 <BooleanSetting
-                    id='enableLinkPreviews'
+                    id="enableLinkPreviews"
                     label={
                         <FormattedMessage
-                            id='admin.customization.enableLinkPreviewsTitle'
-                            defaultMessage='Enable Link Previews:'
+                            id="admin.customization.enableLinkPreviewsTitle"
+                            defaultMessage="Enable Link Previews:"
                         />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.customization.enableLinkPreviewsDesc'
-                            defaultMessage='Enable users to display a preview of website content below the message, if available. When true, website previews can be enabled from Account Settings > Advanced > Preview pre-release features.'
+                            id="admin.customization.enableLinkPreviewsDesc"
+                            defaultMessage="Enable users to display a preview of website content below the message, if available. When true, website previews can be enabled from Account Settings > Advanced > Preview pre-release features."
                         />
                     }
                     value={this.state.enableLinkPreviews}

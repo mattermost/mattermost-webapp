@@ -23,46 +23,38 @@ export default class MFAController extends React.Component {
         let backButton;
         if (window.mm_config.EnforceMultifactorAuthentication === 'true') {
             backButton = (
-                <div className='signup-header'>
+                <div className="signup-header">
                     <a
-                        href='#'
-                        onClick={(e) => {
+                        href="#"
+                        onClick={e => {
                             e.preventDefault();
                             emitUserLoggedOutEvent('/login');
                         }}
                     >
-                        <span className='fa fa-chevron-left'/>
-                        <FormattedMessage
-                            id='web.header.logout'
-                            defaultMessage='Logout'
-                        />
+                        <span className="fa fa-chevron-left" />
+                        <FormattedMessage id="web.header.logout" defaultMessage="Logout" />
                     </a>
                 </div>
             );
         } else {
-            backButton = (<BackButton/>);
+            backButton = <BackButton />;
         }
 
         return (
-            <div className='inner-wrap sticky'>
-                <div className='content'>
+            <div className="inner-wrap sticky">
+                <div className="content">
                     <div>
                         {backButton}
-                        <div className='col-sm-12'>
-                            <div className='signup-team__container'>
+                        <div className="col-sm-12">
+                            <div className="signup-team__container">
                                 <h3>
                                     <FormattedMessage
-                                        id='mfa.setupTitle'
-                                        defaultMessage='Multi-factor Authentication Setup'
+                                        id="mfa.setupTitle"
+                                        defaultMessage="Multi-factor Authentication Setup"
                                     />
                                 </h3>
-                                <img
-                                    className='signup-team-logo'
-                                    src={logoImage}
-                                />
-                                <div id='mfa'>
-                                    {React.cloneElement(this.props.children, {})}
-                                </div>
+                                <img className="signup-team-logo" src={logoImage} />
+                                <div id="mfa">{React.cloneElement(this.props.children, {})}</div>
                             </div>
                         </div>
                     </div>
@@ -72,8 +64,7 @@ export default class MFAController extends React.Component {
     }
 }
 
-MFAController.defaultProps = {
-};
+MFAController.defaultProps = {};
 MFAController.propTypes = {
     location: PropTypes.object.isRequired,
     children: PropTypes.node

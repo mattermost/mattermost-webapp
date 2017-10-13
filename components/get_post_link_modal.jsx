@@ -54,7 +54,10 @@ export default class GetPostLinkModal extends React.Component {
                 show={this.state.show}
                 onHide={this.hide}
                 title={Utils.localizeMessage('get_post_link_modal.title', 'Copy Permalink')}
-                helpText={Utils.localizeMessage('get_post_link_modal.help', 'The link below allows authorized users to see your post.')}
+                helpText={Utils.localizeMessage(
+                    'get_post_link_modal.help',
+                    'The link below allows authorized users to see your post.'
+                )}
                 link={TeamStore.getCurrentTeamUrl() + '/pl/' + this.state.post.id}
             />
         );

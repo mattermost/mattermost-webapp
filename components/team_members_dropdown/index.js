@@ -18,11 +18,14 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({
-            getUser,
-            getTeamStats,
-            getChannelStats
-        }, dispatch)
+        actions: bindActionCreators(
+            {
+                getUser,
+                getTeamStats,
+                getChannelStats
+            },
+            dispatch
+        )
     };
 }
 

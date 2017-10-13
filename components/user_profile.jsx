@@ -67,14 +67,14 @@ export default class UserProfile extends React.Component {
         }
 
         if (this.props.disablePopover) {
-            return <div className='user-popover'>{name}</div>;
+            return <div className="user-popover">{name}</div>;
         }
 
         return (
             <OverlayTrigger
-                ref='overlay'
-                trigger='click'
-                placement='right'
+                ref="overlay"
+                trigger="click"
+                placement="right"
                 rootClose={true}
                 overlay={
                     <Pluggable>
@@ -90,11 +90,7 @@ export default class UserProfile extends React.Component {
                     </Pluggable>
                 }
             >
-                <div
-                    className='user-popover'
-                >
-                    {name}
-                </div>
+                <div className="user-popover">{name}</div>
             </OverlayTrigger>
         );
     }

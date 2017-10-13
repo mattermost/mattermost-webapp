@@ -21,7 +21,7 @@ describe('components/integrations/AddIncomingWebhook', () => {
     };
 
     test('should match snapshot', () => {
-        const wrapper = shallow(<AddIncomingWebhook {...props}/>);
+        const wrapper = shallow(<AddIncomingWebhook {...props} />);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -31,7 +31,7 @@ describe('components/integrations/AddIncomingWebhook', () => {
             display_name: 'display_name',
             description: 'description'
         };
-        const wrapper = shallow(<AddIncomingWebhook {...props}/>);
+        const wrapper = shallow(<AddIncomingWebhook {...props} />);
         wrapper.instance().addIncomingHook(hook);
         expect(createIncomingHook).toHaveBeenCalledTimes(1);
         expect(createIncomingHook).toBeCalledWith(hook);

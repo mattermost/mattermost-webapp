@@ -72,36 +72,74 @@ export default class LoggedIn extends React.Component {
         // ???
         $('body').on('mouseenter mouseleave', '.post', function mouseOver(ev) {
             if (ev.type === 'mouseenter') {
-                $(this).parent('div').prev('.date-separator, .new-separator').addClass('hovered--after');
-                $(this).parent('div').next('.date-separator, .new-separator').addClass('hovered--before');
+                $(this)
+                    .parent('div')
+                    .prev('.date-separator, .new-separator')
+                    .addClass('hovered--after');
+                $(this)
+                    .parent('div')
+                    .next('.date-separator, .new-separator')
+                    .addClass('hovered--before');
             } else {
-                $(this).parent('div').prev('.date-separator, .new-separator').removeClass('hovered--after');
-                $(this).parent('div').next('.date-separator, .new-separator').removeClass('hovered--before');
+                $(this)
+                    .parent('div')
+                    .prev('.date-separator, .new-separator')
+                    .removeClass('hovered--after');
+                $(this)
+                    .parent('div')
+                    .next('.date-separator, .new-separator')
+                    .removeClass('hovered--before');
             }
         });
 
         $('body').on('mouseenter mouseleave', '.search-item__container .post', function mouseOver(ev) {
             if (ev.type === 'mouseenter') {
-                $(this).closest('.search-item__container').find('.date-separator').addClass('hovered--after');
-                $(this).closest('.search-item__container').next('div').find('.date-separator').addClass('hovered--before');
+                $(this)
+                    .closest('.search-item__container')
+                    .find('.date-separator')
+                    .addClass('hovered--after');
+                $(this)
+                    .closest('.search-item__container')
+                    .next('div')
+                    .find('.date-separator')
+                    .addClass('hovered--before');
             } else {
-                $(this).closest('.search-item__container').find('.date-separator').removeClass('hovered--after');
-                $(this).closest('.search-item__container').next('div').find('.date-separator').removeClass('hovered--before');
+                $(this)
+                    .closest('.search-item__container')
+                    .find('.date-separator')
+                    .removeClass('hovered--after');
+                $(this)
+                    .closest('.search-item__container')
+                    .next('div')
+                    .find('.date-separator')
+                    .removeClass('hovered--before');
             }
         });
 
         $('body').on('mouseenter mouseleave', '.post.post--comment.same--root', function mouseOver(ev) {
             if (ev.type === 'mouseenter') {
-                $(this).parent('div').prev('.date-separator, .new-separator').addClass('hovered--comment');
-                $(this).parent('div').next('.date-separator, .new-separator').addClass('hovered--comment');
+                $(this)
+                    .parent('div')
+                    .prev('.date-separator, .new-separator')
+                    .addClass('hovered--comment');
+                $(this)
+                    .parent('div')
+                    .next('.date-separator, .new-separator')
+                    .addClass('hovered--comment');
             } else {
-                $(this).parent('div').prev('.date-separator, .new-separator').removeClass('hovered--comment');
-                $(this).parent('div').next('.date-separator, .new-separator').removeClass('hovered--comment');
+                $(this)
+                    .parent('div')
+                    .prev('.date-separator, .new-separator')
+                    .removeClass('hovered--comment');
+                $(this)
+                    .parent('div')
+                    .next('.date-separator, .new-separator')
+                    .removeClass('hovered--comment');
             }
         });
 
         // Prevent backspace from navigating back a page
-        $(window).on('keydown.preventBackspace', (e) => {
+        $(window).on('keydown.preventBackspace', e => {
             if (e.which === BACKSPACE_CHAR && !$(e.target).is('input, textarea')) {
                 e.preventDefault();
             }
@@ -134,7 +172,7 @@ export default class LoggedIn extends React.Component {
 
     render() {
         if (!this.isValidState()) {
-            return <LoadingScreen/>;
+            return <LoadingScreen />;
         }
 
         return React.cloneElement(this.props.children, {

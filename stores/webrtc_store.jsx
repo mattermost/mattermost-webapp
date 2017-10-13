@@ -91,21 +91,21 @@ class WebrtcStoreClass extends EventEmitter {
 var WebrtcStore = new WebrtcStoreClass();
 WebrtcStore.setMaxListeners(0);
 
-WebrtcStore.dispatchToken = AppDispatcher.register((payload) => {
+WebrtcStore.dispatchToken = AppDispatcher.register(payload => {
     var action = payload.action;
 
     switch (action.type) {
-    case WebrtcActionTypes.INITIALIZE:
-        WebrtcStore.emitInit(action.user_id, action.is_calling);
-        break;
-    case WebrtcActionTypes.NOTIFY:
-        WebrtcStore.emitNotify(action.message);
-        break;
-    default:
-        if (action.message) {
-            WebrtcStore.emitChanged(action.message);
-        }
-        break;
+        case WebrtcActionTypes.INITIALIZE:
+            WebrtcStore.emitInit(action.user_id, action.is_calling);
+            break;
+        case WebrtcActionTypes.NOTIFY:
+            WebrtcStore.emitNotify(action.message);
+            break;
+        default:
+            if (action.message) {
+                WebrtcStore.emitChanged(action.message);
+            }
+            break;
     }
 });
 

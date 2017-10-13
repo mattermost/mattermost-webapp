@@ -16,7 +16,9 @@ export default {
                     path: 'messaging',
                     indexRoute: {
                         getComponents: (location, callback) => {
-                            System.import('components/help/components/messaging.jsx').then(RouteUtils.importComponentSuccess(callback));
+                            System.import('components/help/components/messaging.jsx').then(
+                                RouteUtils.importComponentSuccess(callback)
+                            );
                         }
                     }
                 },
@@ -24,7 +26,9 @@ export default {
                     path: 'composing',
                     indexRoute: {
                         getComponents: (location, callback) => {
-                            System.import('components/help/components/composing.jsx').then(RouteUtils.importComponentSuccess(callback));
+                            System.import('components/help/components/composing.jsx').then(
+                                RouteUtils.importComponentSuccess(callback)
+                            );
                         }
                     }
                 },
@@ -32,7 +36,9 @@ export default {
                     path: 'mentioning',
                     indexRoute: {
                         getComponents: (location, callback) => {
-                            System.import('components/help/components/mentioning.jsx').then(RouteUtils.importComponentSuccess(callback));
+                            System.import('components/help/components/mentioning.jsx').then(
+                                RouteUtils.importComponentSuccess(callback)
+                            );
                         }
                     }
                 },
@@ -40,7 +46,9 @@ export default {
                     path: 'formatting',
                     indexRoute: {
                         getComponents: (location, callback) => {
-                            System.import('components/help/components/formatting.jsx').then(RouteUtils.importComponentSuccess(callback));
+                            System.import('components/help/components/formatting.jsx').then(
+                                RouteUtils.importComponentSuccess(callback)
+                            );
                         }
                     }
                 },
@@ -48,7 +56,9 @@ export default {
                     path: 'attaching',
                     indexRoute: {
                         getComponents: (location, callback) => {
-                            System.import('components/help/components/attaching.jsx').then(RouteUtils.importComponentSuccess(callback));
+                            System.import('components/help/components/attaching.jsx').then(
+                                RouteUtils.importComponentSuccess(callback)
+                            );
                         }
                     }
                 },
@@ -56,7 +66,9 @@ export default {
                     path: 'commands',
                     indexRoute: {
                         getComponents: (location, callback) => {
-                            System.import('components/help/components/commands.jsx').then(RouteUtils.importComponentSuccess(callback));
+                            System.import('components/help/components/commands.jsx').then(
+                                RouteUtils.importComponentSuccess(callback)
+                            );
                         }
                     }
                 }

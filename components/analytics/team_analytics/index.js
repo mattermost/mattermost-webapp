@@ -27,10 +27,13 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({
-            getTeams,
-            getProfilesInTeam
-        }, dispatch)
+        actions: bindActionCreators(
+            {
+                getTeams,
+                getProfilesInTeam
+            },
+            dispatch
+        )
     };
 }
 

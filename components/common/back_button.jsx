@@ -12,22 +12,18 @@ export default class BackButton extends React.PureComponent {
     };
 
     static propTypes = {
-
         /**
          * URL to return to
          */
         url: PropTypes.string
-    }
+    };
 
     render() {
         return (
-            <div className='signup-header'>
+            <div className="signup-header">
                 <Link to={this.props.url}>
-                    <span className='fa fa-chevron-left'/>
-                    <FormattedMessage
-                        id='web.header.back'
-                        defaultMessage='Back'
-                    />
+                    <span className="fa fa-chevron-left" />
+                    <FormattedMessage id="web.header.back" defaultMessage="Back" />
                 </Link>
             </div>
         );

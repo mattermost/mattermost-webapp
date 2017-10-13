@@ -5,7 +5,11 @@ import React from 'react';
 
 import {Client4} from 'mattermost-redux/client';
 import {Preferences} from 'mattermost-redux/constants';
-import {getChannelsInCurrentTeam, getGroupChannels, getMyChannelMemberships} from 'mattermost-redux/selectors/entities/channels';
+import {
+    getChannelsInCurrentTeam,
+    getGroupChannels,
+    getMyChannelMemberships
+} from 'mattermost-redux/selectors/entities/channels';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, searchProfiles} from 'mattermost-redux/selectors/entities/users';
@@ -37,38 +41,22 @@ class SwitchChannelSuggestion extends Suggestion {
         let displayName = channel.display_name;
         let icon = null;
         if (channel.type === Constants.OPEN_CHANNEL) {
-            icon = (
-                <span
-                    className='icon icon__globe icon--body'
-                    dangerouslySetInnerHTML={{__html: globeIcon}}
-                />
-            );
+            icon = <span className="icon icon__globe icon--body" dangerouslySetInnerHTML={{__html: globeIcon}} />;
         } else if (channel.type === Constants.PRIVATE_CHANNEL) {
-            icon = (
-                <span
-                    className='icon icon__lock icon--body'
-                    dangerouslySetInnerHTML={{__html: lockIcon}}
-                />
-            );
+            icon = <span className="icon icon__lock icon--body" dangerouslySetInnerHTML={{__html: lockIcon}} />;
         } else if (channel.type === Constants.GM_CHANNEL) {
             displayName = getChannelDisplayName(channel);
-            icon = <div className='status status--group'>{'G'}</div>;
+            icon = <div className="status status--group">{'G'}</div>;
         } else {
             icon = (
-                <div className='pull-left'>
-                    <img
-                        className='mention__image'
-                        src={Utils.imageURLForUser(channel)}
-                    />
+                <div className="pull-left">
+                    <img className="mention__image" src={Utils.imageURLForUser(channel)} />
                 </div>
             );
         }
 
         return (
-            <div
-                onClick={this.handleClick}
-                className={className}
-            >
+            <div onClick={this.handleClick} className={className}>
                 {icon}
                 {displayName}
             </div>
@@ -157,7 +145,9 @@ export default class SwitchChannelProvider extends Provider {
         }
 
         const users = Object.assign([], searchProfiles(getState(), channelPrefix, true), usersFromServer.users);
-        const channels = getChannelsInCurrentTeam(getState()).concat(getGroupChannels(getState())).concat(channelsFromServer);
+        const channels = getChannelsInCurrentTeam(getState())
+            .concat(getGroupChannels(getState()))
+            .concat(channelsFromServer);
         this.formatChannelsAndDispatch(channelPrefix, suggestionId, channels, users);
     }
 
@@ -188,7 +178,12 @@ export default class SwitchChannelProvider extends Provider {
                 if (newChannel.type === Constants.GM_CHANNEL) {
                     newChannel.name = getChannelDisplayName(newChannel);
                     wrappedChannel.name = newChannel.name;
-                    const isGMVisible = getBool(getState(), Preferences.CATEGORY_GROUP_CHANNEL_SHOW, newChannel.id, false);
+                    const isGMVisible = getBool(
+                        getState(),
+                        Preferences.CATEGORY_GROUP_CHANNEL_SHOW,
+                        newChannel.id,
+                        false
+                    );
                     if (isGMVisible) {
                         wrappedChannel.type = Constants.MENTION_CHANNELS;
                     } else {
@@ -258,9 +253,7 @@ export default class SwitchChannelProvider extends Provider {
             channels.push(wrappedChannel);
         }
 
-        const channelNames = channels.
-            sort(quickSwitchSorter).
-            map((wrappedChannel) => wrappedChannel.channel.name);
+        const channelNames = channels.sort(quickSwitchSorter).map(wrappedChannel => wrappedChannel.channel.name);
 
         if (skipNotInChannel) {
             channels.push({

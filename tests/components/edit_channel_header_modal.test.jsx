@@ -182,9 +182,7 @@ describe('components/edit_channel_header_modal/edit_channel_header_modal', () =>
             actions: {patchChannel: emptyFunction}
         });
 
-        expect(
-            wrapper.state('show')
-        ).toBeFalsy();
+        expect(wrapper.state('show')).toBeFalsy();
     });
 
     test('change header', () => {
@@ -200,9 +198,7 @@ describe('components/edit_channel_header_modal/edit_channel_header_modal', () =>
 
         wrapper.find(Textbox).simulate('change', {target: {value: 'header'}});
 
-        expect(
-            wrapper.state('header')
-        ).toBe('header');
+        expect(wrapper.state('header')).toBe('header');
     });
 
     test('patch on save button click', () => {

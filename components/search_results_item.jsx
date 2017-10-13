@@ -88,40 +88,37 @@ export default class SearchResultsItem extends React.Component {
         browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/pl/' + this.props.post.id);
     }
 
-    handleDropdownOpened = (isOpened) => {
+    handleDropdownOpened = isOpened => {
         this.setState({
             dropdownOpened: isOpened
         });
-    }
+    };
 
     timeTag(post) {
         return (
-            <time
-                className='search-item-time'
-                dateTime={Utils.getDateForUnixTicks(post.create_at).toISOString()}
-            >
+            <time className="search-item-time" dateTime={Utils.getDateForUnixTicks(post.create_at).toISOString()}>
                 <FormattedDate
                     value={post.create_at}
                     hour12={!this.props.useMilitaryTime}
-                    hour='2-digit'
-                    minute='2-digit'
+                    hour="2-digit"
+                    minute="2-digit"
                 />
             </time>
         );
     }
 
     renderTimeTag(post) {
-        return Utils.isMobile() ?
-            this.timeTag(post) :
-            (
-                <Link
-                    to={`/${this.state.currentTeamDisplayName}/pl/${post.id}`}
-                    target='_blank'
-                    className='post__permalink'
-                >
-                    {this.timeTag(post)}
-                </Link>
-            );
+        return Utils.isMobile() ? (
+            this.timeTag(post)
+        ) : (
+            <Link
+                to={`/${this.state.currentTeamDisplayName}/pl/${post.id}`}
+                target="_blank"
+                className="post__permalink"
+            >
+                {this.timeTag(post)}
+            </Link>
+        );
     }
 
     getClassName = () => {
@@ -136,7 +133,7 @@ export default class SearchResultsItem extends React.Component {
         }
 
         return className;
-    }
+    };
 
     render() {
         let channelName = null;
@@ -154,8 +151,8 @@ export default class SearchResultsItem extends React.Component {
             if (channel.type === 'D') {
                 channelName = (
                     <FormattedMessage
-                        id='search_item.direct'
-                        defaultMessage='Direct Message (with {username})'
+                        id="search_item.direct"
+                        defaultMessage="Direct Message (with {username})"
                         values={{
                             username: Utils.displayUsernameForUser(Utils.getDirectTeammate(channel.id))
                         }}
@@ -166,17 +163,19 @@ export default class SearchResultsItem extends React.Component {
 
         let overrideUsername;
         let disableProfilePopover = false;
-        if (post.props &&
-                post.props.from_webhook &&
-                post.props.override_username &&
-                global.window.mm_config.EnablePostUsernameOverride === 'true') {
+        if (
+            post.props &&
+            post.props.from_webhook &&
+            post.props.override_username &&
+            global.window.mm_config.EnablePostUsernameOverride === 'true'
+        ) {
             overrideUsername = post.props.override_username;
             disableProfilePopover = true;
         }
 
         let botIndicator;
         if (post.props && post.props.from_webhook) {
-            botIndicator = <div className='bot-indicator'>{Constants.BOT_NAME}</div>;
+            botIndicator = <div className="bot-indicator">{Constants.BOT_NAME}</div>;
         }
 
         const profilePic = (
@@ -186,10 +185,9 @@ export default class SearchResultsItem extends React.Component {
                 status={this.props.status}
                 isBusy={this.props.isBusy}
             />
-
         );
 
-        const profilePicContainer = (<div className='post__img'>{profilePic}</div>);
+        const profilePicContainer = <div className="post__img">{profilePic}</div>;
 
         let postClass = '';
         if (PostUtils.isEdited(this.props.post)) {
@@ -198,12 +196,7 @@ export default class SearchResultsItem extends React.Component {
 
         let fileAttachment = null;
         if (post.file_ids && post.file_ids.length > 0) {
-            fileAttachment = (
-                <FileAttachmentListContainer
-                    post={post}
-                    compactDisplay={this.props.compactDisplay}
-                />
-            );
+            fileAttachment = <FileAttachmentListContainer post={post} compactDisplay={this.props.compactDisplay} />;
         }
 
         let message;
@@ -212,10 +205,7 @@ export default class SearchResultsItem extends React.Component {
         if (post.state === Constants.POST_DELETED) {
             message = (
                 <p>
-                    <FormattedMessage
-                        id='post_body.deleted'
-                        defaultMessage='(message deleted)'
-                    />
+                    <FormattedMessage id="post_body.deleted" defaultMessage="(message deleted)" />
                 </p>
             );
         } else {
@@ -229,7 +219,7 @@ export default class SearchResultsItem extends React.Component {
             );
 
             rhsControls = (
-                <div className='col__controls'>
+                <div className="col__controls">
                     <DotMenu
                         idPrefix={Constants.SEARCH_POST}
                         idCount={idCount}
@@ -243,14 +233,8 @@ export default class SearchResultsItem extends React.Component {
                         handleCommentClick={this.handleFocusRHSClick}
                         searchStyle={'search-item__comment'}
                     />
-                    <a
-                        onClick={this.handleJumpClick}
-                        className='search-item__jump'
-                    >
-                        <FormattedMessage
-                            id='search_item.jump'
-                            defaultMessage='Jump'
-                        />
+                    <a onClick={this.handleJumpClick} className="search-item__jump">
+                        <FormattedMessage id="search_item.jump" defaultMessage="Jump" />
                     </a>
                 </div>
             );
@@ -271,35 +255,27 @@ export default class SearchResultsItem extends React.Component {
         let pinnedBadge;
         if (post.is_pinned) {
             pinnedBadge = (
-                <span className='post__pinned-badge'>
-                    <FormattedMessage
-                        id='post_info.pinned'
-                        defaultMessage='Pinned'
-                    />
+                <span className="post__pinned-badge">
+                    <FormattedMessage id="post_info.pinned" defaultMessage="Pinned" />
                 </span>
             );
         }
 
         return (
-            <div className='search-item__container'>
-                <div className='date-separator'>
-                    <hr className='separator__hr'/>
-                    <div className='separator__text'>
-                        <FormattedDate
-                            value={post.create_at}
-                            day='numeric'
-                            month='long'
-                            year='numeric'
-                        />
+            <div className="search-item__container">
+                <div className="date-separator">
+                    <hr className="separator__hr" />
+                    <div className="separator__text">
+                        <FormattedDate value={post.create_at} day="numeric" month="long" year="numeric" />
                     </div>
                 </div>
                 <div className={this.getClassName()}>
-                    <div className='search-channel__name'>{channelName}</div>
-                    <div className='post__content'>
+                    <div className="search-channel__name">{channelName}</div>
+                    <div className="post__content">
                         {profilePicContainer}
                         <div>
-                            <div className='post__header'>
-                                <div className='col col__name'>
+                            <div className="post__header">
+                                <div className="col col__name">
                                     <strong>
                                         <UserProfile
                                             user={user}
@@ -311,14 +287,14 @@ export default class SearchResultsItem extends React.Component {
                                     </strong>
                                 </div>
                                 {botIndicator}
-                                <div className='col'>
+                                <div className="col">
                                     {this.renderTimeTag(post)}
                                     {pinnedBadge}
                                     {flagContent}
                                 </div>
                                 {rhsControls}
                             </div>
-                            <div className='search-item-snippet post__body'>
+                            <div className="search-item-snippet post__body">
                                 <div className={postClass}>
                                     {message}
                                     {fileAttachment}

@@ -169,7 +169,7 @@ class ChannelStoreClass extends EventEmitter {
 
     resetCounts(ids) {
         const membersToStore = [];
-        ids.forEach((id) => {
+        ids.forEach(id => {
             const member = this.getMyMember(id);
             const channel = this.get(id);
             if (member && channel) {
@@ -332,7 +332,7 @@ class ChannelStoreClass extends EventEmitter {
     getMoreChannels() {
         const channels = Selectors.getOtherChannels(store.getState());
         const channelMap = {};
-        channels.forEach((c) => {
+        channels.forEach(c => {
             channelMap[c.id] = c;
         });
         return channelMap;
@@ -355,19 +355,19 @@ class ChannelStoreClass extends EventEmitter {
     }
 
     setUnreadCountsByMembers(members) {
-        members.forEach((m) => {
+        members.forEach(m => {
             this.setUnreadCountByChannel(m.channel_id);
         });
     }
 
     setUnreadCountsByCurrentMembers() {
-        Object.keys(this.getMyMembers()).forEach((key) => {
+        Object.keys(this.getMyMembers()).forEach(key => {
             this.setUnreadCountByChannel(this.getMyMember(key).channel_id);
         });
     }
 
     setUnreadCountsByChannels(channels) {
-        channels.forEach((c) => {
+        channels.forEach(c => {
             this.setUnreadCountByChannel(c.id);
         });
     }
@@ -471,12 +471,10 @@ class ChannelStoreClass extends EventEmitter {
             });
         }
 
-        actions.push(
-            {
-                type: ChannelTypes.RECEIVED_CHANNEL,
-                data: channel
-            }
-        );
+        actions.push({
+            type: ChannelTypes.RECEIVED_CHANNEL,
+            data: channel
+        });
         store.dispatch(batchActions(actions));
     }
 
@@ -504,84 +502,88 @@ class ChannelStoreClass extends EventEmitter {
 
 var ChannelStore = new ChannelStoreClass();
 
-ChannelStore.dispatchToken = AppDispatcher.register((payload) => {
+ChannelStore.dispatchToken = AppDispatcher.register(payload => {
     var action = payload.action;
 
     switch (action.type) {
-    case ActionTypes.CLICK_CHANNEL:
-        ChannelStore.setCurrentId(action.id);
-        ChannelStore.setPostMode(ChannelStore.POST_MODE_CHANNEL);
-        break;
+        case ActionTypes.CLICK_CHANNEL:
+            ChannelStore.setCurrentId(action.id);
+            ChannelStore.setPostMode(ChannelStore.POST_MODE_CHANNEL);
+            break;
 
-    case ActionTypes.RECEIVED_FOCUSED_POST: {
-        const post = action.post_list.posts[action.postId];
-        ChannelStore.setCurrentId(post.channel_id);
-        ChannelStore.setPostMode(ChannelStore.POST_MODE_FOCUS);
-        ChannelStore.emitChange();
-        break;
-    }
-
-    case ActionTypes.RECEIVED_CHANNELS:
-        ChannelStore.storeChannels(action.channels);
-        break;
-
-    case ActionTypes.RECEIVED_CHANNEL:
-        ChannelStore.storeChannel(action.channel);
-        if (action.member) {
-            ChannelStore.storeMyChannelMember(action.member);
-        }
-        break;
-
-    case ActionTypes.RECEIVED_MY_CHANNEL_MEMBERS:
-        ChannelStore.storeMyChannelMembersList(action.members);
-        break;
-    case ActionTypes.RECEIVED_CHANNEL_MEMBER:
-        ChannelStore.storeMyChannelMember(action.member);
-        break;
-    case ActionTypes.RECEIVED_MORE_CHANNELS:
-        ChannelStore.storeMoreChannels(action.channels);
-        break;
-    case ActionTypes.RECEIVED_MEMBERS_IN_CHANNEL:
-        ChannelStore.saveMembersInChannel(action.channel_id, action.channel_members);
-        break;
-    case ActionTypes.RECEIVED_CHANNEL_STATS:
-        store.dispatch({
-            type: ChannelTypes.RECEIVED_CHANNEL_STATS,
-            data: action.stats
-        });
-        break;
-
-    case ActionTypes.RECEIVED_POST:
-        if (Constants.IGNORE_POST_TYPES.indexOf(action.post.type) !== -1) {
-            return;
+        case ActionTypes.RECEIVED_FOCUSED_POST: {
+            const post = action.post_list.posts[action.postId];
+            ChannelStore.setCurrentId(post.channel_id);
+            ChannelStore.setPostMode(ChannelStore.POST_MODE_FOCUS);
+            ChannelStore.emitChange();
+            break;
         }
 
-        if (action.post.user_id === UserStore.getCurrentId() && !isSystemMessage(action.post) && !isFromWebhook(action.post)) {
-            return;
-        }
+        case ActionTypes.RECEIVED_CHANNELS:
+            ChannelStore.storeChannels(action.channels);
+            break;
 
-        var id = action.post.channel_id;
-        var teamId = action.websocketMessageProps ? action.websocketMessageProps.team_id : null;
-        var markRead = id === ChannelStore.getCurrentId() && window.isActive;
-
-        if (TeamStore.getCurrentId() === teamId || teamId === '') {
-            if (!markRead) {
-                ChannelStore.incrementMentionsIfNeeded(id, action.websocketMessageProps);
+        case ActionTypes.RECEIVED_CHANNEL:
+            ChannelStore.storeChannel(action.channel);
+            if (action.member) {
+                ChannelStore.storeMyChannelMember(action.member);
             }
-            ChannelStore.incrementMessages(id, markRead);
-        }
-        break;
+            break;
 
-    case ActionTypes.CREATE_POST:
-        ChannelStore.incrementMessages(action.post.channel_id, true);
-        break;
+        case ActionTypes.RECEIVED_MY_CHANNEL_MEMBERS:
+            ChannelStore.storeMyChannelMembersList(action.members);
+            break;
+        case ActionTypes.RECEIVED_CHANNEL_MEMBER:
+            ChannelStore.storeMyChannelMember(action.member);
+            break;
+        case ActionTypes.RECEIVED_MORE_CHANNELS:
+            ChannelStore.storeMoreChannels(action.channels);
+            break;
+        case ActionTypes.RECEIVED_MEMBERS_IN_CHANNEL:
+            ChannelStore.saveMembersInChannel(action.channel_id, action.channel_members);
+            break;
+        case ActionTypes.RECEIVED_CHANNEL_STATS:
+            store.dispatch({
+                type: ChannelTypes.RECEIVED_CHANNEL_STATS,
+                data: action.stats
+            });
+            break;
 
-    case ActionTypes.CREATE_COMMENT:
-        ChannelStore.incrementMessages(action.post.channel_id, true);
-        break;
+        case ActionTypes.RECEIVED_POST:
+            if (Constants.IGNORE_POST_TYPES.indexOf(action.post.type) !== -1) {
+                return;
+            }
 
-    default:
-        break;
+            if (
+                action.post.user_id === UserStore.getCurrentId() &&
+                !isSystemMessage(action.post) &&
+                !isFromWebhook(action.post)
+            ) {
+                return;
+            }
+
+            var id = action.post.channel_id;
+            var teamId = action.websocketMessageProps ? action.websocketMessageProps.team_id : null;
+            var markRead = id === ChannelStore.getCurrentId() && window.isActive;
+
+            if (TeamStore.getCurrentId() === teamId || teamId === '') {
+                if (!markRead) {
+                    ChannelStore.incrementMentionsIfNeeded(id, action.websocketMessageProps);
+                }
+                ChannelStore.incrementMessages(id, markRead);
+            }
+            break;
+
+        case ActionTypes.CREATE_POST:
+            ChannelStore.incrementMessages(action.post.channel_id, true);
+            break;
+
+        case ActionTypes.CREATE_COMMENT:
+            ChannelStore.incrementMessages(action.post.channel_id, true);
+            break;
+
+        default:
+            break;
     }
 });
 

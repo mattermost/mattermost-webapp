@@ -89,131 +89,93 @@ export default class AdminNavbarDropdown extends React.Component {
                             id={'swithTo' + Utils.createSafeId(team.name)}
                             to={'/' + team.name + '/channels/town-square'}
                         >
-                            <FormattedMessage
-                                id='navbar_dropdown.switchTo'
-                                defaultMessage='Switch to '
-                            />
+                            <FormattedMessage id="navbar_dropdown.switchTo" defaultMessage="Switch to " />
                             {team.display_name}
                         </Link>
                     </li>
                 );
             }
 
-            teams.push(
-                <li
-                    key='teamDiv'
-                    className='divider'
-                />
-            );
+            teams.push(<li key="teamDiv" className="divider" />);
         } else {
             switchTeams = (
                 <li>
-                    <Link
-                        to={'/select_team'}
-                    >
-                        <i className='fa fa-exchange'/>
-                        <FormattedMessage
-                            id='admin.nav.switch'
-                            defaultMessage='Team Selection'
-                        />
+                    <Link to={'/select_team'}>
+                        <i className="fa fa-exchange" />
+                        <FormattedMessage id="admin.nav.switch" defaultMessage="Team Selection" />
                     </Link>
                 </li>
             );
         }
 
         return (
-            <ul className='nav navbar-nav navbar-right admin-navbar-dropdown'>
-                <li
-                    ref='dropdown'
-                    className='dropdown'
-                >
+            <ul className="nav navbar-nav navbar-right admin-navbar-dropdown">
+                <li ref="dropdown" className="dropdown">
                     <a
-                        href='#'
-                        id='adminNavbarDropdownButton'
-                        className='dropdown-toggle admin-navbar-dropdown__toggle'
-                        data-toggle='dropdown'
-                        role='button'
-                        aria-expanded='false'
+                        href="#"
+                        id="adminNavbarDropdownButton"
+                        className="dropdown-toggle admin-navbar-dropdown__toggle"
+                        data-toggle="dropdown"
+                        role="button"
+                        aria-expanded="false"
                     >
                         <span
-                            className='dropdown__icon admin-navbar-dropdown__icon'
+                            className="dropdown__icon admin-navbar-dropdown__icon"
                             dangerouslySetInnerHTML={{__html: Constants.MENU_ICON}}
                         />
                     </a>
-                    <ul
-                        className='dropdown-menu'
-                        role='menu'
-                    >
+                    <ul className="dropdown-menu" role="menu">
                         {teams}
                         {switchTeams}
-                        <li
-                            key='teamDiv'
-                            className='divider'
-                        />
+                        <li key="teamDiv" className="divider" />
                         <li>
                             <Link
-                                to='https://about.mattermost.com/administrators-guide/'
-                                rel='noopener noreferrer'
-                                target='_blank'
+                                to="https://about.mattermost.com/administrators-guide/"
+                                rel="noopener noreferrer"
+                                target="_blank"
                             >
                                 <FormattedMessage
-                                    id='admin.nav.administratorsGuide'
-                                    defaultMessage='Administrator Guide'
+                                    id="admin.nav.administratorsGuide"
+                                    defaultMessage="Administrator Guide"
                                 />
                             </Link>
                         </li>
                         <li>
                             <Link
-                                to='https://about.mattermost.com/troubleshooting-forum/'
-                                rel='noopener noreferrer'
-                                target='_blank'
+                                to="https://about.mattermost.com/troubleshooting-forum/"
+                                rel="noopener noreferrer"
+                                target="_blank"
                             >
                                 <FormattedMessage
-                                    id='admin.nav.troubleshootingForum'
-                                    defaultMessage='Troubleshooting Forum'
+                                    id="admin.nav.troubleshootingForum"
+                                    defaultMessage="Troubleshooting Forum"
                                 />
                             </Link>
                         </li>
                         <li>
                             <Link
-                                to='https://about.mattermost.com/commercial-support/'
-                                rel='noopener noreferrer'
-                                target='_blank'
+                                to="https://about.mattermost.com/commercial-support/"
+                                rel="noopener noreferrer"
+                                target="_blank"
                             >
                                 <FormattedMessage
-                                    id='admin.nav.commercialSupport'
-                                    defaultMessage='Commercial Support'
+                                    id="admin.nav.commercialSupport"
+                                    defaultMessage="Commercial Support"
                                 />
                             </Link>
                         </li>
                         <li>
-                            <a
-                                href='#'
-                                onClick={this.handleAboutModal}
-                            >
-                                <FormattedMessage
-                                    id='navbar_dropdown.about'
-                                    defaultMessage='About Mattermost'
-                                />
+                            <a href="#" onClick={this.handleAboutModal}>
+                                <FormattedMessage id="navbar_dropdown.about" defaultMessage="About Mattermost" />
                             </a>
                         </li>
-                        <li className='divider'/>
+                        <li className="divider" />
                         <li>
-                            <a
-                                href='#'
-                                id='logout'
-                                onClick={() => GlobalActions.emitUserLoggedOutEvent()}
-                            >
-                                <FormattedMessage
-                                    id='admin.nav.logout'
-                                    defaultMessage='Logout'
-                                />
+                            <a href="#" id="logout" onClick={() => GlobalActions.emitUserLoggedOutEvent()}>
+                                <FormattedMessage id="admin.nav.logout" defaultMessage="Logout" />
                             </a>
                         </li>
-                        <AboutBuildModal
-                            show={this.state.showAboutModal}
-                            onModalDismissed={this.aboutModalDismissed}
-                        />
+                        <AboutBuildModal show={this.state.showAboutModal} onModalDismissed={this.aboutModalDismissed} />
                     </ul>
                 </li>
             </ul>

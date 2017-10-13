@@ -22,9 +22,11 @@ export default class LocalizationSettings extends AdminSettings {
 
         this.state = Object.assign(this.state, {
             hasErrors: false,
-            languages: Object.keys(locales).map((l) => {
-                return {value: locales[l].value, text: locales[l].name, order: locales[l].order};
-            }).sort((a, b) => a.order - b.order)
+            languages: Object.keys(locales)
+                .map(l => {
+                    return {value: locales[l].value, text: locales[l].name, order: locales[l].order};
+                })
+                .sort((a, b) => a.order - b.order)
         });
     }
 
@@ -40,85 +42,82 @@ export default class LocalizationSettings extends AdminSettings {
         return {
             defaultServerLocale: config.LocalizationSettings.DefaultServerLocale,
             defaultClientLocale: config.LocalizationSettings.DefaultClientLocale,
-            availableLocales: config.LocalizationSettings.AvailableLocales ? config.LocalizationSettings.AvailableLocales.split(',') : []
+            availableLocales: config.LocalizationSettings.AvailableLocales
+                ? config.LocalizationSettings.AvailableLocales.split(',')
+                : []
         };
     }
 
     renderTitle() {
-        return (
-            <FormattedMessage
-                id='admin.general.localization'
-                defaultMessage='Localization'
-            />
-        );
+        return <FormattedMessage id="admin.general.localization" defaultMessage="Localization" />;
     }
 
     renderSettings() {
         return (
             <SettingsGroup>
                 <DropdownSetting
-                    id='defaultServerLocale'
+                    id="defaultServerLocale"
                     values={this.state.languages}
                     label={
                         <FormattedMessage
-                            id='admin.general.localization.serverLocaleTitle'
-                            defaultMessage='Default Server Language:'
+                            id="admin.general.localization.serverLocaleTitle"
+                            defaultMessage="Default Server Language:"
                         />
                     }
                     value={this.state.defaultServerLocale}
                     onChange={this.handleChange}
                     helpText={
                         <FormattedMessage
-                            id='admin.general.localization.serverLocaleDescription'
-                            defaultMessage='Default language for system messages and logs. Changing this will require a server restart before taking effect.'
+                            id="admin.general.localization.serverLocaleDescription"
+                            defaultMessage="Default language for system messages and logs. Changing this will require a server restart before taking effect."
                         />
                     }
                 />
                 <DropdownSetting
-                    id='defaultClientLocale'
+                    id="defaultClientLocale"
                     values={this.state.languages}
                     label={
                         <FormattedMessage
-                            id='admin.general.localization.clientLocaleTitle'
-                            defaultMessage='Default Client Language:'
+                            id="admin.general.localization.clientLocaleTitle"
+                            defaultMessage="Default Client Language:"
                         />
                     }
                     value={this.state.defaultClientLocale}
                     onChange={this.handleChange}
                     helpText={
                         <FormattedMessage
-                            id='admin.general.localization.clientLocaleDescription'
+                            id="admin.general.localization.clientLocaleDescription"
                             defaultMessage="Default language for newly created users and pages where the user hasn't logged in."
                         />
                     }
                 />
                 <MultiSelectSetting
-                    id='availableLocales'
+                    id="availableLocales"
                     values={this.state.languages}
                     label={
                         <FormattedMessage
-                            id='admin.general.localization.availableLocalesTitle'
-                            defaultMessage='Available Languages:'
+                            id="admin.general.localization.availableLocalesTitle"
+                            defaultMessage="Available Languages:"
                         />
                     }
                     selected={this.state.availableLocales}
                     onChange={this.handleChange}
                     helpText={
                         <FormattedHTMLMessage
-                            id='admin.general.localization.availableLocalesDescription'
-                            defaultMessage='Set which languages are available for users in Account Settings (leave this field blank to have all supported languages available). If you’re manually adding new languages, the <strong>Default Client Language</strong> must be added before saving this setting.<br /><br />Would like to help with translations? Join the <a href="http://translate.mattermost.com/" target="_blank">Mattermost Translation Server</a> to contribute.'
+                            id="admin.general.localization.availableLocalesDescription"
+                            defaultMessage="Set which languages are available for users in Account Settings (leave this field blank to have all supported languages available). If you’re manually adding new languages, the <strong>Default Client Language</strong> must be added before saving this setting.<br /><br />Would like to help with translations? Join the <a href=&quot;http://translate.mattermost.com/&quot; target=&quot;_blank&quot;>Mattermost Translation Server</a> to contribute."
                         />
                     }
                     noResultText={
                         <FormattedMessage
-                            id='admin.general.localization.availableLocalesNoResults'
-                            defaultMessage='No results found'
+                            id="admin.general.localization.availableLocalesNoResults"
+                            defaultMessage="No results found"
                         />
                     }
                     notPresent={
                         <FormattedMessage
-                            id='admin.general.localization.availableLocalesNotPresent'
-                            defaultMessage='The default client language must be included in the available list'
+                            id="admin.general.localization.availableLocalesNotPresent"
+                            defaultMessage="The default client language must be included in the available list"
                         />
                     }
                 />

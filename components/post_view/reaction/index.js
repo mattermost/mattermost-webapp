@@ -43,11 +43,14 @@ function makeMapStateToProps() {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({
-            addReaction,
-            removeReaction,
-            getMissingProfilesByIds
-        }, dispatch)
+        actions: bindActionCreators(
+            {
+                addReaction,
+                removeReaction,
+                getMissingProfilesByIds
+            },
+            dispatch
+        )
     };
 }
 

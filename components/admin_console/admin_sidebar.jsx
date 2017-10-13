@@ -50,7 +50,8 @@ export default class AdminSidebar extends React.Component {
             currentSiteName = global.window.mm_config.SiteName;
         }
 
-        document.title = Utils.localizeMessage('sidebar_right_menu.console', 'System Console') + ' - ' + currentSiteName;
+        document.title =
+            Utils.localizeMessage('sidebar_right_menu.console', 'System Console') + ' - ' + currentSiteName;
     }
 
     render() {
@@ -70,13 +71,8 @@ export default class AdminSidebar extends React.Component {
         if (window.mm_config.BuildEnterpriseReady === 'true') {
             license = (
                 <AdminSidebarSection
-                    name='license'
-                    title={
-                        <FormattedMessage
-                            id='admin.sidebar.license'
-                            defaultMessage='Edition and License'
-                        />
-                    }
+                    name="license"
+                    title={<FormattedMessage id="admin.sidebar.license" defaultMessage="Edition and License" />}
                 />
             );
         }
@@ -85,13 +81,8 @@ export default class AdminSidebar extends React.Component {
             if (global.window.mm_license.LDAP === 'true') {
                 ldapSettings = (
                     <AdminSidebarSection
-                        name='ldap'
-                        title={
-                            <FormattedMessage
-                                id='admin.sidebar.ldap'
-                                defaultMessage='AD/LDAP'
-                            />
-                        }
+                        name="ldap"
+                        title={<FormattedMessage id="admin.sidebar.ldap" defaultMessage="AD/LDAP" />}
                     />
                 );
             }
@@ -99,13 +90,8 @@ export default class AdminSidebar extends React.Component {
             if (global.window.mm_license.Cluster === 'true') {
                 clusterSettings = (
                     <AdminSidebarSection
-                        name='cluster'
-                        title={
-                            <FormattedMessage
-                                id='admin.sidebar.cluster'
-                                defaultMessage='High Availability'
-                            />
-                        }
+                        name="cluster"
+                        title={<FormattedMessage id="admin.sidebar.cluster" defaultMessage="High Availability" />}
                     />
                 );
             }
@@ -113,13 +99,8 @@ export default class AdminSidebar extends React.Component {
             if (global.window.mm_license.Metrics === 'true') {
                 metricsSettings = (
                     <AdminSidebarSection
-                        name='metrics'
-                        title={
-                            <FormattedMessage
-                                id='admin.sidebar.metrics'
-                                defaultMessage='Performance Monitoring'
-                            />
-                        }
+                        name="metrics"
+                        title={<FormattedMessage id="admin.sidebar.metrics" defaultMessage="Performance Monitoring" />}
                     />
                 );
             }
@@ -127,13 +108,8 @@ export default class AdminSidebar extends React.Component {
             if (global.window.mm_license.SAML === 'true') {
                 samlSettings = (
                     <AdminSidebarSection
-                        name='saml'
-                        title={
-                            <FormattedMessage
-                                id='admin.sidebar.saml'
-                                defaultMessage='SAML 2.0'
-                            />
-                        }
+                        name="saml"
+                        title={<FormattedMessage id="admin.sidebar.saml" defaultMessage="SAML 2.0" />}
                     />
                 );
             }
@@ -141,13 +117,8 @@ export default class AdminSidebar extends React.Component {
             if (global.window.mm_license.Compliance === 'true') {
                 complianceSettings = (
                     <AdminSidebarSection
-                        name='compliance'
-                        title={
-                            <FormattedMessage
-                                id='admin.sidebar.compliance'
-                                defaultMessage='Compliance'
-                            />
-                        }
+                        name="compliance"
+                        title={<FormattedMessage id="admin.sidebar.compliance" defaultMessage="Compliance" />}
                     />
                 );
             }
@@ -155,50 +126,30 @@ export default class AdminSidebar extends React.Component {
             if (global.window.mm_license.MFA === 'true') {
                 mfaSettings = (
                     <AdminSidebarSection
-                        name='mfa'
-                        title={
-                            <FormattedMessage
-                                id='admin.sidebar.mfa'
-                                defaultMessage='MFA'
-                            />
-                        }
+                        name="mfa"
+                        title={<FormattedMessage id="admin.sidebar.mfa" defaultMessage="MFA" />}
                     />
                 );
             }
 
             oauthSettings = (
                 <AdminSidebarSection
-                    name='oauth'
-                    title={
-                        <FormattedMessage
-                            id='admin.sidebar.oauth'
-                            defaultMessage='OAuth 2.0'
-                        />
-                    }
+                    name="oauth"
+                    title={<FormattedMessage id="admin.sidebar.oauth" defaultMessage="OAuth 2.0" />}
                 />
             );
 
             policy = (
                 <AdminSidebarSection
-                    name='policy'
-                    title={
-                        <FormattedMessage
-                            id='admin.sidebar.policy'
-                            defaultMessage='Policy'
-                        />
-                    }
+                    name="policy"
+                    title={<FormattedMessage id="admin.sidebar.policy" defaultMessage="Policy" />}
                 />
             );
         } else {
             oauthSettings = (
                 <AdminSidebarSection
-                    name='gitlab'
-                    title={
-                        <FormattedMessage
-                            id='admin.sidebar.gitlab'
-                            defaultMessage='GitLab'
-                        />
-                    }
+                    name="gitlab"
+                    title={<FormattedMessage id="admin.sidebar.gitlab" defaultMessage="GitLab" />}
                 />
             );
         }
@@ -206,13 +157,8 @@ export default class AdminSidebar extends React.Component {
         if (window.mm_license.IsLicensed === 'true') {
             audits = (
                 <AdminSidebarSection
-                    name='audits'
-                    title={
-                        <FormattedMessage
-                            id='admin.sidebar.audits'
-                            defaultMessage='Complaince and Auditing'
-                        />
-                    }
+                    name="audits"
+                    title={<FormattedMessage id="admin.sidebar.audits" defaultMessage="Complaince and Auditing" />}
                 />
             );
         }
@@ -222,13 +168,8 @@ export default class AdminSidebar extends React.Component {
         if (window.mm_license.IsLicensed === 'true') {
             customBranding = (
                 <AdminSidebarSection
-                    name='custom_brand'
-                    title={
-                        <FormattedMessage
-                            id='admin.sidebar.customBrand'
-                            defaultMessage='Custom Branding'
-                        />
-                    }
+                    name="custom_brand"
+                    title={<FormattedMessage id="admin.sidebar.customBrand" defaultMessage="Custom Branding" />}
                 />
             );
         }
@@ -237,14 +178,9 @@ export default class AdminSidebar extends React.Component {
         if (license || audits) {
             otherCategory = (
                 <AdminSidebarCategory
-                    parentLink='/admin_console'
-                    icon='fa-wrench'
-                    title={
-                        <FormattedMessage
-                            id='admin.sidebar.other'
-                            defaultMessage='OTHER'
-                        />
-                    }
+                    parentLink="/admin_console"
+                    icon="fa-wrench"
+                    title={<FormattedMessage id="admin.sidebar.other" defaultMessage="OTHER" />}
                 >
                     {license}
                     {audits}
@@ -254,13 +190,8 @@ export default class AdminSidebar extends React.Component {
 
         const webrtcSettings = (
             <AdminSidebarSection
-                name='webrtc'
-                title={
-                    <FormattedMessage
-                        id='admin.sidebar.webrtc'
-                        defaultMessage='WebRTC (Beta)'
-                    />
-                }
+                name="webrtc"
+                title={<FormattedMessage id="admin.sidebar.webrtc" defaultMessage="WebRTC (Beta)" />}
             />
         );
 
@@ -268,13 +199,8 @@ export default class AdminSidebar extends React.Component {
         if (window.mm_license.IsLicensed === 'true' && window.mm_license.Elasticsearch === 'true') {
             elasticSearchSettings = (
                 <AdminSidebarSection
-                    name='elasticsearch'
-                    title={
-                        <FormattedMessage
-                            id='admin.sidebar.elasticsearch'
-                            defaultMessage='Elasticsearch (Beta)'
-                        />
-                    }
+                    name="elasticsearch"
+                    title={<FormattedMessage id="admin.sidebar.elasticsearch" defaultMessage="Elasticsearch (Beta)" />}
                 />
             );
         }
@@ -283,11 +209,11 @@ export default class AdminSidebar extends React.Component {
         if (window.mm_license.IsLicensed === 'true' && window.mm_license.DataRetention === 'true') {
             dataRetentionSettings = (
                 <AdminSidebarSection
-                    name='dataretention'
+                    name="dataretention"
                     title={
                         <FormattedMessage
-                            id='admin.sidebar.data_retention'
-                            defaultMessage='Data Retention Policy (Beta)'
+                            id="admin.sidebar.data_retention"
+                            defaultMessage="Data Retention Policy (Beta)"
                         />
                     }
                 />
@@ -297,13 +223,8 @@ export default class AdminSidebar extends React.Component {
         if (window.mm_config.PluginsEnabled === 'true' && window.mm_license.IsLicensed === 'true') {
             pluginSettings = (
                 <AdminSidebarSection
-                    name='plugins'
-                    title={
-                        <FormattedMessage
-                            id='admin.sidebar.plugins'
-                            defaultMessage='Plugins (experimental)'
-                        />
-                    }
+                    name="plugins"
+                    title={<FormattedMessage id="admin.sidebar.plugins" defaultMessage="Plugins (experimental)" />}
                 />
             );
         }
@@ -313,156 +234,108 @@ export default class AdminSidebar extends React.Component {
         if (SHOW_CLIENT_VERSIONS) {
             clientVersions = (
                 <AdminSidebarSection
-                    name='client_versions'
-                    title={
-                        <FormattedMessage
-                            id='admin.sidebar.client_versions'
-                            defaultMessage='Client Versions'
-                        />
-                    }
+                    name="client_versions"
+                    title={<FormattedMessage id="admin.sidebar.client_versions" defaultMessage="Client Versions" />}
                 />
             );
         }
 
         return (
-            <div className='admin-sidebar'>
-                <AdminSidebarHeader/>
-                <div className='nav-pills__container'>
-                    <ul className='nav nav-pills nav-stacked'>
+            <div className="admin-sidebar">
+                <AdminSidebarHeader />
+                <div className="nav-pills__container">
+                    <ul className="nav nav-pills nav-stacked">
                         <AdminSidebarCategory
-                            parentLink='/admin_console'
-                            icon='fa-bar-chart'
-                            title={
-                                <FormattedMessage
-                                    id='admin.sidebar.reports'
-                                    defaultMessage='REPORTING'
-                                />
-                            }
+                            parentLink="/admin_console"
+                            icon="fa-bar-chart"
+                            title={<FormattedMessage id="admin.sidebar.reports" defaultMessage="REPORTING" />}
                         >
                             <AdminSidebarSection
-                                name='system_analytics'
+                                name="system_analytics"
                                 title={
                                     <FormattedMessage
-                                        id='admin.sidebar.view_statistics'
-                                        defaultMessage='Site Statistics'
+                                        id="admin.sidebar.view_statistics"
+                                        defaultMessage="Site Statistics"
                                     />
                                 }
                             />
                             <AdminSidebarSection
-                                name='team_analytics'
+                                name="team_analytics"
                                 title={
-                                    <FormattedMessage
-                                        id='admin.sidebar.statistics'
-                                        defaultMessage='Team Statistics'
-                                    />
+                                    <FormattedMessage id="admin.sidebar.statistics" defaultMessage="Team Statistics" />
                                 }
                             />
                             <AdminSidebarSection
-                                name='users'
-                                title={
-                                    <FormattedMessage
-                                        id='admin.sidebar.users'
-                                        defaultMessage='Users'
-                                    />
-                                }
+                                name="users"
+                                title={<FormattedMessage id="admin.sidebar.users" defaultMessage="Users" />}
                             />
                             <AdminSidebarSection
-                                name='logs'
-                                title={
-                                    <FormattedMessage
-                                        id='admin.sidebar.logs'
-                                        defaultMessage='Logs'
-                                    />
-                                }
+                                name="logs"
+                                title={<FormattedMessage id="admin.sidebar.logs" defaultMessage="Logs" />}
                             />
                         </AdminSidebarCategory>
                         <AdminSidebarCategory
-                            sectionClass='sections--settings'
-                            parentLink='/admin_console'
-                            icon='fa-gear'
-                            title={
-                                <FormattedMessage
-                                    id='admin.sidebar.settings'
-                                    defaultMessage='SETTINGS'
-                                />
-                            }
+                            sectionClass="sections--settings"
+                            parentLink="/admin_console"
+                            icon="fa-gear"
+                            title={<FormattedMessage id="admin.sidebar.settings" defaultMessage="SETTINGS" />}
                         >
                             <AdminSidebarSection
-                                name='general'
-                                type='text'
-                                title={
-                                    <FormattedMessage
-                                        id='admin.sidebar.general'
-                                        defaultMessage='General'
-                                    />
-                                }
+                                name="general"
+                                type="text"
+                                title={<FormattedMessage id="admin.sidebar.general" defaultMessage="General" />}
                             >
                                 <AdminSidebarSection
-                                    name='configuration'
+                                    name="configuration"
                                     title={
                                         <FormattedMessage
-                                            id='admin.sidebar.configuration'
-                                            defaultMessage='Configuration'
+                                            id="admin.sidebar.configuration"
+                                            defaultMessage="Configuration"
                                         />
                                     }
                                 />
                                 <AdminSidebarSection
-                                    name='localization'
+                                    name="localization"
                                     title={
                                         <FormattedMessage
-                                            id='admin.sidebar.localization'
-                                            defaultMessage='Localization'
+                                            id="admin.sidebar.localization"
+                                            defaultMessage="Localization"
                                         />
                                     }
                                 />
                                 <AdminSidebarSection
-                                    name='users_and_teams'
+                                    name="users_and_teams"
                                     title={
                                         <FormattedMessage
-                                            id='admin.sidebar.usersAndTeams'
-                                            defaultMessage='Users and Teams'
+                                            id="admin.sidebar.usersAndTeams"
+                                            defaultMessage="Users and Teams"
                                         />
                                     }
                                 />
                                 {policy}
                                 <AdminSidebarSection
-                                    name='privacy'
-                                    title={
-                                        <FormattedMessage
-                                            id='admin.sidebar.privacy'
-                                            defaultMessage='Privacy'
-                                        />
-                                    }
+                                    name="privacy"
+                                    title={<FormattedMessage id="admin.sidebar.privacy" defaultMessage="Privacy" />}
                                 />
                                 {complianceSettings}
                                 <AdminSidebarSection
-                                    name='logging'
-                                    title={
-                                        <FormattedMessage
-                                            id='admin.sidebar.logging'
-                                            defaultMessage='Logging'
-                                        />
-                                    }
+                                    name="logging"
+                                    title={<FormattedMessage id="admin.sidebar.logging" defaultMessage="Logging" />}
                                 />
                             </AdminSidebarSection>
                             <AdminSidebarSection
-                                name='authentication'
-                                type='text'
+                                name="authentication"
+                                type="text"
                                 title={
                                     <FormattedMessage
-                                        id='admin.sidebar.authentication'
-                                        defaultMessage='Authentication'
+                                        id="admin.sidebar.authentication"
+                                        defaultMessage="Authentication"
                                     />
                                 }
                             >
                                 <AdminSidebarSection
-                                    name='authentication_email'
-                                    title={
-                                        <FormattedMessage
-                                            id='admin.sidebar.email'
-                                            defaultMessage='Email'
-                                        />
-                                    }
+                                    name="authentication_email"
+                                    title={<FormattedMessage id="admin.sidebar.email" defaultMessage="Email" />}
                                 />
                                 {oauthSettings}
                                 {ldapSettings}
@@ -470,241 +343,161 @@ export default class AdminSidebar extends React.Component {
                                 {mfaSettings}
                             </AdminSidebarSection>
                             <AdminSidebarSection
-                                name='security'
-                                type='text'
-                                title={
-                                    <FormattedMessage
-                                        id='admin.sidebar.security'
-                                        defaultMessage='Security'
-                                    />
-                                }
+                                name="security"
+                                type="text"
+                                title={<FormattedMessage id="admin.sidebar.security" defaultMessage="Security" />}
                             >
                                 <AdminSidebarSection
-                                    name='sign_up'
+                                    name="sign_up"
+                                    title={<FormattedMessage id="admin.sidebar.signUp" defaultMessage="Sign Up" />}
+                                />
+                                <AdminSidebarSection
+                                    name="password"
+                                    title={<FormattedMessage id="admin.sidebar.password" defaultMessage="Password" />}
+                                />
+                                <AdminSidebarSection
+                                    name="public_links"
                                     title={
                                         <FormattedMessage
-                                            id='admin.sidebar.signUp'
-                                            defaultMessage='Sign Up'
+                                            id="admin.sidebar.publicLinks"
+                                            defaultMessage="Public Links"
                                         />
                                     }
                                 />
                                 <AdminSidebarSection
-                                    name='password'
-                                    title={
-                                        <FormattedMessage
-                                            id='admin.sidebar.password'
-                                            defaultMessage='Password'
-                                        />
-                                    }
+                                    name="sessions"
+                                    title={<FormattedMessage id="admin.sidebar.sessions" defaultMessage="Sessions" />}
                                 />
                                 <AdminSidebarSection
-                                    name='public_links'
+                                    name="connections"
                                     title={
-                                        <FormattedMessage
-                                            id='admin.sidebar.publicLinks'
-                                            defaultMessage='Public Links'
-                                        />
-                                    }
-                                />
-                                <AdminSidebarSection
-                                    name='sessions'
-                                    title={
-                                        <FormattedMessage
-                                            id='admin.sidebar.sessions'
-                                            defaultMessage='Sessions'
-                                        />
-                                    }
-                                />
-                                <AdminSidebarSection
-                                    name='connections'
-                                    title={
-                                        <FormattedMessage
-                                            id='admin.sidebar.connections'
-                                            defaultMessage='Connections'
-                                        />
+                                        <FormattedMessage id="admin.sidebar.connections" defaultMessage="Connections" />
                                     }
                                 />
                                 {clientVersions}
                             </AdminSidebarSection>
                             <AdminSidebarSection
-                                name='notifications'
-                                type='text'
+                                name="notifications"
+                                type="text"
                                 title={
-                                    <FormattedMessage
-                                        id='admin.sidebar.notifications'
-                                        defaultMessage='Notifications'
-                                    />
+                                    <FormattedMessage id="admin.sidebar.notifications" defaultMessage="Notifications" />
                                 }
                             >
                                 <AdminSidebarSection
-                                    name='notifications_email'
-                                    title={
-                                        <FormattedMessage
-                                            id='admin.sidebar.email'
-                                            defaultMessage='Email'
-                                        />
-                                    }
+                                    name="notifications_email"
+                                    title={<FormattedMessage id="admin.sidebar.email" defaultMessage="Email" />}
                                 />
                                 <AdminSidebarSection
-                                    name='push'
-                                    title={
-                                        <FormattedMessage
-                                            id='admin.sidebar.push'
-                                            defaultMessage='Mobile Push'
-                                        />
-                                    }
+                                    name="push"
+                                    title={<FormattedMessage id="admin.sidebar.push" defaultMessage="Mobile Push" />}
                                 />
                             </AdminSidebarSection>
                             <AdminSidebarSection
-                                name='integrations'
-                                type='text'
+                                name="integrations"
+                                type="text"
                                 title={
-                                    <FormattedMessage
-                                        id='admin.sidebar.integrations'
-                                        defaultMessage='Integrations'
-                                    />
+                                    <FormattedMessage id="admin.sidebar.integrations" defaultMessage="Integrations" />
                                 }
                             >
                                 <AdminSidebarSection
-                                    name='custom'
+                                    name="custom"
                                     title={
                                         <FormattedMessage
-                                            id='admin.sidebar.customIntegrations'
-                                            defaultMessage='Custom Integrations'
+                                            id="admin.sidebar.customIntegrations"
+                                            defaultMessage="Custom Integrations"
                                         />
                                     }
                                 />
                                 <AdminSidebarSection
-                                    name='jira'
-                                    title={
-                                        <FormattedMessage
-                                            id='admin.sidebar.jira'
-                                            defaultMessage='JIRA (Beta)'
-                                        />
-                                    }
+                                    name="jira"
+                                    title={<FormattedMessage id="admin.sidebar.jira" defaultMessage="JIRA (Beta)" />}
                                 />
                                 {webrtcSettings}
                                 <AdminSidebarSection
-                                    name='external'
+                                    name="external"
                                     title={
                                         <FormattedMessage
-                                            id='admin.sidebar.external'
-                                            defaultMessage='External Services'
+                                            id="admin.sidebar.external"
+                                            defaultMessage="External Services"
                                         />
                                     }
                                 />
                                 {pluginSettings}
                             </AdminSidebarSection>
                             <AdminSidebarSection
-                                name='files'
-                                type='text'
-                                title={
-                                    <FormattedMessage
-                                        id='admin.sidebar.files'
-                                        defaultMessage='Files'
-                                    />
-                                }
+                                name="files"
+                                type="text"
+                                title={<FormattedMessage id="admin.sidebar.files" defaultMessage="Files" />}
                             >
                                 <AdminSidebarSection
-                                    key='storage'
-                                    name='storage'
-                                    title={
-                                        <FormattedMessage
-                                            id='admin.sidebar.storage'
-                                            defaultMessage='Storage'
-                                        />
-                                    }
+                                    key="storage"
+                                    name="storage"
+                                    title={<FormattedMessage id="admin.sidebar.storage" defaultMessage="Storage" />}
                                 />
                             </AdminSidebarSection>
                             <AdminSidebarSection
-                                name='customization'
-                                type='text'
+                                name="customization"
+                                type="text"
                                 title={
-                                    <FormattedMessage
-                                        id='admin.sidebar.customization'
-                                        defaultMessage='Customization'
-                                    />
+                                    <FormattedMessage id="admin.sidebar.customization" defaultMessage="Customization" />
                                 }
                             >
                                 {customBranding}
                                 <AdminSidebarSection
-                                    name='emoji'
-                                    title={
-                                        <FormattedMessage
-                                            id='admin.sidebar.emoji'
-                                            defaultMessage='Emoji'
-                                        />
-
-                                    }
+                                    name="emoji"
+                                    title={<FormattedMessage id="admin.sidebar.emoji" defaultMessage="Emoji" />}
                                 />
                                 <AdminSidebarSection
-                                    name='link_previews'
+                                    name="link_previews"
                                     title={
                                         <FormattedMessage
-                                            id='admin.sidebar.linkPreviews'
-                                            defaultMessage='Link Previews'
-                                        />
-
-                                    }
-                                />
-                                <AdminSidebarSection
-                                    name='legal_and_support'
-                                    title={
-                                        <FormattedMessage
-                                            id='admin.sidebar.legalAndSupport'
-                                            defaultMessage='Legal and Support'
+                                            id="admin.sidebar.linkPreviews"
+                                            defaultMessage="Link Previews"
                                         />
                                     }
                                 />
                                 <AdminSidebarSection
-                                    name='native_app_links'
+                                    name="legal_and_support"
                                     title={
                                         <FormattedMessage
-                                            id='admin.sidebar.nativeAppLinks'
-                                            defaultMessage='Mattermost App Links'
+                                            id="admin.sidebar.legalAndSupport"
+                                            defaultMessage="Legal and Support"
                                         />
-
+                                    }
+                                />
+                                <AdminSidebarSection
+                                    name="native_app_links"
+                                    title={
+                                        <FormattedMessage
+                                            id="admin.sidebar.nativeAppLinks"
+                                            defaultMessage="Mattermost App Links"
+                                        />
                                     }
                                 />
                             </AdminSidebarSection>
                             <AdminSidebarSection
-                                name='advanced'
-                                type='text'
-                                title={
-                                    <FormattedMessage
-                                        id='admin.sidebar.advanced'
-                                        defaultMessage='Advanced'
-                                    />
-                                }
+                                name="advanced"
+                                type="text"
+                                title={<FormattedMessage id="admin.sidebar.advanced" defaultMessage="Advanced" />}
                             >
                                 <AdminSidebarSection
-                                    name='rate'
+                                    name="rate"
                                     title={
                                         <FormattedMessage
-                                            id='admin.sidebar.rateLimiting'
-                                            defaultMessage='Rate Limiting'
+                                            id="admin.sidebar.rateLimiting"
+                                            defaultMessage="Rate Limiting"
                                         />
                                     }
                                 />
                                 <AdminSidebarSection
-                                    name='database'
-                                    title={
-                                        <FormattedMessage
-                                            id='admin.sidebar.database'
-                                            defaultMessage='Database'
-                                        />
-                                    }
+                                    name="database"
+                                    title={<FormattedMessage id="admin.sidebar.database" defaultMessage="Database" />}
                                 />
                                 {dataRetentionSettings}
                                 {elasticSearchSettings}
                                 <AdminSidebarSection
-                                    name='developer'
-                                    title={
-                                        <FormattedMessage
-                                            id='admin.sidebar.developer'
-                                            defaultMessage='Developer'
-                                        />
-                                    }
+                                    name="developer"
+                                    title={<FormattedMessage id="admin.sidebar.developer" defaultMessage="Developer" />}
                                 />
                                 {clusterSettings}
                                 {metricsSettings}

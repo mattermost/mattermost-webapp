@@ -57,7 +57,8 @@ const holders = defineMessages({
     },
     failedOAuthAccess: {
         id: 'audit_table.failedOAuthAccess',
-        defaultMessage: 'Failed to allow a new OAuth service access - the redirect URI did not match the previously registered callback'
+        defaultMessage:
+            'Failed to allow a new OAuth service access - the redirect URI did not match the previously registered callback'
     },
     attemptedOAuthToken: {
         id: 'audit_table.attemptedOAuthToken',
@@ -221,20 +222,20 @@ function AuditTable(props) {
         if (props.showUserId) {
             var profile = UserStore.getProfile(auditInfo.userId);
             if (profile) {
-                uContent = <td className='word-break--all'>{profile.email}</td>;
+                uContent = <td className="word-break--all">{profile.email}</td>;
             } else {
-                uContent = <td className='word-break--all'>{auditInfo.userId}</td>;
+                uContent = <td className="word-break--all">{auditInfo.userId}</td>;
             }
         }
 
         let iContent;
         if (props.showIp) {
-            iContent = <td className='whitespace--nowrap word-break--all'>{auditInfo.ip}</td>;
+            iContent = <td className="whitespace--nowrap word-break--all">{auditInfo.ip}</td>;
         }
 
         let sContent;
         if (props.showSession) {
-            sContent = <td className='whitespace--nowrap word-break--all'>{auditInfo.sessionId}</td>;
+            sContent = <td className="whitespace--nowrap word-break--all">{auditInfo.sessionId}</td>;
         }
 
         const descStyle = {};
@@ -244,12 +245,9 @@ function AuditTable(props) {
 
         accessList[i] = (
             <tr key={audit.id}>
-                <td className='whitespace--nowrap word-break--all'>{auditInfo.timestamp}</td>
+                <td className="whitespace--nowrap word-break--all">{auditInfo.timestamp}</td>
                 {uContent}
-                <td
-                    className='word-break--all'
-                    style={descStyle}
-                >
+                <td className="word-break--all" style={descStyle}>
                     {auditInfo.desc}
                 </td>
                 {iContent}
@@ -262,10 +260,7 @@ function AuditTable(props) {
     if (props.showUserId) {
         userIdContent = (
             <th>
-                <FormattedMessage
-                    id='audit_table.userId'
-                    defaultMessage='User ID'
-                />
+                <FormattedMessage id="audit_table.userId" defaultMessage="User ID" />
             </th>
         );
     }
@@ -274,10 +269,7 @@ function AuditTable(props) {
     if (props.showIp) {
         ipContent = (
             <th>
-                <FormattedMessage
-                    id='audit_table.ip'
-                    defaultMessage='IP Address'
-                />
+                <FormattedMessage id="audit_table.ip" defaultMessage="IP Address" />
             </th>
         );
     }
@@ -286,38 +278,27 @@ function AuditTable(props) {
     if (props.showSession) {
         sessionContent = (
             <th>
-                <FormattedMessage
-                    id='audit_table.session'
-                    defaultMessage='Session ID'
-                />
+                <FormattedMessage id="audit_table.session" defaultMessage="Session ID" />
             </th>
         );
     }
 
     return (
-        <table className='table'>
+        <table className="table">
             <thead>
                 <tr>
                     <th>
-                        <FormattedMessage
-                            id='audit_table.timestamp'
-                            defaultMessage='Timestamp'
-                        />
+                        <FormattedMessage id="audit_table.timestamp" defaultMessage="Timestamp" />
                     </th>
                     {userIdContent}
                     <th>
-                        <FormattedMessage
-                            id='audit_table.action'
-                            defaultMessage='Action'
-                        />
+                        <FormattedMessage id="audit_table.action" defaultMessage="Action" />
                     </th>
                     {ipContent}
                     {sessionContent}
                 </tr>
             </thead>
-            <tbody>
-                {accessList}
-            </tbody>
+            <tbody>{accessList}</tbody>
         </table>
     );
 }
@@ -354,238 +335,240 @@ export function formatAuditInfo(audit, formatMessage) {
         }
 
         switch (actionURL) {
-        case '/channels/create':
-            auditDesc = formatMessage(holders.channelCreated, {channelName});
-            break;
-        case '/channels/create_direct':
-            auditDesc = formatMessage(holders.establishedDM, {username: Utils.getDirectTeammate(channelObj.id).username});
-            break;
-        case '/channels/update':
-            auditDesc = formatMessage(holders.nameUpdated, {channelName});
-            break;
-        case '/channels/update_desc': // support the old path
-        case '/channels/update_header':
-            auditDesc = formatMessage(holders.headerUpdated, {channelName});
-            break;
-        default: {
-            let userIdField = [];
-            let userId = '';
-            let username = '';
+            case '/channels/create':
+                auditDesc = formatMessage(holders.channelCreated, {channelName});
+                break;
+            case '/channels/create_direct':
+                auditDesc = formatMessage(holders.establishedDM, {
+                    username: Utils.getDirectTeammate(channelObj.id).username
+                });
+                break;
+            case '/channels/update':
+                auditDesc = formatMessage(holders.nameUpdated, {channelName});
+                break;
+            case '/channels/update_desc': // support the old path
+            case '/channels/update_header':
+                auditDesc = formatMessage(holders.headerUpdated, {channelName});
+                break;
+            default: {
+                let userIdField = [];
+                let userId = '';
+                let username = '';
 
-            if (channelInfo[1]) {
-                userIdField = channelInfo[1].split('=');
+                if (channelInfo[1]) {
+                    userIdField = channelInfo[1].split('=');
 
-                if (userIdField.indexOf('user_id') >= 0) {
-                    userId = userIdField[userIdField.indexOf('user_id') + 1];
-                    var profile = UserStore.getProfile(userId);
-                    if (profile) {
-                        username = profile.username;
+                    if (userIdField.indexOf('user_id') >= 0) {
+                        userId = userIdField[userIdField.indexOf('user_id') + 1];
+                        var profile = UserStore.getProfile(userId);
+                        if (profile) {
+                            username = profile.username;
+                        }
                     }
                 }
-            }
 
-            if (/\/channels\/[A-Za-z0-9]+\/delete/.test(actionURL)) {
-                auditDesc = formatMessage(holders.channelDeleted, {url: channelURL});
-            } else if (/\/channels\/[A-Za-z0-9]+\/add/.test(actionURL)) {
-                auditDesc = formatMessage(holders.userAdded, {username, channelName});
-            } else if (/\/channels\/[A-Za-z0-9]+\/remove/.test(actionURL)) {
-                auditDesc = formatMessage(holders.userRemoved, {username, channelName});
-            }
+                if (/\/channels\/[A-Za-z0-9]+\/delete/.test(actionURL)) {
+                    auditDesc = formatMessage(holders.channelDeleted, {url: channelURL});
+                } else if (/\/channels\/[A-Za-z0-9]+\/add/.test(actionURL)) {
+                    auditDesc = formatMessage(holders.userAdded, {username, channelName});
+                } else if (/\/channels\/[A-Za-z0-9]+\/remove/.test(actionURL)) {
+                    auditDesc = formatMessage(holders.userRemoved, {username, channelName});
+                }
 
-            break;
-        }
+                break;
+            }
         }
     } else if (actionURL.indexOf('/oauth') === 0) {
         const oauthInfo = audit.extra_info.split(' ');
 
         switch (actionURL) {
-        case '/oauth/register': {
-            const clientIdField = oauthInfo[0].split('=');
+            case '/oauth/register': {
+                const clientIdField = oauthInfo[0].split('=');
 
-            if (clientIdField[0] === 'client_id') {
-                auditDesc = formatMessage(holders.attemptedRegisterApp, {id: clientIdField[1]});
-            }
-
-            break;
-        }
-        case '/oauth/allow':
-            if (oauthInfo[0] === 'attempt') {
-                auditDesc = formatMessage(holders.attemptedAllowOAuthAccess);
-            } else if (oauthInfo[0] === 'success') {
-                auditDesc = formatMessage(holders.successfullOAuthAccess);
-            } else if (oauthInfo[0] === 'fail - redirect_uri did not match registered callback') {
-                auditDesc = formatMessage(holders.failedOAuthAccess);
-            }
-
-            break;
-        case '/oauth/access_token':
-            if (oauthInfo[0] === 'attempt') {
-                auditDesc = formatMessage(holders.attemptedOAuthToken);
-            } else if (oauthInfo[0] === 'success') {
-                auditDesc = formatMessage(holders.successfullOAuthToken);
-            } else {
-                const oauthTokenFailure = oauthInfo[0].split('-');
-
-                if (oauthTokenFailure[0].trim() === 'fail' && oauthTokenFailure[1]) {
-                    auditDesc = formatMessage(oauthTokenFailure, {token: oauthTokenFailure[1].trim()});
+                if (clientIdField[0] === 'client_id') {
+                    auditDesc = formatMessage(holders.attemptedRegisterApp, {id: clientIdField[1]});
                 }
-            }
 
-            break;
-        default:
-            break;
+                break;
+            }
+            case '/oauth/allow':
+                if (oauthInfo[0] === 'attempt') {
+                    auditDesc = formatMessage(holders.attemptedAllowOAuthAccess);
+                } else if (oauthInfo[0] === 'success') {
+                    auditDesc = formatMessage(holders.successfullOAuthAccess);
+                } else if (oauthInfo[0] === 'fail - redirect_uri did not match registered callback') {
+                    auditDesc = formatMessage(holders.failedOAuthAccess);
+                }
+
+                break;
+            case '/oauth/access_token':
+                if (oauthInfo[0] === 'attempt') {
+                    auditDesc = formatMessage(holders.attemptedOAuthToken);
+                } else if (oauthInfo[0] === 'success') {
+                    auditDesc = formatMessage(holders.successfullOAuthToken);
+                } else {
+                    const oauthTokenFailure = oauthInfo[0].split('-');
+
+                    if (oauthTokenFailure[0].trim() === 'fail' && oauthTokenFailure[1]) {
+                        auditDesc = formatMessage(oauthTokenFailure, {token: oauthTokenFailure[1].trim()});
+                    }
+                }
+
+                break;
+            default:
+                break;
         }
     } else if (actionURL.indexOf('/users') === 0) {
         const userInfo = audit.extra_info.split(' ');
 
         switch (actionURL) {
-        case '/users/login':
-            if (userInfo[0] === 'attempt') {
-                auditDesc = formatMessage(holders.attemptedLogin);
-            } else if (userInfo[0] === 'success') {
-                auditDesc = formatMessage(holders.successfullLogin);
-            } else if (userInfo[0]) {
-                auditDesc = formatMessage(holders.failedLogin);
-            }
-
-            break;
-        case '/users/revoke_session':
-            auditDesc = formatMessage(holders.sessionRevoked, {sessionId: userInfo[0].split('=')[1]});
-            break;
-        case '/users/newimage':
-            auditDesc = formatMessage(holders.updatePicture);
-            break;
-        case '/users/update':
-            auditDesc = formatMessage(holders.updateGeneral);
-            break;
-        case '/users/newpassword':
-            if (userInfo[0] === 'attempted') {
-                auditDesc = formatMessage(holders.attemptedPassword);
-            } else if (userInfo[0] === 'completed') {
-                auditDesc = formatMessage(holders.successfullPassword);
-            } else if (userInfo[0] === 'failed - tried to update user password who was logged in through oauth') {
-                auditDesc = formatMessage(holders.failedPassword);
-            }
-
-            break;
-        case '/users/update_roles': {
-            const userRoles = userInfo[0].split('=')[1];
-
-            auditDesc = formatMessage(holders.updatedRol);
-            if (userRoles.trim()) {
-                auditDesc += userRoles;
-            } else {
-                auditDesc += formatMessage(holders.member);
-            }
-
-            break;
-        }
-        case '/users/update_active': {
-            const updateType = userInfo[0].split('=')[0];
-            const updateField = userInfo[0].split('=')[1];
-
-            /* Either describes account activation/deactivation or a revoked session as part of an account deactivation */
-            if (updateType === 'active') {
-                if (updateField === 'true') {
-                    auditDesc = formatMessage(holders.accountActive);
-                } else if (updateField === 'false') {
-                    auditDesc = formatMessage(holders.accountInactive);
+            case '/users/login':
+                if (userInfo[0] === 'attempt') {
+                    auditDesc = formatMessage(holders.attemptedLogin);
+                } else if (userInfo[0] === 'success') {
+                    auditDesc = formatMessage(holders.successfullLogin);
+                } else if (userInfo[0]) {
+                    auditDesc = formatMessage(holders.failedLogin);
                 }
 
-                const actingUserInfo = userInfo[1].split('=');
-                if (actingUserInfo[0] === 'session_user') {
-                    const actingUser = UserStore.getProfile(actingUserInfo[1]);
-                    const user = UserStore.getCurrentUser();
-                    if (user && actingUser && (Utils.isSystemAdmin(user.roles))) {
-                        auditDesc += formatMessage(holders.by, {username: actingUser.username});
-                    } else if (user && actingUser) {
-                        auditDesc += formatMessage(holders.byAdmin);
+                break;
+            case '/users/revoke_session':
+                auditDesc = formatMessage(holders.sessionRevoked, {sessionId: userInfo[0].split('=')[1]});
+                break;
+            case '/users/newimage':
+                auditDesc = formatMessage(holders.updatePicture);
+                break;
+            case '/users/update':
+                auditDesc = formatMessage(holders.updateGeneral);
+                break;
+            case '/users/newpassword':
+                if (userInfo[0] === 'attempted') {
+                    auditDesc = formatMessage(holders.attemptedPassword);
+                } else if (userInfo[0] === 'completed') {
+                    auditDesc = formatMessage(holders.successfullPassword);
+                } else if (userInfo[0] === 'failed - tried to update user password who was logged in through oauth') {
+                    auditDesc = formatMessage(holders.failedPassword);
+                }
+
+                break;
+            case '/users/update_roles': {
+                const userRoles = userInfo[0].split('=')[1];
+
+                auditDesc = formatMessage(holders.updatedRol);
+                if (userRoles.trim()) {
+                    auditDesc += userRoles;
+                } else {
+                    auditDesc += formatMessage(holders.member);
+                }
+
+                break;
+            }
+            case '/users/update_active': {
+                const updateType = userInfo[0].split('=')[0];
+                const updateField = userInfo[0].split('=')[1];
+
+                /* Either describes account activation/deactivation or a revoked session as part of an account deactivation */
+                if (updateType === 'active') {
+                    if (updateField === 'true') {
+                        auditDesc = formatMessage(holders.accountActive);
+                    } else if (updateField === 'false') {
+                        auditDesc = formatMessage(holders.accountInactive);
                     }
+
+                    const actingUserInfo = userInfo[1].split('=');
+                    if (actingUserInfo[0] === 'session_user') {
+                        const actingUser = UserStore.getProfile(actingUserInfo[1]);
+                        const user = UserStore.getCurrentUser();
+                        if (user && actingUser && Utils.isSystemAdmin(user.roles)) {
+                            auditDesc += formatMessage(holders.by, {username: actingUser.username});
+                        } else if (user && actingUser) {
+                            auditDesc += formatMessage(holders.byAdmin);
+                        }
+                    }
+                } else if (updateType === 'session_id') {
+                    auditDesc = formatMessage(holders.sessionRevoked, {sessionId: updateField});
                 }
-            } else if (updateType === 'session_id') {
-                auditDesc = formatMessage(holders.sessionRevoked, {sessionId: updateField});
-            }
 
-            break;
-        }
-        case '/users/send_password_reset':
-            auditDesc = formatMessage(holders.sentEmail, {email: userInfo[0].split('=')[1]});
-            break;
-        case '/users/reset_password':
-            if (userInfo[0] === 'attempt') {
-                auditDesc = formatMessage(holders.attemptedReset);
-            } else if (userInfo[0] === 'success') {
-                auditDesc = formatMessage(holders.successfullReset);
+                break;
             }
+            case '/users/send_password_reset':
+                auditDesc = formatMessage(holders.sentEmail, {email: userInfo[0].split('=')[1]});
+                break;
+            case '/users/reset_password':
+                if (userInfo[0] === 'attempt') {
+                    auditDesc = formatMessage(holders.attemptedReset);
+                } else if (userInfo[0] === 'success') {
+                    auditDesc = formatMessage(holders.successfullReset);
+                }
 
-            break;
-        case '/users/update_notify':
-            auditDesc = formatMessage(holders.updateGlobalNotifications);
-            break;
-        default:
-            break;
+                break;
+            case '/users/update_notify':
+                auditDesc = formatMessage(holders.updateGlobalNotifications);
+                break;
+            default:
+                break;
         }
     } else if (actionURL.indexOf('/hooks') === 0) {
         const webhookInfo = audit.extra_info;
 
         switch (actionURL) {
-        case '/hooks/incoming/create':
-            if (webhookInfo === 'attempt') {
-                auditDesc = formatMessage(holders.attemptedWebhookCreate);
-            } else if (webhookInfo === 'success') {
-                auditDesc = formatMessage(holders.succcessfullWebhookCreate);
-            } else if (webhookInfo === 'fail - bad channel permissions') {
-                auditDesc = formatMessage(holders.failedWebhookCreate);
-            }
+            case '/hooks/incoming/create':
+                if (webhookInfo === 'attempt') {
+                    auditDesc = formatMessage(holders.attemptedWebhookCreate);
+                } else if (webhookInfo === 'success') {
+                    auditDesc = formatMessage(holders.succcessfullWebhookCreate);
+                } else if (webhookInfo === 'fail - bad channel permissions') {
+                    auditDesc = formatMessage(holders.failedWebhookCreate);
+                }
 
-            break;
-        case '/hooks/incoming/delete':
-            if (webhookInfo === 'attempt') {
-                auditDesc = formatMessage(holders.attemptedWebhookDelete);
-            } else if (webhookInfo === 'success') {
-                auditDesc = formatMessage(holders.successfullWebhookDelete);
-            } else if (webhookInfo === 'fail - inappropriate conditions') {
-                auditDesc = formatMessage(holders.failedWebhookDelete);
-            }
+                break;
+            case '/hooks/incoming/delete':
+                if (webhookInfo === 'attempt') {
+                    auditDesc = formatMessage(holders.attemptedWebhookDelete);
+                } else if (webhookInfo === 'success') {
+                    auditDesc = formatMessage(holders.successfullWebhookDelete);
+                } else if (webhookInfo === 'fail - inappropriate conditions') {
+                    auditDesc = formatMessage(holders.failedWebhookDelete);
+                }
 
-            break;
-        default:
-            break;
+                break;
+            default:
+                break;
         }
     } else if (actionURL.indexOf('/license') === 0) {
         const licenseInfo = audit.extra_info;
 
         switch (actionURL) {
-        case '/license/add':
-            if (licenseInfo === 'attempt') {
-                auditDesc = formatMessage(holders.attemptedLicenseAdd);
-            } else if (licenseInfo === 'success') {
-                auditDesc = formatMessage(holders.successfullLicenseAdd);
-            } else if (licenseInfo === 'failed - expired or non-started license') {
-                auditDesc = formatMessage(holders.failedExpiredLicenseAdd);
-            } else if (licenseInfo === 'failed - invalid license') {
-                auditDesc = formatMessage(holders.failedInvalidLicenseAdd);
-            }
+            case '/license/add':
+                if (licenseInfo === 'attempt') {
+                    auditDesc = formatMessage(holders.attemptedLicenseAdd);
+                } else if (licenseInfo === 'success') {
+                    auditDesc = formatMessage(holders.successfullLicenseAdd);
+                } else if (licenseInfo === 'failed - expired or non-started license') {
+                    auditDesc = formatMessage(holders.failedExpiredLicenseAdd);
+                } else if (licenseInfo === 'failed - invalid license') {
+                    auditDesc = formatMessage(holders.failedInvalidLicenseAdd);
+                }
 
-            break;
-        case '/license/remove':
-            auditDesc = formatMessage(holders.licenseRemoved);
-            break;
-        default:
-            break;
+                break;
+            case '/license/remove':
+                auditDesc = formatMessage(holders.licenseRemoved);
+                break;
+            default:
+                break;
         }
     } else if (actionURL.indexOf('/admin/download_compliance_report') === 0) {
         auditDesc = Utils.toTitleCase(audit.extra_info);
     } else {
         switch (actionURL) {
-        case '/logout':
-            auditDesc = formatMessage(holders.logout);
-            break;
-        case '/verify_email':
-            auditDesc = formatMessage(holders.verified);
-            break;
-        default:
-            break;
+            case '/logout':
+                auditDesc = formatMessage(holders.logout);
+                break;
+            case '/verify_email':
+                auditDesc = formatMessage(holders.verified);
+                break;
+            default:
+                break;
         }
     }
 
@@ -618,19 +601,10 @@ export function formatAuditInfo(audit, formatMessage) {
     auditInfo.timestamp = (
         <div>
             <div>
-                <FormattedDate
-                    value={date}
-                    day='2-digit'
-                    month='short'
-                    year='numeric'
-                />
+                <FormattedDate value={date} day="2-digit" month="short" year="numeric" />
             </div>
             <div>
-                <FormattedTime
-                    value={date}
-                    hour='2-digit'
-                    minute='2-digit'
-                />
+                <FormattedTime value={date} hour="2-digit" minute="2-digit" />
             </div>
         </div>
     );

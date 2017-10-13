@@ -69,7 +69,10 @@ export default class GetPublicLinkModal extends React.Component {
                 show={this.state.show}
                 onHide={this.hide}
                 title={Utils.localizeMessage('get_public_link_modal.title', 'Copy Public Link')}
-                helpText={Utils.localizeMessage('get_public_link_modal.help', 'The link below allows anyone to see this file without being registered on this server.')}
+                helpText={Utils.localizeMessage(
+                    'get_public_link_modal.help',
+                    'The link below allows anyone to see this file without being registered on this server.'
+                )}
                 link={this.state.link}
             />
         );

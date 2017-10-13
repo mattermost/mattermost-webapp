@@ -30,20 +30,12 @@ export default class SaveButton extends React.Component {
         if (saving) {
             contents = (
                 <span>
-                    <span className='icon fa fa-refresh icon--rotate'/>
-                    <FormattedMessage
-                        id={savingMessageId}
-                        defaultMessage={defaultMessage}
-                    />
+                    <span className="icon fa fa-refresh icon--rotate" />
+                    <FormattedMessage id={savingMessageId} defaultMessage={defaultMessage} />
                 </span>
             );
         } else {
-            contents = (
-                <FormattedMessage
-                    id='admin.save'
-                    defaultMessage='Save'
-                />
-            );
+            contents = <FormattedMessage id="admin.save" defaultMessage="Save" />;
         }
 
         let className = 'save-button btn';
@@ -52,13 +44,7 @@ export default class SaveButton extends React.Component {
         }
 
         return (
-            <button
-                type='submit'
-                id='saveSetting'
-                className={className}
-                disabled={disabled}
-                {...props}
-            >
+            <button type="submit" id="saveSetting" className={className} disabled={disabled} {...props}>
                 {contents}
             </button>
         );

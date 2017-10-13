@@ -8,9 +8,7 @@ import BackstageHeader from 'components/backstage/components/backstage_header.js
 
 describe('components/backstage/components/BackstageHeader', () => {
     test('should match snapshot without children', () => {
-        const wrapper = shallow(
-            <BackstageHeader/>
-        );
+        const wrapper = shallow(<BackstageHeader />);
         expect(wrapper).toMatchSnapshot();
     });
 

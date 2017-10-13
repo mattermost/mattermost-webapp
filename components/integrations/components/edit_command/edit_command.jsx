@@ -15,7 +15,6 @@ const FOOTER = {id: 'edit_command.save', defaultMessage: 'Update'};
 
 export default class EditCommand extends React.PureComponent {
     static propTypes = {
-
         /**
         * The current team
         */
@@ -37,7 +36,6 @@ export default class EditCommand extends React.PureComponent {
         editCommandRequest: PropTypes.object.isRequired,
 
         actions: PropTypes.shape({
-
             /**
             * The function to call to fetch team commands
             */
@@ -48,7 +46,7 @@ export default class EditCommand extends React.PureComponent {
             */
             editCommand: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -62,39 +60,41 @@ export default class EditCommand extends React.PureComponent {
 
     componentDidMount() {
         if (window.mm_config.EnableCommands === 'true') {
-            this.props.actions.getCustomTeamCommands(this.props.team.id).then(
-                () => {
-                    this.setState({
-                        originalCommand: Object.values(this.props.commands).filter((command) => command.id === this.props.commandId)[0]
-                    });
-                }
-            );
+            this.props.actions.getCustomTeamCommands(this.props.team.id).then(() => {
+                this.setState({
+                    originalCommand: Object.values(this.props.commands).filter(
+                        command => command.id === this.props.commandId
+                    )[0]
+                });
+            });
         }
     }
 
-    editCommand = async (command) => {
+    editCommand = async command => {
         this.newCommand = command;
 
         if (this.state.originalCommand.id) {
             command.id = this.state.originalCommand.id;
         }
 
-        if (this.state.originalCommand.url !== this.newCommand.url ||
+        if (
+            this.state.originalCommand.url !== this.newCommand.url ||
             this.state.originalCommand.trigger !== this.newCommand.trigger ||
-            this.state.originalCommand.method !== this.newCommand.method) {
+            this.state.originalCommand.method !== this.newCommand.method
+        ) {
             this.handleConfirmModal();
         } else {
             await this.submitCommand();
         }
-    }
+    };
 
     handleConfirmModal = () => {
         this.setState({showConfirmModal: true});
-    }
+    };
 
     confirmModalDismissed = () => {
         this.setState({showConfirmModal: false});
-    }
+    };
 
     submitCommand = async () => {
         this.setState({serverError: ''});
@@ -111,27 +111,17 @@ export default class EditCommand extends React.PureComponent {
         if (this.props.editCommandRequest.error) {
             this.setState({serverError: this.props.editCommandRequest.error.message});
         }
-    }
+    };
 
     renderExtra = () => {
-        const confirmButton = (
-            <FormattedMessage
-                id='update_command.update'
-                defaultMessage='Update'
-            />
-        );
+        const confirmButton = <FormattedMessage id="update_command.update" defaultMessage="Update" />;
 
-        const confirmTitle = (
-            <FormattedMessage
-                id='update_command.confirm'
-                defaultMessage='Edit Slash Command'
-            />
-        );
+        const confirmTitle = <FormattedMessage id="update_command.confirm" defaultMessage="Edit Slash Command" />;
 
         const confirmMessage = (
             <FormattedMessage
-                id='update_command.question'
-                defaultMessage='Your changes may break the existing slash command. Are you sure you would like to update it?'
+                id="update_command.question"
+                defaultMessage="Your changes may break the existing slash command. Are you sure you would like to update it?"
             />
         );
 
@@ -145,11 +135,11 @@ export default class EditCommand extends React.PureComponent {
                 onCancel={this.confirmModalDismissed}
             />
         );
-    }
+    };
 
     render() {
         if (!this.state.originalCommand) {
-            return <LoadingScreen/>;
+            return <LoadingScreen />;
         }
 
         return (

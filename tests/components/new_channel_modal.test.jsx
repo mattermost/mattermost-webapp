@@ -67,7 +67,12 @@ describe('components/NewChannelModal', () => {
             <NewChannelModal
                 show={true}
                 channelType={Constants.PRIVATE_CHANNEL}
-                channelData={{name: 'testchannel', displayName: 'testchannel', header: 'some header', purpose: 'some purpose'}}
+                channelData={{
+                    name: 'testchannel',
+                    displayName: 'testchannel',
+                    header: 'some header',
+                    purpose: 'some purpose'
+                }}
                 onSubmitChannel={emptyFunction}
                 onModalDismissed={emptyFunction}
                 onTypeSwitched={emptyFunction}

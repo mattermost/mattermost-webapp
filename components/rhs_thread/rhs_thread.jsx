@@ -25,27 +25,15 @@ import RootPost from 'components/rhs_root_post.jsx';
 const Preferences = Constants.Preferences;
 
 export function renderView(props) {
-    return (
-        <div
-            {...props}
-            className='scrollbar--view'
-        />);
+    return <div {...props} className="scrollbar--view" />;
 }
 
 export function renderThumbHorizontal(props) {
-    return (
-        <div
-            {...props}
-            className='scrollbar--horizontal'
-        />);
+    return <div {...props} className="scrollbar--horizontal" />;
 }
 
 export function renderThumbVertical(props) {
-    return (
-        <div
-            {...props}
-            className='scrollbar--vertical'
-        />);
+    return <div {...props} className="scrollbar--vertical" />;
 }
 
 export default class RhsThread extends React.Component {
@@ -64,12 +52,12 @@ export default class RhsThread extends React.Component {
         actions: PropTypes.shape({
             removePost: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     static defaultProps = {
         fromSearch: '',
         isMentionSearch: false
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -86,15 +74,24 @@ export default class RhsThread extends React.Component {
         this.handleScrollStop = this.handleScrollStop.bind(this);
         this.scrollStopAction = new DelayedAction(this.handleScrollStop);
 
-        const openTime = (new Date()).getTime();
+        const openTime = new Date().getTime();
         const state = {};
         state.windowWidth = Utils.windowWidth();
         state.windowHeight = Utils.windowHeight();
         state.profiles = JSON.parse(JSON.stringify(UserStore.getProfiles()));
-        state.compactDisplay = PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT;
+        state.compactDisplay =
+            PreferenceStore.get(
+                Preferences.CATEGORY_DISPLAY_SETTINGS,
+                Preferences.MESSAGE_DISPLAY,
+                Preferences.MESSAGE_DISPLAY_DEFAULT
+            ) === Preferences.MESSAGE_DISPLAY_COMPACT;
         state.flaggedPosts = PreferenceStore.getCategory(Constants.Preferences.CATEGORY_FLAGGED_POST);
         state.statuses = Object.assign({}, UserStore.getStatuses());
-        state.previewsCollapsed = PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, 'false');
+        state.previewsCollapsed = PreferenceStore.get(
+            Preferences.CATEGORY_DISPLAY_SETTINGS,
+            Preferences.COLLAPSE_DISPLAY,
+            'false'
+        );
         state.isBusy = WebrtcStore.isBusy();
 
         this.state = {
@@ -219,7 +216,7 @@ export default class RhsThread extends React.Component {
 
         if (this.props.selected.id !== nextProps.selected.id) {
             this.setState({
-                openTime: (new Date()).getTime()
+                openTime: new Date().getTime()
             });
         }
     }
@@ -231,9 +228,16 @@ export default class RhsThread extends React.Component {
         }
 
         this.setState({
-            compactDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
+            compactDisplay:
+                PreferenceStore.get(
+                    Preferences.CATEGORY_DISPLAY_SETTINGS,
+                    Preferences.MESSAGE_DISPLAY,
+                    Preferences.MESSAGE_DISPLAY_DEFAULT
+                ) === Preferences.MESSAGE_DISPLAY_COMPACT,
             flaggedPosts: PreferenceStore.getCategory(Constants.Preferences.CATEGORY_FLAGGED_POST),
-            previewsCollapsed: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, 'false') + previewSuffix
+            previewsCollapsed:
+                PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, 'false') +
+                previewSuffix
         });
         this.forceUpdateInfo();
     }
@@ -249,7 +253,7 @@ export default class RhsThread extends React.Component {
     filterPosts(posts, selected, openTime) {
         const postsArray = [];
 
-        posts.forEach((cpost) => {
+        posts.forEach(cpost => {
             // Do not show empherals created before sidebar has been opened
             if (cpost.type === 'system_ephemeral' && cpost.create_at < openTime) {
                 return;
@@ -270,7 +274,9 @@ export default class RhsThread extends React.Component {
 
     scrollToBottom() {
         if ($('.post-right__scroll')[0]) {
-            $('.post-right__scroll').parent().scrollTop($('.post-right__scroll')[0].scrollHeight);
+            $('.post-right__scroll')
+                .parent()
+                .scrollTop($('.post-right__scroll')[0].scrollHeight);
         }
     }
 
@@ -288,7 +294,7 @@ export default class RhsThread extends React.Component {
 
             // determine the top rhs comment assuming that childNodes and postsArray are of same length
             for (let i = 0; i < childNodes.length; i++) {
-                if ((childNodes[i].offsetTop + viewPort.top) - offset > 0) {
+                if (childNodes[i].offsetTop + viewPort.top - offset > 0) {
                     topRhsPostCreateAt = this.props.posts[i].create_at;
                     break;
                 }
@@ -322,13 +328,11 @@ export default class RhsThread extends React.Component {
 
     getSidebarBody = () => {
         return this.refs.sidebarbody;
-    }
+    };
 
     render() {
         if (this.props.posts == null || this.props.selected == null) {
-            return (
-                <div/>
-            );
+            return <div />;
         }
 
         const postsArray = this.filterPosts(this.props.posts, this.props.selected, this.state.openTime);
@@ -383,10 +387,7 @@ export default class RhsThread extends React.Component {
             const currentPostDay = Utils.getDateForUnixTicks(comPost.create_at);
             if (currentPostDay.toDateString() !== previousPostDay.toDateString()) {
                 previousPostDay = currentPostDay;
-                commentsLists.push(
-                    <DateSeparator
-                        date={currentPostDay}
-                    />);
+                commentsLists.push(<DateSeparator date={currentPostDay} />);
             }
 
             const keyPrefix = comPost.id ? comPost.id : comPost.pending_post_id;
@@ -396,7 +397,7 @@ export default class RhsThread extends React.Component {
                     <Comment
                         ref={comPost.id}
                         post={comPost}
-                        lastPostCount={(reverseCount >= 0 && reverseCount < Constants.TEST_ID_COUNT) ? reverseCount : -1}
+                        lastPostCount={reverseCount >= 0 && reverseCount < Constants.TEST_ID_COUNT ? reverseCount : -1}
                         user={p}
                         currentUser={this.props.currentUser}
                         compactDisplay={this.state.compactDisplay}
@@ -413,7 +414,7 @@ export default class RhsThread extends React.Component {
         let createComment;
         if (selected.type !== Constants.PostTypes.FAKE_PARENT_DELETED) {
             createComment = (
-                <div className='post-create__container'>
+                <div className="post-create__container">
                     <CreateComment
                         channelId={selected.channel_id}
                         rootId={selected.id}
@@ -425,10 +426,7 @@ export default class RhsThread extends React.Component {
         }
 
         return (
-            <div
-                className='sidebar-right__body'
-                ref='sidebarbody'
-            >
+            <div className="sidebar-right__body" ref="sidebarbody">
                 <FloatingTimestamp
                     isScrolling={this.state.isScrolling}
                     isMobile={Utils.isMobile()}
@@ -453,10 +451,8 @@ export default class RhsThread extends React.Component {
                     renderView={renderView}
                     onScroll={this.handleScroll}
                 >
-                    <div className='post-right__scroll'>
-                        <DateSeparator
-                            date={rootPostDay}
-                        />
+                    <div className="post-right__scroll">
+                        <DateSeparator date={rootPostDay} />
                         <RootPost
                             ref={selected.id}
                             post={selected}
@@ -470,10 +466,7 @@ export default class RhsThread extends React.Component {
                             previewCollapsed={this.state.previewsCollapsed}
                             isBusy={this.state.isBusy}
                         />
-                        <div
-                            ref='rhspostlist'
-                            className='post-right-comments-container'
-                        >
+                        <div ref="rhspostlist" className="post-right-comments-container">
                             {commentsLists}
                         </div>
                         {createComment}

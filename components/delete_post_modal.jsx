@@ -54,7 +54,7 @@ export default class DeletePostModal extends React.Component {
             () => {
                 this.handleHide();
             },
-            (err) => {
+            err => {
                 this.setState({error: err.message});
             }
         );
@@ -80,15 +80,19 @@ export default class DeletePostModal extends React.Component {
 
         var error = null;
         if (this.state.error) {
-            error = <div className='form-group has-error'><label className='control-label'>{this.state.error}</label></div>;
+            error = (
+                <div className="form-group has-error">
+                    <label className="control-label">{this.state.error}</label>
+                </div>
+            );
         }
 
         var commentWarning = '';
         if (this.state.commentCount > 0) {
             commentWarning = (
                 <FormattedMessage
-                    id='delete_post.warning'
-                    defaultMessage='This post has {count, number} {count, plural, one {comment} other {comments}} on it.'
+                    id="delete_post.warning"
+                    defaultMessage="This post has {count, number} {count, plural, one {comment} other {comments}} on it."
                     values={{
                         count: this.state.commentCount
                     }}
@@ -97,67 +101,43 @@ export default class DeletePostModal extends React.Component {
         }
 
         const postTerm = this.state.post.root_id ? (
-            <FormattedMessage
-                id='delete_post.comment'
-                defaultMessage='Comment'
-            />
+            <FormattedMessage id="delete_post.comment" defaultMessage="Comment" />
         ) : (
-            <FormattedMessage
-                id='delete_post.post'
-                defaultMessage='Post'
-            />
+            <FormattedMessage id="delete_post.post" defaultMessage="Post" />
         );
 
         return (
-            <Modal
-                show={this.state.show}
-                onHide={this.handleHide}
-            >
+            <Modal show={this.state.show} onHide={this.handleHide}>
                 <Modal.Header closeButton={true}>
                     <Modal.Title>
                         <FormattedMessage
-                            id='delete_post.confirm'
-                            defaultMessage='Confirm {term} Delete'
+                            id="delete_post.confirm"
+                            defaultMessage="Confirm {term} Delete"
                             values={{
-                                term: (postTerm)
+                                term: postTerm
                             }}
                         />
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <FormattedMessage
-                        id='delete_post.question'
-                        defaultMessage='Are you sure you want to delete this {term}?'
+                        id="delete_post.question"
+                        defaultMessage="Are you sure you want to delete this {term}?"
                         values={{
-                            term: (postTerm)
+                            term: postTerm
                         }}
                     />
-                    <br/>
-                    <br/>
+                    <br />
+                    <br />
                     {commentWarning}
                     {error}
                 </Modal.Body>
                 <Modal.Footer>
-                    <button
-                        type='button'
-                        className='btn btn-default'
-                        onClick={this.handleHide}
-                    >
-                        <FormattedMessage
-                            id='delete_post.cancel'
-                            defaultMessage='Cancel'
-                        />
+                    <button type="button" className="btn btn-default" onClick={this.handleHide}>
+                        <FormattedMessage id="delete_post.cancel" defaultMessage="Cancel" />
                     </button>
-                    <button
-                        ref='deletePostBtn'
-                        type='button'
-                        className='btn btn-danger'
-                        onClick={this.handleDelete}
-                    >
-                        <FormattedMessage
-                            id='delete_post.del'
-                            defaultMessage='Delete'
-                        />
+                    <button ref="deletePostBtn" type="button" className="btn btn-danger" onClick={this.handleDelete}>
+                        <FormattedMessage id="delete_post.del" defaultMessage="Delete" />
                     </button>
                 </Modal.Footer>
             </Modal>

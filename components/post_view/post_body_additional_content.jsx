@@ -17,7 +17,6 @@ import PostImage from './post_image.jsx';
 
 export default class PostBodyAdditionalContent extends React.PureComponent {
     static propTypes = {
-
         /**
          * The post to render the content of
          */
@@ -32,11 +31,11 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
          * Set to collapse image and video previews
          */
         previewCollapsed: PropTypes.string
-    }
+    };
 
     static defaultProps = {
         previewCollapsed: ''
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -63,14 +62,20 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.previewCollapsed !== this.props.previewCollapsed || nextProps.post.message !== this.props.post.message) {
-            this.setState({
-                embedVisible: PostBodyAdditionalContent.isEmbedVisible(nextProps),
-                link: Utils.extractFirstLink(nextProps.post.message)
-            }, () => {
-                // check the availability of the image link
-                this.preCheckImageLink();
-            });
+        if (
+            nextProps.previewCollapsed !== this.props.previewCollapsed ||
+            nextProps.post.message !== this.props.post.message
+        ) {
+            this.setState(
+                {
+                    embedVisible: PostBodyAdditionalContent.isEmbedVisible(nextProps),
+                    link: Utils.extractFirstLink(nextProps.post.message)
+                },
+                () => {
+                    // check the availability of the image link
+                    this.preCheckImageLink();
+                }
+            );
         }
     }
 
@@ -78,7 +83,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         // save the taggle info in the localstorage
         BrowserStore.setItem(`isVisible-${this.props.post.id}`, !this.state.embedVisible);
 
-        this.setState((prevState) => {
+        this.setState(prevState => {
             return {embedVisible: !prevState.embedVisible};
         });
     }
@@ -89,13 +94,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
             attachments = this.props.post.props.attachments;
         }
 
-        return (
-            <PostAttachmentList
-                attachments={attachments}
-                postId={this.props.post.id}
-                key={this.props.post.id}
-            />
-        );
+        return <PostAttachmentList attachments={attachments} postId={this.props.post.id} key={this.props.post.id} />;
     }
 
     // when image links are collapsed, check if the link is a valid image url and it is available
@@ -192,7 +191,11 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         }
 
         const link = Utils.extractFirstLink(this.props.post.message);
-        if (link && Utils.isFeatureEnabled(Constants.PRE_RELEASE_FEATURES.EMBED_PREVIEW) && global.window.mm_config.EnableLinkPreviews === 'true') {
+        if (
+            link &&
+            Utils.isFeatureEnabled(Constants.PRE_RELEASE_FEATURES.EMBED_PREVIEW) &&
+            global.window.mm_config.EnableLinkPreviews === 'true'
+        ) {
             return (
                 <PostAttachmentOpenGraph
                     link={link}
@@ -209,22 +212,18 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         if (this.isLinkToggleable() && !this.state.linkLoadError) {
             // if message has only one line and starts with a link place toggle in this only line
             // else - place it in new line between message and embed
-            const prependToggle = (/^\s*https?:\/\/.*$/).test(this.props.post.message);
+            const prependToggle = /^\s*https?:\/\/.*$/.test(this.props.post.message);
 
             const toggle = (
                 <a
-                    key='toggle'
+                    key="toggle"
                     className={`post__embed-visibility ${prependToggle ? 'pull-left' : ''}`}
                     data-expanded={this.state.embedVisible}
-                    aria-label='Toggle Embed Visibility'
+                    aria-label="Toggle Embed Visibility"
                     onClick={this.toggleEmbedVisibility}
                 />
             );
-            const message = (
-                <div key='message'>
-                    {this.props.children}
-                </div>
-            );
+            const message = <div key="message">{this.props.children}</div>;
 
             const contents = [message];
 
@@ -238,20 +237,13 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
 
             if (this.state.embedVisible) {
                 contents.push(
-                    <div
-                        key='embed'
-                        className='post__embed-container'
-                    >
+                    <div key="embed" className="post__embed-container">
                         {this.generateToggleableEmbed()}
                     </div>
                 );
             }
 
-            return (
-                <div>
-                    {contents}
-                </div>
-            );
+            return <div>{contents}</div>;
         }
 
         const staticEmbed = this.generateStaticEmbed();

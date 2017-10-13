@@ -21,10 +21,13 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({
-            removePost,
-            addReaction
-        }, dispatch)
+        actions: bindActionCreators(
+            {
+                removePost,
+                addReaction
+            },
+            dispatch
+        )
     };
 }
 

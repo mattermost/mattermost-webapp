@@ -117,11 +117,21 @@ class FileUpload extends React.Component {
         if (sortedFiles.length > uploadsRemaining) {
             this.props.onUploadError(formatMessage(holders.limited, {count: Constants.MAX_UPLOAD_FILES}));
         } else if (tooLargeFiles.length > 1) {
-            var tooLargeFilenames = tooLargeFiles.map((file) => file.name).join(', ');
+            var tooLargeFilenames = tooLargeFiles.map(file => file.name).join(', ');
 
-            this.props.onUploadError(formatMessage(holders.filesAbove, {max: (global.mm_config.MaxFileSize / 1048576), filenames: tooLargeFilenames}));
+            this.props.onUploadError(
+                formatMessage(holders.filesAbove, {
+                    max: global.mm_config.MaxFileSize / 1048576,
+                    filenames: tooLargeFilenames
+                })
+            );
         } else if (tooLargeFiles.length > 0) {
-            this.props.onUploadError(formatMessage(holders.fileAbove, {max: (global.mm_config.MaxFileSize / 1048576), filename: tooLargeFiles[0].name}));
+            this.props.onUploadError(
+                formatMessage(holders.fileAbove, {
+                    max: global.mm_config.MaxFileSize / 1048576,
+                    filename: tooLargeFiles[0].name
+                })
+            );
         }
     }
 
@@ -261,11 +271,16 @@ class FileUpload extends React.Component {
         // setState being an asynchronous call
         if (items && items.length > 0) {
             if (!FileUtils.canUploadFiles()) {
-                this.props.onUploadError(Utils.localizeMessage('file_upload.disabled', 'File attachments are disabled.'));
+                this.props.onUploadError(
+                    Utils.localizeMessage('file_upload.disabled', 'File attachments are disabled.')
+                );
                 return;
             }
 
-            var numToUpload = Math.min(Constants.MAX_UPLOAD_FILES - this.props.getFileCount(ChannelStore.getCurrentId()), items.length);
+            var numToUpload = Math.min(
+                Constants.MAX_UPLOAD_FILES - this.props.getFileCount(ChannelStore.getCurrentId()),
+                items.length
+            );
 
             if (items.length > numToUpload) {
                 this.props.onUploadError(formatMessage(holders.limited, {count: Constants.MAX_UPLOAD_FILES}));
@@ -305,7 +320,18 @@ class FileUpload extends React.Component {
                     ext = '.' + items[i].type.split('/')[1].toLowerCase();
                 }
 
-                const name = formatMessage(holders.pasted) + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + hour + '-' + min + ext;
+                const name =
+                    formatMessage(holders.pasted) +
+                    d.getFullYear() +
+                    '-' +
+                    (d.getMonth() + 1) +
+                    '-' +
+                    d.getDate() +
+                    ' ' +
+                    hour +
+                    '-' +
+                    min +
+                    ext;
 
                 const request = uploadFile(
                     file,
@@ -334,13 +360,19 @@ class FileUpload extends React.Component {
             e.preventDefault();
 
             if (!FileUtils.canUploadFiles()) {
-                this.props.onUploadError(Utils.localizeMessage('file_upload.disabled', 'File attachments are disabled.'));
+                this.props.onUploadError(
+                    Utils.localizeMessage('file_upload.disabled', 'File attachments are disabled.')
+                );
                 return;
             }
 
-            if ((this.props.postType === 'post' && document.activeElement.id === 'post_textbox') ||
-                (this.props.postType === 'comment' && document.activeElement.id === 'reply_textbox')) {
-                $(this.refs.fileInput).focus().trigger('click');
+            if (
+                (this.props.postType === 'post' && document.activeElement.id === 'post_textbox') ||
+                (this.props.postType === 'comment' && document.activeElement.id === 'reply_textbox')
+            ) {
+                $(this.refs.fileInput)
+                    .focus()
+                    .trigger('click');
             }
         }
     }
@@ -386,13 +418,11 @@ class FileUpload extends React.Component {
         let fileDiv;
         if (FileUtils.canUploadFiles()) {
             fileDiv = (
-                <div className='icon icon--attachment'>
-                    <span
-                        dangerouslySetInnerHTML={{__html: Constants.ATTACHMENT_ICON_SVG}}
-                    />
+                <div className="icon icon--attachment">
+                    <span dangerouslySetInnerHTML={{__html: Constants.ATTACHMENT_ICON_SVG}} />
                     <input
-                        ref='fileInput'
-                        type='file'
+                        ref="fileInput"
+                        type="file"
                         onChange={this.handleChange}
                         onClick={uploadsRemaining > 0 ? this.props.onClick : this.handleMaxUploadReached}
                         multiple={multiple}
@@ -403,10 +433,7 @@ class FileUpload extends React.Component {
         }
 
         return (
-            <span
-                ref='input'
-                className={uploadsRemaining <= 0 ? ' btn-file__disabled' : ''}
-            >
+            <span ref="input" className={uploadsRemaining <= 0 ? ' btn-file__disabled' : ''}>
                 {fileDiv}
             </span>
         );

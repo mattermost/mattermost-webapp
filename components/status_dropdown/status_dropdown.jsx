@@ -12,7 +12,6 @@ import BootstrapSpan from 'components/bootstrap_span.jsx';
 import StatusIcon from 'components/status_icon.jsx';
 
 export default class StatusDropdown extends React.Component {
-
     static propTypes = {
         style: PropTypes.object,
         status: PropTypes.string,
@@ -21,82 +20,71 @@ export default class StatusDropdown extends React.Component {
         actions: PropTypes.shape({
             setStatus: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     state = {
         showDropdown: false
-    }
+    };
 
-    onToggle = (showDropdown) => {
+    onToggle = showDropdown => {
         this.setState({showDropdown});
-    }
+    };
 
     closeDropdown = () => {
         this.setState({showDropdown: false});
-    }
+    };
 
-    setStatus = (status) => {
+    setStatus = status => {
         this.props.actions.setStatus({
             user_id: this.props.userId,
             status
         });
         this.closeDropdown();
-    }
+    };
 
-    setOnline = (event) => {
+    setOnline = event => {
         event.preventDefault();
         this.setStatus(UserStatuses.ONLINE);
-    }
+    };
 
-    setOffline = (event) => {
+    setOffline = event => {
         event.preventDefault();
         this.setStatus(UserStatuses.OFFLINE);
-    }
+    };
 
-    setAway = (event) => {
+    setAway = event => {
         event.preventDefault();
         this.setStatus(UserStatuses.AWAY);
-    }
+    };
 
     renderStatusOnlineAction = () => {
         return this.renderStatusAction(UserStatuses.ONLINE, this.setOnline);
-    }
+    };
 
     renderStatusAwayAction = () => {
         return this.renderStatusAction(UserStatuses.AWAY, this.setAway);
-    }
+    };
 
     renderStatusOfflineAction = () => {
         return this.renderStatusAction(UserStatuses.OFFLINE, this.setOffline);
-    }
+    };
 
     renderProfilePicture = () => {
         if (!this.props.profilePicture) {
             return null;
         }
-        return (
-            <img
-                className='user__picture'
-                src={this.props.profilePicture}
-            />
-        );
-    }
+        return <img className="user__picture" src={this.props.profilePicture} />;
+    };
 
     renderStatusAction = (status, onClick) => {
         return (
             <li key={status}>
-                <a
-                    href={'#'}
-                    onClick={onClick}
-                >
-                    <FormattedMessage
-                        id={`status_dropdown.set_${status}`}
-                        defaultMessage={status}
-                    />
+                <a href={'#'} onClick={onClick}>
+                    <FormattedMessage id={`status_dropdown.set_${status}`} defaultMessage={status} />
                 </a>
             </li>
         );
-    }
+    };
 
     render() {
         const profilePicture = this.renderProfilePicture();
@@ -112,20 +100,16 @@ export default class StatusDropdown extends React.Component {
                 onToggle={this.onToggle}
                 style={this.props.style}
             >
-                <BootstrapSpan
-                    bsRole={'toggle'}
-                >
-                    <div className='status-wrapper status-selector'>
+                <BootstrapSpan bsRole={'toggle'}>
+                    <div className="status-wrapper status-selector">
                         {profilePicture}
-                        <StatusIcon status={this.props.status}/>
+                        <StatusIcon status={this.props.status} />
                         <span className={'status status-edit edit'}>
-                            <i className={'fa fa-caret-down'}/>
+                            <i className={'fa fa-caret-down'} />
                         </span>
                     </div>
                 </BootstrapSpan>
-                <Dropdown.Menu>
-                    {actions}
-                </Dropdown.Menu>
+                <Dropdown.Menu>{actions}</Dropdown.Menu>
             </Dropdown>
         );
     }

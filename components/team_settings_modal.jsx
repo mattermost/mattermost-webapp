@@ -39,8 +39,13 @@ class TeamSettingsModal extends React.Component {
         const modal = $(ReactDOM.findDOMNode(this.refs.modal));
 
         modal.on('click', '.modal-back', function handleBackClick() {
-            $(this).closest('.modal-dialog').removeClass('display--content');
-            $(this).closest('.modal-dialog').find('.settings-table .nav li.active').removeClass('active');
+            $(this)
+                .closest('.modal-dialog')
+                .removeClass('display--content');
+            $(this)
+                .closest('.modal-dialog')
+                .find('.settings-table .nav li.active')
+                .removeClass('active');
         });
         modal.on('click', '.modal-header .close', () => {
             setTimeout(() => {
@@ -55,12 +60,16 @@ class TeamSettingsModal extends React.Component {
     updateTab(tab) {
         this.setState({activeTab: tab, activeSection: ''});
         if (!Utils.isMobile()) {
-            $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
+            $('.settings-modal .modal-body')
+                .scrollTop(0)
+                .perfectScrollbar('update');
         }
     }
     updateSection(section) {
         if ($('.section-max').length) {
-            $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
+            $('.settings-modal .modal-body')
+                .scrollTop(0)
+                .perfectScrollbar('update');
         }
         this.setState({activeSection: section});
     }
@@ -71,47 +80,27 @@ class TeamSettingsModal extends React.Component {
         tabs.push({name: 'import', uiName: formatMessage(holders.importTab), icon: 'icon fa fa-upload'});
 
         return (
-            <div
-                className='modal fade'
-                ref='modal'
-                id='team_settings'
-                role='dialog'
-                tabIndex='-1'
-                aria-hidden='true'
-            >
-                <div className='modal-dialog settings-modal'>
-                    <div className='modal-content'>
-                        <div className='modal-header'>
-                            <button
-                                type='button'
-                                className='close'
-                                data-dismiss='modal'
-                                aria-label='Close'
-                            >
-                                <span aria-hidden='true'>
-                                    {'×'}
-                                </span>
+            <div className="modal fade" ref="modal" id="team_settings" role="dialog" tabIndex="-1" aria-hidden="true">
+                <div className="modal-dialog settings-modal">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">{'×'}</span>
                             </button>
-                            <h4
-                                className='modal-title'
-                                ref='title'
-                            >
-                                <FormattedMessage
-                                    id='team_settings_modal.title'
-                                    defaultMessage='Team Settings'
-                                />
+                            <h4 className="modal-title" ref="title">
+                                <FormattedMessage id="team_settings_modal.title" defaultMessage="Team Settings" />
                             </h4>
                         </div>
-                        <div className='modal-body settings-modal__body'>
-                            <div className='settings-table'>
-                                <div className='settings-links'>
+                        <div className="modal-body settings-modal__body">
+                            <div className="settings-table">
+                                <div className="settings-links">
                                     <SettingsSidebar
                                         tabs={tabs}
                                         activeTab={this.state.activeTab}
                                         updateTab={this.updateTab}
                                     />
                                 </div>
-                                <div className='settings-content minimize-settings'>
+                                <div className="settings-content minimize-settings">
                                     <TeamSettings
                                         activeTab={this.state.activeTab}
                                         activeSection={this.state.activeSection}

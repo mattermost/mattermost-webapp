@@ -19,31 +19,27 @@ const dispatch = store.dispatch;
 const getState = store.getState;
 
 export function loadIncomingHooks(complete) {
-    IntegrationActions.getIncomingHooks('', 0, 10000)(dispatch, getState).then(
-        (data) => {
-            if (data) {
-                loadProfilesForIncomingHooks(data);
-            }
-
-            if (complete) {
-                complete(data);
-            }
+    IntegrationActions.getIncomingHooks('', 0, 10000)(dispatch, getState).then(data => {
+        if (data) {
+            loadProfilesForIncomingHooks(data);
         }
-    );
+
+        if (complete) {
+            complete(data);
+        }
+    });
 }
 
 export function loadIncomingHooksForTeam(teamId, complete) {
-    IntegrationActions.getIncomingHooks(teamId, 0, 10000)(dispatch, getState).then(
-        (data) => {
-            if (data) {
-                loadProfilesForIncomingHooks(data);
-            }
-
-            if (complete) {
-                complete(data);
-            }
+    IntegrationActions.getIncomingHooks(teamId, 0, 10000)(dispatch, getState).then(data => {
+        if (data) {
+            loadProfilesForIncomingHooks(data);
         }
-    );
+
+        if (complete) {
+            complete(data);
+        }
+    });
 }
 
 function loadProfilesForIncomingHooks(hooks) {
@@ -64,31 +60,27 @@ function loadProfilesForIncomingHooks(hooks) {
 }
 
 export function loadOutgoingHooks(complete) {
-    IntegrationActions.getOutgoingHooks('', '', 0, 10000)(dispatch, getState).then(
-        (data) => {
-            if (data) {
-                loadProfilesForOutgoingHooks(data);
-            }
-
-            if (complete) {
-                complete(data);
-            }
+    IntegrationActions.getOutgoingHooks('', '', 0, 10000)(dispatch, getState).then(data => {
+        if (data) {
+            loadProfilesForOutgoingHooks(data);
         }
-    );
+
+        if (complete) {
+            complete(data);
+        }
+    });
 }
 
 export function loadOutgoingHooksForTeam(teamId, complete) {
-    IntegrationActions.getOutgoingHooks('', teamId, 0, 10000)(dispatch, getState).then(
-        (data) => {
-            if (data) {
-                loadProfilesForOutgoingHooks(data);
-            }
-
-            if (complete) {
-                complete(data);
-            }
+    IntegrationActions.getOutgoingHooks('', teamId, 0, 10000)(dispatch, getState).then(data => {
+        if (data) {
+            loadProfilesForOutgoingHooks(data);
         }
-    );
+
+        if (complete) {
+            complete(data);
+        }
+    });
 }
 
 function loadProfilesForOutgoingHooks(hooks) {
@@ -109,17 +101,15 @@ function loadProfilesForOutgoingHooks(hooks) {
 }
 
 export function loadTeamCommands(complete) {
-    IntegrationActions.getCustomTeamCommands(TeamStore.getCurrentId())(dispatch, getState).then(
-        (data) => {
-            if (data) {
-                loadProfilesForCommands(data);
-            }
-
-            if (complete) {
-                complete(data);
-            }
+    IntegrationActions.getCustomTeamCommands(TeamStore.getCurrentId())(dispatch, getState).then(data => {
+        if (data) {
+            loadProfilesForCommands(data);
         }
-    );
+
+        if (complete) {
+            complete(data);
+        }
+    });
 }
 
 function loadProfilesForCommands(commands) {
@@ -140,55 +130,47 @@ function loadProfilesForCommands(commands) {
 }
 
 export function addIncomingHook(hook, success, error) {
-    IntegrationActions.createIncomingHook(hook)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.integrations.createIncomingHook.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
+    IntegrationActions.createIncomingHook(hook)(dispatch, getState).then(data => {
+        if (data && success) {
+            success(data);
+        } else if (data == null && error) {
+            const serverError = getState().requests.integrations.createIncomingHook.error;
+            error({id: serverError.server_error_id, ...serverError});
         }
-    );
+    });
 }
 
 export function updateIncomingHook(hook, success, error) {
-    IntegrationActions.updateIncomingHook(hook)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.integrations.updateIncomingHook.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
+    IntegrationActions.updateIncomingHook(hook)(dispatch, getState).then(data => {
+        if (data && success) {
+            success(data);
+        } else if (data == null && error) {
+            const serverError = getState().requests.integrations.updateIncomingHook.error;
+            error({id: serverError.server_error_id, ...serverError});
         }
-    );
+    });
 }
 
 export function addOutgoingHook(hook, success, error) {
-    IntegrationActions.createOutgoingHook(hook)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.integrations.createOutgoingHook.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
+    IntegrationActions.createOutgoingHook(hook)(dispatch, getState).then(data => {
+        if (data && success) {
+            success(data);
+        } else if (data == null && error) {
+            const serverError = getState().requests.integrations.createOutgoingHook.error;
+            error({id: serverError.server_error_id, ...serverError});
         }
-    );
+    });
 }
 
 export function updateOutgoingHook(hook, success, error) {
-    IntegrationActions.updateOutgoingHook(hook)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.integrations.updateOutgoingHook.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
+    IntegrationActions.updateOutgoingHook(hook)(dispatch, getState).then(data => {
+        if (data && success) {
+            success(data);
+        } else if (data == null && error) {
+            const serverError = getState().requests.integrations.updateOutgoingHook.error;
+            error({id: serverError.server_error_id, ...serverError});
         }
-    );
+    });
 }
 
 export function deleteIncomingHook(id) {
@@ -204,29 +186,25 @@ export function regenOutgoingHookToken(id) {
 }
 
 export function addCommand(command, success, error) {
-    IntegrationActions.addCommand(command)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.integrations.addCommand.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
+    IntegrationActions.addCommand(command)(dispatch, getState).then(data => {
+        if (data && success) {
+            success(data);
+        } else if (data == null && error) {
+            const serverError = getState().requests.integrations.addCommand.error;
+            error({id: serverError.server_error_id, ...serverError});
         }
-    );
+    });
 }
 
 export function editCommand(command, success, error) {
-    IntegrationActions.editCommand(command)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.integrations.editCommand.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
+    IntegrationActions.editCommand(command)(dispatch, getState).then(data => {
+        if (data && success) {
+            success(data);
+        } else if (data == null && error) {
+            const serverError = getState().requests.integrations.editCommand.error;
+            error({id: serverError.server_error_id, ...serverError});
         }
-    );
+    });
 }
 
 export function deleteCommand(id) {
@@ -238,10 +216,10 @@ export function regenCommandToken(id) {
 }
 
 export function getSuggestedCommands(command, suggestionId, component) {
-    Client4.getCommandsList(TeamStore.getCurrentId()).then(
-        (data) => {
+    Client4.getCommandsList(TeamStore.getCurrentId())
+        .then(data => {
             let matches = [];
-            data.forEach((cmd) => {
+            data.forEach(cmd => {
                 if (!cmd.auto_complete) {
                     return;
                 }
@@ -265,7 +243,7 @@ export function getSuggestedCommands(command, suggestionId, component) {
             matches = matches.sort((a, b) => a.suggestion.localeCompare(b.suggestion));
 
             // pull out the suggested commands from the returned data
-            const terms = matches.map((suggestion) => suggestion.suggestion);
+            const terms = matches.map(suggestion => suggestion.suggestion);
 
             if (terms.length > 0) {
                 AppDispatcher.handleServerAction({
@@ -277,24 +255,25 @@ export function getSuggestedCommands(command, suggestionId, component) {
                     component
                 });
             }
-        }
-    ).catch(
-        () => {} //eslint-disable-line no-empty-function
-    );
+        })
+        .catch(
+            () => {} //eslint-disable-line no-empty-function
+        );
 }
 
 export function getYoutubeVideoInfo(googleKey, videoId, success, error) {
-    request.get('https://www.googleapis.com/youtube/v3/videos').
-    query({part: 'snippet', id: videoId, key: googleKey}).
-    end((err, res) => {
-        if (err) {
-            return error(err);
-        }
+    request
+        .get('https://www.googleapis.com/youtube/v3/videos')
+        .query({part: 'snippet', id: videoId, key: googleKey})
+        .end((err, res) => {
+            if (err) {
+                return error(err);
+            }
 
-        if (!res.body) {
-            console.error('Missing response body for getYoutubeVideoInfo'); // eslint-disable-line no-console
-        }
+            if (!res.body) {
+                console.error('Missing response body for getYoutubeVideoInfo'); // eslint-disable-line no-console
+            }
 
-        return success(res.body);
-    });
+            return success(res.body);
+        });
 }

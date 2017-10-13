@@ -16,18 +16,13 @@ export default class Settings extends PureComponent {
         const {children, helpText, inputId, label} = this.props;
 
         return (
-            <div className='form-group'>
-                <label
-                    className='control-label col-sm-4'
-                    htmlFor={inputId}
-                >
+            <div className="form-group">
+                <label className="control-label col-sm-4" htmlFor={inputId}>
                     {label}
                 </label>
-                <div className='col-sm-8'>
+                <div className="col-sm-8">
                     {children}
-                    <div className='help-text'>
-                        {helpText}
-                    </div>
+                    <div className="help-text">{helpText}</div>
                 </div>
             </div>
         );

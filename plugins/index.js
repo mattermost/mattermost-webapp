@@ -14,7 +14,7 @@ window.plugins = {};
 
 export function registerComponents(id, components = {}, postTypes = {}) {
     const wrappedComponents = {};
-    Object.keys(components).forEach((name) => {
+    Object.keys(components).forEach(name => {
         wrappedComponents[name] = {component: components[name], id};
     });
 
@@ -24,7 +24,7 @@ export function registerComponents(id, components = {}, postTypes = {}) {
     });
 
     const wrappedPostTypes = {};
-    Object.keys(postTypes).forEach((type) => {
+    Object.keys(postTypes).forEach(type => {
         wrappedPostTypes[type] = {component: postTypes[type], id};
     });
 
@@ -49,13 +49,13 @@ export async function initializePlugins() {
         return;
     }
 
-    data.forEach((m) => {
+    data.forEach(m => {
         loadPlugin(m);
     });
 }
 
 export function getPlugins() {
-    return async (dispatch) => {
+    return async dispatch => {
         let plugins;
         try {
             plugins = await Client4.getWebappPlugins();
@@ -121,7 +121,7 @@ export async function loadPluginsIfNecessary() {
     const newManifests = store.getState().plugins.plugins;
 
     // Get new plugins and update existing plugins if version changed
-    Object.values(newManifests).forEach((newManifest) => {
+    Object.values(newManifests).forEach(newManifest => {
         const oldManifest = oldManifests[newManifest.id];
         if (!oldManifest || oldManifest.version !== newManifest.version) {
             loadPlugin(newManifest);
@@ -129,7 +129,7 @@ export async function loadPluginsIfNecessary() {
     });
 
     // Remove old plugins
-    Object.keys(oldManifests).forEach((id) => {
+    Object.keys(oldManifests).forEach(id => {
         if (!newManifests.hasOwnProperty(id)) {
             const oldManifest = oldManifests[id];
             store.dispatch({type: ActionTypes.REMOVED_WEBAPP_PLUGIN, data: oldManifest});

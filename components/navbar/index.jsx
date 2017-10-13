@@ -265,7 +265,7 @@ export default class Navbar extends React.Component {
         }
     }
 
-    toggleFavorite = (e) => {
+    toggleFavorite = e => {
         e.preventDefault();
 
         if (this.state.isFavorite) {
@@ -290,39 +290,31 @@ export default class Navbar extends React.Component {
 
             if (isDirect) {
                 setChannelHeaderOption = (
-                    <li role='presentation'>
-                        <a
-                            role='menuitem'
-                            href='#'
-                            onClick={this.showEditChannelHeaderModal}
-                        >
+                    <li role="presentation">
+                        <a role="menuitem" href="#" onClick={this.showEditChannelHeaderModal}>
                             <FormattedMessage
-                                id='channel_header.channelHeader'
-                                defaultMessage='Set Channel Header...'
+                                id="channel_header.channelHeader"
+                                defaultMessage="Set Channel Header..."
                             />
                         </a>
                     </li>
                 );
             } else if (isGroup) {
                 setChannelHeaderOption = (
-                    <li role='presentation'>
-                        <a
-                            role='menuitem'
-                            href='#'
-                            onClick={this.showEditChannelHeaderModal}
-                        >
+                    <li role="presentation">
+                        <a role="menuitem" href="#" onClick={this.showEditChannelHeaderModal}>
                             <FormattedMessage
-                                id='channel_header.channelHeader'
-                                defaultMessage='Set Channel Header...'
+                                id="channel_header.channelHeader"
+                                defaultMessage="Set Channel Header..."
                             />
                         </a>
                     </li>
                 );
 
                 notificationPreferenceOption = (
-                    <li role='presentation'>
+                    <li role="presentation">
                         <ToggleModalButton
-                            role='menuitem'
+                            role="menuitem"
                             dialogType={ChannelNotificationsModal}
                             dialogProps={{
                                 channel,
@@ -330,129 +322,73 @@ export default class Navbar extends React.Component {
                                 currentUser: this.state.currentUser
                             }}
                         >
-                            <FormattedMessage
-                                id='navbar.preferences'
-                                defaultMessage='Notification Preferences'
-                            />
+                            <FormattedMessage id="navbar.preferences" defaultMessage="Notification Preferences" />
                         </ToggleModalButton>
                     </li>
                 );
 
                 addMembersOption = (
-                    <li
-                        role='presentation'
-                    >
-                        <a
-                            role='menuitem'
-                            href='#'
-                            onClick={this.openDirectMessageModal}
-                        >
-                            <FormattedMessage
-                                id='navbar.addMembers'
-                                defaultMessage='Add Members'
-                            />
+                    <li role="presentation">
+                        <a role="menuitem" href="#" onClick={this.openDirectMessageModal}>
+                            <FormattedMessage id="navbar.addMembers" defaultMessage="Add Members" />
                         </a>
                     </li>
                 );
             } else {
                 viewInfoOption = (
-                    <li role='presentation'>
-                        <ToggleModalButton
-                            role='menuitem'
-                            dialogType={ChannelInfoModal}
-                            dialogProps={{channel}}
-                        >
-                            <FormattedMessage
-                                id='navbar.viewInfo'
-                                defaultMessage='View Info'
-                            />
+                    <li role="presentation">
+                        <ToggleModalButton role="menuitem" dialogType={ChannelInfoModal} dialogProps={{channel}}>
+                            <FormattedMessage id="navbar.viewInfo" defaultMessage="View Info" />
                         </ToggleModalButton>
                     </li>
                 );
 
                 viewPinnedPostsOption = (
-                    <li role='presentation'>
-                        <a
-                            role='menuitem'
-                            href='#'
-                            onClick={this.getPinnedPosts}
-                        >
-                            <FormattedMessage
-                                id='navbar.viewPinnedPosts'
-                                defaultMessage='View Pinned Posts'
-                            />
+                    <li role="presentation">
+                        <a role="menuitem" href="#" onClick={this.getPinnedPosts}>
+                            <FormattedMessage id="navbar.viewPinnedPosts" defaultMessage="View Pinned Posts" />
                         </a>
                     </li>
                 );
 
                 if (ChannelStore.isDefault(channel)) {
                     manageMembersOption = (
-                        <li
-                            key='view_members'
-                            role='presentation'
-                        >
-                            <a
-                                role='menuitem'
-                                href='#'
-                                onClick={this.showMembersModal}
-                            >
-                                <FormattedMessage
-                                    id='channel_header.viewMembers'
-                                    defaultMessage='View Members'
-                                />
+                        <li key="view_members" role="presentation">
+                            <a role="menuitem" href="#" onClick={this.showMembersModal}>
+                                <FormattedMessage id="channel_header.viewMembers" defaultMessage="View Members" />
                             </a>
                         </li>
                     );
                 } else {
                     addMembersOption = (
-                        <li role='presentation'>
+                        <li role="presentation">
                             <ToggleModalButton
-                                ref='channelInviteModalButton'
-                                role='menuitem'
+                                ref="channelInviteModalButton"
+                                role="menuitem"
                                 dialogType={ChannelInviteModal}
                                 dialogProps={{channel, currentUser: this.state.currentUser}}
                             >
-                                <FormattedMessage
-                                    id='navbar.addMembers'
-                                    defaultMessage='Add Members'
-                                />
+                                <FormattedMessage id="navbar.addMembers" defaultMessage="Add Members" />
                             </ToggleModalButton>
                         </li>
                     );
 
                     if (ChannelUtils.canManageMembers(channel, isChannelAdmin, isTeamAdmin, isSystemAdmin)) {
                         manageMembersOption = (
-                            <li
-                                key='manage_members'
-                                role='presentation'
-                            >
-                                <a
-                                    role='menuitem'
-                                    href='#'
-                                    onClick={this.showMembersModal}
-                                >
+                            <li key="manage_members" role="presentation">
+                                <a role="menuitem" href="#" onClick={this.showMembersModal}>
                                     <FormattedMessage
-                                        id='channel_header.manageMembers'
-                                        defaultMessage='Manage Members'
+                                        id="channel_header.manageMembers"
+                                        defaultMessage="Manage Members"
                                     />
                                 </a>
                             </li>
                         );
                     } else {
                         manageMembersOption = (
-                            <li
-                                key='view_members'
-                                role='presentation'
-                            >
-                                <a
-                                    role='menuitem'
-                                    href='#'
-                                    onClick={this.showMembersModal}
-                                >
-                                    <FormattedMessage
-                                        id='channel_header.viewMembers'
-                                        defaultMessage='View Members'
-                                    />
+                            <li key="view_members" role="presentation">
+                                <a role="menuitem" href="#" onClick={this.showMembersModal}>
+                                    <FormattedMessage id="channel_header.viewMembers" defaultMessage="View Members" />
                                 </a>
                             </li>
                         );
@@ -460,9 +396,9 @@ export default class Navbar extends React.Component {
                 }
 
                 notificationPreferenceOption = (
-                    <li role='presentation'>
+                    <li role="presentation">
                         <ToggleModalButton
-                            role='menuitem'
+                            role="menuitem"
                             dialogType={ChannelNotificationsModal}
                             dialogProps={{
                                 channel,
@@ -470,56 +406,35 @@ export default class Navbar extends React.Component {
                                 currentUser: this.state.currentUser
                             }}
                         >
-                            <FormattedMessage
-                                id='navbar.preferences'
-                                defaultMessage='Notification Preferences'
-                            />
+                            <FormattedMessage id="navbar.preferences" defaultMessage="Notification Preferences" />
                         </ToggleModalButton>
                     </li>
                 );
 
                 if (ChannelUtils.showManagementOptions(channel, isChannelAdmin, isTeamAdmin, isSystemAdmin)) {
                     setChannelHeaderOption = (
-                        <li role='presentation'>
-                            <a
-                                role='menuitem'
-                                href='#'
-                                onClick={this.showEditChannelHeaderModal}
-                            >
-                                <FormattedMessage
-                                    id='channel_header.setHeader'
-                                    defaultMessage='Edit Channel Header'
-                                />
+                        <li role="presentation">
+                            <a role="menuitem" href="#" onClick={this.showEditChannelHeaderModal}>
+                                <FormattedMessage id="channel_header.setHeader" defaultMessage="Edit Channel Header" />
                             </a>
                         </li>
                     );
 
                     setChannelPurposeOption = (
-                        <li role='presentation'>
-                            <a
-                                role='menuitem'
-                                href='#'
-                                onClick={this.showChannelPurposeModal}
-                            >
+                        <li role="presentation">
+                            <a role="menuitem" href="#" onClick={this.showChannelPurposeModal}>
                                 <FormattedMessage
-                                    id='channel_header.setPurpose'
-                                    defaultMessage='Edit Channel Purpose'
+                                    id="channel_header.setPurpose"
+                                    defaultMessage="Edit Channel Purpose"
                                 />
                             </a>
                         </li>
                     );
 
                     renameChannelOption = (
-                        <li role='presentation'>
-                            <a
-                                role='menuitem'
-                                href='#'
-                                onClick={this.showRenameChannelModal}
-                            >
-                                <FormattedMessage
-                                    id='channel_header.rename'
-                                    defaultMessage='Rename Channel'
-                                />
+                        <li role="presentation">
+                            <a role="menuitem" href="#" onClick={this.showRenameChannelModal}>
+                                <FormattedMessage id="channel_header.rename" defaultMessage="Rename Channel" />
                             </a>
                         </li>
                     );
@@ -527,16 +442,9 @@ export default class Navbar extends React.Component {
 
                 if (ChannelUtils.showDeleteOptionForCurrentUser(channel, isChannelAdmin, isTeamAdmin, isSystemAdmin)) {
                     deleteChannelOption = (
-                        <li role='presentation'>
-                            <ToggleModalButton
-                                role='menuitem'
-                                dialogType={DeleteChannelModal}
-                                dialogProps={{channel}}
-                            >
-                                <FormattedMessage
-                                    id='channel_header.delete'
-                                    defaultMessage='Delete Channel'
-                                />
+                        <li role="presentation">
+                            <ToggleModalButton role="menuitem" dialogType={DeleteChannelModal} dialogProps={{channel}}>
+                                <FormattedMessage id="channel_header.delete" defaultMessage="Delete Channel" />
                             </ToggleModalButton>
                         </li>
                     );
@@ -544,16 +452,9 @@ export default class Navbar extends React.Component {
 
                 if (!ChannelStore.isDefault(channel)) {
                     leaveChannelOption = (
-                        <li role='presentation'>
-                            <a
-                                role='menuitem'
-                                href='#'
-                                onClick={this.handleLeave}
-                            >
-                                <FormattedMessage
-                                    id='channel_header.leave'
-                                    defaultMessage='Leave Channel'
-                                />
+                        <li role="presentation">
+                            <a role="menuitem" href="#" onClick={this.handleLeave}>
+                                <FormattedMessage id="channel_header.leave" defaultMessage="Leave Channel" />
                             </a>
                         </li>
                     );
@@ -561,45 +462,37 @@ export default class Navbar extends React.Component {
             }
 
             const toggleFavoriteOption = (
-                <li
-                    key='toggle_favorite'
-                    role='presentation'
-                >
-                    <a
-                        role='menuitem'
-                        href='#'
-                        onClick={this.toggleFavorite}
-                    >
-                        {this.state.isFavorite ?
+                <li key="toggle_favorite" role="presentation">
+                    <a role="menuitem" href="#" onClick={this.toggleFavorite}>
+                        {this.state.isFavorite ? (
                             <FormattedMessage
-                                id='channelHeader.removeFromFavorites'
-                                defaultMessage='Remove from Favorites'
-                            /> :
-                            <FormattedMessage
-                                id='channelHeader.addToFavorites'
-                                defaultMessage='Add to Favorites'
-                            />}
+                                id="channelHeader.removeFromFavorites"
+                                defaultMessage="Remove from Favorites"
+                            />
+                        ) : (
+                            <FormattedMessage id="channelHeader.addToFavorites" defaultMessage="Add to Favorites" />
+                        )}
                     </a>
                 </li>
             );
 
             return (
-                <div className='navbar-brand'>
-                    <div className='dropdown'>
+                <div className="navbar-brand">
+                    <div className="dropdown">
                         <a
-                            href='#'
-                            className='dropdown-toggle theme'
-                            type='button'
-                            data-toggle='dropdown'
-                            aria-expanded='true'
+                            href="#"
+                            className="dropdown-toggle theme"
+                            type="button"
+                            data-toggle="dropdown"
+                            aria-expanded="true"
                         >
-                            <span className='heading'><StatusIcon status={this.getTeammateStatus()}/>{channelTitle} </span>
-                            <span className='fa fa-angle-down header-dropdown__icon'/>
+                            <span className="heading">
+                                <StatusIcon status={this.getTeammateStatus()} />
+                                {channelTitle}{' '}
+                            </span>
+                            <span className="fa fa-angle-down header-dropdown__icon" />
                         </a>
-                        <ul
-                            className='dropdown-menu'
-                            role='menu'
-                        >
+                        <ul className="dropdown-menu" role="menu">
                             {viewInfoOption}
                             {viewPinnedPostsOption}
                             {notificationPreferenceOption}
@@ -611,10 +504,7 @@ export default class Navbar extends React.Component {
                             {deleteChannelOption}
                             {leaveChannelOption}
                             {toggleFavoriteOption}
-                            <div
-                                className='close visible-xs-block'
-                                onClick={() => this.refs.headerOverlay.hide()}
-                            >
+                            <div className="close visible-xs-block" onClick={() => this.refs.headerOverlay.hide()}>
                                 {'×'}
                             </div>
                         </ul>
@@ -624,11 +514,8 @@ export default class Navbar extends React.Component {
         }
 
         return (
-            <div className='navbar-brand'>
-                <Link
-                    to={TeamStore.getCurrentTeamUrl() + '/channels/town-square'}
-                    className='heading'
-                >
+            <div className="navbar-brand">
+                <Link to={TeamStore.getCurrentTeamUrl() + '/channels/town-square'} className="heading">
                     {channelTitle}
                 </Link>
             </div>
@@ -642,58 +529,52 @@ export default class Navbar extends React.Component {
         if (currentId == null) {
             buttons.push(
                 <button
-                    key='navbar-toggle-collapse'
-                    type='button'
-                    className='navbar-toggle'
-                    data-toggle='collapse'
-                    data-target='#navbar-collapse-1'
+                    key="navbar-toggle-collapse"
+                    type="button"
+                    className="navbar-toggle"
+                    data-toggle="collapse"
+                    data-target="#navbar-collapse-1"
                 >
-                    <span className='sr-only'>
-                        <FormattedMessage
-                            id='navbar.toggle1'
-                            defaultMessage='Toggle sidebar'
-                        />
+                    <span className="sr-only">
+                        <FormattedMessage id="navbar.toggle1" defaultMessage="Toggle sidebar" />
                     </span>
-                    <span className='icon-bar'/>
-                    <span className='icon-bar'/>
-                    <span className='icon-bar'/>
+                    <span className="icon-bar" />
+                    <span className="icon-bar" />
+                    <span className="icon-bar" />
                 </button>
             );
         } else {
             buttons.push(
                 <button
-                    key='navbar-toggle-sidebar'
-                    type='button'
-                    className='navbar-toggle'
-                    data-toggle='collapse'
-                    data-target='#sidebar-nav'
+                    key="navbar-toggle-sidebar"
+                    type="button"
+                    className="navbar-toggle"
+                    data-toggle="collapse"
+                    data-target="#sidebar-nav"
                     onClick={this.toggleLeftSidebar}
                 >
-                    <span className='sr-only'>
-                        <FormattedMessage
-                            id='navbar.toggle2'
-                            defaultMessage='Toggle sidebar'
-                        />
+                    <span className="sr-only">
+                        <FormattedMessage id="navbar.toggle2" defaultMessage="Toggle sidebar" />
                     </span>
                     <span
-                        className='icon icon__menu icon--sidebarHeaderTextColor'
+                        className="icon icon__menu icon--sidebarHeaderTextColor"
                         dangerouslySetInnerHTML={{__html: menuIcon}}
-                        aria-hidden='true'
+                        aria-hidden="true"
                     />
-                    <NotifyCounts/>
+                    <NotifyCounts />
                 </button>
             );
 
             buttons.push(
                 <button
-                    key='navbar-toggle-menu'
-                    type='button'
-                    className='navbar-toggle navbar-right__icon menu-toggle pull-right'
-                    data-toggle='collapse'
-                    data-target='#sidebar-nav'
+                    key="navbar-toggle-menu"
+                    type="button"
+                    className="navbar-toggle navbar-right__icon menu-toggle pull-right"
+                    data-toggle="collapse"
+                    data-target="#sidebar-nav"
                     onClick={this.toggleRightSidebar}
                 >
-                    <span dangerouslySetInnerHTML={{__html: Constants.MENU_ICON}}/>
+                    <span dangerouslySetInnerHTML={{__html: Constants.MENU_ICON}} />
                 </button>
             );
         }
@@ -707,7 +588,7 @@ export default class Navbar extends React.Component {
         // get status for direct message channels
         if (channel.type === 'D') {
             const currentUserId = this.state.currentUser.id;
-            const teammate = this.state.users.find((user) => user.id !== currentUserId);
+            const teammate = this.state.users.find(user => user.id !== currentUserId);
             if (teammate) {
                 return UserStore.getStatus(teammate.id);
             }
@@ -758,10 +639,7 @@ export default class Navbar extends React.Component {
 
             if (this.state.showEditChannelPurposeModal) {
                 editChannelPurposeModal = (
-                    <EditChannelPurposeModal
-                        onModalDismissed={this.hideChannelPurposeModal}
-                        channel={channel}
-                    />
+                    <EditChannelPurposeModal onModalDismissed={this.hideChannelPurposeModal} channel={channel} />
                 );
             }
 
@@ -799,32 +677,33 @@ export default class Navbar extends React.Component {
         const searchIcon = Constants.SEARCH_ICON_SVG;
         const searchButton = (
             <button
-                type='button'
-                className='navbar-toggle navbar-right__icon navbar-search pull-right'
+                type="button"
+                className="navbar-toggle navbar-right__icon navbar-search pull-right"
                 onClick={this.showSearch}
             >
-                <span
-                    className='icon icon__search'
-                    dangerouslySetInnerHTML={{__html: searchIcon}}
-                    aria-hidden='true'
-                />
+                <span className="icon icon__search" dangerouslySetInnerHTML={{__html: searchIcon}} aria-hidden="true" />
             </button>
         );
 
-        var channelMenuDropdown = this.createDropdown(channel, channelTitle, isSystemAdmin, isTeamAdmin, isChannelAdmin, isDirect, isGroup);
+        var channelMenuDropdown = this.createDropdown(
+            channel,
+            channelTitle,
+            isSystemAdmin,
+            isTeamAdmin,
+            isChannelAdmin,
+            isDirect,
+            isGroup
+        );
 
         return (
             <div>
-                <nav
-                    className='navbar navbar-default navbar-fixed-top'
-                    role='navigation'
-                >
-                    <div className='container-fluid theme'>
-                        <div className='navbar-header'>
+                <nav className="navbar navbar-default navbar-fixed-top" role="navigation">
+                    <div className="container-fluid theme">
+                        <div className="navbar-header">
                             {collapseButtons}
                             {searchButton}
                             <NavbarInfoButton
-                                ref='headerOverlay'
+                                ref="headerOverlay"
                                 channel={channel}
                                 showEditChannelHeaderModal={this.showEditChannelHeaderModal}
                             />

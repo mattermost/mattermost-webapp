@@ -13,7 +13,6 @@ import SpinnerButton from 'components/spinner_button.jsx';
 
 export default class AbstractIncomingWebhook extends React.Component {
     static propTypes = {
-
         /**
         * The current team
         */
@@ -43,7 +42,7 @@ export default class AbstractIncomingWebhook extends React.Component {
         * The async function to run when the action button is pressed
         */
         action: PropTypes.func.isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -51,7 +50,7 @@ export default class AbstractIncomingWebhook extends React.Component {
         this.state = this.getStateFromHook(this.props.initialHook || {});
     }
 
-    getStateFromHook = (hook) => {
+    getStateFromHook = hook => {
         return {
             displayName: hook.display_name || '',
             description: hook.description || '',
@@ -60,9 +59,9 @@ export default class AbstractIncomingWebhook extends React.Component {
             serverError: '',
             clientError: null
         };
-    }
+    };
 
-    handleSubmit = (e) => {
+    handleSubmit = e => {
         e.preventDefault();
 
         if (this.state.saving) {
@@ -80,8 +79,8 @@ export default class AbstractIncomingWebhook extends React.Component {
                 saving: false,
                 clientError: (
                     <FormattedMessage
-                        id='add_incoming_webhook.channelRequired'
-                        defaultMessage='A valid channel is required'
+                        id="add_incoming_webhook.channelRequired"
+                        defaultMessage="A valid channel is required"
                     />
                 )
             });
@@ -96,146 +95,110 @@ export default class AbstractIncomingWebhook extends React.Component {
         };
 
         this.props.action(hook).then(() => this.setState({saving: false}));
-    }
+    };
 
-    updateDisplayName = (e) => {
+    updateDisplayName = e => {
         this.setState({
             displayName: e.target.value
         });
-    }
+    };
 
-    updateDescription = (e) => {
+    updateDescription = e => {
         this.setState({
             description: e.target.value
         });
-    }
+    };
 
-    updateChannelId = (e) => {
+    updateChannelId = e => {
         this.setState({
             channelId: e.target.value
         });
-    }
+    };
 
     render() {
         var headerToRender = this.props.header;
         var footerToRender = this.props.footer;
 
         return (
-            <div className='backstage-content'>
+            <div className="backstage-content">
                 <BackstageHeader>
                     <Link to={`/${this.props.team.name}/integrations/incoming_webhooks`}>
-                        <FormattedMessage
-                            id='installed_incoming_webhooks.header'
-                            defaultMessage='Incoming Webhooks'
-                        />
+                        <FormattedMessage id="installed_incoming_webhooks.header" defaultMessage="Incoming Webhooks" />
                     </Link>
-                    <FormattedMessage
-                        id={headerToRender.id}
-                        defaultMessage={headerToRender.defaultMessage}
-                    />
+                    <FormattedMessage id={headerToRender.id} defaultMessage={headerToRender.defaultMessage} />
                 </BackstageHeader>
-                <div className='backstage-form'>
-                    <form
-                        className='form-horizontal'
-                        onSubmit={this.handleSubmit}
-                    >
-                        <div className='form-group'>
-                            <label
-                                className='control-label col-sm-4'
-                                htmlFor='displayName'
-                            >
-                                <FormattedMessage
-                                    id='add_incoming_webhook.displayName'
-                                    defaultMessage='Display Name'
-                                />
+                <div className="backstage-form">
+                    <form className="form-horizontal" onSubmit={this.handleSubmit}>
+                        <div className="form-group">
+                            <label className="control-label col-sm-4" htmlFor="displayName">
+                                <FormattedMessage id="add_incoming_webhook.displayName" defaultMessage="Display Name" />
                             </label>
-                            <div className='col-md-5 col-sm-8'>
+                            <div className="col-md-5 col-sm-8">
                                 <input
-                                    id='displayName'
-                                    type='text'
-                                    maxLength='64'
-                                    className='form-control'
+                                    id="displayName"
+                                    type="text"
+                                    maxLength="64"
+                                    className="form-control"
                                     value={this.state.displayName}
                                     onChange={this.updateDisplayName}
                                 />
-                                <div className='form__help'>
+                                <div className="form__help">
                                     <FormattedMessage
-                                        id='add_incoming_webhook.displayName.help'
-                                        defaultMessage='Display name for your incoming webhook made of up to 64 characters.'
+                                        id="add_incoming_webhook.displayName.help"
+                                        defaultMessage="Display name for your incoming webhook made of up to 64 characters."
                                     />
                                 </div>
                             </div>
                         </div>
-                        <div className='form-group'>
-                            <label
-                                className='control-label col-sm-4'
-                                htmlFor='description'
-                            >
-                                <FormattedMessage
-                                    id='add_incoming_webhook.description'
-                                    defaultMessage='Description'
-                                />
+                        <div className="form-group">
+                            <label className="control-label col-sm-4" htmlFor="description">
+                                <FormattedMessage id="add_incoming_webhook.description" defaultMessage="Description" />
                             </label>
-                            <div className='col-md-5 col-sm-8'>
+                            <div className="col-md-5 col-sm-8">
                                 <input
-                                    id='description'
-                                    type='text'
-                                    maxLength='128'
-                                    className='form-control'
+                                    id="description"
+                                    type="text"
+                                    maxLength="128"
+                                    className="form-control"
                                     value={this.state.description}
                                     onChange={this.updateDescription}
                                 />
-                                <div className='form__help'>
+                                <div className="form__help">
                                     <FormattedMessage
-                                        id='add_incoming_webhook.description.help'
-                                        defaultMessage='Description for your incoming webhook.'
+                                        id="add_incoming_webhook.description.help"
+                                        defaultMessage="Description for your incoming webhook."
                                     />
                                 </div>
                             </div>
                         </div>
-                        <div className='form-group'>
-                            <label
-                                className='control-label col-sm-4'
-                                htmlFor='channelId'
-                            >
-                                <FormattedMessage
-                                    id='add_incoming_webhook.channel'
-                                    defaultMessage='Channel'
-                                />
+                        <div className="form-group">
+                            <label className="control-label col-sm-4" htmlFor="channelId">
+                                <FormattedMessage id="add_incoming_webhook.channel" defaultMessage="Channel" />
                             </label>
-                            <div className='col-md-5 col-sm-8'>
+                            <div className="col-md-5 col-sm-8">
                                 <ChannelSelect
-                                    id='channelId'
+                                    id="channelId"
                                     value={this.state.channelId}
                                     onChange={this.updateChannelId}
                                     selectOpen={true}
                                     selectPrivate={true}
                                 />
-                                <div className='form__help'>
+                                <div className="form__help">
                                     <FormattedMessage
-                                        id='add_incoming_webhook.channel.help'
-                                        defaultMessage='Public or private channel that receives the webhook payloads. You must belong to the private channel when setting up the webhook.'
+                                        id="add_incoming_webhook.channel.help"
+                                        defaultMessage="Public or private channel that receives the webhook payloads. You must belong to the private channel when setting up the webhook."
                                     />
                                 </div>
                             </div>
                         </div>
-                        <div className='backstage-form__footer'>
-                            <FormError
-                                type='backstage'
-                                errors={[this.props.serverError, this.state.clientError]}
-                            />
-                            <Link
-                                className='btn btn-sm'
-                                to={`/${this.props.team.name}/integrations/incoming_webhooks`}
-                            >
-                                <FormattedMessage
-                                    id='add_incoming_webhook.cancel'
-                                    defaultMessage='Cancel'
-                                />
+                        <div className="backstage-form__footer">
+                            <FormError type="backstage" errors={[this.props.serverError, this.state.clientError]} />
+                            <Link className="btn btn-sm" to={`/${this.props.team.name}/integrations/incoming_webhooks`}>
+                                <FormattedMessage id="add_incoming_webhook.cancel" defaultMessage="Cancel" />
                             </Link>
                             <SpinnerButton
-                                className='btn btn-primary'
-                                type='submit'
+                                className="btn btn-primary"
+                                type="submit"
                                 spinning={this.state.saving}
                                 onClick={this.handleSubmit}
                             >

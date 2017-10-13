@@ -23,7 +23,6 @@ const holders = defineMessages({
 
 class EditChannelHeaderModal extends React.PureComponent {
     static propTypes = {
-
         /*
          * react-intl helper object
          */
@@ -58,13 +57,12 @@ class EditChannelHeaderModal extends React.PureComponent {
          * Collection of redux actions
          */
         actions: PropTypes.shape({
-
             /*
              * patch channel redux-action
              */
             patchChannel: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -93,36 +91,36 @@ class EditChannelHeaderModal extends React.PureComponent {
         }
     }
 
-    handleChange = (e) => {
+    handleChange = e => {
         this.setState({
             header: e.target.value
         });
-    }
+    };
 
     handleSave = () => {
         const {channel, actions: {patchChannel}} = this.props;
         const {header} = this.state;
         patchChannel(channel.id, {header});
-    }
+    };
 
     onHide = () => {
         this.setState({show: false});
-    }
+    };
 
     focusTextbox = () => {
         if (!Utils.isMobile()) {
             this.refs.editChannelHeaderTextbox.focus();
         }
-    }
+    };
 
-    handleKeyDown = (e) => {
+    handleKeyDown = e => {
         const {ctrlSend} = this.props;
         if (ctrlSend && e.keyCode === KeyCodes.ENTER && e.ctrlKey === true) {
             this.handleKeyPress(e);
         }
-    }
+    };
 
-    handleKeyPress = (e) => {
+    handleKeyPress = e => {
         const {ctrlSend} = this.props;
         if (!UserAgent.isMobile() && ((ctrlSend && e.ctrlKey) || !ctrlSend)) {
             if (e.which === KeyCodes.ENTER && !e.shiftKey && !e.altKey) {
@@ -131,7 +129,7 @@ class EditChannelHeaderModal extends React.PureComponent {
                 this.handleSave(e);
             }
         }
-    }
+    };
 
     render() {
         let serverError = null;
@@ -144,28 +142,21 @@ class EditChannelHeaderModal extends React.PureComponent {
             }
 
             serverError = (
-                <div className='form-group has-error'>
-                    <br/>
-                    <label className='control-label'>
-                        {errorMsg}
-                    </label>
+                <div className="form-group has-error">
+                    <br />
+                    <label className="control-label">{errorMsg}</label>
                 </div>
             );
         }
 
         let headerTitle = null;
         if (this.props.channel.type === Constants.DM_CHANNEL) {
-            headerTitle = (
-                <FormattedMessage
-                    id='edit_channel_header_modal.title_dm'
-                    defaultMessage='Edit Header'
-                />
-            );
+            headerTitle = <FormattedMessage id="edit_channel_header_modal.title_dm" defaultMessage="Edit Header" />;
         } else {
             headerTitle = (
                 <FormattedMessage
-                    id='edit_channel_header_modal.title'
-                    defaultMessage='Edit Header for {channel}'
+                    id="edit_channel_header_modal.title"
+                    defaultMessage="Edit Header for {channel}"
                     values={{
                         channel: this.props.channel.display_name
                     }}
@@ -174,22 +165,16 @@ class EditChannelHeaderModal extends React.PureComponent {
         }
 
         return (
-            <Modal
-                show={this.state.show}
-                onHide={this.onHide}
-                onExited={this.props.onHide}
-            >
+            <Modal show={this.state.show} onHide={this.onHide} onExited={this.props.onHide}>
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
-                        {headerTitle}
-                    </Modal.Title>
+                    <Modal.Title>{headerTitle}</Modal.Title>
                 </Modal.Header>
-                <Modal.Body bsClass='modal-body edit-modal-body'>
+                <Modal.Body bsClass="modal-body edit-modal-body">
                     <div>
                         <p>
                             <FormattedMessage
-                                id='edit_channel_header_modal.description'
-                                defaultMessage='Edit the text appearing next to the channel name in the channel header.'
+                                id="edit_channel_header_modal.description"
+                                defaultMessage="Edit the text appearing next to the channel name in the channel header."
                             />
                         </p>
                         <Textbox
@@ -198,39 +183,35 @@ class EditChannelHeaderModal extends React.PureComponent {
                             onKeyPress={this.handleKeyPress}
                             onKeyDown={this.handleKeyDown}
                             supportsCommands={false}
-                            suggestionListStyle='bottom'
-                            createMessage={Utils.localizeMessage('edit_channel_header.editHeader', 'Edit the Channel Header...')}
-                            previewMessageLink={Utils.localizeMessage('edit_channel_header.previewHeader', 'Edit Header')}
+                            suggestionListStyle="bottom"
+                            createMessage={Utils.localizeMessage(
+                                'edit_channel_header.editHeader',
+                                'Edit the Channel Header...'
+                            )}
+                            previewMessageLink={Utils.localizeMessage(
+                                'edit_channel_header.previewHeader',
+                                'Edit Header'
+                            )}
                             handlePostError={this.handlePostError}
-                            id='edit_textbox'
-                            ref='editChannelHeaderTextbox'
+                            id="edit_textbox"
+                            ref="editChannelHeaderTextbox"
                             characterLimit={1024}
                         />
-                        <br/>
+                        <br />
                         {serverError}
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <button
-                        type='button'
-                        className='btn btn-default cancel-button'
-                        onClick={this.onHide}
-                    >
-                        <FormattedMessage
-                            id='edit_channel_header_modal.cancel'
-                            defaultMessage='Cancel'
-                        />
+                    <button type="button" className="btn btn-default cancel-button" onClick={this.onHide}>
+                        <FormattedMessage id="edit_channel_header_modal.cancel" defaultMessage="Cancel" />
                     </button>
                     <button
                         disabled={this.props.requestStatus === RequestStatus.STARTED}
-                        type='button'
-                        className='btn btn-primary save-button'
+                        type="button"
+                        className="btn btn-primary save-button"
                         onClick={this.handleSave}
                     >
-                        <FormattedMessage
-                            id='edit_channel_header_modal.save'
-                            defaultMessage='Save'
-                        />
+                        <FormattedMessage id="edit_channel_header_modal.save" defaultMessage="Save" />
                     </button>
                 </Modal.Footer>
             </Modal>
@@ -239,4 +220,3 @@ class EditChannelHeaderModal extends React.PureComponent {
 }
 
 export default injectIntl(EditChannelHeaderModal);
-

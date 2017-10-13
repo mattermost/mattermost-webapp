@@ -16,10 +16,13 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({
-            viewChannel,
-            getMyChannelMembers
-        }, dispatch)
+        actions: bindActionCreators(
+            {
+                viewChannel,
+                getMyChannelMembers
+            },
+            dispatch
+        )
     };
 }
 

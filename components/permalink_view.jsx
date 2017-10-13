@@ -17,7 +17,7 @@ import PostView from 'components/post_view';
 export default class PermalinkView extends React.PureComponent {
     static propTypes = {
         params: PropTypes.object.isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -75,28 +75,16 @@ export default class PermalinkView extends React.PureComponent {
             return null;
         }
         return (
-            <div
-                id='app-content'
-                className='app__content'
-            >
-                <ChannelHeader
-                    channelId={this.state.channelId}
-                />
-                <PostView
-                    channelId={this.state.channelId}
-                    focusedPostId={this.state.postId}
-                />
-                <div
-                    id='archive-link-home'
-                >
-                    <Link
-                        to={'/' + this.state.teamName + '/channels/' + this.state.channelName}
-                    >
+            <div id="app-content" className="app__content">
+                <ChannelHeader channelId={this.state.channelId} />
+                <PostView channelId={this.state.channelId} focusedPostId={this.state.postId} />
+                <div id="archive-link-home">
+                    <Link to={'/' + this.state.teamName + '/channels/' + this.state.channelName}>
                         <FormattedMessage
-                            id='center_panel.recent'
-                            defaultMessage='Click here to jump to recent messages. '
+                            id="center_panel.recent"
+                            defaultMessage="Click here to jump to recent messages. "
                         />
-                        <i className='fa fa-arrow-down'/>
+                        <i className="fa fa-arrow-down" />
                     </Link>
                 </div>
             </div>

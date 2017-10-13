@@ -73,23 +73,21 @@ export default class SamlSettings extends AdminSettings {
     }
 
     componentWillMount() {
-        AdminActions.samlCertificateStatus(
-            (data) => {
-                const files = {};
-                if (!data.idp_certificate_file) {
-                    files.idpCertificateFile = '';
-                }
-
-                if (!data.public_certificate_file) {
-                    files.publicCertificateFile = '';
-                }
-
-                if (!data.private_key_file) {
-                    files.privateKeyFile = '';
-                }
-                this.setState(files);
+        AdminActions.samlCertificateStatus(data => {
+            const files = {};
+            if (!data.idp_certificate_file) {
+                files.idpCertificateFile = '';
             }
-        );
+
+            if (!data.public_certificate_file) {
+                files.publicCertificateFile = '';
+            }
+
+            if (!data.private_key_file) {
+                files.privateKeyFile = '';
+            }
+            this.setState(files);
+        });
     }
 
     uploadCertificate(id, file, callback) {
@@ -123,7 +121,7 @@ export default class SamlSettings extends AdminSettings {
             this.setState({[id]: null, [`${id}Error`]: null});
         };
 
-        const fail = (error) => {
+        const fail = error => {
             if (callback && typeof callback === 'function') {
                 callback();
             }
@@ -140,16 +138,12 @@ export default class SamlSettings extends AdminSettings {
     }
 
     renderTitle() {
-        return (
-            <FormattedMessage
-                id='admin.authentication.saml'
-                defaultMessage='SAML 2.0'
-            />
-        );
+        return <FormattedMessage id="admin.authentication.saml" defaultMessage="SAML 2.0" />;
     }
 
     renderSettings() {
-        const licenseEnabled = global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.SAML === 'true';
+        const licenseEnabled =
+            global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.SAML === 'true';
         if (!licenseEnabled) {
             return null;
         }
@@ -161,20 +155,23 @@ export default class SamlSettings extends AdminSettings {
         if (this.state.idpCertificateFile) {
             idpCert = (
                 <RemoveFileSetting
-                    id='idpCertificateFile'
+                    id="idpCertificateFile"
                     label={
                         <FormattedMessage
-                            id='admin.saml.idpCertificateFileTitle'
-                            defaultMessage='Identity Provider Public Certificate:'
+                            id="admin.saml.idpCertificateFileTitle"
+                            defaultMessage="Identity Provider Public Certificate:"
                         />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.saml.idpCertificateFileRemoveDesc'
-                            defaultMessage='Remove the public authentication certificate issued by your Identity Provider.'
+                            id="admin.saml.idpCertificateFileRemoveDesc"
+                            defaultMessage="Remove the public authentication certificate issued by your Identity Provider."
                         />
                     }
-                    removeButtonText={Utils.localizeMessage('admin.saml.remove.idp_certificate', 'Remove Identity Provider Certificate')}
+                    removeButtonText={Utils.localizeMessage(
+                        'admin.saml.remove.idp_certificate',
+                        'Remove Identity Provider Certificate'
+                    )}
                     removingText={Utils.localizeMessage('admin.saml.removing.certificate', 'Removing Certificate...')}
                     fileName={this.state.idpCertificateFile}
                     onSubmit={this.removeCertificate}
@@ -184,22 +181,25 @@ export default class SamlSettings extends AdminSettings {
         } else {
             idpCert = (
                 <FileUploadSetting
-                    id='idpCertificateFile'
+                    id="idpCertificateFile"
                     label={
                         <FormattedMessage
-                            id='admin.saml.idpCertificateFileTitle'
-                            defaultMessage='Identity Provider Public Certificate:'
+                            id="admin.saml.idpCertificateFileTitle"
+                            defaultMessage="Identity Provider Public Certificate:"
                         />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.saml.idpCertificateFileDesc'
-                            defaultMessage='The public authentication certificate issued by your Identity Provider.'
+                            id="admin.saml.idpCertificateFileDesc"
+                            defaultMessage="The public authentication certificate issued by your Identity Provider."
                         />
                     }
-                    uploadingText={Utils.localizeMessage('admin.saml.uploading.certificate', 'Uploading Certificate...')}
+                    uploadingText={Utils.localizeMessage(
+                        'admin.saml.uploading.certificate',
+                        'Uploading Certificate...'
+                    )}
                     disabled={!this.state.enable}
-                    fileType='.crt,.cer'
+                    fileType=".crt,.cer"
                     onSubmit={this.uploadCertificate}
                     error={this.state.idpCertificateFileError}
                 />
@@ -209,20 +209,23 @@ export default class SamlSettings extends AdminSettings {
         if (this.state.privateKeyFile) {
             privKey = (
                 <RemoveFileSetting
-                    id='privateKeyFile'
+                    id="privateKeyFile"
                     label={
                         <FormattedMessage
-                            id='admin.saml.privateKeyFileTitle'
-                            defaultMessage='Service Provider Private Key:'
+                            id="admin.saml.privateKeyFileTitle"
+                            defaultMessage="Service Provider Private Key:"
                         />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.saml.privateKeyFileFileRemoveDesc'
-                            defaultMessage='Remove the private key used to decrypt SAML Assertions from the Identity Provider.'
+                            id="admin.saml.privateKeyFileFileRemoveDesc"
+                            defaultMessage="Remove the private key used to decrypt SAML Assertions from the Identity Provider."
                         />
                     }
-                    removeButtonText={Utils.localizeMessage('admin.saml.remove.privKey', 'Remove Service Provider Private Key')}
+                    removeButtonText={Utils.localizeMessage(
+                        'admin.saml.remove.privKey',
+                        'Remove Service Provider Private Key'
+                    )}
                     removingText={Utils.localizeMessage('admin.saml.removing.privKey', 'Removing Private Key...')}
                     fileName={this.state.privateKeyFile}
                     onSubmit={this.removeCertificate}
@@ -232,22 +235,22 @@ export default class SamlSettings extends AdminSettings {
         } else {
             privKey = (
                 <FileUploadSetting
-                    id='privateKeyFile'
+                    id="privateKeyFile"
                     label={
                         <FormattedMessage
-                            id='admin.saml.privateKeyFileTitle'
-                            defaultMessage='Service Provider Private Key:'
+                            id="admin.saml.privateKeyFileTitle"
+                            defaultMessage="Service Provider Private Key:"
                         />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.saml.privateKeyFileFileDesc'
-                            defaultMessage='The private key used to decrypt SAML Assertions from the Identity Provider.'
+                            id="admin.saml.privateKeyFileFileDesc"
+                            defaultMessage="The private key used to decrypt SAML Assertions from the Identity Provider."
                         />
                     }
                     uploadingText={Utils.localizeMessage('admin.saml.uploading.privateKey', 'Uploading Private Key...')}
                     disabled={!this.state.enable || !this.state.encrypt}
-                    fileType='.key'
+                    fileType=".key"
                     onSubmit={this.uploadCertificate}
                     error={this.state.privateKeyFileError}
                 />
@@ -257,20 +260,23 @@ export default class SamlSettings extends AdminSettings {
         if (this.state.publicCertificateFile) {
             pubCert = (
                 <RemoveFileSetting
-                    id='publicCertificateFile'
+                    id="publicCertificateFile"
                     label={
                         <FormattedMessage
-                            id='admin.saml.publicCertificateFileTitle'
-                            defaultMessage='Service Provider Public Certificate:'
+                            id="admin.saml.publicCertificateFileTitle"
+                            defaultMessage="Service Provider Public Certificate:"
                         />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.saml.publicCertificateFileRemoveDesc'
-                            defaultMessage='Remove the certificate used to generate the signature on a SAML request to the Identity Provider for a service provider initiated SAML login, when Mattermost is the Service Provider.'
+                            id="admin.saml.publicCertificateFileRemoveDesc"
+                            defaultMessage="Remove the certificate used to generate the signature on a SAML request to the Identity Provider for a service provider initiated SAML login, when Mattermost is the Service Provider."
                         />
                     }
-                    removeButtonText={Utils.localizeMessage('admin.saml.remove.sp_certificate', 'Remove Service Provider Certificate')}
+                    removeButtonText={Utils.localizeMessage(
+                        'admin.saml.remove.sp_certificate',
+                        'Remove Service Provider Certificate'
+                    )}
                     removingText={Utils.localizeMessage('admin.saml.removing.certificate', 'Removing Certificate...')}
                     fileName={this.state.publicCertificateFile}
                     onSubmit={this.removeCertificate}
@@ -280,22 +286,25 @@ export default class SamlSettings extends AdminSettings {
         } else {
             pubCert = (
                 <FileUploadSetting
-                    id='publicCertificateFile'
+                    id="publicCertificateFile"
                     label={
                         <FormattedMessage
-                            id='admin.saml.publicCertificateFileTitle'
-                            defaultMessage='Service Provider Public Certificate:'
+                            id="admin.saml.publicCertificateFileTitle"
+                            defaultMessage="Service Provider Public Certificate:"
                         />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.saml.publicCertificateFileDesc'
-                            defaultMessage='The certificate used to generate the signature on a SAML request to the Identity Provider for a service provider initiated SAML login, when Mattermost is the Service Provider.'
+                            id="admin.saml.publicCertificateFileDesc"
+                            defaultMessage="The certificate used to generate the signature on a SAML request to the Identity Provider for a service provider initiated SAML login, when Mattermost is the Service Provider."
                         />
                     }
-                    uploadingText={Utils.localizeMessage('admin.saml.uploading.certificate', 'Uploading Certificate...')}
+                    uploadingText={Utils.localizeMessage(
+                        'admin.saml.uploading.certificate',
+                        'Uploading Certificate...'
+                    )}
                     disabled={!this.state.enable || !this.state.encrypt}
-                    fileType='.crt,.cer'
+                    fileType=".crt,.cer"
                     onSubmit={this.uploadCertificate}
                     error={this.state.publicCertificateFileError}
                 />
@@ -304,44 +313,39 @@ export default class SamlSettings extends AdminSettings {
 
         return (
             <SettingsGroup>
-                <div className='banner'>
-                    <div className='banner__content'>
+                <div className="banner">
+                    <div className="banner__content">
                         <FormattedHTMLMessage
-                            id='admin.saml.bannerDesc'
-                            defaultMessage='User attributes in SAML server, including user deactivation or removal, are updated in Mattermost during user login. Learn more at: <a href=\"https://docs.mattermost.com/deployment/sso-saml.html\">https://docs.mattermost.com/deployment/sso-saml.html</a>'
+                            id="admin.saml.bannerDesc"
+                            defaultMessage="User attributes in SAML server, including user deactivation or removal, are updated in Mattermost during user login. Learn more at: <a href=\&quot;https://docs.mattermost.com/deployment/sso-saml.html\&quot;>https://docs.mattermost.com/deployment/sso-saml.html</a>"
                         />
                     </div>
                 </div>
                 <BooleanSetting
-                    id='enable'
+                    id="enable"
                     label={
-                        <FormattedMessage
-                            id='admin.saml.enableTitle'
-                            defaultMessage='Enable Login With SAML 2.0:'
-                        />
+                        <FormattedMessage id="admin.saml.enableTitle" defaultMessage="Enable Login With SAML 2.0:" />
                     }
                     helpText={
                         <FormattedHTMLMessage
-                            id='admin.saml.enableDescription'
-                            defaultMessage='When true, Mattermost allows login using SAML 2.0. Please see <a href="http://docs.mattermost.com/deployment/sso-saml.html" target="_blank">documentation</a> to learn more about configuring SAML for Mattermost.'
+                            id="admin.saml.enableDescription"
+                            defaultMessage="When true, Mattermost allows login using SAML 2.0. Please see <a href=&quot;http://docs.mattermost.com/deployment/sso-saml.html&quot; target=&quot;_blank&quot;>documentation</a> to learn more about configuring SAML for Mattermost."
                         />
                     }
                     value={this.state.enable}
                     onChange={this.handleChange}
                 />
                 <TextSetting
-                    id='idpUrl'
-                    label={
-                        <FormattedMessage
-                            id='admin.saml.idpUrlTitle'
-                            defaultMessage='SAML SSO URL:'
-                        />
-                    }
-                    placeholder={Utils.localizeMessage('admin.saml.idpUrlEx', 'Ex "https://idp.example.org/SAML2/SSO/Login"')}
+                    id="idpUrl"
+                    label={<FormattedMessage id="admin.saml.idpUrlTitle" defaultMessage="SAML SSO URL:" />}
+                    placeholder={Utils.localizeMessage(
+                        'admin.saml.idpUrlEx',
+                        'Ex "https://idp.example.org/SAML2/SSO/Login"'
+                    )}
                     helpText={
                         <FormattedMessage
-                            id='admin.saml.idpUrlDesc'
-                            defaultMessage='The URL where Mattermost sends a SAML request to start login sequence.'
+                            id="admin.saml.idpUrlDesc"
+                            defaultMessage="The URL where Mattermost sends a SAML request to start login sequence."
                         />
                     }
                     value={this.state.idpUrl}
@@ -349,18 +353,21 @@ export default class SamlSettings extends AdminSettings {
                     disabled={!this.state.enable}
                 />
                 <TextSetting
-                    id='idpDescriptorUrl'
+                    id="idpDescriptorUrl"
                     label={
                         <FormattedMessage
-                            id='admin.saml.idpDescriptorUrlTitle'
-                            defaultMessage='Identity Provider Issuer URL:'
+                            id="admin.saml.idpDescriptorUrlTitle"
+                            defaultMessage="Identity Provider Issuer URL:"
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.saml.idpDescriptorUrlEx', 'Ex "https://idp.example.org/SAML2/issuer"')}
+                    placeholder={Utils.localizeMessage(
+                        'admin.saml.idpDescriptorUrlEx',
+                        'Ex "https://idp.example.org/SAML2/issuer"'
+                    )}
                     helpText={
                         <FormattedMessage
-                            id='admin.saml.idpDescriptorUrlDesc'
-                            defaultMessage='The issuer URL for the Identity Provider you use for SAML requests.'
+                            id="admin.saml.idpDescriptorUrlDesc"
+                            defaultMessage="The issuer URL for the Identity Provider you use for SAML requests."
                         />
                     }
                     value={this.state.idpDescriptorUrl}
@@ -369,17 +376,12 @@ export default class SamlSettings extends AdminSettings {
                 />
                 {idpCert}
                 <BooleanSetting
-                    id='verify'
-                    label={
-                        <FormattedMessage
-                            id='admin.saml.verifyTitle'
-                            defaultMessage='Verify Signature:'
-                        />
-                    }
+                    id="verify"
+                    label={<FormattedMessage id="admin.saml.verifyTitle" defaultMessage="Verify Signature:" />}
                     helpText={
                         <FormattedMessage
-                            id='admin.saml.verifyDescription'
-                            defaultMessage='When false, Mattermost will not verify that the signature sent from a SAML Response matches the Service Provider Login URL. Not recommended for production environments. For testing only.'
+                            id="admin.saml.verifyDescription"
+                            defaultMessage="When false, Mattermost will not verify that the signature sent from a SAML Response matches the Service Provider Login URL. Not recommended for production environments. For testing only."
                         />
                     }
                     value={this.state.verify}
@@ -387,18 +389,21 @@ export default class SamlSettings extends AdminSettings {
                     onChange={this.handleChange}
                 />
                 <TextSetting
-                    id='assertionConsumerServiceURL'
+                    id="assertionConsumerServiceURL"
                     label={
                         <FormattedMessage
-                            id='admin.saml.assertionConsumerServiceURLTitle'
-                            defaultMessage='Service Provider Login URL:'
+                            id="admin.saml.assertionConsumerServiceURLTitle"
+                            defaultMessage="Service Provider Login URL:"
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.saml.assertionConsumerServiceURLEx', 'Ex "https://<your-mattermost-url>/login/sso/saml"')}
+                    placeholder={Utils.localizeMessage(
+                        'admin.saml.assertionConsumerServiceURLEx',
+                        'Ex "https://<your-mattermost-url>/login/sso/saml"'
+                    )}
                     helpText={
                         <FormattedMessage
-                            id='admin.saml.assertionConsumerServiceURLDesc'
-                            defaultMessage='Enter https://<your-mattermost-url>/login/sso/saml. Make sure you use HTTP or HTTPS in your URL depending on your server configuration. This field is also known as the Assertion Consumer Service URL.'
+                            id="admin.saml.assertionConsumerServiceURLDesc"
+                            defaultMessage="Enter https://<your-mattermost-url>/login/sso/saml. Make sure you use HTTP or HTTPS in your URL depending on your server configuration. This field is also known as the Assertion Consumer Service URL."
                         />
                     }
                     value={this.state.assertionConsumerServiceURL}
@@ -406,17 +411,12 @@ export default class SamlSettings extends AdminSettings {
                     disabled={!this.state.enable || !this.state.verify}
                 />
                 <BooleanSetting
-                    id='encrypt'
-                    label={
-                        <FormattedMessage
-                            id='admin.saml.encryptTitle'
-                            defaultMessage='Enable Encryption:'
-                        />
-                    }
+                    id="encrypt"
+                    label={<FormattedMessage id="admin.saml.encryptTitle" defaultMessage="Enable Encryption:" />}
                     helpText={
                         <FormattedMessage
-                            id='admin.saml.encryptDescription'
-                            defaultMessage='When false, Mattermost will not decrypt SAML Assertions encrypted with your Service Provider Public Certificate. Not recommended for production environments. For testing only.'
+                            id="admin.saml.encryptDescription"
+                            defaultMessage="When false, Mattermost will not decrypt SAML Assertions encrypted with your Service Provider Public Certificate. Not recommended for production environments. For testing only."
                         />
                     }
                     value={this.state.encrypt}
@@ -426,18 +426,13 @@ export default class SamlSettings extends AdminSettings {
                 {privKey}
                 {pubCert}
                 <TextSetting
-                    id='emailAttribute'
-                    label={
-                        <FormattedMessage
-                            id='admin.saml.emailAttrTitle'
-                            defaultMessage='Email Attribute:'
-                        />
-                    }
+                    id="emailAttribute"
+                    label={<FormattedMessage id="admin.saml.emailAttrTitle" defaultMessage="Email Attribute:" />}
                     placeholder={Utils.localizeMessage('admin.saml.emailAttrEx', 'Ex "Email" or "PrimaryEmail"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.saml.emailAttrDesc'
-                            defaultMessage='The attribute in the SAML Assertion that will be used to populate the email addresses of users in Mattermost.'
+                            id="admin.saml.emailAttrDesc"
+                            defaultMessage="The attribute in the SAML Assertion that will be used to populate the email addresses of users in Mattermost."
                         />
                     }
                     value={this.state.emailAttribute}
@@ -445,18 +440,13 @@ export default class SamlSettings extends AdminSettings {
                     disabled={!this.state.enable}
                 />
                 <TextSetting
-                    id='usernameAttribute'
-                    label={
-                        <FormattedMessage
-                            id='admin.saml.usernameAttrTitle'
-                            defaultMessage='Username Attribute:'
-                        />
-                    }
+                    id="usernameAttribute"
+                    label={<FormattedMessage id="admin.saml.usernameAttrTitle" defaultMessage="Username Attribute:" />}
                     placeholder={Utils.localizeMessage('admin.saml.usernameAttrEx', 'Ex "Username"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.saml.usernameAttrDesc'
-                            defaultMessage='The attribute in the SAML Assertion that will be used to populate the username field in Mattermost.'
+                            id="admin.saml.usernameAttrDesc"
+                            defaultMessage="The attribute in the SAML Assertion that will be used to populate the username field in Mattermost."
                         />
                     }
                     value={this.state.usernameAttribute}
@@ -464,18 +454,15 @@ export default class SamlSettings extends AdminSettings {
                     disabled={!this.state.enable}
                 />
                 <TextSetting
-                    id='firstNameAttribute'
+                    id="firstNameAttribute"
                     label={
-                        <FormattedMessage
-                            id='admin.saml.firstnameAttrTitle'
-                            defaultMessage='First Name Attribute:'
-                        />
+                        <FormattedMessage id="admin.saml.firstnameAttrTitle" defaultMessage="First Name Attribute:" />
                     }
                     placeholder={Utils.localizeMessage('admin.saml.firstnameAttrEx', 'Ex "FirstName"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.saml.firstnameAttrDesc'
-                            defaultMessage='(Optional) The attribute in the SAML Assertion that will be used to populate the first name of users in Mattermost.'
+                            id="admin.saml.firstnameAttrDesc"
+                            defaultMessage="(Optional) The attribute in the SAML Assertion that will be used to populate the first name of users in Mattermost."
                         />
                     }
                     value={this.state.firstNameAttribute}
@@ -483,18 +470,13 @@ export default class SamlSettings extends AdminSettings {
                     disabled={!this.state.enable}
                 />
                 <TextSetting
-                    id='lastNameAttribute'
-                    label={
-                        <FormattedMessage
-                            id='admin.saml.lastnameAttrTitle'
-                            defaultMessage='Last Name Attribute:'
-                        />
-                    }
+                    id="lastNameAttribute"
+                    label={<FormattedMessage id="admin.saml.lastnameAttrTitle" defaultMessage="Last Name Attribute:" />}
                     placeholder={Utils.localizeMessage('admin.saml.lastnameAttrEx', 'Ex "LastName"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.saml.lastnameAttrDesc'
-                            defaultMessage='(Optional) The attribute in the SAML Assertion that will be used to populate the last name of users in Mattermost.'
+                            id="admin.saml.lastnameAttrDesc"
+                            defaultMessage="(Optional) The attribute in the SAML Assertion that will be used to populate the last name of users in Mattermost."
                         />
                     }
                     value={this.state.lastNameAttribute}
@@ -502,18 +484,13 @@ export default class SamlSettings extends AdminSettings {
                     disabled={!this.state.enable}
                 />
                 <TextSetting
-                    id='nicknameAttribute'
-                    label={
-                        <FormattedMessage
-                            id='admin.saml.nicknameAttrTitle'
-                            defaultMessage='Nickname Attribute:'
-                        />
-                    }
+                    id="nicknameAttribute"
+                    label={<FormattedMessage id="admin.saml.nicknameAttrTitle" defaultMessage="Nickname Attribute:" />}
                     placeholder={Utils.localizeMessage('admin.saml.nicknameAttrEx', 'Ex "Nickname"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.saml.nicknameAttrDesc'
-                            defaultMessage='(Optional) The attribute in the SAML Assertion that will be used to populate the nickname of users in Mattermost.'
+                            id="admin.saml.nicknameAttrDesc"
+                            defaultMessage="(Optional) The attribute in the SAML Assertion that will be used to populate the nickname of users in Mattermost."
                         />
                     }
                     value={this.state.nicknameAttribute}
@@ -521,18 +498,13 @@ export default class SamlSettings extends AdminSettings {
                     disabled={!this.state.enable}
                 />
                 <TextSetting
-                    id='positionAttribute'
-                    label={
-                        <FormattedMessage
-                            id='admin.saml.positionAttrTitle'
-                            defaultMessage='Position Attribute:'
-                        />
-                    }
+                    id="positionAttribute"
+                    label={<FormattedMessage id="admin.saml.positionAttrTitle" defaultMessage="Position Attribute:" />}
                     placeholder={Utils.localizeMessage('admin.saml.positionAttrEx', 'E.g.: "Role"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.saml.positionAttrDesc'
-                            defaultMessage='(Optional) The attribute in the SAML Assertion that will be used to populate the position of users in Mattermost.'
+                            id="admin.saml.positionAttrDesc"
+                            defaultMessage="(Optional) The attribute in the SAML Assertion that will be used to populate the position of users in Mattermost."
                         />
                     }
                     value={this.state.positionAttribute}
@@ -540,18 +512,18 @@ export default class SamlSettings extends AdminSettings {
                     disabled={!this.state.enable}
                 />
                 <TextSetting
-                    id='localeAttribute'
+                    id="localeAttribute"
                     label={
                         <FormattedMessage
-                            id='admin.saml.localeAttrTitle'
-                            defaultMessage='Preferred Language Attribute:'
+                            id="admin.saml.localeAttrTitle"
+                            defaultMessage="Preferred Language Attribute:"
                         />
                     }
                     placeholder={Utils.localizeMessage('admin.saml.localeAttrEx', 'Ex "Locale" or "PrimaryLanguage"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.saml.localeAttrDesc'
-                            defaultMessage='(Optional) The attribute in the SAML Assertion that will be used to populate the language of users in Mattermost.'
+                            id="admin.saml.localeAttrDesc"
+                            defaultMessage="(Optional) The attribute in the SAML Assertion that will be used to populate the language of users in Mattermost."
                         />
                     }
                     value={this.state.localeAttribute}
@@ -559,18 +531,15 @@ export default class SamlSettings extends AdminSettings {
                     disabled={!this.state.enable}
                 />
                 <TextSetting
-                    id='loginButtonText'
+                    id="loginButtonText"
                     label={
-                        <FormattedMessage
-                            id='admin.saml.loginButtonTextTitle'
-                            defaultMessage='Login Button Text:'
-                        />
+                        <FormattedMessage id="admin.saml.loginButtonTextTitle" defaultMessage="Login Button Text:" />
                     }
                     placeholder={Utils.localizeMessage('admin.saml.loginButtonTextEx', 'Ex "With OKTA"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.saml.loginButtonTextDesc'
-                            defaultMessage='(Optional) The text that appears in the login button on the login page. Defaults to "With SAML".'
+                            id="admin.saml.loginButtonTextDesc"
+                            defaultMessage="(Optional) The text that appears in the login button on the login page. Defaults to &quot;With SAML&quot;."
                         />
                     }
                     value={this.state.loginButtonText}

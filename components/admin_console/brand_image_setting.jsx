@@ -19,12 +19,11 @@ const HTTP_STATUS_OK = 200;
 
 export default class BrandImageSetting extends React.PureComponent {
     static propTypes = {
-
         /*
          * Set to disable the setting
          */
         disabled: PropTypes.bool.isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -43,15 +42,13 @@ export default class BrandImageSetting extends React.PureComponent {
     }
 
     componentWillMount() {
-        fetch(Client4.getBrandImageUrl(this.state.brandImageTimestamp)).then(
-            (resp) => {
-                if (resp.status === HTTP_STATUS_OK) {
-                    this.setState({brandImageExists: true});
-                } else {
-                    this.setState({brandImageExists: false});
-                }
+        fetch(Client4.getBrandImageUrl(this.state.brandImageTimestamp)).then(resp => {
+            if (resp.status === HTTP_STATUS_OK) {
+                this.setState({brandImageExists: true});
+            } else {
+                this.setState({brandImageExists: false});
             }
-        );
+        });
     }
 
     componentDidUpdate() {
@@ -59,7 +56,7 @@ export default class BrandImageSetting extends React.PureComponent {
             const reader = new FileReader();
 
             const img = this.refs.image;
-            reader.onload = (e) => {
+            reader.onload = e => {
                 $(img).attr('src', e.target.result);
             };
 
@@ -107,7 +104,7 @@ export default class BrandImageSetting extends React.PureComponent {
                     uploading: false
                 });
             },
-            (err) => {
+            err => {
                 $(this.refs.upload).button('reset');
 
                 this.setState({
@@ -131,58 +128,33 @@ export default class BrandImageSetting extends React.PureComponent {
 
         let img = null;
         if (this.state.brandImage) {
-            img = (
-                <img
-                    ref='image'
-                    className='brand-img'
-                    src=''
-                />
-            );
+            img = <img ref="image" className="brand-img" src="" />;
         } else if (this.state.brandImageExists) {
-            img = (
-                <img
-                    className='brand-img'
-                    src={Client4.getBrandImageUrl(this.state.brandImageTimestamp)}
-                />
-            );
+            img = <img className="brand-img" src={Client4.getBrandImageUrl(this.state.brandImageTimestamp)} />;
         } else {
             img = (
                 <p>
-                    <FormattedMessage
-                        id='admin.team.noBrandImage'
-                        defaultMessage='No brand image uploaded'
-                    />
+                    <FormattedMessage id="admin.team.noBrandImage" defaultMessage="No brand image uploaded" />
                 </p>
             );
         }
 
         return (
-            <div className='form-group'>
-                <label className='control-label col-sm-4'>
-                    <FormattedMessage
-                        id='admin.team.brandImageTitle'
-                        defaultMessage='Custom Brand Image:'
-                    />
+            <div className="form-group">
+                <label className="control-label col-sm-4">
+                    <FormattedMessage id="admin.team.brandImageTitle" defaultMessage="Custom Brand Image:" />
                 </label>
-                <div className='col-sm-8'>
-                    {img}
-                </div>
-                <div className='col-sm-4'/>
-                <div className='col-sm-8'>
-                    <div className='file__upload'>
-                        <button
-                            className={letbtnDefaultClass}
-                            disabled={this.props.disabled}
-                        >
-                            <FormattedMessage
-                                id='admin.team.chooseImage'
-                                defaultMessage='Choose New Image'
-                            />
+                <div className="col-sm-8">{img}</div>
+                <div className="col-sm-4" />
+                <div className="col-sm-8">
+                    <div className="file__upload">
+                        <button className={letbtnDefaultClass} disabled={this.props.disabled}>
+                            <FormattedMessage id="admin.team.chooseImage" defaultMessage="Choose New Image" />
                         </button>
                         <input
-                            ref='fileInput'
-                            type='file'
-                            accept='.jpg,.png,.bmp'
+                            ref="fileInput"
+                            type="file"
+                            accept=".jpg,.png,.bmp"
                             disabled={this.props.disabled}
                             onChange={this.handleImageChange}
                         />
@@ -191,22 +163,25 @@ export default class BrandImageSetting extends React.PureComponent {
                         className={btnPrimaryClass}
                         disabled={this.props.disabled || !this.state.brandImage}
                         onClick={this.handleImageSubmit}
-                        id='upload-button'
-                        ref='upload'
-                        data-loading-text={'<span class=\'fa fa-refresh fa-rotate\'></span> ' + Utils.localizeMessage('admin.team.uploading', 'Uploading..')}
-                        data-complete-text={'<span class=\'fa fa-check\'></span> ' + Utils.localizeMessage('admin.team.uploaded', 'Uploaded!')}
+                        id="upload-button"
+                        ref="upload"
+                        data-loading-text={
+                            "<span class='fa fa-refresh fa-rotate'></span> " +
+                            Utils.localizeMessage('admin.team.uploading', 'Uploading..')
+                        }
+                        data-complete-text={
+                            "<span class='fa fa-check'></span> " +
+                            Utils.localizeMessage('admin.team.uploaded', 'Uploaded!')
+                        }
                     >
-                        <FormattedMessage
-                            id='admin.team.upload'
-                            defaultMessage='Upload'
-                        />
+                        <FormattedMessage id="admin.team.upload" defaultMessage="Upload" />
                     </button>
-                    <br/>
-                    <FormError error={this.state.error}/>
-                    <p className='help-text no-margin'>
+                    <br />
+                    <FormError error={this.state.error} />
+                    <p className="help-text no-margin">
                         <FormattedHTMLMessage
-                            id='admin.team.uploadDesc'
-                            defaultMessage='Customize your user experience by adding a custom image to your login screen. See examples at <a href="http://docs.mattermost.com/administration/config-settings.html#custom-branding" target="_blank">docs.mattermost.com/administration/config-settings.html#custom-branding</a>.'
+                            id="admin.team.uploadDesc"
+                            defaultMessage="Customize your user experience by adding a custom image to your login screen. See examples at <a href=&quot;http://docs.mattermost.com/administration/config-settings.html#custom-branding&quot; target=&quot;_blank&quot;>docs.mattermost.com/administration/config-settings.html#custom-branding</a>."
                         />
                     </p>
                 </div>

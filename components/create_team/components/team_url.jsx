@@ -47,46 +47,51 @@ export default class TeamUrl extends React.Component {
         const urlRegex = /^[a-z]+([a-z\-0-9]+|(__)?)[a-z0-9]+$/g;
 
         if (!name) {
-            this.setState({nameError: (
-                <FormattedMessage
-                    id='create_team.team_url.required'
-                    defaultMessage='This field is required'
-                />)
+            this.setState({
+                nameError: (
+                    <FormattedMessage id="create_team.team_url.required" defaultMessage="This field is required" />
+                )
             });
             return;
         }
 
         if (cleanedName.length < Constants.MIN_TEAMNAME_LENGTH || cleanedName.length > Constants.MAX_TEAMNAME_LENGTH) {
-            this.setState({nameError: (
-                <FormattedMessage
-                    id='create_team.team_url.charLength'
-                    defaultMessage='Name must be {min} or more characters up to a maximum of {max}'
-                    values={{
-                        min: Constants.MIN_TEAMNAME_LENGTH,
-                        max: Constants.MAX_TEAMNAME_LENGTH
-                    }}
-                />)
+            this.setState({
+                nameError: (
+                    <FormattedMessage
+                        id="create_team.team_url.charLength"
+                        defaultMessage="Name must be {min} or more characters up to a maximum of {max}"
+                        values={{
+                            min: Constants.MIN_TEAMNAME_LENGTH,
+                            max: Constants.MAX_TEAMNAME_LENGTH
+                        }}
+                    />
+                )
             });
             return;
         }
 
         if (cleanedName !== name || !urlRegex.test(name)) {
-            this.setState({nameError: (
-                <FormattedMessage
-                    id='create_team.team_url.regex'
-                    defaultMessage="Use only lower case letters, numbers and dashes. Must start with a letter and can't end in a dash."
-                />)
+            this.setState({
+                nameError: (
+                    <FormattedMessage
+                        id="create_team.team_url.regex"
+                        defaultMessage="Use only lower case letters, numbers and dashes. Must start with a letter and can't end in a dash."
+                    />
+                )
             });
             return;
         }
 
         for (let index = 0; index < Constants.RESERVED_TEAM_NAMES.length; index++) {
             if (cleanedName.indexOf(Constants.RESERVED_TEAM_NAMES[index]) === 0) {
-                this.setState({nameError: (
-                    <FormattedHTMLMessage
-                        id='create_team.team_url.taken'
-                        defaultMessage='This URL <a href="https://docs.mattermost.com/help/getting-started/creating-teams.html#team-url" target="_blank">starts with a reserved word</a> or is unavailable. Please try another.'
-                    />)
+                this.setState({
+                    nameError: (
+                        <FormattedHTMLMessage
+                            id="create_team.team_url.taken"
+                            defaultMessage="This URL <a href=&quot;https://docs.mattermost.com/help/getting-started/creating-teams.html#team-url&quot; target=&quot;_blank&quot;>starts with a reserved word</a> or is unavailable. Please try another."
+                        />
+                    )
                 });
                 return;
             }
@@ -97,30 +102,34 @@ export default class TeamUrl extends React.Component {
         teamSignup.team.type = 'O';
         teamSignup.team.name = name;
 
-        checkIfTeamExists(name,
-            (foundTeam) => {
+        checkIfTeamExists(
+            name,
+            foundTeam => {
                 if (foundTeam) {
-                    this.setState({nameError: (
-                        <FormattedMessage
-                            id='create_team.team_url.unavailable'
-                            defaultMessage='This URL is taken or unavailable. Please try another.'
-                        />)
+                    this.setState({
+                        nameError: (
+                            <FormattedMessage
+                                id="create_team.team_url.unavailable"
+                                defaultMessage="This URL is taken or unavailable. Please try another."
+                            />
+                        )
                     });
                     this.setState({isLoading: false});
                     return;
                 }
 
-                createTeam(teamSignup.team,
+                createTeam(
+                    teamSignup.team,
                     () => {
                         trackEvent('signup', 'signup_team_03_complete');
                     },
-                    (err) => {
+                    err => {
                         this.setState({nameError: err.message});
                         this.setState({isLoading: false});
                     }
                 );
             },
-            (err) => {
+            err => {
                 this.setState({nameError: err.message});
             }
         );
@@ -135,68 +144,50 @@ export default class TeamUrl extends React.Component {
         let nameError = null;
         let nameDivClass = 'form-group';
         if (this.state.nameError) {
-            nameError = <label className='control-label'>{this.state.nameError}</label>;
+            nameError = <label className="control-label">{this.state.nameError}</label>;
             nameDivClass += ' has-error';
         }
 
         const title = `${URL.getSiteURL()}/`;
-        const urlTooltip = (
-            <Tooltip id='urlTooltip'>{title}</Tooltip>
-        );
+        const urlTooltip = <Tooltip id="urlTooltip">{title}</Tooltip>;
 
-        let finishMessage = (
-            <FormattedMessage
-                id='create_team.team_url.finish'
-                defaultMessage='Finish'
-            />
-        );
+        let finishMessage = <FormattedMessage id="create_team.team_url.finish" defaultMessage="Finish" />;
 
         if (this.state.isLoading) {
             finishMessage = (
-                <FormattedMessage
-                    id='create_team.team_url.creatingTeam'
-                    defaultMessage='Creating team...'
-                />
+                <FormattedMessage id="create_team.team_url.creatingTeam" defaultMessage="Creating team..." />
             );
         }
 
         return (
             <div>
                 <form>
-                    <img
-                        className='signup-team-logo'
-                        src={logoImage}
-                    />
+                    <img className="signup-team-logo" src={logoImage} />
                     <h2>
-                        <FormattedMessage
-                            id='create_team.team_url.teamUrl'
-                            defaultMessage='Team URL'
-                        />
+                        <FormattedMessage id="create_team.team_url.teamUrl" defaultMessage="Team URL" />
                     </h2>
                     <div className={nameDivClass}>
-                        <div className='row'>
-                            <div className='col-sm-11'>
-                                <div className='input-group input-group--limit'>
+                        <div className="row">
+                            <div className="col-sm-11">
+                                <div className="input-group input-group--limit">
                                     <OverlayTrigger
                                         trigger={['hover', 'focus']}
                                         delayShow={Constants.OVERLAY_TIME_DELAY}
-                                        placement='top'
+                                        placement="top"
                                         overlay={urlTooltip}
                                     >
-                                        <span className='input-group-addon'>
-                                            {title}
-                                        </span>
+                                        <span className="input-group-addon">{title}</span>
                                     </OverlayTrigger>
                                     <input
-                                        type='text'
-                                        ref='name'
-                                        className='form-control'
-                                        placeholder=''
-                                        maxLength='128'
+                                        type="text"
+                                        ref="name"
+                                        className="form-control"
+                                        placeholder=""
+                                        maxLength="128"
                                         defaultValue={this.props.state.team.name}
                                         autoFocus={true}
                                         onFocus={this.handleFocus}
-                                        spellCheck='false'
+                                        spellCheck="false"
                                     />
                                 </div>
                             </div>
@@ -205,37 +196,31 @@ export default class TeamUrl extends React.Component {
                     </div>
                     <p>
                         <FormattedMessage
-                            id='create_team.team_url.webAddress'
-                            defaultMessage='Choose the web address of your new team:'
+                            id="create_team.team_url.webAddress"
+                            defaultMessage="Choose the web address of your new team:"
                         />
                     </p>
-                    <ul className='color--light'>
+                    <ul className="color--light">
                         <FormattedHTMLMessage
-                            id='create_team.team_url.hint'
+                            id="create_team.team_url.hint"
                             defaultMessage="<li>Short and memorable is best</li>
                             <li>Use lowercase letters, numbers and dashes</li>
                             <li>Must start with a letter and can't end in a dash</li>"
                         />
                     </ul>
-                    <div className='margin--extra'>
+                    <div className="margin--extra">
                         <Button
-                            type='submit'
-                            bsStyle='primary'
+                            type="submit"
+                            bsStyle="primary"
                             disabled={this.state.isLoading}
                             onClick={this.submitNext}
                         >
                             {finishMessage}
                         </Button>
                     </div>
-                    <div className='margin--extra'>
-                        <a
-                            href='#'
-                            onClick={this.submitBack}
-                        >
-                            <FormattedMessage
-                                id='create_team.team_url.back'
-                                defaultMessage='Back to previous step'
-                            />
+                    <div className="margin--extra">
+                        <a href="#" onClick={this.submitBack}>
+                            <FormattedMessage id="create_team.team_url.back" defaultMessage="Back to previous step" />
                         </a>
                     </div>
                 </form>

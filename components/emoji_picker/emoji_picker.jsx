@@ -228,26 +228,22 @@ export default class EmojiPicker extends React.Component {
         this.setState({activeCategory});
     }
 
-    handleLoadedItems = (loadedItems) => {
+    handleLoadedItems = loadedItems => {
         if (!this.state.filter) {
             EmojiStore.saveEmojiItems(loadedItems);
         }
-    }
+    };
 
     generateEmojiHeaderRow(category) {
         return (
-            <div
-                id={'emojipickercat-' + category}
-                key={category}
-                className='emoji-picker__category-header'
-            >
-                <FormattedMessage id={'emoji_picker.' + category}/>
+            <div id={'emojipickercat-' + category} key={category} className="emoji-picker__category-header">
+                <FormattedMessage id={'emoji_picker.' + category} />
             </div>
         );
     }
 
     generateEmojiRows(emojis, category) {
-        return emojis.map((emoji) => {
+        return emojis.map(emoji => {
             const name = emoji.name || emoji.aliases[0];
             const key = category + '-' + name;
 
@@ -281,15 +277,17 @@ export default class EmojiPicker extends React.Component {
         if (category === 'recent') {
             const recentEmojis = [...EmojiStore.getRecentEmojis()].reverse();
 
-            emojis = recentEmojis.filter((name) => {
-                return EmojiStore.has(name);
-            }).map((name) => {
-                return EmojiStore.get(name);
-            });
+            emojis = recentEmojis
+                .filter(name => {
+                    return EmojiStore.has(name);
+                })
+                .map(name => {
+                    return EmojiStore.get(name);
+                });
         } else {
             const indices = Emoji.EmojiIndicesByCategory.get(category) || [];
 
-            emojis = indices.map((index) => Emoji.Emojis[index]);
+            emojis = indices.map(index => Emoji.Emojis[index]);
 
             if (category === 'custom') {
                 emojis = emojis.concat([...EmojiStore.getCustomEmojiMap().values()]);
@@ -300,7 +298,7 @@ export default class EmojiPicker extends React.Component {
     }
 
     filterEmojis(emojis, filter) {
-        return emojis.filter((emoji) => {
+        return emojis.filter(emoji => {
             if (emoji.name) {
                 return emoji.name.indexOf(filter) !== -1;
             }
@@ -339,7 +337,7 @@ export default class EmojiPicker extends React.Component {
     emojiCategories() {
         const categories = this.categories;
 
-        const emojiPickerCategories = Object.keys(categories).map((category) => {
+        const emojiPickerCategories = Object.keys(categories).map(category => {
             return (
                 <EmojiPickerCategory
                     key={'header-' + categories[category].name}
@@ -357,19 +355,19 @@ export default class EmojiPicker extends React.Component {
             );
         });
 
-        return <div className='emoji-picker__categories'>{emojiPickerCategories}</div>;
+        return <div className="emoji-picker__categories">{emojiPickerCategories}</div>;
     }
 
     emojiSearch() {
         return (
-            <div className='emoji-picker__search-container'>
-                <span className='fa fa-search emoji-picker__search-icon'/>
+            <div className="emoji-picker__search-container">
+                <span className="fa fa-search emoji-picker__search-icon" />
                 <input
-                    ref={(input) => {
+                    ref={input => {
                         this.searchInput = input;
                     }}
-                    className='emoji-picker__search'
-                    type='text'
+                    className="emoji-picker__search"
+                    type="text"
                     onChange={this.handleFilterChange}
                     placeholder={Utils.localizeMessage('emoji_picker.search', 'search')}
                 />
@@ -397,14 +395,11 @@ export default class EmojiPicker extends React.Component {
         }
 
         return (
-            <div
-                className='emoji-picker'
-                style={pickerStyle}
-            >
+            <div className="emoji-picker" style={pickerStyle}>
                 {this.emojiCategories()}
                 {this.emojiSearch()}
                 <EmojiList
-                    width='100%'
+                    width="100%"
                     height={300}
                     loadedItems={this.state.loadedItems}
                     itemCount={this.state.list.length}
@@ -413,16 +408,12 @@ export default class EmojiPicker extends React.Component {
                     onScroll={this.handleOnScroll}
                     onLoadedItems={this.handleLoadedItems}
                     renderItem={({index, style}) => (
-                        <div
-                            key={index}
-                            style={style}
-                            className={'emoji-picker-items__container'}
-                        >
+                        <div key={index} style={style} className={'emoji-picker-items__container'}>
                             {this.state.list[index]}
                         </div>
                     )}
                 />
-                <EmojiPickerPreview emoji={this.state.selected}/>
+                <EmojiPickerPreview emoji={this.state.selected} />
             </div>
         );
     }

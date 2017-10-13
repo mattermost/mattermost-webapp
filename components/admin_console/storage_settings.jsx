@@ -63,12 +63,7 @@ export default class StorageSettings extends AdminSettings {
     }
 
     renderTitle() {
-        return (
-            <FormattedMessage
-                id='admin.files.storage'
-                defaultMessage='Storage'
-            />
-        );
+        return <FormattedMessage id="admin.files.storage" defaultMessage="Storage" />;
     }
 
     renderSettings() {
@@ -77,18 +72,18 @@ export default class StorageSettings extends AdminSettings {
         if (window.mm_license.IsLicensed === 'true' && window.mm_license.Compliance === 'true') {
             mobileUploadDownloadSettings.push(
                 <BooleanSetting
-                    key='enableMobileUpload'
-                    id='enableMobileUpload'
+                    key="enableMobileUpload"
+                    id="enableMobileUpload"
                     label={
                         <FormattedMessage
-                            id='admin.file.enableMobileUploadTitle'
-                            defaultMessage='Allow File Uploads on Mobile:'
+                            id="admin.file.enableMobileUploadTitle"
+                            defaultMessage="Allow File Uploads on Mobile:"
                         />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.file.enableMobileUploadDesc'
-                            defaultMessage='When false, disables file uploads on mobile apps. If Allow File Sharing is set to true, users can still upload files from a mobile web browser.'
+                            id="admin.file.enableMobileUploadDesc"
+                            defaultMessage="When false, disables file uploads on mobile apps. If Allow File Sharing is set to true, users can still upload files from a mobile web browser."
                         />
                     }
                     value={this.state.enableMobileUpload}
@@ -99,18 +94,18 @@ export default class StorageSettings extends AdminSettings {
 
             mobileUploadDownloadSettings.push(
                 <BooleanSetting
-                    key='enableMobileDownload'
-                    id='enableMobileDownload'
+                    key="enableMobileDownload"
+                    id="enableMobileDownload"
                     label={
                         <FormattedMessage
-                            id='admin.file.enableMobileDownloadTitle'
-                            defaultMessage='Allow File Downloads on Mobile:'
+                            id="admin.file.enableMobileDownloadTitle"
+                            defaultMessage="Allow File Downloads on Mobile:"
                         />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.file.enableMobileDownloadDesc'
-                            defaultMessage='When false, disables file downloads on mobile apps. Users can still download files from a mobile web browser.'
+                            id="admin.file.enableMobileDownloadDesc"
+                            defaultMessage="When false, disables file downloads on mobile apps. Users can still download files from a mobile web browser."
                         />
                     }
                     value={this.state.enableMobileDownload}
@@ -119,67 +114,59 @@ export default class StorageSettings extends AdminSettings {
                 />
             );
 
-            amazonSSEComp =
-                (
-                    <BooleanSetting
-                        id='amazonS3SSE'
-                        label={
-                            <FormattedMessage
-                                id='admin.image.amazonS3SSETitle'
-                                defaultMessage='Enable Server-Side Encryption for Amazon S3:'
-                            />
-                        }
-                        helpText={
-                            <FormattedHTMLMessage
-                                id='admin.image.amazonS3SSEDescription'
-                                defaultMessage='When true, encrypt files in Amazon S3 using server-side encryption with Amazon S3-managed keys. See <a href="https://about.mattermost.com/default-server-side-encryption" target="_blank">documentation</a> to learn more.'
-                            />
-                        }
-                        value={this.state.amazonS3SSE}
-                        onChange={this.handleChange}
-                        disabled={this.state.driverName !== DRIVER_S3}
-                    />
-                );
+            amazonSSEComp = (
+                <BooleanSetting
+                    id="amazonS3SSE"
+                    label={
+                        <FormattedMessage
+                            id="admin.image.amazonS3SSETitle"
+                            defaultMessage="Enable Server-Side Encryption for Amazon S3:"
+                        />
+                    }
+                    helpText={
+                        <FormattedHTMLMessage
+                            id="admin.image.amazonS3SSEDescription"
+                            defaultMessage="When true, encrypt files in Amazon S3 using server-side encryption with Amazon S3-managed keys. See <a href=&quot;https://about.mattermost.com/default-server-side-encryption&quot; target=&quot;_blank&quot;>documentation</a> to learn more."
+                        />
+                    }
+                    value={this.state.amazonS3SSE}
+                    onChange={this.handleChange}
+                    disabled={this.state.driverName !== DRIVER_S3}
+                />
+            );
         }
 
         return (
             <SettingsGroup>
                 <DropdownSetting
-                    id='driverName'
+                    id="driverName"
                     values={[
-                        {value: DRIVER_LOCAL, text: Utils.localizeMessage('admin.image.storeLocal', 'Local File System')},
+                        {
+                            value: DRIVER_LOCAL,
+                            text: Utils.localizeMessage('admin.image.storeLocal', 'Local File System')
+                        },
                         {value: DRIVER_S3, text: Utils.localizeMessage('admin.image.storeAmazonS3', 'Amazon S3')}
                     ]}
-                    label={
-                        <FormattedMessage
-                            id='admin.image.storeTitle'
-                            defaultMessage='File Storage System:'
-                        />
-                    }
+                    label={<FormattedMessage id="admin.image.storeTitle" defaultMessage="File Storage System:" />}
                     helpText={
                         <FormattedHTMLMessage
-                            id='admin.image.storeDescription'
-                            defaultMessage='Storage system where files and image attachments are saved.<br /><br />
-                            Selecting "Amazon S3" enables fields to enter your Amazon credentials and bucket details.<br /><br />
-                            Selecting "Local File System" enables the field to specify a local file directory.'
+                            id="admin.image.storeDescription"
+                            defaultMessage="Storage system where files and image attachments are saved.<br /><br />
+                            Selecting &quot;Amazon S3&quot; enables fields to enter your Amazon credentials and bucket details.<br /><br />
+                            Selecting &quot;Local File System&quot; enables the field to specify a local file directory."
                         />
                     }
                     value={this.state.driverName}
                     onChange={this.handleChange}
                 />
                 <TextSetting
-                    id='directory'
-                    label={
-                        <FormattedMessage
-                            id='admin.image.localTitle'
-                            defaultMessage='Local Storage Directory:'
-                        />
-                    }
+                    id="directory"
+                    label={<FormattedMessage id="admin.image.localTitle" defaultMessage="Local Storage Directory:" />}
                     placeholder={Utils.localizeMessage('admin.image.localExample', 'Ex "./data/"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.image.localDescription'
-                            defaultMessage='Directory to which files and images are written. If blank, defaults to ./data/.'
+                            id="admin.image.localDescription"
+                            defaultMessage="Directory to which files and images are written. If blank, defaults to ./data/."
                         />
                     }
                     value={this.state.directory}
@@ -187,18 +174,15 @@ export default class StorageSettings extends AdminSettings {
                     disabled={this.state.driverName !== DRIVER_LOCAL}
                 />
                 <TextSetting
-                    id='amazonS3AccessKeyId'
+                    id="amazonS3AccessKeyId"
                     label={
-                        <FormattedMessage
-                            id='admin.image.amazonS3IdTitle'
-                            defaultMessage='Amazon S3 Access Key ID:'
-                        />
+                        <FormattedMessage id="admin.image.amazonS3IdTitle" defaultMessage="Amazon S3 Access Key ID:" />
                     }
                     placeholder={Utils.localizeMessage('admin.image.amazonS3IdExample', 'Ex "AKIADTOVBGERKLCBV"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.image.amazonS3IdDescription'
-                            defaultMessage='Obtain this credential from your Amazon EC2 administrator.'
+                            id="admin.image.amazonS3IdDescription"
+                            defaultMessage="Obtain this credential from your Amazon EC2 administrator."
                         />
                     }
                     value={this.state.amazonS3AccessKeyId}
@@ -206,18 +190,21 @@ export default class StorageSettings extends AdminSettings {
                     disabled={this.state.driverName !== DRIVER_S3}
                 />
                 <TextSetting
-                    id='amazonS3SecretAccessKey'
+                    id="amazonS3SecretAccessKey"
                     label={
                         <FormattedMessage
-                            id='admin.image.amazonS3SecretTitle'
-                            defaultMessage='Amazon S3 Secret Access Key:'
+                            id="admin.image.amazonS3SecretTitle"
+                            defaultMessage="Amazon S3 Secret Access Key:"
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.image.amazonS3SecretExample', 'Ex "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"')}
+                    placeholder={Utils.localizeMessage(
+                        'admin.image.amazonS3SecretExample',
+                        'Ex "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"'
+                    )}
                     helpText={
                         <FormattedMessage
-                            id='admin.image.amazonS3SecretDescription'
-                            defaultMessage='Obtain this credential from your Amazon EC2 administrator.'
+                            id="admin.image.amazonS3SecretDescription"
+                            defaultMessage="Obtain this credential from your Amazon EC2 administrator."
                         />
                     }
                     value={this.state.amazonS3SecretAccessKey}
@@ -225,18 +212,13 @@ export default class StorageSettings extends AdminSettings {
                     disabled={this.state.driverName !== DRIVER_S3}
                 />
                 <TextSetting
-                    id='amazonS3Bucket'
-                    label={
-                        <FormattedMessage
-                            id='admin.image.amazonS3BucketTitle'
-                            defaultMessage='Amazon S3 Bucket:'
-                        />
-                    }
+                    id="amazonS3Bucket"
+                    label={<FormattedMessage id="admin.image.amazonS3BucketTitle" defaultMessage="Amazon S3 Bucket:" />}
                     placeholder={Utils.localizeMessage('admin.image.amazonS3BucketExample', 'Ex "mattermost-media"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.image.amazonS3BucketDescription'
-                            defaultMessage='Name you selected for your S3 bucket in AWS.'
+                            id="admin.image.amazonS3BucketDescription"
+                            defaultMessage="Name you selected for your S3 bucket in AWS."
                         />
                     }
                     value={this.state.amazonS3Bucket}
@@ -244,18 +226,13 @@ export default class StorageSettings extends AdminSettings {
                     disabled={this.state.driverName !== DRIVER_S3}
                 />
                 <TextSetting
-                    id='amazonS3Region'
-                    label={
-                        <FormattedMessage
-                            id='admin.image.amazonS3RegionTitle'
-                            defaultMessage='Amazon S3 Region:'
-                        />
-                    }
+                    id="amazonS3Region"
+                    label={<FormattedMessage id="admin.image.amazonS3RegionTitle" defaultMessage="Amazon S3 Region:" />}
                     placeholder={Utils.localizeMessage('admin.image.amazonS3RegionExample', 'Ex "us-east-1"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.image.amazonS3RegionDescription'
-                            defaultMessage='(Optional) AWS region you selected when creating your S3 bucket. If no region is set, Mattermost attempts to get the appropriate region from AWS, or sets it to "us-east-1" if none found.'
+                            id="admin.image.amazonS3RegionDescription"
+                            defaultMessage="(Optional) AWS region you selected when creating your S3 bucket. If no region is set, Mattermost attempts to get the appropriate region from AWS, or sets it to &quot;us-east-1&quot; if none found."
                         />
                     }
                     value={this.state.amazonS3Region}
@@ -263,18 +240,15 @@ export default class StorageSettings extends AdminSettings {
                     disabled={this.state.driverName !== DRIVER_S3}
                 />
                 <TextSetting
-                    id='amazonS3Endpoint'
+                    id="amazonS3Endpoint"
                     label={
-                        <FormattedMessage
-                            id='admin.image.amazonS3EndpointTitle'
-                            defaultMessage='Amazon S3 Endpoint:'
-                        />
+                        <FormattedMessage id="admin.image.amazonS3EndpointTitle" defaultMessage="Amazon S3 Endpoint:" />
                     }
                     placeholder={Utils.localizeMessage('admin.image.amazonS3EndpointExample', 'Ex "s3.amazonaws.com"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.image.amazonS3EndpointDescription'
-                            defaultMessage='Hostname of your S3 Compatible Storage provider. Defaults to `s3.amazonaws.com`.'
+                            id="admin.image.amazonS3EndpointDescription"
+                            defaultMessage="Hostname of your S3 Compatible Storage provider. Defaults to `s3.amazonaws.com`."
                         />
                     }
                     value={this.state.amazonS3Endpoint}
@@ -282,17 +256,17 @@ export default class StorageSettings extends AdminSettings {
                     disabled={this.state.driverName !== DRIVER_S3}
                 />
                 <BooleanSetting
-                    id='amazonS3SSL'
+                    id="amazonS3SSL"
                     label={
                         <FormattedMessage
-                            id='admin.image.amazonS3SSLTitle'
-                            defaultMessage='Enable Secure Amazon S3 Connections:'
+                            id="admin.image.amazonS3SSLTitle"
+                            defaultMessage="Enable Secure Amazon S3 Connections:"
                         />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.image.amazonS3SSLDescription'
-                            defaultMessage='When false, allow insecure connections to Amazon S3. Defaults to secure connections only.'
+                            id="admin.image.amazonS3SSLDescription"
+                            defaultMessage="When false, allow insecure connections to Amazon S3. Defaults to secure connections only."
                         />
                     }
                     value={this.state.amazonS3SSL}
@@ -301,17 +275,17 @@ export default class StorageSettings extends AdminSettings {
                 />
                 {amazonSSEComp}
                 <BooleanSetting
-                    id='amazonS3Trace'
+                    id="amazonS3Trace"
                     label={
                         <FormattedMessage
-                            id='admin.image.amazonS3TraceTitle'
-                            defaultMessage='Enable Amazon S3 Debugging:'
+                            id="admin.image.amazonS3TraceTitle"
+                            defaultMessage="Enable Amazon S3 Debugging:"
                         />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.image.amazonS3TraceDescription'
-                            defaultMessage='(Development Mode) When true, log additional debugging information to the system logs.'
+                            id="admin.image.amazonS3TraceDescription"
+                            defaultMessage="(Development Mode) When true, log additional debugging information to the system logs."
                         />
                     }
                     value={this.state.amazonS3Trace}
@@ -319,17 +293,14 @@ export default class StorageSettings extends AdminSettings {
                     disabled={this.state.driverName !== DRIVER_S3}
                 />
                 <BooleanSetting
-                    id='enableFileAttachments'
+                    id="enableFileAttachments"
                     label={
-                        <FormattedMessage
-                            id='admin.file.enableFileAttachments'
-                            defaultMessage='Allow File Sharing:'
-                        />
+                        <FormattedMessage id="admin.file.enableFileAttachments" defaultMessage="Allow File Sharing:" />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.file.enableFileAttachmentsDesc'
-                            defaultMessage='When false, disables file sharing on the server. All file and image uploads on messages are forbidden across clients and devices, including mobile.'
+                            id="admin.file.enableFileAttachmentsDesc"
+                            defaultMessage="When false, disables file sharing on the server. All file and image uploads on messages are forbidden across clients and devices, including mobile."
                         />
                     }
                     value={this.state.enableFileAttachments}
@@ -337,18 +308,13 @@ export default class StorageSettings extends AdminSettings {
                 />
                 {mobileUploadDownloadSettings}
                 <TextSetting
-                    id='maxFileSize'
-                    label={
-                        <FormattedMessage
-                            id='admin.image.maxFileSizeTitle'
-                            defaultMessage='Maximum File Size:'
-                        />
-                    }
+                    id="maxFileSize"
+                    label={<FormattedMessage id="admin.image.maxFileSizeTitle" defaultMessage="Maximum File Size:" />}
                     placeholder={Utils.localizeMessage('admin.image.maxFileSizeExample', '50')}
                     helpText={
                         <FormattedMessage
-                            id='admin.image.maxFileSizeDescription'
-                            defaultMessage='Maximum file size for message attachments in megabytes. Caution: Verify server memory can support your setting choice. Large file sizes increase the risk of server crashes and failed uploads due to network interruptions.'
+                            id="admin.image.maxFileSizeDescription"
+                            defaultMessage="Maximum file size for message attachments in megabytes. Caution: Verify server memory can support your setting choice. Large file sizes increase the risk of server crashes and failed uploads due to network interruptions."
                         />
                     }
                     value={this.state.maxFileSize}

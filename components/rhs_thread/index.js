@@ -32,9 +32,12 @@ function makeMapStateToProps() {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({
-            removePost
-        }, dispatch)
+        actions: bindActionCreators(
+            {
+                removePost
+            },
+            dispatch
+        )
     };
 }
 

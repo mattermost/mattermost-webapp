@@ -25,19 +25,11 @@ export default class SpinnerButton extends React.Component {
         const {spinning, children, ...props} = this.props; // eslint-disable-line no-use-before-define
 
         if (spinning) {
-            return (
-                <img
-                    className='spinner-button__gif'
-                    src={loadingGif}
-                />
-            );
+            return <img className="spinner-button__gif" src={loadingGif} />;
         }
 
         return (
-            <button
-                className='btn btn-primary'
-                {...props}
-            >
+            <button className="btn btn-primary" {...props}>
                 {children}
             </button>
         );

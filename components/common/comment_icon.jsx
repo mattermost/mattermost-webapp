@@ -12,11 +12,7 @@ export default function CommentIcon(props) {
     let iconStyle = 'comment-icon__container';
     if (props.commentCount > 0) {
         iconStyle += ' icon--show';
-        commentCountSpan = (
-            <span className='comment-count'>
-                {props.commentCount}
-            </span>
-        );
+        commentCountSpan = <span className="comment-count">{props.commentCount}</span>;
     } else if (props.searchStyle !== '') {
         iconStyle = iconStyle + ' ' + props.searchStyle;
     }
@@ -29,16 +25,8 @@ export default function CommentIcon(props) {
     const id = Utils.createSafeId(props.idPrefix + '_' + props.id);
 
     return (
-        <a
-            id={id}
-            href='#'
-            className={iconStyle + ' ' + selectorId}
-            onClick={props.handleCommentClick}
-        >
-            <span
-                className='comment-icon'
-                dangerouslySetInnerHTML={{__html: Constants.REPLY_ICON}}
-            />
+        <a id={id} href="#" className={iconStyle + ' ' + selectorId} onClick={props.handleCommentClick}>
+            <span className="comment-icon" dangerouslySetInnerHTML={{__html: Constants.REPLY_ICON}} />
             {commentCountSpan}
         </a>
     );

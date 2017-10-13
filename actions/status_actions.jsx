@@ -114,12 +114,9 @@ let intervalId = '';
 export function startPeriodicStatusUpdates() {
     clearInterval(intervalId);
 
-    intervalId = setInterval(
-        () => {
-            loadStatusesForChannelAndSidebar();
-        },
-        Constants.STATUS_INTERVAL
-    );
+    intervalId = setInterval(() => {
+        loadStatusesForChannelAndSidebar();
+    }, Constants.STATUS_INTERVAL);
 }
 
 export function stopPeriodicStatusUpdates() {

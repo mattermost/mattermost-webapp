@@ -109,7 +109,7 @@ export default class UserSettings extends React.Component {
             );
         }
 
-        return <div/>;
+        return <div />;
     }
 }
 

@@ -19,7 +19,6 @@ import ConfirmModal from 'components/confirm_modal.jsx';
 
 export default class SystemUsersDropdown extends React.Component {
     static propTypes = {
-
         /*
          * User to manage with dropdown
          */
@@ -58,48 +57,43 @@ export default class SystemUsersDropdown extends React.Component {
         };
     }
 
-    handleMakeActive = (e) => {
+    handleMakeActive = e => {
         e.preventDefault();
-        updateActive(this.props.user.id, true, null,
-            (err) => {
-                this.setState({serverError: err.message});
-            }
-        );
-    }
+        updateActive(this.props.user.id, true, null, err => {
+            this.setState({serverError: err.message});
+        });
+    };
 
-    handleManageTeams = (e) => {
+    handleManageTeams = e => {
         e.preventDefault();
 
         this.props.doManageTeams(this.props.user);
-    }
+    };
 
-    handleManageRoles = (e) => {
+    handleManageRoles = e => {
         e.preventDefault();
 
         this.props.doManageRoles(this.props.user);
-    }
+    };
 
-    handleManageTokens = (e) => {
+    handleManageTokens = e => {
         e.preventDefault();
 
         this.props.doManageTokens(this.props.user);
-    }
+    };
 
-    handleResetPassword = (e) => {
+    handleResetPassword = e => {
         e.preventDefault();
         this.props.doPasswordReset(this.props.user);
-    }
+    };
 
-    handleResetMfa = (e) => {
+    handleResetMfa = e => {
         e.preventDefault();
 
-        adminResetMfa(this.props.user.id,
-            null,
-            (err) => {
-                this.setState({serverError: err.message});
-            }
-        );
-    }
+        adminResetMfa(this.props.user.id, null, err => {
+            this.setState({serverError: err.message});
+        });
+    };
 
     handleDemoteSystemAdmin = (user, role) => {
         this.setState({
@@ -108,7 +102,7 @@ export default class SystemUsersDropdown extends React.Component {
             user,
             role
         });
-    }
+    };
 
     handleDemoteCancel = () => {
         this.setState({
@@ -117,7 +111,7 @@ export default class SystemUsersDropdown extends React.Component {
             user: null,
             role: null
         });
-    }
+    };
 
     handleDemoteSubmit = () => {
         if (this.state.role === 'member') {
@@ -131,33 +125,31 @@ export default class SystemUsersDropdown extends React.Component {
         } else {
             window.location.href = '/';
         }
-    }
+    };
 
-    handleShowDeactivateMemberModal = (e) => {
+    handleShowDeactivateMemberModal = e => {
         e.preventDefault();
 
         this.setState({showDeactivateMemberModal: true});
-    }
+    };
 
     handleDeactivateMember = () => {
-        updateActive(this.props.user.id, false, null,
-            (err) => {
-                this.setState({serverError: err.message});
-            }
-        );
+        updateActive(this.props.user.id, false, null, err => {
+            this.setState({serverError: err.message});
+        });
 
         this.setState({showDeactivateMemberModal: false});
-    }
+    };
 
     handleDeactivateCancel = () => {
         this.setState({showDeactivateMemberModal: false});
-    }
+    };
 
     renderDeactivateMemberModal = () => {
         const title = (
             <FormattedMessage
-                id='deactivate_member_modal.title'
-                defaultMessage='Deactivate {username}'
+                id="deactivate_member_modal.title"
+                defaultMessage="Deactivate {username}"
                 values={{
                     username: this.props.user.username
                 }}
@@ -166,8 +158,8 @@ export default class SystemUsersDropdown extends React.Component {
 
         const message = (
             <FormattedMessage
-                id='deactivate_member_modal.desc'
-                defaultMessage='This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system. Are you sure you want to deactivate {username}?'
+                id="deactivate_member_modal.desc"
+                defaultMessage="This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system. Are you sure you want to deactivate {username}?"
                 values={{
                     username: this.props.user.username
                 }}
@@ -176,10 +168,7 @@ export default class SystemUsersDropdown extends React.Component {
 
         const confirmButtonClass = 'btn btn-danger';
         const deactivateMemberButton = (
-            <FormattedMessage
-                id='deactivate_member_modal.deactivate'
-                defaultMessage='Deactivate'
-            />
+            <FormattedMessage id="deactivate_member_modal.deactivate" defaultMessage="Deactivate" />
         );
 
         return (
@@ -193,7 +182,7 @@ export default class SystemUsersDropdown extends React.Component {
                 onCancel={this.handleDeactivateCancel}
             />
         );
-    }
+    };
 
     renderAccessToken = () => {
         const userAccessTokensEnabled = global.window.mm_config.EnableUserAccessTokens === 'true';
@@ -223,59 +212,44 @@ export default class SystemUsersDropdown extends React.Component {
         }
 
         return (
-            <div className='light margin-top half'>
-                <FormattedMessage
-                    key='admin.user_item.userAccessToken'
-                    id={messageId}
-                />
+            <div className="light margin-top half">
+                <FormattedMessage key="admin.user_item.userAccessToken" id={messageId} />
             </div>
         );
-    }
+    };
 
     render() {
         let serverError = null;
         if (this.state.serverError) {
             serverError = (
-                <div className='has-error'>
-                    <label className='has-error control-label'>{this.state.serverError}</label>
+                <div className="has-error">
+                    <label className="has-error control-label">{this.state.serverError}</label>
                 </div>
             );
         }
 
         const user = this.props.user;
         if (!user) {
-            return <div/>;
+            return <div />;
         }
-        let currentRoles = (
-            <FormattedMessage
-                id='admin.user_item.member'
-                defaultMessage='Member'
-            />
-        );
+        let currentRoles = <FormattedMessage id="admin.user_item.member" defaultMessage="Member" />;
 
         if (user.roles.length > 0 && Utils.isSystemAdmin(user.roles)) {
-            currentRoles = (
-                <FormattedMessage
-                    id='team_members_dropdown.systemAdmin'
-                    defaultMessage='System Admin'
-                />
-            );
+            currentRoles = <FormattedMessage id="team_members_dropdown.systemAdmin" defaultMessage="System Admin" />;
         }
 
         const me = UserStore.getCurrentUser();
         let showMakeActive = false;
         let showMakeNotActive = !Utils.isSystemAdmin(user.roles);
         let showManageTeams = true;
-        const mfaEnabled = global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.MFA === 'true' && global.window.mm_config.EnableMultifactorAuthentication === 'true';
+        const mfaEnabled =
+            global.window.mm_license.IsLicensed === 'true' &&
+            global.window.mm_license.MFA === 'true' &&
+            global.window.mm_config.EnableMultifactorAuthentication === 'true';
         const showMfaReset = mfaEnabled && user.mfa_active;
 
         if (user.delete_at > 0) {
-            currentRoles = (
-                <FormattedMessage
-                    id='admin.user_item.inactive'
-                    defaultMessage='Inactive'
-                />
-            );
+            currentRoles = <FormattedMessage id="admin.user_item.inactive" defaultMessage="Inactive" />;
             showMakeActive = true;
             showMakeNotActive = false;
             showManageTeams = false;
@@ -294,20 +268,9 @@ export default class SystemUsersDropdown extends React.Component {
         let makeActive = null;
         if (showMakeActive) {
             makeActive = (
-                <li
-                    role='presentation'
-                    className={menuClass}
-                >
-                    <a
-                        id='activate'
-                        role='menuitem'
-                        href='#'
-                        onClick={this.handleMakeActive}
-                    >
-                        <FormattedMessage
-                            id='admin.user_item.makeActive'
-                            defaultMessage='Activate'
-                        />
+                <li role="presentation" className={menuClass}>
+                    <a id="activate" role="menuitem" href="#" onClick={this.handleMakeActive}>
+                        <FormattedMessage id="admin.user_item.makeActive" defaultMessage="Activate" />
                     </a>
                 </li>
             );
@@ -316,20 +279,9 @@ export default class SystemUsersDropdown extends React.Component {
         let makeNotActive = null;
         if (showMakeNotActive) {
             makeNotActive = (
-                <li
-                    role='presentation'
-                    className={menuClass}
-                >
-                    <a
-                        id='deactivate'
-                        role='menuitem'
-                        href='#'
-                        onClick={this.handleShowDeactivateMemberModal}
-                    >
-                        <FormattedMessage
-                            id='admin.user_item.makeInactive'
-                            defaultMessage='Deactivate'
-                        />
+                <li role="presentation" className={menuClass}>
+                    <a id="deactivate" role="menuitem" href="#" onClick={this.handleShowDeactivateMemberModal}>
+                        <FormattedMessage id="admin.user_item.makeInactive" defaultMessage="Deactivate" />
                     </a>
                 </li>
             );
@@ -338,17 +290,9 @@ export default class SystemUsersDropdown extends React.Component {
         let manageTeams = null;
         if (showManageTeams) {
             manageTeams = (
-                <li role='presentation'>
-                    <a
-                        id='manageTeams'
-                        role='menuitem'
-                        href='#'
-                        onClick={this.handleManageTeams}
-                    >
-                        <FormattedMessage
-                            id='admin.user_item.manageTeams'
-                            defaultMessage='Manage Teams'
-                        />
+                <li role="presentation">
+                    <a id="manageTeams" role="menuitem" href="#" onClick={this.handleManageTeams}>
+                        <FormattedMessage id="admin.user_item.manageTeams" defaultMessage="Manage Teams" />
                     </a>
                 </li>
             );
@@ -357,17 +301,9 @@ export default class SystemUsersDropdown extends React.Component {
         let mfaReset = null;
         if (showMfaReset) {
             mfaReset = (
-                <li role='presentation'>
-                    <a
-                        id='removeMFA'
-                        role='menuitem'
-                        href='#'
-                        onClick={this.handleResetMfa}
-                    >
-                        <FormattedMessage
-                            id='admin.user_item.resetMfa'
-                            defaultMessage='Remove MFA'
-                        />
+                <li role="presentation">
+                    <a id="removeMFA" role="menuitem" href="#" onClick={this.handleResetMfa}>
+                        <FormattedMessage id="admin.user_item.resetMfa" defaultMessage="Remove MFA" />
                     </a>
                 </li>
             );
@@ -376,33 +312,20 @@ export default class SystemUsersDropdown extends React.Component {
         let passwordReset;
         if (user.auth_service) {
             passwordReset = (
-                <li role='presentation'>
-                    <a
-                        id='switchEmailPassword'
-                        role='menuitem'
-                        href='#'
-                        onClick={this.handleResetPassword}
-                    >
+                <li role="presentation">
+                    <a id="switchEmailPassword" role="menuitem" href="#" onClick={this.handleResetPassword}>
                         <FormattedMessage
-                            id='admin.user_item.switchToEmail'
-                            defaultMessage='Switch to Email/Password'
+                            id="admin.user_item.switchToEmail"
+                            defaultMessage="Switch to Email/Password"
                         />
                     </a>
                 </li>
             );
         } else {
             passwordReset = (
-                <li role='presentation'>
-                    <a
-                        id='resetPassword'
-                        role='menuitem'
-                        href='#'
-                        onClick={this.handleResetPassword}
-                    >
-                        <FormattedMessage
-                            id='admin.user_item.resetPwd'
-                            defaultMessage='Reset Password'
-                        />
+                <li role="presentation">
+                    <a id="resetPassword" role="menuitem" href="#" onClick={this.handleResetPassword}>
+                        <FormattedMessage id="admin.user_item.resetPwd" defaultMessage="Reset Password" />
                     </a>
                 </li>
             );
@@ -411,17 +334,9 @@ export default class SystemUsersDropdown extends React.Component {
         let manageTokens;
         if (global.window.mm_config.EnableUserAccessTokens === 'true') {
             manageTokens = (
-                <li role='presentation'>
-                    <a
-                        id='manageTokens'
-                        role='menuitem'
-                        href='#'
-                        onClick={this.handleManageTokens}
-                    >
-                        <FormattedMessage
-                            id='admin.user_item.manageTokens'
-                            defaultMessage='Manage Tokens'
-                        />
+                <li role="presentation">
+                    <a id="manageTokens" role="menuitem" href="#" onClick={this.handleManageTokens}>
+                        <FormattedMessage id="admin.user_item.manageTokens" defaultMessage="Manage Tokens" />
                     </a>
                 </li>
             );
@@ -431,22 +346,22 @@ export default class SystemUsersDropdown extends React.Component {
         if (this.props.user.id === me.id) {
             const title = (
                 <FormattedMessage
-                    id='admin.user_item.confirmDemoteRoleTitle'
-                    defaultMessage='Confirm demotion from System Admin role'
+                    id="admin.user_item.confirmDemoteRoleTitle"
+                    defaultMessage="Confirm demotion from System Admin role"
                 />
             );
 
             const message = (
                 <div>
                     <FormattedMessage
-                        id='admin.user_item.confirmDemoteDescription'
+                        id="admin.user_item.confirmDemoteDescription"
                         defaultMessage="If you demote yourself from the System Admin role and there is not another user with System Admin privileges, you'll need to re-assign a System Admin by accessing the Mattermost server through a terminal and running the following command."
                     />
-                    <br/>
-                    <br/>
+                    <br />
+                    <br />
                     <FormattedMessage
-                        id='admin.user_item.confirmDemotionCmd'
-                        defaultMessage='platform roles system_admin {username}'
+                        id="admin.user_item.confirmDemotionCmd"
+                        defaultMessage="platform roles system_admin {username}"
                         values={{
                             username: me.username
                         }}
@@ -456,10 +371,7 @@ export default class SystemUsersDropdown extends React.Component {
             );
 
             const confirmButton = (
-                <FormattedMessage
-                    id='admin.user_item.confirmDemotion'
-                    defaultMessage='Confirm Demotion'
-                />
+                <FormattedMessage id="admin.user_item.confirmDemotion" defaultMessage="Confirm Demotion" />
             );
 
             makeDemoteModal = (
@@ -482,36 +394,25 @@ export default class SystemUsersDropdown extends React.Component {
         }
 
         return (
-            <div className='dropdown member-drop text-right'>
+            <div className="dropdown member-drop text-right">
                 <a
-                    id='memberDropdown'
-                    href='#'
-                    className='dropdown-toggle theme'
-                    type='button'
-                    data-toggle='dropdown'
-                    aria-expanded='true'
+                    id="memberDropdown"
+                    href="#"
+                    className="dropdown-toggle theme"
+                    type="button"
+                    data-toggle="dropdown"
+                    aria-expanded="true"
                 >
                     <span>{currentRoles} </span>
-                    <span className='caret'/>
+                    <span className="caret" />
                 </a>
                 {this.renderAccessToken()}
-                <ul
-                    className='dropdown-menu member-menu'
-                    role='menu'
-                >
+                <ul className="dropdown-menu member-menu" role="menu">
                     {makeActive}
                     {makeNotActive}
-                    <li role='presentation'>
-                        <a
-                            id='manageRoles'
-                            role='menuitem'
-                            href='#'
-                            onClick={this.handleManageRoles}
-                        >
-                            <FormattedMessage
-                                id='admin.user_item.manageRoles'
-                                defaultMessage='Manage Roles'
-                            />
+                    <li role="presentation">
+                        <a id="manageRoles" role="menuitem" href="#" onClick={this.handleManageRoles}>
+                            <FormattedMessage id="admin.user_item.manageRoles" defaultMessage="Manage Roles" />
                         </a>
                     </li>
                     {manageTeams}

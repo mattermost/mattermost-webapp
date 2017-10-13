@@ -43,36 +43,55 @@ export default class DataRetentionSettings extends AdminSettings {
     }
 
     renderTitle() {
-        return (
-            <FormattedMessage
-                id='admin.data_retention.title'
-                defaultMessage='Data Retention Policy (Beta)'
-            />
-        );
+        return <FormattedMessage id="admin.data_retention.title" defaultMessage="Data Retention Policy (Beta)" />;
     }
 
     renderSettings() {
         const enableMessageDeletionOptions = [
-            {value: 'false', text: Utils.localizeMessage('admin.data_retention.keepMessagesIndefinitely', 'Keep all messages indefinitely')},
-            {value: 'true', text: Utils.localizeMessage('admin.data_retention.keepMessageForTime', 'Keep messages for a set amount of time')}
+            {
+                value: 'false',
+                text: Utils.localizeMessage(
+                    'admin.data_retention.keepMessagesIndefinitely',
+                    'Keep all messages indefinitely'
+                )
+            },
+            {
+                value: 'true',
+                text: Utils.localizeMessage(
+                    'admin.data_retention.keepMessageForTime',
+                    'Keep messages for a set amount of time'
+                )
+            }
         ];
 
         const enableFileDeletionOptions = [
-            {value: 'false', text: Utils.localizeMessage('admin.data_retention.keepFilesIndefinitely', 'Keep all files indefinitely')},
-            {value: 'true', text: Utils.localizeMessage('admin.data_retention.keepFilesForTime', 'Keep files for a set amount of time')}
+            {
+                value: 'false',
+                text: Utils.localizeMessage('admin.data_retention.keepFilesIndefinitely', 'Keep all files indefinitely')
+            },
+            {
+                value: 'true',
+                text: Utils.localizeMessage(
+                    'admin.data_retention.keepFilesForTime',
+                    'Keep files for a set amount of time'
+                )
+            }
         ];
 
         let messageRetentionDaysSetting = '';
         if (this.state.enableMessageDeletion === 'true') {
             messageRetentionDaysSetting = (
                 <TextSetting
-                    id='messageRetentionDays'
-                    label={<span/>}
-                    placeholder={Utils.localizeMessage('admin.data_retention.messageRetentionDays.example', 'E.g.: "60"')}
+                    id="messageRetentionDays"
+                    label={<span />}
+                    placeholder={Utils.localizeMessage(
+                        'admin.data_retention.messageRetentionDays.example',
+                        'E.g.: "60"'
+                    )}
                     helpText={
                         <FormattedMessage
-                            id='admin.data_retention.messageRetentionDays.description'
-                            defaultMessage='Set how many days messages are kept in Mattermost. Messages, including file attachments older than the duration you set will be deleted nightly. The minimum time is one day.'
+                            id="admin.data_retention.messageRetentionDays.description"
+                            defaultMessage="Set how many days messages are kept in Mattermost. Messages, including file attachments older than the duration you set will be deleted nightly. The minimum time is one day."
                         />
                     }
                     value={this.state.messageRetentionDays}
@@ -85,13 +104,13 @@ export default class DataRetentionSettings extends AdminSettings {
         if (this.state.enableFileDeletion === 'true') {
             fileRetentionDaysSetting = (
                 <TextSetting
-                    id='fileRetentionDays'
-                    label={<span/>}
+                    id="fileRetentionDays"
+                    label={<span />}
                     placeholder={Utils.localizeMessage('admin.data_retention.fileRetentionDays.example', 'E.g.: "60"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.data_retention.fileRetentionDays.description'
-                            defaultMessage='Set how many days file uploads are kept in Mattermost. Files older than the duration you set will be deleted nightly. The minimum time is one day.'
+                            id="admin.data_retention.fileRetentionDays.description"
+                            defaultMessage="Set how many days file uploads are kept in Mattermost. Files older than the duration you set will be deleted nightly. The minimum time is one day."
                         />
                     }
                     value={this.state.fileRetentionDays}
@@ -102,21 +121,21 @@ export default class DataRetentionSettings extends AdminSettings {
 
         return (
             <SettingsGroup>
-                <div className='banner'>
-                    <div className='banner__content'>
+                <div className="banner">
+                    <div className="banner__content">
                         <FormattedMessage
-                            id='admin.data_retention.note.description'
-                            defaultMessage='Caution: Once a message or a file is deleted, the action is irreversible. Please be careful when setting up a custom data retention policy. See {documentationLink} to learn more.'
+                            id="admin.data_retention.note.description"
+                            defaultMessage="Caution: Once a message or a file is deleted, the action is irreversible. Please be careful when setting up a custom data retention policy. See {documentationLink} to learn more."
                             values={{
                                 documentationLink: (
                                     <a
-                                        href='https://about.mattermost.com/default-dataretention-documentation/'
-                                        rel='noopener noreferrer'
-                                        target='_blank'
+                                        href="https://about.mattermost.com/default-dataretention-documentation/"
+                                        rel="noopener noreferrer"
+                                        target="_blank"
                                     >
                                         <FormattedMessage
-                                            id='admin.data_retention.note.description.documentationLinkText'
-                                            defaultMessage='documentation'
+                                            id="admin.data_retention.note.description.documentationLinkText"
+                                            defaultMessage="documentation"
                                         />
                                     </a>
                                 )
@@ -125,18 +144,18 @@ export default class DataRetentionSettings extends AdminSettings {
                     </div>
                 </div>
                 <DropdownSetting
-                    id='enableMessageDeletion'
+                    id="enableMessageDeletion"
                     values={enableMessageDeletionOptions}
                     label={
                         <FormattedMessage
-                            id='admin.data_retention.enableMessageDeletion.title'
-                            defaultMessage='Message Retention:'
+                            id="admin.data_retention.enableMessageDeletion.title"
+                            defaultMessage="Message Retention:"
                         />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.data_retention.enableMessageDeletion.description'
-                            defaultMessage='Set how long Mattermost keeps messages in channels and direct messages.'
+                            id="admin.data_retention.enableMessageDeletion.description"
+                            defaultMessage="Set how long Mattermost keeps messages in channels and direct messages."
                         />
                     }
                     value={this.state.enableMessageDeletion}
@@ -144,18 +163,18 @@ export default class DataRetentionSettings extends AdminSettings {
                 />
                 {messageRetentionDaysSetting}
                 <DropdownSetting
-                    id='enableFileDeletion'
+                    id="enableFileDeletion"
                     values={enableFileDeletionOptions}
                     label={
                         <FormattedMessage
-                            id='admin.data_retention.enableFileDeletion.title'
-                            defaultMessage='File Retention:'
+                            id="admin.data_retention.enableFileDeletion.title"
+                            defaultMessage="File Retention:"
                         />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.data_retention.enableFileDeletion.description'
-                            defaultMessage='Set how long Mattermost keeps file uploads in channels and direct messages.'
+                            id="admin.data_retention.enableFileDeletion.description"
+                            defaultMessage="Set how long Mattermost keeps file uploads in channels and direct messages."
                         />
                     }
                     value={this.state.enableFileDeletion}
@@ -163,18 +182,21 @@ export default class DataRetentionSettings extends AdminSettings {
                 />
                 {fileRetentionDaysSetting}
                 <TextSetting
-                    id='deletionJobStartTime'
+                    id="deletionJobStartTime"
                     label={
                         <FormattedMessage
-                            id='admin.data_retention.deletionJobStartTime.title'
-                            defaultMessage='Data Deletion Time:'
+                            id="admin.data_retention.deletionJobStartTime.title"
+                            defaultMessage="Data Deletion Time:"
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.data_retention.deletionJobStartTime.example', 'E.g.: "02:00"')}
+                    placeholder={Utils.localizeMessage(
+                        'admin.data_retention.deletionJobStartTime.example',
+                        'E.g.: "02:00"'
+                    )}
                     helpText={
                         <FormattedMessage
-                            id='admin.data_retention.deletionJobStartTime.description'
-                            defaultMessage='Set the start time of the daily scheduled data retention job. Choose a time when fewer people are using your system. Must be a 24-hour time stamp in the form HH:MM.'
+                            id="admin.data_retention.deletionJobStartTime.description"
+                            defaultMessage="Set the start time of the daily scheduled data retention job. Choose a time when fewer people are using your system. Must be a 24-hour time stamp in the form HH:MM."
                         />
                     }
                     value={this.state.deletionJobStartTime}
@@ -185,14 +207,14 @@ export default class DataRetentionSettings extends AdminSettings {
                     disabled={!this.state.enableMessageDeletion && !this.state.enableFileDeletion}
                     createJobButtonText={
                         <FormattedMessage
-                            id='admin.data_retention.createJob.title'
-                            defaultMessage='Run Deletion Job Now'
+                            id="admin.data_retention.createJob.title"
+                            defaultMessage="Run Deletion Job Now"
                         />
                     }
                     createJobHelpText={
                         <FormattedMessage
-                            id='admin.data_retention.createJob.help'
-                            defaultMessage='Initiates a Data Retention deletion job immediately.'
+                            id="admin.data_retention.createJob.help"
+                            defaultMessage="Initiates a Data Retention deletion job immediately."
                         />
                     }
                 />

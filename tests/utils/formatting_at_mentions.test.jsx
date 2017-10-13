@@ -45,14 +45,8 @@ describe('TextFormatting.AtMentions', function() {
     });
 
     it('Not at mentions', function() {
-        assert.equal(
-            TextFormatting.autolinkAtMentions('user@host', new Map()),
-            'user@host'
-        );
+        assert.equal(TextFormatting.autolinkAtMentions('user@host', new Map()), 'user@host');
 
-        assert.equal(
-            TextFormatting.autolinkAtMentions('user@email.com', new Map()),
-            'user@email.com'
-        );
+        assert.equal(TextFormatting.autolinkAtMentions('user@email.com', new Map()), 'user@email.com');
     });
 });

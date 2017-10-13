@@ -21,7 +21,6 @@ import ReactionListContainer from 'components/post_view/reaction_list';
 
 export default class PostBody extends React.PureComponent {
     static propTypes = {
-
         /**
          * The post to render the body of
          */
@@ -61,7 +60,7 @@ export default class PostBody extends React.PureComponent {
          * Post identifiers for selenium tests
          */
         lastPostCount: PropTypes.number
-    }
+    };
 
     render() {
         const post = this.props.post;
@@ -77,23 +76,22 @@ export default class PostBody extends React.PureComponent {
             let name = '...';
             if (profile != null) {
                 let username = Utils.displayUsernameForUser(profile);
-                if (parentPost.props &&
-                        parentPost.props.from_webhook &&
-                        parentPost.props.override_username &&
-                        global.window.mm_config.EnablePostUsernameOverride === 'true') {
+                if (
+                    parentPost.props &&
+                    parentPost.props.from_webhook &&
+                    parentPost.props.override_username &&
+                    global.window.mm_config.EnablePostUsernameOverride === 'true'
+                ) {
                     username = parentPost.props.override_username;
                 }
 
                 if (username.slice(-1) === 's') {
-                    apostrophe = '\'';
+                    apostrophe = "'";
                 } else {
-                    apostrophe = '\'s';
+                    apostrophe = "'s";
                 }
                 name = (
-                    <a
-                        className='theme'
-                        onClick={PostActions.searchForTerm.bind(null, username)}
-                    >
+                    <a className="theme" onClick={PostActions.searchForTerm.bind(null, username)}>
                         {username}
                     </a>
                 );
@@ -103,28 +101,21 @@ export default class PostBody extends React.PureComponent {
             if (parentPost.message) {
                 message = Utils.replaceHtmlEntities(parentPost.message);
             } else if (parentPost.file_ids && parentPost.file_ids.length > 0) {
-                message = (
-                    <CommentedOnFilesMessage
-                        parentPostId={parentPost.id}
-                    />
-                );
+                message = <CommentedOnFilesMessage parentPostId={parentPost.id} />;
             }
 
             comment = (
-                <div className='post__link'>
+                <div className="post__link">
                     <span>
                         <FormattedMessage
-                            id='post_body.commentedOn'
-                            defaultMessage='Commented on {name}{apostrophe} message: '
+                            id="post_body.commentedOn"
+                            defaultMessage="Commented on {name}{apostrophe} message: "
                             values={{
                                 name,
                                 apostrophe
                             }}
                         />
-                        <a
-                            className='theme'
-                            onClick={this.props.handleCommentClick}
-                        >
+                        <a className="theme" onClick={this.props.handleCommentClick}>
                             {message}
                         </a>
                     </span>
@@ -135,7 +126,7 @@ export default class PostBody extends React.PureComponent {
         let failedOptions;
         if (this.props.post.failed) {
             postClass += ' post--fail';
-            failedOptions = <FailedPostOptions post={this.props.post}/>;
+            failedOptions = <FailedPostOptions post={this.props.post} />;
         }
 
         if (PostUtils.isEdited(this.props.post)) {
@@ -143,21 +134,17 @@ export default class PostBody extends React.PureComponent {
         }
 
         let fileAttachmentHolder = null;
-        if (((post.file_ids && post.file_ids.length > 0) || (post.filenames && post.filenames.length > 0)) && this.props.post.state !== Posts.POST_DELETED) {
+        if (
+            ((post.file_ids && post.file_ids.length > 0) || (post.filenames && post.filenames.length > 0)) &&
+            this.props.post.state !== Posts.POST_DELETED
+        ) {
             fileAttachmentHolder = (
-                <FileAttachmentListContainer
-                    post={post}
-                    compactDisplay={this.props.compactDisplay}
-                />
+                <FileAttachmentListContainer post={post} compactDisplay={this.props.compactDisplay} />
             );
         }
 
         const messageWrapper = (
-            <div
-                key={`${post.id}_message`}
-                id={`${post.id}_message`}
-                className={postClass}
-            >
+            <div key={`${post.id}_message`} id={`${post.id}_message`} className={postClass}>
                 {failedOptions}
                 <PostMessageView
                     lastPostCount={this.props.lastPostCount}
@@ -173,10 +160,7 @@ export default class PostBody extends React.PureComponent {
             messageWithAdditionalContent = messageWrapper;
         } else {
             messageWithAdditionalContent = (
-                <PostBodyAdditionalContent
-                    post={this.props.post}
-                    previewCollapsed={this.props.previewCollapsed}
-                >
+                <PostBodyAdditionalContent post={this.props.post} previewCollapsed={this.props.previewCollapsed}>
                     {messageWrapper}
                 </PostBodyAdditionalContent>
             );
@@ -193,7 +177,7 @@ export default class PostBody extends React.PureComponent {
                 <div className={'post__body ' + mentionHighlightClass}>
                     {messageWithAdditionalContent}
                     {fileAttachmentHolder}
-                    <ReactionListContainer post={post}/>
+                    <ReactionListContainer post={post} />
                 </div>
             </div>
         );

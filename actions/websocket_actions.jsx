@@ -56,7 +56,7 @@ export function initialize() {
     }
 
     // append a port number if one isn't already specified
-    if (!(/:\d+$/).test(connUrl)) {
+    if (!/:\d+$/.test(connUrl)) {
         if (connUrl.startsWith('wss:')) {
             connUrl += ':' + global.window.mm_config.WebsocketSecurePort;
         } else {
@@ -103,14 +103,11 @@ const SYNC_INTERVAL_MILLISECONDS = 1000 * 60 * 15; // 15 minutes
 export function startPeriodicSync() {
     clearInterval(intervalId);
 
-    intervalId = setInterval(
-        () => {
-            if (UserStore.getCurrentUser() != null) {
-                reconnect(false);
-            }
-        },
-        SYNC_INTERVAL_MILLISECONDS
-    );
+    intervalId = setInterval(() => {
+        if (UserStore.getCurrentUser() != null) {
+            reconnect(false);
+        }
+    }, SYNC_INTERVAL_MILLISECONDS);
 }
 
 export function stopPeriodicSync() {
@@ -133,116 +130,116 @@ function handleClose(failCount) {
 
 function handleEvent(msg) {
     switch (msg.event) {
-    case SocketEvents.POSTED:
-    case SocketEvents.EPHEMERAL_MESSAGE:
-        handleNewPostEvent(msg);
-        break;
+        case SocketEvents.POSTED:
+        case SocketEvents.EPHEMERAL_MESSAGE:
+            handleNewPostEvent(msg);
+            break;
 
-    case SocketEvents.POST_EDITED:
-        handlePostEditEvent(msg);
-        break;
+        case SocketEvents.POST_EDITED:
+            handlePostEditEvent(msg);
+            break;
 
-    case SocketEvents.POST_DELETED:
-        handlePostDeleteEvent(msg);
-        break;
+        case SocketEvents.POST_DELETED:
+            handlePostDeleteEvent(msg);
+            break;
 
-    case SocketEvents.LEAVE_TEAM:
-        handleLeaveTeamEvent(msg);
-        break;
+        case SocketEvents.LEAVE_TEAM:
+            handleLeaveTeamEvent(msg);
+            break;
 
-    case SocketEvents.UPDATE_TEAM:
-        handleUpdateTeamEvent(msg);
-        break;
+        case SocketEvents.UPDATE_TEAM:
+            handleUpdateTeamEvent(msg);
+            break;
 
-    case SocketEvents.ADDED_TO_TEAM:
-        handleTeamAddedEvent(msg);
-        break;
+        case SocketEvents.ADDED_TO_TEAM:
+            handleTeamAddedEvent(msg);
+            break;
 
-    case SocketEvents.USER_ADDED:
-        handleUserAddedEvent(msg);
-        break;
+        case SocketEvents.USER_ADDED:
+            handleUserAddedEvent(msg);
+            break;
 
-    case SocketEvents.USER_REMOVED:
-        handleUserRemovedEvent(msg);
-        break;
+        case SocketEvents.USER_REMOVED:
+            handleUserRemovedEvent(msg);
+            break;
 
-    case SocketEvents.USER_UPDATED:
-        handleUserUpdatedEvent(msg);
-        break;
+        case SocketEvents.USER_UPDATED:
+            handleUserUpdatedEvent(msg);
+            break;
 
-    case SocketEvents.MEMBERROLE_UPDATED:
-        handleUpdateMemberRoleEvent(msg);
-        break;
+        case SocketEvents.MEMBERROLE_UPDATED:
+            handleUpdateMemberRoleEvent(msg);
+            break;
 
-    case SocketEvents.CHANNEL_CREATED:
-        handleChannelCreatedEvent(msg);
-        break;
+        case SocketEvents.CHANNEL_CREATED:
+            handleChannelCreatedEvent(msg);
+            break;
 
-    case SocketEvents.CHANNEL_DELETED:
-        handleChannelDeletedEvent(msg);
-        break;
+        case SocketEvents.CHANNEL_DELETED:
+            handleChannelDeletedEvent(msg);
+            break;
 
-    case SocketEvents.CHANNEL_UPDATED:
-        handleChannelUpdatedEvent(msg);
-        break;
+        case SocketEvents.CHANNEL_UPDATED:
+            handleChannelUpdatedEvent(msg);
+            break;
 
-    case SocketEvents.DIRECT_ADDED:
-        handleDirectAddedEvent(msg);
-        break;
+        case SocketEvents.DIRECT_ADDED:
+            handleDirectAddedEvent(msg);
+            break;
 
-    case SocketEvents.PREFERENCE_CHANGED:
-        handlePreferenceChangedEvent(msg);
-        break;
+        case SocketEvents.PREFERENCE_CHANGED:
+            handlePreferenceChangedEvent(msg);
+            break;
 
-    case SocketEvents.PREFERENCES_CHANGED:
-        handlePreferencesChangedEvent(msg);
-        break;
+        case SocketEvents.PREFERENCES_CHANGED:
+            handlePreferencesChangedEvent(msg);
+            break;
 
-    case SocketEvents.PREFERENCES_DELETED:
-        handlePreferencesDeletedEvent(msg);
-        break;
+        case SocketEvents.PREFERENCES_DELETED:
+            handlePreferencesDeletedEvent(msg);
+            break;
 
-    case SocketEvents.TYPING:
-        handleUserTypingEvent(msg);
-        break;
+        case SocketEvents.TYPING:
+            handleUserTypingEvent(msg);
+            break;
 
-    case SocketEvents.STATUS_CHANGED:
-        handleStatusChangedEvent(msg);
-        break;
+        case SocketEvents.STATUS_CHANGED:
+            handleStatusChangedEvent(msg);
+            break;
 
-    case SocketEvents.HELLO:
-        handleHelloEvent(msg);
-        break;
+        case SocketEvents.HELLO:
+            handleHelloEvent(msg);
+            break;
 
-    case SocketEvents.WEBRTC:
-        handleWebrtc(msg);
-        break;
+        case SocketEvents.WEBRTC:
+            handleWebrtc(msg);
+            break;
 
-    case SocketEvents.REACTION_ADDED:
-        handleReactionAddedEvent(msg);
-        break;
+        case SocketEvents.REACTION_ADDED:
+            handleReactionAddedEvent(msg);
+            break;
 
-    case SocketEvents.REACTION_REMOVED:
-        handleReactionRemovedEvent(msg);
-        break;
+        case SocketEvents.REACTION_REMOVED:
+            handleReactionRemovedEvent(msg);
+            break;
 
-    case SocketEvents.EMOJI_ADDED:
-        handleAddEmoji(msg);
-        break;
+        case SocketEvents.EMOJI_ADDED:
+            handleAddEmoji(msg);
+            break;
 
-    case SocketEvents.CHANNEL_VIEWED:
-        handleChannelViewedEvent(msg);
-        break;
+        case SocketEvents.CHANNEL_VIEWED:
+            handleChannelViewedEvent(msg);
+            break;
 
-    case SocketEvents.PLUGIN_ACTIVATED:
-        handlePluginActivated(msg);
-        break;
+        case SocketEvents.PLUGIN_ACTIVATED:
+            handlePluginActivated(msg);
+            break;
 
-    case SocketEvents.PLUGIN_DEACTIVATED:
-        handlePluginDeactivated(msg);
-        break;
+        case SocketEvents.PLUGIN_DEACTIVATED:
+            handlePluginDeactivated(msg);
+            break;
 
-    default:
+        default:
     }
 }
 
@@ -312,17 +309,19 @@ function handleLeaveTeamEvent(msg) {
             }
         }
 
-        dispatch(batchActions([
-            {
-                type: UserTypes.RECEIVED_PROFILE_NOT_IN_TEAM,
-                data: {user_id: msg.data.user_id},
-                id: msg.data.team_id
-            },
-            {
-                type: TeamTypes.REMOVE_MEMBER_FROM_TEAM,
-                data: {team_id: msg.data.team_id, user_id: msg.data.user_id}
-            }
-        ]));
+        dispatch(
+            batchActions([
+                {
+                    type: UserTypes.RECEIVED_PROFILE_NOT_IN_TEAM,
+                    data: {user_id: msg.data.user_id},
+                    id: msg.data.team_id
+                },
+                {
+                    type: TeamTypes.REMOVE_MEMBER_FROM_TEAM,
+                    data: {team_id: msg.data.team_id, user_id: msg.data.user_id}
+                }
+            ])
+        );
     } else {
         UserStore.removeProfileFromTeam(msg.data.team_id, msg.data.user_id);
         TeamStore.removeMemberInTeam(msg.data.team_id, msg.data.user_id);
@@ -358,9 +357,11 @@ function handleUserRemovedEvent(msg) {
     if (UserStore.getCurrentId() === msg.broadcast.user_id) {
         loadChannelsForCurrentUser();
 
-        if (msg.data.remover_id !== msg.broadcast.user_id &&
-                msg.data.channel_id === ChannelStore.getCurrentId() &&
-                $('#removed_from_channel').length > 0) {
+        if (
+            msg.data.remover_id !== msg.broadcast.user_id &&
+            msg.data.channel_id === ChannelStore.getCurrentId() &&
+            $('#removed_from_channel').length > 0
+        ) {
             var sentState = {};
             sentState.channelName = ChannelStore.getCurrent().display_name;
             sentState.remover = UserStore.getProfile(msg.data.remover_id).username;
@@ -404,7 +405,10 @@ function handleChannelDeletedEvent(msg) {
         const teamUrl = TeamStore.getCurrentTeamRelativeUrl();
         browserHistory.push(teamUrl + '/channels/' + Constants.DEFAULT_CHANNEL);
     }
-    dispatch({type: ChannelTypes.RECEIVED_CHANNEL_DELETED, data: {id: msg.data.channel_id, team_id: msg.broadcast.team_id}}, getState);
+    dispatch(
+        {type: ChannelTypes.RECEIVED_CHANNEL_DELETED, data: {id: msg.data.channel_id, team_id: msg.broadcast.team_id}},
+        getState
+    );
     loadChannelsForCurrentUser();
 }
 
@@ -472,9 +476,8 @@ function handleReactionRemovedEvent(msg) {
 }
 
 function handleChannelViewedEvent(msg) {
-// Useful for when multiple devices have the app open to different channels
-    if (ChannelStore.getCurrentId() !== msg.data.channel_id &&
-        UserStore.getCurrentId() === msg.broadcast.user_id) {
+    // Useful for when multiple devices have the app open to different channels
+    if (ChannelStore.getCurrentId() !== msg.data.channel_id && UserStore.getCurrentId() === msg.broadcast.user_id) {
         // Mark previous and next channel as read
         ChannelStore.resetCounts([msg.data.channel_id]);
     }

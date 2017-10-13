@@ -28,7 +28,7 @@ export default class MessageWrapper extends React.Component {
             );
         }
 
-        return <div/>;
+        return <div />;
     }
 }
 

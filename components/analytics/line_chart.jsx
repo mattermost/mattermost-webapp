@@ -34,7 +34,10 @@ export default class LineChart extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (Utils.areObjectsEqual(prevProps.data, this.props.data) && Utils.areObjectsEqual(prevProps.options, this.props.options)) {
+        if (
+            Utils.areObjectsEqual(prevProps.data, this.props.data) &&
+            Utils.areObjectsEqual(prevProps.options, this.props.options)
+        ) {
             return;
         }
 
@@ -70,40 +73,25 @@ export default class LineChart extends React.Component {
     render() {
         let content;
         if (this.props.data == null) {
-            content = (
-                <FormattedMessage
-                    id='analytics.chart.loading'
-                    defaultMessage='Loading...'
-                />
-            );
+            content = <FormattedMessage id="analytics.chart.loading" defaultMessage="Loading..." />;
         } else if (this.props.data.labels.length === 0) {
             content = (
                 <h5>
                     <FormattedMessage
-                        id='analytics.chart.meaningful'
-                        defaultMessage='Not enough data for a meaningful representation.'
+                        id="analytics.chart.meaningful"
+                        defaultMessage="Not enough data for a meaningful representation."
                     />
                 </h5>
             );
         } else {
-            content = (
-                <canvas
-                    ref='canvas'
-                    width={this.props.width}
-                    height={this.props.height}
-                />
-            );
+            content = <canvas ref="canvas" width={this.props.width} height={this.props.height} />;
         }
 
         return (
-            <div className='col-sm-12'>
-                <div className='total-count by-day'>
-                    <div className='title'>
-                        {this.props.title}
-                    </div>
-                    <div className='content'>
-                        {content}
-                    </div>
+            <div className="col-sm-12">
+                <div className="total-count by-day">
+                    <div className="title">{this.props.title}</div>
+                    <div className="content">{content}</div>
                 </div>
             </div>
         );

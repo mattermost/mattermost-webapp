@@ -36,11 +36,7 @@ export default class TutorialTip extends React.Component {
         if (!show && this.state.currentScreen >= this.props.screens.length - 1) {
             const step = PreferenceStore.getInt(Preferences.TUTORIAL_STEP, UserStore.getCurrentId(), 0);
 
-            savePreference(
-                Preferences.TUTORIAL_STEP,
-                UserStore.getCurrentId(),
-                (step + 1).toString()
-            );
+            savePreference(Preferences.TUTORIAL_STEP, UserStore.getCurrentId(), (step + 1).toString());
         }
     }
     handleNext() {
@@ -88,24 +84,15 @@ export default class TutorialTip extends React.Component {
             trackEvent('tutorial', tag);
         }
 
-        savePreference(
-            Preferences.TUTORIAL_STEP,
-            UserStore.getCurrentId(),
-            '999'
-        );
+        savePreference(Preferences.TUTORIAL_STEP, UserStore.getCurrentId(), '999');
     }
     render() {
-        const buttonText = this.state.currentScreen === this.props.screens.length - 1 ? (
-            <FormattedMessage
-                id='tutorial_tip.ok'
-                defaultMessage='Okay'
-            />
-        ) : (
-            <FormattedMessage
-                id='tutorial_tip.next'
-                defaultMessage='Next'
-            />
-        );
+        const buttonText =
+            this.state.currentScreen === this.props.screens.length - 1 ? (
+                <FormattedMessage id="tutorial_tip.ok" defaultMessage="Okay" />
+            ) : (
+                <FormattedMessage id="tutorial_tip.next" defaultMessage="Next" />
+            );
 
         const dots = [];
         if (this.props.screens.length > 1) {
@@ -117,10 +104,11 @@ export default class TutorialTip extends React.Component {
 
                 dots.push(
                     <a
-                        href='#'
+                        href="#"
                         key={'dotactive' + i}
                         className={className}
-                        onClick={(e) => { //eslint-disable-line no-loop-func
+                        onClick={e => {
+                            //eslint-disable-line no-loop-func
                             e.preventDefault();
                             this.setState({currentScreen: i});
                         }}
@@ -130,28 +118,20 @@ export default class TutorialTip extends React.Component {
         }
 
         var tutorialGifImage = tutorialGif;
-        if (this.props.overlayClass === 'tip-overlay--header' || this.props.overlayClass === 'tip-overlay--sidebar' || this.props.overlayClass === 'tip-overlay--header--up') {
+        if (
+            this.props.overlayClass === 'tip-overlay--header' ||
+            this.props.overlayClass === 'tip-overlay--sidebar' ||
+            this.props.overlayClass === 'tip-overlay--header--up'
+        ) {
             tutorialGifImage = tutorialGifWhite;
         }
 
         return (
-            <div
-                id='tipButton'
-                className={'tip-div ' + this.props.overlayClass}
-                onClick={this.toggle}
-            >
-                <img
-                    className='tip-button'
-                    src={tutorialGifImage}
-                    width='35'
-                    onClick={this.toggle}
-                    ref='target'
-                />
+            <div id="tipButton" className={'tip-div ' + this.props.overlayClass} onClick={this.toggle}>
+                <img className="tip-button" src={tutorialGifImage} width="35" onClick={this.toggle} ref="target" />
 
-                <Overlay
-                    show={this.state.show}
-                >
-                    <div className='tip-backdrop'/>
+                <Overlay show={this.state.show}>
+                    <div className="tip-backdrop" />
                 </Overlay>
 
                 <Overlay
@@ -162,30 +142,20 @@ export default class TutorialTip extends React.Component {
                     target={() => this.refs.target}
                 >
                     <div className={'tip-overlay ' + this.props.overlayClass}>
-                        <div className='arrow'/>
+                        <div className="arrow" />
                         {this.props.screens[this.state.currentScreen]}
-                        <div className='tutorial__footer'>
-                            <div className='tutorial__circles'>{dots}</div>
-                            <div className='text-right'>
-                                <button
-                                    id='tipNextButton'
-                                    className='btn btn-primary'
-                                    onClick={this.handleNext}
-                                >
+                        <div className="tutorial__footer">
+                            <div className="tutorial__circles">{dots}</div>
+                            <div className="text-right">
+                                <button id="tipNextButton" className="btn btn-primary" onClick={this.handleNext}>
                                     {buttonText}
                                 </button>
-                                <div className='tip-opt'>
-                                    <FormattedMessage
-                                        id='tutorial_tip.seen'
-                                        defaultMessage='Seen this before? '
-                                    />
-                                    <a
-                                        href='#'
-                                        onClick={this.skipTutorial}
-                                    >
+                                <div className="tip-opt">
+                                    <FormattedMessage id="tutorial_tip.seen" defaultMessage="Seen this before? " />
+                                    <a href="#" onClick={this.skipTutorial}>
                                         <FormattedMessage
-                                            id='tutorial_tip.out'
-                                            defaultMessage='Opt out of these tips.'
+                                            id="tutorial_tip.out"
+                                            defaultMessage="Opt out of these tips."
                                         />
                                     </a>
                                 </div>
@@ -215,10 +185,10 @@ export function createMenuTip(toggleFunc, onBottom) {
     screens.push(
         <div>
             <FormattedHTMLMessage
-                id='sidebar_header.tutorial'
-                defaultMessage='<h4>Main Menu</h4>
+                id="sidebar_header.tutorial"
+                defaultMessage="<h4>Main Menu</h4>
                 <p>The <strong>Main Menu</strong> is where you can <strong>Invite New Members</strong>, access your <strong>Account Settings</strong> and set your <strong>Theme Color</strong>.</p>
-                <p>Team administrators can also access their <strong>Team Settings</strong> from this menu.</p><p>System administrators will find a <strong>System Console</strong> option to administrate the entire system.</p>'
+                <p>Team administrators can also access their <strong>Team Settings</strong> from this menu.</p><p>System administrators will find a <strong>System Console</strong> option to administrate the entire system.</p>"
             />
         </div>
     );
@@ -231,15 +201,13 @@ export function createMenuTip(toggleFunc, onBottom) {
     }
 
     return (
-        <div
-            onClick={toggleFunc}
-        >
+        <div onClick={toggleFunc}>
             <TutorialTip
-                ref='tip'
+                ref="tip"
                 placement={placement}
                 screens={screens}
                 overlayClass={'tip-overlay--header--' + arrow}
-                diagnosticsTag='tutorial_tip_3_main_menu'
+                diagnosticsTag="tutorial_tip_3_main_menu"
             />
         </div>
     );

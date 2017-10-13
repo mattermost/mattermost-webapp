@@ -48,12 +48,7 @@ export default class LogSettings extends AdminSettings {
     }
 
     renderTitle() {
-        return (
-            <FormattedMessage
-                id='admin.general.log'
-                defaultMessage='Logging'
-            />
-        );
+        return <FormattedMessage id="admin.general.log" defaultMessage="Logging" />;
     }
 
     renderSettings() {
@@ -66,90 +61,65 @@ export default class LogSettings extends AdminSettings {
         return (
             <SettingsGroup>
                 <BooleanSetting
-                    id='enableConsole'
-                    label={
-                        <FormattedMessage
-                            id='admin.log.consoleTitle'
-                            defaultMessage='Output logs to console: '
-                        />
-                    }
+                    id="enableConsole"
+                    label={<FormattedMessage id="admin.log.consoleTitle" defaultMessage="Output logs to console: " />}
                     helpText={
                         <FormattedMessage
-                            id='admin.log.consoleDescription'
-                            defaultMessage='Typically set to false in production. Developers may set this field to true to output log messages to console based on the console level option.  If true, server writes messages to the standard output stream (stdout).'
+                            id="admin.log.consoleDescription"
+                            defaultMessage="Typically set to false in production. Developers may set this field to true to output log messages to console based on the console level option.  If true, server writes messages to the standard output stream (stdout)."
                         />
                     }
                     value={this.state.enableConsole}
                     onChange={this.handleChange}
                 />
                 <DropdownSetting
-                    id='consoleLevel'
+                    id="consoleLevel"
                     values={logLevels}
-                    label={
-                        <FormattedMessage
-                            id='admin.log.levelTitle'
-                            defaultMessage='Console Log Level:'
-                        />
-                    }
+                    label={<FormattedMessage id="admin.log.levelTitle" defaultMessage="Console Log Level:" />}
                     value={this.state.consoleLevel}
                     onChange={this.handleChange}
                     disabled={!this.state.enableConsole}
                     helpText={
                         <FormattedMessage
-                            id='admin.log.levelDescription'
-                            defaultMessage='This setting determines the level of detail at which log events are written to the console. ERROR: Outputs only error messages. INFO: Outputs error messages and information around startup and initialization. DEBUG: Prints high detail for developers working on debugging issues.'
+                            id="admin.log.levelDescription"
+                            defaultMessage="This setting determines the level of detail at which log events are written to the console. ERROR: Outputs only error messages. INFO: Outputs error messages and information around startup and initialization. DEBUG: Prints high detail for developers working on debugging issues."
                         />
                     }
                 />
                 <BooleanSetting
-                    id='enableFile'
-                    label={
-                        <FormattedMessage
-                            id='admin.log.fileTitle'
-                            defaultMessage='Output logs to file: '
-                        />
-                    }
+                    id="enableFile"
+                    label={<FormattedMessage id="admin.log.fileTitle" defaultMessage="Output logs to file: " />}
                     helpText={
                         <FormattedMessage
-                            id='admin.log.fileDescription'
-                            defaultMessage='Typically set to true in production. When true, logged events are written to the mattermost.log file in the directory specified in the File Log Directory field. The logs are rotated at 10,000 lines and archived to a file in the same directory, and given a name with a datestamp and serial number. For example, mattermost.2017-03-31.001.'
+                            id="admin.log.fileDescription"
+                            defaultMessage="Typically set to true in production. When true, logged events are written to the mattermost.log file in the directory specified in the File Log Directory field. The logs are rotated at 10,000 lines and archived to a file in the same directory, and given a name with a datestamp and serial number. For example, mattermost.2017-03-31.001."
                         />
                     }
                     value={this.state.enableFile}
                     onChange={this.handleChange}
                 />
                 <DropdownSetting
-                    id='fileLevel'
+                    id="fileLevel"
                     values={logLevels}
-                    label={
-                        <FormattedMessage
-                            id='admin.log.fileLevelTitle'
-                            defaultMessage='File Log Level:'
-                        />
-                    }
+                    label={<FormattedMessage id="admin.log.fileLevelTitle" defaultMessage="File Log Level:" />}
                     value={this.state.fileLevel}
                     onChange={this.handleChange}
                     disabled={!this.state.enableFile}
                     helpText={
                         <FormattedMessage
-                            id='admin.log.fileLevelDescription'
-                            defaultMessage='This setting determines the level of detail at which log events are written to the log file. ERROR: Outputs only error messages. INFO: Outputs error messages and information around startup and initialization. DEBUG: Prints high detail for developers working on debugging issues.'
+                            id="admin.log.fileLevelDescription"
+                            defaultMessage="This setting determines the level of detail at which log events are written to the log file. ERROR: Outputs only error messages. INFO: Outputs error messages and information around startup and initialization. DEBUG: Prints high detail for developers working on debugging issues."
                         />
                     }
                 />
                 <TextSetting
-                    id='fileLocation'
-                    label={
-                        <FormattedMessage
-                            id='admin.log.locationTitle'
-                            defaultMessage='File Log Directory:'
-                        />
-                    }
+                    id="fileLocation"
+                    label={<FormattedMessage id="admin.log.locationTitle" defaultMessage="File Log Directory:" />}
                     placeholder={Utils.localizeMessage('admin.log.locationPlaceholder', 'Enter your file location')}
                     helpText={
                         <FormattedMessage
-                            id='admin.log.locationDescription'
-                            defaultMessage='The location of the log files. If blank, they are stored in the ./logs directory. The path that you set must exist and Mattermost must have write permissions in it.'
+                            id="admin.log.locationDescription"
+                            defaultMessage="The location of the log files. If blank, they are stored in the ./logs directory. The path that you set must exist and Mattermost must have write permissions in it."
                         />
                     }
                     value={this.state.fileLocation}
@@ -157,13 +127,8 @@ export default class LogSettings extends AdminSettings {
                     disabled={!this.state.enableFile}
                 />
                 <TextSetting
-                    id='fileFormat'
-                    label={
-                        <FormattedMessage
-                            id='admin.log.formatTitle'
-                            defaultMessage='File Log Format:'
-                        />
-                    }
+                    id="fileFormat"
+                    label={<FormattedMessage id="admin.log.formatTitle" defaultMessage="File Log Format:" />}
                     placeholder={Utils.localizeMessage('admin.log.formatPlaceholder', 'Enter your file format')}
                     helpText={this.renderFileFormatHelpText()}
                     value={this.state.fileFormat}
@@ -171,34 +136,34 @@ export default class LogSettings extends AdminSettings {
                     disabled={!this.state.enableFile}
                 />
                 <BooleanSetting
-                    id='enableWebhookDebugging'
+                    id="enableWebhookDebugging"
                     label={
                         <FormattedMessage
-                            id='admin.log.enableWebhookDebugging'
-                            defaultMessage='Enable Webhook Debugging:'
+                            id="admin.log.enableWebhookDebugging"
+                            defaultMessage="Enable Webhook Debugging:"
                         />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.log.enableWebhookDebuggingDescription'
-                            defaultMessage='You can set this to false to disable the debug logging of all incoming webhook request bodies.'
+                            id="admin.log.enableWebhookDebuggingDescription"
+                            defaultMessage="You can set this to false to disable the debug logging of all incoming webhook request bodies."
                         />
                     }
                     value={this.state.enableWebhookDebugging}
                     onChange={this.handleChange}
                 />
                 <BooleanSetting
-                    id='enableDiagnostics'
+                    id="enableDiagnostics"
                     label={
                         <FormattedMessage
-                            id='admin.log.enableDiagnostics'
-                            defaultMessage='Enable Diagnostics and Error Reporting:'
+                            id="admin.log.enableDiagnostics"
+                            defaultMessage="Enable Diagnostics and Error Reporting:"
                         />
                     }
                     helpText={
                         <FormattedHTMLMessage
-                            id='admin.log.enableDiagnosticsDescription'
-                            defaultMessage='Enable this feature to improve the quality and performance of Mattermost by sending error reporting and diagnostic information to Mattermost, Inc. Read our <a href="https://about.mattermost.com/default-privacy-policy/" target="_blank">privacy policy</a> to learn more.'
+                            id="admin.log.enableDiagnosticsDescription"
+                            defaultMessage="Enable this feature to improve the quality and performance of Mattermost by sending error reporting and diagnostic information to Mattermost, Inc. Read our <a href=&quot;https://about.mattermost.com/default-privacy-policy/&quot; target=&quot;_blank&quot;>privacy policy</a> to learn more."
                         />
                     }
                     value={this.state.enableDiagnostics}
@@ -212,66 +177,48 @@ export default class LogSettings extends AdminSettings {
         return (
             <div>
                 <FormattedMessage
-                    id='admin.log.formatDescription'
-                    defaultMessage='Format of log message output. If blank will be set to "[%D %T] [%L] %M", where:'
+                    id="admin.log.formatDescription"
+                    defaultMessage="Format of log message output. If blank will be set to &quot;[%D %T] [%L] %M&quot;, where:"
                 />
-                <table
-                    className='table table-bordered'
-                    cellPadding='5'
-                >
+                <table className="table table-bordered" cellPadding="5">
                     <tbody>
                         <tr>
                             <td>{'%T'}</td>
                             <td>
-                                <FormattedMessage
-                                    id='admin.log.formatTime'
-                                    defaultMessage='Time (15:04:05 MST)'
-                                />
+                                <FormattedMessage id="admin.log.formatTime" defaultMessage="Time (15:04:05 MST)" />
                             </td>
                         </tr>
                         <tr>
                             <td>{'%D'}</td>
                             <td>
-                                <FormattedMessage
-                                    id='admin.log.formatDateLong'
-                                    defaultMessage='Date (2006/01/02)'
-                                />
+                                <FormattedMessage id="admin.log.formatDateLong" defaultMessage="Date (2006/01/02)" />
                             </td>
                         </tr>
                         <tr>
                             <td>{'%d'}</td>
                             <td>
-                                <FormattedMessage
-                                    id='admin.log.formatDateShort'
-                                    defaultMessage='Date (01/02/06)'
-                                />
+                                <FormattedMessage id="admin.log.formatDateShort" defaultMessage="Date (01/02/06)" />
                             </td>
                         </tr>
                         <tr>
                             <td>{'%L'}</td>
                             <td>
                                 <FormattedMessage
-                                    id='admin.log.formatLevel'
-                                    defaultMessage='Level (DEBG, INFO, EROR)'
+                                    id="admin.log.formatLevel"
+                                    defaultMessage="Level (DEBG, INFO, EROR)"
                                 />
                             </td>
                         </tr>
                         <tr>
                             <td>{'%S'}</td>
                             <td>
-                                <FormattedMessage
-                                    id='admin.log.formatSource'
-                                    defaultMessage='Source'
-                                />
+                                <FormattedMessage id="admin.log.formatSource" defaultMessage="Source" />
                             </td>
                         </tr>
                         <tr>
                             <td>{'%M'}</td>
                             <td>
-                                <FormattedMessage
-                                    id='admin.log.formatMessage'
-                                    defaultMessage='Message'
-                                />
+                                <FormattedMessage id="admin.log.formatMessage" defaultMessage="Message" />
                             </td>
                         </tr>
                     </tbody>

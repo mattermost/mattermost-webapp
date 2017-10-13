@@ -77,12 +77,7 @@ export default class AudioVideoPreview extends React.Component {
 
     render() {
         if (!this.state.canPlay) {
-            return (
-                <FileInfoPreview
-                    fileInfo={this.props.fileInfo}
-                    fileUrl={this.props.fileUrl}
-                />
-            );
+            return <FileInfoPreview fileInfo={this.props.fileInfo} fileUrl={this.props.fileUrl} />;
         }
 
         let width = Constants.WEB_VIDEO_WIDTH;
@@ -96,16 +91,13 @@ export default class AudioVideoPreview extends React.Component {
         return (
             <video
                 key={this.props.fileInfo.id}
-                ref='video'
-                data-setup='{}'
-                controls='controls'
+                ref="video"
+                data-setup="{}"
+                controls="controls"
                 width={width}
                 height={height}
             >
-                <source
-                    ref='source'
-                    src={this.props.fileUrl}
-                />
+                <source ref="source" src={this.props.fileUrl} />
             </video>
         );
     }

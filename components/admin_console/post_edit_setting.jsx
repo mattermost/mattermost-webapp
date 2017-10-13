@@ -27,15 +27,11 @@ export default class PostEditSetting extends React.Component {
 
     render() {
         return (
-            <Setting
-                label={this.props.label}
-                inputId={this.props.id}
-                helpText={this.props.helpText}
-            >
-                <div className='radio'>
+            <Setting label={this.props.label} inputId={this.props.id} helpText={this.props.helpText}>
+                <div className="radio">
                     <label>
                         <input
-                            type='radio'
+                            type="radio"
                             value={Constants.ALLOW_EDIT_POST_ALWAYS}
                             name={this.props.id}
                             checked={this.props.value === Constants.ALLOW_EDIT_POST_ALWAYS}
@@ -45,10 +41,10 @@ export default class PostEditSetting extends React.Component {
                         {Utils.localizeMessage('admin.general.policy.allowEditPostAlways', 'Any time')}
                     </label>
                 </div>
-                <div className='radio'>
+                <div className="radio">
                     <label>
                         <input
-                            type='radio'
+                            type="radio"
                             value={Constants.ALLOW_EDIT_POST_NEVER}
                             name={this.props.id}
                             checked={this.props.value === Constants.ALLOW_EDIT_POST_NEVER}
@@ -58,10 +54,10 @@ export default class PostEditSetting extends React.Component {
                         {Utils.localizeMessage('admin.general.policy.allowEditPostNever', 'Never')}
                     </label>
                 </div>
-                <div className='radio form-inline'>
+                <div className="radio form-inline">
                     <label>
                         <input
-                            type='radio'
+                            type="radio"
                             value={Constants.ALLOW_EDIT_POST_TIME_LIMIT}
                             name={this.props.id}
                             checked={this.props.value === Constants.ALLOW_EDIT_POST_TIME_LIMIT}
@@ -69,14 +65,20 @@ export default class PostEditSetting extends React.Component {
                             disabled={this.props.disabled}
                         />
                         <input
-                            type='text'
+                            type="text"
                             value={this.props.timeLimitValue}
-                            className='form-control'
+                            className="form-control"
                             name={this.props.timeLimitId}
                             onChange={this.handleTimeLimitChange}
                             disabled={this.props.disabled || this.props.value !== Constants.ALLOW_EDIT_POST_TIME_LIMIT}
                         />
-                        <span> {Utils.localizeMessage('admin.general.policy.allowEditPostTimeLimit', 'seconds after posting')}</span>
+                        <span>
+                            {' '}
+                            {Utils.localizeMessage(
+                                'admin.general.policy.allowEditPostTimeLimit',
+                                'seconds after posting'
+                            )}
+                        </span>
                     </label>
                 </div>
             </Setting>

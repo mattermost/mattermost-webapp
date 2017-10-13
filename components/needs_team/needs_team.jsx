@@ -55,10 +55,7 @@ const UNREAD_CHECK_TIME_MILLISECONDS = 10000;
 
 export default class NeedsTeam extends React.Component {
     static propTypes = {
-        children: PropTypes.oneOfType([
-            PropTypes.arrayOf(PropTypes.element),
-            PropTypes.element
-        ]),
+        children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element]),
         navbar: PropTypes.element,
         sidebar: PropTypes.element,
         team_sidebar: PropTypes.element,
@@ -69,7 +66,7 @@ export default class NeedsTeam extends React.Component {
             viewChannel: PropTypes.func.isRequired,
             getMyChannelMembers: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(params) {
         super(params);
@@ -172,24 +169,17 @@ export default class NeedsTeam extends React.Component {
         if (this.props.children) {
             content = this.props.children;
         } else {
-            content.push(
-                this.props.navbar
-            );
+            content.push(this.props.navbar);
             content.push(this.props.team_sidebar);
+            content.push(this.props.sidebar);
             content.push(
-                this.props.sidebar
-            );
-            content.push(
-                <div
-                    key='inner-wrap'
-                    className='inner-wrap channel__wrap'
-                >
-                    <div className='row header'>
-                        <div id='navbar'>
-                            <Navbar/>
+                <div key="inner-wrap" className="inner-wrap channel__wrap">
+                    <div className="row header">
+                        <div id="navbar">
+                            <Navbar />
                         </div>
                     </div>
-                    <div className='row main'>
+                    <div className="row main">
                         {React.cloneElement(this.props.center, {
                             user: this.props.user,
                             team: this.state.team
@@ -212,30 +202,30 @@ export default class NeedsTeam extends React.Component {
         }
 
         return (
-            <div className='channel-view'>
-                <AnnouncementBar/>
-                <WebrtcNotification/>
-                <div className='container-fluid'>
-                    <SidebarRight channel={channel}/>
-                    <SidebarRightMenu teamType={this.state.team.type}/>
-                    <WebrtcSidebar/>
+            <div className="channel-view">
+                <AnnouncementBar />
+                <WebrtcNotification />
+                <div className="container-fluid">
+                    <SidebarRight channel={channel} />
+                    <SidebarRightMenu teamType={this.state.team.type} />
+                    <WebrtcSidebar />
                     {content}
 
-                    <Pluggable pluggableName='Root'/>
-                    <UserSettingsModal/>
-                    <GetPostLinkModal/>
-                    <GetPublicLinkModal/>
-                    <GetTeamInviteLinkModal/>
-                    <InviteMemberModal/>
-                    <LeaveTeamModal/>
-                    <ImportThemeModal/>
-                    <TeamSettingsModal/>
-                    <EditPostModal/>
-                    <DeletePostModal/>
-                    <RemovedFromChannelModal/>
-                    <ResetStatusModal/>
-                    <LeavePrivateChannelModal/>
-                    <ShortcutsModal isMac={Utils.isMac()}/>
+                    <Pluggable pluggableName="Root" />
+                    <UserSettingsModal />
+                    <GetPostLinkModal />
+                    <GetPublicLinkModal />
+                    <GetTeamInviteLinkModal />
+                    <InviteMemberModal />
+                    <LeaveTeamModal />
+                    <ImportThemeModal />
+                    <TeamSettingsModal />
+                    <EditPostModal />
+                    <DeletePostModal />
+                    <RemovedFromChannelModal />
+                    <ResetStatusModal />
+                    <LeavePrivateChannelModal />
+                    <ShortcutsModal isMac={Utils.isMac()} />
                 </div>
             </div>
         );

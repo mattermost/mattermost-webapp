@@ -13,7 +13,7 @@ import * as Utils from 'utils/utils.jsx';
 
 function flagToolTip(isFlagged) {
     return (
-        <Tooltip id='flagTooltip'>
+        <Tooltip id="flagTooltip">
             <FormattedMessage
                 id={isFlagged ? 'flag_post.unflag' : 'flag_post.flag'}
                 defaultMessage={isFlagged ? 'Unflag' : 'Flag for follow up'}
@@ -29,12 +29,7 @@ function flagIcon(isFlagged) {
         flagIconSvg = Constants.FLAG_FILLED_ICON_SVG;
     }
 
-    return (
-        <span
-            className='icon'
-            dangerouslySetInnerHTML={{__html: flagIconSvg}}
-        />
-    );
+    return <span className="icon" dangerouslySetInnerHTML={{__html: flagIconSvg}} />;
 }
 
 export default function PostFlagIcon(props) {
@@ -62,15 +57,10 @@ export default function PostFlagIcon(props) {
                 trigger={['hover', 'focus']}
                 key={'flagtooltipkey' + flagVisible}
                 delayShow={Constants.OVERLAY_TIME_DELAY}
-                placement='top'
+                placement="top"
                 overlay={flagToolTip(props.isFlagged)}
             >
-                <a
-                    id={flagIconId}
-                    href='#'
-                    className={'flag-icon__container ' + flagVisible}
-                    onClick={flagFunc}
-                >
+                <a id={flagIconId} href="#" className={'flag-icon__container ' + flagVisible} onClick={flagFunc}>
                     {flagIcon(props.isFlagged)}
                 </a>
             </OverlayTrigger>

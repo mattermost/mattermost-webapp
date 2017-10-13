@@ -23,7 +23,10 @@ export default class DoughnutChart extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (!Utils.areObjectsEqual(prevProps.data, this.props.data) || !Utils.areObjectsEqual(prevProps.options, this.props.options)) {
+        if (
+            !Utils.areObjectsEqual(prevProps.data, this.props.data) ||
+            !Utils.areObjectsEqual(prevProps.options, this.props.options)
+        ) {
             this.initChart(true);
         }
     }
@@ -49,31 +52,16 @@ export default class DoughnutChart extends React.Component {
     render() {
         let content;
         if (this.props.data == null) {
-            content = (
-                <FormattedMessage
-                    id='analytics.chart.loading'
-                    defaultMessage='Loading...'
-                />
-            );
+            content = <FormattedMessage id="analytics.chart.loading" defaultMessage="Loading..." />;
         } else {
-            content = (
-                <canvas
-                    ref='canvas'
-                    width={this.props.width}
-                    height={this.props.height}
-                />
-            );
+            content = <canvas ref="canvas" width={this.props.width} height={this.props.height} />;
         }
 
         return (
-            <div className='col-sm-6'>
-                <div className='total-count'>
-                    <div className='title'>
-                        {this.props.title}
-                    </div>
-                    <div className='content'>
-                        {content}
-                    </div>
+            <div className="col-sm-6">
+                <div className="total-count">
+                    <div className="title">{this.props.title}</div>
+                    <div className="content">{content}</div>
                 </div>
             </div>
         );

@@ -26,7 +26,8 @@ const holders = defineMessages({
     },
     usernameRestrictions: {
         id: 'user.settings.general.usernameRestrictions',
-        defaultMessage: "Username must begin with a letter, and contain between {min} to {max} lowercase characters made up of numbers, letters, and the symbols '.', '-', and '_'."
+        defaultMessage:
+            "Username must begin with a letter, and contain between {min} to {max} lowercase characters made up of numbers, letters, and the symbols '.', '-', and '_'."
     },
     validEmail: {
         id: 'user.settings.general.validEmail',
@@ -94,7 +95,7 @@ class UserSettingsGeneralTab extends React.Component {
         actions: PropTypes.shape({
             getMe: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -133,7 +134,13 @@ class UserSettingsGeneralTab extends React.Component {
             this.setState({clientError: formatMessage(holders.usernameReserved), serverError: ''});
             return;
         } else if (usernameError) {
-            this.setState({clientError: formatMessage(holders.usernameRestrictions, {min: Constants.MIN_USERNAME_LENGTH, max: Constants.MAX_USERNAME_LENGTH}), serverError: ''});
+            this.setState({
+                clientError: formatMessage(holders.usernameRestrictions, {
+                    min: Constants.MIN_USERNAME_LENGTH,
+                    max: Constants.MAX_USERNAME_LENGTH
+                }),
+                serverError: ''
+            });
             return;
         }
 
@@ -219,19 +226,26 @@ class UserSettingsGeneralTab extends React.Component {
     submitUser(user, type, emailUpdated) {
         this.setState({sectionIsSaving: true});
 
-        updateUser(user, type,
+        updateUser(
+            user,
+            type,
             () => {
                 this.updateSection('');
                 this.props.actions.getMe();
-                const verificationEnabled = global.window.mm_config.SendEmailNotifications === 'true' && global.window.mm_config.RequireEmailVerification === 'true' && emailUpdated;
+                const verificationEnabled =
+                    global.window.mm_config.SendEmailNotifications === 'true' &&
+                    global.window.mm_config.RequireEmailVerification === 'true' &&
+                    emailUpdated;
 
                 if (verificationEnabled) {
-                    ErrorStore.storeLastError({message: this.props.intl.formatMessage(holders.checkEmail, {email: user.email})});
+                    ErrorStore.storeLastError({
+                        message: this.props.intl.formatMessage(holders.checkEmail, {email: user.email})
+                    });
                     ErrorStore.emitChange();
                     this.setState({emailChangeInProgress: true});
                 }
             },
-            (err) => {
+            err => {
                 let serverError;
                 if (err.message) {
                     serverError = err.message;
@@ -275,7 +289,7 @@ class UserSettingsGeneralTab extends React.Component {
                 this.updateSection('');
                 this.submitActive = false;
             },
-            (err) => {
+            err => {
                 var state = this.setupInitialState(this.props);
                 state.serverError = err.message;
                 this.setState(state);
@@ -342,10 +356,20 @@ class UserSettingsGeneralTab extends React.Component {
 
     updateSection(section) {
         if ($('.section-max').length) {
-            $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
+            $('.settings-modal .modal-body')
+                .scrollTop(0)
+                .perfectScrollbar('update');
         }
         const emailChangeInProgress = this.state.emailChangeInProgress;
-        this.setState(Object.assign({}, this.setupInitialState(this.props), {emailChangeInProgress, clientError: '', serverError: '', emailError: '', sectionIsSaving: false}));
+        this.setState(
+            Object.assign({}, this.setupInitialState(this.props), {
+                emailChangeInProgress,
+                clientError: '',
+                serverError: '',
+                emailError: '',
+                sectionIsSaving: false
+            })
+        );
         this.submitActive = false;
         this.props.updateSection(section);
     }
@@ -380,25 +404,25 @@ class UserSettingsGeneralTab extends React.Component {
 
             let helpText = (
                 <FormattedMessage
-                    id='user.settings.general.emailHelp1'
-                    defaultMessage='Email is used for sign-in, notifications, and password reset. Email requires verification if changed.'
+                    id="user.settings.general.emailHelp1"
+                    defaultMessage="Email is used for sign-in, notifications, and password reset. Email requires verification if changed."
                 />
             );
 
             if (!emailEnabled) {
                 helpText = (
-                    <div className='setting-list__hint col-sm-12 text-danger'>
+                    <div className="setting-list__hint col-sm-12 text-danger">
                         <FormattedMessage
-                            id='user.settings.general.emailHelp2'
-                            defaultMessage='Email has been disabled by your System Administrator. No notification emails will be sent until it is enabled.'
+                            id="user.settings.general.emailHelp2"
+                            defaultMessage="Email has been disabled by your System Administrator. No notification emails will be sent until it is enabled."
                         />
                     </div>
                 );
             } else if (!emailVerificationEnabled) {
                 helpText = (
                     <FormattedMessage
-                        id='user.settings.general.emailHelp3'
-                        defaultMessage='Email is used for sign-in, notifications, and password reset.'
+                        id="user.settings.general.emailHelp3"
+                        defaultMessage="Email is used for sign-in, notifications, and password reset."
                     />
                 );
             } else if (this.state.emailChangeInProgress) {
@@ -406,8 +430,8 @@ class UserSettingsGeneralTab extends React.Component {
                 if (newEmail) {
                     helpText = (
                         <FormattedMessage
-                            id='user.settings.general.emailHelp4'
-                            defaultMessage='A verification email was sent to {email}.'
+                            id="user.settings.general.emailHelp4"
+                            defaultMessage="A verification email was sent to {email}."
                             values={{
                                 email: newEmail
                             }}
@@ -420,35 +444,32 @@ class UserSettingsGeneralTab extends React.Component {
 
             if (this.props.user.auth_service === '') {
                 inputs.push(
-                    <div key='currentEmailSetting'>
-                        <div className='form-group'>
-                            <label className='col-sm-5 control-label'>
+                    <div key="currentEmailSetting">
+                        <div className="form-group">
+                            <label className="col-sm-5 control-label">
                                 <FormattedMessage
-                                    id='user.settings.general.currentEmail'
-                                    defaultMessage='Current Email'
+                                    id="user.settings.general.currentEmail"
+                                    defaultMessage="Current Email"
                                 />
                             </label>
-                            <div className='col-sm-7'>
-                                <label className='control-label'>{this.state.originalEmail}</label>
+                            <div className="col-sm-7">
+                                <label className="control-label">{this.state.originalEmail}</label>
                             </div>
                         </div>
                     </div>
                 );
 
                 inputs.push(
-                    <div key='emailSetting'>
-                        <div className='form-group'>
-                            <label className='col-sm-5 control-label'>
-                                <FormattedMessage
-                                    id='user.settings.general.newEmail'
-                                    defaultMessage='New Email'
-                                />
+                    <div key="emailSetting">
+                        <div className="form-group">
+                            <label className="col-sm-5 control-label">
+                                <FormattedMessage id="user.settings.general.newEmail" defaultMessage="New Email" />
                             </label>
-                            <div className='col-sm-7'>
+                            <div className="col-sm-7">
                                 <input
-                                    id='primaryEmail'
-                                    className='form-control'
-                                    type='email'
+                                    id="primaryEmail"
+                                    className="form-control"
+                                    type="email"
                                     onChange={this.updateEmail}
                                     value={this.state.email}
                                 />
@@ -458,19 +479,19 @@ class UserSettingsGeneralTab extends React.Component {
                 );
 
                 inputs.push(
-                    <div key='confirmEmailSetting'>
-                        <div className='form-group'>
-                            <label className='col-sm-5 control-label'>
+                    <div key="confirmEmailSetting">
+                        <div className="form-group">
+                            <label className="col-sm-5 control-label">
                                 <FormattedMessage
-                                    id='user.settings.general.confirmEmail'
-                                    defaultMessage='Confirm Email'
+                                    id="user.settings.general.confirmEmail"
+                                    defaultMessage="Confirm Email"
                                 />
                             </label>
-                            <div className='col-sm-7'>
+                            <div className="col-sm-7">
                                 <input
-                                    id='confirmEmail'
-                                    className='form-control'
-                                    type='email'
+                                    id="confirmEmail"
+                                    className="form-control"
+                                    type="email"
                                     onChange={this.updateConfirmEmail}
                                     value={this.state.confirmEmail}
                                 />
@@ -483,14 +504,11 @@ class UserSettingsGeneralTab extends React.Component {
                 submit = this.submitEmail;
             } else if (this.props.user.auth_service === Constants.GITLAB_SERVICE) {
                 inputs.push(
-                    <div
-                        key='oauthEmailInfo'
-                        className='form-group'
-                    >
-                        <div className='setting-list__hint col-sm-12'>
+                    <div key="oauthEmailInfo" className="form-group">
+                        <div className="setting-list__hint col-sm-12">
                             <FormattedMessage
-                                id='user.settings.general.emailGitlabCantUpdate'
-                                defaultMessage='Login occurs through GitLab. Email cannot be updated. Email address used for notifications is {email}.'
+                                id="user.settings.general.emailGitlabCantUpdate"
+                                defaultMessage="Login occurs through GitLab. Email cannot be updated. Email address used for notifications is {email}."
                                 values={{
                                     email: this.state.originalEmail
                                 }}
@@ -501,14 +519,11 @@ class UserSettingsGeneralTab extends React.Component {
                 );
             } else if (this.props.user.auth_service === Constants.GOOGLE_SERVICE) {
                 inputs.push(
-                    <div
-                        key='oauthEmailInfo'
-                        className='form-group'
-                    >
-                        <div className='setting-list__hint col-sm-12'>
+                    <div key="oauthEmailInfo" className="form-group">
+                        <div className="setting-list__hint col-sm-12">
                             <FormattedMessage
-                                id='user.settings.general.emailGoogleCantUpdate'
-                                defaultMessage='Login occurs through Google Apps. Email cannot be updated. Email address used for notifications is {email}.'
+                                id="user.settings.general.emailGoogleCantUpdate"
+                                defaultMessage="Login occurs through Google Apps. Email cannot be updated. Email address used for notifications is {email}."
                                 values={{
                                     email: this.state.originalEmail
                                 }}
@@ -519,14 +534,11 @@ class UserSettingsGeneralTab extends React.Component {
                 );
             } else if (this.props.user.auth_service === Constants.OFFICE365_SERVICE) {
                 inputs.push(
-                    <div
-                        key='oauthEmailInfo'
-                        className='form-group'
-                    >
-                        <div className='setting-list__hint col-sm-12'>
+                    <div key="oauthEmailInfo" className="form-group">
+                        <div className="setting-list__hint col-sm-12">
                             <FormattedMessage
-                                id='user.settings.general.emailOffice365CantUpdate'
-                                defaultMessage='Login occurs through Office 365. Email cannot be updated. Email address used for notifications is {email}.'
+                                id="user.settings.general.emailOffice365CantUpdate"
+                                defaultMessage="Login occurs through Office 365. Email cannot be updated. Email address used for notifications is {email}."
                                 values={{
                                     email: this.state.originalEmail
                                 }}
@@ -537,14 +549,11 @@ class UserSettingsGeneralTab extends React.Component {
                 );
             } else if (this.props.user.auth_service === Constants.LDAP_SERVICE) {
                 inputs.push(
-                    <div
-                        key='oauthEmailInfo'
-                        className='padding-bottom'
-                    >
-                        <div className='setting-list__hint col-sm-12'>
+                    <div key="oauthEmailInfo" className="padding-bottom">
+                        <div className="setting-list__hint col-sm-12">
                             <FormattedMessage
-                                id='user.settings.general.emailLdapCantUpdate'
-                                defaultMessage='Login occurs through AD/LDAP. Email cannot be updated. Email address used for notifications is {email}.'
+                                id="user.settings.general.emailLdapCantUpdate"
+                                defaultMessage="Login occurs through AD/LDAP. Email cannot be updated. Email address used for notifications is {email}."
                                 values={{
                                     email: this.state.originalEmail
                                 }}
@@ -554,14 +563,11 @@ class UserSettingsGeneralTab extends React.Component {
                 );
             } else if (this.props.user.auth_service === Constants.SAML_SERVICE) {
                 inputs.push(
-                    <div
-                        key='oauthEmailInfo'
-                        className='padding-bottom'
-                    >
-                        <div className='setting-list__hint col-sm-12'>
+                    <div key="oauthEmailInfo" className="padding-bottom">
+                        <div className="setting-list__hint col-sm-12">
                             <FormattedMessage
-                                id='user.settings.general.emailSamlCantUpdate'
-                                defaultMessage='Login occurs through SAML. Email cannot be updated. Email address used for notifications is {email}.'
+                                id="user.settings.general.emailSamlCantUpdate"
+                                defaultMessage="Login occurs through SAML. Email cannot be updated. Email address used for notifications is {email}."
                                 values={{
                                     email: this.state.originalEmail
                                 }}
@@ -574,18 +580,13 @@ class UserSettingsGeneralTab extends React.Component {
 
             emailSection = (
                 <SettingItemMax
-                    title={
-                        <FormattedMessage
-                            id='user.settings.general.email'
-                            defaultMessage='Email'
-                        />
-                    }
+                    title={<FormattedMessage id="user.settings.general.email" defaultMessage="Email" />}
                     inputs={inputs}
                     submit={submit}
                     saving={this.state.sectionIsSaving}
                     server_error={this.state.serverError}
                     client_error={this.state.emailError}
-                    updateSection={(e) => {
+                    updateSection={e => {
                         this.updateSection('');
                         e.preventDefault();
                     }}
@@ -599,8 +600,8 @@ class UserSettingsGeneralTab extends React.Component {
                     if (newEmail) {
                         describe = (
                             <FormattedHTMLMessage
-                                id='user.settings.general.newAddress'
-                                defaultMessage='New Address: {email}<br />Check your email to verify the above address.'
+                                id="user.settings.general.newAddress"
+                                defaultMessage="New Address: {email}<br />Check your email to verify the above address."
                                 values={{
                                     email: newEmail
                                 }}
@@ -609,8 +610,8 @@ class UserSettingsGeneralTab extends React.Component {
                     } else {
                         describe = (
                             <FormattedMessage
-                                id='user.settings.general.checkEmailNoAddress'
-                                defaultMessage='Check your email to verify your new address'
+                                id="user.settings.general.checkEmailNoAddress"
+                                defaultMessage="Check your email to verify your new address"
                             />
                         );
                     }
@@ -620,8 +621,8 @@ class UserSettingsGeneralTab extends React.Component {
             } else if (this.props.user.auth_service === Constants.GITLAB_SERVICE) {
                 describe = (
                     <FormattedMessage
-                        id='user.settings.general.loginGitlab'
-                        defaultMessage='Login done through GitLab ({email})'
+                        id="user.settings.general.loginGitlab"
+                        defaultMessage="Login done through GitLab ({email})"
                         values={{
                             email: this.state.originalEmail
                         }}
@@ -630,8 +631,8 @@ class UserSettingsGeneralTab extends React.Component {
             } else if (this.props.user.auth_service === Constants.GOOGLE_SERVICE) {
                 describe = (
                     <FormattedMessage
-                        id='user.settings.general.loginGoogle'
-                        defaultMessage='Login done through Google Apps ({email})'
+                        id="user.settings.general.loginGoogle"
+                        defaultMessage="Login done through Google Apps ({email})"
                         values={{
                             email: this.state.originalEmail
                         }}
@@ -640,8 +641,8 @@ class UserSettingsGeneralTab extends React.Component {
             } else if (this.props.user.auth_service === Constants.OFFICE365_SERVICE) {
                 describe = (
                     <FormattedMessage
-                        id='user.settings.general.loginOffice365'
-                        defaultMessage='Login done through Office 365 ({email})'
+                        id="user.settings.general.loginOffice365"
+                        defaultMessage="Login done through Office 365 ({email})"
                         values={{
                             email: this.state.originalEmail
                         }}
@@ -650,8 +651,8 @@ class UserSettingsGeneralTab extends React.Component {
             } else if (this.props.user.auth_service === Constants.LDAP_SERVICE) {
                 describe = (
                     <FormattedMessage
-                        id='user.settings.general.loginLdap'
-                        defaultMessage='Login done through AD/LDAP ({email})'
+                        id="user.settings.general.loginLdap"
+                        defaultMessage="Login done through AD/LDAP ({email})"
                         values={{
                             email: this.state.originalEmail
                         }}
@@ -660,8 +661,8 @@ class UserSettingsGeneralTab extends React.Component {
             } else if (this.props.user.auth_service === Constants.SAML_SERVICE) {
                 describe = (
                     <FormattedMessage
-                        id='user.settings.general.loginSaml'
-                        defaultMessage='Login done through SAML ({email})'
+                        id="user.settings.general.loginSaml"
+                        defaultMessage="Login done through SAML ({email})"
                         values={{
                             email: this.state.originalEmail
                         }}
@@ -671,12 +672,7 @@ class UserSettingsGeneralTab extends React.Component {
 
             emailSection = (
                 <SettingItemMin
-                    title={
-                        <FormattedMessage
-                            id='user.settings.general.email'
-                            defaultMessage='Email'
-                        />
-                    }
+                    title={<FormattedMessage id="user.settings.general.email" defaultMessage="Email" />}
                     describe={describe}
                     updateSection={() => {
                         this.updateSection('email');
@@ -707,25 +703,22 @@ class UserSettingsGeneralTab extends React.Component {
         if (this.props.activeSection === 'name') {
             let extraInfo;
             let submit = null;
-            if (this.props.user.auth_service === '' ||
-                 ((this.props.user.auth_service === 'ldap' || this.props.user.auth_service === Constants.SAML_SERVICE) &&
-                  (global.window.mm_config.FirstNameAttributeSet === 'false' || global.window.mm_config.LastNameAttributeSet === 'false'))) {
+            if (
+                this.props.user.auth_service === '' ||
+                ((this.props.user.auth_service === 'ldap' || this.props.user.auth_service === Constants.SAML_SERVICE) &&
+                    (global.window.mm_config.FirstNameAttributeSet === 'false' ||
+                        global.window.mm_config.LastNameAttributeSet === 'false'))
+            ) {
                 inputs.push(
-                    <div
-                        key='firstNameSetting'
-                        className='form-group'
-                    >
-                        <label className='col-sm-5 control-label'>
-                            <FormattedMessage
-                                id='user.settings.general.firstName'
-                                defaultMessage='First Name'
-                            />
+                    <div key="firstNameSetting" className="form-group">
+                        <label className="col-sm-5 control-label">
+                            <FormattedMessage id="user.settings.general.firstName" defaultMessage="First Name" />
                         </label>
-                        <div className='col-sm-7'>
+                        <div className="col-sm-7">
                             <input
-                                id='firstName'
-                                className='form-control'
-                                type='text'
+                                id="firstName"
+                                className="form-control"
+                                type="text"
                                 onChange={this.updateFirstName}
                                 value={this.state.firstName}
                             />
@@ -734,21 +727,15 @@ class UserSettingsGeneralTab extends React.Component {
                 );
 
                 inputs.push(
-                    <div
-                        key='lastNameSetting'
-                        className='form-group'
-                    >
-                        <label className='col-sm-5 control-label'>
-                            <FormattedMessage
-                                id='user.settings.general.lastName'
-                                defaultMessage='Last Name'
-                            />
+                    <div key="lastNameSetting" className="form-group">
+                        <label className="col-sm-5 control-label">
+                            <FormattedMessage id="user.settings.general.lastName" defaultMessage="Last Name" />
                         </label>
-                        <div className='col-sm-7'>
+                        <div className="col-sm-7">
                             <input
-                                id='lastName'
-                                className='form-control'
-                                type='text'
+                                id="lastName"
+                                className="form-control"
+                                type="text"
                                 onChange={this.updateLastName}
                                 value={this.state.lastName}
                             />
@@ -763,24 +750,18 @@ class UserSettingsGeneralTab extends React.Component {
                 }
 
                 const notifLink = (
-                    <a
-                        href='#'
-                        onClick={notifClick.bind(this)}
-                    >
-                        <FormattedMessage
-                            id='user.settings.general.notificationsLink'
-                            defaultMessage='Notifications'
-                        />
+                    <a href="#" onClick={notifClick.bind(this)}>
+                        <FormattedMessage id="user.settings.general.notificationsLink" defaultMessage="Notifications" />
                     </a>
                 );
 
                 extraInfo = (
                     <span>
                         <FormattedMessage
-                            id='user.settings.general.notificationsExtra'
-                            defaultMessage='By default, you will receive mention notifications when someone types your first name. Go to {notify} settings to change this default.'
+                            id="user.settings.general.notificationsExtra"
+                            defaultMessage="By default, you will receive mention notifications when someone types your first name. Go to {notify} settings to change this default."
                             values={{
-                                notify: (notifLink)
+                                notify: notifLink
                             }}
                         />
                     </span>
@@ -791,8 +772,8 @@ class UserSettingsGeneralTab extends React.Component {
                 extraInfo = (
                     <span>
                         <FormattedMessage
-                            id='user.settings.general.field_handled_externally'
-                            defaultMessage='This field is handled through your login provider. If you want to change it, you need to do so through your login provider.'
+                            id="user.settings.general.field_handled_externally"
+                            defaultMessage="This field is handled through your login provider. If you want to change it, you need to do so through your login provider."
                         />
                     </span>
                 );
@@ -806,7 +787,7 @@ class UserSettingsGeneralTab extends React.Component {
                     saving={this.state.sectionIsSaving}
                     server_error={serverError}
                     client_error={clientError}
-                    updateSection={(e) => {
+                    updateSection={e => {
                         this.updateSection('');
                         e.preventDefault();
                     }}
@@ -825,15 +806,15 @@ class UserSettingsGeneralTab extends React.Component {
             } else {
                 describe = (
                     <FormattedMessage
-                        id='user.settings.general.emptyName'
+                        id="user.settings.general.emptyName"
                         defaultMessage="Click 'Edit' to add your full name"
                     />
                 );
                 if (Utils.isMobile()) {
                     describe = (
                         <FormattedMessage
-                            id='user.settings.general.mobile.emptyName'
-                            defaultMessage='Click to add your full name'
+                            id="user.settings.general.mobile.emptyName"
+                            defaultMessage="Click to add your full name"
                         />
                     );
                 }
@@ -854,41 +835,36 @@ class UserSettingsGeneralTab extends React.Component {
         if (this.props.activeSection === 'nickname') {
             let extraInfo;
             let submit = null;
-            if ((this.props.user.auth_service === 'ldap' || this.props.user.auth_service === Constants.SAML_SERVICE) && global.window.mm_config.NicknameAttributeSet === 'true') {
+            if (
+                (this.props.user.auth_service === 'ldap' || this.props.user.auth_service === Constants.SAML_SERVICE) &&
+                global.window.mm_config.NicknameAttributeSet === 'true'
+            ) {
                 extraInfo = (
                     <span>
                         <FormattedMessage
-                            id='user.settings.general.field_handled_externally'
-                            defaultMessage='This field is handled through your login provider. If you want to change it, you need to do so though your login provider.'
+                            id="user.settings.general.field_handled_externally"
+                            defaultMessage="This field is handled through your login provider. If you want to change it, you need to do so though your login provider."
                         />
                     </span>
                 );
             } else {
-                let nicknameLabel = (
-                    <FormattedMessage
-                        id='user.settings.general.nickname'
-                        defaultMessage='Nickname'
-                    />
-                );
+                let nicknameLabel = <FormattedMessage id="user.settings.general.nickname" defaultMessage="Nickname" />;
                 if (Utils.isMobile()) {
                     nicknameLabel = '';
                 }
 
                 inputs.push(
-                    <div
-                        key='nicknameSetting'
-                        className='form-group'
-                    >
-                        <label className='col-sm-5 control-label'>{nicknameLabel}</label>
-                        <div className='col-sm-7'>
+                    <div key="nicknameSetting" className="form-group">
+                        <label className="col-sm-5 control-label">{nicknameLabel}</label>
+                        <div className="col-sm-7">
                             <input
-                                id='nickname'
-                                className='form-control'
-                                type='text'
+                                id="nickname"
+                                className="form-control"
+                                type="text"
                                 onChange={this.updateNickname}
                                 value={this.state.nickname}
                                 maxLength={Constants.MAX_NICKNAME_LENGTH}
-                                autoCapitalize='off'
+                                autoCapitalize="off"
                             />
                         </div>
                     </div>
@@ -897,8 +873,8 @@ class UserSettingsGeneralTab extends React.Component {
                 extraInfo = (
                     <span>
                         <FormattedMessage
-                            id='user.settings.general.nicknameExtra'
-                            defaultMessage='Use Nickname for a name you might be called that is different from your first name and username. This is most often used when two or more people have similar sounding names and usernames.'
+                            id="user.settings.general.nicknameExtra"
+                            defaultMessage="Use Nickname for a name you might be called that is different from your first name and username. This is most often used when two or more people have similar sounding names and usernames."
                         />
                     </span>
                 );
@@ -914,7 +890,7 @@ class UserSettingsGeneralTab extends React.Component {
                     saving={this.state.sectionIsSaving}
                     server_error={serverError}
                     client_error={clientError}
-                    updateSection={(e) => {
+                    updateSection={e => {
                         this.updateSection('');
                         e.preventDefault();
                     }}
@@ -928,15 +904,15 @@ class UserSettingsGeneralTab extends React.Component {
             } else {
                 describe = (
                     <FormattedMessage
-                        id='user.settings.general.emptyNickname'
+                        id="user.settings.general.emptyNickname"
                         defaultMessage="Click 'Edit' to add a nickname"
                     />
                 );
                 if (Utils.isMobile()) {
                     describe = (
                         <FormattedMessage
-                            id='user.settings.general.mobile.emptyNickname'
-                            defaultMessage='Click to add a nickname'
+                            id="user.settings.general.mobile.emptyNickname"
+                            defaultMessage="Click to add a nickname"
                         />
                     );
                 }
@@ -958,31 +934,23 @@ class UserSettingsGeneralTab extends React.Component {
             let extraInfo;
             let submit = null;
             if (this.props.user.auth_service === '') {
-                let usernameLabel = (
-                    <FormattedMessage
-                        id='user.settings.general.username'
-                        defaultMessage='Username'
-                    />
-                );
+                let usernameLabel = <FormattedMessage id="user.settings.general.username" defaultMessage="Username" />;
                 if (Utils.isMobile()) {
                     usernameLabel = '';
                 }
 
                 inputs.push(
-                    <div
-                        key='usernameSetting'
-                        className='form-group'
-                    >
-                        <label className='col-sm-5 control-label'>{usernameLabel}</label>
-                        <div className='col-sm-7'>
+                    <div key="usernameSetting" className="form-group">
+                        <label className="col-sm-5 control-label">{usernameLabel}</label>
+                        <div className="col-sm-7">
                             <input
-                                id='username'
+                                id="username"
                                 maxLength={Constants.MAX_USERNAME_LENGTH}
-                                className='form-control'
-                                type='text'
+                                className="form-control"
+                                type="text"
                                 onChange={this.updateUsername}
                                 value={this.state.username}
-                                autoCapitalize='off'
+                                autoCapitalize="off"
                             />
                         </div>
                     </div>
@@ -991,8 +959,8 @@ class UserSettingsGeneralTab extends React.Component {
                 extraInfo = (
                     <span>
                         <FormattedMessage
-                            id='user.settings.general.usernameInfo'
-                            defaultMessage='Pick something easy for teammates to recognize and recall.'
+                            id="user.settings.general.usernameInfo"
+                            defaultMessage="Pick something easy for teammates to recognize and recall."
                         />
                     </span>
                 );
@@ -1002,8 +970,8 @@ class UserSettingsGeneralTab extends React.Component {
                 extraInfo = (
                     <span>
                         <FormattedMessage
-                            id='user.settings.general.field_handled_externally'
-                            defaultMessage='This field is handled through your login provider. If you want to change it, you need to do so though your login provider.'
+                            id="user.settings.general.field_handled_externally"
+                            defaultMessage="This field is handled through your login provider. If you want to change it, you need to do so though your login provider."
                         />
                     </span>
                 );
@@ -1017,7 +985,7 @@ class UserSettingsGeneralTab extends React.Component {
                     saving={this.state.sectionIsSaving}
                     server_error={serverError}
                     client_error={clientError}
-                    updateSection={(e) => {
+                    updateSection={e => {
                         this.updateSection('');
                         e.preventDefault();
                     }}
@@ -1040,41 +1008,36 @@ class UserSettingsGeneralTab extends React.Component {
         if (this.props.activeSection === 'position') {
             let extraInfo;
             let submit = null;
-            if ((this.props.user.auth_service === 'ldap' || this.props.user.auth_service === Constants.SAML_SERVICE) && global.window.mm_config.PositionAttributeSet === 'true') {
+            if (
+                (this.props.user.auth_service === 'ldap' || this.props.user.auth_service === Constants.SAML_SERVICE) &&
+                global.window.mm_config.PositionAttributeSet === 'true'
+            ) {
                 extraInfo = (
                     <span>
                         <FormattedMessage
-                            id='user.settings.general.field_handled_externally'
-                            defaultMessage='This field is handled through your login provider. If you want to change it, you need to do so though your login provider.'
+                            id="user.settings.general.field_handled_externally"
+                            defaultMessage="This field is handled through your login provider. If you want to change it, you need to do so though your login provider."
                         />
                     </span>
                 );
             } else {
-                let positionLabel = (
-                    <FormattedMessage
-                        id='user.settings.general.position'
-                        defaultMessage='Position'
-                    />
-                );
+                let positionLabel = <FormattedMessage id="user.settings.general.position" defaultMessage="Position" />;
                 if (Utils.isMobile()) {
                     positionLabel = '';
                 }
 
                 inputs.push(
-                    <div
-                        key='positionSetting'
-                        className='form-group'
-                    >
-                        <label className='col-sm-5 control-label'>{positionLabel}</label>
-                        <div className='col-sm-7'>
+                    <div key="positionSetting" className="form-group">
+                        <label className="col-sm-5 control-label">{positionLabel}</label>
+                        <div className="col-sm-7">
                             <input
-                                id='position'
-                                className='form-control'
-                                type='text'
+                                id="position"
+                                className="form-control"
+                                type="text"
                                 onChange={this.updatePosition}
                                 value={this.state.position}
                                 maxLength={Constants.MAX_POSITION_LENGTH}
-                                autoCapitalize='off'
+                                autoCapitalize="off"
                             />
                         </div>
                     </div>
@@ -1083,8 +1046,8 @@ class UserSettingsGeneralTab extends React.Component {
                 extraInfo = (
                     <span>
                         <FormattedMessage
-                            id='user.settings.general.positionExtra'
-                            defaultMessage='Use Position for your role or job title. This will be shown in your profile popover.'
+                            id="user.settings.general.positionExtra"
+                            defaultMessage="Use Position for your role or job title. This will be shown in your profile popover."
                         />
                     </span>
                 );
@@ -1100,7 +1063,7 @@ class UserSettingsGeneralTab extends React.Component {
                     saving={this.state.sectionIsSaving}
                     server_error={serverError}
                     client_error={clientError}
-                    updateSection={(e) => {
+                    updateSection={e => {
                         this.updateSection('');
                         e.preventDefault();
                     }}
@@ -1114,15 +1077,15 @@ class UserSettingsGeneralTab extends React.Component {
             } else {
                 describe = (
                     <FormattedMessage
-                        id='user.settings.general.emptyPosition'
+                        id="user.settings.general.emptyPosition"
                         defaultMessage="Click 'Edit' to add your job title / position"
                     />
                 );
                 if (Utils.isMobile()) {
                     describe = (
                         <FormattedMessage
-                            id='user.settings.general.mobile.emptyPosition'
-                            defaultMessage='Click to add your job title / position'
+                            id="user.settings.general.mobile.emptyPosition"
+                            defaultMessage="Click to add your job title / position"
                         />
                     );
                 }
@@ -1150,7 +1113,7 @@ class UserSettingsGeneralTab extends React.Component {
                     src={Utils.imageURLForUser(user)}
                     serverError={serverError}
                     clientError={clientError}
-                    updateSection={(e) => {
+                    updateSection={e => {
                         this.updateSection('');
                         e.preventDefault();
                     }}
@@ -1168,15 +1131,15 @@ class UserSettingsGeneralTab extends React.Component {
             if (user.last_picture_update) {
                 minMessage = (
                     <FormattedMessage
-                        id='user.settings.general.imageUpdated'
-                        defaultMessage='Image last updated {date}'
+                        id="user.settings.general.imageUpdated"
+                        defaultMessage="Image last updated {date}"
                         values={{
                             date: (
                                 <FormattedDate
                                     value={new Date(user.last_picture_update)}
-                                    day='2-digit'
-                                    month='short'
-                                    year='numeric'
+                                    day="2-digit"
+                                    month="short"
+                                    year="numeric"
                                 />
                             )
                         }}
@@ -1196,53 +1159,41 @@ class UserSettingsGeneralTab extends React.Component {
 
         return (
             <div>
-                <div className='modal-header'>
+                <div className="modal-header">
                     <button
-                        id='closeUserSettings'
-                        type='button'
-                        className='close'
-                        data-dismiss='modal'
+                        id="closeUserSettings"
+                        type="button"
+                        className="close"
+                        data-dismiss="modal"
                         aria-label={formatMessage(holders.close)}
                         onClick={this.props.closeModal}
                     >
-                        <span aria-hidden='true'>{'×'}</span>
+                        <span aria-hidden="true">{'×'}</span>
                     </button>
-                    <h4
-                        className='modal-title'
-                        ref='title'
-                    >
-                        <div className='modal-back'>
-                            <i
-                                className='fa fa-angle-left'
-                                onClick={this.props.collapseModal}
-                            />
+                    <h4 className="modal-title" ref="title">
+                        <div className="modal-back">
+                            <i className="fa fa-angle-left" onClick={this.props.collapseModal} />
                         </div>
-                        <FormattedMessage
-                            id='user.settings.general.title'
-                            defaultMessage='General Settings'
-                        />
+                        <FormattedMessage id="user.settings.general.title" defaultMessage="General Settings" />
                     </h4>
                 </div>
-                <div className='user-settings'>
-                    <h3 className='tab-header'>
-                        <FormattedMessage
-                            id='user.settings.general.title'
-                            defaultMessage='General Settings'
-                        />
+                <div className="user-settings">
+                    <h3 className="tab-header">
+                        <FormattedMessage id="user.settings.general.title" defaultMessage="General Settings" />
                     </h3>
-                    <div className='divider-dark first'/>
+                    <div className="divider-dark first" />
                     {nameSection}
-                    <div className='divider-light'/>
+                    <div className="divider-light" />
                     {usernameSection}
-                    <div className='divider-light'/>
+                    <div className="divider-light" />
                     {nicknameSection}
-                    <div className='divider-light'/>
+                    <div className="divider-light" />
                     {positionSection}
-                    <div className='divider-light'/>
+                    <div className="divider-light" />
                     {emailSection}
-                    <div className='divider-light'/>
+                    <div className="divider-light" />
                     {pictureSection}
-                    <div className='divider-dark'/>
+                    <div className="divider-dark" />
                 </div>
             </div>
         );

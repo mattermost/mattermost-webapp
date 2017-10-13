@@ -24,7 +24,6 @@ const LAST_ANALYTICS_TEAM = 'last_analytics_team';
 
 export default class TeamAnalytics extends React.Component {
     static propTypes = {
-
         /*
          * Array of team objects
          */
@@ -36,7 +35,6 @@ export default class TeamAnalytics extends React.Component {
         initialTeam: PropTypes.object,
 
         actions: PropTypes.shape({
-
             /*
              * Function to get teams
              */
@@ -47,7 +45,7 @@ export default class TeamAnalytics extends React.Component {
              */
             getProfilesInTeam: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -78,18 +76,23 @@ export default class TeamAnalytics extends React.Component {
         }
     }
 
-    getData = async (id) => {
+    getData = async id => {
         AdminActions.getStandardAnalytics(id);
         AdminActions.getPostsPerDayAnalytics(id);
         AdminActions.getUsersPerDayAnalytics(id);
-        const recentlyActiveUsers = await this.props.actions.getProfilesInTeam(id, 0, General.PROFILE_CHUNK_SIZE, 'last_activity_at');
+        const recentlyActiveUsers = await this.props.actions.getProfilesInTeam(
+            id,
+            0,
+            General.PROFILE_CHUNK_SIZE,
+            'last_activity_at'
+        );
         const newUsers = await this.props.actions.getProfilesInTeam(id, 0, General.PROFILE_CHUNK_SIZE, 'create_at');
 
         this.setState({
             recentlyActiveUsers,
             newUsers
         });
-    }
+    };
 
     componentWillUnmount() {
         AnalyticsStore.removeChangeListener(this.onChange);
@@ -100,13 +103,13 @@ export default class TeamAnalytics extends React.Component {
         this.setState({
             stats: AnalyticsStore.getAllTeam(teamId)
         });
-    }
+    };
 
-    handleTeamChange = (e) => {
+    handleTeamChange = e => {
         const teamId = e.target.value;
 
         let team;
-        this.props.teams.forEach((t) => {
+        this.props.teams.forEach(t => {
             if (t.id === teamId) {
                 team = t;
             }
@@ -117,11 +120,11 @@ export default class TeamAnalytics extends React.Component {
         });
 
         BrowserStore.setGlobalItem(LAST_ANALYTICS_TEAM, teamId);
-    }
+    };
 
     render() {
         if (this.props.teams.length === 0 || !this.state.team || !this.state.stats) {
-            return <LoadingScreen/>;
+            return <LoadingScreen />;
         }
 
         if (this.state.team == null) {
@@ -129,8 +132,8 @@ export default class TeamAnalytics extends React.Component {
                 <Banner
                     description={
                         <FormattedMessage
-                            id='analytics.team.noTeams'
-                            defaultMessage='There are no teams on this server for which to view statistics.'
+                            id="analytics.team.noTeams"
+                            defaultMessage="There are no teams on this server for which to view statistics."
                         />
                     }
                 />
@@ -147,10 +150,10 @@ export default class TeamAnalytics extends React.Component {
         let userActiveGraph;
         if (stats[StatTypes.TOTAL_POSTS] === -1) {
             banner = (
-                <div className='banner'>
-                    <div className='banner__content'>
+                <div className="banner">
+                    <div className="banner__content">
                         <FormattedHTMLMessage
-                            id='analytics.system.skippedIntensiveQueries'
+                            id="analytics.system.skippedIntensiveQueries"
                             defaultMessage="Some statistics have been omitted because they put too much load on the system to calculate. See <a href='https://docs.mattermost.com/administration/statistics.html' target='_blank'>https://docs.mattermost.com/administration/statistics.html</a> for more details."
                         />
                     </div>
@@ -159,47 +162,37 @@ export default class TeamAnalytics extends React.Component {
         } else {
             totalPostsCount = (
                 <StatisticCount
-                    title={
-                        <FormattedMessage
-                            id='analytics.team.totalPosts'
-                            defaultMessage='Total Posts'
-                        />
-                    }
-                    icon='fa-comment'
+                    title={<FormattedMessage id="analytics.team.totalPosts" defaultMessage="Total Posts" />}
+                    icon="fa-comment"
                     count={stats[StatTypes.TOTAL_POSTS]}
                 />
             );
 
             postTotalGraph = (
-                <div className='row'>
+                <div className="row">
                     <LineChart
                         key={this.state.team.id}
-                        title={
-                            <FormattedMessage
-                                id='analytics.team.totalPosts'
-                                defaultMessage='Total Posts'
-                            />
-                        }
+                        title={<FormattedMessage id="analytics.team.totalPosts" defaultMessage="Total Posts" />}
                         data={postCountsDay}
                         options={{
                             legend: {
                                 display: false
                             }
                         }}
-                        width='740'
-                        height='225'
+                        width="740"
+                        height="225"
                     />
                 </div>
             );
 
             userActiveGraph = (
-                <div className='row'>
+                <div className="row">
                     <LineChart
                         key={this.state.team.id}
                         title={
                             <FormattedMessage
-                                id='analytics.team.activeUsers'
-                                defaultMessage='Active Users With Posts'
+                                id="analytics.team.activeUsers"
+                                defaultMessage="Active Users With Posts"
                             />
                         }
                         data={userCountsWithPostsDay}
@@ -208,8 +201,8 @@ export default class TeamAnalytics extends React.Component {
                                 display: false
                             }
                         }}
-                        width='740'
-                        height='225'
+                        width="740"
+                        height="225"
                     />
                 </div>
             );
@@ -218,34 +211,31 @@ export default class TeamAnalytics extends React.Component {
         const recentActiveUsers = formatRecentUsersData(this.state.recentlyActiveUsers);
         const newlyCreatedUsers = formatNewUsersData(this.state.newUsers);
 
-        const teams = this.props.teams.map((team) => {
+        const teams = this.props.teams.map(team => {
             return (
-                <option
-                    key={team.id}
-                    value={team.id}
-                >
+                <option key={team.id} value={team.id}>
                     {team.display_name}
                 </option>
             );
         });
 
         return (
-            <div className='wrapper--fixed team_statistics'>
-                <div className='admin-console-header team-statistics__header-row'>
-                    <div className='team-statistics__header'>
+            <div className="wrapper--fixed team_statistics">
+                <div className="admin-console-header team-statistics__header-row">
+                    <div className="team-statistics__header">
                         <h3>
                             <FormattedMessage
-                                id='analytics.team.title'
-                                defaultMessage='Team Statistics for {team}'
+                                id="analytics.team.title"
+                                defaultMessage="Team Statistics for {team}"
                                 values={{
                                     team: this.state.team.display_name
                                 }}
                             />
                         </h3>
                     </div>
-                    <div className='team-statistics__team-filter'>
+                    <div className="team-statistics__team-filter">
                         <select
-                            className='form-control team-statistics__team-filter__dropdown'
+                            className="form-control team-statistics__team-filter__dropdown"
                             onChange={this.handleTeamChange}
                             value={this.state.team.id}
                         >
@@ -254,57 +244,36 @@ export default class TeamAnalytics extends React.Component {
                     </div>
                 </div>
                 {banner}
-                <div className='row'>
+                <div className="row">
                     <StatisticCount
-                        title={
-                            <FormattedMessage
-                                id='analytics.team.totalUsers'
-                                defaultMessage='Total Users'
-                            />
-                        }
-                        icon='fa-user'
+                        title={<FormattedMessage id="analytics.team.totalUsers" defaultMessage="Total Users" />}
+                        icon="fa-user"
                         count={stats[StatTypes.TOTAL_USERS]}
                     />
                     <StatisticCount
-                        title={
-                            <FormattedMessage
-                                id='analytics.team.publicChannels'
-                                defaultMessage='Public Channels'
-                            />
-                        }
-                        icon='fa-users'
+                        title={<FormattedMessage id="analytics.team.publicChannels" defaultMessage="Public Channels" />}
+                        icon="fa-users"
                         count={stats[StatTypes.TOTAL_PUBLIC_CHANNELS]}
                     />
                     <StatisticCount
-                        title={
-                            <FormattedMessage
-                                id='analytics.team.privateGroups'
-                                defaultMessage='Private Channels'
-                            />
-                        }
-                        icon='fa-globe'
+                        title={<FormattedMessage id="analytics.team.privateGroups" defaultMessage="Private Channels" />}
+                        icon="fa-globe"
                         count={stats[StatTypes.TOTAL_PRIVATE_GROUPS]}
                     />
                     {totalPostsCount}
                 </div>
                 {postTotalGraph}
                 {userActiveGraph}
-                <div className='row'>
+                <div className="row">
                     <TableChart
                         title={
-                            <FormattedMessage
-                                id='analytics.team.recentUsers'
-                                defaultMessage='Recent Active Users'
-                            />
+                            <FormattedMessage id="analytics.team.recentUsers" defaultMessage="Recent Active Users" />
                         }
                         data={recentActiveUsers}
                     />
                     <TableChart
                         title={
-                            <FormattedMessage
-                                id='analytics.team.newlyCreated'
-                                defaultMessage='Newly Created Users'
-                            />
+                            <FormattedMessage id="analytics.team.newlyCreated" defaultMessage="Newly Created Users" />
                         }
                         data={newlyCreatedUsers}
                     />
@@ -319,18 +288,18 @@ export function formatRecentUsersData(data) {
         return [];
     }
 
-    const formattedData = data.map((user) => {
+    const formattedData = data.map(user => {
         const item = {};
         item.name = user.username;
         item.value = (
             <FormattedDate
                 value={user.last_activity_at}
-                day='numeric'
-                month='long'
-                year='numeric'
+                day="numeric"
+                month="long"
+                year="numeric"
                 hour12={true}
-                hour='2-digit'
-                minute='2-digit'
+                hour="2-digit"
+                minute="2-digit"
             />
         );
         item.tip = user.email;
@@ -346,18 +315,18 @@ export function formatNewUsersData(data) {
         return [];
     }
 
-    const formattedData = data.map((user) => {
+    const formattedData = data.map(user => {
         const item = {};
         item.name = user.username;
         item.value = (
             <FormattedDate
                 value={user.create_at}
-                day='numeric'
-                month='long'
-                year='numeric'
+                day="numeric"
+                month="long"
+                year="numeric"
                 hour12={true}
-                hour='2-digit'
-                minute='2-digit'
+                hour="2-digit"
+                minute="2-digit"
             />
         );
         item.tip = user.email;

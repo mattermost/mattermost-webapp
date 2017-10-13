@@ -7,7 +7,6 @@ import {FormattedMessage} from 'react-intl';
 
 export default class CommentedOnFilesMessage extends React.PureComponent {
     static propTypes = {
-
         /*
          * The id of the post that was commented on
          */
@@ -19,13 +18,12 @@ export default class CommentedOnFilesMessage extends React.PureComponent {
         fileInfos: PropTypes.arrayOf(PropTypes.object),
 
         actions: PropTypes.shape({
-
             /*
              * Function to get file metadata for a post
              */
             getFilesForPost: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     componentDidMount() {
         if (!this.props.fileInfos || this.props.fileInfos.length === 0) {
@@ -42,8 +40,8 @@ export default class CommentedOnFilesMessage extends React.PureComponent {
         if (this.props.fileInfos.length > 1) {
             plusMore = (
                 <FormattedMessage
-                    id='post_body.plusMore'
-                    defaultMessage=' plus {count, number} other {count, plural, one {file} other {files}}'
+                    id="post_body.plusMore"
+                    defaultMessage=" plus {count, number} other {count, plural, one {file} other {files}}"
                     values={{
                         count: this.props.fileInfos.length - 1
                     }}

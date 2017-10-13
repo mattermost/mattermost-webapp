@@ -26,7 +26,7 @@ export default class SelectTeam extends React.Component {
         actions: PropTypes.shape({
             getTeams: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -95,22 +95,22 @@ export default class SelectTeam extends React.Component {
 
         if (openTeamContents.length === 0 && (global.window.mm_config.EnableTeamCreation === 'true' || isSystemAdmin)) {
             openTeamContents = (
-                <div className='signup-team-dir-err'>
+                <div className="signup-team-dir-err">
                     <div>
                         <FormattedMessage
-                            id='signup_team.no_open_teams_canCreate'
-                            defaultMessage='No teams are available to join. Please create a new team or ask your administrator for an invite.'
+                            id="signup_team.no_open_teams_canCreate"
+                            defaultMessage="No teams are available to join. Please create a new team or ask your administrator for an invite."
                         />
                     </div>
                 </div>
             );
         } else if (openTeamContents.length === 0) {
             openTeamContents = (
-                <div className='signup-team-dir-err'>
+                <div className="signup-team-dir-err">
                     <div>
                         <FormattedMessage
-                            id='signup_team.no_open_teams'
-                            defaultMessage='No teams are available to join. Please ask your administrator for an invite.'
+                            id="signup_team.no_open_teams"
+                            defaultMessage="No teams are available to join. Please ask your administrator for an invite."
                         />
                     </div>
                 </div>
@@ -122,29 +122,24 @@ export default class SelectTeam extends React.Component {
         }
 
         let openContent = (
-            <div className='signup__content'>
+            <div className="signup__content">
                 <h4>
-                    <FormattedMessage
-                        id='signup_team.join_open'
-                        defaultMessage='Teams you can join: '
-                    />
+                    <FormattedMessage id="signup_team.join_open" defaultMessage="Teams you can join: " />
                 </h4>
-                <div className='signup-team-all'>
-                    {openTeamContents}
-                </div>
+                <div className="signup-team-all">{openTeamContents}</div>
             </div>
         );
 
         if (!this.state.loaded || this.state.loadingTeamId !== '') {
-            openContent = <LoadingScreen/>;
+            openContent = <LoadingScreen />;
         }
 
         let teamHelp = null;
-        if (isSystemAdmin && (global.window.mm_config.EnableTeamCreation === 'false')) {
+        if (isSystemAdmin && global.window.mm_config.EnableTeamCreation === 'false') {
             teamHelp = (
                 <FormattedMessage
-                    id='login.createTeamAdminOnly'
-                    defaultMessage='This option is only available for System Administrators, and does not show up for other users.'
+                    id="login.createTeamAdminOnly"
+                    defaultMessage="This option is only available for System Administrators, and does not show up for other users."
                 />
             );
         }
@@ -152,19 +147,11 @@ export default class SelectTeam extends React.Component {
         let teamSignUp;
         if (isSystemAdmin || global.window.mm_config.EnableTeamCreation === 'true') {
             teamSignUp = (
-                <div className='margin--extra'>
-                    <Link
-                        to='/create_team'
-                        className='signup-team-login'
-                    >
-                        <FormattedMessage
-                            id='login.createTeam'
-                            defaultMessage='Create a new team'
-                        />
+                <div className="margin--extra">
+                    <Link to="/create_team" className="signup-team-login">
+                        <FormattedMessage id="login.createTeam" defaultMessage="Create a new team" />
                     </Link>
-                    <div>
-                        {teamHelp}
-                    </div>
+                    <div>{teamHelp}</div>
                 </div>
             );
         }
@@ -172,62 +159,52 @@ export default class SelectTeam extends React.Component {
         let adminConsoleLink;
         if (isSystemAdmin && !UserAgent.isMobileApp()) {
             adminConsoleLink = (
-                <div className='margin--extra hidden-xs'>
-                    <Link
-                        to='/admin_console'
-                        className='signup-team-login'
-                    >
-                        <FormattedMessage
-                            id='signup_team_system_console'
-                            defaultMessage='Go to System Console'
-                        />
+                <div className="margin--extra hidden-xs">
+                    <Link to="/admin_console" className="signup-team-login">
+                        <FormattedMessage id="signup_team_system_console" defaultMessage="Go to System Console" />
                     </Link>
                 </div>
             );
         }
 
         let description = null;
-        if (global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.CustomBrand === 'true' && global.window.mm_config.EnableCustomBrand === 'true') {
+        if (
+            global.window.mm_license.IsLicensed === 'true' &&
+            global.window.mm_license.CustomBrand === 'true' &&
+            global.window.mm_config.EnableCustomBrand === 'true'
+        ) {
             description = global.window.mm_config.CustomDescriptionText;
         } else {
             description = (
                 <FormattedMessage
-                    id='web.root.signup_info'
-                    defaultMessage='All team communication in one place, searchable and accessible anywhere'
+                    id="web.root.signup_info"
+                    defaultMessage="All team communication in one place, searchable and accessible anywhere"
                 />
             );
         }
 
         let headerButton;
         if (this.state.teamMembers.length) {
-            headerButton = (<BackButton/>);
+            headerButton = <BackButton />;
         } else {
             headerButton = (
-                <div className='signup-header'>
-                    <a
-                        href='#'
-                        onClick={() => GlobalActions.emitUserLoggedOutEvent()}
-                    >
-                        <span className='fa fa-chevron-left'/>
-                        <FormattedMessage id='web.header.logout'/>
+                <div className="signup-header">
+                    <a href="#" onClick={() => GlobalActions.emitUserLoggedOutEvent()}>
+                        <span className="fa fa-chevron-left" />
+                        <FormattedMessage id="web.header.logout" />
                     </a>
                 </div>
             );
         }
         return (
             <div>
-                <AnnouncementBar/>
+                <AnnouncementBar />
                 {headerButton}
-                <div className='col-sm-12'>
+                <div className="col-sm-12">
                     <div className={'signup-team__container'}>
-                        <img
-                            className='signup-team-logo'
-                            src={logoImage}
-                        />
+                        <img className="signup-team-logo" src={logoImage} />
                         <h1>{global.window.mm_config.SiteName}</h1>
-                        <h4 className='color--light'>
-                            {description}
-                        </h4>
+                        <h4 className="color--light">{description}</h4>
                         {openContent}
                         {teamSignUp}
                         {adminConsoleLink}

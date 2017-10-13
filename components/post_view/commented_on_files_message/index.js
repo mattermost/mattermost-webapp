@@ -27,9 +27,12 @@ function makeMapStateToProps() {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({
-            getFilesForPost
-        }, dispatch)
+        actions: bindActionCreators(
+            {
+                getFilesForPost
+            },
+            dispatch
+        )
     };
 }
 

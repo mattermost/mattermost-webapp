@@ -135,8 +135,8 @@ export default class SearchableUserList extends React.Component {
             if (isSearch) {
                 return (
                     <FormattedMessage
-                        id='filtered_user_list.countTotal'
-                        defaultMessage='{count, number} {count, plural, one {member} other {members}} of {total, number} total'
+                        id="filtered_user_list.countTotal"
+                        defaultMessage="{count, number} {count, plural, one {member} other {members}} of {total, number} total"
                         values={{
                             count,
                             total
@@ -147,8 +147,8 @@ export default class SearchableUserList extends React.Component {
 
             return (
                 <FormattedMessage
-                    id='filtered_user_list.countTotalPage'
-                    defaultMessage='{startCount, number} - {endCount, number} {count, plural, one {member} other {members}} of {total, number} total'
+                    id="filtered_user_list.countTotalPage"
+                    defaultMessage="{startCount, number} - {endCount, number} {count, plural, one {member} other {members}} of {total, number} total"
                     values={{
                         count,
                         startCount: startCount + 1,
@@ -177,28 +177,19 @@ export default class SearchableUserList extends React.Component {
             if (usersToDisplay.length >= this.props.usersPerPage) {
                 nextButton = (
                     <button
-                        className='btn btn-default filter-control filter-control__next'
+                        className="btn btn-default filter-control filter-control__next"
                         onClick={this.nextPage}
                         disabled={this.state.nextDisabled}
                     >
-                        <FormattedMessage
-                            id='filtered_user_list.next'
-                            defaultMessage='Next'
-                        />
+                        <FormattedMessage id="filtered_user_list.next" defaultMessage="Next" />
                     </button>
                 );
             }
 
             if (this.props.page > 0) {
                 previousButton = (
-                    <button
-                        className='btn btn-default filter-control filter-control__prev'
-                        onClick={this.previousPage}
-                    >
-                        <FormattedMessage
-                            id='filtered_user_list.prev'
-                            defaultMessage='Previous'
-                        />
+                    <button className="btn btn-default filter-control filter-control__prev" onClick={this.previousPage}>
+                        <FormattedMessage id="filtered_user_list.prev" defaultMessage="Previous" />
                     </button>
                 );
             }
@@ -209,10 +200,10 @@ export default class SearchableUserList extends React.Component {
             filterRow = this.props.renderFilterRow(this.handleInput);
         } else {
             filterRow = (
-                <div className='col-xs-12'>
+                <div className="col-xs-12">
                     <input
-                        ref='filter'
-                        className='form-control filter-textbox'
+                        ref="filter"
+                        className="form-control filter-textbox"
                         placeholder={Utils.localizeMessage('filtered_user_list.search', 'Search users')}
                         value={this.props.term}
                         onInput={this.handleInput}
@@ -222,18 +213,16 @@ export default class SearchableUserList extends React.Component {
         }
 
         return (
-            <div className='filtered-user-list'>
-                <div className='filter-row'>
+            <div className="filtered-user-list">
+                <div className="filter-row">
                     {filterRow}
-                    <div className='col-sm-12'>
-                        <span className='member-count pull-left'>{this.renderCount(usersToDisplay)}</span>
+                    <div className="col-sm-12">
+                        <span className="member-count pull-left">{this.renderCount(usersToDisplay)}</span>
                     </div>
                 </div>
-                <div
-                    className='more-modal__list'
-                >
+                <div className="more-modal__list">
                     <UserList
-                        ref='userList'
+                        ref="userList"
                         users={usersToDisplay}
                         extraInfo={this.props.extraInfo}
                         actions={this.props.actions}
@@ -241,7 +230,7 @@ export default class SearchableUserList extends React.Component {
                         actionUserProps={this.props.actionUserProps}
                     />
                 </div>
-                <div className='filter-controls'>
+                <div className="filter-controls">
                     {previousButton}
                     {nextButton}
                 </div>

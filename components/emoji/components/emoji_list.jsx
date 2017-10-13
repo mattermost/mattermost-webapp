@@ -59,7 +59,12 @@ export default class EmojiList extends React.Component {
             currentSiteName = global.window.mm_config.SiteName;
         }
 
-        document.title = Utils.localizeMessage('custom_emoji.header', 'Custom Emoji') + ' - ' + this.props.team.display_name + ' ' + currentSiteName;
+        document.title =
+            Utils.localizeMessage('custom_emoji.header', 'Custom Emoji') +
+            ' - ' +
+            this.props.team.display_name +
+            ' ' +
+            currentSiteName;
     }
 
     componentWillUnmount() {
@@ -94,26 +99,17 @@ export default class EmojiList extends React.Component {
         const emojis = [];
         if (this.state.loading) {
             emojis.push(
-                <tr
-                    key='loading'
-                    className='backstage-list__item backstage-list__empty'
-                >
-                    <td colSpan='4'>
-                        <LoadingScreen key='loading'/>
+                <tr key="loading" className="backstage-list__item backstage-list__empty">
+                    <td colSpan="4">
+                        <LoadingScreen key="loading" />
                     </td>
                 </tr>
             );
         } else if (this.state.emojis.size === 0) {
             emojis.push(
-                <tr
-                    key='empty'
-                    className='backstage-list__item backstage-list__empty'
-                >
-                    <td colSpan='4'>
-                        <FormattedMessage
-                            id='emoji_list.empty'
-                            defaultMessage='No custom emoji found'
-                        />
+                <tr key="empty" className="backstage-list__item backstage-list__empty">
+                    <td colSpan="4">
+                        <FormattedMessage id="emoji_list.empty" defaultMessage="No custom emoji found" />
                     </td>
                 </tr>
             );
@@ -137,35 +133,23 @@ export default class EmojiList extends React.Component {
         }
 
         return (
-            <div className='backstage-content emoji-list'>
-                <div className='backstage-header'>
+            <div className="backstage-content emoji-list">
+                <div className="backstage-header">
                     <h1>
-                        <FormattedMessage
-                            id='emoji_list.header'
-                            defaultMessage='Custom Emoji'
-                        />
+                        <FormattedMessage id="emoji_list.header" defaultMessage="Custom Emoji" />
                     </h1>
-                    <Link
-                        className='add-link'
-                        to={'/' + this.props.team.name + '/emoji/add'}
-                    >
-                        <button
-                            type='button'
-                            className='btn btn-primary'
-                        >
-                            <FormattedMessage
-                                id='emoji_list.add'
-                                defaultMessage='Add Custom Emoji'
-                            />
+                    <Link className="add-link" to={'/' + this.props.team.name + '/emoji/add'}>
+                        <button type="button" className="btn btn-primary">
+                            <FormattedMessage id="emoji_list.add" defaultMessage="Add Custom Emoji" />
                         </button>
                     </Link>
                 </div>
-                <div className='backstage-filters'>
-                    <div className='backstage-filter__search'>
-                        <i className='fa fa-search'/>
+                <div className="backstage-filters">
+                    <div className="backstage-filter__search">
+                        <i className="fa fa-search" />
                         <input
-                            type='search'
-                            className='form-control'
+                            type="search"
+                            className="form-control"
                             placeholder={Utils.localizeMessage('emoji_list.search', 'Search Custom Emoji')}
                             value={this.state.filter}
                             onChange={this.updateFilter}
@@ -173,53 +157,39 @@ export default class EmojiList extends React.Component {
                         />
                     </div>
                 </div>
-                <span className='backstage-list__help'>
+                <span className="backstage-list__help">
                     <p>
                         <FormattedMessage
-                            id='emoji_list.help'
+                            id="emoji_list.help"
                             defaultMessage="Custom emoji are available to everyone on your server. Type ':' in a message box to bring up the emoji selection menu. Other users may need to refresh the page before new emojis appear."
                         />
                     </p>
                     <p>
                         <FormattedMessage
-                            id='emoji_list.help2'
+                            id="emoji_list.help2"
                             defaultMessage="Tip: If you add #, ##, or ### as the first character on a new line containing emoji, you can use larger sized emoji. To try it out, send a message such as: '# :smile:'."
                         />
                     </p>
                 </span>
-                <div className='backstage-list'>
-                    <table className='emoji-list__table'>
+                <div className="backstage-list">
+                    <table className="emoji-list__table">
                         <thead>
-                            <tr className='backstage-list__item emoji-list__table-header'>
-                                <th className='emoji-list__name'>
-                                    <FormattedMessage
-                                        id='emoji_list.name'
-                                        defaultMessage='Name'
-                                    />
+                            <tr className="backstage-list__item emoji-list__table-header">
+                                <th className="emoji-list__name">
+                                    <FormattedMessage id="emoji_list.name" defaultMessage="Name" />
                                 </th>
-                                <th className='emoji-list__image'>
-                                    <FormattedMessage
-                                        id='emoji_list.image'
-                                        defaultMessage='Image'
-                                    />
+                                <th className="emoji-list__image">
+                                    <FormattedMessage id="emoji_list.image" defaultMessage="Image" />
                                 </th>
-                                <th className='emoji-list__creator'>
-                                    <FormattedMessage
-                                        id='emoji_list.creator'
-                                        defaultMessage='Creator'
-                                    />
+                                <th className="emoji-list__creator">
+                                    <FormattedMessage id="emoji_list.creator" defaultMessage="Creator" />
                                 </th>
-                                <th className='emoji-list_actions'>
-                                    <FormattedMessage
-                                        id='emoji_list.actions'
-                                        defaultMessage='Actions'
-                                    />
+                                <th className="emoji-list_actions">
+                                    <FormattedMessage id="emoji_list.actions" defaultMessage="Actions" />
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
-                            {emojis}
-                        </tbody>
+                        <tbody>{emojis}</tbody>
                     </table>
                 </div>
             </div>

@@ -50,20 +50,21 @@ function doChannelChange(state, replace, callback) {
         }
 
         if (!channel) {
-            joinChannel(UserStore.getCurrentId(), TeamStore.getCurrentId(), null, state.params.channel)(dispatch, getState).then(
-                (result) => {
-                    if (result.data) {
-                        GlobalActions.emitChannelClickEvent(result.data.channel);
-                    } else if (result.error) {
-                        if (state.params.team) {
-                            replace('/' + state.params.team + '/channels/town-square');
-                        } else {
-                            replace('/');
-                        }
+            joinChannel(UserStore.getCurrentId(), TeamStore.getCurrentId(), null, state.params.channel)(
+                dispatch,
+                getState
+            ).then(result => {
+                if (result.data) {
+                    GlobalActions.emitChannelClickEvent(result.data.channel);
+                } else if (result.error) {
+                    if (state.params.team) {
+                        replace('/' + state.params.team + '/channels/town-square');
+                    } else {
+                        replace('/');
                     }
-                    callback();
                 }
-            );
+                callback();
+            });
             return;
         }
     }
@@ -72,7 +73,7 @@ function doChannelChange(state, replace, callback) {
 }
 
 let wakeUpInterval;
-let lastTime = (new Date()).getTime();
+let lastTime = new Date().getTime();
 const WAKEUP_CHECK_INTERVAL = 30000; // 30 seconds
 const WAKEUP_THRESHOLD = 60000; // 60 seconds
 
@@ -85,8 +86,9 @@ function preNeedsTeam(nextState, replace, callback) {
     clearInterval(wakeUpInterval);
 
     wakeUpInterval = setInterval(() => {
-        const currentTime = (new Date()).getTime();
-        if (currentTime > (lastTime + WAKEUP_THRESHOLD)) {  // ignore small delays
+        const currentTime = new Date().getTime();
+        if (currentTime > lastTime + WAKEUP_THRESHOLD) {
+            // ignore small delays
             console.log('computer woke up - fetching latest'); //eslint-disable-line no-console
             reconnect(false);
         }
@@ -116,14 +118,12 @@ function preNeedsTeam(nextState, replace, callback) {
 
     const d1 = $.Deferred(); //eslint-disable-line new-cap
 
-    fetchMyChannelsAndMembers(team.id)(dispatch, getState).then(
-        () => {
-            loadStatusesForChannelAndSidebar();
-            loadProfilesForSidebar();
+    fetchMyChannelsAndMembers(team.id)(dispatch, getState).then(() => {
+        loadStatusesForChannelAndSidebar();
+        loadProfilesForSidebar();
 
-            d1.resolve();
-        }
-    );
+        d1.resolve();
+    });
 
     $.when(d1).done(() => {
         callback();
@@ -146,10 +146,7 @@ function selectLastChannel(nextState, replace, callback) {
 
 function onPermalinkEnter(nextState, replace, callback) {
     const postId = nextState.params.postid;
-    GlobalActions.emitPostFocusEvent(
-        postId,
-        () => callback()
-    );
+    GlobalActions.emitPostFocusEvent(postId, () => callback());
 }
 
 /**
@@ -165,25 +162,23 @@ function onChannelByIdentifierEnter(state, replace, callback) {
     if (identifier.indexOf('@') === -1) {
         // DM user_id or id1_id2 identifier
         if (identifier.length === 26 || identifier.length === 54) {
-            const userId = (identifier.length === 26) ? identifier : Utils.getUserIdFromChannelId(identifier);
+            const userId = identifier.length === 26 ? identifier : Utils.getUserIdFromChannelId(identifier);
             const teammate = UserStore.getProfile(userId);
             if (teammate) {
                 replace(`/${state.params.team}/messages/@${teammate.username}`);
                 callback();
             } else {
-                getUser(userId)(dispatch, getState).then(
-                    (profile) => {
-                        if (profile) {
-                            replace(`/${state.params.team}/messages/@${profile.username}`);
-                            callback();
-                        } else if (profile == null) {
-                            handleError(state, replace, callback);
-                        }
+                getUser(userId)(dispatch, getState).then(profile => {
+                    if (profile) {
+                        replace(`/${state.params.team}/messages/@${profile.username}`);
+                        callback();
+                    } else if (profile == null) {
+                        handleError(state, replace, callback);
                     }
-                );
+                });
             }
 
-        // GM generated_id identifier
+            // GM generated_id identifier
         } else if (identifier.length === 40) {
             const channel = ChannelStore.getByName(identifier);
             if (channel) {
@@ -191,16 +186,17 @@ function onChannelByIdentifierEnter(state, replace, callback) {
                 GlobalActions.emitChannelClickEvent(channel);
                 callback();
             } else {
-                joinChannel(UserStore.getCurrentId(), TeamStore.getCurrentId(), null, identifier)(dispatch, getState).then(
-                    (result) => {
-                        if (result.data) {
-                            GlobalActions.emitChannelClickEvent(result.data.channel);
-                            callback();
-                        } else if (result.error) {
-                            handleError(state, replace, callback);
-                        }
+                joinChannel(UserStore.getCurrentId(), TeamStore.getCurrentId(), null, identifier)(
+                    dispatch,
+                    getState
+                ).then(result => {
+                    if (result.data) {
+                        GlobalActions.emitChannelClickEvent(result.data.channel);
+                        callback();
+                    } else if (result.error) {
+                        handleError(state, replace, callback);
                     }
-                );
+                });
             }
         } else {
             handleError(state, replace, callback);
@@ -218,39 +214,37 @@ function onChannelByIdentifierEnter(state, replace, callback) {
             handleError(state, replace, callback);
         }
 
-        if (identifier.indexOf('@') === 0) { // @username identifier
+        if (identifier.indexOf('@') === 0) {
+            // @username identifier
             const username = identifier.slice(1, identifier.length);
             const teammate = UserStore.getProfileByUsername(username);
             if (teammate) {
                 directChannelToUser(teammate, state, replace, callback);
             } else {
-                getUserByUsername(username)(dispatch, getState).then(
-                    (data) => {
-                        if (data && success) {
-                            success(data);
-                        } else if (data == null && error) {
-                            const serverError = getState().requests.users.getUserByUsername.error;
-                            error({id: serverError.server_error_id, ...serverError});
-                        }
+                getUserByUsername(username)(dispatch, getState).then(data => {
+                    if (data && success) {
+                        success(data);
+                    } else if (data == null && error) {
+                        const serverError = getState().requests.users.getUserByUsername.error;
+                        error({id: serverError.server_error_id, ...serverError});
                     }
-                );
+                });
             }
-        } else if (identifier.indexOf('@') > 0) { // email identifier
+        } else if (identifier.indexOf('@') > 0) {
+            // email identifier
             const email = identifier;
             const teammate = UserStore.getProfileByEmail(email);
             if (teammate) {
                 directChannelToUser(teammate, state, replace, callback);
             } else {
-                getUserByEmail(email)(dispatch, getState).then(
-                    (data) => {
-                        if (data && success) {
-                            success(data);
-                        } else if (data == null && error) {
-                            const serverError = getState().requests.users.getUser.error;
-                            error({id: serverError.server_error_id, ...serverError});
-                        }
+                getUserByEmail(email)(dispatch, getState).then(data => {
+                    if (data && success) {
+                        success(data);
+                    } else if (data == null && error) {
+                        const serverError = getState().requests.users.getUser.error;
+                        error({id: serverError.server_error_id, ...serverError});
                     }
-                );
+                });
             }
         }
     }
@@ -259,7 +253,7 @@ function onChannelByIdentifierEnter(state, replace, callback) {
 function directChannelToUser(profile, state, replace, callback) {
     openDirectChannelToUser(
         profile.id,
-        (channel) => {
+        channel => {
             GlobalActions.emitChannelClickEvent(channel);
             callback();
         },
@@ -298,8 +292,12 @@ export default {
                             System.import('components/team_sidebar'),
                             System.import('components/sidebar.jsx'),
                             System.import('components/channel_view.jsx')
-                        ]).then(
-                        (comarr) => callback(null, {team_sidebar: comarr[0].default, sidebar: comarr[1].default, center: comarr[2].default})
+                        ]).then(comarr =>
+                            callback(null, {
+                                team_sidebar: comarr[0].default,
+                                sidebar: comarr[1].default,
+                                center: comarr[2].default
+                            })
                         );
                     }
                 },
@@ -311,8 +309,12 @@ export default {
                             System.import('components/team_sidebar'),
                             System.import('components/sidebar.jsx'),
                             System.import('components/permalink_view.jsx')
-                        ]).then(
-                        (comarr) => callback(null, {team_sidebar: comarr[0].default, sidebar: comarr[1].default, center: comarr[2].default})
+                        ]).then(comarr =>
+                            callback(null, {
+                                team_sidebar: comarr[0].default,
+                                sidebar: comarr[1].default,
+                                center: comarr[2].default
+                            })
                         );
                     }
                 },
@@ -324,8 +326,12 @@ export default {
                             System.import('components/team_sidebar'),
                             System.import('components/sidebar.jsx'),
                             System.import('components/channel_view.jsx')
-                        ]).then(
-                        (comarr) => callback(null, {team_sidebar: comarr[0].default, sidebar: comarr[1].default, center: comarr[2].default})
+                        ]).then(comarr =>
+                            callback(null, {
+                                team_sidebar: comarr[0].default,
+                                sidebar: comarr[1].default,
+                                center: comarr[2].default
+                            })
                         );
                     }
                 },
@@ -336,8 +342,12 @@ export default {
                             System.import('components/team_sidebar'),
                             System.import('components/sidebar.jsx'),
                             System.import('components/tutorial/tutorial_view.jsx')
-                        ]).then(
-                        (comarr) => callback(null, {team_sidebar: comarr[0].default, sidebar: comarr[1].default, center: comarr[2].default})
+                        ]).then(comarr =>
+                            callback(null, {
+                                team_sidebar: comarr[0].default,
+                                sidebar: comarr[1].default,
+                                center: comarr[2].default
+                            })
                         );
                     }
                 }

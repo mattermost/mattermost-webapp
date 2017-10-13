@@ -96,15 +96,15 @@ class ErrorStoreClass extends EventEmitter {
 
 var ErrorStore = new ErrorStoreClass();
 
-ErrorStore.dispatchToken = AppDispatcher.register((payload) => {
+ErrorStore.dispatchToken = AppDispatcher.register(payload => {
     var action = payload.action;
     switch (action.type) {
-    case ActionTypes.RECEIVED_ERROR:
-        ErrorStore.storeLastError(action.err);
-        ErrorStore.emitChange();
-        break;
+        case ActionTypes.RECEIVED_ERROR:
+            ErrorStore.storeLastError(action.err);
+            ErrorStore.emitChange();
+            break;
 
-    default:
+        default:
     }
 });
 

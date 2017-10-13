@@ -167,30 +167,20 @@ export default class SidebarRightMenu extends React.Component {
 
             inviteLink = (
                 <li>
-                    <a
-                        href='#'
-                        onClick={GlobalActions.showInviteMemberModal}
-                    >
-                        <i className='icon fa fa-user-plus'/>
-                        <FormattedMessage
-                            id='sidebar_right_menu.inviteNew'
-                            defaultMessage='Send Email Invite'
-                        />
+                    <a href="#" onClick={GlobalActions.showInviteMemberModal}>
+                        <i className="icon fa fa-user-plus" />
+                        <FormattedMessage id="sidebar_right_menu.inviteNew" defaultMessage="Send Email Invite" />
                     </a>
                 </li>
             );
 
             addUserToTeamLink = (
                 <li>
-                    <a
-                        id='addUsersToTeam'
-                        href='#'
-                        onClick={this.showAddUsersToTeamModal}
-                    >
-                        <i className='icon fa fa-user-plus'/>
+                    <a id="addUsersToTeam" href="#" onClick={this.showAddUsersToTeamModal}>
+                        <i className="icon fa fa-user-plus" />
                         <FormattedMessage
-                            id='sidebar_right_menu.addMemberToTeam'
-                            defaultMessage='Add Members to Team'
+                            id="sidebar_right_menu.addMemberToTeam"
+                            defaultMessage="Add Members to Team"
                         />
                     </a>
                 </li>
@@ -199,26 +189,26 @@ export default class SidebarRightMenu extends React.Component {
             if (this.props.teamType === Constants.OPEN_TEAM && global.mm_config.EnableUserCreation === 'true') {
                 teamLink = (
                     <li>
-                        <a
-                            href='#'
-                            onClick={GlobalActions.showGetTeamInviteLinkModal}
-                        >
-                            <i className='icon fa fa-link'/>
-                            <FormattedMessage
-                                id='sidebar_right_menu.teamLink'
-                                defaultMessage='Get Team Invite Link'
-                            />
+                        <a href="#" onClick={GlobalActions.showGetTeamInviteLinkModal}>
+                            <i className="icon fa fa-link" />
+                            <FormattedMessage id="sidebar_right_menu.teamLink" defaultMessage="Get Team Invite Link" />
                         </a>
                     </li>
                 );
             }
 
             if (global.window.mm_license.IsLicensed === 'true') {
-                if (global.window.mm_config.RestrictTeamInvite === Constants.PERMISSIONS_SYSTEM_ADMIN && !isSystemAdmin) {
+                if (
+                    global.window.mm_config.RestrictTeamInvite === Constants.PERMISSIONS_SYSTEM_ADMIN &&
+                    !isSystemAdmin
+                ) {
                     teamLink = null;
                     inviteLink = null;
                     addUserToTeamLink = null;
-                } else if (global.window.mm_config.RestrictTeamInvite === Constants.PERMISSIONS_TEAM_ADMIN && !isAdmin) {
+                } else if (
+                    global.window.mm_config.RestrictTeamInvite === Constants.PERMISSIONS_TEAM_ADMIN &&
+                    !isAdmin
+                ) {
                     teamLink = null;
                     inviteLink = null;
                     addUserToTeamLink = null;
@@ -240,13 +230,10 @@ export default class SidebarRightMenu extends React.Component {
 
             if (moreTeams) {
                 joinAnotherTeamLink = (
-                    <li key='joinTeam_li'>
-                        <Link to='/select_team'>
-                            <i className='icon fa fa-plus-square'/>
-                            <FormattedMessage
-                                id='navbar_dropdown.join'
-                                defaultMessage='Join Another Team'
-                            />
+                    <li key="joinTeam_li">
+                        <Link to="/select_team">
+                            <i className="icon fa fa-plus-square" />
+                            <FormattedMessage id="navbar_dropdown.join" defaultMessage="Join Another Team" />
                         </Link>
                     </li>
                 );
@@ -254,18 +241,10 @@ export default class SidebarRightMenu extends React.Component {
 
             if (global.window.mm_config.EnableTeamCreation === 'true' || isSystemAdmin) {
                 createTeam = (
-                    <li key='newTeam_li'>
-                        <Link
-                            id='createTeam'
-                            key='newTeam_a'
-                            to='/create_team'
-                            onClick={this.handleClick}
-                        >
-                            <i className='icon fa fa-plus-square'/>
-                            <FormattedMessage
-                                id='navbar_dropdown.create'
-                                defaultMessage='Create a New Team'
-                            />
+                    <li key="newTeam_li">
+                        <Link id="createTeam" key="newTeam_a" to="/create_team" onClick={this.handleClick}>
+                            <i className="icon fa fa-plus-square" />
+                            <FormattedMessage id="navbar_dropdown.create" defaultMessage="Create a New Team" />
                         </Link>
                     </li>
                 );
@@ -275,30 +254,17 @@ export default class SidebarRightMenu extends React.Component {
         manageLink = (
             <li>
                 <ToggleModalButton dialogType={TeamMembersModal}>
-                    <i className='icon fa fa-users'/>
-                    <FormattedMessage
-                        id='sidebar_right_menu.viewMembers'
-                        defaultMessage='View Members'
-                    />
+                    <i className="icon fa fa-users" />
+                    <FormattedMessage id="sidebar_right_menu.viewMembers" defaultMessage="View Members" />
                 </ToggleModalButton>
             </li>
         );
 
         const leaveTeam = (
-            <li key='leaveTeam_li'>
-                <a
-                    id='leaveTeam'
-                    href='#'
-                    onClick={GlobalActions.showLeaveTeamModal}
-                >
-                    <span
-                        className='icon'
-                        dangerouslySetInnerHTML={{__html: Constants.LEAVE_TEAM_SVG}}
-                    />
-                    <FormattedMessage
-                        id='navbar_dropdown.leave'
-                        defaultMessage='Leave Team'
-                    />
+            <li key="leaveTeam_li">
+                <a id="leaveTeam" href="#" onClick={GlobalActions.showLeaveTeamModal}>
+                    <span className="icon" dangerouslySetInnerHTML={{__html: Constants.LEAVE_TEAM_SVG}} />
+                    <FormattedMessage id="navbar_dropdown.leave" defaultMessage="Leave Team" />
                 </a>
             </li>
         );
@@ -306,30 +272,17 @@ export default class SidebarRightMenu extends React.Component {
         if (isAdmin) {
             teamSettingsLink = (
                 <li>
-                    <a
-                        href='#'
-                        data-toggle='modal'
-                        data-target='#team_settings'
-                    >
-                        <i className='icon fa fa-globe'/>
-                        <FormattedMessage
-                            id='sidebar_right_menu.teamSettings'
-                            defaultMessage='Team Settings'
-                        />
+                    <a href="#" data-toggle="modal" data-target="#team_settings">
+                        <i className="icon fa fa-globe" />
+                        <FormattedMessage id="sidebar_right_menu.teamSettings" defaultMessage="Team Settings" />
                     </a>
                 </li>
             );
             manageLink = (
                 <li>
-                    <ToggleModalButton
-                        dialogType={TeamMembersModal}
-                        dialogProps={{isAdmin}}
-                    >
-                        <i className='icon fa fa-users'/>
-                        <FormattedMessage
-                            id='sidebar_right_menu.manageMembers'
-                            defaultMessage='Manage Members'
-                        />
+                    <ToggleModalButton dialogType={TeamMembersModal} dialogProps={{isAdmin}}>
+                        <i className="icon fa fa-users" />
+                        <FormattedMessage id="sidebar_right_menu.manageMembers" defaultMessage="Manage Members" />
                     </ToggleModalButton>
                 </li>
             );
@@ -338,15 +291,9 @@ export default class SidebarRightMenu extends React.Component {
         if (isSystemAdmin && !Utils.isMobile()) {
             consoleLink = (
                 <li>
-                    <Link
-                        to={'/admin_console'}
-                        onClick={this.handleClick}
-                    >
-                        <i className='icon fa fa-wrench'/>
-                        <FormattedMessage
-                            id='sidebar_right_menu.console'
-                            defaultMessage='System Console'
-                        />
+                    <Link to={'/admin_console'} onClick={this.handleClick}>
+                        <i className="icon fa fa-wrench" />
+                        <FormattedMessage id="sidebar_right_menu.console" defaultMessage="System Console" />
                     </Link>
                 </li>
             );
@@ -365,16 +312,9 @@ export default class SidebarRightMenu extends React.Component {
         if (global.window.mm_config.HelpLink) {
             helpLink = (
                 <li>
-                    <Link
-                        target='_blank'
-                        rel='noopener noreferrer'
-                        to={global.window.mm_config.HelpLink}
-                    >
-                        <i className='icon fa fa-question'/>
-                        <FormattedMessage
-                            id='sidebar_right_menu.help'
-                            defaultMessage='Help'
-                        />
+                    <Link target="_blank" rel="noopener noreferrer" to={global.window.mm_config.HelpLink}>
+                        <i className="icon fa fa-question" />
+                        <FormattedMessage id="sidebar_right_menu.help" defaultMessage="Help" />
                     </Link>
                 </li>
             );
@@ -384,16 +324,9 @@ export default class SidebarRightMenu extends React.Component {
         if (global.window.mm_config.ReportAProblemLink) {
             reportLink = (
                 <li>
-                    <Link
-                        target='_blank'
-                        rel='noopener noreferrer'
-                        to={global.window.mm_config.ReportAProblemLink}
-                    >
-                        <i className='icon fa fa-phone'/>
-                        <FormattedMessage
-                            id='sidebar_right_menu.report'
-                            defaultMessage='Report a Problem'
-                        />
+                    <Link target="_blank" rel="noopener noreferrer" to={global.window.mm_config.ReportAProblemLink}>
+                        <i className="icon fa fa-phone" />
+                        <FormattedMessage id="sidebar_right_menu.report" defaultMessage="Report a Problem" />
                     </Link>
                 </li>
             );
@@ -401,7 +334,7 @@ export default class SidebarRightMenu extends React.Component {
 
         let tutorialTip = null;
         if (this.state.showTutorialTip) {
-            tutorialTip = createMenuTip((e) => e.preventDefault(), true);
+            tutorialTip = createMenuTip(e => e.preventDefault(), true);
             this.closeLeftSidebar();
             this.openRightSidebar();
         }
@@ -410,16 +343,9 @@ export default class SidebarRightMenu extends React.Component {
         if (global.window.mm_config.AppDownloadLink && !UserAgent.isMobileApp()) {
             nativeAppLink = (
                 <li>
-                    <Link
-                        target='_blank'
-                        rel='noopener noreferrer'
-                        to={global.window.mm_config.AppDownloadLink}
-                    >
-                        <i className='icon fa fa-mobile'/>
-                        <FormattedMessage
-                            id='sidebar_right_menu.nativeApps'
-                            defaultMessage='Download Apps'
-                        />
+                    <Link target="_blank" rel="noopener noreferrer" to={global.window.mm_config.AppDownloadLink}>
+                        <i className="icon fa fa-mobile" />
+                        <FormattedMessage id="sidebar_right_menu.nativeApps" defaultMessage="Download Apps" />
                     </Link>
                 </li>
             );
@@ -427,78 +353,56 @@ export default class SidebarRightMenu extends React.Component {
 
         let addUsersToTeamModal;
         if (this.state.showAddUsersToTeamModal) {
-            addUsersToTeamModal = (
-                <AddUsersToTeam
-                    onModalDismissed={this.hideAddUsersToTeamModal}
-                />
-            );
+            addUsersToTeamModal = <AddUsersToTeam onModalDismissed={this.hideAddUsersToTeamModal} />;
         }
 
         let teamDivider = null;
         if (teamSettingsLink || manageLink || joinAnotherTeamLink || createTeam || leaveTeam) {
-            teamDivider = <li className='divider'/>;
+            teamDivider = <li className="divider" />;
         }
 
         let consoleDivider = null;
         if (consoleLink) {
-            consoleDivider = <li className='divider'/>;
+            consoleDivider = <li className="divider" />;
         }
 
         return (
-            <div
-                className='sidebar--menu'
-                id='sidebar-menu'
-            >
-                <div className='team__header theme'>
-                    <Link
-                        className='team__name'
-                        to='/channels/town-square'
-                    >
+            <div className="sidebar--menu" id="sidebar-menu">
+                <div className="team__header theme">
+                    <Link className="team__name" to="/channels/town-square">
                         {teamDisplayName}
                     </Link>
                 </div>
 
-                <div className='nav-pills__container'>
+                <div className="nav-pills__container">
                     {tutorialTip}
-                    <ul className='nav nav-pills nav-stacked'>
+                    <ul className="nav nav-pills nav-stacked">
                         <li>
-                            <a
-                                href='#'
-                                onClick={this.searchMentions}
-                            >
-                                <i className='icon mentions'>{'@'}</i>
+                            <a href="#" onClick={this.searchMentions}>
+                                <i className="icon mentions">{'@'}</i>
                                 <FormattedMessage
-                                    id='sidebar_right_menu.recentMentions'
-                                    defaultMessage='Recent Mentions'
+                                    id="sidebar_right_menu.recentMentions"
+                                    defaultMessage="Recent Mentions"
                                 />
                             </a>
                         </li>
                         <li>
-                            <a
-                                href='#'
-                                onClick={this.getFlagged}
-                            >
-                                <i className='icon fa fa-flag'/>
-                                <FormattedMessage
-                                    id='sidebar_right_menu.flagged'
-                                    defaultMessage='Flagged Posts'
-                                />
+                            <a href="#" onClick={this.getFlagged}>
+                                <i className="icon fa fa-flag" />
+                                <FormattedMessage id="sidebar_right_menu.flagged" defaultMessage="Flagged Posts" />
                             </a>
                         </li>
-                        <li className='divider'/>
+                        <li className="divider" />
                         <li>
-                            <a
-                                href='#'
-                                onClick={() => GlobalActions.showAccountSettingsModal()}
-                            >
-                                <i className='icon fa fa-cog'/>
+                            <a href="#" onClick={() => GlobalActions.showAccountSettingsModal()}>
+                                <i className="icon fa fa-cog" />
                                 <FormattedMessage
-                                    id='sidebar_right_menu.accountSettings'
-                                    defaultMessage='Account Settings'
+                                    id="sidebar_right_menu.accountSettings"
+                                    defaultMessage="Account Settings"
                                 />
                             </a>
                         </li>
-                        <li className='divider'/>
+                        <li className="divider" />
                         {inviteLink}
                         {teamLink}
                         {addUserToTeamLink}
@@ -510,41 +414,26 @@ export default class SidebarRightMenu extends React.Component {
                         {leaveTeam}
                         {consoleDivider}
                         {consoleLink}
-                        <li className='divider'/>
+                        <li className="divider" />
                         {helpLink}
                         {reportLink}
                         {nativeAppLink}
                         <li>
-                            <a
-                                href='#'
-                                onClick={this.handleAboutModal}
-                            >
-                                <i className='icon fa fa-info'/>
-                                <FormattedMessage
-                                    id='navbar_dropdown.about'
-                                    defaultMessage='About Mattermost'
-                                />
+                            <a href="#" onClick={this.handleAboutModal}>
+                                <i className="icon fa fa-info" />
+                                <FormattedMessage id="navbar_dropdown.about" defaultMessage="About Mattermost" />
                             </a>
                         </li>
-                        <li className='divider'/>
+                        <li className="divider" />
                         <li>
-                            <a
-                                href='#'
-                                onClick={() => GlobalActions.emitUserLoggedOutEvent()}
-                            >
-                                <i className='icon fa fa-sign-out'/>
-                                <FormattedMessage
-                                    id='sidebar_right_menu.logout'
-                                    defaultMessage='Logout'
-                                />
+                            <a href="#" onClick={() => GlobalActions.emitUserLoggedOutEvent()}>
+                                <i className="icon fa fa-sign-out" />
+                                <FormattedMessage id="sidebar_right_menu.logout" defaultMessage="Logout" />
                             </a>
                         </li>
                     </ul>
                 </div>
-                <AboutBuildModal
-                    show={this.state.showAboutModal}
-                    onModalDismissed={this.aboutModalDismissed}
-                />
+                <AboutBuildModal show={this.state.showAboutModal} onModalDismissed={this.aboutModalDismissed} />
                 {addUsersToTeamModal}
             </div>
         );

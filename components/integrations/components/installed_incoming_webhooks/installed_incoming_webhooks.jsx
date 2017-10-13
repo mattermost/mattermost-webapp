@@ -13,7 +13,6 @@ import InstalledIncomingWebhook from 'components/integrations/components/install
 
 export default class InstalledIncomingWebhooks extends React.PureComponent {
     static propTypes = {
-
         /**
         *  Data used in passing down as props for webhook modifications
         */
@@ -50,7 +49,6 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
 
         teamId: PropTypes.string,
         actions: PropTypes.shape({
-
             /**
             * The function to call for removing incomingWebhook
             */
@@ -61,7 +59,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
             */
             getIncomingHooks: PropTypes.func
         })
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -75,19 +73,19 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
 
     componentDidMount() {
         if (window.mm_config.EnableIncomingWebhooks === 'true') {
-            this.props.actions.getIncomingHooks(
-              this.props.teamId,
-              Constants.Integrations.START_PAGE_NUM,
-              Constants.Integrations.PAGE_SIZE
-            ).then(
-              () => this.setState({loading: false})
-            );
+            this.props.actions
+                .getIncomingHooks(
+                    this.props.teamId,
+                    Constants.Integrations.START_PAGE_NUM,
+                    Constants.Integrations.PAGE_SIZE
+                )
+                .then(() => this.setState({loading: false}));
         }
     }
 
-    deleteIncomingWebhook = (incomingWebhook) => {
+    deleteIncomingWebhook = incomingWebhook => {
         this.props.actions.removeIncomingHook(incomingWebhook.id);
-    }
+    };
 
     incomingWebhookCompare(a, b) {
         let displayNameA = a.display_name;
@@ -96,7 +94,10 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
             if (channelA) {
                 displayNameA = channelA.display_name;
             } else {
-                displayNameA = Utils.localizeMessage('installed_incoming_webhooks.unknown_channel', 'A Private Webhook');
+                displayNameA = Utils.localizeMessage(
+                    'installed_incoming_webhooks.unknown_channel',
+                    'A Private Webhook'
+                );
             }
         }
 
@@ -106,8 +107,10 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
     }
 
     render() {
-        const incomingWebhooksArray = Object.keys(this.props.incomingWebhooks).map((key) => this.props.incomingWebhooks[key]);
-        const incomingWebhooks = incomingWebhooksArray.sort(this.incomingWebhookCompare).map((incomingWebhook) => {
+        const incomingWebhooksArray = Object.keys(this.props.incomingWebhooks).map(
+            key => this.props.incomingWebhooks[key]
+        );
+        const incomingWebhooks = incomingWebhooksArray.sort(this.incomingWebhookCompare).map(incomingWebhook => {
             const canChange = this.props.isAdmin || this.props.user.id === incomingWebhook.user_id;
             const channel = this.props.channels[incomingWebhook.channel_id];
             return (
@@ -127,56 +130,56 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
             <BackstageList
                 header={
                     <FormattedMessage
-                        id='installed_incoming_webhooks.header'
-                        defaultMessage='Installed Incoming Webhooks'
+                        id="installed_incoming_webhooks.header"
+                        defaultMessage="Installed Incoming Webhooks"
                     />
                 }
                 addText={
-                    <FormattedMessage
-                        id='installed_incoming_webhooks.add'
-                        defaultMessage='Add Incoming Webhook'
-                    />
+                    <FormattedMessage id="installed_incoming_webhooks.add" defaultMessage="Add Incoming Webhook" />
                 }
                 addLink={'/' + this.props.team.name + '/integrations/incoming_webhooks/add'}
                 emptyText={
                     <FormattedMessage
-                        id='installed_incoming_webhooks.empty'
-                        defaultMessage='No incoming webhooks found'
+                        id="installed_incoming_webhooks.empty"
+                        defaultMessage="No incoming webhooks found"
                     />
                 }
                 helpText={
                     <FormattedMessage
-                        id='installed_incoming_webhooks.help'
-                        defaultMessage='Use incoming webhooks to connect external tools to Mattermost. {buildYourOwn} or visit the {appDirectory} to find self-hosted, third-party apps and integrations.'
+                        id="installed_incoming_webhooks.help"
+                        defaultMessage="Use incoming webhooks to connect external tools to Mattermost. {buildYourOwn} or visit the {appDirectory} to find self-hosted, third-party apps and integrations."
                         values={{
                             buildYourOwn: (
                                 <a
-                                    target='_blank'
-                                    rel='noopener noreferrer'
-                                    href='http://docs.mattermost.com/developer/webhooks-incoming.html'
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    href="http://docs.mattermost.com/developer/webhooks-incoming.html"
                                 >
                                     <FormattedMessage
-                                        id='installed_incoming_webhooks.help.buildYourOwn'
-                                        defaultMessage='Build your own'
+                                        id="installed_incoming_webhooks.help.buildYourOwn"
+                                        defaultMessage="Build your own"
                                     />
                                 </a>
                             ),
                             appDirectory: (
                                 <a
-                                    target='_blank'
-                                    rel='noopener noreferrer'
-                                    href='https://about.mattermost.com/default-app-directory/'
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    href="https://about.mattermost.com/default-app-directory/"
                                 >
                                     <FormattedMessage
-                                        id='installed_incoming_webhooks.help.appDirectory'
-                                        defaultMessage='App Directory'
+                                        id="installed_incoming_webhooks.help.appDirectory"
+                                        defaultMessage="App Directory"
                                     />
                                 </a>
                             )
                         }}
                     />
                 }
-                searchPlaceholder={Utils.localizeMessage('installed_incoming_webhooks.search', 'Search Incoming Webhooks')}
+                searchPlaceholder={Utils.localizeMessage(
+                    'installed_incoming_webhooks.search',
+                    'Search Incoming Webhooks'
+                )}
                 loading={this.state.loading}
             >
                 {incomingWebhooks}

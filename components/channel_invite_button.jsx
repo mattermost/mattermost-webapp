@@ -43,7 +43,7 @@ export default class ChannelInviteButton extends React.Component {
             () => {
                 this.props.onInviteError(null);
             },
-            (err) => {
+            err => {
                 this.setState({
                     addingUser: false
                 });
@@ -56,16 +56,13 @@ export default class ChannelInviteButton extends React.Component {
     render() {
         return (
             <SpinnerButton
-                id='addMembers'
-                className='btn btn-sm btn-primary'
+                id="addMembers"
+                className="btn btn-sm btn-primary"
                 onClick={this.handleClick}
                 spinning={this.state.addingUser}
             >
-                <i className='fa fa-envelope fa-margin--right'/>
-                <FormattedMessage
-                    id='channel_invite.add'
-                    defaultMessage=' Add'
-                />
+                <i className="fa fa-envelope fa-margin--right" />
+                <FormattedMessage id="channel_invite.add" defaultMessage=" Add" />
             </SpinnerButton>
         );
     }

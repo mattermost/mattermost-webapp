@@ -38,21 +38,16 @@ export default class RemoveFileSetting extends Setting {
 
     render() {
         return (
-            <Setting
-                label={this.props.label}
-                helpText={this.props.helpText}
-                inputId={this.props.id}
-            >
+            <Setting label={this.props.label} helpText={this.props.helpText} inputId={this.props.id}>
                 <div>
-                    <div className='help-text remove-filename'>
-                        {this.props.fileName}
-                    </div>
+                    <div className="help-text remove-filename">{this.props.fileName}</div>
                     <button
-                        className='btn btn-danger'
+                        className="btn btn-danger"
                         onClick={this.handleRemove}
-                        ref='remove_button'
+                        ref="remove_button"
                         disabled={this.props.disabled}
-                        data-loading-text={`<span class='glyphicon glyphicon-refresh glyphicon-refresh-animate'></span> ${this.props.removingText}`}
+                        data-loading-text={`<span class='glyphicon glyphicon-refresh glyphicon-refresh-animate'></span> ${this
+                            .props.removingText}`}
                     >
                         {this.props.removeButtonText}
                     </button>

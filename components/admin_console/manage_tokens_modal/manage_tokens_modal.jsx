@@ -14,7 +14,6 @@ import LoadingScreen from 'components/loading_screen.jsx';
 
 export default class ManageTokensModal extends React.PureComponent {
     static propTypes = {
-
         /**
          * Set to render the modal
          */
@@ -36,7 +35,6 @@ export default class ManageTokensModal extends React.PureComponent {
         onModalDismissed: PropTypes.func.isRequired,
 
         actions: PropTypes.shape({
-
             /**
              * Function to get a user's access tokens
              */
@@ -57,17 +55,17 @@ export default class ManageTokensModal extends React.PureComponent {
         }
     }
 
-    handleError = (error) => {
+    handleError = error => {
         this.setState({
             error
         });
-    }
+    };
 
     renderContents = () => {
         const {user, userAccessTokens} = this.props;
 
         if (!user) {
-            return <LoadingScreen/>;
+            return <LoadingScreen />;
         }
 
         let name = UserUtils.getFullName(user);
@@ -83,91 +81,75 @@ export default class ManageTokensModal extends React.PureComponent {
 
             if (userAccessTokensList.length === 0) {
                 tokenList = (
-                    <div className='manage-row__empty'>
+                    <div className="manage-row__empty">
                         <FormattedMessage
-                            id='admin.manage_tokens.userAccessTokensNone'
-                            defaultMessage='No personal access tokens.'
+                            id="admin.manage_tokens.userAccessTokensNone"
+                            defaultMessage="No personal access tokens."
                         />
                     </div>
                 );
             } else {
-                tokenList = userAccessTokensList.map((token) => {
+                tokenList = userAccessTokensList.map(token => {
                     return (
-                        <div
-                            key={token.id}
-                            className='manage-teams__team'
-                        >
-                            <div className='manage-teams__team-name'>
-                                <div className='whitespace--nowrap overflow--ellipsis'>
+                        <div key={token.id} className="manage-teams__team">
+                            <div className="manage-teams__team-name">
+                                <div className="whitespace--nowrap overflow--ellipsis">
                                     <FormattedMessage
-                                        id='admin.manage_tokens.userAccessTokensNameLabel'
-                                        defaultMessage='Token Description: '
+                                        id="admin.manage_tokens.userAccessTokensNameLabel"
+                                        defaultMessage="Token Description: "
                                     />
                                     {token.description}
                                 </div>
-                                <div className='whitespace--nowrap overflow--ellipsis'>
+                                <div className="whitespace--nowrap overflow--ellipsis">
                                     <FormattedMessage
-                                        id='admin.manage_tokens.userAccessTokensIdLabel'
-                                        defaultMessage='Token ID: '
+                                        id="admin.manage_tokens.userAccessTokensIdLabel"
+                                        defaultMessage="Token ID: "
                                     />
                                     {token.id}
                                 </div>
                             </div>
-                            <div className='manage-teams__team-actions'>
-                                <RevokeTokenButton
-                                    tokenId={token.id}
-                                    onError={this.handleError}
-                                />
+                            <div className="manage-teams__team-actions">
+                                <RevokeTokenButton tokenId={token.id} onError={this.handleError} />
                             </div>
                         </div>
                     );
                 });
             }
         } else {
-            tokenList = <LoadingScreen/>;
+            tokenList = <LoadingScreen />;
         }
 
         return (
             <div>
-                <div className='manage-teams__user'>
+                <div className="manage-teams__user">
                     <img
-                        className='manage-teams__profile-picture'
+                        className="manage-teams__profile-picture"
                         src={Client4.getProfilePictureUrl(user.id, user.last_picture_update)}
                     />
-                    <div className='manage-teams__info'>
-                        <div className='manage-teams__name'>
-                            {name}
-                        </div>
-                        <div className='manage-teams__email'>
-                            {user.email}
-                        </div>
+                    <div className="manage-teams__info">
+                        <div className="manage-teams__name">{name}</div>
+                        <div className="manage-teams__email">{user.email}</div>
                     </div>
                 </div>
-                <div className='padding-top x2'>
+                <div className="padding-top x2">
                     <FormattedHTMLMessage
-                        id='admin.manage_tokens.userAccessTokensDescription'
-                        defaultMessage='Personal access tokens function similar to session tokens and can be used by integrations to <a href="https://about.mattermost.com/default-api-authentication" target="_blank">interact with this Mattermost server</a>. Learn more about <a href="https://about.mattermost.com/default-user-access-tokens" target="_blank">personal access tokens</a>.'
+                        id="admin.manage_tokens.userAccessTokensDescription"
+                        defaultMessage="Personal access tokens function similar to session tokens and can be used by integrations to <a href=&quot;https://about.mattermost.com/default-api-authentication&quot; target=&quot;_blank&quot;>interact with this Mattermost server</a>. Learn more about <a href=&quot;https://about.mattermost.com/default-user-access-tokens&quot; target=&quot;_blank&quot;>personal access tokens</a>."
                     />
                 </div>
-                <div className='manage-teams__teams'>
-                    {tokenList}
-                </div>
+                <div className="manage-teams__teams">{tokenList}</div>
             </div>
         );
-    }
+    };
 
     render() {
         return (
-            <Modal
-                show={this.props.show}
-                onHide={this.props.onModalDismissed}
-                dialogClassName='manage-teams'
-            >
+            <Modal show={this.props.show} onHide={this.props.onModalDismissed} dialogClassName="manage-teams">
                 <Modal.Header closeButton={true}>
                     <Modal.Title>
                         <FormattedMessage
-                            id='admin.manage_tokens.manageTokensTitle'
-                            defaultMessage='Manage Personal Access Tokens'
+                            id="admin.manage_tokens.manageTokensTitle"
+                            defaultMessage="Manage Personal Access Tokens"
                         />
                     </Modal.Title>
                 </Modal.Header>

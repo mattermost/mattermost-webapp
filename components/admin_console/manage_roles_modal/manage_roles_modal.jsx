@@ -26,7 +26,6 @@ function getStateFromProps(props) {
 
 export default class ManageRolesModal extends React.PureComponent {
     static propTypes = {
-
         /**
          * Set to render the modal
          */
@@ -48,7 +47,6 @@ export default class ManageRolesModal extends React.PureComponent {
         onModalDismissed: PropTypes.func.isRequired,
 
         actions: PropTypes.shape({
-
             /**
              * Function to update a user's roles
              */
@@ -69,13 +67,13 @@ export default class ManageRolesModal extends React.PureComponent {
         }
     }
 
-    handleError = (error) => {
+    handleError = error => {
         this.setState({
             error
         });
-    }
+    };
 
-    handleSystemAdminChange = (e) => {
+    handleSystemAdminChange = e => {
         if (e.target.name === 'systemadmin') {
             this.setState({isSystemAdmin: true});
         } else if (e.target.name === 'systemmember') {
@@ -83,19 +81,19 @@ export default class ManageRolesModal extends React.PureComponent {
         }
     };
 
-    handleUserAccessTokenChange = (e) => {
+    handleUserAccessTokenChange = e => {
         this.setState({
             hasUserAccessTokenRole: e.target.checked
         });
     };
 
-    handlePostAllChange = (e) => {
+    handlePostAllChange = e => {
         this.setState({
             hasPostAllRole: e.target.checked
         });
     };
 
-    handlePostAllPublicChange = (e) => {
+    handlePostAllPublicChange = e => {
         this.setState({
             hasPostAllPublicRole: e.target.checked
         });
@@ -119,7 +117,7 @@ export default class ManageRolesModal extends React.PureComponent {
         } else if (!UserUtils.hasPostAllPublicRole(roles) && UserUtils.hasPostAllPublicRole(oldRoles)) {
             trackEvent('actions', 'remove_roles', {role: General.SYSTEM_POST_ALL_PUBLIC_ROLE});
         }
-    }
+    };
 
     handleSave = async () => {
         this.setState({error: null});
@@ -145,19 +143,16 @@ export default class ManageRolesModal extends React.PureComponent {
             this.props.onModalDismissed();
         } else {
             this.handleError(
-                <FormattedMessage
-                    id='admin.manage_roles.saveError'
-                    defaultMessage='Unable to save roles.'
-                />
+                <FormattedMessage id="admin.manage_roles.saveError" defaultMessage="Unable to save roles." />
             );
         }
-    }
+    };
 
     renderContents = () => {
         const {user} = this.props;
 
         if (user == null) {
-            return <div/>;
+            return <div />;
         }
 
         let name = UserUtils.getFullName(user);
@@ -173,49 +168,50 @@ export default class ManageRolesModal extends React.PureComponent {
                 <div>
                     <p>
                         <FormattedHTMLMessage
-                            id='admin.manage_roles.additionalRoles'
-                            defaultMessage='Select additional permissions for the account. <a href="https://about.mattermost.com/default-permissions" target="_blank">Read more about roles and permissions</a>.'
+                            id="admin.manage_roles.additionalRoles"
+                            defaultMessage="Select additional permissions for the account. <a href=&quot;https://about.mattermost.com/default-permissions&quot; target=&quot;_blank&quot;>Read more about roles and permissions</a>."
                         />
                     </p>
-                    <div className='checkbox'>
+                    <div className="checkbox">
                         <label>
                             <input
-                                type='checkbox'
-                                ref='postall'
+                                type="checkbox"
+                                ref="postall"
                                 checked={this.state.hasPostAllRole || this.state.isSystemAdmin}
                                 disabled={this.state.isSystemAdmin}
                                 onChange={this.handlePostAllChange}
                             />
                             <strong>
-                                <FormattedMessage
-                                    id='admin.manage_roles.postAllRoleTitle'
-                                    defaultMessage='post:all'
-                                />
+                                <FormattedMessage id="admin.manage_roles.postAllRoleTitle" defaultMessage="post:all" />
                             </strong>
                             <FormattedMessage
-                                id='admin.manage_roles.postAllRole'
-                                defaultMessage='Access to post to all Mattermost channels including direct messages.'
+                                id="admin.manage_roles.postAllRole"
+                                defaultMessage="Access to post to all Mattermost channels including direct messages."
                             />
                         </label>
                     </div>
-                    <div className='checkbox'>
+                    <div className="checkbox">
                         <label>
                             <input
-                                type='checkbox'
-                                ref='postallpublic'
-                                checked={this.state.hasPostAllPublicRole || this.state.hasPostAllRole || this.state.isSystemAdmin}
+                                type="checkbox"
+                                ref="postallpublic"
+                                checked={
+                                    this.state.hasPostAllPublicRole ||
+                                    this.state.hasPostAllRole ||
+                                    this.state.isSystemAdmin
+                                }
                                 disabled={this.state.hasPostAllRole || this.state.isSystemAdmin}
                                 onChange={this.handlePostAllPublicChange}
                             />
                             <strong>
                                 <FormattedMessage
-                                    id='admin.manage_roles.postAllPublicRoleTitle'
-                                    defaultMessage='post:channels'
+                                    id="admin.manage_roles.postAllPublicRoleTitle"
+                                    defaultMessage="post:channels"
                                 />
                             </strong>
                             <FormattedMessage
-                                id='admin.manage_roles.postAllPublicRole'
-                                defaultMessage='Access to post to all Mattermost public channels.'
+                                id="admin.manage_roles.postAllPublicRole"
+                                defaultMessage="Access to post to all Mattermost public channels."
                             />
                         </label>
                     </div>
@@ -227,72 +223,60 @@ export default class ManageRolesModal extends React.PureComponent {
         if (this.props.userAccessTokensEnabled) {
             userAccessTokenContent = (
                 <div>
-                    <div className='checkbox'>
+                    <div className="checkbox">
                         <label>
                             <input
-                                type='checkbox'
-                                ref='postall'
+                                type="checkbox"
+                                ref="postall"
                                 checked={this.state.hasUserAccessTokenRole || this.state.isSystemAdmin}
                                 disabled={this.state.isSystemAdmin}
                                 onChange={this.handleUserAccessTokenChange}
                             />
                             <FormattedHTMLMessage
-                                id='admin.manage_roles.allowUserAccessTokens'
-                                defaultMessage='Allow this account to generate <a href="https://about.mattermost.com/default-user-access-tokens" target="_blank">user access tokens</a>.'
+                                id="admin.manage_roles.allowUserAccessTokens"
+                                defaultMessage="Allow this account to generate <a href=&quot;https://about.mattermost.com/default-user-access-tokens&quot; target=&quot;_blank&quot;>user access tokens</a>."
                             />
                         </label>
                     </div>
-                    <div className='member-row--padded'>
-                        {additionalRoles}
-                    </div>
+                    <div className="member-row--padded">{additionalRoles}</div>
                 </div>
             );
         }
 
         return (
             <div>
-                <div className='manage-teams__user'>
+                <div className="manage-teams__user">
                     <img
-                        className='manage-teams__profile-picture'
+                        className="manage-teams__profile-picture"
                         src={Client4.getProfilePictureUrl(user.id, user.last_picture_update)}
                     />
-                    <div className='manage-teams__info'>
-                        <div className='manage-teams__name'>
-                            {name}
-                        </div>
-                        <div className='manage-teams__email'>
-                            {user.email}
-                        </div>
+                    <div className="manage-teams__info">
+                        <div className="manage-teams__name">{name}</div>
+                        <div className="manage-teams__email">{user.email}</div>
                     </div>
                 </div>
                 <div>
-                    <div className='manage-row--inner'>
-                        <div className='radio-inline'>
+                    <div className="manage-row--inner">
+                        <div className="radio-inline">
                             <label>
                                 <input
-                                    name='systemadmin'
-                                    type='radio'
+                                    name="systemadmin"
+                                    type="radio"
                                     checked={this.state.isSystemAdmin}
                                     onChange={this.handleSystemAdminChange}
                                 />
-                                <FormattedMessage
-                                    id='admin.manage_roles.systemAdmin'
-                                    defaultMessage='System Admin'
-                                />
+                                <FormattedMessage id="admin.manage_roles.systemAdmin" defaultMessage="System Admin" />
                             </label>
                         </div>
-                        <div className='radio-inline'>
+                        <div className="radio-inline">
                             <label>
                                 <input
-                                    name='systemmember'
-                                    type='radio'
+                                    name="systemmember"
+                                    type="radio"
                                     checked={!this.state.isSystemAdmin}
                                     onChange={this.handleSystemAdminChange}
                                 />
-                                <FormattedMessage
-                                    id='admin.manage_roles.systemMember'
-                                    defaultMessage='Member'
-                                />
+                                <FormattedMessage id="admin.manage_roles.systemMember" defaultMessage="Member" />
                             </label>
                         </div>
                     </div>
@@ -300,21 +284,14 @@ export default class ManageRolesModal extends React.PureComponent {
                 </div>
             </div>
         );
-    }
+    };
 
     render() {
         return (
-            <Modal
-                show={this.props.show}
-                onHide={this.props.onModalDismissed}
-                dialogClassName='manage-teams'
-            >
+            <Modal show={this.props.show} onHide={this.props.onModalDismissed} dialogClassName="manage-teams">
                 <Modal.Header closeButton={true}>
                     <Modal.Title>
-                        <FormattedMessage
-                            id='admin.manage_roles.manageRolesTitle'
-                            defaultMessage='Manage Roles'
-                        />
+                        <FormattedMessage id="admin.manage_roles.manageRolesTitle" defaultMessage="Manage Roles" />
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -322,25 +299,11 @@ export default class ManageRolesModal extends React.PureComponent {
                     {this.state.error}
                 </Modal.Body>
                 <Modal.Footer>
-                    <button
-                        type='button'
-                        className='btn btn-link'
-                        onClick={this.props.onModalDismissed}
-                    >
-                        <FormattedMessage
-                            id='admin.manage_roles.cancel'
-                            defaultMessage='Cancel'
-                        />
+                    <button type="button" className="btn btn-link" onClick={this.props.onModalDismissed}>
+                        <FormattedMessage id="admin.manage_roles.cancel" defaultMessage="Cancel" />
                     </button>
-                    <button
-                        type='button'
-                        className='btn btn-primary'
-                        onClick={this.handleSave}
-                    >
-                        <FormattedMessage
-                            id='admin.manage_roles.save'
-                            defaultMessage='Save'
-                        />
+                    <button type="button" className="btn btn-primary" onClick={this.handleSave}>
+                        <FormattedMessage id="admin.manage_roles.save" defaultMessage="Save" />
                     </button>
                 </Modal.Footer>
             </Modal>

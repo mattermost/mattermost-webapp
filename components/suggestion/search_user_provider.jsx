@@ -33,23 +33,12 @@ class SearchUserSuggestion extends Suggestion {
         }
 
         return (
-            <div
-                className={className}
-                onClick={this.handleClick}
-            >
-                <i className='fa fa fa-plus-square'/>
-                <img
-                    className='profile-img rounded'
-                    src={Utils.imageURLForUser(item)}
-                />
-                <div className='mention--align'>
-                    <span>
-                        {username}
-                    </span>
-                    <span className='mention__fullname'>
-                        {' '}
-                        {description}
-                    </span>
+            <div className={className} onClick={this.handleClick}>
+                <i className="fa fa fa-plus-square" />
+                <img className="profile-img rounded" src={Utils.imageURLForUser(item)} />
+                <div className="mention--align">
+                    <span>{username}</span>
+                    <span className="mention__fullname"> {description}</span>
                 </div>
             </div>
         );
@@ -58,32 +47,29 @@ class SearchUserSuggestion extends Suggestion {
 
 export default class SearchUserProvider extends Provider {
     handlePretextChanged(suggestionId, pretext) {
-        const captured = (/\bfrom:\s*(\S*)$/i).exec(pretext.toLowerCase());
+        const captured = /\bfrom:\s*(\S*)$/i.exec(pretext.toLowerCase());
         if (captured) {
             const usernamePrefix = captured[1];
 
             this.startNewRequest(suggestionId, usernamePrefix);
 
-            autocompleteUsersInTeam(
-                usernamePrefix,
-                (data) => {
-                    if (this.shouldCancelDispatch(usernamePrefix)) {
-                        return;
-                    }
-
-                    const users = Object.assign([], data.users);
-                    const mentions = users.map((user) => user.username);
-
-                    AppDispatcher.handleServerAction({
-                        type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
-                        id: suggestionId,
-                        matchedPretext: usernamePrefix,
-                        terms: mentions,
-                        items: users,
-                        component: SearchUserSuggestion
-                    });
+            autocompleteUsersInTeam(usernamePrefix, data => {
+                if (this.shouldCancelDispatch(usernamePrefix)) {
+                    return;
                 }
-            );
+
+                const users = Object.assign([], data.users);
+                const mentions = users.map(user => user.username);
+
+                AppDispatcher.handleServerAction({
+                    type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
+                    id: suggestionId,
+                    matchedPretext: usernamePrefix,
+                    terms: mentions,
+                    items: users,
+                    component: SearchUserSuggestion
+                });
+            });
         }
 
         return Boolean(captured);

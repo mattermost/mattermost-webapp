@@ -28,14 +28,12 @@ const USERS_PER_PAGE = 50;
 
 export default class SystemUsers extends React.Component {
     static propTypes = {
-
         /*
          * Array of team objects
          */
         teams: PropTypes.arrayOf(PropTypes.object).isRequired,
 
         actions: PropTypes.shape({
-
             /*
              * Function to get teams
              */
@@ -56,7 +54,7 @@ export default class SystemUsers extends React.Component {
              */
             getUserAccessToken: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -231,27 +229,24 @@ export default class SystemUsers extends React.Component {
             options[UserSearchOptions.WITHOUT_TEAM] = true;
         }
 
-        this.searchTimeoutId = setTimeout(
-            () => {
-                searchUsers(
-                    term,
-                    teamId,
-                    options,
-                    (users) => {
-                        if (users.length === 0 && term.length === USER_ID_LENGTH) {
-                            // This term didn't match any users name, but it does look like it might be a user's ID
-                            this.getUserByTokenOrId(term);
-                        } else {
-                            this.setState({loading: false});
-                        }
-                    },
-                    () => {
+        this.searchTimeoutId = setTimeout(() => {
+            searchUsers(
+                term,
+                teamId,
+                options,
+                users => {
+                    if (users.length === 0 && term.length === USER_ID_LENGTH) {
+                        // This term didn't match any users name, but it does look like it might be a user's ID
+                        this.getUserByTokenOrId(term);
+                    } else {
                         this.setState({loading: false});
                     }
-                );
-            },
-            now ? 0 : Constants.SEARCH_TIMEOUT_MILLISECONDS
-        );
+                },
+                () => {
+                    this.setState({loading: false});
+                }
+            );
+        }, now ? 0 : Constants.SEARCH_TIMEOUT_MILLISECONDS);
     }
 
     getUserById(id) {
@@ -260,16 +255,14 @@ export default class SystemUsers extends React.Component {
             return;
         }
 
-        this.props.actions.getUser(id).then(
-            () => {
-                this.setState({
-                    loading: false
-                });
-            }
-        );
+        this.props.actions.getUser(id).then(() => {
+            this.setState({
+                loading: false
+            });
+        });
     }
 
-    getUserByTokenOrId = async (id) => {
+    getUserByTokenOrId = async id => {
         if (global.window.mm_config.EnableUserAccessTokens === 'true') {
             const {data} = await this.props.actions.getUserAccessToken(id);
 
@@ -283,45 +276,43 @@ export default class SystemUsers extends React.Component {
         }
 
         this.getUserById(id);
-    }
+    };
 
     renderFilterRow(doSearch) {
-        const teams = this.props.teams.map((team) => {
+        const teams = this.props.teams.map(team => {
             return (
-                <option
-                    key={team.id}
-                    value={team.id}
-                >
+                <option key={team.id} value={team.id}>
                     {team.display_name}
                 </option>
             );
         });
 
         return (
-            <div className='system-users__filter-row'>
-                <div className='system-users__filter'>
+            <div className="system-users__filter-row">
+                <div className="system-users__filter">
                     <input
-                        id='searchUsers'
-                        ref='filter'
-                        className='form-control filter-textbox'
+                        id="searchUsers"
+                        ref="filter"
+                        className="form-control filter-textbox"
                         placeholder={Utils.localizeMessage('filtered_user_list.search', 'Search users')}
                         onInput={doSearch}
                     />
                 </div>
                 <label>
-                    <span className='system-users__team-filter-label'>
-                        <FormattedMessage
-                            id='filtered_user_list.show'
-                            defaultMessage='Filter:'
-                        />
+                    <span className="system-users__team-filter-label">
+                        <FormattedMessage id="filtered_user_list.show" defaultMessage="Filter:" />
                     </span>
                     <select
-                        className='form-control system-users__team-filter'
+                        className="form-control system-users__team-filter"
                         onChange={this.handleTeamChange}
                         value={this.state.teamId}
                     >
-                        <option value={ALL_USERS}>{Utils.localizeMessage('admin.system_users.allUsers', 'All Users')}</option>
-                        <option value={NO_TEAM}>{Utils.localizeMessage('admin.system_users.noTeams', 'No Teams')}</option>
+                        <option value={ALL_USERS}>
+                            {Utils.localizeMessage('admin.system_users.allUsers', 'All Users')}
+                        </option>
+                        <option value={NO_TEAM}>
+                            {Utils.localizeMessage('admin.system_users.noTeams', 'No Teams')}
+                        </option>
                         {teams}
                     </select>
                 </label>
@@ -336,17 +327,17 @@ export default class SystemUsers extends React.Component {
         }
 
         return (
-            <div className='wrapper--fixed'>
-                <h3 className='admin-console-header'>
+            <div className="wrapper--fixed">
+                <h3 className="admin-console-header">
                     <FormattedMessage
-                        id='admin.system_users.title'
-                        defaultMessage='{siteName} Users'
+                        id="admin.system_users.title"
+                        defaultMessage="{siteName} Users"
                         values={{
                             siteName: global.mm_config.SiteName
                         }}
                     />
                 </h3>
-                <div className='more-modal__list member-list-holder'>
+                <div className="more-modal__list member-list-holder">
                     <SystemUsersList
                         renderFilterRow={this.renderFilterRow}
                         search={this.search}

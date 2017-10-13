@@ -38,33 +38,31 @@ export default class TeamSettings extends React.Component {
         }
         var result;
         switch (this.props.activeTab) {
-        case 'general':
-            result = (
-                <div>
-                    <GeneralTab
-                        team={this.state.team}
-                        activeSection={this.props.activeSection}
-                        updateSection={this.props.updateSection}
-                    />
-                </div>
-            );
-            break;
-        case 'import':
-            result = (
-                <div>
-                    <ImportTab
-                        team={this.state.team}
-                        activeSection={this.props.activeSection}
-                        updateSection={this.props.updateSection}
-                    />
-                </div>
-            );
-            break;
-        default:
-            result = (
-                <div/>
-            );
-            break;
+            case 'general':
+                result = (
+                    <div>
+                        <GeneralTab
+                            team={this.state.team}
+                            activeSection={this.props.activeSection}
+                            updateSection={this.props.updateSection}
+                        />
+                    </div>
+                );
+                break;
+            case 'import':
+                result = (
+                    <div>
+                        <ImportTab
+                            team={this.state.team}
+                            activeSection={this.props.activeSection}
+                            updateSection={this.props.updateSection}
+                        />
+                    </div>
+                );
+                break;
+            default:
+                result = <div />;
+                break;
         }
         return result;
     }

@@ -20,7 +20,6 @@ const ActionTypes = Constants.ActionTypes;
 
 export default class Post extends React.PureComponent {
     static propTypes = {
-
         /**
          * The post to render
          */
@@ -95,7 +94,7 @@ export default class Post extends React.PureComponent {
          * Function to get the post list HTML element
          */
         getPostList: PropTypes.func.isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -105,7 +104,7 @@ export default class Post extends React.PureComponent {
         };
     }
 
-    handleCommentClick = (e) => {
+    handleCommentClick = e => {
         e.preventDefault();
 
         AppDispatcher.handleServerAction({
@@ -118,18 +117,18 @@ export default class Post extends React.PureComponent {
             type: ActionTypes.RECEIVED_SEARCH,
             results: null
         });
-    }
+    };
 
-    handleDropdownOpened = (opened) => {
+    handleDropdownOpened = opened => {
         this.setState({
             dropdownOpened: opened
         });
-    }
+    };
 
     forceUpdateInfo = () => {
         this.refs.info.forceUpdate();
         this.refs.header.forceUpdate();
-    }
+    };
 
     getClassName = (post, isSystemMessage, fromWebhook) => {
         let className = 'post';
@@ -193,7 +192,7 @@ export default class Post extends React.PureComponent {
         }
 
         return className + ' ' + sameUserClass + ' ' + rootUser + ' ' + postType + ' ' + currentUserCss;
-    }
+    };
 
     render() {
         const post = this.props.post;
@@ -218,18 +217,9 @@ export default class Post extends React.PureComponent {
         );
 
         if (fromWebhook) {
-            profilePic = (
-                <ProfilePicture
-                    src={PostUtils.getProfilePicSrcForPost(post, this.props.user)}
-                />
-            );
+            profilePic = <ProfilePicture src={PostUtils.getProfilePicSrcForPost(post, this.props.user)} />;
         } else if (PostUtils.isSystemMessage(post)) {
-            profilePic = (
-                <span
-                    className='icon'
-                    dangerouslySetInnerHTML={{__html: mattermostLogo}}
-                />
-            );
+            profilePic = <span className="icon" dangerouslySetInnerHTML={{__html: mattermostLogo}} />;
         }
 
         let centerClass = '';
@@ -240,28 +230,18 @@ export default class Post extends React.PureComponent {
         if (this.props.compactDisplay) {
             if (fromWebhook) {
                 profilePic = (
-                    <ProfilePicture
-                        src=''
-                        status={status}
-                        isBusy={this.props.isBusy}
-                        user={this.props.user}
-                    />
+                    <ProfilePicture src="" status={status} isBusy={this.props.isBusy} user={this.props.user} />
                 );
             } else {
-                profilePic = (
-                    <ProfilePicture
-                        src=''
-                        status={status}
-                    />
-                );
+                profilePic = <ProfilePicture src="" status={status} />;
             }
         }
 
-        const profilePicContainer = (<div className='post__img'>{profilePic}</div>);
+        const profilePicContainer = <div className="post__img">{profilePic}</div>;
 
         return (
             <div
-                ref={(div) => {
+                ref={div => {
                     this.domNode = div;
                 }}
             >
@@ -273,7 +253,7 @@ export default class Post extends React.PureComponent {
                         {profilePicContainer}
                         <div>
                             <PostHeader
-                                ref='header'
+                                ref="header"
                                 post={post}
                                 handleCommentClick={this.handleCommentClick}
                                 handleDropdownOpened={this.handleDropdownOpened}

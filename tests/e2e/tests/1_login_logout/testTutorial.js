@@ -5,18 +5,16 @@ import {Constants} from '../../utils';
 
 module.exports = {
     '@tags': ['tutorial'],
-    before: (client) => {
+    before: client => {
         const testUser = Constants.USERS.test;
         const loginPage = client.page.loginPage();
 
-        loginPage.navigate()
-            .login(testUser.email, testUser.password);
+        loginPage.navigate().login(testUser.email, testUser.password);
     },
-    after: (client) => client.end(),
-    'Test tutorial steps action': (client) => {
+    after: client => client.end(),
+    'Test tutorial steps action': client => {
         const tutorialPage = client.page.tutorialPage();
 
-        tutorialPage.navigate()
-            .nextTutorial();
+        tutorialPage.navigate().nextTutorial();
     }
 };

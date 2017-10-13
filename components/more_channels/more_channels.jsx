@@ -29,7 +29,7 @@ export default class MoreChannels extends React.Component {
         actions: PropTypes.shape({
             getChannels: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -98,7 +98,7 @@ export default class MoreChannels extends React.Component {
 
                 this.handleHide();
             },
-            (err) => {
+            err => {
                 this.setState({serverError: err.message});
                 if (done) {
                     done();
@@ -117,20 +117,14 @@ export default class MoreChannels extends React.Component {
             return;
         }
 
-        const searchTimeoutId = setTimeout(
-            () => {
-                searchMoreChannels(
-                    term,
-                    (channels) => {
-                        if (searchTimeoutId !== this.searchTimeoutId) {
-                            return;
-                        }
-                        this.setState({search: true, channels});
-                    }
-                );
-            },
-            SEARCH_TIMEOUT_MILLISECONDS
-        );
+        const searchTimeoutId = setTimeout(() => {
+            searchMoreChannels(term, channels => {
+                if (searchTimeoutId !== this.searchTimeoutId) {
+                    return;
+                }
+                this.setState({search: true, channels});
+            });
+        }, SEARCH_TIMEOUT_MILLISECONDS);
 
         this.searchTimeoutId = searchTimeoutId;
     }
@@ -138,27 +132,28 @@ export default class MoreChannels extends React.Component {
     render() {
         let serverError;
         if (this.state.serverError) {
-            serverError = <div className='form-group has-error'><label className='control-label'>{this.state.serverError}</label></div>;
+            serverError = (
+                <div className="form-group has-error">
+                    <label className="control-label">{this.state.serverError}</label>
+                </div>
+            );
         }
 
         let createNewChannelButton = (
             <button
-                id='createNewChannel'
-                type='button'
-                className='btn btn-primary channel-create-btn'
+                id="createNewChannel"
+                type="button"
+                className="btn btn-primary channel-create-btn"
                 onClick={this.props.handleNewChannel}
             >
-                <FormattedMessage
-                    id='more_channels.create'
-                    defaultMessage='Create New Channel'
-                />
+                <FormattedMessage id="more_channels.create" defaultMessage="Create New Channel" />
             </button>
         );
 
         let createChannelHelpText = (
-            <p className='secondary-message'>
+            <p className="secondary-message">
                 <FormattedMessage
-                    id='more_channels.createClick'
+                    id="more_channels.createClick"
                     defaultMessage="Click 'Create New Channel' to make a new one"
                 />
             </p>
@@ -174,17 +169,14 @@ export default class MoreChannels extends React.Component {
 
         return (
             <Modal
-                dialogClassName='more-modal more-modal--action'
+                dialogClassName="more-modal more-modal--action"
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleExit}
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title>
-                        <FormattedMessage
-                            id='more_channels.title'
-                            defaultMessage='More Channels'
-                        />
+                        <FormattedMessage id="more_channels.title" defaultMessage="More Channels" />
                     </Modal.Title>
                     {createNewChannelButton}
                 </Modal.Header>

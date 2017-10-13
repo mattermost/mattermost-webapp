@@ -46,11 +46,8 @@ class MattermostMarkdownRenderer extends marked.Renderer {
 
         let header = '';
         if (SyntaxHighlighting.canHighlight(usedLanguage)) {
-            header = (
-                '<span class="post-code__language">' +
-                    SyntaxHighlighting.getLanguageName(usedLanguage) +
-                '</span>'
-            );
+            header =
+                '<span class="post-code__language">' + SyntaxHighlighting.getLanguageName(usedLanguage) + '</span>';
         }
 
         // if we have to apply syntax highlighting AND highlighting of search terms, create two copies
@@ -68,21 +65,19 @@ class MattermostMarkdownRenderer extends marked.Renderer {
             if (tokens.size > 0) {
                 searched = TextFormatting.replaceTokens(searched, tokens);
 
-                searchedContent = (
-                    '<div class="post-code__search-highlighting">' +
-                        searched +
-                    '</div>'
-                );
+                searchedContent = '<div class="post-code__search-highlighting">' + searched + '</div>';
             }
         }
 
         return (
-            '<div class="' + className + '">' +
-                header +
-                '<code class="hljs">' +
-                    searchedContent +
-                    content +
-                '</code>' +
+            '<div class="' +
+            className +
+            '">' +
+            header +
+            '<code class="hljs">' +
+            searchedContent +
+            content +
+            '</code>' +
             '</div>'
         );
     }
@@ -96,13 +91,7 @@ class MattermostMarkdownRenderer extends marked.Renderer {
             output = TextFormatting.replaceTokens(output, tokens);
         }
 
-        return (
-            '<span class="codespan__pre-wrap">' +
-                '<code>' +
-                    output +
-                '</code>' +
-            '</span>'
-        );
+        return '<span class="codespan__pre-wrap">' + '<code>' + output + '</code>' + '</span>';
     }
 
     br() {
@@ -157,7 +146,7 @@ class MattermostMarkdownRenderer extends marked.Renderer {
             return text;
         }
 
-        if (!(/[a-z+.-]+:/i).test(outHref)) {
+        if (!/[a-z+.-]+:/i.test(outHref)) {
             outHref = `http://${outHref}`;
         }
 
@@ -177,7 +166,11 @@ class MattermostMarkdownRenderer extends marked.Renderer {
         // special case for team invite links, channel links, and permalinks that are inside the app
         let internalLink = false;
         if (this.formattingOptions.siteURL) {
-            const pattern = new RegExp('^' + TextFormatting.escapeRegex(this.formattingOptions.siteURL) + '\\/(?:signup_user_complete|[^\\/]+\\/(?:pl|channels))\\/');
+            const pattern = new RegExp(
+                '^' +
+                    TextFormatting.escapeRegex(this.formattingOptions.siteURL) +
+                    '\\/(?:signup_user_complete|[^\\/]+\\/(?:pl|channels))\\/'
+            );
 
             internalLink = pattern.test(outHref);
         }
@@ -215,7 +208,9 @@ class MattermostMarkdownRenderer extends marked.Renderer {
         const isTaskList = taskListReg.exec(text);
 
         if (isTaskList) {
-            return `<li class="list-item--task-list">${'<input type="checkbox" disabled="disabled" ' + (isTaskList[1] === ' ' ? '' : 'checked="checked" ') + '/> '}${text.replace(taskListReg, '')}</li>`;
+            return `<li class="list-item--task-list">${'<input type="checkbox" disabled="disabled" ' +
+                (isTaskList[1] === ' ' ? '' : 'checked="checked" ') +
+                '/> '}${text.replace(taskListReg, '')}</li>`;
         }
 
         if (/^\d+.$/.test(bullet)) {
@@ -251,9 +246,9 @@ function unescapeHtmlEntities(html) {
         if (n === 'colon') {
             return ':';
         } else if (n.charAt(0) === '#') {
-            return n.charAt(1) === 'x' ?
-                String.fromCharCode(parseInt(n.substring(2), 16)) :
-                String.fromCharCode(Number(n.substring(1)));
+            return n.charAt(1) === 'x'
+                ? String.fromCharCode(parseInt(n.substring(2), 16))
+                : String.fromCharCode(Number(n.substring(1)));
         }
         return '';
     });

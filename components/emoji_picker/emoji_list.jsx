@@ -26,7 +26,6 @@ export default class EmojiList extends PureComponent {
     };
 
     static propTypes = {
-
         /**
          * Height of the list which is used to determine the number of rendered items
          */
@@ -137,11 +136,11 @@ export default class EmojiList extends PureComponent {
         }
     }
 
-    getRef = (node) => {
+    getRef = node => {
         this.rootNode = node;
     };
 
-    handleScroll = (e) => {
+    handleScroll = e => {
         e.preventDefault();
 
         this.scrollStop(e);
@@ -179,7 +178,7 @@ export default class EmojiList extends PureComponent {
     }
 
     filterItems(items, itemCount) {
-        return items.filter((item) => item < itemCount);
+        return items.filter(item => item < itemCount);
     }
 
     setStopAndBottom(items, offset, recompute) {
@@ -248,7 +247,7 @@ export default class EmojiList extends PureComponent {
 
     render() {
         const {height, renderItem} = this.props;
-        const renderItems = this.state.items.map((item) => {
+        const renderItems = this.state.items.map(item => {
             return renderItem({index: item, style: this.getStyle(item)});
         });
 

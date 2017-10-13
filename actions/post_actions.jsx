@@ -34,7 +34,9 @@ export function handleNewPost(post, msg) {
     if (ChannelStore.getMyMember(post.channel_id)) {
         completePostReceive(post, websocketMessageProps);
     } else {
-        getMyChannelMember(post.channel_id)(dispatch, getState).then(() => completePostReceive(post, websocketMessageProps));
+        getMyChannelMember(post.channel_id)(dispatch, getState).then(() =>
+            completePostReceive(post, websocketMessageProps)
+        );
     }
 
     if (msg && msg.data) {
@@ -48,12 +50,10 @@ export function handleNewPost(post, msg) {
 
 function completePostReceive(post, websocketMessageProps) {
     if (post.root_id && Selectors.getPost(getState(), post.root_id) == null) {
-        PostActions.getPostThread(post.root_id)(dispatch, getState).then(
-            (data) => {
-                dispatchPostActions(post, websocketMessageProps);
-                PostActions.getProfilesAndStatusesForPosts(data.posts, dispatch, getState);
-            }
-        );
+        PostActions.getPostThread(post.root_id)(dispatch, getState).then(data => {
+            dispatchPostActions(post, websocketMessageProps);
+            PostActions.getProfilesAndStatusesForPosts(data.posts, dispatch, getState);
+        });
 
         return;
     }
@@ -103,8 +103,8 @@ export function unflagPost(postId) {
 }
 
 export function getFlaggedPosts() {
-    Client4.getFlaggedPosts(UserStore.getCurrentId(), '', TeamStore.getCurrentId()).then(
-        (data) => {
+    Client4.getFlaggedPosts(UserStore.getCurrentId(), '', TeamStore.getCurrentId())
+        .then(data => {
             AppDispatcher.handleServerAction({
                 type: ActionTypes.RECEIVED_SEARCH_TERM,
                 term: null,
@@ -120,15 +120,15 @@ export function getFlaggedPosts() {
             });
 
             PostActions.getProfilesAndStatusesForPosts(data.posts, dispatch, getState);
-        }
-    ).catch(
-        () => {} //eslint-disable-line no-empty-function
-    );
+        })
+        .catch(
+            () => {} //eslint-disable-line no-empty-function
+        );
 }
 
 export function getPinnedPosts(channelId = ChannelStore.getCurrentId()) {
-    Client4.getPinnedPosts(channelId).then(
-        (data) => {
+    Client4.getPinnedPosts(channelId)
+        .then(data => {
             AppDispatcher.handleServerAction({
                 type: ActionTypes.RECEIVED_SEARCH_TERM,
                 term: null,
@@ -144,10 +144,10 @@ export function getPinnedPosts(channelId = ChannelStore.getCurrentId()) {
             });
 
             PostActions.getProfilesAndStatusesForPosts(data.posts, dispatch, getState);
-        }
-    ).catch(
-        () => {} //eslint-disable-line no-empty-function
-    );
+        })
+        .catch(
+            () => {} //eslint-disable-line no-empty-function
+        );
 }
 
 export function addReaction(channelId, postId, emojiName) {
@@ -182,20 +182,18 @@ export function createPost(post, files, success) {
 }
 
 export function updatePost(post, success) {
-    PostActions.editPost(post)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success();
-            } else {
-                const serverError = getState().requests.posts.editPost.error;
-                AppDispatcher.handleServerAction({
-                    type: ActionTypes.RECEIVED_ERROR,
-                    err: {id: serverError.server_error_id, ...serverError},
-                    method: 'editPost'
-                });
-            }
+    PostActions.editPost(post)(dispatch, getState).then(data => {
+        if (data && success) {
+            success();
+        } else {
+            const serverError = getState().requests.posts.editPost.error;
+            AppDispatcher.handleServerAction({
+                type: ActionTypes.RECEIVED_ERROR,
+                err: {id: serverError.server_error_id, ...serverError},
+                method: 'editPost'
+            });
         }
-    );
+    });
 }
 
 export function emitEmojiPosted(emoji) {
@@ -213,43 +211,41 @@ export function deletePost(channelId, post, success) {
         hardDelete = true;
     }
 
-    PostActions.deletePost(post, hardDelete)(dispatch, getState).then(
-        () => {
-            if (post.id === getState().views.rhs.selectedPostId) {
-                dispatch({
-                    type: ActionTypes.SELECT_POST,
-                    postId: '',
-                    channelId: ''
-                });
-            }
-
+    PostActions.deletePost(post, hardDelete)(dispatch, getState).then(() => {
+        if (post.id === getState().views.rhs.selectedPostId) {
             dispatch({
-                type: PostTypes.REMOVE_POST,
-                data: post
+                type: ActionTypes.SELECT_POST,
+                postId: '',
+                channelId: ''
             });
-
-            // Needed for search store
-            AppDispatcher.handleViewAction({
-                type: Constants.ActionTypes.REMOVE_POST,
-                post
-            });
-
-            const {focusedPostId} = getState().views.channel;
-            const channel = getState().entities.channels.channels[post.channel_id];
-            if (post.id === focusedPostId && channel) {
-                browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + channel.name);
-            }
-
-            if (success) {
-                success();
-            }
         }
-    );
+
+        dispatch({
+            type: PostTypes.REMOVE_POST,
+            data: post
+        });
+
+        // Needed for search store
+        AppDispatcher.handleViewAction({
+            type: Constants.ActionTypes.REMOVE_POST,
+            post
+        });
+
+        const {focusedPostId} = getState().views.channel;
+        const channel = getState().entities.channels.channels[post.channel_id];
+        if (post.id === focusedPostId && channel) {
+            browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + channel.name);
+        }
+
+        if (success) {
+            success();
+        }
+    });
 }
 
 export function performSearch(terms, isMentionSearch, success, error) {
-    Client4.searchPosts(TeamStore.getCurrentId(), terms, isMentionSearch).then(
-        (data) => {
+    Client4.searchPosts(TeamStore.getCurrentId(), terms, isMentionSearch)
+        .then(data => {
             AppDispatcher.handleServerAction({
                 type: ActionTypes.RECEIVED_SEARCH,
                 results: data,
@@ -261,14 +257,12 @@ export function performSearch(terms, isMentionSearch, success, error) {
             if (success) {
                 success(data);
             }
-        }
-    ).catch(
-        (err) => {
+        })
+        .catch(err => {
             if (error) {
                 error(err);
             }
-        }
-    );
+        });
 }
 
 const POST_INCREASE_AMOUNT = Constants.POST_CHUNK_SIZE / 2;
@@ -286,24 +280,29 @@ export function increasePostVisibility(channelId, focusedPostId) {
             return true;
         }
 
-        doDispatch(batchActions([
-            {
-                type: ActionTypes.LOADING_POSTS,
-                data: true,
-                channelId
-            },
-            {
-                type: ActionTypes.INCREASE_POST_VISIBILITY,
-                data: channelId,
-                amount: POST_INCREASE_AMOUNT
-            }
-        ]));
+        doDispatch(
+            batchActions([
+                {
+                    type: ActionTypes.LOADING_POSTS,
+                    data: true,
+                    channelId
+                },
+                {
+                    type: ActionTypes.INCREASE_POST_VISIBILITY,
+                    data: channelId,
+                    amount: POST_INCREASE_AMOUNT
+                }
+            ])
+        );
 
         const page = Math.floor(currentPostVisibility / POST_INCREASE_AMOUNT);
 
         let posts;
         if (focusedPostId) {
-            posts = await PostActions.getPostsBefore(channelId, focusedPostId, page, POST_INCREASE_AMOUNT)(dispatch, getState);
+            posts = await PostActions.getPostsBefore(channelId, focusedPostId, page, POST_INCREASE_AMOUNT)(
+                dispatch,
+                getState
+            );
         } else {
             posts = await PostActions.getPosts(channelId, page, POST_INCREASE_AMOUNT)(doDispatch, doGetState);
         }

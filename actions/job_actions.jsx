@@ -9,27 +9,23 @@ const dispatch = store.dispatch;
 const getState = store.getState;
 
 export function createJob(job, success, error) {
-    JobsActions.createJob(job)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.jobs.createJob.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
+    JobsActions.createJob(job)(dispatch, getState).then(data => {
+        if (data && success) {
+            success(data);
+        } else if (data == null && error) {
+            const serverError = getState().requests.jobs.createJob.error;
+            error({id: serverError.server_error_id, ...serverError});
         }
-    );
+    });
 }
 
 export function cancelJob(jobId, success, error) {
-    JobsActions.cancelJob(jobId)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success(data);
-            } else if (data == null && error) {
-                const serverError = getState().requests.jobs.cancelJob.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
+    JobsActions.cancelJob(jobId)(dispatch, getState).then(data => {
+        if (data && success) {
+            success(data);
+        } else if (data == null && error) {
+            const serverError = getState().requests.jobs.cancelJob.error;
+            error({id: serverError.server_error_id, ...serverError});
         }
-    );
+    });
 }

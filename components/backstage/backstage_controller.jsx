@@ -31,8 +31,7 @@ export default class BackstageController extends React.Component {
 
         this.state = {
             team,
-            isAdmin: UserStore.isSystemAdminForCurrentUser(this.props.user) ||
-                TeamStore.isTeamAdminForCurrentTeam(team)
+            isAdmin: UserStore.isSystemAdminForCurrentUser(this.props.user) || TeamStore.isTeamAdminForCurrentTeam(team)
         };
     }
 
@@ -49,35 +48,29 @@ export default class BackstageController extends React.Component {
 
         this.state = {
             team,
-            isAdmin: UserStore.isSystemAdminForCurrentUser(this.props.user) ||
-                TeamStore.isTeamAdminForCurrentTeam(team)
+            isAdmin: UserStore.isSystemAdminForCurrentUser(this.props.user) || TeamStore.isTeamAdminForCurrentTeam(team)
         };
     }
 
     render() {
         return (
-            <div className='backstage'>
-                <AnnouncementBar/>
-                <BackstageNavbar team={this.state.team}/>
-                <Pluggable pluggableName='Root'/>
-                <div className='backstage-body'>
-                    <BackstageSidebar
-                        team={this.state.team}
-                        user={this.props.user}
-                    />
-                    {
-                        React.Children.map(this.props.children, (child) => {
-                            if (!child) {
-                                return child;
-                            }
+            <div className="backstage">
+                <AnnouncementBar />
+                <BackstageNavbar team={this.state.team} />
+                <Pluggable pluggableName="Root" />
+                <div className="backstage-body">
+                    <BackstageSidebar team={this.state.team} user={this.props.user} />
+                    {React.Children.map(this.props.children, child => {
+                        if (!child) {
+                            return child;
+                        }
 
-                            return React.cloneElement(child, {
-                                team: this.state.team,
-                                user: this.props.user,
-                                isAdmin: this.state.isAdmin
-                            });
-                        })
-                    }
+                        return React.cloneElement(child, {
+                            team: this.state.team,
+                            user: this.props.user,
+                            isAdmin: this.state.isAdmin
+                        });
+                    })}
                 </div>
             </div>
         );

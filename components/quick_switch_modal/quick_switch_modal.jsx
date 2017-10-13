@@ -28,7 +28,6 @@ const TEAM_MODE = 'team';
 
 export default class QuickSwitchModal extends React.PureComponent {
     static propTypes = {
-
         /**
          * The mode to start in when showing the modal, either 'channel' or 'team'
          */
@@ -48,11 +47,11 @@ export default class QuickSwitchModal extends React.PureComponent {
          * Set to show team switcher
          */
         showTeamSwitcher: PropTypes.bool
-    }
+    };
 
     static defaultProps = {
         initialMode: CHANNEL_MODE
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -144,7 +143,7 @@ export default class QuickSwitchModal extends React.PureComponent {
             if (selectedChannel.type === Constants.DM_CHANNEL) {
                 openDirectChannelToUser(
                     selectedChannel.id,
-                    (ch) => {
+                    ch => {
                         channel = ch;
                         this.switchToChannel(channel);
                     },
@@ -223,48 +222,36 @@ export default class QuickSwitchModal extends React.PureComponent {
             }
 
             header = (
-                <div className='nav nav-tabs'>
+                <div className="nav nav-tabs">
                     <li className={channelsActiveClass}>
                         <a
-                            href='#'
-                            onClick={(e) => {
+                            href="#"
+                            onClick={e => {
                                 e.preventDefault();
                                 this.enableChannelProvider();
                                 this.setState({mode: 'channel'});
                                 this.focusTextbox();
                             }}
                         >
-                            <FormattedMessage
-                                id='quick_switch_modal.channels'
-                                defaultMessage='Channels'
-                            />
-                            <span className='small'>
-                                <FormattedMessage
-                                    id={channelShortcut}
-                                    defaultMessage={defaultChannelShortcut}
-                                />
+                            <FormattedMessage id="quick_switch_modal.channels" defaultMessage="Channels" />
+                            <span className="small">
+                                <FormattedMessage id={channelShortcut} defaultMessage={defaultChannelShortcut} />
                             </span>
                         </a>
                     </li>
                     <li className={teamsActiveClass}>
                         <a
-                            href='#'
-                            onClick={(e) => {
+                            href="#"
+                            onClick={e => {
                                 e.preventDefault();
                                 this.enableTeamProvider();
                                 this.setState({mode: 'team'});
                                 this.focusTextbox();
                             }}
                         >
-                            <FormattedMessage
-                                id='quick_switch_modal.teams'
-                                defaultMessage='Teams'
-                            />
-                            <span className='small'>
-                                <FormattedMessage
-                                    id={teamShortcut}
-                                    defaultMessage={defaultTeamShortcut}
-                                />
+                            <FormattedMessage id="quick_switch_modal.teams" defaultMessage="Teams" />
+                            <span className="small">
+                                <FormattedMessage id={teamShortcut} defaultMessage={defaultTeamShortcut} />
                             </span>
                         </a>
                     </li>
@@ -274,54 +261,47 @@ export default class QuickSwitchModal extends React.PureComponent {
 
         let help;
         if (Utils.isMobile()) {
-            help = (
-                <FormattedMessage
-                    id='quick_switch_modal.help_mobile'
-                    defaultMessage='Type to find a channel.'
-                />
-            );
+            help = <FormattedMessage id="quick_switch_modal.help_mobile" defaultMessage="Type to find a channel." />;
         } else if (this.props.showTeamSwitcher) {
             help = (
                 <FormattedMessage
-                    id='quick_switch_modal.help'
-                    defaultMessage='Start typing then use TAB to toggle channels/teams, ↑↓ to browse, ↵ to select, and ESC to dismiss.'
+                    id="quick_switch_modal.help"
+                    defaultMessage="Start typing then use TAB to toggle channels/teams, ↑↓ to browse, ↵ to select, and ESC to dismiss."
                 />
             );
         } else {
             help = (
                 <FormattedMessage
-                    id='quick_switch_modal.help_no_team'
-                    defaultMessage='Type to find a channel. Use ↑↓ to browse, ↵ to select, ESC to dismiss.'
+                    id="quick_switch_modal.help_no_team"
+                    defaultMessage="Type to find a channel. Use ↑↓ to browse, ↵ to select, ESC to dismiss."
                 />
             );
         }
 
         return (
             <Modal
-                dialogClassName='channel-switch-modal modal--overflow'
-                ref='modal'
+                dialogClassName="channel-switch-modal modal--overflow"
+                ref="modal"
                 show={this.props.show}
                 onHide={this.onHide}
                 onExited={this.onExited}
             >
-                <Modal.Header closeButton={true}/>
+                <Modal.Header closeButton={true} />
                 <Modal.Body>
                     {header}
-                    <div className='modal__hint'>
-                        {help}
-                    </div>
+                    <div className="modal__hint">{help}</div>
                     <SuggestionBox
-                        ref='switchbox'
-                        className='form-control focused'
-                        type='input'
+                        ref="switchbox"
+                        className="form-control focused"
+                        type="input"
                         onChange={this.onChange}
                         value={this.state.text}
                         onKeyDown={this.handleKeyDown}
                         onItemSelected={this.handleSubmit}
                         listComponent={SuggestionList}
-                        maxLength='64'
+                        maxLength="64"
                         providers={providers}
-                        listStyle='bottom'
+                        listStyle="bottom"
                         completeOnTab={false}
                         renderDividers={renderDividers}
                     />

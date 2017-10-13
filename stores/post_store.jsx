@@ -115,10 +115,12 @@ class PostStoreClass extends EventEmitter {
             const post = Selectors.getPost(getState(), id) || {};
 
             // don't edit webhook posts, deleted posts, or system messages
-            if (post.user_id !== userId ||
+            if (
+                post.user_id !== userId ||
                 (post.props && post.props.from_webhook) ||
                 post.state === Constants.POST_DELETED ||
-                (post.type && post.type.startsWith(Constants.SYSTEM_MESSAGE_PREFIX))) {
+                (post.type && post.type.startsWith(Constants.SYSTEM_MESSAGE_PREFIX))
+            ) {
                 continue;
             }
 
@@ -216,28 +218,28 @@ class PostStoreClass extends EventEmitter {
 
 var PostStore = new PostStoreClass();
 
-PostStore.dispatchToken = AppDispatcher.register((payload) => {
+PostStore.dispatchToken = AppDispatcher.register(payload => {
     var action = payload.action;
 
     switch (action.type) {
-    case ActionTypes.RECEIVED_FOCUSED_POST:
-        PostStore.storeFocusedPostId(action.postId);
-        PostStore.emitPostFocused();
-        break;
-    case ActionTypes.CLICK_CHANNEL:
-        PostStore.clearFocusedPost();
-        break;
-    case ActionTypes.RECEIVED_EDIT_POST:
-        PostStore.emitEditPost(action);
-        break;
-    case ActionTypes.RECEIVED_POST_SELECTED:
-        dispatch({...action, type: ActionTypes.SELECT_POST});
-        break;
-    case ActionTypes.RECEIVED_POST_PINNED:
-    case ActionTypes.RECEIVED_POST_UNPINNED:
-        PostStore.emitPostPinnedChange();
-        break;
-    default:
+        case ActionTypes.RECEIVED_FOCUSED_POST:
+            PostStore.storeFocusedPostId(action.postId);
+            PostStore.emitPostFocused();
+            break;
+        case ActionTypes.CLICK_CHANNEL:
+            PostStore.clearFocusedPost();
+            break;
+        case ActionTypes.RECEIVED_EDIT_POST:
+            PostStore.emitEditPost(action);
+            break;
+        case ActionTypes.RECEIVED_POST_SELECTED:
+            dispatch({...action, type: ActionTypes.SELECT_POST});
+            break;
+        case ActionTypes.RECEIVED_POST_PINNED:
+        case ActionTypes.RECEIVED_POST_UNPINNED:
+            PostStore.emitPostPinnedChange();
+            break;
+        default:
     }
 });
 

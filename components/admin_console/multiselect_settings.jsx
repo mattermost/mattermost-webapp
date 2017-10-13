@@ -18,11 +18,15 @@ export default class MultiSelectSetting extends React.Component {
     }
 
     handleChange(newValue) {
-        const values = newValue.map((n) => {
+        const values = newValue.map(n => {
             return n.value;
         });
 
-        if (this.props.selected.length > 0 && this.props.mustBePresent && values.join(',').indexOf(this.props.mustBePresent) === -1) {
+        if (
+            this.props.selected.length > 0 &&
+            this.props.mustBePresent &&
+            values.join(',').indexOf(this.props.mustBePresent) === -1
+        ) {
             this.setState({error: this.props.notPresent});
         } else {
             this.props.onChange(this.props.id, values);
@@ -31,7 +35,11 @@ export default class MultiSelectSetting extends React.Component {
     }
 
     componentWillReceiveProps(newProps) {
-        if (newProps.selected.length > 0 && newProps.mustBePresent && newProps.selected.join(',').indexOf(newProps.mustBePresent) === -1) {
+        if (
+            newProps.selected.length > 0 &&
+            newProps.mustBePresent &&
+            newProps.selected.join(',').indexOf(newProps.mustBePresent) === -1
+        ) {
             this.setState({error: this.props.notPresent});
         } else {
             this.setState({error: false});
@@ -40,15 +48,11 @@ export default class MultiSelectSetting extends React.Component {
 
     render() {
         return (
-            <Setting
-                label={this.props.label}
-                inputId={this.props.id}
-                helpText={this.props.helpText}
-            >
+            <Setting label={this.props.label} inputId={this.props.id} helpText={this.props.helpText}>
                 <ReactSelect
                     id={this.props.id}
                     multi={true}
-                    labelKey='text'
+                    labelKey="text"
                     options={this.props.values}
                     joinValues={true}
                     clearable={false}
@@ -57,7 +61,7 @@ export default class MultiSelectSetting extends React.Component {
                     onChange={this.handleChange}
                     value={this.props.selected}
                 />
-                <FormError error={this.state.error}/>
+                <FormError error={this.state.error} />
             </Setting>
         );
     }

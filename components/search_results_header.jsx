@@ -32,59 +32,35 @@ export default class SearchResultsHeader extends React.Component {
     }
 
     render() {
-        var title = (
-            <FormattedMessage
-                id='search_header.results'
-                defaultMessage='Search Results'
-            />
-        );
+        var title = <FormattedMessage id="search_header.results" defaultMessage="Search Results" />;
 
         const closeSidebarTooltip = (
-            <Tooltip id='closeSidebarTooltip'>
-                <FormattedMessage
-                    id='rhs_header.closeSidebarTooltip'
-                    defaultMessage='Close Sidebar'
-                />
+            <Tooltip id="closeSidebarTooltip">
+                <FormattedMessage id="rhs_header.closeSidebarTooltip" defaultMessage="Close Sidebar" />
             </Tooltip>
         );
 
         const expandSidebarTooltip = (
-            <Tooltip id='expandSidebarTooltip'>
-                <FormattedMessage
-                    id='rhs_header.expandSidebarTooltip'
-                    defaultMessage='Expand Sidebar'
-                />
+            <Tooltip id="expandSidebarTooltip">
+                <FormattedMessage id="rhs_header.expandSidebarTooltip" defaultMessage="Expand Sidebar" />
             </Tooltip>
         );
 
         const shrinkSidebarTooltip = (
-            <Tooltip id='shrinkSidebarTooltip'>
-                <FormattedMessage
-                    id='rhs_header.shrinkSidebarTooltip'
-                    defaultMessage='Shrink Sidebar'
-                />
+            <Tooltip id="shrinkSidebarTooltip">
+                <FormattedMessage id="rhs_header.shrinkSidebarTooltip" defaultMessage="Shrink Sidebar" />
             </Tooltip>
         );
 
         if (this.props.isMentionSearch) {
-            title = (
-                <FormattedMessage
-                    id='search_header.title2'
-                    defaultMessage='Recent Mentions'
-                />
-            );
+            title = <FormattedMessage id="search_header.title2" defaultMessage="Recent Mentions" />;
         } else if (this.props.isFlaggedPosts) {
-            title = (
-                <FormattedMessage
-                    id='search_header.title3'
-                    defaultMessage='Flagged Posts'
-                />
-            );
+            title = <FormattedMessage id="search_header.title3" defaultMessage="Flagged Posts" />;
         } else if (this.props.isPinnedPosts) {
             title = (
                 <FormattedMessage
-                    id='search_header.title4'
-                    defaultMessage='Pinned posts in {channelDisplayName}'
+                    id="search_header.title4"
+                    defaultMessage="Pinned posts in {channelDisplayName}"
                     values={{
                         channelDisplayName: this.props.channelDisplayName
                     }}
@@ -93,46 +69,46 @@ export default class SearchResultsHeader extends React.Component {
         }
 
         return (
-            <div className='sidebar--right__header'>
-                <span className='sidebar--right__title'>{title}</span>
-                <div className='pull-right'>
+            <div className="sidebar--right__header">
+                <span className="sidebar--right__title">{title}</span>
+                <div className="pull-right">
                     <button
-                        type='button'
-                        className='sidebar--right__expand'
-                        aria-label='Expand'
+                        type="button"
+                        className="sidebar--right__expand"
+                        aria-label="Expand"
                         onClick={this.toggleSize}
                     >
                         <OverlayTrigger
                             trigger={['hover', 'focus']}
                             delayShow={Constants.OVERLAY_TIME_DELAY}
-                            placement='top'
+                            placement="top"
                             overlay={expandSidebarTooltip}
                         >
-                            <i className='fa fa-expand'/>
+                            <i className="fa fa-expand" />
                         </OverlayTrigger>
                         <OverlayTrigger
                             trigger={['hover', 'focus']}
                             delayShow={Constants.OVERLAY_TIME_DELAY}
-                            placement='top'
+                            placement="top"
                             overlay={shrinkSidebarTooltip}
                         >
-                            <i className='fa fa-compress'/>
+                            <i className="fa fa-compress" />
                         </OverlayTrigger>
                     </button>
                     <button
-                        type='button'
-                        className='sidebar--right__close'
-                        aria-label='Close'
-                        title='Close'
+                        type="button"
+                        className="sidebar--right__close"
+                        aria-label="Close"
+                        title="Close"
                         onClick={this.handleClose}
                     >
                         <OverlayTrigger
                             trigger={['hover', 'focus']}
                             delayShow={Constants.OVERLAY_TIME_DELAY}
-                            placement='top'
+                            placement="top"
                             overlay={closeSidebarTooltip}
                         >
-                            <i className='fa fa-sign-out'/>
+                            <i className="fa fa-sign-out" />
                         </OverlayTrigger>
                     </button>
                 </div>

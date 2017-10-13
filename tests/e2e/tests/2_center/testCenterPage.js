@@ -5,18 +5,18 @@ import {Constants} from '../../utils';
 
 module.exports = {
     '@tags': ['center'],
-    before: (client) => {
+    before: client => {
         const testUser = Constants.USERS.test;
         const loginPage = client.page.loginPage();
 
-        loginPage.navigate()
-            .login(testUser.email, testUser.password);
+        loginPage.navigate().login(testUser.email, testUser.password);
     },
-    after: (client) => client.end(),
-    'Test center page': (client) => {
+    after: client => client.end(),
+    'Test center page': client => {
         const centerPage = client.page.centerPage();
 
-        centerPage.navigate()
+        centerPage
+            .navigate()
             .navigateToPage()
             .assert.visible('@postTextBox')
             .assert.visible('@fileAttachmentButton')

@@ -56,9 +56,14 @@ describe('components/integrations/InstalledCommand', () => {
                 canChange={true}
             />
         );
-        wrapper.find('div.item-actions a').first().simulate('click', {preventDefault() {
-            return jest.fn();
-        }});
+        wrapper
+            .find('div.item-actions a')
+            .first()
+            .simulate('click', {
+                preventDefault() {
+                    return jest.fn();
+                }
+            });
 
         expect(onRegenToken).toBeCalled();
     });

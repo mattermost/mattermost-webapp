@@ -8,8 +8,7 @@ const centerCommands = {
         return this.waitForElementVisible('@postTextBox', Constants.DEFAULT_WAIT);
     },
     postAMessage(message) {
-        return this
-            .waitForElementVisible('@postTextBox', Constants.DEFAULT_WAIT)
+        return this.waitForElementVisible('@postTextBox', Constants.DEFAULT_WAIT)
             .setValue('@postTextBox', message)
             .keys(this.Keys.ENTER)
             .waitForElementVisible('@postListContent', Constants.DEFAULT_WAIT);

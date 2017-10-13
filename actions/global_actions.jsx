@@ -3,7 +3,14 @@
 
 import {browserHistory} from 'react-router/es6';
 
-import {createDirectChannel, getChannelAndMyMember, getChannelStats, getMyChannelMember, joinChannel, viewChannel} from 'mattermost-redux/actions/channels';
+import {
+    createDirectChannel,
+    getChannelAndMyMember,
+    getChannelStats,
+    getMyChannelMember,
+    joinChannel,
+    viewChannel
+} from 'mattermost-redux/actions/channels';
 import {getPostThread} from 'mattermost-redux/actions/posts';
 import {removeUserFromTeam} from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
@@ -40,17 +47,15 @@ export function emitChannelClickEvent(channel) {
     function userVisitedFakeChannel(chan, success, fail) {
         const currentUserId = UserStore.getCurrentId();
         const otherUserId = Utils.getUserIdFromChannelName(chan);
-        createDirectChannel(currentUserId, otherUserId)(dispatch, getState).then(
-            (result) => {
-                const receivedChannel = result.data;
+        createDirectChannel(currentUserId, otherUserId)(dispatch, getState).then(result => {
+            const receivedChannel = result.data;
 
-                if (receivedChannel) {
-                    success(receivedChannel);
-                } else {
-                    fail();
-                }
+            if (receivedChannel) {
+                success(receivedChannel);
+            } else {
+                fail();
             }
-        );
+        });
     }
     function switchToChannel(chan) {
         const channelMember = ChannelStore.getMyMember(chan.id);
@@ -88,7 +93,7 @@ export function emitChannelClickEvent(channel) {
     if (channel.fake) {
         userVisitedFakeChannel(
             channel,
-            (data) => {
+            data => {
                 switchToChannel(data);
             },
             () => {
@@ -125,27 +130,25 @@ export async function doFocusPost(channelId, postId, data) {
 
 export function emitPostFocusEvent(postId, onSuccess) {
     loadChannelsForCurrentUser();
-    getPostThread(postId)(dispatch, getState).then(
-        (data) => {
-            if (data) {
-                const channelId = data.posts[data.order[0]].channel_id;
-                const channel = ChannelStore.getChannelById(channelId);
-                if (channel && channel.type === Constants.DM_CHANNEL) {
-                    loadNewDMIfNeeded(channel.id);
-                } else if (channel && channel.type === Constants.GM_CHANNEL) {
-                    loadNewGMIfNeeded(channel.id);
-                }
-
-                doFocusPost(channelId, postId, data).then(() => {
-                    if (onSuccess) {
-                        onSuccess();
-                    }
-                });
-            } else {
-                browserHistory.push('/error?type=' + ErrorPageTypes.PERMALINK_NOT_FOUND);
+    getPostThread(postId)(dispatch, getState).then(data => {
+        if (data) {
+            const channelId = data.posts[data.order[0]].channel_id;
+            const channel = ChannelStore.getChannelById(channelId);
+            if (channel && channel.type === Constants.DM_CHANNEL) {
+                loadNewDMIfNeeded(channel.id);
+            } else if (channel && channel.type === Constants.GM_CHANNEL) {
+                loadNewGMIfNeeded(channel.id);
             }
+
+            doFocusPost(channelId, postId, data).then(() => {
+                if (onSuccess) {
+                    onSuccess();
+                }
+            });
+        } else {
+            browserHistory.push('/error?type=' + ErrorPageTypes.PERMALINK_NOT_FOUND);
         }
-    );
+    });
 }
 
 export function emitCloseRightHandSide() {
@@ -160,24 +163,22 @@ export function emitCloseRightHandSide() {
 }
 
 export function emitPostFocusRightHandSideFromSearch(post, isMentionSearch) {
-    getPostThread(post.id)(dispatch, getState).then(
-        () => {
-            AppDispatcher.handleServerAction({
-                type: ActionTypes.RECEIVED_POST_SELECTED,
-                postId: Utils.getRootId(post),
-                channelId: post.channel_id,
-                from_search: SearchStore.getSearchTerm(),
-                from_flagged_posts: SearchStore.getIsFlaggedPosts(),
-                from_pinned_posts: SearchStore.getIsPinnedPosts()
-            });
+    getPostThread(post.id)(dispatch, getState).then(() => {
+        AppDispatcher.handleServerAction({
+            type: ActionTypes.RECEIVED_POST_SELECTED,
+            postId: Utils.getRootId(post),
+            channelId: post.channel_id,
+            from_search: SearchStore.getSearchTerm(),
+            from_flagged_posts: SearchStore.getIsFlaggedPosts(),
+            from_pinned_posts: SearchStore.getIsPinnedPosts()
+        });
 
-            AppDispatcher.handleServerAction({
-                type: ActionTypes.RECEIVED_SEARCH,
-                results: null,
-                is_mention_search: isMentionSearch
-            });
-        }
-    );
+        AppDispatcher.handleServerAction({
+            type: ActionTypes.RECEIVED_SEARCH,
+            results: null,
+            is_mention_search: isMentionSearch
+        });
+    });
 }
 
 export function emitLeaveTeam() {
@@ -387,8 +388,8 @@ export function newLocalizationSelected(locale) {
             translations: en
         });
     } else {
-        Client4.getTranslations(localeInfo.url).then(
-            (data, res) => {
+        Client4.getTranslations(localeInfo.url)
+            .then((data, res) => {
                 let translations = data;
                 if (!data && res.text) {
                     translations = JSON.parse(res.text);
@@ -398,10 +399,10 @@ export function newLocalizationSelected(locale) {
                     locale,
                     translations
                 });
-            }
-        ).catch(
-            () => {} //eslint-disable-line no-empty-function
-        );
+            })
+            .catch(
+                () => {} //eslint-disable-line no-empty-function
+            );
     }
 }
 
@@ -437,7 +438,11 @@ export function emitLocalUserTypingEvent(channelId, parentId) {
         }
     }
 
-    if (((t - lastTimeTypingSent) > global.window.mm_config.TimeBetweenUserTypingUpdatesMilliseconds) && membersInChannel < global.window.mm_config.MaxNotificationsPerChannel && global.window.mm_config.EnableUserTypingMessages === 'true') {
+    if (
+        t - lastTimeTypingSent > global.window.mm_config.TimeBetweenUserTypingUpdatesMilliseconds &&
+        membersInChannel < global.window.mm_config.MaxNotificationsPerChannel &&
+        global.window.mm_config.EnableUserTypingMessages === 'true'
+    ) {
         WebSocketClient.userTyping(channelId, parentId);
         lastTimeTypingSent = t;
     }
@@ -453,19 +458,17 @@ export function emitRemoteUserTypingEvent(channelId, userId, postParentId) {
 }
 
 export function emitUserLoggedOutEvent(redirectTo = '/', shouldSignalLogout = true) {
-    Client4.logout().then(
-        () => {
+    Client4.logout()
+        .then(() => {
             if (shouldSignalLogout) {
                 BrowserStore.signalLogout();
             }
 
             clientLogout(redirectTo);
-        }
-    ).catch(
-        () => {
+        })
+        .catch(() => {
             browserHistory.push(redirectTo);
-        }
-    );
+        });
 }
 
 export function clientLogout(redirectTo = '/') {
@@ -582,15 +585,13 @@ export function redirectUserToDefaultTeam() {
         if (channel) {
             redirect(teams[teamId].name, channel);
         } else if (channelId) {
-            getChannelAndMyMember(channelId)(dispatch, getState).then(
-                (data) => {
-                    if (data) {
-                        redirect(teams[teamId].name, data.channel.name);
-                    } else {
-                        redirect(teams[teamId].name, 'town-square');
-                    }
+            getChannelAndMyMember(channelId)(dispatch, getState).then(data => {
+                if (data) {
+                    redirect(teams[teamId].name, data.channel.name);
+                } else {
+                    redirect(teams[teamId].name, 'town-square');
                 }
-            );
+            });
         } else {
             redirect(teams[teamId].name, 'town-square');
         }

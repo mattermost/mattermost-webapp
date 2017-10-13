@@ -17,10 +17,13 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({
-            getProfilesNotInChannel,
-            getTeamStats
-        }, dispatch)
+        actions: bindActionCreators(
+            {
+                getProfilesNotInChannel,
+                getTeamStats
+            },
+            dispatch
+        )
     };
 }
 

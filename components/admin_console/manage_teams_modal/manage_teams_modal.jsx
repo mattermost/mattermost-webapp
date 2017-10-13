@@ -58,46 +58,46 @@ export default class ManageTeamsModal extends React.Component {
     }
 
     loadTeamsAndTeamMembers = (user = this.props.user) => {
-        TeamActions.getTeamsForUser(user.id, (teams) => {
+        TeamActions.getTeamsForUser(user.id, teams => {
             this.setState({
                 teams: teams.sort(sortTeamsByDisplayName)
             });
         });
 
-        TeamActions.getTeamMembersForUser(user.id, (teamMembers) => {
+        TeamActions.getTeamMembersForUser(user.id, teamMembers => {
             this.setState({
                 teamMembers
             });
         });
-    }
+    };
 
-    handleError = (error) => {
+    handleError = error => {
         this.setState({
             error
         });
-    }
+    };
 
     handleMemberChange = () => {
-        TeamActions.getTeamMembersForUser(this.props.user.id, (teamMembers) => {
+        TeamActions.getTeamMembersForUser(this.props.user.id, teamMembers => {
             this.setState({
                 teamMembers
             });
         });
-    }
+    };
 
-    handleMemberRemove = (teamId) => {
+    handleMemberRemove = teamId => {
         this.setState({
-            teams: this.state.teams.filter((team) => team.id !== teamId),
-            teamMembers: this.state.teamMembers.filter((teamMember) => teamMember.team_id !== teamId)
+            teams: this.state.teams.filter(team => team.id !== teamId),
+            teamMembers: this.state.teamMembers.filter(teamMember => teamMember.team_id !== teamId)
         });
-    }
+    };
 
     renderContents = () => {
         const {user} = this.props;
         const {teams, teamMembers} = this.state;
 
         if (!user) {
-            return <LoadingScreen/>;
+            return <LoadingScreen />;
         }
 
         const isSystemAdmin = Utils.isAdmin(user.roles);
@@ -111,8 +111,8 @@ export default class ManageTeamsModal extends React.Component {
 
         let teamList;
         if (teams && teamMembers) {
-            teamList = teams.map((team) => {
-                const teamMember = teamMembers.find((member) => member.team_id === team.id);
+            teamList = teams.map(team => {
+                const teamMember = teamMembers.find(member => member.team_id === team.id);
                 if (!teamMember) {
                     return null;
                 }
@@ -141,77 +141,52 @@ export default class ManageTeamsModal extends React.Component {
                 }
 
                 return (
-                    <div
-                        key={team.id}
-                        className='manage-teams__team'
-                    >
-                        <div className='manage-teams__team-name'>
-                            {team.display_name}
-                        </div>
-                        <div className='manage-teams__team-actions'>
-                            {action}
-                        </div>
+                    <div key={team.id} className="manage-teams__team">
+                        <div className="manage-teams__team-name">{team.display_name}</div>
+                        <div className="manage-teams__team-actions">{action}</div>
                     </div>
                 );
             });
         } else {
-            teamList = <LoadingScreen/>;
+            teamList = <LoadingScreen />;
         }
 
         let systemAdminIndicator = null;
         if (isSystemAdmin) {
             systemAdminIndicator = (
-                <div className='manage-teams__system-admin'>
-                    <FormattedMessage
-                        id='admin.user_item.sysAdmin'
-                        defaultMessage='System Admin'
-                    />
+                <div className="manage-teams__system-admin">
+                    <FormattedMessage id="admin.user_item.sysAdmin" defaultMessage="System Admin" />
                 </div>
             );
         }
 
         return (
             <div>
-                <div className='manage-teams__user'>
+                <div className="manage-teams__user">
                     <img
-                        className='manage-teams__profile-picture'
+                        className="manage-teams__profile-picture"
                         src={Client4.getProfilePictureUrl(user.id, user.last_picture_update)}
                     />
-                    <div className='manage-teams__info'>
-                        <div className='manage-teams__name'>
-                            {name}
-                        </div>
-                        <div className='manage-teams__email'>
-                            {user.email}
-                        </div>
+                    <div className="manage-teams__info">
+                        <div className="manage-teams__name">{name}</div>
+                        <div className="manage-teams__email">{user.email}</div>
                     </div>
                     {systemAdminIndicator}
                 </div>
-                <div className='manage-teams__teams'>
-                    {teamList}
-                </div>
+                <div className="manage-teams__teams">{teamList}</div>
             </div>
         );
-    }
+    };
 
     render() {
         return (
-            <Modal
-                show={this.props.show}
-                onHide={this.props.onModalDismissed}
-                dialogClassName='manage-teams'
-            >
+            <Modal show={this.props.show} onHide={this.props.onModalDismissed} dialogClassName="manage-teams">
                 <Modal.Header closeButton={true}>
                     <Modal.Title>
-                        <FormattedMessage
-                            id='admin.user_item.manageTeams'
-                            defaultMessage='Manage Teams'
-                        />
+                        <FormattedMessage id="admin.user_item.manageTeams" defaultMessage="Manage Teams" />
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
-                    {this.renderContents()}
-                </Modal.Body>
+                <Modal.Body>{this.renderContents()}</Modal.Body>
             </Modal>
         );
     }

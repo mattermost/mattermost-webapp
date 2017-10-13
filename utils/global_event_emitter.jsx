@@ -13,15 +13,15 @@ class GlobalEventEmitterClass extends EventEmitter {
         this.dispatchToken = AppDispatcher.register(this.handleEventPayload);
     }
 
-    handleEventPayload = (payload) => {
+    handleEventPayload = payload => {
         const {type, value, ...args} = payload.action; //eslint-disable-line no-use-before-define
 
         switch (type) {
-        case EventTypes.POST_LIST_SCROLL_CHANGE:
-            this.emit(type, value, args);
-            break;
+            case EventTypes.POST_LIST_SCROLL_CHANGE:
+                this.emit(type, value, args);
+                break;
         }
-    }
+    };
 }
 
 const GlobalEventEmitter = new GlobalEventEmitterClass();

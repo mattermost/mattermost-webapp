@@ -58,28 +58,28 @@ describe('components/post_view/PostInfo', () => {
     });
 
     test('should match snapshot', () => {
-        const wrapper = shallow(<PostInfo {...requiredProps}/>);
+        const wrapper = shallow(<PostInfo {...requiredProps} />);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, compact display', () => {
         const props = {...requiredProps, compactDisplay: true};
 
-        const wrapper = shallow(<PostInfo {...props}/>);
+        const wrapper = shallow(<PostInfo {...props} />);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, military time', () => {
         const props = {...requiredProps, useMilitaryTime: true};
 
-        const wrapper = shallow(<PostInfo {...props}/>);
+        const wrapper = shallow(<PostInfo {...props} />);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, flagged post', () => {
         const props = {...requiredProps, isFlagged: true};
 
-        const wrapper = shallow(<PostInfo {...props}/>);
+        const wrapper = shallow(<PostInfo {...props} />);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -87,7 +87,7 @@ describe('components/post_view/PostInfo', () => {
         const pinnedPost = {...post, is_pinned: true};
         const requiredPropsWithPinnedPost = {...requiredProps, post: pinnedPost};
 
-        const wrapper = shallow(<PostInfo {...requiredPropsWithPinnedPost}/>);
+        const wrapper = shallow(<PostInfo {...requiredPropsWithPinnedPost} />);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -95,7 +95,7 @@ describe('components/post_view/PostInfo', () => {
         const ephemeralPost = {...post, type: Constants.PostTypes.EPHEMERAL};
         const requiredPropsWithEphemeralPost = {...requiredProps, post: ephemeralPost};
 
-        const wrapper = shallow(<PostInfo {...requiredPropsWithEphemeralPost}/>);
+        const wrapper = shallow(<PostInfo {...requiredPropsWithEphemeralPost} />);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -103,14 +103,14 @@ describe('components/post_view/PostInfo', () => {
         const deletedEphemeralPost = {...post, type: Constants.PostTypes.EPHEMERAL, state: Posts.POST_DELETED};
         const requiredPropsWithDeletedEphemeralPost = {...requiredProps, post: deletedEphemeralPost};
 
-        const wrapper = shallow(<PostInfo {...requiredPropsWithDeletedEphemeralPost}/>);
+        const wrapper = shallow(<PostInfo {...requiredPropsWithDeletedEphemeralPost} />);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, enable emoji picker', () => {
         global.window.mm_config.EnableEmojiPicker = 'true';
 
-        const wrapper = shallow(<PostInfo {...requiredProps}/>);
+        const wrapper = shallow(<PostInfo {...requiredProps} />);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -120,7 +120,7 @@ describe('components/post_view/PostInfo', () => {
         const handleDropdownOpened = jest.fn();
         const requiredPropsWithHandleDropdownOpened = {...requiredProps, handleDropdownOpened};
 
-        const wrapper = shallow(<PostInfo {...requiredPropsWithHandleDropdownOpened}/>);
+        const wrapper = shallow(<PostInfo {...requiredPropsWithHandleDropdownOpened} />);
         wrapper.instance().toggleEmojiPicker();
         expect(wrapper).toMatchSnapshot();
         expect(handleDropdownOpened).toHaveBeenCalledTimes(1);
@@ -132,7 +132,7 @@ describe('components/post_view/PostInfo', () => {
         const handleDropdownOpened = jest.fn();
         const requiredPropsWithHandleDropdownOpened = {...requiredProps, handleDropdownOpened};
 
-        const wrapper = shallow(<PostInfo {...requiredPropsWithHandleDropdownOpened}/>);
+        const wrapper = shallow(<PostInfo {...requiredPropsWithHandleDropdownOpened} />);
         wrapper.instance().hideEmojiPicker();
         expect(wrapper).toMatchSnapshot();
         expect(handleDropdownOpened).toHaveBeenCalledTimes(1);
@@ -149,7 +149,7 @@ describe('components/post_view/PostInfo', () => {
         };
         const requiredPropsWithRemovePost = {...requiredProps, actions};
 
-        const wrapper = shallow(<PostInfo {...requiredPropsWithRemovePost}/>);
+        const wrapper = shallow(<PostInfo {...requiredPropsWithRemovePost} />);
         wrapper.instance().removePost();
         expect(wrapper).toMatchSnapshot();
         expect(removePost).toHaveBeenCalledTimes(1);
@@ -169,7 +169,7 @@ describe('components/post_view/PostInfo', () => {
         const handleDropdownOpened = jest.fn();
         const requiredPropsWithAddReaction = {...requiredProps, actions, handleDropdownOpened};
 
-        const wrapper = shallow(<PostInfo {...requiredPropsWithAddReaction}/>);
+        const wrapper = shallow(<PostInfo {...requiredPropsWithAddReaction} />);
         wrapper.instance().reactEmojiClick(emoji);
         expect(wrapper).toMatchSnapshot();
         expect(addReaction).toHaveBeenCalledTimes(1);

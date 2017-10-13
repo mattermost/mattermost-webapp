@@ -35,11 +35,8 @@ export default class SettingItemMax extends React.Component {
         var clientError = null;
         if (this.props.client_error) {
             clientError = (
-                <div className='form-group'>
-                    <label
-                        id='clientError'
-                        className='col-sm-12 has-error'
-                    >
+                <div className="form-group">
+                    <label id="clientError" className="col-sm-12 has-error">
                         {this.props.client_error}
                     </label>
                 </div>
@@ -49,11 +46,8 @@ export default class SettingItemMax extends React.Component {
         var serverError = null;
         if (this.props.server_error) {
             serverError = (
-                <div className='form-group'>
-                    <label
-                        id='serverError'
-                        className='col-sm-12 has-error'
-                    >
+                <div className="form-group">
+                    <label id="serverError" className="col-sm-12 has-error">
                         {this.props.server_error}
                     </label>
                 </div>
@@ -67,18 +61,12 @@ export default class SettingItemMax extends React.Component {
         }
 
         if (this.props.extraInfo) {
-            extraInfo = (<div className={hintClass}>{this.props.extraInfo}</div>);
+            extraInfo = <div className={hintClass}>{this.props.extraInfo}</div>;
         }
 
         var submit = '';
         if (this.props.submit) {
-            submit = (
-                <SaveButton
-                    saving={this.props.saving}
-                    disabled={this.props.saving}
-                    onClick={this.props.submit}
-                />
-            );
+            submit = <SaveButton saving={this.props.saving} disabled={this.props.saving} onClick={this.props.submit} />;
         }
 
         var inputs = this.props.inputs;
@@ -94,12 +82,12 @@ export default class SettingItemMax extends React.Component {
         let title;
         let titleProp = 'unknownTitle';
         if (this.props.title) {
-            title = <li className='col-sm-12 section-title'>{this.props.title}</li>;
+            title = <li className="col-sm-12 section-title">{this.props.title}</li>;
             titleProp = this.props.title;
         }
 
         let listContent = (
-            <li className='setting-list-item'>
+            <li className="setting-list-item">
                 {inputs}
                 {extraInfo}
             </li>
@@ -118,30 +106,25 @@ export default class SettingItemMax extends React.Component {
         if (this.props.cancelButtonText) {
             cancelButtonText = this.props.cancelButtonText;
         } else {
-            cancelButtonText = (
-                <FormattedMessage
-                    id='setting_item_max.cancel'
-                    defaultMessage='Cancel'
-                />
-            );
+            cancelButtonText = <FormattedMessage id="setting_item_max.cancel" defaultMessage="Cancel" />;
         }
 
         return (
-            <ul className='section-max form-horizontal'>
+            <ul className="section-max form-horizontal">
                 {title}
                 <li className={widthClass}>
-                    <ul className='setting-list'>
+                    <ul className="setting-list">
                         {listContent}
-                        <li className='setting-list-item'>
-                            <hr/>
+                        <li className="setting-list-item">
+                            <hr />
                             {this.props.submitExtra}
                             {serverError}
                             {clientError}
                             {submit}
                             <a
                                 id={Utils.createSafeId(titleProp) + 'Cancel'}
-                                className='btn btn-sm'
-                                href='#'
+                                className="btn btn-sm"
+                                href="#"
                                 onClick={this.props.updateSection}
                             >
                                 {cancelButtonText}

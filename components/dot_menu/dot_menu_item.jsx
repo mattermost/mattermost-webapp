@@ -35,32 +35,32 @@ export default function DotMenuItem(props) {
     attrib.idPrefix = props.idPrefix;
     attrib.class = '';
 
-    switch (props.idPrefix.substring((props.idPrefix.indexOf('DotMenu') + 7))) {
-    case 'Reply':
-        attrib.class = 'link__reply theme';
-        attrib.onClick = props.handleOnClick;
-        attrib.formattedMessageId = 'post_info.reply';
-        attrib.formattedDefaultMessage = 'Reply';
-        break;
-    case 'Permalink':
-        attrib.onClick = handlePermalink;
-        attrib.formattedMessageId = 'post_info.permalink';
-        attrib.formattedDefaultMessage = 'Permalink';
-        attrib.post = props.post;
-        break;
-    case 'Pin':
-        attrib.onClick = props.post.is_pinned ? handleUnpinPost : handlePinPost;
-        attrib.formattedMessageId = props.post.is_pinned ? 'post_info.unpin' : 'post_info.pin';
-        attrib.formattedDefaultMessage = props.post.is_pinned ? 'Un-pin from channel' : 'Pin from channel';
-        attrib.post = props.post;
-        break;
-    case 'Delete':
-        attrib.onClick = handleDeletePost;
-        attrib.formattedMessageId = 'post_info.del';
-        attrib.formattedDefaultMessage = 'Delete';
-        attrib.commentCount = props.commentCount;
-        break;
-    default:
+    switch (props.idPrefix.substring(props.idPrefix.indexOf('DotMenu') + 7)) {
+        case 'Reply':
+            attrib.class = 'link__reply theme';
+            attrib.onClick = props.handleOnClick;
+            attrib.formattedMessageId = 'post_info.reply';
+            attrib.formattedDefaultMessage = 'Reply';
+            break;
+        case 'Permalink':
+            attrib.onClick = handlePermalink;
+            attrib.formattedMessageId = 'post_info.permalink';
+            attrib.formattedDefaultMessage = 'Permalink';
+            attrib.post = props.post;
+            break;
+        case 'Pin':
+            attrib.onClick = props.post.is_pinned ? handleUnpinPost : handlePinPost;
+            attrib.formattedMessageId = props.post.is_pinned ? 'post_info.unpin' : 'post_info.pin';
+            attrib.formattedDefaultMessage = props.post.is_pinned ? 'Un-pin from channel' : 'Pin from channel';
+            attrib.post = props.post;
+            break;
+        case 'Delete':
+            attrib.onClick = handleDeletePost;
+            attrib.formattedMessageId = 'post_info.del';
+            attrib.formattedDefaultMessage = 'Delete';
+            attrib.commentCount = props.commentCount;
+            break;
+        default:
     }
 
     let itemId = null;
@@ -73,20 +73,9 @@ export default function DotMenuItem(props) {
     }
 
     return (
-        <li
-            id={Utils.createSafeId(itemId)}
-            key={attrib.idPrefix}
-            role='presentation'
-        >
-            <a
-                href='#'
-                role='menuitem'
-                onClick={attrib.onClick}
-            >
-                <FormattedMessage
-                    id={attrib.formattedMessageId}
-                    defaultMessage={attrib.formattedDefaultMessage}
-                />
+        <li id={Utils.createSafeId(itemId)} key={attrib.idPrefix} role="presentation">
+            <a href="#" role="menuitem" onClick={attrib.onClick}>
+                <FormattedMessage id={attrib.formattedMessageId} defaultMessage={attrib.formattedDefaultMessage} />
             </a>
         </li>
     );
@@ -101,7 +90,6 @@ DotMenuItem.propTypes = {
     commentCount: PropTypes.number,
 
     actions: PropTypes.shape({
-
         /*
          * Function to pin the post
          */

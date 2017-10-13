@@ -18,21 +18,11 @@ function getAppReducer() {
     return require('../reducers'); // eslint-disable-line global-require
 }
 
-const usersSetTransform = [
-    'profilesInChannel',
-    'profilesNotInChannel',
-    'profilesInTeam',
-    'profilesNotInTeam'
-];
+const usersSetTransform = ['profilesInChannel', 'profilesNotInChannel', 'profilesInTeam', 'profilesNotInTeam'];
 
-const teamSetTransform = [
-    'membersInTeam'
-];
+const teamSetTransform = ['membersInTeam'];
 
-const setTransforms = [
-    ...usersSetTransform,
-    ...teamSetTransform
-];
+const setTransforms = [...usersSetTransform, ...teamSetTransform];
 
 export default function configureStore(initialState) {
     const setTransformer = createTransform(
@@ -88,12 +78,14 @@ export default function configureStore(initialState) {
                     document.cookie = 'MMUSERID=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
                     window.location.href = '/';
 
-                    store.dispatch(batchActions([
-                        {
-                            type: General.OFFLINE_STORE_RESET,
-                            data: Object.assign({}, reduxInitialState, initialState)
-                        }
-                    ]));
+                    store.dispatch(
+                        batchActions([
+                            {
+                                type: General.OFFLINE_STORE_RESET,
+                                data: Object.assign({}, reduxInitialState, initialState)
+                            }
+                        ])
+                    );
 
                     setTimeout(() => {
                         purging = false;
@@ -109,9 +101,7 @@ export default function configureStore(initialState) {
             },
             blacklist: ['errors', 'offline', 'requests', 'entities', 'views', 'plugins'],
             debounce: 500,
-            transforms: [
-                setTransformer
-            ]
+            transforms: [setTransformer]
         }
     };
 

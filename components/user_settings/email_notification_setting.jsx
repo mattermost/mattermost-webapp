@@ -48,40 +48,41 @@ export default class EmailNotificationSetting extends React.Component {
             enableEmail,
             emailInterval
         });
-    }
+    };
 
     handleSubmit = () => {
         // until the rest of the notification settings are moved to preferences, we have to do this separately
-        savePreference(Preferences.CATEGORY_NOTIFICATIONS, Preferences.EMAIL_INTERVAL, this.state.emailInterval.toString());
+        savePreference(
+            Preferences.CATEGORY_NOTIFICATIONS,
+            Preferences.EMAIL_INTERVAL,
+            this.state.emailInterval.toString()
+        );
 
         const {enableEmail} = this.state;
         this.props.onSubmit({enableEmail});
-    }
+    };
 
     handleExpand = () => {
         this.props.updateSection('email');
-    }
+    };
 
-    handleCancel = (e) => {
+    handleCancel = e => {
         this.setState({
             enableEmail: this.props.enableEmail,
             emailInterval: this.props.emailInterval
         });
         this.props.onCancel(e);
-    }
+    };
 
     render() {
         if (global.window.mm_config.SendEmailNotifications !== 'true' && this.props.activeSection === 'email') {
             const inputs = [];
 
             inputs.push(
-                <div
-                    key='oauthEmailInfo'
-                    className='padding-top'
-                >
+                <div key="oauthEmailInfo" className="padding-top">
                     <FormattedMessage
-                        id='user.settings.notifications.email.disabled_long'
-                        defaultMessage='Email notifications have been disabled by your System Administrator.'
+                        id="user.settings.notifications.email.disabled_long"
+                        defaultMessage="Email notifications have been disabled by your System Administrator."
                     />
                 </div>
             );
@@ -102,44 +103,39 @@ export default class EmailNotificationSetting extends React.Component {
             if (global.window.mm_config.SendEmailNotifications !== 'true') {
                 description = (
                     <FormattedMessage
-                        id='user.settings.notifications.email.disabled'
-                        defaultMessage='Disabled by System Administrator'
+                        id="user.settings.notifications.email.disabled"
+                        defaultMessage="Disabled by System Administrator"
                     />
                 );
             } else if (this.props.enableEmail) {
                 switch (this.state.emailInterval) {
-                case Preferences.INTERVAL_IMMEDIATE:
-                    description = (
-                        <FormattedMessage
-                            id='user.settings.notifications.email.immediately'
-                            defaultMessage='Immediately'
-                        />
-                    );
-                    break;
-                case Preferences.INTERVAL_HOUR:
-                    description = (
-                        <FormattedMessage
-                            id='user.settings.notifications.email.everyHour'
-                            defaultMessage='Every hour'
-                        />
-                    );
-                    break;
-                default:
-                    description = (
-                        <FormattedMessage
-                            id='user.settings.notifications.email.everyXMinutes'
-                            defaultMessage='Every {count, plural, one {minute} other {{count, number} minutes}}'
-                            values={{count: this.state.emailInterval / 60}}
-                        />
-                    );
+                    case Preferences.INTERVAL_IMMEDIATE:
+                        description = (
+                            <FormattedMessage
+                                id="user.settings.notifications.email.immediately"
+                                defaultMessage="Immediately"
+                            />
+                        );
+                        break;
+                    case Preferences.INTERVAL_HOUR:
+                        description = (
+                            <FormattedMessage
+                                id="user.settings.notifications.email.everyHour"
+                                defaultMessage="Every hour"
+                            />
+                        );
+                        break;
+                    default:
+                        description = (
+                            <FormattedMessage
+                                id="user.settings.notifications.email.everyXMinutes"
+                                defaultMessage="Every {count, plural, one {minute} other {{count, number} minutes}}"
+                                values={{count: this.state.emailInterval / 60}}
+                            />
+                        );
                 }
             } else {
-                description = (
-                    <FormattedMessage
-                        id='user.settings.notifications.email.never'
-                        defaultMessage='Never'
-                    />
-                );
+                description = <FormattedMessage id="user.settings.notifications.email.never" defaultMessage="Never" />;
             }
 
             return (
@@ -156,34 +152,34 @@ export default class EmailNotificationSetting extends React.Component {
         if (global.window.mm_config.EnableEmailBatching === 'true') {
             batchingOptions = (
                 <div>
-                    <div className='radio'>
+                    <div className="radio">
                         <label>
                             <input
-                                id='emailNotificationMinutes'
-                                type='radio'
-                                name='emailNotifications'
+                                id="emailNotificationMinutes"
+                                type="radio"
+                                name="emailNotifications"
                                 checked={this.state.emailInterval === Preferences.INTERVAL_FIFTEEN_MINUTES}
                                 onChange={() => this.handleChange('true', Preferences.INTERVAL_FIFTEEN_MINUTES)}
                             />
                             <FormattedMessage
-                                id='user.settings.notifications.email.everyXMinutes'
-                                defaultMessage='Every {count} minutes'
+                                id="user.settings.notifications.email.everyXMinutes"
+                                defaultMessage="Every {count} minutes"
                                 values={{count: Preferences.INTERVAL_FIFTEEN_MINUTES / 60}}
                             />
                         </label>
                     </div>
-                    <div className='radio'>
+                    <div className="radio">
                         <label>
                             <input
-                                id='emailNotificationHour'
-                                type='radio'
-                                name='emailNotifications'
+                                id="emailNotificationHour"
+                                type="radio"
+                                name="emailNotifications"
                                 checked={this.state.emailInterval === Preferences.INTERVAL_HOUR}
                                 onChange={() => this.handleChange('true', Preferences.INTERVAL_HOUR)}
                             />
                             <FormattedMessage
-                                id='user.settings.notifications.email.everyHour'
-                                defaultMessage='Every hour'
+                                id="user.settings.notifications.email.everyHour"
+                                defaultMessage="Every hour"
                             />
                         </label>
                     </div>
@@ -192,8 +188,8 @@ export default class EmailNotificationSetting extends React.Component {
 
             batchingInfo = (
                 <FormattedMessage
-                    id='user.settings.notifications.emailBatchingInfo'
-                    defaultMessage='Notifications received over the time period selected are combined and sent in a single email.'
+                    id="user.settings.notifications.emailBatchingInfo"
+                    defaultMessage="Notifications received over the time period selected are combined and sent in a single email."
                 />
             );
         }
@@ -202,54 +198,50 @@ export default class EmailNotificationSetting extends React.Component {
             <SettingItemMax
                 title={localizeMessage('user.settings.notifications.emailNotifications', 'Email notifications')}
                 inputs={[
-                    <div key='userNotificationEmailOptions'>
+                    <div key="userNotificationEmailOptions">
                         <label>
                             <FormattedMessage
-                                id='user.settings.notifications.email.send'
-                                defaultMessage='Send email notifications'
+                                id="user.settings.notifications.email.send"
+                                defaultMessage="Send email notifications"
                             />
                         </label>
-                        <div className='radio'>
+                        <div className="radio">
                             <label>
                                 <input
-                                    id='emailNotificationImmediately'
-                                    type='radio'
-                                    name='emailNotifications'
+                                    id="emailNotificationImmediately"
+                                    type="radio"
+                                    name="emailNotifications"
                                     checked={this.state.emailInterval === Preferences.INTERVAL_IMMEDIATE}
                                     onChange={() => this.handleChange('true', Preferences.INTERVAL_IMMEDIATE)}
                                 />
                                 <FormattedMessage
-                                    id='user.settings.notifications.email.immediately'
-                                    defaultMessage='Immediately'
+                                    id="user.settings.notifications.email.immediately"
+                                    defaultMessage="Immediately"
                                 />
                             </label>
                         </div>
                         {batchingOptions}
-                        <div className='radio'>
+                        <div className="radio">
                             <label>
                                 <input
-                                    id='emailNotificationNever'
-                                    type='radio'
-                                    name='emailNotifications'
+                                    id="emailNotificationNever"
+                                    type="radio"
+                                    name="emailNotifications"
                                     checked={this.state.emailInterval === Preferences.INTERVAL_NEVER}
                                     onChange={() => this.handleChange('false', Preferences.INTERVAL_NEVER)}
                                 />
-                                <FormattedMessage
-                                    id='user.settings.notifications.email.never'
-                                    defaultMessage='Never'
-                                />
+                                <FormattedMessage id="user.settings.notifications.email.never" defaultMessage="Never" />
                             </label>
                         </div>
-                        <br/>
+                        <br />
                         <div>
                             <FormattedMessage
-                                id='user.settings.notifications.emailInfo'
-                                defaultMessage='Email notifications are sent for mentions and direct messages when you are offline or away from {siteName} for more than 5 minutes.'
+                                id="user.settings.notifications.emailInfo"
+                                defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away from {siteName} for more than 5 minutes."
                                 values={{
                                     siteName: global.window.mm_config.SiteName
                                 }}
-                            />
-                            {' '}
+                            />{' '}
                             {batchingInfo}
                         </div>
                     </div>

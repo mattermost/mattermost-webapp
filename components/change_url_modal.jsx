@@ -52,57 +52,54 @@ export default class ChangeUrlModal extends React.Component {
         let error = []; //eslint-disable-line prefer-const
         if (url.length < 2) {
             error.push(
-                <span key='error1'>
-                    <FormattedMessage
-                        id='change_url.longer'
-                        defaultMessage='URL must be two or more characters.'
-                    />
-                    <br/>
+                <span key="error1">
+                    <FormattedMessage id="change_url.longer" defaultMessage="URL must be two or more characters." />
+                    <br />
                 </span>
             );
         }
         if (url.charAt(0) === '-' || url.charAt(0) === '_') {
             error.push(
-                <span key='error2'>
+                <span key="error2">
                     <FormattedMessage
-                        id='change_url.startWithLetter'
-                        defaultMessage='URL must start with a letter or number.'
+                        id="change_url.startWithLetter"
+                        defaultMessage="URL must start with a letter or number."
                     />
-                    <br/>
+                    <br />
                 </span>
             );
         }
         if (url.length > 1 && (url.charAt(url.length - 1) === '-' || url.charAt(url.length - 1) === '_')) {
             error.push(
-                <span key='error3'>
+                <span key="error3">
                     <FormattedMessage
-                        id='change_url.endWithLetter'
-                        defaultMessage='URL must end with a letter or number.'
+                        id="change_url.endWithLetter"
+                        defaultMessage="URL must end with a letter or number."
                     />
-                    <br/>
-                </span>);
+                    <br />
+                </span>
+            );
         }
         if (url.indexOf('__') > -1) {
             error.push(
-                <span key='error4'>
+                <span key="error4">
                     <FormattedMessage
-                        id='change_url.noUnderscore'
-                        defaultMessage='URL can not contain two underscores in a row.'
+                        id="change_url.noUnderscore"
+                        defaultMessage="URL can not contain two underscores in a row."
                     />
-                    <br/>
-                </span>);
+                    <br />
+                </span>
+            );
         }
 
         // In case of error we don't detect
         if (error.length === 0) {
             error.push(
-                <span key='errorlast'>
-                    <FormattedMessage
-                        id='change_url.invalidUrl'
-                        defaultMessage='Invalid URL'
-                    />
-                    <br/>
-                </span>);
+                <span key="errorlast">
+                    <FormattedMessage id="change_url.invalidUrl" defaultMessage="Invalid URL" />
+                    <br />
+                </span>
+            );
         }
         return error;
     }
@@ -135,66 +132,52 @@ export default class ChangeUrlModal extends React.Component {
 
         if (this.props.serverError || this.state.urlError) {
             error = (
-                <div className='form-group has-error'>
-                    <p className='input__help error'>
-                        {this.state.urlError || this.props.serverError}
-                    </p>
+                <div className="form-group has-error">
+                    <p className="input__help error">{this.state.urlError || this.props.serverError}</p>
                 </div>
             );
         }
 
         const fullUrl = TeamStore.getCurrentTeamUrl() + '/channels';
         const shortURL = URL.getShortenedURL(fullUrl);
-        const urlTooltip = (
-            <Tooltip id='urlTooltip'>{fullUrl}</Tooltip>
-        );
+        const urlTooltip = <Tooltip id="urlTooltip">{fullUrl}</Tooltip>;
 
         return (
-            <Modal
-                show={this.props.show}
-                onHide={this.doCancel}
-                onExited={this.props.onModalExited}
-            >
+            <Modal show={this.props.show} onHide={this.doCancel} onExited={this.props.onModalExited}>
                 <Modal.Header closeButton={true}>
                     <Modal.Title>{this.props.title}</Modal.Title>
                 </Modal.Header>
-                <form
-                    role='form'
-                    className='form-horizontal'
-                >
+                <form role="form" className="form-horizontal">
                     <Modal.Body>
-                        <div className='modal-intro'>
+                        <div className="modal-intro">
                             <FormattedMessage
-                                id='channel_flow.changeUrlDescription'
-                                defaultMessage='Some characters are now allowed in URLs and may be removed.'
+                                id="channel_flow.changeUrlDescription"
+                                defaultMessage="Some characters are now allowed in URLs and may be removed."
                             />
                         </div>
-                        <div className='form-group'>
-                            <label className='col-sm-2 form__label control-label'>
-                                <FormattedMessage
-                                    id='change_url.urlLabel'
-                                    defaultMessage='Channel URL'
-                                />
+                        <div className="form-group">
+                            <label className="col-sm-2 form__label control-label">
+                                <FormattedMessage id="change_url.urlLabel" defaultMessage="Channel URL" />
                             </label>
-                            <div className='col-sm-10'>
+                            <div className="col-sm-10">
                                 <div className={urlClass}>
                                     <OverlayTrigger
                                         trigger={['hover', 'focus']}
                                         delayShow={Constants.OVERLAY_TIME_DELAY}
-                                        placement='top'
+                                        placement="top"
                                         overlay={urlTooltip}
                                     >
-                                        <span className='input-group-addon'>{shortURL}</span>
+                                        <span className="input-group-addon">{shortURL}</span>
                                     </OverlayTrigger>
                                     <input
-                                        type='text'
-                                        ref='urlinput'
-                                        className='form-control'
+                                        type="text"
+                                        ref="urlinput"
+                                        className="form-control"
                                         maxLength={Constants.MAX_CHANNELNAME_LENGTH}
                                         onChange={this.onURLChanged}
                                         value={this.state.currentURL}
                                         autoFocus={true}
-                                        tabIndex='1'
+                                        tabIndex="1"
                                     />
                                 </div>
                                 {error}
@@ -202,22 +185,10 @@ export default class ChangeUrlModal extends React.Component {
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
-                        <button
-                            type='button'
-                            className='btn btn-default'
-                            onClick={this.doCancel}
-                        >
-                            <FormattedMessage
-                                id='change_url.close'
-                                defaultMessage='Close'
-                            />
+                        <button type="button" className="btn btn-default" onClick={this.doCancel}>
+                            <FormattedMessage id="change_url.close" defaultMessage="Close" />
                         </button>
-                        <button
-                            onClick={this.doSubmit}
-                            type='submit'
-                            className='btn btn-primary'
-                            tabIndex='2'
-                        >
+                        <button onClick={this.doSubmit} type="submit" className="btn btn-primary" tabIndex="2">
                             {this.props.submitButtonText}
                         </button>
                     </Modal.Footer>

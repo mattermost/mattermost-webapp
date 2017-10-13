@@ -80,21 +80,20 @@ describe('components/AboutBuildModal', () => {
         expect(wrapper.find('#versionString').text()).toBe(' 3.6.0\u00a0 (3.6.2)');
     });
 
-    test('should call onModalDismissed callback when the modal is hidden', (done) => {
+    test('should call onModalDismissed callback when the modal is hidden', done => {
         function onHide() {
             done();
         }
 
         const wrapper = mountWithIntl(
-            <AboutBuildModal
-                config={config}
-                license={license}
-                show={true}
-                onModalDismissed={onHide}
-            />
+            <AboutBuildModal config={config} license={license} show={true} onModalDismissed={onHide} />
         );
 
-        wrapper.find(Modal).first().props().onHide();
+        wrapper
+            .find(Modal)
+            .first()
+            .props()
+            .onHide();
     });
 
     function shallowAboutBuildModal(props = {}) {
@@ -107,6 +106,6 @@ describe('components/AboutBuildModal', () => {
             ...props
         };
 
-        return shallow(<AboutBuildModal {...allProps}/>);
+        return shallow(<AboutBuildModal {...allProps} />);
     }
 });

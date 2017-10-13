@@ -27,7 +27,7 @@ function getStateFromStores() {
     const channels = new Map();
 
     if (results && results.order) {
-        const channelIds = results.order.map((postId) => results.posts[postId].channel_id);
+        const channelIds = results.order.map(postId => results.posts[postId].channel_id);
         for (const id of channelIds) {
             if (channels.has(id)) {
                 continue;
@@ -65,7 +65,12 @@ export default class SearchResults extends React.Component {
         state.windowWidth = Utils.windowWidth();
         state.windowHeight = Utils.windowHeight();
         state.profiles = JSON.parse(JSON.stringify(UserStore.getProfiles()));
-        state.compactDisplay = PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT;
+        state.compactDisplay =
+            PreferenceStore.get(
+                Preferences.CATEGORY_DISPLAY_SETTINGS,
+                Preferences.MESSAGE_DISPLAY,
+                Preferences.MESSAGE_DISPLAY_DEFAULT
+            ) === Preferences.MESSAGE_DISPLAY_COMPACT;
         state.isBusy = WebrtcStore.isBusy();
         state.statuses = Object.assign({}, UserStore.getStatuses());
         this.state = state;
@@ -144,7 +149,12 @@ export default class SearchResults extends React.Component {
 
     onPreferenceChange() {
         this.setState({
-            compactDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
+            compactDisplay:
+                PreferenceStore.get(
+                    Preferences.CATEGORY_DISPLAY_SETTINGS,
+                    Preferences.MESSAGE_DISPLAY,
+                    Preferences.MESSAGE_DISPLAY_DEFAULT
+                ) === Preferences.MESSAGE_DISPLAY_COMPACT,
             flaggedPosts: PreferenceStore.getCategory(Constants.Preferences.CATEGORY_FLAGGED_POST)
         });
     }
@@ -181,7 +191,7 @@ export default class SearchResults extends React.Component {
 
     render() {
         var results = this.state.results;
-        var noResults = (!results || !results.order || !results.order.length);
+        var noResults = !results || !results.order || !results.order.length;
         const searchTerm = this.state.searchTerm;
         const profiles = this.state.profiles || {};
         const flagIcon = Constants.FLAG_ICON_SVG;
@@ -189,46 +199,39 @@ export default class SearchResults extends React.Component {
         var ctls = null;
 
         if (this.state.loading) {
-            ctls =
-            (
-                <div className='sidebar--right__subheader'>
-                    <div className='sidebar--right__loading'>
-                        <i className='fa fa-spinner fa-spin'/>
-                        <FormattedMessage
-                            id='search_header.loading'
-                            defaultMessage='Searching...'
-                        />
+            ctls = (
+                <div className="sidebar--right__subheader">
+                    <div className="sidebar--right__loading">
+                        <i className="fa fa-spinner fa-spin" />
+                        <FormattedMessage id="search_header.loading" defaultMessage="Searching..." />
                     </div>
                 </div>
             );
         } else if (this.props.isFlaggedPosts && noResults) {
             ctls = (
-                <div className='sidebar--right__subheader'>
+                <div className="sidebar--right__subheader">
                     <ul>
                         <li>
                             <FormattedHTMLMessage
-                                id='search_results.usageFlag1'
+                                id="search_results.usageFlag1"
                                 defaultMessage="You haven't flagged any messages yet."
                             />
                         </li>
                         <li>
                             <FormattedHTMLMessage
-                                id='search_results.usageFlag2'
-                                defaultMessage='You can add a flag to messages and comments by clicking the '
+                                id="search_results.usageFlag2"
+                                defaultMessage="You can add a flag to messages and comments by clicking the "
                             />
-                            <span
-                                className='usage__icon'
-                                dangerouslySetInnerHTML={{__html: flagIcon}}
-                            />
+                            <span className="usage__icon" dangerouslySetInnerHTML={{__html: flagIcon}} />
                             <FormattedHTMLMessage
-                                id='search_results.usageFlag3'
-                                defaultMessage=' icon next to the timestamp.'
+                                id="search_results.usageFlag3"
+                                defaultMessage=" icon next to the timestamp."
                             />
                         </li>
                         <li>
                             <FormattedHTMLMessage
-                                id='search_results.usageFlag4'
-                                defaultMessage='Flags are a way to mark messages for follow up. Your flags are personal, and cannot be seen by other users.'
+                                id="search_results.usageFlag4"
+                                defaultMessage="Flags are a way to mark messages for follow up. Your flags are personal, and cannot be seen by other users."
                             />
                         </li>
                     </ul>
@@ -236,30 +239,32 @@ export default class SearchResults extends React.Component {
             );
         } else if (this.props.isPinnedPosts && noResults) {
             ctls = (
-                <div className='sidebar--right__subheader'>
+                <div className="sidebar--right__subheader">
                     <ul>
                         <li>
                             <FormattedHTMLMessage
-                                id='search_results.usagePin1'
-                                defaultMessage='There are no pinned messages yet.'
+                                id="search_results.usagePin1"
+                                defaultMessage="There are no pinned messages yet."
                             />
                         </li>
                         <li>
                             <FormattedHTMLMessage
-                                id='search_results.usagePin2'
-                                defaultMessage='All members of this channel can pin important or useful messages.'
+                                id="search_results.usagePin2"
+                                defaultMessage="All members of this channel can pin important or useful messages."
                             />
                         </li>
                         <li>
                             <FormattedHTMLMessage
-                                id='search_results.usagePin3'
-                                defaultMessage='Pinned messages are visible to all channel members.'
+                                id="search_results.usagePin3"
+                                defaultMessage="Pinned messages are visible to all channel members."
                             />
                         </li>
                         <li>
                             <FormattedHTMLMessage
-                                id='search_results.usagePin4'
-                                defaultMessage={'To pin a message: Go to the message that you want to pin and click [...] > "Pin to channel".'}
+                                id="search_results.usagePin4"
+                                defaultMessage={
+                                    'To pin a message: Go to the message that you want to pin and click [...] > "Pin to channel".'
+                                }
                             />
                         </li>
                     </ul>
@@ -267,29 +272,25 @@ export default class SearchResults extends React.Component {
             );
         } else if (!searchTerm && noResults) {
             ctls = (
-                <div className='sidebar--right__subheader'>
+                <div className="sidebar--right__subheader">
                     <FormattedHTMLMessage
-                        id='search_results.usage'
-                        defaultMessage='<ul><li>Use <b>"quotation marks"</b> to search for phrases</li><li>Use <b>from:</b> to find posts from specific users and <b>in:</b> to find posts in specific channels</li></ul>'
+                        id="search_results.usage"
+                        defaultMessage="<ul><li>Use <b>&quot;quotation marks&quot;</b> to search for phrases</li><li>Use <b>from:</b> to find posts from specific users and <b>in:</b> to find posts in specific channels</li></ul>"
                     />
                 </div>
             );
         } else if (noResults) {
-            ctls =
-            (
-                <div className='sidebar--right__subheader'>
+            ctls = (
+                <div className="sidebar--right__subheader">
                     <h4>
-                        <FormattedMessage
-                            id='search_results.noResults'
-                            defaultMessage='No results found. Try again?'
-                        />
+                        <FormattedMessage id="search_results.noResults" defaultMessage="No results found. Try again?" />
                     </h4>
                     <FormattedHTMLMessage
-                        id='search_results.because'
-                        defaultMessage='<ul>
-                        <li>If you&#39;re searching a partial phrase (ex. searching "rea", looking for "reach" or "reaction"), append a * to your search term.</li>
-                        <li>Two letter searches and common words like "this", "a" and "is" won&#39;t appear in search results, due to the excessive results returned.</li>
-                    </ul>'
+                        id="search_results.because"
+                        defaultMessage="<ul>
+                        <li>If you&#39;re searching a partial phrase (ex. searching &quot;rea&quot;, looking for &quot;reach&quot; or &quot;reaction&quot;), append a * to your search term.</li>
+                        <li>Two letter searches and common words like &quot;this&quot;, &quot;a&quot; and &quot;is&quot; won&#39;t appear in search results, due to the excessive results returned.</li>
+                    </ul>"
                     />
                 </div>
             );
@@ -321,7 +322,7 @@ export default class SearchResults extends React.Component {
                         channel={this.state.channels.get(post.channel_id)}
                         compactDisplay={this.state.compactDisplay}
                         post={post}
-                        lastPostCount={(reverseCount >= 0 && reverseCount < Constants.TEST_ID_COUNT) ? reverseCount : -1}
+                        lastPostCount={reverseCount >= 0 && reverseCount < Constants.TEST_ID_COUNT ? reverseCount : -1}
                         user={profile}
                         term={searchTerm}
                         isMentionSearch={this.props.isMentionSearch}
@@ -337,7 +338,7 @@ export default class SearchResults extends React.Component {
         }
 
         return (
-            <div className='sidebar-right__body'>
+            <div className="sidebar-right__body">
                 <SearchResultsHeader
                     isMentionSearch={this.props.isMentionSearch}
                     toggleSize={this.props.toggleSize}
@@ -347,10 +348,7 @@ export default class SearchResults extends React.Component {
                     channelDisplayName={this.props.channelDisplayName}
                     isLoading={this.state.loading}
                 />
-                <div
-                    id='search-items-container'
-                    className='search-items-container'
-                >
+                <div id="search-items-container" className="search-items-container">
                     {ctls}
                 </div>
             </div>

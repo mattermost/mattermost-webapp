@@ -11,7 +11,7 @@ import {isMacApp, isMobileApp, isWindowsApp} from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 export function sendDesktopNotification(post, msgProps) {
-    if ((UserStore.getCurrentId() === post.user_id && post.props.from_webhook !== 'true')) {
+    if (UserStore.getCurrentId() === post.user_id && post.props.from_webhook !== 'true') {
         return;
     }
 
@@ -36,7 +36,11 @@ export function sendDesktopNotification(post, msgProps) {
 
     if (notifyLevel === NotificationLevels.NONE) {
         return;
-    } else if (notifyLevel === NotificationLevels.MENTION && mentions.indexOf(user.id) === -1 && msgProps.channel_type !== Constants.DM_CHANNEL) {
+    } else if (
+        notifyLevel === NotificationLevels.MENTION &&
+        mentions.indexOf(user.id) === -1 &&
+        msgProps.channel_type !== Constants.DM_CHANNEL
+    ) {
         return;
     }
 
@@ -73,13 +77,12 @@ export function sendDesktopNotification(post, msgProps) {
     let notifyText = post.message;
 
     const msgPropsPost = JSON.parse(msgProps.post);
-    const attachments = msgPropsPost && msgPropsPost.props && msgPropsPost.props.attachments ? msgPropsPost.props.attachments : [];
+    const attachments =
+        msgPropsPost && msgPropsPost.props && msgPropsPost.props.attachments ? msgPropsPost.props.attachments : [];
     let image = false;
-    attachments.forEach((attachment) => {
+    attachments.forEach(attachment => {
         if (notifyText.length === 0) {
-            notifyText = attachment.fallback ||
-                         attachment.pretext ||
-                         attachment.text;
+            notifyText = attachment.fallback || attachment.pretext || attachment.text;
         }
         image |= attachment.image_url.length > 0;
     });

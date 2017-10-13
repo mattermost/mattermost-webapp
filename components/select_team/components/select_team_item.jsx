@@ -19,60 +19,44 @@ export default class SelectTeamItem extends React.PureComponent {
     };
 
     handleTeamClick = () => {
-        addUserToTeamFromInvite('', '', this.props.team.invite_id,
-            () => {
-                browserHistory.push(`/${this.props.team.name}/channels/town-square`);
-            }
-        );
+        addUserToTeamFromInvite('', '', this.props.team.invite_id, () => {
+            browserHistory.push(`/${this.props.team.name}/channels/town-square`);
+        });
         this.props.onTeamClick(this.props.team);
-    }
+    };
 
     render() {
         let icon;
         const infoIcon = Constants.TEAM_INFO_SVG;
         if (this.props.loading) {
-            icon = (
-                <span className='fa fa-refresh fa-spin right signup-team__icon'/>
-            );
+            icon = <span className="fa fa-refresh fa-spin right signup-team__icon" />;
         } else {
-            icon = (
-                <span className='fa fa-angle-right right signup-team__icon'/>
-            );
+            icon = <span className="fa fa-angle-right right signup-team__icon" />;
         }
 
         var descriptionTooltip = '';
         var showDescriptionTooltip = '';
         if (this.props.team.description) {
-            descriptionTooltip = (
-                <Tooltip id='team-description__tooltip'>
-                    {this.props.team.description}
-                </Tooltip>
-            );
+            descriptionTooltip = <Tooltip id="team-description__tooltip">{this.props.team.description}</Tooltip>;
 
             showDescriptionTooltip = (
                 <OverlayTrigger
                     trigger={['hover', 'focus', 'click']}
                     delayShow={1000}
-                    placement='top'
+                    placement="top"
                     overlay={descriptionTooltip}
-                    ref='descriptionOverlay'
+                    ref="descriptionOverlay"
                 >
-                    <span
-                        className='icon icon--info'
-                        dangerouslySetInnerHTML={{__html: infoIcon}}
-                    />
+                    <span className="icon icon--info" dangerouslySetInnerHTML={{__html: infoIcon}} />
                 </OverlayTrigger>
             );
         }
 
         return (
-            <div className='signup-team-dir'>
+            <div className="signup-team-dir">
                 {showDescriptionTooltip}
-                <Link
-                    id={Utils.createSafeId(this.props.team.display_name)}
-                    onClick={this.handleTeamClick}
-                >
-                    <span className='signup-team-dir__name'>{this.props.team.display_name}</span>
+                <Link id={Utils.createSafeId(this.props.team.display_name)} onClick={this.handleTeamClick}>
+                    <span className="signup-team-dir__name">{this.props.team.display_name}</span>
                     {icon}
                 </Link>
             </div>

@@ -25,9 +25,12 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({
-            setStatus
-        }, dispatch)
+        actions: bindActionCreators(
+            {
+                setStatus
+            },
+            dispatch
+        )
     };
 }
 

@@ -5,22 +5,22 @@ import {Constants} from '../../utils';
 
 module.exports = {
     '@tags': ['login'],
-    after: (client) => client.end(),
-    'Test login page': (client) => {
+    after: client => client.end(),
+    'Test login page': client => {
         const loginPage = client.page.loginPage();
 
-        loginPage.navigate()
+        loginPage
+            .navigate()
             .navigateToPage()
             .assert.title('Mattermost')
             .assert.visible('@loginInput')
             .assert.visible('@passwordInput')
             .assert.visible('@signinButton');
     },
-    'Test login action': (client) => {
+    'Test login action': client => {
         const testUser = Constants.USERS.test;
         const loginPage = client.page.loginPage();
 
-        loginPage.navigate()
-            .login(testUser.email, testUser.password);
+        loginPage.navigate().login(testUser.email, testUser.password);
     }
 };

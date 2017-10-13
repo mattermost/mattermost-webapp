@@ -21,7 +21,7 @@ export default class AccessHistoryModal extends React.Component {
         actions: PropTypes.shape({
             getUserAudits: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -73,36 +73,25 @@ export default class AccessHistoryModal extends React.Component {
     render() {
         let content;
         if (this.state.audits.length === 0) {
-            content = (<LoadingScreen/>);
+            content = <LoadingScreen />;
         } else {
-            content = (
-                <AuditTable
-                    audits={this.state.audits}
-                    showIp={true}
-                    showSession={true}
-                />
-            );
+            content = <AuditTable audits={this.state.audits} showIp={true} showSession={true} />;
         }
 
         return (
             <Modal
-                dialogClassName='modal--scroll'
+                dialogClassName="modal--scroll"
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}
-                bsSize='large'
+                bsSize="large"
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title>
-                        <FormattedMessage
-                            id='access_history.title'
-                            defaultMessage='Access History'
-                        />
+                        <FormattedMessage id="access_history.title" defaultMessage="Access History" />
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body ref='modalBody'>
-                    {content}
-                </Modal.Body>
+                <Modal.Body ref="modalBody">{content}</Modal.Body>
             </Modal>
         );
     }

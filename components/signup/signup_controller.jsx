@@ -44,8 +44,8 @@ export default class SignupController extends React.Component {
                 noOpenServerError = true;
                 serverError = (
                     <FormattedMessage
-                        id='signup_user_completed.no_open_server'
-                        defaultMessage='This server does not allow open signups.  Please speak with your Administrator to receive an invitation.'
+                        id="signup_user_completed.no_open_server"
+                        defaultMessage="This server does not allow open signups.  Please speak with your Administrator to receive an invitation."
                     />
                 );
             }
@@ -73,12 +73,10 @@ export default class SignupController extends React.Component {
                     data,
                     hash,
                     inviteId,
-                    (team) => {
-                        loadMe().then(
-                            () => {
-                                browserHistory.push('/' + team.name + '/channels/town-square');
-                            }
-                        );
+                    team => {
+                        loadMe().then(() => {
+                            browserHistory.push('/' + team.name + '/channels/town-square');
+                        });
                     },
                     this.handleInvalidInvite
                 );
@@ -89,12 +87,13 @@ export default class SignupController extends React.Component {
             if (inviteId) {
                 getInviteInfo(
                     inviteId,
-                    (inviteData) => {
+                    inviteData => {
                         if (!inviteData) {
                             return;
                         }
 
-                        this.setState({ // eslint-disable-line react/no-did-mount-set-state
+                        this.setState({
+                            // eslint-disable-line react/no-did-mount-set-state
                             serverError: '',
                             loading: false
                         });
@@ -111,15 +110,15 @@ export default class SignupController extends React.Component {
         }
     }
 
-    handleInvalidInvite = (err) => {
+    handleInvalidInvite = err => {
         let serverError;
         if (err.server_error_id === 'store.sql_user.save.max_accounts.app_error') {
             serverError = err.message;
         } else {
             serverError = (
                 <FormattedMessage
-                    id='signup_user_completed.invalid_invite'
-                    defaultMessage='The invite link was invalid.  Please speak with your Administrator to receive an invitation.'
+                    id="signup_user_completed.invalid_invite"
+                    defaultMessage="The invite link was invalid.  Please speak with your Administrator to receive an invitation."
                 />
             );
         }
@@ -129,7 +128,7 @@ export default class SignupController extends React.Component {
             loading: false,
             serverError
         });
-    }
+    };
 
     renderSignupControls() {
         let signupControls = [];
@@ -137,16 +136,13 @@ export default class SignupController extends React.Component {
         if (global.window.mm_config.EnableSignUpWithEmail === 'true') {
             signupControls.push(
                 <Link
-                    className='btn btn-custom-login btn--full email'
-                    key='email'
+                    className="btn btn-custom-login btn--full email"
+                    key="email"
                     to={'/signup_email' + window.location.search}
                 >
                     <span>
-                        <span className='icon fa fa-envelope'/>
-                        <FormattedMessage
-                            id='signup.email'
-                            defaultMessage='Email and Password'
-                        />
+                        <span className="icon fa fa-envelope" />
+                        <FormattedMessage id="signup.email" defaultMessage="Email and Password" />
                     </span>
                 </Link>
             );
@@ -155,57 +151,54 @@ export default class SignupController extends React.Component {
         if (global.window.mm_config.EnableSignUpWithGitLab === 'true') {
             signupControls.push(
                 <a
-                    className='btn btn-custom-login btn--full gitlab'
-                    key='gitlab'
+                    className="btn btn-custom-login btn--full gitlab"
+                    key="gitlab"
                     href={Client4.getOAuthRoute() + '/gitlab/signup' + window.location.search}
                 >
                     <span>
-                        <span className='icon'/>
+                        <span className="icon" />
                         <span>
-                            <FormattedMessage
-                                id='signup.gitlab'
-                                defaultMessage='GitLab Single Sign-On'
-                            />
+                            <FormattedMessage id="signup.gitlab" defaultMessage="GitLab Single Sign-On" />
                         </span>
                     </span>
                 </a>
             );
         }
 
-        if (global.window.mm_license.IsLicensed === 'true' && global.window.mm_config.EnableSignUpWithGoogle === 'true') {
+        if (
+            global.window.mm_license.IsLicensed === 'true' &&
+            global.window.mm_config.EnableSignUpWithGoogle === 'true'
+        ) {
             signupControls.push(
                 <a
-                    className='btn btn-custom-login btn--full google'
-                    key='google'
+                    className="btn btn-custom-login btn--full google"
+                    key="google"
                     href={Client4.getOAuthRoute() + '/google/signup' + window.location.search}
                 >
                     <span>
-                        <span className='icon'/>
+                        <span className="icon" />
                         <span>
-                            <FormattedMessage
-                                id='signup.google'
-                                defaultMessage='Google Account'
-                            />
+                            <FormattedMessage id="signup.google" defaultMessage="Google Account" />
                         </span>
                     </span>
                 </a>
             );
         }
 
-        if (global.window.mm_license.IsLicensed === 'true' && global.window.mm_config.EnableSignUpWithOffice365 === 'true') {
+        if (
+            global.window.mm_license.IsLicensed === 'true' &&
+            global.window.mm_config.EnableSignUpWithOffice365 === 'true'
+        ) {
             signupControls.push(
                 <a
-                    className='btn btn-custom-login btn--full office365'
-                    key='office365'
+                    className="btn btn-custom-login btn--full office365"
+                    key="office365"
                     href={Client4.getOAuthRoute() + '/office365/signup' + window.location.search}
                 >
                     <span>
-                        <span className='icon'/>
+                        <span className="icon" />
                         <span>
-                            <FormattedMessage
-                                id='signup.office365'
-                                defaultMessage='Office 365'
-                            />
+                            <FormattedMessage id="signup.office365" defaultMessage="Office 365" />
                         </span>
                     </span>
                 </a>
@@ -215,17 +208,14 @@ export default class SignupController extends React.Component {
         if (global.window.mm_license.IsLicensed === 'true' && global.window.mm_config.EnableLdap === 'true') {
             signupControls.push(
                 <Link
-                    className='btn btn-custom-login btn--full ldap'
-                    key='ldap'
+                    className="btn btn-custom-login btn--full ldap"
+                    key="ldap"
                     to={'/signup_ldap' + window.location.search}
                 >
                     <span>
-                        <span className='icon fa fa-folder-open fa--margin-top'/>
+                        <span className="icon fa fa-folder-open fa--margin-top" />
                         <span>
-                            <FormattedMessage
-                                id='signup.ldap'
-                                defaultMessage='AD/LDAP Credentials'
-                            />
+                            <FormattedMessage id="signup.ldap" defaultMessage="AD/LDAP Credentials" />
                         </span>
                     </span>
                 </Link>
@@ -242,15 +232,13 @@ export default class SignupController extends React.Component {
 
             signupControls.push(
                 <a
-                    className='btn btn-custom-login btn--full saml'
-                    key='saml'
+                    className="btn btn-custom-login btn--full saml"
+                    key="saml"
                     href={'/login/sso/saml' + window.location.search + query}
                 >
                     <span>
-                        <span className='icon fa fa-lock fa--margin-top'/>
-                        <span>
-                            {global.window.mm_config.SamlLoginButtonText}
-                        </span>
+                        <span className="icon fa fa-lock fa--margin-top" />
+                        <span>{global.window.mm_config.SamlLoginButtonText}</span>
                     </span>
                 </a>
             );
@@ -259,20 +247,18 @@ export default class SignupController extends React.Component {
         if (signupControls.length === 0) {
             const signupDisabledError = (
                 <FormattedMessage
-                    id='signup_user_completed.none'
-                    defaultMessage='No user creation method has been enabled. Please contact an administrator for access.'
+                    id="signup_user_completed.none"
+                    defaultMessage="No user creation method has been enabled. Please contact an administrator for access."
                 />
             );
-            signupControls = (
-                <FormError
-                    error={signupDisabledError}
-                    margin={true}
-                />
-            );
+            signupControls = <FormError error={signupDisabledError} margin={true} />;
         } else if (signupControls.length === 1) {
             if (global.window.mm_config.EnableSignUpWithEmail === 'true') {
                 return browserHistory.push('/signup_email' + window.location.search);
-            } else if (global.window.mm_license.IsLicensed === 'true' && global.window.mm_config.EnableLdap === 'true') {
+            } else if (
+                global.window.mm_license.IsLicensed === 'true' &&
+                global.window.mm_config.EnableLdap === 'true'
+            ) {
                 return browserHistory.push('/signup_ldap' + window.location.search);
             }
         }
@@ -282,14 +268,14 @@ export default class SignupController extends React.Component {
 
     render() {
         if (this.state.loading) {
-            return (<LoadingScreen/>);
+            return <LoadingScreen />;
         }
 
         if (this.state.usedBefore) {
             return (
                 <div>
                     <FormattedMessage
-                        id='signup_user_completed.expired'
+                        id="signup_user_completed.expired"
                         defaultMessage="You've already completed the signup process for this invitation or this invitation has expired."
                     />
                 </div>
@@ -300,7 +286,7 @@ export default class SignupController extends React.Component {
         if (this.state.serverError) {
             serverError = (
                 <div className={'form-group has-error'}>
-                    <label className='control-label'>{this.state.serverError}</label>
+                    <label className="control-label">{this.state.serverError}</label>
                 </div>
             );
         }
@@ -314,45 +300,35 @@ export default class SignupController extends React.Component {
 
         return (
             <div>
-                <AnnouncementBar/>
-                <BackButton/>
-                <div className='col-sm-12'>
-                    <div className='signup-team__container'>
-                        <img
-                            className='signup-team-logo'
-                            src={logoImage}
-                        />
-                        <div className='signup__content'>
+                <AnnouncementBar />
+                <BackButton />
+                <div className="col-sm-12">
+                    <div className="signup-team__container">
+                        <img className="signup-team-logo" src={logoImage} />
+                        <div className="signup__content">
                             <h1>{global.window.mm_config.SiteName}</h1>
-                            <h4 className='color--light'>
-                                <FormattedMessage
-                                    id='web.root.signup_info'
-                                />
+                            <h4 className="color--light">
+                                <FormattedMessage id="web.root.signup_info" />
                             </h4>
-                            <div className='margin--extra'>
-                                <h5><strong>
-                                    <FormattedMessage
-                                        id='signup.title'
-                                        defaultMessage='Create an account with:'
-                                    />
-                                </strong></h5>
+                            <div className="margin--extra">
+                                <h5>
+                                    <strong>
+                                        <FormattedMessage id="signup.title" defaultMessage="Create an account with:" />
+                                    </strong>
+                                </h5>
                             </div>
                             {signupControls}
                             {serverError}
                         </div>
-                        <span className='color--light'>
+                        <span className="color--light">
                             <FormattedMessage
-                                id='signup_user_completed.haveAccount'
-                                defaultMessage='Already have an account?'
-                            />
-                            {' '}
-                            <Link
-                                to={'/login'}
-                                query={this.props.location.query}
-                            >
+                                id="signup_user_completed.haveAccount"
+                                defaultMessage="Already have an account?"
+                            />{' '}
+                            <Link to={'/login'} query={this.props.location.query}>
                                 <FormattedMessage
-                                    id='signup_user_completed.signIn'
-                                    defaultMessage='Click here to sign in.'
+                                    id="signup_user_completed.signIn"
+                                    defaultMessage="Click here to sign in."
                                 />
                             </Link>
                         </span>

@@ -48,15 +48,15 @@ class LocalizationStoreClass extends EventEmitter {
 var LocalizationStore = new LocalizationStoreClass();
 LocalizationStore.setMaxListeners(0);
 
-LocalizationStore.dispatchToken = AppDispatcher.register((payload) => {
+LocalizationStore.dispatchToken = AppDispatcher.register(payload => {
     var action = payload.action;
 
     switch (action.type) {
-    case ActionTypes.RECEIVED_LOCALE:
-        LocalizationStore.setCurrentLocale(action.locale, action.translations);
-        LocalizationStore.emitChange();
-        break;
-    default:
+        case ActionTypes.RECEIVED_LOCALE:
+            LocalizationStore.setCurrentLocale(action.locale, action.translations);
+            LocalizationStore.emitChange();
+            break;
+        default:
     }
 });
 

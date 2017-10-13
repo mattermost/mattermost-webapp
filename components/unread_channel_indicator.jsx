@@ -20,10 +20,7 @@ export default function UnreadChannelIndicator(props) {
             onClick={props.onClick}
         >
             {props.text}
-            <span
-                className='icon icon__unread'
-                dangerouslySetInnerHTML={{__html: unreadIcon}}
-            />
+            <span className="icon icon__unread" dangerouslySetInnerHTML={{__html: unreadIcon}} />
         </div>
     );
 }

@@ -11,7 +11,7 @@ import Constants from 'utils/constants.jsx';
 import EditChannelHeaderModal from './edit_channel_header_modal.jsx';
 
 const mapStateToProps = createSelector(
-    (state) => getBool(state, Constants.Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
+    state => getBool(state, Constants.Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
     ({requests}) => {
         const {channels: {updateChannel}} = requests;
         return {
@@ -22,7 +22,7 @@ const mapStateToProps = createSelector(
     (ctrlSend, submitInfo) => ({
         ctrlSend,
         ...submitInfo
-    }),
+    })
 );
 
 function mapDispatchToProps(dispatch) {
@@ -33,7 +33,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(EditChannelHeaderModal);
+export default connect(mapStateToProps, mapDispatchToProps)(EditChannelHeaderModal);

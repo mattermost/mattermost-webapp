@@ -8,7 +8,6 @@ import {FormattedMessage} from 'react-intl';
 
 export default class ConfirmModal extends React.Component {
     static propTypes = {
-
         /*
          * Set to show modal
          */
@@ -58,14 +57,14 @@ export default class ConfirmModal extends React.Component {
          * Function called when the cancel button is pressed or the modal is hidden. Passes `true` if the checkbox is checked
          */
         onCancel: PropTypes.func.isRequired
-    }
+    };
 
     static defaultProps = {
         title: '',
         message: '',
         confirmButtonClass: 'btn btn-primary',
         confirmButtonText: ''
-    }
+    };
 
     componentDidMount() {
         if (this.props.show) {
@@ -85,32 +84,29 @@ export default class ConfirmModal extends React.Component {
         }
     }
 
-    handleKeypress = (e) => {
+    handleKeypress = e => {
         if (e.key === 'Enter' && this.props.show) {
             this.handleConfirm();
         }
-    }
+    };
 
     handleConfirm = () => {
         const checked = this.refs.checkbox ? this.refs.checkbox.checked : false;
         this.props.onConfirm(checked);
-    }
+    };
 
     handleCancel = () => {
         const checked = this.refs.checkbox ? this.refs.checkbox.checked : false;
         this.props.onCancel(checked);
-    }
+    };
 
     render() {
         let checkbox;
         if (this.props.showCheckbox) {
             checkbox = (
-                <div className='checkbox text-right margin-bottom--none'>
+                <div className="checkbox text-right margin-bottom--none">
                     <label>
-                        <input
-                            ref='checkbox'
-                            type='checkbox'
-                        />
+                        <input ref="checkbox" type="checkbox" />
                         {this.props.checkboxText}
                     </label>
                 </div>
@@ -121,20 +117,11 @@ export default class ConfirmModal extends React.Component {
         if (this.props.cancelButtonText) {
             cancelText = this.props.cancelButtonText;
         } else {
-            cancelText = (
-                <FormattedMessage
-                    id='confirm_modal.cancel'
-                    defaultMessage='Cancel'
-                />
-            );
+            cancelText = <FormattedMessage id="confirm_modal.cancel" defaultMessage="Cancel" />;
         }
 
         return (
-            <Modal
-                className='modal-confirm'
-                show={this.props.show}
-                onHide={this.props.onCancel}
-            >
+            <Modal className="modal-confirm" show={this.props.show} onHide={this.props.onCancel}>
                 <Modal.Header closeButton={false}>
                     <Modal.Title>{this.props.title}</Modal.Title>
                 </Modal.Header>
@@ -143,18 +130,10 @@ export default class ConfirmModal extends React.Component {
                     {checkbox}
                 </Modal.Body>
                 <Modal.Footer>
-                    <button
-                        type='button'
-                        className='btn btn-default'
-                        onClick={this.handleCancel}
-                    >
+                    <button type="button" className="btn btn-default" onClick={this.handleCancel}>
                         {cancelText}
                     </button>
-                    <button
-                        type='button'
-                        className={this.props.confirmButtonClass}
-                        onClick={this.handleConfirm}
-                    >
+                    <button type="button" className={this.props.confirmButtonClass} onClick={this.handleConfirm}>
                         {this.props.confirmButtonText}
                     </button>
                 </Modal.Footer>

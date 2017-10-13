@@ -154,9 +154,11 @@ export default class NotificationsTab extends React.Component {
             data,
             () => {
                 this.props.updateSection('');
-                $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
+                $('.settings-modal .modal-body')
+                    .scrollTop(0)
+                    .perfectScrollbar('update');
             },
-            (err) => {
+            err => {
                 this.setState({serverError: err.message, isSaving: false});
             }
         );
@@ -166,7 +168,9 @@ export default class NotificationsTab extends React.Component {
         e.preventDefault();
         this.updateState();
         this.props.updateSection('');
-        $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
+        $('.settings-modal .modal-body')
+            .scrollTop(0)
+            .perfectScrollbar('update');
     }
 
     setStateValue(key, value) {
@@ -280,58 +284,58 @@ export default class NotificationsTab extends React.Component {
                 if (this.state.pushActivity !== NotificationLevels.NONE) {
                     pushStatusSettings = (
                         <div>
-                            <hr/>
+                            <hr />
                             <label>
                                 <FormattedMessage
-                                    id='user.settings.notifications.push_notification.status'
-                                    defaultMessage='Trigger push notifications when'
+                                    id="user.settings.notifications.push_notification.status"
+                                    defaultMessage="Trigger push notifications when"
                                 />
                             </label>
-                            <br/>
-                            <div className='radio'>
+                            <br />
+                            <div className="radio">
                                 <label>
                                     <input
-                                        id='pushNotificationOnline'
-                                        type='radio'
-                                        name='pushNotificationStatus'
+                                        id="pushNotificationOnline"
+                                        type="radio"
+                                        name="pushNotificationStatus"
                                         checked={pushStatusRadio[0]}
                                         onChange={this.handlePushStatusRadio.bind(this, Constants.UserStatuses.ONLINE)}
                                     />
                                     <FormattedMessage
-                                        id='user.settings.push_notification.online'
-                                        defaultMessage='Online, away or offline'
+                                        id="user.settings.push_notification.online"
+                                        defaultMessage="Online, away or offline"
                                     />
                                 </label>
-                                <br/>
+                                <br />
                             </div>
-                            <div className='radio'>
+                            <div className="radio">
                                 <label>
                                     <input
-                                        id='pushNotificationAway'
-                                        type='radio'
-                                        name='pushNotificationStatus'
+                                        id="pushNotificationAway"
+                                        type="radio"
+                                        name="pushNotificationStatus"
                                         checked={pushStatusRadio[1]}
                                         onChange={this.handlePushStatusRadio.bind(this, Constants.UserStatuses.AWAY)}
                                     />
                                     <FormattedMessage
-                                        id='user.settings.push_notification.away'
-                                        defaultMessage='Away or offline'
+                                        id="user.settings.push_notification.away"
+                                        defaultMessage="Away or offline"
                                     />
                                 </label>
-                                <br/>
+                                <br />
                             </div>
-                            <div className='radio'>
+                            <div className="radio">
                                 <label>
                                     <input
-                                        id='pushNotificationOffline'
-                                        type='radio'
-                                        name='pushNotificationStatus'
+                                        id="pushNotificationOffline"
+                                        type="radio"
+                                        name="pushNotificationStatus"
                                         checked={pushStatusRadio[2]}
                                         onChange={this.handlePushStatusRadio.bind(this, Constants.UserStatuses.OFFLINE)}
                                     />
                                     <FormattedMessage
-                                        id='user.settings.push_notification.offline'
-                                        defaultMessage='Offline'
+                                        id="user.settings.push_notification.offline"
+                                        defaultMessage="Offline"
                                     />
                                 </label>
                             </div>
@@ -341,74 +345,71 @@ export default class NotificationsTab extends React.Component {
                     extraInfo = (
                         <span>
                             <FormattedMessage
-                                id='user.settings.push_notification.status_info'
-                                defaultMessage='Notification alerts are only pushed to your mobile device when your online status matches the selection above.'
+                                id="user.settings.push_notification.status_info"
+                                defaultMessage="Notification alerts are only pushed to your mobile device when your online status matches the selection above."
                             />
                         </span>
                     );
                 }
 
                 inputs.push(
-                    <div key='userNotificationLevelOption'>
+                    <div key="userNotificationLevelOption">
                         <label>
                             <FormattedMessage
-                                id='user.settings.push_notification.send'
-                                defaultMessage='Send mobile push notifications'
+                                id="user.settings.push_notification.send"
+                                defaultMessage="Send mobile push notifications"
                             />
                         </label>
-                        <br/>
-                        <div className='radio'>
+                        <br />
+                        <div className="radio">
                             <label>
                                 <input
-                                    id='pushNotificationAllActivity'
-                                    type='radio'
-                                    name='pushNotificationLevel'
+                                    id="pushNotificationAllActivity"
+                                    type="radio"
+                                    name="pushNotificationLevel"
                                     checked={pushActivityRadio[0]}
                                     onChange={this.handlePushRadio.bind(this, NotificationLevels.ALL)}
                                 />
                                 <FormattedMessage
-                                    id='user.settings.push_notification.allActivity'
-                                    defaultMessage='For all activity'
+                                    id="user.settings.push_notification.allActivity"
+                                    defaultMessage="For all activity"
                                 />
                             </label>
-                            <br/>
+                            <br />
                         </div>
-                        <div className='radio'>
+                        <div className="radio">
                             <label>
                                 <input
-                                    id='pushNotificationMentions'
-                                    type='radio'
-                                    name='pushNotificationLevel'
+                                    id="pushNotificationMentions"
+                                    type="radio"
+                                    name="pushNotificationLevel"
                                     checked={pushActivityRadio[1]}
                                     onChange={this.handlePushRadio.bind(this, NotificationLevels.MENTION)}
                                 />
                                 <FormattedMessage
-                                    id='user.settings.push_notification.onlyMentions'
-                                    defaultMessage='For mentions and direct messages'
+                                    id="user.settings.push_notification.onlyMentions"
+                                    defaultMessage="For mentions and direct messages"
                                 />
                             </label>
-                            <br/>
+                            <br />
                         </div>
-                        <div className='radio'>
+                        <div className="radio">
                             <label>
                                 <input
-                                    id='pushNotificationNever'
-                                    type='radio'
-                                    name='pushNotificationLevel'
+                                    id="pushNotificationNever"
+                                    type="radio"
+                                    name="pushNotificationLevel"
                                     checked={pushActivityRadio[2]}
                                     onChange={this.handlePushRadio.bind(this, NotificationLevels.NONE)}
                                 />
-                                <FormattedMessage
-                                    id='user.settings.notifications.never'
-                                    defaultMessage='Never'
-                                />
+                                <FormattedMessage id="user.settings.notifications.never" defaultMessage="Never" />
                             </label>
                         </div>
-                        <br/>
+                        <br />
                         <span>
                             <FormattedMessage
-                                id='user.settings.push_notification.info'
-                                defaultMessage='Notification alerts are pushed to your mobile device when there is activity in Mattermost.'
+                                id="user.settings.push_notification.info"
+                                defaultMessage="Notification alerts are pushed to your mobile device when there is activity in Mattermost."
                             />
                         </span>
                         {pushStatusSettings}
@@ -418,13 +419,10 @@ export default class NotificationsTab extends React.Component {
                 submit = this.handleSubmit;
             } else {
                 inputs.push(
-                    <div
-                        key='oauthEmailInfo'
-                        className='padding-top'
-                    >
+                    <div key="oauthEmailInfo" className="padding-top">
                         <FormattedMessage
-                            id='user.settings.push_notification.disabled_long'
-                            defaultMessage='Push notifications for mobile devices have been disabled by your System Administrator.'
+                            id="user.settings.push_notification.disabled_long"
+                            defaultMessage="Push notifications for mobile devices have been disabled by your System Administrator."
                         />
                     </div>
                 );
@@ -447,59 +445,55 @@ export default class NotificationsTab extends React.Component {
             if (this.state.pushStatus === Constants.UserStatuses.AWAY) {
                 describe = (
                     <FormattedMessage
-                        id='user.settings.push_notification.allActivityAway'
-                        defaultMessage='For all activity when away or offline'
+                        id="user.settings.push_notification.allActivityAway"
+                        defaultMessage="For all activity when away or offline"
                     />
                 );
             } else if (this.state.pushStatus === Constants.UserStatuses.OFFLINE) {
                 describe = (
                     <FormattedMessage
-                        id='user.settings.push_notification.allActivityOffline'
-                        defaultMessage='For all activity when offline'
+                        id="user.settings.push_notification.allActivityOffline"
+                        defaultMessage="For all activity when offline"
                     />
                 );
             } else {
                 describe = (
                     <FormattedMessage
-                        id='user.settings.push_notification.allActivityOnline'
-                        defaultMessage='For all activity when online, away or offline'
+                        id="user.settings.push_notification.allActivityOnline"
+                        defaultMessage="For all activity when online, away or offline"
                     />
                 );
             }
         } else if (this.state.pushActivity === NotificationLevels.NONE) {
-            describe = (
-                <FormattedMessage
-                    id='user.settings.notifications.never'
-                    defaultMessage='Never'
-                />
-            );
+            describe = <FormattedMessage id="user.settings.notifications.never" defaultMessage="Never" />;
         } else if (global.window.mm_config.SendPushNotifications === 'false') {
             describe = (
                 <FormattedMessage
-                    id='user.settings.push_notification.disabled'
-                    defaultMessage='Disabled by System Administrator'
+                    id="user.settings.push_notification.disabled"
+                    defaultMessage="Disabled by System Administrator"
                 />
             );
         } else {
-            if (this.state.pushStatus === Constants.UserStatuses.AWAY) { //eslint-disable-line no-lonely-if
+            if (this.state.pushStatus === Constants.UserStatuses.AWAY) {
+                //eslint-disable-line no-lonely-if
                 describe = (
                     <FormattedMessage
-                        id='user.settings.push_notification.onlyMentionsAway'
-                        defaultMessage='For mentions and direct messages when away or offline'
+                        id="user.settings.push_notification.onlyMentionsAway"
+                        defaultMessage="For mentions and direct messages when away or offline"
                     />
                 );
             } else if (this.state.pushStatus === Constants.UserStatuses.OFFLINE) {
                 describe = (
                     <FormattedMessage
-                        id='user.settings.push_notification.onlyMentionsOffline'
-                        defaultMessage='For mentions and direct messages when offline'
+                        id="user.settings.push_notification.onlyMentionsOffline"
+                        defaultMessage="For mentions and direct messages when offline"
                     />
                 );
             } else {
                 describe = (
                     <FormattedMessage
-                        id='user.settings.push_notification.onlyMentionsOnline'
-                        defaultMessage='For mentions and direct messages when online, away or offline'
+                        id="user.settings.push_notification.onlyMentionsOnline"
+                        defaultMessage="For mentions and direct messages when online, away or offline"
                     />
                 );
             }
@@ -528,22 +522,22 @@ export default class NotificationsTab extends React.Component {
             const inputs = [];
 
             if (user.first_name) {
-                const handleUpdateFirstNameKey = (e) => {
+                const handleUpdateFirstNameKey = e => {
                     this.updateFirstNameKey(e.target.checked);
                 };
                 inputs.push(
-                    <div key='userNotificationFirstNameOption'>
-                        <div className='checkbox'>
+                    <div key="userNotificationFirstNameOption">
+                        <div className="checkbox">
                             <label>
                                 <input
-                                    id='notificationTriggerFirst'
-                                    type='checkbox'
+                                    id="notificationTriggerFirst"
+                                    type="checkbox"
                                     checked={this.state.firstNameKey}
                                     onChange={handleUpdateFirstNameKey}
                                 />
                                 <FormattedMessage
-                                    id='user.settings.notifications.sensitiveName'
-                                    defaultMessage='Your case sensitive first name "{first_name}"'
+                                    id="user.settings.notifications.sensitiveName"
+                                    defaultMessage="Your case sensitive first name &quot;{first_name}&quot;"
                                     values={{
                                         first_name: user.first_name
                                     }}
@@ -554,22 +548,22 @@ export default class NotificationsTab extends React.Component {
                 );
             }
 
-            const handleUpdateUsernameKey = (e) => {
+            const handleUpdateUsernameKey = e => {
                 this.updateUsernameKey(e.target.checked);
             };
             inputs.push(
-                <div key='userNotificationUsernameOption'>
-                    <div className='checkbox'>
+                <div key="userNotificationUsernameOption">
+                    <div className="checkbox">
                         <label>
                             <input
-                                id='notificationTriggerUsername'
-                                type='checkbox'
+                                id="notificationTriggerUsername"
+                                type="checkbox"
                                 checked={this.state.usernameKey}
                                 onChange={handleUpdateUsernameKey}
                             />
                             <FormattedMessage
-                                id='user.settings.notifications.sensitiveUsername'
-                                defaultMessage='Your non-case sensitive username "{username}"'
+                                id="user.settings.notifications.sensitiveUsername"
+                                defaultMessage="Your non-case sensitive username &quot;{username}&quot;"
                                 values={{
                                     username: user.username
                                 }}
@@ -579,22 +573,22 @@ export default class NotificationsTab extends React.Component {
                 </div>
             );
 
-            const handleUpdateChannelKey = (e) => {
+            const handleUpdateChannelKey = e => {
                 this.updateChannelKey(e.target.checked);
             };
             inputs.push(
-                <div key='userNotificationChannelOption'>
-                    <div className='checkbox'>
+                <div key="userNotificationChannelOption">
+                    <div className="checkbox">
                         <label>
                             <input
-                                id='notificationTriggerShouts'
-                                type='checkbox'
+                                id="notificationTriggerShouts"
+                                type="checkbox"
                                 checked={this.state.channelKey}
                                 onChange={handleUpdateChannelKey}
                             />
                             <FormattedMessage
-                                id='user.settings.notifications.channelWide'
-                                defaultMessage='Channel-wide mentions "@channel", "@all", "@here"'
+                                id="user.settings.notifications.channelWide"
+                                defaultMessage="Channel-wide mentions &quot;@channel&quot;, &quot;@all&quot;, &quot;@here&quot;"
                             />
                         </label>
                     </div>
@@ -602,27 +596,27 @@ export default class NotificationsTab extends React.Component {
             );
 
             inputs.push(
-                <div key='userNotificationCustomOption'>
-                    <div className='checkbox'>
+                <div key="userNotificationCustomOption">
+                    <div className="checkbox">
                         <label>
                             <input
-                                id='notificationTriggerCustom'
-                                ref='customcheck'
-                                type='checkbox'
+                                id="notificationTriggerCustom"
+                                ref="customcheck"
+                                type="checkbox"
                                 checked={this.state.customKeysChecked}
                                 onChange={this.updateCustomMentionKeys}
                             />
                             <FormattedMessage
-                                id='user.settings.notifications.sensitiveWords'
-                                defaultMessage='Other non-case sensitive words, separated by commas:'
+                                id="user.settings.notifications.sensitiveWords"
+                                defaultMessage="Other non-case sensitive words, separated by commas:"
                             />
                         </label>
                     </div>
                     <input
-                        id='notificationTriggerCustomText'
-                        ref='custommentions'
-                        className='form-control mentions-input'
-                        type='text'
+                        id="notificationTriggerCustomText"
+                        ref="custommentions"
+                        className="form-control mentions-input"
+                        type="text"
                         defaultValue={this.state.customKeys}
                         onChange={this.onCustomChange}
                     />
@@ -632,8 +626,8 @@ export default class NotificationsTab extends React.Component {
             const extraInfo = (
                 <span>
                     <FormattedMessage
-                        id='user.settings.notifications.mentionsInfo'
-                        defaultMessage='Mentions trigger when someone sends a message that includes your username (@{username}) or any of the options selected above.'
+                        id="user.settings.notifications.mentionsInfo"
+                        defaultMessage="Mentions trigger when someone sends a message that includes your username (@{username}) or any of the options selected above."
                         values={{
                             username: user.username
                         }}
@@ -643,7 +637,10 @@ export default class NotificationsTab extends React.Component {
 
             keysSection = (
                 <SettingItemMax
-                    title={Utils.localizeMessage('user.settings.notifications.wordsTrigger', 'Words that trigger mentions')}
+                    title={Utils.localizeMessage(
+                        'user.settings.notifications.wordsTrigger',
+                        'Words that trigger mentions'
+                    )}
                     inputs={inputs}
                     submit={this.handleSubmit}
                     saving={this.state.isSaving}
@@ -681,10 +678,7 @@ export default class NotificationsTab extends React.Component {
                 describe = describe.substring(0, describe.length - 2);
             } else {
                 describe = (
-                    <FormattedMessage
-                        id='user.settings.notifications.noWords'
-                        defaultMessage='No words configured'
-                    />
+                    <FormattedMessage id="user.settings.notifications.noWords" defaultMessage="No words configured" />
                 );
             }
 
@@ -694,7 +688,10 @@ export default class NotificationsTab extends React.Component {
 
             keysSection = (
                 <SettingItemMin
-                    title={Utils.localizeMessage('user.settings.notifications.wordsTrigger', 'Words that trigger mentions')}
+                    title={Utils.localizeMessage(
+                        'user.settings.notifications.wordsTrigger',
+                        'Words that trigger mentions'
+                    )}
                     describe={describe}
                     updateSection={handleUpdateKeysSection}
                 />
@@ -716,51 +713,51 @@ export default class NotificationsTab extends React.Component {
             const inputs = [];
 
             inputs.push(
-                <div key='userNotificationLevelOption'>
-                    <div className='radio'>
+                <div key="userNotificationLevelOption">
+                    <div className="radio">
                         <label>
                             <input
-                                id='notificationCommentsAny'
-                                type='radio'
-                                name='commentsNotificationLevel'
+                                id="notificationCommentsAny"
+                                type="radio"
+                                name="commentsNotificationLevel"
                                 checked={commentsActive[0]}
                                 onChange={this.handleNotifyCommentsRadio.bind(this, 'any')}
                             />
                             <FormattedMessage
-                                id='user.settings.notifications.commentsAny'
-                                defaultMessage='Mention any comments in a thread you participated in (This will include both mentions to your root post and any comments after you commented on a post)'
+                                id="user.settings.notifications.commentsAny"
+                                defaultMessage="Mention any comments in a thread you participated in (This will include both mentions to your root post and any comments after you commented on a post)"
                             />
                         </label>
-                        <br/>
+                        <br />
                     </div>
-                    <div className='radio'>
+                    <div className="radio">
                         <label>
                             <input
-                                id='notificationCommentsRoot'
-                                type='radio'
-                                name='commentsNotificationLevel'
+                                id="notificationCommentsRoot"
+                                type="radio"
+                                name="commentsNotificationLevel"
                                 checked={commentsActive[1]}
                                 onChange={this.handleNotifyCommentsRadio.bind(this, 'root')}
                             />
                             <FormattedMessage
-                                id='user.settings.notifications.commentsRoot'
-                                defaultMessage='Mention any comments on your post'
+                                id="user.settings.notifications.commentsRoot"
+                                defaultMessage="Mention any comments on your post"
                             />
                         </label>
-                        <br/>
+                        <br />
                     </div>
-                    <div className='radio'>
+                    <div className="radio">
                         <label>
                             <input
-                                id='notificationCommentsNever'
-                                type='radio'
-                                name='commentsNotificationLevel'
+                                id="notificationCommentsNever"
+                                type="radio"
+                                name="commentsNotificationLevel"
                                 checked={commentsActive[2]}
                                 onChange={this.handleNotifyCommentsRadio.bind(this, 'never')}
                             />
                             <FormattedMessage
-                                id='user.settings.notifications.commentsNever'
-                                defaultMessage='No mentions for comments'
+                                id="user.settings.notifications.commentsNever"
+                                defaultMessage="No mentions for comments"
                             />
                         </label>
                     </div>
@@ -770,7 +767,7 @@ export default class NotificationsTab extends React.Component {
             const extraInfo = (
                 <span>
                     <FormattedMessage
-                        id='user.settings.notifications.commentsInfo'
+                        id="user.settings.notifications.commentsInfo"
                         defaultMessage="In addition to notifications for when you're mentioned, select if you would like to receive notifications on reply threads."
                     />
                 </span>
@@ -792,22 +789,22 @@ export default class NotificationsTab extends React.Component {
             if (this.state.notifyCommentsLevel === 'never') {
                 describe = (
                     <FormattedMessage
-                        id='user.settings.notifications.commentsNever'
+                        id="user.settings.notifications.commentsNever"
                         defaultMessage="Do not trigger notifications on messages in reply threads unless I'm mentioned"
                     />
                 );
             } else if (this.state.notifyCommentsLevel === 'root') {
                 describe = (
                     <FormattedMessage
-                        id='user.settings.notifications.commentsRoot'
-                        defaultMessage='Trigger notifications on messages in threads that I start'
+                        id="user.settings.notifications.commentsRoot"
+                        defaultMessage="Trigger notifications on messages in threads that I start"
                     />
                 );
             } else {
                 describe = (
                     <FormattedMessage
-                        id='user.settings.notifications.commentsAny'
-                        defaultMessage='Trigger notifications on messages in reply threads that I start or participate in'
+                        id="user.settings.notifications.commentsAny"
+                        defaultMessage="Trigger notifications on messages in reply threads that I start or participate in"
                     />
                 );
             }
@@ -830,43 +827,31 @@ export default class NotificationsTab extends React.Component {
 
         return (
             <div>
-                <div className='modal-header'>
+                <div className="modal-header">
                     <button
-                        id='closeButton'
-                        type='button'
-                        className='close'
-                        data-dismiss='modal'
+                        id="closeButton"
+                        type="button"
+                        className="close"
+                        data-dismiss="modal"
                         onClick={this.props.closeModal}
                     >
-                        <span aria-hidden='true'>{'×'}</span>
+                        <span aria-hidden="true">{'×'}</span>
                     </button>
-                    <h4
-                        className='modal-title'
-                        ref='title'
-                    >
-                        <div className='modal-back'>
-                            <i
-                                className='fa fa-angle-left'
-                                onClick={this.props.collapseModal}
-                            />
+                    <h4 className="modal-title" ref="title">
+                        <div className="modal-back">
+                            <i className="fa fa-angle-left" onClick={this.props.collapseModal} />
                         </div>
                         <FormattedMessage
-                            id='user.settings.notifications.title'
-                            defaultMessage='Notification Settings'
+                            id="user.settings.notifications.title"
+                            defaultMessage="Notification Settings"
                         />
                     </h4>
                 </div>
-                <div
-                    ref='wrapper'
-                    className='user-settings'
-                >
-                    <h3 className='tab-header'>
-                        <FormattedMessage
-                            id='user.settings.notifications.header'
-                            defaultMessage='Notifications'
-                        />
+                <div ref="wrapper" className="user-settings">
+                    <h3 className="tab-header">
+                        <FormattedMessage id="user.settings.notifications.header" defaultMessage="Notifications" />
                     </h3>
-                    <div className='divider-dark first'/>
+                    <div className="divider-dark first" />
                     <DesktopNotificationSettings
                         activity={this.state.desktopActivity}
                         sound={this.state.desktopSound}
@@ -879,7 +864,7 @@ export default class NotificationsTab extends React.Component {
                         error={this.state.serverError}
                         active={this.props.activeSection === 'desktop'}
                     />
-                    <div className='divider-light'/>
+                    <div className="divider-light" />
                     <EmailNotificationSetting
                         activeSection={this.props.activeSection}
                         updateSection={this.props.updateSection}
@@ -890,16 +875,15 @@ export default class NotificationsTab extends React.Component {
                         saving={this.state.isSaving}
                         serverError={this.state.serverError}
                     />
-                    <div className='divider-light'/>
+                    <div className="divider-light" />
                     {pushNotificationSection}
-                    <div className='divider-light'/>
+                    <div className="divider-light" />
                     {keysSection}
-                    <div className='divider-light'/>
+                    <div className="divider-light" />
                     {commentsSection}
-                    <div className='divider-dark'/>
+                    <div className="divider-dark" />
                 </div>
             </div>
-
         );
     }
 }

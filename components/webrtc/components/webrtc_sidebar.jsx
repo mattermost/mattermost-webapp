@@ -57,11 +57,11 @@ export default class SidebarRight extends React.Component {
 
         //$('.sidebar--right').prepend('<div class="sidebar__overlay"></div>');
         if (!this.state.videoCallVisible) {
-            $('.app__body .inner-wrap').removeClass('webrtc--show').removeClass('move--right');
+            $('.app__body .inner-wrap')
+                .removeClass('webrtc--show')
+                .removeClass('move--right');
             $('.app__body .webrtc').removeClass('webrtc--show');
-            return (
-                <div/>
-            );
+            return <div />;
         }
         return null;
     }
@@ -78,7 +78,7 @@ export default class SidebarRight extends React.Component {
         if (e) {
             e.preventDefault();
         }
-        this.setState((prevState) => {
+        this.setState(prevState => {
             return {expanded: !prevState.expanded};
         });
     }
@@ -89,7 +89,7 @@ export default class SidebarRight extends React.Component {
             expanded = false;
         }
         this.setState({
-            videoCallVisible: (userId !== null),
+            videoCallVisible: userId !== null,
             isCaller,
             videoCallWithUserId: userId,
             expanded
@@ -121,17 +121,9 @@ export default class SidebarRight extends React.Component {
         }
 
         return (
-            <div
-                className={'sidebar--right webrtc ' + expandedClass}
-                id='sidebar-webrtc'
-            >
-                <div
-                    onClick={this.onShrink}
-                    className='sidebar--right__bg'
-                />
-                <div className='sidebar-right-container'>
-                    {content}
-                </div>
+            <div className={'sidebar--right webrtc ' + expandedClass} id="sidebar-webrtc">
+                <div onClick={this.onShrink} className="sidebar--right__bg" />
+                <div className="sidebar-right-container">{content}</div>
             </div>
         );
     }

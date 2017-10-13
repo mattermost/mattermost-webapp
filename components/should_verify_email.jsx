@@ -39,13 +39,10 @@ export default class ShouldVerifyEmail extends React.Component {
         if (this.state.resendStatus === 'success') {
             resendConfirm = (
                 <div>
-                    <br/>
-                    <p className='alert alert-success'>
-                        <i className='fa fa-check'/>
-                        <FormattedMessage
-                            id='email_verify.sent'
-                            defaultMessage=' Verification email sent.'
-                        />
+                    <br />
+                    <p className="alert alert-success">
+                        <i className="fa fa-check" />
+                        <FormattedMessage id="email_verify.sent" defaultMessage=" Verification email sent." />
                     </p>
                 </div>
             );
@@ -54,10 +51,10 @@ export default class ShouldVerifyEmail extends React.Component {
         if (this.state.resendStatus === 'failure') {
             resendConfirm = (
                 <div>
-                    <br/>
-                    <p className='alert alert-danger'>
-                        <i className='fa fa-times'/>
-                        <FormattedMessage id='email_verify.failed'/>
+                    <br />
+                    <p className="alert alert-danger">
+                        <i className="fa fa-times" />
+                        <FormattedMessage id="email_verify.failed" />
                     </p>
                 </div>
             );
@@ -65,13 +62,13 @@ export default class ShouldVerifyEmail extends React.Component {
 
         return (
             <div>
-                <BackButton/>
-                <div className='col-sm-12'>
-                    <div className='signup-team__container'>
+                <BackButton />
+                <div className="col-sm-12">
+                    <div className="signup-team__container">
                         <h3>
                             <FormattedMessage
-                                id='email_verify.almost'
-                                defaultMessage='{siteName}: You are almost done'
+                                id="email_verify.almost"
+                                defaultMessage="{siteName}: You are almost done"
                                 values={{
                                     siteName: global.window.mm_config.SiteName
                                 }}
@@ -80,18 +77,12 @@ export default class ShouldVerifyEmail extends React.Component {
                         <div>
                             <p>
                                 <FormattedMessage
-                                    id='email_verify.notVerifiedBody'
-                                    defaultMessage='Please verify your email address. Check your inbox for an email.'
+                                    id="email_verify.notVerifiedBody"
+                                    defaultMessage="Please verify your email address. Check your inbox for an email."
                                 />
                             </p>
-                            <button
-                                onClick={this.handleResend}
-                                className='btn btn-primary'
-                            >
-                                <FormattedMessage
-                                    id='email_verify.resend'
-                                    defaultMessage='Resend Email'
-                                />
+                            <button onClick={this.handleResend} className="btn btn-primary">
+                                <FormattedMessage id="email_verify.resend" defaultMessage="Resend Email" />
                             </button>
                             {resendConfirm}
                         </div>
@@ -102,8 +93,7 @@ export default class ShouldVerifyEmail extends React.Component {
     }
 }
 
-ShouldVerifyEmail.defaultProps = {
-};
+ShouldVerifyEmail.defaultProps = {};
 ShouldVerifyEmail.propTypes = {
     location: PropTypes.object.isRequired
 };

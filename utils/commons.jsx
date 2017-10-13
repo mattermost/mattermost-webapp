@@ -14,8 +14,11 @@ export function getNearestPoint(pivotPoint, points, xAttr = 'x', yAttr = 'y') {
     for (const point of points) {
         if (typeof nearestPoint[xAttr] === 'undefined' || typeof nearestPoint[yAttr] === 'undefined') {
             nearestPoint = point;
-        } else if (getDistanceBW2Points(point, pivotPoint, xAttr, yAttr) < getDistanceBW2Points(nearestPoint, pivotPoint, xAttr, yAttr)) {
-        // Check for bestImage
+        } else if (
+            getDistanceBW2Points(point, pivotPoint, xAttr, yAttr) <
+            getDistanceBW2Points(nearestPoint, pivotPoint, xAttr, yAttr)
+        ) {
+            // Check for bestImage
             nearestPoint = point;
         }
     }

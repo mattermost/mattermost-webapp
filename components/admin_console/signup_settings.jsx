@@ -35,29 +35,24 @@ export default class SignupSettings extends AdminSettings {
     }
 
     renderTitle() {
-        return (
-            <FormattedMessage
-                id='admin.security.signup'
-                defaultMessage='Signup'
-            />
-        );
+        return <FormattedMessage id="admin.security.signup" defaultMessage="Signup" />;
     }
 
     renderSettings() {
         return (
             <SettingsGroup>
                 <BooleanSetting
-                    id='requireEmailVerification'
+                    id="requireEmailVerification"
                     label={
                         <FormattedMessage
-                            id='admin.email.requireVerificationTitle'
-                            defaultMessage='Require Email Verification: '
+                            id="admin.email.requireVerificationTitle"
+                            defaultMessage="Require Email Verification: "
                         />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.email.requireVerificationDescription'
-                            defaultMessage='Typically set to true in production. When true, Mattermost requires email verification after account creation prior to allowing login. Developers may set this field to false to skip sending verification emails for faster development.'
+                            id="admin.email.requireVerificationDescription"
+                            defaultMessage="Typically set to true in production. When true, Mattermost requires email verification after account creation prior to allowing login. Developers may set this field to false to skip sending verification emails for faster development."
                         />
                     }
                     value={this.state.requireEmailVerification}
@@ -65,23 +60,18 @@ export default class SignupSettings extends AdminSettings {
                     disabled={this.state.sendEmailNotifications}
                     disabledText={
                         <FormattedMessage
-                            id='admin.security.requireEmailVerification.disabled'
-                            defaultMessage='Email verification cannot be changed while sending emails is disabled.'
+                            id="admin.security.requireEmailVerification.disabled"
+                            defaultMessage="Email verification cannot be changed while sending emails is disabled."
                         />
                     }
                 />
                 <GeneratedSetting
-                    id='inviteSalt'
-                    label={
-                        <FormattedMessage
-                            id='admin.email.inviteSaltTitle'
-                            defaultMessage='Email Invite Salt:'
-                        />
-                    }
+                    id="inviteSalt"
+                    label={<FormattedMessage id="admin.email.inviteSaltTitle" defaultMessage="Email Invite Salt:" />}
                     helpText={
                         <FormattedMessage
-                            id='admin.email.inviteSaltDescription'
-                            defaultMessage='32-character salt added to signing of email invites. Randomly generated on install. Click "Regenerate" to create new salt.'
+                            id="admin.email.inviteSaltDescription"
+                            defaultMessage="32-character salt added to signing of email invites. Randomly generated on install. Click &quot;Regenerate&quot; to create new salt."
                         />
                     }
                     value={this.state.inviteSalt}
@@ -89,23 +79,18 @@ export default class SignupSettings extends AdminSettings {
                     disabled={this.state.sendEmailNotifications}
                     disabledText={
                         <FormattedMessage
-                            id='admin.security.inviteSalt.disabled'
-                            defaultMessage='Invite salt cannot be changed while sending emails is disabled.'
+                            id="admin.security.inviteSalt.disabled"
+                            defaultMessage="Invite salt cannot be changed while sending emails is disabled."
                         />
                     }
                 />
                 <BooleanSetting
-                    id='enableOpenServer'
-                    label={
-                        <FormattedMessage
-                            id='admin.team.openServerTitle'
-                            defaultMessage='Enable Open Server: '
-                        />
-                    }
+                    id="enableOpenServer"
+                    label={<FormattedMessage id="admin.team.openServerTitle" defaultMessage="Enable Open Server: " />}
                     helpText={
                         <FormattedMessage
-                            id='admin.team.openServerDescription'
-                            defaultMessage='When true, anyone can signup for a user account on this server without the need to be invited.'
+                            id="admin.team.openServerDescription"
+                            defaultMessage="When true, anyone can signup for a user account on this server without the need to be invited."
                         />
                     }
                     value={this.state.enableOpenServer}
