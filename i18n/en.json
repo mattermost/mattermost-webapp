@@ -157,7 +157,7 @@
   "admin.client_versions.androidMinVersionHelp": "The minimum compliant Android version",
   "admin.client_versions.desktopLatestVersion": "Latest Desktop Version",
   "admin.client_versions.desktopLatestVersionHelp": "The latest released Desktop version",
-  "admin.client_versions.desktopMinVersion": "Minimum Destop Version",
+  "admin.client_versions.desktopMinVersion": "Minimum Desktop Version",
   "admin.client_versions.desktopMinVersionHelp": "The minimum compliant Desktop version",
   "admin.client_versions.iosLatestVersion": "Latest IOS Version",
   "admin.client_versions.iosLatestVersionHelp": "The latest released IOS version",

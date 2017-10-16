@@ -114,7 +114,7 @@ export default class ClientVersionsSettings extends AdminSettings {
                     label={
                         <FormattedMessage
                             id='admin.client_versions.desktopMinVersion'
-                            defaultMessage='Minimum Destop Version'
+                            defaultMessage='Minimum Desktop Version'
                         />
                     }
                     placeholder={Utils.localizeMessage('admin.client_versions.desktopMinVersion', 'X.X.X')}
