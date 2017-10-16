@@ -778,6 +778,7 @@
   "admin.reset_password.titleReset": "Reset Password",
   "admin.reset_password.titleSwitch": "Switch Account to Email/Password",
   "admin.saml.assertionConsumerServiceURLDesc": "Enter https://<your-mattermost-url>/login/sso/saml. Make sure you use HTTP or HTTPS in your URL depending on your server configuration. This field is also known as the Assertion Consumer Service URL.",
+  "admin.saml.assertionConsumerServiceURLPopulatedDesc": "This field is also known as the Assertion Consumer Service URL.",
   "admin.saml.assertionConsumerServiceURLEx": "E.g.: \"https://<your-mattermost-url>/login/sso/saml\"",
   "admin.saml.assertionConsumerServiceURLTitle": "Service Provider Login URL:",
   "admin.saml.bannerDesc": "User attributes in SAML server, including user deactivation or removal, are updated in Mattermost during user login. Learn more at: <a href=\"https://docs.mattermost.com/deployment/sso-saml.html\">https://docs.mattermost.com/deployment/sso-saml.html</a>",

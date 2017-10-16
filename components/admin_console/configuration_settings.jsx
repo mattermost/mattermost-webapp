@@ -26,6 +26,8 @@ export default class ConfigurationSettings extends AdminSettings {
 
         this.handleSaved = this.handleSaved.bind(this);
 
+        this.handleSamlUrlChange = this.handleSamlUrlChange.bind(this);
+
         this.renderSettings = this.renderSettings.bind(this);
     }
 
@@ -36,6 +38,8 @@ export default class ConfigurationSettings extends AdminSettings {
     }
 
     getConfigFromState(config) {
+        this.handleSamlUrlChange(config, this.state.siteURL);
+
         config.ServiceSettings.SiteURL = this.state.siteURL;
         config.ServiceSettings.ListenAddress = this.state.listenAddress;
         config.ServiceSettings.WebserverMode = this.state.webserverMode;
@@ -72,6 +76,12 @@ export default class ConfigurationSettings extends AdminSettings {
     handleSaved(newConfig) {
         if (newConfig.ServiceSettings.SiteURL) {
             ErrorStore.clearError(ErrorBarTypes.SITE_URL);
+        }
+    }
+
+    handleSamlUrlChange(config, siteURL) {
+        if (config.SamlSettings.AssertionConsumerServiceURL.length > 0 && siteURL.length > 0) {
+            config.SamlSettings.AssertionConsumerServiceURL = this.state.siteURL + '/login/sso/saml';
         }
     }
 

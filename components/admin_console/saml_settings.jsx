@@ -51,13 +51,21 @@ export default class SamlSettings extends AdminSettings {
     getStateFromConfig(config) {
         const settings = config.SamlSettings;
 
+        // pre-populate Service Provider Login URL page
+        const siteUrl = config.ServiceSettings.SiteURL;
+        let consumerServiceUrl = settings.AssertionConsumerServiceURL;
+        if (siteUrl.length > 0 && consumerServiceUrl.length === 0) {
+            consumerServiceUrl = siteUrl + '/login/sso/saml';
+        }
+
         return {
+            siteUrlSet: siteUrl.length > 0,
             enable: settings.Enable,
             verify: settings.Verify,
             encrypt: settings.Encrypt,
             idpUrl: settings.IdpUrl,
             idpDescriptorUrl: settings.IdpDescriptorUrl,
-            assertionConsumerServiceURL: settings.AssertionConsumerServiceURL,
+            assertionConsumerServiceURL: consumerServiceUrl,
             idpCertificateFile: settings.IdpCertificateFile,
             publicCertificateFile: settings.PublicCertificateFile,
             privateKeyFile: settings.PrivateKeyFile,
@@ -302,6 +310,23 @@ export default class SamlSettings extends AdminSettings {
             );
         }
 
+        let consumerServiceUrlHelp;
+        if (this.state.siteUrlSet) {
+            consumerServiceUrlHelp = (
+                <FormattedMessage
+                    id='admin.saml.assertionConsumerServiceURLPopulatedDesc'
+                    defaultMessage='This field is also known as the Assertion Consumer Service URL.'
+                />
+            );
+        } else {
+            consumerServiceUrlHelp = (
+                <FormattedMessage
+                    id='admin.saml.assertionConsumerServiceURLDesc'
+                    defaultMessage='Enter https://<your-mattermost-url>/login/sso/saml. Make sure you use HTTP or HTTPS in your URL depending on your server configuration. This field is also known as the Assertion Consumer Service URL.'
+                />
+            );
+        }
+
         return (
             <SettingsGroup>
                 <div className='banner'>
@@ -395,15 +420,10 @@ export default class SamlSettings extends AdminSettings {
                         />
                     }
                     placeholder={Utils.localizeMessage('admin.saml.assertionConsumerServiceURLEx', 'Ex "https://<your-mattermost-url>/login/sso/saml"')}
-                    helpText={
-                        <FormattedMessage
-                            id='admin.saml.assertionConsumerServiceURLDesc'
-                            defaultMessage='Enter https://<your-mattermost-url>/login/sso/saml. Make sure you use HTTP or HTTPS in your URL depending on your server configuration. This field is also known as the Assertion Consumer Service URL.'
-                        />
-                    }
+                    helpText={consumerServiceUrlHelp}
                     value={this.state.assertionConsumerServiceURL}
                     onChange={this.handleChange}
-                    disabled={!this.state.enable || !this.state.verify}
+                    disabled={!this.state.enable || !this.state.verify || this.state.siteUrlSet}
                 />
                 <BooleanSetting
                     id='encrypt'
