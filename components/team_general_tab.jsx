@@ -361,16 +361,16 @@ class GeneralTab extends React.Component {
                                 maxLength='32'
                             />
                             <div className='padding-top x2'>
-                                <span
+                                <button
                                     id='teamInviteIdRegenerate'
-                                    className='color--link'
+                                    className='color--link style--none'
                                     onClick={this.handleGenerateInviteId}
                                 >
                                     <FormattedMessage
                                         id='general_tab.regenerate'
                                         defaultMessage='Regenerate'
                                     />
-                                </span>
+                                </button>
                             </div>
                         </div>
                     </div>

@@ -190,16 +190,16 @@ export default class ChannelMembersDropdown extends React.Component {
             if ((makeChannelMember || makeChannelAdmin) && removeFromChannel) {
                 return (
                     <div className='dropdown member-drop'>
-                        <div
+                        <button
                             id='channelMemberDropdown'
-                            className='dropdown-toggle theme color--link'
+                            className='dropdown-toggle theme color--link style--none'
                             type='button'
                             data-toggle='dropdown'
                             aria-expanded='true'
                         >
                             <span>{role} </span>
                             <span className='fa fa-chevron-down'/>
-                        </div>
+                        </button>
                         <ul
                             className='dropdown-menu member-menu'
                             role='menu'

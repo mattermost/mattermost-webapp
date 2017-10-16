@@ -858,8 +858,8 @@ export default class ChannelHeader extends React.Component {
                             placement='bottom'
                             overlay={pinnedPostTooltip}
                         >
-                            <div
-                                className={pinnedIconClass}
+                            <button
+                                className={'style--none ' + pinnedIconClass}
                                 onClick={this.getPinnedPosts}
                             >
                                 <span
@@ -867,7 +867,7 @@ export default class ChannelHeader extends React.Component {
                                     dangerouslySetInnerHTML={{__html: pinIcon}}
                                     aria-hidden='true'
                                 />
-                            </div>
+                            </button>
                         </OverlayTrigger>
                     </div>
                     <div className='flex-child search-bar__container'>
@@ -883,8 +883,8 @@ export default class ChannelHeader extends React.Component {
                             placement='bottom'
                             overlay={recentMentionsTooltip}
                         >
-                            <div
-                                className='channel-header__icon icon--hidden'
+                            <button
+                                className='channel-header__icon icon--hidden style--none'
                                 onClick={this.searchMentions}
                             >
                                 <span
@@ -892,7 +892,7 @@ export default class ChannelHeader extends React.Component {
                                     dangerouslySetInnerHTML={{__html: mentionsIcon}}
                                     aria-hidden='true'
                                 />
-                            </div>
+                            </button>
                         </OverlayTrigger>
                     </div>
                     <div className='flex-child'>
@@ -902,8 +902,8 @@ export default class ChannelHeader extends React.Component {
                             placement='bottom'
                             overlay={flaggedTooltip}
                         >
-                            <div
-                                className='channel-header__icon icon--hidden'
+                            <button
+                                className='channel-header__icon icon--hidden style--none'
                                 onClick={this.getFlagged}
 
                             >
@@ -911,7 +911,7 @@ export default class ChannelHeader extends React.Component {
                                     className='icon icon__flag'
                                     dangerouslySetInnerHTML={{__html: flagIcon}}
                                 />
-                            </div>
+                            </button>
                         </OverlayTrigger>
                     </div>
                 </div>

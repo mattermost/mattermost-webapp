@@ -413,13 +413,15 @@
         > li {
             margin: 0;
 
-            div {
+            button {
                 border-radius: 0;
                 color: $gray;
                 overflow: hidden;
                 padding: 8px 15px;
+                text-align: left;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+                width: 100%;
             }
 
             .icon {
@@ -431,7 +433,7 @@
             }
 
             &:hover {
-                div {
+                button {
                     @include alpha-property(background-color, $black, .1);
                 }
             }
@@ -452,9 +454,9 @@
                     }
                 }
 
-                div,
-                div:hover,
-                div:focus {
+                button,
+                button:hover,
+                button:focus {
                     @include alpha-property(background-color, $black, .1);
                     border-radius: 0;
                     font-weight: 400;

@@ -29,9 +29,9 @@ export default function CommentIcon(props) {
     const id = Utils.createSafeId(props.idPrefix + '_' + props.id);
 
     return (
-        <span
+        <button
             id={id}
-            className={iconStyle + ' color--link ' + selectorId}
+            className={iconStyle + ' color--link style--none ' + selectorId}
             onClick={props.handleCommentClick}
         >
             <span
@@ -39,7 +39,7 @@ export default function CommentIcon(props) {
                 dangerouslySetInnerHTML={{__html: Constants.REPLY_ICON}}
             />
             {commentCountSpan}
-        </span>
+        </button>
     );
 }
 

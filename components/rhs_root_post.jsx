@@ -236,8 +236,8 @@ export default class RhsRootPost extends React.Component {
                         spaceRequiredAbove={342}
                         spaceRequiredBelow={342}
                     />
-                    <span
-                        className='reacticon__container reaction color--link'
+                    <button
+                        className='reacticon__container reaction color--link style--none'
                         onClick={this.toggleEmojiPicker}
                         ref='rhs_root_reacticon'
                     >
@@ -245,7 +245,7 @@ export default class RhsRootPost extends React.Component {
                             className='icon icon--emoji'
                             dangerouslySetInnerHTML={{__html: Constants.EMOJI_ICON_SVG}}
                         />
-                    </span>
+                    </button>
                 </span>
 
             );

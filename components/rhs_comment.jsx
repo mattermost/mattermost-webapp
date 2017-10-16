@@ -73,13 +73,13 @@ export default class RhsComment extends React.Component {
 
     createRemovePostButton() {
         return (
-            <span
-                className='post__remove theme color--link'
+            <button
+                className='post__remove theme color--link style--none'
                 type='button'
                 onClick={this.removePost}
             >
                 {'×'}
-            </span>
+            </button>
         );
     }
 
@@ -365,8 +365,8 @@ export default class RhsComment extends React.Component {
                         spaceRequiredAbove={342}
                         spaceRequiredBelow={342}
                     />
-                    <span
-                        className='reacticon__container reaction color--link'
+                    <button
+                        className='reacticon__container reaction color--link style--none'
                         onClick={this.toggleEmojiPicker}
                         ref={'rhs_reacticon_' + post.id}
                     >
@@ -374,7 +374,7 @@ export default class RhsComment extends React.Component {
                             className='icon icon--emoji'
                             dangerouslySetInnerHTML={{__html: Constants.EMOJI_ICON_SVG}}
                         />
-                    </span>
+                    </button>
                 </span>
 
             );

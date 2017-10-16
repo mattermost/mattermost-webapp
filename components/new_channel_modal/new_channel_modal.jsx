@@ -277,15 +277,15 @@ export default class NewChannelModal extends React.PureComponent {
                                     {displayNameError}
                                     <p className='input__help dark'>
                                         {'URL: ' + prettyTeamURL + this.props.channelData.name + ' ('}
-                                        <span
-                                            className='color--link'
+                                        <button
+                                            className='color--link style--none'
                                             onClick={this.props.onChangeURLPressed}
                                         >
                                             <FormattedMessage
                                                 id='channel_modal.edit'
                                                 defaultMessage='Edit'
                                             />
-                                        </span>
+                                        </button>
                                         {')'}
                                     </p>
                                 </div>
