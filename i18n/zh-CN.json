@@ -1960,6 +1960,8 @@
   "mobile.notification_settings.mentions_replies": "提及和回复",
   "mobile.notification_settings.mobile": "移动设备",
   "mobile.notification_settings.mobile_title": "移动设备推送",
+  "mobile.notification_settings.modal_cancel": "CANCEL",
+  "mobile.notification_settings.modal_save": "SAVE",
   "mobile.notification_settings.save_failed_description": "通知设定因连接问题保存失败，请重试。",
   "mobile.notification_settings.save_failed_title": "连接问题",
   "mobile.notification_settings_mentions.keywords": "关键字",

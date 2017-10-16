@@ -1960,6 +1960,8 @@
   "mobile.notification_settings.mentions_replies": "提及與回覆",
   "mobile.notification_settings.mobile": "行動裝置",
   "mobile.notification_settings.mobile_title": "行動推播",
+  "mobile.notification_settings.modal_cancel": "CANCEL",
+  "mobile.notification_settings.modal_save": "SAVE",
   "mobile.notification_settings.save_failed_description": "由於連線問題，儲存通知設定失敗，請再次嘗試。",
   "mobile.notification_settings.save_failed_title": "連線問題",
   "mobile.notification_settings_mentions.keywords": "關鍵字：",

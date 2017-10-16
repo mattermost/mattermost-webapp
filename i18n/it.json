@@ -1960,6 +1960,8 @@
   "mobile.notification_settings.mentions_replies": "Citazioni e Risposte",
   "mobile.notification_settings.mobile": "Cellulare",
   "mobile.notification_settings.mobile_title": "Notifiche push mobile",
+  "mobile.notification_settings.modal_cancel": "CANCEL",
+  "mobile.notification_settings.modal_save": "SAVE",
   "mobile.notification_settings.save_failed_description": "Non è stato possibile salvare le impostazioni per le notifiche a causa di un errore di connessione, riprovare tra poco.",
   "mobile.notification_settings.save_failed_title": "Problema di connessione",
   "mobile.notification_settings_mentions.keywords": "Parole chiave",

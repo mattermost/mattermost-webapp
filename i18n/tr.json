@@ -1960,6 +1960,8 @@
   "mobile.notification_settings.mentions_replies": "Anmalar ve Yanıtlar",
   "mobile.notification_settings.mobile": "Cep Telefonu",
   "mobile.notification_settings.mobile_title": "Cep Telefonu Bildirimlerİ",
+  "mobile.notification_settings.modal_cancel": "CANCEL",
+  "mobile.notification_settings.modal_save": "SAVE",
   "mobile.notification_settings.save_failed_description": "Bağlantı sorunu nedeniyle bildirim ayarları kaydedilemedi, lütfen yeniden deneyin.",
   "mobile.notification_settings.save_failed_title": "Bağlantı sorunu",
   "mobile.notification_settings_mentions.keywords": "Anahtar Sözcükler",

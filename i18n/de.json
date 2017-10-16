@@ -1960,6 +1960,8 @@
   "mobile.notification_settings.mentions_replies": "Erwähnungen und Antworten",
   "mobile.notification_settings.mobile": "Mobil",
   "mobile.notification_settings.mobile_title": "Mobile Push-Nachrichten",
+  "mobile.notification_settings.modal_cancel": "CANCEL",
+  "mobile.notification_settings.modal_save": "SAVE",
   "mobile.notification_settings.save_failed_description": "Die Benachrichtigungseinstellungen konnten durch ein Verbindungsproblem nicht gespeichert werden, bitte erneut versuchen.",
   "mobile.notification_settings.save_failed_title": "Verbindungsproblem",
   "mobile.notification_settings_mentions.keywords": "Stichwörter",

@@ -1960,6 +1960,8 @@
   "mobile.notification_settings.mentions_replies": "あなたについての投稿と返信",
   "mobile.notification_settings.mobile": "モバイル",
   "mobile.notification_settings.mobile_title": "モバイルプッシュ通知",
+  "mobile.notification_settings.modal_cancel": "CANCEL",
+  "mobile.notification_settings.modal_save": "SAVE",
   "mobile.notification_settings.save_failed_description": "接続の問題により通知設定を保存できませんでした。再度実行してください。",
   "mobile.notification_settings.save_failed_title": "接続の問題",
   "mobile.notification_settings_mentions.keywords": "キーワード",

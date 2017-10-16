@@ -1960,6 +1960,8 @@
   "mobile.notification_settings.mentions_replies": "Menções e Respostas",
   "mobile.notification_settings.mobile": "Celular",
   "mobile.notification_settings.mobile_title": "Notificações Móvel",
+  "mobile.notification_settings.modal_cancel": "CANCEL",
+  "mobile.notification_settings.modal_save": "SAVE",
   "mobile.notification_settings.save_failed_description": "As configurações de notificação não conseguiram salvar devido a um problema de conexão, tente novamente.",
   "mobile.notification_settings.save_failed_title": "Problema de conexão",
   "mobile.notification_settings_mentions.keywords": "Palavras-chave",
