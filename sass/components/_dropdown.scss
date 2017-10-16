@@ -37,6 +37,21 @@
             }
         }
     }
+
+    > li {
+        > button {
+            clear: both;
+            color: inherit;
+            cursor: pointer;
+            display: block;
+            font-weight: normal;
+            line-height: 1.42857143;
+            padding: 5px 15px;
+            text-align: left;
+            white-space: nowrap;
+            width: 100%;
+        }
+    }
 }
 
 .open {

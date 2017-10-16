@@ -724,16 +724,16 @@ export default class Sidebar extends React.Component {
 
         var directMessageMore = (
             <li key='more'>
-                <a
+                <button
                     id='moreDirectMessage'
-                    href='#'
+                    className='nav-more cursor--pointer style--none btn--block'
                     onClick={this.handleOpenMoreDirectChannelsModal}
                 >
                     <FormattedMessage
                         id='sidebar.moreElips'
                         defaultMessage='More...'
                     />
-                </a>
+                </button>
             </li>
         );
 
@@ -795,14 +795,13 @@ export default class Sidebar extends React.Component {
                 placement='top'
                 overlay={createChannelTootlip}
             >
-                <a
+                <button
                     id='createPublicChannel'
-                    className='add-channel-btn'
-                    href='#'
+                    className='add-channel-btn cursor--pointer style--none'
                     onClick={this.showNewChannelModal.bind(this, Constants.OPEN_CHANNEL)}
                 >
                     {'+'}
-                </a>
+                </button>
             </OverlayTrigger>
         );
 
@@ -813,14 +812,13 @@ export default class Sidebar extends React.Component {
                 placement='top'
                 overlay={createGroupTootlip}
             >
-                <a
+                <button
                     id='createPrivateChannel'
-                    className='add-channel-btn'
-                    href='#'
+                    className='add-channel-btn cursor--pointer style--none'
                     onClick={this.showNewChannelModal.bind(this, Constants.PRIVATE_CHANNEL)}
                 >
                     {'+'}
-                </a>
+                </button>
             </OverlayTrigger>
         );
 
@@ -835,13 +833,12 @@ export default class Sidebar extends React.Component {
                 placement='top'
                 overlay={createDirectMessageTooltip}
             >
-                <a
-                    className='add-channel-btn'
-                    href='#'
+                <button
+                    className='add-channel-btn cursor--pointer style--none'
                     onClick={this.handleOpenMoreDirectChannelsModal}
                 >
                     {'+'}
-                </a>
+                </button>
             </OverlayTrigger>
         );
 
@@ -951,17 +948,16 @@ export default class Sidebar extends React.Component {
                         </li>
                         {publicChannelItems}
                         <li>
-                            <a
+                            <button
                                 id='sidebarChannelsMore'
-                                href='#'
-                                className='nav-more'
+                                className='nav-more cursor--pointer style--none btn--block'
                                 onClick={this.showMoreChannelsModal}
                             >
                                 <FormattedMessage
                                     id='sidebar.moreElips'
                                     defaultMessage='More...'
                                 />
-                            </a>
+                            </button>
                         </li>
                     </ul>
 

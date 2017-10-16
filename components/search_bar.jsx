@@ -85,9 +85,7 @@ export default class SearchBar extends React.Component {
         }
     }
 
-    handleClose(e) {
-        e.preventDefault();
-
+    handleClose() {
         if (Utils.isMobile()) {
             setTimeout(() => {
                 document.querySelector('.app__body .sidebar--menu').classList.add('visible');

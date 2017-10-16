@@ -237,9 +237,9 @@ function AuditTable(props) {
             sContent = <td className='whitespace--nowrap word-break--all'>{auditInfo.sessionId}</td>;
         }
 
-        const descStyle = {};
+        let descStyle = '';
         if (auditInfo.desc.toLowerCase().indexOf('fail') !== -1) {
-            descStyle.color = 'red';
+            descStyle = ' color--error';
         }
 
         accessList[i] = (
@@ -247,8 +247,7 @@ function AuditTable(props) {
                 <td className='whitespace--nowrap word-break--all'>{auditInfo.timestamp}</td>
                 {uContent}
                 <td
-                    className='word-break--all'
-                    style={descStyle}
+                    className={'word-break--all' + descStyle}
                 >
                     {auditInfo.desc}
                 </td>

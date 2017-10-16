@@ -138,14 +138,13 @@ export default class SettingItemMax extends React.Component {
                             {serverError}
                             {clientError}
                             {submit}
-                            <a
+                            <button
                                 id={Utils.createSafeId(titleProp) + 'Cancel'}
-                                className='btn btn-sm'
-                                href='#'
+                                className='btn btn-sm cursor--pointer style--none'
                                 onClick={this.props.updateSection}
                             >
                                 {cancelButtonText}
-                            </a>
+                            </button>
                         </li>
                     </ul>
                 </li>

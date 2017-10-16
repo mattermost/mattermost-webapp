@@ -8,6 +8,29 @@
     width: 100%;
     z-index: 9;
 
+
+    .channel-header__favorites {
+        @include opacity(.5);
+        float: left;
+        height: 20px;
+        margin: 0 8px 0 0;
+        padding-top: 3px;
+        position: relative;
+        z-index: 1;
+
+        &.inactive {
+            color: inherit;
+        }
+
+        &.active {
+            @include opacity(1);
+        }
+
+        i {
+            font-size: 17px;
+        }
+    }
+
     .flex-parent {
         display: flex;
     }
@@ -175,8 +198,8 @@
     }
 
     .channel-header__description {
-        height: 19px;
-        margin-bottom: 13px;
+        height: 24px;
+        margin-bottom: 3px;
         margin-top: 3px;
         overflow: hidden;
         position: relative;
@@ -195,10 +218,12 @@
         &.light {
             @include opacity(.8);
             color: inherit;
+            cursor: pointer;
 
             &:hover,
             &:focus {
                 color: inherit;
+                text-decoration: underline;
             }
         }
 
@@ -297,7 +322,7 @@
         @include legacy-pie-clearfix;
         @include display-flex();
         @include flex-direction(row-reverse);
-        padding: 16px 40px 12px 12px;
+        padding: 17px 40px 14px 12px;
         position: relative;
 
         &:before {
@@ -372,7 +397,8 @@
                 margin-top: 4px;
                 width: 199px;
 
-                a {
+                a,
+                button {
                     overflow: hidden;
                     padding: 3px 20px;
                     text-overflow: ellipsis;
@@ -389,7 +415,7 @@
                 position: relative;
                 right: -3px;
                 text-align: center;
-                top: 7px;
+                top: 0;
                 width: 36px;
             }
         }
@@ -458,32 +484,6 @@
 
     .header-dropdown__icon {
         top: 1px;
-    }
-}
-
-.channel-header__favorites {
-    @include opacity(.5);
-    float: left;
-    height: 20px;
-    margin: 0 8px 0 0;
-    padding-top: 3px;
-    position: relative;
-    z-index: 1;
-
-    &.inactive {
-        color: inherit;
-
-        &:active {
-            color: inherit;
-        }
-    }
-
-    &.active {
-        @include opacity(1);
-    }
-
-    i {
-        font-size: 17px;
     }
 }
 

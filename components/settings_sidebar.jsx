@@ -37,13 +37,13 @@ export default class SettingsSidebar extends React.Component {
                     key={key}
                     className={className}
                 >
-                    <a
-                        href='#'
+                    <button
+                        className='cursor--pointer style--none'
                         onClick={this.handleClick.bind(null, tab)}
                     >
                         <i className={tab.icon}/>
                         {tab.uiName}
-                    </a>
+                    </button>
                 </li>
             );
         });
