@@ -380,6 +380,11 @@ function handleUserRemovedEvent(msg) {
         });
     } else if (ChannelStore.getCurrentId() === msg.broadcast.channel_id) {
         getChannelStats(ChannelStore.getCurrentId())(dispatch, getState);
+        dispatch({
+            type: UserTypes.RECEIVED_PROFILE_NOT_IN_CHANNEL,
+            data: {user_id: msg.data.user_id},
+            id: msg.broadcast.channel_id
+        });
     }
 }
 
