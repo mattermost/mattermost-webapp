@@ -18,6 +18,7 @@ import {getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entiti
 
 import AtMention from 'components/at_mention';
 import MarkdownImage from 'components/markdown_image';
+import PostAddChannelMember from 'components/post_view/post_add_channel_member';
 
 import {renderSystemMessage} from './system_message_helpers.jsx';
 
@@ -169,6 +170,24 @@ export default class PostMessageView extends React.PureComponent {
                         />
                     );
                 }
+            },
+            {
+                shouldProcessNode: (node) => node.attribs && node.attribs['data-addmember'],
+                processNode: (node) => {
+                    const attribs = node.attribs;
+
+                    return (
+                        <PostAddChannelMember
+                            postId={attribs.post_id}
+                            userIds={attribs.user_ids}
+                            localizationId={attribs.localization_id}
+                        />
+                    );
+                }
+            },
+            {
+                shouldProcessNode: () => true,
+                processNode: processNodeDefinitions.processDefaultNode
             },
             {
                 shouldProcessNode: () => true,

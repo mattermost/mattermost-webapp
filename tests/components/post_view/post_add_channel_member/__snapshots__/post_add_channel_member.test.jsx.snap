@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/post_view/PostAddChannelMember should match snapshot, private channel 1`] = `
+<a
+  id="add_channel_member_link"
+  onClick={[Function]}
+>
+  <FormattedMessage
+    defaultMessage="add them to this private channel"
+    id="post_body.check_for_out_of_channel_mentions.link.private"
+    values={Object {}}
+  />
+</a>
+`;
+
+exports[`components/post_view/PostAddChannelMember should match snapshot, public channel 1`] = `
+<a
+  id="add_channel_member_link"
+  onClick={[Function]}
+>
+  <FormattedMessage
+    defaultMessage="add them to the channel"
+    id="post_body.check_for_out_of_channel_mentions.link.public"
+    values={Object {}}
+  />
+</a>
+`;

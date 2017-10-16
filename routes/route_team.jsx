@@ -5,11 +5,9 @@ import $ from 'jquery';
 
 import {browserHistory} from 'react-router/es6';
 
-import {addChannelMember, fetchMyChannelsAndMembers, joinChannel} from 'mattermost-redux/actions/channels';
-import {removePost} from 'mattermost-redux/actions/posts';
+import {fetchMyChannelsAndMembers, joinChannel} from 'mattermost-redux/actions/channels';
 import {getMyTeamUnreads} from 'mattermost-redux/actions/teams';
 import {getUser, getUserByEmail, getUserByUsername} from 'mattermost-redux/actions/users';
-import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
 import {openDirectChannelToUser} from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
@@ -269,20 +267,6 @@ function directChannelToUser(profile, state, replace, callback) {
     );
 }
 
-function onAddChannelMemberEnter(state) {
-    const {team, channel, postid, userids} = state.params;
-    const toChannel = ChannelStore.getByName(channel);
-    const userIds = userids.split('-');
-    userIds.forEach((userId) => {
-        addChannelMember(toChannel.id, userId)(dispatch, getState);
-    });
-
-    const post = getPost(getState(), postid) || {};
-    removePost(post)(dispatch, getState);
-
-    browserHistory.push(`/${team}/channels/${channel}`);
-}
-
 function handleError(state, replace, callback) {
     if (state.params.team) {
         replace(`/${state.params.team}/channels/${Constants.DEFAULT_CHANNEL}`);
@@ -315,18 +299,7 @@ export default {
                         ]).then(
                         (comarr) => callback(null, {team_sidebar: comarr[0].default, sidebar: comarr[1].default, center: comarr[2].default})
                         );
-                    },
-                    childRoutes: [
-                        {
-                            path: 'post/:postid',
-                            childRoutes: [
-                                {
-                                    path: 'acm/:userids',
-                                    onEnter: onAddChannelMemberEnter
-                                }
-                            ]
-                        }
-                    ]
+                    }
                 },
                 {
                     path: 'pl/:postid',

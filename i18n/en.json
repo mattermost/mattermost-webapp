@@ -2134,6 +2134,8 @@
   "post_body.commentedOn": "Commented on {name}{apostrophe} message: ",
   "post_body.deleted": "(message deleted)",
   "post_body.plusMore": " plus {count, number} other {count, plural, one {file} other {files}}",
+  "post_body.check_for_out_of_channel_mentions.link.private": "add them to this private channel",
+  "post_body.check_for_out_of_channel_mentions.link.public": "add them to the channel",
   "post_delete.notPosted": "Comment could not be posted",
   "post_delete.okay": "Okay",
   "post_delete.someone": "Someone deleted the message on which you tried to post a comment.",

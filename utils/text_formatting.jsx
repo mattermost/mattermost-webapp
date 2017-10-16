@@ -75,6 +75,7 @@ export function doFormatText(text, options) {
 
     output = autolinkEmails(output, tokens);
     output = autolinkHashtags(output, tokens);
+    output = addChannelMember(output, tokens);
 
     if (!('emoticons' in options) || options.emoticon) {
         output = Emoticons.handleEmoticons(output, tokens, options.emojis || EmojiStore.getEmojis());
@@ -226,6 +227,38 @@ function autolinkChannelMentions(text, tokens, channelNamesMap, team) {
 
     let output = text;
     output = output.replace(/(^|\s)(~([a-z0-9.\-_]*))/gi, replaceChannelMentionWithToken);
+
+    return output;
+}
+
+function addChannelMember(text, tokens) {
+    function addToken(addMemberText, postId, userIds, localizationId) {
+        const index = tokens.size;
+        const alias = `$MM_ADDCHANNELMEMBER${index}`;
+
+        tokens.set(alias, {
+            value: `<a data-addmember="true" post_id="${postId}" user_ids="${userIds}" localization_id="${localizationId}"></a>`,
+            originalText: addMemberText
+        });
+        return alias;
+    }
+
+    function replaceAddChannelMemberWithToken(fullMatch, spacer, data) {
+        let [postId, userIds, localizationId] = data.replace('MM_ADDCHANNELMEMBER', '').split(',');
+        postId = postId.split('=')[1] || '';
+        userIds = userIds.split('=')[1] || '';
+        localizationId = localizationId.split('=')[1] || '';
+
+        if (postId && userIds && localizationId) {
+            const alias = addToken(fullMatch, postId, userIds, localizationId);
+            return spacer + alias;
+        }
+
+        return fullMatch;
+    }
+
+    let output = text;
+    output = output.replace(/(^|\s)(MM_ADDCHANNELMEMBER([a-z0-9.\-_=,]*))/gi, replaceAddChannelMemberWithToken);
 
     return output;
 }
