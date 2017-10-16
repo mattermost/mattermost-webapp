@@ -1,8 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/integrations/InstalledCommand should filter out command 1`] = `null`;
-
-exports[`components/integrations/InstalledCommand should match snapshot 1`] = `
+exports[`components/integrations/InstalledCommand should call onDelete function 1`] = `
 <div
   className="backstage-list__item"
 >
@@ -15,12 +13,12 @@ exports[`components/integrations/InstalledCommand should match snapshot 1`] = `
       <span
         className="item-details__name"
       >
-        test
+        display_name
       </span>
       <span
         className="item-details__trigger"
       >
-        - /trigger test
+        - /trigger auto_complete_hint
       </span>
     </div>
     <div
@@ -29,7 +27,7 @@ exports[`components/integrations/InstalledCommand should match snapshot 1`] = `
       <span
         className="item-details__description"
       >
-        test
+        description
       </span>
     </div>
     <div
@@ -61,7 +59,7 @@ exports[`components/integrations/InstalledCommand should match snapshot 1`] = `
           values={
             Object {
               "createAt": "1499722850203",
-              "creator": "test",
+              "creator": "username",
             }
           }
         />
@@ -85,7 +83,7 @@ exports[`components/integrations/InstalledCommand should match snapshot 1`] = `
     <Link
       onlyActiveOnIndex={false}
       style={Object {}}
-      to="/test/integrations/commands/edit?id=r5tpgt4iepf45jt768jz84djic"
+      to="/team_name/integrations/commands/edit?id=r5tpgt4iepf45jt768jz84djic"
     >
       <FormattedMessage
         defaultMessage="Edit"
@@ -98,6 +96,424 @@ exports[`components/integrations/InstalledCommand should match snapshot 1`] = `
       messageId="installed_commands.delete.confirm"
       onDelete={[Function]}
     />
+  </div>
+</div>
+`;
+
+exports[`components/integrations/InstalledCommand should call onRegenToken function 1`] = `
+<InstalledCommand
+  canChange={true}
+  command={
+    Object {
+      "auto_complete": true,
+      "auto_complete_hint": "auto_complete_hint",
+      "create_at": "1499722850203",
+      "description": "description",
+      "display_name": "display_name",
+      "id": "r5tpgt4iepf45jt768jz84djic",
+      "token": "testToken",
+      "trigger": "trigger",
+    }
+  }
+  creator={
+    Object {
+      "username": "username",
+    }
+  }
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatHTMLMessage": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatPlural": [Function],
+      "formatRelative": [Function],
+      "formatTime": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralFormat": [Function],
+        "getRelativeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "now": [Function],
+      "textComponent": "span",
+    }
+  }
+  onDelete={[Function]}
+  onRegenToken={[Function]}
+  team={
+    Object {
+      "name": "team_name",
+    }
+  }
+>
+  <div
+    className="backstage-list__item"
+  >
+    <div
+      className="item-details"
+    >
+      <div
+        className="item-details__row"
+      >
+        <span
+          className="item-details__name"
+        >
+          display_name
+        </span>
+        <span
+          className="item-details__trigger"
+        >
+          - /trigger auto_complete_hint
+        </span>
+      </div>
+      <div
+        className="item-details__row"
+      >
+        <span
+          className="item-details__description"
+        >
+          description
+        </span>
+      </div>
+      <div
+        className="item-details__row"
+      >
+        <span
+          className="item-details__token"
+        >
+          <FormattedMessage
+            defaultMessage="Token: {token}"
+            id="installed_integrations.token"
+            values={
+              Object {
+                "token": "testToken",
+              }
+            }
+          >
+            <span>
+              Token: testToken
+            </span>
+          </FormattedMessage>
+        </span>
+      </div>
+      <div
+        className="item-details__row"
+      >
+        <span
+          className="item-details__creation"
+        >
+          <FormattedMessage
+            defaultMessage="Created by {creator} on {createAt, date, full}"
+            id="installed_integrations.creation"
+            values={
+              Object {
+                "createAt": "1499722850203",
+                "creator": "username",
+              }
+            }
+          >
+            <span>
+              Created by username on Tuesday, July 11, 2017
+            </span>
+          </FormattedMessage>
+        </span>
+      </div>
+    </div>
+    <div
+      className="item-actions"
+    >
+      <a
+        href="#"
+        onClick={[Function]}
+      >
+        <FormattedMessage
+          defaultMessage="Regenerate Token"
+          id="installed_integrations.regenToken"
+          values={Object {}}
+        >
+          <span>
+            Regenerate Token
+          </span>
+        </FormattedMessage>
+      </a>
+       - 
+      <Link
+        onlyActiveOnIndex={false}
+        style={Object {}}
+        to="/team_name/integrations/commands/edit?id=r5tpgt4iepf45jt768jz84djic"
+      >
+        <a
+          onClick={[Function]}
+          style={Object {}}
+        >
+          <FormattedMessage
+            defaultMessage="Edit"
+            id="installed_integrations.edit"
+            values={Object {}}
+          >
+            <span>
+              Edit
+            </span>
+          </FormattedMessage>
+        </a>
+      </Link>
+       - 
+      <DeleteIntegration
+        messageId="installed_commands.delete.confirm"
+        onDelete={[Function]}
+      >
+        <span>
+          <a
+            href="#"
+            onClick={[Function]}
+          >
+            <FormattedMessage
+              defaultMessage="Delete"
+              id="installed_integrations.delete"
+              values={Object {}}
+            >
+              <span>
+                Delete
+              </span>
+            </FormattedMessage>
+          </a>
+          <ConfirmModal
+            confirmButtonClass="btn btn-primary"
+            confirmButtonText={
+              <FormattedMessage
+                defaultMessage="Delete"
+                id="integrations.delete.confirm.button"
+                values={Object {}}
+              />
+            }
+            message={
+              <div
+                className="alert alert-warning"
+              >
+                <i
+                  className="fa fa-warning fa-margin--right"
+                />
+                <FormattedMessage
+                  defaultMessage="This action permanently deletes the integration and breaks any integrations using it. Are you sure you want to delete it?"
+                  id="installed_commands.delete.confirm"
+                  values={Object {}}
+                />
+              </div>
+            }
+            onCancel={[Function]}
+            onConfirm={[Function]}
+            onKeyDown={[Function]}
+            show={false}
+            title={
+              <FormattedMessage
+                defaultMessage="Delete Integration"
+                id="integrations.delete.confirm.title"
+                values={Object {}}
+              />
+            }
+          >
+            <Modal
+              animation={true}
+              autoFocus={true}
+              backdrop={true}
+              bsClass="modal"
+              className="modal-confirm"
+              dialogComponentClass={[Function]}
+              enforceFocus={true}
+              keyboard={true}
+              manager={
+                ModalManager {
+                  "add": [Function],
+                  "containers": Array [],
+                  "data": Array [],
+                  "handleContainerOverflow": true,
+                  "hideSiblingNodes": true,
+                  "isTopModal": [Function],
+                  "modals": Array [],
+                  "remove": [Function],
+                }
+              }
+              onHide={[Function]}
+              renderBackdrop={[Function]}
+              restoreFocus={true}
+              show={false}
+            >
+              <Modal
+                autoFocus={true}
+                backdrop={true}
+                backdropClassName="modal-backdrop"
+                backdropTransitionTimeout={150}
+                containerClassName="modal-open"
+                dialogTransitionTimeout={300}
+                enforceFocus={true}
+                keyboard={true}
+                manager={
+                  ModalManager {
+                    "add": [Function],
+                    "containers": Array [],
+                    "data": Array [],
+                    "handleContainerOverflow": true,
+                    "hideSiblingNodes": true,
+                    "isTopModal": [Function],
+                    "modals": Array [],
+                    "remove": [Function],
+                  }
+                }
+                onEntering={[Function]}
+                onExited={[Function]}
+                onHide={[Function]}
+                renderBackdrop={[Function]}
+                restoreFocus={true}
+                show={false}
+                transition={[Function]}
+              />
+            </Modal>
+          </ConfirmModal>
+        </span>
+      </DeleteIntegration>
+    </div>
+  </div>
+</InstalledCommand>
+`;
+
+exports[`components/integrations/InstalledCommand should filter out command 1`] = `""`;
+
+exports[`components/integrations/InstalledCommand should match snapshot 1`] = `
+<div
+  className="backstage-list__item"
+>
+  <div
+    className="item-details"
+  >
+    <div
+      className="item-details__row"
+    >
+      <span
+        className="item-details__name"
+      >
+        display_name
+      </span>
+      <span
+        className="item-details__trigger"
+      >
+        - /trigger auto_complete_hint
+      </span>
+    </div>
+    <div
+      className="item-details__row"
+    >
+      <span
+        className="item-details__description"
+      >
+        description
+      </span>
+    </div>
+    <div
+      className="item-details__row"
+    >
+      <span
+        className="item-details__token"
+      >
+        <FormattedMessage
+          defaultMessage="Token: {token}"
+          id="installed_integrations.token"
+          values={
+            Object {
+              "token": "testToken",
+            }
+          }
+        />
+      </span>
+    </div>
+    <div
+      className="item-details__row"
+    >
+      <span
+        className="item-details__creation"
+      >
+        <FormattedMessage
+          defaultMessage="Created by {creator} on {createAt, date, full}"
+          id="installed_integrations.creation"
+          values={
+            Object {
+              "createAt": "1499722850203",
+              "creator": "username",
+            }
+          }
+        />
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/integrations/InstalledCommand should match snapshot, not autocomplete, no display_name/description/auto_complete_hint 1`] = `
+<div
+  className="backstage-list__item"
+>
+  <div
+    className="item-details"
+  >
+    <div
+      className="item-details__row"
+    >
+      <span
+        className="item-details__name"
+      >
+        <FormattedMessage
+          defaultMessage="Unnamed Slash Command"
+          id="installed_commands.unnamed_command"
+          values={Object {}}
+        />
+      </span>
+      <span
+        className="item-details__trigger"
+      >
+        - /trigger
+      </span>
+    </div>
+    <div
+      className="item-details__row"
+    >
+      <span
+        className="item-details__token"
+      >
+        <FormattedMessage
+          defaultMessage="Token: {token}"
+          id="installed_integrations.token"
+          values={
+            Object {
+              "token": "testToken",
+            }
+          }
+        />
+      </span>
+    </div>
+    <div
+      className="item-details__row"
+    >
+      <span
+        className="item-details__creation"
+      >
+        <FormattedMessage
+          defaultMessage="Created by {creator} on {createAt, date, full}"
+          id="installed_integrations.creation"
+          values={
+            Object {
+              "createAt": "1499722850203",
+              "creator": "username",
+            }
+          }
+        />
+      </span>
+    </div>
   </div>
 </div>
 `;
