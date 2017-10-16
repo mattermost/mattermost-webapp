@@ -87,7 +87,6 @@ export default class PostTime extends React.PureComponent {
         return (
             <Link
                 to={`/${this.state.currentTeamDisplayName}/pl/${this.props.postId}`}
-                target='_blank'
                 className='post__permalink'
             >
                 {this.renderTimeTag()}
