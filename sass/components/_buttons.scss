@@ -1,5 +1,17 @@
 @charset 'UTF-8';
 
+button {
+    &.style--none {
+        background: transparent;
+        border: none;
+        padding: 0;
+
+        &:focus {
+            outline: 0;
+        }
+    }
+}
+
 .btn {
     @include single-transition(all, .15s, ease-in);
     @include border-radius($border-rad);

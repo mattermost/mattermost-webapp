@@ -111,9 +111,7 @@ export default class ChannelHeader extends React.Component {
         }
     }
 
-    toggleFavorite = (e) => {
-        e.preventDefault();
-
+    toggleFavorite = () => {
         if (this.props.isFavorite) {
             this.props.actions.unfavoriteChannel(this.props.channel.id);
         } else {
@@ -303,8 +301,8 @@ export default class ChannelHeader extends React.Component {
 
                 webrtc = (
                     <div className='webrtc__header channel-header__icon'>
-                        <a
-                            href='#'
+                        <button
+                            className='style--none'
                             onClick={() => this.initWebrtc(dmUserId, !isOffline)}
                             disabled={isOffline}
                         >
@@ -321,7 +319,7 @@ export default class ChannelHeader extends React.Component {
                                     <span dangerouslySetInnerHTML={{__html: Constants.VIDEO_ICON}}/>
                                 </div>
                             </OverlayTrigger>
-                        </a>
+                        </button>
                     </div>
                 );
             }
@@ -404,17 +402,17 @@ export default class ChannelHeader extends React.Component {
                     key='add_members'
                     role='presentation'
                 >
-                    <a
+                    <button
+                        className='style--none'
                         id='channelAddMembersGroup'
                         role='menuitem'
-                        href='#'
                         onClick={this.openDirectMessageModal}
                     >
                         <FormattedMessage
                             id='channel_header.addMembers'
                             defaultMessage='Add Members'
                         />
-                    </a>
+                    </button>
                 </li>
             );
         } else {
@@ -443,17 +441,17 @@ export default class ChannelHeader extends React.Component {
                         key='manage_members'
                         role='presentation'
                     >
-                        <a
+                        <button
+                            className='style--none'
                             id='channelManageMembers'
                             role='menuitem'
-                            href='#'
                             onClick={() => this.setState({showMembersModal: true})}
                         >
                             <FormattedMessage
                                 id='channel_header.viewMembers'
                                 defaultMessage='View Members'
                             />
-                        </a>
+                        </button>
                     </li>
                 );
             }
@@ -515,17 +513,17 @@ export default class ChannelHeader extends React.Component {
                             key='manage_members'
                             role='presentation'
                         >
-                            <a
+                            <button
+                                className='style--none'
                                 id='channelManageMembers'
                                 role='menuitem'
-                                href='#'
                                 onClick={() => this.setState({showMembersModal: true})}
                             >
                                 <FormattedMessage
                                     id='channel_header.manageMembers'
                                     defaultMessage='Manage Members'
                                 />
-                            </a>
+                            </button>
                         </li>
                     );
                 } else {
@@ -534,17 +532,17 @@ export default class ChannelHeader extends React.Component {
                             key='view_members'
                             role='presentation'
                         >
-                            <a
+                            <button
+                                className='style--none'
                                 id='channelViewMembers'
                                 role='menuitem'
-                                href='#'
                                 onClick={() => this.setState({showMembersModal: true})}
                             >
                                 <FormattedMessage
                                     id='channel_header.viewMembers'
                                     defaultMessage='View Members'
                                 />
-                            </a>
+                            </button>
                         </li>
                     );
                 }
@@ -582,17 +580,17 @@ export default class ChannelHeader extends React.Component {
                         key='set_channel_purpose'
                         role='presentation'
                     >
-                        <a
+                        <button
+                            className='style--none'
                             id='channelEditPurpose'
                             role='menuitem'
-                            href='#'
                             onClick={() => this.setState({showEditChannelPurposeModal: true})}
                         >
                             <FormattedMessage
                                 id='channel_header.setPurpose'
                                 defaultMessage='Edit Channel Purpose'
                             />
-                        </a>
+                        </button>
                     </li>
                 );
 
@@ -601,17 +599,17 @@ export default class ChannelHeader extends React.Component {
                         key='rename_channel'
                         role='presentation'
                     >
-                        <a
+                        <button
+                            className='style--none'
                             id='channelRename'
                             role='menuitem'
-                            href='#'
                             onClick={this.showRenameChannelModal}
                         >
                             <FormattedMessage
                                 id='channel_header.rename'
                                 defaultMessage='Rename Channel'
                             />
-                        </a>
+                        </button>
                     </li>
                 );
             }
@@ -650,17 +648,17 @@ export default class ChannelHeader extends React.Component {
                         key='leave_channel'
                         role='presentation'
                     >
-                        <a
+                        <button
+                            className='style--none'
                             id='channelLeave'
                             role='menuitem'
-                            href='#'
                             onClick={this.handleLeave}
                         >
                             <FormattedMessage
                                 id='channel_header.leave'
                                 defaultMessage='Leave Channel'
                             />
-                        </a>
+                        </button>
                     </li>
                 );
             }
@@ -722,15 +720,15 @@ export default class ChannelHeader extends React.Component {
             let editMessage;
             if (ChannelUtils.showManagementOptions(channel, isChannelAdmin, isTeamAdmin, isSystemAdmin)) {
                 editMessage = (
-                    <a
-                        href='#'
+                    <button
+                        className='style--none'
                         onClick={() => this.setState({showEditChannelHeaderModal: true})}
                     >
                         <FormattedMessage
                             id='channel_header.addChannelHeader'
                             defaultMessage='Add a channel description'
                         />
-                    </a>
+                    </button>
                 );
             }
             headerTextContainer = (
@@ -780,14 +778,13 @@ export default class ChannelHeader extends React.Component {
                 placement='bottom'
                 overlay={toggleFavoriteTooltip}
             >
-                <a
+                <button
                     id='toggleFavorite'
-                    href='#'
                     onClick={this.toggleFavorite}
-                    className={'channel-header__favorites ' + (this.props.isFavorite ? 'active' : 'inactive')}
+                    className={'style--none color--link channel-header__favorites ' + (this.props.isFavorite ? 'active' : 'inactive')}
                 >
                     <i className={'icon fa ' + (this.props.isFavorite ? 'fa-star' : 'fa-star-o')}/>
-                </a>
+                </button>
             </OverlayTrigger>
         );
 
@@ -827,17 +824,16 @@ export default class ChannelHeader extends React.Component {
                         <div className='channel-header__info'>
                             {toggleFavorite}
                             <div className='channel-header__title dropdown'>
-                                <a
+                                <button
                                     id='channelHeaderDropdown'
-                                    href='#'
-                                    className='dropdown-toggle theme'
+                                    className='dropdown-toggle theme style--none'
                                     type='button'
                                     data-toggle='dropdown'
                                     aria-expanded='true'
                                 >
                                     <strong className='heading'>{channelTitle} </strong>
                                     <span className='fa fa-angle-down header-dropdown__icon'/>
-                                </a>
+                                </button>
                                 <ul
                                     className='dropdown-menu'
                                     role='menu'

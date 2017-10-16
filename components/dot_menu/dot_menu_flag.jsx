@@ -44,13 +44,13 @@ export default function DotMenuFlag(props) {
             key={props.idPrefix}
             role='presentation'
         >
-            <a
+            <button
                 id={flagId}
-                href='#'
+                className='style--none'
                 onClick={flagFunc}
             >
                 {formatMessage(props.isFlagged)}
-            </a>
+            </button>
         </li>
     );
 }

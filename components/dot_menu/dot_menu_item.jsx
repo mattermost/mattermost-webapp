@@ -78,7 +78,8 @@ export default function DotMenuItem(props) {
             key={attrib.idPrefix}
             role='presentation'
         >
-            <div
+            <button
+                className='style--none'
                 role='menuitem'
                 onClick={attrib.onClick}
             >
@@ -86,7 +87,7 @@ export default function DotMenuItem(props) {
                     id={attrib.formattedMessageId}
                     defaultMessage={attrib.formattedDefaultMessage}
                 />
-            </div>
+            </button>
         </li>
     );
 }

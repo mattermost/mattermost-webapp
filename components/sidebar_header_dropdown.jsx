@@ -223,7 +223,8 @@ export default class SidebarHeaderDropdown extends React.Component {
 
             inviteLink = (
                 <li>
-                    <div
+                    <button
+                        className='style--none'
                         id='sendEmailInvite'
                         onClick={this.showInviteMemberModal}
                     >
@@ -231,13 +232,14 @@ export default class SidebarHeaderDropdown extends React.Component {
                             id='navbar_dropdown.inviteMember'
                             defaultMessage='Send Email Invite'
                         />
-                    </div>
+                    </button>
                 </li>
             );
 
             addMemberToTeam = (
                 <li>
-                    <div
+                    <button
+                        className='style--none'
                         id='addUsersToTeam'
                         onClick={this.showAddUsersToTeamModal}
                     >
@@ -245,14 +247,15 @@ export default class SidebarHeaderDropdown extends React.Component {
                             id='navbar_dropdown.addMemberToTeam'
                             defaultMessage='Add Members to Team'
                         />
-                    </div>
+                    </button>
                 </li>
             );
 
             if (this.props.teamType === Constants.OPEN_TEAM && config.EnableUserCreation === 'true') {
                 teamLink = (
                     <li>
-                        <div
+                        <button
+                            className='style--none'
                             id='getTeamInviteLink'
                             onClick={this.showGetTeamInviteLinkModal}
                         >
@@ -260,7 +263,7 @@ export default class SidebarHeaderDropdown extends React.Component {
                                 id='navbar_dropdown.teamLink'
                                 defaultMessage='Get Team Invite Link'
                             />
-                        </div>
+                        </button>
                     </li>
                 );
             }
@@ -288,7 +291,8 @@ export default class SidebarHeaderDropdown extends React.Component {
         if (isAdmin) {
             teamSettings = (
                 <li>
-                    <div
+                    <button
+                        className='style--none'
                         id='teamSettings'
                         data-toggle='modal'
                         data-target='#team_settings'
@@ -298,7 +302,7 @@ export default class SidebarHeaderDropdown extends React.Component {
                             id='navbar_dropdown.teamSettings'
                             defaultMessage='Team Settings'
                         />
-                    </div>
+                    </button>
                 </li>
             );
         } else {
@@ -312,9 +316,12 @@ export default class SidebarHeaderDropdown extends React.Component {
 
         manageLink = (
             <li>
-                <div onClick={this.showTeamMembersModal}>
+                <button
+                    className='style--none'
+                    onClick={this.showTeamMembersModal}
+                >
                     {membersName}
-                </div>
+                </button>
             </li>
         );
 
@@ -409,7 +416,8 @@ export default class SidebarHeaderDropdown extends React.Component {
 
         teams.push(
             <li key='leaveTeam_li'>
-                <div
+                <button
+                    className='style--none'
                     id='leaveTeam'
                     onClick={GlobalActions.showLeaveTeamModal}
                 >
@@ -417,7 +425,7 @@ export default class SidebarHeaderDropdown extends React.Component {
                         id='navbar_dropdown.leave'
                         defaultMessage='Leave Team'
                     />
-                </div>
+                </button>
             </li>
         );
 
@@ -497,7 +505,8 @@ export default class SidebarHeaderDropdown extends React.Component {
 
         const keyboardShortcuts = (
             <li>
-                <div
+                <button
+                    className='style--none'
                     id='keyboardShortcuts'
                     onClick={this.showShortcutsModal}
                 >
@@ -505,13 +514,14 @@ export default class SidebarHeaderDropdown extends React.Component {
                         id='navbar_dropdown.keyboardShortcuts'
                         defaultMessage='Keyboard Shortcuts'
                     />
-                </div>
+                </button>
             </li>
         );
 
         const accountSettings = (
             <li>
-                <div
+                <button
+                    className='style--none'
                     id='accountSettings'
                     onClick={this.showAccountSettingsModal}
                 >
@@ -519,24 +529,28 @@ export default class SidebarHeaderDropdown extends React.Component {
                         id='navbar_dropdown.accountSettings'
                         defaultMessage='Account Settings'
                     />
-                </div>
+                </button>
             </li>
         );
 
         const about = (
             <li>
-                <div onClick={this.handleAboutModal}>
+                <button
+                    className='style--none'
+                    onClick={this.handleAboutModal}
+                >
                     <FormattedMessage
                         id='navbar_dropdown.about'
                         defaultMessage='About Mattermost'
                     />
-                </div>
+                </button>
             </li>
         );
 
         const logout = (
             <li>
-                <div
+                <button
+                    className='style--none'
                     id='logout'
                     onClick={() => GlobalActions.emitUserLoggedOutEvent()}
                 >
@@ -544,7 +558,7 @@ export default class SidebarHeaderDropdown extends React.Component {
                         id='navbar_dropdown.logout'
                         defaultMessage='Logout'
                     />
-                </div>
+                </button>
             </li>
         );
 

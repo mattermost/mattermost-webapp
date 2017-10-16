@@ -24,7 +24,8 @@ export default function DotMenuEdit(props) {
             key={props.idPrefix}
             role='presentation'
         >
-            <div
+            <button
+                className='style--none'
                 role='menuitem'
                 data-toggle='modal'
                 data-target='#edit_post'
@@ -39,7 +40,7 @@ export default function DotMenuEdit(props) {
                     id='post_info.edit'
                     defaultMessage='Edit'
                 />
-            </div>
+            </button>
         </li>
     );
 }
