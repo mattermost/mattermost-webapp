@@ -4,7 +4,7 @@
 import {browserHistory} from 'react-router/es6';
 
 import {TeamTypes} from 'mattermost-redux/action_types';
-import {viewChannel} from 'mattermost-redux/actions/channels';
+import {viewChannel, getChannelStats} from 'mattermost-redux/actions/channels';
 import * as TeamActions from 'mattermost-redux/actions/teams';
 import {getUser} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
@@ -62,9 +62,11 @@ export function removeUserFromTeam(teamId, userId, success, error) {
         (data) => {
             getUser(userId)(dispatch, getState);
             TeamActions.getTeamStats(teamId)(dispatch, getState);
-
-            if (data && success) {
-                success();
+            if (data) {
+                getChannelStats(ChannelStore.getCurrentId())(dispatch, getState);
+                if (success) {
+                    success();
+                }
             } else if (data == null && error) {
                 const serverError = getState().requests.teams.removeUserFromTeam.error;
                 error({id: serverError.server_error_id, ...serverError});
@@ -119,13 +121,16 @@ export function addUserToTeamFromInvite(data, hash, inviteId, success, error) {
 export function addUsersToTeam(teamId, userIds, success, error) {
     TeamActions.addUsersToTeam(teamId, userIds)(dispatch, getState).then(
         (teamMembers) => {
-            if (teamMembers && success) {
-                success(teamMembers);
+            if (teamMembers) {
+                getChannelStats(ChannelStore.getCurrentId())(dispatch, getState);
+                if (success) {
+                    success();
+                }
             } else if (teamMembers == null && error) {
                 const serverError = getState().requests.teams.addUserToTeam.error;
                 error({id: serverError.server_error_id, ...serverError});
             }
-        }
+        },
     );
 }
 
