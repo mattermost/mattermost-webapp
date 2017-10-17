@@ -16,13 +16,13 @@ podTemplate(label: 'jenkins-slave-webapp',
     ]
 )
 {
-    def gitCommit = ''
+    def gitCommit
     node('jenkins-slave-webapp') {
         stage('Checkout') {
             container('mattermost-node') {
                 dir('mattermost-webapp') {
                     checkout scm
-                    gitCommit = sh(returnStdout: true, script: 'git rev-parse head').trim()
+                    gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
                 }
             }
         }
