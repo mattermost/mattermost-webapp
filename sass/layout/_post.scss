@@ -688,6 +688,7 @@
         .reacticon__container,
         .flag-icon__container,
         .post__reply,
+        .post-reaction,
         .post__remove {
             visibility: visible;
         }
@@ -1385,6 +1386,16 @@
 
         .post-reaction-list {
             min-height: 30px;
+
+            .post-add-reaction {
+                display: inline-block;
+                visibility: hidden;
+            }
+
+            .post-add-reaction-emoji-picker-open {
+                display: inline-block;
+                visibility: visible;
+            }
         }
 
         .post-reaction {
@@ -1410,6 +1421,14 @@
                 line-height: 10px;
                 position: relative;
                 top: 3px;
+            }
+
+            .post-reaction__add {
+                position: relative;
+                margin: 0 9px 0 9px;
+                vertical-align: middle;
+                font-size: 12px;
+                top: 1px;
             }
 
             &--current-user {
