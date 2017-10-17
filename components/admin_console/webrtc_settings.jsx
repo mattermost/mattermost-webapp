@@ -8,6 +8,7 @@ import * as Utils from 'utils/utils.jsx';
 
 import AdminSettings from './admin_settings.jsx';
 import BooleanSetting from './boolean_setting.jsx';
+import DropdownSetting from './dropdown_setting.jsx';
 import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting.jsx';
 
@@ -138,19 +139,22 @@ export default class WebrtcSettings extends AdminSettings {
                     onChange={this.handleChange}
                     disabled={!this.state.enableWebrtc}
                 />
-                <TextSetting
+                <DropdownSetting
                     id='gatewayType'
+                    values={[
+                        {value: 'janus', text: 'Janus WebRTC Gateway'},
+                        {value: 'kopano-webmeetings', text: 'Kopano Webmeetings'}
+                    ]}
                     label={
                         <FormattedMessage
                             id='admin.webrtc.gatewayTypeTitle'
                             defaultMessage='Gateway Type:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.webrtc.gatewayTypeExample', 'Ex "Janus"')}
                     helpText={
                         <FormattedMessage
                             id='admin.webrtc.gatewayTypeDescription'
-                            defaultMessage='Enter the type of the WebRTC server Mattermost uses. Defaults to "Janus" when empty.'
+                            defaultMessage='Select the type of the WebRTC server backend.'
                         />
                     }
                     value={this.state.gatewayType}
