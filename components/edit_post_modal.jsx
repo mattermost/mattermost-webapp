@@ -60,7 +60,7 @@ export default class EditPostModal extends React.Component {
     }
 
     getContainer = () => {
-        return this;
+        return this.refs.editModalBody;
     }
 
     toggleEmojiPicker = () => {
@@ -286,8 +286,8 @@ export default class EditPostModal extends React.Component {
                         target={this.getEditPostControls}
                         onHide={this.hideEmojiPicker}
                         onEmojiClick={this.handleEmojiClick}
-                        rightOffset={100}
-                        topOffset={-100}
+                        rightOffset={50}
+                        topOffset={-20}
                     />
                     <span
                         className='icon icon--emoji'
@@ -328,7 +328,10 @@ export default class EditPostModal extends React.Component {
                                 />
                             </h4>
                         </div>
-                        <div className='edit-modal-body modal-body'>
+                        <div
+                            ref='editModalBody'
+                            className='edit-modal-body modal-body'
+                        >
                             <Textbox
                                 onChange={this.handleChange}
                                 onKeyPress={this.handleEditKeyPress}

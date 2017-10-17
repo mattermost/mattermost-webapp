@@ -28,6 +28,21 @@
             max-height: 150px;
         }
 
+        .edit-post__actions {
+            position: absolute;
+            right: 25px;
+            top: 30px;
+
+            .icon {
+                @include opacity(.7);
+                cursor: pointer;
+
+                &:hover {
+                   @include opacity(1);
+                }
+            }
+        }
+
         .edit-post-footer {
             display: inline-block;
             font-size: 13px;
