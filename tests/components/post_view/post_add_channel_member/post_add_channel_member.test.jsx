@@ -2,7 +2,10 @@
 // See License.txt for license information.
 
 import React from 'react';
+import {Provider} from 'react-redux';
 import {shallow} from 'enzyme';
+
+import store from 'stores/redux_store.jsx';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
@@ -21,15 +24,17 @@ describe('components/post_view/PostAddChannelMember', () => {
     };
     const channel = {
         id: 'channel_id',
-        name: 'channel_name'
+        name: 'channel_name',
+        type: 'O'
     };
 
     const requiredProps = {
         team,
         channel,
         postId: 'post_id_1',
-        userIds: 'user_id_1',
-        localizationId: 'post_body.check_for_out_of_channel_mentions.link.public',
+        userIds: ['user_id_1'],
+        usernames: ['username_1'],
+        hasMention: false,
         actions: {
             getPost: jest.fn(),
             removePost: jest.fn(),
@@ -43,9 +48,15 @@ describe('components/post_view/PostAddChannelMember', () => {
     });
 
     test('should match snapshot, private channel', () => {
+        const privateChannel = {
+            id: 'channel_id',
+            name: 'channel_name',
+            type: 'P'
+        };
+
         const props = {
             ...requiredProps,
-            localizationId: 'post_body.check_for_out_of_channel_mentions.link.private'
+            channel: privateChannel
         };
 
         const wrapper = shallow(<PostAddChannelMember {...props}/>);
@@ -65,19 +76,24 @@ describe('components/post_view/PostAddChannelMember', () => {
             addChannelMember: jest.fn()
         };
         const props = {...requiredProps, actions};
-        const wrapper = mountWithIntl(<PostAddChannelMember {...props}/>);
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <PostAddChannelMember {...props}/>
+            </Provider>
+        );
 
         wrapper.find('a').simulate('click');
 
         expect(actions.getPost).toHaveBeenCalledTimes(1);
         expect(actions.addChannelMember).toHaveBeenCalledTimes(1);
-        expect(actions.addChannelMember).toHaveBeenCalledWith(channel.id, requiredProps.userIds);
+        expect(actions.addChannelMember).toHaveBeenCalledWith(channel.id, requiredProps.userIds[0]);
         expect(actions.removePost).toHaveBeenCalledTimes(1);
         expect(actions.removePost).toHaveBeenCalledWith(post);
     });
 
     test('addChannelMember should have been called multiple times', () => {
-        const userIds = 'user_id_1-user_id_2-user_id_3-user_id_4';
+        const userIds = ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4'];
+        const usernames = ['username_1', 'username_2', 'username_3', 'username_4'];
         const post = {
             id: 'post_id_1',
             channel_id: 'channel_id'
@@ -89,8 +105,12 @@ describe('components/post_view/PostAddChannelMember', () => {
             removePost: jest.fn(),
             addChannelMember: jest.fn()
         };
-        const props = {...requiredProps, userIds, actions};
-        const wrapper = mountWithIntl(<PostAddChannelMember {...props}/>);
+        const props = {...requiredProps, userIds, usernames, actions};
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <PostAddChannelMember {...props}/>
+            </Provider>
+        );
 
         wrapper.find('a').simulate('click');
 
