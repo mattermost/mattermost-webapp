@@ -58,7 +58,7 @@ podTemplate(label: 'jenkins-slave-webapp',
                 useServerSideEncryption: false,
                 userMetadata: [[key: 'Cache-Control', value: 'no-cache']]
             ], [
-                bucket: 'releases.mattermost.com/mattermost-webapp/commit/${gitCommit}',
+                bucket: "releases.mattermost.com/mattermost-webapp/commit/${gitCommit}",
                 excludedFile: '',
                 flatten: true,
                 gzipFiles: false,
