@@ -6,11 +6,12 @@ import {FormattedMessage} from 'react-intl';
 
 import {elasticsearchPurgeIndexes, elasticsearchTest} from 'actions/admin_actions.jsx';
 
+import {JobTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import AdminSettings from './admin_settings.jsx';
 import BooleanSetting from './boolean_setting.jsx';
-import ElasticsearchStatus from './elasticsearch_status';
+import JobsTable from './jobs';
 import RequestButton from './request_button/request_button.jsx';
 import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting.jsx';
@@ -277,8 +278,21 @@ export default class ElasticsearchSettings extends AdminSettings {
                     }}
                     disabled={!this.state.enableIndexing}
                 />
-                <ElasticsearchStatus
-                    isConfigured={this.state.canPurgeAndIndex}
+                <JobsTable
+                    jobType={JobTypes.ELASTICSEARCH_POST_INDEXING}
+                    disabled={!this.state.canPurgeAndIndex}
+                    createJobButtonText={
+                        <FormattedMessage
+                            id='admin.elasticsearch.createJob.title'
+                            defaultMessage='Index Now'
+                        />
+                    }
+                    createJobHelpText={
+                        <FormattedMessage
+                            id='admin.elasticsearch.createJob.help'
+                            defaultMessage='Initiates a full Elasticsearch indexing job immediately.'
+                        />
+                    }
                 />
                 <RequestButton
                     requestAction={elasticsearchPurgeIndexes}
