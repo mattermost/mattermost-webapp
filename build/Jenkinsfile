@@ -16,11 +16,13 @@ podTemplate(label: 'jenkins-slave-webapp',
     ]
 )
 {
+    def gitCommit = ''
     node('jenkins-slave-webapp') {
         stage('Checkout') {
             container('mattermost-node') {
                 dir('mattermost-webapp') {
                     checkout scm
+                    gitCommit = sh(returnStdout: true, script: 'git rev-parse head').trim()
                 }
             }
         }
@@ -40,7 +42,6 @@ podTemplate(label: 'jenkins-slave-webapp',
             }
         }
         stage('Push to S3') {
-            gitCommit = sh(returnStdout: true, script: 'git rev-parse head').trim()
             step([$class: 'S3BucketPublisher', dontWaitForConcurrentBuildCompletion: false, entries: [[
                 bucket: 'releases.mattermost.com/mattermost-webapp/${BRANCH_NAME}',
                 excludedFile: '',
