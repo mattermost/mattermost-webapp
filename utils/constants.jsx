@@ -45,7 +45,7 @@ export const Preferences = {
     MESSAGE_DISPLAY_COMPACT: 'compact',
     MESSAGE_DISPLAY_DEFAULT: 'clean',
     LINK_PREVIEW_DISPLAY: 'link_previews',
-    LINK_PREVIEW_DISPLAY_DEFAULT: 'false',
+    LINK_PREVIEW_DISPLAY_DEFAULT: 'true',
     COLLAPSE_DISPLAY: 'collapse_previews',
     COLLAPSE_DISPLAY_DEFAULT: 'false',
     USE_MILITARY_TIME: 'use_military_time',

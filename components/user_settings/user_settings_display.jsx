@@ -135,81 +135,71 @@ export default class UserSettingsDisplay extends React.Component {
     createSection(props) {
         const {
             section,
-            stateDisplay,
-            stateValue,
-            aValue,
-            bValue,
-            aFormattedId,
-            aFormattedMessage,
-            bFormattedId,
-            bFormattedMessage,
-            formattedIdDesc,
-            formattedMessageDesc,
-            formattedIdTitle,
-            formattedMessageTitle,
-            aMoreFormattedId,
-            aMoreFormattedMessage,
-            bMoreFormattedId,
-            bMoreFormattedMessage
+            display,
+            value,
+            title,
+            firstOption,
+            secondOption,
+            description
         } = props;
 
-        const aMessage = (
+        const firstMessage = (
             <FormattedMessage
-                id={aFormattedId}
-                defaultMessage={aFormattedMessage}
+                id={firstOption.radionButtonText.id}
+                defaultMessage={firstOption.radionButtonText.message}
             />
         );
 
         let moreColon;
-        let aMessageMore;
-        if (aMoreFormattedId) {
+        let firstMessageMore;
+        if (firstOption.radionButtonText.moreId) {
             moreColon = ': ';
-            aMessageMore = (
+            firstMessageMore = (
                 <span className='font-weight--normal'>
                     <FormattedMessage
-                        id={aMoreFormattedId}
-                        defaultMessage={aMoreFormattedMessage}
+                        id={firstOption.radionButtonText.moreId}
+                        defaultMessage={firstOption.radionButtonText.moreMessage}
                     />
                 </span>
             );
         }
 
-        let bMessageMore;
-        if (bMoreFormattedId) {
-            bMessageMore = (
+        let secondMessageMore;
+        if (secondOption.radionButtonText.moreId) {
+            secondMessageMore = (
                 <span className='font-weight--normal'>
                     <FormattedMessage
-                        id={bMoreFormattedId}
-                        defaultMessage={bMoreFormattedMessage}
+                        id={secondOption.radionButtonText.moreId}
+                        defaultMessage={secondOption.radionButtonText.moreMessage}
                     />
                 </span>
             );
         }
 
-        const bMessage = (
+        const secondMessage = (
             <FormattedMessage
-                id={bFormattedId}
-                defaultMessage={bFormattedMessage}
+                id={secondOption.radionButtonText.id}
+                defaultMessage={secondOption.radionButtonText.message}
             />
         );
 
         const messageTitle = (
             <FormattedMessage
-                id={formattedIdTitle}
-                defaultMessage={formattedMessageTitle}
+                id={title.id}
+                defaultMessage={title.message}
             />
         );
 
         const messageDesc = (
             <FormattedMessage
-                id={formattedIdDesc}
-                defaultMessage={formattedMessageDesc}
+                id={description.id}
+                defaultMessage={description.message}
             />
         );
 
         if (this.props.activeSection === section) {
             const format = [false, false];
-            if (stateValue === aValue) {
+            if (value === firstOption.value) {
                 format[0] = true;
             } else {
                 format[1] = true;
@@ -223,11 +213,11 @@ export default class UserSettingsDisplay extends React.Component {
             const name = section + 'Format';
             const key = section + 'UserDisplay';
 
-            const aDisplay = {};
-            aDisplay[stateDisplay] = aValue;
+            const firstDisplay = {};
+            firstDisplay[display] = firstOption.value;
 
-            const bDisplay = {};
-            bDisplay[stateDisplay] = bValue;
+            const secondDisplay = {};
+            secondDisplay[display] = secondOption.value;
 
             const inputs = [
                 <div key={key}>
@@ -238,11 +228,11 @@ export default class UserSettingsDisplay extends React.Component {
                                 type='radio'
                                 name={name}
                                 checked={format[0]}
-                                onChange={() => this.handleOnChange(aDisplay)}
+                                onChange={() => this.handleOnChange(firstDisplay)}
                             />
-                            {aMessage}
+                            {firstMessage}
                             {moreColon}
-                            {aMessageMore}
+                            {firstMessageMore}
                         </label>
                         <br/>
                     </div>
@@ -253,11 +243,11 @@ export default class UserSettingsDisplay extends React.Component {
                                 type='radio'
                                 name={name}
                                 checked={format[1]}
-                                onChange={() => this.handleOnChange(bDisplay)}
+                                onChange={() => this.handleOnChange(secondDisplay)}
                             />
-                            {bMessage}
+                            {secondMessage}
                             {moreColon}
-                            {bMessageMore}
+                            {secondMessageMore}
                         </label>
                         <br/>
                     </div>
@@ -281,10 +271,10 @@ export default class UserSettingsDisplay extends React.Component {
         }
 
         let describe;
-        if (stateValue === aValue) {
-            describe = aMessage;
+        if (value === firstOption.value) {
+            describe = firstMessage;
         } else {
-            describe = bMessage;
+            describe = secondMessage;
         }
 
         const handleUpdateSection = () => {
@@ -303,19 +293,31 @@ export default class UserSettingsDisplay extends React.Component {
     render() {
         const collapseSection = this.createSection({
             section: 'collapse',
-            stateDisplay: 'collapseDisplay',
-            stateValue: this.state.collapseDisplay,
+            display: 'collapseDisplay',
+            value: this.state.collapseDisplay,
             defaultDisplay: 'false',
-            aValue: 'false',
-            bValue: 'true',
-            aFormattedId: 'user.settings.display.collapseOn',
-            aFormattedMessage: 'On',
-            bFormattedId: 'user.settings.display.collapseOff',
-            bFormattedMessage: 'Off',
-            formattedIdDesc: 'user.settings.display.collapseDesc',
-            formattedMessageDesc: 'Set whether previews of image links show as expanded or collapsed by default. This setting can also be controlled using the slash commands /expand and /collapse.',
-            formattedIdTitle: 'user.settings.display.collapseDisplay',
-            formattedMessageTitle: 'Default appearance of image link previews'
+            title: {
+                id: 'user.settings.display.collapseDisplay',
+                message: 'Default appearance of image link previews'
+            },
+            firstOption: {
+                value: 'false',
+                radionButtonText: {
+                    id: 'user.settings.display.collapseOn',
+                    message: 'On'
+                }
+            },
+            secondOption: {
+                value: 'true',
+                radionButtonText: {
+                    id: 'user.settings.display.collapseOff',
+                    message: 'Off'
+                }
+            },
+            description: {
+                id: 'user.settings.display.collapseDesc',
+                message: 'Set whether previews of image links show as expanded or collapsed by default. This setting can also be controlled using the slash commands /expand and /collapse.'
+            }
         });
 
         const isEnableLinkPreviews = global.window.mm_config.EnableLinkPreviews === 'true';
@@ -324,76 +326,124 @@ export default class UserSettingsDisplay extends React.Component {
         if (isEnableLinkPreviews) {
             linkPreviewSection = this.createSection({
                 section: 'linkpreview',
-                stateDisplay: 'linkPreviewDisplay',
-                stateValue: this.state.linkPreviewDisplay,
+                display: 'linkPreviewDisplay',
+                value: this.state.linkPreviewDisplay,
                 defaultDisplay: 'true',
-                aValue: 'true',
-                bValue: 'false',
-                aFormattedId: 'user.settings.display.linkPreviewOn',
-                aFormattedMessage: 'On',
-                bFormattedId: 'user.settings.display.linkPreviewOff',
-                bFormattedMessage: 'Off',
-                formattedIdDesc: 'user.settings.display.linkPreviewDesc',
-                formattedMessageDesc: 'When available, the first web link in a message will show a preview of the website content below the message.',
-                formattedIdTitle: 'user.settings.display.linkPreviewDisplay',
-                formattedMessageTitle: 'Website Link Previews'
+                title: {
+                    id: 'user.settings.display.linkPreviewDisplay',
+                    message: 'Website Link Previews'
+                },
+                firstOption: {
+                    value: 'true',
+                    radionButtonText: {
+                        id: 'user.settings.display.linkPreviewOn',
+                        message: 'On'
+                    }
+                },
+                secondOption: {
+                    value: 'false',
+                    radionButtonText: {
+                        id: 'user.settings.display.linkPreviewOff',
+                        message: 'Off'
+                    }
+                },
+                description: {
+                    id: 'user.settings.display.linkPreviewDesc',
+                    message: 'When available, the first web link in a message will show a preview of the website content below the message.'
+                }
             });
             divider = <div className='divider-dark'/>;
         }
 
         const clockSection = this.createSection({
             section: 'clock',
-            stateDisplay: 'militaryTime',
-            stateValue: this.state.militaryTime,
+            display: 'militaryTime',
+            value: this.state.militaryTime,
             defaultDisplay: 'false',
-            aValue: 'false',
-            bValue: 'true',
-            aFormattedId: 'user.settings.display.normalClock',
-            aFormattedMessage: '12-hour clock (example: 4:00 PM)',
-            bFormattedId: 'user.settings.display.militaryClock',
-            bFormattedMessage: '24-hour clock (example: 16:00)',
-            formattedIdDesc: 'user.settings.display.preferTime',
-            formattedMessageDesc: 'Select how you prefer time displayed.',
-            formattedIdTitle: 'user.settings.display.clockDisplay',
-            formattedMessageTitle: 'Clock Display'
+            title: {
+                id: 'user.settings.display.clockDisplay',
+                message: 'Clock Display'
+            },
+            firstOption: {
+                value: 'false',
+                radionButtonText: {
+                    id: 'user.settings.display.normalClock',
+                    message: '12-hour clock (example: 4:00 PM)'
+                }
+            },
+            secondOption: {
+                value: 'true',
+                radionButtonText: {
+                    id: 'user.settings.display.militaryClock',
+                    message: '24-hour clock (example: 16:00)'
+                }
+            },
+            description: {
+                id: 'user.settings.display.preferTime',
+                message: 'Select how you prefer time displayed.'
+            }
         });
 
         const messageDisplaySection = this.createSection({
             section: Preferences.MESSAGE_DISPLAY,
-            stateDisplay: 'messageDisplay',
-            stateValue: this.state.messageDisplay,
+            display: 'messageDisplay',
+            value: this.state.messageDisplay,
             defaultDisplay: Preferences.MESSAGE_DISPLAY_CLEAN,
-            aValue: Preferences.MESSAGE_DISPLAY_CLEAN,
-            bValue: Preferences.MESSAGE_DISPLAY_COMPACT,
-            aFormattedId: 'user.settings.display.messageDisplayClean',
-            aFormattedMessage: 'Standard',
-            bFormattedId: 'user.settings.display.messageDisplayCompact',
-            bFormattedMessage: 'Compact',
-            formattedIdDesc: 'user.settings.display.messageDisplayDescription',
-            formattedMessageDesc: 'Select how messages in a channel should be displayed.',
-            formattedIdTitle: 'user.settings.display.messageDisplayTitle',
-            formattedMessageTitle: 'Message Display',
-            aMoreFormattedId: 'user.settings.display.messageDisplayCleanDes',
-            aMoreFormattedMessage: 'Easy to scan and read.',
-            bMoreFormattedId: 'user.settings.display.messageDisplayCompactDes',
-            bMoreFormattedMessage: 'Fit as many messages on the screen as we can.'
+            title: {
+                id: 'user.settings.display.messageDisplayTitle',
+                message: 'Message Display'
+            },
+            firstOption: {
+                value: Preferences.MESSAGE_DISPLAY_CLEAN,
+                radionButtonText: {
+                    id: 'user.settings.display.messageDisplayClean',
+                    message: 'Standard',
+                    moreId: 'user.settings.display.messageDisplayCleanDes',
+                    moreMessage: 'Easy to scan and read.'
+                }
+            },
+            secondOption: {
+                value: Preferences.MESSAGE_DISPLAY_COMPACT,
+                radionButtonText: {
+                    id: 'user.settings.display.messageDisplayCompact',
+                    message: 'Compact',
+                    moreId: 'user.settings.display.messageDisplayCompactDes',
+                    moreMessage: 'Fit as many messages on the screen as we can.'
+                }
+            },
+            description: {
+                id: 'user.settings.display.messageDisplayDescription',
+                message: 'Select how messages in a channel should be displayed.'
+            }
         });
 
         const channelDisplayModeSection = this.createSection({
             section: 'Preferences.CHANNEL_DISPLAY_MODE',
-            stateDisplay: 'channelDisplayMode',
-            stateValue: this.state.channelDisplayMode,
+            display: 'channelDisplayMode',
+            value: this.state.channelDisplayMode,
             defaultDisplay: Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN,
-            aValue: Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN,
-            bValue: Preferences.CHANNEL_DISPLAY_MODE_CENTERED,
-            aFormattedId: 'user.settings.display.fullScreen',
-            aFormattedMessage: 'Full width',
-            bFormattedId: 'user.settings.display.fixedWidthCentered',
-            bFormattedMessage: 'Fixed width, centered',
-            formattedIdDesc: 'user.settings.display.channeldisplaymode',
-            formattedMessageDesc: 'Select the width of the center channel.',
-            formattedIdTitle: 'user.settings.display.channelDisplayTitle',
-            formattedMessageTitle: 'Channel Display Mode'
+            title: {
+                id: 'user.settings.display.channelDisplayTitle',
+                message: 'Channel Display Mode'
+            },
+            firstOption: {
+                value: Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN,
+                radionButtonText: {
+                    id: 'user.settings.display.fullScreen',
+                    message: 'Full width'
+                }
+            },
+            secondOption: {
+                value: Preferences.CHANNEL_DISPLAY_MODE_CENTERED,
+                radionButtonText: {
+                    id: 'user.settings.display.fixedWidthCentered',
+                    message: 'Fixed width, centered'
+                }
+            },
+            description: {
+                id: 'user.settings.display.channeldisplaymode',
+                message: 'Select the width of the center channel.'
+            }
         });
 
         let languagesSection;

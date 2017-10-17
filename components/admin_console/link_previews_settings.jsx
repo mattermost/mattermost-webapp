@@ -52,7 +52,7 @@ export default class LinkPreviewsSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.customization.enableLinkPreviewsDesc'
-                            defaultMessage='Enable users to display a preview of website content below the message, if available. When true, website previews can be enabled from Account Settings > Advanced > Preview pre-release features.'
+                            defaultMessage='Display a preview of website content below messages, when available. Users can disable these previews from Account Settings > Display > Website Link Previews.'
                         />
                     }
                     value={this.state.enableLinkPreviews}
