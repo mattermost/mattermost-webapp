@@ -21,8 +21,9 @@ import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import Textbox from './textbox.jsx';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
+
+import Textbox from './textbox.jsx';
 
 const KeyCodes = Constants.KeyCodes;
 
