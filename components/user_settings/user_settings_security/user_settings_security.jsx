@@ -68,6 +68,16 @@ export default class SecurityTab extends React.Component {
             revokeUserAccessToken: PropTypes.func.isRequired,
 
             /*
+             * Function to activate a personal access token
+             */
+            activateUserAccessToken: PropTypes.func.isRequired,
+
+            /*
+             * Function to deactivate a personal access token
+             */
+            deactivateUserAccessToken: PropTypes.func.isRequired,
+
+            /*
              * Function to clear personal access tokens locally
              */
             clearUserAccessTokens: PropTypes.func.isRequired
@@ -1056,6 +1066,41 @@ export default class SecurityTab extends React.Component {
         }
     }
 
+    confirmDeactivateToken = (tokenId) => {
+        const token = this.props.userAccessTokens[tokenId];
+
+        this.setState({
+            showConfirmModal: true,
+            confirmTitle: (
+                <FormattedMessage
+                    id='user.settings.tokens.confirmDeactivateTitle'
+                    defaultMessage='Deactivate Token?'
+                />
+            ),
+            confirmMessage: (
+                <div className='alert alert-danger'>
+                    <FormattedHTMLMessage
+                        id='user.settings.tokens.confirmDeactivateMessage'
+                        defaultMessage='Any integrations using this token will not be able to access the Mattermost API until the token is reactivated. <br /><br />Are you sure want to deactivate the {description} token?'
+                        values={{
+                            description: token.description
+                        }}
+                    />
+                </div>
+            ),
+            confirmButton: (
+                <FormattedMessage
+                    id='user.settings.tokens.confirmDeactivateButton'
+                    defaultMessage='Yes, Deactivate'
+                />
+            ),
+            confirmComplete: () => {
+                this.deactivateToken(tokenId);
+                trackEvent('settings', 'deactivate_user_access_token');
+            }
+        });
+    }
+
     confirmRevokeToken = (tokenId) => {
         const token = this.props.userAccessTokens[tokenId];
 
@@ -1099,6 +1144,21 @@ export default class SecurityTab extends React.Component {
         this.handleCancelConfirm();
     }
 
+    activateToken = async (tokenId) => {
+        const {error} = await this.props.actions.activateUserAccessToken(tokenId);
+        if (error) {
+            this.setState({serverError: error.message});
+        }
+    }
+
+    deactivateToken = async (tokenId) => {
+        const {error} = await this.props.actions.deactivateUserAccessToken(tokenId);
+        if (error) {
+            this.setState({serverError: error.message});
+        }
+        this.handleCancelConfirm();
+    }
+
     createTokensSection = () => {
         let updateSectionStatus;
         let tokenListClass = '';
@@ -1108,6 +1168,47 @@ export default class SecurityTab extends React.Component {
             Object.values(this.props.userAccessTokens).forEach((token) => {
                 if (this.state.newToken && this.state.newToken.id === token.id) {
                     return;
+                }
+
+                let activeLink;
+                let activeStatus = null;
+
+                if (token.is_active) {
+                    activeLink = (
+                        <a
+                            name={token.id + '_deactivate'}
+                            href='#'
+                            onClick={(e) => {
+                                e.preventDefault();
+                                this.confirmDeactivateToken(token.id);
+                            }}
+                        >
+                            <FormattedMessage
+                                id='user.settings.tokens.deactivate'
+                                defaultMessage='Deactivate'
+                            />
+                        </a>);
+                } else {
+                    activeStatus = (
+                        <FormattedMessage
+                            id='user.settings.tokens.activated'
+                            defaultMessage='(Inactive)'
+                        />
+                    );
+                    activeLink = (<a
+                        name={token.id + '_activate'}
+                        href='#'
+                        onClick={(e) => {
+                            e.preventDefault();
+                            this.activateToken(token.id);
+                            trackEvent('settings', 'activate_user_access_token');
+                        }}
+                                  >
+                        <FormattedMessage
+                            id='user.settings.tokens.activate'
+                            defaultMessage='Activate'
+                        />
+                    </a>);
                 }
 
                 tokenList.push(
@@ -1121,6 +1222,7 @@ export default class SecurityTab extends React.Component {
                                 defaultMessage='Token Description: '
                             />
                             {token.description}
+                            {activeStatus}
                         </div>
                         <div className='setting-box__token-id whitespace--nowrap overflow--ellipsis'>
                             <FormattedMessage
@@ -1130,8 +1232,10 @@ export default class SecurityTab extends React.Component {
                             {token.id}
                         </div>
                         <div>
+                            {activeLink}
+                            {' - '}
                             <a
-                                name={token.id}
+                                name={token.id + '_delete'}
                                 href='#'
                                 onClick={(e) => {
                                     e.preventDefault();
@@ -1144,6 +1248,7 @@ export default class SecurityTab extends React.Component {
                                 />
                             </a>
                         </div>
+
                         <hr className='margin-bottom margin-top x2'/>
                     </div>
                 );
