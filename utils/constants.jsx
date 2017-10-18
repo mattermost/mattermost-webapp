@@ -1018,7 +1018,8 @@ export const Constants = {
         SHOW_NICKNAME_FULLNAME: 'nickname_full_name',
         SHOW_FULLNAME: 'full_name'
     },
-    SEARCH_POST: 'searchpost'
+    SEARCH_POST: 'searchpost',
+    CHANNEL_ID_LENGTH: 26
 };
 
 export default Constants;
