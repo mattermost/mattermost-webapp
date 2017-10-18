@@ -67,7 +67,7 @@ export default class MultiSelect extends React.Component {
         }
 
         for (let i = 0; i < this.props.values.length; i++) {
-            if (this.props.values[i].value === value.value) {
+            if (this.props.values[i].id === value.id) {
                 return;
             }
         }
