@@ -29,16 +29,23 @@
         }
 
         .edit-post__actions {
+            display: inline-block;
+            height: 30px;
+            line-height: 34px;
             position: absolute;
-            right: 25px;
-            top: 30px;
+            right: 18px;
+            text-align: center;
+            top: 24px;
+            width: 30px;
 
             .icon {
-                @include opacity(.7);
+                @include opacity(.5);
                 cursor: pointer;
+            }
 
-                &:hover {
-                   @include opacity(1);
+            &:hover {
+                .icon {
+                    @include opacity(.7);
                 }
             }
         }
