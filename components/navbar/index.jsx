@@ -8,6 +8,9 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router/es6';
 
+import EditChannelHeaderModal from 'components/edit_channel_header_modal';
+import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
+
 import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {getPinnedPosts} from 'actions/post_actions.jsx';
@@ -29,8 +32,7 @@ import ChannelMembersModal from 'components/channel_members_modal.jsx';
 import ChannelNotificationsModal from 'components/channel_notifications_modal.jsx';
 
 import DeleteChannelModal from 'components/delete_channel_modal';
-import EditChannelHeaderModal from 'components/edit_channel_header_modal.jsx';
-import EditChannelPurposeModal from 'components/edit_channel_purpose_modal.jsx';
+
 import NotifyCounts from 'components/notify_counts.jsx';
 import QuickSwitchModal from 'components/quick_switch_modal';
 import RenameChannelModal from 'components/rename_channel_modal.jsx';
