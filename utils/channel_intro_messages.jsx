@@ -42,6 +42,7 @@ export function createChannelIntroMessage(channel, fullWidthIntro) {
 
 export function createGMIntroMessage(channel, centeredIntro) {
     const profiles = UserStore.getProfileListInChannel(channel.id, true);
+    const channelIntroId = 'channelIntro';
 
     if (profiles.length > 0) {
         const pictures = [];
@@ -69,7 +70,10 @@ export function createGMIntroMessage(channel, centeredIntro) {
         }
 
         return (
-            <div className={'channel-intro ' + centeredIntro}>
+            <div
+                id={channelIntroId}
+                className={'channel-intro ' + centeredIntro}
+            >
                 <div className='post-profile-img__container channel-intro-img'>
                     {pictures}
                 </div>
@@ -88,7 +92,10 @@ export function createGMIntroMessage(channel, centeredIntro) {
     }
 
     return (
-        <div className={'channel-intro ' + centeredIntro}>
+        <div
+            id={channelIntroId}
+            className={'channel-intro ' + centeredIntro}
+        >
             <p className='channel-intro-text'>
                 <FormattedMessage
                     id='intro_messages.group_message'
@@ -101,6 +108,7 @@ export function createGMIntroMessage(channel, centeredIntro) {
 
 export function createDMIntroMessage(channel, centeredIntro) {
     var teammate = Utils.getDirectTeammate(channel.id);
+    const channelIntroId = 'channelIntro';
 
     if (teammate) {
         var teammateName = teammate.username;
@@ -109,7 +117,10 @@ export function createDMIntroMessage(channel, centeredIntro) {
         }
 
         return (
-            <div className={'channel-intro ' + centeredIntro}>
+            <div
+                id={channelIntroId}
+                className={'channel-intro ' + centeredIntro}
+            >
                 <div className='post-profile-img__container channel-intro-img'>
                     <ProfilePicture
                         src={Utils.imageURLForUser(teammate)}
@@ -143,7 +154,10 @@ export function createDMIntroMessage(channel, centeredIntro) {
     }
 
     return (
-        <div className={'channel-intro ' + centeredIntro}>
+        <div
+            id={channelIntroId}
+            className={'channel-intro ' + centeredIntro}
+        >
             <p className='channel-intro-text'>
                 <FormattedMessage
                     id='intro_messages.teammate'
@@ -173,7 +187,10 @@ export function createOffTopicIntroMessage(channel, centeredIntro) {
     }
 
     return (
-        <div className={'channel-intro ' + centeredIntro}>
+        <div
+            id='channelIntro'
+            className={'channel-intro ' + centeredIntro}
+        >
             <FormattedHTMLMessage
                 id='intro_messages.offTopic'
                 defaultMessage='<h4 class="channel-intro__title">Beginning of {display_name}</h4><p class="channel-intro__content">This is the start of {display_name}, a channel for non-work-related conversations.<br/></p>'
@@ -210,7 +227,10 @@ export function createDefaultIntroMessage(channel, centeredIntro) {
     }
 
     return (
-        <div className={'channel-intro ' + centeredIntro}>
+        <div
+            id='channelIntro'
+            className={'channel-intro ' + centeredIntro}
+        >
             <FormattedHTMLMessage
                 id='intro_messages.default'
                 defaultMessage="<h4 class='channel-intro__title'>Beginning of {display_name}</h4><p class='channel-intro__content'><strong>Welcome to {display_name}!</strong><br/><br/>This is the first channel teammates see when they sign up - use it for posting updates everyone needs to know.</p>"
@@ -325,7 +345,10 @@ export function createStandardIntroMessage(channel, centeredIntro) {
     }
 
     return (
-        <div className={'channel-intro ' + centeredIntro}>
+        <div
+            id='channelIntro'
+            className={'channel-intro ' + centeredIntro}
+        >
             <h4 className='channel-intro__title'>
                 <FormattedMessage
                     id='intro_messages.beginning'

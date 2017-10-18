@@ -20,13 +20,7 @@ module.exports = {
     url: `${Constants.TEST_BASE_URL}`,
     commands: [logoutCommands],
     elements: {
-        mainMenuButton: {
-            selector: '//*[@id="sidebarHeaderDropdownButton"]/span',
-            locateStrategy: 'xpath'
-        },
-        logoutButton: {
-            selector: '//*[@id="logout"]',
-            locateStrategy: 'xpath'
-        }
+        mainMenuButton: {selector: '#sidebarHeaderDropdownButton'},
+        logoutButton: {selector: '#logout'}
     }
 };

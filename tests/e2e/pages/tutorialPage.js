@@ -43,29 +43,17 @@ module.exports = {
     url: `${Constants.TEST_BASE_URL}/login`,
     commands: [tutorialCommands],
     elements: {
-        appContent: {
-            selector: '#app-content'
-        },
-        tutorialNextButton: {
-            selector: '#tutorialNextButton',
-        },
-        tutorialSkipLink: {
-            selector: '#tutorialSkipLink',
-        },
-        tipButton: {
-            selector: '#tipButton'
-        },
-        tipNextButton: {
-            selector: '#tipNextButton'
-        }
+        appContent: {selector: '#app-content'},
+        tutorialNextButton: {selector: '#tutorialNextButton'},
+        tutorialSkipLink: {selector: '#tutorialSkipLink'},
+        tipButton: {selector: '#tipButton'},
+        tipNextButton: {selector: '#tipNextButton'}
     },
     sections: {
         postTextboxTipMessage: {
             selector: '#postTextboxTipMessage',
             elements: {
-                tipNextButton: {
-                    selector: '#tipNextButton'
-                }
+                tipNextButton: {selector: '#tipNextButton'}
             }
         }
     }

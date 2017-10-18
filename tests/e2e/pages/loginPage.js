@@ -22,17 +22,9 @@ module.exports = {
     url: `${Constants.TEST_BASE_URL}/login`,
     commands: [loginCommands],
     elements: {
-        loginInput: {
-            selector: 'input[name=loginId]'
-        },
-        passwordInput: {
-            selector: 'input[name=password]'
-        },
-        signinButton: {
-            selector: 'button[type=submit]'
-        },
-        appContent: {
-            selector: '#app-content'
-        }
+        loginInput: {selector: '#loginId'},
+        passwordInput: {selector: '#loginPassword'},
+        signinButton: {selector: '#loginButton'},
+        appContent: {selector: '#app-content'}
     }
 };

@@ -570,6 +570,7 @@ export default class PostList extends React.PureComponent {
                 >
                     <div className='post-list__table'>
                         <div
+                            id='postListContent'
                             ref='postlistcontent'
                             className='post-list__content'
                         >

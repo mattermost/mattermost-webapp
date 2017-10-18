@@ -683,7 +683,10 @@ export default class ChannelHeader extends React.Component {
             let headerTextElement;
             if (this.props.enableFormatting) {
                 headerTextElement = (
-                    <div className='channel-header__description light'>
+                    <div
+                        id='channelHeaderDescription'
+                        className='channel-header__description light'
+                    >
                         {dmHeaderIconStatus}
                         {dmHeaderTextStatus}
                         <span
@@ -695,6 +698,7 @@ export default class ChannelHeader extends React.Component {
             } else {
                 headerTextElement = (
                     <div
+                        id='channelHeaderDescription'
                         onClick={Utils.handleFormattedTextClick}
                         className='channel-header__description light'
                     >
@@ -732,7 +736,10 @@ export default class ChannelHeader extends React.Component {
                 );
             }
             headerTextContainer = (
-                <div className='channel-header__description light'>
+                <div
+                    id='channelHeaderDescription'
+                    className='channel-header__description light'
+                >
                     {dmHeaderIconStatus}
                     {dmHeaderTextStatus}
                     {editMessage}
@@ -821,20 +828,35 @@ export default class ChannelHeader extends React.Component {
             >
                 <div className='flex-parent'>
                     <div className='flex-child'>
-                        <div className='channel-header__info'>
+                        <div
+                            id='channelHeaderInfo'
+                            className='channel-header__info'
+                        >
                             {toggleFavorite}
-                            <div className='channel-header__title dropdown'>
+                            <div
+                                id='channelHeaderTitle'
+                                className='channel-header__title dropdown'
+                            >
                                 <button
-                                    id='channelHeaderDropdown'
+                                    id='channelHeaderDropdownButton'
                                     className='dropdown-toggle theme style--none'
                                     type='button'
                                     data-toggle='dropdown'
                                     aria-expanded='true'
                                 >
-                                    <strong className='heading'>{channelTitle} </strong>
-                                    <span className='fa fa-angle-down header-dropdown__icon'/>
+                                    <strong
+                                        id='channelHeaderTitle'
+                                        className='heading'
+                                    >
+                                        {channelTitle + ' '}
+                                    </strong>
+                                    <span
+                                        id='channelHeaderDropdownIcon'
+                                        className='fa fa-angle-down header-dropdown__icon'
+                                    />
                                 </button>
                                 <ul
+                                    id='channelHeaderDropdownMenu'
                                     className='dropdown-menu'
                                     role='menu'
                                     aria-labelledby='channel_header_dropdown'
@@ -859,6 +881,7 @@ export default class ChannelHeader extends React.Component {
                             overlay={pinnedPostTooltip}
                         >
                             <button
+                                id='channelHeaderPinButton'
                                 className={'style--none ' + pinnedIconClass}
                                 onClick={this.getPinnedPosts}
                             >
@@ -884,6 +907,7 @@ export default class ChannelHeader extends React.Component {
                             overlay={recentMentionsTooltip}
                         >
                             <button
+                                id='channelHeaderMentionButton'
                                 className='channel-header__icon icon--hidden style--none'
                                 onClick={this.searchMentions}
                             >
@@ -903,6 +927,7 @@ export default class ChannelHeader extends React.Component {
                             overlay={flaggedTooltip}
                         >
                             <button
+                                id='channelHeaderFlagButton'
                                 className='channel-header__icon icon--hidden style--none'
                                 onClick={this.getFlagged}
 

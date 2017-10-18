@@ -384,6 +384,7 @@ export default class LoginController extends React.Component {
                         />
                         <div className={'form-group' + errorClass}>
                             <input
+                                id='loginId'
                                 className='form-control'
                                 ref='loginId'
                                 name='loginId'
@@ -396,6 +397,7 @@ export default class LoginController extends React.Component {
                         </div>
                         <div className={'form-group' + errorClass}>
                             <input
+                                id='loginPassword'
                                 type='password'
                                 className='form-control'
                                 ref='password'
