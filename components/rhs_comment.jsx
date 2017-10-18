@@ -128,12 +128,15 @@ export default class RhsComment extends React.Component {
     }
 
     timeTag(post, timeOptions) {
+        const date = Utils.getDateForUnixTicks(post.create_at);
+
         return (
             <time
                 className='post__time'
-                dateTime={Utils.getDateForUnixTicks(post.create_at).toISOString()}
+                dateTime={date.toISOString()}
+                title={date}
             >
-                {Utils.getDateForUnixTicks(post.create_at).toLocaleString('en', timeOptions)}
+                {date.toLocaleString('en', timeOptions)}
             </time>
         );
     }

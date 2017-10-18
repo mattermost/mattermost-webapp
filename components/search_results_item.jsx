@@ -95,10 +95,13 @@ export default class SearchResultsItem extends React.Component {
     }
 
     timeTag(post) {
+        const date = Utils.getDateForUnixTicks(post.create_at);
+
         return (
             <time
                 className='search-item-time'
-                dateTime={Utils.getDateForUnixTicks(post.create_at).toISOString()}
+                dateTime={date.toISOString()}
+                title={date}
             >
                 <FormattedDate
                     value={post.create_at}
