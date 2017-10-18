@@ -40,7 +40,7 @@ export default {
             path: 'outgoing_webhooks',
             indexRoute: {
                 getComponents: (location, callback) => {
-                    System.import('components/integrations/components/installed_outgoing_webhooks.jsx').then(RouteUtils.importComponentSuccess(callback));
+                    System.import('components/integrations/components/installed_outgoing_webhooks').then(RouteUtils.importComponentSuccess(callback));
                 }
             },
             childRoutes: [
