@@ -18,6 +18,8 @@ import EmojiList from './emoji_list.jsx';
 
 const ROW_SIZE = 30;
 const EMOJI_PER_ROW = 9;
+const CATEGORY_SEARCH_RESULTS = 'searchResults';
+
 export default class EmojiPicker extends React.Component {
     static propTypes = {
         style: PropTypes.object,
@@ -356,12 +358,15 @@ export default class EmojiPicker extends React.Component {
 
         let list = [];
         if (emojis.length) {
-            const emojiRows = this.generateEmojiRows(emojis, "searchResults");
+            const emojiHeaderRow = this.generateEmojiHeaderRow(CATEGORY_SEARCH_RESULTS);
+            list.push(emojiHeaderRow);
+
+            const emojiRows = this.generateEmojiRows(emojis, CATEGORY_SEARCH_RESULTS);
             list = this.addEmojiRow(list, emojiRows);
         }
 
         return list;
-    } 
+    }
 
     emojiCategories() {
         const categories = this.categories;

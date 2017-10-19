@@ -1496,6 +1496,7 @@
   "emoji_picker.places": "Places",
   "emoji_picker.recent": "Recently Used",
   "emoji_picker.search": "Search",
+  "emoji_picker.searchResults": "Search Results",
   "emoji_picker.symbols": "Symbols",
   "error.generic.link": "Back to Mattermost",
   "error.generic.link_message": "Back to Mattermost",
