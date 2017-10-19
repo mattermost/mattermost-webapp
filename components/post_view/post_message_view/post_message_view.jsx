@@ -206,8 +206,7 @@ export default class PostMessageView extends React.PureComponent {
             siteUrl,
             team,
             channel,
-            lastPostCount,
-            hasMention
+            lastPostCount
         } = this.props;
 
         if (post.state === Posts.POST_DELETED) {
@@ -280,7 +279,6 @@ export default class PostMessageView extends React.PureComponent {
                     postId={addMemberProps.post_id}
                     userIds={addMemberProps.user_ids}
                     usernames={addMemberProps.usernames}
-                    hasMention={hasMention}
                 />
             );
         } else {

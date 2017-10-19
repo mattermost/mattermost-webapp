@@ -3,8 +3,6 @@
 exports[`components/post_view/PostAddChannelMember should match snapshot, private channel 1`] = `
 <p>
   <Connect(AtMention)
-    hasMention={false}
-    isRHS={false}
     mentionName="username_1"
   />
    
@@ -34,8 +32,6 @@ exports[`components/post_view/PostAddChannelMember should match snapshot, privat
 exports[`components/post_view/PostAddChannelMember should match snapshot, public channel 1`] = `
 <p>
   <Connect(AtMention)
-    hasMention={false}
-    isRHS={false}
     mentionName="username_1"
   />
    

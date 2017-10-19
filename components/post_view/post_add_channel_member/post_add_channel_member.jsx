@@ -42,11 +42,6 @@ export default class PostAddChannelMember extends React.PureComponent {
         */
         usernames: PropTypes.array.isRequired,
 
-        /*
-        * User if has mention
-        */
-        hasMention: PropTypes.bool,
-
         actions: PropTypes.shape({
 
             /*
@@ -81,14 +76,10 @@ export default class PostAddChannelMember extends React.PureComponent {
         browserHistory.push(`/${team.name}/channels/${channel.name}`);
     }
 
-    generateAtMentions(usernames = [], hasMention = false) {
+    generateAtMentions(usernames = []) {
         if (usernames.length === 1) {
             return (
-                <AtMention
-                    mentionName={usernames[0]}
-                    isRHS={false}
-                    hasMention={hasMention}
-                />
+                <AtMention mentionName={usernames[0]}/>
             );
         } else if (usernames.length > 1) {
             function andSeparator(key) {
@@ -113,8 +104,6 @@ export default class PostAddChannelMember extends React.PureComponent {
                                 <AtMention
                                     key={username}
                                     mentionName={username}
-                                    isRHS={false}
-                                    hasMention={hasMention}
                                 />
                             );
                         }).reduce((acc, el, idx, arr) => {
