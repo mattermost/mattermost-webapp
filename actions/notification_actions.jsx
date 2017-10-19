@@ -32,7 +32,8 @@ export function sendDesktopNotification(post, msgProps) {
     const userStatus = UserStore.getStatus(user.id);
     const member = ChannelStore.getMyMember(post.channel_id);
 
-    if (userStatus === UserStatuses.DND) {
+    const mute = member && member.notify_props ? member.notify_props.mute : false;
+    if (mute || userStatus === UserStatuses.DND) {
         return;
     }
 
