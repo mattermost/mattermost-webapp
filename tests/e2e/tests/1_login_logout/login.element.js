@@ -6,7 +6,7 @@ import {Constants} from '../../utils';
 module.exports = {
     '@tags': ['login'],
     after: (client) => client.end(),
-    'Test login page': (client) => {
+    'Login page - element check': (client) => {
         const loginPage = client.page.loginPage();
 
         loginPage.navigate()

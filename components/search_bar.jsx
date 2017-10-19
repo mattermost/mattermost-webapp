@@ -338,7 +338,10 @@ export default class SearchBar extends React.Component {
                         <span className='fa fa-chevron-left'/>
                     </div>
                 </div>
-                <div className='search-form__container'>
+                <div
+                    id='searchFormContainer'
+                    className='search-form__container'
+                >
                     <form
                         role='form'
                         className={searchFormClass}
@@ -347,11 +350,13 @@ export default class SearchBar extends React.Component {
                         autoComplete='off'
                     >
                         <span
+                            id='searchIcon'
                             className='search__icon'
                             dangerouslySetInnerHTML={{__html: searchIcon}}
                             aria-hidden='true'
                         />
                         <SuggestionBox
+                            id='searchBox'
                             ref={(search) => {
                                 this.search = search;
                             }}
@@ -368,6 +373,7 @@ export default class SearchBar extends React.Component {
                             autoFocus={this.props.isFocus && this.state.searchTerm === ''}
                         />
                         <div
+                            id='searchClearButton'
                             className={clearClass}
                             onClick={this.handleClear}
                         >

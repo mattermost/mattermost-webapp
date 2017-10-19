@@ -717,6 +717,7 @@ export default class CreatePost extends React.Component {
                         topOffset={-7}
                     />
                     <span
+                        id='emojiPickerButton'
                         className='icon icon--emoji'
                         dangerouslySetInnerHTML={{__html: Constants.EMOJI_ICON_SVG}}
                         onClick={this.toggleEmojiPicker}
@@ -766,7 +767,10 @@ export default class CreatePost extends React.Component {
                         </div>
                         {tutorialTip}
                     </div>
-                    <div className={postFooterClassName}>
+                    <div
+                        id='postCreateFooter'
+                        className={postFooterClassName}
+                    >
                         <MsgTyping
                             channelId={this.state.channelId}
                             parentId=''

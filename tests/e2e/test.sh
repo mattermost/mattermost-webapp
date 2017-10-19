@@ -42,26 +42,31 @@ function local_setup {
     selenium_start
     sleep 5
 
+    add_test_users
+}
+
+function add_test_users {
     message "Adding test users..."
     cd ../mattermost-server
+    PLATFORM_FILES=$( ls -1 ./cmd/platform/*.go | grep -v _test.go)
 
     echo "reset the database"
-    go run cmd/platform/*.go reset --confirm true
+    go run $PLATFORM_FILES reset --confirm true
 
     # echo "adding 'admin' user"
-    # go run cmd/platform/*.go user create --email admin@test.com --username admin --password passwd
+    # go run $PLATFORM_FILES user create --email admin@test.com --username admin --password passwd
     echo "adding 'test' user"
-    go run cmd/platform/*.go user create --email test@test.com --username test --password passwd
+    go run $PLATFORM_FILES user create --email test@test.com --username test --password passwd
     # echo "adding 'test2' user"
-    # go run cmd/platform/*.go user create --email test2@test.com --username test2 --password passwd
+    # go run $PLATFORM_FILES user create --email test2@test.com --username test2 --password passwd
     # echo "adding 'test3' user"
-    # go run cmd/platform/*.go user create --email test@3test.com --username test3 --password passwd
+    # go run $PLATFORM_FILES user create --email test3@test.com --username test3 --password passwd
     # echo "adding 'test4' user"
-    # go run cmd/platform/*.go user create --email test@4test.com --username test4 --password passwd
+    # go run $PLATFORM_FILES user create --email test4@test.com --username test4 --password passwd
     echo "adding 'ui-automation' team"
-    go run cmd/platform/*.go team create --name ui-automation --display_name "UI Automation" --email "test@test.com"
+    go run $PLATFORM_FILES team create --name ui-automation --display_name "UI Automation" --email "test@test.com"
     echo "adding users to 'ui-automation' team"
-    go run cmd/platform/*.go team add ui-automation test@test.com
+    go run $PLATFORM_FILES team add ui-automation test@test.com
 
     cd ../mattermost-webapp
     sleep 5

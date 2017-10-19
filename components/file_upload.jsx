@@ -386,7 +386,10 @@ class FileUpload extends React.Component {
         let fileDiv;
         if (FileUtils.canUploadFiles()) {
             fileDiv = (
-                <div className='icon icon--attachment'>
+                <div
+                    id='fileUploadButton'
+                    className='icon icon--attachment'
+                >
                     <span
                         dangerouslySetInnerHTML={{__html: Constants.ATTACHMENT_ICON_SVG}}
                     />

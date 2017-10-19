@@ -239,7 +239,10 @@ export default class PopoverListMembers extends React.Component {
         );
 
         return (
-            <div className={'channel-header__icon wide ' + (this.state.showPopover ? 'active' : '')}>
+            <div
+                id='channelMember'
+                className={'channel-header__icon wide ' + (this.state.showPopover ? 'active' : '')}
+            >
                 <OverlayTrigger
                     trigger={['hover', 'focus']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
@@ -255,8 +258,14 @@ export default class PopoverListMembers extends React.Component {
                             this.props.actions.getProfilesInChannel(this.props.channel.id, 0);
                         }}
                     >
-                        <span className='icon__text'>{countText}</span>
                         <span
+                            id='channelMemberCountText'
+                            className='icon__text'
+                        >
+                            {countText}
+                        </span>
+                        <span
+                            id='channelMemberIcon'
                             className='icon icon__members'
                             dangerouslySetInnerHTML={{__html: membersIcon}}
                             aria-hidden='true'
