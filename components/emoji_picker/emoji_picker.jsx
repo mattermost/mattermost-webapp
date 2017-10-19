@@ -322,22 +322,20 @@ export default class EmojiPicker extends React.Component {
     }
 
     generateList(filter) {
+        if (filter) {
+            return this.generateFilteredList(filter);
+        }
         let list = [];
 
         for (const category of Object.keys(this.categories)) {
-            if (filter && category === 'recent') {
-                continue;
-            }
             const emojis = this.getEmojis(category, filter);
 
             if (emojis.length) {
                 this.categories[category].offset = list.length * ROW_SIZE;
                 this.categories[category].enable = true;
 
-                if (!filter) {
-                    const emojiHeaderRow = this.generateEmojiHeaderRow(category);
-                    list.push(emojiHeaderRow);
-                }
+                const emojiHeaderRow = this.generateEmojiHeaderRow(category);
+                list.push(emojiHeaderRow);
 
                 const emojiRows = this.generateEmojiRows(emojis, category);
                 list = this.addEmojiRow(list, emojiRows);
@@ -346,6 +344,24 @@ export default class EmojiPicker extends React.Component {
 
         return list;
     }
+
+    generateFilteredList(filter) {
+        let emojis = [];
+
+        for (const category of Object.keys(this.categories)) {
+            if (category !== 'recent') {
+                emojis = emojis.concat(this.getEmojis(category, filter));
+            }
+        }
+
+        let list = [];
+        if (emojis.length) {
+            const emojiRows = this.generateEmojiRows(emojis, "searchResults");
+            list = this.addEmojiRow(list, emojiRows);
+        }
+
+        return list;
+    } 
 
     emojiCategories() {
         const categories = this.categories;
