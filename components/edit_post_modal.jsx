@@ -5,7 +5,6 @@ import $ from 'jquery';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
-import PropTypes from 'prop-types';
 
 import * as Selectors from 'mattermost-redux/selectors/entities/posts';
 
@@ -385,7 +384,3 @@ export default class EditPostModal extends React.Component {
         );
     }
 }
-
-EditPostModal.propTypes = {
-    getChannelView: PropTypes.func
-};
