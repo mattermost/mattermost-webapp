@@ -36,12 +36,12 @@ export default class RhsComment extends React.Component {
         isFlagged: PropTypes.bool,
         status: PropTypes.string,
         isBusy: PropTypes.bool,
-        removePost: PropTypes.func.isRequired
+        removePost: PropTypes.func.isRequired,
+        previewCollapsed: PropTypes.string.isRequired
     };
 
     constructor(props) {
         super(props);
-
         this.removePost = this.removePost.bind(this);
         this.reactEmojiClick = this.reactEmojiClick.bind(this);
         this.handleDropdownOpened = this.handleDropdownOpened.bind(this);
@@ -121,6 +121,10 @@ export default class RhsComment extends React.Component {
         }
 
         if (this.state.dropdownOpened !== nextState.dropdownOpened) {
+            return true;
+        }
+
+        if (this.props.previewCollapsed !== nextProps.previewCollapsed) {
             return true;
         }
 
@@ -460,7 +464,10 @@ export default class RhsComment extends React.Component {
                         <div className='post__body' >
                             <div className={postClass}>
                                 {failedPostOptions}
-                                <PostBodyAdditionalContent post={post}>
+                                <PostBodyAdditionalContent
+                                    post={post}
+                                    previewCollapsed={this.props.previewCollapsed}
+                                >
                                     <PostMessageContainer
                                         post={post}
                                         isRHS={true}
