@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import {defineMessages, FormattedDate, FormattedHTMLMessage, FormattedMessage, injectIntl, intlShape} from 'react-intl';
@@ -341,9 +339,6 @@ class UserSettingsGeneralTab extends React.Component {
     }
 
     updateSection(section) {
-        if ($('.section-max').length) {
-            $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
-        }
         const emailChangeInProgress = this.state.emailChangeInProgress;
         this.setState(Object.assign({}, this.setupInitialState(this.props), {emailChangeInProgress, clientError: '', serverError: '', emailError: '', sectionIsSaving: false}));
         this.submitActive = false;
@@ -707,9 +702,21 @@ class UserSettingsGeneralTab extends React.Component {
         if (this.props.activeSection === 'name') {
             let extraInfo;
             let submit = null;
-            if (this.props.user.auth_service === '' ||
-                 ((this.props.user.auth_service === 'ldap' || this.props.user.auth_service === Constants.SAML_SERVICE) &&
-                  (global.window.mm_config.FirstNameAttributeSet === 'false' || global.window.mm_config.LastNameAttributeSet === 'false'))) {
+            if (
+                (this.props.user.auth_service === 'ldap' &&
+                    (global.window.mm_config.LdapFristNameAttributeSet === 'true' || global.window.mm_config.LdapLastNameAttributeSet === 'true')) ||
+                (this.props.user.auth_service === Constants.SAML_SERVICE &&
+                    (global.window.mm_config.SamlFirstNameAttributeSet === 'true' || global.window.mm_config.SamlLastNameAttributeSet === 'true'))
+            ) {
+                extraInfo = (
+                    <span>
+                        <FormattedMessage
+                            id='user.settings.general.field_handled_externally'
+                            defaultMessage='This field is handled through your login provider. If you want to change it, you need to do so through your login provider.'
+                        />
+                    </span>
+                );
+            } else {
                 inputs.push(
                     <div
                         key='firstNameSetting'
@@ -787,15 +794,6 @@ class UserSettingsGeneralTab extends React.Component {
                 );
 
                 submit = this.submitName;
-            } else {
-                extraInfo = (
-                    <span>
-                        <FormattedMessage
-                            id='user.settings.general.field_handled_externally'
-                            defaultMessage='This field is handled through your login provider. If you want to change it, you need to do so through your login provider.'
-                        />
-                    </span>
-                );
             }
 
             nameSection = (
@@ -854,7 +852,7 @@ class UserSettingsGeneralTab extends React.Component {
         if (this.props.activeSection === 'nickname') {
             let extraInfo;
             let submit = null;
-            if ((this.props.user.auth_service === 'ldap' || this.props.user.auth_service === Constants.SAML_SERVICE) && global.window.mm_config.NicknameAttributeSet === 'true') {
+            if ((this.props.user.auth_service === 'ldap' && global.window.mm_config.LdapNicknameAttributeSet) || (this.props.user.auth_service === Constants.SAML_SERVICE && global.window.mm_config.LdapNicknameAttributeSet)) {
                 extraInfo = (
                     <span>
                         <FormattedMessage

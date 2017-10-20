@@ -16,6 +16,7 @@ import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 
 import {Constants, WebrtcActionTypes} from 'utils/constants.jsx';
+import {useSafeUrl} from 'utils/url';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -472,7 +473,7 @@ export default class SidebarHeaderDropdown extends React.Component {
                     <Link
                         target='_blank'
                         rel='noopener noreferrer'
-                        to={global.window.mm_config.AppDownloadLink}
+                        to={useSafeUrl(global.window.mm_config.AppDownloadLink)}
                     >
                         <FormattedMessage
                             id='navbar_dropdown.nativeApps'

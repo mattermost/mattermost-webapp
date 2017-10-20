@@ -14,6 +14,7 @@ import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
 import {Constants, Preferences} from 'utils/constants.jsx';
+import {useSafeUrl} from 'utils/url.jsx';
 
 import AppIcons from 'images/appIcons.png';
 
@@ -119,7 +120,9 @@ export default class TutorialIntroScreens extends React.Component {
 
         let appDownloadLink = null;
         let appDownloadImage = null;
-        if (global.window.mm_config.AppDownloadLink) {
+        if (global.mm_config.AppDownloadLink) {
+            const link = useSafeUrl(global.mm_config.AppDownloadLink);
+
             // not using a FormattedHTMLMessage here since mm_config.AppDownloadLink is configurable and could be used
             // to inject HTML if we're not careful
             appDownloadLink = (
@@ -129,7 +132,7 @@ export default class TutorialIntroScreens extends React.Component {
                     values={{
                         link: (
                             <a
-                                href={global.window.mm_config.AppDownloadLink}
+                                href={link}
                                 target='_blank'
                                 rel='noopener noreferrer'
                             >
@@ -145,7 +148,7 @@ export default class TutorialIntroScreens extends React.Component {
 
             appDownloadImage = (
                 <a
-                    href={global.window.mm_config.AppDownloadLink}
+                    href={link}
                     target='_blank'
                     rel='noopener noreferrer'
                 >

@@ -6,8 +6,13 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router/es6';
 
+import AboutBuildModal from 'components/about_build_modal';
+import AddUsersToTeam from 'components/add_users_to_team';
+import {createMenuTip} from 'components/tutorial/tutorial_tip.jsx';
+
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {getFlaggedPosts} from 'actions/post_actions.jsx';
+
 import PreferenceStore from 'stores/preference_store.jsx';
 import SearchStore from 'stores/search_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
@@ -15,12 +20,9 @@ import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 
 import {Constants, WebrtcActionTypes} from 'utils/constants.jsx';
+import {useSafeUrl} from 'utils/url.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-
-import AboutBuildModal from 'components/about_build_modal';
-import AddUsersToTeam from 'components/add_users_to_team';
-import {createMenuTip} from 'components/tutorial/tutorial_tip.jsx';
 
 import TeamMembersModal from './team_members_modal.jsx';
 import ToggleModalButton from './toggle_modal_button.jsx';
@@ -413,7 +415,7 @@ export default class SidebarRightMenu extends React.Component {
                     <Link
                         target='_blank'
                         rel='noopener noreferrer'
-                        to={global.window.mm_config.AppDownloadLink}
+                        to={useSafeUrl(global.window.mm_config.AppDownloadLink)}
                     >
                         <i className='icon fa fa-mobile'/>
                         <FormattedMessage

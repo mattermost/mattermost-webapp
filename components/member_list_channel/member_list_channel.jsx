@@ -51,7 +51,7 @@ export default class MemberListChannel extends React.Component {
     }
 
     componentDidMount() {
-        UserStore.addInTeamChangeListener(this.onChange);
+        UserStore.addInChannelChangeListener(this.onChange);
         UserStore.addStatusesChangeListener(this.onChange);
         TeamStore.addChangeListener(this.onChange);
         ChannelStore.addChangeListener(this.onChange);

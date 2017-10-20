@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedDate, FormattedHTMLMessage, FormattedMessage, FormattedTime} from 'react-intl';
@@ -514,7 +512,6 @@ export default class SecurityTab extends React.Component {
                 this.props.updateSection('');
                 this.setState({currentPassword: '', newPassword: '', confirmPassword: '', serverError: null, passwordError: null});
                 e.preventDefault();
-                $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
             }.bind(this);
 
             return (

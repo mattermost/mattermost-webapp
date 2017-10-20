@@ -5,9 +5,8 @@ import {connect} from 'react-redux';
 
 import {Preferences} from 'mattermost-redux/constants';
 import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
-import {getBool, getTheme} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserMentionKeys, getUsersByUsername} from 'mattermost-redux/selectors/entities/users';
+import {getTheme, getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUser, getCurrentUserMentionKeys, getUsersByUsername} from 'mattermost-redux/selectors/entities/users';
 
 import {EmojiMap} from 'stores/emoji_store.jsx';
 
@@ -26,6 +25,8 @@ function makeMapStateToProps() {
         }
         oldCustomEmoji = newCustomEmoji;
 
+        const user = getCurrentUser(state);
+
         return {
             ...ownProps,
             emojis: emojiMap,
@@ -35,7 +36,8 @@ function makeMapStateToProps() {
             team: getCurrentTeam(state),
             siteUrl: getSiteURL(),
             theme: getTheme(state),
-            pluginPostTypes: state.plugins.postTypes
+            pluginPostTypes: state.plugins.postTypes,
+            currentUser: user
         };
     };
 }

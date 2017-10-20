@@ -236,8 +236,9 @@ export default class EmojiPicker extends React.Component {
         this.setState({activeCategory});
     }
 
-    handleLoadedItems = (loadedItems) => {
+    handleLoadedItems = (loadedItems = []) => {
         if (!this.state.filter) {
+            loadedItems.sort((a, b) => a - b);
             EmojiStore.saveEmojiItems(loadedItems);
         }
     }

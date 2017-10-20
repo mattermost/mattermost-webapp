@@ -87,7 +87,12 @@ export default class PostMessageView extends React.PureComponent {
         /*
          * Post type components from plugins
          */
-        pluginPostTypes: PropTypes.object
+        pluginPostTypes: PropTypes.object,
+
+        /**
+         * The logged in user
+         */
+        currentUser: PropTypes.object.isRequired
     };
 
     static defaultProps = {
@@ -200,10 +205,12 @@ export default class PostMessageView extends React.PureComponent {
             }
         }
 
+        const mentionKeys = [...this.props.mentionKeys, this.props.currentUser.username];
+
         const options = Object.assign({}, this.props.options, {
             emojis: this.props.emojis,
             siteURL: this.props.siteUrl,
-            mentionKeys: this.props.mentionKeys,
+            mentionKeys,
             atMentions: true,
             channelNamesMap: getChannelsNameMapInCurrentTeam(store.getState()),
             team: this.props.team

@@ -60,7 +60,7 @@ export default class PostList extends React.PureComponent {
         /**
          * Set to focus this post
          */
-        focusedPostId: PropTypes.array,
+        focusedPostId: PropTypes.string,
 
         /**
          * Whether to display the channel intro at full width

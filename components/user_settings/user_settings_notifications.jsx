@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -154,7 +152,6 @@ export default class NotificationsTab extends React.Component {
             data,
             () => {
                 this.props.updateSection('');
-                $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
             },
             (err) => {
                 this.setState({serverError: err.message, isSaving: false});
@@ -166,7 +163,6 @@ export default class NotificationsTab extends React.Component {
         e.preventDefault();
         this.updateState();
         this.props.updateSection('');
-        $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
     }
 
     setStateValue(key, value) {
