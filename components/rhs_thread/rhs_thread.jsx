@@ -62,6 +62,7 @@ export default class RhsThread extends React.Component {
         toggleSize: PropTypes.func,
         shrink: PropTypes.func,
         previewCollapsed: PropTypes.string.isRequired,
+        previewEnabled: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             removePost: PropTypes.func.isRequired
         }).isRequired
@@ -96,7 +97,6 @@ export default class RhsThread extends React.Component {
         state.flaggedPosts = PreferenceStore.getCategory(Constants.Preferences.CATEGORY_FLAGGED_POST);
         state.statuses = Object.assign({}, UserStore.getStatuses());
         state.previewsCollapsed = PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, 'false');
-        state.previewEnabled = PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT) === 'true';
         state.isBusy = WebrtcStore.isBusy();
 
         this.state = {
@@ -170,7 +170,7 @@ export default class RhsThread extends React.Component {
             return true;
         }
 
-        if (nextState.previewEnabled !== this.state.previewEnabled) {
+        if (nextProps.previewEnabled !== this.props.previewEnabled) {
             return true;
         }
 
@@ -242,8 +242,7 @@ export default class RhsThread extends React.Component {
         this.setState({
             compactDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
             flaggedPosts: PreferenceStore.getCategory(Constants.Preferences.CATEGORY_FLAGGED_POST),
-            previewsCollapsed: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, 'false') + previewSuffix,
-            previewEnabled: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT) === 'true'
+            previewsCollapsed: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, 'false') + previewSuffix
         });
         this.forceUpdateInfo();
     }
@@ -479,7 +478,7 @@ export default class RhsThread extends React.Component {
                             isFlagged={isRootFlagged}
                             status={rootStatus}
                             previewCollapsed={this.state.previewsCollapsed}
-                            previewEnabled={this.state.previewEnabled}
+                            previewEnabled={this.props.previewEnabled}
                             isBusy={this.state.isBusy}
                         />
                         <div
