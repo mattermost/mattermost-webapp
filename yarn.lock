@@ -5409,9 +5409,9 @@ math-expression-evaluator@^1.2.14:
   version "1.2.16"
   resolved "https://registry.yarnpkg.com/math-expression-evaluator/-/math-expression-evaluator-1.2.16.tgz#b357fa1ca9faefb8e48d10c14ef2bcb2d9f0a7c9"
 
-mattermost-redux@mattermost/mattermost-redux#webapp-4.3:
+mattermost-redux@mattermost/mattermost-redux#master:
   version "0.0.1"
-  resolved "https://codeload.github.com/mattermost/mattermost-redux/tar.gz/9c9600a4be140fe975be9acdc3f78614f6bdda8b"
+  resolved "https://codeload.github.com/mattermost/mattermost-redux/tar.gz/f6d97c8a49e9402fcb5d72604751c9a5ae6d7e5a"
   dependencies:
     deep-equal "1.0.1"
     harmony-reflect "1.5.1"
@@ -5425,6 +5425,7 @@ mattermost-redux@mattermost/mattermost-redux#webapp-4.3:
     redux-thunk "2.2.0"
     reselect "3.0.1"
     serialize-error "2.1.0"
+    shallow-equals "1.0.0"
 
 media-typer@0.3.0:
   version "0.3.0"
@@ -7629,6 +7630,10 @@ shallow-clone@^0.1.2:
     kind-of "^2.0.1"
     lazy-cache "^0.2.3"
     mixin-object "^2.0.1"
+
+shallow-equals@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/shallow-equals/-/shallow-equals-1.0.0.tgz#24b74bf1c634c11ed4c7182a6df6fb300dce4390"
 
 shebang-command@^1.2.0:
   version "1.2.0"

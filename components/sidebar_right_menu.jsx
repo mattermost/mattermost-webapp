@@ -6,10 +6,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router/es6';
 
-import AboutBuildModal from 'components/about_build_modal';
-import AddUsersToTeam from 'components/add_users_to_team';
-import {createMenuTip} from 'components/tutorial/tutorial_tip.jsx';
-
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {getFlaggedPosts} from 'actions/post_actions.jsx';
 
@@ -23,6 +19,10 @@ import {Constants, WebrtcActionTypes} from 'utils/constants.jsx';
 import {useSafeUrl} from 'utils/url.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
+
+import AboutBuildModal from 'components/about_build_modal';
+import AddUsersToTeam from 'components/add_users_to_team';
+import {createMenuTip} from 'components/tutorial/tutorial_tip.jsx';
 
 import TeamMembersModal from './team_members_modal.jsx';
 import ToggleModalButton from './toggle_modal_button.jsx';
