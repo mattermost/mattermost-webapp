@@ -5,82 +5,106 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {deleteOutgoingHook, loadOutgoingHooksForTeam, regenOutgoingHookToken} from 'actions/integration_actions.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
-import IntegrationStore from 'stores/integration_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
-
 import * as Utils from 'utils/utils.jsx';
+import Constants from 'utils/constants.jsx';
 
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
 
-import InstalledOutgoingWebhook from './installed_outgoing_webhook.jsx';
+import InstalledOutgoingWebhook from 'components/integrations/components/installed_outgoing_webhook.jsx';
 
-export default class InstalledOutgoingWebhooks extends React.Component {
-    static get propTypes() {
-        return {
-            team: PropTypes.object,
-            user: PropTypes.object,
-            isAdmin: PropTypes.bool
-        };
+export default class InstalledOutgoingWebhooks extends React.PureComponent {
+    static propTypes = {
+
+        /**
+        *  Data used in passing down as props for webhook modifications
+        */
+        team: PropTypes.object,
+
+        /**
+        * Data used for checking if webhook is created by current user
+        */
+        user: PropTypes.object,
+
+        /**
+        *  Data used for checking modification privileges
+        */
+        isAdmin: PropTypes.bool,
+
+        /**
+        * Data used in passing down as props for showing webhook details
+        */
+        outgoingWebhooks: PropTypes.object,
+
+        /**
+        * Data used in sorting for displaying list and as props channel details
+        */
+        channels: PropTypes.object,
+
+        /**
+        *  Data used in passing down as props for webhook -created by label
+        */
+        users: PropTypes.object,
+
+        /**
+        *  Data used in passing as argument for loading webhooks
+        */
+        teamId: PropTypes.string,
+
+        actions: PropTypes.shape({
+
+            /**
+            * The function to call for removing outgoingWebhook
+            */
+            removeOutgoingHook: PropTypes.func,
+
+            /**
+            * The function to call for outgoingWebhook List and for the status of api
+            */
+            getOutgoingHooks: PropTypes.func,
+
+            /**
+            * The function to call for regeneration of webhook token
+            */
+            regenOutgoingHookToken: PropTypes.func
+        })
+
     }
 
     constructor(props) {
         super(props);
 
-        this.handleIntegrationChange = this.handleIntegrationChange.bind(this);
-        this.handleUserChange = this.handleUserChange.bind(this);
-        this.regenOutgoingWebhookToken = this.regenOutgoingWebhookToken.bind(this);
-        this.deleteOutgoingWebhook = this.deleteOutgoingWebhook.bind(this);
-
-        const teamId = TeamStore.getCurrentId();
+        this.outgoingWebhookCompare = this.outgoingWebhookCompare.bind(this);
 
         this.state = {
-            outgoingWebhooks: IntegrationStore.getOutgoingWebhooks(teamId),
-            loading: !IntegrationStore.hasReceivedOutgoingWebhooks(teamId),
-            users: UserStore.getProfiles()
+            loading: true
         };
     }
 
     componentDidMount() {
-        IntegrationStore.addChangeListener(this.handleIntegrationChange);
-        UserStore.addChangeListener(this.handleUserChange);
-
         if (window.mm_config.EnableOutgoingWebhooks === 'true') {
-            loadOutgoingHooksForTeam(TeamStore.getCurrentId(), () => this.setState({loading: false}));
+            this.props.actions.getOutgoingHooks(
+              '',
+              this.props.teamId,
+              Constants.Integrations.START_PAGE_NUM,
+              Constants.Integrations.PAGE_SIZE
+            ).then(
+              () => this.setState({loading: false})
+            );
         }
     }
 
-    componentWillUnmount() {
-        IntegrationStore.removeChangeListener(this.handleIntegrationChange);
-        UserStore.removeChangeListener(this.handleUserChange);
+    regenOutgoingWebhookToken = (outgoingWebhook) => {
+        this.props.actions.regenOutgoingHookToken(outgoingWebhook.id);
     }
 
-    handleIntegrationChange() {
-        const teamId = TeamStore.getCurrentId();
-
-        this.setState({
-            outgoingWebhooks: IntegrationStore.getOutgoingWebhooks(teamId)
-        });
-    }
-
-    handleUserChange() {
-        this.setState({users: UserStore.getProfiles()});
-    }
-
-    regenOutgoingWebhookToken(outgoingWebhook) {
-        regenOutgoingHookToken(outgoingWebhook.id);
-    }
-
-    deleteOutgoingWebhook(outgoingWebhook) {
-        deleteOutgoingHook(outgoingWebhook.id);
+    removeOutgoingHook = (outgoingWebhook) => {
+        this.props.actions.removeOutgoingHook(outgoingWebhook.id);
     }
 
     outgoingWebhookCompare(a, b) {
         let displayNameA = a.display_name;
         if (!displayNameA) {
-            const channelA = ChannelStore.get(a.channel_id);
+            const channelA = this.props.channels[a.channel_id];
             if (channelA) {
                 displayNameA = channelA.display_name;
             } else {
@@ -90,30 +114,31 @@ export default class InstalledOutgoingWebhooks extends React.Component {
 
         let displayNameB = b.display_name;
         if (!displayNameB) {
-            const channelB = ChannelStore.get(b.channel_id);
+            const channelB = this.props.channels[b.channel_id];
             if (channelB) {
                 displayNameB = channelB.display_name;
             } else {
                 displayNameB = Utils.localizeMessage('installed_outgoing_webhooks.unknown_channel', 'A Private Webhook');
             }
         }
-
         return displayNameA.localeCompare(displayNameB);
     }
 
     render() {
-        const outgoingWebhooks = this.state.outgoingWebhooks.sort(this.outgoingWebhookCompare).map((outgoingWebhook) => {
+        const outgoingWebhooksArray = Object.keys(this.props.outgoingWebhooks).map((key) => this.props.outgoingWebhooks[key]);
+        const outgoingWebhooks = outgoingWebhooksArray.sort(this.outgoingWebhookCompare).map((outgoingWebhook) => {
             const canChange = this.props.isAdmin || this.props.user.id === outgoingWebhook.creator_id;
-
+            const channel = this.props.channels[outgoingWebhook.channel_id];
             return (
                 <InstalledOutgoingWebhook
                     key={outgoingWebhook.id}
                     outgoingWebhook={outgoingWebhook}
-                    onRegenToken={this.regenOutgoingWebhookToken}
-                    onDelete={this.deleteOutgoingWebhook}
-                    creator={this.state.users[outgoingWebhook.creator_id] || {}}
+                    onRegenToken={() => this.regenOutgoingWebhookToken(outgoingWebhook)}
+                    onDelete={() => this.removeOutgoingHook(outgoingWebhook)}
+                    creator={this.props.users[outgoingWebhook.creator_id] || {}}
                     canChange={canChange}
                     team={this.props.team}
+                    channel={channel}
                 />
             );
         });
