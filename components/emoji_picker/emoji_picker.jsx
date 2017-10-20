@@ -18,6 +18,8 @@ import EmojiList from './emoji_list.jsx';
 
 const ROW_SIZE = 30;
 const EMOJI_PER_ROW = 9;
+const CATEGORY_SEARCH_RESULTS = 'searchResults';
+
 export default class EmojiPicker extends React.Component {
     static propTypes = {
         style: PropTypes.object,
@@ -169,10 +171,12 @@ export default class EmojiPicker extends React.Component {
         const list = this.generateList(filter);
 
         let activeCategory = 'recent';
-        for (const category of Object.keys(this.categories)) {
-            if (this.categories[category].enable) {
-                activeCategory = this.categories[category].name;
-                break;
+        if (!filter) {
+            for (const category of Object.keys(this.categories)) {
+                if (this.categories[category].enable) {
+                    activeCategory = this.categories[category].name;
+                    break;
+                }
             }
         }
 
@@ -217,6 +221,10 @@ export default class EmojiPicker extends React.Component {
 
     handleOnScroll(offset) {
         let activeCategory = 'recent';
+        if (this.state.filter) {
+            this.setState({activeCategory});
+            return;
+        }
         for (const cat of Object.keys(this.categories)) {
             if (offset < this.categories[cat].offset) {
                 break;
@@ -316,6 +324,9 @@ export default class EmojiPicker extends React.Component {
     }
 
     generateList(filter) {
+        if (filter) {
+            return this.generateFilteredList(filter);
+        }
         let list = [];
 
         for (const category of Object.keys(this.categories)) {
@@ -331,6 +342,27 @@ export default class EmojiPicker extends React.Component {
                 const emojiRows = this.generateEmojiRows(emojis, category);
                 list = this.addEmojiRow(list, emojiRows);
             }
+        }
+
+        return list;
+    }
+
+    generateFilteredList(filter) {
+        let emojis = [];
+
+        for (const category of Object.keys(this.categories)) {
+            if (category !== 'recent') {
+                emojis = emojis.concat(this.getEmojis(category, filter));
+            }
+        }
+
+        let list = [];
+        if (emojis.length) {
+            const emojiHeaderRow = this.generateEmojiHeaderRow(CATEGORY_SEARCH_RESULTS);
+            list.push(emojiHeaderRow);
+
+            const emojiRows = this.generateEmojiRows(emojis, CATEGORY_SEARCH_RESULTS);
+            list = this.addEmojiRow(list, emojiRows);
         }
 
         return list;
