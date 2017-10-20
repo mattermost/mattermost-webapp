@@ -278,22 +278,36 @@ export default class ElasticsearchSettings extends AdminSettings {
                     }}
                     disabled={!this.state.enableIndexing}
                 />
-                <JobsTable
-                    jobType={JobTypes.ELASTICSEARCH_POST_INDEXING}
-                    disabled={!this.state.canPurgeAndIndex}
-                    createJobButtonText={
+                <div className='form-group'>
+                    <label
+                        className='control-label col-sm-4'
+                    >
                         <FormattedMessage
-                            id='admin.elasticsearch.createJob.title'
-                            defaultMessage='Index Now'
+                            id='admin.elasticsearch.bulkIndexingTitle'
+                            defaultMessage='Bulk Indexing:'
                         />
-                    }
-                    createJobHelpText={
-                        <FormattedMessage
-                            id='admin.elasticsearch.createJob.help'
-                            defaultMessage='Initiates a full Elasticsearch indexing job immediately.'
-                        />
-                    }
-                />
+                    </label>
+                    <div className='col-sm-8'>
+                        <div className='job-table-setting'>
+                            <JobsTable
+                                jobType={JobTypes.ELASTICSEARCH_POST_INDEXING}
+                                disabled={!this.state.canPurgeAndIndex}
+                                createJobButtonText={
+                                    <FormattedMessage
+                                        id='admin.elasticsearch.createJob.title'
+                                        defaultMessage='Index Now'
+                                    />
+                                }
+                                createJobHelpText={
+                                    <FormattedMessage
+                                        id='admin.elasticsearch.createJob.help'
+                                        defaultMessage='All posts in the database will be indexed from oldest to newest. Elasticsearch is available during indexing but search results may be incomplete until the indexing job is complete.'
+                                    />
+                                }
+                            />
+                        </div>
+                    </div>
+                </div>
                 <RequestButton
                     requestAction={elasticsearchPurgeIndexes}
                     helpText={
