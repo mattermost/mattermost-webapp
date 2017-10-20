@@ -18,7 +18,6 @@ import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
 const ActionTypes = Constants.ActionTypes;
 
 const FOCUSED_POST_CHANGE = 'focused_post_change';
-const EDIT_POST_EVENT = 'edit_post';
 const POST_PINNED_CHANGE_EVENT = 'post_pinned_change';
 
 const dispatch = store.dispatch;
@@ -41,18 +40,6 @@ class PostStoreClass extends EventEmitter {
 
     removePostFocusedListener(callback) {
         this.removeListener(FOCUSED_POST_CHANGE, callback);
-    }
-
-    emitEditPost(post) {
-        this.emit(EDIT_POST_EVENT, post);
-    }
-
-    addEditPostListener(callback) {
-        this.on(EDIT_POST_EVENT, callback);
-    }
-
-    removeEditPostListner(callback) {
-        this.removeListener(EDIT_POST_EVENT, callback);
     }
 
     emitPostPinnedChange() {
@@ -227,7 +214,7 @@ PostStore.dispatchToken = AppDispatcher.register((payload) => {
         PostStore.clearFocusedPost();
         break;
     case ActionTypes.RECEIVED_EDIT_POST:
-        PostStore.emitEditPost(action);
+        dispatch({...action, type: ActionTypes.EDIT_POST});
         break;
     case ActionTypes.RECEIVED_POST_SELECTED:
         dispatch({...action, type: ActionTypes.SELECT_POST});
