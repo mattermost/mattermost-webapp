@@ -108,7 +108,7 @@ export default class GitLabSettings extends AdminSettings {
                     placeholder={Utils.localizeMessage('admin.gitlab.clientSecretExample', 'Ex "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"')}
                     helpText={
                         <FormattedMessage
-                            id='admin.gitab.clientSecretDescription'
+                            id='admin.gitlab.clientSecretDescription'
                             defaultMessage='Obtain this value via the instructions above for logging into GitLab.'
                         />
                     }
