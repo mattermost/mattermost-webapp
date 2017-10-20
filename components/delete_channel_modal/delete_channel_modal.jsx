@@ -7,29 +7,51 @@ import {Modal} from 'react-bootstrap';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import {browserHistory} from 'react-router/es6';
 
-import {deleteChannel} from 'actions/channel_actions.jsx';
-import TeamStore from 'stores/team_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 
-export default class DeleteChannelModal extends React.Component {
+export default class DeleteChannelModal extends React.PureComponent {
+    static propTypes = {
+
+        /**
+        * Function called when modal is dismissed
+        */
+        onHide: PropTypes.func.isRequired,
+
+        /**
+         * channel data
+         */
+        channel: PropTypes.object.isRequired,
+
+        /**
+         * currentTeamDetails used for redirection after deleting channel
+         */
+        currentTeamDetails: PropTypes.object.isRequired,
+
+        actions: PropTypes.shape({
+
+            /**
+            * Function called for deleting channel,
+            */
+
+            deleteChannel: PropTypes.func.isRequired
+        })
+    }
+
     constructor(props) {
         super(props);
 
         this.handleDelete = this.handleDelete.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
         this.onHide = this.onHide.bind(this);
-
         this.state = {show: true};
     }
 
     handleDelete() {
-        if (this.props.channel.id.length !== 26) {
+        if (this.props.channel.id.length !== Constants.CHANNEL_ID_LENGTH) {
             return;
         }
-
-        browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/town-square');
-        deleteChannel(this.props.channel.id);
+        browserHistory.push('/' + this.props.currentTeamDetails.name + '/channels/' + Constants.DEFAULT_CHANNEL);
+        this.props.actions.deleteChannel(this.props.channel.id);
         this.onHide();
     }
 
@@ -97,8 +119,3 @@ export default class DeleteChannelModal extends React.Component {
         );
     }
 }
-
-DeleteChannelModal.propTypes = {
-    onHide: PropTypes.func.isRequired,
-    channel: PropTypes.object.isRequired
-};
