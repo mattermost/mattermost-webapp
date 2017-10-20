@@ -49,6 +49,8 @@ export default class FileAttachment extends React.Component {
             const thumbnailUrl = getFileThumbnailUrl(fileInfo.id);
 
             Utils.loadImage(thumbnailUrl, this.handleImageLoaded);
+        } else if (fileInfo.extesnion === 'svg') {
+            Utils.loadImage(getFileUrl(fileInfo.id), this.handleImageLoaded);
         }
     }
 
@@ -87,6 +89,13 @@ export default class FileAttachment extends React.Component {
                         style={{
                             backgroundImage: `url(${getFileThumbnailUrl(fileInfo.id)})`
                         }}
+                    />
+                );
+            } else if (fileInfo.extension === 'svg') {
+                thumbnail = (
+                    <img
+                        className='post-image normal'
+                        src={getFileUrl(fileInfo.id)}
                     />
                 );
             } else {
