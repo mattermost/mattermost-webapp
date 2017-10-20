@@ -7,9 +7,9 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router/es6';
 
 import {addReaction, emitEmojiPosted} from 'actions/post_actions.jsx';
+import UserStore from 'stores/user_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 
 import Constants from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
@@ -37,6 +37,7 @@ export default class RhsRootPost extends React.Component {
         isFlagged: PropTypes.bool,
         status: PropTypes.string,
         previewCollapsed: PropTypes.string,
+        previewEnabled: PropTypes.bool,
         isBusy: PropTypes.bool
     }
 
@@ -94,6 +95,10 @@ export default class RhsRootPost extends React.Component {
         }
 
         if (nextProps.previewCollapsed !== this.props.previewCollapsed) {
+            return true;
+        }
+
+        if (nextProps.previewEnabled !== this.props.previewEnabled) {
             return true;
         }
 
@@ -451,6 +456,7 @@ export default class RhsRootPost extends React.Component {
                                 <PostBodyAdditionalContent
                                     post={post}
                                     previewCollapsed={this.props.previewCollapsed}
+                                    previewEnabled={this.props.previewEnabled}
                                 >
                                     <PostMessageContainer
                                         post={post}

@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {makeGetPostsForThread} from 'mattermost-redux/selectors/entities/posts';
-import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {get, getBool} from 'mattermost-redux/selectors/entities/preferences';
 
 import {removePost} from 'mattermost-redux/actions/posts';
 
@@ -29,7 +29,8 @@ function makeMapStateToProps() {
             ...ownProps,
             selected,
             posts,
-            previewCollapsed: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, 'false')
+            previewCollapsed: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, 'false'),
+            previewEnabled: getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, true)
         };
     };
 }

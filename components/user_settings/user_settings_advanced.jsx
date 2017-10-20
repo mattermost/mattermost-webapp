@@ -57,14 +57,9 @@ export default class AdvancedSettingsDisplay extends React.Component {
         };
 
         const webrtcEnabled = global.mm_config.EnableWebrtc === 'true';
-        const linkPreviewsEnabled = global.mm_config.EnableLinkPreviews === 'true';
 
         if (!webrtcEnabled) {
             preReleaseFeaturesKeys = preReleaseFeaturesKeys.filter((f) => f !== 'WEBRTC_PREVIEW');
-        }
-
-        if (!linkPreviewsEnabled) {
-            preReleaseFeaturesKeys = preReleaseFeaturesKeys.filter((f) => f !== 'EMBED_PREVIEW');
         }
 
         let enabledFeatures = 0;
@@ -343,13 +338,6 @@ export default class AdvancedSettingsDisplay extends React.Component {
                 <FormattedMessage
                     id='user.settings.advance.markdown_preview'
                     defaultMessage='Show markdown preview option in message input box'
-                />
-            );
-        case 'EMBED_PREVIEW':
-            return (
-                <FormattedMessage
-                    id='user.settings.advance.embed_preview'
-                    defaultMessage='For the first web link in a message, display a preview of website content below the message, if available'
                 />
             );
         case 'WEBRTC_PREVIEW':

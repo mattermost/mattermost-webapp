@@ -58,6 +58,11 @@ export default class PostBody extends React.PureComponent {
         previewCollapsed: PropTypes.string,
 
         /**
+         * User's preference to link previews
+         */
+        previewEnabled: PropTypes.bool,
+
+        /**
          * Post identifiers for selenium tests
          */
         lastPostCount: PropTypes.number
@@ -176,6 +181,7 @@ export default class PostBody extends React.PureComponent {
                 <PostBodyAdditionalContent
                     post={this.props.post}
                     previewCollapsed={this.props.previewCollapsed}
+                    previewEnabled={this.props.previewEnabled}
                 >
                     {messageWrapper}
                 </PostBodyAdditionalContent>

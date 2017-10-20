@@ -29,7 +29,8 @@ function getDisplayStateFromStores() {
         militaryTime: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, 'use_military_time', 'false'),
         channelDisplayMode: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT),
         messageDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT),
-        collapseDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, Preferences.COLLAPSE_DISPLAY_DEFAULT)
+        collapseDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, Preferences.COLLAPSE_DISPLAY_DEFAULT),
+        linkPreviewDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT)
     };
 }
 
@@ -41,7 +42,6 @@ export default class UserSettingsDisplay extends React.Component {
         this.handleClockRadio = this.handleClockRadio.bind(this);
         this.updateSection = this.updateSection.bind(this);
         this.updateState = this.updateState.bind(this);
-        this.createCollapseSection = this.createCollapseSection.bind(this);
 
         this.state = getDisplayStateFromStores();
         this.setState({isSaving: false});
@@ -75,10 +75,16 @@ export default class UserSettingsDisplay extends React.Component {
             name: Preferences.COLLAPSE_DISPLAY,
             value: this.state.collapseDisplay
         };
+        const linkPreviewDisplayPreference = {
+            user_id: userId,
+            category: Preferences.CATEGORY_DISPLAY_SETTINGS,
+            name: Preferences.LINK_PREVIEW_DISPLAY,
+            value: this.state.linkPreviewDisplay
+        };
 
         this.setState({isSaving: true});
 
-        savePreferences([timePreference, channelDisplayModePreference, messageDisplayPreference, collapseDisplayPreference],
+        savePreferences([timePreference, channelDisplayModePreference, messageDisplayPreference, collapseDisplayPreference, linkPreviewDisplayPreference],
             () => {
                 this.updateSection('');
             }
@@ -101,6 +107,14 @@ export default class UserSettingsDisplay extends React.Component {
         this.setState({collapseDisplay});
     }
 
+    handleLinkPreviewRadio(linkPreviewDisplay) {
+        this.setState({linkPreviewDisplay});
+    }
+
+    handleOnChange(display) {
+        this.setState({...display});
+    }
+
     updateSection(section) {
         if ($('.section-max').length) {
             $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
@@ -118,455 +132,321 @@ export default class UserSettingsDisplay extends React.Component {
         this.setState({isSaving: false});
     }
 
-    createCollapseSection() {
-        if (this.props.activeSection === 'collapse') {
-            const collapseFormat = [false, false];
-            if (this.state.collapseDisplay === 'false') {
-                collapseFormat[0] = true;
+    createSection(props) {
+        const {
+            section,
+            display,
+            value,
+            title,
+            firstOption,
+            secondOption,
+            description
+        } = props;
+
+        const firstMessage = (
+            <FormattedMessage
+                id={firstOption.radionButtonText.id}
+                defaultMessage={firstOption.radionButtonText.message}
+            />
+        );
+
+        let moreColon;
+        let firstMessageMore;
+        if (firstOption.radionButtonText.moreId) {
+            moreColon = ': ';
+            firstMessageMore = (
+                <span className='font-weight--normal'>
+                    <FormattedMessage
+                        id={firstOption.radionButtonText.moreId}
+                        defaultMessage={firstOption.radionButtonText.moreMessage}
+                    />
+                </span>
+            );
+        }
+
+        let secondMessageMore;
+        if (secondOption.radionButtonText.moreId) {
+            secondMessageMore = (
+                <span className='font-weight--normal'>
+                    <FormattedMessage
+                        id={secondOption.radionButtonText.moreId}
+                        defaultMessage={secondOption.radionButtonText.moreMessage}
+                    />
+                </span>
+            );
+        }
+
+        const secondMessage = (
+            <FormattedMessage
+                id={secondOption.radionButtonText.id}
+                defaultMessage={secondOption.radionButtonText.message}
+            />
+        );
+
+        const messageTitle = (
+            <FormattedMessage
+                id={title.id}
+                defaultMessage={title.message}
+            />
+        );
+
+        const messageDesc = (
+            <FormattedMessage
+                id={description.id}
+                defaultMessage={description.message}
+            />
+        );
+
+        if (this.props.activeSection === section) {
+            const format = [false, false];
+            if (value === firstOption.value) {
+                format[0] = true;
             } else {
-                collapseFormat[1] = true;
+                format[1] = true;
             }
 
-            const handleUpdateCollapseSection = (e) => {
+            const handleUpdateSection = (e) => {
                 this.updateSection('');
                 e.preventDefault();
             };
 
+            const name = section + 'Format';
+            const key = section + 'UserDisplay';
+
+            const firstDisplay = {};
+            firstDisplay[display] = firstOption.value;
+
+            const secondDisplay = {};
+            secondDisplay[display] = secondOption.value;
+
             const inputs = [
-                <div key='userDisplayCollapseOptions'>
+                <div key={key}>
                     <div className='radio'>
                         <label>
                             <input
-                                id='collapseFormat'
+                                id={name + 'A'}
                                 type='radio'
-                                name='collapseFormat'
-                                checked={collapseFormat[0]}
-                                onChange={this.handleCollapseRadio.bind(this, 'false')}
+                                name={name}
+                                checked={format[0]}
+                                onChange={() => this.handleOnChange(firstDisplay)}
                             />
-                            <FormattedMessage
-                                id='user.settings.display.collapseOn'
-                                defaultMessage='On'
-                            />
+                            {firstMessage}
+                            {moreColon}
+                            {firstMessageMore}
                         </label>
                         <br/>
                     </div>
                     <div className='radio'>
                         <label>
                             <input
-                                id='collapseFormatOff'
+                                id={name + 'B'}
                                 type='radio'
-                                name='collapseFormat'
-                                checked={collapseFormat[1]}
-                                onChange={this.handleCollapseRadio.bind(this, 'true')}
+                                name={name}
+                                checked={format[1]}
+                                onChange={() => this.handleOnChange(secondDisplay)}
                             />
-                            <FormattedMessage
-                                id='user.settings.display.collapseOff'
-                                defaultMessage='Off'
-                            />
+                            {secondMessage}
+                            {moreColon}
+                            {secondMessageMore}
                         </label>
                         <br/>
                     </div>
                     <div>
                         <br/>
-                        <FormattedMessage
-                            id='user.settings.display.collapseDesc'
-                            defaultMessage='Set whether previews of image links show as expanded or collapsed by default. This setting can also be controlled using the slash commands /expand and /collapse.'
-                        />
+                        {messageDesc}
                     </div>
                 </div>
             ];
 
             return (
                 <SettingItemMax
-                    title={
-                        <FormattedMessage
-                            id='user.settings.display.collapseDisplay'
-                            defaultMessage='Default appearance of image link previews'
-                        />
-                    }
+                    title={messageTitle}
                     inputs={inputs}
                     submit={this.handleSubmit}
                     saving={this.state.isSaving}
                     server_error={this.state.serverError}
-                    updateSection={handleUpdateCollapseSection}
+                    updateSection={handleUpdateSection}
                 />
             );
         }
 
         let describe;
-        if (this.state.collapseDisplay === 'false') {
-            describe = (
-                <FormattedMessage
-                    id='user.settings.display.collapseOn'
-                    defaultMessage='Expanded'
-                />
-            );
+        if (value === firstOption.value) {
+            describe = firstMessage;
         } else {
-            describe = (
-                <FormattedMessage
-                    id='user.settings.display.collapseOff'
-                    defaultMessage='Collapsed'
-                />
-            );
+            describe = secondMessage;
         }
 
-        const handleUpdateCollapseSection = () => {
-            this.props.updateSection('collapse');
+        const handleUpdateSection = () => {
+            this.props.updateSection(section);
         };
 
         return (
             <SettingItemMin
-                title={
-                    <FormattedMessage
-                        id='user.settings.display.collapseDisplay'
-                        defaultMessage='Default appearance of image link previews'
-                    />
-                }
+                title={messageTitle}
                 describe={describe}
-                updateSection={handleUpdateCollapseSection}
+                updateSection={handleUpdateSection}
             />
         );
     }
 
     render() {
-        const serverError = this.state.serverError || null;
-        let clockSection;
-        let channelDisplayModeSection;
+        const collapseSection = this.createSection({
+            section: 'collapse',
+            display: 'collapseDisplay',
+            value: this.state.collapseDisplay,
+            defaultDisplay: 'false',
+            title: {
+                id: 'user.settings.display.collapseDisplay',
+                message: 'Default appearance of image link previews'
+            },
+            firstOption: {
+                value: 'false',
+                radionButtonText: {
+                    id: 'user.settings.display.collapseOn',
+                    message: 'On'
+                }
+            },
+            secondOption: {
+                value: 'true',
+                radionButtonText: {
+                    id: 'user.settings.display.collapseOff',
+                    message: 'Off'
+                }
+            },
+            description: {
+                id: 'user.settings.display.collapseDesc',
+                message: 'Set whether previews of image links show as expanded or collapsed by default. This setting can also be controlled using the slash commands /expand and /collapse.'
+            }
+        });
+
+        const isEnableLinkPreviews = global.window.mm_config.EnableLinkPreviews === 'true';
+        let linkPreviewSection = null;
+        let divider = null;
+        if (isEnableLinkPreviews) {
+            linkPreviewSection = this.createSection({
+                section: 'linkpreview',
+                display: 'linkPreviewDisplay',
+                value: this.state.linkPreviewDisplay,
+                defaultDisplay: 'true',
+                title: {
+                    id: 'user.settings.display.linkPreviewDisplay',
+                    message: 'Website Link Previews'
+                },
+                firstOption: {
+                    value: 'true',
+                    radionButtonText: {
+                        id: 'user.settings.display.linkPreviewOn',
+                        message: 'On'
+                    }
+                },
+                secondOption: {
+                    value: 'false',
+                    radionButtonText: {
+                        id: 'user.settings.display.linkPreviewOff',
+                        message: 'Off'
+                    }
+                },
+                description: {
+                    id: 'user.settings.display.linkPreviewDesc',
+                    message: 'When available, the first web link in a message will show a preview of the website content below the message.'
+                }
+            });
+            divider = <div className='divider-dark'/>;
+        }
+
+        const clockSection = this.createSection({
+            section: 'clock',
+            display: 'militaryTime',
+            value: this.state.militaryTime,
+            defaultDisplay: 'false',
+            title: {
+                id: 'user.settings.display.clockDisplay',
+                message: 'Clock Display'
+            },
+            firstOption: {
+                value: 'false',
+                radionButtonText: {
+                    id: 'user.settings.display.normalClock',
+                    message: '12-hour clock (example: 4:00 PM)'
+                }
+            },
+            secondOption: {
+                value: 'true',
+                radionButtonText: {
+                    id: 'user.settings.display.militaryClock',
+                    message: '24-hour clock (example: 16:00)'
+                }
+            },
+            description: {
+                id: 'user.settings.display.preferTime',
+                message: 'Select how you prefer time displayed.'
+            }
+        });
+
+        const messageDisplaySection = this.createSection({
+            section: Preferences.MESSAGE_DISPLAY,
+            display: 'messageDisplay',
+            value: this.state.messageDisplay,
+            defaultDisplay: Preferences.MESSAGE_DISPLAY_CLEAN,
+            title: {
+                id: 'user.settings.display.messageDisplayTitle',
+                message: 'Message Display'
+            },
+            firstOption: {
+                value: Preferences.MESSAGE_DISPLAY_CLEAN,
+                radionButtonText: {
+                    id: 'user.settings.display.messageDisplayClean',
+                    message: 'Standard',
+                    moreId: 'user.settings.display.messageDisplayCleanDes',
+                    moreMessage: 'Easy to scan and read.'
+                }
+            },
+            secondOption: {
+                value: Preferences.MESSAGE_DISPLAY_COMPACT,
+                radionButtonText: {
+                    id: 'user.settings.display.messageDisplayCompact',
+                    message: 'Compact',
+                    moreId: 'user.settings.display.messageDisplayCompactDes',
+                    moreMessage: 'Fit as many messages on the screen as we can.'
+                }
+            },
+            description: {
+                id: 'user.settings.display.messageDisplayDescription',
+                message: 'Select how messages in a channel should be displayed.'
+            }
+        });
+
+        const channelDisplayModeSection = this.createSection({
+            section: 'Preferences.CHANNEL_DISPLAY_MODE',
+            display: 'channelDisplayMode',
+            value: this.state.channelDisplayMode,
+            defaultDisplay: Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN,
+            title: {
+                id: 'user.settings.display.channelDisplayTitle',
+                message: 'Channel Display Mode'
+            },
+            firstOption: {
+                value: Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN,
+                radionButtonText: {
+                    id: 'user.settings.display.fullScreen',
+                    message: 'Full width'
+                }
+            },
+            secondOption: {
+                value: Preferences.CHANNEL_DISPLAY_MODE_CENTERED,
+                radionButtonText: {
+                    id: 'user.settings.display.fixedWidthCentered',
+                    message: 'Fixed width, centered'
+                }
+            },
+            description: {
+                id: 'user.settings.display.channeldisplaymode',
+                message: 'Select the width of the center channel.'
+            }
+        });
+
         let languagesSection;
-        let messageDisplaySection;
-
-        const collapseSection = this.createCollapseSection();
-
-        if (this.props.activeSection === 'clock') {
-            const clockFormat = [false, false];
-            if (this.state.militaryTime === 'true') {
-                clockFormat[1] = true;
-            } else {
-                clockFormat[0] = true;
-            }
-
-            const handleUpdateClockSection = (e) => {
-                this.updateSection('');
-                e.preventDefault();
-            };
-
-            const inputs = [
-                <div key='userDisplayClockOptions'>
-                    <div className='radio'>
-                        <label>
-                            <input
-                                id='clockFormat12h'
-                                type='radio'
-                                name='clockFormat'
-                                checked={clockFormat[0]}
-                                onChange={this.handleClockRadio.bind(this, 'false')}
-                            />
-                            <FormattedMessage
-                                id='user.settings.display.normalClock'
-                                defaultMessage='12-hour clock (example: 4:00 PM)'
-                            />
-                        </label>
-                        <br/>
-                    </div>
-                    <div className='radio'>
-                        <label>
-                            <input
-                                id='clockFormat24h'
-                                type='radio'
-                                name='clockFormat'
-                                checked={clockFormat[1]}
-                                onChange={this.handleClockRadio.bind(this, 'true')}
-                            />
-                            <FormattedMessage
-                                id='user.settings.display.militaryClock'
-                                defaultMessage='24-hour clock (example: 16:00)'
-                            />
-                        </label>
-                        <br/>
-                    </div>
-                    <div>
-                        <br/>
-                        <FormattedMessage
-                            id='user.settings.display.preferTime'
-                            defaultMessage='Select how you prefer time displayed.'
-                        />
-                    </div>
-                </div>
-            ];
-
-            clockSection = (
-                <SettingItemMax
-                    title={
-                        <FormattedMessage
-                            id='user.settings.display.clockDisplay'
-                            defaultMessage='Clock Display'
-                        />
-                    }
-                    inputs={inputs}
-                    submit={this.handleSubmit}
-                    saving={this.state.isSaving}
-                    server_error={serverError}
-                    updateSection={handleUpdateClockSection}
-                />
-            );
-        } else {
-            let describe;
-            if (this.state.militaryTime === 'true') {
-                describe = (
-                    <FormattedMessage
-                        id='user.settings.display.militaryClock'
-                        defaultMessage='24-hour clock (example: 16:00)'
-                    />
-                );
-            } else {
-                describe = (
-                    <FormattedMessage
-                        id='user.settings.display.normalClock'
-                        defaultMessage='12-hour clock (example: 4:00 PM)'
-                    />
-                );
-            }
-
-            const handleUpdateClockSection = () => {
-                this.props.updateSection('clock');
-            };
-
-            clockSection = (
-                <SettingItemMin
-                    title={
-                        <FormattedMessage
-                            id='user.settings.display.clockDisplay'
-                            defaultMessage='Clock Display'
-                        />
-                    }
-                    describe={describe}
-                    updateSection={handleUpdateClockSection}
-                />
-            );
-        }
-
-        if (this.props.activeSection === Preferences.MESSAGE_DISPLAY) {
-            const messageDisplay = [false, false];
-            if (this.state.messageDisplay === Preferences.MESSAGE_DISPLAY_CLEAN) {
-                messageDisplay[0] = true;
-            } else {
-                messageDisplay[1] = true;
-            }
-
-            const inputs = [
-                <div key='userDisplayNameOptions'>
-                    <div className='radio'>
-                        <label>
-                            <input
-                                id='messageFormatStandard'
-                                type='radio'
-                                name='messageDisplay'
-                                checked={messageDisplay[0]}
-                                onChange={this.handlemessageDisplayRadio.bind(this, Preferences.MESSAGE_DISPLAY_CLEAN)}
-                            />
-                            <FormattedMessage
-                                id='user.settings.display.messageDisplayClean'
-                                defaultMessage='Standard'
-                            />
-                            {': '}
-                            <span className='font-weight--normal'>
-                                <FormattedMessage
-                                    id='user.settings.display.messageDisplayCleanDes'
-                                    defaultMessage='Easy to scan and read.'
-                                />
-                            </span>
-                        </label>
-                        <br/>
-                    </div>
-                    <div className='radio'>
-                        <label>
-                            <input
-                                id='messageFormatCompact'
-                                type='radio'
-                                name='messageDisplay'
-                                checked={messageDisplay[1]}
-                                onChange={this.handlemessageDisplayRadio.bind(this, Preferences.MESSAGE_DISPLAY_COMPACT)}
-                            />
-                            <FormattedMessage
-                                id='user.settings.display.messageDisplayCompact'
-                                defaultMessage='Compact'
-                            />
-                            {': '}
-                            <span className='font-weight--normal'>
-                                <FormattedMessage
-                                    id='user.settings.display.messageDisplayCompactDes'
-                                    defaultMessage='Fit as many messages on the screen as we can.'
-                                />
-                            </span>
-                        </label>
-                        <br/>
-                    </div>
-                    <div>
-                        <br/>
-                        <FormattedMessage
-                            id='user.settings.display.messageDisplayDescription'
-                            defaultMessage='Select how messages in a channel should be displayed.'
-                        />
-                    </div>
-                </div>
-            ];
-
-            messageDisplaySection = (
-                <SettingItemMax
-                    title={
-                        <FormattedMessage
-                            id='user.settings.display.messageDisplayTitle'
-                            defaultMessage='Message Display'
-                        />
-                    }
-                    inputs={inputs}
-                    submit={this.handleSubmit}
-                    saving={this.state.isSaving}
-                    server_error={serverError}
-                    updateSection={(e) => {
-                        this.updateSection('');
-                        e.preventDefault();
-                    }}
-                />
-            );
-        } else {
-            let describe;
-            if (this.state.messageDisplay === Preferences.MESSAGE_DISPLAY_CLEAN) {
-                describe = (
-                    <FormattedMessage
-                        id='user.settings.display.messageDisplayClean'
-                        defaultMessage='Standard'
-                    />
-                );
-            } else {
-                describe = (
-                    <FormattedMessage
-                        id='user.settings.display.messageDisplayCompact'
-                        defaultMessage='Compact'
-                    />
-                );
-            }
-
-            messageDisplaySection = (
-                <SettingItemMin
-                    title={
-                        <FormattedMessage
-                            id='user.settings.display.messageDisplayTitle'
-                            defaultMessage='Message Display'
-                        />
-                    }
-                    describe={describe}
-                    updateSection={() => {
-                        this.props.updateSection(Preferences.MESSAGE_DISPLAY);
-                    }}
-                />
-            );
-        }
-
-        if (this.props.activeSection === Preferences.CHANNEL_DISPLAY_MODE) {
-            const channelDisplayMode = [false, false];
-            if (this.state.channelDisplayMode === Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN) {
-                channelDisplayMode[0] = true;
-            } else {
-                channelDisplayMode[1] = true;
-            }
-
-            const inputs = [
-                <div key='userDisplayNameOptions'>
-                    <div className='radio'>
-                        <label>
-                            <input
-                                id='channelDisplayFormatFullScreen'
-                                type='radio'
-                                name='channelDisplayMode'
-                                checked={channelDisplayMode[0]}
-                                onChange={this.handleChannelDisplayModeRadio.bind(this, Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN)}
-                            />
-                            <FormattedMessage
-                                id='user.settings.display.fullScreen'
-                                defaultMessage='Full width'
-                            />
-                        </label>
-                        <br/>
-                    </div>
-                    <div className='radio'>
-                        <label>
-                            <input
-                                id='channelDisplayFormatCentered'
-                                type='radio'
-                                name='channelDisplayMode'
-                                checked={channelDisplayMode[1]}
-                                onChange={this.handleChannelDisplayModeRadio.bind(this, Preferences.CHANNEL_DISPLAY_MODE_CENTERED)}
-                            />
-                            <FormattedMessage
-                                id='user.settings.display.fixedWidthCentered'
-                                defaultMessage='Fixed width, centered'
-                            />
-                        </label>
-                        <br/>
-                    </div>
-                    <div>
-                        <br/>
-                        <FormattedMessage
-                            id='user.settings.display.channeldisplaymode'
-                            defaultMessage='Select the width of the center channel.'
-                        />
-                    </div>
-                </div>
-            ];
-
-            channelDisplayModeSection = (
-                <SettingItemMax
-                    title={
-                        <FormattedMessage
-                            id='user.settings.display.channelDisplayTitle'
-                            defaultMessage='Channel Display Mode'
-                        />
-                    }
-                    inputs={inputs}
-                    submit={this.handleSubmit}
-                    saving={this.state.isSaving}
-                    server_error={serverError}
-                    updateSection={(e) => {
-                        this.updateSection('');
-                        e.preventDefault();
-                    }}
-                />
-            );
-        } else {
-            let describe;
-            if (this.state.channelDisplayMode === Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN) {
-                describe = (
-                    <FormattedMessage
-                        id='user.settings.display.fullScreen'
-                        defaultMessage='Full width'
-                    />
-                );
-            } else {
-                describe = (
-                    <FormattedMessage
-                        id='user.settings.display.fixedWidthCentered'
-                        defaultMessage='Fixed width, centered'
-                    />
-                );
-            }
-
-            channelDisplayModeSection = (
-                <SettingItemMin
-                    title={
-                        <FormattedMessage
-                            id='user.settings.display.channelDisplayTitle'
-                            defaultMessage='Channel Display Mode'
-                        />
-                    }
-                    describe={describe}
-                    updateSection={() => {
-                        this.props.updateSection(Preferences.CHANNEL_DISPLAY_MODE);
-                    }}
-                />
-            );
-        }
-
         let userLocale = this.props.user.locale;
         if (this.props.activeSection === 'languages') {
             if (!I18n.isLanguageAvailable(userLocale)) {
@@ -659,6 +539,8 @@ export default class UserSettingsDisplay extends React.Component {
                     {themeSection}
                     <div className='divider-dark'/>
                     {clockSection}
+                    {divider}
+                    {linkPreviewSection}
                     <div className='divider-dark'/>
                     {collapseSection}
                     <div className='divider-dark'/>

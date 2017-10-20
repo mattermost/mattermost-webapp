@@ -44,6 +44,8 @@ export const Preferences = {
     MESSAGE_DISPLAY_CLEAN: 'clean',
     MESSAGE_DISPLAY_COMPACT: 'compact',
     MESSAGE_DISPLAY_DEFAULT: 'clean',
+    LINK_PREVIEW_DISPLAY: 'link_previews',
+    LINK_PREVIEW_DISPLAY_DEFAULT: 'true',
     COLLAPSE_DISPLAY: 'collapse_previews',
     COLLAPSE_DISPLAY_DEFAULT: 'false',
     USE_MILITARY_TIME: 'use_military_time',
@@ -945,10 +947,6 @@ export const Constants = {
         MARKDOWN_PREVIEW: {
             label: 'markdown_preview', // github issue: https://github.com/mattermost/platform/pull/1389
             description: 'Show markdown preview option in message input box'
-        },
-        EMBED_PREVIEW: {
-            label: 'embed_preview',
-            description: 'Show preview snippet of links below message'
         },
         WEBRTC_PREVIEW: {
             label: 'webrtc_preview',

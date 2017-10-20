@@ -62,6 +62,7 @@ export default class RhsThread extends React.Component {
         toggleSize: PropTypes.func,
         shrink: PropTypes.func,
         previewCollapsed: PropTypes.string.isRequired,
+        previewEnabled: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             removePost: PropTypes.func.isRequired
         }).isRequired
@@ -166,6 +167,10 @@ export default class RhsThread extends React.Component {
         }
 
         if (nextState.previewsCollapsed !== this.state.previewsCollapsed) {
+            return true;
+        }
+
+        if (nextProps.previewEnabled !== this.props.previewEnabled) {
             return true;
         }
 
@@ -473,6 +478,7 @@ export default class RhsThread extends React.Component {
                             isFlagged={isRootFlagged}
                             status={rootStatus}
                             previewCollapsed={this.state.previewsCollapsed}
+                            previewEnabled={this.props.previewEnabled}
                             isBusy={this.state.isBusy}
                         />
                         <div
