@@ -6,28 +6,29 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-export default class PostDeletedModal extends React.Component {
-    constructor(props) {
-        super(props);
+export default class PostDeletedModal extends React.PureComponent {
+    static propTypes = {
 
-        this.handleHide = this.handleHide.bind(this);
-    }
+        /**
+         * Determines whether this modal should be shown or not
+         */
+        show: PropTypes.bool.isRequired,
+
+        /**
+         * Function that is called when modal is hidden
+         */
+        onHide: PropTypes.func.isRequired
+    };
 
     shouldComponentUpdate(nextProps) {
         return nextProps.show !== this.props.show;
-    }
-
-    handleHide(e) {
-        e.preventDefault();
-
-        this.props.onHide();
     }
 
     render() {
         return (
             <Modal
                 show={this.props.show}
-                onHide={this.handleHide}
+                onHide={this.props.onHide}
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title>
@@ -49,7 +50,7 @@ export default class PostDeletedModal extends React.Component {
                     <button
                         type='button'
                         className='btn btn-primary'
-                        onClick={this.handleHide}
+                        onClick={this.props.onHide}
                     >
                         <FormattedMessage
                             id='post_delete.okay'
@@ -61,8 +62,3 @@ export default class PostDeletedModal extends React.Component {
         );
     }
 }
-
-PostDeletedModal.propTypes = {
-    show: PropTypes.bool.isRequired,
-    onHide: PropTypes.func.isRequired
-};
