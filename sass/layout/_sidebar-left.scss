@@ -78,7 +78,7 @@
         width: 100%;
 
         button {
-            @include single-transition(all, .15s, ease-in);
+            background: transparent;
             display: block;
             font-weight: 600;
             height: 45px;
