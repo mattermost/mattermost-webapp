@@ -349,6 +349,26 @@
             padding: 0 10px 0 0;
         }
 
+        &.current--user {
+            .post__header {
+                margin-bottom: 7px;
+            }
+
+            &.same--root {
+                &.same--user {
+                    .post__header {
+                        margin-bottom: 7px;
+                    }
+                }
+            }
+
+            &.post--comment {
+                .post__header {
+                    margin-bottom: 3px;
+                }
+            }
+        }
+
         .post__header {
             margin-bottom: 0;
             padding-right: 70px;
@@ -418,7 +438,7 @@
             &.post--comment {
                 .post__header {
                     .col__reply {
-                        top: -3px;
+                        top: -6px;
                     }
                 }
             }
