@@ -275,6 +275,14 @@
             }
         }
 
+        &.post--system {
+            .post__header {
+                .col__reply {
+                    min-width: 70px;
+                }
+            }
+        }
+
         .reacticon__container {
             display: none;
         }
@@ -1373,6 +1381,23 @@
 }
 
 @media screen and (max-width: 640px) {
+    .col__reply {
+        .dropdown-menu {
+            > li {
+                > button {
+                    border-top: 1px solid;
+                    padding: 15px 20px;
+                }
+
+                &:first-child {
+                    button {
+                        border: none;
+                    }
+                }
+            }
+        }
+    }
+
     .filtered-user-list {
         height: calc(100vh - 80px);
     }
