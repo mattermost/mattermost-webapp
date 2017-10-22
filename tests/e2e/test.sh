@@ -72,17 +72,24 @@ function add_test_users {
     sleep 5
 }
 
+function skip_tutorial {
+    message "Skipping tutorial for test users..."
+    docker exec -i mattermost-mysql mysql -u mmuser -pmostest <<< "USE mattermost_test; UPDATE Preferences SET Value = '999' WHERE Category = 'tutorial_step';"
+}
+
 function local_tests {
     local_setup
 
     if [ -n "$1" ]; then
         message "Tag: ${1} local E2E starts..."
-        yarn run e2e-tag $1
+        skip_tutorial
+        nightwatch -e chrome --suiteRetries 1 --tag $1
     else
         message "E2E full local chrome starts..."
-        yarn run e2e-local-chrome
+        nightwatch -e chrome --suiteRetries 1
+
         message "E2E full local firefox starts..."
-        yarn run e2e-local-firefox
+        nightwatch -e firefox --skiptags tutorial --suiteRetries 1
     fi
 }
 

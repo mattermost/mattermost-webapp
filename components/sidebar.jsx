@@ -908,12 +908,14 @@ export default class Sidebar extends React.Component {
                 />
 
                 <UnreadChannelIndicator
+                    name='Top'
                     show={this.state.showTopUnread}
                     onClick={this.scrollToFirstUnreadChannel}
                     extraClass='nav-pills__unread-indicator-top'
                     text={above}
                 />
                 <UnreadChannelIndicator
+                    name='Bottom'
                     show={this.state.showBottomUnread}
                     onClick={this.scrollToLastUnreadChannel}
                     extraClass='nav-pills__unread-indicator-bottom'
@@ -921,13 +923,14 @@ export default class Sidebar extends React.Component {
                 />
 
                 <div
+                    id='sidebarChannelContainer'
                     ref='container'
                     className='nav-pills__container'
                     onScroll={this.onScroll}
                 >
                     {favoriteItems.length !== 0 && <ul className='nav nav-pills nav-stacked'>
                         <li>
-                            <h4>
+                            <h4 id='favoriteChannel'>
                                 <FormattedMessage
                                     id='sidebar.favorite'
                                     defaultMessage='FAVORITE CHANNELS'
@@ -938,7 +941,7 @@ export default class Sidebar extends React.Component {
                     </ul>}
                     <ul className='nav nav-pills nav-stacked'>
                         <li>
-                            <h4>
+                            <h4 id='publicChannel'>
                                 <FormattedMessage
                                     id='sidebar.channels'
                                     defaultMessage='PUBLIC CHANNELS'
@@ -963,7 +966,7 @@ export default class Sidebar extends React.Component {
 
                     <ul className='nav nav-pills nav-stacked'>
                         <li>
-                            <h4>
+                            <h4 id='privateChannel'>
                                 <FormattedMessage
                                     id='sidebar.pg'
                                     defaultMessage='PRIVATE CHANNELS'
@@ -975,7 +978,7 @@ export default class Sidebar extends React.Component {
                     </ul>
                     <ul className='nav nav-pills nav-stacked'>
                         <li>
-                            <h4>
+                            <h4 id='directChannel'>
                                 <FormattedMessage
                                     id='sidebar.direct'
                                     defaultMessage='DIRECT MESSAGES'
@@ -989,6 +992,7 @@ export default class Sidebar extends React.Component {
                 </div>
                 <div className='sidebar__switcher'>
                     <button
+                        id='sidebarSwitcherButton'
                         className='btn btn-link'
                         onClick={this.openQuickSwitcher}
                     >
