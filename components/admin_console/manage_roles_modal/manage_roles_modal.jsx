@@ -240,13 +240,13 @@ export default class ManageRolesModal extends React.PureComponent {
                                 id='admin.manage_roles.allowUserAccessTokens'
                                 defaultMessage='Allow this account to generate <a href="https://about.mattermost.com/default-user-access-tokens" target="_blank">personal access tokens</a>.'
                             />
+                            <div className='padding-top padding-bottom light'>
+                                <FormattedHTMLMessage
+                                    id='admin.manage_roles.allowUserAccessTokensDesc'
+                                    defaultMessage="Removing this permission doesn't delete existing tokens. To delete them, go to the user's Manage Tokens menu."
+                                />
+                            </div>
                         </label>
-                    </div>
-                    <div>
-                        <FormattedHTMLMessage
-                            id='admin.manage_roles.allowUserAccessTokensDesc'
-                            defaultMessage="Removing this permission doesn't delete existing tokens. To delete them, go to the user's Manage Tokens menu."
-                        />
                     </div>
                     <div className='member-row--padded'>
                         {additionalRoles}
