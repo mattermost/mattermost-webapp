@@ -215,6 +215,10 @@ function handleEvent(msg) {
         handleChannelUpdatedEvent(msg);
         break;
 
+    case SocketEvents.CHANNEL_MEMBER_UPDATED:
+        handleChannelMemberUpdatedEvent(msg);
+        break;
+
     case SocketEvents.DIRECT_ADDED:
         handleDirectAddedEvent(msg);
         break;
@@ -282,6 +286,11 @@ function handleEvent(msg) {
 function handleChannelUpdatedEvent(msg) {
     const channel = JSON.parse(msg.data.channel);
     dispatch({type: ChannelTypes.RECEIVED_CHANNEL, data: channel});
+}
+
+function handleChannelMemberUpdatedEvent(msg) {
+    const channelMember = JSON.parse(msg.data.channelMember);
+    dispatch({type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER, data: channelMember});
 }
 
 function handleNewPostEvent(msg) {
