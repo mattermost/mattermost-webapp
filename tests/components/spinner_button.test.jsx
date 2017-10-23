@@ -10,27 +10,21 @@ import SpinnerButton from 'components/spinner_button.jsx';
 describe('components/SpinnerButton', () => {
     test('should match snapshot with required props', () => {
         const wrapper = shallow(
-            <SpinnerButton
-                spinning={false}
-            />
+            <SpinnerButton spinning={false}/>
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot with spinning', () => {
         const wrapper = shallow(
-            <SpinnerButton
-                spinning={true}
-            />
+            <SpinnerButton spinning={true}/>
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot with children', () => {
         const wrapper = shallow(
-            <SpinnerButton
-                spinning={false}
-            >
+            <SpinnerButton spinning={false}>
                 <span id='child1'/>
                 <span id='child2'/>
             </SpinnerButton>
@@ -38,10 +32,8 @@ describe('components/SpinnerButton', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should handle onClick', (done) => {
-        function onClick() {
-            done();
-        }
+    test('should handle onClick', () => {
+        const onClick = jest.fn();
 
         const wrapper = mount(
             <SpinnerButton
@@ -49,6 +41,8 @@ describe('components/SpinnerButton', () => {
                 onClick={onClick}
             />
         );
-        wrapper.find('button').first().props().onClick();
+
+        wrapper.find('.btn .btn-primary').simulate('click');
+        expect(onClick).toHaveBeenCalledTimes(1);
     });
 });

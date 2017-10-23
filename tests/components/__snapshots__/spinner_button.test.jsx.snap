@@ -22,6 +22,6 @@ exports[`components/SpinnerButton should match snapshot with required props 1`] 
 exports[`components/SpinnerButton should match snapshot with spinning 1`] = `
 <img
   className="spinner-button__gif"
-  src={Object {}}
+  src={null}
 />
 `;
