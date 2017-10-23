@@ -5,7 +5,7 @@ import $ from 'jquery';
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import ChannelStore from 'stores/channel_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
@@ -180,13 +180,13 @@ export default class SearchResults extends React.Component {
     }
 
     render() {
-        var results = this.state.results;
-        var noResults = (!results || !results.order || !results.order.length);
+        const results = this.state.results;
+        const noResults = (!results || !results.order || !results.order.length);
         const searchTerm = this.state.searchTerm;
         const profiles = this.state.profiles || {};
         const flagIcon = Constants.FLAG_ICON_SVG;
 
-        var ctls = null;
+        let ctls = null;
 
         if (this.state.loading) {
             ctls =
@@ -202,79 +202,186 @@ export default class SearchResults extends React.Component {
                 </div>
             );
         } else if (this.props.isFlaggedPosts && noResults) {
+            const tips = [
+                <li key='pin1'>
+                    <FormattedMessage
+                        id='search_results.usageFlag1'
+                        defaultMessage="You haven't flagged any messages yet."
+                    />
+                </li>,
+                <li key='pin2'>
+                    <FormattedMessage
+                        id='search_results.usageFlag2'
+                        defaultMessage='You can add a flag to messages and comments by clicking the '
+                    />
+                    <span
+                        className='usage__icon'
+                        dangerouslySetInnerHTML={{__html: flagIcon}}
+                    />
+                    <FormattedMessage
+                        id='search_results.usageFlag3'
+                        defaultMessage=' icon next to the timestamp.'
+                    />
+                </li>,
+                <li key='pin3'>
+                    <FormattedMessage
+                        id='search_results.usageFlag4'
+                        defaultMessage='Flags are a way to mark messages for follow up. Your flags are personal, and cannot be seen by other users.'
+                    />
+                </li>
+            ];
+
+            if (global.window.mm_config.DataRetentionEnableMessageDeletion === 'true') {
+                tips.push(
+                    <li>
+                        <FormattedMessage
+                            id='search_results.usage.dataRetention'
+                            defaultMessage='Only messages posted in the last {days} days are returned. Contact your System Administrator for more detail.'
+                            values={{
+                                days: global.window.mm_config.DataRetentionMessageRetentionDays
+                            }}
+                        />
+                    </li>
+                );
+            }
+
             ctls = (
                 <div className='sidebar--right__subheader'>
                     <ul>
-                        <li>
-                            <FormattedHTMLMessage
-                                id='search_results.usageFlag1'
-                                defaultMessage="You haven't flagged any messages yet."
-                            />
-                        </li>
-                        <li>
-                            <FormattedHTMLMessage
-                                id='search_results.usageFlag2'
-                                defaultMessage='You can add a flag to messages and comments by clicking the '
-                            />
-                            <span
-                                className='usage__icon'
-                                dangerouslySetInnerHTML={{__html: flagIcon}}
-                            />
-                            <FormattedHTMLMessage
-                                id='search_results.usageFlag3'
-                                defaultMessage=' icon next to the timestamp.'
-                            />
-                        </li>
-                        <li>
-                            <FormattedHTMLMessage
-                                id='search_results.usageFlag4'
-                                defaultMessage='Flags are a way to mark messages for follow up. Your flags are personal, and cannot be seen by other users.'
-                            />
-                        </li>
+                        {tips}
                     </ul>
                 </div>
             );
         } else if (this.props.isPinnedPosts && noResults) {
+            const tips = [
+                <li key='pin1'>
+                    <FormattedMessage
+                        id='search_results.usagePin1'
+                        defaultMessage='There are no pinned messages yet.'
+                    />
+                </li>,
+                <li key='pin2'>
+                    <FormattedMessage
+                        id='search_results.usagePin2'
+                        defaultMessage='All members of this channel can pin important or useful messages.'
+                    />
+                </li>,
+                <li key='pin3'>
+                    <FormattedMessage
+                        id='search_results.usagePin3'
+                        defaultMessage='Pinned messages are visible to all channel members.'
+                    />
+                </li>,
+                <li key='pin4'>
+                    <FormattedMessage
+                        id='search_results.usagePin4'
+                        defaultMessage={'To pin a message: Go to the message that you want to pin and click [...] > "Pin to channel".'}
+                    />
+                </li>
+            ];
+
+            if (global.window.mm_config.DataRetentionEnableMessageDeletion === 'true') {
+                tips.push(
+                    <li>
+                        <FormattedMessage
+                            id='search_results.usage.dataRetention'
+                            defaultMessage='Only messages posted in the last {days} days are returned. Contact your System Administrator for more detail.'
+                            values={{
+                                days: global.window.mm_config.DataRetentionMessageRetentionDays
+                            }}
+                        />
+                    </li>
+                );
+            }
+
             ctls = (
                 <div className='sidebar--right__subheader'>
                     <ul>
-                        <li>
-                            <FormattedHTMLMessage
-                                id='search_results.usagePin1'
-                                defaultMessage='There are no pinned messages yet.'
-                            />
-                        </li>
-                        <li>
-                            <FormattedHTMLMessage
-                                id='search_results.usagePin2'
-                                defaultMessage='All members of this channel can pin important or useful messages.'
-                            />
-                        </li>
-                        <li>
-                            <FormattedHTMLMessage
-                                id='search_results.usagePin3'
-                                defaultMessage='Pinned messages are visible to all channel members.'
-                            />
-                        </li>
-                        <li>
-                            <FormattedHTMLMessage
-                                id='search_results.usagePin4'
-                                defaultMessage={'To pin a message: Go to the message that you want to pin and click [...] > "Pin to channel".'}
-                            />
-                        </li>
+                        {tips}
                     </ul>
                 </div>
             );
         } else if (!searchTerm && noResults) {
+            const tips = [
+                <li key='quotes'>
+                    <FormattedMessage
+                        id='search_results.usage.phrasesSuggestion'
+                        defaultMessage='Use {quotationMarks} to search for phrases'
+                        values={{
+                            quotationMarks: (
+                                <b>
+                                    <FormattedMessage
+                                        id='search_results.usage.phrasesSuggestion.quotationMarks'
+                                        defaultMessage='"quotation marks"'
+                                    />
+                                </b>
+                            )
+                        }}
+                    />
+                </li>,
+                <li key='fromIn'>
+                    <FormattedMessage
+                        id='search_results.usage.fromInSuggestion'
+                        defaultMessage='Use {fromUser} to find posts from specific users and {inChannel} to find posts in specific channels'
+                        values={{
+                            fromUser: (
+                                <b>
+                                    <FormattedMessage
+                                        id='search_results.usage.fromInSuggestion.fromUser'
+                                        defaultMessage='from:'
+                                    />
+                                </b>
+                            ),
+                            inChannel: (
+                                <b>
+                                    <FormattedMessage
+                                        id='search_results.usage.fromInSuggestion.inChannel'
+                                        defaultMessage='in:'
+                                    />
+                                </b>
+                            )
+                        }}
+                    />
+                </li>
+            ];
+
             ctls = (
                 <div className='sidebar--right__subheader'>
-                    <FormattedHTMLMessage
-                        id='search_results.usage'
-                        defaultMessage='<ul><li>Use <b>"quotation marks"</b> to search for phrases</li><li>Use <b>from:</b> to find posts from specific users and <b>in:</b> to find posts in specific channels</li></ul>'
-                    />
+                    <ul>
+                        {tips}
+                    </ul>
                 </div>
             );
         } else if (noResults) {
+            const tips = [
+                <li key='partialPhrase'>
+                    <FormattedMessage
+                        id='search_results.noResults.partialPhraseSuggestion'
+                        defaultMessage='If you&#39;re searching a partial phrase (ex. searching "rea", looking for "reach" or "reaction"), append a * to your search term.'
+                    />
+                </li>,
+                <li key='stopWords'>
+                    <FormattedMessage
+                        id='search_results.noResults.stopWordsSuggestion'
+                        defaultMessage='Two letter searches and common words like "this", "a" and "is" won&#39;t appear in search results due to the excessive results returned.'
+                    />
+                </li>
+            ];
+
+            if (global.window.mm_config.DataRetentionEnableMessageDeletion === 'true') {
+                tips.push(
+                    <li>
+                        <FormattedMessage
+                            id='search_results.usage.dataRetention'
+                            defaultMessage='Only messages posted in the last {days} days are returned. Contact your System Administrator for more detail.'
+                            values={{
+                                days: global.window.mm_config.DataRetentionMessageRetentionDays
+                            }}
+                        />
+                    </li>
+                );
+            }
+
             ctls =
             (
                 <div className='sidebar--right__subheader'>
@@ -284,13 +391,9 @@ export default class SearchResults extends React.Component {
                             defaultMessage='No results found. Try again?'
                         />
                     </h4>
-                    <FormattedHTMLMessage
-                        id='search_results.because'
-                        defaultMessage='<ul>
-                        <li>If you&#39;re searching a partial phrase (ex. searching "rea", looking for "reach" or "reaction"), append a * to your search term.</li>
-                        <li>Two letter searches and common words like "this", "a" and "is" won&#39;t appear in search results, due to the excessive results returned.</li>
-                    </ul>'
-                    />
+                    <ul>
+                        {tips}
+                    </ul>
                 </div>
             );
         } else {
