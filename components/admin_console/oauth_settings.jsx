@@ -82,6 +82,7 @@ export default class OAuthSettings extends AdminSettings {
             oauthType,
             id: settings.Id,
             secret: settings.Secret,
+            gitLabUrl: config.GitLabSettings.UserApiEndpoint.replace('/api/v4/user', ''),
             userApiEndpoint: settings.UserApiEndpoint,
             authEndpoint: settings.AuthEndpoint,
             tokenEndpoint: settings.TokenEndpoint
@@ -90,8 +91,10 @@ export default class OAuthSettings extends AdminSettings {
 
     changeType(id, value) {
         let settings = {};
+        let gitLabUrl = '';
         if (value === Constants.GITLAB_SERVICE) {
             settings = this.config.GitLabSettings;
+            gitLabUrl = settings.UserApiEndpoint.replace('/api/v4/user', '');
         } else if (value === Constants.GOOGLE_SERVICE) {
             settings = this.config.GoogleSettings;
         } else if (value === Constants.OFFICE365_SERVICE) {
@@ -101,12 +104,28 @@ export default class OAuthSettings extends AdminSettings {
         this.setState({
             id: settings.Id,
             secret: settings.Secret,
+            gitLabUrl,
             userApiEndpoint: settings.UserApiEndpoint,
             authEndpoint: settings.AuthEndpoint,
             tokenEndpoint: settings.TokenEndpoint
         });
 
         this.handleChange(id, value);
+    }
+
+    updateGitLabUrl = (id, value) => {
+        let trimmedValue = value;
+        if (value.endsWith('/')) {
+            trimmedValue = value.slice(0, -1);
+        }
+
+        this.setState({
+            saveNeeded: true,
+            gitLabUrl: value,
+            userApiEndpoint: trimmedValue + '/api/v4/user',
+            authEndpoint: trimmedValue + '/oauth/authorize',
+            tokenEndpoint: trimmedValue + '/oauth/token'
+        });
     }
 
     renderTitle() {
@@ -310,6 +329,24 @@ export default class OAuthSettings extends AdminSettings {
                     onChange={this.handleChange}
                 />
                 <TextSetting
+                    id='gitlabUrl'
+                    label={
+                        <FormattedMessage
+                            id='admin.gitlab.siteUrl'
+                            defaultMessage='GitLab Site URL:'
+                        />
+                    }
+                    placeholder={Utils.localizeMessage('admin.gitlab.siteUrlExample', 'E.g.: https://')}
+                    helpText={
+                        <FormattedMessage
+                            id='admin.gitab.siteUrlDescription'
+                            defaultMessage='Enter the URL of your GitLab instance, e.g. https://example.com:3000. If your GitLab instance is not set up with SSL, start the URL with http:// instead of https://.'
+                        />
+                    }
+                    value={this.state.gitLabUrl}
+                    onChange={this.updateGitLabUrl}
+                />
+                <TextSetting
                     id='userApiEndpoint'
                     label={
                         <FormattedMessage
@@ -317,15 +354,9 @@ export default class OAuthSettings extends AdminSettings {
                             defaultMessage='User API Endpoint:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.gitlab.userExample', 'Ex "https://<your-gitlab-url>/api/v4/user"')}
-                    helpText={
-                        <FormattedMessage
-                            id='admin.gitlab.userDescription'
-                            defaultMessage='Enter https://<your-gitlab-url>/api/v4/user.   Make sure you use HTTP or HTTPS in your URL depending on your server configuration.'
-                        />
-                    }
+                    placeholder={''}
                     value={this.state.userApiEndpoint}
-                    onChange={this.handleChange}
+                    disabled={true}
                 />
                 <TextSetting
                     id='authEndpoint'
@@ -335,15 +366,9 @@ export default class OAuthSettings extends AdminSettings {
                             defaultMessage='Auth Endpoint:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.gitlab.authExample', 'Ex "https://<your-gitlab-url>/oauth/authorize"')}
-                    helpText={
-                        <FormattedMessage
-                            id='admin.gitlab.authDescription'
-                            defaultMessage='Enter https://<your-gitlab-url>/oauth/authorize (example https://example.com:3000/oauth/authorize).   Make sure you use HTTP or HTTPS in your URL depending on your server configuration.'
-                        />
-                    }
+                    placeholder={''}
                     value={this.state.authEndpoint}
-                    onChange={this.handleChange}
+                    disabled={true}
                 />
                 <TextSetting
                     id='tokenEndpoint'
@@ -353,15 +378,9 @@ export default class OAuthSettings extends AdminSettings {
                             defaultMessage='Token Endpoint:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.gitlab.tokenExample', 'Ex "https://<your-gitlab-url>/oauth/token"')}
-                    helpText={
-                        <FormattedMessage
-                            id='admin.gitlab.tokenDescription'
-                            defaultMessage='Enter https://<your-gitlab-url>/oauth/token.   Make sure you use HTTP or HTTPS in your URL depending on your server configuration.'
-                        />
-                    }
+                    placeholder={''}
                     value={this.state.tokenEndpoint}
-                    onChange={this.handleChange}
+                    disabled={true}
                 />
             </div>
         );
