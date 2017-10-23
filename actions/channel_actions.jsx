@@ -211,7 +211,7 @@ export async function openDirectChannelToUser(userId, success, error) {
 }
 
 export async function openGroupChannelToUsers(userIds, success, error) {
-    const result = ChannelActions.createGroupChannel(userIds)(dispatch, getState);
+    const result = await ChannelActions.createGroupChannel(userIds)(dispatch, getState);
     loadProfilesForSidebar();
     if (result.data && success) {
         success(result.data, false);
