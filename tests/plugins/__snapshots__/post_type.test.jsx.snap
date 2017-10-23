@@ -1,68 +1,183 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`plugins/PostMessageView should match snapshot with extended post type 1`] = `
-<PostMessageView
-  emojis={Object {}}
-  enableFormatting={true}
-  hasMention={false}
-  isRHS={false}
-  mentionKeys={Array []}
-  options={Object {}}
-  pluginPostTypes={
+<Provider
+  intl={
     Object {
-      "testtype": Object {
-        "component": [Function],
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatHTMLMessage": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatPlural": [Function],
+      "formatRelative": [Function],
+      "formatTime": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralFormat": [Function],
+        "getRelativeFormat": [Function],
       },
+      "locale": "en",
+      "messages": Object {},
+      "now": [Function],
+      "textComponent": "span",
     }
   }
-  post={
+  store={
     Object {
-      "type": "testtype",
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(observable): [Function],
     }
   }
-  team={Object {}}
-  theme={Object {}}
 >
-  <PostTypePlugin
+  <PostMessageView
+    currentUser={
+      Object {
+        "username": "username",
+      }
+    }
+    emojis={
+      Object {
+        "name": "smile",
+      }
+    }
+    enableFormatting={true}
+    hasMention={false}
     isRHS={false}
     mentionKeys={Array []}
+    options={Object {}}
+    pluginPostTypes={
+      Object {
+        "testtype": Object {
+          "component": [Function],
+        },
+      }
+    }
     post={
       Object {
         "type": "testtype",
       }
     }
-    theme={Object {}}
+    team={
+      Object {
+        "name": "team_name",
+      }
+    }
+    theme={
+      Object {
+        "id": "theme_id",
+      }
+    }
   >
-    <span>
-      PostTypePlugin
-    </span>
-  </PostTypePlugin>
-</PostMessageView>
+    <PostTypePlugin
+      compactDisplay={undefined}
+      isRHS={false}
+      mentionKeys={Array []}
+      post={
+        Object {
+          "type": "testtype",
+        }
+      }
+      theme={
+        Object {
+          "id": "theme_id",
+        }
+      }
+    >
+      <span
+        id="pluginId"
+      >
+        PostTypePlugin
+      </span>
+    </PostTypePlugin>
+  </PostMessageView>
+</Provider>
 `;
 
 exports[`plugins/PostMessageView should match snapshot with no extended post type 1`] = `
-<PostMessageView
-  emojis={Object {}}
-  enableFormatting={true}
-  hasMention={false}
-  isRHS={false}
-  mentionKeys={Array []}
-  options={Object {}}
-  pluginPostTypes={Object {}}
-  post={
+<Provider
+  intl={
     Object {
-      "type": "testtype",
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatHTMLMessage": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatPlural": [Function],
+      "formatRelative": [Function],
+      "formatTime": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralFormat": [Function],
+        "getRelativeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "now": [Function],
+      "textComponent": "span",
     }
   }
-  team={Object {}}
-  theme={Object {}}
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(observable): [Function],
+    }
+  }
 >
-  <div>
-    <span
-      className="post-message__text"
-      id={null}
-      onClick={[Function]}
-    />
-  </div>
-</PostMessageView>
+  <PostMessageView
+    currentUser={
+      Object {
+        "username": "username",
+      }
+    }
+    emojis={
+      Object {
+        "name": "smile",
+      }
+    }
+    enableFormatting={true}
+    hasMention={false}
+    isRHS={false}
+    mentionKeys={Array []}
+    options={Object {}}
+    pluginPostTypes={Object {}}
+    post={
+      Object {
+        "type": "testtype",
+      }
+    }
+    team={
+      Object {
+        "name": "team_name",
+      }
+    }
+    theme={
+      Object {
+        "id": "theme_id",
+      }
+    }
+  >
+    <div>
+      <span
+        className="post-message__text"
+        id={null}
+        onClick={[Function]}
+      />
+    </div>
+  </PostMessageView>
+</Provider>
 `;
