@@ -114,6 +114,7 @@
       "actions/**/*.{js,jsx}",
       "client/**/*.{js,jsx}",
       "components/**/*.jsx",
+      "plugins/**/*.{js,jsx}",
       "routes/**/*.{js,jsx}",
       "stores/**/*.{js,jsx}",
       "utils/**/*.{js,jsx}"
