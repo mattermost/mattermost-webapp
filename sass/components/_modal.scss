@@ -622,7 +622,6 @@
     }
 
     .more-modal__name {
-        font-size: .95em;
         font-weight: 600;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -630,7 +629,7 @@
     }
 
     .more-modal__description {
-        @include opacity(.7);
+        @include opacity(.6);
         display: block;
         overflow: hidden;
         text-overflow: ellipsis;

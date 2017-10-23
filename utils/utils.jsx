@@ -1059,11 +1059,29 @@ export function displayEntireNameForUser(user) {
     const fullName = getFullName(user);
 
     if (fullName && user.nickname) {
-        displayName += ` - ${fullName} (${user.nickname})`;
+        displayName = (
+            <span>
+                {'@' + user.username}
+                {' - '}
+                <span className='light'>{fullName + ' (' + user.nickname + ')'}</span>
+            </span>
+        );
     } else if (fullName) {
-        displayName += ` - ${fullName}`;
+        displayName = (
+            <span>
+                {'@' + user.username}
+                {' - '}
+                <span className='light'>{fullName}</span>
+            </span>
+        );
     } else if (user.nickname) {
-        displayName += ` - ${user.nickname}`;
+        displayName = (
+            <span>
+                {'@' + user.username}
+                {' - '}
+                <span className='light'>{'(' + user.nickname + ')'}</span>
+            </span>
+        );
     }
 
     return displayName;
