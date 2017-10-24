@@ -80,6 +80,28 @@ export default class WebrtcSettings extends AdminSettings {
                     value={this.state.enableWebrtc}
                     onChange={this.handleChange}
                 />
+                <DropdownSetting
+                    id='gatewayType'
+                    values={[
+                        {value: 'janus', text: 'Janus WebRTC Gateway'},
+                        {value: 'kopano-webmeetings', text: 'Kopano Webmeetings'}
+                    ]}
+                    label={
+                        <FormattedMessage
+                            id='admin.webrtc.gatewayTypeTitle'
+                            defaultMessage='Gateway Type:'
+                        />
+                    }
+                    helpText={
+                        <FormattedMessage
+                            id='admin.webrtc.gatewayTypeDescription'
+                            defaultMessage='Select the WebRTC Gateway.'
+                        />
+                    }
+                    value={this.state.gatewayType}
+                    onChange={this.handleChange}
+                    disabled={!this.state.enableWebrtc}
+                />
                 <TextSetting
                     id='gatewayWebsocketUrl'
                     label={
@@ -136,28 +158,6 @@ export default class WebrtcSettings extends AdminSettings {
                         />
                     }
                     value={this.state.gatewayAdminSecret}
-                    onChange={this.handleChange}
-                    disabled={!this.state.enableWebrtc}
-                />
-                <DropdownSetting
-                    id='gatewayType'
-                    values={[
-                        {value: 'janus', text: 'Janus WebRTC Gateway'},
-                        {value: 'kopano-webmeetings', text: 'Kopano Webmeetings'}
-                    ]}
-                    label={
-                        <FormattedMessage
-                            id='admin.webrtc.gatewayTypeTitle'
-                            defaultMessage='Gateway Type:'
-                        />
-                    }
-                    helpText={
-                        <FormattedMessage
-                            id='admin.webrtc.gatewayTypeDescription'
-                            defaultMessage='Select the WebRTC Gateway.'
-                        />
-                    }
-                    value={this.state.gatewayType}
                     onChange={this.handleChange}
                     disabled={!this.state.enableWebrtc}
                 />
