@@ -29,8 +29,10 @@ export default class FileAttachment extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.fileInfo.id !== this.props.fileInfo.id) {
+            const extension = nextProps.fileInfo.extension;
+
             this.setState({
-                loaded: Utils.getFileType(nextProps.fileInfo.extension) !== 'image'
+                loaded: Utils.getFileType(extension) !== 'image' && extension !== 'svg'
             });
         }
     }
@@ -49,7 +51,7 @@ export default class FileAttachment extends React.Component {
             const thumbnailUrl = getFileThumbnailUrl(fileInfo.id);
 
             Utils.loadImage(thumbnailUrl, this.handleImageLoaded);
-        } else if (fileInfo.extesnion === 'svg') {
+        } else if (fileInfo.extension === 'svg') {
             Utils.loadImage(getFileUrl(fileInfo.id), this.handleImageLoaded);
         }
     }
