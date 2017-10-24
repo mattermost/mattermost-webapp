@@ -86,6 +86,7 @@ export default class StatusDropdown extends React.Component {
         return (
             <li key={status}>
                 <a
+                    id={'status' + status}
                     href={'#'}
                     onClick={onClick}
                 >
@@ -123,7 +124,7 @@ export default class StatusDropdown extends React.Component {
                         </span>
                     </div>
                 </BootstrapSpan>
-                <Dropdown.Menu>
+                <Dropdown.Menu id='editStatusMenu'>
                     {actions}
                 </Dropdown.Menu>
             </Dropdown>

@@ -83,7 +83,12 @@ export default class SidebarHeader extends React.Component {
         let teamNameWithToolTip = null;
         if (this.props.teamDescription === '') {
             teamNameWithToolTip = (
-                <div className='team__name'>{this.props.teamDisplayName}</div>
+                <div
+                    id='headerTeamName'
+                    className='team__name'
+                >
+                    {this.props.teamDisplayName}
+                </div>
             );
         } else {
             teamNameWithToolTip = (
@@ -94,25 +99,43 @@ export default class SidebarHeader extends React.Component {
                     overlay={<Tooltip id='team-name__tooltip'>{this.props.teamDescription}</Tooltip>}
                     ref='descriptionOverlay'
                 >
-                    <div className='team__name'>{this.props.teamDisplayName}</div>
+                    <div
+                        id='headerTeamName'
+                        className='team__name'
+                    >
+                        {this.props.teamDisplayName}
+                    </div>
                 </OverlayTrigger>
             );
         }
 
         return (
-            <div className='team__header theme'>
+            <div
+                id='teamHeader'
+                className='team__header theme'
+            >
                 {tutorialTip}
-                <div className='header__info'>
+                <div
+                    id='headerInfo'
+                    className='header__info'
+                >
                     {teamNameWithToolTip}
-                    <div className='user__name'>{'@' + this.props.currentUser.username}</div>
+                    <div
+                        id='headerUsername'
+                        className='user__name'
+                    >
+                        {'@' + this.props.currentUser.username}
+                    </div>
                 </div>
-                <SidebarHeaderDropdown
-                    ref='dropdown'
-                    teamType={this.props.teamType}
-                    teamDisplayName={this.props.teamDisplayName}
-                    teamName={this.props.teamName}
-                    currentUser={this.props.currentUser}
-                />
+                <div id='sidebarDropdownMenuContainer'>
+                    <SidebarHeaderDropdown
+                        ref='dropdown'
+                        teamType={this.props.teamType}
+                        teamDisplayName={this.props.teamDisplayName}
+                        teamName={this.props.teamName}
+                        currentUser={this.props.currentUser}
+                    />
+                </div>
                 {statusDropdown}
             </div>
         );
