@@ -154,7 +154,7 @@ export default class WebrtcSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.webrtc.gatewayTypeDescription'
-                            defaultMessage='Select the type of the WebRTC server backend.'
+                            defaultMessage='Select the WebRTC Gateway.'
                         />
                     }
                     value={this.state.gatewayType}
