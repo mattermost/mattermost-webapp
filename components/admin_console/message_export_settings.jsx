@@ -56,7 +56,7 @@ export default class MessageExportSettings extends AdminSettings {
                     <div className='banner__content'>
                         <FormattedHTMLMessage
                             id='admin.messageExport.description'
-                            defaultMessage="Message Export dumps all posts into a file that can be imported into third-party systems. The export task is scheduled to run once per day."
+                            defaultMessage='Message Export dumps all posts into a file that can be imported into third-party systems. The export task is scheduled to run once per day.'
                         />
                     </div>
                 </div>
