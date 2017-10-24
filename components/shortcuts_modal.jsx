@@ -105,6 +105,16 @@ const allShortcuts = defineMessages({
             defaultMessage: 'Recent mentions:\t⌘|Shift|M'
         }
     },
+    navFocusCenter: {
+        default: {
+            id: 'shortcuts.nav.focus_center',
+            defaultMessage: 'Set focus to center channel input box:\tCtrl|Shift|L'
+        },
+        mac: {
+            id: 'shortcuts.nav.focus_center.mac',
+            defaultMessage: 'Set focus to center channel input box:\t⌘|Shift|L'
+        }
+    },
     msgHeader: {
         id: 'shortcuts.msgs.header',
         defaultMessage: 'Messages'
@@ -316,6 +326,7 @@ class ShortcutsModal extends React.PureComponent {
                                         {renderShortcut(formatMessage(shortcuts.navDMMenu))}
                                         {renderShortcut(formatMessage(shortcuts.navSettings))}
                                         {renderShortcut(formatMessage(shortcuts.navMentions))}
+                                        {renderShortcut(formatMessage(shortcuts.navFocusCenter))}
                                     </div>
                                 </div>
                             </div>
