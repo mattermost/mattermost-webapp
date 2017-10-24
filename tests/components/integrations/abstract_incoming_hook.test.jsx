@@ -7,20 +7,16 @@ import {shallow} from 'enzyme';
 import AbstractIncomingWebhook from 'components/integrations/components/abstract_incoming_webhook.jsx';
 
 describe('components/integrations/AbstractIncomingWebhook', () => {
-    const emptyFunction = jest.fn();
-    const header = {id: 'Header', defaultMessage: 'Header'};
-    const footer = {id: 'Footer', defaultMessage: 'Footer'};
+    const team = {name: 'team_name'};
+    const header = {id: 'header_id', defaultMessage: 'Header'};
+    const footer = {id: 'footer_id', defaultMessage: 'Footer'};
+    const serverError = '';
     const initialHook = {
-        id: 'facxd9wpzpbpfp8pad78xj75pr',
         display_name: 'testIncomingWebhook',
         channel_id: '88cxd9wpzpbpfp8pad78xj75pr',
-        create_at: 1501365458934,
-        delete_at: 0,
-        user_id: '88oybd1dwfdoxpkpw1h5kpbyco',
-        team_id: '50oybd1dwfdoxpkpw1h5kpbyco',
-        description: 'testing',
-        update_at: 1501365458934
+        description: 'testing'
     };
+
     const action = jest.genMockFunction().mockImplementation(
         () => {
             return new Promise((resolve) => {
@@ -29,31 +25,31 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
         }
     );
 
+    const requiredProps = {
+        team,
+        header,
+        footer,
+        serverError,
+        initialHook,
+        action
+    };
+
     test('should match snapshot', () => {
-        const wrapper = shallow(
-            <AbstractIncomingWebhook
-                team={{name: 'test'}}
-                header={header}
-                footer={footer}
-                serverError={'serverError'}
-                initialHook={initialHook}
-                action={emptyFunction}
-            />
-        );
+        const wrapper = shallow(<AbstractIncomingWebhook {...requiredProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot, displays client error', () => {
-        const wrapper = shallow(
-            <AbstractIncomingWebhook
-                team={{name: 'test'}}
-                header={header}
-                footer={footer}
-                serverError={''}
-                initialHook={{}}
-                action={action}
-            />
-        );
+    test('should match snapshot, on serverError', () => {
+        const newServerError = 'serverError';
+        const props = {...requiredProps, serverError: newServerError};
+        const wrapper = shallow(<AbstractIncomingWebhook {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, displays client error when no initial hook', () => {
+        const newInitialHook = {};
+        const props = {...requiredProps, initialHook: newInitialHook};
+        const wrapper = shallow(<AbstractIncomingWebhook {...props}/>);
 
         wrapper.find('.btn-primary').simulate('click', {preventDefault() {
             return jest.fn();
@@ -64,16 +60,8 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
     });
 
     test('should call action function', () => {
-        const wrapper = shallow(
-            <AbstractIncomingWebhook
-                team={{name: 'test'}}
-                header={header}
-                footer={footer}
-                serverError={'serverError'}
-                initialHook={initialHook}
-                action={action}
-            />
-        );
+        const wrapper = shallow(<AbstractIncomingWebhook {...requiredProps}/>);
+        expect(wrapper).toMatchSnapshot();
 
         wrapper.find('#displayName').simulate('change', {target: {value: 'name'}});
         wrapper.find('.btn-primary').simulate('click', {preventDefault() {
@@ -81,5 +69,32 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
         }});
 
         expect(action).toBeCalled();
+        expect(action).toHaveBeenCalledTimes(1);
+    });
+
+    test('should update state.channelId when on channel change', () => {
+        const newChannelId = 'new_channel_id';
+        const evt = {
+            preventDefault: jest.fn(),
+            target: {value: newChannelId}
+        };
+
+        const wrapper = shallow(<AbstractIncomingWebhook {...requiredProps}/>);
+        wrapper.find('#channelId').simulate('change', evt);
+
+        expect(wrapper.state('channelId')).toBe(newChannelId);
+    });
+
+    test('should update state.description when on description change', () => {
+        const newDescription = 'new_description';
+        const evt = {
+            preventDefault: jest.fn(),
+            target: {value: newDescription}
+        };
+
+        const wrapper = shallow(<AbstractIncomingWebhook {...requiredProps}/>);
+        wrapper.find('#description').simulate('change', evt);
+
+        expect(wrapper.state('description')).toBe(newDescription);
     });
 });
