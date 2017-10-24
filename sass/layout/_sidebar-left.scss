@@ -264,6 +264,10 @@
                     font-weight: 600;
                 }
 
+                &.muted {
+                    opacity: 0.3;
+                }
+
             }
 
             &.active {
