@@ -34,12 +34,17 @@ export default class ChannelNotificationsModal extends React.Component {
         this.handleUpdatePushNotificationLevel = this.handleUpdatePushNotificationLevel.bind(this);
         this.createPushNotificationLevelSection = this.createPushNotificationLevelSection.bind(this);
 
+        this.handleSubmitMuteNotificationLevel = this.handleSubmitMuteNotificationLevel.bind(this);
+        this.handleUpdateMuteNotificationLevel = this.handleUpdateMuteNotificationLevel.bind(this);
+        this.createMuteNotificationLevelSection = this.createMuteNotificationLevelSection.bind(this);
+
         this.state = {
             activeSection: '',
             show: true,
             notifyLevel: props.channelMember.notify_props.desktop,
             unreadLevel: props.channelMember.notify_props.mark_unread,
-            pushLevel: props.channelMember.notify_props.push || NotificationLevels.DEFAULT
+            pushLevel: props.channelMember.notify_props.push || NotificationLevels.DEFAULT,
+            muteLevel: props.channelMember.notify_props.mute || 'false'
         };
     }
 
@@ -615,6 +620,140 @@ export default class ChannelNotificationsModal extends React.Component {
         );
     }
 
+    handleSubmitMuteNotificationLevel() {
+        const channelId = this.props.channel.id;
+        const notifyLevel = this.state.muteLevel;
+        const currentUserId = this.props.currentUser.id;
+
+        if (this.props.channelMember.notify_props.mute === notifyLevel) {
+            this.updateSection('');
+            return;
+        }
+
+        const options = {mute: notifyLevel};
+        const data = {
+            channel_id: channelId,
+            user_id: currentUserId
+        };
+
+        updateChannelNotifyProps(data, options,
+            () => {
+                this.updateSection('');
+            },
+            (err) => {
+                this.setState({serverError: err.message});
+            }
+        );
+    }
+
+    handleUpdateMuteNotificationLevel(muteLevel) {
+        this.setState({muteLevel});
+    }
+
+    createMuteNotificationLevelSection(serverError) {
+        const notificationLevel = this.state.muteLevel;
+
+        const muteNotifyName = (
+            <FormattedMessage
+                id='channel_notifications.muteChannel.settings'
+                defaultMessage='Mute Channel'
+            />
+        );
+
+        if (this.state.activeSection === 'mute') {
+            const notifyActive = [false, false];
+            if (notificationLevel === 'true') {
+                notifyActive[0] = true;
+            } else {
+                notifyActive[1] = true;
+            }
+
+            var inputs = [];
+
+            inputs.push(
+                <div key='channel-notification-level-radio'>
+                    <div className='radio'>
+                        <label>
+                            <input
+                                id='channelNotificationMute'
+                                type='radio'
+                                name='muteNotificationLevel'
+                                checked={notifyActive[0]}
+                                onChange={this.handleUpdateMuteNotificationLevel.bind(this, 'true')}
+                            />
+                            <FormattedMessage
+                                id='channel_notifications.muteChannel.on.title'
+                                defaultMessage='On'
+                            />
+                        </label>
+                        <br/>
+                    </div>
+                    <div className='radio'>
+                        <label>
+                            <input
+                                id='channelNotificationMute'
+                                type='radio'
+                                name='muteNotificationLevel'
+                                checked={notifyActive[1]}
+                                onChange={this.handleUpdateMuteNotificationLevel.bind(this, 'false')}
+                            />
+                            <FormattedMessage
+                                id='channel_notifications.muteChannel.off.title'
+                                defaultMessage='Off'
+                            />
+                        </label>
+                        <br/>
+                    </div>
+                </div>
+            );
+
+            const handleUpdateSection = function updateSection(e) {
+                this.updateSection('');
+                this.setState({
+                    muteLevel: this.props.channelMember.notify_props.mute || 'false'
+                });
+                e.preventDefault();
+            }.bind(this);
+
+            const extraInfo = (
+                <span>
+                    <FormattedMessage
+                        id='channel_notifications.muteChannel.help'
+                        defaultMessage='Muting turns off desktop, email and push notifications for this channel. The channel will not be marked as unread unless you are mentioned.'
+                    />
+                </span>
+            );
+
+            return (
+                <SettingItemMax
+                    title={muteNotifyName}
+                    inputs={inputs}
+                    submit={this.handleSubmitMuteNotificationLevel}
+                    server_error={serverError}
+                    updateSection={handleUpdateSection}
+                    extraInfo={extraInfo}
+                />
+            );
+        }
+
+        var describe;
+        if (notificationLevel === 'true') {
+            describe = (<FormattedMessage id='channel_notifications.muteChannel.on.desc'/>);
+        } else {
+            describe = (<FormattedMessage id='channel_notifications.muteChannel.off.desc'/>);
+        }
+
+        return (
+            <SettingItemMin
+                title={muteNotifyName}
+                describe={describe}
+                updateSection={() => {
+                    this.updateSection('mute');
+                }}
+            />
+        );
+    }
+
     render() {
         let serverError = null;
         if (this.state.serverError) {
@@ -646,6 +785,8 @@ export default class ChannelNotificationsModal extends React.Component {
                             >
                                 <br/>
                                 <div className='divider-dark first'/>
+                                {this.createMuteNotificationLevelSection(serverError)}
+                                <div className='divider-light'/>
                                 {this.createDesktopNotifyLevelSection(serverError)}
                                 {this.createPushNotificationLevelSection(serverError)}
                                 <div className='divider-light'/>
