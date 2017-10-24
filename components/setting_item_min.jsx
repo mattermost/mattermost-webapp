@@ -55,7 +55,12 @@ export default function SettingItemMin(props) {
             className='section-min'
             onClick={props.updateSection}
         >
-            <li className='col-xs-12 col-sm-9 section-title'>{props.title}</li>
+            <li
+                id={Utils.createSafeId(props.title) + 'Title'}
+                className='col-xs-12 col-sm-9 section-title'
+            >
+                {props.title}
+            </li>
             {editButton}
             {describeSection}
         </ul>

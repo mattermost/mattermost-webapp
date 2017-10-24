@@ -244,14 +244,18 @@ class UserSettingsModal extends React.Component {
 
         return (
             <Modal
+                id='accountSettingsModal'
                 dialogClassName='settings-modal'
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleHidden}
                 enforceFocus={this.state.enforceFocus}
             >
-                <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                <Modal.Header
+                    id='accountSettingsHeader'
+                    closeButton={true}
+                >
+                    <Modal.Title id='accountSettingsTitle'>
                         <FormattedMessage
                             id='user.settings.modal.title'
                             defaultMessage='Account Settings'
