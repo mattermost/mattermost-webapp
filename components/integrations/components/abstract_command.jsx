@@ -74,7 +74,6 @@ export default class AbstractCommand extends React.PureComponent {
             autocompleteHint: command.auto_complete_hint || '',
             autocompleteDescription: command.auto_complete_desc || '',
             saving: false,
-            serverError: this.props.serverError || '',
             clientError: null
         };
     }
@@ -88,7 +87,6 @@ export default class AbstractCommand extends React.PureComponent {
 
         this.setState({
             saving: true,
-            serverError: '',
             clientError: ''
         });
 
@@ -594,7 +592,7 @@ export default class AbstractCommand extends React.PureComponent {
                         <div className='backstage-form__footer'>
                             <FormError
                                 type='backstage'
-                                errors={[this.state.serverError, this.state.clientError]}
+                                errors={[this.props.serverError, this.state.clientError]}
                             />
                             <Link
                                 className='btn btn-sm'
