@@ -60,4 +60,21 @@ describe('components/UnreadChannelIndicator', () => {
 
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should have called onClick', () => {
+        const onClick = jest.fn();
+        const name = 'name';
+
+        const wrapper = shallow(
+            <UnreadChannelIndicator
+                onClick={onClick}
+                show={true}
+                content={<div>{'foo'}</div>}
+                name={name}
+            />
+        );
+
+        wrapper.find('#unreadIndicator' + name).simulate('click');
+        expect(onClick).toHaveBeenCalledTimes(1);
+    });
 });
