@@ -513,7 +513,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .sidebar--left .sidebar__switcher', 'border-color:' + changeOpacity(theme.sidebarText, 0.2));
         changeCss('@media(max-width: 768px){.sidebar--left .add-channel-btn:hover, .sidebar--left .add-channel-btn:focus', 'color:' + changeOpacity(theme.sidebarText, 0.6));
         changeCss('@media(max-width: 768px){.app__body .search__icon svg', 'stroke:' + theme.sidebarText);
-        changeCss('.app__body .sidebar--left .sidebar__switcher button', 'color:' + theme.sidebarText);
+        changeCss('.app__body .sidebar--left .sidebar__switcher span', 'color:' + theme.sidebarText);
         changeCss('.app__body .sidebar--left .sidebar__switcher button svg', 'fill:' + theme.sidebarText);
         changeCss('.app__body .sidebar__switcher button', 'background:' + changeOpacity(theme.sidebarText, 0.08));
     }
@@ -588,6 +588,7 @@ export function applyTheme(theme) {
     }
 
     if (theme.centerChannelBg) {
+        changeCss('@media(max-width: 640px){.app__body .post .dropdown .dropdown-menu button', 'background:' + theme.centerChannelBg);
         changeCss('@media(min-width: 768px){.app__body .post:hover .post__header .col__reply, .app__body .post.post--hovered .post__header .col__reply', 'background:' + theme.centerChannelBg);
         changeCss('@media(max-width: 320px){.tutorial-steps__container', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .channel-header__info .channel-header__description:before, .app__body .app__content, .app__body .markdown__table, .app__body .markdown__table tbody tr, .app__body .suggestion-list__content, .app__body .modal .modal-content, .app__body .modal .modal-footer, .app__body .post.post--compact .post-image__column, .app__body .suggestion-list__divider > span, .app__body .status-wrapper .status, .app__body .alert.alert-transparent', 'background:' + theme.centerChannelBg);
@@ -612,7 +613,7 @@ export function applyTheme(theme) {
 
     if (theme.centerChannelColor) {
         changeCss('.app__body .mentions__name .status.status--group, .app__body .multi-select__note', 'background:' + changeOpacity(theme.centerChannelColor, 0.12));
-        changeCss('.app__body .member-list__popover .more-modal__body, .app__body .alert.alert-transparent, .app__body .channel-header .channel-header__icon, .app__body .search-bar__container .search__form, .app__body .table > thead > tr > th, .app__body .table > tbody > tr > td', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.12));
+        changeCss('.app__body .post .dropdown .dropdown-menu button, .app__body .member-list__popover .more-modal__body, .app__body .alert.alert-transparent, .app__body .channel-header .channel-header__icon, .app__body .search-bar__container .search__form, .app__body .table > thead > tr > th, .app__body .table > tbody > tr > td', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.12));
         changeCss('.app__body .post-list__arrows, .app__body .post .flag-icon__container', 'fill:' + changeOpacity(theme.centerChannelColor, 0.3));
         changeCss('@media(min-width: 768px){.app__body .search__icon svg', 'stroke:' + changeOpacity(theme.centerChannelColor, 0.4));
         changeCss('.app__body .channel-header__icon svg', 'fill:' + changeOpacity(theme.centerChannelColor, 0.4));
@@ -1058,11 +1059,29 @@ export function displayEntireNameForUser(user) {
     const fullName = getFullName(user);
 
     if (fullName && user.nickname) {
-        displayName += ` - ${fullName} (${user.nickname})`;
+        displayName = (
+            <span>
+                {'@' + user.username}
+                {' - '}
+                <span className='light'>{fullName + ' (' + user.nickname + ')'}</span>
+            </span>
+        );
     } else if (fullName) {
-        displayName += ` - ${fullName}`;
+        displayName = (
+            <span>
+                {'@' + user.username}
+                {' - '}
+                <span className='light'>{fullName}</span>
+            </span>
+        );
     } else if (user.nickname) {
-        displayName += ` - ${user.nickname}`;
+        displayName = (
+            <span>
+                {'@' + user.username}
+                {' - '}
+                <span className='light'>{'(' + user.nickname + ')'}</span>
+            </span>
+        );
     }
 
     return displayName;

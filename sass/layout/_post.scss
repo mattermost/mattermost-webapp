@@ -1205,6 +1205,7 @@
     .post__embed-container {
         @include single-transition(max-height, .5, ease);
         display: block;
+        margin-top: 5px;
         max-height: 1000px;
         overflow: hidden;
 
