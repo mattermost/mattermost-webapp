@@ -56,6 +56,11 @@ export default class ChannelHeader extends React.Component {
         }).isRequired
     }
 
+    static defaultProps = {
+        dmUser: {},
+        dmUserStatus: {status: UserStatuses.OFFLINE}
+    }
+
     constructor(props) {
         super(props);
 
