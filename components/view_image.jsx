@@ -44,7 +44,7 @@ export default class ViewImageModal extends React.PureComponent {
         /**
          * The index number of starting image
          **/
-        startIndex: PropTypes.number
+        startIndex: PropTypes.number.isRequired
     };
 
     static defaultProps = {
