@@ -27,9 +27,25 @@ const KeyCodes = Constants.KeyCodes;
 
 export default class ViewImageModal extends React.Component {
     static propTypes = {
+
+        /**
+         * Set whether to show this modal or not
+         */
         show: PropTypes.bool.isRequired,
+
+        /**
+         * Function to call when this modal is dismissed 
+         **/
         onModalDismissed: PropTypes.func.isRequired,
+
+        /**
+         * List of FileInfo to view
+         **/
         fileInfos: PropTypes.arrayOf(PropTypes.object).isRequired,
+
+        /**
+         * The index number of starting image
+         **/
         startIndex: PropTypes.number
     };
 
