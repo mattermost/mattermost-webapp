@@ -9,11 +9,35 @@ import * as FileUtils from 'utils/file_utils';
 
 export default class ViewImagePopoverBar extends React.PureComponent {
     static propTypes = {
+
+        /**
+         * Set whether to show this component or not
+         */
         show: PropTypes.bool.isRequired,
+
+        /**
+         * The index number of the current file.
+         */
         fileId: PropTypes.number.isRequired,
+
+        /**
+         * The count of total files.
+         */
         totalFiles: PropTypes.number.isRequired,
+
+        /**
+         * The name of current file. 
+         */
         filename: PropTypes.string.isRequired,
+
+        /**
+         * The API route to get current file.
+         */
         fileURL: PropTypes.string.isRequired,
+
+        /**
+         * Function to call when click on "Get Public Link"
+         */
         onGetPublicLink: PropTypes.func.isRequired
     };
 
