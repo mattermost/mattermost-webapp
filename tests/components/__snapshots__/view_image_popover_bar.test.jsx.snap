@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/ViewImagePopoverBar should match snapshot 1`] = `
+<div
+  className="modal-button-bar footer--show"
+>
+  <span
+    className="pull-left text"
+  >
+    <FormattedMessage
+      defaultMessage="File {count, number} of {total, number}"
+      id="view_image_popover.file"
+      values={
+        Object {
+          "count": 1,
+          "total": 0,
+        }
+      }
+    />
+  </span>
+  <div
+    className="image-links"
+  >
+    <a
+      className="text"
+      download=""
+      href=""
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <FormattedMessage
+        defaultMessage="Download"
+        id="view_image_popover.download"
+        values={Object {}}
+      />
+    </a>
+  </div>
+</div>
+`;
+
+exports[`components/ViewImagePopoverBar should match snapshot 2`] = `
+<div
+  className="modal-button-bar footer--show"
+>
+  <span
+    className="pull-left text"
+  >
+    <FormattedMessage
+      defaultMessage="File {count, number} of {total, number}"
+      id="view_image_popover.file"
+      values={
+        Object {
+          "count": 1,
+          "total": 0,
+        }
+      }
+    />
+  </span>
+  <div
+    className="image-links"
+  >
+    <div>
+      <a
+        className="public-link text"
+        data-title="Public Image"
+        href="#"
+      >
+        <FormattedMessage
+          defaultMessage="Get Public Link"
+          id="view_image_popover.publicLink"
+          values={Object {}}
+        />
+      </a>
+      <span
+        className="text"
+      >
+         | 
+      </span>
+    </div>
+    <a
+      className="text"
+      download=""
+      href=""
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <FormattedMessage
+        defaultMessage="Download"
+        id="view_image_popover.download"
+        values={Object {}}
+      />
+    </a>
+  </div>
+</div>
+`;
