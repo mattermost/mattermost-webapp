@@ -26,6 +26,19 @@ import ViewImagePopoverBar from './view_image_popover_bar.jsx';
 const KeyCodes = Constants.KeyCodes;
 
 export default class ViewImageModal extends React.Component {
+    static propTypes = {
+        show: PropTypes.bool.isRequired,
+        onModalDismissed: PropTypes.func.isRequired,
+        fileInfos: PropTypes.arrayOf(PropTypes.object).isRequired,
+        startIndex: PropTypes.number
+    };
+
+    static defaultProps = {
+        show: false,
+        fileInfos: [],
+        startIndex: 0
+    };
+
     constructor(props) {
         super(props);
 
@@ -317,18 +330,6 @@ export default class ViewImageModal extends React.Component {
         );
     }
 }
-
-ViewImageModal.defaultProps = {
-    show: false,
-    fileInfos: [],
-    startIndex: 0
-};
-ViewImageModal.propTypes = {
-    show: PropTypes.bool.isRequired,
-    onModalDismissed: PropTypes.func.isRequired,
-    fileInfos: PropTypes.arrayOf(PropTypes.object).isRequired,
-    startIndex: PropTypes.number
-};
 
 function LoadingImagePreview({progress, loading}) {
     let progressView = null;
