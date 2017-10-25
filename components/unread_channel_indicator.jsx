@@ -27,7 +27,7 @@ export default class UnreadChannelIndicator extends React.PureComponent {
       /**
        * The content of the indicator
        */
-        content: PropTypes.string,
+        content: PropTypes.node,
 
       /**
        * The name of the indicator
