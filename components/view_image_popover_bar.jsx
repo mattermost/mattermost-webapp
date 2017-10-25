@@ -8,6 +8,23 @@ import {FormattedMessage} from 'react-intl';
 import * as FileUtils from 'utils/file_utils';
 
 export default class ViewImagePopoverBar extends React.PureComponent {
+    static propTypes = {
+        show: PropTypes.bool.isRequired,
+        fileId: PropTypes.number.isRequired,
+        totalFiles: PropTypes.number.isRequired,
+        filename: PropTypes.string.isRequired,
+        fileURL: PropTypes.string.isRequired,
+        onGetPublicLink: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        show: false,
+        imgId: 0,
+        totalFiles: 0,
+        filename: '',
+        fileURL: ''
+    };
+
     render() {
         var publicLink = '';
         if (global.window.mm_config.EnablePublicLink === 'true') {
@@ -75,19 +92,3 @@ export default class ViewImagePopoverBar extends React.PureComponent {
         );
     }
 }
-ViewImagePopoverBar.defaultProps = {
-    show: false,
-    imgId: 0,
-    totalFiles: 0,
-    filename: '',
-    fileURL: ''
-};
-
-ViewImagePopoverBar.propTypes = {
-    show: PropTypes.bool.isRequired,
-    fileId: PropTypes.number.isRequired,
-    totalFiles: PropTypes.number.isRequired,
-    filename: PropTypes.string.isRequired,
-    fileURL: PropTypes.string.isRequired,
-    onGetPublicLink: PropTypes.func.isRequired
-};
