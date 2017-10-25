@@ -110,11 +110,8 @@ describe('components/user_settings/EmailNotificationSetting', () => {
 
     test('should pass handleChange', () => {
         const wrapper = mountWithIntl(<EmailNotificationSetting {...requiredProps}/>);
-        const hasChanged = wrapper.state('hasChanged');
-
         wrapper.find('#emailNotificationImmediately').simulate('change');
 
-        expect(wrapper.state('hasChanged')).toBe(!hasChanged);
         expect(wrapper.state('enableEmail')).toBe('true');
         expect(wrapper.state('emailInterval')).toBe(30);
     });
@@ -173,10 +170,8 @@ describe('components/user_settings/EmailNotificationSetting', () => {
             emailInterval: 30
         };
         const wrapper = mountWithIntl(<EmailNotificationSetting {...requiredProps}/>);
-
         wrapper.setProps(nextProps);
 
-        expect(wrapper.state('hasChanged')).toBe(false);
         expect(wrapper.state('enableEmail')).toBe(nextProps.enableEmail);
         expect(wrapper.state('emailInterval')).toBe(nextProps.emailInterval);
     });

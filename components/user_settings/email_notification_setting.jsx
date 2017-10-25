@@ -27,42 +27,32 @@ export default class EmailNotificationSetting extends React.Component {
 
     constructor(props) {
         super(props);
-        this.enableEmail = props.enableEmail;
-        this.emailInterval = props.emailInterval;
 
         this.state = {
             enableEmail: props.enableEmail,
-            emailInterval: props.emailInterval,
-            hasChanged: false
+            emailInterval: props.emailInterval
         };
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.enableEmail !== this.props.enableEmail || nextProps.emailInterval !== this.props.emailInterval) {
-            this.enableEmail = nextProps.enableEmail;
-            this.emailInterval = nextProps.emailInterval;
             this.setState({
                 enableEmail: nextProps.enableEmail,
-                emailInterval: nextProps.emailInterval,
-                hasChanged: false
+                emailInterval: nextProps.emailInterval
             });
         }
     }
 
     handleChange = (enableEmail, emailInterval) => {
-        const hasChanged = this.enableEmail !== enableEmail || this.emailInterval !== emailInterval;
-
         this.setState({
             enableEmail,
-            emailInterval,
-            hasChanged
+            emailInterval
         });
     }
 
     handleSubmit = () => {
-        if (this.state.hasChanged) {
-            const {enableEmail, emailInterval} = this.state;
-
+        const {enableEmail, emailInterval} = this.state;
+        if (this.props.enableEmail !== enableEmail || this.props.emailInterval !== emailInterval) {
             // until the rest of the notification settings are moved to preferences, we have to do this separately
             savePreference(Preferences.CATEGORY_NOTIFICATIONS, Preferences.EMAIL_INTERVAL, emailInterval.toString());
 
@@ -79,8 +69,7 @@ export default class EmailNotificationSetting extends React.Component {
     handleCancel = (e) => {
         this.setState({
             enableEmail: this.props.enableEmail,
-            emailInterval: this.props.emailInterval,
-            hasChanged: false
+            emailInterval: this.props.emailInterval
         });
         this.props.onCancel(e);
     }
