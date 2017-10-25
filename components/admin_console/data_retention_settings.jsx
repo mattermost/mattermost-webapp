@@ -182,7 +182,7 @@ export default class DataRetentionSettings extends AdminSettings {
                 />
                 <JobsTable
                     jobType={JobTypes.DATA_RETENTION}
-                    disabled={!this.state.enableMessageDeletion && !this.state.enableFileDeletion}
+                    disabled={this.state.enableMessageDeletion !== 'true' && this.state.enableFileDeletion !== 'true'}
                     createJobButtonText={
                         <FormattedMessage
                             id='admin.data_retention.createJob.title'
