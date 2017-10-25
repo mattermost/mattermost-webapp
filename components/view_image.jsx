@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
@@ -34,7 +32,7 @@ export default class ViewImageModal extends React.PureComponent {
         show: PropTypes.bool.isRequired,
 
         /**
-         * Function to call when this modal is dismissed 
+         * Function to call when this modal is dismissed
          **/
         onModalDismissed: PropTypes.func.isRequired,
 
@@ -112,13 +110,13 @@ export default class ViewImageModal extends React.PureComponent {
     }
 
     onModalShown(nextProps) {
-        $(window).on('keyup', this.handleKeyPress);
+        document.addEventListener('keyup', this.handleKeyPress);
 
         this.showImage(nextProps.startIndex);
     }
 
     onModalHidden() {
-        $(window).off('keyup', this.handleKeyPress);
+        document.addEventListener('keyup', this.handleKeyPress);
 
         if (this.refs.video) {
             this.refs.video.stop();
@@ -143,7 +141,7 @@ export default class ViewImageModal extends React.PureComponent {
     showImage(id) {
         this.setState({imageIndex: id});
 
-        const imageHeight = $(window).height() - 100;
+        const imageHeight = window.innerHeight - 100;
         this.setState({imageHeight});
 
         if (!this.state.loaded[id]) {
