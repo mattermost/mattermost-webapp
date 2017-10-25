@@ -9,6 +9,7 @@ import {Permissions} from 'mattermost-redux/constants';
 
 import 'bootstrap';
 
+import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as WebrtcActions from 'actions/webrtc_actions.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
@@ -146,6 +147,21 @@ export default class ChannelHeader extends React.Component {
         } else {
             this.props.actions.favoriteChannel(this.props.channel.id);
         }
+    };
+
+    unmute = () => {
+        if (Utils.isEmptyObject(this.props.channelMember) ||
+            Utils.isEmptyObject(this.props.currentUser) ||
+            Utils.isEmptyObject(this.props.channel)) {
+            return;
+        }
+        const options = {mute: 'false'};
+        const data = {
+            channel_id: this.props.channel.id,
+            user_id: this.props.currentUser.id
+        };
+
+        ChannelActions.updateChannelNotifyProps(data, options);
     };
 
     searchMentions = (e) => {
@@ -930,6 +946,36 @@ export default class ChannelHeader extends React.Component {
             </OverlayTrigger>
         );
 
+        const channelMuted = (!Utils.isEmptyObject(this.props.channelMember)) && this.props.channelMember.notify_props.mute === 'true';
+        const channelMutedTooltip = (
+            <Tooltip id='channelMutedTooltip'>
+                <FormattedMessage
+                    id='channelHeader.unmute'
+                    defaultMessage='Unmute'
+                />
+            </Tooltip>
+        );
+
+        let muteTrigger;
+        if (channelMuted) {
+            muteTrigger = (
+                <OverlayTrigger
+                    trigger={['hover', 'focus']}
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='bottom'
+                    overlay={channelMutedTooltip}
+                >
+                    <button
+                        id='toggleMute'
+                        onClick={this.unmute}
+                        className={'style--none color--link channel-header__mute inactive'}
+                    >
+                        <i className={'icon fa fa-bell-slash-o'}/>
+                    </button>
+                </OverlayTrigger>
+            );
+        }
+
         let channelMembersModal;
         if (this.state.showMembersModal) {
             channelMembersModal = (
@@ -1001,6 +1047,7 @@ export default class ChannelHeader extends React.Component {
                                     </ul>
                                 </h2>
                             </div>
+                            {muteTrigger}
                             {headerTextContainer}
                         </div>
                     </div>

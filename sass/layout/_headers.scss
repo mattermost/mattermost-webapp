@@ -31,6 +31,27 @@
         }
     }
 
+    .channel-header__mute {
+        float: none;
+        height: 20px;
+        margin: 0 0 0 8px;
+        padding-top: 3px;
+        position: relative;
+        z-index: 1;
+
+        &.inactive {
+            color: inherit;
+        }
+
+        &.active {
+            @include opacity(1);
+        }
+
+        i {
+            font-size: 17px;
+        }
+    }
+
     .flex-parent {
         display: flex;
     }

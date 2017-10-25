@@ -1343,6 +1343,7 @@
   "change_url.urlLabel": "Kanal-URL",
   "channelHeader.addToFavorites": "Zu Favoriten hinzufügen",
   "channelHeader.removeFromFavorites": "Aus Favoriten entfernen",
+  "channelHeader.unmute": "Stummschaltung aufheben",
   "channel_flow.alreadyExist": "Ein Kanal mit der URL existiert bereits",
   "channel_flow.changeUrlDescription": "Einige Zeichen sind nicht in URLs erlaubt und werden ggfs. entfernt.",
   "channel_flow.changeUrlTitle": "Kanal-URL ändern",
