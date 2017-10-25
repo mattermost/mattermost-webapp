@@ -7,19 +7,19 @@ import {Modal} from 'react-bootstrap';
 
 import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as FileUtils from 'utils/file_utils';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import loadingGif from 'images/load.gif';
 
-import AudioVideoPreview from './audio_video_preview.jsx';
-import CodePreview from './code_preview.jsx';
-import FileInfoPreview from './file_info_preview.jsx';
-import PDFPreview from './pdf_preview.jsx';
-import ViewImagePopoverBar from './view_image_popover_bar.jsx';
+import AudioVideoPreview from 'components/audio_video_preview';
+import CodePreview from 'components/code_preview';
+import FileInfoPreview from 'components/file_info_preview';
+import PDFPreview from 'components/pdf_preview';
+import ViewImagePopoverBar from 'components/view_image_popover_bar';
 
 const KeyCodes = Constants.KeyCodes;
 
