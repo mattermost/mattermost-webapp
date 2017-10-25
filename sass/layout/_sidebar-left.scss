@@ -213,7 +213,7 @@
                 white-space: nowrap;
             }
 
-            > a {
+            > button,a {
                 border-radius: 0;
                 line-height: 1.5;
                 outline: none;
@@ -270,7 +270,7 @@
             }
 
             &.active {
-                a {
+                button,a {
                     &:before {
                         background: $black;
                         content: '';
@@ -289,9 +289,9 @@
                     }
                 }
 
-                a,
-                a:hover,
-                a:focus {
+                button,a,
+                button:hover,a:hover,
+                button:focus,a:focus {
                     @include alpha-property(background-color, $black, .1);
                     border-radius: 0;
                     font-weight: 400;
