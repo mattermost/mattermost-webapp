@@ -10,6 +10,7 @@
     resize: none;
     white-space: pre-wrap;
     word-wrap: break-word;
+    unicode-bidi: plaintext;
 
     &:focus {
         border-color: #cccccc;
@@ -974,6 +975,7 @@
         white-space: pre-wrap;
         width: 100%;
         word-break: break-word;
+        unicode-bidi: plaintext;
     }
 
     .post__header--info {
