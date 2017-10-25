@@ -14,8 +14,9 @@ describe('components/ViewImagePopoverBar', () => {
     });
 
     test('should match snapshot', () => {
-        let makeWrapper = () => shallow(
-            <ViewImagePopoverBar 
+        /* eslint func-style: "off" */
+        const makeWrapper = () => shallow(
+            <ViewImagePopoverBar
                 show={true}
             />
         );
@@ -31,7 +32,7 @@ describe('components/ViewImagePopoverBar', () => {
         const mockOnClick = jest.fn();
 
         const wrapper = shallow(
-            <ViewImagePopoverBar 
+            <ViewImagePopoverBar
                 show={true}
                 onGetPublicLink={mockOnClick}
             />

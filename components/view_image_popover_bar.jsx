@@ -26,7 +26,7 @@ export default class ViewImagePopoverBar extends React.PureComponent {
         totalFiles: PropTypes.number.isRequired,
 
         /**
-         * The name of current file. 
+         * The name of current file.
          */
         filename: PropTypes.string.isRequired,
 
