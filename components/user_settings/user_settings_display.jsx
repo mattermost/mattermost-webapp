@@ -413,7 +413,7 @@ export default class UserSettingsDisplay extends React.Component {
         });
 
         const channelDisplayModeSection = this.createSection({
-            section: 'Preferences.CHANNEL_DISPLAY_MODE',
+            section: Preferences.CHANNEL_DISPLAY_MODE,
             display: 'channelDisplayMode',
             value: this.state.channelDisplayMode,
             defaultDisplay: Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN,
@@ -495,7 +495,7 @@ export default class UserSettingsDisplay extends React.Component {
         }
 
         return (
-            <div>
+            <div id='displaySettings'>
                 <div className='modal-header'>
                     <button
                         id='closeButton'
@@ -524,7 +524,10 @@ export default class UserSettingsDisplay extends React.Component {
                     </h4>
                 </div>
                 <div className='user-settings'>
-                    <h3 className='tab-header'>
+                    <h3
+                        id='displaySettingsTitle'
+                        className='tab-header'
+                    >
                         <FormattedMessage
                             id='user.settings.display.title'
                             defaultMessage='Display Settings'

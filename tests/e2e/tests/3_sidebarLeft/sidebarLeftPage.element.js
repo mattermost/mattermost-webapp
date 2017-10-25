@@ -27,39 +27,52 @@ module.exports = {
     'Sidebar Left page, teamHeaderSection - element check': (client) => {
         const sidebarLeftPage = client.page.sidebarLeftPage();
         const sidebarLeftSection = sidebarLeftPage.section.sidebarLeft;
-
         sidebarLeftSection.expect.section('@teamHeader').to.be.visible;
+
         const teamHeaderSection = sidebarLeftSection.section.teamHeader;
-
-        teamHeaderSection
-            .assert.visible('@statusDropdown')
-
         teamHeaderSection.expect.section('@headerInfo').to.be.visible;
-        const headerInfoSection = teamHeaderSection.section.headerInfo;
 
+        const headerInfoSection = teamHeaderSection.section.headerInfo;
         headerInfoSection
             .assert.visible('@headerUsername')
             .assert.visible('@headerTeamName');
 
+        teamHeaderSection
+            .assert.visible('@statusDropdown')
+
         teamHeaderSection.click('@statusDropdown');
         teamHeaderSection.expect.section('@editStatusMenu').to.be.visible;
-        const editStatusMenuSection = teamHeaderSection.section.editStatusMenu;
-
-        editStatusMenuSection
-            .assert.visible('@statusOnline')
-            .assert.visible('@statusAway')
-            .assert.visible('@statusOffline');
+        teamHeaderSection.click('@statusDropdown');
 
         teamHeaderSection.expect.section('@sidebarDropdownMenuContainer').to.be.visible;
         const sidebarDropdownMenuContainerSection = teamHeaderSection.section.sidebarDropdownMenuContainer;
-
         sidebarDropdownMenuContainerSection
             .assert.visible('@sidebarHeaderDropdownButton');
 
         sidebarDropdownMenuContainerSection.click('@sidebarHeaderDropdownButton');
         sidebarDropdownMenuContainerSection.expect.section('@sidebarDropdownMenu').to.be.visible;
-        const sidebarDropdownMenuSection = sidebarDropdownMenuContainerSection.section.sidebarDropdownMenu;
+        sidebarDropdownMenuContainerSection.click('@sidebarHeaderDropdownButton');
+    },
+    'Sidebar Left page, sidebarChannelContainerSection - element check': (client) => {
+        const sidebarLeftPage = client.page.sidebarLeftPage();
+        sidebarLeftPage.expect.section('@sidebarChannelContainer').to.be.visible;
 
+        const sidebarChannelContainerSection = sidebarLeftPage.section.sidebarChannelContainer;
+        sidebarChannelContainerSection
+            .assert.visible('@publicChannel')
+            .assert.visible('@createPublicChannel')
+            .assert.visible('@morePublicChannel')
+            .assert.visible('@privateChannel')
+            .assert.visible('@createPrivateChannel')
+            .assert.visible('@directChannel')
+            .assert.visible('@moreDirectChannel');
+    },
+    'Sidebar Left page, sidebarHeaderDropdownButton click action - element check': (client) => {
+        const sidebarLeftPage = client.page.sidebarLeftPage();
+        sidebarLeftPage.click('@sidebarHeaderDropdownButton');
+        sidebarLeftPage.expect.section('@sidebarDropdownMenu').to.be.visible;
+
+        const sidebarDropdownMenuSection = sidebarLeftPage.section.sidebarDropdownMenu;
         sidebarDropdownMenuSection
             .assert.visible('@accountSettings')
             .assert.visible('@sendEmailInvite')
@@ -77,21 +90,20 @@ module.exports = {
             .assert.visible('@nativeAppLink')
             .assert.visible('@about')
             .assert.visible('@logout');
+
+        sidebarLeftPage.click('@sidebarHeaderDropdownButton');
     },
-    'Sidebar Left page, sidebarChannelContainerSection - element check': (client) => {
+    'Sidebar Left page, statusDropdown click action - element check': (client) => {
         const sidebarLeftPage = client.page.sidebarLeftPage();
-        const sidebarLeftSection = sidebarLeftPage.section.sidebarLeft;
+        sidebarLeftPage.click('@statusDropdown');
+        sidebarLeftPage.expect.section('@editStatusMenu').to.be.visible;
 
-        sidebarLeftSection.expect.section('@sidebarChannelContainer').to.be.visible;
-        const sidebarChannelContainerSection = sidebarLeftSection.section.sidebarChannelContainer;
+        const editStatusMenuSection = sidebarLeftPage.section.editStatusMenu;
+        editStatusMenuSection
+            .assert.visible('@statusOnline')
+            .assert.visible('@statusAway')
+            .assert.visible('@statusOffline');
 
-        sidebarChannelContainerSection
-            .assert.visible('@publicChannel')
-            .assert.visible('@createPublicChannel')
-            .assert.visible('@morePublicChannel')
-            .assert.visible('@privateChannel')
-            .assert.visible('@createPrivateChannel')
-            .assert.visible('@directChannel')
-            .assert.visible('@moreDirectChannel');
+        sidebarLeftPage.click('@statusDropdown');
     }
 };
