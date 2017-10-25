@@ -99,6 +99,7 @@
 
 .mention--highlight {
     background-color: $yellow;
+    unicode-bidi: isolate;
 }
 
 .mention__purpose {
