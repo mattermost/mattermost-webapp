@@ -27,35 +27,49 @@ export default class EmailNotificationSetting extends React.Component {
 
     constructor(props) {
         super(props);
+        this.enableEmail = props.enableEmail;
+        this.emailInterval = props.emailInterval;
 
         this.state = {
             enableEmail: props.enableEmail,
-            emailInterval: props.emailInterval
+            emailInterval: props.emailInterval,
+            hasChanged: false
         };
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.enableEmail !== this.props.enableEmail || nextProps.emailInterval !== this.props.emailInterval) {
+            this.enableEmail = nextProps.enableEmail;
+            this.emailInterval = nextProps.emailInterval;
             this.setState({
                 enableEmail: nextProps.enableEmail,
-                emailInterval: nextProps.emailInterval
+                emailInterval: nextProps.emailInterval,
+                hasChanged: false
             });
         }
     }
 
     handleChange = (enableEmail, emailInterval) => {
+        const hasChanged = this.enableEmail !== enableEmail || this.emailInterval !== emailInterval;
+
         this.setState({
             enableEmail,
-            emailInterval
+            emailInterval,
+            hasChanged
         });
     }
 
     handleSubmit = () => {
-        // until the rest of the notification settings are moved to preferences, we have to do this separately
-        savePreference(Preferences.CATEGORY_NOTIFICATIONS, Preferences.EMAIL_INTERVAL, this.state.emailInterval.toString());
+        if (this.state.hasChanged) {
+            const {enableEmail, emailInterval} = this.state;
 
-        const {enableEmail} = this.state;
-        this.props.onSubmit({enableEmail});
+            // until the rest of the notification settings are moved to preferences, we have to do this separately
+            savePreference(Preferences.CATEGORY_NOTIFICATIONS, Preferences.EMAIL_INTERVAL, emailInterval.toString());
+
+            this.props.onSubmit({enableEmail});
+        } else {
+            this.props.updateSection('');
+        }
     }
 
     handleExpand = () => {
@@ -65,7 +79,8 @@ export default class EmailNotificationSetting extends React.Component {
     handleCancel = (e) => {
         this.setState({
             enableEmail: this.props.enableEmail,
-            emailInterval: this.props.emailInterval
+            emailInterval: this.props.emailInterval,
+            hasChanged: false
         });
         this.props.onCancel(e);
     }
