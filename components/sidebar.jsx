@@ -666,7 +666,7 @@ export default class Sidebar extends React.Component {
         // create elements for all 4 types of channels
         const visibleFavoriteChannels = this.state.favoriteChannels.
             filter((channel) => {
-                return ChannelUtils.isDirectChannelVisible(channel) || ChannelUtils.isGroupChannelVisible(channel);
+                return ChannelUtils.isOpenChannel(channel) || ChannelUtils.isPrivateChannel(channel) || ChannelUtils.isDirectChannelVisible(channel) || ChannelUtils.isGroupChannelVisible(channel);
             });
 
         const favoriteItems = visibleFavoriteChannels.
