@@ -27,7 +27,7 @@ export default class UnreadChannelIndicator extends React.PureComponent {
       /**
        * The content of the indicator
        */
-        text: PropTypes.object,
+        content: PropTypes.string,
 
       /**
        * The name of the indicator
@@ -38,7 +38,7 @@ export default class UnreadChannelIndicator extends React.PureComponent {
     static defaultProps = {
         show: false,
         extraClass: '',
-        text: ''
+        content: ''
     }
 
     render() {
@@ -56,7 +56,7 @@ export default class UnreadChannelIndicator extends React.PureComponent {
                 style={{display: displayValue}}
                 onClick={this.props.onClick}
             >
-                {this.props.text}
+                {this.props.content}
                 <span
                     className='icon icon__unread'
                     dangerouslySetInnerHTML={{__html: unreadIcon}}
