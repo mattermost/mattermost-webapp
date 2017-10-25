@@ -726,6 +726,8 @@ export function applyTheme(theme) {
         changeCss('.app__body .post-reaction.post-reaction--current-user', 'color:' + theme.linkColor);
         changeCss('.app__body .channel-header__title.open .heading, .app__body .channel-header__info .channel-header__title.open .header-dropdown__icon', 'color:' + theme.linkColor);
         changeCss('.app__body .channel-header .dropdown-toggle:hover .heading, .app__body .channel-header .dropdown-toggle:hover .header-dropdown__icon', 'color:' + theme.linkColor);
+        changeCss('.emoji-picker__container .icon--emoji.active svg', 'fill:' + theme.linkColor);
+        changeCss('.sidebar--right--expanded .sidebar--right__expand', 'color:' + theme.linkColor);
     }
 
     if (theme.buttonBg) {

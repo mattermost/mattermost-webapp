@@ -718,7 +718,7 @@ export default class CreatePost extends React.Component {
                     />
                     <span
                         id='emojiPickerButton'
-                        className='icon icon--emoji'
+                        className={'icon icon--emoji ' + (this.state.showEmojiPicker ? 'active' : '')}
                         dangerouslySetInnerHTML={{__html: Constants.EMOJI_ICON_SVG}}
                         onClick={this.toggleEmojiPicker}
                     />
