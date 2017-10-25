@@ -18,7 +18,7 @@ export default class ViewImagePopoverBar extends React.PureComponent {
         /**
          * The index number of the current file.
          */
-        fileId: PropTypes.number.isRequired,
+        fileIndex: PropTypes.number.isRequired,
 
         /**
          * The count of total files.
@@ -43,7 +43,7 @@ export default class ViewImagePopoverBar extends React.PureComponent {
 
     static defaultProps = {
         show: false,
-        imgId: 0,
+        fileIndex: 0,
         totalFiles: 0,
         filename: '',
         fileURL: ''
@@ -106,7 +106,7 @@ export default class ViewImagePopoverBar extends React.PureComponent {
                         id='view_image_popover.file'
                         defaultMessage='File {count, number} of {total, number}'
                         values={{
-                            count: (this.props.fileId + 1),
+                            count: (this.props.fileIndex + 1),
                             total: this.props.totalFiles
                         }}
                     />
