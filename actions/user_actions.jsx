@@ -60,7 +60,7 @@ export async function loadMeAndConfig(callback) {
     Promise.all([
         loadMe(),
         getLicenseConfig()(store.dispatch, store.getState).then(
-            (license) => {
+            ({data: license}) => {
                 global.window.mm_license = license;
             }
         )
