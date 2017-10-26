@@ -113,8 +113,8 @@ export default class PostBody extends React.PureComponent {
 
         let comment = '';
         let postClass = '';
-
-        if (parentPost && !Utils.isPostEphemeral(post)) {
+        const isEphemeral = Utils.isPostEphemeral(post);
+        if (parentPost && !isEphemeral) {
             const profile = this.props.parentPostUser;
 
             let apostrophe = '';
@@ -245,10 +245,15 @@ export default class PostBody extends React.PureComponent {
             mentionHighlightClass = 'mention-comment';
         }
 
+        let ephemeralPostClass = '';
+        if (isEphemeral) {
+            ephemeralPostClass = 'post--ephemeral';
+        }
+
         return (
             <div>
                 {comment}
-                <div className={'post__body ' + mentionHighlightClass}>
+                <div className={`post__body ${mentionHighlightClass} ${ephemeralPostClass}`}>
                     {messageWithAdditionalContent}
                     {fileAttachmentHolder}
                     <ReactionListContainer post={post}/>

@@ -1276,6 +1276,10 @@
         width: 100%;
         word-wrap: break-word;
 
+        &.post--ephemeral {
+            padding-right: 20px !important;
+        }
+
         div {
         }
 
