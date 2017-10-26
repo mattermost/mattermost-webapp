@@ -172,7 +172,7 @@ function onChannelByIdentifierEnter(state, replace, callback) {
                 callback();
             } else {
                 getUser(userId)(dispatch, getState).then(
-                    (profile) => {
+                    ({data: profile}) => {
                         if (profile) {
                             replace(`/${state.params.team}/messages/@${profile.username}`);
                             callback();
@@ -225,12 +225,11 @@ function onChannelByIdentifierEnter(state, replace, callback) {
                 directChannelToUser(teammate, state, replace, callback);
             } else {
                 getUserByUsername(username)(dispatch, getState).then(
-                    (data) => {
+                    ({data, error: err}) => {
                         if (data && success) {
                             success(data);
-                        } else if (data == null && error) {
-                            const serverError = getState().requests.users.getUserByUsername.error;
-                            error({id: serverError.server_error_id, ...serverError});
+                        } else if (err && error) {
+                            error({id: err.server_error_id, ...err});
                         }
                     }
                 );
@@ -242,12 +241,11 @@ function onChannelByIdentifierEnter(state, replace, callback) {
                 directChannelToUser(teammate, state, replace, callback);
             } else {
                 getUserByEmail(email)(dispatch, getState).then(
-                    (data) => {
+                    ({data, error: err}) => {
                         if (data && success) {
                             success(data);
-                        } else if (data == null && error) {
-                            const serverError = getState().requests.users.getUser.error;
-                            error({id: serverError.server_error_id, ...serverError});
+                        } else if (err && error) {
+                            error({id: err.server_error_id, ...err});
                         }
                     }
                 );

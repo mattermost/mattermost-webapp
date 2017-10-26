@@ -16,99 +16,75 @@ import TeamStore from 'stores/team_store.jsx';
 const dispatch = store.dispatch;
 const getState = store.getState;
 
-export function checkIfTeamExists(teamName, onSuccess, onError) {
-    TeamActions.checkIfTeamExists(teamName)(dispatch, getState).then(
-        (exists) => {
-            if (exists != null && onSuccess) {
-                onSuccess(exists);
-            } else if (exists == null && onError) {
-                const serverError = getState().requests.teams.getTeam.error;
-                onError({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function checkIfTeamExists(teamName, onSuccess, onError) {
+    const {data: exists, error: err} = await TeamActions.checkIfTeamExists(teamName)(dispatch, getState);
+    if (exists != null && onSuccess) {
+        onSuccess(exists);
+    } else if (err && onError) {
+        onError({id: err.server_error_id, ...err});
+    }
 }
 
-export function createTeam(team, onSuccess, onError) {
-    TeamActions.createTeam(team)(dispatch, getState).then(
-        (rteam) => {
-            if (rteam && onSuccess) {
-                browserHistory.push('/' + rteam.name + '/channels/town-square');
-                onSuccess(rteam);
-            } else if (rteam == null && onError) {
-                const serverError = getState().requests.teams.createTeam.error;
-                onError({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function createTeam(team, onSuccess, onError) {
+    const {data: rteam, error: err} = await TeamActions.createTeam(team)(dispatch, getState);
+    if (rteam && onSuccess) {
+        browserHistory.push('/' + rteam.name + '/channels/town-square');
+        onSuccess(rteam);
+    } else if (err && onError) {
+        onError({id: err.server_error_id, ...err});
+    }
 }
 
-export function updateTeam(team, onSuccess, onError) {
-    TeamActions.updateTeam(team)(dispatch, getState).then(
-        (rteam) => {
-            if (rteam && onSuccess) {
-                browserHistory.push('/' + rteam.name + '/channels/town-square');
-                onSuccess(rteam);
-            } else if (rteam == null && onError) {
-                const serverError = getState().requests.teams.updateTeam.error;
-                onError({id: serverError.server_error_id, ...serverError});
-            }
-        },
-    );
+export async function updateTeam(team, onSuccess, onError) {
+    const {data: rteam, error: err} = await TeamActions.updateTeam(team)(dispatch, getState);
+    if (rteam && onSuccess) {
+        browserHistory.push('/' + rteam.name + '/channels/town-square');
+        onSuccess(rteam);
+    } else if (err && onError) {
+        onError({id: err.server_error_id, ...err});
+    }
 }
 
-export function removeUserFromTeam(teamId, userId, success, error) {
-    TeamActions.removeUserFromTeam(teamId, userId)(dispatch, getState).then(
-        (data) => {
-            getUser(userId)(dispatch, getState);
-            TeamActions.getTeamStats(teamId)(dispatch, getState);
-            if (data) {
-                getChannelStats(ChannelStore.getCurrentId())(dispatch, getState);
-                if (success) {
-                    success();
-                }
-            } else if (data == null && error) {
-                const serverError = getState().requests.teams.removeUserFromTeam.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        },
-    );
+export async function removeUserFromTeam(teamId, userId, success, error) {
+    const {data, error: err} = await TeamActions.removeUserFromTeam(teamId, userId)(dispatch, getState);
+    getUser(userId)(dispatch, getState);
+    TeamActions.getTeamStats(teamId)(dispatch, getState);
+    getChannelStats(ChannelStore.getCurrentId())(dispatch, getState);
+
+    if (data && success) {
+        success();
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
-export function updateTeamMemberRoles(teamId, userId, newRoles, success, error) {
-    TeamActions.updateTeamMemberRoles(teamId, userId, newRoles)(dispatch, getState).then(
-        (data) => {
-            if (data && success) {
-                success();
-            } else if (data == null && error) {
-                const serverError = getState().requests.teams.updateTeamMember.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function updateTeamMemberRoles(teamId, userId, newRoles, success, error) {
+    const {data, error: err} = await TeamActions.updateTeamMemberRoles(teamId, userId, newRoles)(dispatch, getState);
+    if (data && success) {
+        success();
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
 export function addUserToTeamFromInvite(data, hash, inviteId, success, error) {
     Client4.addToTeamFromInvite(hash, data, inviteId).then(
-        (member) => {
-            TeamActions.getTeam(member.team_id)(dispatch, getState).then(
-                (team) => {
-                    dispatch({
-                        type: TeamTypes.RECEIVED_MY_TEAM_MEMBER,
-                        data: {
-                            ...member,
-                            delete_at: 0,
-                            msg_count: 0,
-                            mention_count: 0
-                        }
-                    });
-
-                    if (success) {
-                        success(team);
-                    }
+        async (member) => {
+            const {data: team} = await TeamActions.getTeam(member.team_id)(dispatch, getState);
+            dispatch({
+                type: TeamTypes.RECEIVED_MY_TEAM_MEMBER,
+                data: {
+                    ...member,
+                    delete_at: 0,
+                    msg_count: 0,
+                    mention_count: 0
                 }
-            );
-        },
+            });
+
+            if (success) {
+                success(team);
+            }
+        }
     ).catch(
         (err) => {
             if (error) {
@@ -118,20 +94,14 @@ export function addUserToTeamFromInvite(data, hash, inviteId, success, error) {
     );
 }
 
-export function addUsersToTeam(teamId, userIds, success, error) {
-    TeamActions.addUsersToTeam(teamId, userIds)(dispatch, getState).then(
-        (teamMembers) => {
-            if (teamMembers) {
-                getChannelStats(ChannelStore.getCurrentId())(dispatch, getState);
-                if (success) {
-                    success();
-                }
-            } else if (teamMembers == null && error) {
-                const serverError = getState().requests.teams.addUserToTeam.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        },
-    );
+export async function addUsersToTeam(teamId, userIds, success, error) {
+    const {data: teamMembers, error: err} = await TeamActions.addUsersToTeam(teamId, userIds)(dispatch, getState);
+    getChannelStats(ChannelStore.getCurrentId())(dispatch, getState);
+    if (teamMembers && success) {
+        success(teamMembers);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
 export function getInviteInfo(inviteId, success, error) {
@@ -150,7 +120,7 @@ export function getInviteInfo(inviteId, success, error) {
     );
 }
 
-export function inviteMembers(data, success, error) {
+export async function inviteMembers(data, success, error) {
     if (!data.invites) {
         success();
     }
@@ -158,16 +128,12 @@ export function inviteMembers(data, success, error) {
     data.invites.forEach((i) => {
         emails.push(i.email);
     });
-    TeamActions.sendEmailInvitesToTeam(TeamStore.getCurrentId(), emails)(dispatch, getState).then(
-        (result) => {
-            if (result && success) {
-                success();
-            } else if (result == null && error) {
-                const serverError = getState().requests.teams.emailInvite.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+    const {data: result, error: err} = await TeamActions.sendEmailInvitesToTeam(TeamStore.getCurrentId(), emails)(dispatch, getState);
+    if (result && success) {
+        success();
+    } else if (result == null && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
 export function switchTeams(url) {
@@ -175,28 +141,20 @@ export function switchTeams(url) {
     browserHistory.push(url);
 }
 
-export function getTeamsForUser(userId, success, error) {
-    TeamActions.getTeamsForUser(userId)(dispatch, getState).then(
-        (result) => {
-            if (result && success) {
-                success(result);
-            } else if (result == null && error) {
-                const serverError = getState().requests.teams.getTeams.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function getTeamsForUser(userId, success, error) {
+    const {data, error: err} = await TeamActions.getTeamsForUser(userId)(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }
 
-export function getTeamMembersForUser(userId, success, error) {
-    TeamActions.getTeamMembersForUser(userId)(dispatch, getState).then(
-        (result) => {
-            if (result && success) {
-                success(result);
-            } else if (result == null && error) {
-                const serverError = getState().requests.teams.getTeamMembers.error;
-                error({id: serverError.server_error_id, ...serverError});
-            }
-        }
-    );
+export async function getTeamMembersForUser(userId, success, error) {
+    const {data, error: err} = await TeamActions.getTeamMembersForUser(userId)(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }

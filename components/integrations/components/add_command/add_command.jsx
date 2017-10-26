@@ -18,11 +18,6 @@ export default class AddCommand extends React.PureComponent {
         */
         team: PropTypes.object,
 
-        /**
-        * The request state for addCommand action. Contains status and error
-        */
-        addCommandRequest: PropTypes.object.isRequired,
-
         actions: PropTypes.shape({
 
             /**
@@ -43,14 +38,14 @@ export default class AddCommand extends React.PureComponent {
     addCommand = async (command) => {
         this.setState({serverError: ''});
 
-        const data = await this.props.actions.addCommand(command);
+        const {data, error} = await this.props.actions.addCommand(command);
         if (data) {
             browserHistory.push(`/${this.props.team.name}/integrations/commands/confirm?type=commands&id=${data.id}`);
             return;
         }
 
-        if (this.props.addCommandRequest.error) {
-            this.setState({serverError: this.props.addCommandRequest.error.message});
+        if (error) {
+            this.setState({serverError: error.message});
         }
     }
 
