@@ -549,6 +549,8 @@
   "admin.ldap.emailAttrTitle": "Email Attribute:",
   "admin.ldap.enableDesc": "When true, Mattermost allows login using AD/LDAP",
   "admin.ldap.enableTitle": "Enable sign-in with AD/LDAP:",
+  "admin.ldap.enableSyncDesc": "When true, Mattermost will periodically synchronize users from AD/LDAP",
+  "admin.ldap.enableSyncTitle": "Enable Synchronization with AD/LDAP:",
   "admin.ldap.firstnameAttrDesc": "(Optional) The attribute in the AD/LDAP server that will be used to populate the first name of users in Mattermost. When set, users will not be able to edit their first name, since it is synchronized with the LDAP server. When left blank, users can set their own first name in Account Settings.",
   "admin.ldap.firstnameAttrEx": "E.g.: \"givenName\"",
   "admin.ldap.firstnameAttrTitle": "First Name Attribute",
