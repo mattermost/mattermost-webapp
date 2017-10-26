@@ -396,6 +396,7 @@ export default class Sidebar extends React.Component {
     }
 
     handleClick = (link) => {
+        this.trackChannelSelectedEvent();
         browserHistory.push(link);
     }
 
