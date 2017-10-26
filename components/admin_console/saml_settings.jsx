@@ -28,6 +28,7 @@ export default class SamlSettings extends AdminSettings {
 
     getConfigFromState(config) {
         config.SamlSettings.Enable = this.state.enable;
+        config.SamlSettings.EnableSyncWithLdap = this.state.enableSyncWithLdap;
         config.SamlSettings.Verify = this.state.verify;
         config.SamlSettings.Encrypt = this.state.encrypt;
         config.SamlSettings.IdpUrl = this.state.idpUrl;
@@ -61,6 +62,7 @@ export default class SamlSettings extends AdminSettings {
         return {
             siteUrlSet: siteUrl.length > 0,
             enable: settings.Enable,
+            enableSyncWithLdap: settings.EnableSyncWithLdap,
             verify: settings.Verify,
             encrypt: settings.Encrypt,
             idpUrl: settings.IdpUrl,
@@ -353,6 +355,24 @@ export default class SamlSettings extends AdminSettings {
                     }
                     value={this.state.enable}
                     onChange={this.handleChange}
+                />
+                <BooleanSetting
+                    id='enableSyncWithLdap'
+                    label={
+                        <FormattedMessage
+                            id='admin.saml.enableSyncWithLdapTitle'
+                            defaultMessage='Enable synchronizing SAML accounts with AD/LDAP:'
+                        />
+                    }
+                    helpText={
+                        <FormattedHTMLMessage
+                            id='admin.saml.enableSyncWithLdapDescription'
+                            defaultMessage='Mattermost will periodically synchronize SAML users from AD/LDAP based on the LDAP synchronization settings'
+                        />
+                    }
+                    value={this.state.enableSyncWithLdap}
+                    onChange={this.handleChange}
+                    disabled={!this.state.enable}
                 />
                 <TextSetting
                     id='idpUrl'
