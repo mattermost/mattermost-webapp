@@ -155,7 +155,7 @@ export default class ReactionListView extends React.PureComponent {
 
         let addReactionClassName = 'post-add-reaction';
         if (this.state.showEmojiPicker) {
-            addReactionClassName += '-emoji-picker-open';
+            addReactionClassName += ' post-add-reaction-emoji-picker-open';
         }
 
         return (

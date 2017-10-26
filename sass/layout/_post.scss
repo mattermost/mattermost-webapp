@@ -699,6 +699,7 @@
 
         .post-add-reaction {
             .post-reaction {
+                visibility: visible;
                 @include opacity(1);
             }
         }
@@ -1292,12 +1293,11 @@
 
     .post-add-reaction {
         display: inline-block;
-        visibility: hidden;
 
         .post-reaction {
             @include opacity(0);
             @include single-transition(all, .15s, ease-in);
-            margin-left: 6px;
+            visibility: hidden;
         }
     }
 
@@ -1406,7 +1406,11 @@
 
             .post-add-reaction-emoji-picker-open {
                 display: inline-block;
-                visibility: visible;
+
+                .post-reaction {
+                    @include opacity(1);
+                    visibility: visible;
+                }
             }
         }
 
