@@ -213,14 +213,17 @@
                 white-space: nowrap;
             }
 
-            > button,a {
+            > .sidebar-item {
+                @include single-transition(none);
                 border-radius: 0;
                 line-height: 1.5;
                 outline: none;
                 overflow: hidden;
                 padding: 5px 0 5px 17px;
+                text-align: left;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+                width: 100%;
 
                 .icon {
                     &.icon__globe,
