@@ -2227,8 +2227,6 @@
   "search_results.searching": "Searching...",
   "search_results.usage.dataRetention": "Only messages posted in the last {days} days are returned. Contact your System Administrator for more detail.",
   "search_results.usage.fromInSuggestion": "Use {fromUser} to find posts from specific users and {inChannel} to find posts in specific channels",
-  "search_results.usage.fromInSuggestion.fromUser": "from:",
-  "search_results.usage.fromInSuggestion.inChannel": "in:",
   "search_results.usage.phrasesSuggestion": "Use {quotationMarks} to search for phrases",
   "search_results.usage.phrasesSuggestion.quotationMarks": "\"quotation marks\"",
   "search_results.usageFlag1": "You haven't flagged any messages yet.",

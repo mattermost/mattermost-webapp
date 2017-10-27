@@ -324,22 +324,8 @@ export default class SearchResults extends React.Component {
                         id='search_results.usage.fromInSuggestion'
                         defaultMessage='Use {fromUser} to find posts from specific users and {inChannel} to find posts in specific channels'
                         values={{
-                            fromUser: (
-                                <b>
-                                    <FormattedMessage
-                                        id='search_results.usage.fromInSuggestion.fromUser'
-                                        defaultMessage='from:'
-                                    />
-                                </b>
-                            ),
-                            inChannel: (
-                                <b>
-                                    <FormattedMessage
-                                        id='search_results.usage.fromInSuggestion.inChannel'
-                                        defaultMessage='in:'
-                                    />
-                                </b>
-                            )
+                            fromUser: 'from:',
+                            inChannel: 'in:'
                         }}
                     />
                 </li>
