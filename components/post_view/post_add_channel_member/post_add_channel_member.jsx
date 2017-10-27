@@ -67,7 +67,7 @@ export default class PostAddChannelMember extends React.PureComponent {
 
         if (post.channel_id === channel.id) {
             userIds.forEach((userId) => {
-                this.props.actions.addChannelMember(channel.id, userId);
+                this.props.actions.addChannelMember(channel.id, userId, post.root_id);
             });
 
             this.props.actions.removePost(post);
