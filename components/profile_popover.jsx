@@ -31,6 +31,7 @@ export default class ProfilePopover extends React.Component {
         this.initWebrtc = this.initWebrtc.bind(this);
         this.handleShowDirectChannel = this.handleShowDirectChannel.bind(this);
         this.handleMentionKeyClick = this.handleMentionKeyClick.bind(this);
+        this.handleEditAccountSettings = this.handleEditAccountSettings.bind(this);
         this.state = {
             currentUserId: UserStore.getCurrentId(),
             loadingDMChannel: -1
@@ -120,6 +121,18 @@ export default class ProfilePopover extends React.Component {
             this.props.hide();
         }
         GlobalActions.emitPopoverMentionKeyClick(this.props.isRHS, this.props.user.username);
+    }
+
+    handleEditAccountSettings(e) {
+        e.preventDefault();
+
+        if (!this.props.user) {
+            return;
+        }
+        if (this.props.hide) {
+            this.props.hide();
+        }
+        GlobalActions.showAccountSettingsModal();
     }
 
     render() {
@@ -241,6 +254,27 @@ export default class ProfilePopover extends React.Component {
                         className='text-nowrap text-lowercase user-popover__email'
                     >
                         {email}
+                    </a>
+                </div>
+            );
+        }
+
+        if (this.props.user.id === UserStore.getCurrentId()) {
+            dataContent.push(
+                <div
+                    data-toggle='tooltip'
+                    key='user-popover-settings'
+                    className='popover__row first'
+                >
+                    <a
+                        href='#'
+                        onClick={this.handleEditAccountSettings}
+                    >
+                        <i className='fa fa-pencil-square-o'/>
+                        <FormattedMessage
+                            id='user_profile.account.editSettings'
+                            defaultMessage='Edit Account Settings'
+                        />
                     </a>
                 </div>
             );
