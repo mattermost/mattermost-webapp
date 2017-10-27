@@ -41,6 +41,7 @@ import loadClaimController from 'bundle-loader?lazy!components/claim';
 import loadHelpController from 'bundle-loader?lazy!components/help/help_controller';
 import loadGetIosApp from 'bundle-loader?lazy!components/get_ios_app';
 import loadGetAndroidApp from 'bundle-loader?lazy!components/get_android_app';
+import loadGoToNativeApp from 'bundle-loader?lazy!components/go_to_native_app';
 import loadSelectTeam from 'bundle-loader?lazy!components/select_team';
 import loadAuthorize from 'bundle-loader?lazy!components/authorize';
 import loadCreateTeam from 'bundle-loader?lazy!components/create_team';
@@ -65,6 +66,7 @@ const ClaimController = makeAsyncComponent(loadClaimController);
 const HelpController = makeAsyncComponent(loadHelpController);
 const GetIosApp = makeAsyncComponent(loadGetIosApp);
 const GetAndroidApp = makeAsyncComponent(loadGetAndroidApp);
+const GoToNativeApp = makeAsyncComponent(loadGoToNativeApp);
 const SelectTeam = makeAsyncComponent(loadSelectTeam);
 const Authorize = makeAsyncComponent(loadAuthorize);
 const Mfa = makeAsyncComponent(loadMfa);
@@ -305,6 +307,10 @@ export default class Root extends React.Component {
                     <Route
                         path={'/get_android_app'}
                         component={GetAndroidApp}
+                    />
+                    <Route
+                        path={'/vault'}
+                        component={GoToNativeApp}
                     />
                     <LoggedInRoute
                         path={'/admin_console'}
