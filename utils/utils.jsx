@@ -1309,6 +1309,8 @@ export function mod(a, b) {
     return ((a % b) + b) % b;
 }
 
+export const REACTION_PATTERN = /^(\+|-):([^:\s]+):\s*$/;
+
 export function canCreateCustomEmoji(user) {
     if (global.window.mm_license.IsLicensed !== 'true') {
         return true;

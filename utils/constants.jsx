@@ -352,7 +352,8 @@ export const StorageTypes = keyMirror({
 
 export const StoragePrefixes = {
     EMBED_VISIBLE: 'isVisible_',
-    COMMENT_DRAFT: 'comment_draft_'
+    COMMENT_DRAFT: 'comment_draft_',
+    DRAFT: 'draft_'
 };
 
 export const ErrorPageTypes = {
