@@ -10,6 +10,7 @@
     "bootstrap-colorpicker": "2.5.2",
     "chart.js": "2.7.2",
     "compass-mixins": "0.12.10",
+    "custom-protocol-detection": "uber-uchat/custom-protocol-detection",
     "exif2css": "1.2.0",
     "fastclick": "1.0.6",
     "flux": "3.1.3",
