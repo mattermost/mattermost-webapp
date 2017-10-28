@@ -13,6 +13,7 @@ import DisplayTab from './user_settings_display.jsx';
 import GeneralTab from './user_settings_general';
 import NotificationsTab from './user_settings_notifications.jsx';
 import SecurityTab from './user_settings_security';
+import SidebarTab from './user_settings_sidebar.jsx';
 
 export default class UserSettings extends React.Component {
     constructor(props) {
@@ -91,6 +92,19 @@ export default class UserSettings extends React.Component {
                         collapseModal={this.props.collapseModal}
                         setEnforceFocus={this.props.setEnforceFocus}
                         setRequireConfirm={this.props.setRequireConfirm}
+                    />
+                </div>
+            );
+        } else if (this.props.activeTab === 'sidebar') {
+            return (
+                <div>
+                    <SidebarTab
+                        user={this.state.user}
+                        activeSection={this.props.activeSection}
+                        updateSection={this.props.updateSection}
+                        updateTab={this.props.updateTab}
+                        closeModal={this.props.closeModal}
+                        collapseModal={this.props.collapseModal}
                     />
                 </div>
             );
