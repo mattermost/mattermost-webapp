@@ -70,12 +70,12 @@ export default class SecurityTab extends React.Component {
             /*
              * Function to activate a personal access token
              */
-            activateUserAccessToken: PropTypes.func.isRequired,
+            enableUserAccessToken: PropTypes.func.isRequired,
 
             /*
              * Function to deactivate a personal access token
              */
-            deactivateUserAccessToken: PropTypes.func.isRequired,
+            disableUserAccessToken: PropTypes.func.isRequired,
 
             /*
              * Function to clear personal access tokens locally
@@ -1145,16 +1145,24 @@ export default class SecurityTab extends React.Component {
     }
 
     activateToken = async (tokenId) => {
-        const {error} = await this.props.actions.activateUserAccessToken(tokenId);
+        const {error} = await this.props.actions.enableUserAccessToken(tokenId);
         if (error) {
             this.setState({serverError: error.message});
+        } else {
+            const userId = this.props.user ? this.props.user.id : '';
+            this.props.actions.getUserAccessTokensForUser(userId, 0, 200);
+            trackEvent('settings', 'activate_user_access_token');
         }
     }
 
     deactivateToken = async (tokenId) => {
-        const {error} = await this.props.actions.deactivateUserAccessToken(tokenId);
+        const {error} = await this.props.actions.disableUserAccessToken(tokenId);
         if (error) {
             this.setState({serverError: error.message});
+        } else {
+            const userId = this.props.user ? this.props.user.id : '';
+            this.props.actions.getUserAccessTokensForUser(userId, 0, 200);
+            trackEvent('settings', 'deactivate_user_access_token');
         }
         this.handleCancelConfirm();
     }
@@ -1171,7 +1179,7 @@ export default class SecurityTab extends React.Component {
                 }
 
                 let activeLink;
-                let activeStatus = null;
+                let activeStatus;
 
                 if (token.is_active) {
                     activeLink = (
@@ -1190,10 +1198,12 @@ export default class SecurityTab extends React.Component {
                         </a>);
                 } else {
                     activeStatus = (
-                        <FormattedMessage
-                            id='user.settings.tokens.activated'
-                            defaultMessage='(Inactive)'
-                        />
+                        <span className='has-error setting-box__inline-error'>
+                            <FormattedMessage
+                                id='user.settings.tokens.deactivatedWarning'
+                                defaultMessage='(Inactive)'
+                            />
+                        </span>
                     );
                     activeLink = (<a
                         name={token.id + '_activate'}
@@ -1201,7 +1211,6 @@ export default class SecurityTab extends React.Component {
                         onClick={(e) => {
                             e.preventDefault();
                             this.activateToken(token.id);
-                            trackEvent('settings', 'activate_user_access_token');
                         }}
                                   >
                         <FormattedMessage
@@ -1248,7 +1257,6 @@ export default class SecurityTab extends React.Component {
                                 />
                             </a>
                         </div>
-
                         <hr className='margin-bottom margin-top x2'/>
                     </div>
                 );
