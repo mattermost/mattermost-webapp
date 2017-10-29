@@ -56,20 +56,6 @@ export default class ViewImageModal extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.showImage = this.showImage.bind(this);
-        this.loadImage = this.loadImage.bind(this);
-
-        this.handleNext = this.handleNext.bind(this);
-        this.handlePrev = this.handlePrev.bind(this);
-        this.handleKeyPress = this.handleKeyPress.bind(this);
-
-        this.onModalShown = this.onModalShown.bind(this);
-        this.onModalHidden = this.onModalHidden.bind(this);
-
-        this.handleGetPublicLink = this.handleGetPublicLink.bind(this);
-        this.onMouseEnterImage = this.onMouseEnterImage.bind(this);
-        this.onMouseLeaveImage = this.onMouseLeaveImage.bind(this);
-
         this.state = {
             imageIndex: this.props.startIndex,
             imageHeight: '100%',
@@ -79,7 +65,7 @@ export default class ViewImageModal extends React.PureComponent {
         };
     }
 
-    handleNext(e) {
+    handleNext = (e) => {
         if (e) {
             e.stopPropagation();
         }
@@ -90,7 +76,7 @@ export default class ViewImageModal extends React.PureComponent {
         this.showImage(id);
     }
 
-    handlePrev(e) {
+    handlePrev = (e) => {
         if (e) {
             e.stopPropagation();
         }
@@ -101,7 +87,7 @@ export default class ViewImageModal extends React.PureComponent {
         this.showImage(id);
     }
 
-    handleKeyPress(e) {
+    handleKeyPress = (e) => {
         if (e.keyCode === KeyCodes.RIGHT) {
             this.handleNext();
         } else if (e.keyCode === KeyCodes.LEFT) {
@@ -109,13 +95,13 @@ export default class ViewImageModal extends React.PureComponent {
         }
     }
 
-    onModalShown(nextProps) {
+    onModalShown = (nextProps) => {
         document.addEventListener('keyup', this.handleKeyPress);
 
         this.showImage(nextProps.startIndex);
     }
 
-    onModalHidden() {
+    onModalHidden = () => {
         document.addEventListener('keyup', this.handleKeyPress);
 
         if (this.refs.video) {
@@ -138,7 +124,7 @@ export default class ViewImageModal extends React.PureComponent {
         }
     }
 
-    showImage(id) {
+    showImage = (id) => {
         this.setState({imageIndex: id});
 
         const imageHeight = window.innerHeight - 100;
@@ -149,7 +135,7 @@ export default class ViewImageModal extends React.PureComponent {
         }
     }
 
-    loadImage(index) {
+    loadImage = (index) => {
         const fileInfo = this.props.fileInfos[index];
         const fileType = Utils.getFileType(fileInfo.extension);
 
@@ -195,17 +181,17 @@ export default class ViewImageModal extends React.PureComponent {
         });
     }
 
-    handleGetPublicLink() {
+    handleGetPublicLink = () => {
         this.props.onModalDismissed();
 
         GlobalActions.showGetPublicLinkModal(this.props.fileInfos[this.state.imageIndex].id);
     }
 
-    onMouseEnterImage() {
+    onMouseEnterImage = () => {
         this.setState({showFooter: true});
     }
 
-    onMouseLeaveImage() {
+    onMouseLeaveImage = () => {
         this.setState({showFooter: false});
     }
 
