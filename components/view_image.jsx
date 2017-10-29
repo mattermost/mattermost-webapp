@@ -10,7 +10,6 @@ import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 import * as GlobalActions from 'actions/global_actions';
 
 import Constants from 'utils/constants';
-import * as FileUtils from 'utils/file_utils';
 import * as Utils from 'utils/utils';
 
 import loadingGif from 'images/load.gif';
@@ -18,6 +17,7 @@ import loadingGif from 'images/load.gif';
 import AudioVideoPreview from 'components/audio_video_preview';
 import CodePreview from 'components/code_preview';
 import FileInfoPreview from 'components/file_info_preview';
+import ImagePreview from 'components/image_preview';
 import PDFPreview from 'components/pdf_preview';
 import ViewImagePopoverBar from 'components/view_image_popover_bar';
 
@@ -211,7 +211,6 @@ export default class ViewImageModal extends React.PureComponent {
                 content = (
                     <ImagePreview
                         fileInfo={fileInfo}
-                        fileUrl={fileUrl}
                     />
                 );
             } else if (fileType === 'video' || fileType === 'audio') {
@@ -355,33 +354,4 @@ function LoadingImagePreview({progress, loading}) {
 LoadingImagePreview.propTypes = {
     progress: PropTypes.number,
     loading: PropTypes.string
-};
-
-function ImagePreview({fileInfo, fileUrl}) {
-    let previewUrl;
-    if (fileInfo.has_preview_image) {
-        previewUrl = getFilePreviewUrl(fileInfo.id);
-    } else {
-        previewUrl = fileUrl;
-    }
-
-    if (!FileUtils.canDownloadFiles()) {
-        return <img src={previewUrl}/>;
-    }
-
-    return (
-        <a
-            href={fileUrl}
-            target='_blank'
-            rel='noopener noreferrer'
-            download={true}
-        >
-            <img src={previewUrl}/>
-        </a>
-    );
-}
-
-ImagePreview.propTypes = {
-    fileInfo: PropTypes.object.isRequired,
-    fileUrl: PropTypes.string.isRequired
 };
