@@ -15,8 +15,7 @@ function mapStateToProps(state, ownProps) {
         ...ownProps,
         isSystemAdmin: isCurrentUserSystemAdmin(state),
         oauthAppId,
-        oauthApp: state.entities.integrations.oauthApps[oauthAppId],
-        editOAuthAppRequest: state.requests.integrations.updateOAuthApp
+        oauthApp: state.entities.integrations.oauthApps[oauthAppId]
     };
 }
 
