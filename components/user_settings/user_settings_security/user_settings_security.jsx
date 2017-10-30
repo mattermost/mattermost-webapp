@@ -1066,41 +1066,6 @@ export default class SecurityTab extends React.Component {
         }
     }
 
-    confirmDeactivateToken = (tokenId) => {
-        const token = this.props.userAccessTokens[tokenId];
-
-        this.setState({
-            showConfirmModal: true,
-            confirmTitle: (
-                <FormattedMessage
-                    id='user.settings.tokens.confirmDeactivateTitle'
-                    defaultMessage='Deactivate Token?'
-                />
-            ),
-            confirmMessage: (
-                <div className='alert alert-danger'>
-                    <FormattedHTMLMessage
-                        id='user.settings.tokens.confirmDeactivateMessage'
-                        defaultMessage='Any integrations using this token will not be able to access the Mattermost API until the token is reactivated. <br /><br />Are you sure want to deactivate the {description} token?'
-                        values={{
-                            description: token.description
-                        }}
-                    />
-                </div>
-            ),
-            confirmButton: (
-                <FormattedMessage
-                    id='user.settings.tokens.confirmDeactivateButton'
-                    defaultMessage='Yes, Deactivate'
-                />
-            ),
-            confirmComplete: () => {
-                this.deactivateToken(tokenId);
-                trackEvent('settings', 'deactivate_user_access_token');
-            }
-        });
-    }
-
     confirmRevokeToken = (tokenId) => {
         const token = this.props.userAccessTokens[tokenId];
 
@@ -1164,7 +1129,6 @@ export default class SecurityTab extends React.Component {
             this.props.actions.getUserAccessTokensForUser(userId, 0, 200);
             trackEvent('settings', 'deactivate_user_access_token');
         }
-        this.handleCancelConfirm();
     }
 
     createTokensSection = () => {
@@ -1188,7 +1152,7 @@ export default class SecurityTab extends React.Component {
                             href='#'
                             onClick={(e) => {
                                 e.preventDefault();
-                                this.confirmDeactivateToken(token.id);
+                                this.deactivateToken(token.id);
                             }}
                         >
                             <FormattedMessage
