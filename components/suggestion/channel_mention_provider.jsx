@@ -53,7 +53,7 @@ export default class ChannelMentionProvider extends Provider {
     constructor() {
         super();
 
-        this.lastTermWithNoResults = '';
+        this.lastPrefixWithNoResults = '';
         this.lastCompletedWord = '';
     }
 
@@ -65,7 +65,7 @@ export default class ChannelMentionProvider extends Provider {
             return false;
         }
 
-        if (this.lastTermWithNoResults && pretext.startsWith(this.lastTermWithNoResults)) {
+        if (this.lastPrefixWithNoResults && pretext.startsWith(this.lastPrefixWithNoResults)) {
             // Just give up since we know it won't return any results
             return false;
         }
@@ -90,7 +90,7 @@ export default class ChannelMentionProvider extends Provider {
                 }
 
                 if (channels.length === 0) {
-                    this.lastTermWithNoResults = pretext;
+                    this.lastPrefixWithNoResults = prefix;
                 }
 
                 // Wrap channels in an outer object to avoid overwriting the 'type' property.
@@ -138,5 +138,6 @@ export default class ChannelMentionProvider extends Provider {
 
     handleCompleteWord(term) {
         this.lastCompletedWord = term;
+        this.lastPrefixWithNoResults = '';
     }
 }
