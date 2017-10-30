@@ -167,27 +167,27 @@ export default class NewChannelModal extends React.PureComponent {
         }
 
         let createPublicChannelLink = (
-            <a
-                href='#'
+            <button
+                className='style--none color--link'
                 onClick={this.props.onTypeSwitched}
             >
                 <FormattedMessage
                     id='channel_modal.publicChannel1'
                     defaultMessage='Create a public channel'
                 />
-            </a>
+            </button>
         );
 
         let createPrivateChannelLink = (
-            <a
-                href='#'
+            <button
+                className='style--none color--link'
                 onClick={this.props.onTypeSwitched}
             >
                 <FormattedMessage
                     id='channel_modal.privateGroup2'
                     defaultMessage='Create a private channel'
                 />
-            </a>
+            </button>
         );
 
         if (!ChannelUtils.showCreateOption(Constants.OPEN_CHANNEL, this.props.isTeamAdmin, this.props.isSystemAdmin)) {
