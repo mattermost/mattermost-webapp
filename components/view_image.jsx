@@ -208,11 +208,7 @@ export default class ViewImageModal extends React.PureComponent {
             const fileType = Utils.getFileType(fileInfo.extension);
 
             if (fileType === 'image' || fileType === 'svg') {
-                content = (
-                    <ImagePreview
-                        fileInfo={fileInfo}
-                    />
-                );
+                content = ImagePreview({fileInfo});
             } else if (fileType === 'video' || fileType === 'audio') {
                 content = (
                     <AudioVideoPreview

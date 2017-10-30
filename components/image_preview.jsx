@@ -8,33 +8,31 @@ import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
 import * as FileUtils from 'utils/file_utils';
 
-export default class ImagePreview extends React.PureComponent {
-    static propTypes = {
+export default function ImagePreview({fileInfo}) {
+    const {has_preview_image: hasPreviewImage, id} = fileInfo;
+    const fileUrl = getFileUrl(id);
+    const previewUrl = hasPreviewImage ? getFilePreviewUrl(id) : fileUrl;
 
-        /**
-         * The file info object
-         */
-        fileInfo: PropTypes.object.isRequired
-    };
-
-    render() {
-        const {has_preview_image: hasPreviewImage, id} = this.props.fileInfo;
-        const fileUrl = getFileUrl(id);
-        const previewUrl = hasPreviewImage ? getFilePreviewUrl(id) : fileUrl;
-
-        if (!FileUtils.canDownloadFiles()) {
-            return <img src={previewUrl}/>;
-        }
-
-        return (
-            <a
-                href={fileUrl}
-                target='_blank'
-                rel='noopener noreferrer'
-                download={true}
-            >
-                <img src={previewUrl}/>
-            </a>
-        );
+    if (!FileUtils.canDownloadFiles()) {
+        return <img src={previewUrl}/>;
     }
+
+    return (
+        <a
+            href={fileUrl}
+            target='_blank'
+            rel='noopener noreferrer'
+            download={true}
+        >
+            <img src={previewUrl}/>
+        </a>
+    );
 }
+
+ImagePreview.propTypes = {
+
+    /**
+     * The file info object
+     */
+    fileInfo: PropTypes.object.isRequired
+};

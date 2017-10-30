@@ -11,9 +11,7 @@ describe('components/ImagePreview', () => {
         };
 
         const makeWrapper = (fileInfo) => shallow(
-            <ImagePreview
-                fileInfo={fileInfo}
-            />
+            ImagePreview({fileInfo})
         );
 
         expect(makeWrapper(fileInfo)).toMatchSnapshot();
