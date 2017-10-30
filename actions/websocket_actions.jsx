@@ -242,6 +242,10 @@ function handleEvent(msg) {
         handlePluginDeactivated(msg);
         break;
 
+    case SocketEvents.USER_ROLE_UPDATED:
+        handleUserRoleUpdated(msg);
+        break;
+
     default:
     }
 }
@@ -504,4 +508,19 @@ function handlePluginDeactivated(msg) {
     const manifest = msg.data.manifest;
     store.dispatch({type: ActionTypes.REMOVED_WEBAPP_PLUGIN, data: manifest});
     removePlugin(manifest);
+}
+
+function handleUserRoleUpdated(msg) {
+    const user = store.getState().entities.users.profiles[msg.data.user_id];
+
+    if (user) {
+        const roles = msg.data.roles;
+        const demoted = user.roles.includes(Constants.PERMISSIONS_SYSTEM_ADMIN) && !roles.includes(Constants.PERMISSIONS_SYSTEM_ADMIN);
+
+        store.dispatch({type: UserTypes.RECEIVED_PROFILE, data: {...user, roles}});
+
+        if (demoted && global.location.pathname.startsWith('/admin_console')) {
+            GlobalActions.redirectUserToDefaultTeam();
+        }
+    }
 }
