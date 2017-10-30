@@ -12,12 +12,11 @@ import * as GlobalActions from 'actions/global_actions';
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils';
 
-import loadingGif from 'images/load.gif';
-
 import AudioVideoPreview from 'components/audio_video_preview';
 import CodePreview from 'components/code_preview';
 import FileInfoPreview from 'components/file_info_preview';
 import ImagePreview from 'components/image_preview';
+import LoadingImagePreview from 'components/loading_image_preview';
 import PDFPreview from 'components/pdf_preview';
 import ViewImagePopoverBar from 'components/view_image_popover_bar';
 
@@ -240,14 +239,10 @@ export default class ViewImageModal extends React.PureComponent {
             }
         } else {
             // display a progress indicator when the preview for an image is still loading
+            const loading = Utils.localizeMessage('view_image.loading', 'Loading');
             const progress = Math.floor(this.state.progress[this.state.imageIndex]);
 
-            content = (
-                <LoadingImagePreview
-                    progress={progress}
-                    loading={Utils.localizeMessage('view_image.loading', 'Loading ')}
-                />
-            );
+            content = LoadingImagePreview({loading, progress});
         }
 
         let leftArrow = null;
@@ -325,29 +320,3 @@ export default class ViewImageModal extends React.PureComponent {
         );
     }
 }
-
-function LoadingImagePreview({progress, loading}) {
-    let progressView = null;
-    if (progress) {
-        progressView = (
-            <span className='loader-percent'>
-                {loading + progress + '%'}
-            </span>
-        );
-    }
-
-    return (
-        <div className='view-image__loading'>
-            <img
-                className='loader-image'
-                src={loadingGif}
-            />
-            {progressView}
-        </div>
-    );
-}
-
-LoadingImagePreview.propTypes = {
-    progress: PropTypes.number,
-    loading: PropTypes.string
-};

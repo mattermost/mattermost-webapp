@@ -4,12 +4,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export default function LoadingImagePreview({progress, loading}) {
+import loadingGif from 'images/load.gif';
+
+export default function LoadingImagePreview({loading, progress}) {
     let progressView = null;
     if (progress) {
         progressView = (
             <span className='loader-percent'>
-                {loading + progress + '%'}
+                {`${loading} ${progress}%`}
             </span>
         );
     }
@@ -26,6 +28,14 @@ export default function LoadingImagePreview({progress, loading}) {
 }
 
 LoadingImagePreview.propTypes = {
+
+    /**
+     * The percent number of the progress
+     */
     progress: PropTypes.number,
+
+    /**
+     * The loading message to display
+     */
     loading: PropTypes.string
 };
