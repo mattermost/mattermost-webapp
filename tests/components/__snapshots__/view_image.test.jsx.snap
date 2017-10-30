@@ -50,10 +50,14 @@ exports[`components/ViewImageModal should match snapshot 1`] = `
         <div
           className="modal-image__content"
         >
-          <LoadingImagePreview
-            loading="Loading "
-            progress={0}
-          />
+          <div
+            className="view-image__loading"
+          >
+            <img
+              className="loader-image"
+              src={null}
+            />
+          </div>
         </div>
         <ViewImagePopoverBar
           fileIndex={0}
