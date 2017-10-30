@@ -57,7 +57,7 @@ export default class GetPublicLinkModal extends React.PureComponent {
         });
     }
 
-    hide = () => {
+    onHide = () => {
         this.setState({
             show: false
         });
@@ -67,7 +67,7 @@ export default class GetPublicLinkModal extends React.PureComponent {
         return (
             <GetLinkModal
                 show={this.state.show}
-                onHide={this.hide}
+                onHide={this.onHide}
                 title={Utils.localizeMessage('get_public_link_modal.title', 'Copy Public Link')}
                 helpText={Utils.localizeMessage('get_public_link_modal.help', 'The link below allows anyone to see this file without being registered on this server.')}
                 link={this.props.link}
