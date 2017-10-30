@@ -108,11 +108,11 @@ const allShortcuts = defineMessages({
     navFocusCenter: {
         default: {
             id: 'shortcuts.nav.focus_center',
-            defaultMessage: 'Set focus to center channel input box:\tCtrl|Shift|L'
+            defaultMessage: 'Set focus to input field:\tCtrl|Shift|L'
         },
         mac: {
             id: 'shortcuts.nav.focus_center.mac',
-            defaultMessage: 'Set focus to center channel input box:\t⌘|Shift|L'
+            defaultMessage: 'Set focus to input field:\t⌘|Shift|L'
         }
     },
     msgHeader: {
