@@ -8,6 +8,47 @@ import {FormattedMessage} from 'react-intl';
 import * as FileUtils from 'utils/file_utils';
 
 export default class ViewImagePopoverBar extends React.PureComponent {
+    static propTypes = {
+
+        /**
+         * Set whether to show this component or not
+         */
+        show: PropTypes.bool.isRequired,
+
+        /**
+         * The index number of the current file.
+         */
+        fileIndex: PropTypes.number.isRequired,
+
+        /**
+         * The count of total files.
+         */
+        totalFiles: PropTypes.number.isRequired,
+
+        /**
+         * The name of current file.
+         */
+        filename: PropTypes.string.isRequired,
+
+        /**
+         * The API route to get current file.
+         */
+        fileURL: PropTypes.string.isRequired,
+
+        /**
+         * Function to call when click on "Get Public Link"
+         */
+        onGetPublicLink: PropTypes.func
+    };
+
+    static defaultProps = {
+        show: false,
+        fileIndex: 0,
+        totalFiles: 0,
+        filename: '',
+        fileURL: ''
+    };
+
     render() {
         var publicLink = '';
         if (global.window.mm_config.EnablePublicLink === 'true') {
@@ -65,7 +106,7 @@ export default class ViewImagePopoverBar extends React.PureComponent {
                         id='view_image_popover.file'
                         defaultMessage='File {count, number} of {total, number}'
                         values={{
-                            count: (this.props.fileId + 1),
+                            count: (this.props.fileIndex + 1),
                             total: this.props.totalFiles
                         }}
                     />
@@ -75,19 +116,3 @@ export default class ViewImagePopoverBar extends React.PureComponent {
         );
     }
 }
-ViewImagePopoverBar.defaultProps = {
-    show: false,
-    imgId: 0,
-    totalFiles: 0,
-    filename: '',
-    fileURL: ''
-};
-
-ViewImagePopoverBar.propTypes = {
-    show: PropTypes.bool.isRequired,
-    fileId: PropTypes.number.isRequired,
-    totalFiles: PropTypes.number.isRequired,
-    filename: PropTypes.string.isRequired,
-    fileURL: PropTypes.string.isRequired,
-    onGetPublicLink: PropTypes.func.isRequired
-};

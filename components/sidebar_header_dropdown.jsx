@@ -318,6 +318,7 @@ export default class SidebarHeaderDropdown extends React.Component {
         manageLink = (
             <li>
                 <button
+                    id='manageMembers'
                     className='style--none'
                     onClick={this.showTeamMembersModal}
                 >
@@ -435,6 +436,7 @@ export default class SidebarHeaderDropdown extends React.Component {
             helpLink = (
                 <li>
                     <Link
+                        id='helpLink'
                         target='_blank'
                         rel='noopener noreferrer'
                         to={config.HelpLink}
@@ -453,6 +455,7 @@ export default class SidebarHeaderDropdown extends React.Component {
             reportLink = (
                 <li>
                     <Link
+                        id='reportLink'
                         target='_blank'
                         rel='noopener noreferrer'
                         to={config.ReportAProblemLink}
@@ -471,6 +474,7 @@ export default class SidebarHeaderDropdown extends React.Component {
             nativeAppLink = (
                 <li>
                     <Link
+                        id='nativeAppLink'
                         target='_blank'
                         rel='noopener noreferrer'
                         to={useSafeUrl(global.window.mm_config.AppDownloadLink)}
@@ -537,6 +541,7 @@ export default class SidebarHeaderDropdown extends React.Component {
         const about = (
             <li>
                 <button
+                    id='about'
                     className='style--none'
                     onClick={this.handleAboutModal}
                 >
@@ -608,7 +613,7 @@ export default class SidebarHeaderDropdown extends React.Component {
                     bsRole='toggle'
                     onClick={this.toggleDropdown}
                 />
-                <Dropdown.Menu>
+                <Dropdown.Menu id='sidebarDropdownMenu'>
                     {accountSettings}
                     {inviteDivider}
                     {inviteLink}

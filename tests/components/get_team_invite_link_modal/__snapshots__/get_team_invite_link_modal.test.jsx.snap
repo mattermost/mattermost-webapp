@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/GetTeamInviteLinkModal should match snapshot when user creation is disabled 1`] = `
+<GetLinkModal
+  helpText="User creation has been disabled for your team. Please ask your team administrator for details."
+  link="null/signup_user_complete/?id=invite_id"
+  onHide={[Function]}
+  show={false}
+  title="Team Invite Link"
+/>
+`;
+
+exports[`components/GetTeamInviteLinkModal should match snapshot when user creation is enabled 1`] = `
+<GetLinkModal
+  helpText="Send teammates the link below for them to sign-up to this team site. The Team Invite Link can be shared with multiple teammates as it does not change unless it's regenerated in Team Settings by a Team Admin."
+  link="null/signup_user_complete/?id=invite_id"
+  onHide={[Function]}
+  show={false}
+  title="Team Invite Link"
+/>
+`;

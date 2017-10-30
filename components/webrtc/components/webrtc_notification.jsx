@@ -126,10 +126,18 @@ export default class WebrtcNotification extends React.Component {
     }
 
     onCancelCall(message) {
-        if (message && message.action !== WebrtcActionTypes.CANCEL) {
-            return;
-        } else if (message && message.action === WebrtcActionTypes.CANCEL && this.state.userCalling && message.from_user_id !== this.state.userCalling.id) {
-            return;
+        if (message) {
+            if (message.action !== WebrtcActionTypes.CANCEL) {
+                return;
+            }
+            if (this.state.userCalling) {
+                if (message.from_user_uid === UserStore.getCurrentId() && message.calling_user_id === this.state.userCalling.id) {
+                    // Allow cancel message from ourselves when the calling user_id matches our current state.
+                } else if (message.from_user_id !== this.state.userCalling.id) {
+                    // Ignore cancel messages from user_ids which are not in our current state.
+                    return;
+                }
+            }
         }
 
         WebrtcStore.setVideoCallWith(null);
@@ -175,6 +183,14 @@ export default class WebrtcNotification extends React.Component {
                 message.from_user_id = callerId;
                 message.to_user_id = currentUserId;
                 WebrtcActions.handle(message);
+
+                // Notify current users sessions.
+                WebSocketClient.sendMessage('webrtc', {
+                    action: WebrtcActionTypes.CANCEL,
+                    from_user_id: currentUserId,
+                    to_user_id: currentUserId,
+                    calling_user_id: callerId
+                });
             }, 0);
 
             this.closeNotification();
@@ -186,6 +202,14 @@ export default class WebrtcNotification extends React.Component {
             e.preventDefault();
         }
         if (this.state.userCalling) {
+            // Notify current users sessions.
+            WebSocketClient.sendMessage('webrtc', {
+                action: WebrtcActionTypes.CANCEL,
+                from_user_id: UserStore.getCurrentId(),
+                to_user_id: UserStore.getCurrentId(),
+                calling_user_id: this.state.userCalling.id
+            });
+
             WebSocketClient.sendMessage('webrtc', {
                 action: WebrtcActionTypes.DECLINE,
                 from_user_id: UserStore.getCurrentId(),

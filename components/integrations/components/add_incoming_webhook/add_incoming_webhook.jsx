@@ -43,7 +43,7 @@ export default class AddIncomingWebhook extends React.PureComponent {
     addIncomingHook = async (hook) => {
         this.setState({serverError: ''});
 
-        const data = await this.props.actions.createIncomingHook(hook);
+        const {data} = await this.props.actions.createIncomingHook(hook);
         if (data) {
             browserHistory.push(`/${this.props.team.name}/integrations/confirm?type=incoming_webhooks&id=${data.id}`);
             return;

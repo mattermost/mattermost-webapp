@@ -84,7 +84,7 @@ export default class ComplianceReports extends React.PureComponent {
         job.end_at = Date.parse(this.refs.to.value);
 
         this.props.actions.createComplianceReport(job).then(
-            (data) => {
+            ({data}) => {
                 if (data) {
                     this.refs.emails.value = '';
                     this.refs.keywords.value = '';

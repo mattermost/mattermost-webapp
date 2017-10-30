@@ -26,6 +26,7 @@ import UserStore from 'stores/user_store.jsx';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 import {ActionTypes, Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {isDesktopApp} from 'utils/user_agent.jsx';
 
 import favicon from 'images/favicon/favicon-16x16.png';
 import redFavicon from 'images/favicon/redfavicon-16x16.png';
@@ -394,6 +395,11 @@ export default class Sidebar extends React.Component {
         }
     }
 
+    handleClick = (link) => {
+        this.trackChannelSelectedEvent();
+        browserHistory.push(link);
+    }
+
     showMoreChannelsModal = () => {
         this.setState({showMoreChannelsModal: true});
         trackEvent('ui', 'ui_channels_more_public');
@@ -627,12 +633,36 @@ export default class Sidebar extends React.Component {
 
         const displayName = channel.display_name;
 
+        const channelLink = this.createChannelButtonOrLink(link, rowClass, icon, displayName, badge, closeButton);
+
         return (
             <li
                 key={channel.name}
                 ref={channel.name}
                 className={linkClass}
             >
+                {channelLink}
+                {tutorialTip}
+            </li>
+        );
+    }
+
+    createChannelButtonOrLink(link, rowClass, icon, displayName, badge, closeButton) {
+        let element;
+        if (isDesktopApp()) {
+            element = (
+                <button
+                    className={'btn btn-link ' + rowClass}
+                    onClick={() => this.handleClick(link)}
+                >
+                    {icon}
+                    <span className='sidebar-item__name'>{displayName}</span>
+                    {badge}
+                    {closeButton}
+                </button>
+            );
+        } else {
+            element = (
                 <Link
                     to={link}
                     className={rowClass}
@@ -643,9 +673,10 @@ export default class Sidebar extends React.Component {
                     {badge}
                     {closeButton}
                 </Link>
-                {tutorialTip}
-            </li>
-        );
+            );
+        }
+
+        return element;
     }
 
     trackChannelSelectedEvent = () => {
@@ -908,12 +939,14 @@ export default class Sidebar extends React.Component {
                 />
 
                 <UnreadChannelIndicator
+                    name='Top'
                     show={this.state.showTopUnread}
                     onClick={this.scrollToFirstUnreadChannel}
                     extraClass='nav-pills__unread-indicator-top'
                     text={above}
                 />
                 <UnreadChannelIndicator
+                    name='Bottom'
                     show={this.state.showBottomUnread}
                     onClick={this.scrollToLastUnreadChannel}
                     extraClass='nav-pills__unread-indicator-bottom'
@@ -921,13 +954,14 @@ export default class Sidebar extends React.Component {
                 />
 
                 <div
+                    id='sidebarChannelContainer'
                     ref='container'
                     className='nav-pills__container'
                     onScroll={this.onScroll}
                 >
                     {favoriteItems.length !== 0 && <ul className='nav nav-pills nav-stacked'>
                         <li>
-                            <h4>
+                            <h4 id='favoriteChannel'>
                                 <FormattedMessage
                                     id='sidebar.favorite'
                                     defaultMessage='FAVORITE CHANNELS'
@@ -938,7 +972,7 @@ export default class Sidebar extends React.Component {
                     </ul>}
                     <ul className='nav nav-pills nav-stacked'>
                         <li>
-                            <h4>
+                            <h4 id='publicChannel'>
                                 <FormattedMessage
                                     id='sidebar.channels'
                                     defaultMessage='PUBLIC CHANNELS'
@@ -963,7 +997,7 @@ export default class Sidebar extends React.Component {
 
                     <ul className='nav nav-pills nav-stacked'>
                         <li>
-                            <h4>
+                            <h4 id='privateChannel'>
                                 <FormattedMessage
                                     id='sidebar.pg'
                                     defaultMessage='PRIVATE CHANNELS'
@@ -975,7 +1009,7 @@ export default class Sidebar extends React.Component {
                     </ul>
                     <ul className='nav nav-pills nav-stacked'>
                         <li>
-                            <h4>
+                            <h4 id='directChannel'>
                                 <FormattedMessage
                                     id='sidebar.direct'
                                     defaultMessage='DIRECT MESSAGES'
@@ -989,6 +1023,7 @@ export default class Sidebar extends React.Component {
                 </div>
                 <div className='sidebar__switcher'>
                     <button
+                        id='sidebarSwitcherButton'
                         className='btn btn-link'
                         onClick={this.openQuickSwitcher}
                     >

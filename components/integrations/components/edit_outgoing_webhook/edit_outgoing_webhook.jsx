@@ -101,7 +101,7 @@ export default class EditOutgoingWebhook extends React.PureComponent {
     submitHook = async () => {
         this.setState({serverError: ''});
 
-        const data = await this.props.actions.updateOutgoingHook(this.newHook);
+        const {data} = await this.props.actions.updateOutgoingHook(this.newHook);
 
         if (data) {
             browserHistory.push(`/${this.props.team.name}/integrations/outgoing_webhooks`);

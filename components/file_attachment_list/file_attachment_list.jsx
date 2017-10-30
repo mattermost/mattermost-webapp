@@ -97,7 +97,7 @@ export default class FileAttachmentList extends React.Component {
                 <ViewImageModal
                     show={this.state.showPreviewModal}
                     onModalDismissed={() => this.setState({showPreviewModal: false})}
-                    startId={this.state.startImgIndex}
+                    startIndex={this.state.startImgIndex}
                     fileInfos={fileInfos}
                 />
             </div>

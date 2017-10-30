@@ -552,7 +552,7 @@ export default class CreateComment extends React.Component {
                         topOffset={55}
                     />
                     <span
-                        className='icon icon--emoji emoji-rhs'
+                        className={'icon icon--emoji emoji-rhs ' + (this.state.showEmojiPicker ? 'active' : '')}
                         dangerouslySetInnerHTML={{__html: Constants.EMOJI_ICON_SVG}}
                         onClick={this.toggleEmojiPicker}
                     />

@@ -64,11 +64,11 @@ function preRenderSetup(callwhendone) {
         loadMeAndConfig(() => d1.resolve());
     } else {
         getClientConfig()(store.dispatch, store.getState).then(
-            (config) => {
+            ({data: config}) => {
                 global.window.mm_config = config;
 
                 getLicenseConfig()(store.dispatch, store.getState).then(
-                    (license) => {
+                    ({data: license}) => {
                         global.window.mm_license = license;
                         d1.resolve();
                     }

@@ -7,19 +7,28 @@ import {bindActionCreators} from 'redux';
 import {getConfig} from 'mattermost-redux/actions/admin';
 import * as Selectors from 'mattermost-redux/selectors/entities/admin';
 
+import {setNavigationBlocked, deferNavigation, cancelNavigation, confirmNavigation} from 'actions/admin_actions.jsx';
+import {getNavigationBlocked, showNavigationPrompt} from 'selectors/views/admin';
+
 import AdminConsole from './admin_console.jsx';
 
 function mapStateToProps(state, ownProps) {
     return {
         ...ownProps,
-        config: Selectors.getConfig(state)
+        config: Selectors.getConfig(state),
+        navigationBlocked: getNavigationBlocked(state),
+        showNavigationPrompt: showNavigationPrompt(state)
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getConfig
+            getConfig,
+            setNavigationBlocked,
+            deferNavigation,
+            cancelNavigation,
+            confirmNavigation
         }, dispatch)
     };
 }

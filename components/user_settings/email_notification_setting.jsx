@@ -51,11 +51,15 @@ export default class EmailNotificationSetting extends React.Component {
     }
 
     handleSubmit = () => {
-        // until the rest of the notification settings are moved to preferences, we have to do this separately
-        savePreference(Preferences.CATEGORY_NOTIFICATIONS, Preferences.EMAIL_INTERVAL, this.state.emailInterval.toString());
+        const {enableEmail, emailInterval} = this.state;
+        if (this.props.enableEmail !== enableEmail || this.props.emailInterval !== emailInterval) {
+            // until the rest of the notification settings are moved to preferences, we have to do this separately
+            savePreference(Preferences.CATEGORY_NOTIFICATIONS, Preferences.EMAIL_INTERVAL, emailInterval.toString());
 
-        const {enableEmail} = this.state;
-        this.props.onSubmit({enableEmail});
+            this.props.onSubmit({enableEmail});
+        } else {
+            this.props.updateSection('');
+        }
     }
 
     handleExpand = () => {

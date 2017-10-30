@@ -34,10 +34,12 @@ export default class SettingsSidebar extends React.Component {
 
             return (
                 <li
+                    id={`${tab.name}Li`}
                     key={key}
                     className={className}
                 >
                     <button
+                        id={`${tab.name}Button`}
                         className='cursor--pointer style--none'
                         onClick={this.handleClick.bind(null, tab)}
                     >
@@ -50,7 +52,10 @@ export default class SettingsSidebar extends React.Component {
 
         return (
             <div>
-                <ul className='nav nav-pills nav-stacked'>
+                <ul
+                    id='tabList'
+                    className='nav nav-pills nav-stacked'
+                >
                     {tabList}
                 </ul>
             </div>
