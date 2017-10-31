@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {elasticsearchPurgeIndexes, elasticsearchTest} from 'actions/admin_actions.jsx';
 
-import {JobTypes} from 'utils/constants.jsx';
+import {JobStatuses, JobTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import AdminSettings from './admin_settings.jsx';
@@ -116,6 +116,20 @@ export default class ElasticsearchSettings extends AdminSettings {
                 error(err);
             }
         );
+    }
+
+    getExtraInfo(job) {
+        if (job.status === JobStatuses.IN_PROGRESS) {
+            return (
+                <FormattedMessage
+                    id='admin.elasticsearch.percentComplete'
+                    defaultMessage='{percent}% Complete'
+                    values={{percent: Number(job.progress)}}
+                />
+            );
+        }
+
+        return null;
     }
 
     renderTitle() {
@@ -304,6 +318,7 @@ export default class ElasticsearchSettings extends AdminSettings {
                                         defaultMessage='All posts in the database will be indexed from oldest to newest. Elasticsearch is available during indexing but search results may be incomplete until the indexing job is complete.'
                                     />
                                 }
+                                getExtraInfoText={this.getExtraInfo}
                             />
                         </div>
                     </div>

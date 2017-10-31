@@ -383,7 +383,7 @@ class JobTable extends React.PureComponent {
                                 <th colSpan='3'>
                                     <FormattedMessage
                                         id='admin.jobTable.headerExtraInfo'
-                                        defaultMessage='Extra Information'
+                                        defaultMessage='Details'
                                     />
                                 </th>
                             </tr>
