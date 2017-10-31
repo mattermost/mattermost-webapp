@@ -8,7 +8,7 @@ This project hosts the webapp client code. Please file issues at [/mattermost-se
 
 - [Review product documentation](http://docs.mattermost.com/).
 - [Download compiled version](https://mattermost.org/download).
-
+ 
 Try out Mattermost: 
 
 - [Join the Mattermost Contributor's server](https://pre-release.mattermost.com/) (latest nightly builds, unstable)
