@@ -248,6 +248,7 @@ export const SocketEvents = {
     USER_ADDED: 'user_added',
     USER_REMOVED: 'user_removed',
     USER_UPDATED: 'user_updated',
+    USER_ROLE_UPDATED: 'user_role_updated',
     MEMBERROLE_UPDATED: 'memberrole_updated',
     TYPING: 'typing',
     PREFERENCE_CHANGED: 'preference_changed',
