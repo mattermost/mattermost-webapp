@@ -294,7 +294,7 @@ export default class AdminSidebar extends React.Component {
             );
         }
 
-        if (window.mm_config.PluginsEnabled === 'true' && window.mm_license.IsLicensed === 'true') {
+        if (window.mm_config.PluginsEnabled === 'true') {
             pluginSettings = (
                 <AdminSidebarSection
                     name='plugins'
