@@ -67,9 +67,24 @@ class PostStoreClass extends EventEmitter {
         this.removeListener(POST_PINNED_CHANGE_EVENT, callback);
     }
 
-    getLatestPostId(channelId) {
-        const postsInChannel = getState().entities.posts.postsInChannel[channelId] || [];
-        return postsInChannel[0];
+    getLatestPostId(channelId, allowSystemMessages) {
+        const postsIdsInChannel = getState().entities.posts.postsInChannel[channelId] || [];
+
+        if (!allowSystemMessages) {
+            // return the most recent non-system message in the channel
+            let postId;
+            for (let i = 0; i < postsIdsInChannel.length; i++) {
+                const p = getState().entities.posts.posts[postsIdsInChannel[i]];
+                if (!p.type || !p.type.startsWith(Constants.SYSTEM_MESSAGE_PREFIX)) {
+                    postId = p.id;
+                    break;
+                }
+            }
+            return postId;
+        }
+
+        // return the most recent message in the channel
+        return postsIdsInChannel[0];
     }
 
     getLatestReplyablePost(channelId) {

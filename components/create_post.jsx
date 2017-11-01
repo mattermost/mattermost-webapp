@@ -272,9 +272,10 @@ export default class CreatePost extends React.Component {
 
     sendReaction(isReaction) {
         const action = isReaction[1];
-
         const emojiName = isReaction[2];
-        const postId = PostStore.getLatestPostId(this.state.channelId);
+
+        const allowSystemMessages = PreferenceStore.getBool(Preferences.CATEGORY_ADVANCED_SETTINGS, 'join_leave', true);
+        const postId = PostStore.getLatestPostId(this.state.channelId, allowSystemMessages);
 
         if (postId && action === '+') {
             PostActions.addReaction(this.state.channelId, postId, emojiName);
