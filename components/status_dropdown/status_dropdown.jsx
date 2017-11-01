@@ -113,8 +113,8 @@ export default class StatusDropdown extends React.Component {
         const actions = [
             this.renderStatusOnlineAction(),
             this.renderStatusAwayAction(),
-            this.renderStatusOfflineAction(),
-            this.renderStatusDndAction()
+            this.renderStatusDndAction(),
+            this.renderStatusOfflineAction()
         ];
         return (
             <Dropdown

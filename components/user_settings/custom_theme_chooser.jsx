@@ -58,7 +58,7 @@ const messages = defineMessages({
     },
     dndIndicator: {
         id: 'user.settings.custom_theme.dndIndicator',
-        defaultMessage: 'Dnd Indicator'
+        defaultMessage: 'Do Not Disturb Indicator'
     },
     mentionBj: {
         id: 'user.settings.custom_theme.mentionBj',

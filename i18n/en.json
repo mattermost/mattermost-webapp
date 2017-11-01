@@ -2498,6 +2498,7 @@
   "user.settings.advance.title": "Advanced Settings",
   "user.settings.advance.webrtc_preview": "Enable the ability to make and receive one-on-one WebRTC calls",
   "user.settings.custom_theme.awayIndicator": "Away Indicator",
+  "user.settings.custom_theme.dndIndicator": "Do Not Disturb Indicator",
   "user.settings.custom_theme.buttonBg": "Button BG",
   "user.settings.custom_theme.buttonColor": "Button Text",
   "user.settings.custom_theme.centerChannelBg": "Center Channel BG",
