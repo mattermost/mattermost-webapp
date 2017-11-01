@@ -29,7 +29,7 @@ function renderJoinChannelMessage(post, options) {
     return (
         <FormattedMessage
             id='api.channel.join_channel.post_and_forget'
-            defaultMessage='{username} has joined the channel.'
+            defaultMessage='{username} has joined the team.'
             values={{username}}
         />
     );
@@ -54,7 +54,7 @@ function renderAddToChannelMessage(post, options) {
     return (
         <FormattedMessage
             id='api.channel.add_member.added'
-            defaultMessage='{addedUsername} added to the channel by {username}'
+            defaultMessage='{addedUsername} added to the team by {username}'
             values={{
                 username,
                 addedUsername
@@ -69,7 +69,7 @@ function renderRemoveFromChannelMessage(post, options) {
     return (
         <FormattedMessage
             id='api.channel.remove_member.removed'
-            defaultMessage='{removedUsername} was removed from the channel'
+            defaultMessage='{removedUsername} was removed from the team'
             values={{
                 removedUsername
             }}
