@@ -1057,7 +1057,7 @@ export function displayEntireNameForUser(user) {
         return '';
     }
 
-    let displayName = user.username;
+    let displayName = '@' + user.username;
     const fullName = getFullName(user);
 
     if (fullName && user.nickname) {
