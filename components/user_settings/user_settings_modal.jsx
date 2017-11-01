@@ -36,6 +36,10 @@ const holders = defineMessages({
         id: 'user.settings.modal.display',
         defaultMessage: 'Display'
     },
+    sidebar: {
+        id: 'user.settings.modal.sidebar',
+        defaultMessage: 'Sidebar'
+    },
     advanced: {
         id: 'user.settings.modal.advanced',
         defaultMessage: 'Advanced'
@@ -240,6 +244,9 @@ class UserSettingsModal extends React.Component {
         tabs.push({name: 'security', uiName: formatMessage(holders.security), icon: 'icon fa fa-lock'});
         tabs.push({name: 'notifications', uiName: formatMessage(holders.notifications), icon: 'icon fa fa-exclamation-circle'});
         tabs.push({name: 'display', uiName: formatMessage(holders.display), icon: 'icon fa fa-eye'});
+        if (global.mm_config.CloseUnusedDirectMessages === 'true') {
+            tabs.push({name: 'sidebar', uiName: formatMessage(holders.sidebar), icon: 'icon fa fa-columns'});
+        }
         tabs.push({name: 'advanced', uiName: formatMessage(holders.advanced), icon: 'icon fa fa-list-alt'});
 
         return (

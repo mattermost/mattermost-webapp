@@ -124,6 +124,20 @@ export default class Sidebar extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
+        const allChannels = this.getDisplayedChannels();
+        let isDisplayingChannel = false;
+        for (let i = 0; i < allChannels.length; i++) {
+            if (allChannels[i].id === this.state.activeId) {
+                isDisplayingChannel = true;
+                break;
+            }
+        }
+        if (!isDisplayingChannel) {
+            this.closedDirectChannel = true;
+            browserHistory.push('/' + this.state.currentTeam.name + '/channels/town-square');
+            return;
+        }
+
         this.updateTitle();
         this.updateUnreadIndicators();
         if (!Utils.isMobile()) {

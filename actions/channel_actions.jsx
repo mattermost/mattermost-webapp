@@ -188,11 +188,16 @@ export async function openDirectChannelToUser(userId, success, error) {
 
     if (channel) {
         trackEvent('api', 'api_channels_join_direct');
+        const now = Utils.getTimestamp();
         PreferenceStore.setPreference(Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, userId, 'true');
+        PreferenceStore.setPreference(Preferences.CATEGORY_CHANNEL_OPEN_TIME, channel.id, now.toString());
         loadProfilesForSidebar();
 
         const currentUserId = UserStore.getCurrentId();
-        savePreferences(currentUserId, [{user_id: currentUserId, category: Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, name: userId, value: 'true'}])(dispatch, getState);
+        savePreferences(currentUserId, [
+            {user_id: currentUserId, category: Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, name: userId, value: 'true'},
+            {user_id: currentUserId, category: Preferences.CATEGORY_CHANNEL_OPEN_TIME, name: channel.id, value: now.toString()}
+        ])(dispatch, getState);
 
         if (success) {
             success(channel, true);

@@ -13,37 +13,6 @@ import * as Utils from 'utils/utils.jsx';
 
 const Preferences = Constants.Preferences;
 
-/**
- * Returns list of sorted channels grouped by type. Favorites here is considered as separated type.
- *
- * Example: {
- *  publicChannels: [...],
- *  privateChannels: [...],
- *  directAndGroupChannels: [...],
- *  favoriteChannels: [...]
- * }
- */
-export function buildDisplayableChannelList(persistentChannels) {
-    const missingDirectChannels = createMissingDirectChannels(persistentChannels);
-
-    const channels = persistentChannels.
-        concat(missingDirectChannels).
-        map(completeDirectChannelInfo).
-        filter(isNotDeletedChannel).
-        sort(sortChannelsByDisplayName);
-
-    const favoriteChannels = channels.filter(isFavoriteChannel);
-    const notFavoriteChannels = channels.filter(not(isFavoriteChannel));
-    const directAndGroupChannels = notFavoriteChannels.filter(orX(andX(isGroupChannel, isGroupChannelVisible), andX(isDirectChannel, isDirectChannelVisible)));
-
-    return {
-        favoriteChannels,
-        publicChannels: notFavoriteChannels.filter(isOpenChannel),
-        privateChannels: notFavoriteChannels.filter(isPrivateChannel),
-        directAndGroupChannels
-    };
-}
-
 export function isFavoriteChannel(channel) {
     return PreferenceStore.getBool(Preferences.CATEGORY_FAVORITE_CHANNEL, channel.id);
 }
@@ -68,18 +37,8 @@ export function isGroupChannel(channel) {
     return channel.type === Constants.GM_CHANNEL;
 }
 
-export function isGroupChannelVisible(channel) {
-    return PreferenceStore.getBool(Preferences.CATEGORY_GROUP_CHANNEL_SHOW, channel.id);
-}
-
 export function isDirectChannel(channel) {
     return channel.type === Constants.DM_CHANNEL;
-}
-
-export function isDirectChannelVisible(channel) {
-    const channelId = Utils.getUserIdFromChannelName(channel);
-
-    return PreferenceStore.getBool(Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, channelId);
 }
 
 export function completeDirectChannelInfo(channel) {
@@ -271,45 +230,4 @@ export function getCountsStateFromStores(team = TeamStore.getCurrent(), teamMemb
     });
 
     return {mentionCount, messageCount};
-}
-
-/*
- * not exported helpers
- */
-
-function createMissingDirectChannels(channels) {
-    const directChannelsDisplayPreferences = PreferenceStore.getCategory(Preferences.CATEGORY_DIRECT_CHANNEL_SHOW);
-
-    return Array.
-        from(directChannelsDisplayPreferences).
-        filter((entry) => entry[1] === 'true').
-        map((entry) => entry[0]).
-        filter((teammateId) => !channels.some(Utils.isDirectChannelForUser.bind(null, teammateId))).
-        map(createFakeChannelCurried(UserStore.getCurrentId()));
-}
-
-function createFakeChannel(userId, otherUserId) {
-    return {
-        name: Utils.getDirectChannelName(userId, otherUserId),
-        last_post_at: 0,
-        total_msg_count: 0,
-        type: Constants.DM_CHANNEL,
-        fake: true
-    };
-}
-
-function createFakeChannelCurried(userId) {
-    return (otherUserId) => createFakeChannel(userId, otherUserId);
-}
-
-function not(f) {
-    return (...args) => !f(...args);
-}
-
-function orX(...fns) {
-    return (...args) => fns.some((f) => f(...args));
-}
-
-function andX(...fns) {
-    return (...args) => fns.every((f) => f(...args));
 }
