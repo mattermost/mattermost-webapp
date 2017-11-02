@@ -14,6 +14,7 @@ test: .yarninstall
 	@echo Getting dependencies using yarn
 
 	yarn install
+	cd node_modules/mattermost-redux; npm run build
 
 	touch $@
 
