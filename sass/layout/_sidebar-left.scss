@@ -213,14 +213,17 @@
                 white-space: nowrap;
             }
 
-            > a {
+            > .sidebar-item {
+                @include single-transition(none);
                 border-radius: 0;
                 line-height: 1.5;
                 outline: none;
                 overflow: hidden;
                 padding: 5px 0 5px 17px;
+                text-align: left;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+                width: 100%;
 
                 .icon {
                     &.icon__globe,
@@ -270,7 +273,7 @@
             }
 
             &.active {
-                a {
+                button,a {
                     &:before {
                         background: $black;
                         content: '';
@@ -289,9 +292,9 @@
                     }
                 }
 
-                a,
-                a:hover,
-                a:focus {
+                button,a,
+                button:hover,a:hover,
+                button:focus,a:focus {
                     @include alpha-property(background-color, $black, .1);
                     border-radius: 0;
                     font-weight: 400;

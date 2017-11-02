@@ -15,7 +15,12 @@ export default class AdminSettings extends React.Component {
         /*
          * Object representing the config file
          */
-        config: PropTypes.object
+        config: PropTypes.object,
+
+        /*
+         * Action for whether a save is needed
+         */
+        setNavigationBlocked: PropTypes.func
     }
 
     constructor(props) {
@@ -33,7 +38,9 @@ export default class AdminSettings extends React.Component {
             saveNeeded: true,
             [id]: value
         });
-    }
+
+        this.props.setNavigationBlocked(true);
+    };
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -61,6 +68,8 @@ export default class AdminSettings extends React.Component {
                     saving: false
                 });
 
+                this.props.setNavigationBlocked(false);
+
                 if (callback) {
                     callback();
                 }
@@ -84,9 +93,9 @@ export default class AdminSettings extends React.Component {
                 }
             }
         );
-    }
+    };
 
-    parseInt(str, defaultValue) {
+    parseInt = (str, defaultValue) => {
         const n = parseInt(str, 10);
 
         if (isNaN(n)) {
@@ -97,9 +106,9 @@ export default class AdminSettings extends React.Component {
         }
 
         return n;
-    }
+    };
 
-    parseIntNonZero(str, defaultValue) {
+    parseIntNonZero = (str, defaultValue) => {
         const n = parseInt(str, 10);
 
         if (isNaN(n) || n < 1) {
@@ -110,7 +119,7 @@ export default class AdminSettings extends React.Component {
         }
 
         return n;
-    }
+    };
 
     render() {
         return (

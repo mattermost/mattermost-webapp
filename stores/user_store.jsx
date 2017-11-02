@@ -461,6 +461,7 @@ class UserStoreClass extends EventEmitter {
         if (user.notify_props.channel === 'true') {
             keys.push('@channel');
             keys.push('@all');
+            keys.push('@here');
         }
 
         const usernameKey = '@' + user.username;

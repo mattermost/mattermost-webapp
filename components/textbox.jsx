@@ -7,11 +7,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import UserStore from 'stores/user_store.jsx';
 import ErrorStore from 'stores/error_store.jsx';
 
 import Constants from 'utils/constants.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import * as Utils from 'utils/utils.jsx';
+import * as PostUtils from 'utils/post_utils.jsx';
 
 import AtMentionProvider from './suggestion/at_mention_provider.jsx';
 import ChannelMentionProvider from './suggestion/channel_mention_provider.jsx';
@@ -264,6 +266,25 @@ export default class Textbox extends React.Component {
             </div>
         );
 
+        const options = {
+            mentionKeys: UserStore.getCurrentMentionKeys(),
+            atMentions: true
+        };
+
+        let preview = null;
+
+        if (this.state.preview) {
+            preview = (
+                <div
+                    ref='preview'
+                    className='form-control custom-textarea textbox-preview-area'
+                    style={{display: this.state.preview ? 'block' : 'none'}}
+                >
+                    {PostUtils.postMessageHtmlToComponent(TextFormatting.formatText(this.props.value, options))}
+                </div>
+            );
+        }
+
         let textboxClassName = 'form-control custom-textarea';
         if (this.props.emojiEnabled) {
             textboxClassName += ' custom-textarea--emoji-picker';
@@ -299,16 +320,8 @@ export default class Textbox extends React.Component {
                     isRHS={this.props.isRHS}
                     popoverMentionKeyClick={this.props.popoverMentionKeyClick}
                 />
-                <div
-                    ref='preview'
-                    className='form-control custom-textarea textbox-preview-area'
-                    style={{display: this.state.preview ? 'block' : 'none'}}
-                    dangerouslySetInnerHTML={{__html: this.state.preview ? TextFormatting.formatText(this.props.value) : ''}}
-                />
-                <div
-                    id='helpTextContainer'
-                    className={'help__text ' + helpTextClass}
-                >
+                {preview}
+                <div className={'help__text ' + helpTextClass}>
                     {helpText}
                     {previewLink}
                     <a

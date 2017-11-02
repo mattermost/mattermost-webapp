@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Parser, ProcessNodeDefinitions} from 'html-to-react';
-
 import store from 'stores/redux_store.jsx';
 
 import * as PostUtils from 'utils/post_utils.jsx';
@@ -15,9 +13,6 @@ import * as Utils from 'utils/utils.jsx';
 
 import {Posts} from 'mattermost-redux/constants';   // eslint-disable-line import/order
 import {getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';   // eslint-disable-line import/order
-
-import AtMention from 'components/at_mention';
-import MarkdownImage from 'components/markdown_image';
 
 import {renderSystemMessage} from './system_message_helpers.jsx';
 
@@ -74,11 +69,6 @@ export default class PostMessageView extends React.PureComponent {
          */
         isRHS: PropTypes.bool,
 
-        /**
-         * Flags if the post_message_view is for the RHS (Reply).
-         */
-        hasMention: PropTypes.bool,
-
         /*
          * Logged in user's theme
          */
@@ -99,7 +89,6 @@ export default class PostMessageView extends React.PureComponent {
         options: {},
         mentionKeys: [],
         isRHS: false,
-        hasMention: false,
         pluginPostTypes: {}
     };
 
@@ -127,56 +116,6 @@ export default class PostMessageView extends React.PureComponent {
                 />
             </span>
         );
-    }
-
-    postMessageHtmlToComponent(html) {
-        const parser = new Parser();
-        const attrib = 'data-mention';
-        const processNodeDefinitions = new ProcessNodeDefinitions(React);
-
-        function isValidNode() {
-            return true;
-        }
-
-        const processingInstructions = [
-            {
-                replaceChildren: true,
-                shouldProcessNode: (node) => node.attribs && node.attribs[attrib],
-                processNode: (node) => {
-                    const mentionName = node.attribs[attrib];
-
-                    return (
-                        <AtMention
-                            mentionName={mentionName}
-                            isRHS={this.props.isRHS}
-                            hasMention={this.props.hasMention}
-                        />
-                    );
-                }
-            },
-            {
-                shouldProcessNode: (node) => node.type === 'tag' && node.name === 'img',
-                processNode: (node) => {
-                    const {
-                        class: className,
-                        ...attribs
-                    } = node.attribs;
-
-                    return (
-                        <MarkdownImage
-                            className={className}
-                            {...attribs}
-                        />
-                    );
-                }
-            },
-            {
-                shouldProcessNode: () => true,
-                processNode: processNodeDefinitions.processDefaultNode
-            }
-        ];
-
-        return parser.parseWithInstructions(html, isValidNode, processingInstructions);
     }
 
     render() {
@@ -233,7 +172,7 @@ export default class PostMessageView extends React.PureComponent {
             message = message.concat(visibleMessage);
         }
         const htmlFormattedText = TextFormatting.formatText(message, options);
-        const postMessageComponent = this.postMessageHtmlToComponent(htmlFormattedText);
+        const postMessageComponent = PostUtils.postMessageHtmlToComponent(htmlFormattedText);
 
         return (
             <div>

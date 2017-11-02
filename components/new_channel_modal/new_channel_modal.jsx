@@ -279,7 +279,10 @@ export default class NewChannelModal extends React.PureComponent {
                                         {'URL: ' + prettyTeamURL + this.props.channelData.name + ' ('}
                                         <button
                                             className='color--link style--none'
-                                            onClick={this.props.onChangeURLPressed}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                this.props.onChangeURLPressed();
+                                            }}
                                         >
                                             <FormattedMessage
                                                 id='channel_modal.edit'

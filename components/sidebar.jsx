@@ -26,6 +26,7 @@ import UserStore from 'stores/user_store.jsx';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 import {ActionTypes, Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {isDesktopApp} from 'utils/user_agent.jsx';
 
 import favicon from 'images/favicon/favicon-16x16.png';
 import redFavicon from 'images/favicon/redfavicon-16x16.png';
@@ -123,6 +124,20 @@ export default class Sidebar extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
+        const allChannels = this.getDisplayedChannels();
+        let isDisplayingChannel = false;
+        for (let i = 0; i < allChannels.length; i++) {
+            if (allChannels[i].id === this.state.activeId) {
+                isDisplayingChannel = true;
+                break;
+            }
+        }
+        if (!isDisplayingChannel) {
+            this.closedDirectChannel = true;
+            browserHistory.push('/' + this.state.currentTeam.name + '/channels/town-square');
+            return;
+        }
+
         this.updateTitle();
         this.updateUnreadIndicators();
         if (!Utils.isMobile()) {
@@ -394,6 +409,11 @@ export default class Sidebar extends React.Component {
         }
     }
 
+    handleClick = (link) => {
+        this.trackChannelSelectedEvent();
+        browserHistory.push(link);
+    }
+
     showMoreChannelsModal = () => {
         this.setState({showMoreChannelsModal: true});
         trackEvent('ui', 'ui_channels_more_public');
@@ -627,12 +647,36 @@ export default class Sidebar extends React.Component {
 
         const displayName = channel.display_name;
 
+        const channelLink = this.createChannelButtonOrLink(link, rowClass, icon, displayName, badge, closeButton);
+
         return (
             <li
                 key={channel.name}
                 ref={channel.name}
                 className={linkClass}
             >
+                {channelLink}
+                {tutorialTip}
+            </li>
+        );
+    }
+
+    createChannelButtonOrLink(link, rowClass, icon, displayName, badge, closeButton) {
+        let element;
+        if (isDesktopApp()) {
+            element = (
+                <button
+                    className={'btn btn-link ' + rowClass}
+                    onClick={() => this.handleClick(link)}
+                >
+                    {icon}
+                    <span className='sidebar-item__name'>{displayName}</span>
+                    {badge}
+                    {closeButton}
+                </button>
+            );
+        } else {
+            element = (
                 <Link
                     to={link}
                     className={rowClass}
@@ -643,9 +687,10 @@ export default class Sidebar extends React.Component {
                     {badge}
                     {closeButton}
                 </Link>
-                {tutorialTip}
-            </li>
-        );
+            );
+        }
+
+        return element;
     }
 
     trackChannelSelectedEvent = () => {

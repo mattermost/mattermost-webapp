@@ -3,10 +3,12 @@
 
 import {combineReducers} from 'redux';
 
+import admin from './admin'
 import channel from './channel';
 import rhs from './rhs';
 
 export default combineReducers({
-    rhs,
-    channel
+    admin,
+    channel,
+    rhs
 });

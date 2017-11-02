@@ -6,7 +6,9 @@ import * as UserActions from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 
 import {clientLogout} from 'actions/global_actions.jsx';
+import {getOnNavigationConfirmed} from 'selectors/views/admin';
 import store from 'stores/redux_store.jsx';
+import {ActionTypes} from 'utils/constants.jsx';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -285,4 +287,39 @@ export async function elasticsearchPurgeIndexes(success, error) {
     } else if (err && error) {
         error({id: err.server_error_id, ...err});
     }
+}
+
+export function setNavigationBlocked(blocked) {
+    return {
+        type: ActionTypes.SET_NAVIGATION_BLOCKED,
+        blocked
+    };
+}
+
+export function deferNavigation(onNavigationConfirmed) {
+    return {
+        type: ActionTypes.DEFER_NAVIGATION,
+        onNavigationConfirmed
+    };
+}
+
+export function cancelNavigation() {
+    return {
+        type: ActionTypes.CANCEL_NAVIGATION
+    };
+}
+
+export function confirmNavigation() {
+    // have to rename these because of lint no-shadow
+    return (thunkDispatch, thunkGetState) => {
+        const callback = getOnNavigationConfirmed(thunkGetState());
+
+        if (callback) {
+            callback();
+        }
+
+        thunkDispatch({
+            type: ActionTypes.CONFIRM_NAVIGATION
+        });
+    };
 }

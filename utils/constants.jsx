@@ -31,9 +31,11 @@ import solarizedDarkCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!
 import solarizedLightCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-light.css';  // eslint-disable-line import/order
 
 export const Preferences = {
+    CATEGORY_CHANNEL_OPEN_TIME: 'channel_open_time',
     CATEGORY_DIRECT_CHANNEL_SHOW: 'direct_channel_show',
     CATEGORY_GROUP_CHANNEL_SHOW: 'group_channel_show',
     CATEGORY_DISPLAY_SETTINGS: 'display_settings',
+    CATEGORY_SIDEBAR_SETTINGS: 'sidebar_settings',
     CATEGORY_ADVANCED_SETTINGS: 'advanced_settings',
     TUTORIAL_STEP: 'tutorial_step',
     CHANNEL_DISPLAY_MODE: 'channel_display_mode',
@@ -145,6 +147,10 @@ export const ActionTypes = keyMirror({
     CREATED_TEAM: null,
     UPDATE_TEAM: null,
 
+    SET_NAVIGATION_BLOCKED: null,
+    DEFER_NAVIGATION: null,
+    CANCEL_NAVIGATION: null,
+    CONFIRM_NAVIGATION: null,
     RECEIVED_CONFIG: null,
     RECEIVED_LOGS: null,
     RECEIVED_SERVER_AUDITS: null,
@@ -244,6 +250,7 @@ export const SocketEvents = {
     USER_ADDED: 'user_added',
     USER_REMOVED: 'user_removed',
     USER_UPDATED: 'user_updated',
+    USER_ROLE_UPDATED: 'user_role_updated',
     MEMBERROLE_UPDATED: 'memberrole_updated',
     TYPING: 'typing',
     PREFERENCE_CHANGED: 'preference_changed',

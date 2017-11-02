@@ -10,7 +10,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import UserStore from 'stores/user_store.jsx';
 
-import AdminNavbarDropdown from './admin_navbar_dropdown.jsx';
+import AdminNavbarDropdown from './admin_navbar_dropdown';
 
 export default class SidebarHeader extends React.Component {
     constructor(props) {

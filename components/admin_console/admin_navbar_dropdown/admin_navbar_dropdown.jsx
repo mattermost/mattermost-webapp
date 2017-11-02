@@ -3,6 +3,7 @@
 
 import $ from 'jquery';
 
+import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
@@ -16,14 +17,28 @@ import {sortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import AboutBuildModal from 'components/about_build_modal';
+import BlockableLink from 'components/admin_console/blockable_link';
 
 export default class AdminNavbarDropdown extends React.Component {
+    static propTypes = {
+
+        /*
+         * Bool whether the navigation is blocked by unsaved changes
+         */
+        navigationBlocked: PropTypes.bool,
+
+        actions: PropTypes.shape({
+
+            /*
+             * Action to attempt a navigation and set a callback
+             * to execute after the navigation is confirmed
+             */
+            deferNavigation: PropTypes.func
+        }).isRequired
+    }
+
     constructor(props) {
         super(props);
-        this.blockToggle = false;
-        this.onTeamChange = this.onTeamChange.bind(this);
-        this.handleAboutModal = this.handleAboutModal.bind(this);
-        this.aboutModalDismissed = this.aboutModalDismissed.bind(this);
 
         this.state = {
             teams: TeamStore.getAll(),
@@ -48,22 +63,31 @@ export default class AdminNavbarDropdown extends React.Component {
         TeamStore.removeChangeListener(this.onTeamChange);
     }
 
-    handleAboutModal(e) {
+    handleAboutModal = (e) => {
         e.preventDefault();
 
         this.setState({showAboutModal: true});
-    }
+    };
 
-    aboutModalDismissed() {
+    handleLogout = (e) => {
+        if (this.props.navigationBlocked) {
+            e.preventDefault();
+            this.props.actions.deferNavigation(GlobalActions.emitUserLoggedOutEvent);
+        } else {
+            GlobalActions.emitUserLoggedOutEvent();
+        }
+    };
+
+    aboutModalDismissed = () => {
         this.setState({showAboutModal: false});
-    }
+    };
 
-    onTeamChange() {
+    onTeamChange = () => {
         this.setState({
             teams: TeamStore.getAll(),
             teamMembers: TeamStore.getMyTeamMembers()
         });
-    }
+    };
 
     render() {
         var teamsArray = []; // Array of team objects
@@ -85,7 +109,7 @@ export default class AdminNavbarDropdown extends React.Component {
             for (const team of teamsArray) {
                 teams.push(
                     <li key={'team_' + team.name}>
-                        <Link
+                        <BlockableLink
                             id={'swithTo' + Utils.createSafeId(team.name)}
                             to={'/' + team.name + '/channels/town-square'}
                         >
@@ -94,7 +118,7 @@ export default class AdminNavbarDropdown extends React.Component {
                                 defaultMessage='Switch to '
                             />
                             {team.display_name}
-                        </Link>
+                        </BlockableLink>
                     </li>
                 );
             }
@@ -108,7 +132,7 @@ export default class AdminNavbarDropdown extends React.Component {
         } else {
             switchTeams = (
                 <li>
-                    <Link
+                    <BlockableLink
                         to={'/select_team'}
                     >
                         <i className='fa fa-exchange'/>
@@ -116,7 +140,7 @@ export default class AdminNavbarDropdown extends React.Component {
                             id='admin.nav.switch'
                             defaultMessage='Team Selection'
                         />
-                    </Link>
+                    </BlockableLink>
                 </li>
             );
         }
@@ -202,7 +226,7 @@ export default class AdminNavbarDropdown extends React.Component {
                             <a
                                 href='#'
                                 id='logout'
-                                onClick={() => GlobalActions.emitUserLoggedOutEvent()}
+                                onClick={this.handleLogout}
                             >
                                 <FormattedMessage
                                     id='admin.nav.logout'
