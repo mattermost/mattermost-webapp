@@ -181,6 +181,17 @@
     margin-top: 12px;
     white-space: nowrap;
 
+    .dropdown-toggle {
+        overflow: hidden;
+        text-align: left;
+        text-overflow: ellipsis;
+        width: 100%;
+
+        strong {
+            width: calc(100% - 65px);
+        }
+    }
+
     .header-dropdown__icon {
         color: $dark-gray;
     }
