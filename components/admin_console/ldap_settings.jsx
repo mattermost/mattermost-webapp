@@ -158,13 +158,13 @@ export default class LdapSettings extends AdminSettings {
                     label={
                         <FormattedMessage
                             id='admin.ldap.enableSyncTitle'
-                            defaultMessage='Enable synchronization with AD/LDAP:'
+                            defaultMessage='Enable Synchronization with AD/LDAP:'
                         />
                     }
                     helpText={
                         <FormattedMessage
                             id='admin.ldap.enableSyncDesc'
-                            defaultMessage='When true, Mattermost will periodically synchronize users from AD/LDAP'
+                            defaultMessage='When true, Mattermost periodically synchronizes users from AD/LDAP.'
                         />
                     }
                     value={this.state.enableSync}
