@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/post_view/PostAddChannelMember should match snapshot, private channel 1`] = `
+<p>
+  <Connect(AtMention)
+    mentionName="username_1"
+  />
+   
+  <FormattedMessage
+    defaultMessage="was mentioned but is not in the channel. Would you like to "
+    id="post_body.check_for_out_of_channel_mentions.message.one"
+    values={Object {}}
+  />
+  <a
+    id="add_channel_member_link"
+    onClick={[Function]}
+  >
+    <FormattedMessage
+      defaultMessage="add them to this private channel"
+      id="post_body.check_for_out_of_channel_mentions.link.private"
+      values={Object {}}
+    />
+  </a>
+  <FormattedMessage
+    defaultMessage="? They will have access to all message history."
+    id="post_body.check_for_out_of_channel_mentions.message_last"
+    values={Object {}}
+  />
+</p>
+`;
+
+exports[`components/post_view/PostAddChannelMember should match snapshot, public channel 1`] = `
+<p>
+  <Connect(AtMention)
+    mentionName="username_1"
+  />
+   
+  <FormattedMessage
+    defaultMessage="was mentioned but is not in the channel. Would you like to "
+    id="post_body.check_for_out_of_channel_mentions.message.one"
+    values={Object {}}
+  />
+  <a
+    id="add_channel_member_link"
+    onClick={[Function]}
+  >
+    <FormattedMessage
+      defaultMessage="add them to the channel"
+      id="post_body.check_for_out_of_channel_mentions.link.public"
+      values={Object {}}
+    />
+  </a>
+  <FormattedMessage
+    defaultMessage="? They will have access to all message history."
+    id="post_body.check_for_out_of_channel_mentions.message_last"
+    values={Object {}}
+  />
+</p>
+`;
