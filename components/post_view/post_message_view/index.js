@@ -4,7 +4,6 @@
 import {connect} from 'react-redux';
 
 import {Preferences} from 'mattermost-redux/constants';
-import {getChannel, getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 import {getTheme, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -21,7 +20,6 @@ function makeMapStateToProps() {
     let oldCustomEmoji;
 
     return function mapStateToProps(state, ownProps) {
-        const currentChannelId = getCurrentChannelId(state);
         const newCustomEmoji = getCustomEmojisByName(state);
         if (newCustomEmoji !== oldCustomEmoji) {
             emojiMap = new EmojiMap(newCustomEmoji);
@@ -40,8 +38,7 @@ function makeMapStateToProps() {
             siteUrl: getSiteURL(),
             theme: getTheme(state),
             pluginPostTypes: state.plugins.postTypes,
-            currentUser: user,
-            channel: getChannel(state, currentChannelId)
+            currentUser: user
         };
     };
 }

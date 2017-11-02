@@ -8,12 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {Parser, ProcessNodeDefinitions} from 'html-to-react';
 
 import store from 'stores/redux_store.jsx';
-import UserStore from 'stores/user_store.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
 
-import {canManageMembers} from 'utils/channel_utils.jsx';
-import {Constants} from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -23,7 +18,6 @@ import {getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entiti
 
 import AtMention from 'components/at_mention';
 import MarkdownImage from 'components/markdown_image';
-import PostAddChannelMember from 'components/post_view/post_add_channel_member';
 
 import {renderSystemMessage} from './system_message_helpers.jsx';
 
@@ -44,11 +38,6 @@ export default class PostMessageView extends React.PureComponent {
          * The team the post was made in
          */
         team: PropTypes.object.isRequired,
-
-        /*
-        * The current channel
-        */
-        channel: PropTypes.object.isRequired,
 
         /*
          * Set to enable Markdown formatting
@@ -184,10 +173,6 @@ export default class PostMessageView extends React.PureComponent {
             {
                 shouldProcessNode: () => true,
                 processNode: processNodeDefinitions.processDefaultNode
-            },
-            {
-                shouldProcessNode: () => true,
-                processNode: processNodeDefinitions.processDefaultNode
             }
         ];
 
@@ -205,7 +190,6 @@ export default class PostMessageView extends React.PureComponent {
             emojis,
             siteUrl,
             team,
-            channel,
             lastPostCount
         } = this.props;
 
@@ -260,31 +244,8 @@ export default class PostMessageView extends React.PureComponent {
             const visibleMessage = Utils.localizeMessage('post_info.message.visible.compact', ' (Only visible to you)');
             message = message.concat(visibleMessage);
         }
-
-        const isSystemAdmin = UserStore.isSystemAdminForCurrentUser();
-        const isTeamAdmin = TeamStore.isTeamAdminForCurrentTeam();
-        const isChannelAdmin = ChannelStore.isChannelAdminForCurrentChannel();
-        const isUserCanManageMembers = canManageMembers(channel, isChannelAdmin, isTeamAdmin, isSystemAdmin);
-
-        let postMessageComponent;
-        if ((channel.type === Constants.PRIVATE_CHANNEL || channel.type === Constants.OPEN_CHANNEL) &&
-            isUserCanManageMembers &&
-            isEphemeral &&
-            post.props &&
-            post.props.add_channel_member
-        ) {
-            const addMemberProps = post.props.add_channel_member;
-            postMessageComponent = (
-                <PostAddChannelMember
-                    postId={addMemberProps.post_id}
-                    userIds={addMemberProps.user_ids}
-                    usernames={addMemberProps.usernames}
-                />
-            );
-        } else {
-            const htmlFormattedText = TextFormatting.formatText(message, options);
-            postMessageComponent = this.postMessageHtmlToComponent(htmlFormattedText);
-        }
+        const htmlFormattedText = TextFormatting.formatText(message, options);
+        const postMessageComponent = this.postMessageHtmlToComponent(htmlFormattedText);
 
         return (
             <div>

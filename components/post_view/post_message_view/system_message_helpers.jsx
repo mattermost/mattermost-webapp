@@ -4,8 +4,16 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {PostTypes} from 'utils/constants.jsx';
+import UserStore from 'stores/user_store.jsx';
+import ChannelStore from 'stores/channel_store.jsx';
+import TeamStore from 'stores/team_store.jsx';
+
+import {canManageMembers} from 'utils/channel_utils.jsx';
+import {Constants, PostTypes} from 'utils/constants.jsx';
 import {formatText} from 'utils/text_formatting.jsx';
+import * as Utils from 'utils/utils.jsx';
+
+import PostAddChannelMember from 'components/post_view/post_add_channel_member';
 
 function renderUsername(value, options) {
     return renderFormattedText(value, {...options, markdown: false});
@@ -224,9 +232,32 @@ const systemMessageRenderers = {
 };
 
 export function renderSystemMessage(post, options) {
-    if (!systemMessageRenderers[post.type]) {
+    if (post.props && post.props.add_channel_member) {
+        const channel = ChannelStore.getCurrent();
+        const isSystemAdmin = UserStore.isSystemAdminForCurrentUser();
+        const isTeamAdmin = TeamStore.isTeamAdminForCurrentTeam();
+        const isChannelAdmin = ChannelStore.isChannelAdminForCurrentChannel();
+        const isUserCanManageMembers = canManageMembers(channel, isChannelAdmin, isTeamAdmin, isSystemAdmin);
+        const isEphemeral = Utils.isPostEphemeral(post);
+
+        if ((channel.type === Constants.PRIVATE_CHANNEL || channel.type === Constants.OPEN_CHANNEL) &&
+            isUserCanManageMembers &&
+            isEphemeral
+        ) {
+            const addMemberProps = post.props.add_channel_member;
+            return (
+                <PostAddChannelMember
+                    postId={addMemberProps.post_id}
+                    userIds={addMemberProps.user_ids}
+                    usernames={addMemberProps.usernames}
+                />
+            );
+        }
+
         return null;
+    } else if (systemMessageRenderers[post.type]) {
+        systemMessageRenderers[post.type](post, options);
     }
 
-    return systemMessageRenderers[post.type](post, options);
+    return null;
 }
