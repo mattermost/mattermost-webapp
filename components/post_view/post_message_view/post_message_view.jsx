@@ -119,26 +119,38 @@ export default class PostMessageView extends React.PureComponent {
     }
 
     render() {
-        if (this.props.post.state === Posts.POST_DELETED) {
+        const {
+            post,
+            enableFormatting,
+            pluginPostTypes,
+            compactDisplay,
+            isRHS,
+            theme,
+            emojis,
+            siteUrl,
+            team,
+            lastPostCount
+        } = this.props;
+
+        if (post.state === Posts.POST_DELETED) {
             return this.renderDeletedPost();
         }
 
-        if (!this.props.enableFormatting) {
-            return <span>{this.props.post.message}</span>;
+        if (!enableFormatting) {
+            return <span>{post.message}</span>;
         }
 
-        const postType = this.props.post.type;
-        const pluginPostTypes = this.props.pluginPostTypes;
+        const postType = post.type;
         if (postType) {
             if (pluginPostTypes.hasOwnProperty(postType)) {
                 const PluginComponent = pluginPostTypes[postType].component;
                 return (
                     <PluginComponent
-                        post={this.props.post}
+                        post={post}
                         mentionKeys={this.props.mentionKeys}
-                        compactDisplay={this.props.compactDisplay}
-                        isRHS={this.props.isRHS}
-                        theme={this.props.theme}
+                        compactDisplay={compactDisplay}
+                        isRHS={isRHS}
+                        theme={theme}
                     />
                 );
             }
@@ -147,27 +159,27 @@ export default class PostMessageView extends React.PureComponent {
         const mentionKeys = [...this.props.mentionKeys, this.props.currentUser.username];
 
         const options = Object.assign({}, this.props.options, {
-            emojis: this.props.emojis,
-            siteURL: this.props.siteUrl,
+            emojis,
+            siteURL: siteUrl,
             mentionKeys,
             atMentions: true,
             channelNamesMap: getChannelsNameMapInCurrentTeam(store.getState()),
-            team: this.props.team
+            team
         });
 
-        const renderedSystemMessage = renderSystemMessage(this.props.post, options);
+        const renderedSystemMessage = renderSystemMessage(post, options);
         if (renderedSystemMessage) {
             return <div>{renderedSystemMessage}</div>;
         }
 
         let postId = null;
-        if (this.props.lastPostCount >= 0) {
-            postId = Utils.createSafeId('lastPostMessageText' + this.props.lastPostCount);
+        if (lastPostCount >= 0) {
+            postId = Utils.createSafeId('lastPostMessageText' + lastPostCount);
         }
 
-        let message = this.props.post.message;
-        const isEphemeral = Utils.isPostEphemeral(this.props.post);
-        if (this.props.compactDisplay && isEphemeral) {
+        let message = post.message;
+        const isEphemeral = Utils.isPostEphemeral(post);
+        if (compactDisplay && isEphemeral) {
             const visibleMessage = Utils.localizeMessage('post_info.message.visible.compact', ' (Only visible to you)');
             message = message.concat(visibleMessage);
         }
