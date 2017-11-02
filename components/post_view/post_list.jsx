@@ -525,17 +525,16 @@ export default class PostList extends React.PureComponent {
             );
         } else {
             topRow = (
-                <a
+                <button
                     ref='loadmoretop'
-                    className='more-messages-text theme'
-                    href='#'
+                    className='more-messages-text theme style--none color--link'
                     onClick={this.loadMorePosts}
                 >
                     <FormattedMessage
                         id='posts_view.loadMore'
                         defaultMessage='Load more messages'
                     />
-                </a>
+                </button>
             );
         }
 

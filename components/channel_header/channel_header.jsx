@@ -690,7 +690,7 @@ export default class ChannelHeader extends React.Component {
                 headerTextElement = (
                     <div
                         id='channelHeaderDescription'
-                        className='channel-header__description light'
+                        className='channel-header__description'
                     >
                         {dmHeaderIconStatus}
                         {dmHeaderTextStatus}
