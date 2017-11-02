@@ -361,13 +361,13 @@ export default class SamlSettings extends AdminSettings {
                     label={
                         <FormattedMessage
                             id='admin.saml.enableSyncWithLdapTitle'
-                            defaultMessage='Enable synchronizing SAML accounts with AD/LDAP:'
+                            defaultMessage='Enable Synchronizing SAML Accounts With AD/LDAP:'
                         />
                     }
                     helpText={
                         <FormattedHTMLMessage
                             id='admin.saml.enableSyncWithLdapDescription'
-                            defaultMessage='Mattermost will periodically synchronize SAML users from AD/LDAP based on the LDAP synchronization settings'
+                            defaultMessage='When true, Mattermost periodically synchronizes SAML user attributes, including user deactivation and removal, from AD/LDAP. Enable and configure synchronization settings at **Authentication > AD/LDAP**. See <a href='https://about.mattermost.com/default-saml-ldap-sync' target='_blank'>documentation</a> to learn more.'
                         />
                     }
                     value={this.state.enableSyncWithLdap}
