@@ -574,6 +574,11 @@ export function applyTheme(theme) {
         changeCss('.app__body .status .away--icon', 'fill:' + theme.awayIndicator);
     }
 
+    if (theme.dndIndicator) {
+        changeCss('.app__body .status.status--dnd', 'color:' + theme.dndIndicator);
+        changeCss('.app__body .status .dnd--icon', 'fill:' + theme.dndIndicator);
+    }
+
     if (theme.mentionBj) {
         changeCss('.sidebar--left .nav-pills__unread-indicator', 'background:' + theme.mentionBj);
         changeCss('.app__body .sidebar--left .badge', 'background:' + theme.mentionBj);
