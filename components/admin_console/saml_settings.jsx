@@ -367,7 +367,7 @@ export default class SamlSettings extends AdminSettings {
                     helpText={
                         <FormattedHTMLMessage
                             id='admin.saml.enableSyncWithLdapDescription'
-                            defaultMessage='When true, Mattermost periodically synchronizes SAML user attributes, including user deactivation and removal, from AD/LDAP. Enable and configure synchronization settings at **Authentication > AD/LDAP**. See <a href="https://about.mattermost.com/default-saml-ldap-sync" target="_blank">documentation</a> to learn more.'
+                            defaultMessage='When true, Mattermost periodically synchronizes SAML user attributes, including user deactivation and removal, from AD/LDAP. Enable and configure synchronization settings at <strong>Authentication > AD/LDAP</strong>. See <a href="https://about.mattermost.com/default-saml-ldap-sync" target="_blank">documentation</a> to learn more.'
                         />
                     }
                     value={this.state.enableSyncWithLdap}
