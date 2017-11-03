@@ -71,7 +71,7 @@ export default class PluginSettings extends AdminSettings {
                     helpText={
                         <FormattedHTMLMessage
                             id='admin.plugins.settings.enableUploadsDesc'
-                            defaultMessage='When true, enables plugin uploads at <strong>Plugins > Management</strong>. If you do not plan to upload a plugin, set to false to control which plugins are installed on your server. See <a href="https://about.mattermost.com/default-plugins-uploads" target="_blank">documentation</a> to learn more.'
+                            defaultMessage='When true, enables plugin uploads by System Admins at <strong>Plugins > Management</strong>. If you do not plan to upload a plugin, set to false to control which plugins are installed on your server. See <a href="https://about.mattermost.com/default-plugins-uploads" target="_blank">documentation</a> to learn more.'
                         />
                     }
                     value={this.state.enableUploads}
