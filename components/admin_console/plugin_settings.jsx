@@ -76,6 +76,7 @@ export default class PluginSettings extends AdminSettings {
                     }
                     value={this.state.enableUploads}
                     onChange={this.handleChange}
+                    disabled={!this.state.enablePlugins}
                 />
             </SettingsGroup>
         );
