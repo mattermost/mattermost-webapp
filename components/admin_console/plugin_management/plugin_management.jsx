@@ -383,7 +383,7 @@ export default class PluginManagement extends React.Component {
                             <p className='help-text'>
                                 <FormattedHTMLMessage
                                     id='admin.plugin.installedDesc'
-                                    defaultMessage='Installed plugins on your Mattermost server. Pre-packaged plugins are automatically installed and cannot be removed.'
+                                    defaultMessage='Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be deactivated but not removed.'
                                 />
                             </p>
                             <br/>
