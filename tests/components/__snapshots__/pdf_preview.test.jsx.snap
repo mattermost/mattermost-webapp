@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component/PDFPreview should match snapshot success file loading 1`] = `
+<div
+  className="view-image__loading"
+>
+  <img
+    className="loader-image"
+    src={null}
+  />
+</div>
+`;
