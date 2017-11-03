@@ -22,12 +22,10 @@ export default class PushSettings extends AdminSettings {
         super(props);
 
         this.canSave = this.canSave.bind(this);
-
         this.handleAgreeChange = this.handleAgreeChange.bind(this);
-
         this.getConfigFromState = this.getConfigFromState.bind(this);
-
         this.renderSettings = this.renderSettings.bind(this);
+        this.handleDropdownChange = this.handleDropdownChange.bind(this);
     }
 
     canSave() {
@@ -40,7 +38,7 @@ export default class PushSettings extends AdminSettings {
         });
     }
 
-    handleChange(id, value) {
+    handleDropdownChange(id, value) {
         if (id === 'pushNotificationServerType') {
             this.setState({
                 agree: false
@@ -57,7 +55,7 @@ export default class PushSettings extends AdminSettings {
             }
         }
 
-        super.handleChange(id, value);
+        this.handleChange(id, value);
     }
 
     getConfigFromState(config) {
@@ -167,6 +165,25 @@ export default class PushSettings extends AdminSettings {
             );
         }
 
+        let pnServer;
+        if (this.state.pushNotificationServerType === PUSH_NOTIFICATIONS_CUSTOM) {
+            pnServer = (
+                <TextSetting
+                    id='pushNotificationServer'
+                    label={
+                        <FormattedMessage
+                            id='admin.email.pushServerTitle'
+                            defaultMessage='Push Notification Server:'
+                        />
+                    }
+                    placeholder={Utils.localizeMessage('admin.email.pushServerEx', 'E.g.: "http://push-test.mattermost.com"')}
+                    helpText={pushServerHelpText}
+                    value={this.state.pushNotificationServer}
+                    onChange={this.handleChange}
+                />
+            );
+        }
+
         return (
             <SettingsGroup
                 header={
@@ -186,24 +203,11 @@ export default class PushSettings extends AdminSettings {
                         />
                     }
                     value={this.state.pushNotificationServerType}
-                    onChange={this.handleChange}
+                    onChange={this.handleDropdownChange}
                     helpText={sendHelpText}
                 />
                 {tosCheckbox}
-                <TextSetting
-                    id='pushNotificationServer'
-                    label={
-                        <FormattedMessage
-                            id='admin.email.pushServerTitle'
-                            defaultMessage='Push Notification Server:'
-                        />
-                    }
-                    placeholder={Utils.localizeMessage('admin.email.pushServerEx', 'E.g.: "http://push-test.mattermost.com"')}
-                    helpText={pushServerHelpText}
-                    value={this.state.pushNotificationServer}
-                    onChange={this.handleChange}
-                    disabled={this.state.pushNotificationServerType !== PUSH_NOTIFICATIONS_CUSTOM}
-                />
+                {pnServer}
                 <DropdownSetting
                     id='pushNotificationContents'
                     values={[
@@ -218,7 +222,7 @@ export default class PushSettings extends AdminSettings {
                         />
                     }
                     value={this.state.pushNotificationContents}
-                    onChange={this.handleChange}
+                    onChange={this.handleDropdownChange}
                     disabled={this.state.pushNotificationServerType === PUSH_NOTIFICATIONS_OFF}
                     helpText={
                         <FormattedHTMLMessage
