@@ -10,7 +10,7 @@ import * as Utils from 'utils/utils.jsx';
 import Banner from 'components/admin_console/banner.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
-export default class PluginSettings extends React.Component {
+export default class PluginManagement extends React.Component {
     static propTypes = {
 
         /*
@@ -38,7 +38,17 @@ export default class PluginSettings extends React.Component {
             /*
              * Function to get installed plugins
              */
-            getPlugins: PropTypes.func.isRequired
+            getPlugins: PropTypes.func.isRequired,
+
+            /*
+             * Function to get installed plugins
+             */
+            activatePlugin: PropTypes.func.isRequired,
+
+            /*
+             * Function to get installed plugins
+             */
+            deactivatePlugin: PropTypes.func.isRequired
         }).isRequired
     }
 
@@ -54,9 +64,11 @@ export default class PluginSettings extends React.Component {
     }
 
     componentDidMount() {
-        this.props.actions.getPlugins().then(
-            () => this.setState({loading: false})
-        );
+        if (this.props.config.PluginSettings.Enable) {
+            this.props.actions.getPlugins().then(
+                () => this.setState({loading: false})
+            );
+        }
     }
 
     handleChange = () => {
@@ -103,7 +115,145 @@ export default class PluginSettings extends React.Component {
         }
     }
 
+    handleActivate = async (pluginId) => {
+        this.setState({activating: pluginId});
+
+        const {error} = await this.props.actions.activatePlugin(pluginId);
+        this.setState({activating: null});
+
+        if (error) {
+            this.setState({serverError: error.message});
+        }
+    }
+
+    handleDeactivate = async (pluginId) => {
+        this.setState({deactivating: pluginId});
+
+        const {error} = await this.props.actions.deactivatePlugin(pluginId);
+        this.setState({deactivating: null});
+
+        if (error) {
+            this.setState({serverError: error.message});
+        }
+    }
+
+    buildPluginItem = (p) => {
+        let activateButton;
+        if (p.active) {
+            const deactivating = this.state.deactivating === p.id;
+            activateButton = (
+                <a
+                    disabled={deactivating}
+                    onClick={() => this.handleDeactivate(p.id)}
+                >
+                    {deactivating ?
+                        <FormattedMessage
+                            id='admin.plugin.deactivating'
+                            defaultMessage='Deactivating...'
+                        /> :
+                        <FormattedMessage
+                            id='admin.plugin.deactivate'
+                            defaultMessage='Deactivate'
+                        />
+                    }
+                </a>
+            );
+        } else {
+            const activating = this.state.activating === p.id;
+            activateButton = (
+                <a
+                    disabled={activating}
+                    onClick={() => this.handleActivate(p.id)}
+                >
+                    {activating ?
+                        <FormattedMessage
+                            id='admin.plugin.activating'
+                            defaultMessage='Activating...'
+                        /> :
+                        <FormattedMessage
+                            id='admin.plugin.activate'
+                            defaultMessage='Activate'
+                        />
+                    }
+                </a>
+            );
+        }
+
+        let removeButtonText;
+        if (this.state.removing === p.id) {
+            removeButtonText = (
+                <FormattedMessage
+                    id='admin.plugin.removing'
+                    defaultMessage='Removing...'
+                />
+            );
+        } else {
+            removeButtonText = (
+                <FormattedMessage
+                    id='admin.plugin.remove'
+                    defaultMessage='Remove'
+                />
+            );
+        }
+
+        return (
+            <div key={p.id}>
+                <div>
+                    <strong>
+                        <FormattedMessage
+                            id='admin.plugin.id'
+                            defaultMessage='ID:'
+                        />
+                    </strong>
+                    {' ' + p.id}
+                </div>
+                <div className='padding-top'>
+                    <strong>
+                        <FormattedMessage
+                            id='admin.plugin.desc'
+                            defaultMessage='Description:'
+                        />
+                    </strong>
+                    {' ' + p.description}
+                </div>
+                <div className='padding-top'>
+                    {activateButton}
+                    {' - '}
+                    <a
+                        disabled={this.state.removing === p.id}
+                        onClick={() => this.handleRemove(p.id)}
+                    >
+                        {removeButtonText}
+                    </a>
+                </div>
+                <hr/>
+            </div>
+        );
+    }
+
     render() {
+        if (!this.props.config.PluginSettings.Enable) {
+            return (
+                <div className='wrapper--fixed'>
+                    <h3 className='admin-console-header'>
+                        <FormattedMessage
+                            id='admin.plugin.management.title'
+                            defaultMessage='Management'
+                        />
+                    </h3>
+                    <Banner
+                        title={<div/>}
+                        description={
+                            <FormattedHTMLMessage
+                                id='admin.plugin.management.banner'
+                                defaultMessage='Plugins are disabled on your server. To enable them, go to <strong>Plugins > Configuration</strong>.'
+                            />
+                        }
+                    />
+                </div>
+            );
+        }
+
         let serverError = '';
         if (this.state.serverError) {
             serverError = <div className='col-sm-12'><div className='form-group has-error half'><label className='control-label'>{this.state.serverError}</label></div></div>;
@@ -136,96 +286,39 @@ export default class PluginSettings extends React.Component {
             );
         }
 
-        let activePluginsList;
-        let activePluginsContainer;
+        let pluginsList;
+        let pluginsContainer;
         const plugins = Object.values(this.props.plugins);
         if (this.state.loading) {
-            activePluginsList = <LoadingScreen/>;
+            pluginsList = <LoadingScreen/>;
         } else if (plugins.length === 0) {
-            activePluginsContainer = (
+            pluginsContainer = (
                 <FormattedMessage
                     id='admin.plugin.no_plugins'
-                    defaultMessage='No active plugins.'
+                    defaultMessage='No installed plugins.'
                 />
             );
         } else {
-            activePluginsList = plugins.map(
-                (p) => {
-                    let removeButtonText;
-                    if (this.state.removing === p.id) {
-                        removeButtonText = (
-                            <FormattedMessage
-                                id='admin.plugin.removing'
-                                defaultMessage='Removing...'
-                            />
-                        );
-                    } else {
-                        removeButtonText = (
-                            <FormattedMessage
-                                id='admin.plugin.remove'
-                                defaultMessage='Remove'
-                            />
-                        );
-                    }
+            pluginsList = plugins.map(this.buildPluginItem);
 
-                    return (
-                        <div key={p.id}>
-                            <div>
-                                <strong>
-                                    <FormattedMessage
-                                        id='admin.plugin.id'
-                                        defaultMessage='ID:'
-                                    />
-                                </strong>
-                                {' ' + p.id}
-                            </div>
-                            <div className='padding-top'>
-                                <strong>
-                                    <FormattedMessage
-                                        id='admin.plugin.desc'
-                                        defaultMessage='Description:'
-                                    />
-                                </strong>
-                                {' ' + p.description}
-                            </div>
-                            <div className='padding-top'>
-                                <a
-                                    disabled={this.state.removing === p.id}
-                                    onClick={() => this.handleRemove(p.id)}
-                                >
-                                    {removeButtonText}
-                                </a>
-                            </div>
-                            <hr/>
-                        </div>
-                    );
-                }
-            );
-
-            activePluginsContainer = (
+            pluginsContainer = (
                 <div className='alert alert-transparent'>
-                    {activePluginsList}
+                    {pluginsList}
                 </div>
             );
         }
+
+        const enableUploads = this.props.config.PluginSettings.EnableUploads;
+        const uploadBtnClass = enableUploads ? 'btn btn-primary' : 'btn';
 
         return (
             <div className='wrapper--fixed'>
                 <h3 className='admin-console-header'>
                     <FormattedMessage
-                        id='admin.plugin.title'
-                        defaultMessage='Plugins (experimental)'
+                        id='admin.plugin.management.title'
+                        defaultMessage='Management'
                     />
                 </h3>
-                <Banner
-                    title={<div/>}
-                    description={
-                        <FormattedHTMLMessage
-                            id='admin.plugin.banner'
-                            defaultMessage='Plugins are experimental stage and are not yet recommended for use in production environments. <br/><br/> Webapp plugins will require users to refresh their browsers or desktop apps before the plugin will take effect. Similarly when a plugin is removed, users will continue to see the plugin until they refresh their browser or app.'
-                        />
-                    }
-                />
                 <form
                     className='form-horizontal'
                     role='form'
@@ -241,7 +334,10 @@ export default class PluginSettings extends React.Component {
                         </label>
                         <div className='col-sm-8'>
                             <div className='file__upload'>
-                                <button className='btn btn-primary'>
+                                <button
+                                    className={uploadBtnClass}
+                                    disabled={!enableUploads}
+                                >
                                     <FormattedMessage
                                         id='admin.plugin.choose'
                                         defaultMessage='Choose File'
@@ -252,6 +348,7 @@ export default class PluginSettings extends React.Component {
                                     type='file'
                                     accept='.gz'
                                     onChange={this.handleChange}
+                                    disabled={!enableUploads}
                                 />
                             </div>
                             <button
@@ -268,7 +365,7 @@ export default class PluginSettings extends React.Component {
                             <p className='help-text'>
                                 <FormattedHTMLMessage
                                     id='admin.plugin.uploadDesc'
-                                    defaultMessage='Upload a plugin for your Mattermost server. Adding or removing a webapp plugin requires users to refresh their browser or Desktop App before taking effect. See <a href="https://about.mattermost.com/default-plugins">documentation</a> to learn more.'
+                                    defaultMessage='Upload a plugin for your Mattermost server. See <a href="https://about.mattermost.com/default-plugin-uploads" target="_blank">documentation</a> to learn more.'
                                 />
                             </p>
                         </div>
@@ -278,12 +375,19 @@ export default class PluginSettings extends React.Component {
                             className='control-label col-sm-4'
                         >
                             <FormattedMessage
-                                id='admin.plugin.activeTitle'
-                                defaultMessage='Active Plugins: '
+                                id='admin.plugin.installedTitle'
+                                defaultMessage='Installed Plugins: '
                             />
                         </label>
-                        <div className='col-sm-8 padding-top'>
-                            {activePluginsContainer}
+                        <div className='col-sm-8'>
+                            <p className='help-text'>
+                                <FormattedHTMLMessage
+                                    id='admin.plugin.installedDesc'
+                                    defaultMessage='Installed plugins on your Mattermost server. Pre-packaged plugins are automatically installed and cannot be removed.'
+                                />
+                            </p>
+                            <br/>
+                            {pluginsContainer}
                         </div>
                     </div>
                 </form>
