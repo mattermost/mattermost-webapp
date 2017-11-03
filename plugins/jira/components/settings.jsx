@@ -6,99 +6,13 @@ import crypto from 'crypto';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Client4} from 'mattermost-redux/client';
-
-import {autocompleteUsersInTeam} from 'actions/user_actions.jsx';
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-
-import {ActionTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import AdminSettings from 'components/admin_console/admin_settings.jsx';
 import BooleanSetting from 'components/admin_console/boolean_setting.jsx';
 import GeneratedSetting from 'components/admin_console/generated_setting.jsx';
-import Setting from 'components/admin_console/setting.jsx';
+import UserAutocompleteSetting from 'components/admin_console/user_autocomplete_setting.jsx';
 import SettingsGroup from 'components/admin_console/settings_group.jsx';
-import Provider from 'components/suggestion/provider.jsx';
-import Suggestion from 'components/suggestion/suggestion.jsx';
-import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
-import SuggestionList from 'components/suggestion/suggestion_list.jsx';
-
-import './style.scss';
-
-class UserSuggestion extends Suggestion {
-    render() {
-        const {item, isSelection} = this.props;
-
-        let className = 'suggestion-list__item mentions__name';
-        if (isSelection) {
-            className += ' suggestion--selected';
-        }
-
-        const username = item.username;
-        let description = '';
-
-        if ((item.first_name || item.last_name) && item.nickname) {
-            description = `- ${Utils.getFullName(item)} (${item.nickname})`;
-        } else if (item.nickname) {
-            description = `- (${item.nickname})`;
-        } else if (item.first_name || item.last_name) {
-            description = `- ${Utils.getFullName(item)}`;
-        }
-
-        return (
-            <div
-                className={className}
-                onClick={this.handleClick}
-            >
-                <div className='pull-left'>
-                    <img
-                        className='jirabot__image'
-                        src={Client4.getUsersRoute() + '/' + item.id + '/image?_=' + (item.last_picture_update || 0)}
-                    />
-                </div>
-                <div className='pull-left jirabot--align'>
-                    <span>
-                        {'@' + username}
-                    </span>
-                    <span className='jirabot__fullname'>
-                        {' '}
-                        {description}
-                    </span>
-                </div>
-            </div>
-        );
-    }
-}
-
-class UserProvider extends Provider {
-    handlePretextChanged(suggestionId, pretext) {
-        const normalizedPretext = pretext.toLowerCase();
-        this.startNewRequest(suggestionId, normalizedPretext);
-
-        autocompleteUsersInTeam(
-            normalizedPretext,
-            (data) => {
-                if (this.shouldCancelDispatch(normalizedPretext)) {
-                    return;
-                }
-
-                const users = Object.assign([], data.users);
-
-                AppDispatcher.handleServerAction({
-                    type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
-                    id: suggestionId,
-                    matchedPretext: normalizedPretext,
-                    terms: users.map((user) => user.username),
-                    items: users,
-                    component: UserSuggestion
-                });
-            }
-        );
-
-        return true;
-    }
-}
 
 export default class JIRASettings extends AdminSettings {
     constructor(props) {
@@ -108,9 +22,6 @@ export default class JIRASettings extends AdminSettings {
         this.renderSettings = this.renderSettings.bind(this);
         this.handleSecretChange = this.handleSecretChange.bind(this);
         this.handleEnabledChange = this.handleEnabledChange.bind(this);
-        this.handleUserSelected = this.handleUserSelected.bind(this);
-
-        this.userSuggestionProviders = [new UserProvider()];
     }
 
     getConfigFromState(config) {
@@ -155,10 +66,6 @@ export default class JIRASettings extends AdminSettings {
         this.handleChange('enabled', enabled);
     }
 
-    handleUserSelected(user) {
-        this.handleChange('userName', user.username);
-    }
-
     renderTitle() {
         return Utils.localizeMessage('admin.plugins.jira', 'JIRA (Beta)');
     }
@@ -186,31 +93,15 @@ export default class JIRASettings extends AdminSettings {
                     value={this.state.enabled}
                     onChange={(id, value) => this.handleEnabledChange(value)}
                 />
-                <Setting
+                <UserAutocompleteSetting
+                    id='userName'
                     label={Utils.localizeMessage('admin.plugins.jira.userLabel', 'User:')}
                     helpText={Utils.localizeMessage('admin.plugins.jira.userDescription', 'Select the username that this integration is attached to.')}
-                    inputId='userName'
-                >
-                    <div
-                        className='jirabots__dropdown'
-                    >
-                        <SuggestionBox
-                            id='userName'
-                            className='form-control'
-                            placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
-                            value={this.state.userName}
-                            onChange={(e) => this.handleChange('userName', e.target.value)}
-                            onItemSelected={this.handleUserSelected}
-                            listComponent={SuggestionList}
-                            listStyle='bottom'
-                            providers={this.userSuggestionProviders}
-                            disabled={!this.state.enabled}
-                            type='input'
-                            requiredCharacters={0}
-                            openOnFocus={true}
-                        />
-                    </div>
-                </Setting>
+                    placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
+                    disabled={!this.state.enabled}
+                    value={this.state.userName}
+                    onChange={this.handleChange}
+                />
                 <GeneratedSetting
                     id='secret'
                     label={Utils.localizeMessage('admin.plugins.jira.secretLabel', 'Secret:')}
