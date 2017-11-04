@@ -660,6 +660,8 @@
   "admin.log.locationTitle": "File Log Directory:",
   "admin.log.logSettings": "Log Settings",
   "admin.logs.bannerDesc": "To look up users by User ID or Token ID, go to Reporting > Users and paste the ID into the search filter.",
+  "admin.logs.next": "Next",
+  "admin.logs.prev": "Previous",
   "admin.logs.reload": "Reload",
   "admin.logs.title": "Server Logs",
   "admin.manage_roles.additionalRoles": "Select additional permissions for the account. <a href=\"https://about.mattermost.com/default-permissions\" target=\"_blank\">Read more about roles and permissions</a>.",
