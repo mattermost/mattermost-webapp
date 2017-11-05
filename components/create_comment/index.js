@@ -27,11 +27,14 @@ function mapStateToProps(state, ownProps) {
 
     const enableAddButton = message.trim().length !== 0 || fileInfos.length !== 0;
 
+    const fileCount = draft.fileInfos.length + draft.uploadsInProgress.length;
+
     return {
         userId: getCurrentUserId(state),
         teamId: getCurrentTeamId(state),
         draft,
         enableAddButton,
+        fileCount,
         ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
         createPostErrorId: err.server_error_id
     };

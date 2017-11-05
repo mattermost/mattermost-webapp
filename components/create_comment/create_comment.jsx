@@ -43,6 +43,7 @@ export default class CreateComment extends React.PureComponent {
             fileInfos: PropTypes.array
         }),
         enableAddButton: PropTypes.bool.isRequired,
+        fileCount: PropTypes.number.isRequired,
         ctrlSend: PropTypes.bool,
         latestPostId: PropTypes.string,
         getSidebarBody: PropTypes.func,
@@ -363,7 +364,8 @@ export default class CreateComment extends React.PureComponent {
 
     removePreview = (id) => {
         const {draft} = this.props;
-        const {fileInfos, uploadsInProgress} = draft;
+        const fileInfos = [...draft.fileInfos];
+        const uploadsInProgress = [...draft.uploadsInProgress];
 
         // Clear previous errors
         this.handleUploadError(null);
@@ -387,8 +389,7 @@ export default class CreateComment extends React.PureComponent {
     }
 
     getFileCount = () => {
-        const {draft} = this.props;
-        return draft.fileInfos.length + draft.uploadsInProgress.length;
+        return this.props.fileCount;
     }
 
     getFileUploadTarget = () => {
