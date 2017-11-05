@@ -17,17 +17,18 @@ function mapStateToProps(state, ownProps) {
     const draft = PostStore.getCommentDraft(ownProps.rootId) || {
         message: '',
         uploadsInProgress: [],
-        fileInfos: [],
+        fileInfos: []
     };
 
     const {
         message,
-        fileInfos
+        fileInfos,
+        uploadsInProgress
     } = draft;
 
     const enableAddButton = message.trim().length !== 0 || fileInfos.length !== 0;
 
-    const fileCount = draft.fileInfos.length + draft.uploadsInProgress.length;
+    const fileCount = fileInfos.length + uploadsInProgress.length;
 
     return {
         userId: getCurrentUserId(state),
