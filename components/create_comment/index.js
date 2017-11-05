@@ -7,33 +7,45 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 import {Preferences} from 'mattermost-redux/constants';
+import {EmojiMap} from 'stores/emoji_store.jsx';
 
 import PostStore from 'stores/post_store.jsx';
 
 import CreateComment from './create_comment.jsx';
 
-function mapStateToProps(state, ownProps) {
-    const err = state.requests.posts.createPost.error || {};
+function makeMapStateToProps() {
+    let emojiMap;
+    let oldCustomEmoji;
 
-    const {
-        message = '',
-        fileInfos = [],
-        uploadsInProgress = []
-    } = PostStore.getCommentDraft(ownProps.rootId) || {};
+    return function mapStateToProps(state, ownProps) {
+        const newCustomEmoji = getCustomEmojisByName(state);
+        if (newCustomEmoji !== oldCustomEmoji) {
+            emojiMap = new EmojiMap(newCustomEmoji);
+        }
+        oldCustomEmoji = newCustomEmoji;
 
-    const draft = {message, fileInfos, uploadsInProgress};
+        const err = state.requests.posts.createPost.error || {};
 
-    const enableAddButton = message.trim().length !== 0 || fileInfos.length !== 0;
+        const {
+            message = '',
+            fileInfos = [],
+            uploadsInProgress = []
+        } = PostStore.getCommentDraft(ownProps.rootId) || {};
 
-    return {
-        userId: getCurrentUserId(state),
-        teamId: getCurrentTeamId(state),
-        draft,
-        enableAddButton,
-        ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
-        customEmojis: getCustomEmojisByName(state),
-        createPostErrorId: err.server_error_id
+        const draft = {message, fileInfos, uploadsInProgress};
+
+        const enableAddButton = message.trim().length !== 0 || fileInfos.length !== 0;
+
+        return {
+            userId: getCurrentUserId(state),
+            teamId: getCurrentTeamId(state),
+            draft,
+            enableAddButton,
+            emojis: emojiMap,
+            ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
+            createPostErrorId: err.server_error_id
+        };
     };
 }
 
-export default connect(mapStateToProps)(CreateComment);
+export default connect(makeMapStateToProps)(CreateComment);

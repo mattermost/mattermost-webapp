@@ -18,7 +18,6 @@ import PostStore from 'stores/post_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-import * as Emoji from 'utils/emoji.jsx';
 
 import {REACTION_PATTERN} from 'components/create_post.jsx';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
@@ -74,9 +73,9 @@ export default class CreateComment extends React.PureComponent {
         ctrlSend: PropTypes.bool,
 
         /**
-         * Map of custom emojis, indexed by name
+         * Map of emojis, indexed by name
          */
-        customEmojis: PropTypes.object,
+        emojis: PropTypes.object,
 
          /**
          * The id of the latest post in this channel
@@ -172,14 +171,10 @@ export default class CreateComment extends React.PureComponent {
         this.setState({postError});
     }
 
-    hasEmoji = (name) => {
-        return Emoji.EmojiIndicesByAlias.has(name) || this.props.customEmojis.has(name);
-    };
-
     handleSubmit = (e) => {
         e.preventDefault();
 
-        const {draft, enableAddButton} = this.props;
+        const {draft, enableAddButton, emojis} = this.props;
         const {message} = draft;
 
         if (!enableAddButton) {
@@ -202,7 +197,7 @@ export default class CreateComment extends React.PureComponent {
 
         const isReaction = REACTION_PATTERN.exec(message);
 
-        if (isReaction && this.hasEmoji(isReaction[2])) {
+        if (isReaction && emojis.has(isReaction[2])) {
             this.handleSubmitReaction(isReaction);
         } else if (message.indexOf('/') === 0) {
             this.handleSubmitCommand();
