@@ -51,11 +51,6 @@ export default class CreateComment extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.lastTime = 0;
-
-        PostStore.clearCommentDraftUploads();
-        MessageHistoryStore.resetHistoryIndex('comment');
-
         this.state = {
             showPostDeletedModal: false,
             showEmojiPicker: false
@@ -82,7 +77,7 @@ export default class CreateComment extends React.PureComponent {
 
         const {draft, rootId} = this.props;
 
-        const newMessage = (function getNewMessage() {
+        const newMessage = (function() {
             if (draft.message === '') {
                 return `:${emojiAlias}: `;
             } else {
@@ -102,12 +97,23 @@ export default class CreateComment extends React.PureComponent {
         this.focusTextbox();
     }
 
+    componentWillMount() {
+        PostStore.clearCommentDraftUploads();
+        MessageHistoryStore.resetHistoryIndex('comment');
+    }
+
     componentDidMount() {
         this.focusTextbox();
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (prevState.uploadsInProgress < this.state.uploadsInProgress) {
+    componentWillReceiveProps(newProps) {
+        if (newProps.createPostErrorId === 'api.post.create_post.root_id.app_error' && newProps.createPostErrorId !== this.props.createPostErrorId) {
+            this.showPostDeletedModal();
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.draft.uploadsInProgress.length < this.props.draft.uploadsInProgress.length) {
             $('.post-right__scroll').scrollTop($('.post-right__scroll')[0].scrollHeight);
         }
 
@@ -264,15 +270,15 @@ export default class CreateComment extends React.PureComponent {
     }
 
     handleKeyDown = (e) => {
-        console.log('ctrl', e.ctrlKey);
-        console.log('down', e.keyCode === Constants.KeyCodes.DOWN);
-
-        if (this.props.ctrlSend && e.keyCode === KeyCodes.ENTER && e.ctrlKey === true) {
+        if (this.props.ctrlSend && e.keyCode === KeyCodes.ENTER && e.ctrlKey) {
             this.commentMsgKeyPress(e);
             return;
         }
 
-        if (!e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey && e.keyCode === KeyCodes.UP && this.state.message === '') {
+        const {draft} = this.props;
+        const {message} = draft;
+
+        if (!e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey && e.keyCode === KeyCodes.UP && message === '') {
             e.preventDefault();
 
             const lastPost = PostStore.getCurrentUsersLatestPost(this.props.channelId, this.props.rootId);
@@ -291,10 +297,8 @@ export default class CreateComment extends React.PureComponent {
             });
         }
 
-        const {draft} = this.props;
-
         if ((e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey && (e.keyCode === Constants.KeyCodes.UP || e.keyCode === Constants.KeyCodes.DOWN)) {
-            const lastMessage = MessageHistoryStore.nextMessageInHistory(e.keyCode, draft.message, 'comment');
+            const lastMessage = MessageHistoryStore.nextMessageInHistory(e.keyCode, message, 'comment');
             if (lastMessage !== null) {
                 e.preventDefault();
                 PostActions.updateCommentDraft(this.props.rootId, {...draft, message: lastMessage});
@@ -341,20 +345,19 @@ export default class CreateComment extends React.PureComponent {
     }
 
     handleUploadError = (err, clientId) => {
-        if (clientId === -1) {
-            this.setState({serverError: err});
-        } else {
-            const draft = PostStore.getCommentDraft(this.props.rootId);
+        if (clientId !== -1) {
+            const {draft} = this.props;
+            const uploadsInProgress = [...draft.uploadsInProgress];
 
-            const index = draft.uploadsInProgress.indexOf(clientId);
+            const index = uploadsInProgress.indexOf(clientId);
             if (index !== -1) {
-                draft.uploadsInProgress.splice(index, 1);
+                uploadsInProgress.splice(index, 1);
             }
 
-            PostStore.storeCommentDraft(this.props.rootId, draft);
-
-            this.setState({uploadsInProgress: draft.uploadsInProgress, serverError: err});
+            PostActions.updateCommentDraft(this.props.rootId, {...draft, uploadsInProgress});
         }
+
+        this.setState({serverError: err});
     }
 
     removePreview = (id) => {
@@ -380,12 +383,6 @@ export default class CreateComment extends React.PureComponent {
         PostActions.updateCommentDraft(this.props.rootId, {...draft, fileInfos, uploadsInProgress});
 
         this.handleFileUploadChange();
-    }
-
-    componentWillReceiveProps(newProps) {
-        if (newProps.createPostErrorId === 'api.post.create_post.root_id.app_error' && newProps.createPostErrorId !== this.props.createPostErrorId) {
-            this.showPostDeletedModal();
-        }
     }
 
     getFileCount = () => {
@@ -427,8 +424,8 @@ export default class CreateComment extends React.PureComponent {
         const {
             draft: {
                 message,
-                fileInfos,
-            },
+                fileInfos
+            }
         } = this.props;
         return message.trim().length !== 0 || fileInfos.length !== 0;
     }

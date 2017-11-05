@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import {connect} from 'react-redux';
-import {createPost, addReaction, removeReaction} from 'mattermost-redux/actions/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
@@ -14,13 +13,12 @@ import CreateComment from './create_comment.jsx';
 
 function mapStateToProps(state, ownProps) {
     const err = state.requests.posts.createPost.error || {};
+
     const draft = PostStore.getCommentDraft(ownProps.rootId) || {
         message: '',
         uploadsInProgress: [],
         fileInfos: [],
     };
-    console.log(state);
-    console.log(draft);
 
     return {
         userId: getCurrentUserId(state),
@@ -31,10 +29,4 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-const mapDispatchToProps = {
-    createPost,
-    addReaction,
-    removeReaction
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CreateComment);
+export default connect(mapStateToProps)(CreateComment);
