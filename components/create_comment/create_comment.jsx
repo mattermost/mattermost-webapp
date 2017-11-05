@@ -130,10 +130,10 @@ export default class CreateComment extends React.PureComponent {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        const {draft} = this.props;
+        const {draft, enableAddButton} = this.props;
         const {message} = draft;
 
-        if (message.trim().length === 0 && draft.fileInfos.length === 0) {
+        if (!enableAddButton) {
             return;
         }
 
