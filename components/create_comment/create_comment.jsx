@@ -38,10 +38,10 @@ export default class CreateComment extends React.PureComponent {
         channelId: PropTypes.string.isRequired,
         rootId: PropTypes.string.isRequired,
         draft: PropTypes.shape({
-            message: PropTypes.string,
-            uploadsInProgress: PropTypes.array,
-            fileInfos: PropTypes.array
-        }),
+            message: PropTypes.string.isRequired,
+            uploadsInProgress: PropTypes.array.isRequired,
+            fileInfos: PropTypes.array.isRequired
+        }).isRequired,
         enableAddButton: PropTypes.bool.isRequired,
         ctrlSend: PropTypes.bool,
         latestPostId: PropTypes.string,
