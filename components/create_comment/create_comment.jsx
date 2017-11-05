@@ -42,6 +42,7 @@ export default class CreateComment extends React.PureComponent {
             uploadsInProgress: PropTypes.array,
             fileInfos: PropTypes.array
         }),
+        enableAddButton: PropTypes.bool.isRequired,
         ctrlSend: PropTypes.bool,
         latestPostId: PropTypes.string,
         getSidebarBody: PropTypes.func,
@@ -420,16 +421,6 @@ export default class CreateComment extends React.PureComponent {
         this.lastBlurAt = Date.now();
     }
 
-    get enableAddButton() {
-        const {
-            draft: {
-                message,
-                fileInfos
-            }
-        } = this.props;
-        return message.trim().length !== 0 || fileInfos.length !== 0;
-    }
-
     render() {
         const {draft} = this.props;
 
@@ -480,7 +471,7 @@ export default class CreateComment extends React.PureComponent {
         }
 
         let addButtonClass = 'btn btn-primary comment-btn pull-right';
-        if (!this.enableAddButton) {
+        if (!this.props.enableAddButton) {
             addButtonClass += ' disabled';
         }
 

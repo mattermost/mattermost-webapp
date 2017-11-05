@@ -20,10 +20,18 @@ function mapStateToProps(state, ownProps) {
         fileInfos: [],
     };
 
+    const {
+        message,
+        fileInfos
+    } = draft;
+
+    const enableAddButton = message.trim().length !== 0 || fileInfos.length !== 0;
+
     return {
         userId: getCurrentUserId(state),
         teamId: getCurrentTeamId(state),
         draft,
+        enableAddButton,
         ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
         createPostErrorId: err.server_error_id
     };
