@@ -14,12 +14,18 @@ import CreateComment from './create_comment.jsx';
 
 function mapStateToProps(state, ownProps) {
     const err = state.requests.posts.createPost.error || {};
-    const draft = PostStore.getCommentDraft(ownProps.rootId);
+    const draft = PostStore.getCommentDraft(ownProps.rootId) || {
+        message: '',
+        uploadsInProgress: [],
+        fileInfos: [],
+    };
     console.log(state);
+    console.log(draft);
 
     return {
         userId: getCurrentUserId(state),
         teamId: getCurrentTeamId(state),
+        draft,
         ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
         createPostErrorId: err.server_error_id
     };

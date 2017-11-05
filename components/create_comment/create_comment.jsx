@@ -37,6 +37,11 @@ export default class CreateComment extends React.PureComponent {
         teamId: PropTypes.string.isRequired,
         channelId: PropTypes.string.isRequired,
         rootId: PropTypes.string.isRequired,
+        draft: PropTypes.shape({
+            message: PropTypes.string,
+            uploadsInProgress: PropTypes.array,
+            fileInfos: PropTypes.array,
+        }),
         ctrlSend: PropTypes.bool,
         latestPostId: PropTypes.string,
         getSidebarBody: PropTypes.func,
@@ -50,16 +55,10 @@ export default class CreateComment extends React.PureComponent {
 
         PostStore.clearCommentDraftUploads();
         MessageHistoryStore.resetHistoryIndex('comment');
-        const draft = PostStore.getCommentDraft(props.rootId);
 
-        const enableAddButton = this.handleEnableAddButton(draft.message, draft.fileInfos);
         this.state = {
-            message: draft.message,
-            uploadsInProgress: draft.uploadsInProgress,
-            fileInfos: draft.fileInfos,
             submitting: false,
             showPostDeletedModal: false,
-            enableAddButton,
             showEmojiPicker: false
         };
 
@@ -82,19 +81,22 @@ export default class CreateComment extends React.PureComponent {
             return;
         }
 
-        if (this.state.message === '') {
-            this.setState({message: ':' + emojiAlias + ': '});
-        } else {
-            // Check whether there is already a blank at the end of the current message
-            let newMessage;
-            if ((/\s+$/).test(this.state.message)) {
-                newMessage = this.state.message + ':' + emojiAlias + ': ';
-            } else {
-                newMessage = this.state.message + ' :' + emojiAlias + ': ';
-            }
+        const {draft, rootId} = this.props;
 
-            this.setState({message: newMessage});
-        }
+        const newMessage = (function getNewMessage() {
+            if (draft.message === '') {
+                return `:${emojiAlias}: `;
+            } else {
+                // Check whether there is already a blank at the end of the current message
+                if ((/\s+$/).test(draft.message)) {
+                    return `${draft.message}:${emojiAlias}: `;
+                } else {
+                    return `${draft.message} :${emojiAlias}: `;
+                }
+            }
+        })();
+
+        PostActions.updateCommentDraft(rootId, {...draft, message: newMessage});
 
         this.setState({showEmojiPicker: false});
 
@@ -122,11 +124,13 @@ export default class CreateComment extends React.PureComponent {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        if (this.state.uploadsInProgress.length > 0 || this.state.submitting) {
+        const {draft} = this.props;
+
+        if (draft.uploadsInProgress.length > 0 || this.state.submitting) {
             return;
         }
 
-        const message = this.state.message;
+        const {message} = draft;
 
         if (this.state.postError) {
             this.setState({errorClass: 'animation--highlight'});
@@ -137,7 +141,7 @@ export default class CreateComment extends React.PureComponent {
         }
 
         MessageHistoryStore.storeMessageInHistory(message);
-        if (message.trim().length === 0 && this.state.fileInfos.length === 0) {
+        if (message.trim().length === 0 && draft.fileInfos.length === 0) {
             return;
         }
 
@@ -145,18 +149,15 @@ export default class CreateComment extends React.PureComponent {
         if (isReaction && EmojiStore.has(isReaction[2])) {
             this.handleSubmitReaction(isReaction);
         } else if (message.indexOf('/') === 0) {
-            this.handleSubmitCommand(message);
+            this.handleSubmitCommand();
         } else {
-            this.handleSubmitPost(message);
+            this.handleSubmitPost();
         }
 
         this.setState({
-            message: '',
             submitting: false,
             postError: null,
-            fileInfos: [],
             serverError: null,
-            enableAddButton: false
         });
 
         const fasterThanHumanWillClick = 150;
@@ -164,14 +165,11 @@ export default class CreateComment extends React.PureComponent {
         this.focusTextbox(forceFocus);
     }
 
-    handleSubmitCommand = (message) => {
-        PostStore.storeCommentDraft(this.props.rootId, null);
+    handleSubmitCommand = () => {
+        PostActions.updateCommentDraft(this.props.rootId, null);
 
         this.setState({
-            message: '',
             postError: null,
-            fileInfos: [],
-            enableAddButton: false
         });
 
         const args = {
@@ -181,6 +179,12 @@ export default class CreateComment extends React.PureComponent {
             parent_id: this.props.rootId
         };
 
+        const {
+            draft: {
+                message
+            }
+        } = this.props;
+
         ChannelActions.executeCommand(
             message,
             args,
@@ -189,7 +193,7 @@ export default class CreateComment extends React.PureComponent {
             },
             (err) => {
                 if (err.sendMessage) {
-                    this.handleSubmitPost(message);
+                    this.handleSubmitPost();
                 } else {
                     const state = {};
                     state.serverError = err.message;
@@ -200,13 +204,13 @@ export default class CreateComment extends React.PureComponent {
         );
     }
 
-    handleSubmitPost = (message) => {
-        const {userId, channelId, rootId} = this.props;
+    handleSubmitPost = () => {
+        const {userId, channelId, rootId, draft} = this.props;
         const time = Utils.getTimestamp();
 
         const post = {
             file_ids: [],
-            message,
+            message: draft.message,
             channel_id: channelId,
             root_id: rootId,
             parent_id: rootId,
@@ -217,15 +221,12 @@ export default class CreateComment extends React.PureComponent {
 
         GlobalActions.emitUserCommentedEvent(post);
 
-        PostActions.createPost(post, this.state.fileInfos);
+        PostActions.createPost(post, draft.fileInfos);
 
         this.setState({
-            message: '',
             submitting: false,
             postError: null,
-            fileInfos: [],
             serverError: null,
-            enableAddButton: false
         });
 
         const fasterThanHumanWillClick = 150;
@@ -245,7 +246,7 @@ export default class CreateComment extends React.PureComponent {
             PostActions.removeReaction(this.props.channelId, postId, emojiName);
         }
 
-        PostStore.storeCommentDraft(this.props.rootId, null);
+        PostActions.updateCommentDraft(this.props.rootId, null);
     }
 
     commentMsgKeyPress = (e) => {
@@ -263,18 +264,11 @@ export default class CreateComment extends React.PureComponent {
     handleChange = (e) => {
         const message = e.target.value;
 
-        const draft = PostStore.getCommentDraft(this.props.rootId);
-        draft.message = message;
-        PostStore.storeCommentDraft(this.props.rootId, draft);
+        const {draft, rootId} = this.props;
+        const updatedDraft = { ...draft, message };
+        PostActions.updateCommentDraft(rootId, updatedDraft);
 
         $('.post-right__scroll').parent().scrollTop($('.post-right__scroll')[0].scrollHeight);
-
-        const enableAddButton = this.handleEnableAddButton(message, this.state.fileInfos);
-
-        this.setState({
-            message,
-            enableAddButton
-        });
     }
 
     handleKeyDown = (e) => {
@@ -308,7 +302,6 @@ export default class CreateComment extends React.PureComponent {
                 e.preventDefault();
                 this.setState({
                     message: lastMessage,
-                    enableAddButton: true
                 });
             }
         }
@@ -319,12 +312,10 @@ export default class CreateComment extends React.PureComponent {
     }
 
     handleUploadStart = (clientIds) => {
-        const draft = PostStore.getCommentDraft(this.props.rootId);
+        const {draft} = this.props;
+        const uploadsInProgress = [...draft.uploadsInProgress, ...clientIds];
 
-        draft.uploadsInProgress = draft.uploadsInProgress.concat(clientIds);
-        PostStore.storeCommentDraft(this.props.rootId, draft);
-
-        this.setState({uploadsInProgress: draft.uploadsInProgress});
+        PostActions.updateCommentDraft(this.props.rootId, {...draft, uploadsInProgress});
 
         // this is a bit redundant with the code that sets focus when the file input is clicked,
         // but this also resets the focus after a drag and drop
@@ -332,33 +323,26 @@ export default class CreateComment extends React.PureComponent {
     }
 
     handleFileUploadComplete = (fileInfos, clientIds) => {
-        const draft = PostStore.getCommentDraft(this.props.rootId);
+        const {draft} = this.props;
+        const uploadsInProgress = [...draft.uploadsInProgress];
+        const newFileInfos = [...draft.fileInfos, ...fileInfos];
 
         // remove each finished file from uploads
         for (let i = 0; i < clientIds.length; i++) {
-            const index = draft.uploadsInProgress.indexOf(clientIds[i]);
+            const index = uploadsInProgress.indexOf(clientIds[i]);
 
             if (index !== -1) {
-                draft.uploadsInProgress.splice(index, 1);
+                uploadsInProgress.splice(index, 1);
             }
         }
 
-        draft.fileInfos = draft.fileInfos.concat(fileInfos);
-        PostStore.storeCommentDraft(this.props.rootId, draft);
+        PostActions.updateCommentDraft(this.props.rootId, {...draft, fileInfos: newFileInfos, uploadsInProgress});
 
         // Focus on preview if needed/possible - if user has switched teams since starting the file upload,
         // the preview will be undefined and the switch will fail
         if (typeof this.refs.preview != 'undefined' && this.refs.preview) {
             this.refs.preview.refs.container.scrollIntoView();
         }
-
-        const enableAddButton = this.handleEnableAddButton(draft.message, draft.fileInfos);
-
-        this.setState({
-            uploadsInProgress: draft.uploadsInProgress,
-            fileInfos: draft.fileInfos,
-            enableAddButton
-        });
     }
 
     handleUploadError = (err, clientId) => {
@@ -379,8 +363,8 @@ export default class CreateComment extends React.PureComponent {
     }
 
     removePreview = (id) => {
-        const fileInfos = this.state.fileInfos;
-        const uploadsInProgress = this.state.uploadsInProgress;
+        const {draft} = this.props;
+        const {fileInfos, uploadsInProgress} = draft;
 
         // Clear previous errors
         this.handleUploadError(null);
@@ -398,35 +382,20 @@ export default class CreateComment extends React.PureComponent {
             fileInfos.splice(index, 1);
         }
 
-        const draft = PostStore.getCommentDraft(this.props.rootId);
-        draft.fileInfos = fileInfos;
-        draft.uploadsInProgress = uploadsInProgress;
-        PostStore.storeCommentDraft(this.props.rootId, draft);
-
-        this.setState({fileInfos, uploadsInProgress});
+        PostActions.updateCommentDraft(this.props.rootId, {...draft, fileInfos, uploadsInProgress});
 
         this.handleFileUploadChange();
     }
 
     componentWillReceiveProps(newProps) {
-        if (newProps.rootId !== this.props.rootId) {
-            const draft = PostStore.getCommentDraft(newProps.rootId);
-            const enableAddButton = this.handleEnableAddButton(draft.message, draft.fileInfos);
-            this.setState({
-                message: draft.message,
-                uploadsInProgress: draft.uploadsInProgress,
-                fileInfos: draft.fileInfos,
-                enableAddButton
-            });
-        }
-
         if (newProps.createPostErrorId === 'api.post.create_post.root_id.app_error' && newProps.createPostErrorId !== this.props.createPostErrorId) {
             this.showPostDeletedModal();
         }
     }
 
     getFileCount = () => {
-        return this.state.fileInfos.length + this.state.uploadsInProgress.length;
+        const {draft} = this.props;
+        return draft.fileInfos.length + draft.uploadsInProgress.length;
     }
 
     getFileUploadTarget = () => {
@@ -459,11 +428,19 @@ export default class CreateComment extends React.PureComponent {
         this.lastBlurAt = Date.now();
     }
 
-    handleEnableAddButton = (message, fileInfos) => {
+    get enableAddButton() {
+        const {
+            draft: {
+                message,
+                fileInfos,
+            },
+        } = this.props;
         return message.trim().length !== 0 || fileInfos.length !== 0;
     }
 
     render() {
+        const {draft} = this.props;
+
         let serverError = null;
         if (this.state.serverError) {
             serverError = (
@@ -480,22 +457,22 @@ export default class CreateComment extends React.PureComponent {
         }
 
         let preview = null;
-        if (this.state.fileInfos.length > 0 || this.state.uploadsInProgress.length > 0) {
+        if (draft.fileInfos.length > 0 || draft.uploadsInProgress.length > 0) {
             preview = (
                 <FilePreview
-                    fileInfos={this.state.fileInfos}
+                    fileInfos={draft.fileInfos}
                     onRemove={this.removePreview}
-                    uploadsInProgress={this.state.uploadsInProgress}
+                    uploadsInProgress={draft.uploadsInProgress}
                     ref='preview'
                 />
             );
         }
 
         let uploadsInProgressText = null;
-        if (this.state.uploadsInProgress.length > 0) {
+        if (draft.uploadsInProgress.length > 0) {
             uploadsInProgressText = (
                 <span className='pull-right post-right-comments-upload-in-progress'>
-                    {this.state.uploadsInProgress.length === 1 ? (
+                    {draft.uploadsInProgress.length === 1 ? (
                         <FormattedMessage
                             id='create_comment.file'
                             defaultMessage='File uploading'
@@ -511,7 +488,7 @@ export default class CreateComment extends React.PureComponent {
         }
 
         let addButtonClass = 'btn btn-primary comment-btn pull-right';
-        if (!this.state.enableAddButton) {
+        if (!this.enableAddButton) {
             addButtonClass += ' disabled';
         }
 
@@ -564,7 +541,7 @@ export default class CreateComment extends React.PureComponent {
                                 onKeyPress={this.commentMsgKeyPress}
                                 onKeyDown={this.handleKeyDown}
                                 handlePostError={this.handlePostError}
-                                value={this.state.message}
+                                value={draft.message}
                                 onBlur={this.handleBlur}
                                 createMessage={Utils.localizeMessage('create_comment.addComment', 'Add a comment...')}
                                 emojiEnabled={window.mm_config.EnableEmojiPicker === 'true'}
