@@ -40,7 +40,7 @@ export default class CreateComment extends React.PureComponent {
         draft: PropTypes.shape({
             message: PropTypes.string,
             uploadsInProgress: PropTypes.array,
-            fileInfos: PropTypes.array,
+            fileInfos: PropTypes.array
         }),
         ctrlSend: PropTypes.bool,
         latestPostId: PropTypes.string,
@@ -77,18 +77,18 @@ export default class CreateComment extends React.PureComponent {
 
         const {draft, rootId} = this.props;
 
-        const newMessage = (function() {
+        const newMessage = (function getNewMessage() {
             if (draft.message === '') {
                 return `:${emojiAlias}: `;
-            } else {
-                // Check whether there is already a blank at the end of the current message
-                if ((/\s+$/).test(draft.message)) {
-                    return `${draft.message}:${emojiAlias}: `;
-                } else {
-                    return `${draft.message} :${emojiAlias}: `;
-                }
             }
-        })();
+
+            // Check whether there is already a blank at the end of the current message
+            if ((/\s+$/).test(draft.message)) {
+                return `${draft.message}:${emojiAlias}: `;
+            }
+
+            return `${draft.message} :${emojiAlias}: `;
+        }());
 
         PostActions.updateCommentDraft(rootId, {...draft, message: newMessage});
 
@@ -161,7 +161,7 @@ export default class CreateComment extends React.PureComponent {
 
         this.setState({
             postError: null,
-            serverError: null,
+            serverError: null
         });
 
         const fasterThanHumanWillClick = 150;
@@ -173,7 +173,7 @@ export default class CreateComment extends React.PureComponent {
         PostActions.updateCommentDraft(this.props.rootId, null);
 
         this.setState({
-            postError: null,
+            postError: null
         });
 
         const args = {
@@ -192,7 +192,7 @@ export default class CreateComment extends React.PureComponent {
         ChannelActions.executeCommand(
             message,
             args,
-            undefined,
+            null,
             (err) => {
                 if (err.sendMessage) {
                     this.handleSubmitPost();
@@ -224,7 +224,7 @@ export default class CreateComment extends React.PureComponent {
 
         this.setState({
             postError: null,
-            serverError: null,
+            serverError: null
         });
 
         const fasterThanHumanWillClick = 150;
@@ -263,7 +263,7 @@ export default class CreateComment extends React.PureComponent {
         const message = e.target.value;
 
         const {draft, rootId} = this.props;
-        const updatedDraft = { ...draft, message };
+        const updatedDraft = {...draft, message};
         PostActions.updateCommentDraft(rootId, updatedDraft);
 
         $('.post-right__scroll').parent().scrollTop($('.post-right__scroll')[0].scrollHeight);

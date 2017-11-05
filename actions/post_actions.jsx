@@ -196,7 +196,7 @@ export async function updatePost(post, success) {
 export function updateCommentDraft(rootId, draft) {
     dispatch({
         type: ActionTypes.COMMENT_DRAFT_UPDATED,
-        rootId,
+        rootId
     });
 
     PostStore.storeCommentDraft(rootId, draft);
