@@ -10,7 +10,6 @@ import {FormattedMessage} from 'react-intl';
 
 import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
-import * as PostActions from 'actions/post_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import EmojiStore from 'stores/emoji_store.jsx';
 import MessageHistoryStore from 'stores/message_history_store.jsx';
@@ -36,11 +35,15 @@ const KeyCodes = Constants.KeyCodes;
 
 export default class CreateComment extends React.Component {
     static propTypes = {
+        userId: PropTypes.string.isRequired,
         channelId: PropTypes.string.isRequired,
         rootId: PropTypes.string.isRequired,
         latestPostId: PropTypes.string,
         getSidebarBody: PropTypes.func,
-        createPostErrorId: PropTypes.string
+        createPostErrorId: PropTypes.string,
+        createPost: PropTypes.func.isRequired,
+        addReaction: PropTypes.func.isRequired,
+        removeReaction: PropTypes.func.isRequired
     }
 
     constructor(props) {
@@ -211,22 +214,23 @@ export default class CreateComment extends React.Component {
     }
 
     handleSubmitPost = (message) => {
-        const userId = UserStore.getCurrentId();
+        const {userId, channelId, rootId} = this.props;
         const time = Utils.getTimestamp();
 
-        const post = {};
-        post.file_ids = [];
-        post.message = message;
-        post.channel_id = this.props.channelId;
-        post.root_id = this.props.rootId;
-        post.parent_id = this.props.rootId;
-        post.pending_post_id = `${userId}:${time}`;
-        post.user_id = userId;
-        post.create_at = time;
+        const post = {
+            file_ids: [],
+            message,
+            channel_id: channelId,
+            root_id: rootId,
+            parent_id: rootId,
+            pending_post_id: `${userId}:${time}`,
+            user_id: userId,
+            create_at: time
+        };
 
         GlobalActions.emitUserCommentedEvent(post);
 
-        PostActions.createPost(post, this.state.fileInfos);
+        this.props.createPost(post, this.state.fileInfos);
 
         this.setState({
             message: '',
@@ -249,9 +253,9 @@ export default class CreateComment extends React.Component {
         const postId = this.props.latestPostId;
 
         if (action === '+') {
-            PostActions.addReaction(this.props.channelId, postId, emojiName);
+            this.props.addReaction(this.props.channelId, postId, emojiName);
         } else if (action === '-') {
-            PostActions.removeReaction(this.props.channelId, postId, emojiName);
+            this.props.removeReaction(this.props.channelId, postId, emojiName);
         }
 
         PostStore.storeCommentDraft(this.props.rootId, null);
