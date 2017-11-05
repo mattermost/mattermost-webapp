@@ -194,12 +194,12 @@ export async function updatePost(post, success) {
 }
 
 export function updateCommentDraft(rootId, draft) {
+    PostStore.storeCommentDraft(rootId, draft);
+
     dispatch({
         type: ActionTypes.COMMENT_DRAFT_UPDATED,
         rootId
     });
-
-    PostStore.storeCommentDraft(rootId, draft);
 }
 
 export function emitEmojiPosted(emoji) {
