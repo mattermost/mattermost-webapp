@@ -33,20 +33,63 @@ const KeyCodes = Constants.KeyCodes;
 
 export default class CreateComment extends React.PureComponent {
     static propTypes = {
+        /**
+         * The logged in user id
+         */
         userId: PropTypes.string.isRequired,
+
+        /**
+         * The team for which this comment is a part of
+         */
         teamId: PropTypes.string.isRequired,
+
+        /**
+         * The channel for which this comment is a part of
+         */
         channelId: PropTypes.string.isRequired,
+
+        /**
+         * The id of the root post
+         */
         rootId: PropTypes.string.isRequired,
+
+        /**
+         * The current draft of the comment
+         */
         draft: PropTypes.shape({
             message: PropTypes.string.isRequired,
             uploadsInProgress: PropTypes.array.isRequired,
             fileInfos: PropTypes.array.isRequired
         }).isRequired,
+
+        /**
+         * Whether the submit button is enabled
+         */
         enableAddButton: PropTypes.bool.isRequired,
+
+        /**
+         * Set to force form submission on CTRL/CMD + ENTER instead of ENTER
+         */
         ctrlSend: PropTypes.bool,
+
+        /**
+         * Map of custom emojis, indexed by name
+         */
         customEmojis: PropTypes.object,
+
+         /**
+         * The id of the latest post in this channel
+         */
         latestPostId: PropTypes.string,
+
+        /**
+         * A function returning a ref to the sidebar
+         */
         getSidebarBody: PropTypes.func,
+
+        /**
+         * Create post error id
+         */
         createPostErrorId: PropTypes.string
     }
 
