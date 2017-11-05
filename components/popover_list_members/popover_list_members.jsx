@@ -25,7 +25,7 @@ import ChannelMembersModal from 'components/channel_members_modal.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 import TeamMembersModal from 'components/team_members_modal.jsx';
 
-export default class PopoverListMembers extends React.Component {
+export default class PopoverListMembers extends React.PureComponent {
     static propTypes = {
         channel: PropTypes.object.isRequired,
         members: PropTypes.array.isRequired,

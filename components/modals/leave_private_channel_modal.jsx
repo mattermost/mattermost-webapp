@@ -11,7 +11,7 @@ import Constants from 'utils/constants.jsx';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
 
-class LeavePrivateChannelModal extends React.Component {
+class LeavePrivateChannelModal extends React.PureComponent {
     constructor(props) {
         super(props);
 

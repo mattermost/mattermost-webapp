@@ -15,7 +15,7 @@ import {NotificationLevels} from 'utils/constants.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 
-export default class ChannelNotificationsModal extends React.Component {
+export default class ChannelNotificationsModal extends React.PureComponent {
     constructor(props) {
         super(props);
 

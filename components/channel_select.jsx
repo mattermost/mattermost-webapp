@@ -10,7 +10,7 @@ import {sortChannelsByDisplayName} from 'utils/channel_utils.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-export default class ChannelSelect extends React.Component {
+export default class ChannelSelect extends React.PureComponent {
     static get propTypes() {
         return {
             onChange: PropTypes.func,

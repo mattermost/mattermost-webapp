@@ -14,7 +14,7 @@ import {canManageMembers} from 'utils/channel_utils.jsx';
 import {Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-export default class ChannelMembersDropdown extends React.Component {
+export default class ChannelMembersDropdown extends React.PureComponent {
     static propTypes = {
         channel: PropTypes.object.isRequired,
         user: PropTypes.object.isRequired,

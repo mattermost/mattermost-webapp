@@ -17,7 +17,7 @@ import * as Utils from 'utils/utils.jsx';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
 
-export default class SystemUsersDropdown extends React.Component {
+export default class SystemUsersDropdown extends React.PureComponent {
     static propTypes = {
 
         /*

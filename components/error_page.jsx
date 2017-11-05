@@ -11,7 +11,7 @@ import {Link} from 'react-router/es6';
 import {ErrorPageTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-export default class ErrorPage extends React.Component {
+export default class ErrorPage extends React.PureComponent {
     static propTypes = {
         location: PropTypes.object.isRequired
     };

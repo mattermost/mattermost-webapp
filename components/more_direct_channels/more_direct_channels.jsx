@@ -25,7 +25,7 @@ import ProfilePicture from 'components/profile_picture.jsx';
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = Constants.MAX_USERS_IN_GM - 1;
 
-export default class MoreDirectChannels extends React.Component {
+export default class MoreDirectChannels extends React.PureComponent {
     static propTypes = {
         startingUsers: PropTypes.arrayOf(PropTypes.object),
         onModalDismissed: PropTypes.func,

@@ -14,7 +14,7 @@ import UserList from 'components/user_list.jsx';
 
 const NEXT_BUTTON_TIMEOUT = 500;
 
-export default class SearchableUserList extends React.Component {
+export default class SearchableUserList extends React.PureComponent {
     static propTypes = {
         users: PropTypes.arrayOf(PropTypes.object),
         usersPerPage: PropTypes.number,

@@ -17,7 +17,7 @@ import LoadingScreen from './loading_screen.jsx';
 
 const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
 
-export default class SearchableChannelList extends React.Component {
+export default class SearchableChannelList extends React.PureComponent {
     constructor(props) {
         super(props);
 

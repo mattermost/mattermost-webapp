@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {createPost} from 'actions/post_actions.jsx';
 
-export default class FailedPostOptions extends React.Component {
+export default class FailedPostOptions extends React.PureComponent {
     static propTypes = {
 
         /*

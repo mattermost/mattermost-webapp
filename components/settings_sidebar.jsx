@@ -8,7 +8,7 @@ import React from 'react';
 
 import * as UserAgent from 'utils/user_agent.jsx';
 
-export default class SettingsSidebar extends React.Component {
+export default class SettingsSidebar extends React.PureComponent {
     constructor(props) {
         super(props);
 

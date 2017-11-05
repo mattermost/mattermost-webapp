@@ -12,7 +12,7 @@ import * as Utils from 'utils/utils.jsx';
 
 import FileInfoPreview from './file_info_preview.jsx';
 
-export default class AudioVideoPreview extends React.Component {
+export default class AudioVideoPreview extends React.PureComponent {
     constructor(props) {
         super(props);
 

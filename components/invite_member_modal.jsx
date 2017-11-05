@@ -47,7 +47,7 @@ const holders = defineMessages({
     }
 });
 
-class InviteMemberModal extends React.Component {
+class InviteMemberModal extends React.PureComponent {
     constructor(props) {
         super(props);
 

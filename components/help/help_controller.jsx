@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-export default class HelpController extends React.Component {
+export default class HelpController extends React.PureComponent {
     static get propTypes() {
         return {
             children: PropTypes.node.isRequired

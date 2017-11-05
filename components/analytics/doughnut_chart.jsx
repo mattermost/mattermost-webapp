@@ -10,7 +10,7 @@ import Chart from 'chart.js';
 
 import * as Utils from 'utils/utils.jsx';
 
-export default class DoughnutChart extends React.Component {
+export default class DoughnutChart extends React.PureComponent {
     constructor(props) {
         super(props);
 

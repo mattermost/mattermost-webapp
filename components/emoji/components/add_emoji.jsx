@@ -13,7 +13,7 @@ import BackstageHeader from 'components/backstage/components/backstage_header.js
 import FormError from 'components/form_error.jsx';
 import SpinnerButton from 'components/spinner_button.jsx';
 
-export default class AddEmoji extends React.Component {
+export default class AddEmoji extends React.PureComponent {
     static propTypes = {
         team: PropTypes.object,
         user: PropTypes.object

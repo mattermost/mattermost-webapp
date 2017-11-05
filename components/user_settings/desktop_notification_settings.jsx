@@ -11,7 +11,7 @@ import * as Utils from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 
-export default class DesktopNotificationSettings extends React.Component {
+export default class DesktopNotificationSettings extends React.PureComponent {
     constructor(props) {
         super(props);
 

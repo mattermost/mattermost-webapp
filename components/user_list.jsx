@@ -11,7 +11,7 @@ import LoadingScreen from 'components/loading_screen.jsx';
 
 import UserListRow from './user_list_row.jsx';
 
-export default class UserList extends React.Component {
+export default class UserList extends React.PureComponent {
     constructor(props) {
         super(props);
 

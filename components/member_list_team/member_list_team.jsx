@@ -19,7 +19,7 @@ import TeamMembersDropdown from 'components/team_members_dropdown';
 
 const USERS_PER_PAGE = 50;
 
-export default class MemberListTeam extends React.Component {
+export default class MemberListTeam extends React.PureComponent {
     static propTypes = {
         isAdmin: PropTypes.bool,
         actions: PropTypes.shape({

@@ -20,7 +20,7 @@ import SearchableUserList from 'components/searchable_user_list/searchable_user_
 
 const USERS_PER_PAGE = 50;
 
-export default class MemberListChannel extends React.Component {
+export default class MemberListChannel extends React.PureComponent {
     static propTypes = {
         channel: PropTypes.object.isRequired,
         actions: PropTypes.shape({

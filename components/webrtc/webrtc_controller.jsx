@@ -33,7 +33,7 @@ const MAX_ASPECT = 1.778;
 const ALREADY_REGISTERED_ERROR = 477;
 const USERNAME_TAKEN = 476;
 
-export default class WebrtcController extends React.Component {
+export default class WebrtcController extends React.PureComponent {
     constructor(props) {
         super(props);
 

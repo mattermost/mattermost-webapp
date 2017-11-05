@@ -25,7 +25,7 @@ import ProfilePicture from 'components/profile_picture.jsx';
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = 20;
 
-export default class AddUsersToTeam extends React.Component {
+export default class AddUsersToTeam extends React.PureComponent {
     static propTypes = {
         onModalDismissed: PropTypes.func,
         actions: PropTypes.shape({

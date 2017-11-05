@@ -10,7 +10,7 @@ import {cmdOrCtrlPressed} from 'utils/utils.jsx';
 
 const KeyCodes = Constants.KeyCodes;
 
-export default class MultiSelectList extends React.Component {
+export default class MultiSelectList extends React.PureComponent {
     constructor(props) {
         super(props);
 

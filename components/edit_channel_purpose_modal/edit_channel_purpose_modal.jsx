@@ -10,7 +10,7 @@ import {RequestStatus} from 'mattermost-redux/constants';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-export default class EditChannelPurposeModal extends React.Component {
+export default class EditChannelPurposeModal extends React.PureComponent {
     static propTypes = {
 
         /*

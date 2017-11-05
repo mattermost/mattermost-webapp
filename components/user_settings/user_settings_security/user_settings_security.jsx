@@ -29,7 +29,7 @@ const TOKEN_CREATING = 'creating';
 const TOKEN_CREATED = 'created';
 const TOKEN_NOT_CREATING = 'not_creating';
 
-export default class SecurityTab extends React.Component {
+export default class SecurityTab extends React.PureComponent {
     static propTypes = {
         user: PropTypes.object,
         activeSection: PropTypes.string,

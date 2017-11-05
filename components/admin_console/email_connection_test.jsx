@@ -9,7 +9,7 @@ import {testEmail} from 'actions/admin_actions.jsx';
 
 import * as Utils from 'utils/utils.jsx';
 
-export default class EmailConnectionTestButton extends React.Component {
+export default class EmailConnectionTestButton extends React.PureComponent {
     static get propTypes() {
         return {
             config: PropTypes.object.isRequired,

@@ -15,7 +15,7 @@ import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
 
 const ActionTypes = Constants.ActionTypes;
 
-export default class RhsHeaderPost extends React.Component {
+export default class RhsHeaderPost extends React.PureComponent {
     constructor(props) {
         super(props);
 

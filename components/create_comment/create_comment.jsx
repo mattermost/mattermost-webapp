@@ -34,7 +34,7 @@ import Textbox from 'components/textbox.jsx';
 const ActionTypes = Constants.ActionTypes;
 const KeyCodes = Constants.KeyCodes;
 
-export default class CreateComment extends React.Component {
+export default class CreateComment extends React.PureComponent {
     static propTypes = {
         channelId: PropTypes.string.isRequired,
         rootId: PropTypes.string.isRequired,

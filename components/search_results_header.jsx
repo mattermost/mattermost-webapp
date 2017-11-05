@@ -10,7 +10,7 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 
 import Constants from 'utils/constants.jsx';
 
-export default class SearchResultsHeader extends React.Component {
+export default class SearchResultsHeader extends React.PureComponent {
     constructor(props) {
         super(props);
 

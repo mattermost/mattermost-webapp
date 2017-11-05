@@ -14,7 +14,7 @@ import * as Utils from 'utils/utils.jsx';
 
 import LoginMfa from 'components/login/components/login_mfa.jsx';
 
-export default class EmailToOAuth extends React.Component {
+export default class EmailToOAuth extends React.PureComponent {
     constructor(props) {
         super(props);
 

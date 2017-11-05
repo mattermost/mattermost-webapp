@@ -15,7 +15,7 @@ import NotificationsTab from './user_settings_notifications.jsx';
 import SecurityTab from './user_settings_security';
 import SidebarTab from './user_settings_sidebar.jsx';
 
-export default class UserSettings extends React.Component {
+export default class UserSettings extends React.PureComponent {
     constructor(props) {
         super(props);
 

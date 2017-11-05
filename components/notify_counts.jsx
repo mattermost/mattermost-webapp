@@ -9,7 +9,7 @@ import TeamStore from 'stores/team_store.jsx';
 import {getCountsStateFromStores} from 'utils/channel_utils.jsx';
 import * as utils from 'utils/utils.jsx';
 
-export default class NotifyCounts extends React.Component {
+export default class NotifyCounts extends React.PureComponent {
     constructor(props) {
         super(props);
 

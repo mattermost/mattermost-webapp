@@ -23,7 +23,7 @@ const holders = defineMessages({
     }
 });
 
-class TeamSettingsModal extends React.Component {
+class TeamSettingsModal extends React.PureComponent {
     constructor(props) {
         super(props);
 

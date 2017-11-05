@@ -11,7 +11,7 @@ import {oauthToEmail} from 'actions/admin_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-export default class OAuthToEmail extends React.Component {
+export default class OAuthToEmail extends React.PureComponent {
     constructor(props) {
         super(props);
 

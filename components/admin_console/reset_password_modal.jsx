@@ -10,7 +10,7 @@ import {adminResetPassword} from 'actions/admin_actions.jsx';
 
 import * as Utils from 'utils/utils.jsx';
 
-export default class ResetPasswordModal extends React.Component {
+export default class ResetPasswordModal extends React.PureComponent {
     static propTypes = {
         user: PropTypes.object,
         show: PropTypes.bool.isRequired,
