@@ -33,6 +33,7 @@ const KeyCodes = Constants.KeyCodes;
 
 export default class CreateComment extends React.PureComponent {
     static propTypes = {
+
         /**
          * The logged in user id
          */
