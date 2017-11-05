@@ -57,7 +57,6 @@ export default class CreateComment extends React.PureComponent {
         MessageHistoryStore.resetHistoryIndex('comment');
 
         this.state = {
-            submitting: false,
             showPostDeletedModal: false,
             showEmojiPicker: false
         };
@@ -125,12 +124,15 @@ export default class CreateComment extends React.PureComponent {
         e.preventDefault();
 
         const {draft} = this.props;
+        const {message} = draft;
 
-        if (draft.uploadsInProgress.length > 0 || this.state.submitting) {
+        if (message.trim().length === 0 && draft.fileInfos.length === 0) {
             return;
         }
 
-        const {message} = draft;
+        if (draft.uploadsInProgress.length > 0) {
+            return;
+        }
 
         if (this.state.postError) {
             this.setState({errorClass: 'animation--highlight'});
@@ -141,9 +143,6 @@ export default class CreateComment extends React.PureComponent {
         }
 
         MessageHistoryStore.storeMessageInHistory(message);
-        if (message.trim().length === 0 && draft.fileInfos.length === 0) {
-            return;
-        }
 
         const isReaction = REACTION_PATTERN.exec(message);
         if (isReaction && EmojiStore.has(isReaction[2])) {
@@ -155,7 +154,6 @@ export default class CreateComment extends React.PureComponent {
         }
 
         this.setState({
-            submitting: false,
             postError: null,
             serverError: null,
         });
@@ -188,17 +186,12 @@ export default class CreateComment extends React.PureComponent {
         ChannelActions.executeCommand(
             message,
             args,
-            () => {
-                this.setState({submitting: false});
-            },
+            undefined,
             (err) => {
                 if (err.sendMessage) {
                     this.handleSubmitPost();
                 } else {
-                    const state = {};
-                    state.serverError = err.message;
-                    state.submitting = false;
-                    this.setState(state);
+                    this.setState({serverError: err.message});
                 }
             }
         );
@@ -224,7 +217,6 @@ export default class CreateComment extends React.PureComponent {
         PostActions.createPost(post, draft.fileInfos);
 
         this.setState({
-            submitting: false,
             postError: null,
             serverError: null,
         });
@@ -272,6 +264,9 @@ export default class CreateComment extends React.PureComponent {
     }
 
     handleKeyDown = (e) => {
+        console.log('ctrl', e.ctrlKey);
+        console.log('down', e.keyCode === Constants.KeyCodes.DOWN);
+
         if (this.props.ctrlSend && e.keyCode === KeyCodes.ENTER && e.ctrlKey === true) {
             this.commentMsgKeyPress(e);
             return;
@@ -296,13 +291,13 @@ export default class CreateComment extends React.PureComponent {
             });
         }
 
+        const {draft} = this.props;
+
         if ((e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey && (e.keyCode === Constants.KeyCodes.UP || e.keyCode === Constants.KeyCodes.DOWN)) {
-            const lastMessage = MessageHistoryStore.nextMessageInHistory(e.keyCode, this.state.message, 'comment');
+            const lastMessage = MessageHistoryStore.nextMessageInHistory(e.keyCode, draft.message, 'comment');
             if (lastMessage !== null) {
                 e.preventDefault();
-                this.setState({
-                    message: lastMessage,
-                });
+                PostActions.updateCommentDraft(this.props.rootId, {...draft, message: lastMessage});
             }
         }
     }
