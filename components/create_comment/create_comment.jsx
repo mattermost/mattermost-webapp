@@ -10,13 +10,11 @@ import {FormattedMessage} from 'react-intl';
 
 import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
+import * as PostActions from 'actions/post_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import EmojiStore from 'stores/emoji_store.jsx';
 import MessageHistoryStore from 'stores/message_history_store.jsx';
 import PostStore from 'stores/post_store.jsx';
-import PreferenceStore from 'stores/preference_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
@@ -33,17 +31,16 @@ import Textbox from 'components/textbox.jsx';
 const ActionTypes = Constants.ActionTypes;
 const KeyCodes = Constants.KeyCodes;
 
-export default class CreateComment extends React.Component {
+export default class CreateComment extends React.PureComponent {
     static propTypes = {
         userId: PropTypes.string.isRequired,
+        teamId: PropTypes.string.isRequired,
         channelId: PropTypes.string.isRequired,
         rootId: PropTypes.string.isRequired,
+        ctrlSend: PropTypes.bool,
         latestPostId: PropTypes.string,
         getSidebarBody: PropTypes.func,
-        createPostErrorId: PropTypes.string,
-        createPost: PropTypes.func.isRequired,
-        addReaction: PropTypes.func.isRequired,
-        removeReaction: PropTypes.func.isRequired
+        createPostErrorId: PropTypes.string
     }
 
     constructor(props) {
@@ -53,15 +50,14 @@ export default class CreateComment extends React.Component {
 
         PostStore.clearCommentDraftUploads();
         MessageHistoryStore.resetHistoryIndex('comment');
+        const draft = PostStore.getCommentDraft(props.rootId);
 
-        const draft = PostStore.getCommentDraft(this.props.rootId);
         const enableAddButton = this.handleEnableAddButton(draft.message, draft.fileInfos);
         this.state = {
             message: draft.message,
             uploadsInProgress: draft.uploadsInProgress,
             fileInfos: draft.fileInfos,
             submitting: false,
-            ctrlSend: PreferenceStore.getBool(Constants.Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
             showPostDeletedModal: false,
             enableAddButton,
             showEmojiPicker: false
@@ -106,19 +102,7 @@ export default class CreateComment extends React.Component {
     }
 
     componentDidMount() {
-        PreferenceStore.addChangeListener(this.onPreferenceChange);
-
         this.focusTextbox();
-    }
-
-    componentWillUnmount() {
-        PreferenceStore.removeChangeListener(this.onPreferenceChange);
-    }
-
-    onPreferenceChange = () => {
-        this.setState({
-            ctrlSend: PreferenceStore.getBool(Constants.Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter')
-        });
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -182,6 +166,7 @@ export default class CreateComment extends React.Component {
 
     handleSubmitCommand = (message) => {
         PostStore.storeCommentDraft(this.props.rootId, null);
+
         this.setState({
             message: '',
             postError: null,
@@ -189,11 +174,13 @@ export default class CreateComment extends React.Component {
             enableAddButton: false
         });
 
-        const args = {};
-        args.channel_id = this.props.channelId;
-        args.team_id = TeamStore.getCurrentId();
-        args.root_id = this.props.rootId;
-        args.parent_id = this.props.rootId;
+        const args = {
+            channel_id: this.props.channelId,
+            team_id: this.props.teamId,
+            root_id: this.props.rootId,
+            parent_id: this.props.rootId
+        };
+
         ChannelActions.executeCommand(
             message,
             args,
@@ -230,7 +217,7 @@ export default class CreateComment extends React.Component {
 
         GlobalActions.emitUserCommentedEvent(post);
 
-        this.props.createPost(post, this.state.fileInfos);
+        PostActions.createPost(post, this.state.fileInfos);
 
         this.setState({
             message: '',
@@ -242,7 +229,7 @@ export default class CreateComment extends React.Component {
         });
 
         const fasterThanHumanWillClick = 150;
-        const forceFocus = (Date.now() - this.state.lastBlurAt < fasterThanHumanWillClick);
+        const forceFocus = (Date.now() - this.lastBlurAt < fasterThanHumanWillClick);
         this.focusTextbox(forceFocus);
     }
 
@@ -253,16 +240,16 @@ export default class CreateComment extends React.Component {
         const postId = this.props.latestPostId;
 
         if (action === '+') {
-            this.props.addReaction(this.props.channelId, postId, emojiName);
+            PostActions.addReaction(this.props.channelId, postId, emojiName);
         } else if (action === '-') {
-            this.props.removeReaction(this.props.channelId, postId, emojiName);
+            PostActions.removeReaction(this.props.channelId, postId, emojiName);
         }
 
         PostStore.storeCommentDraft(this.props.rootId, null);
     }
 
     commentMsgKeyPress = (e) => {
-        if (!UserAgent.isMobile() && ((this.state.ctrlSend && e.ctrlKey) || !this.state.ctrlSend)) {
+        if (!UserAgent.isMobile() && ((this.props.ctrlSend && e.ctrlKey) || !this.props.ctrlSend)) {
             if (e.which === KeyCodes.ENTER && !e.shiftKey && !e.altKey) {
                 e.preventDefault();
                 ReactDOM.findDOMNode(this.refs.textbox).blur();
@@ -291,7 +278,7 @@ export default class CreateComment extends React.Component {
     }
 
     handleKeyDown = (e) => {
-        if (this.state.ctrlSend && e.keyCode === KeyCodes.ENTER && e.ctrlKey === true) {
+        if (this.props.ctrlSend && e.keyCode === KeyCodes.ENTER && e.ctrlKey === true) {
             this.commentMsgKeyPress(e);
             return;
         }
