@@ -12,13 +12,13 @@ import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as PostActions from 'actions/post_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import EmojiStore from 'stores/emoji_store.jsx';
 import MessageHistoryStore from 'stores/message_history_store.jsx';
 import PostStore from 'stores/post_store.jsx';
 
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
+import * as Emoji from 'utils/emoji.jsx';
 
 import {REACTION_PATTERN} from 'components/create_post.jsx';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
@@ -44,6 +44,7 @@ export default class CreateComment extends React.PureComponent {
         }).isRequired,
         enableAddButton: PropTypes.bool.isRequired,
         ctrlSend: PropTypes.bool,
+        customEmojis: PropTypes.object,
         latestPostId: PropTypes.string,
         getSidebarBody: PropTypes.func,
         createPostErrorId: PropTypes.string
@@ -127,6 +128,10 @@ export default class CreateComment extends React.PureComponent {
         this.setState({postError});
     }
 
+    hasEmoji = (name) => {
+        return Emoji.EmojiIndicesByAlias.has(name) || this.props.customEmojis.has(name);
+    };
+
     handleSubmit = (e) => {
         e.preventDefault();
 
@@ -152,7 +157,8 @@ export default class CreateComment extends React.PureComponent {
         MessageHistoryStore.storeMessageInHistory(message);
 
         const isReaction = REACTION_PATTERN.exec(message);
-        if (isReaction && EmojiStore.has(isReaction[2])) {
+
+        if (isReaction && this.hasEmoji(isReaction[2])) {
             this.handleSubmitReaction(isReaction);
         } else if (message.indexOf('/') === 0) {
             this.handleSubmitCommand();

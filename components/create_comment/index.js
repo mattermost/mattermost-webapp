@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 import {Preferences} from 'mattermost-redux/constants';
 
 import PostStore from 'stores/post_store.jsx';
@@ -30,6 +31,7 @@ function mapStateToProps(state, ownProps) {
         draft,
         enableAddButton,
         ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
+        customEmojis: getCustomEmojisByName(state),
         createPostErrorId: err.server_error_id
     };
 }
