@@ -188,7 +188,7 @@
         width: 100%;
 
         strong {
-            width: calc(100% - 65px);
+            max-width: calc(100% - 65px);
         }
     }
 
