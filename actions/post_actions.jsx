@@ -170,7 +170,7 @@ export async function createPost(post, files, success) {
 
     await PostActions.createPost(post, files)(dispatch, getState);
     if (post.root_id) {
-        updateCommentDraft(post.root_id, null);
+        dispatch(updateCommentDraft(post.root_id, null));
     } else {
         PostStore.storeDraft(post.channel_id, null);
     }
@@ -194,12 +194,14 @@ export async function updatePost(post, success) {
 }
 
 export function updateCommentDraft(rootId, draft) {
-    PostStore.storeCommentDraft(rootId, draft);
+    return (doDispatch) => {
+        PostStore.storeCommentDraft(rootId, draft);
 
-    dispatch({
-        type: ActionTypes.COMMENT_DRAFT_UPDATED,
-        rootId
-    });
+        doDispatch({
+            type: ActionTypes.POST_DRAFT_UPDATED,
+            data: {rootId, draft}
+        });
+    };
 }
 
 export function emitEmojiPosted(emoji) {

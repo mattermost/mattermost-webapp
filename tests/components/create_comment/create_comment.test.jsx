@@ -4,22 +4,23 @@
 import React from 'react';
 
 import {shallow} from 'enzyme';
+
 import * as Emoji from 'utils/emoji.jsx';
 
 import CreateComment from 'components/create_comment/create_comment.jsx';
 
 jest.mock('stores/message_history_store.jsx', () => ({
-  resetHistoryIndex: jest.fn()
+    resetHistoryIndex: jest.fn()
 }));
 
 jest.mock('stores/post_store.jsx', () => ({
-  clearCommentDraftUploads: jest.fn()
+    clearCommentDraftUploads: jest.fn()
 }));
 
 describe('components/CreateComment', () => {
     beforeEach(() => {
-      window.mm_config = {};
-      window.mm_config.EnableEmojiPicker = 'true';
+        window.mm_config = {};
+        window.mm_config.EnableEmojiPicker = 'true';
     });
 
     const userId = 'b4pfxi8sn78y8yq7phzxxfor7h';
@@ -31,22 +32,28 @@ describe('components/CreateComment', () => {
     test('should match snapshot, empty comment', () => {
         const wrapper = shallow(
             <CreateComment
-              userId={userId}
-              teamId={teamId}
-              channelId={channelId}
-              rootId={rootId}
-              draft={{
-                  message: '',
-                  uploadsInProgress: [],
-                  fileInfos: []
-              }}
-              enableAddButton={false}
-              emojis={emojis}
-              onAddReaction={jest.fn()}
-              onRemoveReaction={jest.fn()}
-              ctrlSend
-              latestPostId={rootId}
-              getSidebarBody={jest.fn()}
+                userId={userId}
+                teamId={teamId}
+                channelId={channelId}
+                rootId={rootId}
+                draft={{
+                    message: '',
+                    uploadsInProgress: [],
+                    fileInfos: []
+                }}
+                enableAddButton={false}
+                emojis={emojis}
+                ctrlSend={true}
+                latestPostId={rootId}
+                getSidebarBody={jest.fn()}
+                onUpdateCommentDraft={jest.fn()}
+                onSubmitPost={jest.fn()}
+                onAddReaction={jest.fn()}
+                onRemoveReaction={jest.fn()}
+                onResetHistoryIndex={jest.fn()}
+                onMoveHistoryIndexBack={jest.fn()}
+                onMoveHistoryIndexForward={jest.fn()}
+                onAddMessageIntoHistory={jest.fn()}
             />
         );
 
@@ -55,23 +62,29 @@ describe('components/CreateComment', () => {
 
     test('should match snapshot, comment with message', () => {
         const wrapper = shallow(
-          <CreateComment
-              userId={userId}
-              teamId={teamId}
-              channelId={channelId}
-              rootId={rootId}
-              draft={{
-                  message: 'Test message',
-                  uploadsInProgress: [],
-                  fileInfos: []
-              }}
-              enableAddButton={false}
-              emojis={emojis}
-              onAddReaction={jest.fn()}
-              onRemoveReaction={jest.fn()}
-              ctrlSend
-              latestPostId={rootId}
-              getSidebarBody={jest.fn()}
+            <CreateComment
+                userId={userId}
+                teamId={teamId}
+                channelId={channelId}
+                rootId={rootId}
+                draft={{
+                    message: 'Test message',
+                    uploadsInProgress: [],
+                    fileInfos: []
+                }}
+                enableAddButton={false}
+                emojis={emojis}
+                ctrlSend={true}
+                latestPostId={rootId}
+                getSidebarBody={jest.fn()}
+                onUpdateCommentDraft={jest.fn()}
+                onSubmitPost={jest.fn()}
+                onAddReaction={jest.fn()}
+                onRemoveReaction={jest.fn()}
+                onResetHistoryIndex={jest.fn()}
+                onMoveHistoryIndexBack={jest.fn()}
+                onMoveHistoryIndexForward={jest.fn()}
+                onAddMessageIntoHistory={jest.fn()}
             />
         );
         expect(wrapper).toMatchSnapshot();
@@ -79,23 +92,29 @@ describe('components/CreateComment', () => {
 
     test('should match snapshot, non-empty message and uploadsInProgress + fileInfos', () => {
         const wrapper = shallow(
-          <CreateComment
-              userId={userId}
-              teamId={teamId}
-              channelId={channelId}
-              rootId={rootId}
-              draft={{
-                  message: 'Test message',
-                  uploadsInProgress: [{}],
-                  fileInfos: [{},{},{}]
-              }}
-              enableAddButton={false}
-              emojis={emojis}
-              onAddReaction={jest.fn()}
-              onRemoveReaction={jest.fn()}
-              ctrlSend
-              latestPostId={rootId}
-              getSidebarBody={jest.fn()}
+            <CreateComment
+                userId={userId}
+                teamId={teamId}
+                channelId={channelId}
+                rootId={rootId}
+                draft={{
+                    message: 'Test message',
+                    uploadsInProgress: [{}],
+                    fileInfos: [{}, {}, {}]
+                }}
+                enableAddButton={false}
+                emojis={emojis}
+                ctrlSend={true}
+                latestPostId={rootId}
+                getSidebarBody={jest.fn()}
+                onUpdateCommentDraft={jest.fn()}
+                onSubmitPost={jest.fn()}
+                onAddReaction={jest.fn()}
+                onRemoveReaction={jest.fn()}
+                onResetHistoryIndex={jest.fn()}
+                onMoveHistoryIndexBack={jest.fn()}
+                onMoveHistoryIndexForward={jest.fn()}
+                onAddMessageIntoHistory={jest.fn()}
             />
         );
         expect(wrapper).toMatchSnapshot();

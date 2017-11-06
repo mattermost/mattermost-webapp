@@ -9,9 +9,7 @@ import {FormattedMessage} from 'react-intl';
 
 import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
-import * as PostActions from 'actions/post_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import MessageHistoryStore from 'stores/message_history_store.jsx';
 import PostStore from 'stores/post_store.jsx';
 
 import Constants from 'utils/constants.jsx';
@@ -76,9 +74,6 @@ export default class CreateComment extends React.PureComponent {
          */
         emojis: PropTypes.object,
 
-        onAddReaction: PropTypes.func.isRequired,
-        onRemoveReaction: PropTypes.func.isRequired,
-
          /**
          * The id of the latest post in this channel
          */
@@ -92,7 +87,47 @@ export default class CreateComment extends React.PureComponent {
         /**
          * Create post error id
          */
-        createPostErrorId: PropTypes.string
+        createPostErrorId: PropTypes.string,
+
+        /**
+         * Called when comment draft needs to be updated
+         */
+        onUpdateCommentDraft: PropTypes.func.isRequired,
+
+        /**
+         * Called when submitting the comment
+         */
+        onSubmitPost: PropTypes.func.isRequired,
+
+        /**
+         * Called when adding a reaction
+         */
+        onAddReaction: PropTypes.func.isRequired,
+
+        /**
+         * Called when removing a reaction
+         */
+        onRemoveReaction: PropTypes.func.isRequired,
+
+        /**
+         * Called when resetting comment message history index
+         */
+        onResetHistoryIndex: PropTypes.func.isRequired,
+
+        /**
+         * Called when navigating back through comment message history
+         */
+        onMoveHistoryIndexBack: PropTypes.func.isRequired,
+
+        /**
+         * Called when navigating forward through comment message history
+         */
+        onMoveHistoryIndexForward: PropTypes.func.isRequired,
+
+        /**
+         * Called when adding a message to comment message history
+         */
+        onAddMessageIntoHistory: PropTypes.func.isRequired
     }
 
     constructor(props) {
@@ -122,7 +157,7 @@ export default class CreateComment extends React.PureComponent {
             return;
         }
 
-        const {draft, rootId} = this.props;
+        const {draft} = this.props;
 
         const newMessage = (function getNewMessage() {
             if (draft.message === '') {
@@ -137,7 +172,7 @@ export default class CreateComment extends React.PureComponent {
             return `${draft.message} :${emojiAlias}: `;
         }());
 
-        PostActions.updateCommentDraft(rootId, {...draft, message: newMessage});
+        this.props.onUpdateCommentDraft({...draft, message: newMessage});
 
         this.setState({showEmojiPicker: false});
 
@@ -146,7 +181,7 @@ export default class CreateComment extends React.PureComponent {
 
     componentWillMount() {
         PostStore.clearCommentDraftUploads();
-        MessageHistoryStore.resetHistoryIndex('comment');
+        this.props.onResetHistoryIndex();
     }
 
     componentDidMount() {
@@ -195,7 +230,7 @@ export default class CreateComment extends React.PureComponent {
             return;
         }
 
-        MessageHistoryStore.storeMessageInHistory(message);
+        this.props.onAddMessageIntoHistory(message);
 
         const isReaction = REACTION_PATTERN.exec(message);
 
@@ -218,7 +253,7 @@ export default class CreateComment extends React.PureComponent {
     }
 
     handleSubmitCommand = () => {
-        PostActions.updateCommentDraft(this.props.rootId, null);
+        this.props.onUpdateCommentDraft(null);
 
         this.setState({
             postError: null
@@ -268,7 +303,7 @@ export default class CreateComment extends React.PureComponent {
 
         GlobalActions.emitUserCommentedEvent(post);
 
-        PostActions.createPost(post, draft.fileInfos);
+        this.props.onSubmitPost(post, draft.fileInfos);
 
         this.setState({
             postError: null,
@@ -292,7 +327,7 @@ export default class CreateComment extends React.PureComponent {
             this.props.onRemoveReaction(postId, emojiName);
         }
 
-        PostActions.updateCommentDraft(this.props.rootId, null);
+        this.props.onUpdateCommentDraft(null);
     }
 
     commentMsgKeyPress = (e) => {
@@ -310,9 +345,9 @@ export default class CreateComment extends React.PureComponent {
     handleChange = (e) => {
         const message = e.target.value;
 
-        const {draft, rootId} = this.props;
+        const {draft} = this.props;
         const updatedDraft = {...draft, message};
-        PostActions.updateCommentDraft(rootId, updatedDraft);
+        this.props.onUpdateCommentDraft(updatedDraft);
 
         $('.post-right__scroll').parent().scrollTop($('.post-right__scroll')[0].scrollHeight);
     }
@@ -345,11 +380,13 @@ export default class CreateComment extends React.PureComponent {
             });
         }
 
-        if ((e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey && (e.keyCode === Constants.KeyCodes.UP || e.keyCode === Constants.KeyCodes.DOWN)) {
-            const lastMessage = MessageHistoryStore.nextMessageInHistory(e.keyCode, message, 'comment');
-            if (lastMessage !== null) {
+        if ((e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey) {
+            if (e.keyCode === Constants.KeyCodes.UP) {
                 e.preventDefault();
-                PostActions.updateCommentDraft(this.props.rootId, {...draft, message: lastMessage});
+                this.props.onMoveHistoryIndexBack();
+            } else if (e.keyCode === Constants.KeyCodes.DOWN) {
+                e.preventDefault();
+                this.props.onMoveHistoryIndexForward();
             }
         }
     }
@@ -362,7 +399,7 @@ export default class CreateComment extends React.PureComponent {
         const {draft} = this.props;
         const uploadsInProgress = [...draft.uploadsInProgress, ...clientIds];
 
-        PostActions.updateCommentDraft(this.props.rootId, {...draft, uploadsInProgress});
+        this.props.onUpdateCommentDraft({...draft, uploadsInProgress});
 
         // this is a bit redundant with the code that sets focus when the file input is clicked,
         // but this also resets the focus after a drag and drop
@@ -383,7 +420,7 @@ export default class CreateComment extends React.PureComponent {
             }
         }
 
-        PostActions.updateCommentDraft(this.props.rootId, {...draft, fileInfos: newFileInfos, uploadsInProgress});
+        this.props.onUpdateCommentDraft({...draft, fileInfos: newFileInfos, uploadsInProgress});
 
         // Focus on preview if needed/possible - if user has switched teams since starting the file upload,
         // the preview will be undefined and the switch will fail
@@ -402,7 +439,7 @@ export default class CreateComment extends React.PureComponent {
                 uploadsInProgress.splice(index, 1);
             }
 
-            PostActions.updateCommentDraft(this.props.rootId, {...draft, uploadsInProgress});
+            this.props.onUpdateCommentDraft({...draft, uploadsInProgress});
         }
 
         this.setState({serverError: err});
@@ -429,7 +466,7 @@ export default class CreateComment extends React.PureComponent {
             fileInfos.splice(index, 1);
         }
 
-        PostActions.updateCommentDraft(this.props.rootId, {...draft, fileInfos, uploadsInProgress});
+        this.props.onUpdateCommentDraft({...draft, fileInfos, uploadsInProgress});
 
         this.handleFileUploadChange();
     }
