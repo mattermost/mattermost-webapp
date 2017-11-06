@@ -207,7 +207,7 @@ export default class ViewImageModal extends React.PureComponent {
             const fileType = Utils.getFileType(fileInfo.extension);
 
             if (fileType === 'image' || fileType === 'svg') {
-                content = ImagePreview({fileInfo});
+                content = <ImagePreview fileInfo={fileInfo}/>;
             } else if (fileType === 'video' || fileType === 'audio') {
                 content = (
                     <AudioVideoPreview
@@ -242,7 +242,12 @@ export default class ViewImageModal extends React.PureComponent {
             const loading = Utils.localizeMessage('view_image.loading', 'Loading');
             const progress = Math.floor(this.state.progress[this.state.imageIndex]);
 
-            content = LoadingImagePreview({loading, progress});
+            content = (
+                <LoadingImagePreview
+                    loading={loading}
+                    progress={progress}
+                />
+            );
         }
 
         let leftArrow = null;
@@ -250,6 +255,7 @@ export default class ViewImageModal extends React.PureComponent {
         if (this.props.fileInfos.length > 1) {
             leftArrow = (
                 <a
+                    id='previewArrowLeft'
                     ref='previewArrowLeft'
                     className='modal-prev-bar'
                     href='#'
@@ -261,6 +267,7 @@ export default class ViewImageModal extends React.PureComponent {
 
             rightArrow = (
                 <a
+                    id='previewArrowRight'
                     ref='previewArrowRight'
                     className='modal-next-bar'
                     href='#'
