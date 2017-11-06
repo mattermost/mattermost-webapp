@@ -49,7 +49,7 @@ export default class CreateComment extends React.PureComponent {
         channelId: PropTypes.string.isRequired,
 
         /**
-         * The id of the root post
+         * The id of the parent post
          */
         rootId: PropTypes.string.isRequired,
 
@@ -451,7 +451,7 @@ export default class CreateComment extends React.PureComponent {
     }
 
     focusTextbox = (keepFocus = false) => {
-        if (keepFocus || !UserAgent.isMobile()) {
+        if (this.refs.textbox && (keepFocus || !UserAgent.isMobile())) {
             this.refs.textbox.focus();
         }
     }
