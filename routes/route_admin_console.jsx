@@ -35,7 +35,8 @@ import MfaSettings from 'components/admin_console/mfa_settings.jsx';
 import NativeAppLinkSettings from 'components/admin_console/native_app_link_settings.jsx';
 import OAuthSettings from 'components/admin_console/oauth_settings.jsx';
 import PasswordSettings from 'components/admin_console/password_settings.jsx';
-import PluginSettings from 'components/admin_console/plugin_settings';
+import PluginSettings from 'components/admin_console/plugin_settings.jsx';
+import PluginManagement from 'components/admin_console/plugin_management';
 import PolicySettings from 'components/admin_console/policy_settings.jsx';
 import PrivacySettings from 'components/admin_console/privacy_settings.jsx';
 import PublicLinkSettings from 'components/admin_console/public_link_settings.jsx';
@@ -168,13 +169,19 @@ export default (
                 path='webrtc'
                 component={WebrtcSettings}
             />
+        </Route>
+        <Route path='plugins'>
+            <Route
+                path='configuration'
+                component={PluginSettings}
+            />
+            <Route
+                path='management'
+                component={PluginManagement}
+            />
             <Route
                 path='jira'
                 component={JIRASettings}
-            />
-            <Route
-                path='plugins'
-                component={PluginSettings}
             />
         </Route>
         <Route path='files'>

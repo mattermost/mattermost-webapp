@@ -190,15 +190,20 @@
                 background: $white;
                 border: $border-gray;
                 margin: 0;
-                padding: 8px 12px;
+                padding: 12px 14px;
                 width: 100%;
             }
 
             hr {
+                border-color: #ddd;
                 margin: .8em 0;
+            }
 
+            div {
                 &:last-child {
-                    display: none;
+                    hr {
+                        display: none;
+                    }
                 }
             }
         }
@@ -713,8 +718,8 @@
 
 .discard-changes-modal .modal-dialog {
     .btn-default, .btn-default:hover, .btn-default:active, .btn-default:focus {
-        color: $primary-color;  
-        background-color: transparent; 
+        color: $primary-color;
+        background-color: transparent;
         border: none;
     }
 }
