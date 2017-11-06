@@ -6,6 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import Janus from 'janus';
+import * as KWM from 'kopano-webmeetings/kwm';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as WebrtcActions from 'actions/webrtc_actions.jsx';
@@ -678,8 +679,19 @@ export default class WebrtcController extends React.Component {
                         });
                     }
 
-                    Janus.init({debug: global.mm_config.EnableDeveloper === 'true'});
-                    this.session = new Janus({
+                    let SessionFactory;
+                    switch (info.gateway_type.toLowerCase()) {
+                    case 'kopano-webmeetings':
+                        SessionFactory = KWM.KWMInit;
+                        break;
+
+                    case 'janus':
+                    default:
+                        SessionFactory = Janus;
+                    }
+
+                    SessionFactory.init({debug: global.mm_config.EnableDeveloper === 'true'});
+                    this.session = new SessionFactory({
                         server: info.gateway_url,
                         iceServers,
                         token: info.token,

@@ -1105,6 +1105,8 @@
   "admin.webrtc.gatewayAdminUrlDescription": "Enter https://<mattermost-webrtc-gateway-url>:<port>/admin. Make sure you use HTTP or HTTPS in your URL depending on your server configuration. Mattermost WebRTC uses this URL to obtain valid tokens for each peer to establish the connection.",
   "admin.webrtc.gatewayAdminUrlExample": "E.g.: \"https://webrtc.mattermost.com:7089/admin\"",
   "admin.webrtc.gatewayAdminUrlTitle": "Gateway Admin URL:",
+  "admin.webrtc.gatewayTypeDescription": "Select the WebRTC Gateway.",
+  "admin.webrtc.gatewayTypeTitle": "Gateway Type:",
   "admin.webrtc.gatewayWebsocketUrlDescription": "Enter wss://<mattermost-webrtc-gateway-url>:<port>. Make sure you use WS or WSS in your URL depending on your server configuration. This is the WebSocket used to signal and establish communication between the peers.",
   "admin.webrtc.gatewayWebsocketUrlExample": "E.g.: \"wss://webrtc.mattermost.com:8189\"",
   "admin.webrtc.gatewayWebsocketUrlTitle": "Gateway WebSocket URL:",

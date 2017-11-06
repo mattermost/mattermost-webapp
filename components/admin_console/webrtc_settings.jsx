@@ -8,6 +8,7 @@ import * as Utils from 'utils/utils.jsx';
 
 import AdminSettings from './admin_settings.jsx';
 import BooleanSetting from './boolean_setting.jsx';
+import DropdownSetting from './dropdown_setting.jsx';
 import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting.jsx';
 
@@ -24,6 +25,7 @@ export default class WebrtcSettings extends AdminSettings {
         config.WebrtcSettings.GatewayWebsocketUrl = this.state.gatewayWebsocketUrl;
         config.WebrtcSettings.GatewayAdminUrl = this.state.gatewayAdminUrl;
         config.WebrtcSettings.GatewayAdminSecret = this.state.gatewayAdminSecret;
+        config.WebrtcSettings.GatewayType = this.state.gatewayType;
         config.WebrtcSettings.StunURI = this.state.stunURI;
         config.WebrtcSettings.TurnURI = this.state.turnURI;
         config.WebrtcSettings.TurnUsername = this.state.turnUsername;
@@ -41,6 +43,7 @@ export default class WebrtcSettings extends AdminSettings {
             gatewayWebsocketUrl: settings.GatewayWebsocketUrl,
             gatewayAdminUrl: settings.GatewayAdminUrl,
             gatewayAdminSecret: settings.GatewayAdminSecret,
+            gatewayType: settings.GatewayType,
             stunURI: settings.StunURI,
             turnURI: settings.TurnURI,
             turnUsername: settings.TurnUsername,
@@ -76,6 +79,28 @@ export default class WebrtcSettings extends AdminSettings {
                     }
                     value={this.state.enableWebrtc}
                     onChange={this.handleChange}
+                />
+                <DropdownSetting
+                    id='gatewayType'
+                    values={[
+                        {value: 'janus', text: 'Janus WebRTC Gateway'},
+                        {value: 'kopano-webmeetings', text: 'Kopano Webmeetings'}
+                    ]}
+                    label={
+                        <FormattedMessage
+                            id='admin.webrtc.gatewayTypeTitle'
+                            defaultMessage='Gateway Type:'
+                        />
+                    }
+                    helpText={
+                        <FormattedMessage
+                            id='admin.webrtc.gatewayTypeDescription'
+                            defaultMessage='Select the WebRTC Gateway.'
+                        />
+                    }
+                    value={this.state.gatewayType}
+                    onChange={this.handleChange}
+                    disabled={!this.state.enableWebrtc}
                 />
                 <TextSetting
                     id='gatewayWebsocketUrl'
