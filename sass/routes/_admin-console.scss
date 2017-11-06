@@ -365,8 +365,8 @@
 
 .job-table__table {
     background-color: $white;
-    border: 1px solid $border-gray;
-    margin-top: 10px;
+    border: $border-gray;
+    margin: 20px 0 10px;
     max-height: 240px;
     min-height: 100px;
     overflow: auto;
@@ -375,14 +375,8 @@
 }
 
 .job-table__panel {
-    margin: 10px;
-    margin-bottom: 50px;
-    margin-left: 20px;
 }
 
-.job-table__create-button {
-    margin-left: 15px;
-}
 
 .brand-img {
     margin-bottom: 1.5em;
