@@ -6,6 +6,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
+import {addReaction, removeReaction} from 'mattermost-redux/actions/posts';
 import {Preferences} from 'mattermost-redux/constants';
 import {EmojiMap} from 'stores/emoji_store.jsx';
 
@@ -32,9 +33,9 @@ function makeMapStateToProps() {
             uploadsInProgress = []
         } = PostStore.getCommentDraft(ownProps.rootId) || {};
 
-        const draft = {message, fileInfos, uploadsInProgress};
-
         const enableAddButton = message.trim().length !== 0 || fileInfos.length !== 0;
+
+        const draft = {message, fileInfos, uploadsInProgress};
 
         return {
             userId: getCurrentUserId(state),
@@ -48,4 +49,9 @@ function makeMapStateToProps() {
     };
 }
 
-export default connect(makeMapStateToProps)(CreateComment);
+const mapDispatchToProps = {
+    onAddReaction: addReaction,
+    onRemoveReaction: removeReaction
+};
+
+export default connect(makeMapStateToProps, mapDispatchToProps)(CreateComment);

@@ -42,6 +42,8 @@ describe('components/CreateComment', () => {
               }}
               enableAddButton={false}
               emojis={emojis}
+              onAddReaction={jest.fn()}
+              onRemoveReaction={jest.fn()}
               ctrlSend
               latestPostId={rootId}
               getSidebarBody={jest.fn()}
@@ -65,6 +67,8 @@ describe('components/CreateComment', () => {
               }}
               enableAddButton={false}
               emojis={emojis}
+              onAddReaction={jest.fn()}
+              onRemoveReaction={jest.fn()}
               ctrlSend
               latestPostId={rootId}
               getSidebarBody={jest.fn()}
@@ -87,6 +91,8 @@ describe('components/CreateComment', () => {
               }}
               enableAddButton={false}
               emojis={emojis}
+              onAddReaction={jest.fn()}
+              onRemoveReaction={jest.fn()}
               ctrlSend
               latestPostId={rootId}
               getSidebarBody={jest.fn()}

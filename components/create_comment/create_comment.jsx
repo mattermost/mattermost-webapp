@@ -5,7 +5,6 @@ import $ from 'jquery';
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import * as ChannelActions from 'actions/channel_actions.jsx';
@@ -76,6 +75,9 @@ export default class CreateComment extends React.PureComponent {
          * Map of emojis, indexed by name
          */
         emojis: PropTypes.object,
+
+        onAddReaction: PropTypes.func.isRequired,
+        onRemoveReaction: PropTypes.func.isRequired,
 
          /**
          * The id of the latest post in this channel
@@ -285,9 +287,9 @@ export default class CreateComment extends React.PureComponent {
         const postId = this.props.latestPostId;
 
         if (action === '+') {
-            PostActions.addReaction(this.props.channelId, postId, emojiName);
+            this.props.onAddReaction(postId, emojiName);
         } else if (action === '-') {
-            PostActions.removeReaction(this.props.channelId, postId, emojiName);
+            this.props.onRemoveReaction(postId, emojiName);
         }
 
         PostActions.updateCommentDraft(this.props.rootId, null);
@@ -297,7 +299,7 @@ export default class CreateComment extends React.PureComponent {
         if (!UserAgent.isMobile() && ((this.props.ctrlSend && e.ctrlKey) || !this.props.ctrlSend)) {
             if (e.which === KeyCodes.ENTER && !e.shiftKey && !e.altKey) {
                 e.preventDefault();
-                ReactDOM.findDOMNode(this.refs.textbox).blur();
+                this.refs.textbox.blur();
                 this.handleSubmit(e);
             }
         }

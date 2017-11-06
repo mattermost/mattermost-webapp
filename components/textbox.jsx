@@ -144,6 +144,11 @@ export default class Textbox extends React.Component {
         Utils.placeCaretAtEnd(textbox);
     }
 
+    blur = () => {
+        const textbox = this.refs.message.getTextbox();
+        textbox.blur();
+    };
+
     recalculateSize = () => {
         this.refs.message.recalculateSize();
     }
