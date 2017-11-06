@@ -5,8 +5,6 @@ import React from 'react';
 
 import {shallow} from 'enzyme';
 
-import * as Emoji from 'utils/emoji.jsx';
-
 import CreateComment from 'components/create_comment/create_comment.jsx';
 
 jest.mock('stores/message_history_store.jsx', () => ({
@@ -27,13 +25,11 @@ describe('components/CreateComment', () => {
     const teamId = 'e584uzbwwpny9kengqayx5ayzw';
     const channelId = 'g6139tbospd18cmxroesdk3kkc';
     const rootId = '';
-    const emojis = Emoji.EmojiIndicesByAlias;
+    const latestPostId = '3498nv24823948v23m4nv34';
 
     test('should match snapshot, empty comment', () => {
         const wrapper = shallow(
             <CreateComment
-                userId={userId}
-                teamId={teamId}
                 channelId={channelId}
                 rootId={rootId}
                 draft={{
@@ -42,18 +38,14 @@ describe('components/CreateComment', () => {
                     fileInfos: []
                 }}
                 enableAddButton={false}
-                emojis={emojis}
                 ctrlSend={true}
-                latestPostId={rootId}
+                latestPostId={latestPostId}
                 getSidebarBody={jest.fn()}
                 onUpdateCommentDraft={jest.fn()}
-                onSubmitPost={jest.fn()}
-                onAddReaction={jest.fn()}
-                onRemoveReaction={jest.fn()}
+                onSubmit={jest.fn()}
                 onResetHistoryIndex={jest.fn()}
                 onMoveHistoryIndexBack={jest.fn()}
                 onMoveHistoryIndexForward={jest.fn()}
-                onAddMessageIntoHistory={jest.fn()}
             />
         );
 
@@ -63,8 +55,6 @@ describe('components/CreateComment', () => {
     test('should match snapshot, comment with message', () => {
         const wrapper = shallow(
             <CreateComment
-                userId={userId}
-                teamId={teamId}
                 channelId={channelId}
                 rootId={rootId}
                 draft={{
@@ -73,18 +63,14 @@ describe('components/CreateComment', () => {
                     fileInfos: []
                 }}
                 enableAddButton={false}
-                emojis={emojis}
                 ctrlSend={true}
-                latestPostId={rootId}
+                latestPostId={latestPostId}
                 getSidebarBody={jest.fn()}
                 onUpdateCommentDraft={jest.fn()}
-                onSubmitPost={jest.fn()}
-                onAddReaction={jest.fn()}
-                onRemoveReaction={jest.fn()}
+                onSubmit={jest.fn()}
                 onResetHistoryIndex={jest.fn()}
                 onMoveHistoryIndexBack={jest.fn()}
                 onMoveHistoryIndexForward={jest.fn()}
-                onAddMessageIntoHistory={jest.fn()}
             />
         );
         expect(wrapper).toMatchSnapshot();
@@ -93,8 +79,6 @@ describe('components/CreateComment', () => {
     test('should match snapshot, non-empty message and uploadsInProgress + fileInfos', () => {
         const wrapper = shallow(
             <CreateComment
-                userId={userId}
-                teamId={teamId}
                 channelId={channelId}
                 rootId={rootId}
                 draft={{
@@ -103,18 +87,14 @@ describe('components/CreateComment', () => {
                     fileInfos: [{}, {}, {}]
                 }}
                 enableAddButton={false}
-                emojis={emojis}
                 ctrlSend={true}
-                latestPostId={rootId}
+                latestPostId={latestPostId}
                 getSidebarBody={jest.fn()}
                 onUpdateCommentDraft={jest.fn()}
-                onSubmitPost={jest.fn()}
-                onAddReaction={jest.fn()}
-                onRemoveReaction={jest.fn()}
+                onSubmit={jest.fn()}
                 onResetHistoryIndex={jest.fn()}
                 onMoveHistoryIndexBack={jest.fn()}
                 onMoveHistoryIndexForward={jest.fn()}
-                onAddMessageIntoHistory={jest.fn()}
             />
         );
         expect(wrapper).toMatchSnapshot();

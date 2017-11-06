@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import PostStore from 'stores/post_store.jsx';
@@ -29,16 +28,6 @@ const KeyCodes = Constants.KeyCodes;
 
 export default class CreateComment extends React.PureComponent {
     static propTypes = {
-
-        /**
-         * The logged in user id
-         */
-        userId: PropTypes.string.isRequired,
-
-        /**
-         * The team for which this comment is a part of
-         */
-        teamId: PropTypes.string.isRequired,
 
         /**
          * The channel for which this comment is a part of
@@ -69,11 +58,6 @@ export default class CreateComment extends React.PureComponent {
          */
         ctrlSend: PropTypes.bool,
 
-        /**
-         * Map of emojis, indexed by name
-         */
-        emojis: PropTypes.object,
-
          /**
          * The id of the latest post in this channel
          */
@@ -97,17 +81,7 @@ export default class CreateComment extends React.PureComponent {
         /**
          * Called when submitting the comment
          */
-        onSubmitPost: PropTypes.func.isRequired,
-
-        /**
-         * Called when adding a reaction
-         */
-        onAddReaction: PropTypes.func.isRequired,
-
-        /**
-         * Called when removing a reaction
-         */
-        onRemoveReaction: PropTypes.func.isRequired,
+        onSubmit: PropTypes.func.isRequired,
 
         /**
          * Called when resetting comment message history index
@@ -122,12 +96,7 @@ export default class CreateComment extends React.PureComponent {
         /**
          * Called when navigating forward through comment message history
          */
-        onMoveHistoryIndexForward: PropTypes.func.isRequired,
-
-        /**
-         * Called when adding a message to comment message history
-         */
-        onAddMessageIntoHistory: PropTypes.func.isRequired
+        onMoveHistoryIndexForward: PropTypes.func.isRequired
     }
 
     constructor(props) {
@@ -208,11 +177,10 @@ export default class CreateComment extends React.PureComponent {
         this.setState({postError});
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
         e.preventDefault();
 
-        const {draft, enableAddButton, emojis} = this.props;
-        const {message} = draft;
+        const {enableAddButton, draft} = this.props;
 
         if (!enableAddButton) {
             return;
@@ -230,104 +198,20 @@ export default class CreateComment extends React.PureComponent {
             return;
         }
 
-        this.props.onAddMessageIntoHistory(message);
+        try {
+            await this.props.onSubmit();
 
-        const isReaction = REACTION_PATTERN.exec(message);
-
-        if (isReaction && emojis.has(isReaction[2])) {
-            this.handleSubmitReaction(isReaction);
-        } else if (message.indexOf('/') === 0) {
-            this.handleSubmitCommand();
-        } else {
-            this.handleSubmitPost();
+            this.setState({
+                postError: null,
+                serverError: null
+            });
+        } catch (err) {
+            this.setState({serverError: err.message});
         }
-
-        this.setState({
-            postError: null,
-            serverError: null
-        });
 
         const fasterThanHumanWillClick = 150;
         const forceFocus = (Date.now() - this.lastBlurAt < fasterThanHumanWillClick);
         this.focusTextbox(forceFocus);
-    }
-
-    handleSubmitCommand = () => {
-        this.props.onUpdateCommentDraft(null);
-
-        this.setState({
-            postError: null
-        });
-
-        const args = {
-            channel_id: this.props.channelId,
-            team_id: this.props.teamId,
-            root_id: this.props.rootId,
-            parent_id: this.props.rootId
-        };
-
-        const {
-            draft: {
-                message
-            }
-        } = this.props;
-
-        ChannelActions.executeCommand(
-            message,
-            args,
-            null,
-            (err) => {
-                if (err.sendMessage) {
-                    this.handleSubmitPost();
-                } else {
-                    this.setState({serverError: err.message});
-                }
-            }
-        );
-    }
-
-    handleSubmitPost = () => {
-        const {userId, channelId, rootId, draft} = this.props;
-        const time = Utils.getTimestamp();
-
-        const post = {
-            file_ids: [],
-            message: draft.message,
-            channel_id: channelId,
-            root_id: rootId,
-            parent_id: rootId,
-            pending_post_id: `${userId}:${time}`,
-            user_id: userId,
-            create_at: time
-        };
-
-        GlobalActions.emitUserCommentedEvent(post);
-
-        this.props.onSubmitPost(post, draft.fileInfos);
-
-        this.setState({
-            postError: null,
-            serverError: null
-        });
-
-        const fasterThanHumanWillClick = 150;
-        const forceFocus = (Date.now() - this.lastBlurAt < fasterThanHumanWillClick);
-        this.focusTextbox(forceFocus);
-    }
-
-    handleSubmitReaction = (isReaction) => {
-        const action = isReaction[1];
-
-        const emojiName = isReaction[2];
-        const postId = this.props.latestPostId;
-
-        if (action === '+') {
-            this.props.onAddReaction(postId, emojiName);
-        } else if (action === '-') {
-            this.props.onRemoveReaction(postId, emojiName);
-        }
-
-        this.props.onUpdateCommentDraft(null);
     }
 
     commentMsgKeyPress = (e) => {
