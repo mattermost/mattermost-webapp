@@ -68,7 +68,7 @@ class PostStoreClass extends EventEmitter {
     }
 
     getMostRecentPostIdInChannel(channelId) {
-        return Selectors.getMostRecentPostIdInChannel(getState(), channelId)
+        return Selectors.getMostRecentPostIdInChannel(getState(), channelId);
     }
 
     getLatestReplyablePost(channelId) {
