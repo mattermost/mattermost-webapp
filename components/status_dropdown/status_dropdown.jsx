@@ -93,7 +93,6 @@ export default class StatusDropdown extends React.Component {
     }
 
     renderStatusAction = (status, onClick, extraText) => {
-
         return (
             <li key={status}>
                 <a
