@@ -10,7 +10,7 @@ import TeamStore from 'stores/team_store.jsx';
 
 import MemberListTeam from 'components/member_list_team';
 
-export default class TeamMembersModal extends React.Component {
+export default class TeamMembersModal extends React.PureComponent {
     constructor(props) {
         super(props);
 

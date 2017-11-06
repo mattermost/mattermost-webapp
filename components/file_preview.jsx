@@ -11,7 +11,7 @@ import * as Utils from 'utils/utils.jsx';
 
 import loadingGif from 'images/load.gif';
 
-export default class FilePreview extends React.Component {
+export default class FilePreview extends React.PureComponent {
     static propTypes = {
         onRemove: PropTypes.func.isRequired,
         fileInfos: PropTypes.arrayOf(PropTypes.object).isRequired,

@@ -11,7 +11,7 @@ import icon50 from 'images/icon50x50.png';
 
 import FormError from 'components/form_error.jsx';
 
-export default class Authorize extends React.Component {
+export default class Authorize extends React.PureComponent {
     static get propTypes() {
         return {
             location: PropTypes.object.isRequired,

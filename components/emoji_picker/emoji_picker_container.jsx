@@ -8,7 +8,7 @@ import EmojiStore from 'stores/emoji_store.jsx';
 
 import EmojiPicker from './emoji_picker.jsx';
 
-export default class EmojiPickerContainer extends React.Component {
+export default class EmojiPickerContainer extends React.PureComponent {
     static propTypes = {
         onEmojiClick: PropTypes.func.isRequred
     }

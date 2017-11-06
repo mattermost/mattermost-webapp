@@ -8,7 +8,7 @@ import Constants from 'utils/constants.jsx';
 
 import ConfirmModal from './confirm_modal.jsx';
 
-export default class DeleteModalTrigger extends React.Component {
+export default class DeleteModalTrigger extends React.PureComponent {
     constructor(props) {
         super(props);
         if (this.constructor === DeleteModalTrigger) {

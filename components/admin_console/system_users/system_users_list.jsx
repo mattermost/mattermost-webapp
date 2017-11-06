@@ -23,7 +23,7 @@ import SystemUsersDropdown from './system_users_dropdown.jsx';
 const dispatch = store.dispatch;
 const getState = store.getState;
 
-export default class SystemUsersList extends React.Component {
+export default class SystemUsersList extends React.PureComponent {
     static propTypes = {
         users: PropTypes.arrayOf(PropTypes.object),
         usersPerPage: PropTypes.number,

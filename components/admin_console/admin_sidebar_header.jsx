@@ -12,7 +12,7 @@ import UserStore from 'stores/user_store.jsx';
 
 import AdminNavbarDropdown from './admin_navbar_dropdown';
 
-export default class SidebarHeader extends React.Component {
+export default class SidebarHeader extends React.PureComponent {
     constructor(props) {
         super(props);
 

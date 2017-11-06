@@ -28,7 +28,7 @@ const KeyCodes = Constants.KeyCodes;
 
 const getState = store.getState;
 
-export default class EditPostModal extends React.Component {
+export default class EditPostModal extends React.PureComponent {
     constructor(props) {
         super(props);
 

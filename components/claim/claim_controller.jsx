@@ -8,7 +8,7 @@ import logoImage from 'images/logo.png';
 
 import BackButton from 'components/common/back_button.jsx';
 
-export default class ClaimController extends React.Component {
+export default class ClaimController extends React.PureComponent {
     constructor(props) {
         super(props);
 

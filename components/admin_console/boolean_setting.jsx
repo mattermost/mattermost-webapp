@@ -9,7 +9,7 @@ import * as Utils from 'utils/utils.jsx';
 
 import Setting from './setting.jsx';
 
-export default class BooleanSetting extends React.Component {
+export default class BooleanSetting extends React.PureComponent {
     constructor(props) {
         super(props);
 

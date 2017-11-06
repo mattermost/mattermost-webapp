@@ -6,7 +6,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-export default class GetLinkModal extends React.Component {
+export default class GetLinkModal extends React.PureComponent {
     constructor(props) {
         super(props);
 

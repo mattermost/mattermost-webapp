@@ -15,7 +15,7 @@ import * as Utils from 'utils/utils.jsx';
 
 import TeamButton from './components/team_button.jsx';
 
-export default class TeamSidebar extends React.Component {
+export default class TeamSidebar extends React.PureComponent {
     static propTypes = {
         actions: PropTypes.shape({
             getTeams: PropTypes.func.isRequired

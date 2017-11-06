@@ -19,7 +19,7 @@ import UserStore from 'stores/user_store.jsx';
 
 import Constants from 'utils/constants.jsx';
 
-export default class Root extends React.Component {
+export default class Root extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {

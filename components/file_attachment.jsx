@@ -11,7 +11,7 @@ import Constants from 'utils/constants.jsx';
 import * as FileUtils from 'utils/file_utils';
 import * as Utils from 'utils/utils.jsx';
 
-export default class FileAttachment extends React.Component {
+export default class FileAttachment extends React.PureComponent {
     constructor(props) {
         super(props);
 

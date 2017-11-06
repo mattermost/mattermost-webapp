@@ -12,7 +12,7 @@ import TeamStore from 'stores/team_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as URL from 'utils/url.jsx';
 
-export default class ChangeUrlModal extends React.Component {
+export default class ChangeUrlModal extends React.PureComponent {
     constructor(props) {
         super(props);
 

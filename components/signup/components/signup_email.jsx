@@ -20,7 +20,7 @@ import logoImage from 'images/logo.png';
 import BackButton from 'components/common/back_button.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
-export default class SignupEmail extends React.Component {
+export default class SignupEmail extends React.PureComponent {
     static get propTypes() {
         return {
             location: PropTypes.object

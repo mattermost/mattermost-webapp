@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export default class EmojiPickerCategory extends React.Component {
+export default class EmojiPickerCategory extends React.PureComponent {
     static propTypes = {
         category: PropTypes.string.isRequired,
         icon: PropTypes.node.isRequired,

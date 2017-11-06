@@ -13,7 +13,7 @@ import {localizeMessage} from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 
-export default class EmailNotificationSetting extends React.Component {
+export default class EmailNotificationSetting extends React.PureComponent {
     static propTypes = {
         activeSection: PropTypes.string.isRequired,
         updateSection: PropTypes.func.isRequired,

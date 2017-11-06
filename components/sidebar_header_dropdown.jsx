@@ -26,7 +26,7 @@ import AddUsersToTeam from 'components/add_users_to_team';
 import SidebarHeaderDropdownButton from './sidebar_header_dropdown_button.jsx';
 import TeamMembersModal from './team_members_modal.jsx';
 
-export default class SidebarHeaderDropdown extends React.Component {
+export default class SidebarHeaderDropdown extends React.PureComponent {
     static propTypes = {
         teamType: PropTypes.string,
         teamDisplayName: PropTypes.string,

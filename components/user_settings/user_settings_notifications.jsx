@@ -100,7 +100,7 @@ function getNotificationsStateFromStores() {
     };
 }
 
-export default class NotificationsTab extends React.Component {
+export default class NotificationsTab extends React.PureComponent {
     constructor(props) {
         super(props);
 

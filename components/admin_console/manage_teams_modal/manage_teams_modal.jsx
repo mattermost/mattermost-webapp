@@ -18,7 +18,7 @@ import LoadingScreen from 'components/loading_screen.jsx';
 import ManageTeamsDropdown from './manage_teams_dropdown.jsx';
 import RemoveFromTeamButton from './remove_from_team_button.jsx';
 
-export default class ManageTeamsModal extends React.Component {
+export default class ManageTeamsModal extends React.PureComponent {
     static propTypes = {
         onModalDismissed: PropTypes.func.isRequired,
         show: PropTypes.bool.isRequired,

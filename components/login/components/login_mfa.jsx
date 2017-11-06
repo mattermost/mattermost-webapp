@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 
-export default class LoginMfa extends React.Component {
+export default class LoginMfa extends React.PureComponent {
     constructor(props) {
         super(props);
 

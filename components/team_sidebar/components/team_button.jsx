@@ -11,7 +11,7 @@ import {switchTeams} from 'actions/team_actions.jsx';
 
 import Constants from 'utils/constants.jsx';
 
-export default class TeamButton extends React.Component {
+export default class TeamButton extends React.PureComponent {
     constructor(props) {
         super(props);
 

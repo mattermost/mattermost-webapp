@@ -6,7 +6,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-export default class ConfirmModal extends React.Component {
+export default class ConfirmModal extends React.PureComponent {
     static propTypes = {
 
         /*

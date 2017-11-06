@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-export default class GeneratedSetting extends React.Component {
+export default class GeneratedSetting extends React.PureComponent {
     static get propTypes() {
         return {
             id: PropTypes.string.isRequired,

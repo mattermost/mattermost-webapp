@@ -11,7 +11,7 @@ import {UserStatuses} from 'utils/constants.jsx';
 import BootstrapSpan from 'components/bootstrap_span.jsx';
 import StatusIcon from 'components/status_icon.jsx';
 
-export default class StatusDropdown extends React.Component {
+export default class StatusDropdown extends React.PureComponent {
 
     static propTypes = {
         style: PropTypes.object,

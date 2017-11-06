@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Link} from 'react-router/es6';
 
-export default class BackstageSection extends React.Component {
+export default class BackstageSection extends React.PureComponent {
     static get propTypes() {
         return {
             name: PropTypes.string.isRequired,

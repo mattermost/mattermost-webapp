@@ -12,7 +12,7 @@ import Constants from 'utils/constants.jsx';
 
 import TutorialIntroScreens from './tutorial_intro_screens.jsx';
 
-export default class TutorialView extends React.Component {
+export default class TutorialView extends React.PureComponent {
     constructor(props) {
         super(props);
 

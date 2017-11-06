@@ -6,7 +6,7 @@ import React from 'react';
 
 import Setting from './setting.jsx';
 
-export default class TextSetting extends React.Component {
+export default class TextSetting extends React.PureComponent {
     static get propTypes() {
         return {
             id: PropTypes.string.isRequired,

@@ -10,7 +10,7 @@ import Chart from 'chart.js';
 
 import * as Utils from 'utils/utils.jsx';
 
-export default class LineChart extends React.Component {
+export default class LineChart extends React.PureComponent {
     constructor(props) {
         super(props);
 

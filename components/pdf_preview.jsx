@@ -13,7 +13,7 @@ import FileInfoPreview from './file_info_preview.jsx';
 
 const MAX_PDF_PAGES = 5;
 
-export default class PDFPreview extends React.Component {
+export default class PDFPreview extends React.PureComponent {
     constructor(props) {
         super(props);
 

@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-export default class NotLoggedIn extends React.Component {
+export default class NotLoggedIn extends React.PureComponent {
     componentDidMount() {
         $('body').addClass('sticky');
         $('#root').addClass('container-fluid');

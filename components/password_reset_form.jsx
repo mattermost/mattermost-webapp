@@ -11,7 +11,7 @@ import {resetPassword} from 'actions/user_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-class PasswordResetForm extends React.Component {
+class PasswordResetForm extends React.PureComponent {
     constructor(props) {
         super(props);
 

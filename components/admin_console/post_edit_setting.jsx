@@ -9,7 +9,7 @@ import * as Utils from 'utils/utils.jsx';
 
 import Setting from './setting.jsx';
 
-export default class PostEditSetting extends React.Component {
+export default class PostEditSetting extends React.PureComponent {
     constructor(props) {
         super(props);
 
