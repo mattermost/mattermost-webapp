@@ -125,10 +125,10 @@ export default class Sidebar extends React.Component {
 
     componentDidUpdate(prevProps, prevState) {
         // if the active channel disappeared (which can happen when dm channels autoclose), go to town square
-        if (this.state.currentTeam === prevState.currentTeam
-            && this.state.activeId === prevState.activeId
-            && !this.stateDisplaysChannelId(this.state, this.state.activeId)
-            && this.stateDisplaysChannelId(prevState, this.state.activeId)
+        if (this.state.currentTeam === prevState.currentTeam &&
+            this.state.activeId === prevState.activeId &&
+            !this.channelIdIsDisplayedForState(this.state, this.state.activeId) &&
+            this.channelIdIsDisplayedForState(prevState, this.state.activeId)
         ) {
             this.closedDirectChannel = true;
             browserHistory.push('/' + this.state.currentTeam.name + '/channels/town-square');
@@ -354,14 +354,14 @@ export default class Sidebar extends React.Component {
     }
 
     getDisplayedChannels = () => {
-        return getDisplayedChannelsForState(this.state);
+        return this.getDisplayedChannelsForState(this.state);
     }
 
     getDisplayedChannelsForState = (state) => {
         return state.favoriteChannels.concat(state.publicChannels).concat(state.privateChannels).concat(state.directAndGroupChannels);
     }
 
-    stateDisplaysChannelId = (state, id) => {
+    channelIdIsDisplayedForState = (state, id) => {
         const allChannels = this.getDisplayedChannelsForState(state);
         for (let i = 0; i < allChannels.length; i++) {
             if (allChannels[i].id === id) {
