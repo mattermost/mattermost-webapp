@@ -64,6 +64,7 @@ export default class GetLinkModal extends React.PureComponent {
         if (document.queryCommandSupported('copy')) {
             copyLink = (
                 <button
+                    id='linkModalCopyLink'
                     data-copy-btn='true'
                     type='button'
                     className='btn btn-primary pull-left'
@@ -79,6 +80,7 @@ export default class GetLinkModal extends React.PureComponent {
 
         const linkText = (
             <textarea
+                id='linkModalTextArea'
                 className='form-control no-resize min-height'
                 ref='textarea'
                 value={this.props.link}
@@ -114,6 +116,7 @@ export default class GetLinkModal extends React.PureComponent {
                 </Modal.Body>
                 <Modal.Footer>
                     <button
+                        id='linkModalCloseButton'
                         type='button'
                         className='btn btn-default'
                         onClick={this.onHide}

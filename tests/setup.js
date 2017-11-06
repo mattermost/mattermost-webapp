@@ -6,17 +6,12 @@ import {configure} from 'enzyme';
 
 configure({adapter: new Adapter()});
 
-var documentMock = (function() {
-    const supportedCommands = ['copy'];
+const supportedCommands = ['copy'];
 
-    return {
-        queryCommandSupported(cmd) {
-            return supportedCommands.includes(cmd);
-        },
-        execCommand(cmd) {
-            return supportedCommands.includes(cmd);
-        }
-    };
-}());
+Object.defineProperty(document, 'queryCommandSupported', {
+  value: (cmd) => supportedCommands.includes(cmd)
+});
 
-Object.defineProperty(window, 'document', {value: documentMock});
+Object.defineProperty(document, 'execCommand', {
+  value: (cmd) => supportedCommands.includes(cmd)
+});
