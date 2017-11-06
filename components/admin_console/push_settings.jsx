@@ -165,25 +165,6 @@ export default class PushSettings extends AdminSettings {
             );
         }
 
-        let pnServer;
-        if (this.state.pushNotificationServerType === PUSH_NOTIFICATIONS_CUSTOM) {
-            pnServer = (
-                <TextSetting
-                    id='pushNotificationServer'
-                    label={
-                        <FormattedMessage
-                            id='admin.email.pushServerTitle'
-                            defaultMessage='Push Notification Server:'
-                        />
-                    }
-                    placeholder={Utils.localizeMessage('admin.email.pushServerEx', 'E.g.: "http://push-test.mattermost.com"')}
-                    helpText={pushServerHelpText}
-                    value={this.state.pushNotificationServer}
-                    onChange={this.handleChange}
-                />
-            );
-        }
-
         return (
             <SettingsGroup
                 header={
@@ -207,7 +188,20 @@ export default class PushSettings extends AdminSettings {
                     helpText={sendHelpText}
                 />
                 {tosCheckbox}
-                {pnServer}
+                <TextSetting
+                    id='pushNotificationServer'
+                    label={
+                        <FormattedMessage
+                            id='admin.email.pushServerTitle'
+                            defaultMessage='Push Notification Server:'
+                        />
+                    }
+                    placeholder={Utils.localizeMessage('admin.email.pushServerEx', 'E.g.: "http://push-test.mattermost.com"')}
+                    helpText={pushServerHelpText}
+                    value={this.state.pushNotificationServer}
+                    onChange={this.handleChange}
+                    disabled={this.state.pushNotificationServerType !== PUSH_NOTIFICATIONS_CUSTOM}
+                />
                 <DropdownSetting
                     id='pushNotificationContents'
                     values={[
