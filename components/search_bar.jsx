@@ -303,16 +303,15 @@ export default class SearchBar extends React.Component {
                     <div
                         className={'channel-header__icon ' + flagBtnClass}
                     >
-                        <a
-                            href='#'
-                            type='button'
+                        <button
                             onClick={this.getFlagged}
+                            className='style--none'
                         >
                             <span
                                 className='icon icon__flag'
                                 dangerouslySetInnerHTML={{__html: flagIcon}}
                             />
-                        </a>
+                        </button>
                     </div>
                 </OverlayTrigger>
             );

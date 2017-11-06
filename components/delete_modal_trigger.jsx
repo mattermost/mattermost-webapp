@@ -51,12 +51,12 @@ export default class DeleteModalTrigger extends React.Component {
     render() {
         return (
             <span>
-                <a
-                    href='#'
+                <button
+                    className='color--link style--none'
                     onClick={this.handleOpenModal}
                 >
                     { this.triggerTitle }
-                </a>
+                </button>
                 <ConfirmModal
                     show={this.state.showDeleteModal}
                     title={this.modalTitle}

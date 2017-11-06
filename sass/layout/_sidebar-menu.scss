@@ -63,7 +63,8 @@
 
     .nav {
         > li {
-            > a {
+            > a,
+            > button {
                 background: none !important;
                 color: inherit;
                 font-size: 15px;

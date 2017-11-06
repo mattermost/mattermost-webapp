@@ -957,14 +957,14 @@ export default class Sidebar extends React.Component {
                     show={this.state.showTopUnread}
                     onClick={this.scrollToFirstUnreadChannel}
                     extraClass='nav-pills__unread-indicator-top'
-                    text={above}
+                    content={above}
                 />
                 <UnreadChannelIndicator
                     name='Bottom'
                     show={this.state.showBottomUnread}
                     onClick={this.scrollToLastUnreadChannel}
                     extraClass='nav-pills__unread-indicator-bottom'
-                    text={below}
+                    content={below}
                 />
 
                 <div

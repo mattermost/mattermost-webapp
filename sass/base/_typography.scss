@@ -18,6 +18,7 @@ a {
 }
 
 .color--link {
+    color: $link-color;
     cursor: pointer;
 
     &:hover,
