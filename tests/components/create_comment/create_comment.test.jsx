@@ -21,8 +21,6 @@ describe('components/CreateComment', () => {
         window.mm_config.EnableEmojiPicker = 'true';
     });
 
-    const userId = 'b4pfxi8sn78y8yq7phzxxfor7h';
-    const teamId = 'e584uzbwwpny9kengqayx5ayzw';
     const channelId = 'g6139tbospd18cmxroesdk3kkc';
     const rootId = '';
     const latestPostId = '3498nv24823948v23m4nv34';
