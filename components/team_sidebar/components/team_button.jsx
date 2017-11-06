@@ -10,6 +10,7 @@ import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {switchTeams} from 'actions/team_actions.jsx';
 
 import Constants from 'utils/constants.jsx';
+import {isDesktopApp} from 'utils/user_agent.jsx';
 
 export default class TeamButton extends React.Component {
     constructor(props) {
@@ -85,10 +86,18 @@ export default class TeamButton extends React.Component {
             );
         }
 
-        return (
-            <div
-                className={`team-container ${teamClass}`}
-            >
+        let teamButton;
+        if (isDesktopApp()) {
+            teamButton = (
+                <button
+                    className={'btn btn-link ' + disabled}
+                    onClick={handleClick}
+                >
+                    {btn}
+                </button>
+            );
+        } else {
+            teamButton = (
                 <Link
                     className={disabled}
                     to={this.props.url}
@@ -96,6 +105,14 @@ export default class TeamButton extends React.Component {
                 >
                     {btn}
                 </Link>
+            );
+        }
+
+        return (
+            <div
+                className={`team-container ${teamClass}`}
+            >
+                {teamButton}
             </div>
         );
     }
