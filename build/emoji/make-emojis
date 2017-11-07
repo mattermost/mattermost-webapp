@@ -1,28 +1,24 @@
 #!/usr/bin/env ruby
 
-gem_name, *gem_ver_reqs = 'gemoji', '~> 3.0.0'
-gdep = Gem::Dependency.new(gem_name, *gem_ver_reqs)
-found_gspec = gdep.matching_specs.max_by(&:version)
-
-if !found_gspec
-    abort("ERROR: gemoji #{gdep.requirement} is required: `gem install gemoji -v '#{gdep.requirement}'`")
-end
-
-puts "using gemoji #{found_gspec.version}"
-
-gem 'gemoji', found_gspec.version
 require 'emoji'
 require 'fileutils'
 require 'json'
+require 'open-uri'
+require 'sprite_factory'
+require 'emoji/extractor'
+require_relative './apple_emoji_extractor.rb'
+require_relative './unicode_emoji_helper.rb'
 
-emoji_path = File.join(File.dirname(__FILE__), 'images', 'emoji')
+project_root = "#{File.dirname(__FILE__)}/../../"
+
+emoji_path = File.join(project_root, 'images', 'emoji')
 if File.directory? emoji_path
     FileUtils.remove_dir emoji_path
 end
 Dir.mkdir emoji_path
 
 Emoji.create('mattermost')
-FileUtils.cp(File.join(File.dirname(__FILE__), 'images', 'icon64x64.png'), File.join(emoji_path, 'mattermost.png'))
+FileUtils.cp(File.join(project_root, 'images', 'icon64x64.png'), File.join(emoji_path, 'mattermost.png'))
 
 custom_aliases = {
     "ca" => "canada",
@@ -37,11 +33,50 @@ custom_aliases.each do |custom, original|
     end
 end
 
+### Extract and create all of the emoji skin tones ###
+unicode_emoji_helper = Mattermost::UnicodeEmojiHelper.new
+apple_extractor = Mattermost::AppleEmojiExtractor.new(64)
+emoji_added = []
+
+Emoji.all.clone.each do |emoji|
+  next unless emoji.raw
+
+  sequences = unicode_emoji_helper.emoji_modifier_sequences(emoji.raw.split('')[0])
+  next unless sequences
+
+  sequences.each do |sequence|
+    pngbytes = apple_extractor.png(sequence)
+    print 'x' if pngbytes.nil?
+    next unless pngbytes
+
+    modifier = sequence.split('')[1]
+    short_name = Mattermost::UnicodeEmojiHelper::SKIN_TONE_MAP[modifier]
+    new_name = "#{emoji.name}_#{short_name.gsub(/[\s-]/, '_')}"
+
+    new_emoji = Emoji.create(new_name) do |char|
+      char.category = 'skintone'
+      char.add_unicode_alias sequence
+    end
+    new_emoji.image_filename = "#{new_emoji.hex_inspect}.png"
+
+    fullpath = "#{emoji_path}/#{new_emoji.image_filename}"
+    unless File.file?(fullpath)
+      File.open(fullpath, 'wb') { |f| f.write pngbytes }
+    end
+
+    print '.'
+    emoji_added << sequence
+  end
+end
+
+puts "\nThe following #{emoji_added.length} emoji were added:"
+print emoji_added
+
 blacklist = ['basecamp', 'basecampy']
 
 categories = []
 
-File.open(File.join(File.dirname(__FILE__), 'utils', 'emoji.jsx'), 'w') do |f|
+File.open(File.join(project_root, 'utils', 'emoji.jsx'), 'w') do |f|
     emojis = []
     emoji_indices_by_alias = []
     emoji_indices_by_unicode = []
@@ -97,10 +132,8 @@ File.open(File.join(File.dirname(__FILE__), 'utils', 'emoji.jsx'), 'w') do |f|
     f.write("export const EmojiIndicesByCategory = new Map(#{JSON.generate emoji_indices_by_category});\n\n")
     f.write("/* eslint-enable */")
 
-    puts "wrote #{emojis.length} emojis to utils/emoji.jsx"
+    puts "\nwrote #{emojis.length} emojis to utils/emoji.jsx"
 end
-
-require 'emoji/extractor'
 
 Emoji::Extractor.new(64, emoji_path).extract!
 
@@ -114,17 +147,6 @@ end
 puts "images written to images/emoji"
 
 ### Spritesheet Generation ###
-
-['sprite-factory', 'chunky_png'].each do |name|
-    gdep = Gem::Dependency.new(name, '>1.0')
-    found_gspec = gdep.matching_specs.max_by(&:version)
-
-    if !found_gspec
-        abort("ERROR: #{name} is required for spritesheet generation: `gem install #{name}'`")
-    end
-end
-
-require 'sprite_factory'
 
 css_rules = [
     '@charset "UTF-8";',
@@ -161,7 +183,7 @@ css_rules = [
     '}',
 ]
 
-spritesheet_path = File.join(File.dirname(__FILE__), 'images', 'emoji-sheets')
+spritesheet_path = File.join(project_root, 'images', 'emoji-sheets')
 if File.directory? spritesheet_path
     FileUtils.remove_dir spritesheet_path
 end
@@ -219,5 +241,5 @@ categories.each do |category|
     
 end
 
-File.write(File.join(File.dirname(__FILE__), 'sass', 'components', '_emojisprite.scss'), css_rules.join("\n"))
+File.write(File.join(project_root, 'sass', 'components', '_emojisprite.scss'), css_rules.join("\n"))
 puts "sprite stylesheet written to sass/components/_emojisprite.scss"
