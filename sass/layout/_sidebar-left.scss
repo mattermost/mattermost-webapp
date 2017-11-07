@@ -6,7 +6,7 @@
     left: 0;
     position: fixed;
     width: 220px;
-    z-index: 5;
+    z-index: 10;
 
     .error-bar--fixed & {
         height: calc(100% - 22px);
@@ -118,10 +118,9 @@
 
     .dropdown-menu {
         max-height: 80vh;
-        max-width: 200px;
+        max-width: 250px;
         overflow-x: hidden;
         overflow-y: auto;
-        width: 200px;
     }
 
     .search__form {

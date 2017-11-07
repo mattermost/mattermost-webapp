@@ -104,7 +104,6 @@ export default class StatusDropdown extends React.Component {
                         id={`status_dropdown.set_${status}`}
                         defaultMessage={status}
                     />
-                    <br/>
                     <span className='status-dropdown-extra'>{extraText}</span>
                 </a>
             </li>
