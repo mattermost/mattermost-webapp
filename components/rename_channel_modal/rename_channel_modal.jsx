@@ -6,10 +6,8 @@ import React from 'react';
 import {Modal, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import {RequestStatus} from 'mattermost-redux/constants';
 import {browserHistory} from 'react-router/es6';
-
-import {updateChannel} from 'actions/channel_actions.jsx';
-import TeamStore from 'stores/team_store.jsx';
 
 import Constants from 'utils/constants.jsx';
 import {cleanUpUrlable, getShortenedURL} from 'utils/url.jsx';
@@ -46,17 +44,63 @@ const holders = defineMessages({
     }
 });
 
-export class RenameChannelModal extends React.Component {
+export class RenameChannelModal extends React.PureComponent {
+    static propTypes = {
+
+        /**
+         * react-intl helper object
+         */
+        intl: intlShape.isRequired,
+
+        /**
+         * Determines whether this modal should be shown or not
+         */
+        show: PropTypes.bool.isRequired,
+
+        /**
+         * Function that is called when modal is hidden
+         */
+        onHide: PropTypes.func.isRequired,
+
+        /**
+         * Object with info about current channel
+         */
+        channel: PropTypes.object.isRequired,
+
+        /**
+         * Status of patch info about channel request
+         */
+        requestStatus: PropTypes.string,
+
+        /**
+         * Info about patch serverError
+         */
+        serverError: PropTypes.object,
+
+        /**
+         * Object with info about current team
+         */
+        team: PropTypes.object.isRequired,
+
+        /**
+         * String with the current team URL
+         */
+        currentTeamUrl: PropTypes.string.isRequired,
+
+        /*
+         * Object with redux action creators
+         */
+        actions: PropTypes.shape({
+
+            /*
+             * Action creator to update current channel
+             */
+            updateChannel: PropTypes.func.isRequired
+        }).isRequired
+    };
+
     constructor(props) {
         super(props);
-
-        this.handleShow = this.handleShow.bind(this);
-        this.handleHide = this.handleHide.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleCancel = this.handleCancel.bind(this);
-
-        this.onNameChange = this.onNameChange.bind(this);
-        this.onDisplayNameChange = this.onDisplayNameChange.bind(this);
 
         this.state = {
             displayName: props.channel.display_name,
@@ -69,28 +113,26 @@ export class RenameChannelModal extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        const {requestStatus: nextRequestStatus, serverError: nextServerError} = nextProps;
+        const {requestStatus, team} = this.props;
+
         if (!Utils.areObjectsEqual(nextProps.channel, this.props.channel)) {
             this.setState({
                 displayName: nextProps.channel.display_name,
                 channelName: nextProps.channel.name
             });
         }
-    }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        if (!nextProps.show && !this.props.show) {
-            return false;
+        if (requestStatus !== nextRequestStatus && nextRequestStatus === RequestStatus.SUCCESS) {
+            this.handleHide();
+            browserHistory.push('/' + team.name + '/channels/' + this.state.channelName);
         }
 
-        if (!Utils.areObjectsEqual(nextState, this.state)) {
-            return true;
+        if (requestStatus !== nextRequestStatus && nextRequestStatus === RequestStatus.FAILURE) {
+            this.setError(nextServerError);
+        } else {
+            this.unsetError();
         }
-
-        if (!Utils.areObjectsEqual(nextProps, this.props)) {
-            return true;
-        }
-
-        return false;
     }
 
     componentDidUpdate(prevProps) {
@@ -99,13 +141,21 @@ export class RenameChannelModal extends React.Component {
         }
     }
 
-    handleShow() {
+    setError = (err) => {
+        this.setState({serverError: err.message});
+    }
+
+    unsetError = () => {
+        this.setState({serverError: ''});
+    }
+
+    handleShow = () => {
         const textbox = ReactDOM.findDOMNode(this.refs.displayName);
         textbox.focus();
         Utils.placeCaretAtEnd(textbox);
     }
 
-    handleHide(e) {
+    handleHide = (e) => {
         if (e) {
             e.preventDefault();
         }
@@ -120,14 +170,17 @@ export class RenameChannelModal extends React.Component {
         });
     }
 
-    handleSubmit(e) {
-        e.preventDefault();
+    handleSubmit = (e) => {
+        if (e) {
+            e.preventDefault();
+        }
 
         const channel = Object.assign({}, this.props.channel);
         const oldName = channel.name;
         const oldDisplayName = channel.display_name;
         const state = {serverError: ''};
         const {formatMessage} = this.props.intl;
+        const {actions: {updateChannel}} = this.props;
 
         channel.display_name = this.state.displayName.trim();
         if (!channel.display_name) {
@@ -174,22 +227,10 @@ export class RenameChannelModal extends React.Component {
             return;
         }
 
-        updateChannel(channel,
-            (data) => {
-                this.handleHide();
-                const team = TeamStore.get(data.team_id);
-                browserHistory.push('/' + team.name + '/channels/' + data.name);
-            },
-            (err) => {
-                this.setState({
-                    serverError: err.message,
-                    invalid: true
-                });
-            }
-        );
+        updateChannel(channel);
     }
 
-    handleCancel(e) {
+    handleCancel = (e) => {
         this.setState({
             displayName: this.props.channel.display_name,
             channelName: this.props.channel.name
@@ -198,12 +239,12 @@ export class RenameChannelModal extends React.Component {
         this.handleHide(e);
     }
 
-    onNameChange() {
-        this.setState({channelName: ReactDOM.findDOMNode(this.refs.channelName).value});
+    onNameChange = (e) => {
+        this.setState({channelName: e.target.value});
     }
 
-    onDisplayNameChange() {
-        this.setState({displayName: ReactDOM.findDOMNode(this.refs.displayName).value});
+    onDisplayNameChange = (e) => {
+        this.setState({displayName: e.target.value});
     }
 
     render() {
@@ -236,7 +277,7 @@ export class RenameChannelModal extends React.Component {
             readOnlyHandleInput = true;
         }
 
-        const fullUrl = TeamStore.getCurrentTeamUrl() + '/channels';
+        const fullUrl = this.props.currentTeamUrl + '/channels';
         const shortUrl = getShortenedURL(fullUrl, 35);
         const urlTooltip = (
             <Tooltip id='urlTooltip'>{fullUrl}</Tooltip>
@@ -293,6 +334,7 @@ export class RenameChannelModal extends React.Component {
                                     type='text'
                                     className={handleInputClass}
                                     ref='channelName'
+                                    id='channel_name'
                                     placeholder={formatMessage(holders.handleHolder)}
                                     value={this.state.channelName}
                                     maxLength={Constants.MAX_CHANNELNAME_LENGTH}
@@ -317,6 +359,7 @@ export class RenameChannelModal extends React.Component {
                         <button
                             onClick={this.handleSubmit}
                             type='submit'
+                            id='save-button'
                             className='btn btn-primary'
                         >
                             <FormattedMessage
@@ -330,12 +373,5 @@ export class RenameChannelModal extends React.Component {
         );
     }
 }
-
-RenameChannelModal.propTypes = {
-    intl: intlShape.isRequired,
-    show: PropTypes.bool.isRequired,
-    onHide: PropTypes.func.isRequired,
-    channel: PropTypes.object.isRequired
-};
 
 export default injectIntl(RenameChannelModal);
