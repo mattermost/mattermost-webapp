@@ -6,26 +6,32 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-export default class GetLinkModal extends React.Component {
+export default class GetLinkModal extends React.PureComponent {
+    static propTypes = {
+        show: PropTypes.bool.isRequired,
+        onHide: PropTypes.func.isRequired,
+        title: PropTypes.string.isRequired,
+        helpText: PropTypes.string,
+        link: PropTypes.string.isRequired
+    };
+
+    static defaultProps = {
+        helpText: null
+    };
+
     constructor(props) {
         super(props);
-
-        this.onHide = this.onHide.bind(this);
-
-        this.copyLink = this.copyLink.bind(this);
-
         this.state = {
             copiedLink: false
         };
     }
 
-    onHide() {
+    onHide = () => {
         this.setState({copiedLink: false});
-
         this.props.onHide();
     }
 
-    copyLink() {
+    copyLink = () => {
         const textarea = this.refs.textarea;
         textarea.focus();
         textarea.setSelectionRange(0, this.props.link.length);
@@ -54,9 +60,11 @@ export default class GetLinkModal extends React.Component {
         }
 
         let copyLink = null;
+
         if (document.queryCommandSupported('copy')) {
             copyLink = (
                 <button
+                    id='linkModalCopyLink'
                     data-copy-btn='true'
                     type='button'
                     className='btn btn-primary pull-left'
@@ -72,6 +80,7 @@ export default class GetLinkModal extends React.Component {
 
         const linkText = (
             <textarea
+                id='linkModalTextArea'
                 className='form-control no-resize min-height'
                 ref='textarea'
                 value={this.props.link}
@@ -107,6 +116,7 @@ export default class GetLinkModal extends React.Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <button
+                        id='linkModalCloseButton'
                         type='button'
                         className='btn btn-default'
                         onClick={this.onHide}
@@ -123,15 +133,3 @@ export default class GetLinkModal extends React.Component {
         );
     }
 }
-
-GetLinkModal.propTypes = {
-    show: PropTypes.bool.isRequired,
-    onHide: PropTypes.func.isRequired,
-    title: PropTypes.string.isRequired,
-    helpText: PropTypes.string,
-    link: PropTypes.string.isRequired
-};
-
-GetLinkModal.defaultProps = {
-    helpText: null
-};
