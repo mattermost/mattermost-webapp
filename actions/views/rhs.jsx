@@ -3,7 +3,7 @@
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {makeGetMessageInHistoryItem} from 'mattermost-redux/selectors/entities/posts';
+import {makeGetMessageInHistoryItem, makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
 import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 
 import {
@@ -19,26 +19,16 @@ import {Posts} from 'mattermost-redux/constants';
 import * as PostActions from 'actions/post_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as ChannelActions from 'actions/channel_actions.jsx';
-
-import {EmojiMap} from 'stores/emoji_store.jsx';
+import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import PostStore from 'stores/post_store.jsx';
+import {EmojiMap} from 'stores/emoji_store.jsx';
+
+import {makeGetCurrentUsersLatestPost} from 'selectors/rhs';
 
 import * as Utils from 'utils/utils.jsx';
 import {ActionTypes} from 'utils/constants.jsx';
 
 import {REACTION_PATTERN} from 'components/create_post.jsx';
-
-export function getCommentDraft(rootId) {
-    const {
-        message = '',
-        fileInfos = [],
-        uploadsInProgress = []
-    } = PostStore.getCommentDraft(rootId) || {};
-
-    const draft = {message, fileInfos, uploadsInProgress};
-
-    return draft;
-}
 
 export function updateCommentDraft(rootId, draft) {
     return (dispatch) => {
@@ -55,7 +45,7 @@ export function makeOnMoveHistoryIndex(rootId, direction) {
     const getMessageInHistory = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.COMMENT);
 
     return () => (dispatch, getState) => {
-        const draft = getCommentDraft(rootId);
+        const draft = PostStore.getCommentDraft(rootId);
 
         if (draft.message !== '' && draft.message !== getMessageInHistory(getState())) {
             return;
@@ -139,7 +129,7 @@ export function submitCommand(channelId, rootId, draft) {
 
 export function makeOnSubmit(channelId, rootId, latestPostId) {
     return () => async (dispatch, getState) => {
-        const draft = getCommentDraft(rootId);
+        const draft = PostStore.getCommentDraft(rootId);
         const {message} = draft;
 
         dispatch(addMessageIntoHistory(message));
@@ -159,5 +149,30 @@ export function makeOnSubmit(channelId, rootId, latestPostId) {
         } else {
             dispatch(submitPost(channelId, rootId, draft));
         }
+    };
+}
+
+export function makeOnEditLatestPost(channelId, rootId) {
+    const getCurrentUsersLatestPost = makeGetCurrentUsersLatestPost(channelId, rootId);
+    const getCommentCount = makeGetCommentCountForPost();
+
+    return () => (dispatch, getState) => {
+        const state = getState();
+
+        const lastPost = getCurrentUsersLatestPost(state);
+
+        if (!lastPost) {
+            return;
+        }
+
+        AppDispatcher.handleViewAction({
+            type: ActionTypes.RECEIVED_EDIT_POST,
+            refocusId: '#reply_textbox',
+            title: Utils.localizeMessage('create_comment.commentTitle', 'Comment'),
+            message: lastPost.message,
+            postId: lastPost.id,
+            channelId: lastPost.channel_id,
+            comments: getCommentCount(state, {post: lastPost})
+        });
     };
 }

@@ -8,21 +8,23 @@ import {resetHistoryIndex} from 'mattermost-redux/actions/posts';
 import {Preferences, Posts} from 'mattermost-redux/constants';
 
 import {
-    getCommentDraft,
     updateCommentDraft,
     makeOnMoveHistoryIndex,
     submitPost,
     submitReaction,
     submitCommand,
-    makeOnSubmit
+    makeOnSubmit,
+    makeOnEditLatestPost
 } from 'actions/views/rhs';
+
+import PostStore from 'stores/post_store.jsx';
 
 import CreateComment from './create_comment.jsx';
 
 function mapStateToProps(state, ownProps) {
     const err = state.requests.posts.createPost.error || {};
 
-    const draft = getCommentDraft(ownProps.rootId);
+    const draft = PostStore.getCommentDraft(ownProps.rootId);
 
     const enableAddButton = draft.message.trim().length !== 0 || draft.fileInfos.length !== 0;
 
@@ -42,7 +44,8 @@ function mapDispatchToProps(dispatch, ownProps) {
         onSubmit: makeOnSubmit(ownProps.channelId, ownProps.rootId, ownProps.latestPostId),
         onResetHistoryIndex: () => resetHistoryIndex(Posts.MESSAGE_TYPES.COMMENT),
         onMoveHistoryIndexBack: makeOnMoveHistoryIndex(ownProps.rootId, -1),
-        onMoveHistoryIndexForward: makeOnMoveHistoryIndex(ownProps.rootId, 1)
+        onMoveHistoryIndexForward: makeOnMoveHistoryIndex(ownProps.rootId, 1),
+        onEditLatestPost: makeOnEditLatestPost(ownProps.channelId, ownProps.rootId)
     }, dispatch);
 }
 

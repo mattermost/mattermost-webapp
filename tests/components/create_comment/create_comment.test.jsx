@@ -40,6 +40,7 @@ describe('components/CreateComment', () => {
                 onResetHistoryIndex={jest.fn()}
                 onMoveHistoryIndexBack={jest.fn()}
                 onMoveHistoryIndexForward={jest.fn()}
+                onEditLatestPost={jest.fn()}
             />
         );
 
@@ -65,6 +66,7 @@ describe('components/CreateComment', () => {
                 onResetHistoryIndex={jest.fn()}
                 onMoveHistoryIndexBack={jest.fn()}
                 onMoveHistoryIndexForward={jest.fn()}
+                onEditLatestPost={jest.fn()}
             />
         );
         expect(wrapper).toMatchSnapshot();
@@ -89,6 +91,7 @@ describe('components/CreateComment', () => {
                 onResetHistoryIndex={jest.fn()}
                 onMoveHistoryIndexBack={jest.fn()}
                 onMoveHistoryIndexForward={jest.fn()}
+                onEditLatestPost={jest.fn()}
             />
         );
         expect(wrapper).toMatchSnapshot();

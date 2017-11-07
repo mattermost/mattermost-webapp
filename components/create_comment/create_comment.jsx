@@ -8,7 +8,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import PostStore from 'stores/post_store.jsx';
 
 import Constants from 'utils/constants.jsx';
@@ -22,7 +21,6 @@ import MsgTyping from 'components/msg_typing.jsx';
 import PostDeletedModal from 'components/post_deleted_modal.jsx';
 import Textbox from 'components/textbox.jsx';
 
-const ActionTypes = Constants.ActionTypes;
 const KeyCodes = Constants.KeyCodes;
 
 export default class CreateComment extends React.PureComponent {
@@ -95,7 +93,12 @@ export default class CreateComment extends React.PureComponent {
         /**
          * Called when navigating forward through comment message history
          */
-        onMoveHistoryIndexForward: PropTypes.func.isRequired
+        onMoveHistoryIndexForward: PropTypes.func.isRequired,
+
+        /**
+         * Called to initiate editing the user's latest post
+         */
+        onEditLatestPost: PropTypes.func.isRequired
     }
 
     constructor(props) {
@@ -246,21 +249,7 @@ export default class CreateComment extends React.PureComponent {
 
         if (!e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey && e.keyCode === KeyCodes.UP && message === '') {
             e.preventDefault();
-
-            const lastPost = PostStore.getCurrentUsersLatestPost(this.props.channelId, this.props.rootId);
-            if (!lastPost) {
-                return;
-            }
-
-            AppDispatcher.handleViewAction({
-                type: ActionTypes.RECEIVED_EDIT_POST,
-                refocusId: '#reply_textbox',
-                title: Utils.localizeMessage('create_comment.commentTitle', 'Comment'),
-                message: lastPost.message,
-                postId: lastPost.id,
-                channelId: lastPost.channel_id,
-                comments: PostStore.getCommentCount(lastPost)
-            });
+            this.props.onEditLatestPost();
         }
 
         if ((e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey) {
