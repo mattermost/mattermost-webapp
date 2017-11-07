@@ -1,0 +1,1215 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/ViewImageModal should match snapshot on onModalShown and onModalHidden 1`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  className="modal-image"
+  dialogClassName="modal-image"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  show={true}
+>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+    modalClassName="modal-image__body"
+    onClick={[Function]}
+  >
+    <div
+      className="modal-image__wrapper"
+      onClick={[Function]}
+    >
+      <div
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        <div
+          className="modal-close"
+          onClick={[Function]}
+        />
+        <div
+          className="modal-image__content"
+        >
+          <ImagePreview
+            fileInfo={
+              Object {
+                "extension": "gif",
+                "id": "file_id_1",
+              }
+            }
+          />
+        </div>
+        <ViewImagePopoverBar
+          fileIndex={0}
+          fileURL="/api/v4/files/file_id_1"
+          filename=""
+          onGetPublicLink={[Function]}
+          show={false}
+          totalFiles={3}
+        />
+      </div>
+    </div>
+    <a
+      className="modal-prev-bar"
+      href="#"
+      id="previewArrowLeft"
+      onClick={[Function]}
+    >
+      <i
+        className="image-control image-prev"
+      />
+    </a>
+    <a
+      className="modal-next-bar"
+      href="#"
+      id="previewArrowRight"
+      onClick={[Function]}
+    >
+      <i
+        className="image-control image-next"
+      />
+    </a>
+  </ModalBody>
+</Modal>
+`;
+
+exports[`components/ViewImageModal should match snapshot on onModalShown and onModalHidden 2`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  className="modal-image"
+  dialogClassName="modal-image"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  show={true}
+>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+    modalClassName="modal-image__body"
+    onClick={[Function]}
+  >
+    <div
+      className="modal-image__wrapper"
+      onClick={[Function]}
+    >
+      <div
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        <div
+          className="modal-close"
+          onClick={[Function]}
+        />
+        <div
+          className="modal-image__content"
+        >
+          <ImagePreview
+            fileInfo={
+              Object {
+                "extension": "gif",
+                "id": "file_id_1",
+              }
+            }
+          />
+        </div>
+        <ViewImagePopoverBar
+          fileIndex={0}
+          fileURL="/api/v4/files/file_id_1"
+          filename=""
+          onGetPublicLink={[Function]}
+          show={false}
+          totalFiles={3}
+        />
+      </div>
+    </div>
+    <a
+      className="modal-prev-bar"
+      href="#"
+      id="previewArrowLeft"
+      onClick={[Function]}
+    >
+      <i
+        className="image-control image-prev"
+      />
+    </a>
+    <a
+      className="modal-next-bar"
+      href="#"
+      id="previewArrowRight"
+      onClick={[Function]}
+    >
+      <i
+        className="image-control image-next"
+      />
+    </a>
+  </ModalBody>
+</Modal>
+`;
+
+exports[`components/ViewImageModal should match snapshot, loaded with AudioVideoPreview - movie file 1`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  className="modal-image"
+  dialogClassName="modal-image"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  show={true}
+>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+    modalClassName="modal-image__body"
+    onClick={[Function]}
+  >
+    <div
+      className="modal-image__wrapper"
+      onClick={[Function]}
+    >
+      <div
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        <div
+          className="modal-close"
+          onClick={[Function]}
+        />
+        <div
+          className="modal-image__content"
+        >
+          <AudioVideoPreview
+            fileInfo={
+              Object {
+                "extension": "mov",
+                "id": "file_id",
+              }
+            }
+            fileUrl="/api/v4/files/file_id"
+          />
+        </div>
+        <ViewImagePopoverBar
+          fileIndex={0}
+          fileURL="/api/v4/files/file_id"
+          filename=""
+          onGetPublicLink={[Function]}
+          show={false}
+          totalFiles={1}
+        />
+      </div>
+    </div>
+  </ModalBody>
+</Modal>
+`;
+
+exports[`components/ViewImageModal should match snapshot, loaded with AudioVideoPreview - movie file 2`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  className="modal-image"
+  dialogClassName="modal-image"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  show={true}
+>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+    modalClassName="modal-image__body"
+    onClick={[Function]}
+  >
+    <div
+      className="modal-image__wrapper"
+      onClick={[Function]}
+    >
+      <div
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        <div
+          className="modal-close"
+          onClick={[Function]}
+        />
+        <div
+          className="modal-image__content"
+        >
+          <AudioVideoPreview
+            fileInfo={
+              Object {
+                "extension": "m4a",
+                "id": "file_id",
+              }
+            }
+            fileUrl="/api/v4/files/file_id"
+          />
+        </div>
+        <ViewImagePopoverBar
+          fileIndex={0}
+          fileURL="/api/v4/files/file_id"
+          filename=""
+          onGetPublicLink={[Function]}
+          show={false}
+          totalFiles={1}
+        />
+      </div>
+    </div>
+  </ModalBody>
+</Modal>
+`;
+
+exports[`components/ViewImageModal should match snapshot, loaded with CodePreview 1`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  className="modal-image"
+  dialogClassName="modal-image"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  show={true}
+>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+    modalClassName="modal-image__body"
+    onClick={[Function]}
+  >
+    <div
+      className="modal-image__wrapper"
+      onClick={[Function]}
+    >
+      <div
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        <div
+          className="modal-close"
+          onClick={[Function]}
+        />
+        <div
+          className="modal-image__content"
+        >
+          <CodePreview
+            fileInfo={
+              Object {
+                "extension": "js",
+                "id": "file_id",
+              }
+            }
+            fileUrl="/api/v4/files/file_id"
+          />
+        </div>
+        <ViewImagePopoverBar
+          fileIndex={0}
+          fileURL="/api/v4/files/file_id"
+          filename=""
+          onGetPublicLink={[Function]}
+          show={false}
+          totalFiles={1}
+        />
+      </div>
+    </div>
+  </ModalBody>
+</Modal>
+`;
+
+exports[`components/ViewImageModal should match snapshot, loaded with FileInfoPreview - other file type 1`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  className="modal-image"
+  dialogClassName="modal-image"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  show={true}
+>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+    modalClassName="modal-image__body"
+    onClick={[Function]}
+  >
+    <div
+      className="modal-image__wrapper"
+      onClick={[Function]}
+    >
+      <div
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        <div
+          className="modal-close"
+          onClick={[Function]}
+        />
+        <div
+          className="modal-image__content"
+        >
+          <FileInfoPreview
+            fileInfo={
+              Object {
+                "extension": "other",
+                "id": "file_id",
+              }
+            }
+            fileUrl="/api/v4/files/file_id"
+          />
+        </div>
+        <ViewImagePopoverBar
+          fileIndex={0}
+          fileURL="/api/v4/files/file_id"
+          filename=""
+          onGetPublicLink={[Function]}
+          show={false}
+          totalFiles={1}
+        />
+      </div>
+    </div>
+  </ModalBody>
+</Modal>
+`;
+
+exports[`components/ViewImageModal should match snapshot, loaded with ImagePreview 1`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  className="modal-image"
+  dialogClassName="modal-image"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  show={true}
+>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+    modalClassName="modal-image__body"
+    onClick={[Function]}
+  >
+    <div
+      className="modal-image__wrapper"
+      onClick={[Function]}
+    >
+      <div
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        <div
+          className="modal-close"
+          onClick={[Function]}
+        />
+        <div
+          className="modal-image__content"
+        >
+          <ImagePreview
+            fileInfo={
+              Object {
+                "extension": "jpg",
+                "id": "file_id",
+              }
+            }
+          />
+        </div>
+        <ViewImagePopoverBar
+          fileIndex={0}
+          fileURL="/api/v4/files/file_id"
+          filename=""
+          onGetPublicLink={[Function]}
+          show={false}
+          totalFiles={1}
+        />
+      </div>
+    </div>
+  </ModalBody>
+</Modal>
+`;
+
+exports[`components/ViewImageModal should match snapshot, loaded with PDFPreview 1`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  className="modal-image"
+  dialogClassName="modal-image"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  show={true}
+>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+    modalClassName="modal-image__body"
+    onClick={[Function]}
+  >
+    <div
+      className="modal-image__wrapper"
+      onClick={[Function]}
+    >
+      <div
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        <div
+          className="modal-close"
+          onClick={[Function]}
+        />
+        <div
+          className="modal-image__content"
+        >
+          <PDFPreview
+            fileInfo={
+              Object {
+                "extension": "pdf",
+                "id": "file_id",
+              }
+            }
+            fileUrl="/api/v4/files/file_id"
+          />
+        </div>
+        <ViewImagePopoverBar
+          fileIndex={0}
+          fileURL="/api/v4/files/file_id"
+          filename=""
+          onGetPublicLink={[Function]}
+          show={false}
+          totalFiles={1}
+        />
+      </div>
+    </div>
+  </ModalBody>
+</Modal>
+`;
+
+exports[`components/ViewImageModal should match snapshot, loaded with ViewImagePopoverBar 1`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  className="modal-image"
+  dialogClassName="modal-image"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  show={true}
+>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+    modalClassName="modal-image__body"
+    onClick={[Function]}
+  >
+    <div
+      className="modal-image__wrapper"
+      onClick={[Function]}
+    >
+      <div
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        <div
+          className="modal-close"
+          onClick={[Function]}
+        />
+        <div
+          className="modal-image__content"
+        >
+          <ImagePreview
+            fileInfo={
+              Object {
+                "extension": "jpg",
+                "id": "file_id",
+              }
+            }
+          />
+        </div>
+        <ViewImagePopoverBar
+          fileIndex={0}
+          fileURL="/api/v4/files/file_id"
+          filename=""
+          onGetPublicLink={[Function]}
+          show={false}
+          totalFiles={1}
+        />
+      </div>
+    </div>
+  </ModalBody>
+</Modal>
+`;
+
+exports[`components/ViewImageModal should match snapshot, loaded with footer 1`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  className="modal-image"
+  dialogClassName="modal-image"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  show={true}
+>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+    modalClassName="modal-image__body"
+    onClick={[Function]}
+  >
+    <div
+      className="modal-image__wrapper"
+      onClick={[Function]}
+    >
+      <div
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        <div
+          className="modal-close modal-close--show"
+          onClick={[Function]}
+        />
+        <div
+          className="modal-image__content"
+        >
+          <ImagePreview
+            fileInfo={
+              Object {
+                "extension": "gif",
+                "id": "file_id_1",
+              }
+            }
+          />
+        </div>
+        <ViewImagePopoverBar
+          fileIndex={0}
+          fileURL="/api/v4/files/file_id_1"
+          filename=""
+          onGetPublicLink={[Function]}
+          show={true}
+          totalFiles={3}
+        />
+      </div>
+    </div>
+    <a
+      className="modal-prev-bar"
+      href="#"
+      id="previewArrowLeft"
+      onClick={[Function]}
+    >
+      <i
+        className="image-control image-prev"
+      />
+    </a>
+    <a
+      className="modal-next-bar"
+      href="#"
+      id="previewArrowRight"
+      onClick={[Function]}
+    >
+      <i
+        className="image-control image-next"
+      />
+    </a>
+  </ModalBody>
+</Modal>
+`;
+
+exports[`components/ViewImageModal should match snapshot, loaded with left and right arrows 1`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  className="modal-image"
+  dialogClassName="modal-image"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  show={true}
+>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+    modalClassName="modal-image__body"
+    onClick={[Function]}
+  >
+    <div
+      className="modal-image__wrapper"
+      onClick={[Function]}
+    >
+      <div
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        <div
+          className="modal-close"
+          onClick={[Function]}
+        />
+        <div
+          className="modal-image__content"
+        >
+          <ImagePreview
+            fileInfo={
+              Object {
+                "extension": "gif",
+                "id": "file_id_1",
+              }
+            }
+          />
+        </div>
+        <ViewImagePopoverBar
+          fileIndex={0}
+          fileURL="/api/v4/files/file_id_1"
+          filename=""
+          onGetPublicLink={[Function]}
+          show={false}
+          totalFiles={3}
+        />
+      </div>
+    </div>
+    <a
+      className="modal-prev-bar"
+      href="#"
+      id="previewArrowLeft"
+      onClick={[Function]}
+    >
+      <i
+        className="image-control image-prev"
+      />
+    </a>
+    <a
+      className="modal-next-bar"
+      href="#"
+      id="previewArrowRight"
+      onClick={[Function]}
+    >
+      <i
+        className="image-control image-next"
+      />
+    </a>
+  </ModalBody>
+</Modal>
+`;
+
+exports[`components/ViewImageModal should match snapshot, loaded with left and right arrows 2`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  className="modal-image"
+  dialogClassName="modal-image"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  show={true}
+>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+    modalClassName="modal-image__body"
+    onClick={[Function]}
+  >
+    <div
+      className="modal-image__wrapper"
+      onClick={[Function]}
+    >
+      <div
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        <div
+          className="modal-close"
+          onClick={[Function]}
+        />
+        <div
+          className="modal-image__content"
+        >
+          <AudioVideoPreview
+            fileInfo={
+              Object {
+                "extension": "wma",
+                "id": "file_id_2",
+              }
+            }
+            fileUrl="/api/v4/files/file_id_2"
+          />
+        </div>
+        <ViewImagePopoverBar
+          fileIndex={1}
+          fileURL="/api/v4/files/file_id_2"
+          filename=""
+          onGetPublicLink={[Function]}
+          show={false}
+          totalFiles={3}
+        />
+      </div>
+    </div>
+    <a
+      className="modal-prev-bar"
+      href="#"
+      id="previewArrowLeft"
+      onClick={[Function]}
+    >
+      <i
+        className="image-control image-prev"
+      />
+    </a>
+    <a
+      className="modal-next-bar"
+      href="#"
+      id="previewArrowRight"
+      onClick={[Function]}
+    >
+      <i
+        className="image-control image-next"
+      />
+    </a>
+  </ModalBody>
+</Modal>
+`;
+
+exports[`components/ViewImageModal should match snapshot, loaded with left and right arrows 3`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  className="modal-image"
+  dialogClassName="modal-image"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  show={true}
+>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+    modalClassName="modal-image__body"
+    onClick={[Function]}
+  >
+    <div
+      className="modal-image__wrapper"
+      onClick={[Function]}
+    >
+      <div
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        <div
+          className="modal-close"
+          onClick={[Function]}
+        />
+        <div
+          className="modal-image__content"
+        >
+          <AudioVideoPreview
+            fileInfo={
+              Object {
+                "extension": "wma",
+                "id": "file_id_2",
+              }
+            }
+            fileUrl="/api/v4/files/file_id_2"
+          />
+        </div>
+        <ViewImagePopoverBar
+          fileIndex={1}
+          fileURL="/api/v4/files/file_id_2"
+          filename=""
+          onGetPublicLink={[Function]}
+          show={false}
+          totalFiles={3}
+        />
+      </div>
+    </div>
+    <a
+      className="modal-prev-bar"
+      href="#"
+      id="previewArrowLeft"
+      onClick={[Function]}
+    >
+      <i
+        className="image-control image-prev"
+      />
+    </a>
+    <a
+      className="modal-next-bar"
+      href="#"
+      id="previewArrowRight"
+      onClick={[Function]}
+    >
+      <i
+        className="image-control image-next"
+      />
+    </a>
+  </ModalBody>
+</Modal>
+`;
+
+exports[`components/ViewImageModal should match snapshot, loading 1`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  className="modal-image"
+  dialogClassName="modal-image"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  show={true}
+>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+    modalClassName="modal-image__body"
+    onClick={[Function]}
+  >
+    <div
+      className="modal-image__wrapper"
+      onClick={[Function]}
+    >
+      <div
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        <div
+          className="modal-close"
+          onClick={[Function]}
+        />
+        <div
+          className="modal-image__content"
+        >
+          <LoadingImagePreview
+            loading="Loading"
+            progress={0}
+          />
+        </div>
+        <ViewImagePopoverBar
+          fileIndex={0}
+          fileURL="/api/v4/files/file_id"
+          filename=""
+          onGetPublicLink={[Function]}
+          show={false}
+          totalFiles={1}
+        />
+      </div>
+    </div>
+  </ModalBody>
+</Modal>
+`;
+
+exports[`components/ViewImageModal should match snapshot, modal not shown 1`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  className="modal-image"
+  dialogClassName="modal-image"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  show={false}
+>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+    modalClassName="modal-image__body"
+    onClick={[Function]}
+  >
+    <div
+      className="modal-image__wrapper"
+      onClick={[Function]}
+    >
+      <div
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        <div
+          className="modal-close"
+          onClick={[Function]}
+        />
+        <div
+          className="modal-image__content"
+        >
+          <LoadingImagePreview
+            loading="Loading"
+            progress={0}
+          />
+        </div>
+        <ViewImagePopoverBar
+          fileIndex={0}
+          fileURL="/api/v4/files/file_id"
+          filename=""
+          onGetPublicLink={[Function]}
+          show={false}
+          totalFiles={1}
+        />
+      </div>
+    </div>
+  </ModalBody>
+</Modal>
+`;

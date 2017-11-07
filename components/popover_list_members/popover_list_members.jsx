@@ -23,7 +23,7 @@ import * as Utils from 'utils/utils.jsx';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
-import TeamMembersModal from 'components/team_members_modal.jsx';
+import TeamMembersModal from 'components/team_members_modal';
 
 export default class PopoverListMembers extends React.Component {
     static propTypes = {

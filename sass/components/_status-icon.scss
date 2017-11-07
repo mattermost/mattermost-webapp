@@ -82,6 +82,10 @@
         }
     }
 
+    .dnd--icon {
+        fill: rgb(247, 67, 67);
+    }
+
     svg {
         max-height: 14px;
     }
@@ -92,7 +96,8 @@
         @include opacity(.5);
 
         &.online--icon,
-        &.away--icon {
+        &.away--icon,
+        &.dnd--icon {
             @include opacity(1);
         }
     }
@@ -106,4 +111,3 @@
         top: -1px;
     }
 }
-

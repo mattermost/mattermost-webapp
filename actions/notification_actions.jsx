@@ -5,7 +5,7 @@ import ChannelStore from 'stores/channel_store.jsx';
 import NotificationStore from 'stores/notification_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
-import Constants, {NotificationLevels} from 'utils/constants.jsx';
+import Constants, {NotificationLevels, UserStatuses} from 'utils/constants.jsx';
 import {isSystemMessage} from 'utils/post_utils.jsx';
 import {isMacApp, isMobileApp, isWindowsApp} from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -27,7 +27,12 @@ export function sendDesktopNotification(post, msgProps) {
 
     let channel = ChannelStore.get(post.channel_id);
     const user = UserStore.getCurrentUser();
+    const userStatus = UserStore.getStatus(user.id);
     const member = ChannelStore.getMyMember(post.channel_id);
+
+    if (userStatus === UserStatuses.DND) {
+        return;
+    }
 
     let notifyLevel = member && member.notify_props ? member.notify_props.desktop : NotificationLevels.DEFAULT;
     if (notifyLevel === NotificationLevels.DEFAULT) {

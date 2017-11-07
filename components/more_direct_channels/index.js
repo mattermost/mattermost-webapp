@@ -5,12 +5,14 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {getProfiles, getProfilesInTeam} from 'mattermost-redux/actions/users';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import MoreDirectChannels from './more_direct_channels.jsx';
 
 function mapStateToProps(state, ownProps) {
     return {
-        ...ownProps
+        ...ownProps,
+        currentUserId: getCurrentUserId(state)
     };
 }
 

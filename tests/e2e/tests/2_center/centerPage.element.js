@@ -34,7 +34,6 @@ module.exports = {
             .assert.visible('@postTextbox')
             .assert.visible('@fileUploadButton')
             .assert.visible('@emojiPickerButton')
-            .assert.visible('@helpTextContainer')
             .assert.visible('@helpTextLink')
             .assert.hidden('@helpText')
             .assert.visible('@postCreateFooter');

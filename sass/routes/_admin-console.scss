@@ -190,15 +190,20 @@
                 background: $white;
                 border: $border-gray;
                 margin: 0;
-                padding: 8px 12px;
+                padding: 12px 14px;
                 width: 100%;
             }
 
             hr {
+                border-color: #ddd;
                 margin: .8em 0;
+            }
 
+            div {
                 &:last-child {
-                    display: none;
+                    hr {
+                        display: none;
+                    }
                 }
             }
         }
@@ -360,8 +365,8 @@
 
 .job-table__table {
     background-color: $white;
-    border: 1px solid $border-gray;
-    margin-top: 10px;
+    border: $border-gray;
+    margin: 20px 0 10px;
     max-height: 240px;
     min-height: 100px;
     overflow: auto;
@@ -370,14 +375,8 @@
 }
 
 .job-table__panel {
-    margin: 10px;
-    margin-bottom: 50px;
-    margin-left: 20px;
 }
 
-.job-table__create-button {
-    margin-left: 15px;
-}
 
 .brand-img {
     margin-bottom: 1.5em;
@@ -713,8 +712,8 @@
 
 .discard-changes-modal .modal-dialog {
     .btn-default, .btn-default:hover, .btn-default:active, .btn-default:focus {
-        color: $primary-color;  
-        background-color: transparent; 
+        color: $primary-color;
+        background-color: transparent;
         border: none;
     }
 }

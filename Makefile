@@ -1,6 +1,7 @@
 .PHONY: build test run clean stop check-style run-unit emojis
 
 BUILD_SERVER_DIR = ../mattermost-server
+EMOJI_TOOLS_DIR = ./build/emoji
 
 check-style: .yarninstall
 	@echo Checking for style guide compliance
@@ -14,6 +15,7 @@ test: .yarninstall
 	@echo Getting dependencies using yarn
 
 	yarn install
+	cd node_modules/mattermost-redux; npm run build
 
 	touch $@
 
@@ -66,4 +68,6 @@ clean:
 	rm -f .yarninstall
 
 emojis:
-	./make-emojis
+	gem install bundler
+	bundle install --gemfile=$(EMOJI_TOOLS_DIR)/Gemfile
+	BUNDLE_GEMFILE=$(EMOJI_TOOLS_DIR)/Gemfile bundle exec $(EMOJI_TOOLS_DIR)/make-emojis
