@@ -2,24 +2,29 @@
 // See License.txt for license information.
 
 import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
+import PropTypes from 'prop-types';
 
 import ModalStore from 'stores/modal_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
 
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import GetLinkModal from './get_link_modal.jsx';
+import GetLinkModal from 'components/get_link_modal.jsx';
 
-export default class GetPostLinkModal extends React.Component {
+export default class GetPostLinkModal extends React.PureComponent {
+    static propTypes = {
+
+        /**
+         * URL of current team
+         */
+        currentTeamUrl: PropTypes.string.isRequired
+    };
+
     constructor(props) {
         super(props);
 
         this.handleToggle = this.handleToggle.bind(this);
         this.hide = this.hide.bind(this);
-
-        this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
 
         this.state = {
             show: false,
@@ -49,13 +54,14 @@ export default class GetPostLinkModal extends React.Component {
     }
 
     render() {
+        const postUrl = this.props.currentTeamUrl + '/pl/' + this.state.post.id;
         return (
             <GetLinkModal
                 show={this.state.show}
                 onHide={this.hide}
                 title={Utils.localizeMessage('get_post_link_modal.title', 'Copy Permalink')}
                 helpText={Utils.localizeMessage('get_post_link_modal.help', 'The link below allows authorized users to see your post.')}
-                link={TeamStore.getCurrentTeamUrl() + '/pl/' + this.state.post.id}
+                link={postUrl}
             />
         );
     }
