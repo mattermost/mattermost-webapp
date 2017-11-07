@@ -27,5 +27,5 @@ describe('components/GetPostLinkModal', () => {
 
         wrapper.find(GetLinkModal).first().props().onHide();
         expect(wrapper.state('show')).toBe(false);
-    })
+    });
 });

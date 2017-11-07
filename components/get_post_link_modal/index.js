@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 
-import {getCurrentTeamUrl} from "mattermost-redux/selectors/entities/teams";
+import {getCurrentTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 
 import GetPostLinkModal from './get_post_link_modal';
 
@@ -11,7 +11,7 @@ function mapStateToProps(state, ownProps) {
     return {
         ...ownProps,
         currentTeamUrl: getCurrentTeamUrl(state)
-    }
+    };
 }
 
 export default connect(mapStateToProps)(GetPostLinkModal);
