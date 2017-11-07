@@ -3,7 +3,7 @@
 exports[`components/GetPostLinkModal should match snapshot with currentTeamUrl passed in 1`] = `
 <GetLinkModal
   helpText="The link below allows authorized users to see your post."
-  link="http://current-team-url/pl/undefined"
+  link="http://localhost:8065/current-team/pl/undefined"
   onHide={[Function]}
   show={false}
   title="Copy Permalink"
