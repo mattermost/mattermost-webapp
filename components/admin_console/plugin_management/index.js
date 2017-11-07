@@ -4,9 +4,9 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getPlugins, removePlugin, uploadPlugin} from 'mattermost-redux/actions/admin';
+import {getPlugins, removePlugin, uploadPlugin, activatePlugin, deactivatePlugin} from 'mattermost-redux/actions/admin';
 
-import PluginSettings from './plugin_settings.jsx';
+import PluginManagement from './plugin_management.jsx';
 
 function mapStateToProps(state, ownProps) {
     return {
@@ -20,9 +20,11 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             uploadPlugin,
             removePlugin,
-            getPlugins
+            getPlugins,
+            activatePlugin,
+            deactivatePlugin
         }, dispatch)
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PluginSettings);
+export default connect(mapStateToProps, mapDispatchToProps)(PluginManagement);

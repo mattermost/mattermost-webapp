@@ -108,15 +108,15 @@ export default class InstalledCommand extends React.PureComponent {
         if (this.props.canChange) {
             actions = (
                 <div className='item-actions'>
-                    <a
-                        href='#'
+                    <button
+                        className='style--none color--link'
                         onClick={this.handleRegenToken}
                     >
                         <FormattedMessage
                             id='installed_integrations.regenToken'
                             defaultMessage='Regenerate Token'
                         />
-                    </a>
+                    </button>
                     {' - '}
                     <Link to={`/${this.props.team.name}/integrations/commands/edit?id=${command.id}`}>
                         <FormattedMessage
