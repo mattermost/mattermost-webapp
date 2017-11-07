@@ -406,10 +406,6 @@ export default class Sidebar extends React.Component {
                 }
             );
 
-            if (ChannelUtils.isFavoriteChannel(channel)) {
-                ChannelActions.unmarkFavorite(channel.id);
-            }
-
             this.setState(this.getStateFromStores());
             trackEvent('ui', 'ui_direct_channel_x_button_clicked');
         }
@@ -738,7 +734,12 @@ export default class Sidebar extends React.Component {
         this.lastUnreadChannel = null;
 
         // create elements for all 4 types of channels
-        const favoriteItems = this.state.favoriteChannels.
+        const visibleFavoriteChannels = this.state.favoriteChannels.
+            filter((channel) => {
+                return ChannelUtils.isOpenChannel(channel) || ChannelUtils.isPrivateChannel(channel) || ChannelUtils.isDirectChannelVisible(channel) || ChannelUtils.isGroupChannelVisible(channel);
+            });
+
+        const favoriteItems = visibleFavoriteChannels.
             map((channel, index, arr) => {
                 if (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL) {
                     return this.createChannelElement(channel, index, arr, this.handleLeaveDirectChannel);
