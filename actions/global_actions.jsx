@@ -460,7 +460,7 @@ export function emitUserLoggedOutEvent(redirectTo = '/', shouldSignalLogout = tr
 }
 
 export function clientLogout(redirectTo = '/') {
-    BrowserStore.clear();
+    BrowserStore.clear({exclude: [Constants.RECENT_EMOJI_KEY, '__landingPageSeen__', 'selected_teams']});
     ErrorStore.clearLastError();
     ChannelStore.clear();
     stopPeriodicStatusUpdates();

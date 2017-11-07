@@ -314,6 +314,16 @@ export const StatTypes = keyMirror({
     MONTHLY_ACTIVE_USERS: null
 });
 
+export const StorageTypes = keyMirror({
+    SET_ITEM: null,
+    REMOVE_ITEM: null,
+    SET_GLOBAL_ITEM: null,
+    REMOVE_GLOBAL_ITEM: null,
+    CLEAR: null,
+    ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX: null,
+    ACTION_ON_ITEMS_WITH_PREFIX: null
+});
+
 export const ErrorPageTypes = {
     LOCAL_STORAGE: 'local_storage',
     OAUTH_MISSING_CODE: 'oauth_missing_code',

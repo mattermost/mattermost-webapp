@@ -183,18 +183,18 @@ class PostStoreClass extends EventEmitter {
     clearDraftUploads() {
         BrowserStore.actionOnGlobalItemsWithPrefix('draft_', (key, value) => {
             if (value) {
-                value.uploadsInProgress = [];
-                BrowserStore.setGlobalItem(key, value);
+                return {...value, uploadsInProgress: []};
             }
+            return value;
         });
     }
 
     clearCommentDraftUploads() {
         BrowserStore.actionOnGlobalItemsWithPrefix('comment_draft_', (key, value) => {
             if (value) {
-                value.uploadsInProgress = [];
-                BrowserStore.setGlobalItem(key, value);
+                return {...value, uploadsInProgress: []};
             }
+            return value;
         });
     }
 
