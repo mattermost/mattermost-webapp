@@ -1296,7 +1296,6 @@
 
         .post-reaction {
             @include opacity(0);
-            @include single-transition(all, .15s, ease-in);
             visibility: hidden;
         }
     }
