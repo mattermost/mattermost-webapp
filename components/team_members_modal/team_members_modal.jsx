@@ -6,46 +6,53 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import TeamStore from 'stores/team_store.jsx';
-
 import MemberListTeam from 'components/member_list_team';
 
-export default class TeamMembersModal extends React.Component {
+export default class TeamMembersModal extends React.PureComponent {
+    static propTypes = {
+
+        /**
+         * Current team object
+         */
+        currentTeam: PropTypes.object.isRequired,
+
+        /**
+         * Function called when modal is dismissed
+         */
+        onHide: PropTypes.func.isRequired,
+
+        /**
+        * Set if user is admin
+        */
+        isAdmin: PropTypes.bool.isRequired,
+
+        /**
+         * Function called when modal is loaded
+         */
+        onLoad: PropTypes.func
+    }
+
     constructor(props) {
         super(props);
-
-        this.teamChanged = this.teamChanged.bind(this);
-        this.onHide = this.onHide.bind(this);
-
         this.state = {
-            team: TeamStore.getCurrent(),
             show: true
         };
     }
 
     componentDidMount() {
-        TeamStore.addChangeListener(this.teamChanged);
         if (this.props.onLoad) {
             this.props.onLoad();
         }
     }
 
-    componentWillUnmount() {
-        TeamStore.removeChangeListener(this.teamChanged);
-    }
-
-    teamChanged() {
-        this.setState({team: TeamStore.getCurrent()});
-    }
-
-    onHide() {
+    onHide = () => {
         this.setState({show: false});
     }
 
     render() {
         let teamDisplayName = '';
-        if (this.state.team) {
-            teamDisplayName = this.state.team.display_name;
+        if (this.props.currentTeam) {
+            teamDisplayName = this.props.currentTeam.display_name;
         }
 
         return (
@@ -75,9 +82,3 @@ export default class TeamMembersModal extends React.Component {
         );
     }
 }
-
-TeamMembersModal.propTypes = {
-    onHide: PropTypes.func.isRequired,
-    isAdmin: PropTypes.bool.isRequired,
-    onLoad: PropTypes.func
-};
