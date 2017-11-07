@@ -656,7 +656,21 @@ export default class Sidebar extends React.Component {
             link = '/' + this.state.currentTeam.name + '/channels/' + channel.name;
         }
 
-        const displayName = channel.display_name;
+        const user = UserStore.getCurrentUser();
+        let displayName = '';
+        if (user.id === channel.teammate_id) {
+            displayName = (
+                <FormattedMessage
+                    id='sidebar.directchannel.you'
+                    defaultMessage='{displayname} (you)'
+                    values={{
+                        displayname: channel.display_name
+                    }}
+                />
+            );
+        } else {
+            displayName = channel.display_name;
+        }
 
         const channelLink = this.createChannelButtonOrLink(link, rowClass, icon, displayName, badge, closeButton);
 

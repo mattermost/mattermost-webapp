@@ -940,6 +940,10 @@ export function getDirectTeammate(channelId) {
         return teammate;
     }
 
+    if (userIds[0] === userIds[1]) {
+        return UserStore.getProfile(userIds[0]);
+    }
+
     for (var idx in userIds) {
         if (userIds[idx] !== curUserId) {
             teammate = UserStore.getProfile(userIds[idx]);

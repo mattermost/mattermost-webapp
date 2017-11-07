@@ -250,7 +250,7 @@ export default class ChannelHeader extends React.Component {
             </Popover>
         );
 
-        let channelTitle = channel.display_name;
+        let channelTitle = '';
         const isChannelAdmin = Utils.isChannelAdmin(this.props.channelMember.roles);
         const isTeamAdmin = !Utils.isEmptyObject(this.props.teamMember) && Utils.isAdmin(this.props.teamMember.roles);
         const isSystemAdmin = Utils.isSystemAdmin(this.props.currentUser.roles);
@@ -264,7 +264,19 @@ export default class ChannelHeader extends React.Component {
             const dmUserStatus = this.props.dmUserStatus.status;
 
             const teammateId = Utils.getUserIdFromChannelName(channel);
-            channelTitle = Utils.displayUsername(teammateId);
+            if (this.props.currentUser.id === teammateId) {
+                channelTitle = (
+                    <FormattedMessage
+                        id='channel_header.directchannel.you'
+                        defaultMessage='{displayname} (you) '
+                        values={{
+                            displayname: Utils.displayUsername(teammateId)
+                        }}
+                    />
+                );
+            } else {
+                channelTitle = Utils.displayUsername(teammateId) + ' ';
+            }
 
             const webrtcEnabled = global.mm_config.EnableWebrtc === 'true' && userMedia && Utils.isFeatureEnabled(PreReleaseFeatures.WEBRTC_PREVIEW);
 
@@ -853,7 +865,7 @@ export default class ChannelHeader extends React.Component {
                                         id='channelHeaderTitle'
                                         className='heading'
                                     >
-                                        {channelTitle + ' '}
+                                        {channelTitle}
                                     </strong>
                                     <span
                                         id='channelHeaderDropdownIcon'
