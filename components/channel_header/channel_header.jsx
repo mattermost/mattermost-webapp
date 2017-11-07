@@ -250,7 +250,7 @@ export default class ChannelHeader extends React.Component {
             </Popover>
         );
 
-        let channelTitle = '';
+        let channelTitle = channel.display_name;
         const isChannelAdmin = Utils.isChannelAdmin(this.props.channelMember.roles);
         const isTeamAdmin = !Utils.isEmptyObject(this.props.teamMember) && Utils.isAdmin(this.props.teamMember.roles);
         const isSystemAdmin = Utils.isSystemAdmin(this.props.currentUser.roles);
