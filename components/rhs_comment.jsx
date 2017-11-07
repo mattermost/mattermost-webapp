@@ -29,7 +29,7 @@ export default class RhsComment extends React.Component {
     static propTypes = {
         post: PropTypes.object,
         lastPostCount: PropTypes.number,
-        user: PropTypes.object.isRequired,
+        user: PropTypes.object,
         currentUser: PropTypes.object.isRequired,
         compactDisplay: PropTypes.bool,
         useMilitaryTime: PropTypes.bool.isRequired,

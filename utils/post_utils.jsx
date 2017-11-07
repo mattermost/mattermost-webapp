@@ -1,12 +1,19 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import React from 'react';
+
+import {Parser, ProcessNodeDefinitions} from 'html-to-react';
+
 import ChannelStore from 'stores/channel_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+
+import AtMention from 'components/at_mention';
+import MarkdownImage from 'components/markdown_image';
 
 export function isSystemMessage(post) {
     return Boolean(post.type && (post.type.lastIndexOf(Constants.SYSTEM_MESSAGE_PREFIX) === 0));
@@ -128,4 +135,53 @@ export function removeCode(text) {
     const inlineCodePattern = /`+(?:.+?|.*?\n(.*?\S.*?\n)*.*?)`+/m;
 
     return text.replace(codeBlockPattern, '').replace(inlineCodePattern, ' ');
+}
+
+export function postMessageHtmlToComponent(html, isRHS = false, hasMention = false) {
+    const parser = new Parser();
+    const attrib = 'data-mention';
+    const processNodeDefinitions = new ProcessNodeDefinitions(React);
+
+    function isValidNode() {
+        return true;
+    }
+
+    const processingInstructions = [
+        {
+            replaceChildren: true,
+            shouldProcessNode: (node) => node.attribs && node.attribs[attrib],
+            processNode: (node) => {
+                const mentionName = node.attribs[attrib];
+                const callAtMention = (
+                    <AtMention
+                        mentionName={mentionName}
+                        isRHS={isRHS}
+                        hasMention={hasMention}
+                    />
+                );
+                return callAtMention;
+            }
+        },
+        {
+            shouldProcessNode: (node) => node.type === 'tag' && node.name === 'img',
+            processNode: (node) => {
+                const {
+                    class: className,
+                    ...attribs
+                } = node.attribs;
+                const callMarkdownImage = (
+                    <MarkdownImage
+                        className={className}
+                        {...attribs}
+                    />
+                );
+                return callMarkdownImage;
+            }
+        },
+        {
+            shouldProcessNode: () => true,
+            processNode: processNodeDefinitions.processDefaultNode
+        }
+    ];
+    return parser.parseWithInstructions(html, isValidNode, processingInstructions);
 }

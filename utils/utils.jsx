@@ -574,6 +574,28 @@ export function applyTheme(theme) {
         changeCss('.app__body .status .away--icon', 'fill:' + theme.awayIndicator);
     }
 
+    let dndIndicator;
+    if (theme.dndIndicator) {
+        dndIndicator = theme.dndIndicator;
+    } else {
+        switch (theme.type) {
+        case 'Organization':
+            dndIndicator = Constants.THEMES.organization.dndIndicator;
+            break;
+        case 'Mattermost Dark':
+            dndIndicator = Constants.THEMES.mattermostDark.dndIndicator;
+            break;
+        case 'Windows Dark':
+            dndIndicator = Constants.THEMES.windows10.dndIndicator;
+            break;
+        default:
+            dndIndicator = Constants.THEMES.default.dndIndicator;
+            break;
+        }
+    }
+    changeCss('.app__body .status.status--dnd', 'color:' + dndIndicator);
+    changeCss('.app__body .status .dnd--icon', 'fill:' + dndIndicator);
+
     if (theme.mentionBj) {
         changeCss('.sidebar--left .nav-pills__unread-indicator', 'background:' + theme.mentionBj);
         changeCss('.app__body .sidebar--left .badge', 'background:' + theme.mentionBj);
@@ -918,6 +940,10 @@ export function getDirectTeammate(channelId) {
         return teammate;
     }
 
+    if (userIds[0] === userIds[1]) {
+        return UserStore.getProfile(userIds[0]);
+    }
+
     for (var idx in userIds) {
         if (userIds[idx] !== curUserId) {
             teammate = UserStore.getProfile(userIds[idx]);
@@ -1057,7 +1083,7 @@ export function displayEntireNameForUser(user) {
         return '';
     }
 
-    let displayName = user.username;
+    let displayName = '@' + user.username;
     const fullName = getFullName(user);
 
     if (fullName && user.nickname) {

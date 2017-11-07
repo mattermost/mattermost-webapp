@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/ImagePreview should match snapshot, with and without preview 1`] = `
+<a
+  download={true}
+  href="/api/v4/files/file_id"
+  rel="noopener noreferrer"
+  target="_blank"
+>
+  <img
+    src="/api/v4/files/file_id"
+  />
+</a>
+`;
+
+exports[`components/ImagePreview should match snapshot, with and without preview 2`] = `
+<a
+  download={true}
+  href="/api/v4/files/file_id_1"
+  rel="noopener noreferrer"
+  target="_blank"
+>
+  <img
+    src="/api/v4/files/file_id_1/preview"
+  />
+</a>
+`;

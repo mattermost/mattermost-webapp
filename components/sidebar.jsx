@@ -124,6 +124,17 @@ export default class Sidebar extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
+        // if the active channel disappeared (which can happen when dm channels autoclose), go to town square
+        if (this.state.currentTeam === prevState.currentTeam &&
+            this.state.activeId === prevState.activeId &&
+            !this.channelIdIsDisplayedForState(this.state, this.state.activeId) &&
+            this.channelIdIsDisplayedForState(prevState, this.state.activeId)
+        ) {
+            this.closedDirectChannel = true;
+            browserHistory.push('/' + this.state.currentTeam.name + '/channels/town-square');
+            return;
+        }
+
         this.updateTitle();
         this.updateUnreadIndicators();
         if (!Utils.isMobile()) {
@@ -343,7 +354,21 @@ export default class Sidebar extends React.Component {
     }
 
     getDisplayedChannels = () => {
-        return this.state.favoriteChannels.concat(this.state.publicChannels).concat(this.state.privateChannels).concat(this.state.directAndGroupChannels);
+        return this.getDisplayedChannelsForState(this.state);
+    }
+
+    getDisplayedChannelsForState = (state) => {
+        return state.favoriteChannels.concat(state.publicChannels).concat(state.privateChannels).concat(state.directAndGroupChannels);
+    }
+
+    channelIdIsDisplayedForState = (state, id) => {
+        const allChannels = this.getDisplayedChannelsForState(state);
+        for (let i = 0; i < allChannels.length; i++) {
+            if (allChannels[i].id === id) {
+                return true;
+            }
+        }
+        return false;
     }
 
     handleLeavePublicChannel = (e, channel) => {
@@ -631,7 +656,21 @@ export default class Sidebar extends React.Component {
             link = '/' + this.state.currentTeam.name + '/channels/' + channel.name;
         }
 
-        const displayName = channel.display_name;
+        const user = UserStore.getCurrentUser();
+        let displayName = '';
+        if (user.id === channel.teammate_id) {
+            displayName = (
+                <FormattedMessage
+                    id='sidebar.directchannel.you'
+                    defaultMessage='{displayname} (you)'
+                    values={{
+                        displayname: channel.display_name
+                    }}
+                />
+            );
+        } else {
+            displayName = channel.display_name;
+        }
 
         const channelLink = this.createChannelButtonOrLink(link, rowClass, icon, displayName, badge, closeButton);
 
@@ -943,14 +982,14 @@ export default class Sidebar extends React.Component {
                     show={this.state.showTopUnread}
                     onClick={this.scrollToFirstUnreadChannel}
                     extraClass='nav-pills__unread-indicator-top'
-                    text={above}
+                    content={above}
                 />
                 <UnreadChannelIndicator
                     name='Bottom'
                     show={this.state.showBottomUnread}
                     onClick={this.scrollToLastUnreadChannel}
                     extraClass='nav-pills__unread-indicator-bottom'
-                    text={below}
+                    content={below}
                 />
 
                 <div

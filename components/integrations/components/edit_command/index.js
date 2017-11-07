@@ -15,8 +15,7 @@ function mapStateToProps(state, ownProps) {
     return {
         ...ownProps,
         commandId,
-        commands: getCommands(state),
-        editCommandRequest: state.requests.integrations.editCommand
+        commands: getCommands(state)
     };
 }
 

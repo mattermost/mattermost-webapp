@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Parser, ProcessNodeDefinitions} from 'html-to-react';
-
 import store from 'stores/redux_store.jsx';
 
 import * as PostUtils from 'utils/post_utils.jsx';
@@ -15,9 +13,6 @@ import * as Utils from 'utils/utils.jsx';
 
 import {Posts} from 'mattermost-redux/constants';   // eslint-disable-line import/order
 import {getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';   // eslint-disable-line import/order
-
-import AtMention from 'components/at_mention';
-import MarkdownImage from 'components/markdown_image';
 
 import {renderSystemMessage} from './system_message_helpers.jsx';
 
@@ -74,11 +69,6 @@ export default class PostMessageView extends React.PureComponent {
          */
         isRHS: PropTypes.bool,
 
-        /**
-         * Flags if the post_message_view is for the RHS (Reply).
-         */
-        hasMention: PropTypes.bool,
-
         /*
          * Logged in user's theme
          */
@@ -99,7 +89,6 @@ export default class PostMessageView extends React.PureComponent {
         options: {},
         mentionKeys: [],
         isRHS: false,
-        hasMention: false,
         pluginPostTypes: {}
     };
 
@@ -129,77 +118,39 @@ export default class PostMessageView extends React.PureComponent {
         );
     }
 
-    postMessageHtmlToComponent(html) {
-        const parser = new Parser();
-        const attrib = 'data-mention';
-        const processNodeDefinitions = new ProcessNodeDefinitions(React);
-
-        function isValidNode() {
-            return true;
-        }
-
-        const processingInstructions = [
-            {
-                replaceChildren: true,
-                shouldProcessNode: (node) => node.attribs && node.attribs[attrib],
-                processNode: (node) => {
-                    const mentionName = node.attribs[attrib];
-
-                    return (
-                        <AtMention
-                            mentionName={mentionName}
-                            isRHS={this.props.isRHS}
-                            hasMention={this.props.hasMention}
-                        />
-                    );
-                }
-            },
-            {
-                shouldProcessNode: (node) => node.type === 'tag' && node.name === 'img',
-                processNode: (node) => {
-                    const {
-                        class: className,
-                        ...attribs
-                    } = node.attribs;
-
-                    return (
-                        <MarkdownImage
-                            className={className}
-                            {...attribs}
-                        />
-                    );
-                }
-            },
-            {
-                shouldProcessNode: () => true,
-                processNode: processNodeDefinitions.processDefaultNode
-            }
-        ];
-
-        return parser.parseWithInstructions(html, isValidNode, processingInstructions);
-    }
-
     render() {
-        if (this.props.post.state === Posts.POST_DELETED) {
+        const {
+            post,
+            enableFormatting,
+            pluginPostTypes,
+            compactDisplay,
+            isRHS,
+            theme,
+            emojis,
+            siteUrl,
+            team,
+            lastPostCount
+        } = this.props;
+
+        if (post.state === Posts.POST_DELETED) {
             return this.renderDeletedPost();
         }
 
-        if (!this.props.enableFormatting) {
-            return <span>{this.props.post.message}</span>;
+        if (!enableFormatting) {
+            return <span>{post.message}</span>;
         }
 
-        const postType = this.props.post.type;
-        const pluginPostTypes = this.props.pluginPostTypes;
+        const postType = post.type;
         if (postType) {
             if (pluginPostTypes.hasOwnProperty(postType)) {
                 const PluginComponent = pluginPostTypes[postType].component;
                 return (
                     <PluginComponent
-                        post={this.props.post}
+                        post={post}
                         mentionKeys={this.props.mentionKeys}
-                        compactDisplay={this.props.compactDisplay}
-                        isRHS={this.props.isRHS}
-                        theme={this.props.theme}
+                        compactDisplay={compactDisplay}
+                        isRHS={isRHS}
+                        theme={theme}
                     />
                 );
             }
@@ -208,32 +159,32 @@ export default class PostMessageView extends React.PureComponent {
         const mentionKeys = [...this.props.mentionKeys, this.props.currentUser.username];
 
         const options = Object.assign({}, this.props.options, {
-            emojis: this.props.emojis,
-            siteURL: this.props.siteUrl,
+            emojis,
+            siteURL: siteUrl,
             mentionKeys,
             atMentions: true,
             channelNamesMap: getChannelsNameMapInCurrentTeam(store.getState()),
-            team: this.props.team
+            team
         });
 
-        const renderedSystemMessage = renderSystemMessage(this.props.post, options);
+        const renderedSystemMessage = renderSystemMessage(post, options);
         if (renderedSystemMessage) {
             return <div>{renderedSystemMessage}</div>;
         }
 
         let postId = null;
-        if (this.props.lastPostCount >= 0) {
-            postId = Utils.createSafeId('lastPostMessageText' + this.props.lastPostCount);
+        if (lastPostCount >= 0) {
+            postId = Utils.createSafeId('lastPostMessageText' + lastPostCount);
         }
 
-        let message = this.props.post.message;
-        const isEphemeral = Utils.isPostEphemeral(this.props.post);
-        if (this.props.compactDisplay && isEphemeral) {
+        let message = post.message;
+        const isEphemeral = Utils.isPostEphemeral(post);
+        if (compactDisplay && isEphemeral) {
             const visibleMessage = Utils.localizeMessage('post_info.message.visible.compact', ' (Only visible to you)');
             message = message.concat(visibleMessage);
         }
         const htmlFormattedText = TextFormatting.formatText(message, options);
-        const postMessageComponent = this.postMessageHtmlToComponent(htmlFormattedText);
+        const postMessageComponent = PostUtils.postMessageHtmlToComponent(htmlFormattedText);
 
         return (
             <div>

@@ -58,6 +58,11 @@ export default class StatusDropdown extends React.Component {
         this.setStatus(UserStatuses.AWAY);
     }
 
+    setDnd = (event) => {
+        event.preventDefault();
+        this.setStatus(UserStatuses.DND);
+    }
+
     renderStatusOnlineAction = () => {
         return this.renderStatusAction(UserStatuses.ONLINE, this.setOnline);
     }
@@ -68,6 +73,10 @@ export default class StatusDropdown extends React.Component {
 
     renderStatusOfflineAction = () => {
         return this.renderStatusAction(UserStatuses.OFFLINE, this.setOffline);
+    }
+
+    renderStatusDndAction = () => {
+        return this.renderStatusAction(UserStatuses.DND, this.setDnd);
     }
 
     renderProfilePicture = () => {
@@ -104,6 +113,7 @@ export default class StatusDropdown extends React.Component {
         const actions = [
             this.renderStatusOnlineAction(),
             this.renderStatusAwayAction(),
+            this.renderStatusDndAction(),
             this.renderStatusOfflineAction()
         ];
         return (

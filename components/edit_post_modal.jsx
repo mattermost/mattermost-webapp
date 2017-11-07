@@ -10,7 +10,6 @@ import * as Selectors from 'mattermost-redux/selectors/entities/posts';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {updatePost} from 'actions/post_actions.jsx';
-import BrowserStore from 'stores/browser_store.jsx';
 import MessageHistoryStore from 'stores/message_history_store.jsx';
 import PostStore from 'stores/post_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
@@ -128,9 +127,6 @@ export default class EditPostModal extends React.Component {
         MessageHistoryStore.storeMessageInHistory(updatedPost.message);
 
         if (updatedPost.message.trim().length === 0) {
-            var tempState = this.state;
-            Reflect.deleteProperty(tempState, 'editText');
-            BrowserStore.setItem('edit_state_transfer', tempState);
             $('#edit_post').modal('hide');
             GlobalActions.showDeletePostModal(Selectors.getPost(getState(), this.state.post_id), this.state.comments);
             return;

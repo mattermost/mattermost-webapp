@@ -56,6 +56,10 @@ const messages = defineMessages({
         id: 'user.settings.custom_theme.awayIndicator',
         defaultMessage: 'Away Indicator'
     },
+    dndIndicator: {
+        id: 'user.settings.custom_theme.dndIndicator',
+        defaultMessage: 'Do Not Disturb Indicator'
+    },
     mentionBj: {
         id: 'user.settings.custom_theme.mentionBj',
         defaultMessage: 'Mention Jewel BG'

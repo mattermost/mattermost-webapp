@@ -118,7 +118,7 @@ export default class EmojiPicker extends React.Component {
                 name: 'flags',
                 className: 'fa fa-flag-o',
                 id: 'emoji_picker.flags',
-                message: 'Fags',
+                message: 'Flags',
                 offset: 0,
                 enable: false
             },
