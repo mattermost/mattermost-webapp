@@ -123,7 +123,7 @@ export default class PDFPreview extends React.PureComponent {
     }
 
     static supports(fileInfo) {
-        return fileInfo.extension === 'pdf';
+        return Boolean(fileInfo && fileInfo.extension && fileInfo.extension === 'pdf');
     }
 
     render() {
@@ -158,7 +158,10 @@ export default class PDFPreview extends React.PureComponent {
 
             if (i < this.state.numPages - 1 && this.state.numPages > 1) {
                 pdfCanvases.push(
-                    <div className='pdf-preview-spacer'/>
+                    <div
+                        key={'previewpdfspacer' + i}
+                        className='pdf-preview-spacer'
+                    />
                 );
             }
         }
@@ -166,6 +169,7 @@ export default class PDFPreview extends React.PureComponent {
         if (this.state.pdf.numPages > MAX_PDF_PAGES) {
             pdfCanvases.push(
                 <a
+                    key='previewpdfmorepages'
                     href={this.props.fileUrl}
                     className='pdf-max-pages'
                 >
