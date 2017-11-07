@@ -7,10 +7,6 @@ import {shallow} from 'enzyme';
 
 import CreateComment from 'components/create_comment/create_comment.jsx';
 
-jest.mock('stores/message_history_store.jsx', () => ({
-    resetHistoryIndex: jest.fn()
-}));
-
 jest.mock('stores/post_store.jsx', () => ({
     clearCommentDraftUploads: jest.fn()
 }));

@@ -109,6 +109,31 @@ export default class CreateComment extends React.PureComponent {
         this.lastBlurAt = 0;
     }
 
+    componentWillMount() {
+        PostStore.clearCommentDraftUploads();
+        this.props.onResetHistoryIndex();
+    }
+
+    componentDidMount() {
+        this.focusTextbox();
+    }
+
+    componentWillReceiveProps(newProps) {
+        if (newProps.createPostErrorId === 'api.post.create_post.root_id.app_error' && newProps.createPostErrorId !== this.props.createPostErrorId) {
+            this.showPostDeletedModal();
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.draft.uploadsInProgress.length < this.props.draft.uploadsInProgress.length) {
+            $('.post-right__scroll').scrollTop($('.post-right__scroll')[0].scrollHeight);
+        }
+
+        if (prevProps.rootId !== this.props.rootId) {
+            this.focusTextbox();
+        }
+    }
+
     toggleEmojiPicker = () => {
         this.setState({showEmojiPicker: !this.state.showEmojiPicker});
     }
@@ -145,31 +170,6 @@ export default class CreateComment extends React.PureComponent {
         this.setState({showEmojiPicker: false});
 
         this.focusTextbox();
-    }
-
-    componentWillMount() {
-        PostStore.clearCommentDraftUploads();
-        this.props.onResetHistoryIndex();
-    }
-
-    componentDidMount() {
-        this.focusTextbox();
-    }
-
-    componentWillReceiveProps(newProps) {
-        if (newProps.createPostErrorId === 'api.post.create_post.root_id.app_error' && newProps.createPostErrorId !== this.props.createPostErrorId) {
-            this.showPostDeletedModal();
-        }
-    }
-
-    componentDidUpdate(prevProps) {
-        if (prevProps.draft.uploadsInProgress.length < this.props.draft.uploadsInProgress.length) {
-            $('.post-right__scroll').scrollTop($('.post-right__scroll')[0].scrollHeight);
-        }
-
-        if (prevProps.rootId !== this.props.rootId) {
-            this.focusTextbox();
-        }
     }
 
     handlePostError = (postError) => {
