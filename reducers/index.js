@@ -3,8 +3,10 @@
 
 import plugins from './plugins';
 import views from './views';
+import storage from './storage';
 
 export default {
     views,
-    plugins
+    plugins,
+    storage
 };

@@ -61,7 +61,6 @@ export default class AdminSidebar extends React.Component {
         let metricsSettings = null;
         let complianceSettings = null;
         let mfaSettings = null;
-        let pluginSettings = null;
 
         let license = null;
         let audits = null;
@@ -288,20 +287,6 @@ export default class AdminSidebar extends React.Component {
                         <FormattedMessage
                             id='admin.sidebar.data_retention'
                             defaultMessage='Data Retention Policy (Beta)'
-                        />
-                    }
-                />
-            );
-        }
-
-        if (window.mm_config.PluginsEnabled === 'true') {
-            pluginSettings = (
-                <AdminSidebarSection
-                    name='plugins'
-                    title={
-                        <FormattedMessage
-                            id='admin.sidebar.plugins'
-                            defaultMessage='Plugins (experimental)'
                         />
                     }
                 />
@@ -574,15 +559,6 @@ export default class AdminSidebar extends React.Component {
                                         />
                                     }
                                 />
-                                <AdminSidebarSection
-                                    name='jira'
-                                    title={
-                                        <FormattedMessage
-                                            id='admin.sidebar.jira'
-                                            defaultMessage='JIRA (Beta)'
-                                        />
-                                    }
-                                />
                                 {webrtcSettings}
                                 <AdminSidebarSection
                                     name='external'
@@ -593,7 +569,44 @@ export default class AdminSidebar extends React.Component {
                                         />
                                     }
                                 />
-                                {pluginSettings}
+                            </AdminSidebarSection>
+                            <AdminSidebarSection
+                                name='plugins'
+                                type='text'
+                                title={
+                                    <FormattedMessage
+                                        id='admin.sidebar.plugins'
+                                        defaultMessage='Plugins (Beta)'
+                                    />
+                                }
+                            >
+                                <AdminSidebarSection
+                                    name='configuration'
+                                    title={
+                                        <FormattedMessage
+                                            id='admin.sidebar.plugins.configuration'
+                                            defaultMessage='Configuration'
+                                        />
+                                    }
+                                />
+                                <AdminSidebarSection
+                                    name='management'
+                                    title={
+                                        <FormattedMessage
+                                            id='admin.sidebar.plugins.management'
+                                            defaultMessage='Management'
+                                        />
+                                    }
+                                />
+                                <AdminSidebarSection
+                                    name='jira'
+                                    title={
+                                        <FormattedMessage
+                                            id='admin.sidebar.jira'
+                                            defaultMessage='JIRA (Beta)'
+                                        />
+                                    }
+                                />
                             </AdminSidebarSection>
                             <AdminSidebarSection
                                 name='files'

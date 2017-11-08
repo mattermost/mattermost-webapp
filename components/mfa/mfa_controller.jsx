@@ -24,8 +24,8 @@ export default class MFAController extends React.Component {
         if (window.mm_config.EnforceMultifactorAuthentication === 'true') {
             backButton = (
                 <div className='signup-header'>
-                    <a
-                        href='#'
+                    <button
+                        className='style--none color--link'
                         onClick={(e) => {
                             e.preventDefault();
                             emitUserLoggedOutEvent('/login');
@@ -36,7 +36,7 @@ export default class MFAController extends React.Component {
                             id='web.header.logout'
                             defaultMessage='Logout'
                         />
-                    </a>
+                    </button>
                 </div>
             );
         } else {

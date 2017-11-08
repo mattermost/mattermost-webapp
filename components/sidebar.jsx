@@ -124,15 +124,12 @@ export default class Sidebar extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const allChannels = this.getDisplayedChannels();
-        let isDisplayingChannel = false;
-        for (let i = 0; i < allChannels.length; i++) {
-            if (allChannels[i].id === this.state.activeId) {
-                isDisplayingChannel = true;
-                break;
-            }
-        }
-        if (!isDisplayingChannel) {
+        // if the active channel disappeared (which can happen when dm channels autoclose), go to town square
+        if (this.state.currentTeam === prevState.currentTeam &&
+            this.state.activeId === prevState.activeId &&
+            !this.channelIdIsDisplayedForState(this.state, this.state.activeId) &&
+            this.channelIdIsDisplayedForState(prevState, this.state.activeId)
+        ) {
             this.closedDirectChannel = true;
             browserHistory.push('/' + this.state.currentTeam.name + '/channels/town-square');
             return;
@@ -357,7 +354,21 @@ export default class Sidebar extends React.Component {
     }
 
     getDisplayedChannels = () => {
-        return this.state.favoriteChannels.concat(this.state.publicChannels).concat(this.state.privateChannels).concat(this.state.directAndGroupChannels);
+        return this.getDisplayedChannelsForState(this.state);
+    }
+
+    getDisplayedChannelsForState = (state) => {
+        return state.favoriteChannels.concat(state.publicChannels).concat(state.privateChannels).concat(state.directAndGroupChannels);
+    }
+
+    channelIdIsDisplayedForState = (state, id) => {
+        const allChannels = this.getDisplayedChannelsForState(state);
+        for (let i = 0; i < allChannels.length; i++) {
+            if (allChannels[i].id === id) {
+                return true;
+            }
+        }
+        return false;
     }
 
     handleLeavePublicChannel = (e, channel) => {
@@ -394,10 +405,6 @@ export default class Sidebar extends React.Component {
                     this.isLeaving.set(channel.id, false);
                 }
             );
-
-            if (ChannelUtils.isFavoriteChannel(channel)) {
-                ChannelActions.unmarkFavorite(channel.id);
-            }
 
             this.setState(this.getStateFromStores());
             trackEvent('ui', 'ui_direct_channel_x_button_clicked');
@@ -645,7 +652,21 @@ export default class Sidebar extends React.Component {
             link = '/' + this.state.currentTeam.name + '/channels/' + channel.name;
         }
 
-        const displayName = channel.display_name;
+        const user = UserStore.getCurrentUser();
+        let displayName = '';
+        if (user.id === channel.teammate_id) {
+            displayName = (
+                <FormattedMessage
+                    id='sidebar.directchannel.you'
+                    defaultMessage='{displayname} (you)'
+                    values={{
+                        displayname: channel.display_name
+                    }}
+                />
+            );
+        } else {
+            displayName = channel.display_name;
+        }
 
         const channelLink = this.createChannelButtonOrLink(link, rowClass, icon, displayName, badge, closeButton);
 
@@ -713,7 +734,12 @@ export default class Sidebar extends React.Component {
         this.lastUnreadChannel = null;
 
         // create elements for all 4 types of channels
-        const favoriteItems = this.state.favoriteChannels.
+        const visibleFavoriteChannels = this.state.favoriteChannels.
+            filter((channel) => {
+                return ChannelUtils.isOpenChannel(channel) || ChannelUtils.isPrivateChannel(channel) || ChannelUtils.isDirectChannelVisible(channel) || ChannelUtils.isGroupChannelVisible(channel);
+            });
+
+        const favoriteItems = visibleFavoriteChannels.
             map((channel, index, arr) => {
                 if (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL) {
                     return this.createChannelElement(channel, index, arr, this.handleLeaveDirectChannel);
@@ -957,14 +983,14 @@ export default class Sidebar extends React.Component {
                     show={this.state.showTopUnread}
                     onClick={this.scrollToFirstUnreadChannel}
                     extraClass='nav-pills__unread-indicator-top'
-                    text={above}
+                    content={above}
                 />
                 <UnreadChannelIndicator
                     name='Bottom'
                     show={this.state.showBottomUnread}
                     onClick={this.scrollToLastUnreadChannel}
                     extraClass='nav-pills__unread-indicator-bottom'
-                    text={below}
+                    content={below}
                 />
 
                 <div

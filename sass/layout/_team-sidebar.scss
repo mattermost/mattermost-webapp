@@ -30,6 +30,12 @@
                     }
                 }
 
+                button {
+                    text-decoration: none;
+                    padding: 0;
+                    border: none;
+                }
+
                 .team-btn {
                     @include border-radius(2px);
                     background-color: alpha-color($black, .3);

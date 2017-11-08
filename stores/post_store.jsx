@@ -67,9 +67,8 @@ class PostStoreClass extends EventEmitter {
         this.removeListener(POST_PINNED_CHANGE_EVENT, callback);
     }
 
-    getLatestPostId(channelId) {
-        const postsInChannel = getState().entities.posts.postsInChannel[channelId] || [];
-        return postsInChannel[0];
+    getMostRecentPostIdInChannel(channelId) {
+        return Selectors.getMostRecentPostIdInChannel(getState(), channelId);
     }
 
     getLatestReplyablePost(channelId) {
@@ -184,18 +183,18 @@ class PostStoreClass extends EventEmitter {
     clearDraftUploads() {
         BrowserStore.actionOnGlobalItemsWithPrefix('draft_', (key, value) => {
             if (value) {
-                value.uploadsInProgress = [];
-                BrowserStore.setGlobalItem(key, value);
+                return {...value, uploadsInProgress: []};
             }
+            return value;
         });
     }
 
     clearCommentDraftUploads() {
         BrowserStore.actionOnGlobalItemsWithPrefix('comment_draft_', (key, value) => {
             if (value) {
-                value.uploadsInProgress = [];
-                BrowserStore.setGlobalItem(key, value);
+                return {...value, uploadsInProgress: []};
             }
+            return value;
         });
     }
 

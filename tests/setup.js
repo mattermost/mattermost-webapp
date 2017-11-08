@@ -8,3 +8,13 @@ import $ from 'jquery';
 global.$ = global.jQuery = $;
 
 configure({adapter: new Adapter()});
+
+const supportedCommands = ['copy'];
+
+Object.defineProperty(document, 'queryCommandSupported', {
+  value: (cmd) => supportedCommands.includes(cmd)
+});
+
+Object.defineProperty(document, 'execCommand', {
+  value: (cmd) => supportedCommands.includes(cmd)
+});

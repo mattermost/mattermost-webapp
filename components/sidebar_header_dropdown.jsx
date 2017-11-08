@@ -22,9 +22,9 @@ import * as Utils from 'utils/utils.jsx';
 
 import AboutBuildModal from 'components/about_build_modal';
 import AddUsersToTeam from 'components/add_users_to_team';
+import TeamMembersModal from 'components/team_members_modal';
 
 import SidebarHeaderDropdownButton from './sidebar_header_dropdown_button.jsx';
-import TeamMembersModal from './team_members_modal.jsx';
 
 export default class SidebarHeaderDropdown extends React.Component {
     static propTypes = {

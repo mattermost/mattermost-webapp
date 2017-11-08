@@ -77,6 +77,16 @@ export default class MultiSelect extends React.Component {
         this.refs.select.handleInputChange({target: {value: ''}});
         this.onInput('');
         this.refs.select.focus();
+
+        const submitImmediatelyOn = this.props.submitImmediatelyOn;
+        if (submitImmediatelyOn) {
+            for (let i = 0; i < submitImmediatelyOn.length; i++) {
+                if (submitImmediatelyOn[i] === value.id) {
+                    this.props.handleSubmit([value]);
+                    return;
+                }
+            }
+        }
     }
 
     onInput = (input) => {
@@ -233,7 +243,10 @@ export default class MultiSelect extends React.Component {
                         />
                         <button
                             className='btn btn-primary btn-sm'
-                            onClick={this.props.handleSubmit}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                this.props.handleSubmit();
+                            }}
                         >
                             {buttonSubmitText}
                         </button>
@@ -276,5 +289,6 @@ MultiSelect.propTypes = {
     noteText: PropTypes.node,
     maxValues: PropTypes.number,
     numRemainingText: PropTypes.node,
-    buttonSubmitText: PropTypes.node
+    buttonSubmitText: PropTypes.node,
+    submitImmediatelyOn: PropTypes.arrayOf(PropTypes.string)
 };
