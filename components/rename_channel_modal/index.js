@@ -18,14 +18,7 @@ const mapStateToProps = createSelector(
             team: getTeam(state, currentTeamId)
         };
     },
-    ({requests}) => {
-        const {channels: {updateChannel}} = requests;
-        return {
-            serverError: updateChannel.error,
-            requestStatus: updateChannel.status
-        };
-    },
-    (teamInfo, requestInfo) => ({...teamInfo, ...requestInfo})
+    (teamInfo) => ({...teamInfo})
 );
 
 function mapDispatchToProps(dispatch) {

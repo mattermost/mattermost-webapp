@@ -113,25 +113,11 @@ export class RenameChannelModal extends React.PureComponent {
     }
 
     componentWillReceiveProps(nextProps) {
-        const {requestStatus: nextRequestStatus, serverError: nextServerError} = nextProps;
-        const {requestStatus, team} = this.props;
-
         if (!Utils.areObjectsEqual(nextProps.channel, this.props.channel)) {
             this.setState({
                 displayName: nextProps.channel.display_name,
                 channelName: nextProps.channel.name
             });
-        }
-
-        if (requestStatus !== nextRequestStatus && nextRequestStatus === RequestStatus.SUCCESS) {
-            this.handleHide();
-            browserHistory.push('/' + team.name + '/channels/' + this.state.channelName);
-        }
-
-        if (requestStatus !== nextRequestStatus && nextRequestStatus === RequestStatus.FAILURE) {
-            this.setError(nextServerError);
-        } else {
-            this.unsetError();
         }
     }
 
@@ -170,7 +156,7 @@ export class RenameChannelModal extends React.PureComponent {
         });
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
         if (e) {
             e.preventDefault();
         }
@@ -180,7 +166,7 @@ export class RenameChannelModal extends React.PureComponent {
         const oldDisplayName = channel.display_name;
         const state = {serverError: ''};
         const {formatMessage} = this.props.intl;
-        const {actions: {updateChannel}} = this.props;
+        const {actions: {updateChannel}, team} = this.props;
 
         channel.display_name = this.state.displayName.trim();
         if (!channel.display_name) {
@@ -227,7 +213,15 @@ export class RenameChannelModal extends React.PureComponent {
             return;
         }
 
-        updateChannel(channel);
+        const {data, error} = await updateChannel(channel);
+
+        if (data) {
+            this.handleHide();
+            this.unsetError();
+            browserHistory.push('/' + team.name + '/channels/' + this.state.channelName);
+        } else if (error) {
+            this.setError(error);
+        }
     }
 
     handleCancel = (e) => {
