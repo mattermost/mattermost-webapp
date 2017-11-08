@@ -10,9 +10,6 @@ import {Preferences, Posts} from 'mattermost-redux/constants';
 import {
     updateCommentDraft,
     makeOnMoveHistoryIndex,
-    submitPost,
-    submitReaction,
-    submitCommand,
     makeOnSubmit,
     makeOnEditLatestPost
 } from 'actions/views/rhs';
