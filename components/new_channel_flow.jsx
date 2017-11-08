@@ -113,14 +113,16 @@ export default class NewChannelFlow extends React.Component {
             this.doOnModalExited();
         }
     }
-    typeSwitched() {
+    typeSwitched(e) {
+        e.preventDefault();
         if (this.state.channelType === 'P') {
             this.setState({channelType: 'O'});
         } else {
             this.setState({channelType: 'P'});
         }
     }
-    urlChangeRequested() {
+    urlChangeRequested(e) {
+        e.preventDefault();
         this.setState({flowState: SHOW_EDIT_URL});
     }
     urlChangeSubmitted(newURL) {

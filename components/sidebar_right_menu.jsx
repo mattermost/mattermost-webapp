@@ -22,9 +22,9 @@ import * as Utils from 'utils/utils.jsx';
 
 import AboutBuildModal from 'components/about_build_modal';
 import AddUsersToTeam from 'components/add_users_to_team';
+import TeamMembersModal from 'components/team_members_modal';
 import {createMenuTip} from 'components/tutorial/tutorial_tip.jsx';
 
-import TeamMembersModal from './team_members_modal.jsx';
 import ToggleModalButton from './toggle_modal_button.jsx';
 
 const Preferences = Constants.Preferences;

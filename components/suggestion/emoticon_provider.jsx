@@ -14,6 +14,7 @@ import * as Emoticons from 'utils/emoticons.jsx';
 import Suggestion from './suggestion.jsx';
 
 const MIN_EMOTICON_LENGTH = 2;
+const EMOJI_CATEGORY_SUGGESTION_BLACKLIST = ['skintone'];
 
 class EmoticonSuggestion extends Suggestion {
     render() {
@@ -79,7 +80,7 @@ export default class EmoticonProvider {
                 if (emoji.aliases) {
                     // This is a system emoji so it may have multiple names
                     for (const alias of emoji.aliases) {
-                        if (alias.indexOf(partialName) !== -1) {
+                        if (!EMOJI_CATEGORY_SUGGESTION_BLACKLIST.includes(emoji.category) && alias.indexOf(partialName) !== -1) {
                             matched.push({name: alias, emoji});
                             break;
                         }

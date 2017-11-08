@@ -92,6 +92,7 @@ export function reconnect(includeWebSocket = true) {
     loadChannelsForCurrentUser();
     getPosts(ChannelStore.getCurrentId())(dispatch, getState);
     StatusActions.loadStatusesForChannelAndSidebar();
+    TeamActions.getMyTeamUnreads()(dispatch, getState);
 
     ErrorStore.clearLastError();
     ErrorStore.emitChange();
