@@ -30,16 +30,6 @@ describe('components/rename_channel_modal/rename_channel_modal.jsx', () => {
         actions: {updateChannel: jest.fn()}
     };
 
-    afterEach(() => {
-        global.window.mm_config = {};
-    });
-
-    beforeEach(() => {
-        global.window.mm_config.EnableLinkPreviews = 'true';
-        global.window.mm_config.EnableThemeSelection = 'false';
-        global.window.mm_config.DefaultClientLocale = 'en';
-    });
-
     test('should match snapshot', () => {
         const wrapper = shallowWithIntl(
             <RenameChannelModal {...baseProps}/>
