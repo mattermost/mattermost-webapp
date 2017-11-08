@@ -7,6 +7,7 @@ import thunk from 'redux-thunk';
 import {
   addReaction,
   removeReaction,
+  addMessageIntoHistory,
   moveHistoryIndexBack,
   moveHistoryIndexForward
 } from 'mattermost-redux/actions/posts';
@@ -32,14 +33,13 @@ import {ActionTypes} from 'utils/constants.jsx';
 
 const mockStore = configureStore([thunk]);
 
-/*
 jest.mock('mattermost-redux/actions/posts', () => ({
-  addReaction: () => {type: 'ADD_REACTION'},
-  removeReaction: () => {type: 'REMOVE_REACTION'},
-  moveHistoryIndexBack: () => {type: 'MOVE_MESSAGE_HISTORY_BACK'},
-  moveHistoryIndexForward: () => {type: 'MOVE_MESSAGE_HISTORY_FORWARD'}
+  addReaction: (...args) => ({type: 'ADD_REACTION', args}),
+  removeReaction: (...args) => ({type: 'REMOVE_REACTION', args}),
+  addMessageIntoHistory: (...args) => ({type: 'ADD_MESSAGE_INTO_HISTORY', args}),
+  moveHistoryIndexBack: (...args) => ({type: 'MOVE_MESSAGE_HISTORY_BACK', args}),
+  moveHistoryIndexForward: (...args) => ({type: 'MOVE_MESSAGE_HISTORY_FORWARD', args})
 }));
-*/
 
 jest.mock('actions/channel_actions.jsx', () => ({
   executeCommand: jest.fn((message, args, resolve, reject) => reject({sendMessage: 'test'}))
@@ -80,6 +80,9 @@ describe('rhs view actions', () => {
           },
           teams: {
             currentTeamId: 2
+          },
+          emojis: {
+            customEmoji: {}
           }
       }
   };
@@ -124,7 +127,9 @@ describe('rhs view actions', () => {
 
             testStore.dispatch(moveHistoryIndexBack(Posts.MESSAGE_TYPES.COMMENT));
 
-            expect(store.getActions()[0]).toEqual(testStore.getActions()[0]);
+            expect(store.getActions()).toEqual(
+              expect.arrayContaining(testStore.getActions())
+            );
         });
 
         test('it stores history message in draft', () => {
@@ -136,7 +141,9 @@ describe('rhs view actions', () => {
 
             testStore.dispatch(updateCommentDraft(rootId, {message: 'test message 2', fileInfos: [], uploadsInProgress: []}));
 
-            expect(store.getActions()[1]).toEqual(testStore.getActions()[0]);
+            expect(store.getActions()).toEqual(
+              expect.arrayContaining(testStore.getActions())
+            );
         });
     });
 
@@ -184,7 +191,7 @@ describe('rhs view actions', () => {
         });
 
         test('it removes a reaction when action is -', () => {
-            store.dispatch(submitReaction('', '+', ''));
+            store.dispatch(submitReaction('', '-', ''));
 
             const testStore = mockStore(initialState);
             testStore.dispatch(removeReaction('', ''));
@@ -226,6 +233,134 @@ describe('rhs view actions', () => {
             expect(store.getActions()).toEqual(testStore.getActions());
         });
     });
+
+    describe('makeOnSubmit', () => {
+        const channelId = '123';
+        const rootId = '321';
+        const latestPostId = '456';
+
+        let onSubmit = makeOnSubmit(channelId, rootId, latestPostId);
+
+        test('it adds message into history', () => {
+            store.dispatch(onSubmit());
+
+            const testStore = mockStore(initialState);
+            testStore.dispatch(addMessageIntoHistory(''));
+
+            expect(store.getActions()).toEqual(
+              expect.arrayContaining(testStore.getActions())
+            );
+        });
+
+        test('it clears comment draft', () => {
+            store.dispatch(onSubmit());
+
+            const testStore = mockStore(initialState);
+            testStore.dispatch(updateCommentDraft(rootId, null));
+
+            expect(store.getActions()).toEqual(
+              expect.arrayContaining(testStore.getActions())
+            );
+        });
+
+        test('it submits a reaction when message is +:smile:', () => {
+            jest.mock('stores/post_store.jsx', () => {
+              return {
+                storeCommentDraft: jest.fn(),
+                getCommentDraft: jest.fn(() => ({message: '+:smile:', fileInfos: [], uploadsInProgress: []}))
+              };
+            });
+
+            jest.resetModules();
+
+            const { makeOnSubmit } = require('actions/views/rhs');
+
+            onSubmit = makeOnSubmit(channelId, rootId, latestPostId);
+
+            store.dispatch(onSubmit());
+
+            const testStore = mockStore(initialState);
+            testStore.dispatch(submitReaction(latestPostId, '+', 'smile'));
+
+            expect(store.getActions()).toEqual(
+              expect.arrayContaining(testStore.getActions())
+            );
+        });
+
+        test('it submits a command when message is /away', () => {
+            jest.mock('stores/post_store.jsx', () => {
+              return {
+                storeCommentDraft: jest.fn(),
+                getCommentDraft: jest.fn(() => ({message: '/away', fileInfos: [], uploadsInProgress: []}))
+              };
+            });
+
+            jest.resetModules();
+
+            const { makeOnSubmit } = require('actions/views/rhs');
+
+            onSubmit = makeOnSubmit(channelId, rootId, latestPostId);
+
+            store.dispatch(onSubmit());
+
+            const testStore = mockStore(initialState);
+            testStore.dispatch(submitCommand(channelId, rootId, {message: '/away', fileInfos: [], uploadsInProgress: []}));
+
+            expect(store.getActions()).toEqual(
+              expect.arrayContaining(testStore.getActions())
+            );
+        });
+
+
+        test('it submits a regular post when message is something else', () => {
+            jest.mock('stores/post_store.jsx', () => {
+              return {
+                storeCommentDraft: jest.fn(),
+                getCommentDraft: jest.fn(() => ({message: 'test msg', fileInfos: [], uploadsInProgress: []}))
+              };
+            });
+
+            jest.resetModules();
+
+            const { makeOnSubmit } = require('actions/views/rhs');
+
+            onSubmit = makeOnSubmit(channelId, rootId, latestPostId);
+
+            store.dispatch(onSubmit());
+
+            const testStore = mockStore(initialState);
+            testStore.dispatch(submitPost(channelId, rootId, {message: 'test msg', fileInfos: [], uploadsInProgress: []}));
+
+            expect(store.getActions()).toEqual(
+              expect.arrayContaining(testStore.getActions())
+            );
+        });
+    });
 });
 
+/*
+export function makeOnSubmit(channelId, rootId, latestPostId) {
+    return () => async (dispatch, getState) => {
+        const draft = PostStore.getCommentDraft(rootId);
+        const {message} = draft;
 
+        dispatch(addMessageIntoHistory(message));
+
+        dispatch(updateCommentDraft(rootId, null));
+
+        const isReaction = REACTION_PATTERN.exec(message);
+
+        const state = getState();
+        const emojis = getCustomEmojisByName(state);
+        const emojiMap = new EmojiMap(emojis);
+
+        if (isReaction && emojiMap.has(isReaction[2])) {
+            dispatch(submitReaction(latestPostId, isReaction[1], isReaction[2]));
+        } else if (message.indexOf('/') === 0) {
+            await dispatch(submitCommand(channelId, rootId, draft));
+        } else {
+            dispatch(submitPost(channelId, rootId, draft));
+        }
+    };
+}
+*/
