@@ -14,6 +14,7 @@ import reduxInitialState from 'mattermost-redux/store/initial_state';
 import appReducer from 'reducers';
 
 import {transformSet} from './utils';
+import {detect} from 'utils/network.js';
 
 function getAppReducer() {
     return require('../reducers'); // eslint-disable-line global-require
@@ -137,7 +138,8 @@ export default function configureStore(initialState, persistorStorage = null) {
             transforms: [
                 setTransformer
             ]
-        }
+        },
+        detectNetwork: detect
     };
 
     return configureServiceStore({}, appReducer, offlineOptions, getAppReducer, {enableBuffer: false});
