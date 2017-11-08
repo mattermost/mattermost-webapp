@@ -150,7 +150,7 @@ describe('rhs view actions', () => {
             testStore.dispatch(moveHistoryIndexBack(Posts.MESSAGE_TYPES.COMMENT));
 
             expect(store.getActions()).toEqual(
-              expect.arrayContaining(testStore.getActions())
+                expect.arrayContaining(testStore.getActions())
             );
         });
 
@@ -164,7 +164,7 @@ describe('rhs view actions', () => {
             testStore.dispatch(updateCommentDraft(rootId, {message: 'test message', fileInfos: [], uploadsInProgress: []}));
 
             expect(store.getActions()).toEqual(
-              expect.arrayContaining(testStore.getActions())
+                expect.arrayContaining(testStore.getActions())
             );
         });
     });
@@ -187,7 +187,7 @@ describe('rhs view actions', () => {
             expect(GlobalActions.emitUserCommentedEvent).toHaveBeenCalled();
 
             expect(lastCall(GlobalActions.emitUserCommentedEvent.mock.calls)[0]).toEqual(
-              expect.objectContaining(post)
+                expect.objectContaining(post)
             );
         });
 
@@ -197,7 +197,7 @@ describe('rhs view actions', () => {
             expect(PostActions.createPost).toHaveBeenCalled();
 
             expect(lastCall(PostActions.createPost.mock.calls)[0]).toEqual(
-              expect.objectContaining(post)
+                expect.objectContaining(post)
             );
 
             expect(lastCall(PostActions.createPost.mock.calls)[1]).toBe(draft.fileInfos);
@@ -386,30 +386,3 @@ describe('rhs view actions', () => {
         });
     });
 });
-
-/*
-export function makeOnEditLatestPost(channelId, rootId) {
-    const getCurrentUsersLatestPost = makeGetCurrentUsersLatestPost(channelId, rootId);
-    const getCommentCount = makeGetCommentCountForPost();
-
-    return () => (dispatch, getState) => {
-        const state = getState();
-
-        const lastPost = getCurrentUsersLatestPost(state);
-
-        if (!lastPost) {
-            return;
-        }
-
-        AppDispatcher.handleViewAction({
-            type: ActionTypes.RECEIVED_EDIT_POST,
-            refocusId: '#reply_textbox',
-            title: Utils.localizeMessage('create_comment.commentTitle', 'Comment'),
-            message: lastPost.message,
-            postId: lastPost.id,
-            channelId: lastPost.channel_id,
-            comments: getCommentCount(state, {post: lastPost})
-        });
-    };
-}
-*/
