@@ -963,7 +963,8 @@
                 }
 
                 > li {
-                    > a {
+                    > a,
+                    > button {
                         border-bottom: 1px solid alpha-color($white, .3);
                         color: $white;
                         font-weight: 600;
