@@ -70,9 +70,6 @@ class ColorInput extends React.Component {
                     className='form-control'
                     type='text'
                     value={color}
-                    style={{
-                        background: '#fff'
-                    }}
                     readOnly={true}
                 />
                 <span
