@@ -259,9 +259,10 @@ class ShortcutsModal extends React.PureComponent {
         ModalStore.removeModalListener(Constants.ActionTypes.TOGGLE_SHORTCUTS_MODAL, this.handleToggle);
     }
 
-    handleToggle = (value) => {
+    handleToggle = () => {
+        //toggles the state of shortcut dialog
         this.setState({
-            show: value
+            show: !this.state.show
         });
     }
 

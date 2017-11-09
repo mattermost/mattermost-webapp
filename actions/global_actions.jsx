@@ -196,7 +196,7 @@ export function showAccountSettingsModal() {
     });
 }
 
-export function showShortcutsModal() {
+export function toggleShortcutsModal() {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_SHORTCUTS_MODAL,
         value: true
