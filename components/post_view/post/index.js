@@ -15,7 +15,7 @@ function mapStateToProps(state, ownProps) {
     const detailedPost = ownProps.post || {};
 
     return {
-        post: getPost(state, detailedPost.id),
+        post: getPost(state, detailedPost.id) || {},
         lastPostCount: ownProps.lastPostCount,
         user: getUser(state, detailedPost.user_id),
         status: getStatusForUserId(state, detailedPost.user_id),
