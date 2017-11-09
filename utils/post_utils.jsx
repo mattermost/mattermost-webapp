@@ -137,7 +137,7 @@ export function removeCode(text) {
     return text.replace(codeBlockPattern, '').replace(inlineCodePattern, ' ');
 }
 
-export function postMessageHtmlToComponent(html, isRHS = false, hasMention = false) {
+export function postMessageHtmlToComponent(html, isRHS = false) {
     const parser = new Parser();
     const attrib = 'data-mention';
     const processNodeDefinitions = new ProcessNodeDefinitions(React);
@@ -156,7 +156,7 @@ export function postMessageHtmlToComponent(html, isRHS = false, hasMention = fal
                     <AtMention
                         mentionName={mentionName}
                         isRHS={isRHS}
-                        hasMention={hasMention}
+                        hasMention={true}
                     />
                 );
                 return callAtMention;

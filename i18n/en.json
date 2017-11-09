@@ -2436,6 +2436,8 @@
   "status_dropdown.set_dnd": "Do Not Disturb",
   "status_dropdown.set_offline": "Offline",
   "status_dropdown.set_online": "Online",
+  "status_dropdown.set_dnd": "Do Not Disturb",
+  "status_dropdown.set_dnd.extra": "Disables Desktop and Push Notifications",
   "suggestion.loading": "Loading...",
   "suggestion.mention.all": "CAUTION: This mentions everyone in channel",
   "suggestion.mention.channel": "Notifies everyone in the channel",

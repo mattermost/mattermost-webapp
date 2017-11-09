@@ -122,7 +122,9 @@ export default class NewChannelFlow extends React.Component {
         }
     }
     urlChangeRequested(e) {
-        e.preventDefault();
+        if (e) {
+            e.preventDefault();
+        }
         this.setState({flowState: SHOW_EDIT_URL});
     }
     urlChangeSubmitted(newURL) {
