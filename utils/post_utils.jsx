@@ -131,8 +131,8 @@ export function containsAtMention(text, key) {
 export function removeCode(text) {
     // These patterns should match the ones in app/notification.go, except JavaScript doesn't
     // support \z for the end of the text in multiline mode, so we use $(?![\r\n])
-    const codeBlockPattern = /^[^\S\n]*[`~]{3}.*$[\s\S]+?(^[^\S\n]*[`~]{3}$|$(?![\r\n]))/m;
-    const inlineCodePattern = /`+(?:.+?|.*?\n(.*?\S.*?\n)*.*?)`+/m;
+    const codeBlockPattern = /^[^\S\n]*[`~]{3}.*$[\s\S]+?(^[^\S\n]*[`~]{3}$|$(?![\r\n]))/mg;
+    const inlineCodePattern = /`+(?:.+?|.*?(.*?\S.*?\n)*.*?)`+/mg;
 
     return text.replace(codeBlockPattern, '').replace(inlineCodePattern, ' ');
 }
