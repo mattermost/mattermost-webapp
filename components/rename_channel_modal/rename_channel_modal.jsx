@@ -6,7 +6,6 @@ import React from 'react';
 import {Modal, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
-import {RequestStatus} from 'mattermost-redux/constants';
 import {browserHistory} from 'react-router/es6';
 
 import Constants from 'utils/constants.jsx';
@@ -66,16 +65,6 @@ export class RenameChannelModal extends React.PureComponent {
          * Object with info about current channel
          */
         channel: PropTypes.object.isRequired,
-
-        /**
-         * Status of patch info about channel request
-         */
-        requestStatus: PropTypes.string,
-
-        /**
-         * Info about patch serverError
-         */
-        serverError: PropTypes.object,
 
         /**
          * Object with info about current team
