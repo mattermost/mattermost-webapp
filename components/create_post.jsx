@@ -450,7 +450,7 @@ export default class CreatePost extends React.Component {
         if ((e.ctrlKey || e.metaKey) && e.keyCode === Constants.KeyCodes.FORWARD_SLASH) {
             e.preventDefault();
 
-            GlobalActions.showShortcutsModal();
+            GlobalActions.toggleShortcutsModal();
         }
     }
 

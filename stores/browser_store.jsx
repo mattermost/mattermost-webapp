@@ -3,85 +3,40 @@
 
 import {browserHistory} from 'react-router/es6';
 
+import * as Selectors from 'selectors/storage';
+import * as Actions from 'actions/storage';
+
 import store from 'stores/redux_store.jsx';
 
-import {Constants, ErrorPageTypes} from 'utils/constants.jsx';
+import {ErrorPageTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-function getPrefix() {
-    const state = store.getState();
-
-    if (state && state.entities && state.entities.users) {
-        const user = state.entities.users.profiles[state.entities.users.currentUserId];
-        if (user) {
-            return user.id + '_';
-        }
-    }
-
-    console.warn('BrowserStore tried to operate without user present'); //eslint-disable-line no-console
-
-    return 'unknown_';
-}
+const dispatch = store.dispatch;
+const getState = store.getState;
 
 class BrowserStoreClass {
-    constructor() {
-        this.hasCheckedLocalStorage = false;
-        this.localStorageSupported = false;
-    }
-
     setItem(name, value) {
-        this.setGlobalItem(getPrefix() + name, value);
+        dispatch(Actions.setItem(name, value));
     }
 
     getItem(name, defaultValue) {
-        return this.getGlobalItem(getPrefix() + name, defaultValue);
+        return Selectors.makeGetItem(name, defaultValue)(getState());
     }
 
     removeItem(name) {
-        this.removeGlobalItem(getPrefix() + name);
+        dispatch(Actions.removeItem(name));
     }
 
     setGlobalItem(name, value) {
-        try {
-            if (this.isLocalStorageSupported()) {
-                localStorage.setItem(name, JSON.stringify(value));
-            } else {
-                sessionStorage.setItem(name, JSON.stringify(value));
-            }
-        } catch (err) {
-            console.log('An error occurred while setting local storage, clearing all props'); //eslint-disable-line no-console
-            localStorage.clear();
-            sessionStorage.clear();
-            window.location.reload(true);
-        }
+        dispatch(Actions.setGlobalItem(name, value));
     }
 
     getGlobalItem(name, defaultValue = null) {
-        var result = null;
-
-        try {
-            if (this.isLocalStorageSupported()) {
-                result = JSON.parse(localStorage.getItem(name));
-            } else {
-                result = JSON.parse(sessionStorage.getItem(name));
-            }
-        } catch (err) {
-            result = null;
-        }
-
-        if (typeof result === 'undefined' || result === null) {
-            result = defaultValue;
-        }
-
-        return result;
+        return Selectors.makeGetGlobalItem(name, defaultValue)(getState());
     }
 
     removeGlobalItem(name) {
-        if (this.isLocalStorageSupported()) {
-            localStorage.removeItem(name);
-        } else {
-            sessionStorage.removeItem(name);
-        }
+        dispatch(Actions.removeGlobalItem(name));
     }
 
     signalLogout() {
@@ -119,54 +74,15 @@ class BrowserStoreClass {
      * Signature for action is action(key, value)
      */
     actionOnGlobalItemsWithPrefix(prefix, action) {
-        var storage = sessionStorage;
-        if (this.isLocalStorageSupported()) {
-            storage = localStorage;
-        }
-
-        for (var key in storage) {
-            if (key.lastIndexOf(prefix, 0) === 0) {
-                action(key, this.getGlobalItem(key));
-            }
-        }
+        dispatch(Actions.actionOnGlobalItemsWithPrefix(prefix, action));
     }
 
     actionOnItemsWithPrefix(prefix, action) {
-        var globalPrefix = getPrefix();
-        var globalPrefixiLen = globalPrefix.length;
-        for (var key in sessionStorage) {
-            if (key.lastIndexOf(globalPrefix + prefix, 0) === 0) {
-                var userkey = key.substring(globalPrefixiLen);
-                action(userkey, this.getGlobalItem(key));
-            }
-        }
+        dispatch(Actions.actionOnItemsWithPrefix(prefix, action));
     }
 
-    clear() {
-        // persist some values through logout since they're independent of which user is logged in
-        const logoutId = sessionStorage.getItem('__logout__');
-        const landingPageSeen = this.hasSeenLandingPage();
-        const selectedTeams = this.getItem('selected_teams');
-        const recentEmojis = localStorage.getItem(Constants.RECENT_EMOJI_KEY);
-
-        sessionStorage.clear();
-        localStorage.clear();
-
-        if (recentEmojis) {
-            localStorage.setItem(Constants.RECENT_EMOJI_KEY, recentEmojis);
-        }
-
-        if (logoutId) {
-            sessionStorage.setItem('__logout__', logoutId);
-        }
-
-        if (landingPageSeen) {
-            this.setLandingPageSeen(landingPageSeen);
-        }
-
-        if (selectedTeams) {
-            this.setItem('selected_teams', selectedTeams);
-        }
+    clear(options) {
+        dispatch(Actions.clear(options));
     }
 
     isLocalStorageSupported() {
@@ -200,15 +116,11 @@ class BrowserStoreClass {
     }
 
     hasSeenLandingPage() {
-        if (this.isLocalStorageSupported()) {
-            return JSON.parse(sessionStorage.getItem('__landingPageSeen__'));
-        }
-
-        return true;
+        return this.getItem('__landingPageSeen__', false);
     }
 
     setLandingPageSeen(landingPageSeen) {
-        return sessionStorage.setItem('__landingPageSeen__', JSON.stringify(landingPageSeen));
+        return this.setItem('__landingPageSeen__', landingPageSeen);
     }
 }
 

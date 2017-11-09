@@ -86,6 +86,8 @@ export const ActionTypes = keyMirror({
     RECEIVED_FOCUSED_POST: null,
     RECEIVED_POST: null,
     RECEIVED_EDIT_POST: null,
+    SET_EDITING_POST: null,
+    EDIT_POST: null,
     RECEIVED_SEARCH: null,
     RECEIVED_SEARCH_TERM: null,
     SELECT_POST: null,
@@ -312,6 +314,16 @@ export const StatTypes = keyMirror({
     TOTAL_READ_DB_CONNECTIONS: null,
     DAILY_ACTIVE_USERS: null,
     MONTHLY_ACTIVE_USERS: null
+});
+
+export const StorageTypes = keyMirror({
+    SET_ITEM: null,
+    REMOVE_ITEM: null,
+    SET_GLOBAL_ITEM: null,
+    REMOVE_GLOBAL_ITEM: null,
+    CLEAR: null,
+    ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX: null,
+    ACTION_ON_ITEMS_WITH_PREFIX: null
 });
 
 export const ErrorPageTypes = {

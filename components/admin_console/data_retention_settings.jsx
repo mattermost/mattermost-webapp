@@ -7,6 +7,8 @@ import {FormattedMessage} from 'react-intl';
 import {JobTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
+import ConfirmModal from 'components/confirm_modal.jsx';
+
 import AdminSettings from './admin_settings.jsx';
 import DropdownSetting from './dropdown_setting.jsx';
 import JobsTable from './jobs';
@@ -20,6 +22,7 @@ export default class DataRetentionSettings extends AdminSettings {
         this.getConfigFromState = this.getConfigFromState.bind(this);
 
         this.renderSettings = this.renderSettings.bind(this);
+        this.renderConfirmModal = this.renderConfirmModal.bind(this);
     }
 
     getConfigFromState(config) {
@@ -38,8 +41,122 @@ export default class DataRetentionSettings extends AdminSettings {
             enableFileDeletion: String(config.DataRetentionSettings.EnableFileDeletion),
             messageRetentionDays: config.DataRetentionSettings.MessageRetentionDays,
             fileRetentionDays: config.DataRetentionSettings.FileRetentionDays,
-            deletionJobStartTime: config.DataRetentionSettings.DeletionJobStartTime
+            deletionJobStartTime: config.DataRetentionSettings.DeletionJobStartTime,
+            showConfirmModal: false
         };
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+
+        this.setState({showConfirmModal: true});
+    };
+
+    handleSaveConfirmed = () => {
+        this.setState({showConfirmModal: false});
+
+        this.doSubmit();
+    };
+
+    handleSaveCanceled = () => {
+        this.setState({showConfirmModal: false});
+    };
+
+    renderConfirmModal() {
+        const title = (
+            <FormattedMessage
+                id='admin.data_retention.confirmChangesModal.title'
+                defaultMessage='Confirm data retention policy'
+            />
+        );
+
+        const messageList = [];
+
+        if (this.state.enableMessageDeletion === 'true') {
+            messageList.push(
+                <FormattedMessage
+                    id='admin.data_retention.confirmChangesModal.description.itemMessageDeletion'
+                    defaultMessage='All messages will be permanently deleted after {days} days.'
+                    values={{
+                        days: (
+                            <strong>
+                                {this.state.messageRetentionDays}
+                            </strong>
+                        )
+                    }}
+                />
+            );
+        } else {
+            messageList.push(
+                <FormattedMessage
+                    id='admin.data_retention.confirmChangesModal.description.itemMessageIndefinite'
+                    defaultMessage='All messages will be retained indefinitely.'
+                />
+            );
+        }
+
+        if (this.state.enableFileDeletion === 'true') {
+            messageList.push(
+                <FormattedMessage
+                    id='admin.data_retention.confirmChangesModal.description.itemFileDeletion'
+                    defaultMessage='All files will be permanently deleted after {days} days.'
+                    values={{
+                        days: (
+                            <strong>
+                                {this.state.fileRetentionDays}
+                            </strong>
+                        )
+                    }}
+                />
+            );
+        } else {
+            messageList.push(
+                <FormattedMessage
+                    id='admin.data_retention.confirmChangesModal.description.itemFileIndefinite'
+                    defaultMessage='All files will be retained indefinitely.'
+                />
+            );
+        }
+
+        const message = (
+            <div>
+                <p>
+                    <FormattedMessage
+                        id='admin.data_retention.confirmChangesModal.description'
+                        defaultMessage='Are you sure you want to apply the following data retention policy:'
+                    />
+                </p>
+                <ul>
+                    {messageList.map((item, index) => {
+                        return <li key={index}>{item}</li>;
+                    })}
+                </ul>
+                <p>
+                    <FormattedMessage
+                        id='admin.data_retention.confirmChangesModal.clarification'
+                        defaultMessage='Once deleted, messages and files cannot be retrieved.'
+                    />
+                </p>
+            </div>
+        );
+
+        const confirmButton = (
+            <FormattedMessage
+                id='admin.data_retention.confirmChangesModal.confirm'
+                defaultMessage='Confirm Settings'
+            />
+        );
+
+        return (
+            <ConfirmModal
+                show={this.state.showConfirmModal}
+                title={title}
+                message={message}
+                confirmButtonText={confirmButton}
+                onConfirm={this.handleSaveConfirmed}
+                onCancel={this.handleSaveCanceled}
+            />
+        );
     }
 
     renderTitle() {
@@ -100,8 +217,11 @@ export default class DataRetentionSettings extends AdminSettings {
             );
         }
 
+        const confirmModal = this.renderConfirmModal();
+
         return (
             <SettingsGroup>
+                {confirmModal}
                 <div className='banner'>
                     <div className='banner__content'>
                         <FormattedMessage

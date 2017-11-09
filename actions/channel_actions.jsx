@@ -66,7 +66,7 @@ export function executeCommand(message, args, success, error) {
             return;
         }
 
-        GlobalActions.showShortcutsModal();
+        GlobalActions.toggleShortcutsModal();
         return;
     case '/leave': {
         // /leave command not supported in reply threads.

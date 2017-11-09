@@ -2,16 +2,20 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
+import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import * as ChannelUtilsRedux from 'mattermost-redux/utils/channel_utils';
+
 import ChannelStore from 'stores/channel_store.jsx';
 import LocalizationStore from 'stores/localization_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
+import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
-import Constants from 'utils/constants.jsx';
-import * as Utils from 'utils/utils.jsx';
-
-const Preferences = Constants.Preferences;
+import Constants, {Preferences} from 'utils/constants.jsx';
 
 export function isFavoriteChannel(channel) {
     return PreferenceStore.getBool(Preferences.CATEGORY_FAVORITE_CHANNEL, channel.id);
@@ -21,59 +25,20 @@ export function isFavoriteChannelId(channelId) {
     return PreferenceStore.getBool(Preferences.CATEGORY_FAVORITE_CHANNEL, channelId);
 }
 
-export function isNotDeletedChannel(channel) {
-    return channel.delete_at === 0;
-}
-
+// TODO This should use the version from mattermost-redux
 export function isOpenChannel(channel) {
     return channel.type === Constants.OPEN_CHANNEL;
 }
 
+// TODO This should use the version from mattermost-redux
 export function isPrivateChannel(channel) {
     return channel.type === Constants.PRIVATE_CHANNEL;
 }
 
-export function isGroupChannel(channel) {
-    return channel.type === Constants.GM_CHANNEL;
-}
-
-export function isDirectChannel(channel) {
-    return channel.type === Constants.DM_CHANNEL;
-}
-
-export function completeDirectChannelInfo(channel) {
-    if (!isDirectChannel(channel)) {
-        return channel;
-    }
-
-    const dmChannelClone = JSON.parse(JSON.stringify(channel));
-    const teammateId = Utils.getUserIdFromChannelName(channel);
-
-    return Object.assign(dmChannelClone, {
-        display_name: Utils.displayUsername(teammateId),
-        teammate_id: teammateId,
-        status: UserStore.getStatus(teammateId) || 'offline'
-    });
-}
-
-const defaultPrefix = 'D'; // fallback for future types
-const typeToPrefixMap = {[Constants.OPEN_CHANNEL]: 'A', [Constants.PRIVATE_CHANNEL]: 'B', [Constants.DM_CHANNEL]: 'C', [Constants.GM_CHANNEL]: 'C'};
-
 export function sortChannelsByDisplayName(a, b) {
     const locale = LocalizationStore.getLocale();
 
-    if (a.type !== b.type && typeToPrefixMap[a.type] !== typeToPrefixMap[b.type]) {
-        return (typeToPrefixMap[a.type] || defaultPrefix).localeCompare((typeToPrefixMap[b.type] || defaultPrefix), locale);
-    }
-
-    const aDisplayName = getChannelDisplayName(a);
-    const bDisplayName = getChannelDisplayName(b);
-
-    if (aDisplayName !== null && bDisplayName !== null && aDisplayName !== bDisplayName) {
-        return aDisplayName.localeCompare(bDisplayName, locale, {numeric: true});
-    }
-
-    return a.name.localeCompare(b.name, locale, {numeric: true});
+    return ChannelUtilsRedux.sortChannelsByTypeAndDisplayName(locale, a, b);
 }
 
 const MAX_CHANNEL_NAME_LENGTH = 64;
@@ -159,7 +124,7 @@ export function showDeleteOptionForCurrentUser(channel, isChannelAdmin, isTeamAd
         return true;
     }
 
-    if (ChannelStore.isDefault(channel)) {
+    if (ChannelUtilsRedux.isDefault(channel)) {
         // can't delete default channels, no matter who you are
         return false;
     }
@@ -230,4 +195,42 @@ export function getCountsStateFromStores(team = TeamStore.getCurrent(), teamMemb
     });
 
     return {mentionCount, messageCount};
+}
+
+export function isChannelVisible(channel) {
+    return isOpenChannel(channel) ||
+        isPrivateChannel(channel) ||
+        isDirectChannelVisible(channel) ||
+        isGroupChannelVisible(channel);
+}
+
+function isDirectChannelVisible(channel) {
+    if (!ChannelUtilsRedux.isDirectChannel(channel)) {
+        return false;
+    }
+
+    const state = store.getState();
+
+    return ChannelUtilsRedux.isDirectChannelVisible(
+        getCurrentUserId(state),
+        getConfig(state),
+        getMyPreferences(state),
+        channel,
+        getLastPostPerChannel(state)[channel.id]
+    );
+}
+
+function isGroupChannelVisible(channel) {
+    if (!ChannelUtilsRedux.isGroupChannel(channel)) {
+        return false;
+    }
+
+    const state = store.getState();
+
+    return ChannelUtilsRedux.isGroupChannelVisible(
+        getConfig(state),
+        getMyPreferences(state),
+        channel,
+        getLastPostPerChannel(state)[channel.id]
+    );
 }

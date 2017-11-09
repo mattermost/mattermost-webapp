@@ -1,55 +1,43 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import {PostTypes} from 'mattermost-redux/action_types';
+import * as Selectors from 'mattermost-redux/selectors/entities/posts';
+
 import Constants from 'utils/constants.jsx';
 
-const TYPE_POST = 'post';
-const TYPE_COMMENT = 'comment';
+import store from 'stores/redux_store.jsx';
 
 class MessageHistoryStoreClass {
-    constructor() {
-        this.messageHistory = [];
-        this.index = [];
-        this.index[TYPE_POST] = 0;
-        this.index[TYPE_COMMENT] = 0;
-    }
-
     getMessageInHistory(type) {
-        if (this.index[type] >= this.messageHistory.length) {
-            return '';
-        } else if (this.index[type] < 0) {
-            return null;
-        }
-
-        return this.messageHistory[this.index[type]];
-    }
-
-    getHistoryLength() {
-        if (this.messageHistory === null) {
-            return 0;
-        }
-        return this.messageHistory.length;
+        return Selectors.makeGetMessageInHistoryItem(type)(store.getState());
     }
 
     storeMessageInHistory(message) {
-        this.messageHistory.push(message);
-        this.resetAllHistoryIndex();
-        if (this.messageHistory.length > Constants.MAX_PREV_MSGS) {
-            this.messageHistory = this.messageHistory.slice(1, Constants.MAX_PREV_MSGS + 1);
-        }
+        store.dispatch({
+            type: PostTypes.ADD_MESSAGE_INTO_HISTORY,
+            data: message
+        });
     }
 
     storeMessageInHistoryByIndex(index, message) {
-        this.messageHistory[index] = message;
+        store.dispatch({
+            type: PostTypes.ADD_MESSAGE_INTO_HISTORY_INDEX,
+            data: {message, index}
+        });
     }
 
     resetAllHistoryIndex() {
-        this.index[TYPE_POST] = this.messageHistory.length;
-        this.index[TYPE_COMMENT] = this.messageHistory.length;
+        store.dispatch({
+            type: PostTypes.RESET_ALL_HISTORY_INDEX
+        });
     }
 
     resetHistoryIndex(type) {
-        this.index[type] = this.messageHistory.length;
+        store.dispatch({
+            type: PostTypes.RESET_HISTORY_INDEX,
+            data: type
+        });
     }
 
     nextMessageInHistory(keyCode, messageText, type) {
@@ -58,16 +46,15 @@ class MessageHistoryStoreClass {
         }
 
         if (keyCode === Constants.KeyCodes.UP) {
-            this.index[type]--;
+            store.dispatch({
+                type: PostTypes.MOVE_HISTORY_INDEX_BACK,
+                data: type
+            });
         } else if (keyCode === Constants.KeyCodes.DOWN) {
-            this.index[type]++;
-        }
-
-        if (this.index[type] < 0) {
-            this.index[type] = 0;
-            return null;
-        } else if (this.index[type] >= this.getHistoryLength()) {
-            this.index[type] = this.getHistoryLength();
+            store.dispatch({
+                type: PostTypes.MOVE_HISTORY_INDEX_FORWARD,
+                data: type
+            });
         }
 
         return this.getMessageInHistory(type);

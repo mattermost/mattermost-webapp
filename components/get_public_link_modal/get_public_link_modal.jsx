@@ -2,31 +2,42 @@
 // See License.txt for license information.
 
 import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
+import PropTypes from 'prop-types';
 
-import {getPublicLink} from 'actions/file_actions.jsx';
 import ModalStore from 'stores/modal_store.jsx';
 
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import GetLinkModal from './get_link_modal.jsx';
+import GetLinkModal from 'components/get_link_modal.jsx';
 
-export default class GetPublicLinkModal extends React.Component {
+export default class GetPublicLinkModal extends React.PureComponent {
+    static propTypes = {
+
+        /**
+         * Public link of the file
+         */
+        link: PropTypes.string,
+
+        actions: PropTypes.shape({
+
+            /**
+             * An action to get public link
+             */
+            getFilePublicLink: PropTypes.func.isRequired
+        }).isRequired
+    }
+
     constructor(props) {
         super(props);
-
-        this.handlePublicLink = this.handlePublicLink.bind(this);
-        this.handleToggle = this.handleToggle.bind(this);
-        this.hide = this.hide.bind(this);
-
-        this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
-
         this.state = {
             show: false,
-            fileId: '',
-            link: ''
+            fileId: ''
         };
+    }
+
+    componentWillUnmount() {
+        ModalStore.removeModalListener(Constants.ActionTypes.TOGGLE_GET_PUBLIC_LINK_MODAL, this.handleToggle);
     }
 
     componentDidMount() {
@@ -35,29 +46,18 @@ export default class GetPublicLinkModal extends React.Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (this.state.show && !prevState.show) {
-            getPublicLink(this.state.fileId, this.handlePublicLink);
+            this.props.actions.getFilePublicLink(this.state.fileId);
         }
     }
 
-    componentWillUnmount() {
-        ModalStore.removeModalListener(Constants.ActionTypes.TOGGLE_GET_PUBLIC_LINK_MODAL, this.handleToggle);
-    }
-
-    handlePublicLink(link) {
-        this.setState({
-            link
-        });
-    }
-
-    handleToggle(value, args) {
+    handleToggle = (value, args) => {
         this.setState({
             show: value,
-            fileId: args.fileId,
-            link: ''
+            fileId: args.fileId
         });
     }
 
-    hide() {
+    onHide = () => {
         this.setState({
             show: false
         });
@@ -67,10 +67,10 @@ export default class GetPublicLinkModal extends React.Component {
         return (
             <GetLinkModal
                 show={this.state.show}
-                onHide={this.hide}
+                onHide={this.onHide}
                 title={Utils.localizeMessage('get_public_link_modal.title', 'Copy Public Link')}
                 helpText={Utils.localizeMessage('get_public_link_modal.help', 'The link below allows anyone to see this file without being registered on this server.')}
-                link={this.state.link}
+                link={this.props.link}
             />
         );
     }

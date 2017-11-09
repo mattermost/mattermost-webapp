@@ -52,7 +52,7 @@ export default class SidebarHeaderDropdown extends React.Component {
         this.showGetTeamInviteLinkModal = this.showGetTeamInviteLinkModal.bind(this);
         this.showTeamMembersModal = this.showTeamMembersModal.bind(this);
         this.hideTeamMembersModal = this.hideTeamMembersModal.bind(this);
-        this.showShortcutsModal = this.showShortcutsModal.bind(this);
+        this.toggleShortcutsModal = this.toggleShortcutsModal.bind(this);
 
         this.onTeamChange = this.onTeamChange.bind(this);
 
@@ -111,11 +111,11 @@ export default class SidebarHeaderDropdown extends React.Component {
         GlobalActions.showAccountSettingsModal();
     }
 
-    showShortcutsModal(e) {
+    toggleShortcutsModal(e) {
         e.preventDefault();
         this.setState({showDropdown: false});
 
-        GlobalActions.showShortcutsModal();
+        GlobalActions.toggleShortcutsModal();
     }
 
     showAddUsersToTeamModal(e) {
@@ -513,7 +513,7 @@ export default class SidebarHeaderDropdown extends React.Component {
                 <button
                     className='style--none'
                     id='keyboardShortcuts'
-                    onClick={this.showShortcutsModal}
+                    onClick={this.toggleShortcutsModal}
                 >
                     <FormattedMessage
                         id='navbar_dropdown.keyboardShortcuts'
