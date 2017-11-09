@@ -517,4 +517,151 @@ describe('components/CreateComment', () => {
 
         expect(focusTextbox).toHaveBeenCalled();
     });
+
+    test('handleChange should update comment draft correctly', () => {
+        const onUpdateCommentDraft = jest.fn();
+
+        const wrapper = shallow(
+            <CreateComment
+                channelId={channelId}
+                rootId={rootId}
+                draft={{
+                    message: 'Test message',
+                    uploadsInProgress: [1, 2, 3],
+                    fileInfos: [{}, {}, {}]
+                }}
+                enableAddButton={true}
+                ctrlSend={false}
+                latestPostId={latestPostId}
+                getSidebarBody={jest.fn()}
+                onUpdateCommentDraft={onUpdateCommentDraft}
+                onSubmit={jest.fn()}
+                onResetHistoryIndex={jest.fn()}
+                onMoveHistoryIndexBack={jest.fn()}
+                onMoveHistoryIndexForward={jest.fn()}
+                onEditLatestPost={jest.fn()}
+            />
+        );
+
+        const testMessage = 'new msg';
+        const scrollToTop = jest.fn();
+
+        wrapper.instance().scrollToTop = scrollToTop;
+        wrapper.instance().handleChange({target: {value: testMessage}});
+
+        expect(onUpdateCommentDraft).toHaveBeenCalled();
+
+        expect(onUpdateCommentDraft.mock.calls[0][0]).toEqual(
+            expect.objectContaining({message: testMessage})
+        );
+
+        expect(scrollToTop).toHaveBeenCalled();
+    });
+
+    test('should scroll to top when uploadsInProgress increase', () => {
+        const draft = {
+            message: 'Test message',
+            uploadsInProgress: [1, 2, 3],
+            fileInfos: [{}, {}, {}]
+        };
+
+        const wrapper = shallow(
+            <CreateComment
+                channelId={channelId}
+                rootId={rootId}
+                draft={draft}
+                enableAddButton={true}
+                ctrlSend={false}
+                latestPostId={latestPostId}
+                getSidebarBody={jest.fn()}
+                onUpdateCommentDraft={jest.fn()}
+                onSubmit={jest.fn()}
+                onResetHistoryIndex={jest.fn()}
+                onMoveHistoryIndexBack={jest.fn()}
+                onMoveHistoryIndexForward={jest.fn()}
+                onEditLatestPost={jest.fn()}
+            />
+        );
+
+        const scrollToTop = jest.fn();
+
+        wrapper.instance().scrollToTop = scrollToTop;
+
+        wrapper.setProps({draft: {...draft, uploadsInProgress: [1, 2, 3, 4]}});
+
+        expect(scrollToTop).toHaveBeenCalled();
+    });
+
+    test('handleSubmit should call onSubmit prop', () => {
+        const onSubmit = jest.fn();
+
+        const wrapper = shallow(
+            <CreateComment
+                channelId={channelId}
+                rootId={rootId}
+                draft={{
+                    message: 'Test message',
+                    uploadsInProgress: [],
+                    fileInfos: [{}, {}, {}]
+                }}
+                enableAddButton={true}
+                ctrlSend={false}
+                latestPostId={latestPostId}
+                getSidebarBody={jest.fn()}
+                onUpdateCommentDraft={jest.fn()}
+                onSubmit={onSubmit}
+                onResetHistoryIndex={jest.fn()}
+                onMoveHistoryIndexBack={jest.fn()}
+                onMoveHistoryIndexForward={jest.fn()}
+                onEditLatestPost={jest.fn()}
+            />
+        );
+
+        const preventDefault = jest.fn();
+
+        wrapper.instance().handleSubmit({preventDefault});
+
+        expect(onSubmit).toHaveBeenCalled();
+        expect(preventDefault).toHaveBeenCalled();
+    });
+
+    test('removePreview should remove file info and upload in progress with corresponding id', () => {
+        const onUpdateCommentDraft = jest.fn();
+
+        const wrapper = shallow(
+            <CreateComment
+                channelId={channelId}
+                rootId={rootId}
+                draft={{
+                    message: 'Test message',
+                    uploadsInProgress: [4, 5, 6],
+                    fileInfos: [{id: 1}, {id: 2}, {id: 3}]
+                }}
+                enableAddButton={true}
+                ctrlSend={false}
+                latestPostId={latestPostId}
+                getSidebarBody={jest.fn()}
+                onUpdateCommentDraft={onUpdateCommentDraft}
+                onSubmit={jest.fn()}
+                onResetHistoryIndex={jest.fn()}
+                onMoveHistoryIndexBack={jest.fn()}
+                onMoveHistoryIndexForward={jest.fn()}
+                onEditLatestPost={jest.fn()}
+            />
+        );
+
+        wrapper.instance().removePreview(3);
+
+        expect(onUpdateCommentDraft).toHaveBeenCalled();
+
+        expect(onUpdateCommentDraft.mock.calls[0][0]).toEqual(
+            expect.objectContaining({fileInfos: [{id: 1}, {id: 2}]})
+        );
+
+        wrapper.instance().removePreview(5);
+
+        expect(onUpdateCommentDraft.mock.calls[1][0]).toEqual(
+            expect.objectContaining({uploadsInProgress: [4, 6]})
+        );
+    });
 });

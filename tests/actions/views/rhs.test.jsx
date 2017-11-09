@@ -34,11 +34,11 @@ import {ActionTypes} from 'utils/constants.jsx';
 const mockStore = configureStore([thunk]);
 
 jest.mock('mattermost-redux/actions/posts', () => ({
-    addReaction: (...args) => ({type: 'ADD_REACTION', args}),
-    removeReaction: (...args) => ({type: 'REMOVE_REACTION', args}),
-    addMessageIntoHistory: (...args) => ({type: 'ADD_MESSAGE_INTO_HISTORY', args}),
-    moveHistoryIndexBack: (...args) => ({type: 'MOVE_MESSAGE_HISTORY_BACK', args}),
-    moveHistoryIndexForward: (...args) => ({type: 'MOVE_MESSAGE_HISTORY_FORWARD', args})
+    addReaction: (...args) => ({type: 'MOCK_ADD_REACTION', args}),
+    removeReaction: (...args) => ({type: 'MOCK_REMOVE_REACTION', args}),
+    addMessageIntoHistory: (...args) => ({type: 'MOCK_ADD_MESSAGE_INTO_HISTORY', args}),
+    moveHistoryIndexBack: (...args) => ({type: 'MOCK_MOVE_MESSAGE_HISTORY_BACK', args}),
+    moveHistoryIndexForward: (...args) => ({type: 'MOCK_MOVE_MESSAGE_HISTORY_FORWARD', args})
 }));
 
 jest.mock('dispatcher/app_dispatcher.jsx', () => ({

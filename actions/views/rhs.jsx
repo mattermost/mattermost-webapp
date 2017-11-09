@@ -85,8 +85,6 @@ export function submitPost(channelId, rootId, draft) {
         GlobalActions.emitUserCommentedEvent(post);
 
         PostActions.createPost(post, draft.fileInfos);
-
-        dispatch(updateCommentDraft(rootId, null));
     };
 }
 

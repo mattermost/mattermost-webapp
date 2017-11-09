@@ -129,7 +129,7 @@ export default class CreateComment extends React.PureComponent {
 
     componentDidUpdate(prevProps) {
         if (prevProps.draft.uploadsInProgress.length < this.props.draft.uploadsInProgress.length) {
-            $('.post-right__scroll').scrollTop($('.post-right__scroll')[0].scrollHeight);
+            this.scrollToTop();
         }
 
         if (prevProps.rootId !== this.props.rootId) {
@@ -228,6 +228,13 @@ export default class CreateComment extends React.PureComponent {
         GlobalActions.emitLocalUserTypingEvent(this.props.channelId, this.props.rootId);
     }
 
+    scrollToTop = () => {
+        const $el = $('.post-right__scroll');
+        if ($el[0]) {
+            $el.parent().scrollTop($el[0].scrollHeight);
+        }
+    }
+
     handleChange = (e) => {
         const message = e.target.value;
 
@@ -235,7 +242,7 @@ export default class CreateComment extends React.PureComponent {
         const updatedDraft = {...draft, message};
         this.props.onUpdateCommentDraft(updatedDraft);
 
-        $('.post-right__scroll').parent().scrollTop($('.post-right__scroll')[0].scrollHeight);
+        this.scrollToTop();
     }
 
     handleKeyDown = (e) => {
@@ -301,7 +308,7 @@ export default class CreateComment extends React.PureComponent {
         }
     }
 
-    handleUploadError = (err, clientId) => {
+    handleUploadError = (err, clientId = -1) => {
         if (clientId !== -1) {
             const {draft} = this.props;
             const uploadsInProgress = [...draft.uploadsInProgress];
@@ -332,7 +339,10 @@ export default class CreateComment extends React.PureComponent {
 
             if (index !== -1) {
                 uploadsInProgress.splice(index, 1);
-                this.refs.fileUpload.getWrappedInstance().cancelUpload(id);
+
+                if (this.refs.fileUpload) {
+                    this.refs.fileUpload.getWrappedInstance().cancelUpload(id);
+                }
             }
         } else {
             fileInfos.splice(index, 1);
