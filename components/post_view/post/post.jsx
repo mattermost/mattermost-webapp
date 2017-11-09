@@ -106,8 +106,12 @@ export default class Post extends React.PureComponent {
     }
 
     handleCommentClick = (e) => {
-        const post = this.props.post || {};
         e.preventDefault();
+
+        const post = this.props.post;
+        if (!post) {
+            return;
+        }
 
         AppDispatcher.handleServerAction({
             type: ActionTypes.RECEIVED_POST_SELECTED,
@@ -201,7 +205,7 @@ export default class Post extends React.PureComponent {
         const mattermostLogo = Constants.MATTERMOST_ICON_SVG;
 
         const isSystemMessage = PostUtils.isSystemMessage(post);
-        const fromWebhook = post.props && post.props.from_webhook === 'true';
+        const fromWebhook = post && post.props && post.props.from_webhook === 'true';
 
         let status = this.props.status;
         if (fromWebhook) {
