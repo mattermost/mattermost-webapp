@@ -19,3 +19,13 @@ exports[`components/GetPublicLinkModal should match snapshot when link is not em
   title="Copy Public Link"
 />
 `;
+
+exports[`components/GetPublicLinkModal should match snapshot when link is undefined 1`] = `
+<GetLinkModal
+  helpText="The link below allows anyone to see this file without being registered on this server."
+  link=""
+  onHide={[Function]}
+  show={false}
+  title="Copy Public Link"
+/>
+`;

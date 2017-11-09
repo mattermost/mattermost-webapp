@@ -19,6 +19,16 @@ describe('components/GetPublicLinkModal', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot when link is undefined', () => {
+        const wrapper = shallow(
+            <GetPublicLinkModal
+                actions={{getFilePublicLink: jest.fn()}}
+            />
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot when link is not empty', () => {
         const wrapper = shallow(
             <GetPublicLinkModal

@@ -28,6 +28,10 @@ export default class GetPublicLinkModal extends React.PureComponent {
         }).isRequired
     }
 
+    static defaultProps = {
+        link: ''
+    }
+
     constructor(props) {
         super(props);
         this.state = {
