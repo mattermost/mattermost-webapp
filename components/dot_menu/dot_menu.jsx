@@ -38,6 +38,11 @@ export default class DotMenu extends Component {
             unflagPost: PropTypes.func.isRequired,
 
             /*
+             * Function to set the edting post
+             */
+            setEditingPost: PropTypes.func.isRequired,
+
+            /*
              * Function to pin the post
              */
             pinPost: PropTypes.func.isRequired,
@@ -191,6 +196,9 @@ export default class DotMenu extends Component {
                     post={this.props.post}
                     type={type}
                     commentCount={type === 'Post' ? this.props.commentCount : 0}
+                    actions={{
+                        setEditingPost: this.props.actions.setEditingPost
+                    }}
                 />
             );
         }
