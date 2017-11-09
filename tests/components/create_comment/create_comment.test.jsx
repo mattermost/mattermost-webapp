@@ -57,7 +57,7 @@ describe('components/CreateComment', () => {
                     uploadsInProgress: [],
                     fileInfos: []
                 }}
-                enableAddButton={false}
+                enableAddButton={true}
                 ctrlSend={true}
                 latestPostId={latestPostId}
                 getSidebarBody={jest.fn()}
@@ -82,8 +82,8 @@ describe('components/CreateComment', () => {
                     uploadsInProgress: [{}],
                     fileInfos: [{}, {}, {}]
                 }}
-                enableAddButton={false}
-                ctrlSend={true}
+                enableAddButton={true}
+                ctrlSend={false}
                 latestPostId={latestPostId}
                 getSidebarBody={jest.fn()}
                 onUpdateCommentDraft={jest.fn()}
@@ -95,5 +95,426 @@ describe('components/CreateComment', () => {
             />
         );
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should correctly change state when toggleEmojiPicker is called', () => {
+        const wrapper = shallow(
+            <CreateComment
+                channelId={channelId}
+                rootId={rootId}
+                draft={{
+                    message: 'Test message',
+                    uploadsInProgress: [{}],
+                    fileInfos: [{}, {}, {}]
+                }}
+                enableAddButton={true}
+                ctrlSend={false}
+                latestPostId={latestPostId}
+                getSidebarBody={jest.fn()}
+                onUpdateCommentDraft={jest.fn()}
+                onSubmit={jest.fn()}
+                onResetHistoryIndex={jest.fn()}
+                onMoveHistoryIndexBack={jest.fn()}
+                onMoveHistoryIndexForward={jest.fn()}
+                onEditLatestPost={jest.fn()}
+            />
+        );
+
+        wrapper.instance().toggleEmojiPicker();
+
+        expect(wrapper.state().showEmojiPicker).toBe(true);
+
+        wrapper.instance().toggleEmojiPicker();
+
+        expect(wrapper.state().showEmojiPicker).toBe(false);
+    });
+
+    test('should correctly change state when hideEmojiPicker is called', () => {
+        const wrapper = shallow(
+            <CreateComment
+                channelId={channelId}
+                rootId={rootId}
+                draft={{
+                    message: 'Test message',
+                    uploadsInProgress: [{}],
+                    fileInfos: [{}, {}, {}]
+                }}
+                enableAddButton={true}
+                ctrlSend={false}
+                latestPostId={latestPostId}
+                getSidebarBody={jest.fn()}
+                onUpdateCommentDraft={jest.fn()}
+                onSubmit={jest.fn()}
+                onResetHistoryIndex={jest.fn()}
+                onMoveHistoryIndexBack={jest.fn()}
+                onMoveHistoryIndexForward={jest.fn()}
+                onEditLatestPost={jest.fn()}
+            />
+        );
+
+        wrapper.instance().hideEmojiPicker();
+
+        expect(wrapper.state().showEmojiPicker).toBe(false);
+    });
+
+    test('should correctly update draft when handleEmojiClick is called', () => {
+        const onUpdateCommentDraft = jest.fn();
+
+        const wrapper = shallow(
+            <CreateComment
+                channelId={channelId}
+                rootId={rootId}
+                draft={{
+                    message: '',
+                    uploadsInProgress: [],
+                    fileInfos: []
+                }}
+                enableAddButton={false}
+                ctrlSend={false}
+                latestPostId={latestPostId}
+                getSidebarBody={jest.fn()}
+                onUpdateCommentDraft={onUpdateCommentDraft}
+                onSubmit={jest.fn()}
+                onResetHistoryIndex={jest.fn()}
+                onMoveHistoryIndexBack={jest.fn()}
+                onMoveHistoryIndexForward={jest.fn()}
+                onEditLatestPost={jest.fn()}
+            />
+        );
+
+        wrapper.instance().handleEmojiClick({name: 'smile'});
+
+        expect(onUpdateCommentDraft).toHaveBeenCalled();
+
+        // Empty message case
+        expect(onUpdateCommentDraft.mock.calls[0][0]).toEqual(
+            expect.objectContaining({message: ':smile: '})
+        );
+
+        wrapper.setProps({draft: {message: 'test', uploadsInProgress: [], fileInfos: []}});
+
+        wrapper.instance().handleEmojiClick({name: 'smile'});
+
+        // Message with no space at the end
+        expect(onUpdateCommentDraft.mock.calls[1][0]).toEqual(
+            expect.objectContaining({message: 'test :smile: '})
+        );
+
+        wrapper.setProps({draft: {message: 'test ', uploadsInProgress: [], fileInfos: []}});
+
+        wrapper.instance().handleEmojiClick({name: 'smile'});
+
+        // Message with space at the end
+        expect(onUpdateCommentDraft.mock.calls[2][0]).toEqual(
+            expect.objectContaining({message: 'test :smile: '})
+        );
+
+        expect(wrapper.state().showEmojiPicker).toBe(false);
+    });
+
+    test('handlePostError should update state with the correct error', () => {
+        const wrapper = shallow(
+            <CreateComment
+                channelId={channelId}
+                rootId={rootId}
+                draft={{
+                    message: 'Test message',
+                    uploadsInProgress: [{}],
+                    fileInfos: [{}, {}, {}]
+                }}
+                enableAddButton={true}
+                ctrlSend={false}
+                latestPostId={latestPostId}
+                getSidebarBody={jest.fn()}
+                onUpdateCommentDraft={jest.fn()}
+                onSubmit={jest.fn()}
+                onResetHistoryIndex={jest.fn()}
+                onMoveHistoryIndexBack={jest.fn()}
+                onMoveHistoryIndexForward={jest.fn()}
+                onEditLatestPost={jest.fn()}
+            />
+        );
+
+        wrapper.instance().handlePostError('test error 1');
+
+        expect(wrapper.state().postError).toBe('test error 1');
+
+        wrapper.instance().handlePostError('test error 2');
+
+        expect(wrapper.state().postError).toBe('test error 2');
+    });
+
+    test('handleUploadError should update state with the correct error', () => {
+        const onUpdateCommentDraft = jest.fn();
+
+        const wrapper = shallow(
+            <CreateComment
+                channelId={channelId}
+                rootId={rootId}
+                draft={{
+                    message: 'Test message',
+                    uploadsInProgress: [1, 2, 3],
+                    fileInfos: [{}, {}, {}]
+                }}
+                enableAddButton={true}
+                ctrlSend={false}
+                latestPostId={latestPostId}
+                getSidebarBody={jest.fn()}
+                onUpdateCommentDraft={onUpdateCommentDraft}
+                onSubmit={jest.fn()}
+                onResetHistoryIndex={jest.fn()}
+                onMoveHistoryIndexBack={jest.fn()}
+                onMoveHistoryIndexForward={jest.fn()}
+                onEditLatestPost={jest.fn()}
+            />
+        );
+
+        const testError1 = 'test error 1';
+
+        wrapper.instance().handleUploadError(testError1, 1);
+
+        expect(onUpdateCommentDraft).toHaveBeenCalled();
+
+        expect(onUpdateCommentDraft.mock.calls[0][0]).toEqual(
+            expect.objectContaining({uploadsInProgress: [2, 3]})
+        );
+
+        expect(wrapper.state().serverError).toBe(testError1);
+
+        // clientId = -1
+        const testError2 = 'test error 2';
+
+        wrapper.instance().handleUploadError(testError2, -1);
+
+        // should not call onUpdateCommentDraft
+        expect(onUpdateCommentDraft.mock.calls.length).toBe(1);
+
+        expect(wrapper.state().serverError).toBe(testError2);
+    });
+
+    test('getFileCount should return the correct count', () => {
+        const wrapper = shallow(
+            <CreateComment
+                channelId={channelId}
+                rootId={rootId}
+                draft={{
+                    message: 'Test message',
+                    uploadsInProgress: [{}],
+                    fileInfos: [{}, {}, {}]
+                }}
+                enableAddButton={true}
+                ctrlSend={false}
+                latestPostId={latestPostId}
+                getSidebarBody={jest.fn()}
+                onUpdateCommentDraft={jest.fn()}
+                onSubmit={jest.fn()}
+                onResetHistoryIndex={jest.fn()}
+                onMoveHistoryIndexBack={jest.fn()}
+                onMoveHistoryIndexForward={jest.fn()}
+                onEditLatestPost={jest.fn()}
+            />
+        );
+
+        expect(wrapper.instance().getFileCount()).toBe(4);
+
+        wrapper.setProps({draft: {message: 'test', uploadsInProgress: [], fileInfos: []}});
+
+        expect(wrapper.instance().getFileCount()).toBe(0);
+    });
+
+    test('should correctly change state when showPostDeletedModal is called', () => {
+        const wrapper = shallow(
+            <CreateComment
+                channelId={channelId}
+                rootId={rootId}
+                draft={{
+                    message: 'Test message',
+                    uploadsInProgress: [{}],
+                    fileInfos: [{}, {}, {}]
+                }}
+                enableAddButton={true}
+                ctrlSend={false}
+                latestPostId={latestPostId}
+                getSidebarBody={jest.fn()}
+                onUpdateCommentDraft={jest.fn()}
+                onSubmit={jest.fn()}
+                onResetHistoryIndex={jest.fn()}
+                onMoveHistoryIndexBack={jest.fn()}
+                onMoveHistoryIndexForward={jest.fn()}
+                onEditLatestPost={jest.fn()}
+            />
+        );
+
+        wrapper.instance().showPostDeletedModal();
+
+        expect(wrapper.state().showPostDeletedModal).toBe(true);
+    });
+
+    test('should correctly change state when hidePostDeletedModal is called', () => {
+        const wrapper = shallow(
+            <CreateComment
+                channelId={channelId}
+                rootId={rootId}
+                draft={{
+                    message: 'Test message',
+                    uploadsInProgress: [{}],
+                    fileInfos: [{}, {}, {}]
+                }}
+                enableAddButton={true}
+                ctrlSend={false}
+                latestPostId={latestPostId}
+                getSidebarBody={jest.fn()}
+                onUpdateCommentDraft={jest.fn()}
+                onSubmit={jest.fn()}
+                onResetHistoryIndex={jest.fn()}
+                onMoveHistoryIndexBack={jest.fn()}
+                onMoveHistoryIndexForward={jest.fn()}
+                onEditLatestPost={jest.fn()}
+            />
+        );
+
+        wrapper.instance().hidePostDeletedModal();
+
+        expect(wrapper.state().showPostDeletedModal).toBe(false);
+    });
+
+    test('handleUploadStart should update comment draft correctly', () => {
+        const onUpdateCommentDraft = jest.fn();
+
+        const wrapper = shallow(
+            <CreateComment
+                channelId={channelId}
+                rootId={rootId}
+                draft={{
+                    message: 'Test message',
+                    uploadsInProgress: [1, 2, 3],
+                    fileInfos: [{}, {}, {}]
+                }}
+                enableAddButton={true}
+                ctrlSend={false}
+                latestPostId={latestPostId}
+                getSidebarBody={jest.fn()}
+                onUpdateCommentDraft={onUpdateCommentDraft}
+                onSubmit={jest.fn()}
+                onResetHistoryIndex={jest.fn()}
+                onMoveHistoryIndexBack={jest.fn()}
+                onMoveHistoryIndexForward={jest.fn()}
+                onEditLatestPost={jest.fn()}
+            />
+        );
+
+        const focusTextbox = jest.fn();
+
+        wrapper.instance().focusTextbox = focusTextbox;
+
+        wrapper.instance().handleUploadStart([4, 5]);
+
+        expect(onUpdateCommentDraft).toHaveBeenCalled();
+
+        expect(onUpdateCommentDraft.mock.calls[0][0]).toEqual(
+            expect.objectContaining({uploadsInProgress: [1, 2, 3, 4, 5]})
+        );
+
+        expect(focusTextbox).toHaveBeenCalled();
+    });
+
+    test('handleFileUploadComplete should update comment draft correctly', () => {
+        const onUpdateCommentDraft = jest.fn();
+
+        const wrapper = shallow(
+            <CreateComment
+                channelId={channelId}
+                rootId={rootId}
+                draft={{
+                    message: 'Test message',
+                    uploadsInProgress: [1, 2, 3],
+                    fileInfos: [{test: 1}, {test: 2}]
+                }}
+                enableAddButton={true}
+                ctrlSend={false}
+                latestPostId={latestPostId}
+                getSidebarBody={jest.fn()}
+                onUpdateCommentDraft={onUpdateCommentDraft}
+                onSubmit={jest.fn()}
+                onResetHistoryIndex={jest.fn()}
+                onMoveHistoryIndexBack={jest.fn()}
+                onMoveHistoryIndexForward={jest.fn()}
+                onEditLatestPost={jest.fn()}
+            />
+        );
+
+        wrapper.instance().handleFileUploadComplete([{test: 3}], [3]);
+
+        expect(onUpdateCommentDraft).toHaveBeenCalled();
+
+        expect(onUpdateCommentDraft.mock.calls[0][0]).toEqual(
+            expect.objectContaining({uploadsInProgress: [1, 2], fileInfos: [{test: 1}, {test: 2}, {test: 3}]})
+        );
+    });
+
+    test('calls showPostDeletedModal when createPostErrorId === api.post.create_post.root_id.app_error', () => {
+        const wrapper = shallow(
+            <CreateComment
+                channelId={channelId}
+                rootId={rootId}
+                draft={{
+                    message: 'Test message',
+                    uploadsInProgress: [1, 2, 3],
+                    fileInfos: [{test: 1}, {test: 2}]
+                }}
+                enableAddButton={true}
+                ctrlSend={false}
+                latestPostId={latestPostId}
+                getSidebarBody={jest.fn()}
+                onUpdateCommentDraft={jest.fn()}
+                onSubmit={jest.fn()}
+                onResetHistoryIndex={jest.fn()}
+                onMoveHistoryIndexBack={jest.fn()}
+                onMoveHistoryIndexForward={jest.fn()}
+                onEditLatestPost={jest.fn()}
+                createPostErrorId={null}
+            />
+        );
+
+        const showPostDeletedModal = jest.fn();
+
+        wrapper.instance().showPostDeletedModal = showPostDeletedModal;
+
+        wrapper.setProps({createPostErrorId: 'api.post.create_post.root_id.app_error'});
+
+        expect(showPostDeletedModal).toHaveBeenCalled();
+    });
+
+    test('calls focusTextbox when rootId changes', () => {
+        const wrapper = shallow(
+            <CreateComment
+                channelId={channelId}
+                rootId={rootId}
+                draft={{
+                    message: 'Test message',
+                    uploadsInProgress: [1, 2, 3],
+                    fileInfos: [{test: 1}, {test: 2}]
+                }}
+                enableAddButton={true}
+                ctrlSend={false}
+                latestPostId={latestPostId}
+                getSidebarBody={jest.fn()}
+                onUpdateCommentDraft={jest.fn()}
+                onSubmit={jest.fn()}
+                onResetHistoryIndex={jest.fn()}
+                onMoveHistoryIndexBack={jest.fn()}
+                onMoveHistoryIndexForward={jest.fn()}
+                onEditLatestPost={jest.fn()}
+                createPostErrorId={null}
+            />
+        );
+
+        const focusTextbox = jest.fn();
+
+        wrapper.instance().focusTextbox = focusTextbox;
+
+        wrapper.setProps({rootId: 'testid123'});
+
+        expect(focusTextbox).toHaveBeenCalled();
     });
 });

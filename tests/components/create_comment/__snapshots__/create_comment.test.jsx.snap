@@ -79,7 +79,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
       className="post-create-footer"
     >
       <input
-        className="btn btn-primary comment-btn pull-right disabled"
+        className="btn btn-primary comment-btn pull-right"
         onClick={[Function]}
         type="button"
         value="Add Comment"
@@ -265,7 +265,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
       className="post-create-footer"
     >
       <input
-        className="btn btn-primary comment-btn pull-right disabled"
+        className="btn btn-primary comment-btn pull-right"
         onClick={[Function]}
         type="button"
         value="Add Comment"
