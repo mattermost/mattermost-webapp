@@ -106,12 +106,13 @@ export default class Post extends React.PureComponent {
     }
 
     handleCommentClick = (e) => {
+        const post = this.props.post || {};
         e.preventDefault();
 
         AppDispatcher.handleServerAction({
             type: ActionTypes.RECEIVED_POST_SELECTED,
-            postId: Utils.getRootId(this.props.post),
-            channelId: this.props.post.channel_id
+            postId: Utils.getRootId(post),
+            channelId: post.channel_id
         });
 
         AppDispatcher.handleServerAction({
@@ -196,7 +197,7 @@ export default class Post extends React.PureComponent {
     }
 
     render() {
-        const post = this.props.post;
+        const post = this.props.post || {};
         const mattermostLogo = Constants.MATTERMOST_ICON_SVG;
 
         const isSystemMessage = PostUtils.isSystemMessage(post);
@@ -267,7 +268,7 @@ export default class Post extends React.PureComponent {
             >
                 <div
                     id={'post_' + post.id}
-                    className={this.getClassName(this.props.post, isSystemMessage, fromWebhook)}
+                    className={this.getClassName(post, isSystemMessage, fromWebhook)}
                 >
                     <div className={'post__content ' + centerClass}>
                         {profilePicContainer}
