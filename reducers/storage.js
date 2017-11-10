@@ -52,6 +52,9 @@ export default function storage(state = {}, action) {
         }
         return nextState;
     }
+    case StorageTypes.STORAGE_REHYDRATE: {
+        return {...state, ...action.data};
+    }
     default:
         return state;
     }
