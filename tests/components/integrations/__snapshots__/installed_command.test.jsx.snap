@@ -69,8 +69,8 @@ exports[`components/integrations/InstalledCommand should call onDelete function 
   <div
     className="item-actions"
   >
-    <a
-      href="#"
+    <button
+      className="style--none color--link"
       onClick={[Function]}
     >
       <FormattedMessage
@@ -78,7 +78,7 @@ exports[`components/integrations/InstalledCommand should call onDelete function 
         id="installed_integrations.regenToken"
         values={Object {}}
       />
-    </a>
+    </button>
      - 
     <Link
       onlyActiveOnIndex={false}
@@ -229,8 +229,8 @@ exports[`components/integrations/InstalledCommand should call onRegenToken funct
     <div
       className="item-actions"
     >
-      <a
-        href="#"
+      <button
+        className="style--none color--link"
         onClick={[Function]}
       >
         <FormattedMessage
@@ -242,7 +242,7 @@ exports[`components/integrations/InstalledCommand should call onRegenToken funct
             Regenerate Token
           </span>
         </FormattedMessage>
-      </a>
+      </button>
        - 
       <Link
         onlyActiveOnIndex={false}
@@ -270,8 +270,8 @@ exports[`components/integrations/InstalledCommand should call onRegenToken funct
         onDelete={[Function]}
       >
         <span>
-          <a
-            href="#"
+          <button
+            className="color--link style--none"
             onClick={[Function]}
           >
             <FormattedMessage
@@ -283,7 +283,7 @@ exports[`components/integrations/InstalledCommand should call onRegenToken funct
                 Delete
               </span>
             </FormattedMessage>
-          </a>
+          </button>
           <ConfirmModal
             confirmButtonClass="btn btn-primary"
             confirmButtonText={
@@ -307,6 +307,7 @@ exports[`components/integrations/InstalledCommand should call onRegenToken funct
                 />
               </div>
             }
+            modalClass=""
             onCancel={[Function]}
             onConfirm={[Function]}
             onKeyDown={[Function]}
@@ -324,7 +325,7 @@ exports[`components/integrations/InstalledCommand should call onRegenToken funct
               autoFocus={true}
               backdrop={true}
               bsClass="modal"
-              className="modal-confirm"
+              className="modal-confirm "
               dialogComponentClass={[Function]}
               enforceFocus={true}
               keyboard={true}

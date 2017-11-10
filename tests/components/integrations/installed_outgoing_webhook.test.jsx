@@ -226,7 +226,7 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
                 }}
             />
         );
-        wrapper.find('.item-actions a').first().simulate('click', {preventDefault() {
+        wrapper.find('.item-actions button').first().simulate('click', {preventDefault() {
             return jest.fn();
         }});
         expect(mockFunc).toHaveBeenCalledTimes(1);
