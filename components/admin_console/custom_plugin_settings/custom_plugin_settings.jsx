@@ -40,15 +40,15 @@ export default class CustomPluginSettings extends AdminSettings {
     getConfigFromState(config) {
         const plugin = this.props.plugin;
 
-        if (plugin) {
+        if (plugin && plugin.settings_schema) {
             if (!config.PluginSettings.Plugins[plugin.id]) {
                 config.PluginSettings.Plugins[plugin.id] = {};
             }
 
             const configSettings = config.PluginSettings.Plugins[plugin.id];
 
-            const schema = plugin.settings_schema;
-            Object.keys(schema.settings).forEach((id) => {
+            const settings = plugin.settings_schema.settings || [];
+            Object.keys(settings).forEach((id) => {
                 const lowerId = id.toLowerCase();
                 configSettings[lowerId] = this.state[lowerId];
             });
@@ -60,13 +60,13 @@ export default class CustomPluginSettings extends AdminSettings {
     getStateFromConfig(config, plugin = this.props.plugin) {
         const state = {};
 
-        if (plugin) {
+        if (plugin && plugin.settings_schema) {
             const configSettings = config.PluginSettings.Plugins[plugin.id] || {};
 
-            const schema = plugin.settings_schema;
-            Object.keys(schema.settings).forEach((id) => {
+            const settings = plugin.settings_schema.settings || [];
+            Object.keys(settings).forEach((id) => {
                 const lowerId = id.toLowerCase();
-                state[lowerId] = configSettings[lowerId] == null ? schema.settings[id].default : configSettings[lowerId];
+                state[lowerId] = configSettings[lowerId] == null ? settings[id].default : configSettings[lowerId];
             });
         }
 
@@ -193,7 +193,7 @@ export default class CustomPluginSettings extends AdminSettings {
             return <LoadingScreen/>;
         }
 
-        const schema = plugin.settings_schema;
+        const schema = plugin.settings_schema || {};
         const settingsList = [];
         if (schema.settings) {
             const keys = Object.keys(schema.settings);
