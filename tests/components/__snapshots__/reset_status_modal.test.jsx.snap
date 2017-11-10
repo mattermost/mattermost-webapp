@@ -5,7 +5,7 @@ exports[`components/ResetStatusModal should match snapshot 1`] = `
   cancelButtonText={
     <FormattedMessage
       defaultMessage="No, keep it as \\"{status}\\""
-      id="modal.manaul_status.cancel"
+      id="modal.manual_status.cancel_"
       values={
         Object {
           "status": "",
@@ -35,6 +35,7 @@ exports[`components/ResetStatusModal should match snapshot 1`] = `
       values={Object {}}
     />
   }
+  modalClass=""
   onCancel={[Function]}
   onConfirm={[Function]}
   show={false}
@@ -42,7 +43,7 @@ exports[`components/ResetStatusModal should match snapshot 1`] = `
   title={
     <FormattedMessage
       defaultMessage="Your status is set to \\"{status}\\""
-      id="modal.manaul_status.title"
+      id="modal.manaul_status.title_"
       values={
         Object {
           "status": "",
