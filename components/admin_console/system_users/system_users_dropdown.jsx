@@ -94,7 +94,6 @@ export default class SystemUsersDropdown extends React.Component {
 
     handleResetMfa = (e) => {
         e.preventDefault();
-
         adminResetMfa(this.props.user.id,
             null,
             (err) => {
