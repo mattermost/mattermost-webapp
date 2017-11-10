@@ -11,6 +11,8 @@ import {General, RequestStatus} from 'mattermost-redux/constants';
 import configureServiceStore from 'mattermost-redux/store';
 import reduxInitialState from 'mattermost-redux/store/initial_state';
 
+import {storageRehydrate} from 'actions/storage';
+
 import appReducer from 'reducers';
 
 import {transformSet} from './utils';
@@ -91,11 +93,11 @@ export default function configureStore(initialState, persistorStorage = null) {
                     observable.subscribe({
                         next: (args) => {
                             if(args.key && args.key.indexOf(KEY_PREFIX) === 0){
-                              var keyspace = args.key.substr(KEY_PREFIX.length)
+                                const keyspace = args.key.substr(KEY_PREFIX.length);
 
-                              var statePartial = {}
-                              statePartial[keyspace] = args.newValue
-                              persistor.rehydrate(statePartial, {serial: true})
+                                var statePartial = {};
+                                statePartial[keyspace] = args.newValue;
+                                storageRehydrate(statePartial)(store.dispatch, store.getState());
                             }
                         }
                     })
