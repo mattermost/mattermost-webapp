@@ -10,10 +10,10 @@ import FileInfoPreview from 'components/file_info_preview.jsx';
 describe('component/AudioVideoPreview', () => {
     const requiredProps = {
         fileInfo: {
-              extension: "mov",
-              id: "file_id",
-            },
-        fileUrl: "/api/v4/files/file_id"
+            extension: 'mov',
+            id: 'file_id'
+        },
+        fileUrl: '/api/v4/files/file_id'
     };
 
     afterAll(() => {
