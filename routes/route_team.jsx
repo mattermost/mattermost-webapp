@@ -3,7 +3,7 @@
 
 import $ from 'jquery';
 
-import {browserHistory} from 'react-router/es6';
+import {browserHistory} from 'react-router';
 
 import {fetchMyChannelsAndMembers, joinChannel} from 'mattermost-redux/actions/channels';
 import {getMyTeamUnreads} from 'mattermost-redux/actions/teams';

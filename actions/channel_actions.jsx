@@ -1,7 +1,7 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {browserHistory} from 'react-router/es6';
+import {browserHistory} from 'react-router';
 
 import * as ChannelActions from 'mattermost-redux/actions/channels';
 import {deletePreferences, savePreferences} from 'mattermost-redux/actions/preferences';

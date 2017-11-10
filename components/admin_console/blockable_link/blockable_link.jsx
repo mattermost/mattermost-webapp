@@ -5,7 +5,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
-import {Link, browserHistory} from 'react-router/es6';
+import {Link, browserHistory} from 'react-router';
 
 export default class BlockableLink extends React.PureComponent {
     static propTypes = {
