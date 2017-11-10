@@ -47,7 +47,7 @@ export default {
         [
             {
                 getComponents: (location, callback) => {
-                    System.import('components/header_footer_template.jsx').then(RouteUtils.importComponentSuccess(callback));
+                    System.import('components/header_footer_template').then(RouteUtils.importComponentSuccess(callback));
                 },
                 getChildRoutes: RouteUtils.createGetChildComponentsFunction(
                     [
@@ -142,7 +142,7 @@ export default {
                         },
                         {
                             getComponents: (location, callback) => {
-                                System.import('components/header_footer_template.jsx').then(RouteUtils.importComponentSuccess(callback));
+                                System.import('components/header_footer_template').then(RouteUtils.importComponentSuccess(callback));
                             },
                             getChildRoutes: RouteUtils.createGetChildComponentsFunction(
                                 [
