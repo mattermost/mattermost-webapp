@@ -22,12 +22,12 @@ import {
     makeOnSubmit,
     makeOnEditLatestPost
 } from 'actions/views/rhs';
+import {setGlobalItem} from 'actions/storage';
 
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import * as PostActions from 'actions/post_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as ChannelActions from 'actions/channel_actions.jsx';
-import PostStore from 'stores/post_store.jsx';
 
 import {ActionTypes} from 'utils/constants.jsx';
 
@@ -58,12 +58,9 @@ jest.mock('actions/post_actions.jsx', () => ({
     createPost: jest.fn()
 }));
 
-jest.mock('stores/post_store.jsx', () => {
-    return {
-        storeCommentDraft: jest.fn(),
-        getCommentDraft: jest.fn(() => ({message: '', fileInfos: [], uploadsInProgress: []}))
-    };
-});
+jest.mock('actions/storage', () => ({
+    setGlobalItem: (...args) => ({type: 'MOCK_SET_GLOBAL_ITEM', args})
+}));
 
 function lastCall(calls) {
     return calls[calls.length - 1];
@@ -106,6 +103,13 @@ describe('rhs view actions', () => {
             emojis: {
                 customEmoji: {}
             }
+        },
+        storage: {
+            [`comment_draft_${latestPostId}`]: {
+                message: '',
+                fileInfos: [],
+                uploadsInProgress: []
+            }
         }
     };
 
@@ -116,26 +120,16 @@ describe('rhs view actions', () => {
     });
 
     describe('updateCommentDraft', () => {
-        const draft = {};
+        const draft = {message: 'test msg', fileInfos: [{id: 1}], uploadsInProgress: [2, 3]};
 
-        test('it calls PostStore.storeCommentDraft', () => {
+        test('it calls setGlobalItem action correctly', () => {
             store.dispatch(updateCommentDraft(rootId, draft));
 
-            expect(PostStore.storeCommentDraft).toHaveBeenCalled();
+            const testStore = mockStore(initialState);
 
-            // First argument
-            expect(lastCall(PostStore.storeCommentDraft.mock.calls)[0]).toBe(rootId);
+            testStore.dispatch(setGlobalItem(`comment_draft_${rootId}`, draft));
 
-            // Second argument
-            expect(lastCall(PostStore.storeCommentDraft.mock.calls)[1]).toBe(draft);
-        });
-
-        test('it dispatches POST_DRAFT_UPDATED', () => {
-            store.dispatch(updateCommentDraft(rootId, draft));
-
-            const actions = store.getActions();
-            const expectedPayload = expect.objectContaining({type: ActionTypes.POST_DRAFT_UPDATED});
-            expect(actions).toEqual([expectedPayload]);
+            expect(store.getActions()).toEqual(testStore.getActions());
         });
     });
 
@@ -253,9 +247,9 @@ describe('rhs view actions', () => {
 
             jest.resetModules();
 
-            const {submitCommand: _submitCommand} = require('actions/views/rhs');
+            const {submitCommand: remockedSubmitCommand} = require('actions/views/rhs');
 
-            store.dispatch(_submitCommand(channelId, rootId, draft));
+            store.dispatch(remockedSubmitCommand(channelId, rootId, draft));
 
             const testStore = mockStore(initialState);
             testStore.dispatch(submitPost(channelId, rootId, draft));
@@ -265,7 +259,7 @@ describe('rhs view actions', () => {
     });
 
     describe('makeOnSubmit', () => {
-        let onSubmit = makeOnSubmit(channelId, rootId, latestPostId);
+        const onSubmit = makeOnSubmit(channelId, rootId, latestPostId);
 
         test('it adds message into history', () => {
             store.dispatch(onSubmit());
@@ -290,18 +284,16 @@ describe('rhs view actions', () => {
         });
 
         test('it submits a reaction when message is +:smile:', () => {
-            jest.mock('stores/post_store.jsx', () => {
-                return {
-                    storeCommentDraft: jest.fn(),
-                    getCommentDraft: jest.fn(() => ({message: '+:smile:', fileInfos: [], uploadsInProgress: []}))
-                };
+            store = mockStore({
+                ...initialState,
+                storage: {
+                    [`comment_draft_${latestPostId}`]: {
+                        message: '+:smile:',
+                        fileInfos: [],
+                        uploadsInProgress: []
+                    }
+                }
             });
-
-            jest.resetModules();
-
-            const {makeOnSubmit: _makeOnSubmit} = require('actions/views/rhs');
-
-            onSubmit = _makeOnSubmit(channelId, rootId, latestPostId);
 
             store.dispatch(onSubmit());
 
@@ -314,18 +306,16 @@ describe('rhs view actions', () => {
         });
 
         test('it submits a command when message is /away', () => {
-            jest.mock('stores/post_store.jsx', () => {
-                return {
-                    storeCommentDraft: jest.fn(),
-                    getCommentDraft: jest.fn(() => ({message: '/away', fileInfos: [], uploadsInProgress: []}))
-                };
+            store = mockStore({
+                ...initialState,
+                storage: {
+                    [`comment_draft_${latestPostId}`]: {
+                        message: '/away',
+                        fileInfos: [],
+                        uploadsInProgress: []
+                    }
+                }
             });
-
-            jest.resetModules();
-
-            const {makeOnSubmit: _makeOnSubmit} = require('actions/views/rhs');
-
-            onSubmit = _makeOnSubmit(channelId, rootId, latestPostId);
 
             store.dispatch(onSubmit());
 
@@ -338,18 +328,16 @@ describe('rhs view actions', () => {
         });
 
         test('it submits a regular post when message is something else', () => {
-            jest.mock('stores/post_store.jsx', () => {
-                return {
-                    storeCommentDraft: jest.fn(),
-                    getCommentDraft: jest.fn(() => ({message: 'test msg', fileInfos: [], uploadsInProgress: []}))
-                };
+            store = mockStore({
+                ...initialState,
+                storage: {
+                    [`comment_draft_${latestPostId}`]: {
+                        message: 'test msg',
+                        fileInfos: [],
+                        uploadsInProgress: []
+                    }
+                }
             });
-
-            jest.resetModules();
-
-            const {makeOnSubmit: _makeOnSubmit} = require('actions/views/rhs');
-
-            onSubmit = _makeOnSubmit(channelId, rootId, latestPostId);
 
             store.dispatch(onSubmit());
 

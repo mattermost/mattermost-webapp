@@ -19,11 +19,11 @@ import {Posts} from 'mattermost-redux/constants';
 import * as PostActions from 'actions/post_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as ChannelActions from 'actions/channel_actions.jsx';
+import {setGlobalItem} from 'actions/storage';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import PostStore from 'stores/post_store.jsx';
 import {EmojiMap} from 'stores/emoji_store.jsx';
 
-import {makeGetCurrentUsersLatestPost} from 'selectors/rhs';
+import {makeGetCurrentUsersLatestPost, makeGetCommentDraft} from 'selectors/rhs';
 
 import * as Utils from 'utils/utils.jsx';
 import {ActionTypes} from 'utils/constants.jsx';
@@ -31,21 +31,15 @@ import {ActionTypes} from 'utils/constants.jsx';
 import {REACTION_PATTERN} from 'components/create_post.jsx';
 
 export function updateCommentDraft(rootId, draft) {
-    return (dispatch) => {
-        PostStore.storeCommentDraft(rootId, draft);
-
-        dispatch({
-            type: ActionTypes.POST_DRAFT_UPDATED,
-            data: {rootId, draft}
-        });
-    };
+    return setGlobalItem(`comment_draft_${rootId}`, draft);
 }
 
 export function makeOnMoveHistoryIndex(rootId, direction) {
     const getMessageInHistory = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.COMMENT);
+    const getCommentDraft = makeGetCommentDraft(rootId);
 
     return () => (dispatch, getState) => {
-        const draft = PostStore.getCommentDraft(rootId);
+        const draft = getCommentDraft(getState());
 
         if (draft.message !== '' && draft.message !== getMessageInHistory(getState())) {
             return;
@@ -126,8 +120,10 @@ export function submitCommand(channelId, rootId, draft) {
 }
 
 export function makeOnSubmit(channelId, rootId, latestPostId) {
+    const getCommentDraft = makeGetCommentDraft(rootId);
+
     return () => async (dispatch, getState) => {
-        const draft = PostStore.getCommentDraft(rootId);
+        const draft = getCommentDraft(getState());
         const {message} = draft;
 
         dispatch(addMessageIntoHistory(message));
@@ -136,8 +132,7 @@ export function makeOnSubmit(channelId, rootId, latestPostId) {
 
         const isReaction = REACTION_PATTERN.exec(message);
 
-        const state = getState();
-        const emojis = getCustomEmojisByName(state);
+        const emojis = getCustomEmojisByName(getState());
         const emojiMap = new EmojiMap(emojis);
 
         if (isReaction && emojiMap.has(isReaction[2])) {

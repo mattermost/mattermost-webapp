@@ -73,8 +73,6 @@ export const ActionTypes = keyMirror({
     POST_UPDATED: null,
     REMOVE_POST: null,
 
-    POST_DRAFT_UPDATED: null,
-
     RECEIVED_CHANNELS: null,
     RECEIVED_CHANNEL: null,
     RECEIVED_CHANNEL_MEMBER: null,

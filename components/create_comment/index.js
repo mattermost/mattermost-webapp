@@ -14,14 +14,16 @@ import {
     makeOnEditLatestPost
 } from 'actions/views/rhs';
 
-import PostStore from 'stores/post_store.jsx';
+import {makeGetCommentDraft} from 'selectors/rhs';
 
 import CreateComment from './create_comment.jsx';
 
 function mapStateToProps(state, ownProps) {
     const err = state.requests.posts.createPost.error || {};
 
-    const draft = PostStore.getCommentDraft(ownProps.rootId);
+    const getCommentDraft = makeGetCommentDraft(ownProps.rootId);
+
+    const draft = getCommentDraft(state);
 
     const enableAddButton = draft.message.trim().length !== 0 || draft.fileInfos.length !== 0;
 
@@ -33,7 +35,9 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-const makeOnUpdateCommentDraft = (rootId) => (draft) => updateCommentDraft(rootId, draft);
+function makeOnUpdateCommentDraft(rootId) {
+    return (draft) => updateCommentDraft(rootId, draft);
+}
 
 function mapDispatchToProps(dispatch, ownProps) {
     return bindActionCreators({

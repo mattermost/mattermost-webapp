@@ -5,6 +5,8 @@ import {createSelector} from 'reselect';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
+import {makeGetGlobalItem} from 'selectors/storage';
+
 import {PostTypes, Constants} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
@@ -75,4 +77,9 @@ export function makeGetCurrentUsersLatestPost(channelId, rootId) {
             return lastPost;
         }
     );
+}
+
+export function makeGetCommentDraft(rootId) {
+    const defaultValue = {message: '', fileInfos: [], uploadsInProgress: []};
+    return makeGetGlobalItem(`comment_draft_${rootId}`, defaultValue);
 }
