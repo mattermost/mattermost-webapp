@@ -7,7 +7,7 @@ import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-import {browserHistory, Link} from 'react-router/es6';
+import {browserHistory} from 'react-router/es6';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getChannelsByCategory} from 'mattermost-redux/selectors/entities/channels';
@@ -26,7 +26,6 @@ import UserStore from 'stores/user_store.jsx';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 import {ActionTypes, Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {isDesktopApp} from 'utils/user_agent.jsx';
 
 import favicon from 'images/favicon/favicon-16x16.png';
 import redFavicon from 'images/favicon/redfavicon-16x16.png';
@@ -632,7 +631,10 @@ export default class Sidebar extends React.Component {
                     overlay={removeTooltip}
                 >
                     <span
-                        onClick={(e) => handleClose(e, channel)}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleClose(e, channel);
+                        }}
                         className='btn-close'
                     >
                         {'×'}
@@ -673,35 +675,17 @@ export default class Sidebar extends React.Component {
     }
 
     createChannelButtonOrLink(link, rowClass, icon, displayName, badge, closeButton) {
-        let element;
-        if (isDesktopApp()) {
-            element = (
-                <button
-                    className={'btn btn-link ' + rowClass}
-                    onClick={() => this.handleClick(link)}
-                >
-                    {icon}
-                    <span className='sidebar-item__name'>{displayName}</span>
-                    {badge}
-                    {closeButton}
-                </button>
-            );
-        } else {
-            element = (
-                <Link
-                    to={link}
-                    className={rowClass}
-                    onClick={this.trackChannelSelectedEvent}
-                >
-                    {icon}
-                    <span className='sidebar-item__name'>{displayName}</span>
-                    {badge}
-                    {closeButton}
-                </Link>
-            );
-        }
-
-        return element;
+        return (
+            <button
+                className={'btn btn-link ' + rowClass}
+                onClick={() => this.handleClick(link)}
+            >
+                {icon}
+                <span className='sidebar-item__name'>{displayName}</span>
+                {badge}
+                {closeButton}
+            </button>
+        );
     }
 
     trackChannelSelectedEvent = () => {
