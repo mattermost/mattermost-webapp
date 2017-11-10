@@ -190,7 +190,7 @@ describe('TextFormatting.Hashtags', function() {
 
         assert.equal(
             TextFormatting.formatText('#test@example.com').trim(),
-            "<p><a class='mention-link' href='#' data-hashtag='#test'>#test</a>@example.com</p>"
+            "<p><a class='mention-link' href='#' data-hashtag='#test@example.com'>#test@example.com</a></p>"
         );
 
         done();
