@@ -131,6 +131,13 @@ describe('rhs view actions', () => {
 
             const callback = actions[0].args[1];
 
+            // make sure callback is a function which clears uploadsInProgress
+            expect(typeof callback).toBe('function');
+
+            const draft = {message: 'test msg', uploadsInProgress: [3, 4], fileInfos: [{id: 1}, {id: 2}]};
+
+            expect(callback(null, draft)).toEqual({...draft, uploadsInProgress: []});
+
             const testStore = mockStore(initialState);
 
             testStore.dispatch(actionOnGlobalItemsWithPrefix('comment_draft_', callback));
