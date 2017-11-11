@@ -19,7 +19,7 @@ import {Posts} from 'mattermost-redux/constants';
 import * as PostActions from 'actions/post_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as ChannelActions from 'actions/channel_actions.jsx';
-import {setGlobalItem} from 'actions/storage';
+import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import {EmojiMap} from 'stores/emoji_store.jsx';
 
@@ -29,6 +29,15 @@ import * as Utils from 'utils/utils.jsx';
 import {ActionTypes} from 'utils/constants.jsx';
 
 import {REACTION_PATTERN} from 'components/create_post.jsx';
+
+export function clearCommentDraftUploads() {
+    return actionOnGlobalItemsWithPrefix('comment_draft_', (key, value) => {
+        if (value) {
+            return {...value, uploadsInProgress: []};
+        }
+        return value;
+    });
+}
 
 export function updateCommentDraft(rootId, draft) {
     return setGlobalItem(`comment_draft_${rootId}`, draft);

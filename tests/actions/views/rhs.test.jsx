@@ -14,6 +14,7 @@ import {
 import {Posts} from 'mattermost-redux/constants';
 
 import {
+    clearCommentDraftUploads,
     updateCommentDraft,
     makeOnMoveHistoryIndex,
     submitPost,
@@ -22,7 +23,7 @@ import {
     makeOnSubmit,
     makeOnEditLatestPost
 } from 'actions/views/rhs';
-import {setGlobalItem} from 'actions/storage';
+import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import * as PostActions from 'actions/post_actions.jsx';
@@ -59,7 +60,8 @@ jest.mock('actions/post_actions.jsx', () => ({
 }));
 
 jest.mock('actions/storage', () => ({
-    setGlobalItem: (...args) => ({type: 'MOCK_SET_GLOBAL_ITEM', args})
+    setGlobalItem: (...args) => ({type: 'MOCK_SET_GLOBAL_ITEM', args}),
+    actionOnGlobalItemsWithPrefix: (...args) => ({type: 'MOCK_ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX', args})
 }));
 
 function lastCall(calls) {
@@ -117,6 +119,24 @@ describe('rhs view actions', () => {
 
     beforeEach(() => {
         store = mockStore(initialState);
+    });
+
+    describe('clearCommentDraftUploads', () => {
+        test('it calls actionOnGlobalItemsWithPrefix action correctly', () => {
+            store.dispatch(clearCommentDraftUploads());
+
+            const actions = store.getActions();
+
+            expect(actions.length).toBe(1);
+
+            const callback = actions[0].args[1];
+
+            const testStore = mockStore(initialState);
+
+            testStore.dispatch(actionOnGlobalItemsWithPrefix('comment_draft_', callback));
+
+            expect(store.getActions()).toEqual(testStore.getActions());
+        });
     });
 
     describe('updateCommentDraft', () => {

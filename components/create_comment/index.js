@@ -8,6 +8,7 @@ import {resetHistoryIndex} from 'mattermost-redux/actions/posts';
 import {Preferences, Posts} from 'mattermost-redux/constants';
 
 import {
+    clearCommentDraftUploads,
     updateCommentDraft,
     makeOnMoveHistoryIndex,
     makeOnSubmit,
@@ -41,6 +42,7 @@ function makeOnUpdateCommentDraft(rootId) {
 
 function mapDispatchToProps(dispatch, ownProps) {
     return bindActionCreators({
+        clearCommentDraftUploads,
         onUpdateCommentDraft: makeOnUpdateCommentDraft(ownProps.rootId),
         onSubmit: makeOnSubmit(ownProps.channelId, ownProps.rootId, ownProps.latestPostId),
         onResetHistoryIndex: () => resetHistoryIndex(Posts.MESSAGE_TYPES.COMMENT),

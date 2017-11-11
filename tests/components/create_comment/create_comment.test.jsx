@@ -35,6 +35,7 @@ describe('components/CreateComment', () => {
                 ctrlSend={true}
                 latestPostId={latestPostId}
                 getSidebarBody={jest.fn()}
+                clearCommentDraftUploads={jest.fn()}
                 onUpdateCommentDraft={jest.fn()}
                 onSubmit={jest.fn()}
                 onResetHistoryIndex={jest.fn()}
@@ -61,6 +62,7 @@ describe('components/CreateComment', () => {
                 ctrlSend={true}
                 latestPostId={latestPostId}
                 getSidebarBody={jest.fn()}
+                clearCommentDraftUploads={jest.fn()}
                 onUpdateCommentDraft={jest.fn()}
                 onSubmit={jest.fn()}
                 onResetHistoryIndex={jest.fn()}
@@ -86,6 +88,7 @@ describe('components/CreateComment', () => {
                 ctrlSend={false}
                 latestPostId={latestPostId}
                 getSidebarBody={jest.fn()}
+                clearCommentDraftUploads={jest.fn()}
                 onUpdateCommentDraft={jest.fn()}
                 onSubmit={jest.fn()}
                 onResetHistoryIndex={jest.fn()}
@@ -95,6 +98,64 @@ describe('components/CreateComment', () => {
             />
         );
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should clear draft uploads on mount', () => {
+        const clearCommentDraftUploads = jest.fn();
+
+        shallow(
+            <CreateComment
+                channelId={channelId}
+                rootId={rootId}
+                draft={{
+                    message: 'Test message',
+                    uploadsInProgress: [{}],
+                    fileInfos: [{}, {}, {}]
+                }}
+                enableAddButton={true}
+                ctrlSend={false}
+                latestPostId={latestPostId}
+                getSidebarBody={jest.fn()}
+                clearCommentDraftUploads={clearCommentDraftUploads}
+                onUpdateCommentDraft={jest.fn()}
+                onSubmit={jest.fn()}
+                onResetHistoryIndex={jest.fn()}
+                onMoveHistoryIndexBack={jest.fn()}
+                onMoveHistoryIndexForward={jest.fn()}
+                onEditLatestPost={jest.fn()}
+            />
+        );
+
+        expect(clearCommentDraftUploads).toHaveBeenCalled();
+    });
+
+    test('should reset message history index on mount', () => {
+        const onResetHistoryIndex = jest.fn();
+
+        shallow(
+            <CreateComment
+                channelId={channelId}
+                rootId={rootId}
+                draft={{
+                    message: 'Test message',
+                    uploadsInProgress: [{}],
+                    fileInfos: [{}, {}, {}]
+                }}
+                enableAddButton={true}
+                ctrlSend={false}
+                latestPostId={latestPostId}
+                getSidebarBody={jest.fn()}
+                clearCommentDraftUploads={jest.fn()}
+                onUpdateCommentDraft={jest.fn()}
+                onSubmit={jest.fn()}
+                onResetHistoryIndex={onResetHistoryIndex}
+                onMoveHistoryIndexBack={jest.fn()}
+                onMoveHistoryIndexForward={jest.fn()}
+                onEditLatestPost={jest.fn()}
+            />
+        );
+
+        expect(onResetHistoryIndex).toHaveBeenCalled();
     });
 
     test('should correctly change state when toggleEmojiPicker is called', () => {
@@ -111,6 +172,7 @@ describe('components/CreateComment', () => {
                 ctrlSend={false}
                 latestPostId={latestPostId}
                 getSidebarBody={jest.fn()}
+                clearCommentDraftUploads={jest.fn()}
                 onUpdateCommentDraft={jest.fn()}
                 onSubmit={jest.fn()}
                 onResetHistoryIndex={jest.fn()}
@@ -143,6 +205,7 @@ describe('components/CreateComment', () => {
                 ctrlSend={false}
                 latestPostId={latestPostId}
                 getSidebarBody={jest.fn()}
+                clearCommentDraftUploads={jest.fn()}
                 onUpdateCommentDraft={jest.fn()}
                 onSubmit={jest.fn()}
                 onResetHistoryIndex={jest.fn()}
@@ -173,6 +236,7 @@ describe('components/CreateComment', () => {
                 ctrlSend={false}
                 latestPostId={latestPostId}
                 getSidebarBody={jest.fn()}
+                clearCommentDraftUploads={jest.fn()}
                 onUpdateCommentDraft={onUpdateCommentDraft}
                 onSubmit={jest.fn()}
                 onResetHistoryIndex={jest.fn()}
@@ -226,6 +290,7 @@ describe('components/CreateComment', () => {
                 ctrlSend={false}
                 latestPostId={latestPostId}
                 getSidebarBody={jest.fn()}
+                clearCommentDraftUploads={jest.fn()}
                 onUpdateCommentDraft={jest.fn()}
                 onSubmit={jest.fn()}
                 onResetHistoryIndex={jest.fn()}
@@ -260,6 +325,7 @@ describe('components/CreateComment', () => {
                 ctrlSend={false}
                 latestPostId={latestPostId}
                 getSidebarBody={jest.fn()}
+                clearCommentDraftUploads={jest.fn()}
                 onUpdateCommentDraft={onUpdateCommentDraft}
                 onSubmit={jest.fn()}
                 onResetHistoryIndex={jest.fn()}
@@ -306,6 +372,7 @@ describe('components/CreateComment', () => {
                 ctrlSend={false}
                 latestPostId={latestPostId}
                 getSidebarBody={jest.fn()}
+                clearCommentDraftUploads={jest.fn()}
                 onUpdateCommentDraft={jest.fn()}
                 onSubmit={jest.fn()}
                 onResetHistoryIndex={jest.fn()}
@@ -336,6 +403,7 @@ describe('components/CreateComment', () => {
                 ctrlSend={false}
                 latestPostId={latestPostId}
                 getSidebarBody={jest.fn()}
+                clearCommentDraftUploads={jest.fn()}
                 onUpdateCommentDraft={jest.fn()}
                 onSubmit={jest.fn()}
                 onResetHistoryIndex={jest.fn()}
@@ -364,6 +432,7 @@ describe('components/CreateComment', () => {
                 ctrlSend={false}
                 latestPostId={latestPostId}
                 getSidebarBody={jest.fn()}
+                clearCommentDraftUploads={jest.fn()}
                 onUpdateCommentDraft={jest.fn()}
                 onSubmit={jest.fn()}
                 onResetHistoryIndex={jest.fn()}
@@ -394,6 +463,7 @@ describe('components/CreateComment', () => {
                 ctrlSend={false}
                 latestPostId={latestPostId}
                 getSidebarBody={jest.fn()}
+                clearCommentDraftUploads={jest.fn()}
                 onUpdateCommentDraft={onUpdateCommentDraft}
                 onSubmit={jest.fn()}
                 onResetHistoryIndex={jest.fn()}
@@ -434,6 +504,7 @@ describe('components/CreateComment', () => {
                 ctrlSend={false}
                 latestPostId={latestPostId}
                 getSidebarBody={jest.fn()}
+                clearCommentDraftUploads={jest.fn()}
                 onUpdateCommentDraft={onUpdateCommentDraft}
                 onSubmit={jest.fn()}
                 onResetHistoryIndex={jest.fn()}
@@ -466,6 +537,7 @@ describe('components/CreateComment', () => {
                 ctrlSend={false}
                 latestPostId={latestPostId}
                 getSidebarBody={jest.fn()}
+                clearCommentDraftUploads={jest.fn()}
                 onUpdateCommentDraft={jest.fn()}
                 onSubmit={jest.fn()}
                 onResetHistoryIndex={jest.fn()}
@@ -499,6 +571,7 @@ describe('components/CreateComment', () => {
                 ctrlSend={false}
                 latestPostId={latestPostId}
                 getSidebarBody={jest.fn()}
+                clearCommentDraftUploads={jest.fn()}
                 onUpdateCommentDraft={jest.fn()}
                 onSubmit={jest.fn()}
                 onResetHistoryIndex={jest.fn()}
@@ -534,6 +607,7 @@ describe('components/CreateComment', () => {
                 ctrlSend={false}
                 latestPostId={latestPostId}
                 getSidebarBody={jest.fn()}
+                clearCommentDraftUploads={jest.fn()}
                 onUpdateCommentDraft={onUpdateCommentDraft}
                 onSubmit={jest.fn()}
                 onResetHistoryIndex={jest.fn()}
@@ -574,6 +648,7 @@ describe('components/CreateComment', () => {
                 ctrlSend={false}
                 latestPostId={latestPostId}
                 getSidebarBody={jest.fn()}
+                clearCommentDraftUploads={jest.fn()}
                 onUpdateCommentDraft={jest.fn()}
                 onSubmit={jest.fn()}
                 onResetHistoryIndex={jest.fn()}
@@ -608,6 +683,7 @@ describe('components/CreateComment', () => {
                 ctrlSend={false}
                 latestPostId={latestPostId}
                 getSidebarBody={jest.fn()}
+                clearCommentDraftUploads={jest.fn()}
                 onUpdateCommentDraft={jest.fn()}
                 onSubmit={onSubmit}
                 onResetHistoryIndex={jest.fn()}
@@ -641,6 +717,7 @@ describe('components/CreateComment', () => {
                 ctrlSend={false}
                 latestPostId={latestPostId}
                 getSidebarBody={jest.fn()}
+                clearCommentDraftUploads={jest.fn()}
                 onUpdateCommentDraft={onUpdateCommentDraft}
                 onSubmit={jest.fn()}
                 onResetHistoryIndex={jest.fn()}

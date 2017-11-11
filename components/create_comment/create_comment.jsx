@@ -8,7 +8,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import PostStore from 'stores/post_store.jsx';
 
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
@@ -71,6 +70,11 @@ export default class CreateComment extends React.PureComponent {
         createPostErrorId: PropTypes.string,
 
         /**
+         * Called to clear file uploads in progress
+         */
+        clearCommentDraftUploads: PropTypes.func.isRequired,
+
+        /**
          * Called when comment draft needs to be updated
          */
         onUpdateCommentDraft: PropTypes.func.isRequired,
@@ -113,7 +117,7 @@ export default class CreateComment extends React.PureComponent {
     }
 
     componentWillMount() {
-        PostStore.clearCommentDraftUploads();
+        this.props.clearCommentDraftUploads();
         this.props.onResetHistoryIndex();
     }
 
