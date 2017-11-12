@@ -4,11 +4,14 @@
 import {browserHistory} from 'react-router/es6';
 import {batchActions} from 'redux-batched-actions';
 
-import {PostTypes} from 'mattermost-redux/action_types';
+import {PostTypes, SearchTypes} from 'mattermost-redux/action_types';
 import {getMyChannelMember} from 'mattermost-redux/actions/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
 import {Client4} from 'mattermost-redux/client';
 import * as Selectors from 'mattermost-redux/selectors/entities/posts';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 
 import {sendDesktopNotification} from 'actions/notification_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
@@ -102,52 +105,60 @@ export function unflagPost(postId) {
     PostActions.unflagPost(postId)(dispatch, getState);
 }
 
-export function getFlaggedPosts() {
-    Client4.getFlaggedPosts(UserStore.getCurrentId(), '', TeamStore.getCurrentId()).then(
-        (data) => {
-            AppDispatcher.handleServerAction({
-                type: ActionTypes.RECEIVED_SEARCH_TERM,
-                term: null,
-                do_search: false,
-                is_mention_search: false
-            });
+export async function getFlaggedPosts() {
+    const state = getState();
+    const userId = getCurrentUserId(state);
+    const teamId = getCurrentTeamId(state);
 
-            AppDispatcher.handleServerAction({
-                type: ActionTypes.RECEIVED_SEARCH,
-                results: data,
-                is_flagged_posts: true,
-                is_pinned_posts: false
-            });
+    const result = await Client4.getFlaggedPosts(userId, '', teamId);
 
-            PostActions.getProfilesAndStatusesForPosts(data.posts, dispatch, getState);
+    await PostActions.getProfilesAndStatusesForPosts(result.posts, dispatch, getState);
+
+    dispatch(batchActions([
+        {
+            type: SearchTypes.RECEIVED_SEARCH_POSTS,
+            data: result
+        },
+        {
+            type: SearchTypes.RECEIVED_SEARCH_TERM,
+            data: {
+                teamId,
+                terms: null,
+                isOrSearch: false
+            }
+        },
+        {
+            type: SearchTypes.SEARCH_POSTS_SUCCESS
         }
-    ).catch(
-        () => {} //eslint-disable-line no-empty-function
-    );
+    ], 'SEARCH_POST_BATCH'), getState);
 }
 
-export function getPinnedPosts(channelId = ChannelStore.getCurrentId()) {
-    Client4.getPinnedPosts(channelId).then(
-        (data) => {
-            AppDispatcher.handleServerAction({
-                type: ActionTypes.RECEIVED_SEARCH_TERM,
-                term: null,
-                do_search: false,
-                is_mention_search: false
-            });
+export async function getPinnedPosts(channelId) {
+    const currentChannelId = getCurrentChannelId(getState());
 
-            AppDispatcher.handleServerAction({
-                type: ActionTypes.RECEIVED_SEARCH,
-                results: {...data, channelId},
-                is_flagged_posts: false,
-                is_pinned_posts: true
-            });
+    const result = await Client4.getPinnedPosts(channelId || currentChannelId);
 
-            PostActions.getProfilesAndStatusesForPosts(data.posts, dispatch, getState);
+    await PostActions.getProfilesAndStatusesForPosts(result.posts, dispatch, getState);
+
+    const teamId = getCurrentTeamId(getState());
+
+    dispatch(batchActions([
+        {
+            type: SearchTypes.RECEIVED_SEARCH_POSTS,
+            data: result
+        },
+        {
+            type: SearchTypes.RECEIVED_SEARCH_TERM,
+            data: {
+                teamId,
+                terms: null,
+                isOrSearch: false
+            }
+        },
+        {
+            type: SearchTypes.SEARCH_POSTS_SUCCESS
         }
-    ).catch(
-        () => {} //eslint-disable-line no-empty-function
-    );
+    ], 'SEARCH_POST_BATCH'), getState);
 }
 
 export function addReaction(channelId, postId, emojiName) {

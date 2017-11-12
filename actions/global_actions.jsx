@@ -7,6 +7,9 @@ import {createDirectChannel, getChannelAndMyMember, getChannelStats, getMyChanne
 import {getPostThread} from 'mattermost-redux/actions/posts';
 import {removeUserFromTeam} from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
+import {SearchTypes} from 'mattermost-redux/action_types';
+
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
@@ -487,11 +490,15 @@ export function emitSearchMentionsEvent(user) {
 
     trackEvent('api', 'api_posts_search_mention');
 
-    AppDispatcher.handleServerAction({
-        type: ActionTypes.RECEIVED_SEARCH_TERM,
-        term: terms,
-        do_search: true,
-        is_mention_search: true
+    const teamId = getCurrentTeamId(getState());
+
+    dispatch({
+        type: SearchTypes.RECEIVED_SEARCH_TERM,
+        data: {
+            teamId,
+            terms,
+            isOrSearch: false
+        }
     });
 }
 

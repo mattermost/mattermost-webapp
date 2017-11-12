@@ -99,10 +99,7 @@ export const ActionTypes = keyMirror({
     INCREASE_POST_VISIBILITY: null,
     LOADING_POSTS: null,
 
-    UPDATE_SHOW_PINNED_POSTS: null,
-    UPDATE_SHOW_FLAGGED_POSTS: null,
-    UPDATE_SHOW_MENTIONS: null,
-    UPDATE_SHOW_SEARCH_RESULTS: null,
+    UPDATE_RHS_STATE: null,
 
     RECEIVED_PROFILES: null,
     RECEIVED_PROFILES_IN_TEAM: null,

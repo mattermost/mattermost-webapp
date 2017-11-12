@@ -5,7 +5,7 @@ import {combineReducers} from 'redux';
 
 import {PostTypes} from 'mattermost-redux/action_types';
 
-import {ActionTypes} from 'utils/constants.jsx';
+import {ActionTypes, RHSStates} from 'utils/constants.jsx';
 
 function selectedPostId(state = '', action) {
     switch (action.type) {
@@ -66,10 +66,10 @@ function fromPinnedPosts(state = false, action) {
     }
 }
 
-function showPinnedPosts(state = false, action) {
+function rhsState(state = null, action) {
     switch (action.type) {
-    case ActionTypes.UPDATE_SHOW_PINNED_POSTS:
-        return action.show;
+    case ActionTypes.UPDATE_RHS_STATE:
+        return action.state;
     default:
         return state;
     }
@@ -77,38 +77,11 @@ function showPinnedPosts(state = false, action) {
 
 function pinnedPostsChannelId(state = null, action) {
     switch (action.type) {
-    case ActionTypes.UPDATE_SHOW_PINNED_POSTS:
-        if (action.show) {
+    case ActionTypes.UPDATE_RHS_STATE:
+        if (action.state === RHSStates.PIN) {
             return action.channelId;
         }
         return null;
-    default:
-        return state;
-    }
-}
-
-function showFlaggedPosts(state = false, action) {
-    switch (action.type) {
-    case ActionTypes.UPDATE_SHOW_FLAGGED_POSTS:
-        return action.show;
-    default:
-        return state;
-    }
-}
-
-function showMentions(state = false, action) {
-    switch (action.type) {
-    case ActionTypes.UPDATE_SHOW_MENTIONS:
-        return action.show;
-    default:
-        return state;
-    }
-}
-
-function showSearchResults(state = false, action) {
-    switch (action.type) {
-    case ActionTypes.UPDATE_SHOW_SEARCH_RESULTS:
-        return action.show;
     default:
         return state;
     }
@@ -120,9 +93,6 @@ export default combineReducers({
     fromSearch,
     fromFlaggedPosts,
     fromPinnedPosts,
-    showPinnedPosts,
-    pinnedPostsChannelId,
-    showFlaggedPosts,
-    showMentions,
-    showSearchResults
+    rhsState,
+    pinnedPostsChannelId
 });

@@ -12,7 +12,6 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import {getFlaggedPosts, getPinnedPosts} from 'actions/post_actions.jsx';
 import * as WebrtcActions from 'actions/webrtc_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import SearchStore from 'stores/search_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 
 import * as ChannelUtils from 'utils/channel_utils.jsx';
@@ -49,10 +48,14 @@ export default class ChannelHeader extends React.Component {
         dmUserStatus: PropTypes.object,
         dmUserIsInCall: PropTypes.bool,
         enableFormatting: PropTypes.bool.isRequired,
+        rhsState: PropTypes.oneOf(
+            Object.values(RHSStates)
+        ),
         actions: PropTypes.shape({
             leaveChannel: PropTypes.func.isRequired,
             favoriteChannel: PropTypes.func.isRequired,
-            unfavoriteChannel: PropTypes.func.isRequired
+            unfavoriteChannel: PropTypes.func.isRequired,
+            updateRhsState: PropTypes.func.isRequired
         }).isRequired
     }
 
@@ -69,7 +72,6 @@ export default class ChannelHeader extends React.Component {
             showEditChannelPurposeModal: false,
             showMembersModal: false,
             showRenameChannelModal: false,
-            rhsState: '',
             isBusy: WebrtcStore.isBusy()
         };
     }
@@ -77,27 +79,13 @@ export default class ChannelHeader extends React.Component {
     componentDidMount() {
         WebrtcStore.addChangedListener(this.onWebrtcChange);
         WebrtcStore.addBusyListener(this.onBusy);
-        SearchStore.addSearchChangeListener(this.onSearchChange);
         document.addEventListener('keydown', this.handleShortcut);
     }
 
     componentWillUnmount() {
         WebrtcStore.removeChangedListener(this.onWebrtcChange);
         WebrtcStore.removeBusyListener(this.onBusy);
-        SearchStore.removeSearchChangeListener(this.onSearchChange);
         document.removeEventListener('keydown', this.handleShortcut);
-    }
-
-    onSearchChange = () => {
-        let rhsState = '';
-        if (SearchStore.isPinnedPosts) {
-            rhsState = RHSStates.PIN;
-        } else if (SearchStore.isFlaggedPosts) {
-            rhsState = RHSStates.FLAG;
-        } else if (SearchStore.isMentionSearch) {
-            rhsState = RHSStates.MENTION;
-        }
-        this.setState({rhsState});
     }
 
     onWebrtcChange = () => {
@@ -126,28 +114,31 @@ export default class ChannelHeader extends React.Component {
 
     searchMentions = (e) => {
         e.preventDefault();
-        if (this.state.rhsState === RHSStates.MENTION) {
+        if (this.props.rhsState === RHSStates.MENTION) {
             GlobalActions.toggleSideBarAction(false);
         } else {
             GlobalActions.emitSearchMentionsEvent(this.props.currentUser);
+            this.props.actions.updateRhsState(RHSStates.MENTION);
         }
     }
 
     getPinnedPosts = (e) => {
         e.preventDefault();
-        if (this.state.rhsState === RHSStates.PIN) {
+        if (this.props.rhsState === RHSStates.PIN) {
             GlobalActions.toggleSideBarAction(false);
         } else {
-            getPinnedPosts(this.props.channel.id);
+            getPinnedPosts();
+            this.props.actions.updateRhsState(RHSStates.PIN);
         }
     }
 
     getFlagged = (e) => {
         e.preventDefault();
-        if (this.state.rhsState === RHSStates.FLAG) {
+        if (this.props.rhsState === RHSStates.FLAG) {
             GlobalActions.toggleSideBarAction(false);
         } else {
             getFlaggedPosts();
+            this.props.actions.updateRhsState(RHSStates.FLAG);
         }
     }
 
@@ -840,7 +831,7 @@ export default class ChannelHeader extends React.Component {
         }
 
         let pinnedIconClass = 'channel-header__icon';
-        if (this.state.rhsState === RHSStates.PIN) {
+        if (this.props.rhsState === RHSStates.PIN) {
             pinnedIconClass += ' active';
         }
 

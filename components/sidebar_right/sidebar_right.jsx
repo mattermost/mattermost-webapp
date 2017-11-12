@@ -11,7 +11,6 @@ import {postListScrollChange} from 'actions/global_actions.jsx';
 import {getFlaggedPosts, getPinnedPosts} from 'actions/post_actions.jsx';
 import PostStore from 'stores/post_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
-import SearchStore from 'stores/search_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 
@@ -27,6 +26,10 @@ export default class SidebarRight extends React.Component {
     static propTypes = {
         channel: PropTypes.object,
         postRightVisible: PropTypes.bool,
+        searchVisible: PropTypes.bool,
+        isMentionSearch: PropTypes.bool,
+        isFlaggedPosts: PropTypes.bool,
+        isPinnedPosts: PropTypes.bool,
         fromSearch: PropTypes.string,
         fromFlaggedPosts: PropTypes.bool,
         fromPinnedPosts: PropTypes.bool
@@ -39,19 +42,13 @@ export default class SidebarRight extends React.Component {
 
         this.onPreferenceChange = this.onPreferenceChange.bind(this);
         this.onPostPinnedChange = this.onPostPinnedChange.bind(this);
-        this.onSearchChange = this.onSearchChange.bind(this);
         this.onUserChange = this.onUserChange.bind(this);
-        this.onShowSearch = this.onShowSearch.bind(this);
         this.onShrink = this.onShrink.bind(this);
         this.toggleSize = this.toggleSize.bind(this);
 
         this.doStrangeThings = this.doStrangeThings.bind(this);
 
         this.state = {
-            searchVisible: SearchStore.getSearchResults() !== null,
-            isMentionSearch: SearchStore.getIsMentionSearch(),
-            isFlaggedPosts: SearchStore.getIsFlaggedPosts(),
-            isPinnedPosts: SearchStore.getIsPinnedPosts(),
             expanded: false,
             currentUser: UserStore.getCurrentUser(),
             useMilitaryTime: PreferenceStore.getBool(Constants.Preferences.CATEGORY_DISPLAY_SETTINGS, Constants.Preferences.USE_MILITARY_TIME, false)
@@ -59,18 +56,14 @@ export default class SidebarRight extends React.Component {
     }
 
     componentDidMount() {
-        SearchStore.addSearchChangeListener(this.onSearchChange);
         PostStore.addPostPinnedChangeListener(this.onPostPinnedChange);
-        SearchStore.addShowSearchListener(this.onShowSearch);
         UserStore.addChangeListener(this.onUserChange);
         PreferenceStore.addChangeListener(this.onPreferenceChange);
         this.doStrangeThings();
     }
 
     componentWillUnmount() {
-        SearchStore.removeSearchChangeListener(this.onSearchChange);
         PostStore.removePostPinnedChangeListener(this.onPostPinnedChange);
-        SearchStore.removeShowSearchListener(this.onShowSearch);
         UserStore.removeChangeListener(this.onUserChange);
         PreferenceStore.removeChangeListener(this.onPreferenceChange);
     }
@@ -79,9 +72,10 @@ export default class SidebarRight extends React.Component {
         return !Utils.areObjectsEqual(nextState, this.state) || this.props.postRightVisible !== nextProps.postRightVisible;
     }
 
-    componentWillUpdate(nextProps, nextState) {
-        const isOpen = this.state.searchVisible || this.props.postRightVisible;
-        const willOpen = nextState.searchVisible || nextProps.postRightVisible;
+    componentWillUpdate(nextProps) {
+        console.log(nextProps);
+        const isOpen = this.props.searchVisible || this.props.postRightVisible;
+        const willOpen = nextProps.searchVisible || nextProps.postRightVisible;
 
         if (!isOpen && willOpen) {
             trackEvent('ui', 'ui_rhs_opened');
@@ -104,7 +98,7 @@ export default class SidebarRight extends React.Component {
         $('.app__body .sidebar--right').addClass('move--left');
 
         //$('.sidebar--right').prepend('<div class="sidebar__overlay"></div>');
-        if (!this.state.searchVisible && !this.props.postRightVisible) {
+        if (!this.props.searchVisible && !this.props.postRightVisible) {
             $('.app__body .inner-wrap').removeClass('move--left').removeClass('move--right');
             $('.app__body .sidebar--right').removeClass('move--left');
             return (
@@ -120,12 +114,12 @@ export default class SidebarRight extends React.Component {
         return null;
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        const isOpen = this.state.searchVisible || this.props.postRightVisible;
+    componentDidUpdate(prevProps) {
+        const isOpen = this.props.searchVisible || this.props.postRightVisible;
         WebrtcStore.emitRhsChanged(isOpen);
         this.doStrangeThings();
 
-        const wasOpen = prevState.searchVisible || prevProps.postRightVisible;
+        const wasOpen = prevProps.searchVisible || prevProps.postRightVisible;
 
         if (isOpen && !wasOpen) {
             setTimeout(() => postListScrollChange(), 0);
@@ -133,7 +127,7 @@ export default class SidebarRight extends React.Component {
     }
 
     onPreferenceChange() {
-        if (this.state.isFlaggedPosts) {
+        if (this.props.isFlaggedPosts) {
             getFlaggedPosts();
         }
 
@@ -143,7 +137,7 @@ export default class SidebarRight extends React.Component {
     }
 
     onPostPinnedChange() {
-        if (this.props.channel && this.state.isPinnedPosts) {
+        if (this.props.channel && this.props.isPinnedPosts) {
             getPinnedPosts(this.props.channel.id);
         }
     }
@@ -154,27 +148,10 @@ export default class SidebarRight extends React.Component {
         });
     }
 
-    onSearchChange() {
-        this.setState({
-            searchVisible: SearchStore.getSearchResults() !== null || SearchStore.isLoading(),
-            isMentionSearch: SearchStore.getIsMentionSearch(),
-            isFlaggedPosts: SearchStore.getIsFlaggedPosts(),
-            isPinnedPosts: SearchStore.getIsPinnedPosts()
-        });
-    }
-
     onUserChange() {
         this.setState({
             currentUser: UserStore.getCurrentUser()
         });
-    }
-
-    onShowSearch() {
-        if (!this.state.searchVisible) {
-            this.setState({
-                searchVisible: true
-            });
-        }
     }
 
     toggleSize() {
@@ -192,7 +169,7 @@ export default class SidebarRight extends React.Component {
         var currentId = UserStore.getCurrentId();
         var searchForm = null;
         if (currentId) {
-            searchForm = <SearchBox isFocus={this.state.searchVisible && Utils.isMobile()}/>;
+            searchForm = <SearchBox isFocus={this.props.searchVisible && Utils.isMobile()}/>;
         }
 
         const channel = this.props.channel;
@@ -206,14 +183,14 @@ export default class SidebarRight extends React.Component {
             }
         }
 
-        if (this.state.searchVisible) {
+        if (this.props.searchVisible) {
             content = (
                 <div className='sidebar--right__content'>
                     <div className='search-bar__container channel-header alt'>{searchForm}</div>
                     <SearchResults
-                        isMentionSearch={this.state.isMentionSearch}
-                        isFlaggedPosts={this.state.isFlaggedPosts}
-                        isPinnedPosts={this.state.isPinnedPosts}
+                        isMentionSearch={this.props.isMentionSearch}
+                        isFlaggedPosts={this.props.isFlaggedPosts}
+                        isPinnedPosts={this.props.isPinnedPosts}
                         useMilitaryTime={this.state.useMilitaryTime}
                         toggleSize={this.toggleSize}
                         shrink={this.onShrink}
@@ -231,7 +208,7 @@ export default class SidebarRight extends React.Component {
                         fromSearch={this.props.fromSearch}
                         fromPinnedPosts={this.props.fromPinnedPosts}
                         isWebrtc={WebrtcStore.isBusy()}
-                        isMentionSearch={this.state.isMentionSearch}
+                        isMentionSearch={this.props.isMentionSearch}
                         currentUser={this.state.currentUser}
                         useMilitaryTime={this.state.useMilitaryTime}
                         toggleSize={this.toggleSize}
