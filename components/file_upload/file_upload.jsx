@@ -6,17 +6,15 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {defineMessages, injectIntl, intlShape} from 'react-intl';
-
 import 'jquery-dragster/jquery.dragster.js';
 
-import {uploadFile} from 'actions/file_actions.jsx';
-import AttachmentIcon from 'components/svg/attachment_icon';
 import Constants from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
 import * as FileUtils from 'utils/file_utils';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
+
+import AttachmentIcon from 'components/svg/attachment_icon';
 
 const holders = defineMessages({
     limited: {
@@ -39,25 +37,78 @@ const holders = defineMessages({
 
 const OverlayTimeout = 500;
 
-class FileUpload extends React.Component {
+class FileUpload extends React.PureComponent {
+    static propTypes = {
+
+        /**
+         * react-intl helper object
+         */
+        intl: intlShape.isRequired,
+
+        /**
+         * Function to be called when upload fails
+         */
+        onUploadError: PropTypes.func,
+
+        /**
+         * Function to get number of file to be uploaded
+         */
+        getFileCount: PropTypes.func,
+
+        /**
+         * Function to get file upload targeted input
+         */
+        getTarget: PropTypes.func.isRequired,
+
+        /**
+         * Function to be called when file upload input is clicked
+         */
+        onClick: PropTypes.func,
+
+        /**
+         * Function to be called when file upload is complete
+         */
+        onFileUpload: PropTypes.func,
+
+        /**
+         * Function to be called when file upload starts
+         */
+        onUploadStart: PropTypes.func,
+
+        /**
+         * Function to be called when file upload input's change event is fired
+         */
+        onFileUploadChange: PropTypes.func,
+
+        /**
+         * Channel's ID which the file will be uploaded to
+         */
+        channelId: PropTypes.string,
+
+        /**
+         * Type of the object which the uploaded file is attached to
+         */
+        postType: PropTypes.string,
+
+        /**
+         * Current channel's ID
+         */
+        currentChannelId: PropTypes.string.isRequired,
+
+        /**
+         * Function to be called to upload file
+         */
+        uploadFile: PropTypes.func.isRequired
+    };
+
     constructor(props) {
         super(props);
-
-        this.uploadFiles = this.uploadFiles.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleDrop = this.handleDrop.bind(this);
-        this.registerDragEvents = this.registerDragEvents.bind(this);
-        this.cancelUpload = this.cancelUpload.bind(this);
-        this.pasteUpload = this.pasteUpload.bind(this);
-        this.keyUpload = this.keyUpload.bind(this);
-        this.handleMaxUploadReached = this.handleMaxUploadReached.bind(this);
-
         this.state = {
             requests: {}
         };
     }
 
-    fileUploadSuccess(channelId, data) {
+    fileUploadSuccess = (channelId, data) => {
         this.props.onFileUpload(data.file_infos, data.client_ids, channelId);
 
         const requests = Object.assign({}, this.state.requests);
@@ -67,17 +118,17 @@ class FileUpload extends React.Component {
         this.setState({requests});
     }
 
-    fileUploadFail(clientId, channelId, err) {
+    fileUploadFail = (clientId, channelId, err) => {
         this.props.onUploadError(err, clientId, channelId);
     }
 
-    uploadFiles(files) {
+    uploadFiles = (files) => {
         const sortedFiles = Utils.sortFilesByName(files);
 
         // clear any existing errors
         this.props.onUploadError(null);
 
-        const channelId = this.props.channelId || ChannelStore.getCurrentId();
+        const channelId = this.props.channelId || this.props.currentChannelId;
 
         const uploadsRemaining = Constants.MAX_UPLOAD_FILES - this.props.getFileCount(channelId);
         let numUploads = 0;
@@ -95,7 +146,7 @@ class FileUpload extends React.Component {
             // generate a unique id that can be used by other components to refer back to this upload
             const clientId = Utils.generateId();
 
-            const request = uploadFile(
+            const request = this.props.uploadFile(
                 sortedFiles[i],
                 sortedFiles[i].name,
                 channelId,
@@ -126,7 +177,7 @@ class FileUpload extends React.Component {
         }
     }
 
-    handleChange(e) {
+    handleChange = (e) => {
         if (e.target.files.length > 0) {
             this.uploadFiles(e.target.files);
 
@@ -136,7 +187,7 @@ class FileUpload extends React.Component {
         this.props.onFileUploadChange();
     }
 
-    handleDrop(e) {
+    handleDrop = (e) => {
         if (!FileUtils.canUploadFiles()) {
             this.props.onUploadError(Utils.localizeMessage('file_upload.disabled', 'File attachments are disabled.'));
             return;
@@ -162,7 +213,7 @@ class FileUpload extends React.Component {
         document.addEventListener('keydown', this.keyUpload);
     }
 
-    registerDragEvents(containerSelector, overlaySelector) {
+    registerDragEvents = (containerSelector, overlaySelector) => {
         const self = this;
 
         const overlay = $(overlaySelector);
@@ -233,7 +284,7 @@ class FileUpload extends React.Component {
         target.off('dragenter dragleave dragover drop dragster:enter dragster:leave dragster:over dragster:drop');
     }
 
-    pasteUpload(e) {
+    pasteUpload = (e) => {
         const {formatMessage} = this.props.intl;
 
         if (!e.clipboardData || !e.clipboardData.items) {
@@ -266,13 +317,13 @@ class FileUpload extends React.Component {
                 return;
             }
 
-            var numToUpload = Math.min(Constants.MAX_UPLOAD_FILES - this.props.getFileCount(ChannelStore.getCurrentId()), items.length);
+            var numToUpload = Math.min(Constants.MAX_UPLOAD_FILES - this.props.getFileCount(this.props.currentChannelId), items.length);
 
             if (items.length > numToUpload) {
                 this.props.onUploadError(formatMessage(holders.limited, {count: Constants.MAX_UPLOAD_FILES}));
             }
 
-            const channelId = this.props.channelId || ChannelStore.getCurrentId();
+            const channelId = this.props.channelId || this.props.currentChannelId;
 
             for (var i = 0; i < items.length && i < numToUpload; i++) {
                 var file = items[i].getAsFile();
@@ -281,7 +332,7 @@ class FileUpload extends React.Component {
                 }
 
                 // generate a unique id that can be used by other components to refer back to this file upload
-                var clientId = Utils.generateId();
+                const clientId = Utils.generateId();
 
                 var d = new Date();
                 var hour;
@@ -308,13 +359,13 @@ class FileUpload extends React.Component {
 
                 const name = formatMessage(holders.pasted) + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + hour + '-' + min + ext;
 
-                const request = uploadFile(
+                const request = this.props.uploadFile(
                     file,
                     name,
                     channelId,
                     clientId,
                     this.fileUploadSuccess.bind(this, channelId),
-                    this.fileUploadFail.bind(this, clientId)
+                    this.fileUploadFail.bind(this, clientId, channelId)
                 );
 
                 const requests = this.state.requests;
@@ -330,7 +381,7 @@ class FileUpload extends React.Component {
         }
     }
 
-    keyUpload(e) {
+    keyUpload = (e) => {
         if (Utils.cmdOrCtrlPressed(e) && e.keyCode === Constants.KeyCodes.U) {
             e.preventDefault();
 
@@ -346,7 +397,7 @@ class FileUpload extends React.Component {
         }
     }
 
-    cancelUpload(clientId) {
+    cancelUpload = (clientId) => {
         const requests = Object.assign({}, this.state.requests);
         const request = requests[clientId];
 
@@ -358,7 +409,7 @@ class FileUpload extends React.Component {
         }
     }
 
-    handleMaxUploadReached(e) {
+    handleMaxUploadReached = (e) => {
         e.preventDefault();
 
         const {formatMessage} = this.props.intl;
@@ -381,7 +432,7 @@ class FileUpload extends React.Component {
             accept = 'image/*';
         }
 
-        const channelId = this.props.channelId || ChannelStore.getCurrentId();
+        const channelId = this.props.channelId || this.props.currentChannelId;
         const uploadsRemaining = Constants.MAX_UPLOAD_FILES - this.props.getFileCount(channelId);
 
         let fileDiv;
@@ -414,19 +465,5 @@ class FileUpload extends React.Component {
         );
     }
 }
-
-FileUpload.propTypes = {
-    intl: intlShape.isRequired,
-    onUploadError: PropTypes.func,
-    getFileCount: PropTypes.func,
-    getTarget: PropTypes.func.isRequired,
-    onClick: PropTypes.func,
-    onFileUpload: PropTypes.func,
-    onUploadStart: PropTypes.func,
-    onFileUploadChange: PropTypes.func,
-    onTextDrop: PropTypes.func,
-    channelId: PropTypes.string,
-    postType: PropTypes.string
-};
 
 export default injectIntl(FileUpload, {withRef: true});
