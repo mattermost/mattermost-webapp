@@ -345,3 +345,14 @@ export function unpinPost(postId) {
 export function doPostAction(postId, actionId) {
     PostActions.doPostAction(postId, actionId)(dispatch, getState);
 }
+
+export function setEditingPost(postId = '', commentsCount = 0, refocusId = '', title = '') {
+    return async (doDispatch, doGetState) => {
+        doDispatch({
+            type: ActionTypes.SET_EDITING_POST,
+            data: {postId, commentsCount, refocusId, title}
+        }, doGetState);
+
+        return {data: true};
+    };
+}

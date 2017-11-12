@@ -103,4 +103,22 @@ describe('Actions.Storage', () => {
             {excluded: 'not-cleared'}
         );
     });
+
+    it('rehydrate', async () => {
+        await Actions.storageRehydrate({storage: '{"test": "123"}'})(store.dispatch, store.getState);
+        assert.deepEqual(
+            store.getState().storage,
+            {test: '123'}
+        );
+        await Actions.storageRehydrate({storage: '{"test": "456"}'})(store.dispatch, store.getState);
+        assert.deepEqual(
+            store.getState().storage,
+            {test: '456'}
+        );
+        await Actions.storageRehydrate({storage: '{"test2": "789"}'})(store.dispatch, store.getState);
+        assert.deepEqual(
+            store.getState().storage,
+            {test: '456', test2: '789'}
+        );
+    });
 });

@@ -3,12 +3,14 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
+import {browserHistory} from 'react-router/es6';
 
 import EditOAuthApp from 'components/integrations/components/edit_oauth_app/edit_oauth_app.jsx';
 
 describe('components/integrations/EditOAuthApp', () => {
-    const emptyFunction = jest.fn();
-    const app = {
+    global.window.mm_config = {};
+
+    const oauthApp = {
         id: 'facxd9wpzpbpfp8pad78xj75pr',
         name: 'testApp',
         client_secret: '88cxd9wpzpbpfp8pad78xj75pr',
@@ -25,44 +27,162 @@ describe('components/integrations/EditOAuthApp', () => {
         id: 'dbcxd9wpzpbpfp8pad78xj12pr',
         name: 'test'
     };
-    global.window.mm_config = {EnableOAuthServiceProvider: 'true'};
+    const editOAuthAppRequest = {
+        status: 'not_started',
+        error: null
+    };
 
-    test('should match snapshot', () => {
+    const baseProps = {
+        team,
+        oauthAppId: oauthApp.id,
+        editOAuthAppRequest,
+        isSystemAdmin: false,
+        actions: {
+            getOAuthApp: jest.fn(),
+            editOAuthApp: jest.fn()
+        }
+    };
+
+    beforeEach(() => {
+        global.window.mm_config.EnableOAuthServiceProvider = 'true';
+    });
+
+    afterEach(() => {
+        global.window.mm_config = {};
+    });
+
+    test('should match snapshot, loading', () => {
         const wrapper = shallow(
-            <EditOAuthApp
-                team={team}
-                oauthAppId={app.id}
-                oauthApp={app}
-                editOAuthAppRequest={{
-                    status: 'not_started',
-                    error: null
-                }}
-                actions={{
-                    getOAuthApp: emptyFunction,
-                    editOAuthApp: emptyFunction
-                }}
-            />
+            <EditOAuthApp {...baseProps}/>
         );
 
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot, loading', () => {
+    test('should match snapshot', () => {
+        const props = {...baseProps, oauthApp};
         const wrapper = shallow(
-            <EditOAuthApp
-                team={team}
-                oauthAppId={app.id}
-                editOAuthAppRequest={{
-                    status: 'not_started',
-                    error: null
-                }}
-                actions={{
-                    getOAuthApp: emptyFunction,
-                    editOAuthApp: emptyFunction
-                }}
-            />
+            <EditOAuthApp {...props}/>
         );
 
         expect(wrapper).toMatchSnapshot();
+        expect(props.actions.getOAuthApp).toHaveBeenCalledWith(oauthApp.id);
+    });
+
+    test('should match snapshot, on system admin', () => {
+        const props = {...baseProps, oauthApp, isSystemAdmin: true};
+        const wrapper = shallow(
+            <EditOAuthApp {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+        expect(props.actions.getOAuthApp).toHaveBeenCalledWith(oauthApp.id);
+    });
+
+    test('should match snapshot when EnableOAuthServiceProvider is false', () => {
+        global.window.mm_config.EnableOAuthServiceProvider = 'false';
+        const props = {...baseProps, oauthApp};
+        const wrapper = shallow(
+            <EditOAuthApp {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+        expect(props.actions.getOAuthApp).not.toHaveBeenCalledWith();
+    });
+
+    test('should have match state when handleConfirmModal is called', () => {
+        const props = {...baseProps, oauthApp};
+        const wrapper = shallow(
+            <EditOAuthApp {...props}/>
+        );
+
+        wrapper.setState({showConfirmModal: false});
+        wrapper.instance().handleConfirmModal();
+        expect(wrapper.state('showConfirmModal')).toEqual(true);
+    });
+
+    test('should have match state when confirmModalDismissed is called', () => {
+        const props = {...baseProps, oauthApp};
+        const wrapper = shallow(
+            <EditOAuthApp {...props}/>
+        );
+
+        wrapper.setState({showConfirmModal: true});
+        wrapper.instance().confirmModalDismissed();
+        expect(wrapper.state('showConfirmModal')).toEqual(false);
+    });
+
+    test('should have match renderExtra', () => {
+        const props = {...baseProps, oauthApp};
+        const wrapper = shallow(
+            <EditOAuthApp {...props}/>
+        );
+
+        expect(wrapper.instance().renderExtra()).toMatchSnapshot();
+    });
+
+    test('should have match when editOAuthApp is called', () => {
+        const props = {...baseProps, oauthApp};
+        const wrapper = shallow(
+            <EditOAuthApp {...props}/>
+        );
+
+        const instance = wrapper.instance();
+        instance.handleConfirmModal = jest.fn();
+        instance.submitOAuthApp = jest.fn();
+        wrapper.instance().editOAuthApp(oauthApp);
+
+        expect(instance.handleConfirmModal).not.toBeCalled();
+        expect(instance.submitOAuthApp).toBeCalled();
+    });
+
+    test('should have match when submitOAuthApp is called on success', async () => {
+        baseProps.actions.editOAuthApp = jest.genMockFunction().mockImplementation(
+            () => {
+                return new Promise((resolve) => {
+                    process.nextTick(() => resolve({
+                        data: 'data',
+                        error: null
+                    }));
+                });
+            }
+        );
+
+        browserHistory.push = jest.fn();
+        const props = {...baseProps, oauthApp};
+        const wrapper = shallow(
+            <EditOAuthApp {...props}/>
+        );
+
+        const instance = wrapper.instance();
+        wrapper.setState({showConfirmModal: true});
+        await instance.submitOAuthApp();
+
+        expect(wrapper.state('serverError')).toEqual('');
+        expect(browserHistory.push).toHaveBeenCalledWith(`/${team.name}/integrations/oauth2-apps`);
+    });
+
+    test('should have match when submitOAuthApp is called on error', async () => {
+        baseProps.actions.editOAuthApp = jest.genMockFunction().mockImplementation(
+            () => {
+                return new Promise((resolve) => {
+                    process.nextTick(() => resolve({
+                        data: null,
+                        error: {message: 'error message'}
+                    }));
+                });
+            }
+        );
+        const props = {...baseProps, oauthApp};
+        const wrapper = shallow(
+            <EditOAuthApp {...props}/>
+        );
+
+        const instance = wrapper.instance();
+        wrapper.setState({showConfirmModal: true});
+        await instance.submitOAuthApp();
+
+        expect(wrapper.state('showConfirmModal')).toEqual(false);
+        expect(wrapper.state('serverError')).toEqual('error message');
     });
 });

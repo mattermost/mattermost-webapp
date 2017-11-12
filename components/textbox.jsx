@@ -285,7 +285,7 @@ export default class Textbox extends React.Component {
                     className='form-control custom-textarea textbox-preview-area'
                     style={{display: this.state.preview ? 'block' : 'none'}}
                 >
-                    {PostUtils.postMessageHtmlToComponent(TextFormatting.formatText(this.props.value, options))}
+                    {PostUtils.postMessageHtmlToComponent(TextFormatting.formatText(this.props.value, options), this.props.isRHS)}
                 </div>
             );
         }

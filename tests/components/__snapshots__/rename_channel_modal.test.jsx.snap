@@ -1,0 +1,154 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/rename_channel_modal/rename_channel_modal.jsx should match snapshot 1`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  show={true}
+>
+  <ModalHeader
+    bsClass="modal-header"
+    closeButton={true}
+    closeLabel="Close"
+  >
+    <ModalTitle
+      bsClass="modal-title"
+      componentClass="h4"
+    >
+      <FormattedMessage
+        defaultMessage="Rename Channel"
+        id="rename_channel.title"
+        values={Object {}}
+      />
+    </ModalTitle>
+  </ModalHeader>
+  <form
+    role="form"
+  >
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    >
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label"
+        >
+          <FormattedMessage
+            defaultMessage="Display Name"
+            id="rename_channel.displayName"
+            values={Object {}}
+          />
+        </label>
+        <input
+          className="form-control"
+          id="display_name"
+          maxLength={22}
+          onChange={[Function]}
+          placeholder="Enter display name"
+          type="text"
+          value="Fake Channel"
+        />
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label"
+        >
+          URL
+        </label>
+        <div
+          className="input-group input-group--limit"
+        >
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={400}
+            overlay={
+              <Tooltip
+                bsClass="tooltip"
+                id="urlTooltip"
+                placement="right"
+              >
+                fake-channel/channels
+              </Tooltip>
+            }
+            placement="top"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <span
+              className="input-group-addon"
+            >
+              fake-channel/channels/
+            </span>
+          </OverlayTrigger>
+          <input
+            className="form-control"
+            id="channel_name"
+            maxLength={22}
+            onChange={[Function]}
+            placeholder="lowercase alphanumeric characters"
+            readOnly={false}
+            type="text"
+            value="fake-channel"
+          />
+        </div>
+      </div>
+    </ModalBody>
+    <ModalFooter
+      bsClass="modal-footer"
+      componentClass="div"
+    >
+      <button
+        className="btn btn-default"
+        onClick={[Function]}
+        type="button"
+      >
+        <FormattedMessage
+          defaultMessage="Cancel"
+          id="rename_channel.cancel"
+          values={Object {}}
+        />
+      </button>
+      <button
+        className="btn btn-primary"
+        id="save-button"
+        onClick={[Function]}
+        type="submit"
+      >
+        <FormattedMessage
+          defaultMessage="Save"
+          id="rename_channel.save"
+          values={Object {}}
+        />
+      </button>
+    </ModalFooter>
+  </form>
+</Modal>
+`;
