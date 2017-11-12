@@ -32,9 +32,9 @@
     }
 
     .channel-header__mute {
-        float: none;
+        float: left;
         height: 20px;
-        margin: 0 0 0 8px;
+        margin: 0 8px 0 0;
         padding-top: 3px;
         position: relative;
         z-index: 1;

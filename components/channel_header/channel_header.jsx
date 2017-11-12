@@ -946,7 +946,7 @@ export default class ChannelHeader extends React.Component {
             </OverlayTrigger>
         );
 
-        const channelMuted = (!Utils.isEmptyObject(this.props.channelMember)) && this.props.channelMember.notify_props.mute === 'true';
+        const channelMuted = ChannelUtils.isChannelMuted(this.props.channelMember);
         const channelMutedTooltip = (
             <Tooltip id='channelMutedTooltip'>
                 <FormattedMessage
@@ -1014,6 +1014,7 @@ export default class ChannelHeader extends React.Component {
                             className='channel-header__info'
                         >
                             {toggleFavorite}
+                            {muteTrigger}
                             <div
                                 id='channelHeaderTitle'
                                 className='channel-header__title dropdown'
@@ -1047,7 +1048,6 @@ export default class ChannelHeader extends React.Component {
                                     </ul>
                                 </h2>
                             </div>
-                            {muteTrigger}
                             {headerTextContainer}
                         </div>
                     </div>
