@@ -53,7 +53,6 @@ export default class SidebarRight extends React.Component {
             isFlaggedPosts: SearchStore.getIsFlaggedPosts(),
             isPinnedPosts: SearchStore.getIsPinnedPosts(),
             expanded: false,
-            fromSearch: false,
             currentUser: UserStore.getCurrentUser(),
             useMilitaryTime: PreferenceStore.getBool(Constants.Preferences.CATEGORY_DISPLAY_SETTINGS, Constants.Preferences.USE_MILITARY_TIME, false)
         };

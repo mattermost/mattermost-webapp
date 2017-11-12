@@ -66,10 +66,63 @@ function fromPinnedPosts(state = false, action) {
     }
 }
 
+function showPinnedPosts(state = false, action) {
+    switch (action.type) {
+    case ActionTypes.UPDATE_SHOW_PINNED_POSTS:
+        return action.show;
+    default:
+        return state;
+    }
+}
+
+function pinnedPostsChannelId(state = null, action) {
+    switch (action.type) {
+    case ActionTypes.UPDATE_SHOW_PINNED_POSTS:
+        if (action.show) {
+            return action.channelId;
+        }
+        return null;
+    default:
+        return state;
+    }
+}
+
+function showFlaggedPosts(state = false, action) {
+    switch (action.type) {
+    case ActionTypes.UPDATE_SHOW_FLAGGED_POSTS:
+        return action.show;
+    default:
+        return state;
+    }
+}
+
+function showMentions(state = false, action) {
+    switch (action.type) {
+    case ActionTypes.UPDATE_SHOW_MENTIONS:
+        return action.show;
+    default:
+        return state;
+    }
+}
+
+function showSearchResults(state = false, action) {
+    switch (action.type) {
+    case ActionTypes.UPDATE_SHOW_SEARCH_RESULTS:
+        return action.show;
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     selectedPostId,
     selectedPostChannelId,
     fromSearch,
     fromFlaggedPosts,
-    fromPinnedPosts
+    fromPinnedPosts,
+    showPinnedPosts,
+    pinnedPostsChannelId,
+    showFlaggedPosts,
+    showMentions,
+    showSearchResults
 });
