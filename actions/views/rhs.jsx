@@ -20,13 +20,11 @@ import * as PostActions from 'actions/post_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as ChannelActions from 'actions/channel_actions.jsx';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import {EmojiMap} from 'stores/emoji_store.jsx';
 
 import {makeGetCurrentUsersLatestPost, makeGetCommentDraft} from 'selectors/rhs';
 
 import * as Utils from 'utils/utils.jsx';
-import {ActionTypes} from 'utils/constants.jsx';
 
 import {REACTION_PATTERN} from 'components/create_post.jsx';
 
@@ -167,14 +165,11 @@ export function makeOnEditLatestPost(channelId, rootId) {
             return;
         }
 
-        AppDispatcher.handleViewAction({
-            type: ActionTypes.RECEIVED_EDIT_POST,
-            refocusId: '#reply_textbox',
-            title: Utils.localizeMessage('create_comment.commentTitle', 'Comment'),
-            message: lastPost.message,
-            postId: lastPost.id,
-            channelId: lastPost.channel_id,
-            comments: getCommentCount(state, {post: lastPost})
-        });
+        dispatch(PostActions.setEditingPost(
+            lastPost.id,
+            getCommentCount(state, {post: lastPost}),
+            '#reply_textbox',
+            Utils.localizeMessage('create_comment.commentTitle', 'Comment')
+        ));
     };
 }
