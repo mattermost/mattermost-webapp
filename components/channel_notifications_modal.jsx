@@ -14,6 +14,7 @@ import {NotificationLevels} from 'utils/constants.jsx';
 
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
+import {isChannelMuted} from "../utils/channel_utils";
 
 export default class ChannelNotificationsModal extends React.Component {
     constructor(props) {
@@ -90,8 +91,7 @@ export default class ChannelNotificationsModal extends React.Component {
     }
 
     createDesktopNotifyLevelSection(serverError) {
-        const muteChannel = this.props.channelMember.notify_props ? this.props.channelMember.notify_props.mute : 'false';
-        if (muteChannel === 'true') {
+        if (isChannelMuted(this.props.channelMember)) {
             return null;
         }
 
@@ -294,8 +294,7 @@ export default class ChannelNotificationsModal extends React.Component {
     }
 
     createMarkUnreadLevelSection(serverError) {
-        const muteChannel = this.props.channelMember.notify_props ? this.props.channelMember.notify_props.mute : 'false';
-        if (muteChannel === 'true') {
+        if (isChannelMuted(this.props.channelMember)) {
             return null;
         }
 
@@ -434,8 +433,7 @@ export default class ChannelNotificationsModal extends React.Component {
     }
 
     createPushNotificationLevelSection(serverError) {
-        const muteChannel = this.props.channelMember.notify_props ? this.props.channelMember.notify_props.mute : 'false';
-        if (muteChannel === 'true') {
+        if (isChannelMuted(this.props.channelMember)) {
             return null;
         }
 

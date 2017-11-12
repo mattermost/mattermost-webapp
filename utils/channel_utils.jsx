@@ -101,6 +101,15 @@ export function getCountsStateFromStores(team = TeamStore.getCurrent(), teamMemb
     return {mentionCount, messageCount};
 }
 
+export function isChannelMuted(member) {
+    const muted = member && member.notify_props ? (member.notify_props.mute === 'true') : false;
+    if (muted) {
+        return true;
+    }
+
+    return member && member.notify_props ? (member.notify_props.mark_channel_as_unread === 'mention') : false;
+}
+
 export function findNextUnreadChannelId(curChannelId, allChannelIds, unreadChannelIds, direction) {
     const curIndex = allChannelIds.indexOf(curChannelId);
 

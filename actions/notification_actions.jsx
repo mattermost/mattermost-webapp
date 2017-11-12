@@ -10,6 +10,7 @@ import Constants, {NotificationLevels, UserStatuses} from 'utils/constants.jsx';
 import {isSystemMessage} from 'utils/post_utils.jsx';
 import {isMacApp, isMobileApp, isWindowsApp} from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {isChannelMuted} from "utils/channel_utils";
 import store from 'stores/redux_store.jsx';
 
 export function sendDesktopNotification(post, msgProps) {
@@ -32,8 +33,7 @@ export function sendDesktopNotification(post, msgProps) {
     const userStatus = UserStore.getStatus(user.id);
     const member = ChannelStore.getMyMember(post.channel_id);
 
-    const mute = member && member.notify_props ? member.notify_props.mute : false;
-    if (mute === 'true' || userStatus === UserStatuses.DND) {
+    if (isChannelMuted(member) || userStatus === UserStatuses.DND) {
         return;
     }
 

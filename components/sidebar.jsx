@@ -39,6 +39,7 @@ import SidebarHeader from './sidebar_header.jsx';
 import StatusIcon from './status_icon.jsx';
 import TutorialTip from './tutorial/tutorial_tip.jsx';
 import UnreadChannelIndicator from './unread_channel_indicator.jsx';
+import {isChannelMuted} from "../utils/channel_utils";
 
 const Preferences = Constants.Preferences;
 const TutorialSteps = Constants.TutorialSteps;
@@ -500,7 +501,7 @@ export default class Sidebar extends React.Component {
         const activeId = this.state.activeId;
         const channelMember = members[channel.id];
         const unreadCount = this.state.unreadCounts[channel.id] || {msgs: 0, mentions: 0};
-        const channelMuted = channelMember.notify_props.mute === 'true';
+        const channelMuted = isChannelMuted(channelMember);
         let msgCount;
 
         let linkClass = '';
