@@ -30,7 +30,7 @@ import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import MessageWrapper from 'components/message_wrapper.jsx';
 import PopoverListMembers from 'components/popover_list_members';
-import RenameChannelModal from 'components/rename_channel_modal.jsx';
+import RenameChannelModal from 'components/rename_channel_modal';
 import NavbarSearchBox from 'components/search_bar.jsx';
 import StatusIcon from 'components/status_icon.jsx';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
@@ -250,7 +250,7 @@ export default class ChannelHeader extends React.Component {
             </Popover>
         );
 
-        let channelTitle = '';
+        let channelTitle = channel.display_name;
         const isChannelAdmin = Utils.isChannelAdmin(this.props.channelMember.roles);
         const isTeamAdmin = !Utils.isEmptyObject(this.props.teamMember) && Utils.isAdmin(this.props.teamMember.roles);
         const isSystemAdmin = Utils.isSystemAdmin(this.props.currentUser.roles);
@@ -690,8 +690,14 @@ export default class ChannelHeader extends React.Component {
                     status={channel.status}
                 />
             );
+
             dmHeaderTextStatus = (
-                <span className='header-status__text'>{Utils.toTitleCase(channel.status)}</span>
+                <span className='header-status__text'>
+                    <FormattedMessage
+                        id={`status_dropdown.set_${channel.status}`}
+                        defaultMessage={Utils.toTitleCase(channel.status)}
+                    />
+                </span>
             );
         }
 

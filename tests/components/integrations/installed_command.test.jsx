@@ -67,7 +67,7 @@ describe('components/integrations/InstalledCommand', () => {
         const wrapper = mountWithIntl(<InstalledCommand {...props}/>);
         expect(wrapper).toMatchSnapshot();
 
-        wrapper.find('div.item-actions a').first().simulate('click');
+        wrapper.find('div.item-actions button').first().simulate('click');
         expect(onRegenToken).toHaveBeenCalledTimes(1);
         expect(onRegenToken).toHaveBeenCalledWith(props.command);
     });

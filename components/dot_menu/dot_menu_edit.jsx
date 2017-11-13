@@ -26,15 +26,12 @@ export default function DotMenuEdit(props) {
         >
             <button
                 className='style--none'
-                role='menuitem'
-                data-toggle='modal'
-                data-target='#edit_post'
-                data-refocusid={props.idPrefix.indexOf(Constants.CENTER) === 0 ? '#post_textbox' : '#reply_textbox'}
-                data-title={props.idPrefix.indexOf(Constants.CENTER) === 0 ? props.type : Utils.localizeMessage('rhs_comment.comment', 'Comment')}
-                data-message={props.post.message}
-                data-postid={props.post.id}
-                data-channelid={props.post.channel_id}
-                data-comments={props.commentCount}
+                onClick={() => props.actions.setEditingPost(
+                    props.post.id,
+                    props.commentsCount,
+                    props.idPrefix.indexOf(Constants.CENTER) === 0 ? 'post_textbox' : 'reply_textbox',
+                    props.idPrefix.indexOf(Constants.CENTER) === 0 ? props.type : Utils.localizeMessage('rhs_comment.comment', 'Comment')
+                )}
             >
                 <FormattedMessage
                     id='post_info.edit'
@@ -50,7 +47,14 @@ DotMenuEdit.propTypes = {
     idCount: PropTypes.number,
     post: PropTypes.object,
     type: PropTypes.string,
-    commentCount: PropTypes.number
+    commentsCount: PropTypes.number,
+    actions: PropTypes.shape({
+
+        /*
+         * Function set the editing post
+         */
+        setEditingPost: PropTypes.func.isRequired
+    }).isRequired
 };
 
 DotMenuEdit.defaultProps = {

@@ -4,18 +4,13 @@
 import React from 'react';
 import {Provider} from 'react-redux';
 import {shallow} from 'enzyme';
+import {browserHistory} from 'react-router/es6';
 
 import store from 'stores/redux_store.jsx';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import PostAddChannelMember from 'components/post_view/post_add_channel_member/post_add_channel_member.jsx';
-
-jest.mock('react-router/es6', () => ({
-    browserHistory: {
-        push: jest.fn()
-    }
-}));
 
 describe('components/post_view/PostAddChannelMember', () => {
     const team = {
@@ -64,8 +59,10 @@ describe('components/post_view/PostAddChannelMember', () => {
     });
 
     test('actions should have been called', () => {
+        browserHistory.push = jest.fn();
         const post = {
             id: 'post_id_1',
+            root_id: 'root_id',
             channel_id: 'channel_id'
         };
         const getPost = jest.fn();
@@ -86,9 +83,10 @@ describe('components/post_view/PostAddChannelMember', () => {
 
         expect(actions.getPost).toHaveBeenCalledTimes(1);
         expect(actions.addChannelMember).toHaveBeenCalledTimes(1);
-        expect(actions.addChannelMember).toHaveBeenCalledWith(channel.id, requiredProps.userIds[0]);
+        expect(actions.addChannelMember).toHaveBeenCalledWith(channel.id, requiredProps.userIds[0], post.root_id);
         expect(actions.removePost).toHaveBeenCalledTimes(1);
         expect(actions.removePost).toHaveBeenCalledWith(post);
+        expect(browserHistory.push).toHaveBeenCalledWith(`/${team.name}/channels/${channel.name}`);
     });
 
     test('addChannelMember should have been called multiple times', () => {

@@ -136,8 +136,8 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
   <div
     className="item-actions"
   >
-    <a
-      href="#"
+    <button
+      className="style--none color--link"
       onClick={[Function]}
     >
       <FormattedMessage
@@ -145,7 +145,7 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
         id="installed_integrations.regenToken"
         values={Object {}}
       />
-    </a>
+    </button>
      - 
     <Link
       onlyActiveOnIndex={false}

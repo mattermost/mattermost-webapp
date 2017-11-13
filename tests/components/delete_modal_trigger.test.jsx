@@ -106,4 +106,56 @@ describe('components/DeleteModalTrigger', () => {
         wrapper.find(ConfirmModal).first().props().onKeyDown({keyCode: Constants.KeyCodes.TAB});
         expect(onDelete).not.toHaveBeenCalled();
     });
+
+    test('should match state when handleOpenModal is called', () => {
+        class ChildModal extends DeleteModalTrigger {}
+
+        const wrapper = shallow(
+            <ChildModal onDelete={jest.fn()}/>
+        );
+
+        const preventDefault = jest.fn();
+        wrapper.setState({showDeleteModal: false});
+        wrapper.instance().handleOpenModal({preventDefault});
+        expect(wrapper.state('showDeleteModal')).toEqual(true);
+        expect(preventDefault).toHaveBeenCalledTimes(1);
+    });
+
+    test('should have called onDelete when handleConfirm is called', () => {
+        class ChildModal extends DeleteModalTrigger {}
+        const onDelete = jest.fn();
+        const wrapper = shallow(
+            <ChildModal onDelete={onDelete}/>
+        );
+
+        wrapper.instance().handleConfirm();
+        expect(onDelete).toHaveBeenCalledTimes(1);
+    });
+
+    test('should match state when handleCancel is called', () => {
+        class ChildModal extends DeleteModalTrigger {}
+
+        const wrapper = shallow(
+            <ChildModal onDelete={jest.fn()}/>
+        );
+
+        wrapper.setState({showDeleteModal: true});
+        wrapper.instance().handleCancel();
+        expect(wrapper.state('showDeleteModal')).toEqual(false);
+    });
+
+    test('should have called handleConfirm when on handleKeyDown ENTER', () => {
+        class ChildModal extends DeleteModalTrigger {}
+        const onDelete = jest.fn();
+        const wrapper = shallow(
+            <ChildModal onDelete={onDelete}/>
+        );
+        const evt = {keyCode: Constants.KeyCodes.ENTER};
+        const instance = wrapper.instance();
+        instance.handleConfirm = jest.fn();
+
+        wrapper.setState({showDeleteModal: false});
+        wrapper.instance().handleKeyDown(evt);
+        expect(instance.handleConfirm).toHaveBeenCalledWith(evt);
+    });
 });
