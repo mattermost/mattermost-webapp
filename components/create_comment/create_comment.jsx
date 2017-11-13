@@ -133,7 +133,7 @@ export default class CreateComment extends React.PureComponent {
 
     componentDidUpdate(prevProps) {
         if (prevProps.draft.uploadsInProgress.length < this.props.draft.uploadsInProgress.length) {
-            this.scrollToTop();
+            this.scrollToBottom();
         }
 
         if (prevProps.rootId !== this.props.rootId) {
@@ -232,7 +232,7 @@ export default class CreateComment extends React.PureComponent {
         GlobalActions.emitLocalUserTypingEvent(this.props.channelId, this.props.rootId);
     }
 
-    scrollToTop = () => {
+    scrollToBottom = () => {
         const $el = $('.post-right__scroll');
         if ($el[0]) {
             $el.parent().scrollTop($el[0].scrollHeight);
@@ -246,7 +246,7 @@ export default class CreateComment extends React.PureComponent {
         const updatedDraft = {...draft, message};
         this.props.onUpdateCommentDraft(updatedDraft);
 
-        this.scrollToTop();
+        this.scrollToBottom();
     }
 
     handleKeyDown = (e) => {

@@ -40,16 +40,50 @@ function makeOnUpdateCommentDraft(rootId) {
     return (draft) => updateCommentDraft(rootId, draft);
 }
 
-function mapDispatchToProps(dispatch, ownProps) {
-    return bindActionCreators({
-        clearCommentDraftUploads,
-        onUpdateCommentDraft: makeOnUpdateCommentDraft(ownProps.rootId),
-        onSubmit: makeOnSubmit(ownProps.channelId, ownProps.rootId, ownProps.latestPostId),
-        onResetHistoryIndex: () => resetHistoryIndex(Posts.MESSAGE_TYPES.COMMENT),
-        onMoveHistoryIndexBack: makeOnMoveHistoryIndex(ownProps.rootId, -1),
-        onMoveHistoryIndexForward: makeOnMoveHistoryIndex(ownProps.rootId, 1),
-        onEditLatestPost: makeOnEditLatestPost(ownProps.channelId, ownProps.rootId)
-    }, dispatch);
+function makeMapDispatchToProps() {
+    let onUpdateCommentDraft;
+    let onSubmit;
+    let onMoveHistoryIndexBack;
+    let onMoveHistoryIndexForward;
+    let onEditLatestPost;
+
+    function onResetHistoryIndex() {
+        return resetHistoryIndex(Posts.MESSAGE_TYPES.COMMENT);
+    }
+
+    let rootId;
+    let channelId;
+    let latestPostId;
+
+    return (dispatch, ownProps) => {
+        if (rootId !== ownProps.rootId) {
+            onUpdateCommentDraft = makeOnUpdateCommentDraft(ownProps.rootId);
+            onMoveHistoryIndexBack = makeOnMoveHistoryIndex(ownProps.rootId, -1);
+            onMoveHistoryIndexForward = makeOnMoveHistoryIndex(ownProps.rootId, 1);
+        }
+
+        if (rootId !== ownProps.rootId || channelId !== ownProps.channelId) {
+            onEditLatestPost = makeOnEditLatestPost(ownProps.channelId, ownProps.rootId);
+        }
+
+        if (rootId !== ownProps.rootId || channelId !== ownProps.channelId || latestPostId !== ownProps.latestPostId) {
+            onSubmit = makeOnSubmit(ownProps.channelId, ownProps.rootId, ownProps.latestPostId);
+        }
+
+        rootId = ownProps.rootId;
+        channelId = ownProps.channelId;
+        latestPostId = ownProps.latestPostId;
+
+        return bindActionCreators({
+            clearCommentDraftUploads,
+            onUpdateCommentDraft,
+            onSubmit,
+            onResetHistoryIndex,
+            onMoveHistoryIndexBack,
+            onMoveHistoryIndexForward,
+            onEditLatestPost
+        }, dispatch);
+    };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateComment);
+export default connect(mapStateToProps, makeMapDispatchToProps)(CreateComment);

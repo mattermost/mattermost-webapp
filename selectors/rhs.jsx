@@ -47,10 +47,14 @@ export const getSelectedPost = createSelector(
 export function makeGetCurrentUsersLatestPost(channelId, rootId) {
     return createSelector(
         getCurrentUserId,
-        (state) => state.entities.posts.postsInChannel[channelId] || [],
+        (state) => state.entities.posts.postsInChannel[channelId],
         (state) => (id) => getPost(state, id),
         (userId, postIds, getPostById) => {
             let lastPost = null;
+
+            if (!postIds) {
+                return lastPost;
+            }
 
             for (const id of postIds) {
                 const post = getPostById(id) || {};

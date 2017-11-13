@@ -618,9 +618,9 @@ describe('components/CreateComment', () => {
         );
 
         const testMessage = 'new msg';
-        const scrollToTop = jest.fn();
+        const scrollToBottom = jest.fn();
 
-        wrapper.instance().scrollToTop = scrollToTop;
+        wrapper.instance().scrollToBottom = scrollToBottom;
         wrapper.instance().handleChange({target: {value: testMessage}});
 
         expect(onUpdateCommentDraft).toHaveBeenCalled();
@@ -629,10 +629,10 @@ describe('components/CreateComment', () => {
             expect.objectContaining({message: testMessage})
         );
 
-        expect(scrollToTop).toHaveBeenCalled();
+        expect(scrollToBottom).toHaveBeenCalled();
     });
 
-    test('should scroll to top when uploadsInProgress increase', () => {
+    test('should scroll to bottom when uploadsInProgress increase', () => {
         const draft = {
             message: 'Test message',
             uploadsInProgress: [1, 2, 3],
@@ -658,13 +658,13 @@ describe('components/CreateComment', () => {
             />
         );
 
-        const scrollToTop = jest.fn();
+        const scrollToBottom = jest.fn();
 
-        wrapper.instance().scrollToTop = scrollToTop;
+        wrapper.instance().scrollToBottom = scrollToBottom;
 
         wrapper.setProps({draft: {...draft, uploadsInProgress: [1, 2, 3, 4]}});
 
-        expect(scrollToTop).toHaveBeenCalled();
+        expect(scrollToBottom).toHaveBeenCalled();
     });
 
     test('handleSubmit should call onSubmit prop', () => {
