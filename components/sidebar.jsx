@@ -632,7 +632,10 @@ export default class Sidebar extends React.Component {
                     overlay={removeTooltip}
                 >
                     <span
-                        onClick={(e) => handleClose(e, channel)}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleClose(e, channel);
+                        }}
                         className='btn-close'
                     >
                         {'×'}
