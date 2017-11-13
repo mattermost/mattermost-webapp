@@ -1114,8 +1114,6 @@ export default class SecurityTab extends React.Component {
         if (error) {
             this.setState({serverError: error.message});
         } else {
-            const userId = this.props.user ? this.props.user.id : '';
-            this.props.actions.getUserAccessTokensForUser(userId, 0, 200);
             trackEvent('settings', 'activate_user_access_token');
         }
     }
@@ -1125,8 +1123,6 @@ export default class SecurityTab extends React.Component {
         if (error) {
             this.setState({serverError: error.message});
         } else {
-            const userId = this.props.user ? this.props.user.id : '';
-            this.props.actions.getUserAccessTokensForUser(userId, 0, 200);
             trackEvent('settings', 'deactivate_user_access_token');
         }
     }
