@@ -21,6 +21,7 @@ import * as UserAgent from 'utils/user_agent.jsx';
 
 import bing from 'images/bing.mp3';
 import icon50 from 'images/icon50x50.png';
+import iconWS from 'images/icon_WS.png';
 
 import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
 
@@ -130,7 +131,12 @@ export function notifyMe(title, body, channel, teamId, duration, silent) {
             Notification.requestPermission((permission) => {
                 if (permission === 'granted') {
                     try {
-                        var notification = new Notification(title, {body, tag: body, icon: icon50, requireInteraction: notificationDuration === 0, silent});
+                        let icon = icon50;
+                        if (UserAgent.isEdge()) {
+                            icon = iconWS;
+                        }
+
+                        const notification = new Notification(title, {body, tag: body, icon, requireInteraction: notificationDuration === 0, silent});
                         notification.onclick = () => {
                             window.focus();
                             if (channel && (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL)) {
