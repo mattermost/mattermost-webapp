@@ -14,9 +14,11 @@ export default class RhsHeaderPost extends React.Component {
         fromSearch: PropTypes.bool,
         fromFlaggedPosts: PropTypes.bool,
         fromPinnedPosts: PropTypes.bool,
+        fromMentions: PropTypes.bool,
         toggleSize: PropTypes.func,
         shrink: PropTypes.func,
         actions: PropTypes.shape({
+            showMentions: PropTypes.func,
             showSearchResults: PropTypes.func,
             showFlaggedPosts: PropTypes.func,
             showPinnedPosts: PropTypes.func,
@@ -47,8 +49,12 @@ export default class RhsHeaderPost extends React.Component {
     handleBack = (e) => {
         e.preventDefault();
 
-        if (this.props.fromSearch || this.props.isWebrtc) {
-            this.props.actions.showSearchResults();
+        if (this.props.fromSearch || this.props.fromMentions || this.props.isWebrtc) {
+            if (this.props.fromMentions) {
+                this.props.actions.showMentions();
+            } else {
+                this.props.actions.showSearchResults();
+            }
         } else if (this.props.fromFlaggedPosts) {
             this.props.actions.showFlaggedPosts();
         } else if (this.props.fromPinnedPosts) {
@@ -68,7 +74,7 @@ export default class RhsHeaderPost extends React.Component {
         );
 
         let backToResultsTooltip;
-        if (this.props.fromSearch) {
+        if (this.props.fromSearch || this.props.fromMentions) {
             backToResultsTooltip = (
                 <Tooltip id='backToResultsTooltip'>
                     <FormattedMessage
@@ -124,7 +130,7 @@ export default class RhsHeaderPost extends React.Component {
             </Tooltip>
         );
 
-        if (this.props.fromSearch || this.props.fromFlaggedPosts || this.props.isWebrtc || this.props.fromPinnedPosts) {
+        if (this.props.fromMentions || this.props.fromSearch || this.props.fromFlaggedPosts || this.props.isWebrtc || this.props.fromPinnedPosts) {
             back = (
                 <a
                     href='#'

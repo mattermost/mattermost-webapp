@@ -36,17 +36,16 @@ export function selectPostFromRightHandSideSearch(post) {
     return async (dispatch, getState) => {
         await dispatch(PostActions.getPostThread(post.id));
 
-        const state = getState();
-
-        const rhsState = getRhsState(state);
+        const rhsState = getRhsState(getState());
 
         dispatch({
             type: ActionTypes.SELECT_POST,
             postId: Utils.getRootId(post),
             channelId: post.channel_id,
-            from_search: rhsState === RHSStates.SEARCH,
-            from_flagged_posts: rhsState === RHSStates.FLAG,
-            from_pinned_posts: rhsState === RHSStates.PIN
+            fromSearch: rhsState === RHSStates.SEARCH,
+            fromFlaggedPosts: rhsState === RHSStates.FLAG,
+            fromPinnedPosts: rhsState === RHSStates.PIN,
+            fromMentions: rhsState === RHSStates.MENTION
         });
     };
 }

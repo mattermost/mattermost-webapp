@@ -21,6 +21,7 @@ function mapStateToProps(state) {
         currentUser: getCurrentUser(state),
         postRightVisible: Boolean(getSelectedPostId(state)),
         searchVisible: Boolean(rhsState),
+        fromMentions: state.views.rhs.fromMentions,
         fromSearch: state.views.rhs.fromSearch,
         fromFlaggedPosts: state.views.rhs.fromFlaggedPosts,
         fromPinnedPosts: state.views.rhs.fromPinnedPosts,

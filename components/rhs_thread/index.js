@@ -26,7 +26,6 @@ function makeMapStateToProps() {
         }
 
         return {
-            ...ownProps,
             selected,
             posts,
             previewCollapsed: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, 'false'),

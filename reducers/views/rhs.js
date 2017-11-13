@@ -34,15 +34,15 @@ function selectedPostChannelId(state = '', action) {
     }
 }
 
-function fromSearch(state = '', action) {
+function fromSearch(state = false, action) {
     switch (action.type) {
     case ActionTypes.SELECT_POST:
-        if (action.from_search) {
-            return action.from_search;
+        if (action.fromSearch) {
+            return action.fromSearch;
         }
-        return '';
+        return false;
     case ActionTypes.UPDATE_RHS_STATE:
-        return '';
+        return false;
     default:
         return state;
     }
@@ -51,8 +51,8 @@ function fromSearch(state = '', action) {
 function fromFlaggedPosts(state = false, action) {
     switch (action.type) {
     case ActionTypes.SELECT_POST:
-        if (action.from_flagged_posts) {
-            return action.from_flagged_posts;
+        if (action.fromFlaggedPosts) {
+            return action.fromFlaggedPosts;
         }
         return false;
     case ActionTypes.UPDATE_RHS_STATE:
@@ -65,8 +65,22 @@ function fromFlaggedPosts(state = false, action) {
 function fromPinnedPosts(state = false, action) {
     switch (action.type) {
     case ActionTypes.SELECT_POST:
-        if (action.from_pinned_posts) {
-            return action.from_pinned_posts;
+        if (action.fromPinnedPosts) {
+            return action.fromPinnedPosts;
+        }
+        return false;
+    case ActionTypes.UPDATE_RHS_STATE:
+        return false;
+    default:
+        return state;
+    }
+}
+
+function fromMentions(state = false, action) {
+    switch (action.type) {
+    case ActionTypes.SELECT_POST:
+        if (action.fromMentions) {
+            return action.fromMentions;
         }
         return false;
     case ActionTypes.UPDATE_RHS_STATE:
@@ -116,6 +130,7 @@ export default combineReducers({
     fromSearch,
     fromFlaggedPosts,
     fromPinnedPosts,
+    fromMentions,
     rhsState,
     pinnedPostsChannelId,
     searchTerms

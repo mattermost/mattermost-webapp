@@ -29,7 +29,8 @@ export default class SidebarRight extends React.Component {
         isMentionSearch: PropTypes.bool,
         isFlaggedPosts: PropTypes.bool,
         isPinnedPosts: PropTypes.bool,
-        fromSearch: PropTypes.string,
+        fromMentions: PropTypes.bool,
+        fromSearch: PropTypes.bool,
         fromFlaggedPosts: PropTypes.bool,
         fromPinnedPosts: PropTypes.bool,
         actions: PropTypes.shape({
@@ -185,6 +186,7 @@ export default class SidebarRight extends React.Component {
                     <FileUploadOverlay overlayType='right'/>
                     <div className='search-bar__container channel-header alt'>{searchForm}</div>
                     <RhsThread
+                        fromMentions={this.props.fromMentions}
                         fromFlaggedPosts={this.props.fromFlaggedPosts}
                         fromSearch={this.props.fromSearch}
                         fromPinnedPosts={this.props.fromPinnedPosts}

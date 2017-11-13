@@ -4,13 +4,21 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {showFlaggedPosts, showPinnedPosts, closeRightHandSide} from 'actions/views/rhs';
+import {
+    showMentions,
+    showSearchResults,
+    showFlaggedPosts,
+    showPinnedPosts,
+    closeRightHandSide
+} from 'actions/views/rhs';
 
 import RhsHeaderPost from './rhs_header_post.jsx';
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
+            showSearchResults,
+            showMentions,
             showFlaggedPosts,
             showPinnedPosts,
             closeRightHandSide

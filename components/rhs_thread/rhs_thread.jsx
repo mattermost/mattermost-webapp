@@ -52,7 +52,8 @@ export default class RhsThread extends React.Component {
     static propTypes = {
         posts: PropTypes.arrayOf(PropTypes.object).isRequired,
         selected: PropTypes.object.isRequired,
-        fromSearch: PropTypes.string,
+        fromMentions: PropTypes.bool,
+        fromSearch: PropTypes.bool,
         fromFlaggedPosts: PropTypes.bool,
         fromPinnedPosts: PropTypes.bool,
         isWebrtc: PropTypes.bool,
@@ -65,10 +66,6 @@ export default class RhsThread extends React.Component {
         actions: PropTypes.shape({
             removePost: PropTypes.func.isRequired
         }).isRequired
-    }
-
-    static defaultProps = {
-        fromSearch: ''
     }
 
     constructor(props) {
@@ -444,6 +441,7 @@ export default class RhsThread extends React.Component {
                     isRhsPost={true}
                 />
                 <RhsHeaderPost
+                    fromMentions={this.props.fromMentions}
                     fromFlaggedPosts={this.props.fromFlaggedPosts}
                     fromSearch={this.props.fromSearch}
                     fromPinnedPosts={this.props.fromPinnedPosts}
