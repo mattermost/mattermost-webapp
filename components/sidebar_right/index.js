@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
-import {showMentions, showFlaggedPosts, closeRightHandSide} from 'actions/views/rhs';
+import {showMentions, showPinnedPosts, showFlaggedPosts, closeRightHandSide} from 'actions/views/rhs';
 
 import {getRhsState, getSelectedPostId} from 'selectors/rhs';
 
@@ -34,6 +34,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             showMentions,
+            showPinnedPosts,
             showFlaggedPosts,
             closeRightHandSide
         }, dispatch)

@@ -16,20 +16,19 @@ import SearchResults from './search_results.jsx';
 const getCategory = PreferenceSelectors.makeGetCategory();
 
 function mapStateToProps(state) {
-    const posts = getSearchResults(state);
+    const results = getSearchResults(state);
+    const posts = results ? results.filter((post) => Boolean(post)) : [];
 
     const channels = new Map();
 
-    if (posts) {
-        const channelIds = posts.map((post) => post.channel_id);
+    const channelIds = posts.map((post) => post.channel_id);
 
-        for (const id of channelIds) {
-            if (channels.has(id)) {
-                continue;
-            }
-
-            channels.set(id, getChannel(state, id));
+    for (const id of channelIds) {
+        if (channels.has(id)) {
+            continue;
         }
+
+        channels.set(id, getChannel(state, id));
     }
 
     return {
