@@ -7,7 +7,6 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router/es6';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import {getFlaggedPosts} from 'actions/post_actions.jsx';
 
 import PreferenceStore from 'stores/preference_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
@@ -33,7 +32,12 @@ export default class SidebarRightMenu extends React.Component {
     static propTypes = {
         teamType: PropTypes.string,
         teamDisplayName: PropTypes.string,
-        isMentionSearch: PropTypes.bool
+        isMentionSearch: PropTypes.bool,
+        actions: PropTypes.shape({
+            showMentions: PropTypes.func,
+            showFlaggedPosts: PropTypes.func,
+            closeRightHandSide: PropTypes.func
+        })
     };
 
     constructor(props) {
@@ -87,7 +91,7 @@ export default class SidebarRightMenu extends React.Component {
 
     getFlagged(e) {
         e.preventDefault();
-        getFlaggedPosts();
+        this.props.actions.showFlaggedPosts();
         this.closeRightSidebar();
     }
 
@@ -118,13 +122,12 @@ export default class SidebarRightMenu extends React.Component {
 
     searchMentions(e) {
         e.preventDefault();
-        const user = this.state.currentUser;
 
         if (this.props.isMentionSearch) {
-            GlobalActions.emitCloseRightHandSide();
+            this.props.actions.closeRightHandSide();
         } else {
             this.closeRightSidebar();
-            GlobalActions.emitSearchMentionsEvent(user);
+            this.props.actions.showMentions();
         }
     }
 

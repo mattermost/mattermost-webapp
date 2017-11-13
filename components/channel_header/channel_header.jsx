@@ -9,7 +9,6 @@ import {FormattedMessage} from 'react-intl';
 import 'bootstrap';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import {getFlaggedPosts, getPinnedPosts} from 'actions/post_actions.jsx';
 import * as WebrtcActions from 'actions/webrtc_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
@@ -55,7 +54,10 @@ export default class ChannelHeader extends React.Component {
             leaveChannel: PropTypes.func.isRequired,
             favoriteChannel: PropTypes.func.isRequired,
             unfavoriteChannel: PropTypes.func.isRequired,
-            updateRhsState: PropTypes.func.isRequired
+            showFlaggedPosts: PropTypes.func.isRequired,
+            showPinnedPosts: PropTypes.func.isRequired,
+            showMentions: PropTypes.func.isRequired,
+            closeRightHandSide: PropTypes.func.isRequired
         }).isRequired
     }
 
@@ -115,30 +117,27 @@ export default class ChannelHeader extends React.Component {
     searchMentions = (e) => {
         e.preventDefault();
         if (this.props.rhsState === RHSStates.MENTION) {
-            GlobalActions.emitCloseRightHandSide();
+            this.props.actions.closeRightHandSide();
         } else {
-            GlobalActions.emitSearchMentionsEvent(this.props.currentUser);
-            this.props.actions.updateRhsState(RHSStates.MENTION);
+            this.props.actions.showMentions();
         }
     }
 
     getPinnedPosts = (e) => {
         e.preventDefault();
         if (this.props.rhsState === RHSStates.PIN) {
-            GlobalActions.emitCloseRightHandSide();
+            this.props.actions.closeRightHandSide();
         } else {
-            getPinnedPosts();
-            this.props.actions.updateRhsState(RHSStates.PIN);
+            this.props.actions.showPinnedPosts();
         }
     }
 
     getFlagged = (e) => {
         e.preventDefault();
         if (this.props.rhsState === RHSStates.FLAG) {
-            GlobalActions.emitCloseRightHandSide();
+            this.props.actions.closeRightHandSide();
         } else {
-            getFlaggedPosts();
-            this.props.actions.updateRhsState(RHSStates.FLAG);
+            this.props.actions.showFlaggedPosts();
         }
     }
 
@@ -167,7 +166,7 @@ export default class ChannelHeader extends React.Component {
 
     initWebrtc = (contactId, isOnline) => {
         if (isOnline && !this.state.isBusy) {
-            GlobalActions.emitCloseRightHandSide();
+            this.props.actions.closeRightHandSide();
             WebrtcActions.initWebrtc(contactId, true);
         }
     }

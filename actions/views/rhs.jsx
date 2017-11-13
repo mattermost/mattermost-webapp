@@ -101,7 +101,7 @@ export function showFlaggedPosts() {
     };
 }
 
-export async function showPinnedPosts(channelId) {
+export function showPinnedPosts(channelId) {
     return async (dispatch, getState) => {
         const currentChannelId = getCurrentChannelId(getState());
 
@@ -133,7 +133,7 @@ export async function showPinnedPosts(channelId) {
     };
 }
 
-export function searchMentions() {
+export function showMentions() {
     return (dispatch, getState) => {
         let terms = '';
         const state = getState();
@@ -156,6 +156,7 @@ export function searchMentions() {
         trackEvent('api', 'api_posts_search_mention');
 
         dispatch(performSearch(terms));
+        dispatch(updateRhsState(RHSStates.MENTION));
     };
 }
 

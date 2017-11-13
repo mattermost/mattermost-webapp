@@ -13,7 +13,7 @@ import WebrtcStore from 'stores/webrtc_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import SearchResultsHeader from '../search_results_header.jsx';
+import SearchResultsHeader from '../search_results_header';
 import SearchResultsItem from '../search_results_item.jsx';
 
 export default class SearchResults extends React.Component {

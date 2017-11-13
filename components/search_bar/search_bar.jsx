@@ -6,11 +6,7 @@ import React from 'react';
 import {OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
-import {getFlaggedPosts} from 'actions/post_actions.jsx';
-import UserStore from 'stores/user_store.jsx';
-
-import Constants, {RHSStates} from 'utils/constants.jsx';
+import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import SearchChannelProvider from '../suggestion/search_channel_provider.jsx';
@@ -27,7 +23,9 @@ export default class SearchBar extends React.Component {
         isFlaggedPosts: PropTypes.bool,
         actions: PropTypes.shape({
             searchPosts: PropTypes.func,
-            updateRhsState: PropTypes.func
+            showMentions: PropTypes.func,
+            showFlaggedPosts: PropTypes.func,
+            closeRightHandSide: PropTypes.func
         })
     };
 
@@ -65,7 +63,7 @@ export default class SearchBar extends React.Component {
             });
         }
 
-        GlobalActions.emitCloseRightHandSide();
+        this.props.actions.closeRightHandSide();
     }
 
     handleKeyDown = (e) => {
@@ -140,23 +138,20 @@ export default class SearchBar extends React.Component {
 
     searchMentions = (e) => {
         e.preventDefault();
-        const user = UserStore.getCurrentUser();
         if (this.props.isMentionSearch) {
             // Close
-            GlobalActions.emitCloseRightHandSide();
+            this.props.actions.closeRightHandSide();
         } else {
-            GlobalActions.emitSearchMentionsEvent(user);
-            this.props.actions.updateRhsState(RHSStates.MENTION);
+            this.props.actions.showMentions();
         }
     }
 
     getFlagged = (e) => {
         e.preventDefault();
         if (this.props.isFlaggedPosts) {
-            GlobalActions.emitCloseRightHandSide();
+            this.props.actions.closeRightHandSide();
         } else {
-            getFlaggedPosts();
-            this.props.actions.updateRhsState(RHSStates.FLAG);
+            this.props.actions.showFlaggedPosts();
         }
     }
 

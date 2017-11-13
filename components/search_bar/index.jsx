@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {performSearch} from 'actions/post_actions';
-import {updateRhsState} from 'actions/views/rhs';
+import {showMentions, showFlaggedPosts, closeRightHandSide} from 'actions/views/rhs';
 
 import {getRhsState} from 'selectors/rhs';
 
@@ -25,8 +25,10 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            updateRhsState,
-            performSearch
+            showMentions,
+            showFlaggedPosts,
+            performSearch,
+            closeRightHandSide
         }, dispatch)
     };
 }

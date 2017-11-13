@@ -8,7 +8,6 @@ import React from 'react';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {postListScrollChange} from 'actions/global_actions.jsx';
-import {getFlaggedPosts, getPinnedPosts} from 'actions/post_actions.jsx';
 import PostStore from 'stores/post_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
@@ -32,7 +31,11 @@ export default class SidebarRight extends React.Component {
         isPinnedPosts: PropTypes.bool,
         fromSearch: PropTypes.string,
         fromFlaggedPosts: PropTypes.bool,
-        fromPinnedPosts: PropTypes.bool
+        fromPinnedPosts: PropTypes.bool,
+        actions: PropTypes.shape({
+            showPinnedPosts: PropTypes.func,
+            showFlaggedPosts: PropTypes.func
+        })
     }
 
     constructor(props) {
@@ -112,7 +115,7 @@ export default class SidebarRight extends React.Component {
 
     onPreferenceChange = () => {
         if (this.props.isFlaggedPosts) {
-            getFlaggedPosts();
+            this.props.actions.showFlaggedPosts();
         }
 
         this.setState({
@@ -122,7 +125,7 @@ export default class SidebarRight extends React.Component {
 
     onPostPinnedChange = () => {
         if (this.props.channel && this.props.isPinnedPosts) {
-            getPinnedPosts(this.props.channel.id);
+            this.props.actions.showPinnedPosts();
         }
     }
 
