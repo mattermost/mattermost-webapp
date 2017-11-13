@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Link} from 'react-router/es6';
+import {Link} from 'react-router';
 
 import TeamStore from 'stores/team_store.jsx';
 

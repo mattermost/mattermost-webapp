@@ -2,7 +2,7 @@
 // See License.txt for license information.
 
 import React from 'react';
-import {IndexRedirect, Redirect, Route} from 'react-router/es6';
+import {IndexRedirect, Redirect, Route} from 'react-router';
 
 import JIRASettings from 'plugins/jira/components/settings.jsx';
 import * as RouteUtils from 'routes/route_utils.jsx';

@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router/es6';
+import {browserHistory} from 'react-router';
 
 import {activateMfa, generateMfaSecret} from 'actions/user_actions.jsx';
 import UserStore from 'stores/user_store.jsx';

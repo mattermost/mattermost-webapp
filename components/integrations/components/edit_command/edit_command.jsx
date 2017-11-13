@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router/es6';
+import {browserHistory} from 'react-router';
 
 import LoadingScreen from 'components/loading_screen.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';

@@ -2,6 +2,7 @@
 // See License.txt for license information.
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import {Link} from 'react-router';
 
@@ -29,7 +30,7 @@ export default class AnnouncementBar extends React.PureComponent {
         /*
          * Set if the user is logged in
          */
-        isLoggedIn: React.PropTypes.bool.isRequired
+        isLoggedIn: PropTypes.bool.isRequired
     }
 
     constructor() {

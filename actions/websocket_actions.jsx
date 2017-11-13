@@ -3,7 +3,7 @@
 
 import $ from 'jquery';
 
-import {browserHistory} from 'react-router/es6';
+import {browserHistory} from 'react-router';
 import {batchActions} from 'redux-batched-actions';
 
 import {ChannelTypes, EmojiTypes, PostTypes, TeamTypes, UserTypes} from 'mattermost-redux/action_types';

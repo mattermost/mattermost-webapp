@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedDate, FormattedHTMLMessage, FormattedMessage, FormattedTime} from 'react-intl';
-import {browserHistory, Link} from 'react-router/es6';
+import {browserHistory, Link} from 'react-router';
 
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 
@@ -66,6 +66,16 @@ export default class SecurityTab extends React.Component {
              * Function to revoke a personal access token
              */
             revokeUserAccessToken: PropTypes.func.isRequired,
+
+            /*
+             * Function to activate a personal access token
+             */
+            enableUserAccessToken: PropTypes.func.isRequired,
+
+            /*
+             * Function to deactivate a personal access token
+             */
+            disableUserAccessToken: PropTypes.func.isRequired,
 
             /*
              * Function to clear personal access tokens locally
@@ -1099,6 +1109,24 @@ export default class SecurityTab extends React.Component {
         this.handleCancelConfirm();
     }
 
+    activateToken = async (tokenId) => {
+        const {error} = await this.props.actions.enableUserAccessToken(tokenId);
+        if (error) {
+            this.setState({serverError: error.message});
+        } else {
+            trackEvent('settings', 'activate_user_access_token');
+        }
+    }
+
+    deactivateToken = async (tokenId) => {
+        const {error} = await this.props.actions.disableUserAccessToken(tokenId);
+        if (error) {
+            this.setState({serverError: error.message});
+        } else {
+            trackEvent('settings', 'deactivate_user_access_token');
+        }
+    }
+
     createTokensSection = () => {
         let updateSectionStatus;
         let tokenListClass = '';
@@ -1108,6 +1136,48 @@ export default class SecurityTab extends React.Component {
             Object.values(this.props.userAccessTokens).forEach((token) => {
                 if (this.state.newToken && this.state.newToken.id === token.id) {
                     return;
+                }
+
+                let activeLink;
+                let activeStatus;
+
+                if (token.is_active) {
+                    activeLink = (
+                        <a
+                            name={token.id + '_deactivate'}
+                            href='#'
+                            onClick={(e) => {
+                                e.preventDefault();
+                                this.deactivateToken(token.id);
+                            }}
+                        >
+                            <FormattedMessage
+                                id='user.settings.tokens.deactivate'
+                                defaultMessage='Deactivate'
+                            />
+                        </a>);
+                } else {
+                    activeStatus = (
+                        <span className='has-error setting-box__inline-error'>
+                            <FormattedMessage
+                                id='user.settings.tokens.deactivatedWarning'
+                                defaultMessage='(Inactive)'
+                            />
+                        </span>
+                    );
+                    activeLink = (<a
+                        name={token.id + '_activate'}
+                        href='#'
+                        onClick={(e) => {
+                            e.preventDefault();
+                            this.activateToken(token.id);
+                        }}
+                                  >
+                        <FormattedMessage
+                            id='user.settings.tokens.activate'
+                            defaultMessage='Activate'
+                        />
+                    </a>);
                 }
 
                 tokenList.push(
@@ -1121,6 +1191,7 @@ export default class SecurityTab extends React.Component {
                                 defaultMessage='Token Description: '
                             />
                             {token.description}
+                            {activeStatus}
                         </div>
                         <div className='setting-box__token-id whitespace--nowrap overflow--ellipsis'>
                             <FormattedMessage
@@ -1130,8 +1201,10 @@ export default class SecurityTab extends React.Component {
                             {token.id}
                         </div>
                         <div>
+                            {activeLink}
+                            {' - '}
                             <a
-                                name={token.id}
+                                name={token.id + '_delete'}
                                 href='#'
                                 onClick={(e) => {
                                     e.preventDefault();
