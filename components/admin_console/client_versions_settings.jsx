@@ -150,7 +150,7 @@ export default class ClientVersionsSettings extends AdminSettings {
                     label={
                         <FormattedMessage
                             id='admin.client_versions.iosMinVersion'
-                            defaultMessage='Minimum IOS Version'
+                            defaultMessage='Minimum iOS Version'
                         />
                     }
                     placeholder={Utils.localizeMessage('admin.client_versions.iosMinVersion', 'X.X.X')}
