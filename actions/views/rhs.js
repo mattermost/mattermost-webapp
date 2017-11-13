@@ -120,7 +120,7 @@ export function showFlaggedPosts() {
     };
 }
 
-function getPinnedPosts(channelId) {
+export function getPinnedPosts(channelId) {
     return async (dispatch, getState) => {
         const currentChannelId = getCurrentChannelId(getState());
 

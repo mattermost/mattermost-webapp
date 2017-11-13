@@ -19,9 +19,14 @@ import {
     updateSearchTerms,
     performSearch,
     getFlaggedPosts,
+    getPinnedPosts,
     showSearchResults,
-    showFlaggedPosts
+    showFlaggedPosts,
+    showPinnedPosts,
+    showMentions
 } from 'actions/views/rhs';
+
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 import {ActionTypes, RHSStates} from 'utils/constants.jsx';
 
@@ -30,6 +35,10 @@ const mockStore = configureStore([thunk]);
 const currentChannelId = '123';
 const currentTeamId = '321';
 const currentUserId = 'user123';
+
+jest.mock('mattermost-redux/selectors/entities/users', () => ({
+    getCurrentUserMentionKeys: jest.fn(() => ['@here', '@mattermost', '@channel', '@all'])
+}));
 
 jest.mock('mattermost-redux/actions/posts', () => ({
     getPostThread: (...args) => ({type: 'MOCK_GET_POST_THREAD', args}),
@@ -58,6 +67,10 @@ jest.mock('mattermost-redux/client', () => {
         }
     };
 });
+
+jest.mock('actions/diagnostics_actions.jsx', () => ({
+    trackEvent: jest.fn()
+}));
 
 describe('rhs view actions', () => {
     const initialState = {
@@ -242,6 +255,56 @@ describe('rhs view actions', () => {
             compareStore.dispatch(updateRhsState(RHSStates.FLAG));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
+        });
+    });
+
+    describe('getPinnedPosts', () => {
+        test('it dispatches the right actions', async () => {
+            await store.dispatch(getPinnedPosts());
+
+            const compareStore = mockStore(initialState);
+            const result = await Client4.getPinnedPosts(currentChannelId);
+            await PostActions.getProfilesAndStatusesForPosts(result.posts, compareStore.dispatch, compareStore.getState);
+            compareStore.dispatch(receivedSearchResultsAction(currentTeamId, result));
+
+            expect(store.getActions()).toEqual(compareStore.getActions());
+        });
+    });
+
+    describe('showPinnedPosts', () => {
+        test('it dispatches the right actions', () => {
+            store.dispatch(showPinnedPosts());
+
+            const compareStore = mockStore(initialState);
+            compareStore.dispatch(getPinnedPosts());
+            compareStore.dispatch(updateSearchTerms(''));
+            compareStore.dispatch(updateRhsState(RHSStates.PIN));
+
+            expect(store.getActions()).toEqual(compareStore.getActions());
+        });
+    });
+
+    describe('showMentions', () => {
+        test('it dispatches the right actions', () => {
+            store.dispatch(showMentions());
+
+            const compareStore = mockStore(initialState);
+            compareStore.dispatch(updateSearchTerms('@here @mattermost'));
+            compareStore.dispatch(performSearch('@here @mattermost', true));
+            compareStore.dispatch(updateRhsState(RHSStates.MENTION));
+
+            expect(store.getActions()).toEqual(compareStore.getActions());
+        });
+
+        test('it calls trackEvent correctly', () => {
+            trackEvent.mockClear();
+
+            store.dispatch(showMentions());
+
+            expect(trackEvent).toHaveBeenCalledTimes(1);
+
+            expect(trackEvent.mock.calls[0][0]).toEqual('api');
+            expect(trackEvent.mock.calls[0][1]).toEqual('api_posts_search_mention');
         });
     });
 });
