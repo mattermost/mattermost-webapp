@@ -20,7 +20,7 @@ export default class SearchResults extends React.Component {
     static propTypes = {
         results: PropTypes.array,
         channels: PropTypes.object,
-        searchTerm: PropTypes.string,
+        searchTerms: PropTypes.string,
         flaggedPosts: PropTypes.array,
         loading: PropTypes.bool,
         compactDisplay: PropTypes.bool,
@@ -67,7 +67,7 @@ export default class SearchResults extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.searchTerm !== prevProps.searchTerm) {
+        if (this.props.searchTerms !== prevProps.searchTerms) {
             this.resize();
         }
     }
@@ -98,7 +98,7 @@ export default class SearchResults extends React.Component {
     render() {
         const results = this.props.results;
         const noResults = (!results || results.length === 0);
-        const searchTerm = this.props.searchTerm;
+        const searchTerms = this.props.searchTerms;
         const profiles = this.state.profiles || {};
         const flagIcon = Constants.FLAG_ICON_SVG;
 
@@ -217,7 +217,7 @@ export default class SearchResults extends React.Component {
                     </ul>
                 </div>
             );
-        } else if (!searchTerm && noResults) {
+        } else if (!searchTerms && noResults) {
             const tips = [
                 <li key='quotes'>
                     <FormattedMessage
@@ -327,7 +327,7 @@ export default class SearchResults extends React.Component {
                         post={post}
                         lastPostCount={(reverseCount >= 0 && reverseCount < Constants.TEST_ID_COUNT) ? reverseCount : -1}
                         user={profile}
-                        term={searchTerm}
+                        term={searchTerms}
                         isMentionSearch={this.props.isMentionSearch}
                         isFlaggedSearch={this.props.isFlaggedPosts}
                         useMilitaryTime={this.props.useMilitaryTime}

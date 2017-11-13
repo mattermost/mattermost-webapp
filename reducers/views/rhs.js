@@ -3,7 +3,7 @@
 
 import {combineReducers} from 'redux';
 
-import {PostTypes} from 'mattermost-redux/action_types';
+import {PostTypes, SearchTypes} from 'mattermost-redux/action_types';
 
 import {ActionTypes, RHSStates} from 'utils/constants.jsx';
 
@@ -113,6 +113,18 @@ function searchTerms(state = '', action) {
     }
 }
 
+function isSearching(state = false, action) {
+    switch (action.type) {
+    case SearchTypes.SEARCH_POSTS_REQUEST:
+        return true;
+    case SearchTypes.SEARCH_POSTS_FAILURE:
+    case SearchTypes.SEARCH_POSTS_SUCCESS:
+        return false;
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     selectedPostId,
     channelId,
@@ -121,5 +133,6 @@ export default combineReducers({
     fromPinnedPosts,
     fromMentions,
     rhsState,
-    searchTerms
+    searchTerms,
+    isSearching
 });

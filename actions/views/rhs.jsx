@@ -103,7 +103,7 @@ export function showFlaggedPosts() {
             {
                 type: SearchTypes.SEARCH_POSTS_SUCCESS
             }
-        ]), getState);
+        ], 'SEARCH_POST_BATCH'), getState);
 
         dispatch(updateSearchTerms(''));
         dispatch(updateRhsState(RHSStates.FLAG));
@@ -136,7 +136,7 @@ export function showPinnedPosts(channelId) {
             {
                 type: SearchTypes.SEARCH_POSTS_SUCCESS
             }
-        ]), getState);
+        ], 'SEARCH_POST_BATCH'), getState);
 
         dispatch(updateSearchTerms(''));
         dispatch(updateRhsState(RHSStates.PIN));

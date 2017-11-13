@@ -18,6 +18,7 @@ const {KeyCodes} = Constants;
 
 export default class SearchBar extends React.Component {
     static propTypes = {
+        isSearching: PropTypes.bool,
         searchTerms: PropTypes.string,
         isMentionSearch: PropTypes.bool,
         isFlaggedPosts: PropTypes.bool,
@@ -32,7 +33,6 @@ export default class SearchBar extends React.Component {
 
     constructor() {
         super();
-        this.mounted = false;
 
         this.state = {
             focused: false,
@@ -43,17 +43,11 @@ export default class SearchBar extends React.Component {
     }
 
     componentDidMount() {
-        this.mounted = true;
-
         if (Utils.isMobile()) {
             setTimeout(() => {
                 document.querySelector('.app__body .sidebar--menu').classList.remove('visible');
             });
         }
-    }
-
-    componentWillUnmount() {
-        this.mounted = false;
     }
 
     handleClose = () => {
@@ -93,33 +87,20 @@ export default class SearchBar extends React.Component {
     handleSearch = async (terms) => {
         if (terms.length) {
             this.setState({
-                isSearching: true,
                 isPristine: false
             });
 
             const {error} = await this.props.actions.showSearchResult();
 
-            if (error) {
-                this.handleSearchOnError();
-            } else {
+            if (!error) {
                 this.handleSearchOnSuccess();
             }
         }
     }
 
     handleSearchOnSuccess = () => {
-        if (this.mounted) {
-            this.setState({isSearching: false});
-
-            if (Utils.isMobile() && this.search) {
-                this.search.value = '';
-            }
-        }
-    }
-
-    handleSearchOnError = () => {
-        if (this.mounted) {
-            this.setState({isSearching: false});
+        if (Utils.isMobile() && this.search) {
+            this.search.value = '';
         }
     }
 
@@ -180,7 +161,7 @@ export default class SearchBar extends React.Component {
         const mentionsIcon = Constants.MENTIONS_ICON_SVG;
 
         var isSearching = null;
-        if (this.state.isSearching) {
+        if (this.props.isSearching) {
             isSearching = <span className={'fa fa-spin fa-spinner'}/>;
         }
 
@@ -262,7 +243,7 @@ export default class SearchBar extends React.Component {
         }
 
         let clearClass = 'sidebar__search-clear';
-        if (!this.state.isSearching && this.props.searchTerms && this.props.searchTerms.trim() !== '') {
+        if (!this.props.isSearching && this.props.searchTerms && this.props.searchTerms.trim() !== '') {
             clearClass += ' visible';
         }
 

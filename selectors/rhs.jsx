@@ -49,3 +49,7 @@ export function getRhsState(state) {
 export function getSearchTerms(state) {
     return state.views.rhs.searchTerms;
 }
+
+export function getIsSearching(state) {
+    return state.views.rhs.isSearching;
+}

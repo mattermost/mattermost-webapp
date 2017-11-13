@@ -9,6 +9,8 @@ import * as PreferenceSelectors from 'mattermost-redux/selectors/entities/prefer
 
 import {selectPostFromRightHandSideSearch} from 'actions/views/rhs';
 
+import {getSearchTerms, getIsSearching} from 'selectors/rhs';
+
 import {Preferences} from 'utils/constants.jsx';
 
 import SearchResults from './search_results.jsx';
@@ -34,9 +36,9 @@ function mapStateToProps(state) {
     return {
         results: posts,
         channels,
-        searchTerm: '',
+        searchTerms: getSearchTerms(state),
         flaggedPosts: getCategory(state, Preferences.CATEGORY_FLAGGED_POST),
-        loading: false,
+        loading: getIsSearching(state),
         compactDisplay: PreferenceSelectors.get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT
     };
 }
