@@ -100,6 +100,7 @@ export const ActionTypes = keyMirror({
     LOADING_POSTS: null,
 
     UPDATE_RHS_STATE: null,
+    UPDATE_RHS_SEARCH_TERMS: null,
 
     RECEIVED_PROFILES: null,
     RECEIVED_PROFILES_IN_TEAM: null,

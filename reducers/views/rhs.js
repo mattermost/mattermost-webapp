@@ -101,6 +101,15 @@ function pinnedPostsChannelId(state = null, action) {
     }
 }
 
+function searchTerms(state = '', action) {
+    switch (action.type) {
+    case ActionTypes.UPDATE_RHS_SEARCH_TERMS:
+        return action.terms;
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     selectedPostId,
     selectedPostChannelId,
@@ -108,5 +117,6 @@ export default combineReducers({
     fromFlaggedPosts,
     fromPinnedPosts,
     rhsState,
-    pinnedPostsChannelId
+    pinnedPostsChannelId,
+    searchTerms
 });

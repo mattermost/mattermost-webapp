@@ -45,3 +45,7 @@ export const getSelectedPost = createSelector(
 export function getRhsState(state) {
     return state.views.rhs.rhsState;
 }
+
+export function getSearchTerms(state) {
+    return state.views.rhs.searchTerms;
+}

@@ -4,10 +4,15 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {performSearch} from 'actions/post_actions';
-import {showMentions, showFlaggedPosts, closeRightHandSide} from 'actions/views/rhs';
+import {
+    updateSearchTerms,
+    showSearchResult,
+    showMentions,
+    showFlaggedPosts,
+    closeRightHandSide
+} from 'actions/views/rhs';
 
-import {getRhsState} from 'selectors/rhs';
+import {getRhsState, getSearchTerms} from 'selectors/rhs';
 
 import {RHSStates} from 'utils/constants.jsx';
 
@@ -17,6 +22,7 @@ function mapStateToProps(state) {
     const rhsState = getRhsState(state);
 
     return {
+        searchTerms: getSearchTerms(state),
         isMentionSearch: rhsState === RHSStates.MENTION,
         isFlaggedPosts: rhsState === RHSStates.FLAG
     };
@@ -25,9 +31,10 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
+            updateSearchTerms,
+            showSearchResult,
             showMentions,
             showFlaggedPosts,
-            performSearch,
             closeRightHandSide
         }, dispatch)
     };

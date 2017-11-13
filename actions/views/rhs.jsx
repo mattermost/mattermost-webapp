@@ -12,7 +12,7 @@ import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels'
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
-import {getRhsState} from 'selectors/rhs';
+import {getSearchTerms, getRhsState} from 'selectors/rhs';
 
 import {ActionTypes, RHSStates} from 'utils/constants';
 import * as Utils from 'utils/utils';
@@ -51,6 +51,13 @@ export function selectPostFromRightHandSideSearch(post) {
     };
 }
 
+export function updateSearchTerms(terms) {
+    return {
+        type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
+        terms
+    };
+}
+
 export function performSearch(terms) {
     return (dispatch, getState) => {
         const teamId = getCurrentTeamId(getState());
@@ -60,8 +67,10 @@ export function performSearch(terms) {
 }
 
 export function showSearchResult() {
-    return async (dispatch) => {
-        const result = await dispatch(performSearch());
+    return async (dispatch, getState) => {
+        const searchTerms = getSearchTerms(getState());
+
+        const result = await dispatch(performSearch(searchTerms));
 
         dispatch(updateRhsState(RHSStates.SEARCH));
 
@@ -95,8 +104,9 @@ export function showFlaggedPosts() {
             {
                 type: SearchTypes.SEARCH_POSTS_SUCCESS
             }
-        ], 'SEARCH_POST_BATCH'), getState);
+        ]), getState);
 
+        dispatch(updateSearchTerms(''));
         dispatch(updateRhsState(RHSStates.FLAG));
     };
 }
@@ -127,8 +137,9 @@ export function showPinnedPosts(channelId) {
             {
                 type: SearchTypes.SEARCH_POSTS_SUCCESS
             }
-        ], 'SEARCH_POST_BATCH'), getState);
+        ]), getState);
 
+        dispatch(updateSearchTerms(''));
         dispatch(updateRhsState(RHSStates.PIN));
     };
 }
@@ -155,6 +166,7 @@ export function showMentions() {
 
         trackEvent('api', 'api_posts_search_mention');
 
+        dispatch(updateSearchTerms(terms));
         dispatch(performSearch(terms));
         dispatch(updateRhsState(RHSStates.MENTION));
     };
@@ -163,7 +175,6 @@ export function showMentions() {
 export function closeRightHandSide() {
     return (dispatch) => {
         dispatch(updateRhsState(null));
-
         dispatch({
             type: ActionTypes.SELECT_POST,
             postId: '',

@@ -18,11 +18,12 @@ const {KeyCodes} = Constants;
 
 export default class SearchBar extends React.Component {
     static propTypes = {
-        searchTerm: PropTypes.string,
+        searchTerms: PropTypes.string,
         isMentionSearch: PropTypes.bool,
         isFlaggedPosts: PropTypes.bool,
         actions: PropTypes.shape({
-            searchPosts: PropTypes.func,
+            updateSearchTerms: PropTypes.func,
+            showSearchResult: PropTypes.func,
             showMentions: PropTypes.func,
             showFlaggedPosts: PropTypes.func,
             closeRightHandSide: PropTypes.func
@@ -34,7 +35,6 @@ export default class SearchBar extends React.Component {
         this.mounted = false;
 
         this.state = {
-            searchTerm: '',
             focused: false,
             isPristine: true
         };
@@ -75,7 +75,7 @@ export default class SearchBar extends React.Component {
 
     handleChange = (e) => {
         var term = e.target.value;
-        this.setState({searchTerm: term});
+        this.props.actions.updateSearchTerms(term);
     }
 
     handleUserBlur = () => {
@@ -83,7 +83,7 @@ export default class SearchBar extends React.Component {
     }
 
     handleClear = () => {
-        this.setState({searchTerm: ''});
+        this.props.actions.updateSearchTerms('');
     }
 
     handleUserFocus = () => {
@@ -97,7 +97,7 @@ export default class SearchBar extends React.Component {
                 isPristine: false
             });
 
-            const {error} = await this.props.actions.searchPosts(terms);
+            const {error} = await this.props.actions.showSearchResult();
 
             if (error) {
                 this.handleSearchOnError();
@@ -125,7 +125,7 @@ export default class SearchBar extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const terms = this.state.searchTerm.trim();
+        const terms = this.props.searchTerms.trim();
 
         if (terms.length === 0) {
             return;
@@ -185,7 +185,7 @@ export default class SearchBar extends React.Component {
         }
 
         let helpClass = 'search-help-popover';
-        if (!this.state.searchTerm && this.state.focused) {
+        if (!this.props.searchTerms && this.state.focused) {
             helpClass += ' visible';
         }
 
@@ -262,7 +262,7 @@ export default class SearchBar extends React.Component {
         }
 
         let clearClass = 'sidebar__search-clear';
-        if (!this.state.isSearching && this.state.searchTerm && this.state.searchTerm.trim() !== '') {
+        if (!this.state.isSearching && this.props.searchTerms && this.props.searchTerms.trim() !== '') {
             clearClass += ' visible';
         }
 
@@ -305,7 +305,7 @@ export default class SearchBar extends React.Component {
                             }}
                             className='search-bar'
                             placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
-                            value={this.state.searchTerm}
+                            value={this.props.searchTerms}
                             onFocus={this.handleUserFocus}
                             onBlur={this.handleUserBlur}
                             onChange={this.handleChange}
@@ -313,7 +313,7 @@ export default class SearchBar extends React.Component {
                             listComponent={SearchSuggestionList}
                             providers={this.suggestionProviders}
                             type='search'
-                            autoFocus={this.props.isFocus && this.state.searchTerm === ''}
+                            autoFocus={this.props.isFocus && this.props.searchTerms === ''}
                         />
                         <div
                             id='searchClearButton'
