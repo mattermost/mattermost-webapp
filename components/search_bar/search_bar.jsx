@@ -24,7 +24,7 @@ export default class SearchBar extends React.Component {
         isFlaggedPosts: PropTypes.bool,
         actions: PropTypes.shape({
             updateSearchTerms: PropTypes.func,
-            showSearchResult: PropTypes.func,
+            showSearchResults: PropTypes.func,
             showMentions: PropTypes.func,
             showFlaggedPosts: PropTypes.func,
             closeRightHandSide: PropTypes.func
@@ -90,7 +90,7 @@ export default class SearchBar extends React.Component {
                 isPristine: false
             });
 
-            const {error} = await this.props.actions.showSearchResult();
+            const {error} = await this.props.actions.showSearchResults();
 
             if (!error) {
                 this.handleSearchOnSuccess();

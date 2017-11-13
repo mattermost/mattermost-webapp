@@ -65,15 +65,13 @@ export function performSearch(terms, isMentionSearch) {
     };
 }
 
-export function showSearchResult() {
-    return async (dispatch, getState) => {
+export function showSearchResults() {
+    return (dispatch, getState) => {
         const searchTerms = getSearchTerms(getState());
-
-        const result = await dispatch(performSearch(searchTerms));
 
         dispatch(updateRhsState(RHSStates.SEARCH));
 
-        return result;
+        return dispatch(performSearch(searchTerms));
     };
 }
 

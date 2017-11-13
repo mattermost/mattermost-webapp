@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 
 import {
     updateSearchTerms,
-    showSearchResult,
+    showSearchResults,
     showMentions,
     showFlaggedPosts,
     closeRightHandSide
@@ -33,7 +33,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             updateSearchTerms,
-            showSearchResult,
+            showSearchResults,
             showMentions,
             showFlaggedPosts,
             closeRightHandSide
