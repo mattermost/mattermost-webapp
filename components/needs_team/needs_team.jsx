@@ -9,15 +9,11 @@ import {browserHistory} from 'react-router/es6';
 
 import iNoBounce from 'inobounce';
 
-import {getPost} from 'mattermost-redux/selectors/entities/posts';
-
 import {startPeriodicStatusUpdates, stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import {startPeriodicSync, stopPeriodicSync} from 'actions/websocket_actions.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
-import PostStore from 'stores/post_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
-import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
@@ -63,7 +59,6 @@ export default class NeedsTeam extends React.Component {
         sidebar: PropTypes.element,
         team_sidebar: PropTypes.element,
         center: PropTypes.element,
-        params: PropTypes.object,
         user: PropTypes.object,
         actions: PropTypes.shape({
             viewChannel: PropTypes.func.isRequired,
@@ -199,24 +194,12 @@ export default class NeedsTeam extends React.Component {
             );
         }
 
-        let channel = ChannelStore.getByName(this.props.params.channel);
-        if (channel == null) {
-            // the permalink view is not really tied to a particular channel but still needs it
-            const postId = PostStore.getFocusedPostId();
-            const post = getPost(store.getState(), postId);
-
-            // the post take some time before being available on page load
-            if (post != null) {
-                channel = ChannelStore.get(post.channel_id);
-            }
-        }
-
         return (
             <div className='channel-view'>
                 <AnnouncementBar/>
                 <WebrtcNotification/>
                 <div className='container-fluid'>
-                    <SidebarRight channel={channel}/>
+                    <SidebarRight/>
                     <SidebarRightMenu teamType={this.state.team.type}/>
                     <WebrtcSidebar/>
                     {content}

@@ -23,12 +23,15 @@ function selectedPostId(state = '', action) {
     }
 }
 
-function selectedPostChannelId(state = '', action) {
+function channelId(state = '', action) {
     switch (action.type) {
     case ActionTypes.SELECT_POST:
         return action.channelId;
     case ActionTypes.UPDATE_RHS_STATE:
-        return '';
+        if (action.state === RHSStates.PIN) {
+            return action.channelId;
+        }
+        return null;
     default:
         return state;
     }
@@ -101,20 +104,6 @@ function rhsState(state = null, action) {
     }
 }
 
-function pinnedPostsChannelId(state = null, action) {
-    switch (action.type) {
-    case ActionTypes.UPDATE_RHS_STATE:
-        if (action.state === RHSStates.PIN) {
-            return action.channelId;
-        }
-        return null;
-    case ActionTypes.SELECT_POST:
-        return null;
-    default:
-        return state;
-    }
-}
-
 function searchTerms(state = '', action) {
     switch (action.type) {
     case ActionTypes.UPDATE_RHS_SEARCH_TERMS:
@@ -126,12 +115,11 @@ function searchTerms(state = '', action) {
 
 export default combineReducers({
     selectedPostId,
-    selectedPostChannelId,
+    channelId,
     fromSearch,
     fromFlaggedPosts,
     fromPinnedPosts,
     fromMentions,
     rhsState,
-    pinnedPostsChannelId,
     searchTerms
 });
