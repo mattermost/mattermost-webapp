@@ -151,7 +151,6 @@ export default class RhsRootPost extends React.Component {
         return (
             <Link
                 to={`/${this.state.currentTeamDisplayName}/pl/${post.id}`}
-                target='_blank'
                 className='post__permalink'
             >
                 {this.timeTag(post, timeOptions)}
