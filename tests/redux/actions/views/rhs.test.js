@@ -23,7 +23,8 @@ import {
     showSearchResults,
     showFlaggedPosts,
     showPinnedPosts,
-    showMentions
+    showMentions,
+    closeRightHandSide
 } from 'actions/views/rhs';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
@@ -36,9 +37,8 @@ const currentChannelId = '123';
 const currentTeamId = '321';
 const currentUserId = 'user123';
 
-jest.mock('mattermost-redux/selectors/entities/users', () => ({
-    getCurrentUserMentionKeys: jest.fn(() => ['@here', '@mattermost', '@channel', '@all'])
-}));
+const UserSelectors = require('mattermost-redux/selectors/entities/users');
+UserSelectors.getCurrentUserMentionKeys = jest.fn(() => ['@here', '@mattermost', '@channel', '@all']);
 
 jest.mock('mattermost-redux/actions/posts', () => ({
     getPostThread: (...args) => ({type: 'MOCK_GET_POST_THREAD', args}),
@@ -289,8 +289,8 @@ describe('rhs view actions', () => {
             store.dispatch(showMentions());
 
             const compareStore = mockStore(initialState);
-            compareStore.dispatch(updateSearchTerms('@here @mattermost'));
-            compareStore.dispatch(performSearch('@here @mattermost', true));
+            compareStore.dispatch(updateSearchTerms('@here @mattermost '));
+            compareStore.dispatch(performSearch('@here @mattermost ', true));
             compareStore.dispatch(updateRhsState(RHSStates.MENTION));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
@@ -307,5 +307,20 @@ describe('rhs view actions', () => {
             expect(trackEvent.mock.calls[0][1]).toEqual('api_posts_search_mention');
         });
     });
-});
 
+    describe('closeRightHandSide', () => {
+        test('it dispatches the right actions', () => {
+            store.dispatch(closeRightHandSide());
+
+            const compareStore = mockStore(initialState);
+            compareStore.dispatch(updateRhsState(null));
+            compareStore.dispatch({
+                type: ActionTypes.SELECT_POST,
+                postId: '',
+                channelId: ''
+            });
+
+            expect(store.getActions()).toEqual(compareStore.getActions());
+        });
+    });
+});

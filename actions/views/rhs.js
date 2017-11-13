@@ -154,7 +154,7 @@ export function showMentions() {
             termKeys[termKeys.indexOf('@all')] = '';
         }
 
-        const terms = termKeys.join(' ');
+        const terms = termKeys.join(' ').trim() + ' ';
 
         trackEvent('api', 'api_posts_search_mention');
 
