@@ -28,24 +28,24 @@ exports[`components/integrations/InstalledOAuthApps should match snapshot 1`] = 
             href="https://about.mattermost.com/default-app-directory/"
             rel="noopener noreferrer"
             target="_blank"
-        >
+          >
             <FormattedMessage
-                defaultMessage="App Directory"
-                id="installed_oauth_apps.help.appDirectory"
-                values={Object {}}
+              defaultMessage="App Directory"
+              id="installed_oauth_apps.help.appDirectory"
+              values={Object {}}
             />
-        </a>,
+          </a>,
           "oauthApplications": <a
             href="https://docs.mattermost.com/developer/oauth-2-0-applications.html"
             rel="noopener noreferrer"
             target="_blank"
-        >
+          >
             <FormattedMessage
-                defaultMessage="OAuth 2.0 applications"
-                id="installed_oauth_apps.help.oauthApplications"
-                values={Object {}}
+              defaultMessage="OAuth 2.0 applications"
+              id="installed_oauth_apps.help.oauthApplications"
+              values={Object {}}
             />
-        </a>,
+          </a>,
         }
       }
     />
@@ -54,6 +54,7 @@ exports[`components/integrations/InstalledOAuthApps should match snapshot 1`] = 
   searchPlaceholder="Search OAuth 2.0 Applications"
 >
   <InstalledOAuthApp
+    key="facxd9wpzpbpfp8pad78xj75pr"
     oauthApp={
       Object {
         "callback_urls": Array [
@@ -79,8 +80,14 @@ exports[`components/integrations/InstalledOAuthApps should match snapshot 1`] = 
         "status": "not_started",
       }
     }
+    team={
+      Object {
+        "name": "test",
+      }
+    }
   />
   <InstalledOAuthApp
+    key="fzcxd9wpzpbpfp8pad78xj75pr"
     oauthApp={
       Object {
         "callback_urls": Array [
@@ -105,6 +112,11 @@ exports[`components/integrations/InstalledOAuthApps should match snapshot 1`] = 
       Object {
         "error": null,
         "status": "not_started",
+      }
+    }
+    team={
+      Object {
+        "name": "test",
       }
     }
   />
