@@ -19,8 +19,6 @@ import {getRhsState} from 'selectors/rhs';
 import ChannelHeader from './channel_header.jsx';
 
 function mapStateToProps(state, ownProps) {
-    console.log(state);
-
     const channel = getChannel(state, ownProps.channelId) || {};
     const prefs = state.entities.preferences.myPreferences;
     const user = getCurrentUser(state);
