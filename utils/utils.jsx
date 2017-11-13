@@ -10,6 +10,8 @@ import {browserHistory} from 'react-router/es6';
 import {Client4} from 'mattermost-redux/client';
 import {Posts} from 'mattermost-redux/constants';
 
+import {searchForTerm} from 'actions/post_actions';
+
 import UserStore from 'stores/user_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import LocalizationStore from 'stores/localization_store.jsx';
@@ -21,10 +23,6 @@ import * as UserAgent from 'utils/user_agent.jsx';
 
 import bing from 'images/bing.mp3';
 import icon50 from 'images/icon50x50.png';
-
-import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
-
-var ActionTypes = Constants.ActionTypes;
 
 export function isEmail(email) {
     // writing a regex to match all valid email addresses is really, really hard (see http://stackoverflow.com/a/201378)

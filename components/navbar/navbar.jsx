@@ -44,7 +44,9 @@ export default class Navbar extends React.Component {
     static propTypes = {
         teamDisplayName: PropTypes.string,
         isPinnedPosts: PropTypes.bool,
-        closeRightHandSide: PropTypes.func
+        actions: PropTypes.shape({
+            closeRightHandSide: PropTypes.func
+        })
     };
 
     static defaultProps = {
