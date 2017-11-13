@@ -13,9 +13,10 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import {handleNewPost} from 'actions/post_actions.jsx';
+import {handleNewPost, performSearch} from 'actions/post_actions.jsx';
 import {stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded, loadProfilesForSidebar} from 'actions/user_actions.jsx';
+import {updateRhsState} from 'actions/views/rhs';
 import * as WebsocketActions from 'actions/websocket_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import BrowserStore from 'stores/browser_store.jsx';
@@ -145,8 +146,7 @@ export async function emitPostFocusEvent(postId, onSuccess) {
 }
 
 export function emitCloseRightHandSide() {
-    SearchStore.storeSearchResults(null, false, false);
-    SearchStore.emitSearchChange();
+    dispatch(updateRhsState(null));
 
     dispatch({
         type: ActionTypes.SELECT_POST,
@@ -490,16 +490,7 @@ export function emitSearchMentionsEvent(user) {
 
     trackEvent('api', 'api_posts_search_mention');
 
-    const teamId = getCurrentTeamId(getState());
-
-    dispatch({
-        type: SearchTypes.RECEIVED_SEARCH_TERM,
-        data: {
-            teamId,
-            terms,
-            isOrSearch: false
-        }
-    });
+    dispatch(performSearch(terms));
 }
 
 export function toggleSideBarAction(visible) {

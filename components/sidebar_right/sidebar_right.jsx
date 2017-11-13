@@ -19,8 +19,8 @@ import * as Utils from 'utils/utils.jsx';
 
 import FileUploadOverlay from 'components/file_upload_overlay.jsx';
 import RhsThread from 'components/rhs_thread';
-import SearchBox from 'components/search_bar.jsx';
-import SearchResults from 'components/search_results.jsx';
+import SearchBox from 'components/search_bar';
+import SearchResults from 'components/search_results';
 
 export default class SidebarRight extends React.Component {
     static propTypes = {
@@ -56,6 +56,8 @@ export default class SidebarRight extends React.Component {
     }
 
     componentDidMount() {
+        console.log(this.props);
+
         PostStore.addPostPinnedChangeListener(this.onPostPinnedChange);
         UserStore.addChangeListener(this.onUserChange);
         PreferenceStore.addChangeListener(this.onPreferenceChange);
@@ -68,12 +70,9 @@ export default class SidebarRight extends React.Component {
         PreferenceStore.removeChangeListener(this.onPreferenceChange);
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        return !Utils.areObjectsEqual(nextState, this.state) || this.props.postRightVisible !== nextProps.postRightVisible;
-    }
-
-    componentWillUpdate(nextProps) {
+    componentWillReceiveProps(nextProps) {
         console.log(nextProps);
+
         const isOpen = this.props.searchVisible || this.props.postRightVisible;
         const willOpen = nextProps.searchVisible || nextProps.postRightVisible;
 

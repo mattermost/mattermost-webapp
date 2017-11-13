@@ -30,7 +30,7 @@ import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import MessageWrapper from 'components/message_wrapper.jsx';
 import PopoverListMembers from 'components/popover_list_members';
 import RenameChannelModal from 'components/rename_channel_modal';
-import NavbarSearchBox from 'components/search_bar.jsx';
+import NavbarSearchBox from 'components/search_bar';
 import StatusIcon from 'components/status_icon.jsx';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
 

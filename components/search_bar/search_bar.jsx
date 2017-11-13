@@ -7,58 +7,46 @@ import {OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import {getFlaggedPosts, performSearch} from 'actions/post_actions.jsx';
-import SearchStore from 'stores/search_store.jsx';
+import {getFlaggedPosts} from 'actions/post_actions.jsx';
 import UserStore from 'stores/user_store.jsx';
 
-import Constants from 'utils/constants.jsx';
+import * as Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
+import AppDispatcher from '../../dispatcher/app_dispatcher.jsx';
 
-import SearchChannelProvider from './suggestion/search_channel_provider.jsx';
-import SearchSuggestionList from './suggestion/search_suggestion_list.jsx';
-import SearchUserProvider from './suggestion/search_user_provider.jsx';
-import SuggestionBox from './suggestion/suggestion_box.jsx';
+import SearchChannelProvider from '../suggestion/search_channel_provider.jsx';
+import SearchSuggestionList from '../suggestion/search_suggestion_list.jsx';
+import SearchUserProvider from '../suggestion/search_user_provider.jsx';
+import SuggestionBox from '../suggestion/suggestion_box.jsx';
 
-const ActionTypes = Constants.ActionTypes;
-const KeyCodes = Constants.KeyCodes;
+const {ActionTypes, KeyCodes, RHSStates} = Constants;
 
 export default class SearchBar extends React.Component {
+    static propTypes = {
+        searchTerm: PropTypes.string,
+        isMentionSearch: PropTypes.bool,
+        isFlaggedPosts: PropTypes.bool,
+        actions: PropTypes.shape({
+            searchPosts: PropTypes.func,
+            updateRhsState: PropTypes.func
+        })
+    };
+
     constructor() {
         super();
         this.mounted = false;
 
-        this.onListenerChange = this.onListenerChange.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleUserFocus = this.handleUserFocus.bind(this);
-        this.handleClear = this.handleClear.bind(this);
-        this.handleUserBlur = this.handleUserBlur.bind(this);
-        this.handleSearch = this.handleSearch.bind(this);
-        this.handleSearchOnSuccess = this.handleSearchOnSuccess.bind(this);
-        this.handleSearchOnError = this.handleSearchOnError.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.searchMentions = this.searchMentions.bind(this);
-        this.getFlagged = this.getFlagged.bind(this);
-        this.handleKeyDown = this.handleKeyDown.bind(this);
-
-        const state = this.getSearchTermStateFromStores();
-        state.focused = false;
-        state.isPristine = true;
-        this.state = state;
+        this.state = {
+            searchTerm: '',
+            focused: false,
+            isPristine: true
+        };
 
         this.suggestionProviders = [new SearchChannelProvider(), new SearchUserProvider()];
     }
 
-    getSearchTermStateFromStores() {
-        var term = SearchStore.getSearchTerm() || '';
-        return {
-            searchTerm: term
-        };
-    }
-
     componentDidMount() {
-        SearchStore.addSearchTermChangeListener(this.onListenerChange);
         this.mounted = true;
 
         if (Utils.isMobile()) {
@@ -69,23 +57,10 @@ export default class SearchBar extends React.Component {
     }
 
     componentWillUnmount() {
-        SearchStore.removeSearchTermChangeListener(this.onListenerChange);
         this.mounted = false;
     }
 
-    onListenerChange(doSearch, isMentionSearch) {
-        if (this.mounted) {
-            var newState = this.getSearchTermStateFromStores();
-            if (!Utils.areObjectsEqual(newState, this.state)) {
-                this.setState(newState);
-            }
-            if (doSearch) {
-                this.handleSearch(newState.searchTerm, isMentionSearch);
-            }
-        }
-    }
-
-    handleClose() {
+    handleClose = () => {
         if (Utils.isMobile()) {
             setTimeout(() => {
                 document.querySelector('.app__body .sidebar--menu').classList.add('visible');
@@ -111,53 +86,48 @@ export default class SearchBar extends React.Component {
         });
     }
 
-    handleKeyDown(e) {
+    handleKeyDown = (e) => {
         if (e.which === KeyCodes.ESCAPE) {
             e.stopPropagation();
             e.preventDefault();
         }
     }
 
-    handleChange(e) {
+    handleChange = (e) => {
         var term = e.target.value;
-        SearchStore.storeSearchTerm(term);
-        SearchStore.emitSearchTermChange(false, false);
         this.setState({searchTerm: term});
     }
 
-    handleUserBlur() {
+    handleUserBlur = () => {
         this.setState({focused: false});
     }
 
-    handleClear() {
+    handleClear = () => {
         this.setState({searchTerm: ''});
     }
 
-    handleUserFocus() {
+    handleUserFocus = () => {
         this.setState({focused: true});
     }
 
-    handleSearch(terms, isMentionSearch) {
+    handleSearch = async (terms) => {
         if (terms.length) {
             this.setState({
                 isSearching: true,
                 isPristine: false
             });
 
-            performSearch(
-                terms,
-                isMentionSearch,
-                () => {
-                    this.handleSearchOnSuccess();
-                },
-                () => {
-                    this.handleSearchOnError();
-                }
-            );
+            const {error} = await this.props.actions.searchPosts(terms);
+
+            if (error) {
+                this.handleSearchOnError();
+            } else {
+                this.handleSearchOnSuccess();
+            }
         }
     }
 
-    handleSearchOnSuccess() {
+    handleSearchOnSuccess = () => {
         if (this.mounted) {
             this.setState({isSearching: false});
 
@@ -167,13 +137,13 @@ export default class SearchBar extends React.Component {
         }
     }
 
-    handleSearchOnError() {
+    handleSearchOnError = () => {
         if (this.mounted) {
             this.setState({isSearching: false});
         }
     }
 
-    handleSubmit(e) {
+    handleSubmit = (e) => {
         e.preventDefault();
         const terms = this.state.searchTerm.trim();
 
@@ -181,33 +151,30 @@ export default class SearchBar extends React.Component {
             return;
         }
 
-        AppDispatcher.handleServerAction({
-            type: ActionTypes.RECEIVED_SEARCH_TERM,
-            term: terms,
-            do_search: true,
-            is_mention_search: false
-        });
+        this.handleSearch(terms);
 
         this.search.blur();
     }
 
-    searchMentions(e) {
+    searchMentions = (e) => {
         e.preventDefault();
         const user = UserStore.getCurrentUser();
-        if (SearchStore.isMentionSearch) {
+        if (this.props.isMentionSearch) {
             // Close
             GlobalActions.toggleSideBarAction(false);
         } else {
             GlobalActions.emitSearchMentionsEvent(user);
+            this.props.actions.updateRhsState(RHSStates.MENTION);
         }
     }
 
-    getFlagged(e) {
+    getFlagged = (e) => {
         e.preventDefault();
-        if (SearchStore.isFlaggedPosts) {
+        if (this.props.isFlaggedPosts) {
             GlobalActions.toggleSideBarAction(false);
         } else {
             getFlaggedPosts();
+            this.props.actions.updateRhsState(RHSStates.FLAG);
         }
     }
 
@@ -269,7 +236,7 @@ export default class SearchBar extends React.Component {
         let mentionBtn;
         let flagBtn;
         if (this.props.showMentionFlagBtns) {
-            var mentionBtnClass = SearchStore.isMentionSearch ? 'active' : '';
+            var mentionBtnClass = this.props.isMentionSearch ? 'active' : '';
 
             mentionBtn = (
                 <OverlayTrigger
@@ -291,7 +258,7 @@ export default class SearchBar extends React.Component {
                 </OverlayTrigger>
             );
 
-            var flagBtnClass = SearchStore.isFlaggedPosts ? 'active' : '';
+            var flagBtnClass = this.props.isFlaggedPosts ? 'active' : '';
 
             flagBtn = (
                 <OverlayTrigger
