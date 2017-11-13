@@ -159,18 +159,15 @@ export default class CreateComment extends React.PureComponent {
 
         const {draft} = this.props;
 
-        const newMessage = (function getNewMessage() {
-            if (draft.message === '') {
-                return `:${emojiAlias}: `;
-            }
-
+        let newMessage = '';
+        if (draft.message === '') {
+            newMessage = `:${emojiAlias}: `;
+        } else if (/\s+$/.test(draft.message)) {
             // Check whether there is already a blank at the end of the current message
-            if ((/\s+$/).test(draft.message)) {
-                return `${draft.message}:${emojiAlias}: `;
-            }
-
-            return `${draft.message} :${emojiAlias}: `;
-        }());
+            newMessage = `${draft.message}:${emojiAlias}: `;
+        } else {
+            newMessage = `${draft.message} :${emojiAlias}: `;
+        }
 
         this.props.onUpdateCommentDraft({...draft, message: newMessage});
 
