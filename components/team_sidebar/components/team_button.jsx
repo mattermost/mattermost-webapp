@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
-import {Link} from 'react-router/es6';
+import {Link} from 'react-router';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {switchTeams} from 'actions/team_actions.jsx';

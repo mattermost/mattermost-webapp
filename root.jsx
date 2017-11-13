@@ -7,7 +7,7 @@ require('perfect-scrollbar/jquery')($);
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
-import {Router, browserHistory} from 'react-router/es6';
+import {Router, browserHistory} from 'react-router';
 import PDFJS from 'pdfjs-dist';
 
 import * as Websockets from 'actions/websocket_actions.jsx';
