@@ -79,25 +79,23 @@ export function showSearchResults() {
 }
 
 function receivedSearchPosts(teamId, result) {
-    return (dispatch, getState) => {
-        dispatch(batchActions([
-            {
-                type: SearchTypes.RECEIVED_SEARCH_POSTS,
-                data: result
-            },
-            {
-                type: SearchTypes.RECEIVED_SEARCH_TERM,
-                data: {
-                    teamId,
-                    terms: null,
-                    isOrSearch: false
-                }
-            },
-            {
-                type: SearchTypes.SEARCH_POSTS_SUCCESS
+    return batchActions([
+        {
+            type: SearchTypes.RECEIVED_SEARCH_POSTS,
+            data: result
+        },
+        {
+            type: SearchTypes.RECEIVED_SEARCH_TERM,
+            data: {
+                teamId,
+                terms: null,
+                isOrSearch: false
             }
-        ], 'SEARCH_POST_BATCH'), getState);
-    };
+        },
+        {
+            type: SearchTypes.SEARCH_POSTS_SUCCESS
+        }
+    ], 'SEARCH_POST_BATCH');
 }
 
 function getFlaggedPosts() {
