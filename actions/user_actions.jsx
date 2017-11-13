@@ -526,6 +526,19 @@ export async function updatePassword(userId, currentPassword, newPassword, succe
     }
 }
 
+export function revokeAllSessions(userId, success, error) {
+    UserActions.revokeAllSessionsForUser(userId)(dispatch, getState).then(
+        (data) => {
+            if (data && success) {
+                success(data);
+            } else if (data == null && error) {
+                const serverError = getState().requests.users.updateUser.error;
+                error({id: serverError.server_error_id, ...serverError});
+            }
+        }
+    );
+}
+
 export async function verifyEmail(token, success, error) {
     const {data, error: err} = await UserActions.verifyUserEmail(token)(dispatch, getState);
     if (data && success) {

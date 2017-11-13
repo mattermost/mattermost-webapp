@@ -7,12 +7,8 @@ exports[`components/ColorInput should match snapshot, click on picker 1`] = `
   <input
     className="form-control"
     readOnly={true}
-    style={
-      Object {
-        "background": "#fff",
-      }
-    }
     type="text"
+    value="#ffffff"
   />
   <span
     className="input-group-addon"
@@ -22,7 +18,7 @@ exports[`components/ColorInput should match snapshot, click on picker 1`] = `
       className="color-icon"
       style={
         Object {
-          "backgroundColor": undefined,
+          "backgroundColor": "#ffffff",
         }
       }
     />
@@ -31,14 +27,7 @@ exports[`components/ColorInput should match snapshot, click on picker 1`] = `
     className="color-popover"
   >
     <ColorPicker
-      color={
-        Object {
-          "a": 1,
-          "h": 250,
-          "l": 0.2,
-          "s": 0.5,
-        }
-      }
+      color="#ffffff"
       disableAlpha={false}
       onChange={[Function]}
     />
@@ -53,12 +42,8 @@ exports[`components/ColorInput should match snapshot, init 1`] = `
   <input
     className="form-control"
     readOnly={true}
-    style={
-      Object {
-        "background": "#fff",
-      }
-    }
     type="text"
+    value="#ffffff"
   />
   <span
     className="input-group-addon"
@@ -68,7 +53,7 @@ exports[`components/ColorInput should match snapshot, init 1`] = `
       className="color-icon"
       style={
         Object {
-          "backgroundColor": undefined,
+          "backgroundColor": "#ffffff",
         }
       }
     />
@@ -83,12 +68,8 @@ exports[`components/ColorInput should match snapshot, opened 1`] = `
   <input
     className="form-control"
     readOnly={true}
-    style={
-      Object {
-        "background": "#fff",
-      }
-    }
     type="text"
+    value="#ffffff"
   />
   <span
     className="input-group-addon"
@@ -98,7 +79,7 @@ exports[`components/ColorInput should match snapshot, opened 1`] = `
       className="color-icon"
       style={
         Object {
-          "backgroundColor": undefined,
+          "backgroundColor": "#ffffff",
         }
       }
     />
@@ -107,14 +88,7 @@ exports[`components/ColorInput should match snapshot, opened 1`] = `
     className="color-popover"
   >
     <ColorPicker
-      color={
-        Object {
-          "a": 1,
-          "h": 250,
-          "l": 0.2,
-          "s": 0.5,
-        }
-      }
+      color="#ffffff"
       disableAlpha={false}
       onChange={[Function]}
     />
@@ -129,12 +103,8 @@ exports[`components/ColorInput should match snapshot, toggle picker 1`] = `
   <input
     className="form-control"
     readOnly={true}
-    style={
-      Object {
-        "background": "#fff",
-      }
-    }
     type="text"
+    value="#ffffff"
   />
   <span
     className="input-group-addon"
@@ -144,7 +114,7 @@ exports[`components/ColorInput should match snapshot, toggle picker 1`] = `
       className="color-icon"
       style={
         Object {
-          "backgroundColor": undefined,
+          "backgroundColor": "#ffffff",
         }
       }
     />
