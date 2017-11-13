@@ -951,17 +951,25 @@
         position: relative;
     }
 
-    .post--edited {
-        // If the last paragraph of an edited post is a paragraph, make it inline-block so that the (edited) indicator can be on the same line as it
-        .post-message__text > p:last-child {
-            display: inline-block;
-            width: auto;
+    // If the last paragraph of an edited post is a paragraph, make it inline-block so that the (edited) indicator can be on the same line as it
+    &:not(.post--compact) {
+        .post--edited {
+            .post-message__text > p:last-child {
+                display: inline-block;
+                width: auto;
+            }
         }
+    }
 
-        .post-edited-indicator {
-            @include opacity(.6);
-            font-size: .87em;
+    .post--edited {
+        .post-message__text > p:last-child {
+            display: inline;
         }
+    }
+
+    .post-edited__indicator {
+        @include opacity(.6);
+        font-size: .87em;
     }
 
     .emoticon {
