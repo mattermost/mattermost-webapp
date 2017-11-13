@@ -2,6 +2,9 @@
 // See License.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+
+import {closeRightHandSide} from 'actions/views/rhs';
 
 import {getRhsState} from 'selectors/rhs';
 
@@ -17,4 +20,12 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(Navbar);
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            closeRightHandSide
+        }, dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

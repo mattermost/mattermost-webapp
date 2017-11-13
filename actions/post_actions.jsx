@@ -11,6 +11,7 @@ import * as Selectors from 'mattermost-redux/selectors/entities/posts';
 
 import {sendDesktopNotification} from 'actions/notification_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
+import * as RhsActions from 'actions/views/rhs';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import PostStore from 'stores/post_store.jsx';
@@ -239,11 +240,8 @@ export function increasePostVisibility(channelId, focusedPostId) {
 }
 
 export function searchForTerm(term) {
-    AppDispatcher.handleServerAction({
-        type: ActionTypes.RECEIVED_SEARCH_TERM,
-        term,
-        do_search: true
-    });
+    dispatch(RhsActions.updateSearchTerms(term));
+    dispatch(RhsActions.showSearchResults());
 }
 
 export function pinPost(postId) {

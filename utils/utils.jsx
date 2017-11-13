@@ -1415,15 +1415,6 @@ export function handleFormattedTextClick(e) {
     }
 }
 
-// This should eventually be removed once everywhere else calls the action
-function searchForTerm(term) {
-    AppDispatcher.handleServerAction({
-        type: ActionTypes.RECEIVED_SEARCH_TERM,
-        term,
-        do_search: true
-    });
-}
-
 export function isEmptyObject(object) {
     if (!object) {
         return true;

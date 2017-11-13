@@ -443,16 +443,7 @@ export function clientLogout(redirectTo = '/') {
 }
 
 export function toggleSideBarRightMenuAction() {
-    AppDispatcher.handleServerAction({
-        type: ActionTypes.RECEIVED_SEARCH,
-        results: null
-    });
-
-    AppDispatcher.handleServerAction({
-        type: ActionTypes.RECEIVED_POST_SELECTED,
-        postId: null,
-        channelId: null
-    });
+    dispatch(closeRightHandSide());
 
     document.querySelector('.app__body .inner-wrap').classList.remove('move--right', 'move--left', 'move--left-small');
     document.querySelector('.app__body .sidebar--left').classList.remove('move--right');

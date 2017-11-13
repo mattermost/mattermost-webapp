@@ -43,7 +43,8 @@ import NavbarInfoButton from './navbar_info_button.jsx';
 export default class Navbar extends React.Component {
     static propTypes = {
         teamDisplayName: PropTypes.string,
-        isPinnedPosts: PropTypes.bool
+        isPinnedPosts: PropTypes.bool,
+        closeRightHandSide: PropTypes.func
     };
 
     static defaultProps = {
@@ -144,19 +145,10 @@ export default class Navbar extends React.Component {
         }
     }
 
-    hideSidebars(e) {
+    hideSidebars = (e) => {
         var windowWidth = $(window).outerWidth();
         if (windowWidth <= 768) {
-            AppDispatcher.handleServerAction({
-                type: ActionTypes.RECEIVED_SEARCH,
-                results: null
-            });
-
-            AppDispatcher.handleServerAction({
-                type: ActionTypes.RECEIVED_POST_SELECTED,
-                postId: null,
-                channelId: null
-            });
+            this.props.actions.closeRightHandSide();
 
             if (e.target.className !== 'navbar-toggle' && e.target.className !== 'icon-bar') {
                 $('.app__body .inner-wrap').removeClass('move--right move--left move--left-small');
