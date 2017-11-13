@@ -98,7 +98,7 @@ function receivedSearchPosts(teamId, result) {
     ], 'SEARCH_POST_BATCH');
 }
 
-function getFlaggedPosts() {
+export function getFlaggedPosts() {
     return async (dispatch, getState) => {
         const state = getState();
         const userId = getCurrentUserId(state);
