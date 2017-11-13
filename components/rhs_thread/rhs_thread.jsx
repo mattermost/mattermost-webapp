@@ -71,31 +71,19 @@ export default class RhsThread extends React.Component {
     constructor(props) {
         super(props);
 
-        this.mounted = false;
-
-        this.onUserChange = this.onUserChange.bind(this);
-        this.forceUpdateInfo = this.forceUpdateInfo.bind(this);
-        this.onPreferenceChange = this.onPreferenceChange.bind(this);
-        this.onStatusChange = this.onStatusChange.bind(this);
-        this.onBusy = this.onBusy.bind(this);
-        this.handleResize = this.handleResize.bind(this);
-        this.handleScroll = this.handleScroll.bind(this);
-        this.handleScrollStop = this.handleScrollStop.bind(this);
         this.scrollStopAction = new DelayedAction(this.handleScrollStop);
 
         const openTime = (new Date()).getTime();
-        const state = {};
-        state.windowWidth = Utils.windowWidth();
-        state.windowHeight = Utils.windowHeight();
-        state.profiles = JSON.parse(JSON.stringify(UserStore.getProfiles()));
-        state.compactDisplay = PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT;
-        state.flaggedPosts = PreferenceStore.getCategory(Constants.Preferences.CATEGORY_FLAGGED_POST);
-        state.statuses = Object.assign({}, UserStore.getStatuses());
-        state.previewsCollapsed = PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, 'false');
-        state.isBusy = WebrtcStore.isBusy();
 
         this.state = {
-            ...state,
+            windowWidth: Utils.windowWidth(),
+            windowHeight: Utils.windowHeight(),
+            profiles: JSON.parse(JSON.stringify(UserStore.getProfiles())),
+            compactDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
+            flaggedPosts: PreferenceStore.getCategory(Constants.Preferences.CATEGORY_FLAGGED_POST),
+            statuses: Object.assign({}, UserStore.getStatuses()),
+            previewsCollapsed: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, 'false'),
+            isBusy: WebrtcStore.isBusy(),
             isScrolling: false,
             topRhsPostCreateAt: 0,
             openTime
@@ -110,8 +98,6 @@ export default class RhsThread extends React.Component {
 
         this.scrollToBottom();
         window.addEventListener('resize', this.handleResize);
-
-        this.mounted = true;
     }
 
     componentWillUnmount() {
@@ -121,8 +107,18 @@ export default class RhsThread extends React.Component {
         WebrtcStore.removeBusyListener(this.onBusy);
 
         window.removeEventListener('resize', this.handleResize);
+    }
 
-        this.mounted = false;
+    componentWillReceiveProps(nextProps) {
+        if (!this.props.selected || !nextProps.selected) {
+            return;
+        }
+
+        if (this.props.selected.id !== nextProps.selected.id) {
+            this.setState({
+                openTime: (new Date()).getTime()
+            });
+        }
     }
 
     componentDidUpdate(prevProps) {
@@ -199,7 +195,7 @@ export default class RhsThread extends React.Component {
         return false;
     }
 
-    forceUpdateInfo() {
+    forceUpdateInfo = () => {
         if (this.state.postList) {
             for (var postId in this.state.postList.posts) {
                 if (this.refs[postId]) {
@@ -209,26 +205,14 @@ export default class RhsThread extends React.Component {
         }
     }
 
-    handleResize() {
+    handleResize = () => {
         this.setState({
             windowWidth: Utils.windowWidth(),
             windowHeight: Utils.windowHeight()
         });
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (!this.props.selected || !nextProps.selected) {
-            return;
-        }
-
-        if (this.props.selected.id !== nextProps.selected.id) {
-            this.setState({
-                openTime: (new Date()).getTime()
-            });
-        }
-    }
-
-    onPreferenceChange(category) {
+    onPreferenceChange = (category) => {
         let previewSuffix = '';
         if (category === Preferences.CATEGORY_DISPLAY_SETTINGS) {
             previewSuffix = '_' + Utils.generateId();
@@ -242,15 +226,15 @@ export default class RhsThread extends React.Component {
         this.forceUpdateInfo();
     }
 
-    onStatusChange() {
+    onStatusChange = () => {
         this.setState({statuses: Object.assign({}, UserStore.getStatuses())});
     }
 
-    onBusy(isBusy) {
+    onBusy = (isBusy) => {
         this.setState({isBusy});
     }
 
-    filterPosts(posts, selected, openTime) {
+    filterPosts = (posts, selected, openTime) => {
         const postsArray = [];
 
         posts.forEach((cpost) => {
@@ -267,18 +251,18 @@ export default class RhsThread extends React.Component {
         return postsArray;
     }
 
-    onUserChange() {
+    onUserChange = () => {
         const profiles = JSON.parse(JSON.stringify(UserStore.getProfiles()));
         this.setState({profiles});
     }
 
-    scrollToBottom() {
+    scrollToBottom = () => {
         if ($('.post-right__scroll')[0]) {
             $('.post-right__scroll').parent().scrollTop($('.post-right__scroll')[0].scrollHeight);
         }
     }
 
-    updateFloatingTimestamp() {
+    updateFloatingTimestamp = () => {
         // skip this in non-mobile view since that's when the timestamp is visible
         if (!Utils.isMobile()) {
             return;
@@ -306,7 +290,7 @@ export default class RhsThread extends React.Component {
         }
     }
 
-    handleScroll() {
+    handleScroll = () => {
         this.updateFloatingTimestamp();
 
         if (!this.state.isScrolling) {
@@ -318,7 +302,7 @@ export default class RhsThread extends React.Component {
         this.scrollStopAction.fireAfter(Constants.SCROLL_DELAY);
     }
 
-    handleScrollStop() {
+    handleScrollStop = () => {
         this.setState({
             isScrolling: false
         });

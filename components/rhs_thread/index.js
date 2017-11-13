@@ -17,7 +17,7 @@ import RhsThread from './rhs_thread.jsx';
 function makeMapStateToProps() {
     const getPostsForThread = makeGetPostsForThread();
 
-    return function mapStateToProps(state, ownProps) {
+    return function mapStateToProps(state) {
         const selected = getSelectedPost(state);
 
         let posts = [];

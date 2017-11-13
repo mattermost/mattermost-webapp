@@ -12,8 +12,8 @@ export function getSelectedPostId(state) {
     return state.views.rhs.selectedPostId;
 }
 
-function getSelectedPostChannelId(state) {
-    return state.views.rhs.selectedPostChannelId;
+function getSelectedChannelId(state) {
+    return state.views.rhs.selectedChannelId;
 }
 
 function getRealSelectedPost(state) {
@@ -23,7 +23,7 @@ function getRealSelectedPost(state) {
 export const getSelectedPost = createSelector(
     getSelectedPostId,
     getRealSelectedPost,
-    getSelectedPostChannelId,
+    getSelectedChannelId,
     getCurrentUserId,
     (selectedPostId, selectedPost, selectedPostChannelId, currentUserId) => {
         if (selectedPost) {

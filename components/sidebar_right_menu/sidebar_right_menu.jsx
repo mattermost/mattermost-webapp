@@ -43,56 +43,11 @@ export default class SidebarRightMenu extends React.Component {
     constructor(props) {
         super(props);
 
-        this.onChange = this.onChange.bind(this);
-        this.handleClick = this.handleClick.bind(this);
-        this.handleAboutModal = this.handleAboutModal.bind(this);
-        this.showAddUsersToTeamModal = this.showAddUsersToTeamModal.bind(this);
-        this.hideAddUsersToTeamModal = this.hideAddUsersToTeamModal.bind(this);
-        this.searchMentions = this.searchMentions.bind(this);
-        this.aboutModalDismissed = this.aboutModalDismissed.bind(this);
-        this.getFlagged = this.getFlagged.bind(this);
-
-        const state = this.getStateFromStores();
-        state.showAboutModal = false;
-        state.showAddUsersToTeamModal = false;
-
-        this.state = state;
-    }
-
-    handleClick(e) {
-        if (WebrtcStore.isBusy()) {
-            WebrtcStore.emitChanged({action: WebrtcActionTypes.IN_PROGRESS});
-            e.preventDefault();
-        }
-    }
-
-    handleAboutModal() {
-        this.setState({showAboutModal: true});
-    }
-
-    aboutModalDismissed() {
-        this.setState({showAboutModal: false});
-    }
-
-    showAddUsersToTeamModal(e) {
-        e.preventDefault();
-
-        this.setState({
-            showAddUsersToTeamModal: true,
-            showDropdown: false
-        });
-    }
-
-    hideAddUsersToTeamModal() {
-        this.setState({
+        this.state = {
+            ...this.getStateFromStores(),
+            showAboutModal: false,
             showAddUsersToTeamModal: false
-        });
-    }
-
-    getFlagged(e) {
-        e.preventDefault();
-        this.props.actions.showFlaggedPosts();
-        this.closeRightSidebar();
+        };
     }
 
     componentDidMount() {
@@ -105,7 +60,43 @@ export default class SidebarRightMenu extends React.Component {
         PreferenceStore.removeChangeListener(this.onChange);
     }
 
-    getStateFromStores() {
+    handleClick = (e) => {
+        if (WebrtcStore.isBusy()) {
+            WebrtcStore.emitChanged({action: WebrtcActionTypes.IN_PROGRESS});
+            e.preventDefault();
+        }
+    }
+
+    handleAboutModal = () => {
+        this.setState({showAboutModal: true});
+    }
+
+    aboutModalDismissed = () => {
+        this.setState({showAboutModal: false});
+    }
+
+    showAddUsersToTeamModal = (e) => {
+        e.preventDefault();
+
+        this.setState({
+            showAddUsersToTeamModal: true,
+            showDropdown: false
+        });
+    }
+
+    hideAddUsersToTeamModal = () => {
+        this.setState({
+            showAddUsersToTeamModal: false
+        });
+    }
+
+    getFlagged = (e) => {
+        e.preventDefault();
+        this.props.actions.showFlaggedPosts();
+        this.closeRightSidebar();
+    }
+
+    getStateFromStores = () => {
         const tutorialStep = PreferenceStore.getInt(Preferences.TUTORIAL_STEP, UserStore.getCurrentId(), 999);
 
         return {
@@ -116,11 +107,11 @@ export default class SidebarRightMenu extends React.Component {
         };
     }
 
-    onChange() {
+    onChange = () => {
         this.setState(this.getStateFromStores());
     }
 
-    searchMentions(e) {
+    searchMentions = (e) => {
         e.preventDefault();
 
         if (this.props.isMentionSearch) {
@@ -131,7 +122,7 @@ export default class SidebarRightMenu extends React.Component {
         }
     }
 
-    closeLeftSidebar() {
+    closeLeftSidebar = () => {
         if (Utils.isMobile()) {
             setTimeout(() => {
                 document.querySelector('.app__body .inner-wrap').classList.remove('move--right');
@@ -140,7 +131,7 @@ export default class SidebarRightMenu extends React.Component {
         }
     }
 
-    openRightSidebar() {
+    openRightSidebar = () => {
         if (Utils.isMobile()) {
             setTimeout(() => {
                 document.querySelector('.app__body .inner-wrap').classList.add('move--left-small');
@@ -149,7 +140,7 @@ export default class SidebarRightMenu extends React.Component {
         }
     }
 
-    closeRightSidebar() {
+    closeRightSidebar = () => {
         if (Utils.isMobile()) {
             setTimeout(() => {
                 document.querySelector('.app__body .inner-wrap').classList.remove('move--left-small');

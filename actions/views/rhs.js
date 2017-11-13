@@ -75,16 +75,8 @@ export function showSearchResults() {
     };
 }
 
-function getFlaggedPosts() {
-    return async (dispatch, getState) => {
-        const state = getState();
-        const userId = getCurrentUserId(state);
-        const teamId = getCurrentTeamId(state);
-
-        const result = await Client4.getFlaggedPosts(userId, '', teamId);
-
-        await PostActions.getProfilesAndStatusesForPosts(result.posts, dispatch, getState);
-
+function receivedSearchPosts(teamId, result) {
+    return (dispatch, getState) => {
         dispatch(batchActions([
             {
                 type: SearchTypes.RECEIVED_SEARCH_POSTS,
@@ -102,6 +94,20 @@ function getFlaggedPosts() {
                 type: SearchTypes.SEARCH_POSTS_SUCCESS
             }
         ], 'SEARCH_POST_BATCH'), getState);
+    };
+}
+
+function getFlaggedPosts() {
+    return async (dispatch, getState) => {
+        const state = getState();
+        const userId = getCurrentUserId(state);
+        const teamId = getCurrentTeamId(state);
+
+        const result = await Client4.getFlaggedPosts(userId, '', teamId);
+
+        await PostActions.getProfilesAndStatusesForPosts(result.posts, dispatch, getState);
+
+        dispatch(receivedSearchPosts(teamId, result));
     };
 }
 
@@ -123,23 +129,7 @@ function getPinnedPosts(channelId) {
 
         const teamId = getCurrentTeamId(getState());
 
-        dispatch(batchActions([
-            {
-                type: SearchTypes.RECEIVED_SEARCH_POSTS,
-                data: result
-            },
-            {
-                type: SearchTypes.RECEIVED_SEARCH_TERM,
-                data: {
-                    teamId,
-                    terms: null,
-                    isOrSearch: false
-                }
-            },
-            {
-                type: SearchTypes.SEARCH_POSTS_SUCCESS
-            }
-        ], 'SEARCH_POST_BATCH'), getState);
+        dispatch(receivedSearchPosts(teamId, result));
     };
 }
 

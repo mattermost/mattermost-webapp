@@ -29,19 +29,16 @@ export default class RhsHeaderPost extends React.Component {
     constructor(props) {
         super(props);
 
-        this.handleClose = this.handleClose.bind(this);
-        this.toggleSize = this.toggleSize.bind(this);
-
         this.state = {};
     }
 
-    handleClose(e) {
+    handleClose = (e) => {
         e.preventDefault();
         this.props.actions.closeRightHandSide();
         this.props.shrink();
     }
 
-    toggleSize(e) {
+    toggleSize = (e) => {
         e.preventDefault();
         this.props.toggleSize();
     }

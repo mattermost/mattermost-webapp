@@ -21,14 +21,7 @@ export default class SearchResultsHeader extends React.Component {
         })
     };
 
-    constructor(props) {
-        super(props);
-
-        this.handleClose = this.handleClose.bind(this);
-        this.toggleSize = this.toggleSize.bind(this);
-    }
-
-    handleClose(e) {
+    handleClose = (e) => {
         e.preventDefault();
 
         this.props.actions.closeRightHandSide();
@@ -36,7 +29,7 @@ export default class SearchResultsHeader extends React.Component {
         this.props.shrink();
     }
 
-    toggleSize(e) {
+    toggleSize = (e) => {
         e.preventDefault();
         this.props.toggleSize();
     }
