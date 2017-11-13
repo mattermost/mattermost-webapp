@@ -88,8 +88,6 @@ export const ActionTypes = keyMirror({
     RECEIVED_EDIT_POST: null,
     SET_EDITING_POST: null,
     EDIT_POST: null,
-    RECEIVED_SEARCH: null,
-    RECEIVED_SEARCH_TERM: null,
     SELECT_POST: null,
     RECEIVED_POST_SELECTED: null,
     RECEIVED_MENTION_DATA: null,
