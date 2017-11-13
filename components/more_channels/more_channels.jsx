@@ -6,7 +6,7 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router/es6';
+import {browserHistory} from 'react-router';
 
 import {joinChannel, searchMoreChannels} from 'actions/channel_actions.jsx';
 import ChannelStore from 'stores/channel_store.jsx';

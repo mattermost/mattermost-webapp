@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
-import {browserHistory, Link} from 'react-router/es6';
+import {browserHistory, Link} from 'react-router';
 
 import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
 

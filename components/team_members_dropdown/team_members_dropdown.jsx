@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router/es6';
+import {browserHistory} from 'react-router';
 
 import {removeUserFromTeam, updateTeamMemberRoles} from 'actions/team_actions.jsx';
 import {loadMyTeamMembers, updateActive} from 'actions/user_actions.jsx';

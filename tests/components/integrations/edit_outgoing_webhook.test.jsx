@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
-import {browserHistory} from 'react-router/es6';
+import {browserHistory} from 'react-router';
 
 import EditOutgoingWebhook from 'components/integrations/components/edit_outgoing_webhook/edit_outgoing_webhook.jsx';
 

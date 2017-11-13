@@ -4,7 +4,7 @@
 import React from 'react';
 import {Provider} from 'react-redux';
 import {shallow} from 'enzyme';
-import {browserHistory} from 'react-router/es6';
+import {browserHistory} from 'react-router';
 
 import store from 'stores/redux_store.jsx';
 
