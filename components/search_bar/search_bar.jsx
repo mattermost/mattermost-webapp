@@ -10,17 +10,15 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import {getFlaggedPosts} from 'actions/post_actions.jsx';
 import UserStore from 'stores/user_store.jsx';
 
-import * as Constants from 'utils/constants.jsx';
+import Constants, {RHSStates} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
-import AppDispatcher from '../../dispatcher/app_dispatcher.jsx';
 
 import SearchChannelProvider from '../suggestion/search_channel_provider.jsx';
 import SearchSuggestionList from '../suggestion/search_suggestion_list.jsx';
 import SearchUserProvider from '../suggestion/search_user_provider.jsx';
 import SuggestionBox from '../suggestion/suggestion_box.jsx';
 
-const {ActionTypes, KeyCodes, RHSStates} = Constants;
+const {KeyCodes} = Constants;
 
 export default class SearchBar extends React.Component {
     static propTypes = {
@@ -67,23 +65,7 @@ export default class SearchBar extends React.Component {
             });
         }
 
-        AppDispatcher.handleServerAction({
-            type: ActionTypes.RECEIVED_SEARCH,
-            results: null
-        });
-
-        AppDispatcher.handleServerAction({
-            type: ActionTypes.RECEIVED_SEARCH_TERM,
-            term: null,
-            do_search: false,
-            is_mention_search: false
-        });
-
-        AppDispatcher.handleServerAction({
-            type: ActionTypes.RECEIVED_POST_SELECTED,
-            postId: null,
-            channelId: null
-        });
+        GlobalActions.emitCloseRightHandSide();
     }
 
     handleKeyDown = (e) => {
@@ -161,7 +143,7 @@ export default class SearchBar extends React.Component {
         const user = UserStore.getCurrentUser();
         if (this.props.isMentionSearch) {
             // Close
-            GlobalActions.toggleSideBarAction(false);
+            GlobalActions.emitCloseRightHandSide();
         } else {
             GlobalActions.emitSearchMentionsEvent(user);
             this.props.actions.updateRhsState(RHSStates.MENTION);
@@ -171,7 +153,7 @@ export default class SearchBar extends React.Component {
     getFlagged = (e) => {
         e.preventDefault();
         if (this.props.isFlaggedPosts) {
-            GlobalActions.toggleSideBarAction(false);
+            GlobalActions.emitCloseRightHandSide();
         } else {
             getFlaggedPosts();
             this.props.actions.updateRhsState(RHSStates.FLAG);

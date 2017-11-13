@@ -10,7 +10,6 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import {getFlaggedPosts} from 'actions/post_actions.jsx';
 
 import PreferenceStore from 'stores/preference_store.jsx';
-import SearchStore from 'stores/search_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
@@ -25,12 +24,18 @@ import AddUsersToTeam from 'components/add_users_to_team';
 import TeamMembersModal from 'components/team_members_modal';
 import {createMenuTip} from 'components/tutorial/tutorial_tip.jsx';
 
-import ToggleModalButton from './toggle_modal_button.jsx';
+import ToggleModalButton from '../toggle_modal_button.jsx';
 
 const Preferences = Constants.Preferences;
 const TutorialSteps = Constants.TutorialSteps;
 
 export default class SidebarRightMenu extends React.Component {
+    static propTypes = {
+        teamType: PropTypes.string,
+        teamDisplayName: PropTypes.string,
+        isMentionSearch: PropTypes.bool
+    };
+
     constructor(props) {
         super(props);
 
@@ -115,8 +120,8 @@ export default class SidebarRightMenu extends React.Component {
         e.preventDefault();
         const user = this.state.currentUser;
 
-        if (SearchStore.isMentionSearch) {
-            GlobalActions.toggleSideBarAction(false);
+        if (this.props.isMentionSearch) {
+            GlobalActions.emitCloseRightHandSide();
         } else {
             this.closeRightSidebar();
             GlobalActions.emitSearchMentionsEvent(user);
@@ -552,8 +557,3 @@ export default class SidebarRightMenu extends React.Component {
         );
     }
 }
-
-SidebarRightMenu.propTypes = {
-    teamType: PropTypes.string,
-    teamDisplayName: PropTypes.string
-};

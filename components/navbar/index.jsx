@@ -262,7 +262,7 @@ export default class Navbar extends React.Component {
     getPinnedPosts(e) {
         e.preventDefault();
         if (SearchStore.isPinnedPosts) {
-            GlobalActions.toggleSideBarAction(false);
+            GlobalActions.emitCloseRightHandSide();
         } else {
             getPinnedPosts(this.state.channel.id);
         }

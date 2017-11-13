@@ -493,29 +493,6 @@ export function emitSearchMentionsEvent(user) {
     dispatch(performSearch(terms));
 }
 
-export function toggleSideBarAction(visible) {
-    if (!visible) {
-        //Array of actions resolving in the closing of the sidebar
-        AppDispatcher.handleServerAction({
-            type: ActionTypes.RECEIVED_SEARCH,
-            results: null
-        });
-
-        AppDispatcher.handleServerAction({
-            type: ActionTypes.RECEIVED_SEARCH_TERM,
-            term: null,
-            do_search: false,
-            is_mention_search: false
-        });
-
-        AppDispatcher.handleServerAction({
-            type: ActionTypes.RECEIVED_POST_SELECTED,
-            postId: null,
-            channelId: null
-        });
-    }
-}
-
 export function toggleSideBarRightMenuAction() {
     AppDispatcher.handleServerAction({
         type: ActionTypes.RECEIVED_SEARCH,

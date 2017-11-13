@@ -115,7 +115,7 @@ export default class ChannelHeader extends React.Component {
     searchMentions = (e) => {
         e.preventDefault();
         if (this.props.rhsState === RHSStates.MENTION) {
-            GlobalActions.toggleSideBarAction(false);
+            GlobalActions.emitCloseRightHandSide();
         } else {
             GlobalActions.emitSearchMentionsEvent(this.props.currentUser);
             this.props.actions.updateRhsState(RHSStates.MENTION);
@@ -125,7 +125,7 @@ export default class ChannelHeader extends React.Component {
     getPinnedPosts = (e) => {
         e.preventDefault();
         if (this.props.rhsState === RHSStates.PIN) {
-            GlobalActions.toggleSideBarAction(false);
+            GlobalActions.emitCloseRightHandSide();
         } else {
             getPinnedPosts();
             this.props.actions.updateRhsState(RHSStates.PIN);
@@ -135,7 +135,7 @@ export default class ChannelHeader extends React.Component {
     getFlagged = (e) => {
         e.preventDefault();
         if (this.props.rhsState === RHSStates.FLAG) {
-            GlobalActions.toggleSideBarAction(false);
+            GlobalActions.emitCloseRightHandSide();
         } else {
             getFlaggedPosts();
             this.props.actions.updateRhsState(RHSStates.FLAG);

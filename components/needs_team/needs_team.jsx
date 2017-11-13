@@ -41,7 +41,7 @@ import RemovedFromChannelModal from 'components/removed_from_channel_modal.jsx';
 import ResetStatusModal from 'components/reset_status_modal';
 import ShortcutsModal from 'components/shortcuts_modal.jsx';
 import SidebarRight from 'components/sidebar_right';
-import SidebarRightMenu from 'components/sidebar_right_menu.jsx';
+import SidebarRightMenu from 'components/sidebar_right_menu';
 import TeamSettingsModal from 'components/team_settings_modal.jsx';
 import ImportThemeModal from 'components/user_settings/import_theme_modal.jsx';
 import UserSettingsModal from 'components/user_settings/user_settings_modal.jsx';

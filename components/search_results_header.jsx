@@ -21,7 +21,7 @@ export default class SearchResultsHeader extends React.Component {
     handleClose(e) {
         e.preventDefault();
 
-        GlobalActions.toggleSideBarAction(false);
+        GlobalActions.emitCloseRightHandSide();
 
         this.props.shrink();
     }

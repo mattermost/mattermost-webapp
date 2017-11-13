@@ -81,7 +81,7 @@ export default class SearchResultsItem extends React.Component {
 
     handleJumpClick() {
         if (Utils.isMobile()) {
-            GlobalActions.toggleSideBarAction(false);
+            GlobalActions.emitCloseRightHandSide();
         }
 
         this.shrinkSidebar();
