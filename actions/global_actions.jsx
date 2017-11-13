@@ -7,13 +7,9 @@ import {createDirectChannel, getChannelAndMyMember, getChannelStats, getMyChanne
 import {getPostThread} from 'mattermost-redux/actions/posts';
 import {removeUserFromTeam} from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
-import {SearchTypes} from 'mattermost-redux/action_types';
-
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import {handleNewPost, performSearch} from 'actions/post_actions.jsx';
+import {handleNewPost} from 'actions/post_actions.jsx';
 import {stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded, loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import {updateRhsState} from 'actions/views/rhs';
@@ -23,7 +19,6 @@ import BrowserStore from 'stores/browser_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import ErrorStore from 'stores/error_store.jsx';
 import store from 'stores/redux_store.jsx';
-import SearchStore from 'stores/search_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
@@ -143,35 +138,6 @@ export async function emitPostFocusEvent(postId, onSuccess) {
     } else {
         browserHistory.push('/error?type=' + ErrorPageTypes.PERMALINK_NOT_FOUND);
     }
-}
-
-export function emitCloseRightHandSide() {
-    dispatch(updateRhsState(null));
-
-    dispatch({
-        type: ActionTypes.SELECT_POST,
-        postId: '',
-        channelId: ''
-    });
-}
-
-export async function emitPostFocusRightHandSideFromSearch(post, isMentionSearch) {
-    await getPostThread(post.id)(dispatch, getState);
-
-    AppDispatcher.handleServerAction({
-        type: ActionTypes.RECEIVED_POST_SELECTED,
-        postId: Utils.getRootId(post),
-        channelId: post.channel_id,
-        from_search: SearchStore.getSearchTerm(),
-        from_flagged_posts: SearchStore.getIsFlaggedPosts(),
-        from_pinned_posts: SearchStore.getIsPinnedPosts()
-    });
-
-    AppDispatcher.handleServerAction({
-        type: ActionTypes.RECEIVED_SEARCH,
-        results: null,
-        is_mention_search: isMentionSearch
-    });
 }
 
 export function emitLeaveTeam() {
@@ -470,27 +436,6 @@ export function clientLogout(redirectTo = '/') {
     WebsocketActions.close();
     document.cookie = 'MMUSERID=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     window.location.href = redirectTo;
-}
-
-export function emitSearchMentionsEvent(user) {
-    let terms = '';
-    if (user.notify_props) {
-        const termKeys = UserStore.getMentionKeys(user.id);
-
-        if (termKeys.indexOf('@channel') !== -1) {
-            termKeys[termKeys.indexOf('@channel')] = '';
-        }
-
-        if (termKeys.indexOf('@all') !== -1) {
-            termKeys[termKeys.indexOf('@all')] = '';
-        }
-
-        terms = termKeys.join(' ');
-    }
-
-    trackEvent('api', 'api_posts_search_mention');
-
-    dispatch(performSearch(terms));
 }
 
 export function toggleSideBarRightMenuAction() {

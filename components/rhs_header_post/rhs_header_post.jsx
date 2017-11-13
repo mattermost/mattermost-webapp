@@ -6,29 +6,36 @@ import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
-import {getFlaggedPosts, getPinnedPosts} from 'actions/post_actions.jsx';
-
 import Constants from 'utils/constants.jsx';
 
-import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
-
-const ActionTypes = Constants.ActionTypes;
-
 export default class RhsHeaderPost extends React.Component {
+    static propTypes = {
+        isWebrtc: PropTypes.bool,
+        fromSearch: PropTypes.bool,
+        fromFlaggedPosts: PropTypes.bool,
+        fromPinnedPosts: PropTypes.bool,
+        toggleSize: PropTypes.func,
+        shrink: PropTypes.func,
+        actions: PropTypes.shape({
+            showSearchResults: PropTypes.func,
+            showFlaggedPosts: PropTypes.func,
+            showPinnedPosts: PropTypes.func,
+            closeRightHandSide: PropTypes.func
+        })
+    };
+
     constructor(props) {
         super(props);
 
         this.handleClose = this.handleClose.bind(this);
         this.toggleSize = this.toggleSize.bind(this);
-        this.handleBack = this.handleBack.bind(this);
 
         this.state = {};
     }
 
     handleClose(e) {
         e.preventDefault();
-        GlobalActions.emitCloseRightHandSide();
+        this.props.actions.closeRightHandSide();
         this.props.shrink();
     }
 
@@ -37,26 +44,15 @@ export default class RhsHeaderPost extends React.Component {
         this.props.toggleSize();
     }
 
-    handleBack(e) {
+    handleBack = (e) => {
         e.preventDefault();
 
         if (this.props.fromSearch || this.props.isWebrtc) {
-            AppDispatcher.handleServerAction({
-                type: ActionTypes.RECEIVED_SEARCH_TERM,
-                term: this.props.fromSearch,
-                do_search: true,
-                is_mention_search: this.props.isMentionSearch
-            });
-
-            AppDispatcher.handleServerAction({
-                type: ActionTypes.RECEIVED_POST_SELECTED,
-                postId: null,
-                channelId: null
-            });
+            this.props.actions.showSearchResults();
         } else if (this.props.fromFlaggedPosts) {
-            getFlaggedPosts();
+            this.props.actions.showFlaggedPosts();
         } else if (this.props.fromPinnedPosts) {
-            getPinnedPosts();
+            this.props.actions.showPinnedPosts();
         }
     }
 
@@ -201,17 +197,3 @@ export default class RhsHeaderPost extends React.Component {
         );
     }
 }
-
-RhsHeaderPost.defaultProps = {
-    isMentionSearch: false,
-    fromSearch: ''
-};
-RhsHeaderPost.propTypes = {
-    isMentionSearch: PropTypes.bool,
-    isWebrtc: PropTypes.bool,
-    fromSearch: PropTypes.string,
-    fromFlaggedPosts: PropTypes.bool,
-    fromPinnedPosts: PropTypes.bool,
-    toggleSize: PropTypes.func,
-    shrink: PropTypes.func
-};

@@ -30,7 +30,8 @@ export default class SearchResults extends React.Component {
         isMentionSearch: PropTypes.bool,
         isFlaggedPosts: PropTypes.bool,
         isPinnedPosts: PropTypes.bool,
-        channelDisplayName: PropTypes.string.isRequired
+        channelDisplayName: PropTypes.string.isRequired,
+        selectPost: PropTypes.func
     };
 
     constructor(props) {
@@ -334,6 +335,7 @@ export default class SearchResults extends React.Component {
                         isFlagged={isFlagged}
                         isBusy={this.state.isBusy}
                         status={status}
+                        onSelect={this.props.selectPost}
                     />
                 );
             }, this);

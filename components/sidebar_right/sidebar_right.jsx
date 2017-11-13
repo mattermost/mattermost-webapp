@@ -58,8 +58,6 @@ export default class SidebarRight extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
-
         const isOpen = this.props.searchVisible || this.props.postRightVisible;
         const willOpen = nextProps.searchVisible || nextProps.postRightVisible;
 
@@ -188,7 +186,6 @@ export default class SidebarRight extends React.Component {
                         fromSearch={this.props.fromSearch}
                         fromPinnedPosts={this.props.fromPinnedPosts}
                         isWebrtc={WebrtcStore.isBusy()}
-                        isMentionSearch={this.props.isMentionSearch}
                         currentUser={this.props.currentUser}
                         useMilitaryTime={this.state.useMilitaryTime}
                         toggleSize={this.toggleSize}

@@ -24,6 +24,23 @@ import ProfilePicture from './profile_picture.jsx';
 import UserProfile from './user_profile.jsx';
 
 export default class SearchResultsItem extends React.Component {
+    static propTypes = {
+        post: PropTypes.object,
+        lastPostCount: PropTypes.number,
+        user: PropTypes.object,
+        channel: PropTypes.object,
+        compactDisplay: PropTypes.bool,
+        isMentionSearch: PropTypes.bool,
+        isFlaggedSearch: PropTypes.bool,
+        term: PropTypes.string,
+        useMilitaryTime: PropTypes.bool.isRequired,
+        shrink: PropTypes.func,
+        isFlagged: PropTypes.bool,
+        isBusy: PropTypes.bool,
+        status: PropTypes.string,
+        onSelect: PropTypes.func
+    };
+
     constructor(props) {
         super(props);
 
@@ -76,7 +93,7 @@ export default class SearchResultsItem extends React.Component {
 
     handleFocusRHSClick(e) {
         e.preventDefault();
-        GlobalActions.emitPostFocusRightHandSideFromSearch(this.props.post, this.props.isMentionSearch);
+        this.props.onSelect(this.props.post);
     }
 
     handleJumpClick() {
@@ -332,19 +349,3 @@ export default class SearchResultsItem extends React.Component {
         );
     }
 }
-
-SearchResultsItem.propTypes = {
-    post: PropTypes.object,
-    lastPostCount: PropTypes.number,
-    user: PropTypes.object,
-    channel: PropTypes.object,
-    compactDisplay: PropTypes.bool,
-    isMentionSearch: PropTypes.bool,
-    isFlaggedSearch: PropTypes.bool,
-    term: PropTypes.string,
-    useMilitaryTime: PropTypes.bool.isRequired,
-    shrink: PropTypes.func,
-    isFlagged: PropTypes.bool,
-    isBusy: PropTypes.bool,
-    status: PropTypes.string
-};

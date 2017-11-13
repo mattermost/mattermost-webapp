@@ -7,6 +7,8 @@ import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getSearchResults} from 'mattermost-redux/selectors/entities/posts';
 import * as PreferenceSelectors from 'mattermost-redux/selectors/entities/preferences';
 
+import {selectPostFromRightHandSideSearch} from 'actions/views/rhs';
+
 import {Preferences} from 'utils/constants.jsx';
 
 import SearchResults from './search_results.jsx';
@@ -40,4 +42,8 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(SearchResults);
+const mapDispatchToProps = {
+    selectPost: selectPostFromRightHandSideSearch
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchResults);

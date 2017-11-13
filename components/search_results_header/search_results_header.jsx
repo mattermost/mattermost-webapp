@@ -6,11 +6,21 @@ import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
-
 import Constants from 'utils/constants.jsx';
 
 export default class SearchResultsHeader extends React.Component {
+    static propTypes = {
+        isMentionSearch: PropTypes.bool,
+        isFlaggedPosts: PropTypes.bool,
+        isPinnedPosts: PropTypes.bool,
+        toggleSize: PropTypes.func,
+        shrink: PropTypes.func,
+        channelDisplayName: PropTypes.string.isRequired,
+        actions: PropTypes.shape({
+            closeRightHandSide: PropTypes.func
+        })
+    };
+
     constructor(props) {
         super(props);
 
@@ -21,7 +31,7 @@ export default class SearchResultsHeader extends React.Component {
     handleClose(e) {
         e.preventDefault();
 
-        GlobalActions.emitCloseRightHandSide();
+        this.props.actions.closeRightHandSide();
 
         this.props.shrink();
     }
@@ -140,13 +150,3 @@ export default class SearchResultsHeader extends React.Component {
         );
     }
 }
-
-SearchResultsHeader.propTypes = {
-    isMentionSearch: PropTypes.bool,
-    toggleSize: PropTypes.func,
-    shrink: PropTypes.func,
-    isFlaggedPosts: PropTypes.bool,
-    isPinnedPosts: PropTypes.bool,
-    channelDisplayName: PropTypes.string.isRequired,
-    isLoading: PropTypes.bool.isRequired
-};

@@ -56,7 +56,6 @@ export default class RhsThread extends React.Component {
         fromFlaggedPosts: PropTypes.bool,
         fromPinnedPosts: PropTypes.bool,
         isWebrtc: PropTypes.bool,
-        isMentionSearch: PropTypes.bool,
         currentUser: PropTypes.object.isRequired,
         useMilitaryTime: PropTypes.bool.isRequired,
         toggleSize: PropTypes.func,
@@ -69,8 +68,7 @@ export default class RhsThread extends React.Component {
     }
 
     static defaultProps = {
-        fromSearch: '',
-        isMentionSearch: false
+        fromSearch: ''
     }
 
     constructor(props) {
@@ -450,7 +448,6 @@ export default class RhsThread extends React.Component {
                     fromSearch={this.props.fromSearch}
                     fromPinnedPosts={this.props.fromPinnedPosts}
                     isWebrtc={this.props.isWebrtc}
-                    isMentionSearch={this.props.isMentionSearch}
                     toggleSize={this.props.toggleSize}
                     shrink={this.props.shrink}
                 />
