@@ -12,7 +12,7 @@ import PostStore from 'stores/post_store';
 
 import {showMentions, showPinnedPosts, showFlaggedPosts, closeRightHandSide} from 'actions/views/rhs';
 
-import {getRhsState, getSelectedPostId} from 'selectors/rhs';
+import {getRhsState, getSelectedPostId, getSelectedChannelId} from 'selectors/rhs';
 
 import {RHSStates} from 'utils/constants.jsx';
 
@@ -21,7 +21,7 @@ import SidebarRight from './sidebar_right.jsx';
 function mapStateToProps(state) {
     const rhsState = getRhsState(state);
 
-    const channelId = state.views.rhs.channelId;
+    const channelId = getSelectedChannelId(state);
 
     let channel = null;
     if (channelId) {

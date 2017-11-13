@@ -12,12 +12,12 @@ export function getSelectedPostId(state) {
     return state.views.rhs.selectedPostId;
 }
 
-function getSelectedChannelId(state) {
+export function getSelectedChannelId(state) {
     return state.views.rhs.selectedChannelId;
 }
 
 function getRealSelectedPost(state) {
-    return state.entities.posts.posts[state.views.rhs.selectedPostId];
+    return state.entities.posts.posts[getSelectedPostId(state)];
 }
 
 export const getSelectedPost = createSelector(
