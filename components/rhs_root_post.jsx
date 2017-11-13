@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router/es6';
+import {Link} from 'react-router';
 
 import {addReaction, emitEmojiPosted} from 'actions/post_actions.jsx';
 import UserStore from 'stores/user_store.jsx';
@@ -151,7 +151,6 @@ export default class RhsRootPost extends React.Component {
         return (
             <Link
                 to={`/${this.state.currentTeamDisplayName}/pl/${post.id}`}
-                target='_blank'
                 className='post__permalink'
             >
                 {this.timeTag(post, timeOptions)}

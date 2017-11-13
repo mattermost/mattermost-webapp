@@ -156,7 +156,8 @@ class PostStoreClass extends EventEmitter {
     }
 
     getDraft(channelId) {
-        return this.normalizeDraft(BrowserStore.getGlobalItem('draft_' + channelId));
+        // deep clone because many components need to modify the draft
+        return JSON.parse(JSON.stringify(this.normalizeDraft(BrowserStore.getGlobalItem('draft_' + channelId))));
     }
 
     storeCommentDraft(parentPostId, draft) {
@@ -164,7 +165,8 @@ class PostStoreClass extends EventEmitter {
     }
 
     getCommentDraft(parentPostId) {
-        return this.normalizeDraft(BrowserStore.getGlobalItem('comment_draft_' + parentPostId));
+        // deep clone because many components need to modify the draft
+        return JSON.parse(JSON.stringify(this.normalizeDraft(BrowserStore.getGlobalItem('comment_draft_' + parentPostId))));
     }
 
     clearDraftUploads() {
