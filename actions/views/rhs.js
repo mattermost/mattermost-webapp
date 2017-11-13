@@ -9,7 +9,7 @@ import * as PostActions from 'mattermost-redux/actions/posts';
 
 import {Client4} from 'mattermost-redux/client';
 
-import {getCurrentUser, getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 
@@ -146,23 +146,17 @@ export function showPinnedPosts(channelId) {
 
 export function showMentions() {
     return (dispatch, getState) => {
-        let terms = '';
-        const state = getState();
-        const user = getCurrentUser(state);
+        const termKeys = getCurrentUserMentionKeys(getState());
 
-        if (user.notify_props) {
-            const termKeys = getCurrentUserMentionKeys(state);
-
-            if (termKeys.indexOf('@channel') !== -1) {
-                termKeys[termKeys.indexOf('@channel')] = '';
-            }
-
-            if (termKeys.indexOf('@all') !== -1) {
-                termKeys[termKeys.indexOf('@all')] = '';
-            }
-
-            terms = termKeys.join(' ');
+        if (termKeys.indexOf('@channel') !== -1) {
+            termKeys[termKeys.indexOf('@channel')] = '';
         }
+
+        if (termKeys.indexOf('@all') !== -1) {
+            termKeys[termKeys.indexOf('@all')] = '';
+        }
+
+        const terms = termKeys.join(' ');
 
         trackEvent('api', 'api_posts_search_mention');
 
