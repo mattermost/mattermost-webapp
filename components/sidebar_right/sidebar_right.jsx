@@ -11,7 +11,6 @@ import {postListScrollChange} from 'actions/global_actions.jsx';
 import {getFlaggedPosts, getPinnedPosts} from 'actions/post_actions.jsx';
 import PostStore from 'stores/post_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 
 import Constants from 'utils/constants.jsx';
@@ -24,6 +23,7 @@ import SearchResults from 'components/search_results';
 
 export default class SidebarRight extends React.Component {
     static propTypes = {
+        currentUser: PropTypes.object,
         channel: PropTypes.object,
         postRightVisible: PropTypes.bool,
         searchVisible: PropTypes.bool,
@@ -40,33 +40,20 @@ export default class SidebarRight extends React.Component {
 
         this.plScrolledToBottom = true;
 
-        this.onPreferenceChange = this.onPreferenceChange.bind(this);
-        this.onPostPinnedChange = this.onPostPinnedChange.bind(this);
-        this.onUserChange = this.onUserChange.bind(this);
-        this.onShrink = this.onShrink.bind(this);
-        this.toggleSize = this.toggleSize.bind(this);
-
-        this.doStrangeThings = this.doStrangeThings.bind(this);
-
         this.state = {
             expanded: false,
-            currentUser: UserStore.getCurrentUser(),
             useMilitaryTime: PreferenceStore.getBool(Constants.Preferences.CATEGORY_DISPLAY_SETTINGS, Constants.Preferences.USE_MILITARY_TIME, false)
         };
     }
 
     componentDidMount() {
-        console.log(this.props);
-
         PostStore.addPostPinnedChangeListener(this.onPostPinnedChange);
-        UserStore.addChangeListener(this.onUserChange);
         PreferenceStore.addChangeListener(this.onPreferenceChange);
         this.doStrangeThings();
     }
 
     componentWillUnmount() {
         PostStore.removePostPinnedChangeListener(this.onPostPinnedChange);
-        UserStore.removeChangeListener(this.onUserChange);
         PreferenceStore.removeChangeListener(this.onPreferenceChange);
     }
 
@@ -87,7 +74,7 @@ export default class SidebarRight extends React.Component {
         }
     }
 
-    doStrangeThings() {
+    doStrangeThings = () => {
         // We should have a better way to do this stuff
         // Hence the function name.
         $('.app__body .inner-wrap').removeClass('.move--right');
@@ -125,7 +112,7 @@ export default class SidebarRight extends React.Component {
         }
     }
 
-    onPreferenceChange() {
+    onPreferenceChange = () => {
         if (this.props.isFlaggedPosts) {
             getFlaggedPosts();
         }
@@ -135,25 +122,19 @@ export default class SidebarRight extends React.Component {
         });
     }
 
-    onPostPinnedChange() {
+    onPostPinnedChange = () => {
         if (this.props.channel && this.props.isPinnedPosts) {
             getPinnedPosts(this.props.channel.id);
         }
     }
 
-    onShrink() {
+    onShrink = () => {
         this.setState({
             expanded: false
         });
     }
 
-    onUserChange() {
-        this.setState({
-            currentUser: UserStore.getCurrentUser()
-        });
-    }
-
-    toggleSize() {
+    toggleSize = () => {
         this.setState({expanded: !this.state.expanded});
     }
 
@@ -165,7 +146,7 @@ export default class SidebarRight extends React.Component {
             expandedClass = 'sidebar--right--expanded';
         }
 
-        var currentId = UserStore.getCurrentId();
+        var currentId = this.props.currentUser.id;
         var searchForm = null;
         if (currentId) {
             searchForm = <SearchBox isFocus={this.props.searchVisible && Utils.isMobile()}/>;
@@ -208,7 +189,7 @@ export default class SidebarRight extends React.Component {
                         fromPinnedPosts={this.props.fromPinnedPosts}
                         isWebrtc={WebrtcStore.isBusy()}
                         isMentionSearch={this.props.isMentionSearch}
-                        currentUser={this.state.currentUser}
+                        currentUser={this.props.currentUser}
                         useMilitaryTime={this.state.useMilitaryTime}
                         toggleSize={this.toggleSize}
                         shrink={this.onShrink}

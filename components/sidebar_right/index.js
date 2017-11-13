@@ -3,7 +3,9 @@
 
 import {connect} from 'react-redux';
 
-import {getRhsState} from 'selectors/rhs';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+
+import {getRhsState, getSelectedPostId} from 'selectors/rhs';
 
 import {RHSStates} from 'utils/constants.jsx';
 
@@ -13,7 +15,8 @@ function mapStateToProps(state) {
     const rhsState = getRhsState(state);
 
     return {
-        postRightVisible: Boolean(state.views.rhs.selectedPostId),
+        currentUser: getCurrentUser(state),
+        postRightVisible: Boolean(getSelectedPostId(state)),
         searchVisible: Boolean(rhsState),
         fromSearch: state.views.rhs.fromSearch,
         fromFlaggedPosts: state.views.rhs.fromFlaggedPosts,
