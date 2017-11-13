@@ -121,7 +121,7 @@ export default class UserSettingsDisplay extends React.Component {
         this.setState({...display});
     }
 
-    setTeammateNameDisplay(e){
+    setTeammateNameDisplay(e) {
         this.setState({teammateNameDisplay: e.target.value});
     }
 
@@ -297,7 +297,7 @@ export default class UserSettingsDisplay extends React.Component {
         );
     }
 
-    createTeammateDisplaySection(props){
+    createTeammateDisplaySection(props) {
         const options = [];
         for (const {value, text} of props.values) {
             options.push(
@@ -323,7 +323,8 @@ export default class UserSettingsDisplay extends React.Component {
                         className='form-control'
                         id='displayTeammateName'
                         value={props.value}
-                        onChange={this.setTeammateNameDisplay}>
+                        onChange={this.setTeammateNameDisplay}
+                    >
                         {options}
                     </select>
                 </div>
@@ -446,15 +447,14 @@ export default class UserSettingsDisplay extends React.Component {
         ];
         const selectedTeammateValue = this.state.teammateNameDisplay || global.window.mm_config.TeammateNameDisplay;
         const selectedTeammateLabel = teammateNameValues.filter(
-            (element) => element.value === selectedTeammateValue)
-            .map((element) => element.text);
+            (element) => element.value === selectedTeammateValue).map(
+                (element) => element.text);
         const messageTitle = (
             <FormattedMessage
                 id='user.settings.display.teammateNameDisplay'
                 defaultMessage='Teammate Name Display'
             />
         );
-        
         if (this.props.activeSection === 'teammateName') {
             teammateNameSection = this.createTeammateDisplaySection({
                 display: 'teammateNameDisplay',
