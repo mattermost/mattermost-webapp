@@ -243,7 +243,7 @@ export default class SignupLdap extends React.Component {
                             {' '}
                             <Link
                                 to={'/login'}
-                                query={this.props.location.query}
+                                query={Utils.isEmptyObject(this.props.location.query) ? null : this.props.location.query}
                             >
                                 <FormattedMessage
                                     id='signup_user_completed.signIn'
