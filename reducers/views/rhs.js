@@ -31,7 +31,7 @@ function selectedChannelId(state = '', action) {
         if (action.state === RHSStates.PIN) {
             return action.channelId;
         }
-        return null;
+        return '';
     default:
         return state;
     }
