@@ -1,25 +1,37 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-export default class NotLoggedIn extends React.Component {
+export default class NotLoggedIn extends React.PureComponent {
+    static propTypes = {
+
+        /*
+         * Content of the page
+         */
+        children: PropTypes.object,
+
+        /*
+         * Mattermost configuration
+         */
+        config: PropTypes.object
+    };
+
     componentDidMount() {
-        $('body').addClass('sticky');
-        $('#root').addClass('container-fluid');
+        document.body.classList.add('sticky');
+        document.getElementById('root').classList.add('container-fluid');
     }
     componentWillUnmount() {
-        $('body').removeClass('sticky');
-        $('#root').removeClass('container-fluid');
+        document.body.classList.remove('sticky');
+        document.getElementById('root').classList.remove('container-fluid');
     }
+
     render() {
         const content = [];
 
-        if (global.window.mm_config.HelpLink) {
+        if (this.props.config.HelpLink) {
             content.push(
                 <a
                     key='help_link'
@@ -27,27 +39,29 @@ export default class NotLoggedIn extends React.Component {
                     className='pull-right footer-link'
                     target='_blank'
                     rel='noopener noreferrer'
-                    href={global.window.mm_config.HelpLink}
+                    href={this.props.config.HelpLink}
                 >
                     <FormattedMessage id='web.footer.help'/>
                 </a>
             );
         }
 
-        content.push(
-            <a
-                key='terms_link'
-                id='terms_link'
-                className='pull-right footer-link'
-                target='_blank'
-                rel='noopener noreferrer'
-                href={global.window.mm_config.TermsOfServiceLink}
-            >
-                <FormattedMessage id='web.footer.terms'/>
-            </a>
-        );
+        if (this.props.config.TermsOfServiceLink) {
+            content.push(
+                <a
+                    key='terms_link'
+                    id='terms_link'
+                    className='pull-right footer-link'
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    href={this.props.config.TermsOfServiceLink}
+                >
+                    <FormattedMessage id='web.footer.terms'/>
+                </a>
+            );
+        }
 
-        if (global.window.mm_config.PrivacyPolicyLink) {
+        if (this.props.config.PrivacyPolicyLink) {
             content.push(
                 <a
                     key='privacy_link'
@@ -55,14 +69,14 @@ export default class NotLoggedIn extends React.Component {
                     className='pull-right footer-link'
                     target='_blank'
                     rel='noopener noreferrer'
-                    href={global.window.mm_config.PrivacyPolicyLink}
+                    href={this.props.config.PrivacyPolicyLink}
                 >
                     <FormattedMessage id='web.footer.privacy'/>
                 </a>
             );
         }
 
-        if (global.window.mm_config.AboutLink) {
+        if (this.props.config.AboutLink) {
             content.push(
                 <a
                     key='about_link'
@@ -70,7 +84,7 @@ export default class NotLoggedIn extends React.Component {
                     className='pull-right footer-link'
                     target='_blank'
                     rel='noopener noreferrer'
-                    href={global.window.mm_config.AboutLink}
+                    href={this.props.config.AboutLink}
                 >
                     <FormattedMessage id='web.footer.about'/>
                 </a>
@@ -101,9 +115,3 @@ export default class NotLoggedIn extends React.Component {
     }
 }
 
-NotLoggedIn.defaultProps = {
-};
-
-NotLoggedIn.propTypes = {
-    children: PropTypes.object
-};

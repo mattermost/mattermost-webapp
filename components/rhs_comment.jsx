@@ -151,7 +151,6 @@ export default class RhsComment extends React.Component {
             (
                 <Link
                     to={`/${this.state.currentTeamDisplayName}/pl/${post.id}`}
-                    target='_blank'
                     className='post__permalink'
                 >
                     {this.timeTag(post, timeOptions)}

@@ -175,4 +175,40 @@ describe('Reducers.Storage', () => {
             [['prefix_key1', 1], ['prefix_key2', 2]]
         );
     });
+
+    it('Storage.STORAGE_REHYDRATE', async () => {
+        var nextState = storageReducer(
+            {},
+            {
+                type: StorageTypes.STORAGE_REHYDRATE,
+                data: {test: '123'}
+            }
+        );
+        assert.deepEqual(
+            nextState,
+            {test: '123'}
+        );
+        nextState = storageReducer(
+            nextState,
+            {
+                type: StorageTypes.STORAGE_REHYDRATE,
+                data: {test: '456'}
+            }
+        );
+        assert.deepEqual(
+            nextState,
+            {test: '456'}
+        );
+        nextState = storageReducer(
+            nextState,
+            {
+                type: StorageTypes.STORAGE_REHYDRATE,
+                data: {test2: '789'}
+            }
+        );
+        assert.deepEqual(
+            nextState,
+            {test: '456', test2: '789'}
+        );
+    });
 });

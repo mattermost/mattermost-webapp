@@ -184,7 +184,7 @@ export default class PostMessageView extends React.PureComponent {
             message = message.concat(visibleMessage);
         }
         const htmlFormattedText = TextFormatting.formatText(message, options);
-        const postMessageComponent = PostUtils.postMessageHtmlToComponent(htmlFormattedText);
+        const postMessageComponent = PostUtils.postMessageHtmlToComponent(htmlFormattedText, isRHS);
 
         return (
             <div>

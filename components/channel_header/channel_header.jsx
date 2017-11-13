@@ -690,8 +690,14 @@ export default class ChannelHeader extends React.Component {
                     status={channel.status}
                 />
             );
+
             dmHeaderTextStatus = (
-                <span className='header-status__text'>{Utils.toTitleCase(channel.status)}</span>
+                <span className='header-status__text'>
+                    <FormattedMessage
+                        id={`status_dropdown.set_${channel.status}`}
+                        defaultMessage={Utils.toTitleCase(channel.status)}
+                    />
+                </span>
             );
         }
 

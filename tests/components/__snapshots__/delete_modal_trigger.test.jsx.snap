@@ -2,14 +2,14 @@
 
 exports[`components/DeleteModalTrigger should match snapshot 1`] = `
 <span>
-  <a
-    href="#"
+  <button
+    className="color--link style--none"
     onClick={[Function]}
   >
     <div>
       trigger title
     </div>
-  </a>
+  </button>
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
@@ -38,8 +38,8 @@ exports[`components/DeleteModalTrigger should match snapshot 1`] = `
 
 exports[`components/DeleteModalTrigger should match snapshot when showDeleteModal is set 1`] = `
 <span>
-  <a
-    href="#"
+  <button
+    className="color--link style--none"
     onClick={[Function]}
   />
   <ConfirmModal

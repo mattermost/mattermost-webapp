@@ -54,7 +54,7 @@ export function clear(options) {
             type: StorageTypes.CLEAR,
             data: options
         }, getState);
-        return {data: false};
+        return {data: true};
     };
 }
 
@@ -64,7 +64,7 @@ export function actionOnGlobalItemsWithPrefix(prefix, action) {
             type: StorageTypes.ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX,
             data: {prefix, action}
         }, getState);
-        return {data: false};
+        return {data: true};
     };
 }
 
@@ -76,6 +76,24 @@ export function actionOnItemsWithPrefix(prefix, action) {
             type: StorageTypes.ACTION_ON_ITEMS_WITH_PREFIX,
             data: {globalPrefix, prefix, action}
         }, getState);
-        return {data: false};
+        return {data: true};
+    };
+}
+
+export function storageRehydrate(incoming) {
+    return async (dispatch, getState) => {
+        if (incoming.storage) {
+            let storage = {}
+            try {
+                storage = JSON.parse(incoming.storage)
+            } catch (err) {
+                if (process.env.NODE_ENV !== 'production') console.warn(`Error rehydrating data for key "storage"`, err)
+            }
+            dispatch({
+                type: StorageTypes.STORAGE_REHYDRATE,
+                data: storage
+            });
+        }
+        return {data: true};
     };
 }
