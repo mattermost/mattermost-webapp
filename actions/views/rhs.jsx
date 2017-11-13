@@ -75,7 +75,7 @@ export function showSearchResults() {
     };
 }
 
-export function showFlaggedPosts() {
+function getFlaggedPosts() {
     return async (dispatch, getState) => {
         const state = getState();
         const userId = getCurrentUserId(state);
@@ -102,13 +102,18 @@ export function showFlaggedPosts() {
                 type: SearchTypes.SEARCH_POSTS_SUCCESS
             }
         ], 'SEARCH_POST_BATCH'), getState);
+    };
+}
 
+export function showFlaggedPosts() {
+    return async (dispatch) => {
+        dispatch(getFlaggedPosts());
         dispatch(updateSearchTerms(''));
         dispatch(updateRhsState(RHSStates.FLAG));
     };
 }
 
-export function showPinnedPosts(channelId) {
+function getPinnedPosts(channelId) {
     return async (dispatch, getState) => {
         const currentChannelId = getCurrentChannelId(getState());
 
@@ -135,7 +140,12 @@ export function showPinnedPosts(channelId) {
                 type: SearchTypes.SEARCH_POSTS_SUCCESS
             }
         ], 'SEARCH_POST_BATCH'), getState);
+    };
+}
 
+export function showPinnedPosts(channelId) {
+    return async (dispatch) => {
+        dispatch(getPinnedPosts(channelId));
         dispatch(updateSearchTerms(''));
         dispatch(updateRhsState(RHSStates.PIN));
     };
