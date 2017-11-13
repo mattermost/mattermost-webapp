@@ -288,7 +288,12 @@ export async function updateChannel(channel, success, error) {
 }
 
 export async function searchMoreChannels(term, success, error) {
-    const {data, error: err} = await ChannelActions.searchChannels(TeamStore.getCurrentId(), term)(dispatch, getState);
+    const teamId = TeamStore.getCurrentId();
+    if (!teamId) {
+        return;
+    }
+
+    const {data, error: err} = await ChannelActions.searchChannels(teamId, term)(dispatch, getState);
     if (data && success) {
         const myMembers = getMyChannelMemberships(getState());
         const channels = data.filter((c) => !myMembers[c.id]);
@@ -299,7 +304,12 @@ export async function searchMoreChannels(term, success, error) {
 }
 
 export async function autocompleteChannels(term, success, error) {
-    const {data, error: err} = await ChannelActions.searchChannels(TeamStore.getCurrentId(), term)(dispatch, getState);
+    const teamId = TeamStore.getCurrentId();
+    if (!teamId) {
+        return;
+    }
+
+    const {data, error: err} = await ChannelActions.searchChannels(teamId, term)(dispatch, getState);
     if (data && success) {
         success(data);
     } else if (err && error) {
