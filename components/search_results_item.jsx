@@ -74,15 +74,15 @@ export default class SearchResultsItem extends React.Component {
     }
 
     componentDidMount() {
-        window.addEventListener('resize', () => {
-            Utils.updateWindowDimensions(this);
-        });
+        window.addEventListener('resize', this.onUpdateWindowDimensions);
     }
 
     componentWillUnmount() {
-        window.removeEventListener('resize', () => {
-            Utils.updateWindowDimensions(this);
-        });
+        window.removeEventListener('resize', this.onUpdateWindowDimensions);
+    }
+
+    onUpdateWindowDimensions = () => {
+        Utils.updateWindowDimensions(this);
     }
 
     shrinkSidebar() {
