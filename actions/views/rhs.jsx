@@ -58,11 +58,11 @@ export function updateSearchTerms(terms) {
     };
 }
 
-export function performSearch(terms) {
+export function performSearch(terms, isMentionSearch) {
     return (dispatch, getState) => {
         const teamId = getCurrentTeamId(getState());
 
-        return dispatch(searchPosts(teamId, terms));
+        return dispatch(searchPosts(teamId, terms, isMentionSearch));
     };
 }
 
@@ -167,7 +167,7 @@ export function showMentions() {
         trackEvent('api', 'api_posts_search_mention');
 
         dispatch(updateSearchTerms(terms));
-        dispatch(performSearch(terms));
+        dispatch(performSearch(terms, true));
         dispatch(updateRhsState(RHSStates.MENTION));
     };
 }
