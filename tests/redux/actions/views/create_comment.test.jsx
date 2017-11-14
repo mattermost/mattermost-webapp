@@ -56,7 +56,8 @@ jest.mock('actions/global_actions.jsx', () => ({
 }));
 
 jest.mock('actions/post_actions.jsx', () => ({
-    createPost: jest.fn()
+    createPost: jest.fn(),
+    setEditingPost: (...args) => ({type: 'MOCK_SET_EDITING_POST', args})
 }));
 
 jest.mock('actions/storage', () => ({
@@ -380,24 +381,18 @@ describe('rhs view actions', () => {
     describe('makeOnEditLatestPost', () => {
         const onEditLatestPost = makeOnEditLatestPost(channelId, rootId);
 
-        const config = {
-            type: ActionTypes.RECEIVED_EDIT_POST,
-            refocusId: '#reply_textbox',
-            title: 'Comment',
-            message: 'test msg',
-            postId: latestPostId,
-            channelId,
-            comments: 0
-        };
-
-        test('it calls AppDispatcher.handleViewAction', () => {
+        test('it dispatches the correct actions', () => {
             store.dispatch(onEditLatestPost());
 
-            expect(AppDispatcher.handleViewAction).toHaveBeenCalled();
+            const testStore = mockStore(initialState);
+            testStore.dispatch(PostActions.setEditingPost(
+                latestPostId,
+                0,
+                '#reply_textbox',
+                'Comment'
+            ));
 
-            expect(lastCall(AppDispatcher.handleViewAction.mock.calls)[0]).toEqual(
-                expect.objectContaining(config)
-            );
+            expect(store.getActions()).toEqual(testStore.getActions());
         });
     });
 });

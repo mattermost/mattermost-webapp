@@ -1,9 +1,11 @@
 // Copyright (c) 2017 Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import {createSelector} from 'reselect';
+
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {makeGetMessageInHistoryItem, makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
+import {makeGetMessageInHistoryItem, makeGetCommentCountForPost, getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 
 import {
@@ -22,9 +24,10 @@ import * as ChannelActions from 'actions/channel_actions.jsx';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {EmojiMap} from 'stores/emoji_store.jsx';
 
-import {makeGetCurrentUsersLatestPost, makeGetCommentDraft} from 'selectors/rhs';
+import {makeGetCommentDraft} from 'selectors/rhs';
 
 import * as Utils from 'utils/utils.jsx';
+import {Constants} from 'utils/constants.jsx';
 
 import {REACTION_PATTERN} from 'components/create_post.jsx';
 
@@ -150,6 +153,45 @@ export function makeOnSubmit(channelId, rootId, latestPostId) {
             dispatch(submitPost(channelId, rootId, draft));
         }
     };
+}
+
+function makeGetCurrentUsersLatestPost(channelId, rootId) {
+    return createSelector(
+        getCurrentUserId,
+        (state) => state.entities.posts.postsInChannel[channelId],
+        (state) => (id) => getPost(state, id),
+        (userId, postIds, getPostById) => {
+            let lastPost = null;
+
+            if (!postIds) {
+                return lastPost;
+            }
+
+            for (const id of postIds) {
+                const post = getPostById(id) || {};
+
+                // don't edit webhook posts, deleted posts, or system messages
+                if (post.user_id !== userId ||
+                    (post.props && post.props.from_webhook) ||
+                    post.state === Constants.POST_DELETED ||
+                    (post.type && post.type.startsWith(Constants.SYSTEM_MESSAGE_PREFIX))) {
+                    continue;
+                }
+
+                if (rootId) {
+                    if (post.root_id === rootId || post.id === rootId) {
+                        lastPost = post;
+                        break;
+                    }
+                } else {
+                    lastPost = post;
+                    break;
+                }
+            }
+
+            return lastPost;
+        }
+    );
 }
 
 export function makeOnEditLatestPost(channelId, rootId) {
