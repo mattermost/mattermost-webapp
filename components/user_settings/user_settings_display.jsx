@@ -84,7 +84,7 @@ export default class UserSettingsDisplay extends React.Component {
         const teammateNameDisplayPreference = {
             user_id: userId,
             category: Preferences.CATEGORY_DISPLAY_SETTINGS,
-            name: 'teammate_name_display',
+            name: Preferences.TEAMMATE_NAME_DISPLAY,
             value: this.state.teammateNameDisplay
         };
 

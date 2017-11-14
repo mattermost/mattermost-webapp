@@ -11,7 +11,7 @@ import PostHeader from './post_header.jsx';
 function mapStateToProps(state, ownProps) {
     return {
         ...ownProps,
-        displayNameType: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, 'name_format', 'false')
+        displayNameType: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, 'name_format', global.window.mm_config.TeammateNameDisplay)
     };
 }
 
