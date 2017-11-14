@@ -9,7 +9,7 @@ import FileInfoPreview from 'components/file_info_preview.jsx';
 
 describe('components/file_info_preview.jsx', () => {
     const requiredProps = {
-        fileUrl: 'http://www.catphotos.org/wp-content/uploads/2013/02/cat-standing.jpg',
+        fileUrl: 'https://pre-release.mattermost.com/api/v4/files/rqir81f7a7ft8m6j6ej7g1txuo',
         fileInfo: {name: 'Test Image', size: 100, extension: 'jpg'}
     };
 
