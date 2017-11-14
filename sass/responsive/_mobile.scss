@@ -837,6 +837,11 @@
                         .section-edit {
                             text-align: left;
 
+                            button {
+                                text-align: left;
+                                width: 100%;
+                            }
+
                             .fa {
                                 display: inline-block;
                             }
