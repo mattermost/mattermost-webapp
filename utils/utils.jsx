@@ -398,6 +398,10 @@ export function insertHtmlEntities(text) {
     return newtext;
 }
 
+export function isGIFImage(extin) {
+    return extin.toLowerCase() === Constants.IMAGE_TYPE_GIF;
+}
+
 export function getFileType(extin) {
     var ext = extin.toLowerCase();
     if (Constants.IMAGE_TYPES.indexOf(ext) > -1) {
