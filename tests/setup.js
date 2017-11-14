@@ -3,6 +3,9 @@
 
 import Adapter from 'enzyme-adapter-react-15';
 import {configure} from 'enzyme';
+import $ from 'jquery';
+
+global.$ = global.jQuery = $;
 
 configure({adapter: new Adapter()});
 
