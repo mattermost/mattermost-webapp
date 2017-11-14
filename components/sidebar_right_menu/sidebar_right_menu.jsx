@@ -103,7 +103,7 @@ export default class SidebarRightMenu extends React.Component {
             currentUser: UserStore.getCurrentUser(),
             teamMembers: TeamStore.getMyTeamMembers(),
             teamListings: TeamStore.getTeamListings(),
-            showTutorialTip: tutorialStep === TutorialSteps.MENU_POPOVER && Utils.isMobile()
+            showTutorialTip: tutorialStep === TutorialSteps.MENU_POPOVER && Utils.isMobile() && global.window.mm_config.EnableTutorial === 'true'
         };
     }
 

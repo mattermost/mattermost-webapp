@@ -100,7 +100,8 @@ describe('components/create_post', () => {
     window.mm_config = {
         EnableEmojiPicker: 'true',
         EnableFileAttachments: 'true',
-        EnableConfirmNotificationsToChannel: 'true'
+        EnableConfirmNotificationsToChannel: 'true',
+        EnableTutorial: 'true'
     };
 
     it('should match snapshot, init', () => {
