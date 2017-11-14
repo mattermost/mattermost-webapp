@@ -232,12 +232,20 @@ export default class SwitchChannelProvider extends Provider {
                 continue;
             }
 
+            /*
             if ((user.first_name || user.last_name) && user.nickname) {
                 displayName += `- ${Utils.getFullName(user)} (${user.nickname})`;
             } else if (user.nickname) {
                 displayName += `- (${user.nickname})`;
             } else if (user.first_name || user.last_name) {
                 displayName += `- ${Utils.getFullName(user)}`;
+            }
+            */
+            if (user.first_name || user.last_name) {
+                displayName = Utils.getFullName(user) + ' - ' + user.username;
+            }
+            if (user.nickname) {
+                displayName += `- (${user.nickname})`;
             }
 
             const wrappedChannel = {
