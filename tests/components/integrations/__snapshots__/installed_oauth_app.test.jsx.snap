@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/integrations/InstalledOAuthApp should filter out OAuthApp 1`] = `null`;
+exports[`components/integrations/InstalledOAuthApp should filter out OAuthApp 1`] = `""`;
 
 exports[`components/integrations/InstalledOAuthApp should match snapshot 1`] = `
 <div
@@ -124,8 +124,9 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot 1`] = `
   <div
     className="item-actions"
   >
-    <a
-      href="#"
+    <button
+      className="style--none color--link"
+      id="showSecretButton"
       onClick={[Function]}
     >
       <FormattedMessage
@@ -133,10 +134,11 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot 1`] = `
         id="installed_integrations.showSecret"
         values={Object {}}
       />
-    </a>
+    </button>
      - 
-    <a
-      href="#"
+    <button
+      className="style--none color--link"
+      id="regenerateSecretButton"
       onClick={[Function]}
     >
       <FormattedMessage
@@ -144,17 +146,363 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot 1`] = `
         id="installed_integrations.regenSecret"
         values={Object {}}
       />
-    </a>
+    </button>
      - 
-    <a
-      href="oauth2-apps/edit?id=facxd9wpzpbpfp8pad78xj75pr"
+    <Link
+      onlyActiveOnIndex={false}
+      style={Object {}}
+      to="/team_name/integrations/oauth2-apps/edit?id=facxd9wpzpbpfp8pad78xj75pr"
     >
       <FormattedMessage
         defaultMessage="Edit"
         id="installed_integrations.edit"
         values={Object {}}
       />
-    </a>
+    </Link>
+     - 
+    <DeleteIntegration
+      messageId="installed_oauth_apps.delete.confirm"
+      onDelete={[Function]}
+    />
+  </div>
+</div>
+`;
+
+exports[`components/integrations/InstalledOAuthApp should match snapshot, on error 1`] = `
+<div
+  className="backstage-list__item"
+>
+  <div
+    className="integration__icon integration-list__icon"
+  >
+    <img
+      src="https://test.com/icon"
+    />
+  </div>
+  <div
+    className="item-details"
+  >
+    <div
+      className="item-details__row"
+    >
+      <span
+        className="item-details__name"
+      >
+        <FormattedMessage
+          defaultMessage="Unnamed OAuth 2.0 Application"
+          id="installed_integrations.unnamed_oauth_app"
+          values={Object {}}
+        />
+      </span>
+    </div>
+    <FormError
+      error="error"
+      errors={Array []}
+    />
+    <div
+      className="item-details__row"
+    >
+      <span
+        className="item-details__description"
+      >
+        testing
+      </span>
+    </div>
+    <div
+      className="item-details__row"
+    >
+      <span
+        className="item-details__url"
+      >
+        <FormattedHTMLMessage
+          defaultMessage="Is Trusted: <strong>{isTrusted}</strong>"
+          id="installed_oauth_apps.is_trusted"
+          values={
+            Object {
+              "isTrusted": "No",
+            }
+          }
+        />
+      </span>
+    </div>
+    <div
+      className="item-details__row"
+    >
+      <span
+        className="item-details__token"
+      >
+        <FormattedHTMLMessage
+          defaultMessage="Client ID: <strong>{clientId}</strong>"
+          id="installed_integrations.client_id"
+          values={
+            Object {
+              "clientId": "facxd9wpzpbpfp8pad78xj75pr",
+            }
+          }
+        />
+      </span>
+    </div>
+    <div
+      className="item-details__row"
+    >
+      <span
+        className="item-details__token"
+      >
+        <FormattedHTMLMessage
+          defaultMessage="Client Secret: <strong>{clientSecret}</strong>"
+          id="installed_integrations.client_secret"
+          values={
+            Object {
+              "clientSecret": "***************",
+            }
+          }
+        />
+      </span>
+    </div>
+    <div
+      className="item-details__row"
+    >
+      <span
+        className="item-details__url"
+      >
+        <FormattedMessage
+          defaultMessage="Callback URLs: {urls}"
+          id="installed_integrations.callback_urls"
+          values={
+            Object {
+              "urls": "https://test.com/callback, https://test.com/callback2",
+            }
+          }
+        />
+      </span>
+    </div>
+    <div
+      className="item-details__row"
+    >
+      <span
+        className="item-details__creation"
+      >
+        <FormattedMessage
+          defaultMessage="Created by {creator} on {createAt, date, full}"
+          id="installed_integrations.creation"
+          values={
+            Object {
+              "createAt": 1501365458934,
+              "creator": "",
+            }
+          }
+        />
+      </span>
+    </div>
+  </div>
+  <div
+    className="item-actions"
+  >
+    <button
+      className="style--none color--link"
+      id="showSecretButton"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Show Secret"
+        id="installed_integrations.showSecret"
+        values={Object {}}
+      />
+    </button>
+     - 
+    <button
+      className="style--none color--link"
+      id="regenerateSecretButton"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Regenerate Secret"
+        id="installed_integrations.regenSecret"
+        values={Object {}}
+      />
+    </button>
+     - 
+    <Link
+      onlyActiveOnIndex={false}
+      style={Object {}}
+      to="/team_name/integrations/oauth2-apps/edit?id=facxd9wpzpbpfp8pad78xj75pr"
+    >
+      <FormattedMessage
+        defaultMessage="Edit"
+        id="installed_integrations.edit"
+        values={Object {}}
+      />
+    </Link>
+     - 
+    <DeleteIntegration
+      messageId="installed_oauth_apps.delete.confirm"
+      onDelete={[Function]}
+    />
+  </div>
+</div>
+`;
+
+exports[`components/integrations/InstalledOAuthApp should match snapshot, when oauthApp is without name and not trusted 1`] = `
+<div
+  className="backstage-list__item"
+>
+  <div
+    className="integration__icon integration-list__icon"
+  >
+    <img
+      src="https://test.com/icon"
+    />
+  </div>
+  <div
+    className="item-details"
+  >
+    <div
+      className="item-details__row"
+    >
+      <span
+        className="item-details__name"
+      >
+        <FormattedMessage
+          defaultMessage="Unnamed OAuth 2.0 Application"
+          id="installed_integrations.unnamed_oauth_app"
+          values={Object {}}
+        />
+      </span>
+    </div>
+    <div
+      className="item-details__row"
+    >
+      <span
+        className="item-details__description"
+      >
+        testing
+      </span>
+    </div>
+    <div
+      className="item-details__row"
+    >
+      <span
+        className="item-details__url"
+      >
+        <FormattedHTMLMessage
+          defaultMessage="Is Trusted: <strong>{isTrusted}</strong>"
+          id="installed_oauth_apps.is_trusted"
+          values={
+            Object {
+              "isTrusted": "No",
+            }
+          }
+        />
+      </span>
+    </div>
+    <div
+      className="item-details__row"
+    >
+      <span
+        className="item-details__token"
+      >
+        <FormattedHTMLMessage
+          defaultMessage="Client ID: <strong>{clientId}</strong>"
+          id="installed_integrations.client_id"
+          values={
+            Object {
+              "clientId": "facxd9wpzpbpfp8pad78xj75pr",
+            }
+          }
+        />
+      </span>
+    </div>
+    <div
+      className="item-details__row"
+    >
+      <span
+        className="item-details__token"
+      >
+        <FormattedHTMLMessage
+          defaultMessage="Client Secret: <strong>{clientSecret}</strong>"
+          id="installed_integrations.client_secret"
+          values={
+            Object {
+              "clientSecret": "***************",
+            }
+          }
+        />
+      </span>
+    </div>
+    <div
+      className="item-details__row"
+    >
+      <span
+        className="item-details__url"
+      >
+        <FormattedMessage
+          defaultMessage="Callback URLs: {urls}"
+          id="installed_integrations.callback_urls"
+          values={
+            Object {
+              "urls": "https://test.com/callback, https://test.com/callback2",
+            }
+          }
+        />
+      </span>
+    </div>
+    <div
+      className="item-details__row"
+    >
+      <span
+        className="item-details__creation"
+      >
+        <FormattedMessage
+          defaultMessage="Created by {creator} on {createAt, date, full}"
+          id="installed_integrations.creation"
+          values={
+            Object {
+              "createAt": 1501365458934,
+              "creator": "",
+            }
+          }
+        />
+      </span>
+    </div>
+  </div>
+  <div
+    className="item-actions"
+  >
+    <button
+      className="style--none color--link"
+      id="showSecretButton"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Show Secret"
+        id="installed_integrations.showSecret"
+        values={Object {}}
+      />
+    </button>
+     - 
+    <button
+      className="style--none color--link"
+      id="regenerateSecretButton"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Regenerate Secret"
+        id="installed_integrations.regenSecret"
+        values={Object {}}
+      />
+    </button>
+     - 
+    <Link
+      onlyActiveOnIndex={false}
+      style={Object {}}
+      to="/team_name/integrations/oauth2-apps/edit?id=facxd9wpzpbpfp8pad78xj75pr"
+    >
+      <FormattedMessage
+        defaultMessage="Edit"
+        id="installed_integrations.edit"
+        values={Object {}}
+      />
+    </Link>
      - 
     <DeleteIntegration
       messageId="installed_oauth_apps.delete.confirm"

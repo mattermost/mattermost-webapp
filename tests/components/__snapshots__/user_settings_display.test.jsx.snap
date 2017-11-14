@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/user_settings/UserSettingsDisplay should match snapshot, channel display mode section 1`] = `
-<div>
+<div
+  id="displaySettings"
+>
   <div
     className="modal-header"
   >
@@ -42,6 +44,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, cha
   >
     <h3
       className="tab-header"
+      id="displaySettingsTitle"
     >
       <FormattedMessage
         defaultMessage="Display Settings"
@@ -135,14 +138,62 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, cha
     <div
       className="divider-dark"
     />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="Full width"
-          id="user.settings.display.fullScreen"
-          values={Object {}}
-        />
+    <SettingItemMax
+      infoPosition="bottom"
+      inputs={
+        Array [
+          <div>
+            <div
+              className="radio"
+            >
+              <label>
+                <input
+                  checked={true}
+                  id="channel_display_modeFormatA"
+                  name="channel_display_modeFormat"
+                  onChange={[Function]}
+                  type="radio"
+                />
+                <FormattedMessage
+                  defaultMessage="Full width"
+                  id="user.settings.display.fullScreen"
+                  values={Object {}}
+                />
+              </label>
+              <br />
+            </div>
+            <div
+              className="radio"
+            >
+              <label>
+                <input
+                  checked={false}
+                  id="channel_display_modeFormatB"
+                  name="channel_display_modeFormat"
+                  onChange={[Function]}
+                  type="radio"
+                />
+                <FormattedMessage
+                  defaultMessage="Fixed width, centered"
+                  id="user.settings.display.fixedWidthCentered"
+                  values={Object {}}
+                />
+              </label>
+              <br />
+            </div>
+            <div>
+              <br />
+              <FormattedMessage
+                defaultMessage="Select the width of the center channel."
+                id="user.settings.display.channeldisplaymode"
+                values={Object {}}
+              />
+            </div>
+          </div>,
+        ]
       }
+      saving={false}
+      submit={[Function]}
       title={
         <FormattedMessage
           defaultMessage="Channel Display Mode"
@@ -172,7 +223,9 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, cha
 `;
 
 exports[`components/user_settings/UserSettingsDisplay should match snapshot, clock section 1`] = `
-<div>
+<div
+  id="displaySettings"
+>
   <div
     className="modal-header"
   >
@@ -213,6 +266,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, clo
   >
     <h3
       className="tab-header"
+      id="displaySettingsTitle"
     >
       <FormattedMessage
         defaultMessage="Display Settings"
@@ -391,7 +445,9 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, clo
 `;
 
 exports[`components/user_settings/UserSettingsDisplay should match snapshot, collapse section 1`] = `
-<div>
+<div
+  id="displaySettings"
+>
   <div
     className="modal-header"
   >
@@ -432,6 +488,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, col
   >
     <h3
       className="tab-header"
+      id="displaySettingsTitle"
     >
       <FormattedMessage
         defaultMessage="Display Settings"
@@ -610,7 +667,9 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, col
 `;
 
 exports[`components/user_settings/UserSettingsDisplay should match snapshot, languages section 1`] = `
-<div>
+<div
+  id="displaySettings"
+>
   <div
     className="modal-header"
   >
@@ -651,6 +710,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lan
   >
     <h3
       className="tab-header"
+      id="displaySettingsTitle"
     >
       <FormattedMessage
         defaultMessage="Display Settings"
@@ -780,7 +840,9 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lan
 `;
 
 exports[`components/user_settings/UserSettingsDisplay should match snapshot, link preview section with EnableLinkPreviews is false 1`] = `
-<div>
+<div
+  id="displaySettings"
+>
   <div
     className="modal-header"
   >
@@ -821,6 +883,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lin
   >
     <h3
       className="tab-header"
+      id="displaySettingsTitle"
     >
       <FormattedMessage
         defaultMessage="Display Settings"
@@ -931,7 +994,9 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lin
 `;
 
 exports[`components/user_settings/UserSettingsDisplay should match snapshot, link preview section with EnableLinkPreviews is true 1`] = `
-<div>
+<div
+  id="displaySettings"
+>
   <div
     className="modal-header"
   >
@@ -972,6 +1037,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lin
   >
     <h3
       className="tab-header"
+      id="displaySettingsTitle"
     >
       <FormattedMessage
         defaultMessage="Display Settings"
@@ -1150,7 +1216,9 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lin
 `;
 
 exports[`components/user_settings/UserSettingsDisplay should match snapshot, message display section 1`] = `
-<div>
+<div
+  id="displaySettings"
+>
   <div
     className="modal-header"
   >
@@ -1191,6 +1259,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, mes
   >
     <h3
       className="tab-header"
+      id="displaySettingsTitle"
     >
       <FormattedMessage
         defaultMessage="Display Settings"
@@ -1389,7 +1458,9 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, mes
 `;
 
 exports[`components/user_settings/UserSettingsDisplay should match snapshot, no active section 1`] = `
-<div>
+<div
+  id="displaySettings"
+>
   <div
     className="modal-header"
   >
@@ -1430,6 +1501,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, no 
   >
     <h3
       className="tab-header"
+      id="displaySettingsTitle"
     >
       <FormattedMessage
         defaultMessage="Display Settings"
@@ -1560,7 +1632,9 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, no 
 `;
 
 exports[`components/user_settings/UserSettingsDisplay should match snapshot, theme section with EnableThemeSelection is false 1`] = `
-<div>
+<div
+  id="displaySettings"
+>
   <div
     className="modal-header"
   >
@@ -1601,6 +1675,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, the
   >
     <h3
       className="tab-header"
+      id="displaySettingsTitle"
     >
       <FormattedMessage
         defaultMessage="Display Settings"
@@ -1731,7 +1806,9 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, the
 `;
 
 exports[`components/user_settings/UserSettingsDisplay should match snapshot, theme section with EnableThemeSelection is true 1`] = `
-<div>
+<div
+  id="displaySettings"
+>
   <div
     className="modal-header"
   >
@@ -1772,6 +1849,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, the
   >
     <h3
       className="tab-header"
+      id="displaySettingsTitle"
     >
       <FormattedMessage
         defaultMessage="Display Settings"

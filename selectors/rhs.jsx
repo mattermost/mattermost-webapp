@@ -2,8 +2,9 @@
 // See License.txt for license information.
 
 import {createSelector} from 'reselect';
-
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+
+import {makeGetGlobalItem} from 'selectors/storage';
 
 import {PostTypes} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
@@ -52,4 +53,9 @@ export function getSearchTerms(state) {
 
 export function getIsSearching(state) {
     return state.views.rhs.isSearching;
+}
+
+export function makeGetCommentDraft(rootId) {
+    const defaultValue = {message: '', fileInfos: [], uploadsInProgress: []};
+    return makeGetGlobalItem(`comment_draft_${rootId}`, defaultValue);
 }

@@ -71,6 +71,7 @@ export default class NeedsTeam extends React.Component {
 
         this.onTeamChanged = this.onTeamChanged.bind(this);
         this.onPreferencesChanged = this.onPreferencesChanged.bind(this);
+        this.shortcutKeyDown = this.shortcutKeyDown.bind(this);
 
         this.blurTime = new Date().getTime();
 
@@ -80,6 +81,16 @@ export default class NeedsTeam extends React.Component {
             team,
             theme: PreferenceStore.getTheme(team.id)
         };
+    }
+
+    shortcutKeyDown(e) {
+        if (e.shiftKey && e.ctrlKey && e.keyCode === Constants.KeyCodes.L) {
+            if (document.getElementById('sidebar-right').className.match('sidebar--right sidebar--right--expanded')) {
+                document.getElementById('reply_textbox').focus();
+            } else {
+                document.getElementById('post_textbox').focus();
+            }
+        }
     }
 
     onTeamChanged() {
@@ -141,6 +152,7 @@ export default class NeedsTeam extends React.Component {
             // Use iNoBounce to prevent scrolling past the boundaries of the page
             iNoBounce.enable();
         }
+        document.addEventListener('keydown', this.shortcutKeyDown);
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -160,6 +172,7 @@ export default class NeedsTeam extends React.Component {
         }
         stopPeriodicStatusUpdates();
         stopPeriodicSync();
+        document.removeEventListener('keydown', this.shortcutKeyDown);
     }
 
     render() {
