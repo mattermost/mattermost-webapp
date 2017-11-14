@@ -159,6 +159,7 @@ export default class InstalledOAuthApp extends React.PureComponent {
         if (this.state.clientSecret === FAKE_SECRET) {
             showHide = (
                 <button
+                    id='showSecretButton'
                     className='style--none color--link'
                     onClick={this.handleShowClientSecret}
                 >
@@ -171,6 +172,7 @@ export default class InstalledOAuthApp extends React.PureComponent {
         } else {
             showHide = (
                 <button
+                    id='hideSecretButton'
                     className='style--none color--link'
                     onClick={this.handleHideClientSecret}
                 >
@@ -184,6 +186,7 @@ export default class InstalledOAuthApp extends React.PureComponent {
 
         const regen = (
             <button
+                id='regenerateSecretButton'
                 className='style--none color--link'
                 onClick={this.handleRegenerate}
             >

@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {browserHistory} from 'react-router/es6';
+import {browserHistory} from 'react-router';
 
 import AbstractCommand from '../abstract_command.jsx';
 
