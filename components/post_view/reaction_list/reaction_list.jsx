@@ -11,7 +11,7 @@ import Reaction from 'components/post_view/reaction';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 
 const DEFAULT_EMOJI_PICKER_RIGHT_OFFSET = 15;
-const EMOJI_PICKER_WIDTH = 260;
+const EMOJI_PICKER_WIDTH = 278;
 
 export default class ReactionListView extends React.PureComponent {
     static propTypes = {
