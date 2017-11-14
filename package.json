@@ -24,7 +24,7 @@
     "key-mirror": "1.0.1",
     "localforage": "1.5.3",
     "localforage-observable": "1.4.0",
-    "marked": "mattermost/marked#17945726698a03420588acd55e5b38f692c03f31",
+    "marked": "mattermost/marked#802e981ade71149a497cbe79d12b8a3f82f7657e",
     "match-at": "0.1.1",
     "mattermost-redux": "https://github.com/mattermost/mattermost-redux.git#fe024abaec677c06969940a09f9aed433a56c904",
     "object-assign": "4.1.1",
