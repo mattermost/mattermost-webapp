@@ -387,49 +387,51 @@ export default class SidebarHeaderDropdown extends React.Component {
             );
         }
 
-        const isAlreadyMember = this.state.teamMembers.reduce((result, item) => {
-            result[item.team_id] = true;
-            return result;
-        }, {});
+        if (!config.DefaultTeamName) {
+            const isAlreadyMember = this.state.teamMembers.reduce((result, item) => {
+                result[item.team_id] = true;
+                return result;
+            }, {});
 
-        for (const id in this.state.teamListings) {
-            if (this.state.teamListings.hasOwnProperty(id) && !isAlreadyMember[id]) {
-                moreTeams = true;
-                break;
+            for (const id in this.state.teamListings) {
+                if (this.state.teamListings.hasOwnProperty(id) && !isAlreadyMember[id]) {
+                    moreTeams = true;
+                    break;
+                }
             }
-        }
 
-        if (moreTeams) {
+            if (moreTeams) {
+                teams.push(
+                    <li key='joinTeam_li'>
+                        <Link
+                            id='joinAnotherTeam'
+                            onClick={this.handleClick}
+                            to='/select_team'
+                        >
+                            <FormattedMessage
+                                id='navbar_dropdown.join'
+                                defaultMessage='Join Another Team'
+                            />
+                        </Link>
+                    </li>
+                );
+            }
+
             teams.push(
-                <li key='joinTeam_li'>
-                    <Link
-                        id='joinAnotherTeam'
-                        onClick={this.handleClick}
-                        to='/select_team'
+                <li key='leaveTeam_li'>
+                    <button
+                        className='style--none'
+                        id='leaveTeam'
+                        onClick={GlobalActions.showLeaveTeamModal}
                     >
                         <FormattedMessage
-                            id='navbar_dropdown.join'
-                            defaultMessage='Join Another Team'
+                            id='navbar_dropdown.leave'
+                            defaultMessage='Leave Team'
                         />
-                    </Link>
+                    </button>
                 </li>
             );
         }
-
-        teams.push(
-            <li key='leaveTeam_li'>
-                <button
-                    className='style--none'
-                    id='leaveTeam'
-                    onClick={GlobalActions.showLeaveTeamModal}
-                >
-                    <FormattedMessage
-                        id='navbar_dropdown.leave'
-                        defaultMessage='Leave Team'
-                    />
-                </button>
-            </li>
-        );
 
         let helpLink = null;
         if (config.HelpLink) {
