@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router/es6';
+import {browserHistory} from 'react-router';
 
 import {createChannel} from 'actions/channel_actions.jsx';
 import TeamStore from 'stores/team_store.jsx';

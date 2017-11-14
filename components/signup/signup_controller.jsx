@@ -4,10 +4,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {browserHistory, Link} from 'react-router/es6';
+import {browserHistory, Link} from 'react-router';
 
 import {Client4} from 'mattermost-redux/client';
 
+import * as Utils from 'utils/utils.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {addUserToTeamFromInvite, getInviteInfo} from 'actions/team_actions.jsx';
 import {loadMe} from 'actions/user_actions.jsx';
@@ -348,7 +349,7 @@ export default class SignupController extends React.Component {
                             {' '}
                             <Link
                                 to={'/login'}
-                                query={this.props.location.query}
+                                query={Utils.isEmptyObject(this.props.location.query) ? null : this.props.location.query}
                             >
                                 <FormattedMessage
                                     id='signup_user_completed.signIn'

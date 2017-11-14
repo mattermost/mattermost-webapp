@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router/es6';
+import {Link} from 'react-router';
 
 import {formatText} from 'utils/text_formatting.jsx';
 import {localizeMessage} from 'utils/utils.jsx';

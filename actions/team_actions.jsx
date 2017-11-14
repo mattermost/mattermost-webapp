@@ -1,7 +1,7 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {browserHistory} from 'react-router/es6';
+import {browserHistory} from 'react-router';
 
 import {TeamTypes} from 'mattermost-redux/action_types';
 import {viewChannel, getChannelStats} from 'mattermost-redux/actions/channels';

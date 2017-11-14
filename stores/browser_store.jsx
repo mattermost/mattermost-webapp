@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {browserHistory} from 'react-router/es6';
+import {browserHistory} from 'react-router';
 
 import * as Selectors from 'selectors/storage';
 import * as Actions from 'actions/storage';

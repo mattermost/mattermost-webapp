@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Overlay, OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router/es6';
+import {browserHistory} from 'react-router';
 
 import {Client4} from 'mattermost-redux/client';
 
