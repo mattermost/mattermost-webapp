@@ -1,0 +1,6 @@
+{
+    "Root": {
+        "desc": "A component at the root of any logged-in pages. Can be used for creating modals and pop-ups that display over the whole app. Does not override any existing component.",
+        "props": {}
+    }
+}
