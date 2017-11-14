@@ -13,7 +13,7 @@ import {
     makeOnMoveHistoryIndex,
     makeOnSubmit,
     makeOnEditLatestPost
-} from 'actions/views/rhs';
+} from 'actions/views/create_comment';
 
 import {makeGetCommentDraft} from 'selectors/rhs';
 

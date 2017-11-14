@@ -22,7 +22,7 @@ import {
     submitCommand,
     makeOnSubmit,
     makeOnEditLatestPost
-} from 'actions/views/rhs';
+} from 'actions/views/create_comment';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
@@ -274,7 +274,7 @@ describe('rhs view actions', () => {
 
             jest.resetModules();
 
-            const {submitCommand: remockedSubmitCommand} = require('actions/views/rhs');
+            const {submitCommand: remockedSubmitCommand} = require('actions/views/create_comment');
 
             store.dispatch(remockedSubmitCommand(channelId, rootId, draft));
 
