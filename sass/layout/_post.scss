@@ -846,8 +846,12 @@
         .post__body {
             background: transparent !important;
             line-height: 1.5;
-            margin-top: -1px;
-            padding: 3px 0 0;
+            padding: 2px 0 0;
+
+            .post--edited {
+                position: relative;
+                top: -1px;
+            }
 
             .img-div {
                 max-height: 150px;
