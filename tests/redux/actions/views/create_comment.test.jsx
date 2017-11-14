@@ -25,12 +25,9 @@ import {
 } from 'actions/views/create_comment';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import * as PostActions from 'actions/post_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as ChannelActions from 'actions/channel_actions.jsx';
-
-import {ActionTypes} from 'utils/constants.jsx';
 
 const mockStore = configureStore([thunk]);
 
