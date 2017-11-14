@@ -3,9 +3,10 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
-import {Modal} from 'react-bootstrap';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+// import {Modal} from 'react-bootstrap';
+
+// import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import PostDeletedModal from 'components/post_deleted_modal.jsx';
 
 describe('components/ChannelInfoModal', () => {
@@ -35,20 +36,20 @@ describe('components/ChannelInfoModal', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should call onHide callback when modal is hidden', (done) => {
-        function onHide() {
-            done();
-        }
+    // test('should call onHide callback when modal is hidden', (done) => {
+    //     function onHide() {
+    //         done();
+    //     }
 
-        const wrapper = mountWithIntl(
-            <PostDeletedModal
-                show={true}
-                onHide={onHide}
-            />
-        );
+    //     const wrapper = mountWithIntl(
+    //         <PostDeletedModal
+    //             show={true}
+    //             onHide={onHide}
+    //         />
+    //     );
 
-        wrapper.find(Modal).first().props().onHide();
-    });
+    //     wrapper.find(Modal).first().props().onHide();
+    // });
 
     test('shouldComponentUpdate returns the correct results', () => {
         function emptyFunction() {} //eslint-disable-line no-empty-function
