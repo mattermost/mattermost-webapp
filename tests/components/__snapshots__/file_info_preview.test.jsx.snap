@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/file_info_preview.jsx should match snapshot 1`] = `
+<div
+  className="file-details__container"
+>
+  <a
+    className="file-details__preview"
+    href="https://pre-release.mattermost.com/api/v4/files/rqir81f7a7ft8m6j6ej7g1txuo"
+    rel="noopener noreferrer"
+    target="_blank"
+  >
+    <span
+      className="file-details__preview-helper"
+    />
+    <img
+      src={null}
+    />
+  </a>
+  <div
+    className="file-details"
+  >
+    <div
+      className="file-details__name"
+    >
+      Test Image
+    </div>
+    <div
+      className="file-details__info"
+    >
+      File type JPG, Size 100B
+    </div>
+  </div>
+</div>
+`;
