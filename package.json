@@ -113,6 +113,7 @@
       "/node_modules/",
       "/non_npm_dependencies/"
     ],
+    "clearMocks": true,
     "collectCoverageFrom": [
       "actions/**/*.{js,jsx}",
       "client/**/*.{js,jsx}",
