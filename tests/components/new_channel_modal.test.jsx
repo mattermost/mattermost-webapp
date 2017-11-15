@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Modal} from 'react-bootstrap';
 
-// import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
 import Constants from 'utils/constants.jsx';
 
@@ -79,39 +79,39 @@ describe('components/NewChannelModal', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    // test('should match when handleChange is called', () => {
-    //     const newOnDataChanged = jest.fn();
-    //     const props = {...baseProps, onDataChanged: newOnDataChanged};
-    //     const wrapper = mountWithIntl(
-    //         <NewChannelModal {...props}/>
-    //     );
+    test('should match when handleChange is called', () => {
+        const newOnDataChanged = jest.fn();
+        const props = {...baseProps, onDataChanged: newOnDataChanged};
+        const wrapper = mountWithIntl(
+            <NewChannelModal {...props}/>
+        );
 
-    //     const refDisplayName = wrapper.ref('display_name');
-    //     refDisplayName.value = 'new display_name';
+        const refDisplayName = wrapper.ref('display_name');
+        refDisplayName.value = 'new display_name';
 
-    //     const refChannelHeader = wrapper.ref('channel_header');
-    //     refChannelHeader.value = 'new channel_header';
+        const refChannelHeader = wrapper.ref('channel_header');
+        refChannelHeader.value = 'new channel_header';
 
-    //     const refChannelPurpose = wrapper.ref('channel_purpose');
-    //     refChannelPurpose.value = 'new channel_purpose';
+        const refChannelPurpose = wrapper.ref('channel_purpose');
+        refChannelPurpose.value = 'new channel_purpose';
 
-    //     wrapper.instance().handleChange();
+        wrapper.instance().handleChange();
 
-    //     expect(newOnDataChanged).toHaveBeenCalledTimes(1);
-    //     expect(newOnDataChanged).toHaveBeenCalledWith({displayName: 'new display_name', header: 'new channel_header', purpose: 'new channel_purpose'});
-    // });
+        expect(newOnDataChanged).toHaveBeenCalledTimes(1);
+        expect(newOnDataChanged).toHaveBeenCalledWith({displayName: 'new display_name', header: 'new channel_header', purpose: 'new channel_purpose'});
+    });
 
-    // test('should match when handleSubmit is called', () => {
-    //     const newOnSubmitChannel = jest.fn();
-    //     const props = {...baseProps, onSubmitChannel: newOnSubmitChannel};
-    //     const wrapper = mountWithIntl(
-    //         <NewChannelModal {...props}/>
-    //     );
-    //     wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+    test('should match when handleSubmit is called', () => {
+        const newOnSubmitChannel = jest.fn();
+        const props = {...baseProps, onSubmitChannel: newOnSubmitChannel};
+        const wrapper = mountWithIntl(
+            <NewChannelModal {...props}/>
+        );
+        wrapper.instance().handleSubmit({preventDefault: jest.fn()});
 
-    //     expect(newOnSubmitChannel).toHaveBeenCalledTimes(1);
-    //     expect(wrapper.state('displayNameError')).toEqual('');
-    // });
+        expect(newOnSubmitChannel).toHaveBeenCalledTimes(1);
+        expect(wrapper.state('displayNameError')).toEqual('');
+    });
 
     test('should have called handleSubmit on onEnterKeyDown', () => {
         const wrapper = shallow(

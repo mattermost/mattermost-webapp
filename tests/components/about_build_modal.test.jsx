@@ -2,12 +2,10 @@
 // See License.txt for license information.
 
 import React from 'react';
-
-// import {Modal} from 'react-bootstrap';
-
+import {Modal} from 'react-bootstrap';
 import {shallow} from 'enzyme';
 
-// import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
 import AboutBuildModal from 'components/about_build_modal/about_build_modal.jsx';
 
@@ -81,22 +79,22 @@ describe('components/AboutBuildModal', () => {
         expect(wrapper.find('#versionString').text()).toBe(' 3.6.0\u00a0 (3.6.2)');
     });
 
-    // test('should call onModalDismissed callback when the modal is hidden', (done) => {
-    //     function onHide() {
-    //         done();
-    //     }
+    test('should call onModalDismissed callback when the modal is hidden', (done) => {
+        function onHide() {
+            done();
+        }
 
-    //     const wrapper = mountWithIntl(
-    //         <AboutBuildModal
-    //             config={config}
-    //             license={license}
-    //             show={true}
-    //             onModalDismissed={onHide}
-    //         />
-    //     );
+        const wrapper = mountWithIntl(
+            <AboutBuildModal
+                config={config}
+                license={license}
+                show={true}
+                onModalDismissed={onHide}
+            />
+        );
 
-    //     wrapper.find(Modal).first().props().onHide();
-    // });
+        wrapper.find(Modal).first().props().onHide();
+    });
 
     function shallowAboutBuildModal(props = {}) {
         const onModalDismissed = jest.fn();
