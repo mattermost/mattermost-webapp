@@ -3,8 +3,8 @@
         "desc": "A component at the root of any logged-in pages. Can be used for creating modals and pop-ups that display over the whole app. Does not override any existing component.",
         "props": {}
     },
-    "PostMessageView": {
-        "desc": "The component displaying the message body of posts for adding new components based on post type. Use in your `postTypeComponents` argument to `registerComponents` in your plugin's intialization function.",
+    "PostTypePlugin": {
+        "desc": "The component displaying the message body of posts. For adding new components based on post type. Use in your `postTypeComponents` argument to `registerComponents` in your plugin's intialization function.",
         "props": {
             "post": {
                 "type": { "name": "object" },

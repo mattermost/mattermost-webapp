@@ -70,7 +70,12 @@ export default class PostBody extends React.PureComponent {
         /**
          * Post identifiers for selenium tests
          */
-        lastPostCount: PropTypes.number
+        lastPostCount: PropTypes.number,
+
+        /*
+         * Post type components from plugins
+         */
+        pluginPostTypes: PropTypes.object
     }
 
     constructor(props) {
