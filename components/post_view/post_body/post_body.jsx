@@ -225,8 +225,10 @@ export default class PostBody extends React.PureComponent {
             </div>
         );
 
+        const hasPlugin = post.type && this.props.pluginPostTypes.hasOwnProperty(post.type);
+
         let messageWithAdditionalContent;
-        if (this.props.post.state === Posts.POST_DELETED) {
+        if (this.props.post.state === Posts.POST_DELETED || hasPlugin) {
             messageWithAdditionalContent = messageWrapper;
         } else {
             messageWithAdditionalContent = (

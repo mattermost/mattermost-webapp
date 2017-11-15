@@ -24,7 +24,8 @@ function mapStateToProps(state, ownProps) {
         parentPost,
         parentPostUser,
         previewCollapsed: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, 'false'),
-        previewEnabled: getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, true)
+        previewEnabled: getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, true),
+        pluginPostTypes: state.plugins.postTypes
     };
 }
 
