@@ -301,35 +301,46 @@ export default class UserSettingsDisplay extends React.Component {
         const options = [];
         for (const {value, text} of props.values) {
             options.push(
-                <option
-                    value={value}
-                    key={value}
-                >
-                    {text}
-                </option>
+                <div className='radio' key={'changeTeammateName_' + value}>
+                    <label>
+                        <input
+                            id={'teammateName' + value}
+                            type='radio'
+                            name='teammateName'
+                            checked={this.state.teammateNameDisplay===value}
+                            onChange={this.setTeammateNameDisplay}
+                            value={value}
+                        />
+                        <FormattedMessage
+                            id={'user.settings.display.teammateName.' + value}
+                            defaultMessage={text}
+                        />
+                    </label>
+                    <br/>
+                </div>
             );
         }
+        const messageDesc = (
+            <FormattedMessage
+                id={'user.settings.display.teammateName.helpText'}
+                defaultMessage={'Set how to display other user\'s names in posts and the Direct Messages list.'}
+            />
+        );
         const inputs = (
-            <div key='changeTeammateName'>
+            <div key={'changeTeammateName'}>
                 <br/>
-                <label className='control-label'>
-                    <FormattedMessage
-                        id='user.settings.teammateNameDisplay.change'
-                        defaultMessage='Change Teammate Display Name'
-                    />
-                </label>
                 <div className='padding-top'>
-                    <select
-                        className='form-control'
-                        id='displayTeammateName'
-                        value={props.value}
-                        onChange={this.setTeammateNameDisplay}
-                    >
+                    <div key={'teammateNameUserDisplay'}>
                         {options}
-                    </select>
+                    </div>
+                </div>
+                <div>
+                    <br/>
+                    {messageDesc}
                 </div>
             </div>
         );
+        
         return (
             <SettingItemMax
                 title={props.title}
