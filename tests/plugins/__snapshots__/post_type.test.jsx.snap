@@ -76,7 +76,6 @@ exports[`plugins/PostMessageView should match snapshot with extended post type 1
     }
   >
     <PostTypePlugin
-      compactDisplay={undefined}
       isRHS={false}
       mentionKeys={Array []}
       post={
