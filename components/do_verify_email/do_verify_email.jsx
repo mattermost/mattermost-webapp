@@ -6,15 +6,21 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {browserHistory} from 'react-router';
 
-import {verifyEmail} from 'actions/user_actions.jsx';
-
 import logoImage from 'images/logo.png';
 
 import BackButton from 'components/common/back_button.jsx';
 
-import LoadingScreen from './loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen.jsx';
 
-export default class DoVerifyEmail extends React.Component {
+export default class DoVerifyEmail extends React.PureComponent {
+    static propTypes = {
+
+        /**
+         * Object with info about location
+         */
+        location: PropTypes.object.isRequired
+    }
+
     constructor(props) {
         super(props);
 
@@ -25,30 +31,30 @@ export default class DoVerifyEmail extends React.Component {
     }
 
     componentWillMount() {
-        verifyEmail(
-            this.props.location.query.token,
-            () => {
-                browserHistory.push('/login?extra=verified&email=' + encodeURIComponent(this.props.location.query.email));
-            },
-            (err) => {
-                let serverError;
-                if (err) {
-                    serverError = (
-                        <FormattedMessage
-                            id='signup_user_completed.invalid_invite'
-                            defaultMessage='The invite link was invalid.  Please speak with your Administrator to receive an invitation.'
-                        />
-                    );
-                }
-
-                this.setState({
-                    verifyStatus: 'failure',
-                    serverError
-                });
-            }
-        );
+        this.verifyEmail();
     }
 
+    verifyEmail = async () => {
+        const {actions: {verifyUserEmail}} = this.props;
+        const {data, error} = await verifyUserEmail(this.props.location.query.token);
+        let serverError;
+
+        if (data) {
+            browserHistory.push('/login?extra=verified&email=' + encodeURIComponent(this.props.location.query.email));
+        } else if (error) {
+            serverError = (
+                <FormattedMessage
+                    id='signup_user_completed.invalid_invite'
+                    defaultMessage='The invite link was invalid.  Please speak with your Administrator to receive an invitation.'
+                />
+            );
+
+            this.setState({
+                verifyStatus: 'failure',
+                serverError
+            });
+        }
+    }
     render() {
         if (this.state.verifyStatus !== 'failure') {
             return (<LoadingScreen/>);
@@ -91,8 +97,4 @@ export default class DoVerifyEmail extends React.Component {
 
 DoVerifyEmail.defaultProps = {
     location: {}
-};
-
-DoVerifyEmail.propTypes = {
-    location: PropTypes.object.isRequired
 };
