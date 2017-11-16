@@ -48,7 +48,7 @@ export default class AddOAuthApp extends React.PureComponent {
     addOAuthApp = async (app) => {
         this.setState({serverError: ''});
 
-        const data = await this.props.actions.addOAuthApp(app);
+        const {data} = await this.props.actions.addOAuthApp(app);
         if (data) {
             browserHistory.push(`/${this.props.team.name}/integrations/confirm?type=oauth2-apps&id=${data.id}`);
             return;
