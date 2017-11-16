@@ -132,14 +132,14 @@ export default class ClientVersionsSettings extends AdminSettings {
                     label={
                         <FormattedMessage
                             id='admin.client_versions.iosLatestVersion'
-                            defaultMessage='Latest IOS Version'
+                            defaultMessage='Latest iOS Version'
                         />
                     }
                     placeholder={Utils.localizeMessage('admin.client_versions.iosLatestVersion', 'X.X.X')}
                     helpText={
                         <FormattedMessage
                             id='admin.client_versions.iosLatestVersionHelp'
-                            defaultMessage='The latest released IOS version'
+                            defaultMessage='The latest released iOS version'
                         />
                     }
                     value={this.state.iosLatestVersion}
@@ -150,14 +150,14 @@ export default class ClientVersionsSettings extends AdminSettings {
                     label={
                         <FormattedMessage
                             id='admin.client_versions.iosMinVersion'
-                            defaultMessage='Minimum IOS Version'
+                            defaultMessage='Minimum iOS Version'
                         />
                     }
                     placeholder={Utils.localizeMessage('admin.client_versions.iosMinVersion', 'X.X.X')}
                     helpText={
                         <FormattedMessage
                             id='admin.client_versions.iosMinVersionHelp'
-                            defaultMessage='The minimum compliant IOS version'
+                            defaultMessage='The minimum compliant iOS version'
                         />
                     }
                     value={this.state.iosMinVersion}
