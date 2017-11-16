@@ -45,6 +45,11 @@ export default class RhsHeaderPost extends React.Component {
     handleBack = (e) => {
         e.preventDefault();
 
+        if (this.props.isWebrtc) {
+            this.props.actions.showSearchResults();
+            return;
+        }
+
         switch (this.props.previousRhsState) {
         case RHSStates.SEARCH:
             this.props.actions.showSearchResults();
@@ -59,9 +64,7 @@ export default class RhsHeaderPost extends React.Component {
             this.props.actions.showPinnedPosts();
             break;
         default:
-            if (this.props.isWebrtc) {
-                this.props.actions.showSearchResults();
-            }
+            break;
         }
     }
 
@@ -121,6 +124,7 @@ export default class RhsHeaderPost extends React.Component {
                     </Tooltip>
                 );
             }
+            break;
         }
 
         const expandSidebarTooltip = (
