@@ -18,6 +18,8 @@ import PostStore from 'stores/post_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 
+import {getSelectedPostId} from 'selectors/rhs';
+
 import {ActionTypes, Constants} from 'utils/constants.jsx';
 import {EMOJI_PATTERN} from 'utils/emoticons.jsx';
 
@@ -161,7 +163,7 @@ export async function deletePost(channelId, post, success) {
 
     await PostActions.deletePost(post, hardDelete)(dispatch, getState);
 
-    if (post.id === getState().views.rhs.selectedPostId) {
+    if (post.id === getSelectedPostId(getState())) {
         dispatch({
             type: ActionTypes.SELECT_POST,
             postId: '',

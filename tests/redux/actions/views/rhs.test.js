@@ -144,10 +144,7 @@ describe('rhs view actions', () => {
                 type: ActionTypes.SELECT_POST,
                 postId: post.root_id,
                 channelId: post.channel_id,
-                fromSearch: false,
-                fromFlaggedPosts: true,
-                fromPinnedPosts: false,
-                fromMentions: false
+                previousRhsState: RHSStates.FLAG
             };
 
             expect(store.getActions()[1]).toEqual(action);

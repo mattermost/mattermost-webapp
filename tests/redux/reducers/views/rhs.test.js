@@ -11,10 +11,7 @@ describe('Reducers.RHS', () => {
     const initialState = {
         selectedPostId: '',
         selectedChannelId: '',
-        fromSearch: false,
-        fromFlaggedPosts: false,
-        fromPinnedPosts: false,
-        fromMentions: false,
+        previousRhsState: null,
         rhsState: null,
         searchTerms: '',
         isSearching: false
@@ -131,31 +128,25 @@ describe('Reducers.RHS', () => {
             {
                 type: ActionTypes.SELECT_POST,
                 postId: '123',
-                channelId: '321',
-                fromFlaggedPosts: true,
-                fromMentions: false,
-                fromPinnedPosts: false,
-                fromSearch: false
+                channelId: '321'
             }
         );
 
         expect(nextState1).toEqual({
             ...initialState,
             selectedPostId: '123',
-            selectedChannelId: '321',
-            fromFlaggedPosts: true
+            selectedChannelId: '321'
         });
 
         const nextState2 = rhsReducer(
-            {},
+            {
+                state: RHSStates.PIN
+            },
             {
                 type: ActionTypes.SELECT_POST,
                 postId: '123',
                 channelId: '321',
-                fromFlaggedPosts: false,
-                fromMentions: false,
-                fromPinnedPosts: true,
-                fromSearch: false
+                previousRhsState: RHSStates.SEARCH
             }
         );
 
@@ -163,19 +154,19 @@ describe('Reducers.RHS', () => {
             ...initialState,
             selectedPostId: '123',
             selectedChannelId: '321',
-            fromPinnedPosts: true
+            previousRhsState: RHSStates.SEARCH
         });
 
         const nextState3 = rhsReducer(
-            {},
+            {
+                state: RHSStates.FLAG,
+                previousRhsState: RHSStates.SEARCH
+            },
             {
                 type: ActionTypes.SELECT_POST,
                 postId: '123',
                 channelId: '321',
-                fromFlaggedPosts: false,
-                fromMentions: false,
-                fromPinnedPosts: false,
-                fromSearch: true
+                previousRhsState: RHSStates.FLAG
             }
         );
 
@@ -183,7 +174,7 @@ describe('Reducers.RHS', () => {
             ...initialState,
             selectedPostId: '123',
             selectedChannelId: '321',
-            fromSearch: true
+            previousRhsState: RHSStates.FLAG
         });
     });
 
@@ -196,18 +187,16 @@ describe('Reducers.RHS', () => {
                 type: ActionTypes.SELECT_POST,
                 postId: '123',
                 channelId: '321',
-                fromFlaggedPosts: false,
-                fromMentions: true,
-                fromPinnedPosts: false,
-                fromSearch: false
+                previousRhsState: RHSStates.PIN
             }
         );
 
         expect(nextState).toEqual({
             ...initialState,
+            rhsState: null,
             selectedPostId: '123',
             selectedChannelId: '321',
-            fromMentions: true
+            previousRhsState: RHSStates.PIN
         });
     });
 });

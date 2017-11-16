@@ -12,7 +12,7 @@ import PostStore from 'stores/post_store';
 
 import {showMentions, showPinnedPosts, showFlaggedPosts, closeRightHandSide} from 'actions/views/rhs';
 
-import {getRhsState, getSelectedPostId, getSelectedChannelId} from 'selectors/rhs';
+import {getRhsState, getSelectedPostId, getSelectedChannelId, getPreviousRhsState} from 'selectors/rhs';
 
 import {RHSStates} from 'utils/constants.jsx';
 
@@ -43,10 +43,7 @@ function mapStateToProps(state) {
         currentUser: getCurrentUser(state),
         postRightVisible: Boolean(getSelectedPostId(state)),
         searchVisible: Boolean(rhsState),
-        fromMentions: state.views.rhs.fromMentions,
-        fromSearch: state.views.rhs.fromSearch,
-        fromFlaggedPosts: state.views.rhs.fromFlaggedPosts,
-        fromPinnedPosts: state.views.rhs.fromPinnedPosts,
+        previousRhsState: getPreviousRhsState(state),
         isMentionSearch: rhsState === RHSStates.MENTION,
         isFlaggedPosts: rhsState === RHSStates.FLAG,
         isPinnedPosts: rhsState === RHSStates.PIN

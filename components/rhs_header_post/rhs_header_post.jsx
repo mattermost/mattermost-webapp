@@ -6,15 +6,14 @@ import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import Constants from 'utils/constants.jsx';
+import Constants, {RHSStates} from 'utils/constants.jsx';
 
 export default class RhsHeaderPost extends React.Component {
     static propTypes = {
         isWebrtc: PropTypes.bool,
-        fromSearch: PropTypes.bool,
-        fromFlaggedPosts: PropTypes.bool,
-        fromPinnedPosts: PropTypes.bool,
-        fromMentions: PropTypes.bool,
+        previousRhsState: PropTypes.oneOf(
+            Object.values(RHSStates)
+        ),
         toggleSize: PropTypes.func,
         shrink: PropTypes.func,
         actions: PropTypes.shape({
@@ -46,16 +45,23 @@ export default class RhsHeaderPost extends React.Component {
     handleBack = (e) => {
         e.preventDefault();
 
-        if (this.props.fromSearch || this.props.fromMentions || this.props.isWebrtc) {
-            if (this.props.fromMentions) {
-                this.props.actions.showMentions();
-            } else {
+        switch (this.props.previousRhsState) {
+        case RHSStates.SEARCH:
+            this.props.actions.showSearchResults();
+            break;
+        case RHSStates.MENTION:
+            this.props.actions.showMentions();
+            break;
+        case RHSStates.FLAG:
+            this.props.actions.showFlaggedPosts();
+            break;
+        case RHSStates.PIN:
+            this.props.actions.showPinnedPosts();
+            break;
+        default:
+            if (this.props.isWebrtc) {
                 this.props.actions.showSearchResults();
             }
-        } else if (this.props.fromFlaggedPosts) {
-            this.props.actions.showFlaggedPosts();
-        } else if (this.props.fromPinnedPosts) {
-            this.props.actions.showPinnedPosts();
         }
     }
 
@@ -71,7 +77,10 @@ export default class RhsHeaderPost extends React.Component {
         );
 
         let backToResultsTooltip;
-        if (this.props.fromSearch || this.props.fromMentions) {
+
+        switch (this.props.previousRhsState) {
+        case RHSStates.SEARCH:
+        case RHSStates.MENTION:
             backToResultsTooltip = (
                 <Tooltip id='backToResultsTooltip'>
                     <FormattedMessage
@@ -80,7 +89,8 @@ export default class RhsHeaderPost extends React.Component {
                     />
                 </Tooltip>
             );
-        } else if (this.props.fromFlaggedPosts) {
+            break;
+        case RHSStates.FLAG:
             backToResultsTooltip = (
                 <Tooltip id='backToResultsTooltip'>
                     <FormattedMessage
@@ -89,16 +99,8 @@ export default class RhsHeaderPost extends React.Component {
                     />
                 </Tooltip>
             );
-        } else if (this.props.isWebrtc) {
-            backToResultsTooltip = (
-                <Tooltip id='backToResultsTooltip'>
-                    <FormattedMessage
-                        id='rhs_header.backToCallTooltip'
-                        defaultMessage='Back to Call'
-                    />
-                </Tooltip>
-            );
-        } else if (this.props.fromPinnedPosts) {
+            break;
+        case RHSStates.PIN:
             backToResultsTooltip = (
                 <Tooltip id='backToResultsTooltip'>
                     <FormattedMessage
@@ -107,6 +109,18 @@ export default class RhsHeaderPost extends React.Component {
                     />
                 </Tooltip>
             );
+            break;
+        default:
+            if (this.props.isWebrtc) {
+                backToResultsTooltip = (
+                    <Tooltip id='backToResultsTooltip'>
+                        <FormattedMessage
+                            id='rhs_header.backToCallTooltip'
+                            defaultMessage='Back to Call'
+                        />
+                    </Tooltip>
+                );
+            }
         }
 
         const expandSidebarTooltip = (
@@ -127,7 +141,7 @@ export default class RhsHeaderPost extends React.Component {
             </Tooltip>
         );
 
-        if (this.props.fromMentions || this.props.fromSearch || this.props.fromFlaggedPosts || this.props.isWebrtc || this.props.fromPinnedPosts) {
+        if (backToResultsTooltip) {
             back = (
                 <a
                     href='#'

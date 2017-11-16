@@ -47,6 +47,10 @@ export function getRhsState(state) {
     return state.views.rhs.rhsState;
 }
 
+export function getPreviousRhsState(state) {
+    return state.views.rhs.previousRhsState;
+}
+
 export function getSearchTerms(state) {
     return state.views.rhs.searchTerms;
 }

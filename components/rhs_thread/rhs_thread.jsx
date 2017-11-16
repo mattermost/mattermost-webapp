@@ -52,10 +52,7 @@ export default class RhsThread extends React.Component {
     static propTypes = {
         posts: PropTypes.arrayOf(PropTypes.object).isRequired,
         selected: PropTypes.object.isRequired,
-        fromMentions: PropTypes.bool,
-        fromSearch: PropTypes.bool,
-        fromFlaggedPosts: PropTypes.bool,
-        fromPinnedPosts: PropTypes.bool,
+        previousRhsState: PropTypes.string,
         isWebrtc: PropTypes.bool,
         currentUser: PropTypes.object.isRequired,
         useMilitaryTime: PropTypes.bool.isRequired,
@@ -425,10 +422,7 @@ export default class RhsThread extends React.Component {
                     isRhsPost={true}
                 />
                 <RhsHeaderPost
-                    fromMentions={this.props.fromMentions}
-                    fromFlaggedPosts={this.props.fromFlaggedPosts}
-                    fromSearch={this.props.fromSearch}
-                    fromPinnedPosts={this.props.fromPinnedPosts}
+                    previousRhsState={this.props.previousRhsState}
                     isWebrtc={this.props.isWebrtc}
                     toggleSize={this.props.toggleSize}
                     shrink={this.props.shrink}

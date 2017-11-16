@@ -37,57 +37,13 @@ function selectedChannelId(state = '', action) {
     }
 }
 
-function fromSearch(state = false, action) {
+function previousRhsState(state = null, action) {
     switch (action.type) {
     case ActionTypes.SELECT_POST:
-        if (action.fromSearch) {
-            return action.fromSearch;
+        if (action.previousRhsState) {
+            return action.previousRhsState;
         }
-        return false;
-    case ActionTypes.UPDATE_RHS_STATE:
-        return false;
-    default:
-        return state;
-    }
-}
-
-function fromFlaggedPosts(state = false, action) {
-    switch (action.type) {
-    case ActionTypes.SELECT_POST:
-        if (action.fromFlaggedPosts) {
-            return action.fromFlaggedPosts;
-        }
-        return false;
-    case ActionTypes.UPDATE_RHS_STATE:
-        return false;
-    default:
-        return state;
-    }
-}
-
-function fromPinnedPosts(state = false, action) {
-    switch (action.type) {
-    case ActionTypes.SELECT_POST:
-        if (action.fromPinnedPosts) {
-            return action.fromPinnedPosts;
-        }
-        return false;
-    case ActionTypes.UPDATE_RHS_STATE:
-        return false;
-    default:
-        return state;
-    }
-}
-
-function fromMentions(state = false, action) {
-    switch (action.type) {
-    case ActionTypes.SELECT_POST:
-        if (action.fromMentions) {
-            return action.fromMentions;
-        }
-        return false;
-    case ActionTypes.UPDATE_RHS_STATE:
-        return false;
+        return null;
     default:
         return state;
     }
@@ -128,10 +84,7 @@ function isSearching(state = false, action) {
 export default combineReducers({
     selectedPostId,
     selectedChannelId,
-    fromSearch,
-    fromFlaggedPosts,
-    fromPinnedPosts,
-    fromMentions,
+    previousRhsState,
     rhsState,
     searchTerms,
     isSearching
