@@ -301,13 +301,16 @@ export default class UserSettingsDisplay extends React.Component {
         const options = [];
         for (const {value, text} of props.values) {
             options.push(
-                <div className='radio' key={'changeTeammateName_' + value}>
+                <div
+                    className='radio'
+                    key={'changeTeammateName_' + value}
+                >
                     <label>
                         <input
                             id={'teammateName' + value}
                             type='radio'
                             name='teammateName'
-                            checked={this.state.teammateNameDisplay===value}
+                            checked={this.state.teammateNameDisplay === value}
                             onChange={this.setTeammateNameDisplay}
                             value={value}
                         />
@@ -340,7 +343,6 @@ export default class UserSettingsDisplay extends React.Component {
                 </div>
             </div>
         );
-        
         return (
             <SettingItemMax
                 title={props.title}
