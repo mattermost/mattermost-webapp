@@ -286,8 +286,8 @@ describe('rhs view actions', () => {
             store.dispatch(showMentions());
 
             const compareStore = mockStore(initialState);
-            compareStore.dispatch(updateSearchTerms('@here @mattermost '));
-            compareStore.dispatch(performSearch('@here @mattermost ', true));
+            compareStore.dispatch(updateSearchTerms('@mattermost '));
+            compareStore.dispatch(performSearch('@mattermost ', true));
             compareStore.dispatch(updateRhsState(RHSStates.MENTION));
 
             expect(store.getActions()).toEqual(compareStore.getActions());

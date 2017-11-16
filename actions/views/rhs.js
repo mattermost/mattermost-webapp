@@ -139,14 +139,21 @@ export function showPinnedPosts(channelId) {
 
 export function showMentions() {
     return (dispatch, getState) => {
-        const termKeys = getCurrentUserMentionKeys(getState());
+        const termKeys = [...getCurrentUserMentionKeys(getState())];
 
-        if (termKeys.indexOf('@channel') !== -1) {
-            termKeys[termKeys.indexOf('@channel')] = '';
+        const indexOfChannel = termKeys.indexOf('@channel');
+        if (indexOfChannel !== -1) {
+            termKeys.splice(indexOfChannel, 1);
         }
 
-        if (termKeys.indexOf('@all') !== -1) {
-            termKeys[termKeys.indexOf('@all')] = '';
+        const indexOfAll = termKeys.indexOf('@all');
+        if (indexOfAll !== -1) {
+            termKeys.splice(indexOfAll, 1);
+        }
+
+        const indexOfHere = termKeys.indexOf('@here');
+        if (indexOfHere !== -1) {
+            termKeys.splice(indexOfHere, 1);
         }
 
         const terms = termKeys.join(' ').trim() + ' ';
