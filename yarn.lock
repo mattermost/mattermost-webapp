@@ -5591,9 +5591,9 @@ map-obj@^1.0.0, map-obj@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/map-obj/-/map-obj-1.0.1.tgz#d933ceb9205d82bdcf4886f6742bdc2b4dea146d"
 
-marked@mattermost/marked#17945726698a03420588acd55e5b38f692c03f31:
+marked@mattermost/marked#802e981ade71149a497cbe79d12b8a3f82f7657e:
   version "0.3.6"
-  resolved "https://codeload.github.com/mattermost/marked/tar.gz/17945726698a03420588acd55e5b38f692c03f31"
+  resolved "https://codeload.github.com/mattermost/marked/tar.gz/802e981ade71149a497cbe79d12b8a3f82f7657e"
 
 match-at@0.1.1:
   version "0.1.1"
@@ -7275,6 +7275,10 @@ redux-devtools-instrument@^1.3.3:
   dependencies:
     lodash "^4.2.0"
     symbol-observable "^1.0.2"
+
+redux-mock-store@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/redux-mock-store/-/redux-mock-store-1.3.0.tgz#6edfef0d2332f20576381069d6d889a6d0a4451c"
 
 "redux-offline@git+https://github.com/enahum/redux-offline.git":
   version "1.1.5"

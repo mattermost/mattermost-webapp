@@ -313,9 +313,7 @@ export default class RhsComment extends React.Component {
                     height='36'
                 />
             );
-        }
-
-        if (isSystemMessage) {
+        } else if (isSystemMessage) {
             profilePic = (
                 <span
                     className='icon'

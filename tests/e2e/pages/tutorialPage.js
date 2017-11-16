@@ -7,35 +7,41 @@ const tutorialCommands = {
     navigateToPage() {
         return this.waitForElementVisible('@appContent', Constants.DEFAULT_WAIT);
     },
-    nextTutorial() {
+    navigateToScreenOne() {
+        return this
+            .waitForElementVisible('@tutorialIntroCircle0', Constants.DEFAULT_WAIT)
+            .click('@tutorialIntroCircle0')
+            .waitForElementVisible('@tutorialIntroOne', Constants.DEFAULT_WAIT)
+    },
+    navigateToScreenTwo() {
+        return this
+            .waitForElementVisible('@tutorialIntroCircle1', Constants.DEFAULT_WAIT)
+            .click('@tutorialIntroCircle1')
+            .waitForElementVisible('@appDownloadLink', Constants.DEFAULT_WAIT)
+            .waitForElementVisible('@appDownloadImage', Constants.DEFAULT_WAIT)
+            .waitForElementVisible('@tutorialIntroTwo', Constants.DEFAULT_WAIT)
+    },
+    navigateToScreenThree() {
+        return this
+            .waitForElementVisible('@tutorialIntroCircle2', Constants.DEFAULT_WAIT)
+            .click('@tutorialIntroCircle2')
+            .waitForElementVisible('@tutorialIntroInvite', Constants.DEFAULT_WAIT)
+            .waitForElementVisible('@supportInfo', Constants.DEFAULT_WAIT)
+            .waitForElementVisible('@tutorialIntroThree', Constants.DEFAULT_WAIT)
+    },
+    navigateWithNextButton() {
         return this
             .waitForElementVisible('@tutorialNextButton', Constants.DEFAULT_WAIT)
             .click('@tutorialNextButton')
             .waitForElementVisible('@tutorialNextButton', Constants.DEFAULT_WAIT)
             .click('@tutorialNextButton')
             .waitForElementVisible('@tutorialNextButton', Constants.DEFAULT_WAIT)
-            .click('@tutorialNextButton')
-            .waitForElementVisible('@tipButton', Constants.DEFAULT_WAIT)
-            .click('@tipButton')
-            .waitForElementVisible('@tipNextButton', Constants.DEFAULT_WAIT)
-            .click('@tipNextButton')
-            .waitForElementVisible('@tipButton', Constants.DEFAULT_WAIT)
-            .click('@tipButton')
-            .waitForElementVisible('@tipNextButton', Constants.DEFAULT_WAIT)
-            .click('@tipNextButton')
-            .waitForElementVisible('@tipNextButton', Constants.DEFAULT_WAIT)
-            .click('@tipNextButton')
-            .waitForElementVisible('@tipNextButton', Constants.DEFAULT_WAIT)
-            .click('@tipNextButton')
-            .waitForElementVisible('@tipButton', Constants.DEFAULT_WAIT)
-            .click('@tipButton')
-            .waitForElementVisible('@tipNextButton', Constants.DEFAULT_WAIT)
-            .click('@tipNextButton')
+            .click('@tutorialNextButton');
     },
     skipTutorial() {
         return this
-            .waitForElementVisible('@tutorialSkipButton', Constants.DEFAULT_WAIT)
-            .click('@tutorialSkipButton')
+            .waitForElementVisible('@tutorialSkipLink', Constants.DEFAULT_WAIT)
+            .click('@tutorialSkipLink')
     }
 };
 
@@ -44,10 +50,19 @@ module.exports = {
     commands: [tutorialCommands],
     elements: {
         appContent: {selector: '#app-content'},
+        tutorialIntroContent: {selector: '#tutorialIntroContent'},
+        tutorialIntroOne: {selector: '#tutorialIntroOne'},
+        tutorialIntroTwo: {selector: '#tutorialIntroTwo'},
+        appDownloadLink: {selector: '#appDownloadLink'},
+        appDownloadImage: {selector: '#appDownloadImage'},
+        tutorialIntroThree: {selector: '#tutorialIntroThree'},
+        tutorialIntroInvite: {selector: '#tutorialIntroInvite'},
+        supportInfo: {selector: '#supportInfo'},
+        tutorialIntroCircle0: {selector: '#tutorialIntroCircle0'},
+        tutorialIntroCircle1: {selector: '#tutorialIntroCircle1'},
+        tutorialIntroCircle2: {selector: '#tutorialIntroCircle2'},
         tutorialNextButton: {selector: '#tutorialNextButton'},
-        tutorialSkipLink: {selector: '#tutorialSkipLink'},
-        tipButton: {selector: '#tipButton'},
-        tipNextButton: {selector: '#tipNextButton'}
+        tutorialSkipLink: {selector: '#tutorialSkipLink'}
     },
     sections: {
         postTextboxTipMessage: {
