@@ -118,7 +118,7 @@ export async function doFocusPost(channelId, postId, data) {
 }
 
 export function emitCloseRightHandSide() {
-    dispatch(closeRightHandSide);
+    dispatch(closeRightHandSide());
 }
 
 export async function emitPostFocusEvent(postId, onSuccess) {
