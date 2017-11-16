@@ -146,7 +146,7 @@ export default class AbstractIncomingWebhook extends React.Component {
                             >
                                 <FormattedMessage
                                     id='add_incoming_webhook.displayName'
-                                    defaultMessage='Display Name'
+                                    defaultMessage='Title'
                                 />
                             </label>
                             <div className='col-md-5 col-sm-8'>
@@ -161,7 +161,7 @@ export default class AbstractIncomingWebhook extends React.Component {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_incoming_webhook.displayName.help'
-                                        defaultMessage='Display name for your incoming webhook made of up to 64 characters.'
+                                        defaultMessage='Choose a title to be displayed on the webhook settings page. Maximum 64 characters.'
                                     />
                                 </div>
                             </div>
