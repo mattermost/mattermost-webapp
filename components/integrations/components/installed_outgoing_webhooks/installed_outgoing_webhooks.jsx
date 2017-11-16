@@ -33,7 +33,7 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
         /**
         * Data used in passing down as props for showing webhook details
         */
-        outgoingWebhooks: PropTypes.object,
+        outgoingWebhooks: PropTypes.array,
 
         /**
         * Data used in sorting for displaying list and as props channel details
@@ -125,8 +125,7 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
     }
 
     render() {
-        const outgoingWebhooksArray = Object.keys(this.props.outgoingWebhooks).map((key) => this.props.outgoingWebhooks[key]);
-        const outgoingWebhooks = outgoingWebhooksArray.sort(this.outgoingWebhookCompare).map((outgoingWebhook) => {
+        const outgoingWebhooks = this.props.outgoingWebhooks.sort(this.outgoingWebhookCompare).map((outgoingWebhook) => {
             const canChange = this.props.isAdmin || this.props.user.id === outgoingWebhook.creator_id;
             const channel = this.props.channels[outgoingWebhook.channel_id];
             return (

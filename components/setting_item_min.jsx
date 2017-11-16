@@ -28,7 +28,7 @@ export default function SettingItemMin(props) {
             <li className='col-xs-12 col-sm-3 section-edit'>
                 <button
                     id={Utils.createSafeId(props.title) + 'Edit'}
-                    className='color--link cursor--pointer style--none'
+                    className='color--link cursor--pointer style--none text-left'
                     onClick={props.updateSection}
                 >
                     <i className='fa fa-pencil'/>

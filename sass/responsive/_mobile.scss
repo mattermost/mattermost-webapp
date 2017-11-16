@@ -351,7 +351,6 @@
 
         &.current--user {
             .post__header {
-                margin-bottom: 7px;
             }
 
             &.same--root {
@@ -656,13 +655,18 @@
             .nav-pills {
                 > li {
                     &.active {
-                        a {
+                        button {
                             background: transparent;
 
                             &:before {
                                 display: none;
                             }
                         }
+                    }
+
+                    button {
+                        border-bottom: 1px solid;
+                        padding: 15px;
                     }
                 }
             }
@@ -836,6 +840,11 @@
                     .settings-content {
                         .section-edit {
                             text-align: left;
+
+                            button {
+                                text-align: left;
+                                width: 100%;
+                            }
 
                             .fa {
                                 display: inline-block;
