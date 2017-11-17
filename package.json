@@ -43,7 +43,7 @@
     "react-select": "1.0.0-rc.10",
     "redux": "3.7.2",
     "redux-batched-actions": "0.1.6",
-    "redux-persist": "5.3.4",
+    "redux-persist": "4.10.1",
     "redux-persist-transform-filter": "0.0.16",
     "reselect": "3.0.1",
     "superagent": "3.8.1",
