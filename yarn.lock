@@ -5112,9 +5112,9 @@ jws@^3.1.4:
     jwa "^1.1.4"
     safe-buffer "^5.0.1"
 
-katex@0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/katex/-/katex-0.6.0.tgz#12418e09121c05c92041b6b3b9fb6bab213cb6f3"
+katex@0.8.3:
+  version "0.8.3"
+  resolved "https://registry.yarnpkg.com/katex/-/katex-0.8.3.tgz#909d99864baf964c3ccae39c4a99a8e0fb9a1bd0"
   dependencies:
     match-at "^0.1.0"
 
