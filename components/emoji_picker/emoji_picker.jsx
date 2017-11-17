@@ -49,6 +49,7 @@ export default class EmojiPicker extends React.Component {
         this.handleKeyDown = this.handleKeyDown.bind(this);
         this.handleOnScroll = this.handleOnScroll.bind(this);
         this.handleItemUnmount = this.handleItemUnmount.bind(this);
+        this.resetSelectedEmoji = this.resetSelectedEmoji.bind(this);
 
         this.categories = {
             recent: {
@@ -180,18 +181,18 @@ export default class EmojiPicker extends React.Component {
                 }
             }
         }
-
-        this.setState({
+        this.resetSelectedEmoji();
+        this.setState((state) => ({
             activeCategory,
-            selected: null,
             scrollOffset: 0,
             list,
             filter
-        });
+        }));
     }
 
     handleItemOver(emoji) {
         clearTimeout(this.timeouthandler);
+        console.log(emoji);
         this.setState({
             selected: emoji
         });
@@ -200,9 +201,7 @@ export default class EmojiPicker extends React.Component {
     handleItemOut() {
         this.timeouthandler = setTimeout(
             () =>
-                this.setState({
-                    selected: null
-                }),
+                this.resetSelectedEmoji(),
             500
         );
     }
@@ -210,9 +209,7 @@ export default class EmojiPicker extends React.Component {
     handleItemUnmount(emoji) {
         // Prevent emoji preview from showing emoji which is not present anymore (due to filter)
         if (this.state.selected === emoji) {
-            this.setState({
-                selected: null
-            });
+            this.resetSelectedEmoji();
         }
     }
 
@@ -435,6 +432,20 @@ export default class EmojiPicker extends React.Component {
                 />
             </div>
         );
+    }
+    resetSelectedEmoji() {
+        this.setState((state) => {
+            let firstEmoji = null;
+            for (let i = 0; i < state.list.length; i++) {
+                if (Array.isArray(state.list[i])) {
+                    firstEmoji = state.list[i][0].props.emoji;
+                    break;
+                }
+            }
+            return {
+                selected: firstEmoji,
+            };
+        });
     }
 
     render() {
