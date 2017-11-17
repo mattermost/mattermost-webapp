@@ -92,7 +92,7 @@ export default class EmojiList extends PureComponent {
     componentDidMount() {
         const {scrollOffset} = this.props;
 
-        if (scrollOffset != null) {
+        if (scrollOffset !== null) {
             this.scrollTo(scrollOffset);
         }
     }
