@@ -37,18 +37,4 @@ describe('components/DoVerifyEmail', () => {
         instance.componentWillMount();
         expect(verifyUserEmail).toHaveBeenCalled();
     });
-
-    test('should display error message', async () => {
-        const wrapper = shallow(
-            <DoVerifyEmail {...requiredProps}/>
-        );
-
-        const instance = wrapper.instance();
-
-        console.log(instance.props.actions.verifyUserEmail);
-        const {error} = await instance.props.actions.verifyUserEmail();
-
-        console.log(wrapper.state('verifyStatus'));
-        expect(wrapper.state('verifyStatus')).not.toBe('pending');
-    });
 });
