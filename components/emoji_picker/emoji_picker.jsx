@@ -46,6 +46,7 @@ export default class EmojiPicker extends React.Component {
         this.handleItemOver = this.handleItemOver.bind(this);
         this.handleItemOut = this.handleItemOut.bind(this);
         this.handleItemClick = this.handleItemClick.bind(this);
+        this.handleKeyDown = this.handleKeyDown.bind(this);
         this.handleOnScroll = this.handleOnScroll.bind(this);
         this.handleItemUnmount = this.handleItemUnmount.bind(this);
 
@@ -217,6 +218,26 @@ export default class EmojiPicker extends React.Component {
 
     handleItemClick(emoji) {
         this.props.onEmojiClick(emoji);
+    }
+
+    handleKeyDown(e) {
+        switch (e.key) {
+        case 'ArrowRight':
+            console.log('Right Arrow Pressed');
+            break;
+        case 'ArrowLeft':
+            console.log('ArrowLeft Pressed');
+            break;
+        case 'ArrowUp':
+            console.log('ArrowUp Pressed');
+            break;
+        case 'ArrowDown':
+            console.log('ArrowDown Pressed');
+            break;
+        case 'Enter':
+            console.log('Enter Pressed');
+            break;
+        }
     }
 
     handleOnScroll(offset) {
@@ -406,6 +427,7 @@ export default class EmojiPicker extends React.Component {
                     className='emoji-picker__search'
                     type='text'
                     onChange={this.handleFilterChange}
+                    onKeyDown={this.handleKeyDown}
                     placeholder={Utils.localizeMessage('emoji_picker.search', 'search')}
                 />
             </div>
