@@ -16,10 +16,6 @@ describe('component/AudioVideoPreview', () => {
         fileUrl: '/api/v4/files/file_id'
     };
 
-    afterAll(() => {
-        jest.clearAllMocks();
-    });
-
     test('should match snapshot without children', () => {
         const wrapper = shallow(
             <AudioVideoPreview {...requiredProps}/>

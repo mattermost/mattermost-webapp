@@ -23,10 +23,6 @@ describe('component/PDFPreview', () => {
         fileUrl: 'https://pre-release.mattermost.com/api/v4/files/ips59w4w9jnfbrs3o94m1dbdie'
     };
 
-    afterAll(() => {
-        jest.clearAllMocks();
-    });
-
     test('should match snapshot, loading', () => {
         const wrapper = shallow(
             <PDFPreview {...requiredProps}/>

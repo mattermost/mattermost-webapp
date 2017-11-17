@@ -13,8 +13,8 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
     const teamId = 'testteamid';
     beforeEach(() => {
         mockFunc = jest.fn();
-        outgoingWebhooks = {
-            '7h88x419ubbyuxzs7dfwtgkffr': {
+        outgoingWebhooks = [
+            {
                 callback_urls: ['http://adsfdasd.com'],
                 channel_id: 'mdpzfpfcxi85zkkqkzkch4b85h',
                 content_type: 'application/x-www-form-urlencoded',
@@ -31,7 +31,7 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
                 0: 'asdf',
                 update_at: 1508329149618
             },
-            '7h88x419ubbyuxzs7dfwtgkfff': {
+            {
                 callback_urls: ['http://adsfdasd.com'],
                 channel_id: 'mdpzfpfcxi85zkkqkzkch4b85h',
                 content_type: 'application/x-www-form-urlencoded',
@@ -48,7 +48,7 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
                 0: 'asdf',
                 update_at: 1508329149618
             }
-        };
+        ];
     });
 
     test('should match snapshot', () => {
