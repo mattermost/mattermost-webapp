@@ -235,7 +235,10 @@ export default class EmojiPicker extends React.Component {
             console.log('ArrowDown Pressed');
             break;
         case 'Enter':
-            console.log('Enter Pressed');
+            const {selected} = this.state;
+            if (selected) {
+                this.props.onEmojiClick(selected);
+            }
             break;
         }
     }
