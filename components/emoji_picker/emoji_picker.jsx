@@ -41,13 +41,15 @@ export default class EmojiPicker extends React.Component {
         // All props are primitives or treated as immutable
         this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
 
+        this.generateEmojiRows = this.generateEmojiRows.bind(this);
         this.handleCategoryClick = this.handleCategoryClick.bind(this);
         this.handleFilterChange = this.handleFilterChange.bind(this);
         this.handleItemOver = this.handleItemOver.bind(this);
-        this.handleItemOut = this.handleItemOut.bind(this);
         this.handleItemClick = this.handleItemClick.bind(this);
+        this.handleKeyDown = this.handleKeyDown.bind(this);
         this.handleOnScroll = this.handleOnScroll.bind(this);
         this.handleItemUnmount = this.handleItemUnmount.bind(this);
+        this.resetSelectedEmoji = this.resetSelectedEmoji.bind(this);
 
         this.categories = {
             recent: {
@@ -147,9 +149,16 @@ export default class EmojiPicker extends React.Component {
         // so focusing it immediately on mount can cause weird scrolling
         requestAnimationFrame(() => {
             this.searchInput.focus();
+            this.resetSelectedEmoji();
         });
     }
-
+    componentWillUpdate(nextProps, nextState) {
+        const thisStateSelected = this.state.selected && this.state.selected.filename;
+        const nextStateSelected = nextState.selected && nextState.selected.filename;
+        if (thisStateSelected !== nextStateSelected) {
+            this.setState(() => ({list: this.generateList('')}));
+        }
+    }
     handleCategoryClick(category) {
         const scrollOffset = this.categories[category].offset;
 
@@ -179,44 +188,56 @@ export default class EmojiPicker extends React.Component {
                 }
             }
         }
-
-        this.setState({
+        this.resetSelectedEmoji();
+        this.setState((state) => ({
             activeCategory,
-            selected: null,
             scrollOffset: 0,
             list,
             filter
-        });
+        }));
     }
 
     handleItemOver(emoji) {
         clearTimeout(this.timeouthandler);
+        console.log(emoji);
         this.setState({
             selected: emoji
         });
     }
 
-    handleItemOut() {
-        this.timeouthandler = setTimeout(
-            () =>
-                this.setState({
-                    selected: null
-                }),
-            500
-        );
-    }
-
     handleItemUnmount(emoji) {
         // Prevent emoji preview from showing emoji which is not present anymore (due to filter)
         if (this.state.selected === emoji) {
-            this.setState({
-                selected: null
-            });
+            this.resetSelectedEmoji();
         }
     }
 
     handleItemClick(emoji) {
         this.props.onEmojiClick(emoji);
+    }
+
+    handleKeyDown(e) {
+        switch (e.key) {
+        case 'ArrowRight':
+            console.log('Right Arrow Pressed');
+            break;
+        case 'ArrowLeft':
+            console.log('ArrowLeft Pressed');
+            break;
+        case 'ArrowUp':
+            console.log('ArrowUp Pressed');
+            break;
+        case 'ArrowDown':
+            console.log('ArrowDown Pressed');
+            break;
+        case 'Enter':
+            const {selected} = this.state;
+            if (selected) {
+                this.props.onEmojiClick(selected);
+            }
+            e.preventDefault();
+            break;
+        }
     }
 
     handleOnScroll(offset) {
@@ -256,6 +277,7 @@ export default class EmojiPicker extends React.Component {
     }
 
     generateEmojiRows(emojis, category) {
+        const selectedFilename = this.state && this.state.selected && this.state.selected.filename;
         return emojis.map((emoji) => {
             const name = emoji.name || emoji.aliases[0];
             const key = category + '-' + name;
@@ -264,9 +286,9 @@ export default class EmojiPicker extends React.Component {
                 <EmojiPickerItem
                     key={key}
                     emoji={emoji}
+                    isSelected={emoji.filename === selectedFilename}
                     category={category}
                     onItemOver={this.handleItemOver}
-                    onItemOut={this.handleItemOut}
                     onItemClick={this.handleItemClick}
                     onItemUnmount={this.handleItemUnmount}
                 />
@@ -406,10 +428,25 @@ export default class EmojiPicker extends React.Component {
                     className='emoji-picker__search'
                     type='text'
                     onChange={this.handleFilterChange}
+                    onKeyDown={this.handleKeyDown}
                     placeholder={Utils.localizeMessage('emoji_picker.search', 'search')}
                 />
             </div>
         );
+    }
+    resetSelectedEmoji() {
+        this.setState((state) => {
+            let firstEmoji = null;
+            for (let i = 0; i < state.list.length; i++) {
+                if (Array.isArray(state.list[i])) {
+                    firstEmoji = state.list[i][0].props.emoji;
+                    break;
+                }
+            }
+            return {
+                selected: firstEmoji,
+            };
+        });
     }
 
     render() {
