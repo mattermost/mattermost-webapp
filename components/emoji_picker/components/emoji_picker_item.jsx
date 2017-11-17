@@ -10,17 +10,16 @@ export default class EmojiPickerItem extends React.PureComponent {
     static propTypes = {
         emoji: PropTypes.object.isRequired,
         onItemOver: PropTypes.func.isRequired,
-        onItemOut: PropTypes.func.isRequired,
         onItemClick: PropTypes.func.isRequired,
         onItemUnmount: PropTypes.func.isRequired,
-        category: PropTypes.string.isRequired
+        category: PropTypes.string.isRequired,
+        isSelected: PropTypes.bool
     }
 
     constructor(props) {
         super(props);
 
         this.handleMouseOver = this.handleMouseOver.bind(this);
-        this.handleMouseOut = this.handleMouseOut.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
 
@@ -30,10 +29,6 @@ export default class EmojiPickerItem extends React.PureComponent {
 
     handleMouseOver() {
         this.props.onItemOver(this.props.emoji);
-    }
-
-    handleMouseOut() {
-        this.props.onItemOut();
     }
 
     handleClick() {
@@ -49,6 +44,7 @@ export default class EmojiPickerItem extends React.PureComponent {
 
             className += ' emoji-category-' + emoji.category + '-' + emoji.batch;
             className += ' emoji-' + emoji.filename;
+            className += this.props.isSelected ? ' selected' : '';
 
             item = (
                 <div className={'emoji-picker__item'}>
@@ -56,7 +52,6 @@ export default class EmojiPickerItem extends React.PureComponent {
                         src='/static/images/img_trans.gif'
                         className={className}
                         onMouseOver={this.handleMouseOver}
-                        onMouseOut={this.handleMouseOut}
                         onClick={this.handleClick}
                     />
                 </div>
@@ -65,7 +60,6 @@ export default class EmojiPickerItem extends React.PureComponent {
             item = (
                 <span
                     onMouseOver={this.handleMouseOver}
-                    onMouseOut={this.handleMouseOut}
                     onClick={this.handleClick}
                     className='emoji-picker__item-wrapper'
                 >
