@@ -137,7 +137,7 @@ export default class EmojiPicker extends React.Component {
             allEmojis: {},
             categories: {},
             filter: '',
-            cursor: [0, 0], // categoryIndex, emojiIndex
+            cursor: [0, 0] // categoryIndex, emojiIndex
         };
     }
     componentWillMount() {
@@ -190,21 +190,53 @@ export default class EmojiPicker extends React.Component {
             this.selectNextEmoji();
             break;
         case 'Enter':
-            this.props.onEmojiClick(this.getCurrentEmojiByIndex(this.state.cursor));
+            this.props.onEmojiClick(this.getCurrentEmojiByCursor(this.state.cursor));
             e.preventDefault();
             break;
         }
     }
     selectNextEmoji() {
-        console.log('next');
+        const {cursor} = this.state;
+
+        // try moving to next emoji in index
+        let newCursor = [cursor[0], cursor[1] + 1];
+        if (this.getCurrentEmojiByCursor(newCursor)) {
+            this.setState({cursor: newCursor});
+            return;
+        }
+
+        // try moving to next category
+        newCursor = [cursor[0] + 1, 0];
+        if (this.getCurrentEmojiByCursor(newCursor)) {
+            this.setState({cursor: newCursor});
+        }
     }
     selectPrevEmoji() {
-        console.log('prev');
-    }
+        const {cursor} = this.state;
 
-    getCurrentEmojiByIndex(index) {
-        const category = this.getCategoriesByKey([Object.keys(CATEGORIES)[index[0]]]);
-        const emoji = this.getEmojiesByCategory(category)[index[1]];
+        // try moving to prev emoji in index
+        let newCursor = [cursor[0], cursor[1] - 1];
+        if (this.getCurrentEmojiByCursor(newCursor)) {
+            this.setState({cursor: newCursor});
+            return;
+        }
+
+        // try moving to end of prev category
+        if (cursor[0] !== 0) {
+            const newCategory = this.getCategoryByIndex(cursor[0] - 1);
+            const lastEmojiInNewCategory = this.state.categories[newCategory.name].length - 1;
+            newCursor = [cursor[0] - 1, lastEmojiInNewCategory];
+            if (this.getCurrentEmojiByCursor(newCursor)) {
+                this.setState({cursor: newCursor});
+            }
+        }
+    }
+    getCategoryByIndex(index) {
+        return this.getCategoriesByKey([Object.keys(CATEGORIES)[index]]);
+    }
+    getCurrentEmojiByCursor(cursor) {
+        const category = this.getCategoryByIndex(cursor[0]);
+        const emoji = this.getEmojiesByCategory(category)[cursor[1]];
         return emoji || null;
     };
     getCategoriesByKey(key) {
@@ -360,7 +392,7 @@ export default class EmojiPicker extends React.Component {
                 {this.emojiCategories()}
                 {this.emojiSearch()}
                 {this.emojiCurrentResults()}
-                <EmojiPickerPreview emoji={this.getCurrentEmojiByIndex(this.state.cursor)}/>
+                <EmojiPickerPreview emoji={this.getCurrentEmojiByCursor(this.state.cursor)}/>
             </div>
         );
     }
