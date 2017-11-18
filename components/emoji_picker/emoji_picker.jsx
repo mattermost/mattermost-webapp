@@ -4,7 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-// import {FormattedMessage} from 'react-intl';
 
 import EmojiStore from 'stores/emoji_store.jsx';
 
@@ -331,8 +330,7 @@ export default class EmojiPicker extends React.Component {
                     <div className='emoji-picker__container'>
                         {this.state.filter ? (
                             <EmojiPickerSection
-                                categoryName='search_results'
-                                categoryMessage='Search results'
+                                categoryName='searchResults'
                             >
                                 {this.getFilteredResults().map((emoji) => {
                                     return (
@@ -355,7 +353,6 @@ export default class EmojiPicker extends React.Component {
                                     <EmojiPickerSection
                                         key={category.id}
                                         categoryName={category.name}
-                                        categoryMessage={category.message}
                                     >
                                         {this.state.categories[category.name].map((emojiId) => {
                                             const emoji = this.state.allEmojis[emojiId];
