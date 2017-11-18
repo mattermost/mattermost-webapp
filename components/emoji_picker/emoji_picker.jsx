@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import throttle from 'lodash/throttle';
 
 import EmojiStore from 'stores/emoji_store.jsx';
 
@@ -119,6 +120,7 @@ export default class EmojiPicker extends React.Component {
         this.handleItemClick = this.handleItemClick.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
         this.handleScroll = this.handleScroll.bind(this);
+        this.handleScrollThrottle = throttle(this.handleScroll, 300);
         this.updateCategoryOffset = this.updateCategoryOffset.bind(this);
 
         this.divHeight = 0;
@@ -163,24 +165,29 @@ export default class EmojiPicker extends React.Component {
     handleKeyDown(e) {
         switch (e.key) {
         case 'ArrowRight':
+            e.preventDefault();
             this.selectNextEmoji(1);
             break;
         case 'ArrowLeft':
+            e.preventDefault();
             this.selectPrevEmoji(1);
             break;
         case 'ArrowUp':
+            e.preventDefault();
             this.selectPrevEmoji(9);
             break;
         case 'ArrowDown':
+            e.preventDefault();
             this.selectNextEmoji(9);
             break;
         case 'Enter':
-            this.props.onEmojiClick(this.getCurrentEmojiByCursor(this.state.cursor));
             e.preventDefault();
+            this.props.onEmojiClick(this.getCurrentEmojiByCursor(this.state.cursor));
             break;
         }
     }
     handleScroll() {
+        console.log('scrolled')
         this.setState({divTopOffset: this.emojiPickerContainer.scrollTop});
     }
     selectNextEmoji(offset) {
@@ -342,7 +349,7 @@ export default class EmojiPicker extends React.Component {
                 ref={(emojiPickerContainer) => {
                     this.emojiPickerContainer = emojiPickerContainer;
                 }}
-                onScroll={this.handleScroll}
+                onScroll={this.handleScrollThrottle}
                 className='emoji-picker__items'
             >
                 <div className='emoji-picker__container'>
