@@ -24,80 +24,70 @@ const CATEGORIES = {
         className: 'fa fa-clock-o',
         id: 'emoji_picker.recent',
         message: 'Recently Used',
-        offset: 0,
-        enable: false
+        offset: 0
     },
     people: {
         name: 'people',
         className: 'fa fa-smile-o',
         id: 'emoji_picker.people',
         message: 'People',
-        offset: 0,
-        enable: false
+        offset: 0
     },
     nature: {
         name: 'nature',
         className: 'fa fa-leaf',
         id: 'emoji_picker.nature',
         message: 'Nature',
-        offset: 0,
-        enable: false
+        offset: 0
     },
     foods: {
         name: 'foods',
         className: 'fa fa-cutlery',
         id: 'emoji_picker.foods',
         message: 'Foods',
-        offset: 0,
-        enable: false
+        offset: 0
     },
     activity: {
         name: 'activity',
         className: 'fa fa-futbol-o',
         id: 'emoji_picker.activity',
         message: 'Activity',
-        offset: 0,
-        enable: false
+        offset: 0
     },
     places: {
         name: 'places',
         className: 'fa fa-plane',
         id: 'emoji_picker.places',
         message: 'Places',
-        offset: 0,
-        enable: false
+        offset: 0
     },
     objects: {
         name: 'objects',
         className: 'fa fa-lightbulb-o',
         id: 'emoji_picker.objects',
         message: 'Objects',
-        offset: 0,
-        enable: false
+        offset: 0
     },
     symbols: {
         name: 'symbols',
         className: 'fa fa-heart-o',
         id: 'emoji_picker.symbols',
         message: 'Symbols',
-        offset: 0,
-        enable: false
+        offset: 0
     },
     flags: {
         name: 'flags',
         className: 'fa fa-flag-o',
         id: 'emoji_picker.flags',
         message: 'Flags',
-        offset: 0,
-        enable: false
+        offset: 0
     },
     custom: {
         name: 'custom',
         className: 'fa fa-at',
         id: 'emoji_picker.custom',
         message: 'Custom',
-        offset: 0,
-        enable: false
+        offset: 0
     }
 };
 
@@ -127,9 +117,9 @@ export default class EmojiPicker extends React.Component {
         this.handleItemOver = this.handleItemOver.bind(this);
         this.handleItemClick = this.handleItemClick.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
+        this.updateCategoryOffset = this.updateCategoryOffset.bind(this);
 
         this.state = {
-            activeCategory: 'recent',
             allEmojis: {},
             categories: CATEGORIES,
             filter: '',
@@ -146,23 +136,18 @@ export default class EmojiPicker extends React.Component {
             this.searchInput.focus();
         });
     }
-    handleCategoryClick(category) {
-        this.setState({
-            activeCategory: category
-        });
+    handleCategoryClick(categoryName) {
+        this.emojiPickerContainer.scrollTop = this.state.categories[categoryName].offset;
     }
-
     handleFilterChange(e) {
         e.preventDefault();
         const filter = e.target.value;
-        const activeCategory = 'recent';
         this.setState(() => ({
-            activeCategory,
             filter,
             cursor: [0, 0]
         }));
     }
-    handleItemOver(emoji, categoryIndex, emojiIndex) {
+    handleItemOver(categoryIndex, emojiIndex) {
         this.setState({
             cursor: [categoryIndex, emojiIndex]
         });
@@ -170,7 +155,6 @@ export default class EmojiPicker extends React.Component {
     handleItemClick(emoji) {
         this.props.onEmojiClick(emoji);
     }
-
     handleKeyDown(e) {
         switch (e.key) {
         case 'ArrowRight':
@@ -285,7 +269,6 @@ export default class EmojiPicker extends React.Component {
     }
     emojiCategories() {
         const emojiPickerCategories = Object.keys(CATEGORIES).map((category) => {
-            // todo
             return (
                 <EmojiPickerCategory
                     key={'header-' + CATEGORIES[category].name}
@@ -297,8 +280,8 @@ export default class EmojiPicker extends React.Component {
                         />
                     }
                     onCategoryClick={this.handleCategoryClick}
-                    selected={this.state.activeCategory === CATEGORIES[category].name}
-                    enable={CATEGORIES[category].enable}
+                    selected={false /*this.state.activeCategory === CATEGORIES[category].name*/}
+                    enable={!this.state.filter}
                 />
             );
         });
@@ -328,6 +311,9 @@ export default class EmojiPicker extends React.Component {
         let categoryIndex = 0;
         return (
             <div
+                ref={(emojiPickerContainer) => {
+                    this.emojiPickerContainer = emojiPickerContainer;
+                }}
                 className='emoji-picker__items'
             >
                 <div className='emoji-picker__container'>
@@ -341,6 +327,7 @@ export default class EmojiPicker extends React.Component {
                             <EmojiPickerSection
                                 key={category.id}
                                 categoryName={category.name}
+                                updateCategoryOffset={this.updateCategoryOffset}
                             >
                                 {emojis.map((emoji) => {
                                     return (
@@ -363,6 +350,13 @@ export default class EmojiPicker extends React.Component {
                 </div>
             </div>
         );
+    }
+    updateCategoryOffset(categoryName, offset) {
+        this.setState((state) => {
+            const {categories} = state;
+            categories[categoryName].offset = offset;
+            return {categories};
+        });
     }
 
     render() {
