@@ -12,7 +12,9 @@ export default class EmojiPickerItem extends React.PureComponent {
         onItemOver: PropTypes.func.isRequired,
         onItemClick: PropTypes.func.isRequired,
         category: PropTypes.string.isRequired,
-        isSelected: PropTypes.bool
+        isSelected: PropTypes.bool,
+        categoryIndex: PropTypes.number.isRequired,
+        emojiIndex: PropTypes.number.isRequired
     }
 
     constructor(props) {
@@ -23,7 +25,7 @@ export default class EmojiPickerItem extends React.PureComponent {
     }
 
     handleMouseOver() {
-        this.props.onItemOver(this.props.emoji);
+        this.props.onItemOver(this.props.emoji, this.props.categoryIndex, this.props.emojiIndex);
     }
 
     handleClick() {
