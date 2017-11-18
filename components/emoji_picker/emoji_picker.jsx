@@ -12,6 +12,7 @@ import * as Utils from 'utils/utils.jsx';
 import EmojiPickerCategory from "./components/emoji_picker_category";
 import EmojiPickerItem from "./components/emoji_picker_item";
 import EmojiPickerSection from "./emoji_picker_section";
+import EmojiPickerPreview from "./components/emoji_picker_preview";
 
 // import EmojiPickerCategory from './components/emoji_picker_category.jsx';
 // import EmojiPickerItem from './components/emoji_picker_item.jsx';
@@ -174,26 +175,27 @@ export default class EmojiPicker extends React.Component {
     }
 
     handleKeyDown(e) {
+        const {selected} = this.state;
+
         switch (e.key) {
-            case 'ArrowRight':
-                this.selectNextEmoji();
-                break;
-            case 'ArrowLeft':
-                this.selectPrevEmoji();
-                break;
-            case 'ArrowUp':
-                this.selectPrevEmoji();
-                break;
-            case 'ArrowDown':
-                this.selectNextEmoji();
-                break;
-            case 'Enter':
-                const {selected} = this.state;
-                if (selected) {
-                    this.props.onEmojiClick(selected);
-                }
-                e.preventDefault();
-                break;
+        case 'ArrowRight':
+            this.selectNextEmoji();
+            break;
+        case 'ArrowLeft':
+            this.selectPrevEmoji();
+            break;
+        case 'ArrowUp':
+            this.selectPrevEmoji();
+            break;
+        case 'ArrowDown':
+            this.selectNextEmoji();
+            break;
+        case 'Enter':
+            if (selected) {
+                this.props.onEmojiClick(selected);
+            }
+            e.preventDefault();
+            break;
         }
     }
     selectNextEmoji() {
@@ -373,7 +375,7 @@ export default class EmojiPicker extends React.Component {
                             })}
                     </div>
                 </div>
-                {/*<EmojiPickerPreview emoji={this.state.selected}/>*/}
+                <EmojiPickerPreview emoji={this.state.selected}/>
             </div>
         );
     }
