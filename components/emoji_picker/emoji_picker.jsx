@@ -232,11 +232,14 @@ export default class EmojiPicker extends React.Component {
         }
     }
     getCategoryByIndex(index) {
-        return this.getCategoriesByKey([Object.keys(CATEGORIES)[index]]);
+        if (this.state.filter && index !== 0) {
+            return null;
+        }
+        return this.getCategoriesByKey(Object.keys(CATEGORIES)[index]);
     }
     getCurrentEmojiByCursor(cursor) {
         const category = this.getCategoryByIndex(cursor[0]);
-        const emoji = this.getEmojiesByCategory(category)[cursor[1]];
+        const emoji = category && this.getEmojiesByCategory(category)[cursor[1]];
         return emoji || null;
     };
     getCategoriesByKey(key) {
