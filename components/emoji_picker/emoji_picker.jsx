@@ -127,7 +127,7 @@ export default class EmojiPicker extends React.Component {
             categories: CATEGORIES,
             filter: '',
             cursor: [0, 0], // categoryIndex, emojiIndex
-            divTopOffset: 0,
+            divTopOffset: 0
         };
     }
     componentWillMount() {
@@ -142,7 +142,6 @@ export default class EmojiPicker extends React.Component {
         this.divHeight = this.emojiPickerContainer.offsetHeight;
     }
     handleCategoryClick(categoryName) {
-        console.log(categoryName, this.state.categories[categoryName].offset);
         this.emojiPickerContainer.scrollTop = this.state.categories[categoryName].offset;
     }
     handleFilterChange(e) {
@@ -181,7 +180,7 @@ export default class EmojiPicker extends React.Component {
             break;
         }
     }
-    handleScroll(e) {
+    handleScroll() {
         this.setState({divTopOffset: this.emojiPickerContainer.scrollTop});
     }
     selectNextEmoji(offset) {
