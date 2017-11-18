@@ -9,7 +9,9 @@ check-style: .yarninstall
 	yarn run check
 
 test: .yarninstall
-	cd $(BUILD_SERVER_DIR) && $(MAKE) internal-test-web-client
+	@echo Running jest unit/component testing
+
+	yarn run test
 
 .yarninstall: package.json
 	@echo Getting dependencies using yarn

@@ -163,7 +163,6 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
           <div
             data-toggle="tooltip"
             key="user-popover-email"
-            title={undefined}
           >
             <a
               className="text-nowrap text-lowercase user-popover__email"

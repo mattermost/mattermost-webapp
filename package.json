@@ -70,7 +70,7 @@
     "cross-env": "5.1.1",
     "css-loader": "0.28.7",
     "enzyme": "3.1.1",
-    "enzyme-adapter-react-15": "1.0.5",
+    "enzyme-adapter-react-16": "1.1.0",
     "enzyme-to-json": "3.2.2",
     "eslint": "3.17.1",
     "eslint-import-resolver-webpack": "0.8.3",
@@ -114,12 +114,15 @@
       "/node_modules/",
       "/non_npm_dependencies/"
     ],
+    "clearMocks": true,
     "collectCoverageFrom": [
       "actions/**/*.{js,jsx}",
       "client/**/*.{js,jsx}",
       "components/**/*.jsx",
       "plugins/**/*.{js,jsx}",
+      "reducers/**/*.{js,jsx}",
       "routes/**/*.{js,jsx}",
+      "selectors/**/*.{js,jsx}",
       "stores/**/*.{js,jsx}",
       "utils/**/*.{js,jsx}"
     ],
