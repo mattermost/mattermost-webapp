@@ -4,15 +4,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-
-// import EmojiPickerCategory from "./components/emoji_picker_category";
-// import EmojiPickerItem from "./components/emoji_picker_item";
-
+import {FormattedMessage} from 'react-intl';
 
 export default class EmojiPickerSection extends React.Component {
     static propTypes = {
         categoryName: PropTypes.string.isRequired,
-        categoryMessage: PropTypes.string.isRequired,
         children: PropTypes.any
     };
 
@@ -24,18 +20,7 @@ export default class EmojiPickerSection extends React.Component {
 
         // All props are primitives or treated as immutable
         this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
-        this.handleItemOver = this.handleItemOver.bind(this);
-        this.handleItemClick = this.handleItemClick.bind(this);
     }
-    handleItemOver(emoji) {
-        this.setState({
-            selected: emoji
-        });
-    }
-    handleItemClick(emoji) {
-        this.props.onEmojiClick(emoji);
-    }
-
     render() {
         return (
             <div>
@@ -44,7 +29,7 @@ export default class EmojiPickerSection extends React.Component {
                         className='emoji-picker__category-header'
                         id={`emojipickercat-${this.props.categoryName}`}
                     >
-                        {this.props.categoryMessage}
+                        <FormattedMessage id={'emoji_picker.' + this.props.categoryName}/>
                     </div>
                 </div>
                 <div className='emoji-picker-items__container'>
