@@ -17,7 +17,7 @@ import EmojiPickerSection from './emoji_picker_section';
 import EmojiPickerPreview from './components/emoji_picker_preview';
 
 // const ROW_SIZE = 30;
-// const EMOJI_PER_ROW = 9;
+const EMOJI_PER_ROW = 9;
 // const CATEGORY_SEARCH_RESULTS = 'searchResults';
 
 const CATEGORIES = {
@@ -174,11 +174,11 @@ export default class EmojiPicker extends React.Component {
             break;
         case 'ArrowUp':
             e.preventDefault();
-            this.selectPrevEmoji(9);
+            this.selectPrevEmoji(EMOJI_PER_ROW);
             break;
         case 'ArrowDown':
             e.preventDefault();
-            this.selectNextEmoji(9);
+            this.selectNextEmoji(EMOJI_PER_ROW);
             break;
         case 'Enter':
             e.preventDefault();
@@ -189,7 +189,6 @@ export default class EmojiPicker extends React.Component {
         }
     }
     handleScroll() {
-        console.log('scrolled')
         this.setState({divTopOffset: this.emojiPickerContainer.scrollTop});
     }
     selectNextEmoji(offset) {
