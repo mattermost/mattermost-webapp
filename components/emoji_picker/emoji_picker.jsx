@@ -9,6 +9,7 @@ import EmojiStore from 'stores/emoji_store.jsx';
 
 import * as Emoji from 'utils/emoji.jsx';
 import * as Utils from 'utils/utils.jsx';
+
 import EmojiPickerCategory from './components/emoji_picker_category';
 import EmojiPickerItem from './components/emoji_picker_item';
 import EmojiPickerSection from './emoji_picker_section';
@@ -117,13 +118,16 @@ export default class EmojiPicker extends React.Component {
         this.handleItemOver = this.handleItemOver.bind(this);
         this.handleItemClick = this.handleItemClick.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
+        this.handleScroll = this.handleScroll.bind(this);
         this.updateCategoryOffset = this.updateCategoryOffset.bind(this);
 
+        this.divHeight = 0;
         this.state = {
             allEmojis: {},
             categories: CATEGORIES,
             filter: '',
-            cursor: [0, 0] // categoryIndex, emojiIndex
+            cursor: [0, 0], // categoryIndex, emojiIndex
+            divTopOffset: 0,
         };
     }
     componentWillMount() {
@@ -135,6 +139,7 @@ export default class EmojiPicker extends React.Component {
         requestAnimationFrame(() => {
             this.searchInput.focus();
         });
+        this.divHeight = this.emojiPickerContainer.offsetHeight;
     }
     handleCategoryClick(categoryName) {
         this.emojiPickerContainer.scrollTop = this.state.categories[categoryName].offset;
@@ -174,6 +179,9 @@ export default class EmojiPicker extends React.Component {
             e.preventDefault();
             break;
         }
+    }
+    handleScroll(e) {
+        this.setState({divTopOffset: this.emojiPickerContainer.scrollTop});
     }
     selectNextEmoji(offset) {
         const {cursor} = this.state;
@@ -259,7 +267,11 @@ export default class EmojiPicker extends React.Component {
             categories[category].emojiIds = categoryEmojis.map((emoji) => emoji.filename);
             for (let i = 0; i < categoryEmojis.length; i++) {
                 const currentEmoji = categoryEmojis[i];
-                allEmojis[currentEmoji.filename] = currentEmoji;
+                allEmojis[currentEmoji.filename] = {
+                    ...currentEmoji,
+                    visible: false,
+                    offset: null
+                };
             }
         }
         this.setState({
@@ -314,6 +326,7 @@ export default class EmojiPicker extends React.Component {
                 ref={(emojiPickerContainer) => {
                     this.emojiPickerContainer = emojiPickerContainer;
                 }}
+                onScroll={this.handleScroll}
                 className='emoji-picker__items'
             >
                 <div className='emoji-picker__container'>
@@ -352,11 +365,13 @@ export default class EmojiPicker extends React.Component {
         );
     }
     updateCategoryOffset(categoryName, offset) {
-        this.setState((state) => {
-            const {categories} = state;
-            categories[categoryName].offset = offset;
-            return {categories};
-        });
+        if (categoryName !== 'searchResults') {
+            this.setState((state) => {
+                const {categories} = state;
+                categories[categoryName].offset = offset;
+                return {categories};
+            });
+        }
     }
 
     render() {
