@@ -158,16 +158,16 @@ export default class EmojiPicker extends React.Component {
     handleKeyDown(e) {
         switch (e.key) {
         case 'ArrowRight':
-            this.selectNextEmoji();
+            this.selectNextEmoji(1);
             break;
         case 'ArrowLeft':
-            this.selectPrevEmoji();
+            this.selectPrevEmoji(1);
             break;
         case 'ArrowUp':
-            this.selectPrevEmoji();
+            this.selectPrevEmoji(9);
             break;
         case 'ArrowDown':
-            this.selectNextEmoji();
+            this.selectNextEmoji(9);
             break;
         case 'Enter':
             this.props.onEmojiClick(this.getCurrentEmojiByCursor(this.state.cursor));
@@ -175,11 +175,11 @@ export default class EmojiPicker extends React.Component {
             break;
         }
     }
-    selectNextEmoji() {
+    selectNextEmoji(offset) {
         const {cursor} = this.state;
 
         // try moving to next emoji in index
-        let newCursor = [cursor[0], cursor[1] + 1];
+        let newCursor = [cursor[0], cursor[1] + offset];
         if (this.getCurrentEmojiByCursor(newCursor)) {
             this.setState({cursor: newCursor});
             return;
@@ -191,11 +191,11 @@ export default class EmojiPicker extends React.Component {
             this.setState({cursor: newCursor});
         }
     }
-    selectPrevEmoji() {
+    selectPrevEmoji(offset) {
         const {cursor} = this.state;
 
         // try moving to prev emoji in index
-        let newCursor = [cursor[0], cursor[1] - 1];
+        let newCursor = [cursor[0], cursor[1] - offset];
         if (this.getCurrentEmojiByCursor(newCursor)) {
             this.setState({cursor: newCursor});
             return;
