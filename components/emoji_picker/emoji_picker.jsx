@@ -142,6 +142,7 @@ export default class EmojiPicker extends React.Component {
         this.divHeight = this.emojiPickerContainer.offsetHeight;
     }
     handleCategoryClick(categoryName) {
+        console.log(categoryName, this.state.categories[categoryName].offset);
         this.emojiPickerContainer.scrollTop = this.state.categories[categoryName].offset;
     }
     handleFilterChange(e) {
@@ -223,7 +224,7 @@ export default class EmojiPicker extends React.Component {
         if (this.state.filter && index !== 0) {
             return null;
         }
-        return this.getCategoriesByKey(Object.keys(CATEGORIES)[index]);
+        return this.getCategoriesByKey(Object.keys(this.state.categories)[index]);
     }
     getCurrentEmojiByCursor(cursor) {
         const category = this.getCategoryByIndex(cursor[0]);
@@ -234,7 +235,7 @@ export default class EmojiPicker extends React.Component {
         return this.state.filter ? {
             id: 'searchResults',
             name: 'searchResults'
-        } : CATEGORIES[key];
+        } : this.state.categories[key];
     }
     getEmojiesByCategory(category) {
         return this.state.filter ? Object.values(this.state.allEmojis).filter((emoji) => {
@@ -280,15 +281,16 @@ export default class EmojiPicker extends React.Component {
         });
     }
     emojiCategories() {
-        const emojiPickerCategories = Object.keys(CATEGORIES).map((category) => {
+        const categories = this.state.categories;
+        const emojiPickerCategories = Object.keys(categories).map((category) => {
             return (
                 <EmojiPickerCategory
-                    key={'header-' + CATEGORIES[category].name}
-                    category={CATEGORIES[category].name}
+                    key={'header-' + categories[category].name}
+                    category={categories[category].name}
                     icon={
                         <i
-                            className={CATEGORIES[category].className}
-                            title={Utils.localizeMessage(CATEGORIES[category].id, CATEGORIES[category].message)}
+                            className={categories[category].className}
+                            title={Utils.localizeMessage(categories[category].id, categories[category].message)}
                         />
                     }
                     onCategoryClick={this.handleCategoryClick}
@@ -369,10 +371,12 @@ export default class EmojiPicker extends React.Component {
     updateCategoryOffset(categoryName, offset) {
         if (categoryName !== 'searchResults') {
             this.setState((state) => ({
-                ...state.categories,
-                [categoryName]: {
-                    ...state.categories[categoryName],
-                    offset
+                categories: {
+                    ...state.categories,
+                    [categoryName]: {
+                        ...state.categories[categoryName],
+                        offset
+                    }
                 }}));
         }
     }
