@@ -108,7 +108,7 @@ export function getFlaggedPosts() {
 }
 
 export function showFlaggedPosts() {
-    return async (dispatch) => {
+    return (dispatch) => {
         dispatch(getFlaggedPosts());
         dispatch(updateSearchTerms(''));
         dispatch(updateRhsState(RHSStates.FLAG));
@@ -130,7 +130,7 @@ export function getPinnedPosts(channelId) {
 }
 
 export function showPinnedPosts(channelId) {
-    return async (dispatch) => {
+    return (dispatch) => {
         dispatch(getPinnedPosts(channelId));
         dispatch(updateSearchTerms(''));
         dispatch(updateRhsState(RHSStates.PIN));

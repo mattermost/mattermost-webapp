@@ -10,7 +10,7 @@ import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
 import PostStore from 'stores/post_store';
 
-import {showMentions, showPinnedPosts, showFlaggedPosts, closeRightHandSide} from 'actions/views/rhs';
+import {getPinnedPosts, getFlaggedPosts} from 'actions/views/rhs';
 
 import {getRhsState, getSelectedPostId, getSelectedChannelId, getPreviousRhsState} from 'selectors/rhs';
 
@@ -53,10 +53,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            showMentions,
-            showPinnedPosts,
-            showFlaggedPosts,
-            closeRightHandSide
+            getPinnedPosts,
+            getFlaggedPosts
         }, dispatch)
     };
 }

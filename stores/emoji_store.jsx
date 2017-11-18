@@ -86,11 +86,11 @@ class EmojiStore extends EventEmitter {
             const newEntities = store.getState().entities.emojis.customEmoji;
 
             if (newEntities !== this.entities) {
+                this.entities = newEntities;
+
                 this.map = new EmojiMap(getCustomEmojisByName(store.getState()));
                 this.emitChange();
             }
-
-            this.entities = newEntities;
         });
     }
 

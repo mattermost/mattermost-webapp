@@ -36,35 +36,55 @@ class UserStoreClass extends EventEmitter {
         store.subscribe(() => {
             const newEntities = store.getState().entities.users;
 
-            if (newEntities.profiles !== this.entities.profiles) {
-                this.emitChange();
-            }
-            if (newEntities.profilesInChannel !== this.entities.profilesInChannel) {
-                this.emitInChannelChange();
-            }
-            if (newEntities.profilesNotInChannel !== this.entities.profilesNotInChannel) {
-                this.emitNotInChannelChange();
-            }
-            if (newEntities.profilesInTeam !== this.entities.profilesInTeam) {
-                this.emitInTeamChange();
-            }
-            if (newEntities.profilesNotInTeam !== this.entities.profilesNotInTeam) {
-                this.emitNotInTeamChange();
-            }
-            if (newEntities.profilesWithoutTeam !== this.entities.profilesWithoutTeam) {
-                this.emitWithoutTeamChange();
-            }
-            if (newEntities.statuses !== this.entities.statuses) {
-                this.emitStatusesChange();
-            }
-            if (newEntities.myAudits !== this.entities.myAudits) {
-                this.emitAuditsChange();
-            }
-            if (newEntities.mySessions !== this.entities.mySessions) {
-                this.emitSessionsChange();
-            }
+            const {
+                profiles,
+                profilesInChannel,
+                profilesNotInChannel,
+                profilesInTeam,
+                profilesNotInTeam,
+                profilesWithoutTeam,
+                statuses,
+                myAudits,
+                mySessions
+            } = this.entities;
 
             this.entities = newEntities;
+
+            if (newEntities.profiles !== profiles) {
+                this.emitChange();
+            }
+
+            if (newEntities.profilesInChannel !== profilesInChannel) {
+                this.emitInChannelChange();
+            }
+
+            if (newEntities.profilesNotInChannel !== profilesNotInChannel) {
+                this.emitNotInChannelChange();
+            }
+
+            if (newEntities.profilesInTeam !== profilesInTeam) {
+                this.emitInTeamChange();
+            }
+
+            if (newEntities.profilesNotInTeam !== profilesNotInTeam) {
+                this.emitNotInTeamChange();
+            }
+
+            if (newEntities.profilesWithoutTeam !== profilesWithoutTeam) {
+                this.emitWithoutTeamChange();
+            }
+
+            if (newEntities.statuses !== statuses) {
+                this.emitStatusesChange();
+            }
+
+            if (newEntities.myAudits !== myAudits) {
+                this.emitAuditsChange();
+            }
+
+            if (newEntities.mySessions !== mySessions) {
+                this.emitSessionsChange();
+            }
         });
     }
 

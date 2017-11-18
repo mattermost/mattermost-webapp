@@ -31,15 +31,15 @@ class PreferenceStore extends EventEmitter {
 
         store.subscribe(() => {
             const newEntities = Selectors.getMyPreferences(store.getState());
+
             if (this.entities !== newEntities) {
+                this.entities = newEntities;
                 this.preferences = new Map();
                 Object.keys(newEntities).forEach((key) => {
                     this.preferences.set(key, newEntities[key].value);
                 });
                 this.emitChange();
             }
-
-            this.entities = newEntities;
         });
 
         this.setMaxListeners(600);

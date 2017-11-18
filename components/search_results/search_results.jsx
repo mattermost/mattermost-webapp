@@ -16,12 +16,12 @@ import * as Utils from 'utils/utils.jsx';
 import SearchResultsHeader from '../search_results_header';
 import SearchResultsItem from '../search_results_item.jsx';
 
-export default class SearchResults extends React.Component {
+export default class SearchResults extends React.PureComponent {
     static propTypes = {
         results: PropTypes.array,
         channels: PropTypes.object,
         searchTerms: PropTypes.string,
-        flaggedPosts: PropTypes.array,
+        isFlaggedByPostId: PropTypes.object,
         loading: PropTypes.bool,
         compactDisplay: PropTypes.bool,
         useMilitaryTime: PropTypes.bool.isRequired,
@@ -313,8 +313,8 @@ export default class SearchResults extends React.Component {
                 }
 
                 let isFlagged = false;
-                if (this.props.flaggedPosts) {
-                    isFlagged = Boolean(this.props.flaggedPosts.find((pref) => pref.name === post.id));
+                if (this.props.isFlaggedByPostId) {
+                    isFlagged = this.props.isFlaggedByPostId.get(post.id) || false;
                 }
 
                 const reverseCount = arr.length - idx - 1;

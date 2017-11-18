@@ -31,8 +31,8 @@ export default class SidebarRight extends React.Component {
         isPinnedPosts: PropTypes.bool,
         previousRhsState: PropTypes.string,
         actions: PropTypes.shape({
-            showPinnedPosts: PropTypes.func,
-            showFlaggedPosts: PropTypes.func
+            getPinnedPosts: PropTypes.func,
+            getFlaggedPosts: PropTypes.func
         })
     }
 
@@ -113,7 +113,7 @@ export default class SidebarRight extends React.Component {
 
     onPreferenceChange = () => {
         if (this.props.isFlaggedPosts) {
-            this.props.actions.showFlaggedPosts();
+            this.props.actions.getFlaggedPosts();
         }
 
         this.setState({
@@ -123,7 +123,7 @@ export default class SidebarRight extends React.Component {
 
     onPostPinnedChange = () => {
         if (this.props.channel && this.props.isPinnedPosts) {
-            this.props.actions.showPinnedPosts();
+            this.props.actions.getPinnedPosts();
         }
     }
 

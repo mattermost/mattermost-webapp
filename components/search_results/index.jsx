@@ -17,29 +17,56 @@ import SearchResults from './search_results.jsx';
 
 const getCategory = PreferenceSelectors.makeGetCategory();
 
-function mapStateToProps(state) {
-    const results = getSearchResults(state);
-    const posts = results ? results.filter((post) => Boolean(post)) : [];
+function makeMapStateToProps() {
+    let results;
+    let posts;
+    let channels;
+    let flaggedPosts;
+    let isFlaggedByPostId;
 
-    const channels = new Map();
+    return function mapStateToProps(state) {
+        const newResults = getSearchResults(state);
 
-    const channelIds = posts.map((post) => post.channel_id);
+        // Cache posts and channels
+        if (newResults && newResults !== results) {
+            results = newResults;
 
-    for (const id of channelIds) {
-        if (channels.has(id)) {
-            continue;
+            posts = results.filter((post) => Boolean(post));
+
+            channels = new Map();
+
+            const channelIds = posts.map((post) => post.channel_id);
+
+            for (const id of channelIds) {
+                if (channels.has(id)) {
+                    continue;
+                }
+
+                channels.set(id, getChannel(state, id));
+            }
         }
 
-        channels.set(id, getChannel(state, id));
-    }
+        const newFlaggedPosts = getCategory(state, Preferences.CATEGORY_FLAGGED_POST);
 
-    return {
-        results: posts,
-        channels,
-        searchTerms: getSearchTerms(state),
-        flaggedPosts: getCategory(state, Preferences.CATEGORY_FLAGGED_POST),
-        loading: getIsSearching(state),
-        compactDisplay: PreferenceSelectors.get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT
+        // Cache flagged posts map
+        if (newFlaggedPosts !== flaggedPosts) {
+            flaggedPosts = newFlaggedPosts;
+
+            isFlaggedByPostId = new Map();
+
+            for (const pref of flaggedPosts) {
+                isFlaggedByPostId.set(pref.name, true);
+            }
+        }
+
+        return {
+            results: posts,
+            channels,
+            searchTerms: getSearchTerms(state),
+            isFlaggedByPostId,
+            loading: getIsSearching(state),
+            compactDisplay: PreferenceSelectors.get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT
+        };
     };
 }
 
@@ -47,4 +74,4 @@ const mapDispatchToProps = {
     selectPost: selectPostFromRightHandSideSearch
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchResults);
+export default connect(makeMapStateToProps, mapDispatchToProps)(SearchResults);
