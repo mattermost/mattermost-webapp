@@ -9,7 +9,8 @@ import {FormattedMessage} from 'react-intl';
 export default class EmojiPickerSection extends React.Component {
     static propTypes = {
         categoryName: PropTypes.string.isRequired,
-        children: PropTypes.any
+        children: PropTypes.any,
+        updateCategoryOffset: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -21,9 +22,16 @@ export default class EmojiPickerSection extends React.Component {
         // All props are primitives or treated as immutable
         this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
     }
+    componentDidMount() {
+        this.props.updateCategoryOffset(this.props.categoryName, this.div.offsetTop);
+    }
     render() {
         return (
-            <div>
+            <div
+                ref={(div) => {
+                    this.div = div;
+                }}
+            >
                 <div className='emoji-picker-items__container'>
                     <div
                         className='emoji-picker__category-header'
