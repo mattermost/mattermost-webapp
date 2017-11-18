@@ -138,7 +138,6 @@ export default class EmojiPicker extends React.Component {
             categories: {},
             filter: '',
             cursor: [0, 0], // categoryIndex, emojiIndex
-            selected: null
         };
     }
     componentWillMount() {
@@ -169,7 +168,6 @@ export default class EmojiPicker extends React.Component {
     }
     handleItemOver(emoji, categoryIndex, emojiIndex) {
         this.setState({
-            selected: emoji,
             cursor: [categoryIndex, emojiIndex]
         });
     }
@@ -192,9 +190,7 @@ export default class EmojiPicker extends React.Component {
             this.selectNextEmoji();
             break;
         case 'Enter':
-            if (this.state.selected) {
-                this.props.onEmojiClick(this.state.selected);
-            }
+            this.props.onEmojiClick(this.getCurrentEmojiByIndex(this.state.cursor));
             e.preventDefault();
             break;
         }
@@ -207,9 +203,26 @@ export default class EmojiPicker extends React.Component {
     }
 
     getCurrentEmojiByIndex(index) {
-        // if exists, return; else return null???
-        return Object.values(this.state.allEmojis)[index];
+        const category = this.getCategoriesByKey([Object.keys(CATEGORIES)[index[0]]]);
+        const emoji = this.getEmojiesByCategory(category)[index[1]];
+        return emoji || null;
     };
+    getCategoriesByKey(key) {
+        return this.state.filter ? {
+            id: 'searchResults',
+            name: 'searchResults'
+        } : CATEGORIES[key];
+    }
+    getEmojiesByCategory(category) {
+        return this.state.filter ? Object.values(this.state.allEmojis).filter((emoji) => {
+            for (let i = 0; i < emoji.aliases.length; i++) {
+                if (emoji.aliases[i].includes(this.state.filter)) {
+                    return true;
+                }
+            }
+            return false;
+        }) : this.state.categories[category.name].map((emojiId) => this.state.allEmojis[emojiId]);
+    }
     getEmojis() {
         const categories = {};
         const allEmojis = {};
@@ -280,7 +293,7 @@ export default class EmojiPicker extends React.Component {
         );
     }
     emojiCurrentResults() {
-        const {allEmojis, filter} = this.state;
+        const {cursor, filter} = this.state;
         const categories = filter ? ['searchResults'] : Object.keys(CATEGORIES);
         let categoryIndex = 0;
         return (
@@ -290,25 +303,8 @@ export default class EmojiPicker extends React.Component {
                 <div className='emoji-picker__container'>
                     {categories.map((key) => {
                         const cIndex = categoryIndex++;
-                        let category;
-                        let emojis;
-                        if (filter) {
-                            category = {
-                                id: 'searchResults',
-                                name: 'searchResults'
-                            };
-                            emojis = Object.values(this.state.allEmojis).filter((emoji) => {
-                                    for (let i = 0; i < emoji.aliases.length; i++) {
-                                        if (emoji.aliases[i].includes(this.state.filter)) {
-                                            return true;
-                                        }
-                                    }
-                                    return false;
-                                });
-                        } else {
-                            category = CATEGORIES[key];
-                            emojis = this.state.categories[category.name].map((emojiId) => allEmojis[emojiId]);
-                        }
+                        const category = this.getCategoriesByKey(key);
+                        const emojis = this.getEmojiesByCategory(category);
 
                         let emojiIndex = 0;
                         return (
@@ -325,7 +321,7 @@ export default class EmojiPicker extends React.Component {
                                             onItemClick={this.handleItemClick}
                                             onItemUnmount={emoji}
                                             category={emoji.category}
-                                            isSelected={emoji.filename === (this.state.selected && this.state.selected.filename)}
+                                            isSelected={cursor[0] === cIndex && cursor[1] === emojiIndex}
                                             categoryIndex={cIndex}
                                             emojiIndex={emojiIndex++}
                                         />
