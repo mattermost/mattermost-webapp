@@ -279,21 +279,36 @@ export default class EmojiPicker extends React.Component {
             allEmojis
         });
     }
+    getCurrentEmojiCategoryName() {
+        const categories = Object.keys(this.state.categories);
+        let currentCategoryName = '';
+        for (let i = categories.length - 1; i >= 0; i--) {
+            // go through in reverse so that you get the last category that matches
+            const category = this.state.categories[categories[i]];
+            if (this.state.divTopOffset > category.offset - 20) {
+                currentCategoryName = categories[i];
+                break;
+            }
+        }
+        return currentCategoryName;
+    }
     emojiCategories() {
         const categories = this.state.categories;
-        const emojiPickerCategories = Object.keys(categories).map((category) => {
+        const currentCategoryName = this.getCurrentEmojiCategoryName();
+        const emojiPickerCategories = Object.keys(categories).map((categoryName) => {
+            const category = categories[categoryName];
             return (
                 <EmojiPickerCategory
-                    key={'header-' + categories[category].name}
-                    category={categories[category].name}
+                    key={'header-' + category.name}
+                    category={category.name}
                     icon={
                         <i
-                            className={categories[category].className}
-                            title={Utils.localizeMessage(categories[category].id, categories[category].message)}
+                            className={category.className}
+                            title={Utils.localizeMessage(category.id, category.message)}
                         />
                     }
                     onCategoryClick={this.handleCategoryClick}
-                    selected={false /*this.state.activeCategory === CATEGORIES[category].name*/}
+                    selected={currentCategoryName === category.name}
                     enable={!this.state.filter}
                 />
             );
