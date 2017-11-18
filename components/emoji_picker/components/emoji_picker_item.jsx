@@ -15,7 +15,7 @@ export default class EmojiPickerItem extends React.PureComponent {
         isSelected: PropTypes.bool,
         categoryIndex: PropTypes.number.isRequired,
         emojiIndex: PropTypes.number.isRequired
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -23,7 +23,11 @@ export default class EmojiPickerItem extends React.PureComponent {
         this.handleMouseOver = this.handleMouseOver.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
-
+    componentWillReceiveProps(nextProps) {
+        if (!this.props.isSelected && nextProps.isSelected) {
+            this.emojiItem.scrollIntoView();
+        }
+    }
     handleMouseOver() {
         this.props.onItemOver(this.props.categoryIndex, this.props.emojiIndex);
     }
@@ -44,7 +48,12 @@ export default class EmojiPickerItem extends React.PureComponent {
             className += this.props.isSelected ? ' selected' : '';
 
             item = (
-                <div className={'emoji-picker__item'}>
+                <div
+                    className='emoji-picker__item'
+                    ref={(emojiItem) => {
+                        this.emojiItem = emojiItem;
+                    }}
+                >
                     <img
                         src='/static/images/img_trans.gif'
                         className={className}
@@ -59,6 +68,9 @@ export default class EmojiPickerItem extends React.PureComponent {
                     onMouseOver={this.handleMouseOver}
                     onClick={this.handleClick}
                     className='emoji-picker__item-wrapper'
+                    ref={(emojiItem) => {
+                        this.emojiItem = emojiItem;
+                    }}
                 >
                     <img
                         className='emoji-picker__item emoticon'
