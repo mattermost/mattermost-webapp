@@ -120,7 +120,7 @@ export default class EmojiPicker extends React.Component {
         this.handleItemClick = this.handleItemClick.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
         this.handleScroll = this.handleScroll.bind(this);
-        this.handleScrollThrottle = throttle(this.handleScroll, 300);
+        this.handleScrollThrottle = throttle(this.handleScroll, 500, {leading: false, trailing: true});
         this.updateCategoryOffset = this.updateCategoryOffset.bind(this);
 
         this.divHeight = 0;
@@ -182,7 +182,9 @@ export default class EmojiPicker extends React.Component {
             break;
         case 'Enter':
             e.preventDefault();
-            this.props.onEmojiClick(this.getCurrentEmojiByCursor(this.state.cursor));
+            if (this.getCurrentEmojiByCursor(this.state.cursor)) {
+                this.props.onEmojiClick(this.getCurrentEmojiByCursor(this.state.cursor));
+            }
             break;
         }
     }
@@ -287,17 +289,19 @@ export default class EmojiPicker extends React.Component {
         });
     }
     getCurrentEmojiCategoryName() {
-        const categories = Object.keys(this.state.categories);
-        let currentCategoryName = '';
-        for (let i = categories.length - 1; i >= 0; i--) {
-            // go through in reverse so that you get the last category that matches
-            const category = this.state.categories[categories[i]];
-            if (this.state.divTopOffset > category.offset - 20) {
-                currentCategoryName = categories[i];
-                break;
-            }
-        }
-        return currentCategoryName;
+        // commented out code is how you could discover based on scroll position
+        // const categories = Object.keys(this.state.categories);
+        // let currentCategoryName = '';
+        // for (let i = categories.length - 1; i >= 0; i--) {
+        //     // go through in reverse so that you get the last category that matches
+        //     const category = this.state.categories[categories[i]];
+        //     if (this.state.divTopOffset > category.offset - 20) {
+        //         currentCategoryName = categories[i];
+        //         break;
+        //     }
+        // }
+        // return currentCategoryName;
+        return this.state.filter ? null : Object.keys(this.state.categories)[this.state.cursor[0]];
     }
     emojiCategories() {
         const categories = this.state.categories;
