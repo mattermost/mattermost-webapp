@@ -290,17 +290,26 @@ export default class EmojiPicker extends React.Component {
                 <div className='emoji-picker__container'>
                     {categories.map((key) => {
                         const cIndex = categoryIndex++;
-                        const category = CATEGORIES[key];
-                        const emojis = filter ?
-                            Object.values(this.state.allEmojis).filter((emoji) => {
-                                for (let i = 0; i < emoji.aliases.length; i++) {
-                                    if (emoji.aliases[i].includes(this.state.filter)) {
-                                        return true;
+                        let category;
+                        let emojis;
+                        if (filter) {
+                            category = {
+                                id: 'searchResults',
+                                name: 'searchResults'
+                            };
+                            emojis = Object.values(this.state.allEmojis).filter((emoji) => {
+                                    for (let i = 0; i < emoji.aliases.length; i++) {
+                                        if (emoji.aliases[i].includes(this.state.filter)) {
+                                            return true;
+                                        }
                                     }
-                                }
-                                return false;
-                            }) :
-                            this.state.categories[category.name].map((emojiId) => allEmojis[emojiId]);
+                                    return false;
+                                });
+                        } else {
+                            category = CATEGORIES[key];
+                            emojis = this.state.categories[category.name].map((emojiId) => allEmojis[emojiId]);
+                        }
+
                         let emojiIndex = 0;
                         return (
                             <EmojiPickerSection
