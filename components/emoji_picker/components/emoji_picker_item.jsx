@@ -14,18 +14,25 @@ export default class EmojiPickerItem extends React.PureComponent {
         category: PropTypes.string.isRequired,
         isSelected: PropTypes.bool,
         categoryIndex: PropTypes.number.isRequired,
-        emojiIndex: PropTypes.number.isRequired
+        emojiIndex: PropTypes.number.isRequired,
+        containerTop: PropTypes.number.isRequired,
+        containerBottom: PropTypes.number.isRequired
     };
 
     constructor(props) {
         super(props);
-
         this.handleMouseOver = this.handleMouseOver.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
     componentWillReceiveProps(nextProps) {
         if (!this.props.isSelected && nextProps.isSelected) {
-            this.emojiItem.scrollIntoView();
+            const offsetTop = this.emojiItem.offsetTop;
+            const height = this.emojiItem.offsetHeight * 1.2;
+            if (offsetTop < this.props.containerTop + height) {
+                this.emojiItem.scrollIntoView();
+            } else if(offsetTop > this.props.containerBottom - height) {
+                this.emojiItem.scrollIntoView(false);
+            }
         }
     }
     handleMouseOver() {

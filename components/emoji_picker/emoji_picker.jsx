@@ -354,6 +354,8 @@ export default class EmojiPicker extends React.Component {
                                             isSelected={cursor[0] === cIndex && cursor[1] === emojiIndex}
                                             categoryIndex={cIndex}
                                             emojiIndex={emojiIndex++}
+                                            containerTop={this.state.divTopOffset}
+                                            containerBottom={this.state.divTopOffset + this.divHeight}
                                         />
                                     );
                                 })}
@@ -366,11 +368,12 @@ export default class EmojiPicker extends React.Component {
     }
     updateCategoryOffset(categoryName, offset) {
         if (categoryName !== 'searchResults') {
-            this.setState((state) => {
-                const {categories} = state;
-                categories[categoryName].offset = offset;
-                return {categories};
-            });
+            this.setState((state) => ({
+                ...state.categories,
+                [categoryName]: {
+                    ...state.categories[categoryName],
+                    offset
+                }}));
         }
     }
 
