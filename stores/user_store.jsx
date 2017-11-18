@@ -35,54 +35,42 @@ class UserStoreClass extends EventEmitter {
 
         store.subscribe(() => {
             const newEntities = store.getState().entities.users;
-
-            const {
-                profiles,
-                profilesInChannel,
-                profilesNotInChannel,
-                profilesInTeam,
-                profilesNotInTeam,
-                profilesWithoutTeam,
-                statuses,
-                myAudits,
-                mySessions
-            } = this.entities;
-
+            const entities = this.entities;
             this.entities = newEntities;
 
-            if (newEntities.profiles !== profiles) {
+            if (newEntities.profiles !== entities.profiles) {
                 this.emitChange();
             }
 
-            if (newEntities.profilesInChannel !== profilesInChannel) {
+            if (newEntities.profilesInChannel !== entities.profilesInChannel) {
                 this.emitInChannelChange();
             }
 
-            if (newEntities.profilesNotInChannel !== profilesNotInChannel) {
+            if (newEntities.profilesNotInChannel !== entities.profilesNotInChannel) {
                 this.emitNotInChannelChange();
             }
 
-            if (newEntities.profilesInTeam !== profilesInTeam) {
+            if (newEntities.profilesInTeam !== entities.profilesInTeam) {
                 this.emitInTeamChange();
             }
 
-            if (newEntities.profilesNotInTeam !== profilesNotInTeam) {
+            if (newEntities.profilesNotInTeam !== entities.profilesNotInTeam) {
                 this.emitNotInTeamChange();
             }
 
-            if (newEntities.profilesWithoutTeam !== profilesWithoutTeam) {
+            if (newEntities.profilesWithoutTeam !== entities.profilesWithoutTeam) {
                 this.emitWithoutTeamChange();
             }
 
-            if (newEntities.statuses !== statuses) {
+            if (newEntities.statuses !== entities.statuses) {
                 this.emitStatusesChange();
             }
 
-            if (newEntities.myAudits !== myAudits) {
+            if (newEntities.myAudits !== entities.myAudits) {
                 this.emitAuditsChange();
             }
 
-            if (newEntities.mySessions !== mySessions) {
+            if (newEntities.mySessions !== entities.mySessions) {
                 this.emitSessionsChange();
             }
         });

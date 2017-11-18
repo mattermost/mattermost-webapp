@@ -37,36 +37,29 @@ class ChannelStoreClass extends EventEmitter {
             const newEntities = store.getState().entities.channels;
             let doEmit = false;
 
-            const {
-                currentChannelId,
-                channels,
-                myMembers,
-                membersInChannel,
-                stats
-            } = this.entities;
-
+            const entities = this.entities;
             this.entities = newEntities;
 
-            if (newEntities.currentChannelId !== currentChannelId) {
+            if (newEntities.currentChannelId !== entities.currentChannelId) {
                 doEmit = true;
             }
 
-            if (newEntities.channels !== channels) {
+            if (newEntities.channels !== entities.channels) {
                 this.setUnreadCountsByChannels(Object.values(newEntities.channels));
                 doEmit = true;
             }
 
-            if (newEntities.myMembers !== myMembers) {
+            if (newEntities.myMembers !== entities.myMembers) {
                 this.setUnreadCountsByMembers(Object.values(newEntities.myMembers));
                 this.emitLastViewed();
                 doEmit = true;
             }
 
-            if (newEntities.membersInChannel !== membersInChannel) {
+            if (newEntities.membersInChannel !== entities.membersInChannel) {
                 doEmit = true;
             }
 
-            if (newEntities.stats !== stats) {
+            if (newEntities.stats !== entities.stats) {
                 this.emitStatsChange();
             }
 

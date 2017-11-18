@@ -15,9 +15,10 @@ class IntegrationStore extends EventEmitter {
 
         store.subscribe(() => {
             const newEntities = store.getState().entities.integrations;
+            const entities = this.entities;
+            this.entities = newEntities;
 
-            if (newEntities !== this.entities) {
-                this.entities = newEntities;
+            if (newEntities !== entities) {
                 this.emitChange();
             }
         });
