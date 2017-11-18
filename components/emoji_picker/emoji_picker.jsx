@@ -12,11 +12,11 @@ import * as Emoji from 'utils/emoji.jsx';
 import * as Utils from 'utils/utils.jsx';
 import EmojiPickerCategory from "./components/emoji_picker_category";
 import EmojiPickerItem from "./components/emoji_picker_item";
+import EmojiPickerSection from "./emoji_picker_section";
 
 // import EmojiPickerCategory from './components/emoji_picker_category.jsx';
 // import EmojiPickerItem from './components/emoji_picker_item.jsx';
 // import EmojiPickerPreview from './components/emoji_picker_preview.jsx';
-// import EmojiList from './emoji_list.jsx';
 
 // const ROW_SIZE = 30;
 // const EMOJI_PER_ROW = 9;
@@ -291,18 +291,14 @@ export default class EmojiPicker extends React.Component {
         );
     }
     getFilteredResults() {
-        let results = [];
-        Object.keys(CATEGORIES).forEach((category) => {
-            if (category !== 'recent') {
-                // const this.state.allEmojis.filter(emoji => {
-                //
-                // });
-                // DO THIS HERE!!!
-
-                results.push()
+        return Object.values(this.state.allEmojis).filter((emoji) => {
+            for (let i = 0; i < emoji.aliases.length; i++) {
+                if (emoji.aliases[i].includes(this.state.filter)) {
+                    return true;
+                }
             }
+            return false;
         });
-        return; //results from currently loaded ones
     }
 
     render() {
@@ -333,40 +329,49 @@ export default class EmojiPicker extends React.Component {
                     className='emoji-picker__items'
                 >
                     <div className='emoji-picker__container'>
-                        {
-                            this.state.filter ? (
-                                this.getFilteredResults()
+                        {this.state.filter ? (
+                            <EmojiPickerSection
+                                categoryName='search_results'
+                                categoryMessage='Search results'
+                            >
+                                {this.getFilteredResults().map((emoji) => {
+                                    return (
+                                        <EmojiPickerItem
+                                            key={emoji.filename}
+                                            emoji={emoji}
+                                            onItemOver={this.handleItemOver}
+                                            onItemClick={this.handleItemClick}
+                                            onItemUnmount={emoji}
+                                            category={emoji.category}
+                                            isSelected={emoji.filename === (this.state.selected && this.state.selected.filename)}
+                                        />
+                                    );
+                                })}
+                            </EmojiPickerSection>
                             ) :
                             Object.keys(CATEGORIES).map((key) => {
                                 const category = CATEGORIES[key];
                                 return (
-                                    <div key={category.id}>
-                                        <div className='emoji-picker-items__container'>
-                                            <div
-                                                className='emoji-picker__category-header'
-                                                id={`emojipickercat-${category.name}`}
-                                            >
-                                                {category.message}
-                                            </div>
-                                        </div>
-                                        <div className='emoji-picker-items__container'>
-                                            {this.state.categories[category.name].map((emoji_id) => {
-                                                const emoji = this.state.allEmojis[emoji_id];
-                                                const isSelected = emoji.filename === (this.state.selected && this.state.selected.filename);
-                                                return (
-                                                    <EmojiPickerItem
-                                                        key={emoji.filename}
-                                                        emoji={emoji}
-                                                        onItemOver={this.handleItemOver}
-                                                        onItemClick={this.handleItemClick}
-                                                        onItemUnmount={emoji}
-                                                        category={emoji.category}
-                                                        isSelected={isSelected}
-                                                    />
-                                                );
-                                            })}
-                                        </div>
-                                    </div>
+                                    <EmojiPickerSection
+                                        key={category.id}
+                                        categoryName={category.name}
+                                        categoryMessage={category.message}
+                                    >
+                                        {this.state.categories[category.name].map((emojiId) => {
+                                            const emoji = this.state.allEmojis[emojiId];
+                                            return (
+                                                <EmojiPickerItem
+                                                    key={emoji.filename}
+                                                    emoji={emoji}
+                                                    onItemOver={this.handleItemOver}
+                                                    onItemClick={this.handleItemClick}
+                                                    onItemUnmount={emoji}
+                                                    category={emoji.category}
+                                                    isSelected={emoji.filename === (this.state.selected && this.state.selected.filename)}
+                                                />
+                                            );
+                                        })}
+                                    </EmojiPickerSection>
                                 );
                             })}
                     </div>
