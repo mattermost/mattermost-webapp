@@ -11,7 +11,6 @@ export default class EmojiPickerItem extends React.PureComponent {
         emoji: PropTypes.object.isRequired,
         onItemOver: PropTypes.func.isRequired,
         onItemClick: PropTypes.func.isRequired,
-        onItemUnmount: PropTypes.func.isRequired,
         category: PropTypes.string.isRequired,
         isSelected: PropTypes.bool
     }
@@ -21,10 +20,6 @@ export default class EmojiPickerItem extends React.PureComponent {
 
         this.handleMouseOver = this.handleMouseOver.bind(this);
         this.handleClick = this.handleClick.bind(this);
-    }
-
-    componentWillUnmount() {
-        this.props.onItemUnmount(this.props.emoji);
     }
 
     handleMouseOver() {

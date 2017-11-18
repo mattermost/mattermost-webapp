@@ -123,6 +123,15 @@
     position: relative;
     border-top-style: solid;
     border-top-width: 1px;
+    height: 300px;
+    width:100%;
+
+    .emoji-picker__container {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        min-height: 100%;
+    }
 
     .emoji-picker__category-header {
         font-size: 12px;
