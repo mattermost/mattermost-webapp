@@ -9,14 +9,10 @@ import EmojiStore from 'stores/emoji_store.jsx';
 
 import * as Emoji from 'utils/emoji.jsx';
 import * as Utils from 'utils/utils.jsx';
-import EmojiPickerCategory from "./components/emoji_picker_category";
-import EmojiPickerItem from "./components/emoji_picker_item";
-import EmojiPickerSection from "./emoji_picker_section";
-import EmojiPickerPreview from "./components/emoji_picker_preview";
-
-// import EmojiPickerCategory from './components/emoji_picker_category.jsx';
-// import EmojiPickerItem from './components/emoji_picker_item.jsx';
-// import EmojiPickerPreview from './components/emoji_picker_preview.jsx';
+import EmojiPickerCategory from './components/emoji_picker_category';
+import EmojiPickerItem from './components/emoji_picker_item';
+import EmojiPickerSection from './emoji_picker_section';
+import EmojiPickerPreview from './components/emoji_picker_preview';
 
 // const ROW_SIZE = 30;
 // const EMOJI_PER_ROW = 9;
@@ -135,7 +131,7 @@ export default class EmojiPicker extends React.Component {
         this.state = {
             activeCategory: 'recent',
             allEmojis: {},
-            categories: {},
+            categories: CATEGORIES,
             filter: '',
             cursor: [0, 0] // categoryIndex, emojiIndex
         };
@@ -224,7 +220,7 @@ export default class EmojiPicker extends React.Component {
         // try moving to end of prev category
         if (cursor[0] !== 0) {
             const newCategory = this.getCategoryByIndex(cursor[0] - 1);
-            const lastEmojiInNewCategory = this.state.categories[newCategory.name].length - 1;
+            const lastEmojiInNewCategory = this.state.categories[newCategory.name].emojiIds.length - 1;
             newCursor = [cursor[0] - 1, lastEmojiInNewCategory];
             if (this.getCurrentEmojiByCursor(newCursor)) {
                 this.setState({cursor: newCursor});
@@ -241,7 +237,7 @@ export default class EmojiPicker extends React.Component {
         const category = this.getCategoryByIndex(cursor[0]);
         const emoji = category && this.getEmojiesByCategory(category)[cursor[1]];
         return emoji || null;
-    };
+    }
     getCategoriesByKey(key) {
         return this.state.filter ? {
             id: 'searchResults',
@@ -256,12 +252,11 @@ export default class EmojiPicker extends React.Component {
                 }
             }
             return false;
-        }) : this.state.categories[category.name].map((emojiId) => this.state.allEmojis[emojiId]);
+        }) : this.state.categories[category.name].emojiIds.map((emojiId) => this.state.allEmojis[emojiId]);
     }
     getEmojis() {
-        const categories = {};
-        const allEmojis = {};
-        for (const category of Object.keys(CATEGORIES)) {
+        const {categories, allEmojis} = this.state;
+        for (const category of Object.keys(categories)) {
             let categoryEmojis = [];
             if (category === 'recent') {
                 const recentEmojis = [...EmojiStore.getRecentEmojis()].reverse();
@@ -277,7 +272,7 @@ export default class EmojiPicker extends React.Component {
                     categoryEmojis = categoryEmojis.concat([...EmojiStore.getCustomEmojiMap().values()]);
                 }
             }
-            categories[category] = categoryEmojis.map((emoji) => emoji.filename);
+            categories[category].emojiIds = categoryEmojis.map((emoji) => emoji.filename);
             for (let i = 0; i < categoryEmojis.length; i++) {
                 const currentEmoji = categoryEmojis[i];
                 allEmojis[currentEmoji.filename] = currentEmoji;
@@ -329,7 +324,7 @@ export default class EmojiPicker extends React.Component {
     }
     emojiCurrentResults() {
         const {cursor, filter} = this.state;
-        const categories = filter ? ['searchResults'] : Object.keys(CATEGORIES);
+        const categories = filter ? ['searchResults'] : Object.keys(this.state.categories);
         let categoryIndex = 0;
         return (
             <div
