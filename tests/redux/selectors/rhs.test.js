@@ -3,53 +3,180 @@
 
 import assert from 'assert';
 
-import {get} from 'mattermost-redux/selectors/entities/preferences';
-import {makeGetPostsForThread} from 'mattermost-redux/selectors/entities/posts';
-
-import {Preferences, StoragePrefixes} from 'utils/constants.jsx';
+import {StoragePrefixes, Preferences} from 'utils/constants.jsx';
 import * as Selectors from 'selectors/rhs.jsx';
 
 describe('Selectors.makeGetPostsEmbedVisibleObj', () => {
-    const state = {
-        entities: {
-            preferences: {
-                myPreferences: {
-                    [`${Preferences.CATEGORY_DISPLAY_SETTINGS}--${Preferences.COLLAPSE_DISPLAY}`]: {
-                        category: 'display_settings',
-                        name: 'collapse_previews',
-                        value: 'false'
+    let state;
+    let getPostsEmbedVisibleObj;
+    const posts = [{
+        id: 'a'
+    }, {
+        id: 'b',
+        root_id: 'a'
+    }, {
+        id: 'c',
+        root_id: 'a'
+    }];
+
+    beforeEach(() => {
+        state = {
+            entities: {
+                preferences: {
+                    myPreferences: {
+                        [`${Preferences.CATEGORY_DISPLAY_SETTINGS}--${Preferences.COLLAPSE_DISPLAY}`]: {
+                            category: 'display_settings',
+                            name: 'collapse_previews',
+                            value: 'true'
+                        }
+                    }
+                },
+                posts: {
+                    posts: {
+                        a: {
+                            id: 'a'
+                        },
+                        b: {
+                            id: 'b',
+                            root_id: 's'
+                        },
+                        c: {
+                            id: 'c',
+                            root_id: 'a'
+                        }
                     }
                 }
             },
-            posts: {
-                posts: {
-                    '6qbyjghyfi8r3nq8mh46csipbh': {
-                        id: '6qbyjghyfi8r3nq8mh46csipbh'
-                    },
-                    ff17oof87bgyun9bsouffsp34a: {
-                        id: 'ff17oof87bgyun9bsouffsp34a'
+            storage: {
+                [`${StoragePrefixes.EMBED_VISIBLE}c`]: false,
+                [`${StoragePrefixes.EMBED_VISIBLE}d`]: false
+            }
+        };
+    });
+
+    it('Should return false for all posts', () => {
+        getPostsEmbedVisibleObj = Selectors.makeGetPostsEmbedVisibleObj();
+
+        const postsEmbedVisibleObj = {
+            a: false,
+            b: false,
+            c: false
+        };
+
+        state = {
+            ...state,
+            storage: {
+                ...state.storage,
+                [`${StoragePrefixes.EMBED_VISIBLE}c`]: null
+            }
+        };
+
+        assert.deepEqual(getPostsEmbedVisibleObj(state, posts), postsEmbedVisibleObj);
+    });
+
+    it('Should return true for all storage items', () => {
+        getPostsEmbedVisibleObj = Selectors.makeGetPostsEmbedVisibleObj();
+        const postsEmbedVisibleObj = {
+            a: true,
+            b: true,
+            c: true
+        };
+
+        state = {
+            ...state,
+            storage: {},
+            entities: {
+                ...state.entities,
+                preferences: {
+                    ...state.entities.preferences,
+                    myPreferences: {
+                        ...state.entities.preferences.myPreferences,
+                        [`${Preferences.CATEGORY_DISPLAY_SETTINGS}--${Preferences.COLLAPSE_DISPLAY}`]: {
+                            ...state.entities.preferences.myPreferences[`${Preferences.CATEGORY_DISPLAY_SETTINGS}--${Preferences.COLLAPSE_DISPLAY}`],
+                            value: 'false'
+                        }
                     }
                 }
             }
-        },
-        storage: {
-            [`${StoragePrefixes.EMBED_VISIBLE}w4o3t58hkb8p8ypxed54sddnrr`]: false,
-            [`${StoragePrefixes.EMBED_VISIBLE}ff17oof87bgyun9bsouffsp34a`]: false
-        }
-    };
-
-    it('makeGetItem', () => {
-        const getPostsForThread = makeGetPostsForThread();
-        const selected = Selectors.getSelectedPost(state);
-
-        const previewCollapsed = get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, 'false');
-        const getPostsEmbedVisibleObj = Selectors.makeGetPostsEmbedVisibleObj();
-        const posts = getPostsForThread(state, {rootId: selected.id, channelId: selected.channel_id});
-        const postsEmbedVisibleObj = {
-            '6qbyjghyfi8r3nq8mh46csipbh': false,
-            ff17oof87bgyun9bsouffsp34a: false
         };
 
-        assert.equal(getPostsEmbedVisibleObj(state, {previewCollapsed, posts}), postsEmbedVisibleObj);
+        assert.deepEqual(getPostsEmbedVisibleObj(state, posts), postsEmbedVisibleObj);
+    });
+
+    it('Should return false for all posts if previewCollapsed', () => {
+        getPostsEmbedVisibleObj = Selectors.makeGetPostsEmbedVisibleObj();
+        const postsEmbedVisibleObj = {
+            a: false,
+            b: false,
+            c: false
+        };
+
+        assert.deepEqual(getPostsEmbedVisibleObj(state, posts), postsEmbedVisibleObj);
+    });
+
+    it('Memoization for single selector', () => {
+        getPostsEmbedVisibleObj = Selectors.makeGetPostsEmbedVisibleObj();
+        const postsEmbedVisibleObjPrevious = getPostsEmbedVisibleObj(state, posts);
+
+        state = {
+            ...state,
+            somethingUnrelated: {}
+        };
+
+        const postsEmbedVisibleObjNew = getPostsEmbedVisibleObj(state, posts);
+        assert.equal(postsEmbedVisibleObjNew, postsEmbedVisibleObjPrevious);
+    });
+
+    it('Memoization for multiple selectors', () => {
+        const getPostsEmbedVisibleObj1 = Selectors.makeGetPostsEmbedVisibleObj();
+        const getPostsEmbedVisibleObj2 = Selectors.makeGetPostsEmbedVisibleObj();
+
+        let now1 = getPostsEmbedVisibleObj1(state, posts);
+        let now2 = getPostsEmbedVisibleObj2(state, posts);
+        assert.notEqual(now1, now2);
+        assert.deepEqual(now1, now2);
+
+        state = {
+            ...state,
+            storage: {
+                ...state.storage,
+                [`${StoragePrefixes.EMBED_VISIBLE}c`]: true
+            }
+        };
+
+        let previous1 = now1;
+        now1 = getPostsEmbedVisibleObj1(state, posts);
+        now2 = getPostsEmbedVisibleObj2(state, posts);
+        assert.notEqual(now1, now2);
+        assert.deepEqual(now1, now2);
+
+        state = {
+            ...state,
+            somethingUnrelated: {}
+        };
+
+        let previous2 = now2;
+        previous1 = now1;
+        now1 = getPostsEmbedVisibleObj1(state, posts);
+        now2 = getPostsEmbedVisibleObj2(state, posts);
+        assert.equal(now2, previous2);
+        assert.equal(now1, previous1);
+
+        state = {
+            ...state,
+            storage: {
+                ...state.storage,
+                [`${StoragePrefixes.EMBED_VISIBLE}d`]: false
+            }
+        };
+
+        previous2 = now2;
+        previous1 = now1;
+        now1 = getPostsEmbedVisibleObj1(state, posts);
+        now2 = getPostsEmbedVisibleObj2(state, posts);
+        assert.notEqual(now1, previous1);
+        assert.deepEqual(now1, previous1);
+        assert.notEqual(now2, previous2);
+        assert.deepEqual(now2, previous2);
     });
 });
