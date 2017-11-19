@@ -65,7 +65,9 @@ export default class ChannelMentionProvider extends Provider {
             return false;
         }
 
-        if (this.lastPrefixWithNoResults && pretext.startsWith(this.lastPrefixWithNoResults)) {
+        const prefix = captured[3];
+
+        if (this.lastPrefixWithNoResults && prefix.startsWith(this.lastPrefixWithNoResults)) {
             // Just give up since we know it won't return any results
             return false;
         }
@@ -77,8 +79,6 @@ export default class ChannelMentionProvider extends Provider {
 
         // Clear the last completed word since we've started to match new text
         this.lastCompletedWord = '';
-
-        const prefix = captured[3];
 
         this.startNewRequest(suggestionId, prefix);
 

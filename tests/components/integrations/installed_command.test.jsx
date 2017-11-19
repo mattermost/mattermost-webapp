@@ -2,10 +2,7 @@
 // See License.txt for license information.
 
 import React from 'react';
-
 import {shallow} from 'enzyme';
-
-import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import InstalledCommand from 'components/integrations/components/installed_command.jsx';
 
@@ -64,10 +61,10 @@ describe('components/integrations/InstalledCommand', () => {
         const canChange = true;
         const props = {...requiredProps, onRegenToken, canChange};
 
-        const wrapper = mountWithIntl(<InstalledCommand {...props}/>);
+        const wrapper = shallow(<InstalledCommand {...props}/>);
         expect(wrapper).toMatchSnapshot();
 
-        wrapper.find('div.item-actions button').first().simulate('click');
+        wrapper.find('div.item-actions button').first().simulate('click', {preventDefault: jest.fn()});
         expect(onRegenToken).toHaveBeenCalledTimes(1);
         expect(onRegenToken).toHaveBeenCalledWith(props.command);
     });
