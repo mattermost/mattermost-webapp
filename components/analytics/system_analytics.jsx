@@ -240,8 +240,8 @@ export default class SystemAnalytics extends React.Component {
                             />
                         }
                         data={postTypeData}
-                        width='300'
-                        height='225'
+                        width={300}
+                        height={225}
                     />
                 );
             }
@@ -256,8 +256,8 @@ export default class SystemAnalytics extends React.Component {
                             />
                         }
                         data={channelTypeData}
-                        width='300'
-                        height='225'
+                        width={300}
+                        height={225}
                     />
                     {postTypeGraph}
                 </div>
