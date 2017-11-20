@@ -61,7 +61,7 @@ export function getIsSearching(state) {
 
 export function makeGetCommentDraft(rootId) {
     const defaultValue = {message: '', fileInfos: [], uploadsInProgress: []};
-    return makeGetGlobalItem(`comment_draft_${rootId}`, defaultValue);
+    return makeGetGlobalItem(`${StoragePrefixes.COMMENT_DRAFT}${rootId}`, defaultValue);
 }
 
 export function makeGetPostsEmbedVisibleObj() {
