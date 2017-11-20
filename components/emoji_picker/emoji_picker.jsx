@@ -16,9 +16,9 @@ import EmojiPickerItem from './components/emoji_picker_item';
 import EmojiPickerSection from './emoji_picker_section';
 import EmojiPickerPreview from './components/emoji_picker_preview';
 
-// const ROW_SIZE = 30;
+const EMOJI_TO_LOAD_PER_UPDATE = 100;
 const EMOJI_PER_ROW = 9;
-// const CATEGORY_SEARCH_RESULTS = 'searchResults';
+const CATEGORY_SEARCH_RESULTS = 'searchResults';
 
 const CATEGORIES = {
     recent: {
@@ -240,8 +240,8 @@ export default class EmojiPicker extends React.Component {
     }
     getCategoriesByKey(key) {
         return this.state.filter ? {
-            id: 'searchResults',
-            name: 'searchResults'
+            id: CATEGORY_SEARCH_RESULTS,
+            name: CATEGORY_SEARCH_RESULTS
         } : this.state.categories[key];
     }
     getEmojiesByCategory(category) {
@@ -345,7 +345,7 @@ export default class EmojiPicker extends React.Component {
     }
     emojiCurrentResults() {
         const {cursor, filter} = this.state;
-        const categories = filter ? ['searchResults'] : Object.keys(this.state.categories);
+        const categories = filter ? [CATEGORY_SEARCH_RESULTS] : Object.keys(this.state.categories);
         let categoryIndex = 0;
         return (
             <div
@@ -393,7 +393,7 @@ export default class EmojiPicker extends React.Component {
         );
     }
     updateCategoryOffset(categoryName, offset) {
-        if (categoryName !== 'searchResults') {
+        if (categoryName !== CATEGORY_SEARCH_RESULTS) {
             this.setState((state) => ({
                 categories: {
                     ...state.categories,
