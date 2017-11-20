@@ -25,9 +25,6 @@
                     display: block;
                     margin-left: 11px;
                     text-decoration: none;
-                    &:hover .team-btn {
-                      border-color: white;
-                    }
                 }
 
                 button {
@@ -73,6 +70,7 @@
                     &.team-btn__add {
                         height: 39px;
                         vertical-align: middle;
+                        width: 43px;
                     }
                 }
 

@@ -75,7 +75,12 @@ export default class PostBody extends React.PureComponent {
         /*
          * Post type components from plugins
          */
-        pluginPostTypes: PropTypes.object
+        pluginPostTypes: PropTypes.object,
+
+        /**
+         * Flag passed down to PostBodyAdditionalContent for determining if post embed is visible
+         */
+        isEmbedVisible: PropTypes.bool
     }
 
     constructor(props) {
@@ -104,7 +109,7 @@ export default class PostBody extends React.PureComponent {
         this.sendingAction.cancel();
     }
 
-    compoentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps) {
         const post = nextProps.post;
         if (post && post.id !== post.pending_post_id) {
             this.sendingAction.cancel();
@@ -241,6 +246,7 @@ export default class PostBody extends React.PureComponent {
                     post={this.props.post}
                     previewCollapsed={this.props.previewCollapsed}
                     previewEnabled={this.props.previewEnabled}
+                    isEmbedVisible={this.props.isEmbedVisible}
                 >
                     {messageWrapper}
                 </PostBodyAdditionalContent>

@@ -75,6 +75,12 @@ export default class LoginController extends React.Component {
     preSubmit(e) {
         e.preventDefault();
 
+        const {location} = this.props;
+        const newQuery = location.search.replace(/(extra=password_change)&?/i, '');
+        if (newQuery !== location.search) {
+            browserHistory.replace(`${location.pathname}${newQuery}${location.hash}`);
+        }
+
         // password managers don't always call onInput handlers for form fields so it's possible
         // for the state to get out of sync with what the user sees in the browser
         let loginId = this.refs.loginId.value;

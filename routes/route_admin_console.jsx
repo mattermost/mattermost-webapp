@@ -37,6 +37,7 @@ import OAuthSettings from 'components/admin_console/oauth_settings.jsx';
 import PasswordSettings from 'components/admin_console/password_settings.jsx';
 import PluginSettings from 'components/admin_console/plugin_settings.jsx';
 import PluginManagement from 'components/admin_console/plugin_management';
+import CustomPluginSettings from 'components/admin_console/custom_plugin_settings';
 import PolicySettings from 'components/admin_console/policy_settings.jsx';
 import PrivacySettings from 'components/admin_console/privacy_settings.jsx';
 import PublicLinkSettings from 'components/admin_console/public_link_settings.jsx';
@@ -175,6 +176,12 @@ export default (
                 path='configuration'
                 component={PluginSettings}
             />
+        </Route>
+        <Route path='plugins'>
+            <Route
+                path='configuration'
+                component={PluginSettings}
+            />
             <Route
                 path='management'
                 component={PluginManagement}
@@ -182,6 +189,10 @@ export default (
             <Route
                 path='jira'
                 component={JIRASettings}
+            />
+            <Route
+                path='custom/:plugin_id'
+                component={CustomPluginSettings}
             />
         </Route>
         <Route path='files'>

@@ -299,7 +299,15 @@ export default class SearchResults extends React.PureComponent {
                 </div>
             );
         } else {
-            ctls = results.map(function searchResults(post, idx, arr) {
+            let sortedResults;
+            if (this.props.isPinnedPosts) {
+                sortedResults = [...results];
+                sortedResults.sort((postA, postB) => postB.create_at - postA.create_at);
+            } else {
+                sortedResults = results;
+            }
+
+            ctls = sortedResults.map(function searchResults(post, idx, arr) {
                 let profile;
                 if (UserStore.getCurrentId() === post.user_id) {
                     profile = UserStore.getCurrentUser();
