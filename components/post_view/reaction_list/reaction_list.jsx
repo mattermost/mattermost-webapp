@@ -5,8 +5,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {postListScrollChange} from 'actions/global_actions.jsx';
+import {emitEmojiPosted} from 'actions/post_actions.jsx';
 
 import Reaction from 'components/post_view/reaction';
+import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
+
+const DEFAULT_EMOJI_PICKER_RIGHT_OFFSET = 15;
+const EMOJI_PICKER_WIDTH_OFFSET = 260;
 
 export default class ReactionListView extends React.PureComponent {
     static propTypes = {
@@ -30,8 +35,21 @@ export default class ReactionListView extends React.PureComponent {
             /**
              * Function to get reactions for a post
              */
-            getReactionsForPost: PropTypes.func.isRequired
+            getReactionsForPost: PropTypes.func.isRequired,
+
+            /**
+             * Function to add a reaction to the post
+             */
+            addReaction: PropTypes.func.isRequired
         })
+    }
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            showEmojiPicker: false
+        };
     }
 
     componentDidMount() {
@@ -44,6 +62,25 @@ export default class ReactionListView extends React.PureComponent {
         if (this.props.reactions !== prevProps.reactions) {
             postListScrollChange();
         }
+    }
+
+    getTarget = () => {
+        return this.refs.addReactionButton;
+    }
+
+    handleEmojiClick = (emoji) => {
+        this.setState({showEmojiPicker: false});
+        const emojiName = emoji.name || emoji.aliases[0];
+        this.props.actions.addReaction(this.props.post.id, emojiName);
+        emitEmojiPosted(emojiName);
+    }
+
+    hideEmojiPicker = () => {
+        this.setState({showEmojiPicker: false});
+    }
+
+    toggleEmojiPicker = () => {
+        this.setState({showEmojiPicker: !this.state.showEmojiPicker});
     }
 
     render() {
@@ -67,7 +104,7 @@ export default class ReactionListView extends React.PureComponent {
             }
         }
 
-        const children = emojiNames.map((emojiName) => {
+        const reactions = emojiNames.map((emojiName) => {
             return (
                 <Reaction
                     key={emojiName}
@@ -79,9 +116,54 @@ export default class ReactionListView extends React.PureComponent {
             );
         });
 
+        const addReactionButton = this.getTarget();
+        let rightOffset = DEFAULT_EMOJI_PICKER_RIGHT_OFFSET;
+        if (addReactionButton) {
+            rightOffset = window.innerWidth - addReactionButton.getBoundingClientRect().right - EMOJI_PICKER_WIDTH_OFFSET;
+
+            if (rightOffset < 0) {
+                rightOffset = DEFAULT_EMOJI_PICKER_RIGHT_OFFSET;
+            }
+        }
+
+        let emojiPicker = null;
+        if (window.mm_config.EnableEmojiPicker === 'true') {
+            emojiPicker = (
+                <span className='emoji-picker__container'>
+                    <EmojiPickerOverlay
+                        show={this.state.showEmojiPicker}
+                        target={this.getTarget}
+                        onHide={this.hideEmojiPicker}
+                        onEmojiClick={this.handleEmojiClick}
+                        rightOffset={rightOffset}
+                        topOffset={-5}
+                    />
+                    <div
+                        className='post-reaction'
+                        onClick={this.toggleEmojiPicker}
+                    >
+                        <span
+                            className='post-reaction__add'
+                            ref='addReactionButton'
+                        >
+                            {'+'}
+                        </span>
+                    </div>
+                </span>
+            );
+        }
+
+        let addReactionClassName = 'post-add-reaction';
+        if (this.state.showEmojiPicker) {
+            addReactionClassName += ' post-add-reaction-emoji-picker-open';
+        }
+
         return (
             <div className='post-reaction-list'>
-                {children}
+                {reactions}
+                <div className={addReactionClassName}>
+                    {emojiPicker}
+                </div>
             </div>
         );
     }

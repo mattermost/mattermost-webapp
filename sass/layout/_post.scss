@@ -418,100 +418,177 @@
 
         &.textbox-preview-area {
           overflow-y: auto;
-        }
-    }
+      }
+  }
 
-    .emoji-picker {
-        position: absolute;
-        right: 0;
-        top: -361px;
-    }
+  .emoji-picker {
+    position: absolute;
+    right: 0;
+    top: -361px;
+}
 
-    .scroll {
-        .post-body__actions {
-            right: 10px;
-        }
-
-        .custom-textarea {
-            -ms-overflow-style: auto;
-            -webkit-overflow-scrolling: touch;
-            overflow: auto;
-
-            &:not(.custom-textarea--emoji-picker) {
-                padding-right: 50px;
-            }
-
-            &.custom-textarea--emoji-picker {
-                padding-right: 90px;
-            }
-        }
-    }
-
+.scroll {
     .post-body__actions {
-        display: flex;
-        height: 100%;
-        position: absolute;
-        right: 0;
-        top: 0;
+        right: 10px;
+    }
 
-        > span {
-            border-left: 1px solid transparent;
-            width: 41px;
+    .custom-textarea {
+        -ms-overflow-style: auto;
+        -webkit-overflow-scrolling: touch;
+        overflow: auto;
 
-            &:first-child {
-                border: none;
-            }
-
-            > span,
-            div {
-                display: block;
-                height: 49px;
-                line-height: 49px;
-                text-align: center;
-                width: 100%;
-            }
+        &:not(.custom-textarea--emoji-picker) {
+            padding-right: 50px;
         }
+
+        &.custom-textarea--emoji-picker {
+            padding-right: 90px;
+        }
+    }
+}
+
+.post-body__actions {
+    display: flex;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    > span {
+        border-left: 1px solid transparent;
+        width: 41px;
+
+        &:first-child {
+            border: none;
+        }
+
+        > span,
+        div {
+            display: block;
+            height: 49px;
+            line-height: 49px;
+            text-align: center;
+            width: 100%;
+        }
+    }
+
+    &:hover,
+    &:active {
+        box-shadow: none;
+    }
+
+    &.btn-file__disabled {
+        @include opacity(.1);
 
         &:hover,
         &:active {
+            @include opacity(.1);
+        }
+    }
+
+    .icon--emoji {
+        @include opacity(.5);
+        @include single-transition(all, .15s);
+        cursor: pointer;
+
+        &:hover {
+            @include opacity(.7);
+        }
+
+        svg {
+            position: relative;
+            top: 2px;
+        }
+    }
+
+    .icon--attachment {
+        @include opacity(.4);
+        @include single-transition(all, .15s);
+        cursor: pointer;
+        overflow: hidden;
+        position: relative;
+        vertical-align: top;
+
+        &:hover {
+            @include opacity(.6);
+        }
+
+        input {
+            cursor: pointer;
+            direction: ltr;
+            filter: alpha(opacity=0);
+            font-size: 23px;
+            height: 100%;
+            margin: 0;
+            opacity: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 100%;
+        }
+
+        svg {
+            position: relative;
+            top: 3px;
+        }
+    }
+}
+
+.post-create-body {
+    padding: 0 0 2px;
+    position: relative;
+
+    .post-body__cell {
+        position: relative;
+        vertical-align: top;
+    }
+
+    .send-button {
+        @include single-transition(all, .15s);
+        border-left: 1px solid transparent;
+        cursor: pointer;
+        display: none;
+        font-size: 17px;
+        height: 100%;
+        line-height: 49px;
+        padding-right: 4px;
+        text-align: center;
+        vertical-align: bottom;
+        width: 45px;
+
+        &:active {
+            @include opacity(.75);
+        }
+
+        &.disabled {
+            i {
+                color: inherit;
+            }
+        }
+
+        .android &,
+        .ios & {
+            display: block;
+        }
+    }
+
+
+    .icon--emoji-picker {
+        @include opacity(.5);
+        @include single-transition(all, .15s);
+        cursor: pointer;
+
+        &:hover,
+        &:active {
+            @include opacity(.9);
             box-shadow: none;
         }
 
-        &.btn-file__disabled {
-            @include opacity(.1);
-
-            &:hover,
-            &:active {
-                @include opacity(.1);
-            }
-        }
-
-        .icon--emoji {
-            @include opacity(.5);
-            @include single-transition(all, .15s);
-            cursor: pointer;
-
-            &:hover {
-                @include opacity(.7);
-            }
-
-            svg {
-                position: relative;
-                top: 2px;
-            }
-        }
-
         .icon--attachment {
-            @include opacity(.4);
-            @include single-transition(all, .15s);
-            cursor: pointer;
-            overflow: hidden;
+            @include opacity(.5);
+            display: inline-block;
             position: relative;
             vertical-align: top;
-
-            &:hover {
-                @include opacity(.6);
-            }
 
             input {
                 cursor: pointer;
@@ -527,121 +604,44 @@
                 width: 100%;
             }
 
-            svg {
-                position: relative;
-                top: 3px;
-            }
-        }
-    }
-
-    .post-create-body {
-        padding: 0 0 2px;
-        position: relative;
-
-        .post-body__cell {
-            position: relative;
-            vertical-align: top;
-        }
-
-        .send-button {
-            @include single-transition(all, .15s);
-            border-left: 1px solid transparent;
-            cursor: pointer;
-            display: none;
-            font-size: 17px;
-            height: 100%;
-            line-height: 49px;
-            padding-right: 4px;
-            text-align: center;
-            vertical-align: bottom;
-            width: 45px;
-
-            &:active {
-                @include opacity(.75);
-            }
-
-            &.disabled {
-                i {
-                    color: inherit;
-                }
-            }
-
-            .android &,
-            .ios & {
-                display: block;
-            }
-        }
-
-
-        .icon--emoji-picker {
-            @include opacity(.5);
-            @include single-transition(all, .15s);
-            cursor: pointer;
-
-            &:hover,
-            &:active {
+            &:hover {
                 @include opacity(.9);
-                box-shadow: none;
-            }
-
-            .icon--attachment {
-                @include opacity(.5);
-                display: inline-block;
-                position: relative;
-                vertical-align: top;
-
-                input {
-                    cursor: pointer;
-                    direction: ltr;
-                    filter: alpha(opacity=0);
-                    font-size: 23px;
-                    height: 100%;
-                    margin: 0;
-                    opacity: 0;
-                    position: absolute;
-                    right: 0;
-                    top: 0;
-                    width: 100%;
-                }
-
-                &:hover {
-                    @include opacity(.9);
-                }
             }
         }
-
-        textarea {
-            box-shadow: none;
-        }
     }
 
-    .post-create-footer {
-        @include clearfix;
-        font-size: 13px;
-        padding: 3px 0 0;
-        position: relative;
-
-        .post-error {
-            @include opacity(.55);
-            display: inline-block;
-            font-size: .85em;
-            font-weight: normal;
-            margin-bottom: 0;
-            position: absolute;
-            top: 4px;
-        }
+    textarea {
+        box-shadow: none;
     }
+}
 
-    .msg-typing {
-        @include opacity(.7);
-        display: block;
-        font-size: .95em;
-        height: 20px;
-        margin-bottom: 5px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+.post-create-footer {
+    @include clearfix;
+    font-size: 13px;
+    padding: 3px 0 0;
+    position: relative;
+
+    .post-error {
+        @include opacity(.55);
+        display: inline-block;
+        font-size: .85em;
+        font-weight: normal;
+        margin-bottom: 0;
+        position: absolute;
+        top: 4px;
     }
+}
+
+.msg-typing {
+    @include opacity(.7);
+    display: block;
+    font-size: .95em;
+    height: 20px;
+    margin-bottom: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 }
 
 .post-list__table {
@@ -688,12 +688,20 @@
         .reacticon__container,
         .flag-icon__container,
         .post__reply,
+        .post-reaction,
         .post__remove {
             visibility: visible;
         }
 
         .permalink-icon {
             visibility: visible;
+        }
+
+        .post-add-reaction {
+            .post-reaction {
+                visibility: visible;
+                @include opacity(1);
+            }
         }
     }
 
@@ -1283,6 +1291,15 @@
         }
     }
 
+    .post-add-reaction {
+        display: inline-block;
+
+        .post-reaction {
+            @include opacity(0);
+            visibility: hidden;
+        }
+    }
+
     .post__body {
         @include legacy-pie-clearfix;
         padding: .2em .5em;
@@ -1385,6 +1402,15 @@
 
         .post-reaction-list {
             min-height: 30px;
+
+            .post-add-reaction-emoji-picker-open {
+                display: inline-block;
+
+                .post-reaction {
+                    @include opacity(1);
+                    visibility: visible;
+                }
+            }
         }
 
         .post-reaction {
@@ -1410,6 +1436,15 @@
                 line-height: 10px;
                 position: relative;
                 top: 3px;
+            }
+
+            .post-reaction__add {
+                font-size: 20px;
+                line-height: 0;
+                margin: 0 5px;
+                position: relative;
+                top: 1px;
+                vertical-align: middle;
             }
 
             &--current-user {
