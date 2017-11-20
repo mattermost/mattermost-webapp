@@ -123,7 +123,7 @@
     position: relative;
     border-top-style: solid;
     border-top-width: 1px;
-    height: 300px;
+    height: 300px; // overwritten in jsx file
     width:100%;
 
     .emoji-picker__container {
@@ -178,7 +178,6 @@
     .emoji-picker__item-wrapper {
         .emoji-picker__item {
             font-size: 18px;
-            margin: 3px;
             max-height: 21px;
             max-width: 21px;
             min-height: 0;
@@ -196,7 +195,6 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: stretch;
-    vertical-align: middle;
     flex-grow: 0;
     flex-shrink: 0;
     height: 45px;
