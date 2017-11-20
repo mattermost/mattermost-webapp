@@ -1,0 +1,100 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/analytics/doughnut_chart.jsx should match snapshot, loaded with data 1`] = `
+<DoughnutChart
+  data={
+    Object {
+      "datasets": Array [
+        Object {
+          "data": Array [
+            1,
+            2,
+            3,
+          ],
+        },
+      ],
+    }
+  }
+  height={400}
+  title="Test"
+  width={600}
+>
+  <div
+    className="col-sm-6"
+  >
+    <div
+      className="total-count"
+    >
+      <div
+        className="title"
+      >
+        Test
+      </div>
+      <div
+        className="content"
+      >
+        <canvas
+          height={400}
+          width={600}
+        />
+      </div>
+    </div>
+  </div>
+</DoughnutChart>
+`;
+
+exports[`components/analytics/doughnut_chart.jsx should match snapshot, loaded without data 1`] = `
+<DoughnutChart
+  data={Object {}}
+  height={400}
+  title="Test"
+  width={600}
+>
+  <div
+    className="col-sm-6"
+  >
+    <div
+      className="total-count"
+    >
+      <div
+        className="title"
+      >
+        Test
+      </div>
+      <div
+        className="content"
+      >
+        <canvas
+          height={400}
+          width={600}
+        />
+      </div>
+    </div>
+  </div>
+</DoughnutChart>
+`;
+
+exports[`components/analytics/doughnut_chart.jsx should match snapshot, on loading 1`] = `
+<div
+  className="col-sm-6"
+>
+  <div
+    className="total-count"
+  >
+    <div
+      className="title"
+    >
+      Test
+    </div>
+    <div
+      className="content"
+    >
+      <FormattedMessage
+        defaultMessage="Loading..."
+        id="analytics.chart.loading"
+        values={Object {}}
+      />
+    </div>
+  </div>
+</div>
+`;

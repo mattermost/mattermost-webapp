@@ -33,6 +33,13 @@ podTemplate(label: 'jenkins-slave-webapp',
                 }
             }
         }
+        stage('Unit/Component Tests') {
+            container('mattermost-node') {
+                dir('mattermost-webapp') {
+                    sh 'make test'
+                }
+            }
+        }
         stage('Build') {
             container('mattermost-node') {
                 dir('mattermost-webapp') {

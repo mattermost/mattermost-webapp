@@ -81,11 +81,11 @@ export function actionOnItemsWithPrefix(prefix, action) {
 }
 
 export function storageRehydrate(incoming) {
-    return async (dispatch, getState) => {
+    return async (dispatch) => {
         if (incoming.storage) {
-            let storage = {}
+            let storage = {};
             try {
-                storage = JSON.parse(incoming.storage)
+                storage = JSON.parse(incoming.storage);
             } catch (err) {
                 if (process.env.NODE_ENV !== 'production') console.warn(`Error rehydrating data for key "storage"`, err)
             }

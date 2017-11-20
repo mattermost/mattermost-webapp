@@ -383,7 +383,15 @@ export default class SearchResults extends React.Component {
                 </div>
             );
         } else {
-            ctls = results.order.map(function searchResults(id, idx, arr) {
+            let order;
+            if (this.props.isPinnedPosts) {
+                order = [...results.order];
+                order.sort((a, b) => results.posts[b].create_at - results.posts[a].create_at);
+            } else {
+                order = results.order;
+            }
+
+            ctls = order.map(function searchResults(id, idx, arr) {
                 const post = results.posts[id];
                 let profile;
                 if (UserStore.getCurrentId() === post.user_id) {

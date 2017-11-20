@@ -10,20 +10,38 @@ import Chart from 'chart.js';
 
 import * as Utils from 'utils/utils.jsx';
 
-export default class DoughnutChart extends React.Component {
-    constructor(props) {
-        super(props);
+export default class DoughnutChart extends React.PureComponent {
+    static propTypes = {
 
-        this.initChart = this.initChart.bind(this);
-        this.chart = null;
-    }
+        /*
+         * Chart title
+         */
+        title: PropTypes.node,
+
+        /*
+         * Chart width
+         */
+        width: PropTypes.number,
+
+        /*
+         * Chart height
+         */
+        height: PropTypes.number,
+
+        /*
+         * Chart data
+         */
+        data: PropTypes.object
+    };
+
+    chart = null;
 
     componentDidMount() {
         this.initChart();
     }
 
     componentDidUpdate(prevProps) {
-        if (!Utils.areObjectsEqual(prevProps.data, this.props.data) || !Utils.areObjectsEqual(prevProps.options, this.props.options)) {
+        if (!Utils.areObjectsEqual(prevProps.data, this.props.data)) {
             this.initChart(true);
         }
     }
@@ -34,13 +52,13 @@ export default class DoughnutChart extends React.Component {
         }
     }
 
-    initChart(update) {
+    initChart = (update) => {
         if (!this.refs.canvas) {
             return;
         }
         var el = ReactDOM.findDOMNode(this.refs.canvas);
         var ctx = el.getContext('2d');
-        this.chart = new Chart(ctx, {type: 'doughnut', data: this.props.data, options: this.props.options || {}}); //eslint-disable-line new-cap
+        this.chart = new Chart(ctx, {type: 'doughnut', data: this.props.data, options: {}}); //eslint-disable-line new-cap
         if (update) {
             this.chart.update();
         }
@@ -79,11 +97,3 @@ export default class DoughnutChart extends React.Component {
         );
     }
 }
-
-DoughnutChart.propTypes = {
-    title: PropTypes.node,
-    width: PropTypes.string,
-    height: PropTypes.string,
-    data: PropTypes.object,
-    options: PropTypes.object
-};
