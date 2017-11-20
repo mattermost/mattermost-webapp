@@ -601,10 +601,12 @@ export function applyTheme(theme) {
     changeCss('.app__body .status.status--dnd', 'color:' + dndIndicator);
     changeCss('.app__body .status .dnd--icon', 'fill:' + dndIndicator);
 
-    if (theme.mentionBj) {
-        changeCss('.sidebar--left .nav-pills__unread-indicator', 'background:' + theme.mentionBj);
-        changeCss('.app__body .sidebar--left .badge', 'background:' + theme.mentionBj);
-        changeCss('.multi-teams .team-sidebar .badge', 'background:' + theme.mentionBj);
+    // Including 'mentionBj' for backwards compatability (old typo)
+    const mentionBg = theme.mentionBg || theme.mentionBj;
+    if (mentionBg) {
+        changeCss('.sidebar--left .nav-pills__unread-indicator', 'background:' + mentionBg);
+        changeCss('.app__body .sidebar--left .badge', 'background:' + mentionBg);
+        changeCss('.multi-teams .team-sidebar .badge', 'background:' + mentionBg);
     }
 
     if (theme.mentionColor) {
