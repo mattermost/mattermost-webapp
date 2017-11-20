@@ -17,7 +17,7 @@ import TeamStore from 'stores/team_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 
 import MessageWrapper from 'components/message_wrapper.jsx';
-import {Constants, RHSStates, UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
+import {Constants, NotificationLevels, RHSStates, UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import {getSiteURL} from 'utils/url.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -155,7 +155,8 @@ export default class ChannelHeader extends React.Component {
             Utils.isEmptyObject(this.props.channel)) {
             return;
         }
-        const options = {mute: 'false'};
+
+        const options = {mark_unread: NotificationLevels.ALL};
         const data = {
             channel_id: this.props.channel.id,
             user_id: this.props.currentUser.id

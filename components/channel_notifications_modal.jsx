@@ -27,10 +27,6 @@ export default class ChannelNotificationsModal extends React.Component {
         this.handleUpdateDesktopNotifyLevel = this.handleUpdateDesktopNotifyLevel.bind(this);
         this.createDesktopNotifyLevelSection = this.createDesktopNotifyLevelSection.bind(this);
 
-        this.handleSubmitMarkUnreadLevel = this.handleSubmitMarkUnreadLevel.bind(this);
-        this.handleUpdateMarkUnreadLevel = this.handleUpdateMarkUnreadLevel.bind(this);
-        this.createMarkUnreadLevelSection = this.createMarkUnreadLevelSection.bind(this);
-
         this.handleSubmitPushNotificationLevel = this.handleSubmitPushNotificationLevel.bind(this);
         this.handleUpdatePushNotificationLevel = this.handleUpdatePushNotificationLevel.bind(this);
         this.createPushNotificationLevelSection = this.createPushNotificationLevelSection.bind(this);
@@ -43,9 +39,8 @@ export default class ChannelNotificationsModal extends React.Component {
             activeSection: '',
             show: true,
             notifyLevel: props.channelMember.notify_props.desktop,
-            unreadLevel: props.channelMember.notify_props.mark_unread,
             pushLevel: props.channelMember.notify_props.push || NotificationLevels.DEFAULT,
-            muteLevel: props.channelMember.notify_props.mute || 'false'
+            muteLevel: props.channelMember.notify_props.mark_unread
         };
     }
 
@@ -262,144 +257,6 @@ export default class ChannelNotificationsModal extends React.Component {
                 }}
             />
         );
-    }
-
-    handleSubmitMarkUnreadLevel() {
-        const channelId = this.props.channel.id;
-        const markUnreadLevel = this.state.unreadLevel;
-
-        if (this.props.channelMember.notify_props.mark_unread === markUnreadLevel) {
-            this.updateSection('');
-            return;
-        }
-
-        const options = {mark_unread: markUnreadLevel};
-        const data = {
-            channel_id: channelId,
-            user_id: this.props.currentUser.id
-        };
-
-        updateChannelNotifyProps(data, options,
-            () => {
-                this.updateSection('');
-            },
-            (err) => {
-                this.setState({serverError: err.message});
-            }
-        );
-    }
-
-    handleUpdateMarkUnreadLevel(unreadLevel) {
-        this.setState({unreadLevel});
-    }
-
-    createMarkUnreadLevelSection(serverError) {
-        if (isChannelMuted(this.props.channelMember)) {
-            return null;
-        }
-
-        let content;
-
-        const markUnread = (
-            <FormattedMessage
-                id='channel_notifications.markUnread'
-                defaultMessage='Mark Channel Unread'
-            />
-        );
-        if (this.state.activeSection === 'markUnreadLevel') {
-            const inputs = [(
-                <div key='channel-notification-unread-radio'>
-                    <div className='radio'>
-                        <label>
-                            <input
-                                id='channelUnreadAll'
-                                type='radio'
-                                name='markUnreadLevel'
-                                checked={this.state.unreadLevel === NotificationLevels.ALL}
-                                onChange={this.handleUpdateMarkUnreadLevel.bind(this, NotificationLevels.ALL)}
-                            />
-                            <FormattedMessage
-                                id='channel_notifications.allUnread'
-                                defaultMessage='For all unread messages'
-                            />
-                        </label>
-                        <br/>
-                    </div>
-                    <div className='radio'>
-                        <label>
-                            <input
-                                id='channelUnreadMentions'
-                                type='radio'
-                                name='markUnreadLevel'
-                                checked={this.state.unreadLevel === NotificationLevels.MENTION}
-                                onChange={this.handleUpdateMarkUnreadLevel.bind(this, NotificationLevels.MENTION)}
-                            />
-                            <FormattedMessage id='channel_notifications.onlyMentions'/>
-                        </label>
-                        <br/>
-                    </div>
-                </div>
-            )];
-
-            const handleUpdateSection = function handleUpdateSection(e) {
-                this.updateSection('');
-                this.setState({
-                    unreadLevel: this.props.channelMember.notify_props.mark_unread
-                });
-                e.preventDefault();
-            }.bind(this);
-
-            const extraInfo = (
-                <span>
-                    <FormattedMessage
-                        id='channel_notifications.unreadInfo'
-                        defaultMessage='The channel name is bolded in the sidebar when there are unread messages. Selecting "Only for mentions" will bold the channel only when you are mentioned.'
-                    />
-                </span>
-            );
-
-            content = (
-                <SettingItemMax
-                    title={markUnread}
-                    inputs={inputs}
-                    submit={this.handleSubmitMarkUnreadLevel}
-                    server_error={serverError}
-                    updateSection={handleUpdateSection}
-                    extraInfo={extraInfo}
-                />
-            );
-        } else {
-            let describe;
-
-            if (!this.state.unreadLevel || this.state.unreadLevel === NotificationLevels.ALL) {
-                describe = (
-                    <FormattedMessage
-                        id='channel_notifications.allUnread'
-                        defaultMessage='For all unread messages'
-                    />
-                );
-            } else {
-                describe = (<FormattedMessage id='channel_notifications.onlyMentions'/>);
-            }
-
-            const handleUpdateSection = function handleUpdateSection(e) {
-                this.updateSection('markUnreadLevel');
-                this.setState({
-                    unreadLevel: this.props.channelMember.notify_props.mark_unread
-                });
-                e.preventDefault();
-            }.bind(this);
-
-            content = (
-                <SettingItemMin
-                    title={markUnread}
-                    describe={describe}
-                    updateSection={handleUpdateSection}
-                />
-            );
-        }
-
-        return content;
     }
 
     handleSubmitPushNotificationLevel() {
@@ -676,8 +533,8 @@ export default class ChannelNotificationsModal extends React.Component {
                                 id='channelNotificationMute'
                                 type='radio'
                                 name='muteNotificationLevel'
-                                checked={notifyActive[0]}
-                                onChange={this.handleUpdateMuteNotificationLevel.bind(this, 'true')}
+                                checked={this.state.muteLevel === NotificationLevels.MENTION}
+                                onChange={this.handleUpdateMuteNotificationLevel.bind(this, NotificationLevels.MENTION)}
                             />
                             <FormattedMessage
                                 id='channel_notifications.muteChannel.on.title'
@@ -689,11 +546,11 @@ export default class ChannelNotificationsModal extends React.Component {
                     <div className='radio'>
                         <label>
                             <input
-                                id='channelNotificationMute'
+                                id='channelNotificationUnmute'
                                 type='radio'
                                 name='muteNotificationLevel'
-                                checked={notifyActive[1]}
-                                onChange={this.handleUpdateMuteNotificationLevel.bind(this, 'false')}
+                                checked={this.state.muteLevel === NotificationLevels.ALL}
+                                onChange={this.handleUpdateMuteNotificationLevel.bind(this, NotificationLevels.ALL)}
                             />
                             <FormattedMessage
                                 id='channel_notifications.muteChannel.off.title'
@@ -787,8 +644,6 @@ export default class ChannelNotificationsModal extends React.Component {
                                 <div className='divider-light'/>
                                 {this.createDesktopNotifyLevelSection(serverError)}
                                 {this.createPushNotificationLevelSection(serverError)}
-                                <div className='divider-light'/>
-                                {this.createMarkUnreadLevelSection(serverError)}
                                 <div className='divider-dark'/>
                             </div>
                         </div>
