@@ -133,12 +133,19 @@ export default class SwitchChannelProvider extends Provider {
     }
 
     async fetchUsersAndChannels(channelPrefix, suggestionId) {
-        let teamId = '';
-        if (global.window.mm_config.RestrictDirectMessage === 'team') {
-            teamId = store.getState().entities.teams.currentTeamId;
+        const teamId = getCurrentTeamId(getState());
+        if (!teamId) {
+            return;
         }
-        const usersAsync = Client4.autocompleteUsers(channelPrefix, teamId, '');
-        const channelsAsync = Client4.searchChannels(getCurrentTeamId(getState()), channelPrefix);
+
+        let usersAsync;
+        if (global.window.mm_config.RestrictDirectMessage === 'team') {
+            usersAsync = Client4.autocompleteUsers(channelPrefix, teamId, '');
+        } else {
+            usersAsync = Client4.autocompleteUsers(channelPrefix, '', '');
+        }
+
+        const channelsAsync = Client4.searchChannels(teamId, channelPrefix);
 
         let usersFromServer = [];
         let channelsFromServer = [];
