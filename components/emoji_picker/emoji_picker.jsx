@@ -17,6 +17,7 @@ import EmojiPickerSection from './emoji_picker_section';
 import EmojiPickerPreview from './components/emoji_picker_preview';
 
 const CATEGORY_SEARCH_RESULTS = 'searchResults';
+const EMOJI_HEIGHT = 27;
 const EMOJI_CONTAINER_HEIGHT = 300;
 const EMOJI_CONTAINER_STYLE = {
     height: EMOJI_CONTAINER_HEIGHT
@@ -150,12 +151,16 @@ export default class EmojiPicker extends React.Component {
         this.divHeight = this.emojiPickerContainer.offsetHeight;
     }
     componentWillUpdate(nextProps, nextState) {
-        if (this.state.divTopOffset !== nextState.divTopOffset) {
-            if (
-                this.lastVisibleEmoji &&
-                this.lastVisibleEmoji.offsetTop <= nextState.divTopOffset + EMOJI_CONTAINER_HEIGHT + EMOJI_LAZY_LOAD_BUFFER
-            ) {
-                this.setState((state) => ({emojisToShow: state.emojisToShow + EMOJI_TO_LOAD_PER_UPDATE}));
+        if (
+            this.lastVisibleEmoji &&
+            this.state.divTopOffset !== nextState.divTopOffset
+        ) {
+            const difference = this.lastVisibleEmoji.offsetTop - (nextState.divTopOffset + EMOJI_CONTAINER_HEIGHT + EMOJI_LAZY_LOAD_BUFFER);
+            if (difference <= 0) {
+                const nuToLoad = EMOJI_TO_LOAD_PER_UPDATE + Math.ceil((difference / EMOJI_HEIGHT) * EMOJI_PER_ROW * -1);
+                this.setState((state) => ({
+                    emojisToShow: state.emojisToShow + nuToLoad
+                }));
             }
         }
     }
@@ -387,18 +392,28 @@ export default class EmojiPicker extends React.Component {
                             >
                                 {emojis.map((emoji) => {
                                     const currentIndex = emojiIndex++;
-                                    if (emojiTotalIndex > this.state.emojisToShow) {
-                                        return null;
-                                    }
                                     emojiTotalIndex++;
+
+                                    // set ref on first unloaded emoji
+                                    let ref;
                                     if (emojiTotalIndex === this.state.emojisToShow) {
+                                        ref = (lastVisibleEmoji) => {
+                                            this.lastVisibleEmoji = lastVisibleEmoji;
+                                        };
+                                    }
+
+                                    if (emojiTotalIndex >= this.state.emojisToShow) {
                                         return (
-                                            <span
-                                                key='lastVisibleEmojiTrigger'
-                                                ref={(lastVisibleEmoji) => {
-                                                    this.lastVisibleEmoji = lastVisibleEmoji;
-                                                }}
-                                            />
+                                            <div
+                                                key={emojiTotalIndex}
+                                                className='emoji-picker__item'
+                                                ref={ref}
+                                            >
+                                                <img
+                                                    src='/static/images/img_trans.gif'
+                                                    className='emojisprite'
+                                                />
+                                            </div>
                                         );
                                     }
                                     return (
