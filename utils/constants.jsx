@@ -30,6 +30,15 @@ import monokaiCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highli
 import solarizedDarkCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-dark.css';    // eslint-disable-line import/order
 import solarizedLightCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-light.css';  // eslint-disable-line import/order
 
+export const PluginSettings = {
+    TYPE_TEXT: 'text',
+    TYPE_BOOL: 'bool',
+    TYPE_RADIO: 'radio',
+    TYPE_DROPDOWN: 'dropdown',
+    TYPE_GENERATED: 'generated',
+    TYPE_USERNAME: 'username'
+};
+
 export const Preferences = {
     CATEGORY_CHANNEL_OPEN_TIME: 'channel_open_time',
     CATEGORY_DIRECT_CHANNEL_SHOW: 'direct_channel_show',
@@ -377,6 +386,7 @@ export const RHSStates = {
 };
 
 export const Constants = {
+    PluginSettings,
     Preferences,
     SocketEvents,
     ActionTypes,

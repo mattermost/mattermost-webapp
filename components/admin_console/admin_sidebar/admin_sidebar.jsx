@@ -9,15 +9,31 @@ import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 
-import AdminSidebarCategory from './admin_sidebar_category.jsx';
-import AdminSidebarHeader from './admin_sidebar_header.jsx';
-import AdminSidebarSection from './admin_sidebar_section.jsx';
+import AdminSidebarCategory from 'components/admin_console/admin_sidebar_category.jsx';
+import AdminSidebarHeader from 'components/admin_console/admin_sidebar_header.jsx';
+import AdminSidebarSection from 'components/admin_console/admin_sidebar_section.jsx';
 
 export default class AdminSidebar extends React.Component {
     static get contextTypes() {
         return {
             router: PropTypes.object.isRequired
         };
+    }
+
+    static propTypes = {
+        config: PropTypes.object,
+        plugins: PropTypes.object,
+        actions: PropTypes.shape({
+
+            /*
+             * Function to get installed plugins
+             */
+            getPlugins: PropTypes.func.isRequired
+        }).isRequired
+    }
+
+    static defaultProps = {
+        plugins: {}
     }
 
     constructor(props) {
@@ -27,6 +43,10 @@ export default class AdminSidebar extends React.Component {
     }
 
     componentDidMount() {
+        if (this.props.config.PluginSettings.Enable) {
+            this.props.actions.getPlugins();
+        }
+
         this.updateTitle();
 
         if (!Utils.isMobile()) {
@@ -307,6 +327,23 @@ export default class AdminSidebar extends React.Component {
                     }
                 />
             );
+        }
+
+        const customPlugins = [];
+        if (this.props.config.PluginSettings.Enable) {
+            Object.values(this.props.plugins).forEach((p) => {
+                if (!p.settings_schema || Object.keys(p.settings_schema) === 0) {
+                    return;
+                }
+
+                customPlugins.push(
+                    <AdminSidebarSection
+                        key={'customplugin' + p.id}
+                        name={'custom/' + p.id}
+                        title={p.name}
+                    />
+                );
+            });
         }
 
         return (
@@ -607,6 +644,7 @@ export default class AdminSidebar extends React.Component {
                                         />
                                     }
                                 />
+                                {customPlugins}
                             </AdminSidebarSection>
                             <AdminSidebarSection
                                 name='files'
