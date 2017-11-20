@@ -327,6 +327,10 @@ export const StorageTypes = keyMirror({
     STORAGE_REHYDRATE: null
 });
 
+export const StoragePrefixes = {
+    EMBED_VISIBLE: 'isVisible_'
+};
+
 export const ErrorPageTypes = {
     LOCAL_STORAGE: 'local_storage',
     OAUTH_MISSING_CODE: 'oauth_missing_code',
