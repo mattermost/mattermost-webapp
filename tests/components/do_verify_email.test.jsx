@@ -6,6 +6,8 @@ import {shallow, configure} from 'enzyme';
 
 import Adapter from 'enzyme-adapter-react-16';
 
+import {verifyUserEmail as VerifyUserMail} from 'mattermost-redux/actions/users';
+
 import DoVerifyEmail from 'components/do_verify_email/do_verify_email.jsx';
 
 configure({adapter: new Adapter()});
@@ -16,7 +18,7 @@ describe('components/DoVerifyEmail', () => {
             query: '',
             token: ''
         },
-        actions: {verifyUserEmail: jest.fn()}
+        actions: {verifyUserEmail: VerifyUserMail}
     };
 
     test('should match snapshot', () => {
@@ -28,13 +30,30 @@ describe('components/DoVerifyEmail', () => {
     });
 
     test('should call verifyEmail function', () => {
-        const {actions: {verifyUserEmail}} = requiredProps;
+        const VerifyUserEmail = jest.fn();
         const wrapper = shallow(
-            <DoVerifyEmail {...requiredProps}/>
+            <DoVerifyEmail
+                location={requiredProps.location}
+                actions={{verifyUserEmail: VerifyUserEmail}}
+            />
         );
 
         const instance = wrapper.instance();
         instance.componentWillMount();
-        expect(verifyUserEmail).toHaveBeenCalled();
+        expect(VerifyUserEmail).toHaveBeenCalled();
+    });
+
+    test('should run verifyUserEmail action & display error message', () => {
+        const wrapper = shallow(
+            <DoVerifyEmail {...requiredProps}/>
+        );
+        const instance = wrapper.instance();
+        instance.componentWillMount();
+
+        // small delay needed to wait for async function (fails test otherwise)
+        setTimeout(function() {
+            expect(requiredProps.actions.verifyUserEmail).toHaveBeenCalled();
+            expect(wrapper.state('verifyStatus')).toBe('failure');
+        }, 100);
     });
 });
