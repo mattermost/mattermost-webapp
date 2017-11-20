@@ -37,7 +37,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
           htmlFor="displayName"
         >
           <FormattedMessage
-            defaultMessage="Display Name"
+            defaultMessage="Title"
             id="add_command.displayName"
             values={Object {}}
           />
@@ -57,7 +57,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="Display name for your slash command made of up to 64 characters."
+              defaultMessage="Choose a title to be displayed on the slash command settings page. Maximum 64 characters."
               id="add_command.displayName.help"
               values={Object {}}
             />
@@ -507,7 +507,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
           htmlFor="displayName"
         >
           <FormattedMessage
-            defaultMessage="Display Name"
+            defaultMessage="Title"
             id="add_command.displayName"
             values={Object {}}
           />
@@ -527,7 +527,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="Display name for your slash command made of up to 64 characters."
+              defaultMessage="Choose a title to be displayed on the slash command settings page. Maximum 64 characters."
               id="add_command.displayName.help"
               values={Object {}}
             />
