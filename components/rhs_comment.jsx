@@ -128,6 +128,10 @@ export default class RhsComment extends React.Component {
             return true;
         }
 
+        if (this.props.user.last_picture_update !== nextProps.user.last_picture_update) {
+            return true;
+        }
+
         return false;
     }
 
