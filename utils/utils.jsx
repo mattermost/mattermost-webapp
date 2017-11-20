@@ -563,7 +563,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .modal .modal-header .modal-title, .app__body .modal .modal-header .modal-title .name, .app__body .modal .modal-header button.close', 'color:' + theme.sidebarHeaderTextColor);
         changeCss('.app__body #navbar .navbar-default .navbar-brand .dropdown-toggle', 'color:' + theme.sidebarHeaderTextColor);
         changeCss('.app__body #navbar .navbar-default .navbar-toggle .icon-bar', 'background:' + theme.sidebarHeaderTextColor);
-        changeCss('.app__body .post-list__timestamp > div', 'border-color:' + changeOpacity(theme.sidebarHeaderTextColor, 0.5));
+        changeCss('.app__body .post-list__timestamp > div, .app__body .multi-teams .team-sidebar .team-wrapper .team-container a:hover .team-btn, .app__body .multi-teams .team-sidebar .team-wrapper .team-container.active .team-btn', 'border-color:' + changeOpacity(theme.sidebarHeaderTextColor, 0.5));
         changeCss('@media(max-width: 768px){.app__body .search-bar__container', 'color:' + theme.sidebarHeaderTextColor);
         changeCss('@media(max-width: 768px){.app__body .search-bar__container .search__form', 'background:' + theme.sidebarHeaderTextColor);
         changeCss('.app__body .navbar-right__icon', 'background:' + changeOpacity(theme.sidebarHeaderTextColor, 0.2));
