@@ -424,7 +424,7 @@ export default class EmojiPicker extends React.PureComponent {
                                             isSelected={cursor[0] === cIndex && cursor[1] === currentIndex}
                                             categoryIndex={cIndex}
                                             emojiIndex={currentIndex}
-                                            container={this.emojiPickerContainer}
+                                            containerRef={this.emojiPickerContainer}
                                             containerTop={this.state.divTopOffset}
                                             containerBottom={this.state.divTopOffset + this.divHeight}
                                         />
