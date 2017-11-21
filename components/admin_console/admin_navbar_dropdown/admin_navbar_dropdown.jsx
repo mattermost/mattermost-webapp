@@ -19,7 +19,7 @@ import * as Utils from 'utils/utils.jsx';
 import AboutBuildModal from 'components/about_build_modal';
 import BlockableLink from 'components/admin_console/blockable_link';
 
-export default class AdminNavbarDropdown extends React.Component {
+export default class AdminNavbarDropdown extends React.PureComponent {
     static propTypes = {
 
         /*

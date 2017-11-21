@@ -21,7 +21,7 @@ import BackButton from 'components/common/back_button.jsx';
 import FormError from 'components/form_error.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
-export default class SignupController extends React.Component {
+export default class SignupController extends React.PureComponent {
     constructor(props) {
         super(props);
 

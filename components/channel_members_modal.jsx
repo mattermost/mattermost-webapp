@@ -15,7 +15,7 @@ import {Constants} from 'utils/constants.jsx';
 
 import MemberListChannel from 'components/member_list_channel';
 
-export default class ChannelMembersModal extends React.Component {
+export default class ChannelMembersModal extends React.PureComponent {
     constructor(props) {
         super(props);
 

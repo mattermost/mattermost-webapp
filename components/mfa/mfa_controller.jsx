@@ -12,7 +12,7 @@ import logoImage from 'images/logo.png';
 
 import BackButton from 'components/common/back_button.jsx';
 
-export default class MFAController extends React.Component {
+export default class MFAController extends React.PureComponent {
     componentDidMount() {
         if (window.mm_license.MFA !== 'true' || window.mm_config.EnableMultifactorAuthentication !== 'true') {
             browserHistory.push('/');

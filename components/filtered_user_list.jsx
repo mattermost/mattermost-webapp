@@ -31,7 +31,7 @@ const holders = defineMessages({
     }
 });
 
-class FilteredUserList extends React.Component {
+class FilteredUserList extends React.PureComponent {
     constructor(props) {
         super(props);
 

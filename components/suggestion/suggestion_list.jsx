@@ -10,7 +10,7 @@ import {FormattedMessage} from 'react-intl';
 
 import SuggestionStore from 'stores/suggestion_store.jsx';
 
-export default class SuggestionList extends React.Component {
+export default class SuggestionList extends React.PureComponent {
     static propTypes = {
         suggestionId: PropTypes.string.isRequired,
         location: PropTypes.string,

@@ -16,7 +16,7 @@ import * as Utils from 'utils/utils.jsx';
 
 import LoadingScreen from 'components/loading_screen.jsx';
 
-export default class ActivityLogModal extends React.Component {
+export default class ActivityLogModal extends React.PureComponent {
     static propTypes = {
         onHide: PropTypes.func.isRequired,
         actions: PropTypes.shape({

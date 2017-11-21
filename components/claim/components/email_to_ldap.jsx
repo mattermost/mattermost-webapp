@@ -12,7 +12,7 @@ import * as Utils from 'utils/utils.jsx';
 
 import LoginMfa from 'components/login/components/login_mfa.jsx';
 
-export default class EmailToLDAP extends React.Component {
+export default class EmailToLDAP extends React.PureComponent {
     constructor(props) {
         super(props);
 

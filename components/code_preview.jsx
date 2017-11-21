@@ -13,7 +13,7 @@ import loadingGif from 'images/load.gif';
 
 import FileInfoPreview from './file_info_preview.jsx';
 
-export default class CodePreview extends React.Component {
+export default class CodePreview extends React.PureComponent {
     constructor(props) {
         super(props);
 

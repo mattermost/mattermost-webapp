@@ -25,7 +25,7 @@ import FormError from 'components/form_error.jsx';
 
 import LoginMfa from './components/login_mfa.jsx';
 
-export default class LoginController extends React.Component {
+export default class LoginController extends React.PureComponent {
     static get propTypes() {
         return {
             location: PropTypes.object.isRequired,

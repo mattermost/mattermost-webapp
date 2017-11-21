@@ -26,7 +26,7 @@ import MultiSelect from 'components/multiselect/multiselect.jsx';
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = 20;
 
-export default class ChannelInviteModal extends React.Component {
+export default class ChannelInviteModal extends React.PureComponent {
     static propTypes = {
         onHide: PropTypes.func.isRequired,
         channel: PropTypes.object.isRequired,

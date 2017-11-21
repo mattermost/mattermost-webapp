@@ -53,7 +53,7 @@ const Preferences = Constants.Preferences;
 
 const UNREAD_CHECK_TIME_MILLISECONDS = 10000;
 
-export default class NeedsTeam extends React.Component {
+export default class NeedsTeam extends React.PureComponent {
     static propTypes = {
         children: PropTypes.oneOfType([
             PropTypes.arrayOf(PropTypes.element),

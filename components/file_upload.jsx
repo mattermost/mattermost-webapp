@@ -40,7 +40,7 @@ const holders = defineMessages({
 
 const OverlayTimeout = 500;
 
-class FileUpload extends React.Component {
+class FileUpload extends React.PureComponent {
     constructor(props) {
         super(props);
 

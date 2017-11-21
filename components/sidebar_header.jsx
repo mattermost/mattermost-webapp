@@ -15,7 +15,7 @@ import {createMenuTip} from 'components/tutorial/tutorial_tip.jsx';
 
 import SidebarHeaderDropdown from './sidebar_header_dropdown.jsx';
 
-export default class SidebarHeader extends React.Component {
+export default class SidebarHeader extends React.PureComponent {
     constructor(props) {
         super(props);
 

@@ -9,7 +9,7 @@ import FormError from 'components/form_error.jsx';
 
 import Setting from './setting.jsx';
 
-export default class MultiSelectSetting extends React.Component {
+export default class MultiSelectSetting extends React.PureComponent {
     constructor(props) {
         super(props);
 

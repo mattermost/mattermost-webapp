@@ -30,7 +30,7 @@ import ToggleModalButton from './toggle_modal_button.jsx';
 const Preferences = Constants.Preferences;
 const TutorialSteps = Constants.TutorialSteps;
 
-export default class SidebarRightMenu extends React.Component {
+export default class SidebarRightMenu extends React.PureComponent {
     constructor(props) {
         super(props);
 

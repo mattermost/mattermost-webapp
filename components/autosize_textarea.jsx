@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export default class AutosizeTextarea extends React.Component {
+export default class AutosizeTextarea extends React.PureComponent {
     static propTypes = {
         value: PropTypes.string,
         placeholder: PropTypes.string,

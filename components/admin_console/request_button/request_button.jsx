@@ -12,7 +12,7 @@ import * as Utils from 'utils/utils.jsx';
  * its outcome as either success, or failure accompanied by the
  * `message` property of the `err` object.
  */
-export default class RequestButton extends React.Component {
+export default class RequestButton extends React.PureComponent {
     static propTypes = {
 
         /**

@@ -20,7 +20,7 @@ const SHOW_NEW_CHANNEL = 1;
 const SHOW_EDIT_URL = 2;
 const SHOW_EDIT_URL_THEN_COMPLETE = 3;
 
-export default class NewChannelFlow extends React.Component {
+export default class NewChannelFlow extends React.PureComponent {
     constructor(props) {
         super(props);
 

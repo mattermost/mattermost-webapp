@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export default class BackstageHeader extends React.Component {
+export default class BackstageHeader extends React.PureComponent {
     static get propTypes() {
         return {
             children: PropTypes.node

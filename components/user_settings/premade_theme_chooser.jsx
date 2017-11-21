@@ -9,7 +9,7 @@ import React from 'react';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-export default class PremadeThemeChooser extends React.Component {
+export default class PremadeThemeChooser extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {};

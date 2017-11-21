@@ -10,7 +10,7 @@ import {removeUserFromTeam, updateTeamMemberRoles} from 'actions/team_actions.js
 
 import * as Utils from 'utils/utils.jsx';
 
-export default class ManageTeamsDropdown extends React.Component {
+export default class ManageTeamsDropdown extends React.PureComponent {
     static propTypes = {
         user: PropTypes.object.isRequired,
         teamMember: PropTypes.object.isRequired,

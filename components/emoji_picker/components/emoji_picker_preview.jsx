@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import EmojiStore from 'stores/emoji_store.jsx';
 
-export default class EmojiPickerPreview extends React.Component {
+export default class EmojiPickerPreview extends React.PureComponent {
     static propTypes = {
         emoji: PropTypes.object
     }

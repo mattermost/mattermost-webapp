@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 import ColorInput from 'components/color_input';
 
-class ColorChooser extends React.Component {
+class ColorChooser extends React.PureComponent {
     static propTypes = {
 
         /*

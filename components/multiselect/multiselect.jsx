@@ -13,7 +13,7 @@ import MultiSelectList from './multiselect_list.jsx';
 
 const KeyCodes = Constants.KeyCodes;
 
-export default class MultiSelect extends React.Component {
+export default class MultiSelect extends React.PureComponent {
     constructor(props) {
         super(props);
 

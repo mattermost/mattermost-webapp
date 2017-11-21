@@ -18,7 +18,7 @@ import logoImage from 'images/logo.png';
 import BackButton from 'components/common/back_button.jsx';
 import FormError from 'components/form_error.jsx';
 
-export default class SignupLdap extends React.Component {
+export default class SignupLdap extends React.PureComponent {
     static get propTypes() {
         return {
             location: PropTypes.object

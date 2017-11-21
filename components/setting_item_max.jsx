@@ -10,7 +10,7 @@ import SaveButton from 'components/save_button.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-export default class SettingItemMax extends React.Component {
+export default class SettingItemMax extends React.PureComponent {
     constructor(props) {
         super(props);
 

@@ -12,7 +12,7 @@ import WebrtcStore from 'stores/webrtc_store.jsx';
 
 import {ActionTypes, WebrtcActionTypes} from 'utils/constants.jsx';
 
-class LeaveTeamModal extends React.Component {
+class LeaveTeamModal extends React.PureComponent {
     constructor(props) {
         super(props);
 

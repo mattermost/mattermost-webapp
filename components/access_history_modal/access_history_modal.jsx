@@ -15,7 +15,7 @@ import * as Utils from 'utils/utils.jsx';
 import AuditTable from 'components/audit_table.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
-export default class AccessHistoryModal extends React.Component {
+export default class AccessHistoryModal extends React.PureComponent {
     static propTypes = {
         onHide: PropTypes.func.isRequired,
         actions: PropTypes.shape({

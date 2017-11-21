@@ -11,7 +11,7 @@ import ChannelSelect from 'components/channel_select.jsx';
 import FormError from 'components/form_error.jsx';
 import SpinnerButton from 'components/spinner_button.jsx';
 
-export default class AbstractIncomingWebhook extends React.Component {
+export default class AbstractIncomingWebhook extends React.PureComponent {
     static propTypes = {
 
         /**

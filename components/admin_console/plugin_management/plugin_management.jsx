@@ -11,7 +11,7 @@ import * as Utils from 'utils/utils.jsx';
 import Banner from 'components/admin_console/banner.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
-export default class PluginManagement extends React.Component {
+export default class PluginManagement extends React.PureComponent {
     static propTypes = {
 
         /*

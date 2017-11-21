@@ -13,7 +13,7 @@ import AdminSidebarCategory from 'components/admin_console/admin_sidebar_categor
 import AdminSidebarHeader from 'components/admin_console/admin_sidebar_header.jsx';
 import AdminSidebarSection from 'components/admin_console/admin_sidebar_section.jsx';
 
-export default class AdminSidebar extends React.Component {
+export default class AdminSidebar extends React.PureComponent {
     static get contextTypes() {
         return {
             router: PropTypes.object.isRequired

@@ -9,7 +9,7 @@ import * as Utils from 'utils/utils.jsx';
 
 import LoadingScreen from 'components/loading_screen.jsx';
 
-export default class BackstageList extends React.Component {
+export default class BackstageList extends React.PureComponent {
     static propTypes = {
         children: PropTypes.node,
         header: PropTypes.node.isRequired,

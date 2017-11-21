@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export default class FormError extends React.Component {
+export default class FormError extends React.PureComponent {
     static get propTypes() {
         // accepts either a single error or an array of errors
         return {

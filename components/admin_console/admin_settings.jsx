@@ -9,7 +9,7 @@ import {saveConfig} from 'actions/admin_actions.jsx';
 import SaveButton from 'components/save_button.jsx';
 import FormError from 'components/form_error.jsx';
 
-export default class AdminSettings extends React.Component {
+export default class AdminSettings extends React.PureComponent {
     static propTypes = {
 
         /*

@@ -41,7 +41,7 @@ const KeyCodes = Constants.KeyCodes;
 
 export const REACTION_PATTERN = /^(\+|-):([^:\s]+):\s*$/;
 
-export default class CreatePost extends React.Component {
+export default class CreatePost extends React.PureComponent {
     constructor(props) {
         super(props);
 

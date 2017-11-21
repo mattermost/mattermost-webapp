@@ -11,7 +11,7 @@ import * as Utils from 'utils/utils.jsx';
 
 import DeleteEmoji from './delete_emoji_modal.jsx';
 
-export default class EmojiListItem extends React.Component {
+export default class EmojiListItem extends React.PureComponent {
     static get propTypes() {
         return {
             emoji: PropTypes.object.isRequired,

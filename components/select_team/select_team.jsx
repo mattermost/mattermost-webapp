@@ -21,7 +21,7 @@ import LoadingScreen from 'components/loading_screen.jsx';
 
 import SelectTeamItem from './components/select_team_item.jsx';
 
-export default class SelectTeam extends React.Component {
+export default class SelectTeam extends React.PureComponent {
     static propTypes = {
         actions: PropTypes.shape({
             getTeams: PropTypes.func.isRequired

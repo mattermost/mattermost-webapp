@@ -19,7 +19,7 @@ import tutorialGifWhite from 'images/tutorialTipWhite.gif';
 
 const Preferences = Constants.Preferences;
 
-export default class TutorialTip extends React.Component {
+export default class TutorialTip extends React.PureComponent {
     constructor(props) {
         super(props);
 

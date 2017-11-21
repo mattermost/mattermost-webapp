@@ -13,7 +13,7 @@ import ChannelStore from 'stores/channel_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
-export default class RemovedFromChannelModal extends React.Component {
+export default class RemovedFromChannelModal extends React.PureComponent {
     constructor(props) {
         super(props);
 

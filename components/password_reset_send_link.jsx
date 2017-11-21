@@ -14,7 +14,7 @@ import * as Utils from 'utils/utils.jsx';
 
 import BackButton from 'components/common/back_button.jsx';
 
-class PasswordResetSendLink extends React.Component {
+class PasswordResetSendLink extends React.PureComponent {
     constructor(props) {
         super(props);
 
