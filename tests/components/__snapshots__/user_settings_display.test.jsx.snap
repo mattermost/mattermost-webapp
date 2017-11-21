@@ -79,6 +79,21 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, cha
       className="divider-dark"
     />
     <SettingItemMin
+      describe={Array []}
+      title={
+        <FormattedMessage
+          defaultMessage="Teammate Name Display"
+          id="user.settings.display.teammateNameDisplay"
+          values={Object {}}
+        />
+      }
+      updateSection={[Function]}
+      width="medium"
+    />
+    <div
+      className="divider-dark"
+    />
+    <SettingItemMin
       describe={
         <FormattedMessage
           defaultMessage="On"
@@ -349,6 +364,21 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, clo
       className="divider-dark"
     />
     <SettingItemMin
+      describe={Array []}
+      title={
+        <FormattedMessage
+          defaultMessage="Teammate Name Display"
+          id="user.settings.display.teammateNameDisplay"
+          values={Object {}}
+        />
+      }
+      updateSection={[Function]}
+      width="medium"
+    />
+    <div
+      className="divider-dark"
+    />
+    <SettingItemMin
       describe={
         <FormattedMessage
           defaultMessage="On"
@@ -518,6 +548,21 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, col
         />
       }
       updateSection={[Function]}
+    />
+    <div
+      className="divider-dark"
+    />
+    <SettingItemMin
+      describe={Array []}
+      title={
+        <FormattedMessage
+          defaultMessage="Teammate Name Display"
+          id="user.settings.display.teammateNameDisplay"
+          values={Object {}}
+        />
+      }
+      updateSection={[Function]}
+      width="medium"
     />
     <div
       className="divider-dark"
@@ -745,6 +790,21 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lan
       className="divider-dark"
     />
     <SettingItemMin
+      describe={Array []}
+      title={
+        <FormattedMessage
+          defaultMessage="Teammate Name Display"
+          id="user.settings.display.teammateNameDisplay"
+          values={Object {}}
+        />
+      }
+      updateSection={[Function]}
+      width="medium"
+    />
+    <div
+      className="divider-dark"
+    />
+    <SettingItemMin
       describe={
         <FormattedMessage
           defaultMessage="On"
@@ -918,6 +978,21 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lin
       className="divider-dark"
     />
     <SettingItemMin
+      describe={Array []}
+      title={
+        <FormattedMessage
+          defaultMessage="Teammate Name Display"
+          id="user.settings.display.teammateNameDisplay"
+          values={Object {}}
+        />
+      }
+      updateSection={[Function]}
+      width="medium"
+    />
+    <div
+      className="divider-dark"
+    />
+    <SettingItemMin
       describe={
         <FormattedMessage
           defaultMessage="On"
@@ -1067,6 +1142,21 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lin
         />
       }
       updateSection={[Function]}
+    />
+    <div
+      className="divider-dark"
+    />
+    <SettingItemMin
+      describe={Array []}
+      title={
+        <FormattedMessage
+          defaultMessage="Teammate Name Display"
+          id="user.settings.display.teammateNameDisplay"
+          values={Object {}}
+        />
+      }
+      updateSection={[Function]}
+      width="medium"
     />
     <div
       className="divider-dark"
@@ -1289,6 +1379,21 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, mes
         />
       }
       updateSection={[Function]}
+    />
+    <div
+      className="divider-dark"
+    />
+    <SettingItemMin
+      describe={Array []}
+      title={
+        <FormattedMessage
+          defaultMessage="Teammate Name Display"
+          id="user.settings.display.teammateNameDisplay"
+          values={Object {}}
+        />
+      }
+      updateSection={[Function]}
+      width="medium"
     />
     <div
       className="divider-dark"
@@ -1536,6 +1641,21 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, no 
       className="divider-dark"
     />
     <SettingItemMin
+      describe={Array []}
+      title={
+        <FormattedMessage
+          defaultMessage="Teammate Name Display"
+          id="user.settings.display.teammateNameDisplay"
+          values={Object {}}
+        />
+      }
+      updateSection={[Function]}
+      width="medium"
+    />
+    <div
+      className="divider-dark"
+    />
+    <SettingItemMin
       describe={
         <FormattedMessage
           defaultMessage="On"
@@ -1705,6 +1825,21 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, the
         />
       }
       updateSection={[Function]}
+    />
+    <div
+      className="divider-dark"
+    />
+    <SettingItemMin
+      describe={Array []}
+      title={
+        <FormattedMessage
+          defaultMessage="Teammate Name Display"
+          id="user.settings.display.teammateNameDisplay"
+          values={Object {}}
+        />
+      }
+      updateSection={[Function]}
+      width="medium"
     />
     <div
       className="divider-dark"
@@ -1885,6 +2020,21 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, the
         />
       }
       updateSection={[Function]}
+    />
+    <div
+      className="divider-dark"
+    />
+    <SettingItemMin
+      describe={Array []}
+      title={
+        <FormattedMessage
+          defaultMessage="Teammate Name Display"
+          id="user.settings.display.teammateNameDisplay"
+          values={Object {}}
+        />
+      }
+      updateSection={[Function]}
+      width="medium"
     />
     <div
       className="divider-dark"
