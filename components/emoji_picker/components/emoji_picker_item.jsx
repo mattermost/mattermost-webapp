@@ -6,6 +6,8 @@ import React from 'react';
 
 import EmojiStore from 'stores/emoji_store.jsx';
 
+const SCROLLING_ADDT_VISUAL_SPACING = 10; // to make give the emoji some visual 'breathing room'
+
 export default class EmojiPickerItem extends React.PureComponent {
     static propTypes = {
         emoji: PropTypes.object.isRequired,
@@ -15,6 +17,7 @@ export default class EmojiPickerItem extends React.PureComponent {
         isSelected: PropTypes.bool,
         categoryIndex: PropTypes.number.isRequired,
         emojiIndex: PropTypes.number.isRequired,
+        container: PropTypes.any,
         containerTop: PropTypes.number.isRequired,
         containerBottom: PropTypes.number.isRequired
     };
@@ -26,12 +29,14 @@ export default class EmojiPickerItem extends React.PureComponent {
     }
     componentWillReceiveProps(nextProps) {
         if (!this.props.isSelected && nextProps.isSelected) {
-            const offsetTop = this.emojiItem.offsetTop;
-            const height = this.emojiItem.offsetHeight * 1.2;
-            if (offsetTop < this.props.containerTop + height) {
+            const topOfTheEmojiContainer = this.emojiItem.offsetTop;
+            const heightOfTheEmojiContainer = this.emojiItem.offsetHeight + SCROLLING_ADDT_VISUAL_SPACING;
+            if (topOfTheEmojiContainer < this.props.containerTop + heightOfTheEmojiContainer) {
                 this.emojiItem.scrollIntoView();
-            } else if (offsetTop > this.props.containerBottom - height) {
+                nextProps.container.scrollTop -= SCROLLING_ADDT_VISUAL_SPACING;
+            } else if (topOfTheEmojiContainer > this.props.containerBottom - heightOfTheEmojiContainer) {
                 this.emojiItem.scrollIntoView(false);
+                nextProps.container.scrollTop += SCROLLING_ADDT_VISUAL_SPACING;
             }
         }
     }
