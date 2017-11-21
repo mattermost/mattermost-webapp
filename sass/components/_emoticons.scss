@@ -152,11 +152,16 @@
     .emoji-picker-items__container {
         .emoji-picker__item {
             display: inline-block;
-            height: 21px;
-            margin: 3px;
-            padding: 1px;
+            height: 26px;
+            //margin: 3px;
+            margin: 0;
+            padding: 2px;
             vertical-align: middle;
-            width: 21px;
+            width: 26px;
+            border-radius: 3px;
+            &.selected {
+                background-color: #2389d7;
+            }
         }
 
         > span {

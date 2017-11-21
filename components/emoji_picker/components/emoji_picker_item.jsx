@@ -17,7 +17,7 @@ export default class EmojiPickerItem extends React.PureComponent {
         isSelected: PropTypes.bool,
         categoryIndex: PropTypes.number.isRequired,
         emojiIndex: PropTypes.number.isRequired,
-        container: PropTypes.any,
+        containerRef: PropTypes.any,
         containerTop: PropTypes.number.isRequired,
         containerBottom: PropTypes.number.isRequired
     };
@@ -30,13 +30,13 @@ export default class EmojiPickerItem extends React.PureComponent {
     componentWillReceiveProps(nextProps) {
         if (!this.props.isSelected && nextProps.isSelected) {
             const topOfTheEmojiContainer = this.emojiItem.offsetTop;
-            const heightOfTheEmojiContainer = this.emojiItem.offsetHeight + SCROLLING_ADDT_VISUAL_SPACING;
-            if (topOfTheEmojiContainer < this.props.containerTop + heightOfTheEmojiContainer) {
+            const heightOfTheEmojiContainer = this.emojiItem.offsetHeight;
+            if (topOfTheEmojiContainer < this.props.containerTop) {
                 this.emojiItem.scrollIntoView();
-                nextProps.container.scrollTop -= SCROLLING_ADDT_VISUAL_SPACING;
+                nextProps.containerRef.scrollTop -= SCROLLING_ADDT_VISUAL_SPACING;
             } else if (topOfTheEmojiContainer > this.props.containerBottom - heightOfTheEmojiContainer) {
                 this.emojiItem.scrollIntoView(false);
-                nextProps.container.scrollTop += SCROLLING_ADDT_VISUAL_SPACING;
+                nextProps.containerRef.scrollTop += SCROLLING_ADDT_VISUAL_SPACING;
             }
         }
     }
@@ -53,22 +53,22 @@ export default class EmojiPickerItem extends React.PureComponent {
         const {emoji} = this.props;
 
         if (emoji.category && emoji.batch) {
-            let className = 'emojisprite';
-
-            className += ' emoji-category-' + emoji.category + '-' + emoji.batch;
-            className += ' emoji-' + emoji.filename;
-            className += this.props.isSelected ? ' selected' : '';
+            let itemClassName = 'emoji-picker__item';
+            itemClassName += this.props.isSelected ? ' selected' : '';
+            let spriteClassName = 'emojisprite';
+            spriteClassName += ' emoji-category-' + emoji.category + '-' + emoji.batch;
+            spriteClassName += ' emoji-' + emoji.filename;
 
             item = (
                 <div
-                    className='emoji-picker__item'
+                    className={itemClassName}
                     ref={(emojiItem) => {
                         this.emojiItem = emojiItem;
                     }}
                 >
                     <img
                         src='/static/images/img_trans.gif'
-                        className={className}
+                        className={spriteClassName}
                         onMouseOver={this.handleMouseOver}
                         onClick={this.handleClick}
                     />
