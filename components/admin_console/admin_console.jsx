@@ -11,7 +11,7 @@ import {reloadIfServerVersionChanged} from 'actions/global_actions.jsx';
 import AnnouncementBar from 'components/announcement_bar';
 import DiscardChangesModal from 'components/discard_changes_modal.jsx';
 
-import AdminSidebar from './admin_sidebar.jsx';
+import AdminSidebar from './admin_sidebar';
 
 export default class AdminConsole extends React.Component {
     static propTypes = {

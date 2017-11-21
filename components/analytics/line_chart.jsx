@@ -10,13 +10,36 @@ import Chart from 'chart.js';
 
 import * as Utils from 'utils/utils.jsx';
 
-export default class LineChart extends React.Component {
-    constructor(props) {
-        super(props);
+export default class LineChart extends React.PureComponent {
+    static propTypes = {
 
-        this.initChart = this.initChart.bind(this);
-        this.chart = null;
-    }
+        /*
+         * Chart title
+         */
+        title: PropTypes.node.isRequired,
+
+        /*
+         * Chart width
+         */
+        width: PropTypes.number.isRequired,
+
+        /*
+         * Chart height
+         */
+        height: PropTypes.number.isRequired,
+
+        /*
+         * Chart data
+         */
+        data: PropTypes.object
+    };
+
+    chart = null;
+    chartOptions = {
+        legend: {
+            display: false
+        }
+    };
 
     componentDidMount() {
         this.initChart();
@@ -34,7 +57,7 @@ export default class LineChart extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (Utils.areObjectsEqual(prevProps.data, this.props.data) && Utils.areObjectsEqual(prevProps.options, this.props.options)) {
+        if (Utils.areObjectsEqual(prevProps.data, this.props.data)) {
             return;
         }
 
@@ -53,14 +76,14 @@ export default class LineChart extends React.Component {
         }
     }
 
-    initChart(update) {
+    initChart = (update) => {
         if (!this.refs.canvas) {
             return;
         }
 
         var el = ReactDOM.findDOMNode(this.refs.canvas);
         var ctx = el.getContext('2d');
-        this.chart = new Chart(ctx, {type: 'line', data: this.props.data, options: this.props.options || {}}); // eslint-disable-line new-cap
+        this.chart = new Chart(ctx, {type: 'line', data: this.props.data, options: this.chartOptions || {}}); // eslint-disable-line new-cap
 
         if (update) {
             this.chart.update();
@@ -109,11 +132,3 @@ export default class LineChart extends React.Component {
         );
     }
 }
-
-LineChart.propTypes = {
-    title: PropTypes.node.isRequired,
-    width: PropTypes.string.isRequired,
-    height: PropTypes.string.isRequired,
-    data: PropTypes.object,
-    options: PropTypes.object
-};

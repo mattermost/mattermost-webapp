@@ -38,7 +38,8 @@ export default class RhsRootPost extends React.Component {
         status: PropTypes.string,
         previewCollapsed: PropTypes.string,
         previewEnabled: PropTypes.bool,
-        isBusy: PropTypes.bool
+        isBusy: PropTypes.bool,
+        isEmbedVisible: PropTypes.bool
     }
 
     static defaultProps = {
@@ -94,7 +95,7 @@ export default class RhsRootPost extends React.Component {
             return true;
         }
 
-        if (nextProps.previewCollapsed !== this.props.previewCollapsed) {
+        if (nextProps.isEmbedVisible !== this.props.isEmbedVisible) {
             return true;
         }
 
@@ -119,6 +120,10 @@ export default class RhsRootPost extends React.Component {
         }
 
         if (this.state.dropdownOpened !== nextState.dropdownOpened) {
+            return true;
+        }
+
+        if (this.props.previewCollapsed !== nextProps.previewCollapsed) {
             return true;
         }
 
@@ -456,6 +461,7 @@ export default class RhsRootPost extends React.Component {
                                     post={post}
                                     previewCollapsed={this.props.previewCollapsed}
                                     previewEnabled={this.props.previewEnabled}
+                                    isEmbedVisible={this.props.isEmbedVisible}
                                 >
                                     <PostMessageContainer
                                         post={post}
