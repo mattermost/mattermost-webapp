@@ -92,7 +92,7 @@ export default function configureStore(initialState, persistorStorage = null) {
                     });
                     observable.subscribe({
                         next: (args) => {
-                            if(args.key && args.key.indexOf(KEY_PREFIX) === 0){
+                            if(args.key && args.key.indexOf(KEY_PREFIX) === 0 && args.oldValue === null){
                                 const keyspace = args.key.substr(KEY_PREFIX.length);
 
                                 var statePartial = {};
