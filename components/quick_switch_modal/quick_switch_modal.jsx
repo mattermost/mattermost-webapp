@@ -98,6 +98,11 @@ export default class QuickSwitchModal extends React.PureComponent {
         }
     }
 
+    setSwitchBoxRef = (input) => {
+        this.switchBox = input;
+        this.focusTextbox();
+    }
+
     onShow() {
         this.setState({
             text: ''
@@ -309,10 +314,7 @@ export default class QuickSwitchModal extends React.PureComponent {
                         {help}
                     </div>
                     <SuggestionBox
-                        ref={(input) => {
-                            this.switchBox = input;
-                            this.focusTextbox();
-                        }}
+                        ref={this.setSwitchBoxRef}
                         className='form-control focused'
                         type='input'
                         onChange={this.onChange}
