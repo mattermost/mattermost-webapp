@@ -3,7 +3,6 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import throttle from 'lodash/throttle';
 
 import EmojiStore from 'stores/emoji_store.jsx';
