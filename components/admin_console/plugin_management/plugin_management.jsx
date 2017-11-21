@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {Link} from 'react-router';
 
 import * as Utils from 'utils/utils.jsx';
 
@@ -179,6 +180,23 @@ export default class PluginManagement extends React.Component {
             );
         }
 
+        let settingsButton;
+        if (p.settings_schema) {
+            settingsButton = (
+                <span>
+                    {' - '}
+                    <Link
+                        to={'/admin_console/plugins/custom/' + p.id}
+                    >
+                        <FormattedMessage
+                            id='admin.plugin.settingsButton'
+                            defaultMessage='Settings'
+                        />
+                    </Link>
+                </span>
+            );
+        }
+
         let removeButtonText;
         if (this.state.removing === p.id) {
             removeButtonText = (
@@ -196,6 +214,21 @@ export default class PluginManagement extends React.Component {
             );
         }
 
+        let description;
+        if (p.description) {
+            description = (
+                <div className='padding-top'>
+                    <strong>
+                        <FormattedMessage
+                            id='admin.plugin.desc'
+                            defaultMessage='Description:'
+                        />
+                    </strong>
+                    {' ' + p.description}
+                </div>
+            );
+        }
+
         return (
             <div key={p.id}>
                 <div>
@@ -207,15 +240,7 @@ export default class PluginManagement extends React.Component {
                     </strong>
                     {' ' + p.id}
                 </div>
-                <div className='padding-top'>
-                    <strong>
-                        <FormattedMessage
-                            id='admin.plugin.desc'
-                            defaultMessage='Description:'
-                        />
-                    </strong>
-                    {' ' + p.description}
-                </div>
+                {description}
                 <div className='padding-top'>
                     {activateButton}
                     {' - '}
@@ -225,6 +250,7 @@ export default class PluginManagement extends React.Component {
                     >
                         {removeButtonText}
                     </a>
+                    {settingsButton}
                 </div>
                 <hr/>
             </div>

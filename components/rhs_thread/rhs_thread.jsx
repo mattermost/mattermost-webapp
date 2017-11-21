@@ -63,6 +63,7 @@ export default class RhsThread extends React.Component {
         shrink: PropTypes.func,
         previewCollapsed: PropTypes.string.isRequired,
         previewEnabled: PropTypes.bool.isRequired,
+        postsEmbedVisibleObj: PropTypes.object,
         actions: PropTypes.shape({
             removePost: PropTypes.func.isRequired
         }).isRequired
@@ -96,7 +97,6 @@ export default class RhsThread extends React.Component {
         state.compactDisplay = PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT;
         state.flaggedPosts = PreferenceStore.getCategory(Constants.Preferences.CATEGORY_FLAGGED_POST);
         state.statuses = Object.assign({}, UserStore.getStatuses());
-        state.previewsCollapsed = PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, 'false');
         state.isBusy = WebrtcStore.isBusy();
 
         this.state = {
@@ -166,10 +166,6 @@ export default class RhsThread extends React.Component {
             return true;
         }
 
-        if (nextState.previewsCollapsed !== this.state.previewsCollapsed) {
-            return true;
-        }
-
         if (nextProps.previewEnabled !== this.props.previewEnabled) {
             return true;
         }
@@ -197,7 +193,7 @@ export default class RhsThread extends React.Component {
         if (nextState.topRhsPostCreateAt !== this.state.topRhsPostCreateAt) {
             return true;
         }
-        if (nextProps.previewCollapsed !== this.props.previewCollapsed) {
+        if (nextProps.postsEmbedVisibleObj !== this.props.postsEmbedVisibleObj) {
             return true;
         }
 
@@ -233,16 +229,10 @@ export default class RhsThread extends React.Component {
         }
     }
 
-    onPreferenceChange(category) {
-        let previewSuffix = '';
-        if (category === Preferences.CATEGORY_DISPLAY_SETTINGS) {
-            previewSuffix = '_' + Utils.generateId();
-        }
-
+    onPreferenceChange() {
         this.setState({
             compactDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
-            flaggedPosts: PreferenceStore.getCategory(Constants.Preferences.CATEGORY_FLAGGED_POST),
-            previewsCollapsed: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, 'false') + previewSuffix
+            flaggedPosts: PreferenceStore.getCategory(Constants.Preferences.CATEGORY_FLAGGED_POST)
         });
         this.forceUpdateInfo();
     }
@@ -394,6 +384,7 @@ export default class RhsThread extends React.Component {
                 previousPostDay = currentPostDay;
                 commentsLists.push(
                     <DateSeparator
+                        key={currentPostDay}
                         date={currentPostDay}
                     />);
             }
@@ -415,6 +406,8 @@ export default class RhsThread extends React.Component {
                         isBusy={this.state.isBusy}
                         removePost={this.props.actions.removePost}
                         previewCollapsed={this.props.previewCollapsed}
+                        previewEnabled={this.props.previewEnabled}
+                        isEmbedVisible={this.props.postsEmbedVisibleObj[comPost.id]}
                     />
                 </div>
             );
@@ -477,9 +470,10 @@ export default class RhsThread extends React.Component {
                             useMilitaryTime={this.props.useMilitaryTime}
                             isFlagged={isRootFlagged}
                             status={rootStatus}
-                            previewCollapsed={this.state.previewsCollapsed}
+                            previewCollapsed={this.props.previewCollapsed}
                             previewEnabled={this.props.previewEnabled}
                             isBusy={this.state.isBusy}
+                            isEmbedVisible={this.props.postsEmbedVisibleObj[selected.id]}
                         />
                         <div
                             ref='rhspostlist'

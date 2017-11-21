@@ -8,6 +8,8 @@ import {deletePreferences, savePreferences} from 'mattermost-redux/actions/prefe
 import {Client4} from 'mattermost-redux/client';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/channels';
 
+import {actionOnGlobalItemsWithPrefix} from 'actions/storage';
+
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as PostActions from 'actions/post_actions.jsx';
@@ -19,7 +21,7 @@ import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
 import * as ChannelUtils from 'utils/channel_utils.jsx';
-import {Constants, Preferences} from 'utils/constants.jsx';
+import {Constants, Preferences, StoragePrefixes} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {isUrlSafe} from 'utils/url.jsx';
@@ -104,6 +106,9 @@ export function executeCommand(message, args, success, error) {
     case '/settings':
         GlobalActions.showAccountSettingsModal();
         return;
+    case '/collapse':
+    case '/expand':
+        actionOnGlobalItemsWithPrefix(StoragePrefixes.EMBED_VISIBLE, () => null)(dispatch, getState);
     }
 
     Client4.executeCommand(msg, args).then(
@@ -288,7 +293,12 @@ export async function updateChannel(channel, success, error) {
 }
 
 export async function searchMoreChannels(term, success, error) {
-    const {data, error: err} = await ChannelActions.searchChannels(TeamStore.getCurrentId(), term)(dispatch, getState);
+    const teamId = TeamStore.getCurrentId();
+    if (!teamId) {
+        return;
+    }
+
+    const {data, error: err} = await ChannelActions.searchChannels(teamId, term)(dispatch, getState);
     if (data && success) {
         const myMembers = getMyChannelMemberships(getState());
         const channels = data.filter((c) => !myMembers[c.id]);
@@ -299,7 +309,12 @@ export async function searchMoreChannels(term, success, error) {
 }
 
 export async function autocompleteChannels(term, success, error) {
-    const {data, error: err} = await ChannelActions.searchChannels(TeamStore.getCurrentId(), term)(dispatch, getState);
+    const teamId = TeamStore.getCurrentId();
+    if (!teamId) {
+        return;
+    }
+
+    const {data, error: err} = await ChannelActions.searchChannels(teamId, term)(dispatch, getState);
     if (data && success) {
         success(data);
     } else if (err && error) {

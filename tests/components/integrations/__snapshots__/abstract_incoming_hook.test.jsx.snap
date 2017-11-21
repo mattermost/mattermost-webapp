@@ -37,7 +37,7 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
           htmlFor="displayName"
         >
           <FormattedMessage
-            defaultMessage="Display Name"
+            defaultMessage="Title"
             id="add_incoming_webhook.displayName"
             values={Object {}}
           />
@@ -57,7 +57,7 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="Display name for your incoming webhook made of up to 64 characters."
+              defaultMessage="Choose a title to be displayed on the webhook settings page. Maximum 64 characters."
               id="add_incoming_webhook.displayName.help"
               values={Object {}}
             />
@@ -214,7 +214,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
           htmlFor="displayName"
         >
           <FormattedMessage
-            defaultMessage="Display Name"
+            defaultMessage="Title"
             id="add_incoming_webhook.displayName"
             values={Object {}}
           />
@@ -234,7 +234,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="Display name for your incoming webhook made of up to 64 characters."
+              defaultMessage="Choose a title to be displayed on the webhook settings page. Maximum 64 characters."
               id="add_incoming_webhook.displayName.help"
               values={Object {}}
             />
@@ -391,7 +391,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           htmlFor="displayName"
         >
           <FormattedMessage
-            defaultMessage="Display Name"
+            defaultMessage="Title"
             id="add_incoming_webhook.displayName"
             values={Object {}}
           />
@@ -411,7 +411,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="Display name for your incoming webhook made of up to 64 characters."
+              defaultMessage="Choose a title to be displayed on the webhook settings page. Maximum 64 characters."
               id="add_incoming_webhook.displayName.help"
               values={Object {}}
             />
@@ -572,7 +572,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           htmlFor="displayName"
         >
           <FormattedMessage
-            defaultMessage="Display Name"
+            defaultMessage="Title"
             id="add_incoming_webhook.displayName"
             values={Object {}}
           />
@@ -592,7 +592,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="Display name for your incoming webhook made of up to 64 characters."
+              defaultMessage="Choose a title to be displayed on the webhook settings page. Maximum 64 characters."
               id="add_incoming_webhook.displayName.help"
               values={Object {}}
             />

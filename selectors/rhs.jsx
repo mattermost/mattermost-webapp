@@ -3,10 +3,10 @@
 
 import {createSelector} from 'reselect';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 
-import {makeGetGlobalItem} from 'selectors/storage';
-
-import {PostTypes} from 'utils/constants.jsx';
+import {makeGetGlobalItem, getItemFromStorage} from 'selectors/storage';
+import {PostTypes, StoragePrefixes, Preferences} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
 export function getSelectedPostId(state) {
@@ -46,4 +46,20 @@ export const getSelectedPost = createSelector(
 export function makeGetCommentDraft(rootId) {
     const defaultValue = {message: '', fileInfos: [], uploadsInProgress: []};
     return makeGetGlobalItem(`comment_draft_${rootId}`, defaultValue);
+}
+
+export function makeGetPostsEmbedVisibleObj() {
+    return createSelector(
+        (state) => state.storage,
+        (state) => getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, Preferences.COLLAPSE_DISPLAY_DEFAULT),
+        (state, posts) => posts,
+        (storage, previewCollapsed, posts) => {
+            const postsEmbedVisibleObj = {};
+            for (const post of posts) {
+                postsEmbedVisibleObj[post.id] = getItemFromStorage(storage, StoragePrefixes.EMBED_VISIBLE + post.id, !previewCollapsed);
+            }
+
+            return postsEmbedVisibleObj;
+        }
+    );
 }
