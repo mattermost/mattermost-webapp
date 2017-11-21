@@ -99,7 +99,7 @@ const CATEGORIES = {
     }
 };
 
-export default class EmojiPicker extends React.Component {
+export default class EmojiPicker extends React.PureComponent {
     static propTypes = {
         style: PropTypes.object,
         rightOffset: PropTypes.number,
@@ -116,9 +116,6 @@ export default class EmojiPicker extends React.Component {
 
     constructor(props) {
         super(props);
-
-        // All props are primitives or treated as immutable
-        this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
 
         this.handleCategoryClick = this.handleCategoryClick.bind(this);
         this.handleFilterChange = this.handleFilterChange.bind(this);
@@ -427,6 +424,7 @@ export default class EmojiPicker extends React.Component {
                                             isSelected={cursor[0] === cIndex && cursor[1] === currentIndex}
                                             categoryIndex={cIndex}
                                             emojiIndex={currentIndex}
+                                            container={this.emojiPickerContainer}
                                             containerTop={this.state.divTopOffset}
                                             containerBottom={this.state.divTopOffset + this.divHeight}
                                         />
