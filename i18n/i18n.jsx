@@ -101,7 +101,7 @@ const languages = {
     },
     ru: {
         value: 'ru',
-        name: 'Pусский (Beta)',
+        name: 'Pусский (Alpha)',
         order: 9,
         url: ru
     },
