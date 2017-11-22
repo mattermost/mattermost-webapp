@@ -495,7 +495,7 @@ export default class UserSettingsDisplay extends React.Component {
             );
         }
 
-        if (global.window.mm_config.EnableLocaleSetting !== 'true') {
+        if (Object.keys(I18n.getLanguages()).length === 1) {
             languagesSection = null;
         }
 
