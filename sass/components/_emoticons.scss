@@ -57,6 +57,10 @@
     height: 362px;
     width: 278px;
     z-index: 10;
+
+    &.bottom {
+        margin-top: 10px;
+    }
 }
 
 .emoji-picker__categories {
