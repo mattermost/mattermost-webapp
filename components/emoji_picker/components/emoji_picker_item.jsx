@@ -30,6 +30,7 @@ export default class EmojiPickerItem extends React.PureComponent {
             this.emojiItem = emojiItem;
         };
     }
+
     componentWillReceiveProps(nextProps) {
         if (!this.props.isSelected && nextProps.isSelected) {
             const topOfTheEmojiContainer = this.emojiItem.offsetTop;
