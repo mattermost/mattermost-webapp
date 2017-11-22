@@ -12,7 +12,7 @@ import * as Utils from 'utils/utils.jsx';
 
 import EmojiPickerCategory from './components/emoji_picker_category';
 import EmojiPickerItem from './components/emoji_picker_item';
-import EmojiPickerSection from './emoji_picker_section';
+import EmojiPickerCategorySection from './emoji_picker_category_section';
 import EmojiPickerPreview from './components/emoji_picker_preview';
 
 const CATEGORY_SEARCH_RESULTS = 'searchResults';
@@ -419,7 +419,7 @@ export default class EmojiPicker extends React.PureComponent {
                         const category = this.getCategoriesByKey(key);
                         const emojis = this.getEmojisByCategory(category);
                         return (
-                            <EmojiPickerSection
+                            <EmojiPickerCategorySection
                                 key={category.id}
                                 categoryName={category.name}
                                 updateCategoryOffset={this.updateCategoryOffset}
@@ -463,7 +463,7 @@ export default class EmojiPicker extends React.PureComponent {
                                         />
                                     );
                                 })}
-                            </EmojiPickerSection>
+                            </EmojiPickerCategorySection>
                         );
                     })}
                 </div>

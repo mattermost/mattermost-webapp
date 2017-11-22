@@ -3,28 +3,19 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {FormattedMessage} from 'react-intl';
 
-export default class EmojiPickerSection extends React.Component {
+export default class EmojiPickerCategorySection extends React.PureComponent {
     static propTypes = {
         categoryName: PropTypes.string.isRequired,
         children: PropTypes.any,
         updateCategoryOffset: PropTypes.func.isRequired
     };
 
-    static defaultProps = {
-    };
-
-    constructor(props) {
-        super(props);
-
-        // All props are primitives or treated as immutable
-        this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
-    }
     componentDidMount() {
         this.props.updateCategoryOffset(this.props.categoryName, this.div.offsetTop);
     }
+
     render() {
         return (
             <div
