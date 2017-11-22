@@ -16,7 +16,7 @@ export default class DoVerifyEmail extends React.PureComponent {
     static propTypes = {
 
         /**
-         * Object with info about location
+         * Object with validation parameters given in link
          */
         location: PropTypes.object.isRequired
     }
@@ -37,12 +37,11 @@ export default class DoVerifyEmail extends React.PureComponent {
     verifyEmail = async () => {
         const {actions: {verifyUserEmail}} = this.props;
         const {data, error} = await verifyUserEmail(this.props.location.query.token);
-        let serverError;
 
         if (data) {
             browserHistory.push('/login?extra=verified&email=' + encodeURIComponent(this.props.location.query.email));
         } else if (error) {
-            serverError = (
+            const serverError = (
                 <FormattedMessage
                     id='signup_user_completed.invalid_invite'
                     defaultMessage='The invite link was invalid.  Please speak with your Administrator to receive an invitation.'

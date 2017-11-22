@@ -15,8 +15,10 @@ configure({adapter: new Adapter()});
 describe('components/DoVerifyEmail', () => {
     const requiredProps = {
         location: {
-            query: '',
-            token: ''
+            query: {
+                token: '',
+                email: ''
+            }
         },
         actions: {verifyUserEmail: VerifyUserMail}
     };
