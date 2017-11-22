@@ -3,16 +3,13 @@
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {createSelector} from 'reselect';
 import {verifyUserEmail} from 'mattermost-redux/actions/users';
 
 import DoVerifyEmail from './do_verify_email.jsx';
 
-const mapStateToProps = createSelector(
-    () => {
-        return {};
-    }
-);
+function mapStateToProps(state, ownProps) {
+    return ownProps;
+}
 
 function mapDispatchToProps(dispatch) {
     return {
