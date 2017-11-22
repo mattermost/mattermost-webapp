@@ -426,7 +426,7 @@ export default class EmojiPicker extends React.PureComponent {
                             >
                                 {emojis.map((emoji, emojiIndex) => {
                                     numEmojisLoaded++;
-                                    
+
                                     // set ref on first unloaded emoji
                                     let ref;
                                     if (numEmojisLoaded === this.state.emojisToShow) {
