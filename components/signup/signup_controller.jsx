@@ -8,7 +8,6 @@ import {browserHistory, Link} from 'react-router';
 
 import {Client4} from 'mattermost-redux/client';
 
-import * as Utils from 'utils/utils.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {addUserToTeamFromInvite, getInviteInfo} from 'actions/team_actions.jsx';
 import {loadMe} from 'actions/user_actions.jsx';
@@ -348,8 +347,7 @@ export default class SignupController extends React.Component {
                             />
                             {' '}
                             <Link
-                                to={'/login'}
-                                query={Utils.isEmptyObject(this.props.location.query) ? null : this.props.location.query}
+                                to={'/login' + this.props.location.search}
                             >
                                 <FormattedMessage
                                     id='signup_user_completed.signIn'

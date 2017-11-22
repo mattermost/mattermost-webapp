@@ -256,7 +256,7 @@ export function renderSystemMessage(post, options) {
 
         return null;
     } else if (systemMessageRenderers[post.type]) {
-        systemMessageRenderers[post.type](post, options);
+        return systemMessageRenderers[post.type](post, options);
     }
 
     return null;

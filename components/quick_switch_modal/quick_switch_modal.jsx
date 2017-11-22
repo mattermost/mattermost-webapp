@@ -72,16 +72,12 @@ export default class QuickSwitchModal extends React.PureComponent {
         this.channelProviders = [new SwitchChannelProvider()];
         this.teamProviders = [new SwitchTeamProvider()];
 
+        this.switchBox = null;
+
         this.state = {
             text: '',
             mode: props.initialMode
         };
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.show && !prevProps.show) {
-            this.focusTextbox();
-        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -91,13 +87,20 @@ export default class QuickSwitchModal extends React.PureComponent {
     }
 
     focusTextbox() {
-        if (this.refs.switchbox == null) {
+        if (this.switchBox == null) {
             return;
         }
 
-        const textbox = this.refs.switchbox.getTextbox();
-        textbox.focus();
-        Utils.placeCaretAtEnd(textbox);
+        const textbox = this.switchBox.getTextbox();
+        if (document.activeElement !== textbox) {
+            textbox.focus();
+            Utils.placeCaretAtEnd(textbox);
+        }
+    }
+
+    setSwitchBoxRef = (input) => {
+        this.switchBox = input;
+        this.focusTextbox();
     }
 
     onShow() {
@@ -311,7 +314,7 @@ export default class QuickSwitchModal extends React.PureComponent {
                         {help}
                     </div>
                     <SuggestionBox
-                        ref='switchbox'
+                        ref={this.setSwitchBoxRef}
                         className='form-control focused'
                         type='input'
                         onChange={this.onChange}
