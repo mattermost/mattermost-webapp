@@ -136,6 +136,10 @@ export default class EmojiPicker extends React.PureComponent {
             divTopOffset: 0,
             emojisToShow: EMOJI_TO_LOAD_PER_UPDATE
         };
+
+        this.lastVisibleEmojiRef = (lastVisibleEmoji) => {
+            this.lastVisibleEmoji = lastVisibleEmoji;
+        };
     }
 
     componentWillMount() {
@@ -430,9 +434,7 @@ export default class EmojiPicker extends React.PureComponent {
                                     // set ref on first unloaded emoji
                                     let ref;
                                     if (emojiTotalIndex === this.state.emojisToShow) {
-                                        ref = (lastVisibleEmoji) => {
-                                            this.lastVisibleEmoji = lastVisibleEmoji;
-                                        };
+                                        ref = this.lastVisibleEmojiRef;
                                     }
 
                                     if (emojiTotalIndex >= this.state.emojisToShow) {
