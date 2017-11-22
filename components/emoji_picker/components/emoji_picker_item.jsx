@@ -40,6 +40,7 @@ export default class EmojiPickerItem extends React.PureComponent {
             }
         }
     }
+
     handleMouseOver() {
         this.props.onItemOver(this.props.categoryIndex, this.props.emojiIndex);
     }
