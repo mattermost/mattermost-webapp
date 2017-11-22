@@ -135,9 +135,11 @@ export default class EmojiPicker extends React.PureComponent {
             emojisToShow: EMOJI_TO_LOAD_PER_UPDATE
         };
     }
+
     componentWillMount() {
         this.getEmojis();
     }
+
     componentDidMount() {
         // Delay taking focus because this briefly renders offscreen when using an Overlay
         // so focusing it immediately on mount can cause weird scrolling
@@ -146,6 +148,7 @@ export default class EmojiPicker extends React.PureComponent {
         });
         this.divHeight = this.emojiPickerContainer.offsetHeight;
     }
+
     componentWillUpdate(nextProps, nextState) {
         if (
             this.lastVisibleEmoji &&
@@ -160,9 +163,11 @@ export default class EmojiPicker extends React.PureComponent {
             }
         }
     }
+
     handleCategoryClick(categoryName) {
         this.emojiPickerContainer.scrollTop = this.state.categories[categoryName].offset;
     }
+
     handleFilterChange(e) {
         e.preventDefault();
         const filter = e.target.value;
@@ -171,14 +176,17 @@ export default class EmojiPicker extends React.PureComponent {
             cursor: [0, 0]
         }));
     }
+
     handleItemOver(categoryIndex, emojiIndex) {
         this.setState({
             cursor: [categoryIndex, emojiIndex]
         });
     }
+
     handleItemClick(emoji) {
         this.props.onEmojiClick(emoji);
     }
+
     handleKeyDown(e) {
         switch (e.key) {
         case 'ArrowRight':
@@ -205,9 +213,11 @@ export default class EmojiPicker extends React.PureComponent {
             break;
         }
     }
+
     handleScroll() {
         this.setState({divTopOffset: this.emojiPickerContainer.scrollTop});
     }
+
     selectNextEmoji(offset) {
         const {cursor} = this.state;
 
@@ -224,6 +234,7 @@ export default class EmojiPicker extends React.PureComponent {
             this.setState({cursor: newCursor});
         }
     }
+
     selectPrevEmoji(offset) {
         const {cursor} = this.state;
 
@@ -244,17 +255,20 @@ export default class EmojiPicker extends React.PureComponent {
             }
         }
     }
+
     getCategoryByIndex(index) {
         if (this.state.filter && index !== 0) {
             return null;
         }
         return this.getCategoriesByKey(Object.keys(this.state.categories)[index]);
     }
+
     getCurrentEmojiByCursor(cursor) {
         const category = this.getCategoryByIndex(cursor[0]);
         const emoji = category && this.getEmojiesByCategory(category)[cursor[1]];
         return emoji || null;
     }
+
     getCategoriesByKey(key) {
         return this.state.filter ? {
             id: CATEGORY_SEARCH_RESULTS,
@@ -271,6 +285,7 @@ export default class EmojiPicker extends React.PureComponent {
             return false;
         }) : this.state.categories[category.name].emojiIds.map((emojiId) => this.state.allEmojis[emojiId]);
     }
+
     getEmojis() {
         const {categories, allEmojis} = this.state;
         for (const category of Object.keys(categories)) {
@@ -304,6 +319,7 @@ export default class EmojiPicker extends React.PureComponent {
             allEmojis
         });
     }
+
     getCurrentEmojiCategoryName() {
         // commented out code is how you could discover based on scroll position
         // const categories = Object.keys(this.state.categories);
@@ -319,6 +335,7 @@ export default class EmojiPicker extends React.PureComponent {
         // return currentCategoryName;
         return this.state.filter ? null : Object.keys(this.state.categories)[this.state.cursor[0]];
     }
+
     emojiCategories() {
         const categories = this.state.categories;
         const currentCategoryName = this.getCurrentEmojiCategoryName();
@@ -340,9 +357,9 @@ export default class EmojiPicker extends React.PureComponent {
                 />
             );
         });
-
         return <div className='emoji-picker__categories'>{emojiPickerCategories}</div>;
     }
+
     emojiSearch() {
         return (
             <div className='emoji-picker__search-container'>
@@ -360,6 +377,7 @@ export default class EmojiPicker extends React.PureComponent {
             </div>
         );
     }
+
     emojiCurrentResults() {
         const {cursor, filter} = this.state;
         const categories = filter ? [CATEGORY_SEARCH_RESULTS] : Object.keys(this.state.categories);
@@ -436,6 +454,7 @@ export default class EmojiPicker extends React.PureComponent {
             </div>
         );
     }
+
     updateCategoryOffset(categoryName, offset) {
         if (categoryName !== CATEGORY_SEARCH_RESULTS) {
             this.setState((state) => ({
