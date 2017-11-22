@@ -156,9 +156,9 @@ export default class EmojiPicker extends React.PureComponent {
         ) {
             const difference = this.lastVisibleEmoji.offsetTop - (nextState.divTopOffset + EMOJI_CONTAINER_HEIGHT + EMOJI_LAZY_LOAD_BUFFER);
             if (difference <= 0) {
-                const nuToLoad = EMOJI_TO_LOAD_PER_UPDATE + Math.ceil((difference / EMOJI_HEIGHT) * EMOJI_PER_ROW * -1);
+                const numToLoad = EMOJI_TO_LOAD_PER_UPDATE + Math.ceil((difference / EMOJI_HEIGHT) * EMOJI_PER_ROW * -1);
                 this.setState((state) => ({
-                    emojisToShow: state.emojisToShow + nuToLoad
+                    emojisToShow: state.emojisToShow + numToLoad
                 }));
             }
         }
