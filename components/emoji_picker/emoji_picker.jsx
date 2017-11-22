@@ -98,6 +98,8 @@ const CATEGORIES = {
     }
 };
 
+const getEmojiFilename = (emoji) => emoji.filename || emoji.id;
+
 export default class EmojiPicker extends React.PureComponent {
     static propTypes = {
         style: PropTypes.object,
@@ -311,14 +313,24 @@ export default class EmojiPicker extends React.PureComponent {
                     categoryEmojis = categoryEmojis.concat([...EmojiStore.getCustomEmojiMap().values()]);
                 }
             }
-            categories[category].emojiIds = categoryEmojis.map((emoji) => emoji.filename);
+            categories[category].emojiIds = categoryEmojis.map((emoji) => getEmojiFilename(emoji));
             for (let i = 0; i < categoryEmojis.length; i++) {
                 const currentEmoji = categoryEmojis[i];
-                allEmojis[currentEmoji.filename] = {
+                const fileName = getEmojiFilename(currentEmoji);
+                allEmojis[fileName] = {
                     ...currentEmoji,
                     visible: false,
                     offset: null
                 };
+                if (!currentEmoji.filename) {
+                    // if custom emoji, set proper attributes
+                    allEmojis[fileName] = {
+                        ...allEmojis[fileName],
+                        aliases: [currentEmoji.name],
+                        category: 'custom',
+                        filename: fileName
+                    };
+                }
             }
         }
         this.setState({

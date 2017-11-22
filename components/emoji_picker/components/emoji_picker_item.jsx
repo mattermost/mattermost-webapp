@@ -54,16 +54,15 @@ export default class EmojiPickerItem extends React.PureComponent {
     }
 
     render() {
-        let item = null;
         const {emoji} = this.props;
+        let item = null;
+        let itemClassName = 'emoji-picker__item';
+        itemClassName += this.props.isSelected ? ' selected' : '';
+        let spriteClassName = 'emojisprite';
+        spriteClassName += ' emoji-category-' + emoji.category + '-' + emoji.batch;
+        spriteClassName += ' emoji-' + emoji.filename;
 
         if (emoji.category && emoji.batch) {
-            let itemClassName = 'emoji-picker__item';
-            itemClassName += this.props.isSelected ? ' selected' : '';
-            let spriteClassName = 'emojisprite';
-            spriteClassName += ' emoji-category-' + emoji.category + '-' + emoji.batch;
-            spriteClassName += ' emoji-' + emoji.filename;
-
             item = (
                 <div
                     className={itemClassName}
@@ -78,18 +77,20 @@ export default class EmojiPickerItem extends React.PureComponent {
                 </div>
             );
         } else {
+            // 'emoji-picker__item-wrapper'
+            // 'emoji-picker__item emoticon'
             item = (
-                <span
-                    onMouseOver={this.handleMouseOver}
-                    onClick={this.handleClick}
-                    className='emoji-picker__item-wrapper'
+                <div
+                    className={itemClassName}
                     ref={this.emojiItemRef}
                 >
                     <img
-                        className='emoji-picker__item emoticon'
                         src={EmojiStore.getEmojiImageUrl(emoji)}
+                        className={spriteClassName}
+                        onMouseOver={this.handleMouseOver}
+                        onClick={this.handleClick}
                     />
-                </span>
+                </div>
             );
         }
 
