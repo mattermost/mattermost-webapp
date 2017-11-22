@@ -265,8 +265,10 @@ export default class EmojiPicker extends React.PureComponent {
 
     getCurrentEmojiByCursor(cursor) {
         const category = this.getCategoryByIndex(cursor[0]);
-        const emoji = category && this.getEmojiesByCategory(category)[cursor[1]];
-        return emoji || null;
+        if (!category) {
+            return null;
+        }
+        return this.getEmojisByCategory(category)[cursor[1]];
     }
 
     getCategoriesByKey(key) {
@@ -275,15 +277,20 @@ export default class EmojiPicker extends React.PureComponent {
             name: CATEGORY_SEARCH_RESULTS
         } : this.state.categories[key];
     }
-    getEmojiesByCategory(category) {
-        return this.state.filter ? Object.values(this.state.allEmojis).filter((emoji) => {
-            for (let i = 0; i < emoji.aliases.length; i++) {
-                if (emoji.aliases[i].includes(this.state.filter)) {
-                    return true;
+
+    getEmojisByCategory(category) {
+        if (this.state.filter) {
+            return Object.values(this.state.allEmojis).filter((emoji) => {
+                for (let i = 0; i < emoji.aliases.length; i++) {
+                    if (emoji.aliases[i].includes(this.state.filter)) {
+                        return true;
+                    }
                 }
-            }
-            return false;
-        }) : this.state.categories[category.name].emojiIds.map((emojiId) => this.state.allEmojis[emojiId]);
+                return false;
+            });
+        }
+        return this.state.categories[category.name].emojiIds.map((emojiId) =>
+            this.state.allEmojis[emojiId]);
     }
 
     getEmojis() {
@@ -396,7 +403,7 @@ export default class EmojiPicker extends React.PureComponent {
                     {categories.map((key) => {
                         const cIndex = categoryIndex++;
                         const category = this.getCategoriesByKey(key);
-                        const emojis = this.getEmojiesByCategory(category);
+                        const emojis = this.getEmojisByCategory(category);
                         let emojiIndex = 0;
                         return (
                             <EmojiPickerSection
