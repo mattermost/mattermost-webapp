@@ -404,8 +404,7 @@ export default class EmojiPicker extends React.PureComponent {
     emojiCurrentResults() {
         const {cursor, filter} = this.state;
         const categories = filter ? [CATEGORY_SEARCH_RESULTS] : Object.keys(this.state.categories);
-        let categoryIndex = 0;
-        let emojiTotalIndex = 0;
+        let numEmojisLoaded = -1;
         return (
             <div
                 ref={(emojiPickerContainer) => {
@@ -416,31 +415,27 @@ export default class EmojiPicker extends React.PureComponent {
                 style={EMOJI_CONTAINER_STYLE}
             >
                 <div className='emoji-picker__container'>
-                    {categories.map((key) => {
-                        const cIndex = categoryIndex++;
+                    {categories.map((key, categoryIndex) => {
                         const category = this.getCategoriesByKey(key);
                         const emojis = this.getEmojisByCategory(category);
-                        let emojiIndex = 0;
                         return (
                             <EmojiPickerSection
                                 key={category.id}
                                 categoryName={category.name}
                                 updateCategoryOffset={this.updateCategoryOffset}
                             >
-                                {emojis.map((emoji) => {
-                                    const currentIndex = emojiIndex++;
-                                    emojiTotalIndex++;
-
+                                {emojis.map((emoji, emojiIndex) => {
+                                    numEmojisLoaded++;
+                                    
                                     // set ref on first unloaded emoji
                                     let ref;
-                                    if (emojiTotalIndex === this.state.emojisToShow) {
+                                    if (numEmojisLoaded === this.state.emojisToShow) {
                                         ref = this.lastVisibleEmojiRef;
                                     }
-
-                                    if (emojiTotalIndex >= this.state.emojisToShow) {
+                                    if (numEmojisLoaded >= this.state.emojisToShow) {
                                         return (
                                             <div
-                                                key={emojiTotalIndex}
+                                                key={numEmojisLoaded}
                                                 className='emoji-picker__item'
                                                 ref={ref}
                                             >
@@ -459,9 +454,9 @@ export default class EmojiPicker extends React.PureComponent {
                                             onItemClick={this.handleItemClick}
                                             onItemUnmount={emoji}
                                             category={emoji.category}
-                                            isSelected={cursor[0] === cIndex && cursor[1] === currentIndex}
-                                            categoryIndex={cIndex}
-                                            emojiIndex={currentIndex}
+                                            isSelected={cursor[0] === (categoryIndex) && cursor[1] === emojiIndex}
+                                            categoryIndex={categoryIndex}
+                                            emojiIndex={emojiIndex}
                                             containerRef={this.emojiPickerContainer}
                                             containerTop={this.state.divTopOffset}
                                             containerBottom={this.state.divTopOffset + this.divHeight}
