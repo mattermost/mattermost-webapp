@@ -98,7 +98,9 @@ const CATEGORIES = {
     }
 };
 
-const getEmojiFilename = (emoji) => emoji.filename || emoji.id;
+function getEmojiFilename(emoji) {
+    return emoji.filename || emoji.id;
+}
 
 export default class EmojiPicker extends React.PureComponent {
     static propTypes = {
