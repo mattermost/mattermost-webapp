@@ -255,7 +255,7 @@ export default class StorageSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.image.amazonS3RegionDescription'
-                            defaultMessage='(Optional) AWS region you selected when creating your S3 bucket. If no region is set, Mattermost attempts to get the appropriate region from AWS, or sets it to "us-east-1" if none found.'
+                            defaultMessage='AWS region you selected when creating your S3 bucket. If no region is set, Mattermost attempts to get the appropriate region from AWS, or sets it to "us-east-1" if none found.'
                         />
                     }
                     value={this.state.amazonS3Region}
