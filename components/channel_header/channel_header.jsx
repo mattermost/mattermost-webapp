@@ -35,6 +35,8 @@ import NavbarSearchBox from 'components/search_bar.jsx';
 import StatusIcon from 'components/status_icon.jsx';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
 
+import Pluggable from 'plugins/pluggable';
+
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
 export default class ChannelHeader extends React.Component {
@@ -895,6 +897,9 @@ export default class ChannelHeader extends React.Component {
                     </div>
                     <div className='flex-child'>
                         {popoverListMembers}
+                    </div>
+                    <div className='flex-child'>
+                        <Pluggable pluggableName='ChannelHeaderButton'/>
                     </div>
                     <div className='flex-child'>
                         <OverlayTrigger
