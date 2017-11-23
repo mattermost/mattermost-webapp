@@ -2281,6 +2281,7 @@
   "reaction.usersAndOthersReacted": "{users} and {otherUsers, number} other {otherUsers, plural, one {user} other {users}}",
   "reaction.usersReacted": "{users} and {lastUser}",
   "reaction.you": "You",
+  "reaction_list.addReactionTooltip": "Add reaction",
   "removed_channel.channelName": "the channel",
   "removed_channel.from": "Removed from ",
   "removed_channel.okay": "Okay",
