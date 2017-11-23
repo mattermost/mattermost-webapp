@@ -29,5 +29,9 @@
                 "desc": "Set to true if the post is in the right-hand sidebar (thread, search results, etc.)"
             }
         }
+    },
+    "ChannelHeaderButton": {
+        "desc": "A component on the right side of the channel header, beside buttons such as the pinned posts button.",
+        "props": {}
     }
 }
