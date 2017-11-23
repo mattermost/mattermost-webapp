@@ -9,7 +9,7 @@ import Constants from 'utils/constants.jsx';
 import FileAttachment from 'components/file_attachment.jsx';
 import ViewImageModal from 'components/view_image.jsx';
 
-export default class FileAttachmentList extends React.Component {
+export default class FileAttachmentList extends React.PureComponent {
     static propTypes = {
 
         /*

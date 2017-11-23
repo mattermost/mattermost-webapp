@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import UserTypingStore from 'stores/user_typing_store.jsx';
 
-class MsgTyping extends React.Component {
+class MsgTyping extends React.PureComponent {
     constructor(props) {
         super(props);
 

@@ -8,7 +8,7 @@ import * as TextFormatting from 'utils/text_formatting.jsx';
 import {getSiteURL} from 'utils/url.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-export default class MessageWrapper extends React.Component {
+export default class MessageWrapper extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {};

@@ -10,7 +10,7 @@ import UserStore from 'stores/user_store.jsx';
 
 import * as Utils from 'utils/utils.jsx';
 
-export default class Setup extends React.Component {
+export default class Setup extends React.PureComponent {
     constructor(props) {
         super(props);
 

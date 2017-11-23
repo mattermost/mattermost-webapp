@@ -11,7 +11,7 @@ import Constants from 'utils/constants.jsx';
 
 const ActionTypes = Constants.ActionTypes;
 
-export default class ImportThemeModal extends React.Component {
+export default class ImportThemeModal extends React.PureComponent {
     constructor(props) {
         super(props);
 

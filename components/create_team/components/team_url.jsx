@@ -15,7 +15,7 @@ import * as URL from 'utils/url.jsx';
 
 import logoImage from 'images/logo.png';
 
-export default class TeamUrl extends React.Component {
+export default class TeamUrl extends React.PureComponent {
     constructor(props) {
         super(props);
 

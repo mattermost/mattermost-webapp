@@ -17,7 +17,7 @@ import SettingItemMin from '../setting_item_min.jsx';
 
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
-export default class AdvancedSettingsDisplay extends React.Component {
+export default class AdvancedSettingsDisplay extends React.PureComponent {
     constructor(props) {
         super(props);
 

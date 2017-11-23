@@ -15,7 +15,7 @@ import * as Utils from 'utils/utils.jsx';
 import SettingItemMax from './setting_item_max.jsx';
 import SettingItemMin from './setting_item_min.jsx';
 
-class GeneralTab extends React.Component {
+class GeneralTab extends React.PureComponent {
     constructor(props) {
         super(props);
 

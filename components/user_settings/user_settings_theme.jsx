@@ -23,7 +23,7 @@ import SettingItemMin from '../setting_item_min.jsx';
 import CustomThemeChooser from './custom_theme_chooser.jsx';
 import PremadeThemeChooser from './premade_theme_chooser.jsx';
 
-export default class ThemeSetting extends React.Component {
+export default class ThemeSetting extends React.PureComponent {
     constructor(props) {
         super(props);
 

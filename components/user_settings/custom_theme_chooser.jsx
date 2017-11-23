@@ -110,7 +110,7 @@ const messages = defineMessages({
     }
 });
 
-class CustomThemeChooser extends React.Component {
+class CustomThemeChooser extends React.PureComponent {
     constructor(props) {
         super(props);
         this.selectTheme = this.selectTheme.bind(this);

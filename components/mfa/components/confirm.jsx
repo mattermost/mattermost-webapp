@@ -11,7 +11,7 @@ import Constants from 'utils/constants.jsx';
 
 const KeyCodes = Constants.KeyCodes;
 
-export default class Confirm extends React.Component {
+export default class Confirm extends React.PureComponent {
     constructor(props) {
         super(props);
 

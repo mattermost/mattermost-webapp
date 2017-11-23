@@ -15,7 +15,7 @@ import Constants from 'utils/constants.jsx';
 
 var ActionTypes = Constants.ActionTypes;
 
-export default class DeletePostModal extends React.Component {
+export default class DeletePostModal extends React.PureComponent {
     constructor(props) {
         super(props);
 

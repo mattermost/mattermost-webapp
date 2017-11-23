@@ -92,7 +92,7 @@ class UserProvider extends Provider {
     }
 }
 
-export default class UserAutocompleteSetting extends React.Component {
+export default class UserAutocompleteSetting extends React.PureComponent {
     static get propTypes() {
         return {
             id: PropTypes.string.isRequired,

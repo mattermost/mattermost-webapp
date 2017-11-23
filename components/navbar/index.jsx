@@ -41,7 +41,7 @@ import ToggleModalButton from 'components/toggle_modal_button.jsx';
 
 import NavbarInfoButton from './navbar_info_button.jsx';
 
-export default class Navbar extends React.Component {
+export default class Navbar extends React.PureComponent {
     constructor(props) {
         super(props);
 

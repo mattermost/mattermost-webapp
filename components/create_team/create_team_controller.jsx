@@ -12,7 +12,7 @@ import TeamStore from 'stores/team_store.jsx';
 import AnnouncementBar from 'components/announcement_bar';
 import BackButton from 'components/common/back_button.jsx';
 
-export default class CreateTeamController extends React.Component {
+export default class CreateTeamController extends React.PureComponent {
     constructor(props) {
         super(props);
 

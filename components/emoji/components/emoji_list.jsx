@@ -16,7 +16,7 @@ import LoadingScreen from 'components/loading_screen.jsx';
 
 import EmojiListItem from './emoji_list_item.jsx';
 
-export default class EmojiList extends React.Component {
+export default class EmojiList extends React.PureComponent {
     static get propTypes() {
         return {
             team: PropTypes.object,

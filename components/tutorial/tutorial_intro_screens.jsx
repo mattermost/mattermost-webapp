@@ -20,7 +20,7 @@ import AppIcons from 'images/appIcons.png';
 
 const NUM_SCREENS = 3;
 
-export default class TutorialIntroScreens extends React.Component {
+export default class TutorialIntroScreens extends React.PureComponent {
     static get propTypes() {
         return {
             townSquare: PropTypes.object,

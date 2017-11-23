@@ -6,7 +6,7 @@ import React from 'react';
 
 import SearchableUserList from './searchable_user_list.jsx';
 
-export default class SearchableUserListContainer extends React.Component {
+export default class SearchableUserListContainer extends React.PureComponent {
     static propTypes = {
         users: PropTypes.arrayOf(PropTypes.object),
         usersPerPage: PropTypes.number,

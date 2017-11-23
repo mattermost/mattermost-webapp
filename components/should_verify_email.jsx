@@ -9,7 +9,7 @@ import {resendVerification} from 'actions/user_actions.jsx';
 
 import BackButton from 'components/common/back_button.jsx';
 
-export default class ShouldVerifyEmail extends React.Component {
+export default class ShouldVerifyEmail extends React.PureComponent {
     constructor(props) {
         super(props);
 

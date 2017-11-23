@@ -13,7 +13,7 @@ import Constants from 'utils/constants.jsx';
 
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
 
-export default class ConfirmIntegration extends React.Component {
+export default class ConfirmIntegration extends React.PureComponent {
     static get propTypes() {
         return {
             team: PropTypes.object,

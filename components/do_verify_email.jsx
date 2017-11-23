@@ -14,7 +14,7 @@ import BackButton from 'components/common/back_button.jsx';
 
 import LoadingScreen from './loading_screen.jsx';
 
-export default class DoVerifyEmail extends React.Component {
+export default class DoVerifyEmail extends React.PureComponent {
     constructor(props) {
         super(props);
 

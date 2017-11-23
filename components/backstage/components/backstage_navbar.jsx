@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router';
 
-export default class BackstageNavbar extends React.Component {
+export default class BackstageNavbar extends React.PureComponent {
     static get propTypes() {
         return {
             team: PropTypes.object.isRequired

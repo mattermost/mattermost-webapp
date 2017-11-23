@@ -19,7 +19,7 @@ import LoadingScreen from 'components/loading_screen.jsx';
 
 const BACKSPACE_CHAR = 8;
 
-export default class LoggedIn extends React.Component {
+export default class LoggedIn extends React.PureComponent {
     constructor(params) {
         super(params);
 

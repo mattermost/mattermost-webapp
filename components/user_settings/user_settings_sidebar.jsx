@@ -14,7 +14,7 @@ import Constants from 'utils/constants.jsx';
 import SettingItemMax from '../setting_item_max.jsx';
 import SettingItemMin from '../setting_item_min.jsx';
 
-export default class SidebarSettingsDisplay extends React.Component {
+export default class SidebarSettingsDisplay extends React.PureComponent {
     constructor(props) {
         super(props);
 

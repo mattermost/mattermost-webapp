@@ -13,7 +13,7 @@ import DiscardChangesModal from 'components/discard_changes_modal.jsx';
 
 import AdminSidebar from './admin_sidebar';
 
-export default class AdminConsole extends React.Component {
+export default class AdminConsole extends React.PureComponent {
     static propTypes = {
 
         /*

@@ -37,7 +37,7 @@ import ToggleModalButton from 'components/toggle_modal_button.jsx';
 
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
-export default class ChannelHeader extends React.Component {
+export default class ChannelHeader extends React.PureComponent {
     static propTypes = {
         channel: PropTypes.object.isRequired,
         channelMember: PropTypes.object.isRequired,

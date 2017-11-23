@@ -14,7 +14,7 @@ import AnnouncementBar from 'components/announcement_bar';
 import BackstageNavbar from './components/backstage_navbar.jsx';
 import BackstageSidebar from './components/backstage_sidebar.jsx';
 
-export default class BackstageController extends React.Component {
+export default class BackstageController extends React.PureComponent {
     static get propTypes() {
         return {
             user: PropTypes.object,

@@ -6,7 +6,7 @@ import ReactDom from 'react-dom';
 import PropTypes from 'prop-types';
 import {ChromePicker} from 'react-color';
 
-class ColorInput extends React.Component {
+class ColorInput extends React.PureComponent {
     static propTypes = {
 
         /*

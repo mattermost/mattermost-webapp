@@ -24,7 +24,7 @@ import SuggestionList from './suggestion/suggestion_list.jsx';
 
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
-export default class Textbox extends React.Component {
+export default class Textbox extends React.PureComponent {
     static propTypes = {
         id: PropTypes.string.isRequired,
         channelId: PropTypes.string,

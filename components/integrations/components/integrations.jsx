@@ -14,7 +14,7 @@ import SlashCommandIcon from 'images/slash_command_icon.jpg';
 
 import IntegrationOption from './integration_option.jsx';
 
-export default class Integrations extends React.Component {
+export default class Integrations extends React.PureComponent {
     static get propTypes() {
         return {
             team: PropTypes.object,

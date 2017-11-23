@@ -32,7 +32,7 @@ function getDisplayStateFromStores() {
     };
 }
 
-export default class UserSettingsDisplay extends React.Component {
+export default class UserSettingsDisplay extends React.PureComponent {
     constructor(props) {
         super(props);
 

@@ -14,7 +14,7 @@ import * as I18n from 'i18n/i18n.jsx';
 
 import SettingItemMax from '../setting_item_max.jsx';
 
-export default class ManageLanguage extends React.Component {
+export default class ManageLanguage extends React.PureComponent {
     constructor(props) {
         super(props);
 

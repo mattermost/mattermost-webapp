@@ -58,7 +58,7 @@ const holders = defineMessages({
     }
 });
 
-class UserSettingsModal extends React.Component {
+class UserSettingsModal extends React.PureComponent {
     constructor(props) {
         super(props);
 

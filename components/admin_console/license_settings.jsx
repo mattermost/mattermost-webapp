@@ -24,7 +24,7 @@ const holders = defineMessages({
     }
 });
 
-class LicenseSettings extends React.Component {
+class LicenseSettings extends React.PureComponent {
     constructor(props) {
         super(props);
 

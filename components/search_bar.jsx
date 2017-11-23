@@ -24,7 +24,7 @@ import SuggestionBox from './suggestion/suggestion_box.jsx';
 const ActionTypes = Constants.ActionTypes;
 const KeyCodes = Constants.KeyCodes;
 
-export default class SearchBar extends React.Component {
+export default class SearchBar extends React.PureComponent {
     constructor() {
         super();
         this.mounted = false;

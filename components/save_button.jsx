@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-export default class SaveButton extends React.Component {
+export default class SaveButton extends React.PureComponent {
     static get propTypes() {
         return {
             saving: PropTypes.bool.isRequired,
