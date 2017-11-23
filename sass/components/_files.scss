@@ -141,7 +141,7 @@
     height: 100px;
     margin: 5px 10px 5px 0;
     position: relative;
-    width: 240px;
+    width: 400px;
 
     &--placeholder {
         visibility: hidden;
@@ -212,7 +212,7 @@
     @include cursor(zoom-in);
     float: left;
     height: 100%;
-    width: 50%;
+    width: 120px;
 }
 
 .post-image__details {
@@ -224,28 +224,40 @@
     font-size: 13px;
     height: 100%;
     padding: 7px;
-    width: 50%;
+    width: 278px;
     word-break: break-word;
+    line-height: 100px;
 
-    .post-image__name {
-        display: block;
-        margin-bottom: 3px;
+    .post-image__detail {
+        height: 100%;
+        width: 238px;
+        line-height: normal;
+
+        .post-image__name {
+            display: block;
+            margin-bottom: 3px;
+            font-weight: 600;
+        }
+
+        .post-image__type {
+            @include opacity(.6);
+        }
+
+        .post-image__size {
+            @include opacity(.6);
+            margin-left: 4px;
+        }
     }
 
     .post-image__download {
         @include opacity(.7);
         cursor: pointer;
         display: inline-block;
-        padding-right: 7px;
-    }
-
-    .post-image__type {
-        @include opacity(.6);
-    }
-
-    .post-image__size {
-        @include opacity(.6);
-        margin-left: 4px;
+        font-size: 24px !important;
+        right: 0px;
+        top: 0;
+        width: 30px;
+        position: absolute;
     }
 }
 

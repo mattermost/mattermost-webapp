@@ -144,7 +144,7 @@ export default class FileAttachment extends React.PureComponent {
                     target='_blank'
                     rel='noopener noreferrer'
                 >
-                    <span className='fa fa-download'/>
+                    <span className='fa fa-download icon--download'/>
                 </a>
             );
         }

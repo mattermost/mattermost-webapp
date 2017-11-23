@@ -45,10 +45,16 @@ exports[`component/FileAttachment should match snapshot, after change from file 
         rel="noopener noreferrer"
         target="_blank"
       >
-        <span
-          className="fa fa-download"
-        />
-      </a>
+        <a
+          className="post-image__name"
+          download="test.png"
+          href="/api/v4/files/2"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          test.png
+        </a>
+      </OverlayTrigger>
       <span
         className="post-image__type"
       >
@@ -60,6 +66,17 @@ exports[`component/FileAttachment should match snapshot, after change from file 
         100B
       </span>
     </div>
+    <a
+      className="post-image__download"
+      download="test.png"
+      href="/api/v4/files/2"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <span
+        className="fa fa-download icon--download"
+      />
+    </a>
   </div>
 </div>
 `;
@@ -80,6 +97,7 @@ exports[`component/FileAttachment should match snapshot, file with long name 1`]
   <div
     className="post-image__details"
   >
+<<<<<<< HEAD
     <FilenameOverlay
       canDownload={true}
       fileInfo={
@@ -100,11 +118,41 @@ exports[`component/FileAttachment should match snapshot, file with long name 1`]
         href="/api/v4/files/1"
         rel="noopener noreferrer"
         target="_blank"
+=======
+    <div
+      className="post-image__detail"
+    >
+      <OverlayTrigger
+        defaultOverlayShown={false}
+        delayShow={1000}
+        overlay={
+          <Tooltip
+            bsClass="tooltip"
+            id="file-name__tooltip"
+            placement="right"
+          >
+            Download "a-quite-long-filename-to-test-the-filename-shortener.pdf"
+          </Tooltip>
+        }
+        placement="top"
+        trigger={
+          Array [
+            "hover",
+            "focus",
+          ]
+        }
+>>>>>>> basic functionality for image thumbnails improvement
       >
-        <span
-          className="fa fa-download"
-        />
-      </a>
+        <a
+          className="post-image__name"
+          download="a-quite-long-filename-to-test-the-filename-shortener.pdf"
+          href="/api/v4/files/1"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          a-quite-long-filename-to-test-the-f...
+        </a>
+      </OverlayTrigger>
       <span
         className="post-image__type"
       >
@@ -116,6 +164,17 @@ exports[`component/FileAttachment should match snapshot, file with long name 1`]
         100B
       </span>
     </div>
+    <a
+      className="post-image__download"
+      download="a-quite-long-filename-to-test-the-filename-shortener.pdf"
+      href="/api/v4/files/1"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <span
+        className="fa fa-download icon--download"
+      />
+    </a>
   </div>
 </div>
 `;
@@ -136,6 +195,7 @@ exports[`component/FileAttachment should match snapshot, regular file 1`] = `
   <div
     className="post-image__details"
   >
+<<<<<<< HEAD
     <FilenameOverlay
       canDownload={true}
       fileInfo={
@@ -156,11 +216,41 @@ exports[`component/FileAttachment should match snapshot, regular file 1`] = `
         href="/api/v4/files/1"
         rel="noopener noreferrer"
         target="_blank"
+=======
+    <div
+      className="post-image__detail"
+    >
+      <OverlayTrigger
+        defaultOverlayShown={false}
+        delayShow={1000}
+        overlay={
+          <Tooltip
+            bsClass="tooltip"
+            id="file-name__tooltip"
+            placement="right"
+          >
+            Download "test.pdf"
+          </Tooltip>
+        }
+        placement="top"
+        trigger={
+          Array [
+            "hover",
+            "focus",
+          ]
+        }
+>>>>>>> basic functionality for image thumbnails improvement
       >
-        <span
-          className="fa fa-download"
-        />
-      </a>
+        <a
+          className="post-image__name"
+          download="test.pdf"
+          href="/api/v4/files/1"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          test.pdf
+        </a>
+      </OverlayTrigger>
       <span
         className="post-image__type"
       >
@@ -172,6 +262,17 @@ exports[`component/FileAttachment should match snapshot, regular file 1`] = `
         100B
       </span>
     </div>
+    <a
+      className="post-image__download"
+      download="test.pdf"
+      href="/api/v4/files/1"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <span
+        className="fa fa-download icon--download"
+      />
+    </a>
   </div>
 </div>
 `;
@@ -198,6 +299,7 @@ exports[`component/FileAttachment should match snapshot, regular image 1`] = `
   <div
     className="post-image__details"
   >
+<<<<<<< HEAD
     <FilenameOverlay
       canDownload={true}
       fileInfo={
@@ -220,11 +322,41 @@ exports[`component/FileAttachment should match snapshot, regular image 1`] = `
         href="/api/v4/files/1"
         rel="noopener noreferrer"
         target="_blank"
+=======
+    <div
+      className="post-image__detail"
+    >
+      <OverlayTrigger
+        defaultOverlayShown={false}
+        delayShow={1000}
+        overlay={
+          <Tooltip
+            bsClass="tooltip"
+            id="file-name__tooltip"
+            placement="right"
+          >
+            Download "test.png"
+          </Tooltip>
+        }
+        placement="top"
+        trigger={
+          Array [
+            "hover",
+            "focus",
+          ]
+        }
+>>>>>>> basic functionality for image thumbnails improvement
       >
-        <span
-          className="fa fa-download"
-        />
-      </a>
+        <a
+          className="post-image__name"
+          download="test.png"
+          href="/api/v4/files/1"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          test.png
+        </a>
+      </OverlayTrigger>
       <span
         className="post-image__type"
       >
@@ -236,6 +368,17 @@ exports[`component/FileAttachment should match snapshot, regular image 1`] = `
         100B
       </span>
     </div>
+    <a
+      className="post-image__download"
+      download="test.png"
+      href="/api/v4/files/1"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <span
+        className="fa fa-download icon--download"
+      />
+    </a>
   </div>
 </div>
 `;
@@ -262,6 +405,7 @@ exports[`component/FileAttachment should match snapshot, small image 1`] = `
   <div
     className="post-image__details"
   >
+<<<<<<< HEAD
     <FilenameOverlay
       canDownload={true}
       fileInfo={
@@ -284,11 +428,41 @@ exports[`component/FileAttachment should match snapshot, small image 1`] = `
         href="/api/v4/files/1"
         rel="noopener noreferrer"
         target="_blank"
+=======
+    <div
+      className="post-image__detail"
+    >
+      <OverlayTrigger
+        defaultOverlayShown={false}
+        delayShow={1000}
+        overlay={
+          <Tooltip
+            bsClass="tooltip"
+            id="file-name__tooltip"
+            placement="right"
+          >
+            Download "test.png"
+          </Tooltip>
+        }
+        placement="top"
+        trigger={
+          Array [
+            "hover",
+            "focus",
+          ]
+        }
+>>>>>>> basic functionality for image thumbnails improvement
       >
-        <span
-          className="fa fa-download"
-        />
-      </a>
+        <a
+          className="post-image__name"
+          download="test.png"
+          href="/api/v4/files/1"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          test.png
+        </a>
+      </OverlayTrigger>
       <span
         className="post-image__type"
       >
@@ -300,6 +474,17 @@ exports[`component/FileAttachment should match snapshot, small image 1`] = `
         100B
       </span>
     </div>
+    <a
+      className="post-image__download"
+      download="test.png"
+      href="/api/v4/files/1"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <span
+        className="fa fa-download icon--download"
+      />
+    </a>
   </div>
 </div>
 `;
@@ -321,6 +506,7 @@ exports[`component/FileAttachment should match snapshot, svg image 1`] = `
   <div
     className="post-image__details"
   >
+<<<<<<< HEAD
     <FilenameOverlay
       canDownload={true}
       fileInfo={
@@ -343,11 +529,41 @@ exports[`component/FileAttachment should match snapshot, svg image 1`] = `
         href="/api/v4/files/1"
         rel="noopener noreferrer"
         target="_blank"
+=======
+    <div
+      className="post-image__detail"
+    >
+      <OverlayTrigger
+        defaultOverlayShown={false}
+        delayShow={1000}
+        overlay={
+          <Tooltip
+            bsClass="tooltip"
+            id="file-name__tooltip"
+            placement="right"
+          >
+            Download "test.svg"
+          </Tooltip>
+        }
+        placement="top"
+        trigger={
+          Array [
+            "hover",
+            "focus",
+          ]
+        }
+>>>>>>> basic functionality for image thumbnails improvement
       >
-        <span
-          className="fa fa-download"
-        />
-      </a>
+        <a
+          className="post-image__name"
+          download="test.svg"
+          href="/api/v4/files/1"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          test.svg
+        </a>
+      </OverlayTrigger>
       <span
         className="post-image__type"
       >
@@ -359,6 +575,17 @@ exports[`component/FileAttachment should match snapshot, svg image 1`] = `
         100B
       </span>
     </div>
+    <a
+      className="post-image__download"
+      download="test.svg"
+      href="/api/v4/files/1"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <span
+        className="fa fa-download icon--download"
+      />
+    </a>
   </div>
 </div>
 `;
@@ -379,6 +606,7 @@ exports[`component/FileAttachment should match snapshot, when file is not loaded
   <div
     className="post-image__details"
   >
+<<<<<<< HEAD
     <FilenameOverlay
       canDownload={true}
       fileInfo={
@@ -399,11 +627,41 @@ exports[`component/FileAttachment should match snapshot, when file is not loaded
         href="/api/v4/files/1"
         rel="noopener noreferrer"
         target="_blank"
+=======
+    <div
+      className="post-image__detail"
+    >
+      <OverlayTrigger
+        defaultOverlayShown={false}
+        delayShow={1000}
+        overlay={
+          <Tooltip
+            bsClass="tooltip"
+            id="file-name__tooltip"
+            placement="right"
+          >
+            Download "test.pdf"
+          </Tooltip>
+        }
+        placement="top"
+        trigger={
+          Array [
+            "hover",
+            "focus",
+          ]
+        }
+>>>>>>> basic functionality for image thumbnails improvement
       >
-        <span
-          className="fa fa-download"
-        />
-      </a>
+        <a
+          className="post-image__name"
+          download="test.pdf"
+          href="/api/v4/files/1"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          test.pdf
+        </a>
+      </OverlayTrigger>
       <span
         className="post-image__type"
       >
@@ -415,6 +673,17 @@ exports[`component/FileAttachment should match snapshot, when file is not loaded
         100B
       </span>
     </div>
+    <a
+      className="post-image__download"
+      download="test.pdf"
+      href="/api/v4/files/1"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <span
+        className="fa fa-download icon--download"
+      />
+    </a>
   </div>
 </div>
 `;
@@ -435,6 +704,7 @@ exports[`component/FileAttachment should match snapshot, with compact display 1`
   <div
     className="post-image__details"
   >
+<<<<<<< HEAD
     <FilenameOverlay
       canDownload={true}
       compactDisplay={true}
@@ -449,6 +719,37 @@ exports[`component/FileAttachment should match snapshot, with compact display 1`
       handleImageClick={[Function]}
       index={3}
     />
+=======
+    <div
+      className="post-image__detail"
+    >
+      <OverlayTrigger
+        defaultOverlayShown={false}
+        delayShow={1000}
+        overlay={
+          <Tooltip
+            bsClass="tooltip"
+            id="file-name__tooltip"
+            placement="right"
+          >
+            test.pdf
+          </Tooltip>
+        }
+        placement="top"
+        trigger={
+          Array [
+            "hover",
+            "focus",
+          ]
+        }
+      >
+        <AttachmentIcon
+          className="icon"
+        />
+        test.pdf
+      </a>
+    </OverlayTrigger>
+>>>>>>> basic functionality for image thumbnails improvement
     <div>
       <a
         className="post-image__download"
@@ -472,6 +773,17 @@ exports[`component/FileAttachment should match snapshot, with compact display 1`
         100B
       </span>
     </div>
+    <a
+      className="post-image__download"
+      download="test.pdf"
+      href="/api/v4/files/1"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <span
+        className="fa fa-download icon--download"
+      />
+    </a>
   </div>
 </div>
 `;
@@ -492,6 +804,7 @@ exports[`component/FileAttachment should match snapshot, without compact display
   <div
     className="post-image__details"
   >
+<<<<<<< HEAD
     <FilenameOverlay
       canDownload={false}
       fileInfo={
@@ -506,6 +819,16 @@ exports[`component/FileAttachment should match snapshot, without compact display
       index={3}
     />
     <div>
+=======
+    <div
+      className="post-image__detail"
+    >
+      <span
+        className="post-image__name"
+      >
+        test.pdf
+      </span>
+>>>>>>> basic functionality for image thumbnails improvement
       <span
         className="post-image__type"
       >
