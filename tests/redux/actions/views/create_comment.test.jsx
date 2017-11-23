@@ -29,6 +29,8 @@ import * as PostActions from 'actions/post_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as ChannelActions from 'actions/channel_actions.jsx';
 
+import {StoragePrefixes} from 'utils/constants';
+
 const mockStore = configureStore([thunk]);
 
 jest.mock('mattermost-redux/actions/posts', () => ({
@@ -105,7 +107,7 @@ describe('rhs view actions', () => {
             }
         },
         storage: {
-            [`comment_draft_${latestPostId}`]: {
+            [`${StoragePrefixes.COMMENT_DRAFT}${latestPostId}`]: {
                 message: '',
                 fileInfos: [],
                 uploadsInProgress: []
@@ -138,7 +140,7 @@ describe('rhs view actions', () => {
 
             const testStore = mockStore(initialState);
 
-            testStore.dispatch(actionOnGlobalItemsWithPrefix('comment_draft_', callback));
+            testStore.dispatch(actionOnGlobalItemsWithPrefix(StoragePrefixes.COMMENT_DRAFT, callback));
 
             expect(store.getActions()).toEqual(testStore.getActions());
         });
@@ -152,7 +154,7 @@ describe('rhs view actions', () => {
 
             const testStore = mockStore(initialState);
 
-            testStore.dispatch(setGlobalItem(`comment_draft_${rootId}`, draft));
+            testStore.dispatch(setGlobalItem(`${StoragePrefixes.COMMENT_DRAFT}${rootId}`, draft));
 
             expect(store.getActions()).toEqual(testStore.getActions());
         });
@@ -312,7 +314,7 @@ describe('rhs view actions', () => {
             store = mockStore({
                 ...initialState,
                 storage: {
-                    [`comment_draft_${latestPostId}`]: {
+                    [`${StoragePrefixes.COMMENT_DRAFT}${latestPostId}`]: {
                         message: '+:smile:',
                         fileInfos: [],
                         uploadsInProgress: []
@@ -334,7 +336,7 @@ describe('rhs view actions', () => {
             store = mockStore({
                 ...initialState,
                 storage: {
-                    [`comment_draft_${latestPostId}`]: {
+                    [`${StoragePrefixes.COMMENT_DRAFT}${latestPostId}`]: {
                         message: '/away',
                         fileInfos: [],
                         uploadsInProgress: []
@@ -356,7 +358,7 @@ describe('rhs view actions', () => {
             store = mockStore({
                 ...initialState,
                 storage: {
-                    [`comment_draft_${latestPostId}`]: {
+                    [`${StoragePrefixes.COMMENT_DRAFT}${latestPostId}`]: {
                         message: 'test msg',
                         fileInfos: [],
                         uploadsInProgress: []

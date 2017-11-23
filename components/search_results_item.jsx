@@ -24,6 +24,23 @@ import ProfilePicture from './profile_picture.jsx';
 import UserProfile from './user_profile.jsx';
 
 export default class SearchResultsItem extends React.Component {
+    static propTypes = {
+        post: PropTypes.object,
+        lastPostCount: PropTypes.number,
+        user: PropTypes.object,
+        channel: PropTypes.object,
+        compactDisplay: PropTypes.bool,
+        isMentionSearch: PropTypes.bool,
+        isFlaggedSearch: PropTypes.bool,
+        term: PropTypes.string,
+        useMilitaryTime: PropTypes.bool.isRequired,
+        shrink: PropTypes.func,
+        isFlagged: PropTypes.bool,
+        isBusy: PropTypes.bool,
+        status: PropTypes.string,
+        onSelect: PropTypes.func
+    };
+
     constructor(props) {
         super(props);
 
@@ -57,15 +74,15 @@ export default class SearchResultsItem extends React.Component {
     }
 
     componentDidMount() {
-        window.addEventListener('resize', () => {
-            Utils.updateWindowDimensions(this);
-        });
+        window.addEventListener('resize', this.onUpdateWindowDimensions);
     }
 
     componentWillUnmount() {
-        window.removeEventListener('resize', () => {
-            Utils.updateWindowDimensions(this);
-        });
+        window.removeEventListener('resize', this.onUpdateWindowDimensions);
+    }
+
+    onUpdateWindowDimensions = () => {
+        Utils.updateWindowDimensions(this);
     }
 
     shrinkSidebar() {
@@ -76,12 +93,12 @@ export default class SearchResultsItem extends React.Component {
 
     handleFocusRHSClick(e) {
         e.preventDefault();
-        GlobalActions.emitPostFocusRightHandSideFromSearch(this.props.post, this.props.isMentionSearch);
+        this.props.onSelect(this.props.post);
     }
 
     handleJumpClick() {
         if (Utils.isMobile()) {
-            GlobalActions.toggleSideBarAction(false);
+            GlobalActions.emitCloseRightHandSide();
         }
 
         this.shrinkSidebar();
@@ -332,19 +349,3 @@ export default class SearchResultsItem extends React.Component {
         );
     }
 }
-
-SearchResultsItem.propTypes = {
-    post: PropTypes.object,
-    lastPostCount: PropTypes.number,
-    user: PropTypes.object,
-    channel: PropTypes.object,
-    compactDisplay: PropTypes.bool,
-    isMentionSearch: PropTypes.bool,
-    isFlaggedSearch: PropTypes.bool,
-    term: PropTypes.string,
-    useMilitaryTime: PropTypes.bool.isRequired,
-    shrink: PropTypes.func,
-    isFlagged: PropTypes.bool,
-    isBusy: PropTypes.bool,
-    status: PropTypes.string
-};
