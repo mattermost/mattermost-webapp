@@ -24,7 +24,7 @@ function renderFormattedText(value, options) {
 }
 
 function renderJoinChannelMessage(post, options) {
-    const username = renderUsername(post.props.username, options);
+    const username = renderUsername(Utils.displayUsername(post.user_id), options);
 
     return (
         <FormattedMessage
@@ -36,7 +36,7 @@ function renderJoinChannelMessage(post, options) {
 }
 
 function renderLeaveChannelMessage(post, options) {
-    const username = renderUsername(post.props.username, options);
+    const username = renderUsername(Utils.displayUsername(post.user_id), options);
 
     return (
         <FormattedMessage
@@ -48,7 +48,7 @@ function renderLeaveChannelMessage(post, options) {
 }
 
 function renderAddToChannelMessage(post, options) {
-    const username = renderUsername(post.props.username, options);
+    const username = renderUsername(Utils.displayUsername(post.user_id), options);
     const addedUsername = renderUsername(post.props.addedUsername, options);
 
     return (

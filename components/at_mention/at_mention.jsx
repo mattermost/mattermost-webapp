@@ -11,6 +11,8 @@ import Pluggable from 'plugins/pluggable';
 
 import ProfilePopover from 'components/profile_popover.jsx';
 
+import * as Utils from 'utils/utils.jsx';
+
 export default class AtMention extends React.PureComponent {
     static propTypes = {
         mentionName: PropTypes.string.isRequired,
@@ -93,7 +95,7 @@ export default class AtMention extends React.PureComponent {
                         </Pluggable>
                     }
                 >
-                    <a className='mention-link'>{'@' + user.username}</a>
+                    <a className='mention-link'>{'@' + Utils.displayUsernameForUser(user)}</a>
                 </OverlayTrigger>
                 {suffix}
             </span>
