@@ -97,8 +97,6 @@ export const ActionTypes = keyMirror({
     RECEIVED_EDIT_POST: null,
     SET_EDITING_POST: null,
     EDIT_POST: null,
-    RECEIVED_SEARCH: null,
-    RECEIVED_SEARCH_TERM: null,
     SELECT_POST: null,
     RECEIVED_POST_SELECTED: null,
     RECEIVED_MENTION_DATA: null,
@@ -107,6 +105,9 @@ export const ActionTypes = keyMirror({
     RECEIVED_POST_UNPINNED: null,
     INCREASE_POST_VISIBILITY: null,
     LOADING_POSTS: null,
+
+    UPDATE_RHS_STATE: null,
+    UPDATE_RHS_SEARCH_TERMS: null,
 
     RECEIVED_PROFILES: null,
     RECEIVED_PROFILES_IN_TEAM: null,
@@ -337,7 +338,8 @@ export const StorageTypes = keyMirror({
 });
 
 export const StoragePrefixes = {
-    EMBED_VISIBLE: 'isVisible_'
+    EMBED_VISIBLE: 'isVisible_',
+    COMMENT_DRAFT: 'comment_draft_'
 };
 
 export const ErrorPageTypes = {

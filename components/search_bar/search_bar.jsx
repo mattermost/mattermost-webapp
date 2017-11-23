@@ -6,61 +6,43 @@ import React from 'react';
 import {OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
-import {getFlaggedPosts, performSearch} from 'actions/post_actions.jsx';
-import SearchStore from 'stores/search_store.jsx';
-import UserStore from 'stores/user_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
+import SearchChannelProvider from '../suggestion/search_channel_provider.jsx';
+import SearchSuggestionList from '../suggestion/search_suggestion_list.jsx';
+import SearchUserProvider from '../suggestion/search_user_provider.jsx';
+import SuggestionBox from '../suggestion/suggestion_box.jsx';
 
-import SearchChannelProvider from './suggestion/search_channel_provider.jsx';
-import SearchSuggestionList from './suggestion/search_suggestion_list.jsx';
-import SearchUserProvider from './suggestion/search_user_provider.jsx';
-import SuggestionBox from './suggestion/suggestion_box.jsx';
-
-const ActionTypes = Constants.ActionTypes;
-const KeyCodes = Constants.KeyCodes;
+const {KeyCodes} = Constants;
 
 export default class SearchBar extends React.Component {
+    static propTypes = {
+        isSearching: PropTypes.bool,
+        searchTerms: PropTypes.string,
+        isMentionSearch: PropTypes.bool,
+        isFlaggedPosts: PropTypes.bool,
+        actions: PropTypes.shape({
+            updateSearchTerms: PropTypes.func,
+            showSearchResults: PropTypes.func,
+            showMentions: PropTypes.func,
+            showFlaggedPosts: PropTypes.func,
+            closeRightHandSide: PropTypes.func
+        })
+    };
+
     constructor() {
         super();
-        this.mounted = false;
 
-        this.onListenerChange = this.onListenerChange.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleUserFocus = this.handleUserFocus.bind(this);
-        this.handleClear = this.handleClear.bind(this);
-        this.handleUserBlur = this.handleUserBlur.bind(this);
-        this.handleSearch = this.handleSearch.bind(this);
-        this.handleSearchOnSuccess = this.handleSearchOnSuccess.bind(this);
-        this.handleSearchOnError = this.handleSearchOnError.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.searchMentions = this.searchMentions.bind(this);
-        this.getFlagged = this.getFlagged.bind(this);
-        this.handleKeyDown = this.handleKeyDown.bind(this);
-
-        const state = this.getSearchTermStateFromStores();
-        state.focused = false;
-        state.isPristine = true;
-        this.state = state;
+        this.state = {
+            focused: false,
+            isPristine: true
+        };
 
         this.suggestionProviders = [new SearchChannelProvider(), new SearchUserProvider()];
     }
 
-    getSearchTermStateFromStores() {
-        var term = SearchStore.getSearchTerm() || '';
-        return {
-            searchTerm: term
-        };
-    }
-
     componentDidMount() {
-        SearchStore.addSearchTermChangeListener(this.onListenerChange);
-        this.mounted = true;
-
         if (Utils.isMobile()) {
             setTimeout(() => {
                 document.querySelector('.app__body .sidebar--menu').classList.remove('visible');
@@ -68,146 +50,89 @@ export default class SearchBar extends React.Component {
         }
     }
 
-    componentWillUnmount() {
-        SearchStore.removeSearchTermChangeListener(this.onListenerChange);
-        this.mounted = false;
-    }
-
-    onListenerChange(doSearch, isMentionSearch) {
-        if (this.mounted) {
-            var newState = this.getSearchTermStateFromStores();
-            if (!Utils.areObjectsEqual(newState, this.state)) {
-                this.setState(newState);
-            }
-            if (doSearch) {
-                this.handleSearch(newState.searchTerm, isMentionSearch);
-            }
-        }
-    }
-
-    handleClose() {
+    handleClose = () => {
         if (Utils.isMobile()) {
             setTimeout(() => {
                 document.querySelector('.app__body .sidebar--menu').classList.add('visible');
             });
         }
 
-        AppDispatcher.handleServerAction({
-            type: ActionTypes.RECEIVED_SEARCH,
-            results: null
-        });
-
-        AppDispatcher.handleServerAction({
-            type: ActionTypes.RECEIVED_SEARCH_TERM,
-            term: null,
-            do_search: false,
-            is_mention_search: false
-        });
-
-        AppDispatcher.handleServerAction({
-            type: ActionTypes.RECEIVED_POST_SELECTED,
-            postId: null,
-            channelId: null
-        });
+        this.props.actions.closeRightHandSide();
     }
 
-    handleKeyDown(e) {
+    handleKeyDown = (e) => {
         if (e.which === KeyCodes.ESCAPE) {
             e.stopPropagation();
             e.preventDefault();
         }
     }
 
-    handleChange(e) {
+    handleChange = (e) => {
         var term = e.target.value;
-        SearchStore.storeSearchTerm(term);
-        SearchStore.emitSearchTermChange(false, false);
-        this.setState({searchTerm: term});
+        this.props.actions.updateSearchTerms(term);
     }
 
-    handleUserBlur() {
+    handleUserBlur = () => {
         this.setState({focused: false});
     }
 
-    handleClear() {
-        this.setState({searchTerm: ''});
+    handleClear = () => {
+        this.props.actions.updateSearchTerms('');
     }
 
-    handleUserFocus() {
+    handleUserFocus = () => {
         this.setState({focused: true});
     }
 
-    handleSearch(terms, isMentionSearch) {
+    handleSearch = async (terms) => {
         if (terms.length) {
             this.setState({
-                isSearching: true,
                 isPristine: false
             });
 
-            performSearch(
-                terms,
-                isMentionSearch,
-                () => {
-                    this.handleSearchOnSuccess();
-                },
-                () => {
-                    this.handleSearchOnError();
-                }
-            );
-        }
-    }
+            const {error} = await this.props.actions.showSearchResults();
 
-    handleSearchOnSuccess() {
-        if (this.mounted) {
-            this.setState({isSearching: false});
-
-            if (Utils.isMobile() && this.search) {
-                this.search.value = '';
+            if (!error) {
+                this.handleSearchOnSuccess();
             }
         }
     }
 
-    handleSearchOnError() {
-        if (this.mounted) {
-            this.setState({isSearching: false});
+    handleSearchOnSuccess = () => {
+        if (Utils.isMobile() && this.search) {
+            this.search.value = '';
         }
     }
 
-    handleSubmit(e) {
+    handleSubmit = (e) => {
         e.preventDefault();
-        const terms = this.state.searchTerm.trim();
+        const terms = this.props.searchTerms.trim();
 
         if (terms.length === 0) {
             return;
         }
 
-        AppDispatcher.handleServerAction({
-            type: ActionTypes.RECEIVED_SEARCH_TERM,
-            term: terms,
-            do_search: true,
-            is_mention_search: false
-        });
+        this.handleSearch(terms);
 
         this.search.blur();
     }
 
-    searchMentions(e) {
+    searchMentions = (e) => {
         e.preventDefault();
-        const user = UserStore.getCurrentUser();
-        if (SearchStore.isMentionSearch) {
+        if (this.props.isMentionSearch) {
             // Close
-            GlobalActions.toggleSideBarAction(false);
+            this.props.actions.closeRightHandSide();
         } else {
-            GlobalActions.emitSearchMentionsEvent(user);
+            this.props.actions.showMentions();
         }
     }
 
-    getFlagged(e) {
+    getFlagged = (e) => {
         e.preventDefault();
-        if (SearchStore.isFlaggedPosts) {
-            GlobalActions.toggleSideBarAction(false);
+        if (this.props.isFlaggedPosts) {
+            this.props.actions.closeRightHandSide();
         } else {
-            getFlaggedPosts();
+            this.props.actions.showFlaggedPosts();
         }
     }
 
@@ -236,12 +161,12 @@ export default class SearchBar extends React.Component {
         const mentionsIcon = Constants.MENTIONS_ICON_SVG;
 
         var isSearching = null;
-        if (this.state.isSearching) {
+        if (this.props.isSearching) {
             isSearching = <span className={'fa fa-spin fa-spinner'}/>;
         }
 
         let helpClass = 'search-help-popover';
-        if (!this.state.searchTerm && this.state.focused) {
+        if (!this.props.searchTerms && this.state.focused) {
             helpClass += ' visible';
         }
 
@@ -269,7 +194,7 @@ export default class SearchBar extends React.Component {
         let mentionBtn;
         let flagBtn;
         if (this.props.showMentionFlagBtns) {
-            var mentionBtnClass = SearchStore.isMentionSearch ? 'active' : '';
+            var mentionBtnClass = this.props.isMentionSearch ? 'active' : '';
 
             mentionBtn = (
                 <OverlayTrigger
@@ -291,7 +216,7 @@ export default class SearchBar extends React.Component {
                 </OverlayTrigger>
             );
 
-            var flagBtnClass = SearchStore.isFlaggedPosts ? 'active' : '';
+            var flagBtnClass = this.props.isFlaggedPosts ? 'active' : '';
 
             flagBtn = (
                 <OverlayTrigger
@@ -318,7 +243,7 @@ export default class SearchBar extends React.Component {
         }
 
         let clearClass = 'sidebar__search-clear';
-        if (!this.state.isSearching && this.state.searchTerm && this.state.searchTerm.trim() !== '') {
+        if (!this.props.isSearching && this.props.searchTerms && this.props.searchTerms.trim() !== '') {
             clearClass += ' visible';
         }
 
@@ -361,7 +286,7 @@ export default class SearchBar extends React.Component {
                             }}
                             className='search-bar'
                             placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
-                            value={this.state.searchTerm}
+                            value={this.props.searchTerms}
                             onFocus={this.handleUserFocus}
                             onBlur={this.handleUserBlur}
                             onChange={this.handleChange}
@@ -369,7 +294,7 @@ export default class SearchBar extends React.Component {
                             listComponent={SearchSuggestionList}
                             providers={this.suggestionProviders}
                             type='search'
-                            autoFocus={this.props.isFocus && this.state.searchTerm === ''}
+                            autoFocus={this.props.isFocus && this.props.searchTerms === ''}
                         />
                         <div
                             id='searchClearButton'

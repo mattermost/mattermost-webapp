@@ -22,7 +22,7 @@ import ring from 'images/ring.mp3';
 
 import ConnectingScreen from 'components/loading_screen.jsx';
 
-import SearchBox from '../search_bar.jsx';
+import SearchBox from '../search_bar';
 
 import WebrtcHeader from './components/webrtc_header.jsx';
 

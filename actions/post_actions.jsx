@@ -7,17 +7,18 @@ import {batchActions} from 'redux-batched-actions';
 import {PostTypes} from 'mattermost-redux/action_types';
 import {getMyChannelMember} from 'mattermost-redux/actions/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
-import {Client4} from 'mattermost-redux/client';
 import * as Selectors from 'mattermost-redux/selectors/entities/posts';
 
 import {sendDesktopNotification} from 'actions/notification_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
+import * as RhsActions from 'actions/views/rhs';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import PostStore from 'stores/post_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
+
+import {getSelectedPostId} from 'selectors/rhs';
 
 import {ActionTypes, Constants} from 'utils/constants.jsx';
 import {EMOJI_PATTERN} from 'utils/emoticons.jsx';
@@ -102,54 +103,6 @@ export function unflagPost(postId) {
     PostActions.unflagPost(postId)(dispatch, getState);
 }
 
-export function getFlaggedPosts() {
-    Client4.getFlaggedPosts(UserStore.getCurrentId(), '', TeamStore.getCurrentId()).then(
-        (data) => {
-            AppDispatcher.handleServerAction({
-                type: ActionTypes.RECEIVED_SEARCH_TERM,
-                term: null,
-                do_search: false,
-                is_mention_search: false
-            });
-
-            AppDispatcher.handleServerAction({
-                type: ActionTypes.RECEIVED_SEARCH,
-                results: data,
-                is_flagged_posts: true,
-                is_pinned_posts: false
-            });
-
-            PostActions.getProfilesAndStatusesForPosts(data.posts, dispatch, getState);
-        }
-    ).catch(
-        () => {} //eslint-disable-line no-empty-function
-    );
-}
-
-export function getPinnedPosts(channelId = ChannelStore.getCurrentId()) {
-    Client4.getPinnedPosts(channelId).then(
-        (data) => {
-            AppDispatcher.handleServerAction({
-                type: ActionTypes.RECEIVED_SEARCH_TERM,
-                term: null,
-                do_search: false,
-                is_mention_search: false
-            });
-
-            AppDispatcher.handleServerAction({
-                type: ActionTypes.RECEIVED_SEARCH,
-                results: {...data, channelId},
-                is_flagged_posts: false,
-                is_pinned_posts: true
-            });
-
-            PostActions.getProfilesAndStatusesForPosts(data.posts, dispatch, getState);
-        }
-    ).catch(
-        () => {} //eslint-disable-line no-empty-function
-    );
-}
-
 export function addReaction(channelId, postId, emojiName) {
     PostActions.addReaction(postId, emojiName)(dispatch, getState);
 }
@@ -210,7 +163,7 @@ export async function deletePost(channelId, post, success) {
 
     await PostActions.deletePost(post, hardDelete)(dispatch, getState);
 
-    if (post.id === getState().views.rhs.selectedPostId) {
+    if (post.id === getSelectedPostId(getState())) {
         dispatch({
             type: ActionTypes.SELECT_POST,
             postId: '',
@@ -238,30 +191,6 @@ export async function deletePost(channelId, post, success) {
     if (success) {
         success();
     }
-}
-
-export function performSearch(terms, isMentionSearch, success, error) {
-    Client4.searchPosts(TeamStore.getCurrentId(), terms, isMentionSearch).then(
-        (data) => {
-            AppDispatcher.handleServerAction({
-                type: ActionTypes.RECEIVED_SEARCH,
-                results: data,
-                is_mention_search: isMentionSearch
-            });
-
-            PostActions.getProfilesAndStatusesForPosts(data.posts, dispatch, getState);
-
-            if (success) {
-                success(data);
-            }
-        }
-    ).catch(
-        (err) => {
-            if (error) {
-                error(err);
-            }
-        }
-    );
 }
 
 const POST_INCREASE_AMOUNT = Constants.POST_CHUNK_SIZE / 2;
@@ -313,11 +242,8 @@ export function increasePostVisibility(channelId, focusedPostId) {
 }
 
 export function searchForTerm(term) {
-    AppDispatcher.handleServerAction({
-        type: ActionTypes.RECEIVED_SEARCH_TERM,
-        term,
-        do_search: true
-    });
+    dispatch(RhsActions.updateSearchTerms(term));
+    dispatch(RhsActions.showSearchResults());
 }
 
 export function pinPost(postId) {

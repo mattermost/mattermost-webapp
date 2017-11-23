@@ -429,9 +429,14 @@ export default class EmojiPicker extends React.Component {
             pickerStyle.top += this.props.topOffset;
         }
 
+        let pickerClass = 'emoji-picker';
+        if (this.props.placement === 'bottom') {
+            pickerClass += ' bottom';
+        }
+
         return (
             <div
-                className='emoji-picker'
+                className={pickerClass}
                 style={pickerStyle}
             >
                 {this.emojiCategories()}

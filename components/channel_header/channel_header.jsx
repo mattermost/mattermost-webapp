@@ -9,10 +9,8 @@ import {FormattedMessage} from 'react-intl';
 import 'bootstrap';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import {getFlaggedPosts, getPinnedPosts} from 'actions/post_actions.jsx';
 import * as WebrtcActions from 'actions/webrtc_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-import SearchStore from 'stores/search_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 
 import * as ChannelUtils from 'utils/channel_utils.jsx';
@@ -31,7 +29,7 @@ import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import MessageWrapper from 'components/message_wrapper.jsx';
 import PopoverListMembers from 'components/popover_list_members';
 import RenameChannelModal from 'components/rename_channel_modal';
-import NavbarSearchBox from 'components/search_bar.jsx';
+import NavbarSearchBox from 'components/search_bar';
 import StatusIcon from 'components/status_icon.jsx';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
 
@@ -49,10 +47,17 @@ export default class ChannelHeader extends React.Component {
         dmUserStatus: PropTypes.object,
         dmUserIsInCall: PropTypes.bool,
         enableFormatting: PropTypes.bool.isRequired,
+        rhsState: PropTypes.oneOf(
+            Object.values(RHSStates)
+        ),
         actions: PropTypes.shape({
             leaveChannel: PropTypes.func.isRequired,
             favoriteChannel: PropTypes.func.isRequired,
-            unfavoriteChannel: PropTypes.func.isRequired
+            unfavoriteChannel: PropTypes.func.isRequired,
+            showFlaggedPosts: PropTypes.func.isRequired,
+            showPinnedPosts: PropTypes.func.isRequired,
+            showMentions: PropTypes.func.isRequired,
+            closeRightHandSide: PropTypes.func.isRequired
         }).isRequired
     }
 
@@ -69,7 +74,6 @@ export default class ChannelHeader extends React.Component {
             showEditChannelPurposeModal: false,
             showMembersModal: false,
             showRenameChannelModal: false,
-            rhsState: '',
             isBusy: WebrtcStore.isBusy()
         };
     }
@@ -77,27 +81,13 @@ export default class ChannelHeader extends React.Component {
     componentDidMount() {
         WebrtcStore.addChangedListener(this.onWebrtcChange);
         WebrtcStore.addBusyListener(this.onBusy);
-        SearchStore.addSearchChangeListener(this.onSearchChange);
         document.addEventListener('keydown', this.handleShortcut);
     }
 
     componentWillUnmount() {
         WebrtcStore.removeChangedListener(this.onWebrtcChange);
         WebrtcStore.removeBusyListener(this.onBusy);
-        SearchStore.removeSearchChangeListener(this.onSearchChange);
         document.removeEventListener('keydown', this.handleShortcut);
-    }
-
-    onSearchChange = () => {
-        let rhsState = '';
-        if (SearchStore.isPinnedPosts) {
-            rhsState = RHSStates.PIN;
-        } else if (SearchStore.isFlaggedPosts) {
-            rhsState = RHSStates.FLAG;
-        } else if (SearchStore.isMentionSearch) {
-            rhsState = RHSStates.MENTION;
-        }
-        this.setState({rhsState});
     }
 
     onWebrtcChange = () => {
@@ -126,28 +116,28 @@ export default class ChannelHeader extends React.Component {
 
     searchMentions = (e) => {
         e.preventDefault();
-        if (this.state.rhsState === RHSStates.MENTION) {
-            GlobalActions.toggleSideBarAction(false);
+        if (this.props.rhsState === RHSStates.MENTION) {
+            this.props.actions.closeRightHandSide();
         } else {
-            GlobalActions.emitSearchMentionsEvent(this.props.currentUser);
+            this.props.actions.showMentions();
         }
     }
 
     getPinnedPosts = (e) => {
         e.preventDefault();
-        if (this.state.rhsState === RHSStates.PIN) {
-            GlobalActions.toggleSideBarAction(false);
+        if (this.props.rhsState === RHSStates.PIN) {
+            this.props.actions.closeRightHandSide();
         } else {
-            getPinnedPosts(this.props.channel.id);
+            this.props.actions.showPinnedPosts();
         }
     }
 
     getFlagged = (e) => {
         e.preventDefault();
-        if (this.state.rhsState === RHSStates.FLAG) {
-            GlobalActions.toggleSideBarAction(false);
+        if (this.props.rhsState === RHSStates.FLAG) {
+            this.props.actions.closeRightHandSide();
         } else {
-            getFlaggedPosts();
+            this.props.actions.showFlaggedPosts();
         }
     }
 
@@ -176,7 +166,7 @@ export default class ChannelHeader extends React.Component {
 
     initWebrtc = (contactId, isOnline) => {
         if (isOnline && !this.state.isBusy) {
-            GlobalActions.emitCloseRightHandSide();
+            this.props.actions.closeRightHandSide();
             WebrtcActions.initWebrtc(contactId, true);
         }
     }
@@ -840,7 +830,7 @@ export default class ChannelHeader extends React.Component {
         }
 
         let pinnedIconClass = 'channel-header__icon';
-        if (this.state.rhsState === RHSStates.PIN) {
+        if (this.props.rhsState === RHSStates.PIN) {
             pinnedIconClass += ' active';
         }
 

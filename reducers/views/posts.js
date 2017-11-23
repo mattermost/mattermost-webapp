@@ -3,8 +3,9 @@
 
 import {combineReducers} from 'redux';
 
-import {ActionTypes} from 'utils/constants.jsx';
 import {UserTypes} from 'mattermost-redux/action_types';
+
+import {ActionTypes} from 'utils/constants.jsx';
 
 function editingPost(state = '', action) {
     switch (action.type) {
