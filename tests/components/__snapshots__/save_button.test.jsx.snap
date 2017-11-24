@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/SaveButton should match snapshot, on defaultMessage 1`] = `
+<button
+  className="save-button btn btn-primary"
+  disabled={false}
+  id="saveSetting"
+  type="submit"
+>
+  Save
+</button>
+`;
+
+exports[`components/SaveButton should match snapshot, on savingMessage 1`] = `
+<button
+  className="save-button btn"
+  disabled={true}
+  id="saveSetting"
+  type="submit"
+>
+  <span>
+    <span
+      className="icon fa fa-refresh icon--rotate"
+    />
+    Saving
+  </span>
+</button>
+`;

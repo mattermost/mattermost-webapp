@@ -1255,6 +1255,8 @@
   "backstage_sidebar.integrations.incoming_webhooks": "Incoming Webhooks",
   "backstage_sidebar.integrations.oauthApps": "OAuth 2.0 Applications",
   "backstage_sidebar.integrations.outgoing_webhooks": "Outgoing Webhooks",
+  "save_button.save": "Save",
+  "save_button.saving": "Saving",
   "calling_screen": "Calling",
   "center_panel.recent": "Click here to jump to recent messages. ",
   "change_url.close": "Close",
