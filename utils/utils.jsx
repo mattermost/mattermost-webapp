@@ -1342,8 +1342,8 @@ export function getPasswordConfig() {
         requireLowercase: global.window.mm_config.PasswordRequireLowercase === 'true',
         requireUppercase: global.window.mm_config.PasswordRequireUppercase === 'true',
         requireNumber: global.window.mm_config.PasswordRequireNumber === 'true',
-        requireSymbol: global.window.mm_config.PasswordRequireSymbol === 'true',
-    }
+        requireSymbol: global.window.mm_config.PasswordRequireSymbol === 'true'
+    };
 }
 
 export function isValidPassword(password, passwordConfig) {

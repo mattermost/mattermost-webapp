@@ -6,84 +6,84 @@ describe('Utils.isValidPassword', function() {
             {
                 password: 'four',
                 config: { // not EE, so password just has to be min < length < max
-                  isEnterprise: false,
-                  isLicensed: true,
-                  isPasswordRequirements: true,
+                    isEnterprise: false,
+                    isLicensed: true,
+                    isPasswordRequirements: true
                 },
-                valid: false,
+                valid: false
             },
             {
                 password: 'thistestpasswordismorethansixtyfourcharacterslongsoitstoolongtobeapassword',
                 config: { // not EE, so password just has to be min < length < max
                     isEnterprise: false,
                     isLicensed: true,
-                    isPasswordRequirements: true,
+                    isPasswordRequirements: true
                 },
-                valid: false,
+                valid: false
             },
             {
                 password: 'thisisavalidpassword',
                 config: { // not EE, so password just has to be min < length < max
                     isEnterprise: false,
                     isLicensed: true,
-                    isPasswordRequirements: true,
+                    isPasswordRequirements: true
                 },
-                valid: true,
+                valid: true
             },
             {
                 password: 'four',
                 config: { // not EE, so password just has to be min < length < max
                     isEnterprise: true,
                     isLicensed: false,
-                    isPasswordRequirements: true,
+                    isPasswordRequirements: true
                 },
-                valid: false,
+                valid: false
             },
             {
                 password: 'thistestpasswordismorethansixtyfourcharacterslongsoitstoolongtobeapassword',
                 config: { // not EE, so password just has to be min < length < max
                     isEnterprise: true,
                     isLicensed: false,
-                    isPasswordRequirements: true,
+                    isPasswordRequirements: true
                 },
-                valid: false,
+                valid: false
             },
             {
                 password: 'thisisavalidpassword',
                 config: { // not EE, so password just has to be min < length < max
                     isEnterprise: true,
                     isLicensed: false,
-                    isPasswordRequirements: true,
+                    isPasswordRequirements: true
                 },
-                valid: true,
+                valid: true
             },
             {
                 password: 'four',
                 config: { // not EE, so password just has to be min < length < max
                     isEnterprise: true,
                     isLicensed: true,
-                    isPasswordRequirements: false,
+                    isPasswordRequirements: false
                 },
-                valid: false,
+                valid: false
             },
             {
                 password: 'thistestpasswordismorethansixtyfourcharacterslongsoitstoolongtobeapassword',
                 config: { // not EE, so password just has to be min < length < max
                     isEnterprise: true,
                     isLicensed: true,
-                    isPasswordRequirements: false,
+                    isPasswordRequirements: false
                 },
-                valid: false,
+                valid: false
             },
             {
                 password: 'thisisavalidpassword',
                 config: { // not EE, so password just has to be min < length < max
                     isEnterprise: true,
                     isLicensed: true,
-                    isPasswordRequirements: false,
+                    isPasswordRequirements: false
                 },
-                valid: true,
-            },
+                valid: true
+            }
         ]) {
             const errorMsg = Utils.isValidPassword(data.password, data.config);
             if (data.valid) {
@@ -106,9 +106,9 @@ describe('Utils.isValidPassword', function() {
                     requireLowercase: false,
                     requireUppercase: false,
                     requireNumber: false,
-                    requireSymbol: false,
+                    requireSymbol: false
                 },
-                valid: false,
+                valid: false
             },
             {
                 password: 'longenoughpassword',
@@ -120,10 +120,10 @@ describe('Utils.isValidPassword', function() {
                     requireLowercase: false,
                     requireUppercase: false,
                     requireNumber: false,
-                    requireSymbol: false,
+                    requireSymbol: false
                 },
-                valid: true,
-            },
+                valid: true
+            }
         ]) {
             const errorMsg = Utils.isValidPassword(data.password, data.config);
             if (data.valid) {
@@ -146,9 +146,9 @@ describe('Utils.isValidPassword', function() {
                     requireLowercase: true,
                     requireUppercase: false,
                     requireNumber: false,
-                    requireSymbol: false,
+                    requireSymbol: false
                 },
-                valid: false,
+                valid: false
             },
             {
                 password: 'SOMELowercase',
@@ -160,10 +160,10 @@ describe('Utils.isValidPassword', function() {
                     requireLowercase: true,
                     requireUppercase: false,
                     requireNumber: false,
-                    requireSymbol: false,
+                    requireSymbol: false
                 },
-                valid: true,
-            },
+                valid: true
+            }
         ]) {
             const errorMsg = Utils.isValidPassword(data.password, data.config);
             if (data.valid) {
@@ -186,9 +186,9 @@ describe('Utils.isValidPassword', function() {
                     requireLowercase: false,
                     requireUppercase: true,
                     requireNumber: false,
-                    requireSymbol: false,
+                    requireSymbol: false
                 },
-                valid: false,
+                valid: false
             },
             {
                 password: 'SOMEUppercase',
@@ -200,10 +200,10 @@ describe('Utils.isValidPassword', function() {
                     requireLowercase: false,
                     requireUppercase: true,
                     requireNumber: false,
-                    requireSymbol: false,
+                    requireSymbol: false
                 },
-                valid: true,
-            },
+                valid: true
+            }
         ]) {
             const errorMsg = Utils.isValidPassword(data.password, data.config);
             if (data.valid) {
@@ -226,9 +226,9 @@ describe('Utils.isValidPassword', function() {
                     requireLowercase: true,
                     requireUppercase: true,
                     requireNumber: true,
-                    requireSymbol: false,
+                    requireSymbol: false
                 },
-                valid: false,
+                valid: false
             },
             {
                 password: 'S0m3Numb3rs',
@@ -240,10 +240,10 @@ describe('Utils.isValidPassword', function() {
                     requireLowercase: true,
                     requireUppercase: true,
                     requireNumber: true,
-                    requireSymbol: false,
+                    requireSymbol: false
                 },
-                valid: true,
-            },
+                valid: true
+            }
         ]) {
             const errorMsg = Utils.isValidPassword(data.password, data.config);
             if (data.valid) {
@@ -266,9 +266,9 @@ describe('Utils.isValidPassword', function() {
                     requireLowercase: true,
                     requireUppercase: true,
                     requireNumber: true,
-                    requireSymbol: true,
+                    requireSymbol: true
                 },
-                valid: false,
+                valid: false
             },
             {
                 password: 'S0m3Symb0!s',
@@ -280,10 +280,10 @@ describe('Utils.isValidPassword', function() {
                     requireLowercase: true,
                     requireUppercase: true,
                     requireNumber: true,
-                    requireSymbol: true,
+                    requireSymbol: true
                 },
-                valid: true,
-            },
+                valid: true
+            }
         ]) {
             const errorMsg = Utils.isValidPassword(data.password, data.config);
             if (data.valid) {
