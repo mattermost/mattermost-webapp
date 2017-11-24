@@ -207,7 +207,7 @@ export default class SignupEmail extends React.Component {
         }
 
         const providedPassword = this.refs.password.value;
-        const pwdError = Utils.isValidPassword(providedPassword);
+        const pwdError = Utils.isValidPassword(providedPassword, Utils.getPasswordConfig());
         if (pwdError) {
             this.setState({
                 nameError: '',
