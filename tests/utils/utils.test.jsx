@@ -32,7 +32,7 @@ describe('Utils.isValidPassword', function() {
             },
             {
                 password: 'four',
-                config: { // not EE, so password just has to be min < length < max
+                config: { // not licensed, so password just has to be min < length < max
                     isEnterprise: true,
                     isLicensed: false,
                     isPasswordRequirements: true
@@ -41,7 +41,7 @@ describe('Utils.isValidPassword', function() {
             },
             {
                 password: 'thistestpasswordismorethansixtyfourcharacterslongsoitstoolongtobeapassword',
-                config: { // not EE, so password just has to be min < length < max
+                config: { // not licensed, so password just has to be min < length < max
                     isEnterprise: true,
                     isLicensed: false,
                     isPasswordRequirements: true
@@ -50,7 +50,7 @@ describe('Utils.isValidPassword', function() {
             },
             {
                 password: 'thisisavalidpassword',
-                config: { // not EE, so password just has to be min < length < max
+                config: { // not licensed, so password just has to be min < length < max
                     isEnterprise: true,
                     isLicensed: false,
                     isPasswordRequirements: true
@@ -59,7 +59,7 @@ describe('Utils.isValidPassword', function() {
             },
             {
                 password: 'four',
-                config: { // not EE, so password just has to be min < length < max
+                config: { // no password requirements, so password just has to be min < length < max
                     isEnterprise: true,
                     isLicensed: true,
                     isPasswordRequirements: false
@@ -68,7 +68,7 @@ describe('Utils.isValidPassword', function() {
             },
             {
                 password: 'thistestpasswordismorethansixtyfourcharacterslongsoitstoolongtobeapassword',
-                config: { // not EE, so password just has to be min < length < max
+                config: { // no password requirements, so password just has to be min < length < max
                     isEnterprise: true,
                     isLicensed: true,
                     isPasswordRequirements: false
@@ -77,7 +77,7 @@ describe('Utils.isValidPassword', function() {
             },
             {
                 password: 'thisisavalidpassword',
-                config: { // not EE, so password just has to be min < length < max
+                config: { // no password requirements, so password just has to be min < length < max
                     isEnterprise: true,
                     isLicensed: true,
                     isPasswordRequirements: false
