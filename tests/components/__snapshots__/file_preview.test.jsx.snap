@@ -1,0 +1,142 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component/FilePreview should match snapshot 1`] = `
+<div
+  className="file-preview__container"
+>
+  <div
+    className="file-preview"
+    key="file_id_1"
+  >
+    <div
+      className="post-image normal"
+      style={
+        Object {
+          "backgroundImage": "url(/api/v4/files/file_id_1/thumbnail)",
+        }
+      }
+    />
+    <a
+      className="file-preview__remove"
+      onClick={[Function]}
+    >
+      <i
+        className="fa fa-remove"
+      />
+    </a>
+  </div>
+  <div
+    className="file-preview"
+    data-client-id="clientID_1"
+    key="clientID_1"
+  >
+    <img
+      className="spinner"
+      src={null}
+    />
+    <a
+      className="file-preview__remove"
+      onClick={[Function]}
+    >
+      <i
+        className="fa fa-remove"
+      />
+    </a>
+  </div>
+</div>
+`;
+
+exports[`component/FilePreview should match snapshot when props are changed 1`] = `
+<div
+  className="file-preview__container"
+>
+  <div
+    className="file-preview"
+    key="file_id_1"
+  >
+    <div
+      className="post-image normal"
+      style={
+        Object {
+          "backgroundImage": "url(/api/v4/files/file_id_1/thumbnail)",
+        }
+      }
+    />
+    <a
+      className="file-preview__remove"
+      onClick={[Function]}
+    >
+      <i
+        className="fa fa-remove"
+      />
+    </a>
+  </div>
+  <div
+    className="file-preview"
+    data-client-id="clientID_1"
+    key="clientID_1"
+  >
+    <img
+      className="spinner"
+      src={null}
+    />
+    <a
+      className="file-preview__remove"
+      onClick={[Function]}
+    >
+      <i
+        className="fa fa-remove"
+      />
+    </a>
+  </div>
+</div>
+`;
+
+exports[`component/FilePreview should match snapshot when props are changed 2`] = `
+<div
+  className="file-preview__container"
+>
+  <div
+    className="file-preview"
+    key="file_id_1"
+  >
+    <div
+      className="post-image normal"
+      style={
+        Object {
+          "backgroundImage": "url(/api/v4/files/file_id_1/thumbnail)",
+        }
+      }
+    />
+    <a
+      className="file-preview__remove"
+      onClick={[Function]}
+    >
+      <i
+        className="fa fa-remove"
+      />
+    </a>
+  </div>
+  <div
+    className="file-preview"
+    key="file_id_2"
+  >
+    <div
+      className="post-image normal"
+      style={
+        Object {
+          "backgroundImage": "url(/api/v4/files/file_id_2/thumbnail)",
+        }
+      }
+    />
+    <a
+      className="file-preview__remove"
+      onClick={[Function]}
+    >
+      <i
+        className="fa fa-remove"
+      />
+    </a>
+  </div>
+</div>
+`;
