@@ -1,0 +1,234 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/integrations/DotMenu should match snapshot, canDelete 1`] = `
+<div
+  className="dropdown"
+  id={null}
+>
+  <div
+    id="center_dropdownpost_id_1"
+  >
+    <button
+      aria-expanded="false"
+      className="dropdown-toggle post__dropdown color--link style--none"
+      data-toggle="dropdown"
+      type="button"
+    />
+    <div
+      className="dropdown-menu__content"
+    >
+      <ul
+        className="dropdown-menu"
+        role="menu"
+      >
+        <DotMenuItem
+          handleOnClick={[Function]}
+          idCount={-1}
+          idPrefix="centerDotMenuReply"
+        />
+        <DotMenuItem
+          idCount={-1}
+          idPrefix="centerDotMenuPermalink"
+          post={
+            Object {
+              "id": "post_id_1",
+              "is_pinned": false,
+            }
+          }
+        />
+        <DotMenuItem
+          actions={
+            Object {
+              "pinPost": [Function],
+              "unpinPost": [Function],
+            }
+          }
+          idCount={-1}
+          idPrefix="centerDotMenuPin"
+          post={
+            Object {
+              "id": "post_id_1",
+              "is_pinned": false,
+            }
+          }
+        />
+        <DotMenuItem
+          commentCount={0}
+          idCount={-1}
+          idPrefix="centerDotMenuDelete"
+          post={
+            Object {
+              "id": "post_id_1",
+              "is_pinned": false,
+            }
+          }
+        />
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/integrations/DotMenu should match snapshot, on Center 1`] = `
+<div
+  className="dropdown"
+  id={null}
+>
+  <div
+    id="center_dropdownpost_id_1"
+  >
+    <button
+      aria-expanded="false"
+      className="dropdown-toggle post__dropdown color--link style--none"
+      data-toggle="dropdown"
+      type="button"
+    />
+    <div
+      className="dropdown-menu__content"
+    >
+      <ul
+        className="dropdown-menu"
+        role="menu"
+      >
+        <DotMenuItem
+          handleOnClick={[Function]}
+          idCount={-1}
+          idPrefix="centerDotMenuReply"
+        />
+        <DotMenuItem
+          idCount={-1}
+          idPrefix="centerDotMenuPermalink"
+          post={
+            Object {
+              "id": "post_id_1",
+              "is_pinned": false,
+            }
+          }
+        />
+        <DotMenuItem
+          actions={
+            Object {
+              "pinPost": [Function],
+              "unpinPost": [Function],
+            }
+          }
+          idCount={-1}
+          idPrefix="centerDotMenuPin"
+          post={
+            Object {
+              "id": "post_id_1",
+              "is_pinned": false,
+            }
+          }
+        />
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/integrations/DotMenu should match snapshot, on Center 2`] = `
+<div
+  className="dropdown"
+  id="rhsrootDotMenu"
+>
+  <div
+    id="rhsroot_dropdownpost_id_1"
+  >
+    <button
+      aria-expanded="false"
+      className="dropdown-toggle post__dropdown color--link style--none"
+      data-toggle="dropdown"
+      type="button"
+    />
+    <div
+      className="dropdown-menu__content"
+    >
+      <ul
+        className="dropdown-menu"
+        role="menu"
+      >
+        <DotMenuItem
+          idCount={2}
+          idPrefix="rhsrootDotMenuPermalink"
+          post={
+            Object {
+              "id": "post_id_1",
+              "is_pinned": false,
+            }
+          }
+        />
+        <DotMenuItem
+          actions={
+            Object {
+              "pinPost": [Function],
+              "unpinPost": [Function],
+            }
+          }
+          idCount={2}
+          idPrefix="rhsrootDotMenuPin"
+          post={
+            Object {
+              "id": "post_id_1",
+              "is_pinned": false,
+            }
+          }
+        />
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/integrations/DotMenu should match snapshot, on Center 3`] = `
+<div
+  className="dropdown"
+  id="rhsrootDotMenu"
+>
+  <div
+    id="rhsroot_dropdownpost_id_1"
+  >
+    <button
+      aria-expanded="false"
+      className="dropdown-toggle post__dropdown color--link style--none"
+      data-toggle="dropdown"
+      type="button"
+    />
+    <div
+      className="dropdown-menu__content"
+    >
+      <ul
+        className="dropdown-menu"
+        role="menu"
+      >
+        <DotMenuItem
+          idCount={2}
+          idPrefix="rhsrootDotMenuPermalink"
+          post={
+            Object {
+              "id": "post_id_1",
+              "root_id": "post_root_id",
+            }
+          }
+        />
+        <DotMenuItem
+          actions={
+            Object {
+              "pinPost": [Function],
+              "unpinPost": [Function],
+            }
+          }
+          idCount={2}
+          idPrefix="rhsrootDotMenuPin"
+          post={
+            Object {
+              "id": "post_id_1",
+              "root_id": "post_root_id",
+            }
+          }
+        />
+      </ul>
+    </div>
+  </div>
+</div>
+`;
