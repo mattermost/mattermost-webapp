@@ -416,9 +416,9 @@ export default class CreateComment extends React.PureComponent {
         if (draft.fileInfos.length > 0 || draft.uploadsInProgress.length > 0) {
             preview = (
                 <FilePreview
-                    fileInfos={[...draft.fileInfos]}
+                    fileInfos={draft.fileInfos}
                     onRemove={this.removePreview}
-                    uploadsInProgress={[...draft.uploadsInProgress]}
+                    uploadsInProgress={draft.uploadsInProgress}
                     ref='preview'
                 />
             );

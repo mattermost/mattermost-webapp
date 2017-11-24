@@ -654,9 +654,9 @@ export default class CreatePost extends React.Component {
         if (this.state.fileInfos.length > 0 || this.state.uploadsInProgress.length > 0) {
             preview = (
                 <FilePreview
-                    fileInfos={[...this.state.fileInfos]}
+                    fileInfos={this.state.fileInfos}
                     onRemove={this.removePreview}
-                    uploadsInProgress={[...this.state.uploadsInProgress]}
+                    uploadsInProgress={this.state.uploadsInProgress}
                 />
             );
         }
