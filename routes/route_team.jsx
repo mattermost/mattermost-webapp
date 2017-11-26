@@ -53,7 +53,13 @@ function doChannelChange(state, replace, callback) {
             joinChannel(UserStore.getCurrentId(), TeamStore.getCurrentId(), null, state.params.channel)(dispatch, getState).then(
                 (result) => {
                     if (result.data) {
-                        GlobalActions.emitChannelClickEvent(result.data.channel);
+                        channel = result.data.channel;
+                        if (channel && channel.type === Constants.DM_CHANNEL) {
+                            loadNewDMIfNeeded(channel.id);
+                        } else if (channel && channel.type === Constants.GM_CHANNEL) {
+                            loadNewGMIfNeeded(channel.id);
+                        }
+                        GlobalActions.emitChannelClickEvent(channel);
                     } else if (result.error) {
                         if (state.params.team) {
                             replace('/' + state.params.team + '/channels/town-square');
