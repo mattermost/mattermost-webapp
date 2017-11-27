@@ -158,9 +158,10 @@ export default class NeedsTeam extends React.Component {
         document.removeEventListener('keydown', this.shortcutKeyDown);
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (!Utils.areObjectsEqual(nextProps.theme, this.props.theme)) {
-            Utils.applyTheme(nextProps.theme);
+    componentDidUpdate(prevProps) {
+        const {theme} = this.props;
+        if (!Utils.areObjectsEqual(prevProps.theme, theme)) {
+            Utils.applyTheme(theme);
         }
     }
 
