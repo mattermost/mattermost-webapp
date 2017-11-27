@@ -56,6 +56,7 @@ export default class NeedsTeam extends React.Component {
             PropTypes.element
         ]),
         navbar: PropTypes.element,
+        params: PropTypes.object,
         sidebar: PropTypes.element,
         team_sidebar: PropTypes.element,
         center: PropTypes.element,
@@ -63,27 +64,26 @@ export default class NeedsTeam extends React.Component {
         actions: PropTypes.shape({
             viewChannel: PropTypes.func.isRequired,
             getMyChannelMembers: PropTypes.func.isRequired
-        }).isRequired
+        }).isRequired,
+        theme: PropTypes.object.isRequired
     }
 
     constructor(params) {
         super(params);
 
-        this.onTeamChanged = this.onTeamChanged.bind(this);
-        this.onPreferencesChanged = this.onPreferencesChanged.bind(this);
-        this.shortcutKeyDown = this.shortcutKeyDown.bind(this);
+        this.teamChanged = (e) => this.onTeamChanged(e);
+        this.shortcutKeyDown = (e) => this.onShortcutKeyDown(e);
 
         this.blurTime = new Date().getTime();
 
         const team = TeamStore.getCurrent();
 
         this.state = {
-            team,
-            theme: PreferenceStore.getTheme(team.id)
+            team
         };
     }
 
-    shortcutKeyDown(e) {
+    onShortcutKeyDown(e) {
         if (e.shiftKey && e.ctrlKey && e.keyCode === Constants.KeyCodes.L) {
             if (document.getElementById('sidebar-right').className.match('sidebar--right sidebar--right--expanded')) {
                 document.getElementById('reply_textbox').focus();
@@ -97,17 +97,8 @@ export default class NeedsTeam extends React.Component {
         const team = TeamStore.getCurrent();
 
         this.setState({
-            team,
-            theme: PreferenceStore.getTheme(team.id)
+            team
         });
-    }
-
-    onPreferencesChanged(category) {
-        if (!category || category === Preferences.CATEGORY_THEME) {
-            this.setState({
-                theme: PreferenceStore.getTheme(this.state.team.id)
-            });
-        }
     }
 
     componentWillMount() {
@@ -119,8 +110,7 @@ export default class NeedsTeam extends React.Component {
     }
 
     componentDidMount() {
-        TeamStore.addChangeListener(this.onTeamChanged);
-        PreferenceStore.addChangeListener(this.onPreferencesChanged);
+        TeamStore.addChangeListener(this.teamChanged);
 
         startPeriodicStatusUpdates();
         startPeriodicSync();
@@ -146,7 +136,7 @@ export default class NeedsTeam extends React.Component {
             }
         });
 
-        Utils.applyTheme(this.state.theme);
+        Utils.applyTheme(this.props.theme);
 
         if (UserAgent.isIosSafari()) {
             // Use iNoBounce to prevent scrolling past the boundaries of the page
@@ -155,15 +145,8 @@ export default class NeedsTeam extends React.Component {
         document.addEventListener('keydown', this.shortcutKeyDown);
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (!Utils.areObjectsEqual(prevState.theme, this.state.theme)) {
-            Utils.applyTheme(this.state.theme);
-        }
-    }
-
     componentWillUnmount() {
-        TeamStore.removeChangeListener(this.onTeamChanged);
-        PreferenceStore.removeChangeListener(this.onPreferencesChanged);
+        TeamStore.removeChangeListener(this.teamChanged);
         $(window).off('focus');
         $(window).off('blur');
 
@@ -173,6 +156,13 @@ export default class NeedsTeam extends React.Component {
         stopPeriodicStatusUpdates();
         stopPeriodicSync();
         document.removeEventListener('keydown', this.shortcutKeyDown);
+    }
+
+    componentDidUpdate(prevProps) {
+        const {theme} = this.props;
+        if (!Utils.areObjectsEqual(prevProps.theme, theme)) {
+            Utils.applyTheme(theme);
+        }
     }
 
     render() {
