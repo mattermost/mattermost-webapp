@@ -9,17 +9,16 @@ import {removeUserFromTeam} from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
 
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {handleNewPost} from 'actions/post_actions.jsx';
 import {stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded, loadProfilesForSidebar} from 'actions/user_actions.jsx';
+import {closeRightHandSide} from 'actions/views/rhs';
 import * as WebsocketActions from 'actions/websocket_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import BrowserStore from 'stores/browser_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import ErrorStore from 'stores/error_store.jsx';
 import store from 'stores/redux_store.jsx';
-import SearchStore from 'stores/search_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
@@ -118,6 +117,10 @@ export async function doFocusPost(channelId, postId, data) {
     getChannelStats(channelId)(dispatch, getState);
 }
 
+export function emitCloseRightHandSide() {
+    dispatch(closeRightHandSide());
+}
+
 export async function emitPostFocusEvent(postId, onSuccess) {
     loadChannelsForCurrentUser();
     const {data} = await getPostThread(postId)(dispatch, getState);
@@ -139,36 +142,6 @@ export async function emitPostFocusEvent(postId, onSuccess) {
     } else {
         browserHistory.push('/error?type=' + ErrorPageTypes.PERMALINK_NOT_FOUND);
     }
-}
-
-export function emitCloseRightHandSide() {
-    SearchStore.storeSearchResults(null, false, false);
-    SearchStore.emitSearchChange();
-
-    dispatch({
-        type: ActionTypes.SELECT_POST,
-        postId: '',
-        channelId: ''
-    });
-}
-
-export async function emitPostFocusRightHandSideFromSearch(post, isMentionSearch) {
-    await getPostThread(post.id)(dispatch, getState);
-
-    AppDispatcher.handleServerAction({
-        type: ActionTypes.RECEIVED_POST_SELECTED,
-        postId: Utils.getRootId(post),
-        channelId: post.channel_id,
-        from_search: SearchStore.getSearchTerm(),
-        from_flagged_posts: SearchStore.getIsFlaggedPosts(),
-        from_pinned_posts: SearchStore.getIsPinnedPosts()
-    });
-
-    AppDispatcher.handleServerAction({
-        type: ActionTypes.RECEIVED_SEARCH,
-        results: null,
-        is_mention_search: isMentionSearch
-    });
 }
 
 export function emitLeaveTeam() {
@@ -469,73 +442,8 @@ export function clientLogout(redirectTo = '/') {
     window.location.href = redirectTo;
 }
 
-export function emitSearchMentionsEvent(user) {
-    let terms = '';
-    if (user.notify_props) {
-        const termKeys = UserStore.getMentionKeys(user.id);
-
-        const indexOfChannel = termKeys.indexOf('@channel');
-        if (indexOfChannel !== -1) {
-            termKeys.splice(indexOfChannel, 1);
-        }
-
-        const indexOfAll = termKeys.indexOf('@all');
-        if (indexOfAll !== -1) {
-            termKeys.splice(indexOfAll, 1);
-        }
-
-        const indexOfHere = termKeys.indexOf('@here');
-        if (indexOfHere !== -1) {
-            termKeys.splice(indexOfHere, 1);
-        }
-
-        terms = termKeys.join(' ');
-    }
-
-    trackEvent('api', 'api_posts_search_mention');
-
-    AppDispatcher.handleServerAction({
-        type: ActionTypes.RECEIVED_SEARCH_TERM,
-        term: terms,
-        do_search: true,
-        is_mention_search: true
-    });
-}
-
-export function toggleSideBarAction(visible) {
-    if (!visible) {
-        //Array of actions resolving in the closing of the sidebar
-        AppDispatcher.handleServerAction({
-            type: ActionTypes.RECEIVED_SEARCH,
-            results: null
-        });
-
-        AppDispatcher.handleServerAction({
-            type: ActionTypes.RECEIVED_SEARCH_TERM,
-            term: null,
-            do_search: false,
-            is_mention_search: false
-        });
-
-        AppDispatcher.handleServerAction({
-            type: ActionTypes.RECEIVED_POST_SELECTED,
-            postId: null,
-            channelId: null
-        });
-    }
-}
-
 export function toggleSideBarRightMenuAction() {
-    AppDispatcher.handleServerAction({
-        type: ActionTypes.RECEIVED_SEARCH,
-        results: null
-    });
-
-    AppDispatcher.handleServerAction({
-        type: ActionTypes.RECEIVED_POST_SELECTED,
-        postId: null,
-        channelId: null
-    });
+    dispatch(closeRightHandSide());
 
     document.querySelector('.app__body .inner-wrap').classList.remove('move--right', 'move--left', 'move--left-small');
     document.querySelector('.app__body .sidebar--left').classList.remove('move--right');

@@ -6,27 +6,30 @@ import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
-
 import Constants from 'utils/constants.jsx';
 
 export default class SearchResultsHeader extends React.Component {
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        isMentionSearch: PropTypes.bool,
+        isFlaggedPosts: PropTypes.bool,
+        isPinnedPosts: PropTypes.bool,
+        toggleSize: PropTypes.func,
+        shrink: PropTypes.func,
+        channelDisplayName: PropTypes.string.isRequired,
+        actions: PropTypes.shape({
+            closeRightHandSide: PropTypes.func
+        })
+    };
 
-        this.handleClose = this.handleClose.bind(this);
-        this.toggleSize = this.toggleSize.bind(this);
-    }
-
-    handleClose(e) {
+    handleClose = (e) => {
         e.preventDefault();
 
-        GlobalActions.toggleSideBarAction(false);
+        this.props.actions.closeRightHandSide();
 
         this.props.shrink();
     }
 
-    toggleSize(e) {
+    toggleSize = (e) => {
         e.preventDefault();
         this.props.toggleSize();
     }
@@ -140,13 +143,3 @@ export default class SearchResultsHeader extends React.Component {
         );
     }
 }
-
-SearchResultsHeader.propTypes = {
-    isMentionSearch: PropTypes.bool,
-    toggleSize: PropTypes.func,
-    shrink: PropTypes.func,
-    isFlaggedPosts: PropTypes.bool,
-    isPinnedPosts: PropTypes.bool,
-    channelDisplayName: PropTypes.string.isRequired,
-    isLoading: PropTypes.bool.isRequired
-};
