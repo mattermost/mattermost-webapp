@@ -13,7 +13,7 @@ import * as Utils from 'utils/utils.jsx';
 
 import ProfilePicture from 'components/profile_picture.jsx';
 
-export default class UserListRow extends React.Component {
+export default class UserListRowWithError extends React.Component {
 
     static propTypes = {
         user: PropTypes.object.isRequired,
@@ -31,6 +31,18 @@ export default class UserListRow extends React.Component {
         actionUserProps: {}
     };
 
+    constructor(props) {
+        super(props);
+
+        this.onError = this.onError.bind(this);
+    }
+
+    onError(errorObj) {
+        this.state = {
+            error: errorObj
+        };
+    }
+
     render() {
         let buttons = null;
         if (this.props.actions) {
@@ -41,6 +53,7 @@ export default class UserListRow extends React.Component {
                         user={this.props.user}
                         {...this.props.actionProps}
                         {...this.props.actionUserProps}
+                        onError={this.onError}
                     />
                 );
             });
@@ -74,6 +87,15 @@ export default class UserListRow extends React.Component {
             userCountEmail = Utils.createSafeId('userListRowEmail' + this.props.userCount);
         }
 
+        let error = null;
+        if (this.state.error) {
+            error = (
+                <div className='has-error'>
+                    <label className='has-error control-label'>{this.state.error.message}</label>
+                </div>
+            );
+        }
+
         return (
             <div
                 key={this.props.user.id}
@@ -86,27 +108,32 @@ export default class UserListRow extends React.Component {
                     height='32'
                 />
                 <div
-                    className='more-modal__details'
+                    className='more-modal__top'
                 >
                     <div
-                        id={userCountID}
-                        className='more-modal__name'
+                        className='more-modal__details'
                     >
-                        {Utils.displayEntireNameForUser(this.props.user)}
+                        <div
+                            id={userCountID}
+                            className='more-modal__name'
+                        >
+                            {Utils.displayEntireNameForUser(this.props.user)}
+                        </div>
+                        <div
+                            id={userCountEmail}
+                            className={emailStyle}
+                        >
+                            {email}
+                        </div>
+                        {this.props.extraInfo}
                     </div>
                     <div
-                        id={userCountEmail}
-                        className={emailStyle}
+                        className='more-modal__actions'
                     >
-                        {email}
+                        {buttons}
                     </div>
-                    {this.props.extraInfo}
                 </div>
-                <div
-                    className='more-modal__actions'
-                >
-                    {buttons}
-                </div>
+                {error}
             </div>
         );
     }
