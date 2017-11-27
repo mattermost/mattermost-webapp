@@ -3,47 +3,36 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
 
-export default class SaveButton extends React.Component {
-    static get propTypes() {
-        return {
-            saving: PropTypes.bool.isRequired,
-            disabled: PropTypes.bool,
-            savingMessageId: PropTypes.string,
-            defaultMessage: PropTypes.string
-        };
+import {localizeMessage} from 'utils/utils.jsx';
+
+export default class SaveButton extends React.PureComponent {
+    static propTypes = {
+        saving: PropTypes.bool.isRequired,
+        disabled: PropTypes.bool,
+        savingMessage: PropTypes.string,
+        defaultMessage: PropTypes.string
     }
 
-    static get defaultProps() {
-        return {
-            disabled: false,
-            savingMessageId: 'setting_item_max.saving',
-            defaultMessage: 'Saving'
-        };
+    static defaultProps = {
+        disabled: false,
+        savingMessage: localizeMessage('save_button.saving', 'Saving'),
+        defaultMessage: localizeMessage('save_button.save', 'Save')
     }
 
     render() {
-        const {saving, disabled, savingMessageId, defaultMessage, ...props} = this.props; // eslint-disable-line no-use-before-define
+        const {saving, disabled, savingMessage, defaultMessage, ...props} = this.props; // eslint-disable-line no-use-before-define
 
         let contents;
         if (saving) {
             contents = (
                 <span>
                     <span className='icon fa fa-refresh icon--rotate'/>
-                    <FormattedMessage
-                        id={savingMessageId}
-                        defaultMessage={defaultMessage}
-                    />
+                    {savingMessage}
                 </span>
             );
         } else {
-            contents = (
-                <FormattedMessage
-                    id='admin.save'
-                    defaultMessage='Save'
-                />
-            );
+            contents = defaultMessage;
         }
 
         let className = 'save-button btn';

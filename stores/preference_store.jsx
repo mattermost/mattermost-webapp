@@ -137,22 +137,8 @@ class PreferenceStore extends EventEmitter {
         this.removeListener(CHANGE_EVENT, callback);
     }
 
-    getTheme(teamId) {
-        if (this.preferences.has(this.getKey(Constants.Preferences.CATEGORY_THEME, teamId))) {
-            return this.getObject(Constants.Preferences.CATEGORY_THEME, teamId);
-        }
-
-        if (this.preferences.has(this.getKey(Constants.Preferences.CATEGORY_THEME, ''))) {
-            return this.getObject(Constants.Preferences.CATEGORY_THEME, '');
-        }
-
-        for (const k in Constants.THEMES) {
-            if (Constants.THEMES.hasOwnProperty(k) && k === global.mm_config.DefaultTheme) {
-                return Constants.THEMES[k];
-            }
-        }
-
-        return Constants.THEMES.default;
+    getTheme() {
+        return Selectors.getTheme(store.getState());
     }
 
     handleEventPayload(payload) {

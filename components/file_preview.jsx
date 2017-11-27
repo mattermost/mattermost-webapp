@@ -11,7 +11,7 @@ import * as Utils from 'utils/utils.jsx';
 
 import loadingGif from 'images/load.gif';
 
-export default class FilePreview extends React.Component {
+export default class FilePreview extends React.PureComponent {
     static propTypes = {
         onRemove: PropTypes.func.isRequired,
         fileInfos: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -27,11 +27,22 @@ export default class FilePreview extends React.Component {
         super(props);
 
         this.handleRemove = this.handleRemove.bind(this);
+        this.state = {
+            fileInfos: [...this.props.fileInfos]
+        };
     }
 
     componentDidUpdate() {
         if (this.props.uploadsInProgress.length > 0) {
             this.refs[this.props.uploadsInProgress[0]].scrollIntoView();
+        }
+    }
+
+    componentWillReceiveProps(newProps) {
+        if (!Utils.areObjectsEqual(this.props.fileInfos, newProps.fileInfos)) {
+            this.setState({
+                fileInfos: [...newProps.fileInfos]
+            });
         }
     }
 
@@ -41,7 +52,7 @@ export default class FilePreview extends React.Component {
 
     render() {
         var previews = [];
-        const fileInfos = this.props.fileInfos.sort((a, b) => a.create_at - b.create_at);
+        const fileInfos = this.state.fileInfos.sort((a, b) => a.create_at - b.create_at);
         fileInfos.forEach((info) => {
             const type = Utils.getFileType(info.extension);
 

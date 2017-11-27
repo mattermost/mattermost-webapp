@@ -51,7 +51,9 @@ export default class AddUsersToTeam extends React.Component {
             users: Object.assign([], UserStore.getProfileListNotInTeam(TeamStore.getCurrentId(), true)),
             values: [],
             show: true,
-            search: false
+            search: false,
+            saving: false,
+            addError: null
         };
     }
 
@@ -83,6 +85,18 @@ export default class AddUsersToTeam extends React.Component {
         }
     }
 
+    handleResponse(err) {
+        let addError = null;
+        if (err && err.message) {
+            addError = err.message;
+        }
+
+        this.setState({
+            saving: false,
+            addError
+        });
+    }
+
     handleSubmit(e) {
         if (e) {
             e.preventDefault();
@@ -93,9 +107,19 @@ export default class AddUsersToTeam extends React.Component {
             return;
         }
 
-        addUsersToTeam(TeamStore.getCurrentId(), userIds);
+        this.setState({saving: true});
 
-        this.handleHide();
+        addUsersToTeam(
+            TeamStore.getCurrentId(),
+            userIds,
+            () => {
+                this.handleResponse();
+                this.handleHide();
+            },
+            (err) => {
+                this.handleResponse(err);
+            }
+        );
     }
 
     addValue(value) {
@@ -218,6 +242,11 @@ export default class AddUsersToTeam extends React.Component {
             users = this.state.users.filter((user) => user.delete_at === 0);
         }
 
+        let addError = null;
+        if (this.state.addError) {
+            addError = (<label className='has-error control-label'>{this.state.addError}</label>);
+        }
+
         return (
             <Modal
                 dialogClassName={'more-modal more-direct-channels'}
@@ -239,6 +268,7 @@ export default class AddUsersToTeam extends React.Component {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    {addError}
                     <MultiSelect
                         key='addUsersToTeamKey'
                         options={users}
@@ -254,6 +284,7 @@ export default class AddUsersToTeam extends React.Component {
                         maxValues={MAX_SELECTABLE_VALUES}
                         numRemainingText={numRemainingText}
                         buttonSubmitText={buttonSubmitText}
+                        saving={this.state.saving}
                     />
                 </Modal.Body>
             </Modal>

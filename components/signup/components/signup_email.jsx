@@ -207,7 +207,7 @@ export default class SignupEmail extends React.Component {
         }
 
         const providedPassword = this.refs.password.value;
-        const pwdError = Utils.isValidPassword(providedPassword);
+        const pwdError = Utils.isValidPassword(providedPassword, Utils.getPasswordConfig());
         if (pwdError) {
             this.setState({
                 nameError: '',
@@ -492,8 +492,7 @@ export default class SignupEmail extends React.Component {
                             />
                             {' '}
                             <Link
-                                to={'/login'}
-                                query={Utils.isEmptyObject(this.props.location.query) ? null : this.props.location.query}
+                                to={'/login' + this.props.location.search}
                             >
                                 <FormattedMessage
                                     id='signup_user_completed.signIn'
