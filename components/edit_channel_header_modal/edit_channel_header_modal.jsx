@@ -76,10 +76,6 @@ class EditChannelHeaderModal extends React.PureComponent {
         };
     }
 
-    componentDidMount() {
-        this.focusTextbox();
-    }
-
     componentWillReceiveProps(nextProps) {
         const {requestStatus: nextRequestStatus} = nextProps;
         const {requestStatus} = this.props;
@@ -113,6 +109,10 @@ class EditChannelHeaderModal extends React.PureComponent {
         if (!Utils.isMobile()) {
             this.refs.editChannelHeaderTextbox.focus();
         }
+    }
+
+    handleEntering = () => {
+        this.focusTextbox();
     }
 
     handleKeyDown = (e) => {
@@ -177,6 +177,7 @@ class EditChannelHeaderModal extends React.PureComponent {
             <Modal
                 show={this.state.show}
                 onHide={this.onHide}
+                onEntering={this.handleEntering}
                 onExited={this.props.onHide}
             >
                 <Modal.Header closeButton={true}>
