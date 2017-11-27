@@ -1663,11 +1663,16 @@
 
 @media screen and (max-width: 480px) {
     .webrtc__button {
-         display: none !important;
-     }
+        display: none !important;
+    }
  
     .webrtc__option {
-         display: block;
+        display: block;
+
+        .disable-links {
+            @include opacity(.5);
+            pointer-events: none;
+        }
      }
 
     #user-profile-popover {

@@ -56,6 +56,7 @@ export default class SearchBar extends React.Component {
                 document.querySelector('.app__body .sidebar--menu').classList.add('visible');
                 document.querySelector('#sidebar-webrtc').classList.remove('webrtc--show');
                 document.querySelector('#inner-wrap-webrtc').classList.remove('webrtc--show');
+                document.querySelector('#inner-wrap-webrtc').classList.remove('move--left');
             });
         }
 

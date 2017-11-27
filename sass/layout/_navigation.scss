@@ -162,6 +162,10 @@
                         background: transparent;
                     }
 
+                    &.offline {
+                        @include opacity(.5);
+                    }
+
                     svg {
                         position: relative;
                     }
