@@ -33,7 +33,7 @@ export default class UserListRowWithError extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {error: null};
+        this.state = {};
 
         this.onError = this.onError.bind(this);
     }
@@ -108,33 +108,35 @@ export default class UserListRowWithError extends React.Component {
                     width='32'
                     height='32'
                 />
-                <div
-                    className='more-modal__top'
-                >
-                    <div
-                        className='more-modal__details'
-                    >
-                        <div
-                            id={userCountID}
-                            className='more-modal__name'
-                        >
-                            {Utils.displayEntireNameForUser(this.props.user)}
+                <div className='more-modal__right'>
+                    <div className='more-modal__top'>
+                        <div className='more-modal__details'>
+                            <div
+                                id={userCountID}
+                                className='more-modal__name'
+                            >
+                                {Utils.displayEntireNameForUser(this.props.user)}
+                            </div>
+                            <div
+                                id={userCountEmail}
+                                className={emailStyle}
+                            >
+                                {email}
+                            </div>
+                            {this.props.extraInfo}
                         </div>
                         <div
-                            id={userCountEmail}
-                            className={emailStyle}
+                            className='more-modal__actions'
                         >
-                            {email}
+                            {buttons}
                         </div>
-                        {this.props.extraInfo}
                     </div>
                     <div
-                        className='more-modal__actions'
+                        className='more-modal__bottom'
                     >
-                        {buttons}
+                        {error}
                     </div>
                 </div>
-                {error}
             </div>
         );
     }
