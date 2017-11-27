@@ -71,8 +71,8 @@ export default class NeedsTeam extends React.Component {
     constructor(params) {
         super(params);
 
-        this.onTeamChanged = this.onTeamChanged.bind(this);
-        this.shortcutKeyDown = this.shortcutKeyDown.bind(this);
+        this.teamChanged = (e) => this.onTeamChanged(e);
+        this.shortcutKeyDown = (e) => this.onShortcutKeyDown(e);
 
         this.blurTime = new Date().getTime();
 
@@ -83,7 +83,7 @@ export default class NeedsTeam extends React.Component {
         };
     }
 
-    shortcutKeyDown(e) {
+    onShortcutKeyDown(e) {
         if (e.shiftKey && e.ctrlKey && e.keyCode === Constants.KeyCodes.L) {
             if (document.getElementById('sidebar-right').className.match('sidebar--right sidebar--right--expanded')) {
                 document.getElementById('reply_textbox').focus();
@@ -110,7 +110,7 @@ export default class NeedsTeam extends React.Component {
     }
 
     componentDidMount() {
-        TeamStore.addChangeListener(this.onTeamChanged);
+        TeamStore.addChangeListener(this.teamChanged);
 
         startPeriodicStatusUpdates();
         startPeriodicSync();
@@ -146,7 +146,7 @@ export default class NeedsTeam extends React.Component {
     }
 
     componentWillUnmount() {
-        TeamStore.removeChangeListener(this.onTeamChanged);
+        TeamStore.removeChangeListener(this.teamChanged);
         $(window).off('focus');
         $(window).off('blur');
 
