@@ -360,7 +360,6 @@ export default class SearchResults extends React.PureComponent {
                         user={profile}
                         term={searchTerms}
                         isMentionSearch={this.props.isMentionSearch}
-                        isFlaggedSearch={this.props.isFlaggedPosts}
                         useMilitaryTime={this.props.useMilitaryTime}
                         shrink={this.props.shrink}
                         isFlagged={isFlagged}

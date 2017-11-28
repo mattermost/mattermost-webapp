@@ -5,15 +5,18 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
 
 import {closeRightHandSide} from 'actions/views/rhs';
 
 import SelectResultsItem from './search_results_item.jsx';
 
-function mapStateToProps(state) {
-    return {
-        currentTeamName: getCurrentTeam(state).name
-    };
+function mapStateToProps() {
+    const getCommentCountForPost = makeGetCommentCountForPost();
+    return (state, ownProps) => ({
+        currentTeamName: getCurrentTeam(state).name,
+        commentCountForPost: getCommentCountForPost(state, {post: ownProps.post})
+    });
 }
 
 function mapDispatchToProps(dispatch) {
