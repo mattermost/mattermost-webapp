@@ -16,8 +16,6 @@ function modalState(state = {}, action) {
                 dialogType: action.dialogType
             };
 
-            console.log('open modal', nextState);
-
             return nextState;
         case ActionTypes.MODAL_CLOSE:
             nextState[action.modalId] = {
