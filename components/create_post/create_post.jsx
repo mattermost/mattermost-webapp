@@ -664,7 +664,7 @@ export default class CreatePost extends React.Component {
     }
 
     render() {
-        const members = this.props.currentChannelMembersCount;
+        const members = this.props.currentChannelMembersCount - 1;
 
         const notifyAllTitle = (
             <FormattedMessage
