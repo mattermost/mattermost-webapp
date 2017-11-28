@@ -30,11 +30,12 @@ function mapStateToProps() {
         const post = getPost(state, recentPostIdInChannel);
         const getCommentCountForPost = makeGetCommentCountForPost();
         const latestReplyablePostId = getLatestReplyablePostId(state);
+        const currentChannelMembersCount = getCurrentChannelStats(state) ? getCurrentChannelStats(state).member_count : 1;
         return {
             ...ownProps,
             currentTeamId: getCurrentTeamId(state),
             currentChannel,
-            currentChannelMembersCount: getCurrentChannelStats(state).member_count,
+            currentChannelMembersCount,
             currentUserId: getCurrentUserId(state),
             ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
             fullWidthTextBox: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT) === Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN,
