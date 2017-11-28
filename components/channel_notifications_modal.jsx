@@ -516,15 +516,7 @@ export default class ChannelNotificationsModal extends React.Component {
         );
 
         if (this.state.activeSection === 'mute') {
-            const notifyActive = [false, false];
-            if (notificationLevel === 'true') {
-                notifyActive[0] = true;
-            } else {
-                notifyActive[1] = true;
-            }
-
             var inputs = [];
-
             inputs.push(
                 <div key='channel-notification-level-radio'>
                     <div className='radio'>
@@ -562,10 +554,10 @@ export default class ChannelNotificationsModal extends React.Component {
                 </div>
             );
 
-            const handleUpdateSection = function updateSection(e) {
+            const handleUpdateSection = function handleUpdateSection(e) {
                 this.updateSection('');
                 this.setState({
-                    muteLevel: this.props.channelMember.notify_props.mute || 'false'
+                    muteLevel: this.props.channelMember.notify_props.mark_unread
                 });
                 e.preventDefault();
             }.bind(this);
@@ -591,20 +583,26 @@ export default class ChannelNotificationsModal extends React.Component {
             );
         }
 
-        var describe;
-        if (notificationLevel === 'true') {
+        let describe;
+        if (notificationLevel === NotificationLevels.MENTION) {
             describe = (<FormattedMessage id='channel_notifications.muteChannel.on.desc'/>);
         } else {
             describe = (<FormattedMessage id='channel_notifications.muteChannel.off.desc'/>);
         }
 
+        const handleUpdateSection = function handleUpdateSection(e) {
+            this.updateSection('mute');
+            this.setState({
+                unreadLevel: this.props.channelMember.notify_props.mark_unread
+            });
+            e.preventDefault();
+        }.bind(this);
+
         return (
             <SettingItemMin
                 title={muteNotifyName}
                 describe={describe}
-                updateSection={() => {
-                    this.updateSection('mute');
-                }}
+                updateSection={handleUpdateSection}
             />
         );
     }
