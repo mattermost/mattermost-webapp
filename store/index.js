@@ -92,8 +92,8 @@ export default function configureStore(initialState, persistorStorage = null) {
                     });
                     observable.subscribe({
                         next: (args) => {
-                            if(args.key && args.key.indexOf(KEY_PREFIX) === 0 && args.oldValue === null){
-                                const keyspace = args.key.substr(KEY_PREFIX.length);
+                            if(args.key && args.key.indexOf(KEY_PREFIX+"storage:") === 0 && args.oldValue === null){
+                                const keyspace = args.key.substr((KEY_PREFIX+"storage:").length);
 
                                 var statePartial = {};
                                 statePartial[keyspace] = args.newValue;
@@ -139,7 +139,34 @@ export default function configureStore(initialState, persistorStorage = null) {
             debounce: 500,
             transforms: [
                 setTransformer
-            ]
+            ],
+            _stateIterator: (collection, callback) => {
+                return Object.keys(collection).forEach((key) => {
+                    if (key === 'storage') {
+                        Object.keys(collection[key]).forEach((subkey) => {
+                            callback(collection[key][subkey], key+":"+subkey)
+                        })
+                    } else {
+                        callback(collection[key], key)
+                    }
+                });
+            },
+            _stateGetter: (state, key) => {
+                if (key.indexOf('storage:') == 0) {
+                    state.storage = state.storage || {};
+                    return state.storage[key.substr(8)];
+                }
+                return state[key];
+            },
+            _stateSetter: (state, key, value) => {
+                if (key.indexOf('storage:') == 0) {
+                    state.storage = state.storage || {};
+                    state.storage[key.substr(8)] = value;
+                }
+                state[key] = value;
+                return state;
+            }
+
         },
         detectNetwork: detect
     };

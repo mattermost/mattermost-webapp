@@ -82,10 +82,10 @@ export function actionOnItemsWithPrefix(prefix, action) {
 
 export function storageRehydrate(incoming) {
     return async (dispatch) => {
-        if (incoming.storage) {
+        Object.keys(incoming).forEach((key) => {
             let storage = {};
             try {
-                storage = JSON.parse(incoming.storage);
+                storage[key] = JSON.parse(incoming[key]);
             } catch (err) {
                 if (process.env.NODE_ENV !== 'production') console.warn(`Error rehydrating data for key "storage"`, err)
             }
@@ -93,7 +93,7 @@ export function storageRehydrate(incoming) {
                 type: StorageTypes.STORAGE_REHYDRATE,
                 data: storage
             });
-        }
+        });
         return {data: true};
     };
 }
