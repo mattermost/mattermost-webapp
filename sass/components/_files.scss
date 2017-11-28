@@ -70,35 +70,35 @@
     width: 100%;
 
     &.audio {
-        @include file-icon('../images/icons/audio.png');
+        @include file-icon('../images/icons/audio.svg');
     }
 
     &.video {
-        @include file-icon('../images/icons/video.png');
+        @include file-icon('../images/icons/video.svg');
     }
 
     &.ppt {
-        @include file-icon('../images/icons/ppt.png');
+        @include file-icon('../images/icons/ppt.svg');
     }
 
     &.generic {
-        @include file-icon('../images/icons/generic.png');
+        @include file-icon('../images/icons/generic.svg');
     }
 
     &.code {
-        @include file-icon('../images/icons/code.png');
+        @include file-icon('../images/icons/code.svg');
     }
 
     &.excel {
-        @include file-icon('../images/icons/excel.png');
+        @include file-icon('../images/icons/excel.svg');
     }
 
     &.word {
-        @include file-icon('../images/icons/word.png');
+        @include file-icon('../images/icons/word.svg');
     }
 
     &.pdf {
-        @include file-icon('../images/icons/pdf.png');
+        @include file-icon('../images/icons/pdf.svg');
     }
 
     &.patch {
@@ -106,7 +106,7 @@
     }
 
     &.image {
-        @include file-icon('../images/icons/image.png');
+        @include file-icon('../images/icons/image.svg');
     }
 }
 
@@ -136,12 +136,14 @@
 }
 
 .post-image__column {
-    border: 1px solid alpha-color($black, .2);
+    @include border-radius(4px);
+    border: 1px solid alpha-color($black, .1);
     float: left;
-    height: 100px;
+    height: 150px;
     margin: 5px 10px 5px 0;
+    max-width: 100%;
     position: relative;
-    width: 400px;
+    width: 460px;
 
     &--placeholder {
         visibility: hidden;
@@ -168,6 +170,7 @@
 }
 
 .post-image {
+    @include background-size(cover);
     background-color: $white;
     background-repeat: no-repeat;
     height: 100%;
@@ -212,7 +215,7 @@
     @include cursor(zoom-in);
     float: left;
     height: 100%;
-    width: 120px;
+    width: 150px;
 }
 
 .post-image__details {
@@ -223,20 +226,24 @@
     float: left;
     font-size: 13px;
     height: 100%;
+    line-height: 100px;
     padding: 7px;
     width: 278px;
     word-break: break-word;
-    line-height: 100px;
 
     .post-image__detail {
         height: 100%;
-        width: 238px;
         line-height: normal;
+        padding: 45px 0 0 30px;
+        width: 230px;
 
         .post-image__name {
             display: block;
-            margin-bottom: 3px;
             font-weight: 600;
+            margin-bottom: 3px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .post-image__type {
@@ -254,10 +261,14 @@
         cursor: pointer;
         display: inline-block;
         font-size: 24px !important;
-        right: 0px;
-        top: 0;
-        width: 30px;
+        height: 100%;
+        line-height: 165px;
+        padding-right: 10px;
         position: absolute;
+        right: 0;
+        text-align: center;
+        top: 0;
+        width: 70px;
     }
 }
 

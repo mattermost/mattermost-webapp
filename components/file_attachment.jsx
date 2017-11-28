@@ -144,7 +144,10 @@ export default class FileAttachment extends React.PureComponent {
                     target='_blank'
                     rel='noopener noreferrer'
                 >
-                    <span className='fa fa-download icon--download'/>
+                    <span
+                        className='icon'
+                        dangerouslySetInnerHTML={{__html: Constants.DOWNLOAD_ICON_SVG}}
+                    />
                 </a>
             );
         }
