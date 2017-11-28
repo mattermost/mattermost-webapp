@@ -6,6 +6,7 @@ import React from 'react';
 
 import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
+import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils';
 import * as FileUtils from 'utils/file_utils';
 
@@ -84,11 +85,14 @@ export default class SingleImageView extends React.PureComponent {
                 <a
                     href={fileUrl}
                     download={fileInfo.fileName}
-                    className='download'
+                    className='file__download'
                     target='_blank'
                     rel='noopener noreferrer'
                 >
-                    <span className='fa fa-download'/>
+                    <span
+                        className='icon'
+                        dangerouslySetInnerHTML={{__html: Constants.DOWNLOAD_ICON_SVG}}
+                    />
                 </a>
             );
         }
@@ -114,16 +118,16 @@ export default class SingleImageView extends React.PureComponent {
         }
 
         return (
-            <div className={'single-file-view'}>
-                <div className='view__details'>
-                    <span className='name'>
+            <div className={'file-view--single'}>
+                <div className='file-details'>
+                    <span className='file-details__name'>
                         {fileInfo.name.toUpperCase()}
                     </span>
-                    <span className='detail'>
+                    <span className='file-details__extension'>
                         {`${fileInfo.extension.toUpperCase()}  ${Utils.fileSizeToString(fileInfo.size)}`}
                     </span>
                 </div>
-                <div className='view__image'>
+                <div className='file__image'>
                     {content}
                     {downloadButton}
                 </div>

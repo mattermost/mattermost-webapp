@@ -135,6 +135,31 @@
     }
 }
 
+.file-view--single {
+    display: inline-block;
+    margin: 5px 0;
+    position: relative;
+
+    .file-details__name {
+        display: block;
+        font-size: 17px;
+        font-weight: bold;
+    }
+
+    .file-details__extension {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .file__download {
+        @include border-radius(50%);
+        bottom: 20px;
+        height: 40px;
+        position: absolute;
+        right: 20px;
+        width: 40px;
+    }
+}
 
 .post-image__columns {
     display: flex;

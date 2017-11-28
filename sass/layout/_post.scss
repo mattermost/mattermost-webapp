@@ -1457,29 +1457,6 @@
                 }
             }
         }
-
-        .single-file-view {
-            .view__details {
-                .name {
-                    display: block;
-                    margin-bottom: 3px;
-                    font-weight: 600;
-                    font-size: 16px;
-                }
-        
-                .detail {
-                    @include opacity(.6);
-                }
-            }
-
-            .view__image {
-                .download {
-                    display: block;
-                    font-size: 24px;
-                    right: -5px;
-                }
-            }
-        }
     }
 
     .post__link {
