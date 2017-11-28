@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {closeModal} from '../../actions/views/modals';
+import {closeModal} from 'actions/views/modals';
 
 import ModalController from './modal_controller.jsx';
 

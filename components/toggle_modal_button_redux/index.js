@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 
 import ModalToggleButtonRedux from './toggle_modal_button_redux.jsx';
 
-import {openModal, closeModal} from '../../actions/views/modals';
+import {openModal, closeModal} from 'actions/views/modals';
 
 function mapStateToProps(state, ownProps) {
     return {
