@@ -14,6 +14,7 @@ exports[`component/FileAttachment should match snapshot, after change from file 
       style={
         Object {
           "backgroundImage": "url(/api/v4/files/2/thumbnail)",
+          "backgroundSize": "cover",
         }
       }
     />
@@ -238,6 +239,7 @@ exports[`component/FileAttachment should match snapshot, regular image 1`] = `
       style={
         Object {
           "backgroundImage": "url(/api/v4/files/1/thumbnail)",
+          "backgroundSize": "cover",
         }
       }
     />
@@ -316,6 +318,7 @@ exports[`component/FileAttachment should match snapshot, small image 1`] = `
       style={
         Object {
           "backgroundImage": "url(/api/v4/files/1/thumbnail)",
+          "backgroundSize": "cover",
         }
       }
     />
