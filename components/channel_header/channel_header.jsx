@@ -14,7 +14,7 @@ import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 
 import * as ChannelUtils from 'utils/channel_utils.jsx';
-import {ActionTypes, Constants, RHSStates, UserStatuses} from 'utils/constants.jsx';
+import {ActionTypes, Constants, RHSStates, UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import {getSiteURL} from 'utils/url.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -32,6 +32,7 @@ import RenameChannelModal from 'components/rename_channel_modal';
 import NavbarSearchBox from 'components/search_bar';
 import StatusIcon from 'components/status_icon.jsx';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
+import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 
 import Pluggable from 'plugins/pluggable';
 
@@ -629,17 +630,17 @@ export default class ChannelHeader extends React.Component {
                         key='delete_channel'
                         role='presentation'
                     >
-                        <ToggleModalButton
+                        <ToggleModalButtonRedux
                             id='channelDelete'
                             role='menuitem'
-                            dialogType={DeleteChannelModal}
+                            modalId={ModalIdentifiers.DELETE_CHANNEL}
                             dialogProps={{channel}}
                         >
                             <FormattedMessage
                                 id='channel_header.delete'
                                 defaultMessage='Delete Channel'
                             />
-                        </ToggleModalButton>
+                        </ToggleModalButtonRedux>
                     </li>
                 );
             }

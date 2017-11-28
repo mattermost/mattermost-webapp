@@ -214,7 +214,10 @@ export const ActionTypes = keyMirror({
     RECEIVED_PLUGIN_POST_TYPES: null,
     RECEIVED_WEBAPP_PLUGINS: null,
     RECEIVED_WEBAPP_PLUGIN: null,
-    REMOVED_WEBAPP_PLUGIN: null
+    REMOVED_WEBAPP_PLUGIN: null,
+
+    MODAL_OPEN: null,
+    MODAL_CLOSE: null
 });
 
 export const WebrtcActionTypes = keyMirror({
@@ -233,6 +236,10 @@ export const WebrtcActionTypes = keyMirror({
     DISABLED: null,
     RHS: null
 });
+
+export const ModalIdentifiers = {
+    DELETE_CHANNEL: 'delete_channel'
+};
 
 export const UserStatuses = {
     OFFLINE: 'offline',
