@@ -135,10 +135,17 @@
     }
 }
 
+
+.post-image__columns {
+    display: flex;
+    flex-flow: wrap;
+}
+
 .post-image__column {
     @include border-radius(4px);
+    align-items: center;
     border: 1px solid alpha-color($black, .1);
-    float: left;
+    display: flex;
     height: 150px;
     margin: 5px 10px 5px 0;
     max-width: 100%;
@@ -213,29 +220,25 @@
 
 .post-image__thumbnail {
     @include cursor(zoom-in);
-    float: left;
+    flex: none;
     height: 100%;
     width: 150px;
 }
 
 .post-image__details {
     @include clearfix;
-    background: $white;
+    align-items: center;
     border-left: 1px solid $light-gray;
     color: alpha-color($black, .8);
-    float: left;
+    display: flex;
     font-size: 13px;
     height: 100%;
-    line-height: 100px;
-    padding: 7px;
-    width: 278px;
-    word-break: break-word;
+    padding: 0 80px 0 30px;
+    width: 100%;
 
     .post-image__detail {
-        height: 100%;
         line-height: normal;
-        padding: 45px 0 0 30px;
-        width: 230px;
+        width: 100%;
 
         .post-image__name {
             display: block;
@@ -258,17 +261,24 @@
 
     .post-image__download {
         @include opacity(.7);
+        align-items: center;
         cursor: pointer;
-        display: inline-block;
-        font-size: 24px !important;
+        display: flex;
         height: 100%;
-        line-height: 165px;
+        justify-content: center;
+        line-height: 0;
         padding-right: 10px;
         position: absolute;
         right: 0;
         text-align: center;
         top: 0;
         width: 70px;
+
+        svg {
+            @include border-radius(50%);
+            border: 1px solid;
+            display: inline-block;
+        }
     }
 }
 
