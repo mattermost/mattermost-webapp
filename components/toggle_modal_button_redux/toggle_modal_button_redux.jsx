@@ -62,6 +62,7 @@ export default class ModalToggleButtonRedux extends React.Component {
     render() {
         const {children, onClick, ...props} = this.props;
 
+        // removing these three props since they are not valid props on buttons
         delete props.modalId;
         delete props.dialogType;
         delete props.dialogProps;
