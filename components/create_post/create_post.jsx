@@ -40,7 +40,7 @@ export default class CreatePost extends React.Component {
         /**
         *  Data used in notifying user for @all and @channel
         */
-        currentChannelStats: PropTypes.object,
+        currentChannelMembersCount: PropTypes.number,
 
         /**
         *  Data used in multiple places of the component
@@ -80,7 +80,11 @@ export default class CreatePost extends React.Component {
         /**
         *  Data used for populating message state from previous draft
         */
-        draft: PropTypes.object,
+        draft: PropTypes.shape({
+            message: PropTypes.string.isRequired,
+            uploadsInProgress: PropTypes.array.isRequired,
+            fileInfos: PropTypes.array.isRequired
+        }).isRequired,
 
         /**
         *  Data used adding reaction on +/- to recent post
@@ -151,11 +155,15 @@ export default class CreatePost extends React.Component {
         }).isRequired
     }
 
+    static defaultProps = {
+        currentChannelMembersCount: 0,
+        latestReplyablePostId: ''
+    }
+
     constructor(props) {
         super(props);
-        const draft = this.props.draft;
         this.state = {
-            message: draft.message,
+            message: this.props.draft.message,
             submitting: false,
             showPostDeletedModal: false,
             enableSendButton: false,
@@ -310,11 +318,9 @@ export default class CreatePost extends React.Component {
     }
 
     handleSubmit = (e) => {
-        const stats = this.props.currentChannelStats;
-        const members = stats ? stats.member_count - 1 : '-';
         const updateChannel = this.props.currentChannel;
 
-        if ((PostUtils.containsAtMention(this.state.message, '@all') || PostUtils.containsAtMention(this.state.message, '@channel')) && members >= Constants.NOTIFY_ALL_MEMBERS && window.mm_config.EnableConfirmNotificationsToChannel === 'true') {
+        if ((PostUtils.containsAtMention(this.state.message, '@all') || PostUtils.containsAtMention(this.state.message, '@channel')) && this.props.currentChannelMembersCount > Constants.NOTIFY_ALL_MEMBERS && window.mm_config.EnableConfirmNotificationsToChannel === 'true') {
             this.showNotifyAllModal();
             return;
         }
@@ -552,8 +558,7 @@ export default class CreatePost extends React.Component {
             return;
         }
 
-        const latestReplyablePost = this.props.latestReplyablePostId;
-        const latestReplyablePostId = latestReplyablePost == null ? '' : latestReplyablePost.id;
+        const latestReplyablePostId = this.props.latestReplyablePostId;
         const lastPostEl = document.getElementById(`commentIcon_${channelId}_${latestReplyablePostId}`);
 
         if (!e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey && e.keyCode === KeyCodes.UP && this.state.message === '') {
@@ -659,8 +664,7 @@ export default class CreatePost extends React.Component {
     }
 
     render() {
-        const stats = this.props.currentChannelStats;
-        const members = stats ? stats.member_count - 1 : '-';
+        const members = this.props.currentChannelMembersCount;
 
         const notifyAllTitle = (
             <FormattedMessage
