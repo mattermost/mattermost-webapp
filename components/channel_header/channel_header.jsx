@@ -31,7 +31,6 @@ import PopoverListMembers from 'components/popover_list_members';
 import RenameChannelModal from 'components/rename_channel_modal';
 import NavbarSearchBox from 'components/search_bar';
 import StatusIcon from 'components/status_icon.jsx';
-import ToggleModalButton from 'components/toggle_modal_button.jsx';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 
 import Pluggable from 'plugins/pluggable';
@@ -354,7 +353,7 @@ export default class ChannelHeader extends React.Component {
                     <ToggleModalButtonRedux
                         id='channelEditHeaderDirect'
                         role='menuitem'
-                        modalId={modalIdentifiers.EDIT_CHANNEL_HEADER}
+                        modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
                         dialogType={EditChannelHeaderModal}
                         dialogProps={{channel}}
                     >
@@ -374,7 +373,7 @@ export default class ChannelHeader extends React.Component {
                     <ToggleModalButtonRedux
                         id='channelEditHeaderGroup'
                         role='menuitem'
-                        modalId={modalIdentifiers.EDIT_CHANNEL_HEADER}
+                        modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
                         dialogType={EditChannelHeaderModal}
                         dialogProps={{channel}}
                     >
@@ -394,7 +393,7 @@ export default class ChannelHeader extends React.Component {
                     <ToggleModalButtonRedux
                         id='channelnotificationPreferencesGroup'
                         role='menuitem'
-                        modalId={modalIdentifiers.EDIT_CHANNEL_HEADER}
+                        modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
                         dialogType={ChannelNotificationsModal}
                         dialogProps={{
                             channel,
@@ -580,7 +579,7 @@ export default class ChannelHeader extends React.Component {
                         <ToggleModalButtonRedux
                             id='channelEditHeader'
                             role='menuitem'
-                                modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
+                            modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
                             dialogType={EditChannelHeaderModal}
                             dialogProps={{channel}}
                         >

@@ -4,12 +4,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {ModalIdentifiers} from 'utils/constants.jsx';
-
 export default class ModalController extends React.Component {
-
-    constructor(params) {
-        super(params);
+    static propTypes = {
+        modals: PropTypes.object.isRequired,
+        actions: PropTypes.shape({
+            closeModal: PropTypes.func.isRequired
+        }).isRequired
     }
 
     render() {
@@ -17,14 +17,12 @@ export default class ModalController extends React.Component {
         const {modalState} = modals;
 
         if (!modals) {
-            return <div></div>;
+            return <div/>;
         }
-
-
 
         const modalOutput = [];
 
-        for (let modalId in modalState) {
+        for (const modalId in modalState) {
             if (modalState.hasOwnProperty(modalId)) {
                 const modal = modalState[modalId];
                 if (modal.open) {
@@ -38,11 +36,11 @@ export default class ModalController extends React.Component {
             }
         }
 
-
         return (
             <div>
                 {modalOutput}
             </div>
         );
     }
+
 }

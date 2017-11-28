@@ -5,6 +5,24 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 export default class ModalToggleButtonRedux extends React.Component {
+    static propTypes = {
+        children: PropTypes.node.isRequired,
+        modalId: PropTypes.string.isRequired,
+        dialogType: PropTypes.func.isRequired,
+        dialogProps: PropTypes.object,
+        onClick: PropTypes.func,
+        className: PropTypes.string,
+        actions: PropTypes.shape({
+            openModal: PropTypes.func.isRequired,
+            closeModal: PropTypes.func.isRequired
+        }).isRequired
+    };
+
+    static defaultProps = {
+        dialogProps: {},
+        className: ''
+    };
+
     constructor(props) {
         super(props);
 
@@ -42,7 +60,11 @@ export default class ModalToggleButtonRedux extends React.Component {
     }
 
     render() {
-        const {children, onClick, modalId, dialogType, dialogProps, ...props} = this.props;
+        const {children, onClick, ...props} = this.props;
+
+        delete props.modalId;
+        delete props.dialogType;
+        delete props.dialogProps;
 
         // allow callers to provide an onClick which will be called before the modal is shown
         let clickHandler = this.show;
@@ -68,16 +90,3 @@ export default class ModalToggleButtonRedux extends React.Component {
     }
 }
 
-ModalToggleButtonRedux.propTypes = {
-    children: PropTypes.node.isRequired,
-    modalId: PropTypes.string.isRequired,
-    dialogType: PropTypes.func.isRequired,
-    dialogProps: PropTypes.object,
-    onClick: PropTypes.func,
-    className: PropTypes.string
-};
-
-ModalToggleButtonRedux.defaultProps = {
-    dialogProps: {},
-    className: ''
-};
