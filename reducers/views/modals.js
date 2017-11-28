@@ -10,23 +10,19 @@ function modalState(state = {}, action) {
 
     switch (action.type) {
         case ActionTypes.MODAL_OPEN:
-
-
             nextState[action.modalId] = {
                 open: true,
-                dialogProps: action.dialogProps
+                dialogProps: action.dialogProps,
+                dialogType: action.dialogType
             };
 
-            console.log('modal open', action);
-
+            console.log('open modal', nextState);
 
             return nextState;
         case ActionTypes.MODAL_CLOSE:
             nextState[action.modalId] = {
                 open: false
             };
-
-            console.log('modal closed', action);
 
             return nextState;
         default:

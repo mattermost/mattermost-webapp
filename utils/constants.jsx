@@ -238,7 +238,11 @@ export const WebrtcActionTypes = keyMirror({
 });
 
 export const ModalIdentifiers = {
-    DELETE_CHANNEL: 'delete_channel'
+    CHANNEL_INFO: 'channel_info',
+    DELETE_CHANNEL: 'delete_channel',
+    CHANNEL_NOTIFICATIONS: 'channel_notifications',
+    CHANNEL_INVITE: 'channel_invite',
+    EDIT_CHANNEL_HEADER: 'edit_channel_header'
 };
 
 export const UserStatuses = {

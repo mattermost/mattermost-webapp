@@ -6,8 +6,6 @@ import React from 'react';
 
 import {ModalIdentifiers} from 'utils/constants.jsx';
 
-import DeleteChannelModal from 'components/delete_channel_modal';
-
 export default class ModalController extends React.Component {
 
     constructor(params) {
@@ -16,24 +14,30 @@ export default class ModalController extends React.Component {
 
     render() {
         const {modals, ...props} = this.props;
+        const {modalState} = modals;
 
         if (!modals) {
             return <div></div>;
         }
 
-        let modalOutput;
 
-        const deleteChannelModal = modals.modalState[ModalIdentifiers.DELETE_CHANNEL];
 
-        if (deleteChannelModal && deleteChannelModal.open) {
-            console.log('is open');
-            modalOutput = (
-                <DeleteChannelModal
-                    onHide={props.actions.closeModal.bind(this, ModalIdentifiers.DELETE_CHANNEL)}
-                    {...deleteChannelModal.dialogProps}
-                />
-            );
+        const modalOutput = [];
+
+        for (let modalId in modalState) {
+            if (modalState.hasOwnProperty(modalId)) {
+                const modal = modalState[modalId];
+                if (modal.open) {
+                    const modalComponent = React.createElement(modal.dialogType, Object.assign({}, modal.dialogProps, {
+                        onHide: props.actions.closeModal.bind(this, modalId),
+                        key: `${modalId}_modal`
+                    }));
+
+                    modalOutput.push(modalComponent);
+                }
+            }
         }
+
 
         return (
             <div>

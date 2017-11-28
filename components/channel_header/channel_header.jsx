@@ -351,9 +351,10 @@ export default class ChannelHeader extends React.Component {
                     key='edit_header_direct'
                     role='presentation'
                 >
-                    <ToggleModalButton
+                    <ToggleModalButtonRedux
                         id='channelEditHeaderDirect'
                         role='menuitem'
+                        modalId={modalIdentifiers.EDIT_CHANNEL_HEADER}
                         dialogType={EditChannelHeaderModal}
                         dialogProps={{channel}}
                     >
@@ -361,7 +362,7 @@ export default class ChannelHeader extends React.Component {
                             id='channel_header.channelHeader'
                             defaultMessage='Edit Channel Header'
                         />
-                    </ToggleModalButton>
+                    </ToggleModalButtonRedux>
                 </li>
             );
         } else if (isGroup) {
@@ -370,9 +371,10 @@ export default class ChannelHeader extends React.Component {
                     key='edit_header_direct'
                     role='presentation'
                 >
-                    <ToggleModalButton
+                    <ToggleModalButtonRedux
                         id='channelEditHeaderGroup'
                         role='menuitem'
+                        modalId={modalIdentifiers.EDIT_CHANNEL_HEADER}
                         dialogType={EditChannelHeaderModal}
                         dialogProps={{channel}}
                     >
@@ -380,7 +382,7 @@ export default class ChannelHeader extends React.Component {
                             id='channel_header.channelHeader'
                             defaultMessage='Edit Channel Header'
                         />
-                    </ToggleModalButton>
+                    </ToggleModalButtonRedux>
                 </li>
             );
 
@@ -389,9 +391,10 @@ export default class ChannelHeader extends React.Component {
                     key='notification_preferences'
                     role='presentation'
                 >
-                    <ToggleModalButton
+                    <ToggleModalButtonRedux
                         id='channelnotificationPreferencesGroup'
                         role='menuitem'
+                        modalId={modalIdentifiers.EDIT_CHANNEL_HEADER}
                         dialogType={ChannelNotificationsModal}
                         dialogProps={{
                             channel,
@@ -403,7 +406,7 @@ export default class ChannelHeader extends React.Component {
                             id='channel_header.notificationPreferences'
                             defaultMessage='Notification Preferences'
                         />
-                    </ToggleModalButton>
+                    </ToggleModalButtonRedux>
                 </li>
             );
 
@@ -431,9 +434,10 @@ export default class ChannelHeader extends React.Component {
                     key='view_info'
                     role='presentation'
                 >
-                    <ToggleModalButton
+                    <ToggleModalButtonRedux
                         id='channelViewInfo'
                         role='menuitem'
+                        modalId={ModalIdentifiers.CHANNEL_INFO}
                         dialogType={ChannelInfoModal}
                         dialogProps={{channel}}
                     >
@@ -441,7 +445,7 @@ export default class ChannelHeader extends React.Component {
                             id='channel_header.viewInfo'
                             defaultMessage='View Info'
                         />
-                    </ToggleModalButton>
+                    </ToggleModalButtonRedux>
                 </li>
             );
 
@@ -471,9 +475,10 @@ export default class ChannelHeader extends React.Component {
                     key='notification_preferences'
                     role='presentation'
                 >
-                    <ToggleModalButton
+                    <ToggleModalButtonRedux
                         id='channelNotificationPreferences'
                         role='menuitem'
+                        modalId={ModalIdentifiers.CHANNEL_NOTIFICATIONS}
                         dialogType={ChannelNotificationsModal}
                         dialogProps={{
                             channel,
@@ -485,7 +490,7 @@ export default class ChannelHeader extends React.Component {
                             id='channel_header.notificationPreferences'
                             defaultMessage='Notification Preferences'
                         />
-                    </ToggleModalButton>
+                    </ToggleModalButtonRedux>
                 </li>
             );
 
@@ -503,10 +508,11 @@ export default class ChannelHeader extends React.Component {
                             key='add_members'
                             role='presentation'
                         >
-                            <ToggleModalButton
+                            <ToggleModalButtonRedux
                                 id='channelAddMembers'
                                 ref='channelInviteModalButton'
                                 role='menuitem'
+                                modalId={ModalIdentifiers.CHANNEL_INVITE}
                                 dialogType={ChannelInviteModal}
                                 dialogProps={{channel, currentUser: this.props.currentUser}}
                             >
@@ -514,7 +520,7 @@ export default class ChannelHeader extends React.Component {
                                     id='channel_header.addMembers'
                                     defaultMessage='Add Members'
                                 />
-                            </ToggleModalButton>
+                            </ToggleModalButtonRedux>
                         </li>
                     );
 
@@ -571,9 +577,10 @@ export default class ChannelHeader extends React.Component {
                         key='set_channel_header'
                         role='presentation'
                     >
-                        <ToggleModalButton
+                        <ToggleModalButtonRedux
                             id='channelEditHeader'
                             role='menuitem'
+                                modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
                             dialogType={EditChannelHeaderModal}
                             dialogProps={{channel}}
                         >
@@ -581,7 +588,7 @@ export default class ChannelHeader extends React.Component {
                                 id='channel_header.setHeader'
                                 defaultMessage='Edit Channel Header'
                             />
-                        </ToggleModalButton>
+                        </ToggleModalButtonRedux>
                     </li>
                 );
 
@@ -634,6 +641,7 @@ export default class ChannelHeader extends React.Component {
                             id='channelDelete'
                             role='menuitem'
                             modalId={ModalIdentifiers.DELETE_CHANNEL}
+                            dialogType={DeleteChannelModal}
                             dialogProps={{channel}}
                         >
                             <FormattedMessage

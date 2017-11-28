@@ -23,11 +23,12 @@ export default class ModalToggleButtonRedux extends React.Component {
 
         this.setState({show: true});
 
-        const {modalId, dialogProps} = this.props;
+        const {modalId, dialogProps, dialogType} = this.props;
 
         const modalData = {
-            modalId: modalId,
-            dialogProps: dialogProps
+            modalId,
+            dialogProps,
+            dialogType
         };
 
         this.props.actions.openModal(modalData);
@@ -70,6 +71,7 @@ export default class ModalToggleButtonRedux extends React.Component {
 ModalToggleButtonRedux.propTypes = {
     children: PropTypes.node.isRequired,
     modalId: PropTypes.string.isRequired,
+    dialogType: PropTypes.func.isRequired,
     dialogProps: PropTypes.object,
     onClick: PropTypes.func,
     className: PropTypes.string

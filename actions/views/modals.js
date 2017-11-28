@@ -6,7 +6,8 @@ export function openModal(modalData) {
         const action = {
             type: ActionTypes.MODAL_OPEN,
             modalId: modalData.modalId,
-            dialogProps: modalData.dialogProps
+            dialogProps: modalData.dialogProps,
+            dialogType: modalData.dialogType
         };
 
         dispatch(action);
