@@ -34,7 +34,7 @@ function mapStateToProps() {
             ...ownProps,
             currentTeamId: getCurrentTeamId(state),
             currentChannel,
-            currentChannelStats: getCurrentChannelStats(state),
+            currentChannelMembersCount: getCurrentChannelStats(state).member_count,
             currentUserId: getCurrentUserId(state),
             ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
             fullWidthTextBox: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT) === Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN,

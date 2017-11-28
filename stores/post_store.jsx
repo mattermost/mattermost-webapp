@@ -11,7 +11,6 @@ import store from 'stores/redux_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
 import {Constants} from 'utils/constants.jsx';
-import * as PostUtils from 'utils/post_utils.jsx';
 
 import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
 
@@ -56,20 +55,6 @@ class PostStoreClass extends EventEmitter {
 
     getMostRecentPostIdInChannel(channelId) {
         return Selectors.getMostRecentPostIdInChannel(getState(), channelId);
-    }
-
-    getLatestReplyablePost(channelId) {
-        const postIds = getState().entities.posts.postsInChannel[channelId] || [];
-        const posts = getState().entities.posts.posts;
-
-        for (const postId of postIds) {
-            const post = posts[postId] || {};
-            if (post.state !== Constants.POST_DELETED && !PostUtils.isSystemMessage(post)) {
-                return post;
-            }
-        }
-
-        return null;
     }
 
     getVisiblePosts() {
