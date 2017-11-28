@@ -38,10 +38,7 @@ const currentChannelProp = {
     id: 'owsyt8n43jfxjpzh9np93mx1wa',
     type: 'O'
 };
-const currentChannelStatsProp = {
-    channel_id: 'owsyt8n43jfxjpzh9np93mx1wa',
-    member_count: 9
-};
+const currentChannelMembersCountProp = 9;
 const draftProp = {
     message: '',
     uploadsInProgress: [],
@@ -72,7 +69,7 @@ function createPost({
       currentTeamId = currentTeamIdProp,
       currentUserId = currentUserIdProp,
       showTutorialTip = showTutorialTipProp,
-      currentChannelStats = currentChannelStatsProp,
+      currentChannelMembersCount = currentChannelMembersCountProp,
       fullWidthTextBox = fullWidthTextBoxProp,
       draft = draftProp,
       recentPostIdInChannel = recentPostIdInChannelProp,
@@ -88,7 +85,7 @@ function createPost({
             currentUserId={currentUserId}
             showTutorialTip={showTutorialTip}
             fullWidthTextBox={fullWidthTextBox}
-            currentChannelStats={currentChannelStats}
+            currentChannelMembersCount={currentChannelMembersCount}
             draft={draft}
             recentPostIdInChannel={recentPostIdInChannel}
             ctrlSend={ctrlSend}
@@ -243,10 +240,7 @@ describe('components/create_post', () => {
         expect(wrapper.state('showConfirmModal')).toBe(false);
 
         wrapper.setProps({
-            currentChannelStats: {
-                ...currentChannelStatsProp,
-                member_count: 2
-            }
+            currentChannelMembersCount: 2
         });
 
         form.simulate('Submit', {preventDefault: jest.fn()});
@@ -625,7 +619,7 @@ describe('components/create_post', () => {
 
     it('Show tutorial', () => {
         const wrapper = shallow(createPost({
-            showTutorialTip: 1
+            showTutorialTip: '1'
         }));
         expect(wrapper.find('TutorialTip').length).toBe(1);
     });
