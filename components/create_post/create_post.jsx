@@ -156,7 +156,7 @@ export default class CreatePost extends React.Component {
     }
 
     static defaultProps = {
-        currentChannelMembersCount: 0,
+        currentChannelMembersCount: 1,
         latestReplyablePostId: ''
     }
 
