@@ -8,7 +8,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 
-import ChannelStore from 'stores/channel_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
@@ -53,6 +52,7 @@ export function renderThumbVertical(props) {
 export default class RhsThread extends React.Component {
     static propTypes = {
         posts: PropTypes.arrayOf(PropTypes.object).isRequired,
+        channel: PropTypes.object.isRequired,
         selected: PropTypes.object.isRequired,
         previousRhsState: PropTypes.string,
         isWebrtc: PropTypes.bool,
@@ -406,9 +406,8 @@ export default class RhsThread extends React.Component {
             );
         }
 
-        const channel = ChannelStore.get(selected.channel_id);
-        if (channel.type === Constants.DM_CHANNEL) {
-            const teammate = Utils.getDirectTeammate(channel.id);
+        if (this.props.channel.type === Constants.DM_CHANNEL) {
+            const teammate = Utils.getDirectTeammate(this.props.channel.id);
             if (teammate && teammate.delete_at) {
                 createComment = (
                     <div
