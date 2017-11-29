@@ -90,6 +90,15 @@ export default function configureStore(initialState, persistorStorage = null) {
                         crossTabNotification: true,
                         changeDetection: true
                     });
+                    var restoredState = {}
+                    localforage.iterate((value, key) => {
+                        if(key && key.indexOf(KEY_PREFIX+"storage:") === 0){
+                            const keyspace = key.substr((KEY_PREFIX+"storage:").length);
+                            restoredState[keyspace] = value;
+                        }
+                    }).then(() => {
+                        storageRehydrate(restoredState)(store.dispatch);
+                    });
                     observable.subscribe({
                         next: (args) => {
                             if(args.key && args.key.indexOf(KEY_PREFIX+"storage:") === 0 && args.oldValue === null){
