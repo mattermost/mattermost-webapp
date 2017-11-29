@@ -136,9 +136,12 @@
 }
 
 .file-view--single {
-    display: inline-block;
     margin: 5px 0;
-    position: relative;
+
+    .file__image {
+        display: inline-block;
+        position: relative;
+    }
 
     .file-details__name {
         display: block;
@@ -171,11 +174,11 @@
     align-items: center;
     border: 1px solid alpha-color($black, .1);
     display: flex;
-    height: 150px;
+    height: 100px;
     margin: 5px 10px 5px 0;
     max-width: 100%;
     position: relative;
-    width: 460px;
+    width: 320px;
 
     &--placeholder {
         visibility: hidden;
@@ -247,7 +250,7 @@
     @include cursor(zoom-in);
     flex: none;
     height: 100%;
-    width: 150px;
+    width: 100px;
 }
 
 .post-image__details {
@@ -258,7 +261,7 @@
     display: flex;
     font-size: 13px;
     height: 100%;
-    padding: 0 80px 0 30px;
+    padding: 0 60px 0 15px;
     width: 100%;
 
     .post-image__detail {
@@ -269,9 +272,6 @@
             display: block;
             font-weight: 600;
             margin-bottom: 3px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
         }
 
         .post-image__type {
@@ -297,12 +297,14 @@
         right: 0;
         text-align: center;
         top: 0;
-        width: 70px;
+        width: 50px;
 
         svg {
             @include border-radius(50%);
             border: 1px solid;
             display: inline-block;
+            height: 30px;
+            width: 30px;
         }
     }
 }
@@ -335,6 +337,10 @@
         height: 270px;
         vertical-align: center;
         width: 320px;
+
+        img {
+            width: 80px;
+        }
 
         // helper to center the image icon in the preview window
         .file-details__preview-helper {
