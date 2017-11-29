@@ -226,18 +226,17 @@ export default class SwitchChannelProvider extends Provider {
             }
 
             const isDMVisible = getBool(getState(), Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, user.id, false);
-            let displayName = `@${user.username} `;
+            let displayName = `@${user.username}`;
 
             if (user.id === currentId) {
                 continue;
             }
 
-            if ((user.first_name || user.last_name) && user.nickname) {
-                displayName += `- ${Utils.getFullName(user)} (${user.nickname})`;
-            } else if (user.nickname) {
-                displayName += `- (${user.nickname})`;
-            } else if (user.first_name || user.last_name) {
-                displayName += `- ${Utils.getFullName(user)}`;
+            if (user.first_name || user.last_name) {
+                displayName = `${Utils.getFullName(user)} - @${user.username}`;
+            }
+            if (user.nickname) {
+                displayName += ` - (${user.nickname})`;
             }
 
             const wrappedChannel = {
