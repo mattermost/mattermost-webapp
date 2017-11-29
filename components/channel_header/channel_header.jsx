@@ -59,7 +59,8 @@ export default class ChannelHeader extends React.Component {
             showFlaggedPosts: PropTypes.func.isRequired,
             showPinnedPosts: PropTypes.func.isRequired,
             showMentions: PropTypes.func.isRequired,
-            closeRightHandSide: PropTypes.func.isRequired
+            closeRightHandSide: PropTypes.func.isRequired,
+            openModal: PropTypes.func.isRequired
         }).isRequired
     }
 
@@ -820,10 +821,18 @@ export default class ChannelHeader extends React.Component {
 
         let channelMembersModal;
         if (this.state.showMembersModal) {
+            const inviteModalData = {
+                modalId: ModalIdentifiers.CHANNEL_INVITE,
+                dialogType: ChannelInviteModal,
+                dialogProps: {channel, currentUser: this.props.currentUser}
+            };
+
+            const {openModal} = this.props.actions;
+
             channelMembersModal = (
                 <ChannelMembersModal
                     onModalDismissed={() => this.setState({showMembersModal: false})}
-                    showInviteModal={() => this.refs.channelInviteModalButton.show()}
+                    showInviteModal={() => openModal(inviteModalData)}
                     channel={channel}
                 />
             );
