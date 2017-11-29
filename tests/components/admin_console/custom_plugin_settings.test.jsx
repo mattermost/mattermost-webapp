@@ -26,21 +26,24 @@ describe('components/admin_console/CustomPluginSettings', () => {
             settings_schema: {
                 header: '# Header\n*This* is the **header**',
                 footer: '# Footer\n*This* is the **footer**',
-                settings: {
-                    settinga: {
+                settings: [
+                    {
+                        key: 'settinga',
                         display_name: 'Setting One',
                         type: 'text',
                         default: 'setting_default',
                         help_text: 'This is some help text for the text field.',
                         placeholder: 'e.g. some setting'
                     },
-                    settingb: {
+                    {
+                        key: 'settingb',
                         display_name: 'Setting Two',
                         type: 'bool',
                         default: true,
                         help_text: 'This is some help text for the bool field.'
                     },
-                    settingc: {
+                    {
+                        key: 'settingc',
                         display_name: 'Setting Three',
                         type: 'dropdown',
                         default: 'option1',
@@ -51,7 +54,8 @@ describe('components/admin_console/CustomPluginSettings', () => {
                         ],
                         help_text: 'This is some help text for the dropdown field.'
                     },
-                    settingd: {
+                    {
+                        key: 'settingd',
                         display_name: 'Setting Four',
                         type: 'radio',
                         default: 'option2',
@@ -62,20 +66,22 @@ describe('components/admin_console/CustomPluginSettings', () => {
                         ],
                         help_text: 'This is some help text for the radio field.'
                     },
-                    settinge: {
+                    {
+                        key: 'settinge',
                         display_name: 'Setting Five',
                         type: 'generated',
                         help_text: 'This is some help text for the generated field.',
                         regenerate_help_text: 'This is help text for the regenerate button.',
                         placeholder: 'e.g. 47KyfOxtk5+ovi1MDHFyzMDHIA6esMWb'
                     },
-                    settingf: {
+                    {
+                        key: 'settingf',
                         display_name: 'Setting Six',
                         type: 'username',
                         help_text: 'This is some help text for the user autocomplete field.',
                         placeholder: 'Type a username here'
                     }
-                }
+                ]
             }
         };
 
