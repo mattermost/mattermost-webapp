@@ -451,78 +451,76 @@ export default class AdvancedSettingsDisplay extends React.Component {
 
         let previewFeaturesSection;
         let previewFeaturesSectionDivider;
-        if (this.state.previewFeaturesEnabled) {
-            if (this.state.preReleaseFeaturesKeys.length > 0) {
-                previewFeaturesSectionDivider = (
-                    <div className='divider-light'/>
-                );
+        if (this.state.previewFeaturesEnabled && this.state.preReleaseFeaturesKeys.length > 0) {
+            previewFeaturesSectionDivider = (
+                <div className='divider-light'/>
+            );
 
-                if (this.props.activeSection === 'advancedPreviewFeatures') {
-                    const inputs = [];
+            if (this.props.activeSection === 'advancedPreviewFeatures') {
+                const inputs = [];
 
-                    this.state.preReleaseFeaturesKeys.forEach((key) => {
-                        const feature = this.state.preReleaseFeatures[key];
-                        inputs.push(
-                            <div key={'advancedPreviewFeatures_' + feature.label}>
-                                <div className='checkbox'>
-                                    <label>
-                                        <input
-                                            id={'advancedPreviewFeatures' + feature.label}
-                                            type='checkbox'
-                                            checked={this.state.settings[Constants.FeatureTogglePrefix + feature.label] === 'true'}
-                                            onChange={(e) => {
-                                                this.toggleFeature(feature.label, e.target.checked);
-                                            }}
-                                        />
-                                        {this.renderFeatureLabel(key)}
-                                    </label>
-                                </div>
-                            </div>
-                        );
-                    });
-
+                this.state.preReleaseFeaturesKeys.forEach((key) => {
+                    const feature = this.state.preReleaseFeatures[key];
                     inputs.push(
-                        <div key='advancedPreviewFeatures_helptext'>
-                            <br/>
-                            <FormattedMessage
-                                id='user.settings.advance.preReleaseDesc'
-                                defaultMessage="Check any pre-released features you'd like to preview.  You may also need to refresh the page before the setting will take effect."
-                            />
+                        <div key={'advancedPreviewFeatures_' + feature.label}>
+                            <div className='checkbox'>
+                                <label>
+                                    <input
+                                        id={'advancedPreviewFeatures' + feature.label}
+                                        type='checkbox'
+                                        checked={this.state.settings[Constants.FeatureTogglePrefix + feature.label] === 'true'}
+                                        onChange={(e) => {
+                                            this.toggleFeature(feature.label, e.target.checked);
+                                        }}
+                                    />
+                                    {this.renderFeatureLabel(key)}
+                                </label>
+                            </div>
                         </div>
                     );
-                    previewFeaturesSection = (
-                        <SettingItemMax
-                            title={
-                                <FormattedMessage
-                                    id='user.settings.advance.preReleaseTitle'
-                                    defaultMessage='Preview pre-release features'
-                                />
-                            }
-                            inputs={inputs}
-                            submit={this.saveEnabledFeatures}
-                            saving={this.state.isSaving}
-                            server_error={serverError}
-                            updateSection={(e) => {
-                                this.updateSection('');
-                                e.preventDefault();
-                            }}
+                });
+
+                inputs.push(
+                    <div key='advancedPreviewFeatures_helptext'>
+                        <br/>
+                        <FormattedMessage
+                            id='user.settings.advance.preReleaseDesc'
+                            defaultMessage="Check any pre-released features you'd like to preview.  You may also need to refresh the page before the setting will take effect."
                         />
-                    );
-                } else {
-                    previewFeaturesSection = (
-                        <SettingItemMin
-                            title={Utils.localizeMessage('user.settings.advance.preReleaseTitle', 'Preview pre-release features')}
-                            describe={
-                                <FormattedMessage
-                                    id='user.settings.advance.enabledFeatures'
-                                    defaultMessage='{count, number} {count, plural, one {Feature} other {Features}} Enabled'
-                                    values={{count: this.state.enabledFeatures}}
-                                />
-                            }
-                            updateSection={() => this.props.updateSection('advancedPreviewFeatures')}
-                        />
-                    );
-                }
+                    </div>
+                );
+                previewFeaturesSection = (
+                    <SettingItemMax
+                        title={
+                            <FormattedMessage
+                                id='user.settings.advance.preReleaseTitle'
+                                defaultMessage='Preview pre-release features'
+                            />
+                        }
+                        inputs={inputs}
+                        submit={this.saveEnabledFeatures}
+                        saving={this.state.isSaving}
+                        server_error={serverError}
+                        updateSection={(e) => {
+                            this.updateSection('');
+                            e.preventDefault();
+                        }}
+                    />
+                );
+            } else {
+                previewFeaturesSection = (
+                    <SettingItemMin
+                        title={Utils.localizeMessage('user.settings.advance.preReleaseTitle', 'Preview pre-release features')}
+                        describe={
+                            <FormattedMessage
+                                id='user.settings.advance.enabledFeatures'
+                                defaultMessage='{count, number} {count, plural, one {Feature} other {Features}} Enabled'
+                                values={{count: this.state.enabledFeatures}}
+                            />
+                        }
+                        updateSection={() => this.props.updateSection('advancedPreviewFeatures')}
+                    />
+                );
             }
         }
 
