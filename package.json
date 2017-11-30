@@ -50,7 +50,7 @@
     "superagent": "3.8.1",
     "twemoji": "2.5.0",
     "velocity-animate": "1.5.0",
-    "webrtc-adapter": "6.0.0",
+    "webrtc-adapter": "6.0.2",
     "whatwg-fetch": "2.0.3",
     "xregexp": "3.2.0"
   },
