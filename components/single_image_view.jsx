@@ -11,6 +11,7 @@ import * as Utils from 'utils/utils';
 import * as FileUtils from 'utils/file_utils';
 
 import LoadingImagePreview from 'components/loading_image_preview';
+import ViewImageModal from 'components/view_image.jsx';
 
 export default class SingleImageView extends React.PureComponent {
     static propTypes = {
@@ -31,7 +32,8 @@ export default class SingleImageView extends React.PureComponent {
         this.state = {
             imageHeight: '100%',
             loaded: false,
-            progress: true
+            progress: true,
+            showPreviewModal: false
         };
     }
 
@@ -71,6 +73,11 @@ export default class SingleImageView extends React.PureComponent {
         this.setState({progress: completedPercentage});
     }
 
+    handleImageClick = (e) => {
+        e.preventDefault();
+        this.setState({showPreviewModal: true});
+    }
+
     render() {
         const {fileInfo} = this.props;
         const fileUrl = getFileUrl(fileInfo.id);
@@ -84,7 +91,7 @@ export default class SingleImageView extends React.PureComponent {
             downloadButton = (
                 <a
                     href={fileUrl}
-                    download={fileInfo.fileName}
+                    download={fileInfo.name}
                     className='file__download'
                     target='_blank'
                     rel='noopener noreferrer'
@@ -101,9 +108,19 @@ export default class SingleImageView extends React.PureComponent {
         if (this.state.loaded) {
             const fileType = Utils.getFileType(fileInfo.extension);
 
-            if (fileType === 'image' || fileType === 'svg') {
-                content = <img src={previewUrl}/>;
+            let svgClass;
+            if (fileType === 'svg') {
+                svgClass = 'post-image normal';
             }
+
+            content = (
+                <img
+                    src={previewUrl}
+                    style={{cursor: 'pointer'}}
+                    className={svgClass}
+                    onClick={this.handleImageClick}
+                />
+            );
         } else {
             // display a progress indicator when the preview for an image is still loading
             const loading = Utils.localizeMessage('view_image.loading', 'Loading');
@@ -131,6 +148,11 @@ export default class SingleImageView extends React.PureComponent {
                     {content}
                     {downloadButton}
                 </div>
+                <ViewImageModal
+                    show={this.state.showPreviewModal}
+                    onModalDismissed={() => this.setState({showPreviewModal: false})}
+                    fileInfos={[fileInfo]}
+                />
             </div>
         );
     }
