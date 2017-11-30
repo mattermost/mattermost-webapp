@@ -22,7 +22,6 @@ export default class MessageExportSettings extends AdminSettings {
     getConfigFromState(config) {
         config.MessageExportSettings.EnableExport = this.state.enableMessageExport;
         config.MessageExportSettings.DailyRunTime = this.state.exportJobStartTime;
-        config.MessageExportSettings.ExportFromTimestamp = parseInt(this.state.exportFromTimestamp, 10);
         config.MessageExportSettings.FileLocation = this.state.exportLocation;
         return config;
     }
@@ -31,7 +30,6 @@ export default class MessageExportSettings extends AdminSettings {
         return {
             enableMessageExport: config.MessageExportSettings.EnableExport,
             exportJobStartTime: config.MessageExportSettings.DailyRunTime,
-            exportFromTimestamp: String(config.MessageExportSettings.ExportFromTimestamp),
             exportLocation: config.MessageExportSettings.FileLocation
         };
     }
@@ -95,26 +93,6 @@ export default class MessageExportSettings extends AdminSettings {
                         />
                     }
                     value={this.state.exportJobStartTime}
-                    disabled={!this.state.enableMessageExport}
-                    onChange={this.handleChange}
-                />
-
-                <TextSetting
-                    id='exportFromTimestamp'
-                    label={
-                        <FormattedMessage
-                            id='admin.messageExport.exportFromTimestamp.title'
-                            defaultMessage='Creation Time of Oldest Post to Export:'
-                        />
-                    }
-                    placeholder={Utils.localizeMessage('admin.messageExport.exportFromTimestamp.example', 'E.g.: Tuesday October 24, 2017 @ 12pm UTC = 1508846400')}
-                    helpText={
-                        <FormattedMessage
-                            id='admin.messageExport.exportFromTimestamp.description'
-                            defaultMessage='Posts older than this will not be exported. Expressed as the number of seconds since the Unix Epoch (January 1, 1970).'
-                        />
-                    }
-                    value={this.state.exportFromTimestamp}
                     disabled={!this.state.enableMessageExport}
                     onChange={this.handleChange}
                 />
