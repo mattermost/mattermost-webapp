@@ -670,8 +670,9 @@
         flex-direction: column;
         width: 100%;
 
-        .has-error {
-            padding-left: 10px;
+        .control-label {
+            font-weight: normal;
+            padding: 5px 0 0 5px;
         }
     }
 
