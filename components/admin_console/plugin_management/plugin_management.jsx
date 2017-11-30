@@ -197,20 +197,49 @@ export default class PluginManagement extends React.Component {
             );
         }
 
-        let removeButtonText;
-        if (this.state.removing === p.id) {
-            removeButtonText = (
-                <FormattedMessage
-                    id='admin.plugin.removing'
-                    defaultMessage='Removing...'
-                />
+        let removeButton;
+        if (!p.prepackaged) {
+            let removeButtonText;
+            if (this.state.removing === p.id) {
+                removeButtonText = (
+                    <FormattedMessage
+                        id='admin.plugin.removing'
+                        defaultMessage='Removing...'
+                    />
+                );
+            } else {
+                removeButtonText = (
+                    <FormattedMessage
+                        id='admin.plugin.remove'
+                        defaultMessage='Remove'
+                    />
+                );
+            }
+            removeButton = (
+                <span>
+                    {' - '}
+                    <a
+                        disabled={this.state.removing === p.id}
+                        onClick={() => this.handleRemove(p.id)}
+                    >
+                        {removeButtonText}
+                    </a>
+                </span>
             );
-        } else {
-            removeButtonText = (
-                <FormattedMessage
-                    id='admin.plugin.remove'
-                    defaultMessage='Remove'
-                />
+        }
+
+        let name;
+        if (p.name) {
+            name = (
+                <div className='padding-top'>
+                    <strong>
+                        <FormattedMessage
+                            id='admin.plugin.name'
+                            defaultMessage='Name:'
+                        />
+                    </strong>
+                    {' ' + p.name}
+                </div>
             );
         }
 
@@ -229,27 +258,38 @@ export default class PluginManagement extends React.Component {
             );
         }
 
+        let version;
+        if (p.version) {
+            version = (
+                <div className='padding-top'>
+                    <strong>
+                        <FormattedMessage
+                            id='admin.plugin.version'
+                            defaultMessage='Version:'
+                        />
+                    </strong>
+                    {' ' + p.version}
+                </div>
+            );
+        }
+
         return (
             <div key={p.id}>
                 <div>
                     <strong>
                         <FormattedMessage
                             id='admin.plugin.id'
-                            defaultMessage='ID:'
+                            defaultMessage='Id:'
                         />
                     </strong>
-                    {' ' + p.id}
+                    {' ' + p.id + (p.prepackaged ? ' (' + Utils.localizeMessage('admin.plugin.prepackaged', 'Prepackaged') + ')' : '')}
                 </div>
+                {name}
                 {description}
+                {version}
                 <div className='padding-top'>
                     {activateButton}
-                    {' - '}
-                    <a
-                        disabled={this.state.removing === p.id}
-                        onClick={() => this.handleRemove(p.id)}
-                    >
-                        {removeButtonText}
-                    </a>
+                    {removeButton}
                     {settingsButton}
                 </div>
                 <hr/>
