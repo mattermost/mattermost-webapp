@@ -153,7 +153,7 @@ export default {
                                         }
                                     },
                                     {
-                                        path: '*authorize',
+                                        path: 'oauth/authorize',
                                         getComponents: (location, callback) => {
                                             System.import('components/authorize.jsx').then(RouteUtils.importComponentSuccess(callback));
                                         }

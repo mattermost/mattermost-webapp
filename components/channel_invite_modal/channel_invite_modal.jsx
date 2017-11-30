@@ -50,7 +50,8 @@ export default class ChannelInviteModal extends React.Component {
             total: teamStats.active_member_count - channelStats.member_count,
             values: [],
             show: true,
-            statusChange: false
+            statusChange: false,
+            saving: false
         };
     }
 
@@ -111,10 +112,12 @@ export default class ChannelInviteModal extends React.Component {
     handleInviteError = (err) => {
         if (err) {
             this.setState({
+                saving: false,
                 inviteError: err.message
             });
         } else {
             this.setState({
+                saving: false,
                 inviteError: null
             });
         }
@@ -139,6 +142,8 @@ export default class ChannelInviteModal extends React.Component {
         if (userIds.length === 0) {
             return;
         }
+
+        this.setState({saving: true});
 
         userIds.forEach((userId) => {
             addUserToChannel(
@@ -257,6 +262,7 @@ export default class ChannelInviteModal extends React.Component {
                     maxValues={MAX_SELECTABLE_VALUES}
                     numRemainingText={numRemainingText}
                     buttonSubmitText={buttonSubmitText}
+                    saving={this.state.saving}
                 />
             );
         }

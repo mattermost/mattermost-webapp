@@ -21,6 +21,7 @@ exports[`components/edit_channel_header_modal/edit_channel_header_modal edit dir
       "remove": [Function],
     }
   }
+  onEntering={[Function]}
   onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
@@ -124,6 +125,7 @@ exports[`components/edit_channel_header_modal/edit_channel_header_modal error wi
       "remove": [Function],
     }
   }
+  onEntering={[Function]}
   onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
@@ -241,6 +243,7 @@ exports[`components/edit_channel_header_modal/edit_channel_header_modal error wi
       "remove": [Function],
     }
   }
+  onEntering={[Function]}
   onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
@@ -358,6 +361,7 @@ exports[`components/edit_channel_header_modal/edit_channel_header_modal hide err
       "remove": [Function],
     }
   }
+  onEntering={[Function]}
   onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
@@ -465,6 +469,7 @@ exports[`components/edit_channel_header_modal/edit_channel_header_modal should m
       "remove": [Function],
     }
   }
+  onEntering={[Function]}
   onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
@@ -572,6 +577,7 @@ exports[`components/edit_channel_header_modal/edit_channel_header_modal submitte
       "remove": [Function],
     }
   }
+  onEntering={[Function]}
   onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}

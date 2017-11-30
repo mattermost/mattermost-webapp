@@ -68,7 +68,7 @@ export default class MoreDirectChannels extends React.Component {
             values,
             show: true,
             search: false,
-            loadingChannel: -1
+            loadingChannel: false
         };
     }
 
@@ -104,7 +104,7 @@ export default class MoreDirectChannels extends React.Component {
     }
 
     handleSubmit(values = this.state.values) {
-        if (this.state.loadingChannel !== -1) {
+        if (this.state.loadingChannel) {
             return;
         }
 
@@ -113,19 +113,19 @@ export default class MoreDirectChannels extends React.Component {
             return;
         }
 
-        this.setState({loadingChannel: 1});
+        this.setState({loadingChannel: true});
 
         const success = (channel) => {
             // Due to how react-overlays Modal handles focus, we delay pushing
             // the new channel information until the modal is fully exited.
             // The channel information will be pushed in `handleExit`
             this.exitToChannel = TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + channel.name;
-            this.setState({loadingChannel: -1});
+            this.setState({loadingChannel: false});
             this.handleHide();
         };
 
         const error = () => {
-            this.setState({loadingChannel: -1});
+            this.setState({loadingChannel: false});
         };
 
         if (userIds.length === 1) {
@@ -359,6 +359,7 @@ export default class MoreDirectChannels extends React.Component {
                         numRemainingText={numRemainingText}
                         buttonSubmitText={buttonSubmitText}
                         submitImmediatelyOn={[this.props.currentUserId]}
+                        saving={this.state.loadingChannel}
                     />
                 </Modal.Body>
             </Modal>

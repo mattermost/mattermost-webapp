@@ -27,12 +27,12 @@ import {EmojiMap} from 'stores/emoji_store.jsx';
 import {makeGetCommentDraft} from 'selectors/rhs';
 
 import * as Utils from 'utils/utils.jsx';
-import {Constants} from 'utils/constants.jsx';
+import {Constants, StoragePrefixes} from 'utils/constants.jsx';
 
 import {REACTION_PATTERN} from 'components/create_post.jsx';
 
 export function clearCommentDraftUploads() {
-    return actionOnGlobalItemsWithPrefix('comment_draft_', (key, value) => {
+    return actionOnGlobalItemsWithPrefix(StoragePrefixes.COMMENT_DRAFT, (key, value) => {
         if (value) {
             return {...value, uploadsInProgress: []};
         }
@@ -41,7 +41,7 @@ export function clearCommentDraftUploads() {
 }
 
 export function updateCommentDraft(rootId, draft) {
-    return setGlobalItem(`comment_draft_${rootId}`, draft);
+    return setGlobalItem(`${StoragePrefixes.COMMENT_DRAFT}${rootId}`, draft);
 }
 
 export function makeOnMoveHistoryIndex(rootId, direction) {

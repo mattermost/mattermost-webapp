@@ -10,6 +10,8 @@ import {browserHistory} from 'react-router';
 import {Client4} from 'mattermost-redux/client';
 import {Posts} from 'mattermost-redux/constants';
 
+import {searchForTerm} from 'actions/post_actions';
+
 import UserStore from 'stores/user_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import LocalizationStore from 'stores/localization_store.jsx';
@@ -22,10 +24,6 @@ import * as UserAgent from 'utils/user_agent.jsx';
 import bing from 'images/bing.mp3';
 import icon50 from 'images/icon50x50.png';
 import iconWS from 'images/icon_WS.png';
-
-import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
-
-var ActionTypes = Constants.ActionTypes;
 
 export function isEmail(email) {
     // writing a regex to match all valid email addresses is really, really hard (see http://stackoverflow.com/a/201378)
@@ -1335,18 +1333,31 @@ export function canCreateCustomEmoji(user) {
     return true;
 }
 
-export function isValidPassword(password) {
+export function getPasswordConfig() {
+    return {
+        isEnterprise: global.window.mm_config.BuildEnterpriseReady === 'true',
+        isLicensed: global.window.mm_license.IsLicensed === 'true',
+        isPasswordRequirements: global.window.mm_license.PasswordRequirements === 'true',
+        minimumLength: parseInt(global.window.mm_config.PasswordMinimumLength, 10),
+        requireLowercase: global.window.mm_config.PasswordRequireLowercase === 'true',
+        requireUppercase: global.window.mm_config.PasswordRequireUppercase === 'true',
+        requireNumber: global.window.mm_config.PasswordRequireNumber === 'true',
+        requireSymbol: global.window.mm_config.PasswordRequireSymbol === 'true'
+    };
+}
+
+export function isValidPassword(password, passwordConfig) {
     let errorMsg = '';
     let errorId = 'user.settings.security.passwordError';
     let error = false;
     let minimumLength = Constants.MIN_PASSWORD_LENGTH;
 
-    if (global.window.mm_config.BuildEnterpriseReady === 'true' && global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.PasswordRequirements === 'true') {
-        if (password.length < parseInt(global.window.mm_config.PasswordMinimumLength, 10) || password.length > Constants.MAX_PASSWORD_LENGTH) {
+    if (passwordConfig.isEnterprise && passwordConfig.isLicensed && passwordConfig.isPasswordRequirements) {
+        if (password.length < passwordConfig.minimumLength || password.length > Constants.MAX_PASSWORD_LENGTH) {
             error = true;
         }
 
-        if (global.window.mm_config.PasswordRequireLowercase === 'true') {
+        if (passwordConfig.requireLowercase) {
             if (!password.match(/[a-z]/)) {
                 error = true;
             }
@@ -1354,23 +1365,23 @@ export function isValidPassword(password) {
             errorId += 'Lowercase';
         }
 
-        if (global.window.mm_config.PasswordRequireUppercase === 'true') {
-            if (!password.match(/[0-9]/)) {
+        if (passwordConfig.requireUppercase) {
+            if (!password.match(/[A-Z]/)) {
                 error = true;
             }
 
             errorId += 'Uppercase';
         }
 
-        if (global.window.mm_config.PasswordRequireNumber === 'true') {
-            if (!password.match(/[A-Z]/)) {
+        if (passwordConfig.requireNumber) {
+            if (!password.match(/[0-9]/)) {
                 error = true;
             }
 
             errorId += 'Number';
         }
 
-        if (global.window.mm_config.PasswordRequireSymbol === 'true') {
+        if (passwordConfig.requireSymbol) {
             if (!password.match(/[ !"\\#$%&'()*+,-./:;<=>?@[\]^_`|~]/)) {
                 error = true;
             }
@@ -1378,7 +1389,7 @@ export function isValidPassword(password) {
             errorId += 'Symbol';
         }
 
-        minimumLength = global.window.mm_config.PasswordMinimumLength;
+        minimumLength = passwordConfig.minimumLength;
     } else if (password.length < Constants.MIN_PASSWORD_LENGTH || password.length > Constants.MAX_PASSWORD_LENGTH) {
         error = true;
     }
@@ -1420,15 +1431,6 @@ export function handleFormattedTextClick(e) {
         e.preventDefault();
         browserHistory.push('/' + TeamStore.getCurrent().name + '/channels/' + channelMentionAttribute.value);
     }
-}
-
-// This should eventually be removed once everywhere else calls the action
-function searchForTerm(term) {
-    AppDispatcher.handleServerAction({
-        type: ActionTypes.RECEIVED_SEARCH_TERM,
-        term,
-        do_search: true
-    });
 }
 
 export function isEmptyObject(object) {

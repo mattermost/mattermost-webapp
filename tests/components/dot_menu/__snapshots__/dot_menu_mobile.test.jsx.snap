@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/integrations/DotMenu on mobile view should match snapshot 1`] = `
+<div
+  className="dropdown"
+  id={null}
+>
+  <div
+    id="center_dropdownpost_id_1"
+  >
+    <button
+      aria-expanded="false"
+      className="dropdown-toggle post__dropdown color--link style--none"
+      data-toggle="dropdown"
+      type="button"
+    />
+    <div
+      className="dropdown-menu__content"
+    >
+      <ul
+        className="dropdown-menu"
+        role="menu"
+      >
+        <DotMenuFlag
+          actions={
+            Object {
+              "flagPost": [Function],
+              "unflagPost": [Function],
+            }
+          }
+          idCount={-1}
+          idPrefix="centerDotMenuFlag"
+          isFlagged={false}
+          postId="post_id_1"
+        />
+      </ul>
+    </div>
+  </div>
+</div>
+`;

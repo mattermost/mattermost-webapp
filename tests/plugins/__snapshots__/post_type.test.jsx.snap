@@ -31,6 +31,13 @@ exports[`plugins/PostMessageView should match snapshot with extended post type 1
     Object {
       "dispatch": [Function],
       "getState": [Function],
+      "liftedStore": Object {
+        "dispatch": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+        Symbol(observable): [Function],
+      },
       "replaceReducer": [Function],
       "subscribe": [Function],
       Symbol(observable): [Function],
@@ -130,6 +137,13 @@ exports[`plugins/PostMessageView should match snapshot with no extended post typ
     Object {
       "dispatch": [Function],
       "getState": [Function],
+      "liftedStore": Object {
+        "dispatch": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+        Symbol(observable): [Function],
+      },
       "replaceReducer": [Function],
       "subscribe": [Function],
       Symbol(observable): [Function],

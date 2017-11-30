@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/integrations/DotMenuFlag should match snapshot, flagged on RHS 1`] = `
+<li
+  key="rhs"
+  role="presentation"
+>
+  <button
+    className="style--none"
+    id={null}
+    onClick={[Function]}
+  >
+    <FormattedMessage
+      defaultMessage="Unflag"
+      id="rhs_root.mobile.unflag"
+      values={Object {}}
+    />
+  </button>
+</li>
+`;
+
+exports[`components/integrations/DotMenuFlag should match snapshot, on RHS_ROOT 1`] = `
+<li
+  key="rhsroot"
+  role="presentation"
+>
+  <button
+    className="style--none"
+    id="rhsroot"
+    onClick={[Function]}
+  >
+    <FormattedMessage
+      defaultMessage="Flag"
+      id="rhs_root.mobile.flag"
+      values={Object {}}
+    />
+  </button>
+</li>
+`;
+
+exports[`components/integrations/DotMenuFlag should match snapshot, unflagged on Center 1`] = `
+<li
+  key="center"
+  role="presentation"
+>
+  <button
+    className="style--none"
+    id={null}
+    onClick={[Function]}
+  >
+    <FormattedMessage
+      defaultMessage="Flag"
+      id="rhs_root.mobile.flag"
+      values={Object {}}
+    />
+  </button>
+</li>
+`;

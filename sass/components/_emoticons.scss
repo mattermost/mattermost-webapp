@@ -53,10 +53,19 @@
     border: 1px solid;
     display: flex;
     flex-direction: column;
-    position: absolute;
     height: 362px;
+    margin-right: 3px;
+    position: absolute;
     width: 278px;
-    z-index: 8;
+    z-index: 10;
+
+    .app__content & {
+        margin-right: 0;
+    }
+
+    &.bottom {
+        margin-top: 10px;
+    }
 }
 
 .emoji-picker__categories {
