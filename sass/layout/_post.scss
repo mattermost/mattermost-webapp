@@ -382,6 +382,10 @@
     }
 }
 
+.post-create-message {
+    padding: 15px;
+}
+
 .post-create__container {
     @include flex(0 0 auto);
     width: 100%;

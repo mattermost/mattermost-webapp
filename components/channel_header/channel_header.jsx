@@ -675,7 +675,7 @@ export default class ChannelHeader extends React.Component {
 
         let dmHeaderIconStatus;
         let dmHeaderTextStatus;
-        if (channel.type === Constants.DM_CHANNEL) {
+        if (channel.type === Constants.DM_CHANNEL && !this.props.dmUser.delete_at) {
             dmHeaderIconStatus = (
                 <StatusIcon
                     type='avatar'

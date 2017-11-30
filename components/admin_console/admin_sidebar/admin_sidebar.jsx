@@ -81,6 +81,7 @@ export default class AdminSidebar extends React.Component {
         let metricsSettings = null;
         let complianceSettings = null;
         let mfaSettings = null;
+        let messageExportSettings = null;
 
         let license = null;
         let audits = null;
@@ -179,6 +180,20 @@ export default class AdminSidebar extends React.Component {
                             <FormattedMessage
                                 id='admin.sidebar.mfa'
                                 defaultMessage='MFA'
+                            />
+                        }
+                    />
+                );
+            }
+
+            if (global.window.mm_license.MessageExport === 'true') {
+                messageExportSettings = (
+                    <AdminSidebarSection
+                        name='message_export'
+                        title={
+                            <FormattedMessage
+                                id='admin.sidebar.message_export'
+                                defaultMessage='Message Export (Beta)'
                             />
                         }
                     />
@@ -747,6 +762,7 @@ export default class AdminSidebar extends React.Component {
                                     }
                                 />
                                 {dataRetentionSettings}
+                                {messageExportSettings}
                                 {elasticSearchSettings}
                                 <AdminSidebarSection
                                     name='developer'
