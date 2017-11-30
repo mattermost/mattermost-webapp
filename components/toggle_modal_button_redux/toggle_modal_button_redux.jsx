@@ -13,8 +13,7 @@ export default class ModalToggleButtonRedux extends React.Component {
         onClick: PropTypes.func,
         className: PropTypes.string,
         actions: PropTypes.shape({
-            openModal: PropTypes.func.isRequired,
-            closeModal: PropTypes.func.isRequired
+            openModal: PropTypes.func.isRequired
         }).isRequired
     };
 
@@ -23,23 +22,10 @@ export default class ModalToggleButtonRedux extends React.Component {
         className: ''
     };
 
-    constructor(props) {
-        super(props);
-
-        this.show = this.show.bind(this);
-        this.hide = this.hide.bind(this);
-
-        this.state = {
-            show: false
-        };
-    }
-
     show(e) {
         if (e) {
             e.preventDefault();
         }
-
-        this.setState({show: true});
 
         const {modalId, dialogProps, dialogType} = this.props;
 
@@ -52,13 +38,6 @@ export default class ModalToggleButtonRedux extends React.Component {
         this.props.actions.openModal(modalData);
     }
 
-    hide() {
-        this.setState({show: false});
-        const {modalId} = this.props;
-
-        this.props.actions.closeModal(modalId);
-    }
-
     render() {
         const {children, onClick, ...props} = this.props;
 
@@ -68,7 +47,7 @@ export default class ModalToggleButtonRedux extends React.Component {
         delete props.dialogProps;
 
         // allow callers to provide an onClick which will be called before the modal is shown
-        let clickHandler = this.show;
+        let clickHandler = () => this.show();
         if (onClick) {
             clickHandler = (e) => {
                 onClick();
