@@ -48,9 +48,9 @@ export default class CustomPluginSettings extends AdminSettings {
             const configSettings = config.PluginSettings.Plugins[plugin.id];
 
             const settings = plugin.settings_schema.settings || [];
-            Object.keys(settings).forEach((id) => {
-                const lowerId = id.toLowerCase();
-                configSettings[lowerId] = this.state[lowerId];
+            settings.forEach((setting) => {
+                const lowerKey = setting.key.toLowerCase();
+                configSettings[lowerKey] = this.state[lowerKey];
             });
         }
 
@@ -64,9 +64,9 @@ export default class CustomPluginSettings extends AdminSettings {
             const configSettings = config.PluginSettings.Plugins[plugin.id] || {};
 
             const settings = plugin.settings_schema.settings || [];
-            Object.keys(settings).forEach((id) => {
-                const lowerId = id.toLowerCase();
-                state[lowerId] = configSettings[lowerId] == null ? settings[id].default : configSettings[lowerId];
+            settings.forEach((setting) => {
+                const lowerKey = setting.key.toLowerCase();
+                state[lowerKey] = configSettings[lowerKey] == null ? setting.default : configSettings[lowerKey];
             });
         }
 
@@ -196,10 +196,8 @@ export default class CustomPluginSettings extends AdminSettings {
         const schema = plugin.settings_schema || {};
         const settingsList = [];
         if (schema.settings) {
-            const keys = Object.keys(schema.settings);
-            keys.sort();
-            keys.forEach((id) => {
-                settingsList.push(this.buildPluginSetting(id.toLowerCase(), schema.settings[id]));
+            schema.settings.forEach((setting) => {
+                settingsList.push(this.buildPluginSetting(setting.key.toLowerCase(), setting));
             });
         }
 
