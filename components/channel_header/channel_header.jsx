@@ -198,8 +198,6 @@ export default class ChannelHeader extends React.Component {
 
         const channel = this.props.channel;
 
-        console.log('channel', channel);
-
         const recentMentionsTooltip = (
             <Tooltip id='recentMentionsTooltip'>
                 <FormattedMessage
@@ -829,7 +827,6 @@ export default class ChannelHeader extends React.Component {
                 dialogType: ChannelInviteModal,
                 dialogProps: {channel, currentUser: this.props.currentUser}
             };
-
 
             const {openModal} = this.props.actions;
 
