@@ -669,6 +669,10 @@
         display: flex;
         flex-direction: column;
         width: 100%;
+
+        .has-error {
+            padding-left: 10px;
+        }
     }
 
     .more-modal__top {
