@@ -4,7 +4,6 @@
 import React from 'react';
 import {IndexRedirect, Redirect, Route} from 'react-router';
 
-import JIRASettings from 'plugins/jira/components/settings.jsx';
 import * as RouteUtils from 'routes/route_utils.jsx';
 
 import Audits from 'components/admin_console/audits';
@@ -186,10 +185,6 @@ export default (
             <Route
                 path='management'
                 component={PluginManagement}
-            />
-            <Route
-                path='jira'
-                component={JIRASettings}
             />
             <Route
                 path='custom/:plugin_id'

@@ -650,15 +650,6 @@ export default class AdminSidebar extends React.Component {
                                         />
                                     }
                                 />
-                                <AdminSidebarSection
-                                    name='jira'
-                                    title={
-                                        <FormattedMessage
-                                            id='admin.sidebar.jira'
-                                            defaultMessage='JIRA (Beta)'
-                                        />
-                                    }
-                                />
                                 {customPlugins}
                             </AdminSidebarSection>
                             <AdminSidebarSection
