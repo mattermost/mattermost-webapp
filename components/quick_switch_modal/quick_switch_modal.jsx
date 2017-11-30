@@ -119,7 +119,10 @@ export default class QuickSwitchModal extends React.PureComponent {
     onExited() {
         if (!UserAgent.isMobile()) {
             setTimeout(() => {
-                document.querySelector('#post_textbox').focus();
+                const textbox = document.querySelector('#post_textbox');
+                if (textbox) {
+                    textbox.focus();
+                }
             });
         }
     }
