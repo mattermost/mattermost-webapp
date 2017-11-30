@@ -1,12 +1,27 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import React from 'react';
+import {Modal} from 'react-bootstrap';
 
 import modalsReducer from 'reducers/views/modals';
 
 import {ActionTypes, ModalIdentifiers} from 'utils/constants.jsx';
 
 import DeleteChannelModal from 'components/delete_channel_modal';
+
+class TestModal extends React.Component {
+    render() {
+        return (
+            <Modal
+                show={true}
+            >
+                <Modal.Header closeButton={true}/>
+                <Modal.Body/>
+            </Modal>
+        );
+    }
+}
 
 describe('Reducers.Modals', () => {
     test('Initial state', () => {
@@ -23,24 +38,9 @@ describe('Reducers.Modals', () => {
     });
 
     test(ActionTypes.MODAL_OPEN, () => {
-        const dialogType = DeleteChannelModal;
+        const dialogType = TestModal;
         const dialogProps = {
-            channel: {
-                create_at: 1511983748292,
-                creator_id: 'pj9tn4tyupfbbjuoah76575xso',
-                delete_at: 0,
-                display_name: 'Test',
-                extra_update_at: 1511983748307,
-                header: '',
-                id: 'izpbgcd5e38xpkhgdeqwuijnoh',
-                last_post_at: 1511983748333,
-                name: 'test',
-                purpose: '',
-                team_id: 's5c6yy6jo3n57khrqeq85motnr',
-                total_msg_count: 0,
-                type: 'O',
-                update_at: 1511983748292
-            }
+            test: true
         };
 
         const nextState = modalsReducer(

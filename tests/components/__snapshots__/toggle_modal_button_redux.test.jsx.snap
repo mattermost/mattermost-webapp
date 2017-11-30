@@ -8,26 +8,7 @@ exports[`components/ToggleModalButtonRedux component should match snapshot 1`] =
     }
   }
   className=""
-  dialogProps={
-    Object {
-      "channel": Object {
-        "create_at": 1511983748292,
-        "creator_id": "pj9tn4tyupfbbjuoah76575xso",
-        "delete_at": 0,
-        "display_name": "Test",
-        "extra_update_at": 1511983748307,
-        "header": "",
-        "id": "izpbgcd5e38xpkhgdeqwuijnoh",
-        "last_post_at": 1511983748333,
-        "name": "test",
-        "purpose": "",
-        "team_id": "s5c6yy6jo3n57khrqeq85motnr",
-        "total_msg_count": 0,
-        "type": "O",
-        "update_at": 1511983748292,
-      },
-    }
-  }
+  dialogProps={Object {}}
   dialogType={[Function]}
   id="channelDelete"
   intl={
