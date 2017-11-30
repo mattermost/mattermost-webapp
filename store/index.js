@@ -97,7 +97,7 @@ export default function configureStore(initialState, persistorStorage = null) {
                             restoredState[keyspace] = value;
                         }
                     }).then(() => {
-                        storageRehydrate(restoredState)(store.dispatch);
+                        storageRehydrate(restoredState)(store.dispatch, persistor);
                     });
                     observable.subscribe({
                         next: (args) => {
@@ -106,7 +106,7 @@ export default function configureStore(initialState, persistorStorage = null) {
 
                                 var statePartial = {};
                                 statePartial[keyspace] = args.newValue;
-                                storageRehydrate(statePartial)(store.dispatch, store.getState());
+                                storageRehydrate(statePartial)(store.dispatch, persistor);
                             }
                         }
                     })
