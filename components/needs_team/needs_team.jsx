@@ -43,6 +43,7 @@ import ImportThemeModal from 'components/user_settings/import_theme_modal.jsx';
 import UserSettingsModal from 'components/user_settings/user_settings_modal.jsx';
 import WebrtcNotification from 'components/webrtc/components/webrtc_notification.jsx';
 import WebrtcSidebar from 'components/webrtc/components/webrtc_sidebar.jsx';
+import ModalController from 'components/modal_controller';
 
 const TutorialSteps = Constants.TutorialSteps;
 const Preferences = Constants.Preferences;
@@ -222,6 +223,7 @@ export default class NeedsTeam extends React.Component {
                     <ResetStatusModal/>
                     <LeavePrivateChannelModal/>
                     <ShortcutsModal isMac={Utils.isMac()}/>
+                    <ModalController/>
                 </div>
             </div>
         );
