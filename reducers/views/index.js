@@ -7,10 +7,12 @@ import admin from './admin'
 import channel from './channel';
 import rhs from './rhs';
 import posts from './posts';
+import modals from './modals';
 
 export default combineReducers({
     admin,
     channel,
     rhs,
-    posts
+    posts,
+    modals
 });
