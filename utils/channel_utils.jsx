@@ -5,7 +5,7 @@
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getUser} from 'mattermost-redux/selectors/entities/users';
 import * as ChannelUtilsRedux from 'mattermost-redux/utils/channel_utils';
 
 import ChannelStore from 'stores/channel_store.jsx';
@@ -16,6 +16,7 @@ import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
 import Constants, {Preferences} from 'utils/constants.jsx';
+import * as Utils from 'utils/utils.jsx';
 
 export function isFavoriteChannel(channel) {
     return PreferenceStore.getBool(Preferences.CATEGORY_FAVORITE_CHANNEL, channel.id);
@@ -211,8 +212,9 @@ function isDirectChannelVisible(channel) {
 
     const state = store.getState();
 
+    const otherUserId = Utils.getUserIdFromChannelName(channel);
     return ChannelUtilsRedux.isDirectChannelVisible(
-        getCurrentUserId(state),
+        getUser(state, otherUserId) || otherUserId,
         getConfig(state),
         getMyPreferences(state),
         channel,
