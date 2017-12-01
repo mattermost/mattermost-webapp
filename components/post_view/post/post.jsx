@@ -118,11 +118,6 @@ export default class Post extends React.PureComponent {
             postId: Utils.getRootId(post),
             channelId: post.channel_id
         });
-
-        AppDispatcher.handleServerAction({
-            type: ActionTypes.RECEIVED_SEARCH,
-            results: null
-        });
     }
 
     handleDropdownOpened = (opened) => {

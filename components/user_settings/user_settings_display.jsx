@@ -266,14 +266,17 @@ export default class UserSettingsDisplay extends React.Component {
             ];
 
             return (
-                <SettingItemMax
-                    title={messageTitle}
-                    inputs={inputs}
-                    submit={this.handleSubmit}
-                    saving={this.state.isSaving}
-                    server_error={this.state.serverError}
-                    updateSection={handleUpdateSection}
-                />
+                <div>
+                    <SettingItemMax
+                        title={messageTitle}
+                        inputs={inputs}
+                        submit={this.handleSubmit}
+                        saving={this.state.isSaving}
+                        server_error={this.state.serverError}
+                        updateSection={handleUpdateSection}
+                    />
+                    <div className='divider-dark'/>
+                </div>
             );
         }
 
@@ -289,11 +292,14 @@ export default class UserSettingsDisplay extends React.Component {
         };
 
         return (
-            <SettingItemMin
-                title={messageTitle}
-                describe={describe}
-                updateSection={handleUpdateSection}
-            />
+            <div>
+                <SettingItemMin
+                    title={messageTitle}
+                    describe={describe}
+                    updateSection={handleUpdateSection}
+                />
+                <div className='divider-dark'/>
+            </div>
         );
     }
 
@@ -390,7 +396,7 @@ export default class UserSettingsDisplay extends React.Component {
 
         const isEnableLinkPreviews = global.window.mm_config.EnableLinkPreviews === 'true';
         let linkPreviewSection = null;
-        let divider = null;
+
         if (isEnableLinkPreviews) {
             linkPreviewSection = this.createSection({
                 section: 'linkpreview',
@@ -420,7 +426,6 @@ export default class UserSettingsDisplay extends React.Component {
                     message: 'When available, the first web link in a message will show a preview of the website content below the message.'
                 }
             });
-            divider = <div className='divider-dark'/>;
         }
 
         const clockSection = this.createSection({
@@ -557,14 +562,17 @@ export default class UserSettingsDisplay extends React.Component {
                 userLocale = global.window.mm_config.DefaultClientLocale;
             }
             languagesSection = (
-                <ManageLanguages
-                    user={this.props.user}
-                    locale={userLocale}
-                    updateSection={(e) => {
-                        this.updateSection('');
-                        e.preventDefault();
-                    }}
-                />
+                <div>
+                    <ManageLanguages
+                        user={this.props.user}
+                        locale={userLocale}
+                        updateSection={(e) => {
+                            this.updateSection('');
+                            e.preventDefault();
+                        }}
+                    />
+                    <div className='divider-dark'/>
+                </div>
             );
         } else {
             let locale;
@@ -575,31 +583,37 @@ export default class UserSettingsDisplay extends React.Component {
             }
 
             languagesSection = (
-                <SettingItemMin
-                    title={
-                        <FormattedMessage
-                            id='user.settings.display.language'
-                            defaultMessage='Language'
-                        />
-                    }
-                    width='medium'
-                    describe={locale}
-                    updateSection={() => {
-                        this.updateSection('languages');
-                    }}
-                />
+                <div>
+                    <SettingItemMin
+                        title={
+                            <FormattedMessage
+                                id='user.settings.display.language'
+                                defaultMessage='Language'
+                            />
+                        }
+                        width='medium'
+                        describe={locale}
+                        updateSection={() => {
+                            this.updateSection('languages');
+                        }}
+                    />
+                    <div className='divider-dark'/>
+                </div>
             );
         }
 
         let themeSection;
         if (global.mm_config.EnableThemeSelection !== 'false') {
             themeSection = (
-                <ThemeSetting
-                    selected={this.props.activeSection === 'theme'}
-                    updateSection={this.updateSection}
-                    setRequireConfirm={this.props.setRequireConfirm}
-                    setEnforceFocus={this.props.setEnforceFocus}
-                />
+                <div>
+                    <ThemeSetting
+                        selected={this.props.activeSection === 'theme'}
+                        updateSection={this.updateSection}
+                        setRequireConfirm={this.props.setRequireConfirm}
+                        setEnforceFocus={this.props.setEnforceFocus}
+                    />
+                    <div className='divider-dark'/>
+                </div>
             );
         }
 
@@ -644,19 +658,11 @@ export default class UserSettingsDisplay extends React.Component {
                     </h3>
                     <div className='divider-dark first'/>
                     {themeSection}
-                    <div className='divider-dark'/>
                     {clockSection}
-                    <div className='divider-dark'/>
-                    {teammateNameSection}
-                    {divider}
                     {linkPreviewSection}
-                    <div className='divider-dark'/>
                     {collapseSection}
-                    <div className='divider-dark'/>
                     {messageDisplaySection}
-                    <div className='divider-dark'/>
                     {channelDisplayModeSection}
-                    <div className='divider-dark'/>
                     {languagesSection}
                 </div>
             </div>
@@ -667,7 +673,6 @@ export default class UserSettingsDisplay extends React.Component {
 UserSettingsDisplay.propTypes = {
     user: PropTypes.object,
     updateSection: PropTypes.func,
-    updateTab: PropTypes.func,
     activeSection: PropTypes.string,
     closeModal: PropTypes.func.isRequired,
     collapseModal: PropTypes.func.isRequired,

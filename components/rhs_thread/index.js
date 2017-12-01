@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
+import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetPostsForThread} from 'mattermost-redux/selectors/entities/posts';
 import {get, getBool} from 'mattermost-redux/selectors/entities/preferences';
 
@@ -18,20 +19,23 @@ import RhsThread from './rhs_thread.jsx';
 function makeMapStateToProps() {
     const getPostsForThread = makeGetPostsForThread();
     const getPostsEmbedVisibleObj = makeGetPostsEmbedVisibleObj();
-    return function mapStateToProps(state, ownProps) {
+
+    return function mapStateToProps(state) {
         const selected = getSelectedPost(state);
 
+        let channel = null;
         let posts = [];
         if (selected) {
             posts = getPostsForThread(state, {rootId: selected.id});
+            channel = getChannel(state, selected.channel_id);
         }
 
         const previewCollapsed = get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, Preferences.COLLAPSE_DISPLAY_DEFAULT);
         const postsEmbedVisibleObj = getPostsEmbedVisibleObj(state, posts);
 
         return {
-            ...ownProps,
             selected,
+            channel,
             posts,
             previewCollapsed,
             postsEmbedVisibleObj,

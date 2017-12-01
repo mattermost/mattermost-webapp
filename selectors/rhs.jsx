@@ -13,18 +13,18 @@ export function getSelectedPostId(state) {
     return state.views.rhs.selectedPostId;
 }
 
-function getSelectedPostChannelId(state) {
-    return state.views.rhs.selectedPostChannelId;
+export function getSelectedChannelId(state) {
+    return state.views.rhs.selectedChannelId;
 }
 
 function getRealSelectedPost(state) {
-    return state.entities.posts.posts[state.views.rhs.selectedPostId];
+    return state.entities.posts.posts[getSelectedPostId(state)];
 }
 
 export const getSelectedPost = createSelector(
     getSelectedPostId,
     getRealSelectedPost,
-    getSelectedPostChannelId,
+    getSelectedChannelId,
     getCurrentUserId,
     (selectedPostId, selectedPost, selectedPostChannelId, currentUserId) => {
         if (selectedPost) {
@@ -43,9 +43,25 @@ export const getSelectedPost = createSelector(
     }
 );
 
+export function getRhsState(state) {
+    return state.views.rhs.rhsState;
+}
+
+export function getPreviousRhsState(state) {
+    return state.views.rhs.previousRhsState;
+}
+
+export function getSearchTerms(state) {
+    return state.views.rhs.searchTerms;
+}
+
+export function getIsSearching(state) {
+    return state.views.rhs.isSearching;
+}
+
 export function makeGetCommentDraft(rootId) {
     const defaultValue = {message: '', fileInfos: [], uploadsInProgress: []};
-    return makeGetGlobalItem(`comment_draft_${rootId}`, defaultValue);
+    return makeGetGlobalItem(`${StoragePrefixes.COMMENT_DRAFT}${rootId}`, defaultValue);
 }
 
 export function makeGetPostsEmbedVisibleObj() {

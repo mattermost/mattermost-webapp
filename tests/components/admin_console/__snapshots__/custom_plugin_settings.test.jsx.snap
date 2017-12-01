@@ -162,11 +162,11 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         className="col-sm-12"
       >
         <SaveButton
-          defaultMessage="Saving"
+          defaultMessage="Save"
           disabled={true}
           onClick={[Function]}
           saving={false}
-          savingMessageId="admin.saving"
+          savingMessage="Saving Config..."
         />
       </div>
     </div>
@@ -206,11 +206,11 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         className="col-sm-12"
       >
         <SaveButton
-          defaultMessage="Saving"
+          defaultMessage="Save"
           disabled={true}
           onClick={[Function]}
           saving={false}
-          savingMessageId="admin.saving"
+          savingMessage="Saving Config..."
         />
       </div>
     </div>
@@ -380,11 +380,11 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         className="col-sm-12"
       >
         <SaveButton
-          defaultMessage="Saving"
+          defaultMessage="Save"
           disabled={true}
           onClick={[Function]}
           saving={false}
-          savingMessageId="admin.saving"
+          savingMessage="Saving Config..."
         />
       </div>
     </div>

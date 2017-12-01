@@ -7,10 +7,8 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import {getFlaggedPosts} from 'actions/post_actions.jsx';
 
 import PreferenceStore from 'stores/preference_store.jsx';
-import SearchStore from 'stores/search_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
@@ -25,65 +23,31 @@ import AddUsersToTeam from 'components/add_users_to_team';
 import TeamMembersModal from 'components/team_members_modal';
 import {createMenuTip} from 'components/tutorial/tutorial_tip.jsx';
 
-import ToggleModalButton from './toggle_modal_button.jsx';
+import ToggleModalButton from '../toggle_modal_button.jsx';
 
 const Preferences = Constants.Preferences;
 const TutorialSteps = Constants.TutorialSteps;
 
 export default class SidebarRightMenu extends React.Component {
+    static propTypes = {
+        teamType: PropTypes.string,
+        teamDisplayName: PropTypes.string,
+        isMentionSearch: PropTypes.bool,
+        actions: PropTypes.shape({
+            showMentions: PropTypes.func,
+            showFlaggedPosts: PropTypes.func,
+            closeRightHandSide: PropTypes.func
+        })
+    };
+
     constructor(props) {
         super(props);
 
-        this.onChange = this.onChange.bind(this);
-        this.handleClick = this.handleClick.bind(this);
-        this.handleAboutModal = this.handleAboutModal.bind(this);
-        this.showAddUsersToTeamModal = this.showAddUsersToTeamModal.bind(this);
-        this.hideAddUsersToTeamModal = this.hideAddUsersToTeamModal.bind(this);
-        this.searchMentions = this.searchMentions.bind(this);
-        this.aboutModalDismissed = this.aboutModalDismissed.bind(this);
-        this.getFlagged = this.getFlagged.bind(this);
-
-        const state = this.getStateFromStores();
-        state.showAboutModal = false;
-        state.showAddUsersToTeamModal = false;
-
-        this.state = state;
-    }
-
-    handleClick(e) {
-        if (WebrtcStore.isBusy()) {
-            WebrtcStore.emitChanged({action: WebrtcActionTypes.IN_PROGRESS});
-            e.preventDefault();
-        }
-    }
-
-    handleAboutModal() {
-        this.setState({showAboutModal: true});
-    }
-
-    aboutModalDismissed() {
-        this.setState({showAboutModal: false});
-    }
-
-    showAddUsersToTeamModal(e) {
-        e.preventDefault();
-
-        this.setState({
-            showAddUsersToTeamModal: true,
-            showDropdown: false
-        });
-    }
-
-    hideAddUsersToTeamModal() {
-        this.setState({
+        this.state = {
+            ...this.getStateFromStores(),
+            showAboutModal: false,
             showAddUsersToTeamModal: false
-        });
-    }
-
-    getFlagged(e) {
-        e.preventDefault();
-        getFlaggedPosts();
-        this.closeRightSidebar();
+        };
     }
 
     componentDidMount() {
@@ -96,7 +60,43 @@ export default class SidebarRightMenu extends React.Component {
         PreferenceStore.removeChangeListener(this.onChange);
     }
 
-    getStateFromStores() {
+    handleClick = (e) => {
+        if (WebrtcStore.isBusy()) {
+            WebrtcStore.emitChanged({action: WebrtcActionTypes.IN_PROGRESS});
+            e.preventDefault();
+        }
+    }
+
+    handleAboutModal = () => {
+        this.setState({showAboutModal: true});
+    }
+
+    aboutModalDismissed = () => {
+        this.setState({showAboutModal: false});
+    }
+
+    showAddUsersToTeamModal = (e) => {
+        e.preventDefault();
+
+        this.setState({
+            showAddUsersToTeamModal: true,
+            showDropdown: false
+        });
+    }
+
+    hideAddUsersToTeamModal = () => {
+        this.setState({
+            showAddUsersToTeamModal: false
+        });
+    }
+
+    getFlagged = (e) => {
+        e.preventDefault();
+        this.props.actions.showFlaggedPosts();
+        this.closeRightSidebar();
+    }
+
+    getStateFromStores = () => {
         const tutorialStep = PreferenceStore.getInt(Preferences.TUTORIAL_STEP, UserStore.getCurrentId(), 999);
 
         return {
@@ -107,23 +107,22 @@ export default class SidebarRightMenu extends React.Component {
         };
     }
 
-    onChange() {
+    onChange = () => {
         this.setState(this.getStateFromStores());
     }
 
-    searchMentions(e) {
+    searchMentions = (e) => {
         e.preventDefault();
-        const user = this.state.currentUser;
 
-        if (SearchStore.isMentionSearch) {
-            GlobalActions.toggleSideBarAction(false);
+        if (this.props.isMentionSearch) {
+            this.props.actions.closeRightHandSide();
         } else {
             this.closeRightSidebar();
-            GlobalActions.emitSearchMentionsEvent(user);
+            this.props.actions.showMentions();
         }
     }
 
-    closeLeftSidebar() {
+    closeLeftSidebar = () => {
         if (Utils.isMobile()) {
             setTimeout(() => {
                 document.querySelector('.app__body .inner-wrap').classList.remove('move--right');
@@ -132,7 +131,7 @@ export default class SidebarRightMenu extends React.Component {
         }
     }
 
-    openRightSidebar() {
+    openRightSidebar = () => {
         if (Utils.isMobile()) {
             setTimeout(() => {
                 document.querySelector('.app__body .inner-wrap').classList.add('move--left-small');
@@ -141,7 +140,7 @@ export default class SidebarRightMenu extends React.Component {
         }
     }
 
-    closeRightSidebar() {
+    closeRightSidebar = () => {
         if (Utils.isMobile()) {
             setTimeout(() => {
                 document.querySelector('.app__body .inner-wrap').classList.remove('move--left-small');
@@ -552,8 +551,3 @@ export default class SidebarRightMenu extends React.Component {
         );
     }
 }
-
-SidebarRightMenu.propTypes = {
-    teamType: PropTypes.string,
-    teamDisplayName: PropTypes.string
-};

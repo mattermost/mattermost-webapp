@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/integrations/DotMenuEdit should match snapshot, on Center 1`] = `
+<li
+  id={null}
+  key="center"
+  role="presentation"
+>
+  <button
+    className="style--none"
+    onClick={[Function]}
+  >
+    <FormattedMessage
+      defaultMessage="Edit"
+      id="post_info.edit"
+      values={Object {}}
+    />
+  </button>
+</li>
+`;
+
+exports[`components/integrations/DotMenuEdit should match snapshot, on RHS 1`] = `
+<li
+  id={null}
+  key="rhs"
+  role="presentation"
+>
+  <button
+    className="style--none"
+    onClick={[Function]}
+  >
+    <FormattedMessage
+      defaultMessage="Edit"
+      id="post_info.edit"
+      values={Object {}}
+    />
+  </button>
+</li>
+`;
+
+exports[`components/integrations/DotMenuEdit should match snapshot, on RHS_ROOT 1`] = `
+<li
+  id="rhsroot"
+  key="rhsroot"
+  role="presentation"
+>
+  <button
+    className="style--none"
+    onClick={[Function]}
+  >
+    <FormattedMessage
+      defaultMessage="Edit"
+      id="post_info.edit"
+      values={Object {}}
+    />
+  </button>
+</li>
+`;

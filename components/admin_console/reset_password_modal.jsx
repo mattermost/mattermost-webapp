@@ -37,7 +37,7 @@ export default class ResetPasswordModal extends React.Component {
         e.preventDefault();
         const password = this.refs.password.value;
 
-        const passwordErr = Utils.isValidPassword(password);
+        const passwordErr = Utils.isValidPassword(password, Utils.getPasswordConfig());
         if (passwordErr) {
             this.setState({serverError: passwordErr});
             return;

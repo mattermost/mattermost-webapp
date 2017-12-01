@@ -665,6 +665,25 @@
         width: 32px;
     }
 
+    .more-modal__right {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        .control-label {
+            font-weight: normal;
+            padding: 5px 0 0 5px;
+        }
+    }
+
+    .more-modal__top {
+        display: flex;
+    }
+
+    .more-modal__bottom>.has-error {
+        padding-left: 5px;
+    }
+
     p {
         @include opacity(.8);
         font-size: .9em;

@@ -5,6 +5,7 @@ import $ from 'jquery';
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {FormattedMessage} from 'react-intl';
 
 import ChannelStore from 'stores/channel_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
@@ -95,6 +96,33 @@ export default class ChannelView extends React.Component {
             );
         }
 
+        let createPost = (
+            <div
+                className='post-create__container'
+                id='post-create'
+            >
+                <CreatePost
+                    getChannelView={this.getChannelView}
+                />
+            </div>
+        );
+        const channel = ChannelStore.get(this.state.channelId);
+        if (channel.type === Constants.DM_CHANNEL) {
+            const teammate = Utils.getDirectTeammate(channel.id);
+            if (teammate && teammate.delete_at) {
+                createPost = (
+                    <div
+                        className='post-create-message'
+                    >
+                        <FormattedMessage
+                            id='create_post.deactivated'
+                            defaultMessage='You are viewing an archived channel with a deactivated user.'
+                        />
+                    </div>
+                );
+            }
+        }
+
         return (
             <div
                 ref='channelView'
@@ -108,12 +136,7 @@ export default class ChannelView extends React.Component {
                 <PostView
                     channelId={this.state.channelId}
                 />
-                <div
-                    className='post-create__container'
-                    id='post-create'
-                >
-                    <CreatePost getChannelView={this.getChannelView}/>
-                </div>
+                {createPost}
             </div>
         );
     }

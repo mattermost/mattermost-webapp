@@ -70,9 +70,7 @@ export default class ThemeSetting extends React.Component {
     }
 
     getStateFromStores() {
-        const teamId = TeamStore.getCurrentId();
-
-        const theme = PreferenceStore.getTheme(teamId);
+        const theme = PreferenceStore.getTheme();
         if (!theme.codeTheme) {
             theme.codeTheme = Constants.DEFAULT_CODE_THEME;
         }
