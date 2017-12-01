@@ -13,6 +13,7 @@ import {getCurrentUser, getStatusForUserId, getUser} from 'mattermost-redux/sele
 import {getUserIdFromChannelName, isDefault, isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
 
 import {showFlaggedPosts, showPinnedPosts, showMentions, closeRightHandSide} from 'actions/views/rhs';
+import {openModal} from 'actions/views/modals';
 
 import {getRhsState} from 'selectors/rhs';
 
@@ -54,7 +55,8 @@ function mapDispatchToProps(dispatch) {
             showFlaggedPosts,
             showPinnedPosts,
             showMentions,
-            closeRightHandSide
+            closeRightHandSide,
+            openModal
         }, dispatch)
     };
 }
