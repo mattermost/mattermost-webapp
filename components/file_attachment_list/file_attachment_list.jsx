@@ -70,7 +70,7 @@ export default class FileAttachmentList extends React.Component {
         const postFiles = [];
         let sortedFileInfos = [];
 
-        if (fileInfos && fileInfos.length === 1) {
+        if (fileInfos && fileInfos.length === 1 && compactDisplay === false) {
             const fileType = Utils.getFileType(fileInfos[0].extension);
 
             if (fileType === 'image' || fileType === 'svg') {
