@@ -8,6 +8,7 @@ import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis'
 import {getTheme, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser, getCurrentUserMentionKeys, getUsersByUsername} from 'mattermost-redux/selectors/entities/users';
+import {getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';   // eslint-disable-line import/order
 
 import {EmojiMap} from 'stores/emoji_store.jsx';
 
@@ -28,6 +29,11 @@ function makeMapStateToProps() {
 
         const user = getCurrentUser(state);
 
+        let channelNamesMap = getChannelsNameMapInCurrentTeam(state);
+        if (ownProps.post.props && ownProps.post.props.channel_mentions) {
+            channelNamesMap = Object.assign({}, ownProps.post.props.channel_mentions, channelNamesMap);
+        }
+
         return {
             ...ownProps,
             emojis: emojiMap,
@@ -38,7 +44,8 @@ function makeMapStateToProps() {
             siteUrl: getSiteURL(),
             theme: getTheme(state),
             pluginPostTypes: state.plugins.postTypes,
-            currentUser: user
+            currentUser: user,
+            channelNamesMap
         };
     };
 }
