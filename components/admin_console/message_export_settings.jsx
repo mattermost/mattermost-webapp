@@ -37,15 +37,15 @@ export default class MessageExportSettings extends AdminSettings {
     renderTitle() {
         return (
             <FormattedMessage
-                id='admin.messageExport.title'
-                defaultMessage='Message Export (Beta)'
+                id='admin.complianceExport.title'
+                defaultMessage='Compliance Export (Beta)'
             />
         );
     }
 
     renderSettings() {
         const exportFormatOptions = [
-            {value: 'actiance', text: Utils.localizeMessage('admin.messageExport.exportFormat.actiance', 'Actiance XML')}
+            {value: 'actiance', text: Utils.localizeMessage('admin.complianceExport.exportFormat.actiance', 'Actiance XML')}
         ];
 
         return (
@@ -53,24 +53,24 @@ export default class MessageExportSettings extends AdminSettings {
                 <div className='banner'>
                     <div className='banner__content'>
                         <FormattedHTMLMessage
-                            id='admin.messageExport.description'
-                            defaultMessage='Message Export dumps all posts into a file that can be imported into third-party systems. The export task is scheduled to run once per day.'
+                            id='admin.complianceExport.description'
+                            defaultMessage='This feature supports compliance exports to the Actiance XML format, and is currently in beta. Support for the GlobalRelay EML format and the Mattermost CSV format are scheduled for a future release, and will replace the existing <a href=\"/admin_console/general/compliance\" target=\"_blank\">Compliance</a> feature.'
                         />
                     </div>
                 </div>
 
                 <BooleanSetting
-                    id='enableMessageExport'
+                    id='enableComplianceExport'
                     label={
                         <FormattedMessage
-                            id='admin.service.messageExportTitle'
-                            defaultMessage='Enable Message Export:'
+                            id='admin.service.complianceExportTitle'
+                            defaultMessage='Enable Compliance Export:'
                         />
                     }
                     helpText={
-                        <FormattedMessage
-                            id='admin.service.messageExportDesc'
-                            defaultMessage='When true, the system will export all messages that are sent once per day.'
+                        <FormattedHTMLMessage
+                            id='admin.service.complianceExportDesc'
+                            defaultMessage='When true, Mattermost will generate a compliance export file that contains all messages that were posted in the past 24h. The export task is scheduled to run once per day. See <a href=\"https://about.mattermost.com/default-compliance-export-documentation\" target=\"_blank\">the documentation</a> to learn more.'
                         />
                     }
                     value={this.state.enableMessageExport}
@@ -81,15 +81,15 @@ export default class MessageExportSettings extends AdminSettings {
                     id='exportJobStartTime'
                     label={
                         <FormattedMessage
-                            id='admin.messageExport.exportJobStartTime.title'
-                            defaultMessage='Message Export Time:'
+                            id='admin.complianceExport.exportJobStartTime.title'
+                            defaultMessage='Compliance Export Time:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.messageExport.exportJobStartTime.example', 'E.g.: "02:00"')}
+                    placeholder={Utils.localizeMessage('admin.complianceExport.exportJobStartTime.example', 'E.g.: "02:00"')}
                     helpText={
-                        <FormattedMessage
-                            id='admin.messageExport.exportJobStartTime.description'
-                            defaultMessage='Set the start time of the daily scheduled message export job. Choose a time when fewer people are using your system. Must be a 24-hour time stamp in the form HH:MM.'
+                        <FormattedHTMLMessage
+                            id='admin.complianceExport.exportJobStartTime.description'
+                            defaultMessage='Set the start time of the daily scheduled compliance export job. Choose a time when fewer people are using your system.<br />Must be a 24-hour time stamp in the form HH:MM. For example, 1:15am would be expressed as 01:15, while 1:15pm would be expressed as 13:15.'
                         />
                     }
                     value={this.state.exportJobStartTime}
@@ -103,13 +103,13 @@ export default class MessageExportSettings extends AdminSettings {
                     values={exportFormatOptions}
                     label={
                         <FormattedMessage
-                            id='admin.messageExport.exportFormat.title'
+                            id='admin.complianceExport.exportFormat.title'
                             defaultMessage='Export File Format:'
                         />
                     }
                     helpText={
                         <FormattedMessage
-                            id='admin.messageExport.exportFormat.description'
+                            id='admin.complianceExport.exportFormat.description'
                             defaultMessage='The file format to write exported data in. Corresponds to the system that you want to import the data into.'
                         />
                     }
@@ -122,15 +122,15 @@ export default class MessageExportSettings extends AdminSettings {
                     id='exportLocation'
                     label={
                         <FormattedMessage
-                            id='admin.messageExport.exportLocation.title'
+                            id='admin.complianceExport.exportLocation.title'
                             defaultMessage='Export Directory:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.messageExport.exportLocation.example', 'E.g.: /var/mattermost/exports/')}
+                    placeholder={Utils.localizeMessage('admin.complianceExport.exportLocation.example', 'E.g.: /var/mattermost/exports/')}
                     helpText={
-                        <FormattedMessage
-                            id='admin.messageExport.exportLocation.description'
-                            defaultMessage='The directory on your hard drive to write export files to. Mattermost must have write access to this directory. Do not include a filename.'
+                        <FormattedHTMLMessage
+                            id='admin.complianceExport.exportLocation.description'
+                            defaultMessage='The directory to write compliance export files to. Must be a subdirectory of the <a href=\"/admin_console/files/storage\" target=\"_blank\">Local Storage Directory</a>. Mattermost must have write access to this directory, and the path that you set must not include a filename.'
                         />
                     }
                     value={this.state.exportLocation}
@@ -143,14 +143,14 @@ export default class MessageExportSettings extends AdminSettings {
                     disabled={!this.state.enableMessageExport}
                     createJobButtonText={
                         <FormattedMessage
-                            id='admin.messageExport.createJob.title'
-                            defaultMessage='Run Message Export job now'
+                            id='admin.complianceExport.createJob.title'
+                            defaultMessage='Run Compliance Export job now'
                         />
                     }
                     createJobHelpText={
                         <FormattedMessage
-                            id='admin.messageExport.createJob.help'
-                            defaultMessage='Initiates a Message Export job immediately.'
+                            id='admin.complianceExport.createJob.help'
+                            defaultMessage='Initiates a Compliance Export job immediately.'
                         />
                     }
                 />
