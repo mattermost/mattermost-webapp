@@ -4,11 +4,12 @@
 import {connect} from 'react-redux';
 
 import {Preferences} from 'mattermost-redux/constants';
+
+import {getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
 import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 import {getTheme, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser, getCurrentUserMentionKeys, getUsersByUsername} from 'mattermost-redux/selectors/entities/users';
-import {getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';   // eslint-disable-line import/order
 
 import {EmojiMap} from 'stores/emoji_store.jsx';
 
