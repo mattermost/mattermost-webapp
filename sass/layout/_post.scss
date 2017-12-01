@@ -890,7 +890,8 @@
             }
 
             .post-image__column {
-                margin: 3px 0;
+                margin: 3px 10px 3px 0;
+                padding: 0 10px 0 0;
             }
         }
 
@@ -909,29 +910,36 @@
             .post-image__details {
                 background: transparent;
                 border: none;
+                flex-direction: row-reverse;
                 padding: 0;
                 width: 100%;
 
-                svg {
-                    display: inline-block;
-                    height: 13px;
-                    margin: 5px 4px 0 0;
-                    opacity: .5;
-                    position: relative;
-                    vertical-align: top;
-                    width: 13px;
-                }
-
-                > div {
+                span {
                     display: none;
                 }
+
+                svg {
+                    border: none;
+                    height: 30px;
+                    width: 30px;
+                }
+
+                .icon {
+                    display: block;
+                }
+            }
+
+            .post-image__download {
+                opacity: 1;
+                padding: 0;
+                position: relative;
+                width: auto;
             }
 
             .post-image__name {
                 @include clearfix;
                 display: block;
                 margin: 0;
-                padding-right: 10px;
                 text-overflow: ellipsis;
                 white-space: nowrap;
 
@@ -1322,7 +1330,7 @@
         }
 
         img {
-            max-height: 400px;
+            max-height: 350px;
         }
 
         ul,
