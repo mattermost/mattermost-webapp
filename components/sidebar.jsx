@@ -6,11 +6,11 @@ import $ from 'jquery';
 import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-import {browserHistory, Link} from 'react-router';
+import {FormattedMessage} from 'react-intl';
+import {browserHistory} from 'react-router';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
-import {getChannelsByCategory} from 'mattermost-redux/selectors/entities/channels';
+import {getChannelsByCategory, getAllChannels} from 'mattermost-redux/selectors/entities/channels';
 
 import * as ChannelActions from 'actions/channel_actions.jsx';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
@@ -26,20 +26,17 @@ import UserStore from 'stores/user_store.jsx';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 import {ActionTypes, Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {isDesktopApp} from 'utils/user_agent.jsx';
 
 import favicon from 'images/favicon/favicon-16x16.png';
 import redFavicon from 'images/favicon/redfavicon-16x16.png';
-import loadingGif from 'images/load.gif';
 
 import MoreChannels from 'components/more_channels';
 import MoreDirectChannels from 'components/more_direct_channels';
 
 import NewChannelFlow from './new_channel_flow.jsx';
 import SidebarHeader from './sidebar_header.jsx';
-import StatusIcon from './status_icon.jsx';
-import TutorialTip from './tutorial/tutorial_tip.jsx';
 import UnreadChannelIndicator from './unread_channel_indicator.jsx';
+import SidebarChannel from './sidebar/sidebar_channel.jsx';
 
 const Preferences = Constants.Preferences;
 const TutorialSteps = Constants.TutorialSteps;
@@ -91,7 +88,8 @@ export default class Sidebar extends React.Component {
             currentTeam: TeamStore.getCurrent(),
             currentUser: UserStore.getCurrentUser(),
             townSquare: ChannelStore.getByName(Constants.DEFAULT_CHANNEL),
-            offTopic: ChannelStore.getByName(Constants.OFFTOPIC_CHANNEL)
+            offTopic: ChannelStore.getByName(Constants.OFFTOPIC_CHANNEL),
+            allChannels: getAllChannels(store.getState())
         };
     }
 
@@ -371,20 +369,22 @@ export default class Sidebar extends React.Component {
         return false;
     }
 
-    handleLeavePublicChannel = (e, channel) => {
+    handleLeavePublicChannel = (e, channelId) => {
         e.preventDefault();
-        ChannelActions.leaveChannel(channel.id);
+        ChannelActions.leaveChannel(channelId);
         trackEvent('ui', 'ui_public_channel_x_button_clicked');
     }
 
-    handleLeavePrivateChannel = (e, channel) => {
+    handleLeavePrivateChannel = (e, channelId) => {
         e.preventDefault();
+        const channel = this.state.allChannels[channelId];
         GlobalActions.showLeavePrivateChannelModal(channel);
         trackEvent('ui', 'ui_private_channel_x_button_clicked');
     }
 
-    handleLeaveDirectChannel = (e, channel) => {
+    handleLeaveDirectChannel = (e, channelId) => {
         e.preventDefault();
+        const channel = this.state.allChannels[channelId];
 
         if (!this.isLeaving.get(channel.id)) {
             this.isLeaving.set(channel.id, true);
@@ -392,14 +392,15 @@ export default class Sidebar extends React.Component {
             let id;
             let category;
             if (channel.type === Constants.DM_CHANNEL) {
-                id = channel.teammate_id;
+                const teammate = Utils.getDirectTeammate(channel.id);
+                id = teammate.id;
                 category = Constants.Preferences.CATEGORY_DIRECT_CHANNEL_SHOW;
             } else {
                 id = channel.id;
                 category = Constants.Preferences.CATEGORY_GROUP_CHANNEL_SHOW;
             }
 
-            const currentUserId = UserStore.getCurrentId();
+            const currentUserId = this.state.currentUser.id;
             savePreferences(currentUserId, [{user_id: currentUserId, category, name: id, value: 'false'}])(dispatch, getState).then(
                 () => {
                     this.isLeaving.set(channel.id, false);
@@ -414,11 +415,6 @@ export default class Sidebar extends React.Component {
             this.closedDirectChannel = true;
             browserHistory.push('/' + this.state.currentTeam.name + '/channels/town-square');
         }
-    }
-
-    handleClick = (link) => {
-        this.trackChannelSelectedEvent();
-        browserHistory.push(link);
     }
 
     showMoreChannelsModal = () => {
@@ -447,15 +443,6 @@ export default class Sidebar extends React.Component {
         this.setState({showDirectChannelsModal: false, startingUsers: null});
     }
 
-    openLeftSidebar = () => {
-        if (Utils.isMobile()) {
-            setTimeout(() => {
-                document.querySelector('.app__body .inner-wrap').classList.add('move--right');
-                document.querySelector('.app__body .sidebar--left').classList.add('move--right');
-            });
-        }
-    }
-
     openQuickSwitcher = (e) => {
         e.preventDefault();
         AppDispatcher.handleViewAction({
@@ -463,271 +450,48 @@ export default class Sidebar extends React.Component {
         });
     }
 
-    createTutorialTip = () => {
-        const screens = [];
-
-        let townSquareDisplayName = Constants.DEFAULT_CHANNEL_UI_NAME;
-        if (this.state.townSquare) {
-            townSquareDisplayName = this.state.townSquare.display_name;
+    createSidebarChannel = (channel, index, closeHandler) => {
+        if (channel.id === this.state.activeId) {
+            if (!this.firstUnreadChannel) {
+                this.firstUnreadChannel = channel.name;
+            }
+            this.lastUnreadChannel = channel.name;
         }
 
-        let offTopicDisplayName = Constants.OFFTOPIC_CHANNEL_UI_NAME;
-        if (this.state.offTopic) {
-            offTopicDisplayName = this.state.offTopic.display_name;
+        const unreadCount = this.state.unreadCounts[channel.id] || {msgs: 0, mentions: 0};
+        if (this.state.members[channel.id] && unreadCount.mentions) {
+            this.badgesActive = true;
         }
 
-        screens.push(
-            <div>
-                <FormattedHTMLMessage
-                    id='sidebar.tutorialScreen1'
-                    defaultMessage='<h4>Channels</h4><p><strong>Channels</strong> organize conversations across different topics. They’re open to everyone on your team. To send private communications use <strong>Direct Messages</strong> for a single person or <strong>Private Channels</strong> for multiple people.</p>'
-                />
-            </div>
-        );
-
-        screens.push(
-            <div>
-                <FormattedHTMLMessage
-                    id='sidebar.tutorialScreen2'
-                    defaultMessage='<h4>"{townsquare}" and "{offtopic}" channels</h4>
-                    <p>Here are two public channels to start:</p>
-                    <p><strong>{townsquare}</strong> is a place for team-wide communication. Everyone in your team is a member of this channel.</p>
-                    <p><strong>{offtopic}</strong> is a place for fun and humor outside of work-related channels. You and your team can decide what other channels to create.</p>'
-                    values={{
-                        townsquare: townSquareDisplayName,
-                        offtopic: offTopicDisplayName
-                    }}
-                />
-            </div>
-        );
-
-        screens.push(
-            <div>
-                <FormattedHTMLMessage
-                    id='sidebar.tutorialScreen3'
-                    defaultMessage='<h4>Creating and Joining Channels</h4>
-                    <p>Click <strong>"More..."</strong> to create a new channel or join an existing one.</p>
-                    <p>You can also create a new public or private channel by clicking the <strong>"+" symbol</strong> next to the public or private channel header.</p>'
-                />
-            </div>
-        );
-
+        const teammate = Utils.getDirectTeammate(channel.id);
         return (
-            <TutorialTip
-                placement='right'
-                screens={screens}
-                overlayClass='tip-overlay--sidebar'
-                diagnosticsTag='tutorial_tip_2_channels'
+            <SidebarChannel
+                key={channel.id}
+                ref={channel.name}
+                channelDisplayName={channel.display_name}
+                channelName={channel.name}
+                channelId={channel.id}
+                channelStatus={channel.status}
+                channelType={channel.type}
+                channelFake={channel.fake}
+                channelTeammateId={teammate.id}
+                channelTeammateDeletedAt={teammate.deleted_at}
+                stringifiedChannel={JSON.stringify(channel)}
+                index={index}
+                handleClose={closeHandler}
+                unreadMsgs={unreadCount.msgs}
+                unreadMentions={unreadCount.mentions}
+                membership={this.state.members[channel.id]}
+                active={channel.id === this.state.activeId}
+                loadingDMChannel={this.state.loadingDMChannel === index && channel.type === Constants.DM_CHANNEL}
+                currentTeamName={this.state.currentTeam.name}
+                currentUserId={this.state.currentUser.id}
+                showTutorialTip={this.state.showTutorialTip}
+                membersCount={UserStore.getProfileListInChannel(channel.id, true).length}
+                townSquareDisplayNanme={this.state.townSquare && this.state.townSquare.display_name}
+                offTopicDisplayNanme={this.state.offTopic && this.state.offTopic.display_name}
             />
         );
-    }
-
-    createChannelElement = (channel, index, arr, handleClose) => {
-        const members = this.state.members;
-        const activeId = this.state.activeId;
-        const channelMember = members[channel.id];
-        const unreadCount = this.state.unreadCounts[channel.id] || {msgs: 0, mentions: 0};
-        let msgCount;
-
-        let linkClass = '';
-        if (channel.id === activeId) {
-            linkClass = 'active';
-        }
-
-        let rowClass = 'sidebar-item';
-
-        var unread = false;
-        if (channelMember) {
-            msgCount = unreadCount.msgs + unreadCount.mentions;
-            unread = msgCount > 0 || channelMember.mention_count > 0;
-        }
-
-        if (unread) {
-            rowClass += ' unread-title';
-
-            if (channel.id !== activeId) {
-                if (!this.firstUnreadChannel) {
-                    this.firstUnreadChannel = channel.name;
-                }
-                this.lastUnreadChannel = channel.name;
-            }
-        }
-
-        var badge = null;
-        if (channelMember) {
-            if (unreadCount.mentions) {
-                badge = <span className='badge'>{unreadCount.mentions}</span>;
-                this.badgesActive = true;
-            }
-        } else if (this.state.loadingDMChannel === index && channel.type === Constants.DM_CHANNEL) {
-            badge = (
-                <img
-                    className='channel-loading-gif pull-right'
-                    src={loadingGif}
-                />
-            );
-        }
-
-        if (unreadCount.mentions > 0) {
-            rowClass += ' has-badge';
-        }
-
-        var icon = null;
-        const globeIcon = Constants.GLOBE_ICON_SVG;
-        const lockIcon = Constants.LOCK_ICON_SVG;
-        if (channel.type === Constants.OPEN_CHANNEL) {
-            icon = (
-                <span
-                    className='icon icon__globe'
-                    dangerouslySetInnerHTML={{__html: globeIcon}}
-                />
-            );
-        } else if (channel.type === Constants.PRIVATE_CHANNEL) {
-            icon = (
-                <span
-                    className='icon icon__lock'
-                    dangerouslySetInnerHTML={{__html: lockIcon}}
-                />
-            );
-        } else if (channel.type === Constants.GM_CHANNEL) {
-            icon = <div className='status status--group'>{UserStore.getProfileListInChannel(channel.id, true).length}</div>;
-        } else if (channel.type === Constants.DM_CHANNEL) {
-            const teammate = Utils.getDirectTeammate(channel.id);
-            if (teammate && teammate.delete_at) {
-                icon = (
-                    <span
-                        className='icon icon__archive'
-                        dangerouslySetInnerHTML={{__html: Constants.ARCHIVE_ICON_SVG}}
-                    />
-                );
-            } else {
-                icon = (
-                    <StatusIcon
-                        type='avatar'
-                        status={channel.status}
-                    />);
-            }
-        }
-
-        let closeButton = null;
-        let removeTooltip = (
-            <Tooltip id='remove-dm-tooltip'>
-                <FormattedMessage
-                    id='sidebar.removeList'
-                    defaultMessage='Remove from list'
-                />
-            </Tooltip>
-        );
-        if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {
-            removeTooltip = (
-                <Tooltip id='remove-dm-tooltip'>
-                    <FormattedMessage
-                        id='sidebar.leave'
-                        defaultMessage='Leave channel'
-                    />
-                </Tooltip>
-            );
-        }
-        if (handleClose && !badge) {
-            closeButton = (
-                <OverlayTrigger
-                    trigger={['hover', 'focus']}
-                    delayShow={1000}
-                    placement='top'
-                    overlay={removeTooltip}
-                >
-                    <span
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            handleClose(e, channel);
-                        }}
-                        className='btn-close'
-                    >
-                        {'×'}
-                    </span>
-                </OverlayTrigger>
-            );
-
-            rowClass += ' has-close';
-        }
-
-        let tutorialTip = null;
-        if (this.state.showTutorialTip && channel.name === Constants.DEFAULT_CHANNEL) {
-            tutorialTip = this.createTutorialTip();
-            this.openLeftSidebar();
-        }
-
-        let link = '';
-        if (channel.fake) {
-            link = '/' + this.state.currentTeam.name + '/channels/' + channel.name + '?fakechannel=' + encodeURIComponent(JSON.stringify(channel));
-        } else {
-            link = '/' + this.state.currentTeam.name + '/channels/' + channel.name;
-        }
-
-        const user = UserStore.getCurrentUser();
-        let displayName = '';
-        if (user.id === channel.teammate_id) {
-            displayName = (
-                <FormattedMessage
-                    id='sidebar.directchannel.you'
-                    defaultMessage='{displayname} (you)'
-                    values={{
-                        displayname: channel.display_name
-                    }}
-                />
-            );
-        } else {
-            displayName = channel.display_name;
-        }
-
-        const channelLink = this.createChannelButtonOrLink(link, rowClass, icon, displayName, badge, closeButton);
-
-        return (
-            <li
-                key={channel.name}
-                ref={channel.name}
-                className={linkClass}
-            >
-                {channelLink}
-                {tutorialTip}
-            </li>
-        );
-    }
-
-    createChannelButtonOrLink(link, rowClass, icon, displayName, badge, closeButton) {
-        let element;
-        if (isDesktopApp()) {
-            element = (
-                <button
-                    className={'btn btn-link ' + rowClass}
-                    onClick={() => this.handleClick(link)}
-                >
-                    {icon}
-                    <span className='sidebar-item__name'>{displayName}</span>
-                    {badge}
-                    {closeButton}
-                </button>
-            );
-        } else {
-            element = (
-                <Link
-                    to={link}
-                    className={rowClass}
-                    onClick={this.trackChannelSelectedEvent}
-                >
-                    {icon}
-                    <span className='sidebar-item__name'>{displayName}</span>
-                    {badge}
-                    {closeButton}
-                </Link>
-            );
-        }
-
-        return element;
-    }
-
-    trackChannelSelectedEvent = () => {
-        trackEvent('ui', 'ui_channel_selected');
     }
 
     render() {
@@ -749,38 +513,38 @@ export default class Sidebar extends React.Component {
         const visibleFavoriteChannels = this.state.favoriteChannels.filter(ChannelUtils.isChannelVisible);
 
         const favoriteItems = visibleFavoriteChannels.
-            map((channel, index, arr) => {
+            map((channel, index) => {
                 if (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL) {
-                    return this.createChannelElement(channel, index, arr, this.handleLeaveDirectChannel);
+                    return this.createSidebarChannel(channel, index, this.handleLeaveDirectChannel);
                 } else if (global.window.mm_config.EnableXToLeaveChannelsFromLHS === 'true') {
                     if (channel.type === Constants.OPEN_CHANNEL && channel.name !== Constants.DEFAULT_CHANNEL) {
-                        return this.createChannelElement(channel, index, arr, this.handleLeavePublicChannel);
+                        return this.createSidebarChannel(channel, index, this.handleLeavePublicChannel);
                     } else if (channel.type === Constants.PRIVATE_CHANNEL) {
-                        return this.createChannelElement(channel, index, arr, this.handleLeavePrivateChannel);
+                        return this.createSidebarChannel(channel, index, this.handleLeavePrivateChannel);
                     }
                 }
 
-                return this.createChannelElement(channel);
+                return this.createSidebarChannel(channel, index);
             });
 
-        const publicChannelItems = this.state.publicChannels.map((channel, index, arr) => {
+        const publicChannelItems = this.state.publicChannels.map((channel, index) => {
             if (global.window.mm_config.EnableXToLeaveChannelsFromLHS !== 'true' ||
                 channel.name === Constants.DEFAULT_CHANNEL
             ) {
-                return this.createChannelElement(channel);
+                return this.createSidebarChannel(channel, index);
             }
-            return this.createChannelElement(channel, index, arr, this.handleLeavePublicChannel);
+            return this.createSidebarChannel(channel, index, this.handleLeavePublicChannel);
         });
 
-        const privateChannelItems = this.state.privateChannels.map((channel, index, arr) => {
+        const privateChannelItems = this.state.privateChannels.map((channel, index) => {
             if (global.window.mm_config.EnableXToLeaveChannelsFromLHS !== 'true') {
-                return this.createChannelElement(channel);
+                return this.createSidebarChannel(channel, index);
             }
-            return this.createChannelElement(channel, index, arr, this.handleLeavePrivateChannel);
+            return this.createSidebarChannel(channel, index, this.handleLeavePrivateChannel);
         });
 
-        const directMessageItems = this.state.directAndGroupChannels.map((channel, index, arr) => {
-            return this.createChannelElement(channel, index, arr, this.handleLeaveDirectChannel);
+        const directMessageItems = this.state.directAndGroupChannels.map((channel, index) => {
+            return this.createSidebarChannel(channel, index, this.handleLeaveDirectChannel);
         });
 
         // update the favicon to show if there are any notifications
