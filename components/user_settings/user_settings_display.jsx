@@ -28,7 +28,8 @@ function getDisplayStateFromStores() {
         channelDisplayMode: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT),
         messageDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT),
         collapseDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, Preferences.COLLAPSE_DISPLAY_DEFAULT),
-        linkPreviewDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT)
+        linkPreviewDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT),
+        teammateNameDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.TEAMMATE_NAME_DISPLAY, null)
     };
 }
 
@@ -40,6 +41,7 @@ export default class UserSettingsDisplay extends React.Component {
         this.handleClockRadio = this.handleClockRadio.bind(this);
         this.updateSection = this.updateSection.bind(this);
         this.updateState = this.updateState.bind(this);
+        this.setTeammateNameDisplay = this.setTeammateNameDisplay.bind(this);
 
         this.state = {
             ...getDisplayStateFromStores(),
@@ -81,10 +83,16 @@ export default class UserSettingsDisplay extends React.Component {
             name: Preferences.LINK_PREVIEW_DISPLAY,
             value: this.state.linkPreviewDisplay
         };
+        const teammateNameDisplayPreference = {
+            user_id: userId,
+            category: Preferences.CATEGORY_DISPLAY_SETTINGS,
+            name: Preferences.TEAMMATE_NAME_DISPLAY,
+            value: this.state.teammateNameDisplay
+        };
 
         this.setState({isSaving: true});
 
-        savePreferences([timePreference, channelDisplayModePreference, messageDisplayPreference, collapseDisplayPreference, linkPreviewDisplayPreference],
+        savePreferences([timePreference, channelDisplayModePreference, messageDisplayPreference, collapseDisplayPreference, linkPreviewDisplayPreference, teammateNameDisplayPreference],
             () => {
                 this.updateSection('');
             }
@@ -113,6 +121,10 @@ export default class UserSettingsDisplay extends React.Component {
 
     handleOnChange(display) {
         this.setState({...display});
+    }
+
+    setTeammateNameDisplay(e) {
+        this.setState({teammateNameDisplay: e.target.value});
     }
 
     updateSection(section) {
@@ -293,6 +305,67 @@ export default class UserSettingsDisplay extends React.Component {
         );
     }
 
+    createTeammateDisplaySection(props) {
+        const options = [];
+        for (const {value, text} of props.values) {
+            options.push(
+                <div
+                    className='radio'
+                    key={'changeTeammateName_' + value}
+                >
+                    <label>
+                        <input
+                            id={'teammateName' + value}
+                            type='radio'
+                            name='teammateName'
+                            checked={this.state.teammateNameDisplay === value}
+                            onChange={this.setTeammateNameDisplay}
+                            value={value}
+                        />
+                        <FormattedMessage
+                            id={'user.settings.display.teammateName.' + value}
+                            defaultMessage={text}
+                        />
+                    </label>
+                    <br/>
+                </div>
+            );
+        }
+        const messageDesc = (
+            <FormattedMessage
+                id={'user.settings.display.teammateName.helpText'}
+                defaultMessage={'Set how to display other user\'s names in posts and the Direct Messages list.'}
+            />
+        );
+        const inputs = (
+            <div key={'changeTeammateName'}>
+                <br/>
+                <div className='padding-top'>
+                    <div key={'teammateNameUserDisplay'}>
+                        {options}
+                    </div>
+                </div>
+                <div>
+                    <br/>
+                    {messageDesc}
+                </div>
+            </div>
+        );
+        return (
+            <SettingItemMax
+                title={props.title}
+                width='medium'
+                submit={this.handleSubmit}
+                saving={this.state.isSaving}
+                inputs={[inputs]}
+                updateSection={(e) => {
+                    this.updateSection('');
+                    e.preventDefault();
+                }}
+            />
+        );
+    }
+
     render() {
         const collapseSection = this.createSection({
             section: 'collapse',
@@ -385,6 +458,42 @@ export default class UserSettingsDisplay extends React.Component {
                 message: 'Select how you prefer time displayed.'
             }
         });
+
+        let teammateNameSection;
+        const teammateNameValues = [
+            {value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_USERNAME, text: Utils.localizeMessage('admin.team.showUsername', 'Show username (default)')},
+            {value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME, text: Utils.localizeMessage('admin.team.showNickname', 'Show nickname if one exists, otherwise show first and last name')},
+            {value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_FULLNAME, text: Utils.localizeMessage('admin.team.showFullname', 'Show first and last name')}
+        ];
+        const selectedTeammateValue = this.state.teammateNameDisplay || global.window.mm_config.TeammateNameDisplay;
+        const selectedTeammateLabel = teammateNameValues.filter(
+            (element) => element.value === selectedTeammateValue).map(
+                (element) => element.text);
+        const messageTitle = (
+            <FormattedMessage
+                id='user.settings.display.teammateNameDisplay'
+                defaultMessage='Teammate Name Display'
+            />
+        );
+        if (this.props.activeSection === 'teammateName') {
+            teammateNameSection = this.createTeammateDisplaySection({
+                display: 'teammateNameDisplay',
+                values: teammateNameValues,
+                value: selectedTeammateValue,
+                title: messageTitle
+            });
+        } else {
+            teammateNameSection = (
+                <SettingItemMin
+                    title={messageTitle}
+                    width='medium'
+                    describe={selectedTeammateLabel}
+                    updateSection={() => {
+                        this.updateSection('teammateName');
+                    }}
+                />
+            );
+        }
 
         const messageDisplaySection = this.createSection({
             section: Preferences.MESSAGE_DISPLAY,

@@ -1059,7 +1059,7 @@ export function displayUsername(userId) {
  */
 export function displayUsernameForUser(user) {
     if (user) {
-        const nameFormat = global.window.mm_config.TeammateNameDisplay;
+        const nameFormat = PreferenceStore.get(Constants.Preferences.CATEGORY_DISPLAY_SETTINGS, Constants.Preferences.TEAMMATE_NAME_DISPLAY, global.window.mm_config.TeammateNameDisplay);
         let name = user.username;
         if (nameFormat === Constants.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME && user.nickname && user.nickname !== '') {
             name = user.nickname;
