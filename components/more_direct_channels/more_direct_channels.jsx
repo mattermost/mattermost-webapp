@@ -17,7 +17,7 @@ import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
 import Constants from 'utils/constants.jsx';
-import {displayEntireNameForUser} from 'utils/utils.jsx';
+import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
 
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
@@ -295,12 +295,7 @@ export default class MoreDirectChannels extends React.Component {
             }
         }
 
-        const buttonSubmitText = (
-            <FormattedMessage
-                id='multiselect.go'
-                defaultMessage='Go'
-            />
-        );
+        const buttonSubmitText = localizeMessage('multiselect.go', 'Go');
 
         const numRemainingText = (
             <FormattedMessage
