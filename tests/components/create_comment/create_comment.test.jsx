@@ -75,15 +75,16 @@ describe('components/CreateComment', () => {
     });
 
     test('should match snapshot, non-empty message and uploadsInProgress + fileInfos', () => {
+        const draft = {
+            message: 'Test message',
+            uploadsInProgress: [{}],
+            fileInfos: [{}, {}, {}]
+        };
         const wrapper = shallow(
             <CreateComment
                 channelId={channelId}
                 rootId={rootId}
-                draft={{
-                    message: 'Test message',
-                    uploadsInProgress: [{}],
-                    fileInfos: [{}, {}, {}]
-                }}
+                draft={draft}
                 enableAddButton={true}
                 ctrlSend={false}
                 latestPostId={latestPostId}
@@ -97,6 +98,7 @@ describe('components/CreateComment', () => {
                 onEditLatestPost={jest.fn()}
             />
         );
+        wrapper.setState({draft});
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -254,8 +256,9 @@ describe('components/CreateComment', () => {
         expect(onUpdateCommentDraft.mock.calls[0][0]).toEqual(
             expect.objectContaining({message: ':smile: '})
         );
+        expect(wrapper.state().draft.message).toBe(':smile: ');
 
-        wrapper.setProps({draft: {message: 'test', uploadsInProgress: [], fileInfos: []}});
+        wrapper.setState({draft: {message: 'test', uploadsInProgress: [], fileInfos: []}});
 
         wrapper.instance().handleEmojiClick({name: 'smile'});
 
@@ -263,8 +266,9 @@ describe('components/CreateComment', () => {
         expect(onUpdateCommentDraft.mock.calls[1][0]).toEqual(
             expect.objectContaining({message: 'test :smile: '})
         );
+        expect(wrapper.state().draft.message).toBe('test :smile: ');
 
-        wrapper.setProps({draft: {message: 'test ', uploadsInProgress: [], fileInfos: []}});
+        wrapper.setState({draft: {message: 'test ', uploadsInProgress: [], fileInfos: []}});
 
         wrapper.instance().handleEmojiClick({name: 'smile'});
 
@@ -272,6 +276,7 @@ describe('components/CreateComment', () => {
         expect(onUpdateCommentDraft.mock.calls[2][0]).toEqual(
             expect.objectContaining({message: 'test :smile: '})
         );
+        expect(wrapper.state().draft.message).toBe('test :smile: ');
 
         expect(wrapper.state().showEmojiPicker).toBe(false);
     });
@@ -311,16 +316,17 @@ describe('components/CreateComment', () => {
 
     test('handleUploadError should update state with the correct error', () => {
         const onUpdateCommentDraft = jest.fn();
+        const draft = {
+            message: 'Test message',
+            uploadsInProgress: [1, 2, 3],
+            fileInfos: [{}, {}, {}]
+        };
 
         const wrapper = shallow(
             <CreateComment
                 channelId={channelId}
                 rootId={rootId}
-                draft={{
-                    message: 'Test message',
-                    uploadsInProgress: [1, 2, 3],
-                    fileInfos: [{}, {}, {}]
-                }}
+                draft={draft}
                 enableAddButton={true}
                 ctrlSend={false}
                 latestPostId={latestPostId}
@@ -337,6 +343,8 @@ describe('components/CreateComment', () => {
 
         const testError1 = 'test error 1';
 
+        wrapper.setState({draft});
+
         wrapper.instance().handleUploadError(testError1, 1);
 
         expect(onUpdateCommentDraft).toHaveBeenCalled();
@@ -346,6 +354,7 @@ describe('components/CreateComment', () => {
         );
 
         expect(wrapper.state().serverError).toBe(testError1);
+        expect(wrapper.state().draft.uploadsInProgress).toEqual([2, 3]);
 
         // clientId = -1
         const testError2 = 'test error 2';
@@ -382,9 +391,13 @@ describe('components/CreateComment', () => {
             />
         );
 
+        expect(wrapper.instance().getFileCount()).toBe(3);
+
+        wrapper.setState({draft: {message: 'test', uploadsInProgress: [{}], fileInfos: [{}, {}, {}]}});
+
         expect(wrapper.instance().getFileCount()).toBe(4);
 
-        wrapper.setProps({draft: {message: 'test', uploadsInProgress: [], fileInfos: []}});
+        wrapper.setState({draft: {message: 'test', uploadsInProgress: [], fileInfos: []}});
 
         expect(wrapper.instance().getFileCount()).toBe(0);
     });
@@ -449,16 +462,17 @@ describe('components/CreateComment', () => {
 
     test('handleUploadStart should update comment draft correctly', () => {
         const onUpdateCommentDraft = jest.fn();
+        const draft = {
+            message: 'Test message',
+            uploadsInProgress: [1, 2, 3],
+            fileInfos: [{}, {}, {}]
+        };
 
         const wrapper = shallow(
             <CreateComment
                 channelId={channelId}
                 rootId={rootId}
-                draft={{
-                    message: 'Test message',
-                    uploadsInProgress: [1, 2, 3],
-                    fileInfos: [{}, {}, {}]
-                }}
+                draft={draft}
                 enableAddButton={true}
                 ctrlSend={false}
                 latestPostId={latestPostId}
@@ -474,6 +488,7 @@ describe('components/CreateComment', () => {
         );
 
         const focusTextbox = jest.fn();
+        wrapper.setState({draft});
 
         wrapper.instance().focusTextbox = focusTextbox;
 
@@ -485,21 +500,24 @@ describe('components/CreateComment', () => {
             expect.objectContaining({uploadsInProgress: [1, 2, 3, 4, 5]})
         );
 
+        expect(wrapper.state().draft.uploadsInProgress === [1, 2, 3, 4, 5]);
+
         expect(focusTextbox).toHaveBeenCalled();
     });
 
     test('handleFileUploadComplete should update comment draft correctly', () => {
         const onUpdateCommentDraft = jest.fn();
+        const draft = {
+            message: 'Test message',
+            uploadsInProgress: [1, 2, 3],
+            fileInfos: [{test: 1}, {test: 2}]
+        };
 
         const wrapper = shallow(
             <CreateComment
                 channelId={channelId}
                 rootId={rootId}
-                draft={{
-                    message: 'Test message',
-                    uploadsInProgress: [1, 2, 3],
-                    fileInfos: [{test: 1}, {test: 2}]
-                }}
+                draft={draft}
                 enableAddButton={true}
                 ctrlSend={false}
                 latestPostId={latestPostId}
@@ -514,6 +532,8 @@ describe('components/CreateComment', () => {
             />
         );
 
+        wrapper.setState({draft});
+
         wrapper.instance().handleFileUploadComplete([{test: 3}], [3]);
 
         expect(onUpdateCommentDraft).toHaveBeenCalled();
@@ -521,6 +541,9 @@ describe('components/CreateComment', () => {
         expect(onUpdateCommentDraft.mock.calls[0][0]).toEqual(
             expect.objectContaining({uploadsInProgress: [1, 2], fileInfos: [{test: 1}, {test: 2}, {test: 3}]})
         );
+
+        expect(wrapper.state().draft.uploadsInProgress).toEqual([1, 2]);
+        expect(wrapper.state().draft.fileInfos).toEqual([{test: 1}, {test: 2}, {test: 3}]);
     });
 
     test('calls showPostDeletedModal when createPostErrorId === api.post.create_post.root_id.app_error', () => {
@@ -628,6 +651,7 @@ describe('components/CreateComment', () => {
         expect(onUpdateCommentDraft.mock.calls[0][0]).toEqual(
             expect.objectContaining({message: testMessage})
         );
+        expect(wrapper.state().draft.message).toBe(testMessage);
 
         expect(scrollToBottom).toHaveBeenCalled();
     });
@@ -662,7 +686,7 @@ describe('components/CreateComment', () => {
 
         wrapper.instance().scrollToBottom = scrollToBottom;
 
-        wrapper.setProps({draft: {...draft, uploadsInProgress: [1, 2, 3, 4]}});
+        wrapper.setState({draft: {...draft, uploadsInProgress: [1, 2, 3, 4]}});
 
         expect(scrollToBottom).toHaveBeenCalled();
     });
@@ -703,16 +727,17 @@ describe('components/CreateComment', () => {
 
     test('removePreview should remove file info and upload in progress with corresponding id', () => {
         const onUpdateCommentDraft = jest.fn();
+        const draft = {
+            message: 'Test message',
+            uploadsInProgress: [4, 5, 6],
+            fileInfos: [{id: 1}, {id: 2}, {id: 3}]
+        };
 
         const wrapper = shallow(
             <CreateComment
                 channelId={channelId}
                 rootId={rootId}
-                draft={{
-                    message: 'Test message',
-                    uploadsInProgress: [4, 5, 6],
-                    fileInfos: [{id: 1}, {id: 2}, {id: 3}]
-                }}
+                draft={draft}
                 enableAddButton={true}
                 ctrlSend={false}
                 latestPostId={latestPostId}
@@ -727,6 +752,8 @@ describe('components/CreateComment', () => {
             />
         );
 
+        wrapper.setState({draft});
+
         wrapper.instance().removePreview(3);
 
         expect(onUpdateCommentDraft).toHaveBeenCalled();
@@ -734,11 +761,13 @@ describe('components/CreateComment', () => {
         expect(onUpdateCommentDraft.mock.calls[0][0]).toEqual(
             expect.objectContaining({fileInfos: [{id: 1}, {id: 2}]})
         );
+        expect(wrapper.state().draft.fileInfos).toEqual([{id: 1}, {id: 2}]);
 
         wrapper.instance().removePreview(5);
 
         expect(onUpdateCommentDraft.mock.calls[1][0]).toEqual(
             expect.objectContaining({uploadsInProgress: [4, 6]})
         );
+        expect(wrapper.state().draft.uploadsInProgress).toEqual([4, 6]);
     });
 });

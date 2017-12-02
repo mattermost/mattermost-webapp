@@ -110,7 +110,12 @@ export default class CreateComment extends React.PureComponent {
 
         this.state = {
             showPostDeletedModal: false,
-            showEmojiPicker: false
+            showEmojiPicker: false,
+            draft: {
+                message: '',
+                uploadsInProgress: [],
+                fileInfos: []
+            }
         };
 
         this.lastBlurAt = 0;
@@ -119,6 +124,7 @@ export default class CreateComment extends React.PureComponent {
     componentWillMount() {
         this.props.clearCommentDraftUploads();
         this.props.onResetHistoryIndex();
+        this.setState({draft: {...this.props.draft, uploadsInProgress: []}});
     }
 
     componentDidMount() {
@@ -129,10 +135,13 @@ export default class CreateComment extends React.PureComponent {
         if (newProps.createPostErrorId === 'api.post.create_post.root_id.app_error' && newProps.createPostErrorId !== this.props.createPostErrorId) {
             this.showPostDeletedModal();
         }
+        if (newProps.rootId !== this.props.rootId) {
+            this.setState({draft: {...newProps.draft, uploadsInProgress: []}});
+        }
     }
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.draft.uploadsInProgress.length < this.props.draft.uploadsInProgress.length) {
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.draft.uploadsInProgress.length < this.state.draft.uploadsInProgress.length) {
             this.scrollToBottom();
         }
 
@@ -157,7 +166,7 @@ export default class CreateComment extends React.PureComponent {
             return;
         }
 
-        const {draft} = this.props;
+        const {draft} = this.state;
 
         let newMessage = '';
         if (draft.message === '') {
@@ -171,7 +180,10 @@ export default class CreateComment extends React.PureComponent {
 
         this.props.onUpdateCommentDraft({...draft, message: newMessage});
 
-        this.setState({showEmojiPicker: false});
+        this.setState({
+            showEmojiPicker: false,
+            draft: {...draft, message: newMessage}
+        });
 
         this.focusTextbox();
     }
@@ -183,7 +195,8 @@ export default class CreateComment extends React.PureComponent {
     handleSubmit = async (e) => {
         e.preventDefault();
 
-        const {enableAddButton, draft} = this.props;
+        const {enableAddButton} = this.props;
+        const {draft} = this.state;
 
         if (!enableAddButton) {
             return;
@@ -214,6 +227,7 @@ export default class CreateComment extends React.PureComponent {
 
         const fasterThanHumanWillClick = 150;
         const forceFocus = (Date.now() - this.lastBlurAt < fasterThanHumanWillClick);
+        this.setState({draft: {...this.props.draft, uploadsInProgress: []}});
         this.focusTextbox(forceFocus);
     }
 
@@ -239,9 +253,10 @@ export default class CreateComment extends React.PureComponent {
     handleChange = (e) => {
         const message = e.target.value;
 
-        const {draft} = this.props;
+        const {draft} = this.state;
         const updatedDraft = {...draft, message};
         this.props.onUpdateCommentDraft(updatedDraft);
+        this.setState({draft: updatedDraft});
 
         this.scrollToBottom();
     }
@@ -252,7 +267,7 @@ export default class CreateComment extends React.PureComponent {
             return;
         }
 
-        const {draft} = this.props;
+        const {draft} = this.state;
         const {message} = draft;
 
         if (!e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey && e.keyCode === KeyCodes.UP && message === '') {
@@ -276,10 +291,11 @@ export default class CreateComment extends React.PureComponent {
     }
 
     handleUploadStart = (clientIds) => {
-        const {draft} = this.props;
+        const {draft} = this.state;
         const uploadsInProgress = [...draft.uploadsInProgress, ...clientIds];
 
         this.props.onUpdateCommentDraft({...draft, uploadsInProgress});
+        this.setState({draft: {...draft, uploadsInProgress}});
 
         // this is a bit redundant with the code that sets focus when the file input is clicked,
         // but this also resets the focus after a drag and drop
@@ -287,7 +303,7 @@ export default class CreateComment extends React.PureComponent {
     }
 
     handleFileUploadComplete = (fileInfos, clientIds) => {
-        const {draft} = this.props;
+        const {draft} = this.state;
         const uploadsInProgress = [...draft.uploadsInProgress];
         const newFileInfos = [...draft.fileInfos, ...fileInfos];
 
@@ -301,6 +317,7 @@ export default class CreateComment extends React.PureComponent {
         }
 
         this.props.onUpdateCommentDraft({...draft, fileInfos: newFileInfos, uploadsInProgress});
+        this.setState({draft: {...draft, fileInfos: newFileInfos, uploadsInProgress}});
 
         // Focus on preview if needed/possible - if user has switched teams since starting the file upload,
         // the preview will be undefined and the switch will fail
@@ -311,7 +328,7 @@ export default class CreateComment extends React.PureComponent {
 
     handleUploadError = (err, clientId = -1) => {
         if (clientId !== -1) {
-            const {draft} = this.props;
+            const {draft} = this.state;
             const uploadsInProgress = [...draft.uploadsInProgress];
 
             const index = uploadsInProgress.indexOf(clientId);
@@ -320,13 +337,14 @@ export default class CreateComment extends React.PureComponent {
             }
 
             this.props.onUpdateCommentDraft({...draft, uploadsInProgress});
+            this.setState({draft: {...draft, uploadsInProgress}});
         }
 
         this.setState({serverError: err});
     }
 
     removePreview = (id) => {
-        const {draft} = this.props;
+        const {draft} = this.state;
         const fileInfos = [...draft.fileInfos];
         const uploadsInProgress = [...draft.uploadsInProgress];
 
@@ -350,6 +368,7 @@ export default class CreateComment extends React.PureComponent {
         }
 
         this.props.onUpdateCommentDraft({...draft, fileInfos, uploadsInProgress});
+        this.setState({draft: {...draft, fileInfos, uploadsInProgress}});
 
         this.handleFileUploadChange();
     }
@@ -360,7 +379,7 @@ export default class CreateComment extends React.PureComponent {
                 fileInfos,
                 uploadsInProgress
             }
-        } = this.props;
+        } = this.state;
         return fileInfos.length + uploadsInProgress.length;
     }
 
@@ -395,7 +414,7 @@ export default class CreateComment extends React.PureComponent {
     }
 
     render() {
-        const {draft} = this.props;
+        const {draft} = this.state;
 
         let serverError = null;
         if (this.state.serverError) {
