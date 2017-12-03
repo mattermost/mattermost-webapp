@@ -209,7 +209,6 @@
     }
 
     .channel-header__description {
-        cursor: pointer;
         height: 24px;
         margin-bottom: 3px;
         margin-top: 3px;
@@ -236,11 +235,8 @@
             @include opacity(.8);
             color: inherit;
 
-            &:hover,
-            &:focus {
-                color: inherit;
-
-                span {
+            button {
+                &:hover {
                     text-decoration: underline;
                 }
             }
