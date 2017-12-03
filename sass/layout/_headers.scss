@@ -236,7 +236,8 @@
             color: inherit;
 
             button {
-                &:hover {
+                &:hover
+                &:focus {
                     text-decoration: underline;
                 }
             }
