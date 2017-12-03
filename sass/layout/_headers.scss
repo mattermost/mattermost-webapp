@@ -227,6 +227,11 @@
             margin: 0;
         }
 
+        code {
+            margin: 1px 0 0;
+            padding: 2px 5px 0;
+        }
+
         &.light {
             @include opacity(.8);
             color: inherit;
