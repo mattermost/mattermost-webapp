@@ -41,7 +41,7 @@ describe('TextFormatting.ChannelLinks', () => {
                 channelNamesMap: {'town-square': {display_name: '<b>Reception</b>'}},
                 team: {name: 'myteam'}
             }).trim(),
-            '<p><a class="mention-link" href="/myteam/channels/town-square" data-channel-mention="town-square">~&lt;b&gt;Reception&lt;/b&gt;</a></p>'
+            '<p><a class="mention-link" href="/myteam/channels/town-square" data-channel-mention="town-square">&lt;b&gt;Reception&lt;/b&gt;</a></p>'
         );
 
         done();
