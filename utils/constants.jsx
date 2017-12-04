@@ -68,7 +68,8 @@ export const Preferences = {
     INTERVAL_IMMEDIATE: 30, // "immediate" is a 30 second interval
     INTERVAL_FIFTEEN_MINUTES: 15 * 60,
     INTERVAL_HOUR: 60 * 60,
-    INTERVAL_NEVER: 0
+    INTERVAL_NEVER: 0,
+    TEAMMATE_NAME_DISPLAY: 'name_format'
 };
 
 export const ActionTypes = keyMirror({
