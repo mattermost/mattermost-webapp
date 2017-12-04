@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {resetCreatePost, resetHistoryIndex} from 'mattermost-redux/actions/posts';
+import {resetCreatePostRequest, resetHistoryIndex} from 'mattermost-redux/actions/posts';
 import {Preferences, Posts} from 'mattermost-redux/constants';
 
 import {
@@ -82,7 +82,7 @@ function makeMapDispatchToProps() {
             onMoveHistoryIndexBack,
             onMoveHistoryIndexForward,
             onEditLatestPost,
-            resetCreatePost
+            resetCreatePostRequest
         }, dispatch);
     };
 }

@@ -45,7 +45,7 @@ describe('components/CreateComment', () => {
         onMoveHistoryIndexBack: jest.fn(),
         onMoveHistoryIndexForward: jest.fn(),
         onEditLatestPost: jest.fn(),
-        resetCreatePost: jest.fn()
+        resetCreatePostRequest: jest.fn()
     };
 
     test('should match snapshot, empty comment', () => {
@@ -238,15 +238,15 @@ describe('components/CreateComment', () => {
     });
 
     test('should correctly change state when hidePostDeletedModal is called', () => {
-        const resetCreatePost = jest.fn();
-        const props = {...baseProps, resetCreatePost};
+        const resetCreatePostRequest = jest.fn();
+        const props = {...baseProps, resetCreatePostRequest};
         const wrapper = shallow(
             <CreateComment {...props}/>
         );
 
         wrapper.instance().hidePostDeletedModal();
         expect(wrapper.state().showPostDeletedModal).toBe(false);
-        expect(resetCreatePost).toHaveBeenCalledTimes(1);
+        expect(resetCreatePostRequest).toHaveBeenCalledTimes(1);
     });
 
     test('handleUploadStart should update comment draft correctly', () => {

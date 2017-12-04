@@ -105,9 +105,9 @@ export default class CreateComment extends React.PureComponent {
         onEditLatestPost: PropTypes.func.isRequired,
 
         /**
-         * Reset state of createPost
+         * Reset state of createPost request
          */
-        resetCreatePost: PropTypes.func.isRequired
+        resetCreatePostRequest: PropTypes.func.isRequired
     }
 
     constructor(props) {
@@ -137,7 +137,7 @@ export default class CreateComment extends React.PureComponent {
     }
 
     componentWillUnmount() {
-        this.props.resetCreatePost();
+        this.props.resetCreatePostRequest();
     }
 
     componentWillReceiveProps(newProps) {
@@ -417,7 +417,7 @@ export default class CreateComment extends React.PureComponent {
             showPostDeletedModal: false
         });
 
-        this.props.resetCreatePost();
+        this.props.resetCreatePostRequest();
     }
 
     handleBlur = () => {
