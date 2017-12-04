@@ -2,6 +2,7 @@
 // See License.txt for license information.
 
 import {connect} from 'react-redux';
+import {createSelector} from 'reselect';
 
 import {Preferences} from 'mattermost-redux/constants';
 
@@ -17,6 +18,17 @@ import {getSiteURL} from 'utils/url.jsx';
 
 import PostMessageView from './post_message_view.jsx';
 
+const getChannelNamesMap = createSelector(
+    (state) => getChannelsNameMapInCurrentTeam(state),
+    (state, props) => props,
+    (channelNamesMap, props) => {
+        if (props && props.channel_mentions) {
+            return Object.assign({}, props.channel_mentions, channelNamesMap);
+        }
+        return channelNamesMap;
+    }
+);
+
 function makeMapStateToProps() {
     let emojiMap;
     let oldCustomEmoji;
@@ -30,10 +42,7 @@ function makeMapStateToProps() {
 
         const user = getCurrentUser(state);
 
-        let channelNamesMap = getChannelsNameMapInCurrentTeam(state);
-        if (ownProps.post.props && ownProps.post.props.channel_mentions) {
-            channelNamesMap = Object.assign({}, ownProps.post.props.channel_mentions, channelNamesMap);
-        }
+        const channelNamesMap = getChannelNamesMap(state, ownProps.post.props);
 
         return {
             ...ownProps,

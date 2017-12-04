@@ -131,7 +131,8 @@ export default class PostMessageView extends React.PureComponent {
             emojis,
             siteUrl,
             team,
-            lastPostCount
+            lastPostCount,
+            channelNamesMap
         } = this.props;
 
         if (post.state === Posts.POST_DELETED) {
@@ -165,7 +166,7 @@ export default class PostMessageView extends React.PureComponent {
             siteURL: siteUrl,
             mentionKeys,
             atMentions: true,
-            channelNamesMap: this.props.channelNamesMap,
+            channelNamesMap,
             team
         });
 
