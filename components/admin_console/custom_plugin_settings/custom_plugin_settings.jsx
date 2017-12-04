@@ -31,6 +31,7 @@ export default class CustomPluginSettings extends AdminSettings {
         this.buildPluginRadioSetting = this.buildPluginRadioSetting.bind(this);
         this.buildPluginGeneratedSetting = this.buildPluginGeneratedSetting.bind(this);
         this.buildPluginUsernameSetting = this.buildPluginUsernameSetting.bind(this);
+        this.handleGeneratedChange = this.handleGeneratedChange.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -169,9 +170,13 @@ export default class CustomPluginSettings extends AdminSettings {
                 regenerateHelpText={setting.regenerate_help_text}
                 placeholder={setting.placeholder}
                 value={this.state[id] || ''}
-                onChange={this.handleChange}
+                onChange={this.handleGeneratedChange}
             />
         );
+    }
+
+    handleGeneratedChange(id, s) {
+        this.handleChange(id, s.replace('+', '-').replace('/', '_'));
     }
 
     buildPluginUsernameSetting(id, setting) {
