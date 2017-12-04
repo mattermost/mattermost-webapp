@@ -726,7 +726,7 @@
   "admin.plugin.management.title": "Management",
   "admin.plugin.name": "Name:",
   "admin.plugin.no_plugins": "No installed plugins.",
-  "admin.plugin.prepackaged": "Prepackaged",
+  "admin.plugin.prepackaged": "Pre-packaged",
   "admin.plugin.remove": "Remove",
   "admin.plugin.removing": "Removing...",
   "admin.plugin.settingsButton": "Settings",

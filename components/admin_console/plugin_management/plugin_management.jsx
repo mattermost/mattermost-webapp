@@ -228,21 +228,6 @@ export default class PluginManagement extends React.Component {
             );
         }
 
-        let name;
-        if (p.name) {
-            name = (
-                <div className='padding-top'>
-                    <strong>
-                        <FormattedMessage
-                            id='admin.plugin.name'
-                            defaultMessage='Name:'
-                        />
-                    </strong>
-                    {' ' + p.name}
-                </div>
-            );
-        }
-
         let description;
         if (p.description) {
             description = (
@@ -261,7 +246,8 @@ export default class PluginManagement extends React.Component {
         let version;
         if (p.version) {
             version = (
-                <div className='padding-top'>
+                <span>
+                    {', '}
                     <strong>
                         <FormattedMessage
                             id='admin.plugin.version'
@@ -269,7 +255,35 @@ export default class PluginManagement extends React.Component {
                         />
                     </strong>
                     {' ' + p.version}
-                </div>
+                </span>
+            );
+        }
+
+        const id = (
+            <div className='padding-top'>
+                <strong>
+                    <FormattedMessage
+                        id='admin.plugin.id'
+                        defaultMessage='Id:'
+                    />
+                </strong>
+                {' ' + p.id}
+                {version}
+            </div>
+        );
+
+        let prepackagedLabel;
+        if (p.prepackaged) {
+            prepackagedLabel = (
+                <span>
+                    {' - '}
+                    <strong>
+                        <FormattedMessage
+                            id='admin.plugin.prepackaged'
+                            defaultMessage='Pre-packaged'
+                        />
+                    </strong>
+                </span>
             );
         }
 
@@ -278,15 +292,15 @@ export default class PluginManagement extends React.Component {
                 <div>
                     <strong>
                         <FormattedMessage
-                            id='admin.plugin.id'
-                            defaultMessage='Id:'
+                            id='admin.plugin.name'
+                            defaultMessage='Name:'
                         />
                     </strong>
-                    {' ' + p.id + (p.prepackaged ? ' (' + Utils.localizeMessage('admin.plugin.prepackaged', 'Prepackaged') + ')' : '')}
+                    {' ' + (p.name || '')}
+                    {prepackagedLabel}
                 </div>
-                {name}
                 {description}
-                {version}
+                {id}
                 <div className='padding-top'>
                     {activateButton}
                     {removeButton}
