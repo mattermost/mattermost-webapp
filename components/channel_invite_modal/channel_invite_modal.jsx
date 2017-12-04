@@ -17,7 +17,7 @@ import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
 import Constants from 'utils/constants.jsx';
-import {displayEntireNameForUser} from 'utils/utils.jsx';
+import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
 
 import LoadingScreen from 'components/loading_screen.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
@@ -230,12 +230,7 @@ export default class ChannelInviteModal extends React.Component {
             />
         );
 
-        const buttonSubmitText = (
-            <FormattedMessage
-                id='multiselect.add'
-                defaultMessage='Add'
-            />
-        );
+        const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
 
         let users = [];
         if (this.state.users) {

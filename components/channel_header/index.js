@@ -36,7 +36,7 @@ function mapStateToProps(state, ownProps) {
         channel,
         channelMember: getMyChannelMember(state, ownProps.channelId),
         teamMember: getMyTeamMember(state, channel.team_id),
-        isFavorite: isFavoriteChannel(prefs, {...channel}),
+        isFavorite: isFavoriteChannel(prefs, ownProps.channelId),
         isDefault: isDefault(channel),
         currentUser: user,
         dmUser,
