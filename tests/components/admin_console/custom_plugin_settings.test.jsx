@@ -1,0 +1,144 @@
+// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
+// See License.txt for license information.
+
+import React from 'react';
+import {shallow} from 'enzyme';
+
+import CustomPluginSettings from 'components/admin_console/custom_plugin_settings/custom_plugin_settings.jsx';
+
+describe('components/admin_console/CustomPluginSettings', () => {
+    let plugin = null;
+    let config = null;
+
+    afterEach(() => {
+        plugin = null;
+        config = null;
+    });
+
+    beforeEach(() => {
+        plugin = {
+            id: 'testplugin',
+            name: 'testplugin',
+            description: '',
+            webapp: {
+                bundle_path: '/static/testplugin_bundle.js'
+            },
+            settings_schema: {
+                header: '# Header\n*This* is the **header**',
+                footer: '# Footer\n*This* is the **footer**',
+                settings: [
+                    {
+                        key: 'settinga',
+                        display_name: 'Setting One',
+                        type: 'text',
+                        default: 'setting_default',
+                        help_text: 'This is some help text for the text field.',
+                        placeholder: 'e.g. some setting'
+                    },
+                    {
+                        key: 'settingb',
+                        display_name: 'Setting Two',
+                        type: 'bool',
+                        default: true,
+                        help_text: 'This is some help text for the bool field.'
+                    },
+                    {
+                        key: 'settingc',
+                        display_name: 'Setting Three',
+                        type: 'dropdown',
+                        default: 'option1',
+                        options: [
+                            {display_name: 'Option 1', value: 'option1'},
+                            {display_name: 'Option 2', value: 'option2'},
+                            {display_name: 'Option 3', value: 'option3'}
+                        ],
+                        help_text: 'This is some help text for the dropdown field.'
+                    },
+                    {
+                        key: 'settingd',
+                        display_name: 'Setting Four',
+                        type: 'radio',
+                        default: 'option2',
+                        options: [
+                            {display_name: 'Option 1', value: 'option1'},
+                            {display_name: 'Option 2', value: 'option2'},
+                            {display_name: 'Option 3', value: 'option3'}
+                        ],
+                        help_text: 'This is some help text for the radio field.'
+                    },
+                    {
+                        key: 'settinge',
+                        display_name: 'Setting Five',
+                        type: 'generated',
+                        help_text: 'This is some help text for the generated field.',
+                        regenerate_help_text: 'This is help text for the regenerate button.',
+                        placeholder: 'e.g. 47KyfOxtk5+ovi1MDHFyzMDHIA6esMWb'
+                    },
+                    {
+                        key: 'settingf',
+                        display_name: 'Setting Six',
+                        type: 'username',
+                        help_text: 'This is some help text for the user autocomplete field.',
+                        placeholder: 'Type a username here'
+                    }
+                ]
+            }
+        };
+
+        config = {
+            PluginSettings: {
+                Plugins: {
+                    testplugin: {
+                        settinga: 'fsdsdg',
+                        settingb: false,
+                        settingc: 'option3',
+                        settingd: 'option1',
+                        settinge: 'Q6DHXrFLOIS5sOI5JNF4PyDLqWm7vh23',
+                        settingf: '3xz3r6n7dtbbmgref3yw4zg7sr'
+                    }
+                }
+            }
+        };
+    });
+
+    test('should match snapshot with settings and plugin', () => {
+        const wrapper = shallow(
+            <CustomPluginSettings
+                config={config}
+                plugin={plugin}
+            />
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with settings and no plugin', () => {
+        const wrapper = shallow(
+            <CustomPluginSettings
+                config={config}
+                plugin={{
+                    id: 'testplugin',
+                    name: 'testplugin',
+                    description: '',
+                    webapp: {
+                        bundle_path: '/static/testplugin_bundle.js'
+                    }
+                }}
+            />
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with no settings and plugin', () => {
+        const wrapper = shallow(
+            <CustomPluginSettings
+                config={{
+                    PluginSettings: {
+                        Plugins: {}
+                    }
+                }}
+                plugin={plugin}
+            />
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+});

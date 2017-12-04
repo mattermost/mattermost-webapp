@@ -79,10 +79,10 @@ export default class DotMenu extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.post !== this.props.post) {
-            this.state = {
+            this.setState({
                 canDelete: PostUtils.canDeletePost(nextProps.post),
                 canEdit: PostUtils.canEditPost(nextProps.post, this.editDisableAction)
-            };
+            });
         }
     }
 

@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {browserHistory} from 'react-router/es6';
+import {browserHistory} from 'react-router';
 
 import AbstractOAuthApp from '../abstract_oauth_app.jsx';
 
@@ -48,7 +48,7 @@ export default class AddOAuthApp extends React.PureComponent {
     addOAuthApp = async (app) => {
         this.setState({serverError: ''});
 
-        const data = await this.props.actions.addOAuthApp(app);
+        const {data} = await this.props.actions.addOAuthApp(app);
         if (data) {
             browserHistory.push(`/${this.props.team.name}/integrations/confirm?type=oauth2-apps&id=${data.id}`);
             return;

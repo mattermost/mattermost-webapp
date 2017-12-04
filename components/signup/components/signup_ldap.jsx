@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-import {browserHistory, Link} from 'react-router/es6';
+import {browserHistory, Link} from 'react-router';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
@@ -243,7 +243,7 @@ export default class SignupLdap extends React.Component {
                             {' '}
                             <Link
                                 to={'/login'}
-                                query={this.props.location.query}
+                                query={Utils.isEmptyObject(this.props.location.query) ? null : this.props.location.query}
                             >
                                 <FormattedMessage
                                     id='signup_user_completed.signIn'

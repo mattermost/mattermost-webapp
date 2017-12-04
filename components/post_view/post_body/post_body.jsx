@@ -70,7 +70,17 @@ export default class PostBody extends React.PureComponent {
         /**
          * Post identifiers for selenium tests
          */
-        lastPostCount: PropTypes.number
+        lastPostCount: PropTypes.number,
+
+        /*
+         * Post type components from plugins
+         */
+        pluginPostTypes: PropTypes.object,
+
+        /**
+         * Flag passed down to PostBodyAdditionalContent for determining if post embed is visible
+         */
+        isEmbedVisible: PropTypes.bool
     }
 
     constructor(props) {
@@ -99,7 +109,7 @@ export default class PostBody extends React.PureComponent {
         this.sendingAction.cancel();
     }
 
-    compoentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps) {
         const post = nextProps.post;
         if (post && post.id !== post.pending_post_id) {
             this.sendingAction.cancel();
@@ -225,8 +235,10 @@ export default class PostBody extends React.PureComponent {
             </div>
         );
 
+        const hasPlugin = post.type && this.props.pluginPostTypes.hasOwnProperty(post.type);
+
         let messageWithAdditionalContent;
-        if (this.props.post.state === Posts.POST_DELETED) {
+        if (this.props.post.state === Posts.POST_DELETED || hasPlugin) {
             messageWithAdditionalContent = messageWrapper;
         } else {
             messageWithAdditionalContent = (
@@ -234,6 +246,7 @@ export default class PostBody extends React.PureComponent {
                     post={this.props.post}
                     previewCollapsed={this.props.previewCollapsed}
                     previewEnabled={this.props.previewEnabled}
+                    isEmbedVisible={this.props.isEmbedVisible}
                 >
                     {messageWrapper}
                 </PostBodyAdditionalContent>

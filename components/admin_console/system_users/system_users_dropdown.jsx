@@ -44,14 +44,18 @@ export default class SystemUsersDropdown extends React.Component {
         /*
          * Function to open manage tokens, takes user as an argument
          */
-        doManageTokens: PropTypes.func.isRequired
+        doManageTokens: PropTypes.func.isRequired,
+
+        /*
+         * The function to call when an error occurs
+         */
+        onError: PropTypes.func.isRequired
     };
 
     constructor(props) {
         super(props);
 
         this.state = {
-            serverError: null,
             showDemoteModal: false,
             showDeactivateMemberModal: false,
             showRevokeSessionsModal: false,
@@ -62,11 +66,7 @@ export default class SystemUsersDropdown extends React.Component {
 
     handleMakeActive = (e) => {
         e.preventDefault();
-        updateActive(this.props.user.id, true, null,
-            (err) => {
-                this.setState({serverError: err.message});
-            }
-        );
+        updateActive(this.props.user.id, true, null, this.props.onError);
     }
 
     handleManageTeams = (e) => {
@@ -94,17 +94,11 @@ export default class SystemUsersDropdown extends React.Component {
 
     handleResetMfa = (e) => {
         e.preventDefault();
-        adminResetMfa(this.props.user.id,
-            null,
-            (err) => {
-                this.setState({serverError: err.message});
-            }
-        );
+        adminResetMfa(this.props.user.id, null, this.props.onError);
     }
 
     handleDemoteSystemAdmin = (user, role) => {
         this.setState({
-            serverError: this.state.serverError,
             showDemoteModal: true,
             user,
             role
@@ -113,11 +107,11 @@ export default class SystemUsersDropdown extends React.Component {
 
     handleDemoteCancel = () => {
         this.setState({
-            serverError: null,
             showDemoteModal: false,
             user: null,
             role: null
         });
+        this.props.onError(null);
     }
 
     handleDemoteSubmit = () => {
@@ -136,17 +130,11 @@ export default class SystemUsersDropdown extends React.Component {
 
     handleShowDeactivateMemberModal = (e) => {
         e.preventDefault();
-
         this.setState({showDeactivateMemberModal: true});
     }
 
     handleDeactivateMember = () => {
-        updateActive(this.props.user.id, false, null,
-            (err) => {
-                this.setState({serverError: err.message});
-            }
-        );
-
+        updateActive(this.props.user.id, false, null, this.props.onError);
         this.setState({showDeactivateMemberModal: false});
     }
 
@@ -209,9 +197,7 @@ export default class SystemUsersDropdown extends React.Component {
                     clientLogout();
                 }
             },
-            (err) => {
-                this.setState({serverError: err.message});
-            }
+            this.props.onError
         );
 
         this.setState({showRevokeSessionsModal: false});
@@ -300,15 +286,6 @@ export default class SystemUsersDropdown extends React.Component {
     }
 
     render() {
-        let serverError = null;
-        if (this.state.serverError) {
-            serverError = (
-                <div className='has-error'>
-                    <label className='has-error control-label'>{this.state.serverError}</label>
-                </div>
-            );
-        }
-
         const user = this.props.user;
         if (!user) {
             return <div/>;
@@ -539,7 +516,6 @@ export default class SystemUsersDropdown extends React.Component {
                             username: me.username
                         }}
                     />
-                    {serverError}
                 </div>
             );
 
@@ -564,11 +540,6 @@ export default class SystemUsersDropdown extends React.Component {
 
         const deactivateMemberModal = this.renderDeactivateMemberModal();
         const revokeSessionsModal = this.renderRevokeSessionsModal();
-
-        let displayedName = Utils.getDisplayName(user);
-        if (displayedName !== user.username) {
-            displayedName += ' (@' + user.username + ')';
-        }
 
         return (
             <div className='dropdown member-drop text-right'>
@@ -612,7 +583,6 @@ export default class SystemUsersDropdown extends React.Component {
                 {makeDemoteModal}
                 {deactivateMemberModal}
                 {revokeSessionsModal}
-                {serverError}
             </div>
         );
     }

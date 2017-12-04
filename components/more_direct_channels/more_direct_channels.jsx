@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router/es6';
+import {browserHistory} from 'react-router';
 
 import {Client4} from 'mattermost-redux/client';
 import {searchProfiles, searchProfilesInCurrentTeam} from 'mattermost-redux/selectors/entities/users';
@@ -17,7 +17,7 @@ import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
 import Constants from 'utils/constants.jsx';
-import {displayEntireNameForUser} from 'utils/utils.jsx';
+import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
 
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
@@ -68,7 +68,7 @@ export default class MoreDirectChannels extends React.Component {
             values,
             show: true,
             search: false,
-            loadingChannel: -1
+            loadingChannel: false
         };
     }
 
@@ -104,7 +104,7 @@ export default class MoreDirectChannels extends React.Component {
     }
 
     handleSubmit(values = this.state.values) {
-        if (this.state.loadingChannel !== -1) {
+        if (this.state.loadingChannel) {
             return;
         }
 
@@ -113,19 +113,19 @@ export default class MoreDirectChannels extends React.Component {
             return;
         }
 
-        this.setState({loadingChannel: 1});
+        this.setState({loadingChannel: true});
 
         const success = (channel) => {
             // Due to how react-overlays Modal handles focus, we delay pushing
             // the new channel information until the modal is fully exited.
             // The channel information will be pushed in `handleExit`
             this.exitToChannel = TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + channel.name;
-            this.setState({loadingChannel: -1});
+            this.setState({loadingChannel: false});
             this.handleHide();
         };
 
         const error = () => {
-            this.setState({loadingChannel: -1});
+            this.setState({loadingChannel: false});
         };
 
         if (userIds.length === 1) {
@@ -295,12 +295,7 @@ export default class MoreDirectChannels extends React.Component {
             }
         }
 
-        const buttonSubmitText = (
-            <FormattedMessage
-                id='multiselect.go'
-                defaultMessage='Go'
-            />
-        );
+        const buttonSubmitText = localizeMessage('multiselect.go', 'Go');
 
         const numRemainingText = (
             <FormattedMessage
@@ -359,6 +354,7 @@ export default class MoreDirectChannels extends React.Component {
                         numRemainingText={numRemainingText}
                         buttonSubmitText={buttonSubmitText}
                         submitImmediatelyOn={[this.props.currentUserId]}
+                        saving={this.state.loadingChannel}
                     />
                 </Modal.Body>
             </Modal>

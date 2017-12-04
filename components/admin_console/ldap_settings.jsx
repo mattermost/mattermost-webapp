@@ -164,7 +164,7 @@ export default class LdapSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.ldap.enableSyncDesc'
-                            defaultMessage='When true, Mattermost periodically synchronizes users from AD/LDAP.'
+                            defaultMessage='When true, Mattermost periodically synchronizes users from AD/LDAP. When false, user attributes are updated in Mattermost during user login.'
                         />
                     }
                     value={this.state.enableSync}

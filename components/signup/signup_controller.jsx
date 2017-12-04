@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {browserHistory, Link} from 'react-router/es6';
+import {browserHistory, Link} from 'react-router';
 
 import {Client4} from 'mattermost-redux/client';
 
@@ -347,8 +347,7 @@ export default class SignupController extends React.Component {
                             />
                             {' '}
                             <Link
-                                to={'/login'}
-                                query={this.props.location.query}
+                                to={'/login' + this.props.location.search}
                             >
                                 <FormattedMessage
                                     id='signup_user_completed.signIn'

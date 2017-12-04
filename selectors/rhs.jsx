@@ -2,28 +2,29 @@
 // See License.txt for license information.
 
 import {createSelector} from 'reselect';
-
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 
-import {PostTypes} from 'utils/constants.jsx';
+import {makeGetGlobalItem, getItemFromStorage} from 'selectors/storage';
+import {PostTypes, StoragePrefixes, Preferences} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
 export function getSelectedPostId(state) {
     return state.views.rhs.selectedPostId;
 }
 
-function getSelectedPostChannelId(state) {
-    return state.views.rhs.selectedPostChannelId;
+export function getSelectedChannelId(state) {
+    return state.views.rhs.selectedChannelId;
 }
 
 function getRealSelectedPost(state) {
-    return state.entities.posts.posts[state.views.rhs.selectedPostId];
+    return state.entities.posts.posts[getSelectedPostId(state)];
 }
 
 export const getSelectedPost = createSelector(
     getSelectedPostId,
     getRealSelectedPost,
-    getSelectedPostChannelId,
+    getSelectedChannelId,
     getCurrentUserId,
     (selectedPostId, selectedPost, selectedPostChannelId, currentUserId) => {
         if (selectedPost) {
@@ -41,3 +42,40 @@ export const getSelectedPost = createSelector(
         };
     }
 );
+
+export function getRhsState(state) {
+    return state.views.rhs.rhsState;
+}
+
+export function getPreviousRhsState(state) {
+    return state.views.rhs.previousRhsState;
+}
+
+export function getSearchTerms(state) {
+    return state.views.rhs.searchTerms;
+}
+
+export function getIsSearching(state) {
+    return state.views.rhs.isSearching;
+}
+
+export function makeGetCommentDraft(rootId) {
+    const defaultValue = {message: '', fileInfos: [], uploadsInProgress: []};
+    return makeGetGlobalItem(`${StoragePrefixes.COMMENT_DRAFT}${rootId}`, defaultValue);
+}
+
+export function makeGetPostsEmbedVisibleObj() {
+    return createSelector(
+        (state) => state.storage,
+        (state) => getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, Preferences.COLLAPSE_DISPLAY_DEFAULT),
+        (state, posts) => posts,
+        (storage, previewCollapsed, posts) => {
+            const postsEmbedVisibleObj = {};
+            for (const post of posts) {
+                postsEmbedVisibleObj[post.id] = getItemFromStorage(storage, StoragePrefixes.EMBED_VISIBLE + post.id, !previewCollapsed);
+            }
+
+            return postsEmbedVisibleObj;
+        }
+    );
+}

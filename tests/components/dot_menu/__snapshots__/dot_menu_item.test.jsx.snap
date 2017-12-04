@@ -1,0 +1,118 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/integrations/DotMenuItem should match snapshot, on Delete 1`] = `
+<li
+  id={null}
+  key="idPrefixDotMenuDelete"
+  role="presentation"
+>
+  <button
+    className="style--none"
+    onClick={[Function]}
+    role="menuitem"
+  >
+    <FormattedMessage
+      defaultMessage="Delete"
+      id="post_info.del"
+      values={Object {}}
+    />
+  </button>
+</li>
+`;
+
+exports[`components/integrations/DotMenuItem should match snapshot, on Permalink 1`] = `
+<li
+  id={null}
+  key="idPrefixDotMenuPermalink"
+  role="presentation"
+>
+  <button
+    className="style--none"
+    onClick={[Function]}
+    role="menuitem"
+  >
+    <FormattedMessage
+      defaultMessage="Permalink"
+      id="post_info.permalink"
+      values={Object {}}
+    />
+  </button>
+</li>
+`;
+
+exports[`components/integrations/DotMenuItem should match snapshot, on Pin - pinned 1`] = `
+<li
+  id="idPrefixDotMenuPin5"
+  key="idPrefixDotMenuPin"
+  role="presentation"
+>
+  <button
+    className="style--none"
+    onClick={[Function]}
+    role="menuitem"
+  >
+    <FormattedMessage
+      defaultMessage="Un-pin from channel"
+      id="post_info.unpin"
+      values={Object {}}
+    />
+  </button>
+</li>
+`;
+
+exports[`components/integrations/DotMenuItem should match snapshot, on Pin - unpinned 1`] = `
+<li
+  id={null}
+  key="idPrefixDotMenuPin"
+  role="presentation"
+>
+  <button
+    className="style--none"
+    onClick={[Function]}
+    role="menuitem"
+  >
+    <FormattedMessage
+      defaultMessage="Pin from channel"
+      id="post_info.pin"
+      values={Object {}}
+    />
+  </button>
+</li>
+`;
+
+exports[`components/integrations/DotMenuItem should match snapshot, on RHS_ROOT 1`] = `
+<li
+  id="rhsroot"
+  key="rhsroot"
+  role="presentation"
+>
+  <button
+    className="style--none"
+    role="menuitem"
+  >
+    <FormattedMessage
+      values={Object {}}
+    />
+  </button>
+</li>
+`;
+
+exports[`components/integrations/DotMenuItem should match snapshot, on Reply 1`] = `
+<li
+  id={null}
+  key="idPrefixDotMenuReply"
+  role="presentation"
+>
+  <button
+    className="style--none"
+    onClick={[Function]}
+    role="menuitem"
+  >
+    <FormattedMessage
+      defaultMessage="Reply"
+      id="post_info.reply"
+      values={Object {}}
+    />
+  </button>
+</li>
+`;

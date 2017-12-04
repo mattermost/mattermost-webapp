@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router/es6';
+import {Link} from 'react-router';
 
 import {addReaction, emitEmojiPosted} from 'actions/post_actions.jsx';
 import TeamStore from 'stores/team_store.jsx';
@@ -37,7 +37,9 @@ export default class RhsComment extends React.Component {
         status: PropTypes.string,
         isBusy: PropTypes.bool,
         removePost: PropTypes.func.isRequired,
-        previewCollapsed: PropTypes.string.isRequired
+        previewCollapsed: PropTypes.string.isRequired,
+        previewEnabled: PropTypes.bool.isRequired,
+        isEmbedVisible: PropTypes.bool
     };
 
     constructor(props) {
@@ -124,7 +126,15 @@ export default class RhsComment extends React.Component {
             return true;
         }
 
-        if (this.props.previewCollapsed !== nextProps.previewCollapsed) {
+        if (nextProps.isEmbedVisible !== this.props.isEmbedVisible) {
+            return true;
+        }
+
+        if (this.props.previewEnabled !== nextProps.previewEnabled) {
+            return true;
+        }
+
+        if (this.props.user.last_picture_update !== nextProps.user.last_picture_update) {
             return true;
         }
 
@@ -151,7 +161,6 @@ export default class RhsComment extends React.Component {
             (
                 <Link
                     to={`/${this.state.currentTeamDisplayName}/pl/${post.id}`}
-                    target='_blank'
                     className='post__permalink'
                 >
                     {this.timeTag(post, timeOptions)}
@@ -314,9 +323,7 @@ export default class RhsComment extends React.Component {
                     height='36'
                 />
             );
-        }
-
-        if (isSystemMessage) {
+        } else if (isSystemMessage) {
             profilePic = (
                 <span
                     className='icon'
@@ -467,6 +474,8 @@ export default class RhsComment extends React.Component {
                                 <PostBodyAdditionalContent
                                     post={post}
                                     previewCollapsed={this.props.previewCollapsed}
+                                    previewEnabled={this.props.previewEnabled}
+                                    isEmbedVisible={this.props.isEmbedVisible}
                                 >
                                     <PostMessageContainer
                                         post={post}

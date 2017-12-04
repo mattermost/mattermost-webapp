@@ -37,7 +37,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
           htmlFor="displayName"
         >
           <FormattedMessage
-            defaultMessage="Display Name"
+            defaultMessage="Title"
             id="add_command.displayName"
             values={Object {}}
           />
@@ -57,7 +57,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="Display name for your slash command made of up to 64 characters."
+              defaultMessage="Choose a title to be displayed on the slash command settings page. Maximum 64 characters."
               id="add_command.displayName.help"
               values={Object {}}
             />
@@ -154,13 +154,13 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
                     href="https://docs.mattermost.com/help/messaging/executing-commands.html#built-in-commands"
                     rel="noopener noreferrer"
                     target="_blank"
-                >
+                  >
                     <FormattedMessage
-                        defaultMessage="see list of built-in slash commands"
-                        id="add_command.trigger.helpReservedLinkText"
-                        values={Object {}}
+                      defaultMessage="see list of built-in slash commands"
+                      id="add_command.trigger.helpReservedLinkText"
+                      values={Object {}}
                     />
-                </a>,
+                  </a>,
                 }
               }
             />
@@ -354,6 +354,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
       </div>
       <div
         className="form-group"
+        key="autocompleteHint"
       >
         <label
           className="control-label col-sm-4"
@@ -390,6 +391,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
       </div>
       <div
         className="form-group"
+        key="autocompleteDescription"
       >
         <label
           className="control-label col-sm-4"
@@ -431,7 +433,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
           error={null}
           errors={
             Array [
-              "serverError",
+              "",
               null,
             ]
           }
@@ -505,7 +507,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
           htmlFor="displayName"
         >
           <FormattedMessage
-            defaultMessage="Display Name"
+            defaultMessage="Title"
             id="add_command.displayName"
             values={Object {}}
           />
@@ -525,7 +527,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
             className="form__help"
           >
             <FormattedMessage
-              defaultMessage="Display name for your slash command made of up to 64 characters."
+              defaultMessage="Choose a title to be displayed on the slash command settings page. Maximum 64 characters."
               id="add_command.displayName.help"
               values={Object {}}
             />
@@ -622,13 +624,13 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
                     href="https://docs.mattermost.com/help/messaging/executing-commands.html#built-in-commands"
                     rel="noopener noreferrer"
                     target="_blank"
-                >
+                  >
                     <FormattedMessage
-                        defaultMessage="see list of built-in slash commands"
-                        id="add_command.trigger.helpReservedLinkText"
-                        values={Object {}}
+                      defaultMessage="see list of built-in slash commands"
+                      id="add_command.trigger.helpReservedLinkText"
+                      values={Object {}}
                     />
-                </a>,
+                  </a>,
                 }
               }
             />
@@ -822,6 +824,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
       </div>
       <div
         className="form-group"
+        key="autocompleteHint"
       >
         <label
           className="control-label col-sm-4"
@@ -858,6 +861,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
       </div>
       <div
         className="form-group"
+        key="autocompleteDescription"
       >
         <label
           className="control-label col-sm-4"
@@ -899,12 +903,12 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
           error={null}
           errors={
             Array [
-              "",
+              "server error",
               <FormattedMessage
                 defaultMessage="A trigger word is required"
                 id="add_command.triggerRequired"
                 values={Object {}}
-            />,
+              />,
             ]
           }
           type="backstage"

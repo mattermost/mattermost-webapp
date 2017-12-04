@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router/es6';
+import {browserHistory} from 'react-router';
 
 import {openDirectChannelToUser} from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
@@ -20,9 +20,59 @@ import * as Utils from 'utils/utils.jsx';
 const UserStatuses = Constants.UserStatuses;
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
-export default class ProfilePopover extends React.Component {
+/**
+ * The profile popover, or hovercard, that appears with user information when clicking
+ * on the username or profile picture of a user.
+ */
+class ProfilePopover extends React.Component {
     static getComponentName() {
         return 'ProfilePopover';
+    }
+
+    static propTypes = {
+
+        /**
+         * Source URL from the image to display in the popover
+         */
+        src: PropTypes.string.isRequired,
+
+        /**
+         * User the popover is being opened for
+         */
+        user: PropTypes.object.isRequired,
+
+        /**
+         * Status for the user, either 'offline', 'away', 'dnd' or 'online'
+         */
+        status: PropTypes.string,
+
+        /**
+         * Set to true if the user is in a WebRTC call
+         */
+        isBusy: PropTypes.bool,
+
+        /**
+         * Function to call to hide the popover
+         */
+        hide: PropTypes.func,
+
+        /**
+         * Set to true if the popover was opened from the right-hand
+         * sidebar (comment thread, search results, etc.)
+         */
+        isRHS: PropTypes.bool,
+
+        /**
+         * @internal
+         */
+        hasMention: PropTypes.bool,
+
+        ...Popover.propTypes
+    }
+
+    static defaultProps = {
+        isRHS: false,
+        hasMention: false
     }
 
     constructor(props) {
@@ -320,18 +370,6 @@ export default class ProfilePopover extends React.Component {
     }
 }
 
-ProfilePopover.defaultProps = {
-    isRHS: false,
-    hasMention: false
-};
-
-ProfilePopover.propTypes = Object.assign({
-    src: PropTypes.string.isRequired,
-    user: PropTypes.object.isRequired,
-    status: PropTypes.string,
-    isBusy: PropTypes.bool,
-    hide: PropTypes.func,
-    isRHS: PropTypes.bool,
-    hasMention: PropTypes.bool
-}, Popover.propTypes);
 delete ProfilePopover.propTypes.id;
+
+export default ProfilePopover;

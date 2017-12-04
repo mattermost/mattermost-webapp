@@ -3,7 +3,7 @@
 
 import $ from 'jquery';
 
-import {browserHistory} from 'react-router/es6';
+import {browserHistory} from 'react-router';
 import {batchActions} from 'redux-batched-actions';
 
 import {ChannelTypes, EmojiTypes, PostTypes, TeamTypes, UserTypes} from 'mattermost-redux/action_types';
@@ -12,6 +12,7 @@ import {setServerVersion} from 'mattermost-redux/actions/general';
 import {getPosts, getProfilesAndStatusesForPosts} from 'mattermost-redux/actions/posts';
 import * as TeamActions from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
@@ -382,7 +383,7 @@ function handleUserRemovedEvent(msg) {
             $('#removed_from_channel').modal('show');
         }
 
-        GlobalActions.toggleSideBarAction(false);
+        GlobalActions.emitCloseRightHandSide();
 
         const townsquare = ChannelStore.getByName('town-square');
         browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + townsquare.name);
@@ -402,8 +403,18 @@ function handleUserRemovedEvent(msg) {
 }
 
 function handleUserUpdatedEvent(msg) {
+    const currentUser = getCurrentUser(getState());
     const user = msg.data.user;
-    if (UserStore.getCurrentId() !== user.id) {
+
+    if (currentUser.id === user.id) {
+        dispatch({
+            type: UserTypes.RECEIVED_ME,
+            data: {
+                ...currentUser,
+                last_picture_update: user.last_picture_update
+            }
+        });
+    } else {
         UserStore.saveProfile(user);
     }
 }

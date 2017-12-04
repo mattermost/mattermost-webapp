@@ -97,7 +97,6 @@ DotMenuItem.propTypes = {
     idCount: PropTypes.number,
     post: PropTypes.object,
     handleOnClick: PropTypes.func,
-    type: PropTypes.string,
     commentCount: PropTypes.number,
 
     actions: PropTypes.shape({

@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/user_settings/UserSettingsDisplay should match snapshot, channel display mode section 1`] = `
-<div>
+<div
+  id="displaySettings"
+>
   <div
     className="modal-header"
   >
@@ -42,6 +44,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, cha
   >
     <h3
       className="tab-header"
+      id="displaySettingsTitle"
     >
       <FormattedMessage
         defaultMessage="Display Settings"
@@ -52,127 +55,189 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, cha
     <div
       className="divider-dark first"
     />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="12-hour clock (example: 4:00 PM)"
-          id="user.settings.display.normalClock"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Clock Display"
-          id="user.settings.display.clockDisplay"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="On"
-          id="user.settings.display.linkPreviewOn"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Website Link Previews"
-          id="user.settings.display.linkPreviewDisplay"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="On"
-          id="user.settings.display.collapseOn"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Default appearance of image link previews"
-          id="user.settings.display.collapseDisplay"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="Standard"
-          id="user.settings.display.messageDisplayClean"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Message Display"
-          id="user.settings.display.messageDisplayTitle"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="Full width"
-          id="user.settings.display.fullScreen"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Channel Display Mode"
-          id="user.settings.display.channelDisplayTitle"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe="English"
-      title={
-        <FormattedMessage
-          defaultMessage="Language"
-          id="user.settings.display.language"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-      width="medium"
-    />
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="12-hour clock (example: 4:00 PM)"
+            id="user.settings.display.normalClock"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Clock Display"
+            id="user.settings.display.clockDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="On"
+            id="user.settings.display.linkPreviewOn"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Website Link Previews"
+            id="user.settings.display.linkPreviewDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="On"
+            id="user.settings.display.collapseOn"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Default appearance of image link previews"
+            id="user.settings.display.collapseDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="Standard"
+            id="user.settings.display.messageDisplayClean"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Message Display"
+            id="user.settings.display.messageDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMax
+        infoPosition="bottom"
+        inputs={
+          Array [
+            <div>
+              <div
+                className="radio"
+              >
+                <label>
+                  <input
+                    checked={true}
+                    id="channel_display_modeFormatA"
+                    name="channel_display_modeFormat"
+                    onChange={[Function]}
+                    type="radio"
+                  />
+                  <FormattedMessage
+                    defaultMessage="Full width"
+                    id="user.settings.display.fullScreen"
+                    values={Object {}}
+                  />
+                </label>
+                <br />
+              </div>
+              <div
+                className="radio"
+              >
+                <label>
+                  <input
+                    checked={false}
+                    id="channel_display_modeFormatB"
+                    name="channel_display_modeFormat"
+                    onChange={[Function]}
+                    type="radio"
+                  />
+                  <FormattedMessage
+                    defaultMessage="Fixed width, centered"
+                    id="user.settings.display.fixedWidthCentered"
+                    values={Object {}}
+                  />
+                </label>
+                <br />
+              </div>
+              <div>
+                <br />
+                <FormattedMessage
+                  defaultMessage="Select the width of the center channel."
+                  id="user.settings.display.channeldisplaymode"
+                  values={Object {}}
+                />
+              </div>
+            </div>,
+          ]
+        }
+        saving={false}
+        submit={[Function]}
+        title={
+          <FormattedMessage
+            defaultMessage="Channel Display Mode"
+            id="user.settings.display.channelDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe="English"
+        title={
+          <FormattedMessage
+            defaultMessage="Language"
+            id="user.settings.display.language"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+        width="medium"
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
   </div>
 </div>
 `;
 
 exports[`components/user_settings/UserSettingsDisplay should match snapshot, clock section 1`] = `
-<div>
+<div
+  id="displaySettings"
+>
   <div
     className="modal-header"
   >
@@ -213,6 +278,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, clo
   >
     <h3
       className="tab-header"
+      id="displaySettingsTitle"
     >
       <FormattedMessage
         defaultMessage="Display Settings"
@@ -223,175 +289,189 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, clo
     <div
       className="divider-dark first"
     />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMax
-      infoPosition="bottom"
-      inputs={
-        Array [
-          <div>
-            <div
-              className="radio"
-            >
-              <label>
-                <input
-                  checked={true}
-                  id="clockFormatA"
-                  name="clockFormat"
-                  onChange={[Function]}
-                  type="radio"
-                />
-                <FormattedMessage
-                  defaultMessage="12-hour clock (example: 4:00 PM)"
-                  id="user.settings.display.normalClock"
-                  values={Object {}}
-                />
-              </label>
-              <br />
-            </div>
-            <div
-              className="radio"
-            >
-              <label>
-                <input
-                  checked={false}
-                  id="clockFormatB"
-                  name="clockFormat"
-                  onChange={[Function]}
-                  type="radio"
-                />
-                <FormattedMessage
-                  defaultMessage="24-hour clock (example: 16:00)"
-                  id="user.settings.display.militaryClock"
-                  values={Object {}}
-                />
-              </label>
-              <br />
-            </div>
+    <div>
+      <SettingItemMax
+        infoPosition="bottom"
+        inputs={
+          Array [
             <div>
-              <br />
-              <FormattedMessage
-                defaultMessage="Select how you prefer time displayed."
-                id="user.settings.display.preferTime"
-                values={Object {}}
-              />
-            </div>
-          </div>,
-        ]
-      }
-      saving={false}
-      submit={[Function]}
-      title={
-        <FormattedMessage
-          defaultMessage="Clock Display"
-          id="user.settings.display.clockDisplay"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="On"
-          id="user.settings.display.linkPreviewOn"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Website Link Previews"
-          id="user.settings.display.linkPreviewDisplay"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="On"
-          id="user.settings.display.collapseOn"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Default appearance of image link previews"
-          id="user.settings.display.collapseDisplay"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="Standard"
-          id="user.settings.display.messageDisplayClean"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Message Display"
-          id="user.settings.display.messageDisplayTitle"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="Full width"
-          id="user.settings.display.fullScreen"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Channel Display Mode"
-          id="user.settings.display.channelDisplayTitle"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe="English"
-      title={
-        <FormattedMessage
-          defaultMessage="Language"
-          id="user.settings.display.language"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-      width="medium"
-    />
+              <div
+                className="radio"
+              >
+                <label>
+                  <input
+                    checked={true}
+                    id="clockFormatA"
+                    name="clockFormat"
+                    onChange={[Function]}
+                    type="radio"
+                  />
+                  <FormattedMessage
+                    defaultMessage="12-hour clock (example: 4:00 PM)"
+                    id="user.settings.display.normalClock"
+                    values={Object {}}
+                  />
+                </label>
+                <br />
+              </div>
+              <div
+                className="radio"
+              >
+                <label>
+                  <input
+                    checked={false}
+                    id="clockFormatB"
+                    name="clockFormat"
+                    onChange={[Function]}
+                    type="radio"
+                  />
+                  <FormattedMessage
+                    defaultMessage="24-hour clock (example: 16:00)"
+                    id="user.settings.display.militaryClock"
+                    values={Object {}}
+                  />
+                </label>
+                <br />
+              </div>
+              <div>
+                <br />
+                <FormattedMessage
+                  defaultMessage="Select how you prefer time displayed."
+                  id="user.settings.display.preferTime"
+                  values={Object {}}
+                />
+              </div>
+            </div>,
+          ]
+        }
+        saving={false}
+        submit={[Function]}
+        title={
+          <FormattedMessage
+            defaultMessage="Clock Display"
+            id="user.settings.display.clockDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="On"
+            id="user.settings.display.linkPreviewOn"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Website Link Previews"
+            id="user.settings.display.linkPreviewDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="On"
+            id="user.settings.display.collapseOn"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Default appearance of image link previews"
+            id="user.settings.display.collapseDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="Standard"
+            id="user.settings.display.messageDisplayClean"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Message Display"
+            id="user.settings.display.messageDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="Full width"
+            id="user.settings.display.fullScreen"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Channel Display Mode"
+            id="user.settings.display.channelDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe="English"
+        title={
+          <FormattedMessage
+            defaultMessage="Language"
+            id="user.settings.display.language"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+        width="medium"
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
   </div>
 </div>
 `;
 
 exports[`components/user_settings/UserSettingsDisplay should match snapshot, collapse section 1`] = `
-<div>
+<div
+  id="displaySettings"
+>
   <div
     className="modal-header"
   >
@@ -432,6 +512,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, col
   >
     <h3
       className="tab-header"
+      id="displaySettingsTitle"
     >
       <FormattedMessage
         defaultMessage="Display Settings"
@@ -442,175 +523,189 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, col
     <div
       className="divider-dark first"
     />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="12-hour clock (example: 4:00 PM)"
-          id="user.settings.display.normalClock"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Clock Display"
-          id="user.settings.display.clockDisplay"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="On"
-          id="user.settings.display.linkPreviewOn"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Website Link Previews"
-          id="user.settings.display.linkPreviewDisplay"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMax
-      infoPosition="bottom"
-      inputs={
-        Array [
-          <div>
-            <div
-              className="radio"
-            >
-              <label>
-                <input
-                  checked={true}
-                  id="collapseFormatA"
-                  name="collapseFormat"
-                  onChange={[Function]}
-                  type="radio"
-                />
-                <FormattedMessage
-                  defaultMessage="On"
-                  id="user.settings.display.collapseOn"
-                  values={Object {}}
-                />
-              </label>
-              <br />
-            </div>
-            <div
-              className="radio"
-            >
-              <label>
-                <input
-                  checked={false}
-                  id="collapseFormatB"
-                  name="collapseFormat"
-                  onChange={[Function]}
-                  type="radio"
-                />
-                <FormattedMessage
-                  defaultMessage="Off"
-                  id="user.settings.display.collapseOff"
-                  values={Object {}}
-                />
-              </label>
-              <br />
-            </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="12-hour clock (example: 4:00 PM)"
+            id="user.settings.display.normalClock"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Clock Display"
+            id="user.settings.display.clockDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="On"
+            id="user.settings.display.linkPreviewOn"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Website Link Previews"
+            id="user.settings.display.linkPreviewDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMax
+        infoPosition="bottom"
+        inputs={
+          Array [
             <div>
-              <br />
-              <FormattedMessage
-                defaultMessage="Set whether previews of image links show as expanded or collapsed by default. This setting can also be controlled using the slash commands /expand and /collapse."
-                id="user.settings.display.collapseDesc"
-                values={Object {}}
-              />
-            </div>
-          </div>,
-        ]
-      }
-      saving={false}
-      submit={[Function]}
-      title={
-        <FormattedMessage
-          defaultMessage="Default appearance of image link previews"
-          id="user.settings.display.collapseDisplay"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="Standard"
-          id="user.settings.display.messageDisplayClean"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Message Display"
-          id="user.settings.display.messageDisplayTitle"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="Full width"
-          id="user.settings.display.fullScreen"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Channel Display Mode"
-          id="user.settings.display.channelDisplayTitle"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe="English"
-      title={
-        <FormattedMessage
-          defaultMessage="Language"
-          id="user.settings.display.language"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-      width="medium"
-    />
+              <div
+                className="radio"
+              >
+                <label>
+                  <input
+                    checked={true}
+                    id="collapseFormatA"
+                    name="collapseFormat"
+                    onChange={[Function]}
+                    type="radio"
+                  />
+                  <FormattedMessage
+                    defaultMessage="On"
+                    id="user.settings.display.collapseOn"
+                    values={Object {}}
+                  />
+                </label>
+                <br />
+              </div>
+              <div
+                className="radio"
+              >
+                <label>
+                  <input
+                    checked={false}
+                    id="collapseFormatB"
+                    name="collapseFormat"
+                    onChange={[Function]}
+                    type="radio"
+                  />
+                  <FormattedMessage
+                    defaultMessage="Off"
+                    id="user.settings.display.collapseOff"
+                    values={Object {}}
+                  />
+                </label>
+                <br />
+              </div>
+              <div>
+                <br />
+                <FormattedMessage
+                  defaultMessage="Set whether previews of image links show as expanded or collapsed by default. This setting can also be controlled using the slash commands /expand and /collapse."
+                  id="user.settings.display.collapseDesc"
+                  values={Object {}}
+                />
+              </div>
+            </div>,
+          ]
+        }
+        saving={false}
+        submit={[Function]}
+        title={
+          <FormattedMessage
+            defaultMessage="Default appearance of image link previews"
+            id="user.settings.display.collapseDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="Standard"
+            id="user.settings.display.messageDisplayClean"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Message Display"
+            id="user.settings.display.messageDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="Full width"
+            id="user.settings.display.fullScreen"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Channel Display Mode"
+            id="user.settings.display.channelDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe="English"
+        title={
+          <FormattedMessage
+            defaultMessage="Language"
+            id="user.settings.display.language"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+        width="medium"
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
   </div>
 </div>
 `;
 
 exports[`components/user_settings/UserSettingsDisplay should match snapshot, languages section 1`] = `
-<div>
+<div
+  id="displaySettings"
+>
   <div
     className="modal-header"
   >
@@ -651,6 +746,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lan
   >
     <h3
       className="tab-header"
+      id="displaySettingsTitle"
     >
       <FormattedMessage
         defaultMessage="Display Settings"
@@ -661,126 +757,140 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lan
     <div
       className="divider-dark first"
     />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="12-hour clock (example: 4:00 PM)"
-          id="user.settings.display.normalClock"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Clock Display"
-          id="user.settings.display.clockDisplay"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="On"
-          id="user.settings.display.linkPreviewOn"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Website Link Previews"
-          id="user.settings.display.linkPreviewDisplay"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="On"
-          id="user.settings.display.collapseOn"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Default appearance of image link previews"
-          id="user.settings.display.collapseDisplay"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="Standard"
-          id="user.settings.display.messageDisplayClean"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Message Display"
-          id="user.settings.display.messageDisplayTitle"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="Full width"
-          id="user.settings.display.fullScreen"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Channel Display Mode"
-          id="user.settings.display.channelDisplayTitle"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <ManageLanguage
-      locale="en"
-      updateSection={[Function]}
-      user={
-        Object {
-          "id": "user_id",
-          "locale": "en",
-          "username": "username",
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="12-hour clock (example: 4:00 PM)"
+            id="user.settings.display.normalClock"
+            values={Object {}}
+          />
         }
-      }
-    />
+        title={
+          <FormattedMessage
+            defaultMessage="Clock Display"
+            id="user.settings.display.clockDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="On"
+            id="user.settings.display.linkPreviewOn"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Website Link Previews"
+            id="user.settings.display.linkPreviewDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="On"
+            id="user.settings.display.collapseOn"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Default appearance of image link previews"
+            id="user.settings.display.collapseDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="Standard"
+            id="user.settings.display.messageDisplayClean"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Message Display"
+            id="user.settings.display.messageDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="Full width"
+            id="user.settings.display.fullScreen"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Channel Display Mode"
+            id="user.settings.display.channelDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <ManageLanguage
+        locale="en"
+        updateSection={[Function]}
+        user={
+          Object {
+            "id": "user_id",
+            "locale": "en",
+            "username": "username",
+          }
+        }
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
   </div>
 </div>
 `;
 
 exports[`components/user_settings/UserSettingsDisplay should match snapshot, link preview section with EnableLinkPreviews is false 1`] = `
-<div>
+<div
+  id="displaySettings"
+>
   <div
     className="modal-header"
   >
@@ -821,6 +931,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lin
   >
     <h3
       className="tab-header"
+      id="displaySettingsTitle"
     >
       <FormattedMessage
         defaultMessage="Display Settings"
@@ -831,107 +942,119 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lin
     <div
       className="divider-dark first"
     />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="12-hour clock (example: 4:00 PM)"
-          id="user.settings.display.normalClock"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Clock Display"
-          id="user.settings.display.clockDisplay"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="On"
-          id="user.settings.display.collapseOn"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Default appearance of image link previews"
-          id="user.settings.display.collapseDisplay"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="Standard"
-          id="user.settings.display.messageDisplayClean"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Message Display"
-          id="user.settings.display.messageDisplayTitle"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="Full width"
-          id="user.settings.display.fullScreen"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Channel Display Mode"
-          id="user.settings.display.channelDisplayTitle"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe="English"
-      title={
-        <FormattedMessage
-          defaultMessage="Language"
-          id="user.settings.display.language"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-      width="medium"
-    />
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="12-hour clock (example: 4:00 PM)"
+            id="user.settings.display.normalClock"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Clock Display"
+            id="user.settings.display.clockDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="On"
+            id="user.settings.display.collapseOn"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Default appearance of image link previews"
+            id="user.settings.display.collapseDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="Standard"
+            id="user.settings.display.messageDisplayClean"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Message Display"
+            id="user.settings.display.messageDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="Full width"
+            id="user.settings.display.fullScreen"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Channel Display Mode"
+            id="user.settings.display.channelDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe="English"
+        title={
+          <FormattedMessage
+            defaultMessage="Language"
+            id="user.settings.display.language"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+        width="medium"
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
   </div>
 </div>
 `;
 
 exports[`components/user_settings/UserSettingsDisplay should match snapshot, link preview section with EnableLinkPreviews is true 1`] = `
-<div>
+<div
+  id="displaySettings"
+>
   <div
     className="modal-header"
   >
@@ -972,6 +1095,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lin
   >
     <h3
       className="tab-header"
+      id="displaySettingsTitle"
     >
       <FormattedMessage
         defaultMessage="Display Settings"
@@ -982,175 +1106,189 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lin
     <div
       className="divider-dark first"
     />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="12-hour clock (example: 4:00 PM)"
-          id="user.settings.display.normalClock"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Clock Display"
-          id="user.settings.display.clockDisplay"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMax
-      infoPosition="bottom"
-      inputs={
-        Array [
-          <div>
-            <div
-              className="radio"
-            >
-              <label>
-                <input
-                  checked={true}
-                  id="linkpreviewFormatA"
-                  name="linkpreviewFormat"
-                  onChange={[Function]}
-                  type="radio"
-                />
-                <FormattedMessage
-                  defaultMessage="On"
-                  id="user.settings.display.linkPreviewOn"
-                  values={Object {}}
-                />
-              </label>
-              <br />
-            </div>
-            <div
-              className="radio"
-            >
-              <label>
-                <input
-                  checked={false}
-                  id="linkpreviewFormatB"
-                  name="linkpreviewFormat"
-                  onChange={[Function]}
-                  type="radio"
-                />
-                <FormattedMessage
-                  defaultMessage="Off"
-                  id="user.settings.display.linkPreviewOff"
-                  values={Object {}}
-                />
-              </label>
-              <br />
-            </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="12-hour clock (example: 4:00 PM)"
+            id="user.settings.display.normalClock"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Clock Display"
+            id="user.settings.display.clockDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMax
+        infoPosition="bottom"
+        inputs={
+          Array [
             <div>
-              <br />
-              <FormattedMessage
-                defaultMessage="When available, the first web link in a message will show a preview of the website content below the message."
-                id="user.settings.display.linkPreviewDesc"
-                values={Object {}}
-              />
-            </div>
-          </div>,
-        ]
-      }
-      saving={false}
-      submit={[Function]}
-      title={
-        <FormattedMessage
-          defaultMessage="Website Link Previews"
-          id="user.settings.display.linkPreviewDisplay"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="On"
-          id="user.settings.display.collapseOn"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Default appearance of image link previews"
-          id="user.settings.display.collapseDisplay"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="Standard"
-          id="user.settings.display.messageDisplayClean"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Message Display"
-          id="user.settings.display.messageDisplayTitle"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="Full width"
-          id="user.settings.display.fullScreen"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Channel Display Mode"
-          id="user.settings.display.channelDisplayTitle"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe="English"
-      title={
-        <FormattedMessage
-          defaultMessage="Language"
-          id="user.settings.display.language"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-      width="medium"
-    />
+              <div
+                className="radio"
+              >
+                <label>
+                  <input
+                    checked={true}
+                    id="linkpreviewFormatA"
+                    name="linkpreviewFormat"
+                    onChange={[Function]}
+                    type="radio"
+                  />
+                  <FormattedMessage
+                    defaultMessage="On"
+                    id="user.settings.display.linkPreviewOn"
+                    values={Object {}}
+                  />
+                </label>
+                <br />
+              </div>
+              <div
+                className="radio"
+              >
+                <label>
+                  <input
+                    checked={false}
+                    id="linkpreviewFormatB"
+                    name="linkpreviewFormat"
+                    onChange={[Function]}
+                    type="radio"
+                  />
+                  <FormattedMessage
+                    defaultMessage="Off"
+                    id="user.settings.display.linkPreviewOff"
+                    values={Object {}}
+                  />
+                </label>
+                <br />
+              </div>
+              <div>
+                <br />
+                <FormattedMessage
+                  defaultMessage="When available, the first web link in a message will show a preview of the website content below the message."
+                  id="user.settings.display.linkPreviewDesc"
+                  values={Object {}}
+                />
+              </div>
+            </div>,
+          ]
+        }
+        saving={false}
+        submit={[Function]}
+        title={
+          <FormattedMessage
+            defaultMessage="Website Link Previews"
+            id="user.settings.display.linkPreviewDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="On"
+            id="user.settings.display.collapseOn"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Default appearance of image link previews"
+            id="user.settings.display.collapseDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="Standard"
+            id="user.settings.display.messageDisplayClean"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Message Display"
+            id="user.settings.display.messageDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="Full width"
+            id="user.settings.display.fullScreen"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Channel Display Mode"
+            id="user.settings.display.channelDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe="English"
+        title={
+          <FormattedMessage
+            defaultMessage="Language"
+            id="user.settings.display.language"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+        width="medium"
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
   </div>
 </div>
 `;
 
 exports[`components/user_settings/UserSettingsDisplay should match snapshot, message display section 1`] = `
-<div>
+<div
+  id="displaySettings"
+>
   <div
     className="modal-header"
   >
@@ -1191,6 +1329,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, mes
   >
     <h3
       className="tab-header"
+      id="displaySettingsTitle"
     >
       <FormattedMessage
         defaultMessage="Display Settings"
@@ -1201,195 +1340,209 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, mes
     <div
       className="divider-dark first"
     />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="12-hour clock (example: 4:00 PM)"
-          id="user.settings.display.normalClock"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Clock Display"
-          id="user.settings.display.clockDisplay"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="On"
-          id="user.settings.display.linkPreviewOn"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Website Link Previews"
-          id="user.settings.display.linkPreviewDisplay"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="On"
-          id="user.settings.display.collapseOn"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Default appearance of image link previews"
-          id="user.settings.display.collapseDisplay"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMax
-      infoPosition="bottom"
-      inputs={
-        Array [
-          <div>
-            <div
-              className="radio"
-            >
-              <label>
-                <input
-                  checked={true}
-                  id="message_displayFormatA"
-                  name="message_displayFormat"
-                  onChange={[Function]}
-                  type="radio"
-                />
-                <FormattedMessage
-                  defaultMessage="Standard"
-                  id="user.settings.display.messageDisplayClean"
-                  values={Object {}}
-                />
-                : 
-                <span
-                  className="font-weight--normal"
-                >
-                  <FormattedMessage
-                    defaultMessage="Easy to scan and read."
-                    id="user.settings.display.messageDisplayCleanDes"
-                    values={Object {}}
-                  />
-                </span>
-              </label>
-              <br />
-            </div>
-            <div
-              className="radio"
-            >
-              <label>
-                <input
-                  checked={false}
-                  id="message_displayFormatB"
-                  name="message_displayFormat"
-                  onChange={[Function]}
-                  type="radio"
-                />
-                <FormattedMessage
-                  defaultMessage="Compact"
-                  id="user.settings.display.messageDisplayCompact"
-                  values={Object {}}
-                />
-                : 
-                <span
-                  className="font-weight--normal"
-                >
-                  <FormattedMessage
-                    defaultMessage="Fit as many messages on the screen as we can."
-                    id="user.settings.display.messageDisplayCompactDes"
-                    values={Object {}}
-                  />
-                </span>
-              </label>
-              <br />
-            </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="12-hour clock (example: 4:00 PM)"
+            id="user.settings.display.normalClock"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Clock Display"
+            id="user.settings.display.clockDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="On"
+            id="user.settings.display.linkPreviewOn"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Website Link Previews"
+            id="user.settings.display.linkPreviewDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="On"
+            id="user.settings.display.collapseOn"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Default appearance of image link previews"
+            id="user.settings.display.collapseDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMax
+        infoPosition="bottom"
+        inputs={
+          Array [
             <div>
-              <br />
-              <FormattedMessage
-                defaultMessage="Select how messages in a channel should be displayed."
-                id="user.settings.display.messageDisplayDescription"
-                values={Object {}}
-              />
-            </div>
-          </div>,
-        ]
-      }
-      saving={false}
-      submit={[Function]}
-      title={
-        <FormattedMessage
-          defaultMessage="Message Display"
-          id="user.settings.display.messageDisplayTitle"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="Full width"
-          id="user.settings.display.fullScreen"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Channel Display Mode"
-          id="user.settings.display.channelDisplayTitle"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe="English"
-      title={
-        <FormattedMessage
-          defaultMessage="Language"
-          id="user.settings.display.language"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-      width="medium"
-    />
+              <div
+                className="radio"
+              >
+                <label>
+                  <input
+                    checked={true}
+                    id="message_displayFormatA"
+                    name="message_displayFormat"
+                    onChange={[Function]}
+                    type="radio"
+                  />
+                  <FormattedMessage
+                    defaultMessage="Standard"
+                    id="user.settings.display.messageDisplayClean"
+                    values={Object {}}
+                  />
+                  : 
+                  <span
+                    className="font-weight--normal"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Easy to scan and read."
+                      id="user.settings.display.messageDisplayCleanDes"
+                      values={Object {}}
+                    />
+                  </span>
+                </label>
+                <br />
+              </div>
+              <div
+                className="radio"
+              >
+                <label>
+                  <input
+                    checked={false}
+                    id="message_displayFormatB"
+                    name="message_displayFormat"
+                    onChange={[Function]}
+                    type="radio"
+                  />
+                  <FormattedMessage
+                    defaultMessage="Compact"
+                    id="user.settings.display.messageDisplayCompact"
+                    values={Object {}}
+                  />
+                  : 
+                  <span
+                    className="font-weight--normal"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Fit as many messages on the screen as we can."
+                      id="user.settings.display.messageDisplayCompactDes"
+                      values={Object {}}
+                    />
+                  </span>
+                </label>
+                <br />
+              </div>
+              <div>
+                <br />
+                <FormattedMessage
+                  defaultMessage="Select how messages in a channel should be displayed."
+                  id="user.settings.display.messageDisplayDescription"
+                  values={Object {}}
+                />
+              </div>
+            </div>,
+          ]
+        }
+        saving={false}
+        submit={[Function]}
+        title={
+          <FormattedMessage
+            defaultMessage="Message Display"
+            id="user.settings.display.messageDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="Full width"
+            id="user.settings.display.fullScreen"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Channel Display Mode"
+            id="user.settings.display.channelDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe="English"
+        title={
+          <FormattedMessage
+            defaultMessage="Language"
+            id="user.settings.display.language"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+        width="medium"
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
   </div>
 </div>
 `;
 
 exports[`components/user_settings/UserSettingsDisplay should match snapshot, no active section 1`] = `
-<div>
+<div
+  id="displaySettings"
+>
   <div
     className="modal-header"
   >
@@ -1430,6 +1583,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, no 
   >
     <h3
       className="tab-header"
+      id="displaySettingsTitle"
     >
       <FormattedMessage
         defaultMessage="Display Settings"
@@ -1440,127 +1594,141 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, no 
     <div
       className="divider-dark first"
     />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="12-hour clock (example: 4:00 PM)"
-          id="user.settings.display.normalClock"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Clock Display"
-          id="user.settings.display.clockDisplay"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="On"
-          id="user.settings.display.linkPreviewOn"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Website Link Previews"
-          id="user.settings.display.linkPreviewDisplay"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="On"
-          id="user.settings.display.collapseOn"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Default appearance of image link previews"
-          id="user.settings.display.collapseDisplay"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="Standard"
-          id="user.settings.display.messageDisplayClean"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Message Display"
-          id="user.settings.display.messageDisplayTitle"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="Full width"
-          id="user.settings.display.fullScreen"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Channel Display Mode"
-          id="user.settings.display.channelDisplayTitle"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe="English"
-      title={
-        <FormattedMessage
-          defaultMessage="Language"
-          id="user.settings.display.language"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-      width="medium"
-    />
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="12-hour clock (example: 4:00 PM)"
+            id="user.settings.display.normalClock"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Clock Display"
+            id="user.settings.display.clockDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="On"
+            id="user.settings.display.linkPreviewOn"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Website Link Previews"
+            id="user.settings.display.linkPreviewDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="On"
+            id="user.settings.display.collapseOn"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Default appearance of image link previews"
+            id="user.settings.display.collapseDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="Standard"
+            id="user.settings.display.messageDisplayClean"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Message Display"
+            id="user.settings.display.messageDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="Full width"
+            id="user.settings.display.fullScreen"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Channel Display Mode"
+            id="user.settings.display.channelDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe="English"
+        title={
+          <FormattedMessage
+            defaultMessage="Language"
+            id="user.settings.display.language"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+        width="medium"
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
   </div>
 </div>
 `;
 
 exports[`components/user_settings/UserSettingsDisplay should match snapshot, theme section with EnableThemeSelection is false 1`] = `
-<div>
+<div
+  id="displaySettings"
+>
   <div
     className="modal-header"
   >
@@ -1601,6 +1769,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, the
   >
     <h3
       className="tab-header"
+      id="displaySettingsTitle"
     >
       <FormattedMessage
         defaultMessage="Display Settings"
@@ -1611,127 +1780,141 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, the
     <div
       className="divider-dark first"
     />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="12-hour clock (example: 4:00 PM)"
-          id="user.settings.display.normalClock"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Clock Display"
-          id="user.settings.display.clockDisplay"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="On"
-          id="user.settings.display.linkPreviewOn"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Website Link Previews"
-          id="user.settings.display.linkPreviewDisplay"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="On"
-          id="user.settings.display.collapseOn"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Default appearance of image link previews"
-          id="user.settings.display.collapseDisplay"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="Standard"
-          id="user.settings.display.messageDisplayClean"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Message Display"
-          id="user.settings.display.messageDisplayTitle"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="Full width"
-          id="user.settings.display.fullScreen"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Channel Display Mode"
-          id="user.settings.display.channelDisplayTitle"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe="English"
-      title={
-        <FormattedMessage
-          defaultMessage="Language"
-          id="user.settings.display.language"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-      width="medium"
-    />
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="12-hour clock (example: 4:00 PM)"
+            id="user.settings.display.normalClock"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Clock Display"
+            id="user.settings.display.clockDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="On"
+            id="user.settings.display.linkPreviewOn"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Website Link Previews"
+            id="user.settings.display.linkPreviewDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="On"
+            id="user.settings.display.collapseOn"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Default appearance of image link previews"
+            id="user.settings.display.collapseDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="Standard"
+            id="user.settings.display.messageDisplayClean"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Message Display"
+            id="user.settings.display.messageDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="Full width"
+            id="user.settings.display.fullScreen"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Channel Display Mode"
+            id="user.settings.display.channelDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe="English"
+        title={
+          <FormattedMessage
+            defaultMessage="Language"
+            id="user.settings.display.language"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+        width="medium"
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
   </div>
 </div>
 `;
 
 exports[`components/user_settings/UserSettingsDisplay should match snapshot, theme section with EnableThemeSelection is true 1`] = `
-<div>
+<div
+  id="displaySettings"
+>
   <div
     className="modal-header"
   >
@@ -1772,6 +1955,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, the
   >
     <h3
       className="tab-header"
+      id="displaySettingsTitle"
     >
       <FormattedMessage
         defaultMessage="Display Settings"
@@ -1782,127 +1966,144 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, the
     <div
       className="divider-dark first"
     />
-    <ThemeSetting
-      selected={true}
-      setEnforceFocus={[Function]}
-      setRequireConfirm={[Function]}
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="12-hour clock (example: 4:00 PM)"
-          id="user.settings.display.normalClock"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Clock Display"
-          id="user.settings.display.clockDisplay"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="On"
-          id="user.settings.display.linkPreviewOn"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Website Link Previews"
-          id="user.settings.display.linkPreviewDisplay"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="On"
-          id="user.settings.display.collapseOn"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Default appearance of image link previews"
-          id="user.settings.display.collapseDisplay"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="Standard"
-          id="user.settings.display.messageDisplayClean"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Message Display"
-          id="user.settings.display.messageDisplayTitle"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe={
-        <FormattedMessage
-          defaultMessage="Full width"
-          id="user.settings.display.fullScreen"
-          values={Object {}}
-        />
-      }
-      title={
-        <FormattedMessage
-          defaultMessage="Channel Display Mode"
-          id="user.settings.display.channelDisplayTitle"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-dark"
-    />
-    <SettingItemMin
-      describe="English"
-      title={
-        <FormattedMessage
-          defaultMessage="Language"
-          id="user.settings.display.language"
-          values={Object {}}
-        />
-      }
-      updateSection={[Function]}
-      width="medium"
-    />
+    <div>
+      <ThemeSetting
+        selected={true}
+        setEnforceFocus={[Function]}
+        setRequireConfirm={[Function]}
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="12-hour clock (example: 4:00 PM)"
+            id="user.settings.display.normalClock"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Clock Display"
+            id="user.settings.display.clockDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="On"
+            id="user.settings.display.linkPreviewOn"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Website Link Previews"
+            id="user.settings.display.linkPreviewDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="On"
+            id="user.settings.display.collapseOn"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Default appearance of image link previews"
+            id="user.settings.display.collapseDisplay"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="Standard"
+            id="user.settings.display.messageDisplayClean"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Message Display"
+            id="user.settings.display.messageDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe={
+          <FormattedMessage
+            defaultMessage="Full width"
+            id="user.settings.display.fullScreen"
+            values={Object {}}
+          />
+        }
+        title={
+          <FormattedMessage
+            defaultMessage="Channel Display Mode"
+            id="user.settings.display.channelDisplayTitle"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        describe="English"
+        title={
+          <FormattedMessage
+            defaultMessage="Language"
+            id="user.settings.display.language"
+            values={Object {}}
+          />
+        }
+        updateSection={[Function]}
+        width="medium"
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
   </div>
 </div>
 `;

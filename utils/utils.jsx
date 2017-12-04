@@ -5,10 +5,12 @@ import $ from 'jquery';
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router/es6';
+import {browserHistory} from 'react-router';
 
 import {Client4} from 'mattermost-redux/client';
 import {Posts} from 'mattermost-redux/constants';
+
+import {searchForTerm} from 'actions/post_actions';
 
 import UserStore from 'stores/user_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
@@ -21,10 +23,7 @@ import * as UserAgent from 'utils/user_agent.jsx';
 
 import bing from 'images/bing.mp3';
 import icon50 from 'images/icon50x50.png';
-
-import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
-
-var ActionTypes = Constants.ActionTypes;
+import iconWS from 'images/icon_WS.png';
 
 export function isEmail(email) {
     // writing a regex to match all valid email addresses is really, really hard (see http://stackoverflow.com/a/201378)
@@ -130,7 +129,12 @@ export function notifyMe(title, body, channel, teamId, duration, silent) {
             Notification.requestPermission((permission) => {
                 if (permission === 'granted') {
                     try {
-                        var notification = new Notification(title, {body, tag: body, icon: icon50, requireInteraction: notificationDuration === 0, silent});
+                        let icon = icon50;
+                        if (UserAgent.isEdge()) {
+                            icon = iconWS;
+                        }
+
+                        const notification = new Notification(title, {body, tag: body, icon, requireInteraction: notificationDuration === 0, silent});
                         notification.onclick = () => {
                             window.focus();
                             if (channel && (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL)) {
@@ -509,7 +513,8 @@ export function applyTheme(theme) {
         changeCss('.sidebar--left .add-channel-btn:hover, .sidebar--left .add-channel-btn:focus', 'color:' + theme.sidebarText);
         changeCss('.sidebar--left .status .offline--icon, .app__body .sidebar--menu svg, .app__body .sidebar-item .icon', 'fill:' + theme.sidebarText);
         changeCss('.sidebar--left .status.status--group', 'background:' + changeOpacity(theme.sidebarText, 0.3));
-        changeCss('@media(max-width: 768px){.app__body .modal .settings-modal .settings-table .nav>li>a, .app__body .sidebar--menu .divider', 'border-color:' + changeOpacity(theme.sidebarText, 0.2));
+        changeCss('@media(max-width: 768px){.app__body .modal .settings-modal .settings-table .nav>li>button, .app__body .sidebar--menu .divider', 'border-color:' + changeOpacity(theme.sidebarText, 0.2));
+        changeCss('@media(max-width: 768px){.app__body .modal .settings-modal .settings-table .nav>li>button, .app__body .modal .settings-modal .settings-table .nav>li.active>button', 'color:' + theme.sidebarText);
         changeCss('.app__body .sidebar--left .sidebar__switcher', 'border-color:' + changeOpacity(theme.sidebarText, 0.2));
         changeCss('@media(max-width: 768px){.sidebar--left .add-channel-btn:hover, .sidebar--left .add-channel-btn:focus', 'color:' + changeOpacity(theme.sidebarText, 0.6));
         changeCss('@media(max-width: 768px){.app__body .search__icon svg', 'stroke:' + theme.sidebarText);
@@ -556,7 +561,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .modal .modal-header .modal-title, .app__body .modal .modal-header .modal-title .name, .app__body .modal .modal-header button.close', 'color:' + theme.sidebarHeaderTextColor);
         changeCss('.app__body #navbar .navbar-default .navbar-brand .dropdown-toggle', 'color:' + theme.sidebarHeaderTextColor);
         changeCss('.app__body #navbar .navbar-default .navbar-toggle .icon-bar', 'background:' + theme.sidebarHeaderTextColor);
-        changeCss('.app__body .post-list__timestamp > div', 'border-color:' + changeOpacity(theme.sidebarHeaderTextColor, 0.5));
+        changeCss('.app__body .post-list__timestamp > div, .app__body .multi-teams .team-sidebar .team-wrapper .team-container a:hover .team-btn, .app__body .multi-teams .team-sidebar .team-wrapper .team-container.active .team-btn', 'border-color:' + changeOpacity(theme.sidebarHeaderTextColor, 0.5));
         changeCss('@media(max-width: 768px){.app__body .search-bar__container', 'color:' + theme.sidebarHeaderTextColor);
         changeCss('@media(max-width: 768px){.app__body .search-bar__container .search__form', 'background:' + theme.sidebarHeaderTextColor);
         changeCss('.app__body .navbar-right__icon', 'background:' + changeOpacity(theme.sidebarHeaderTextColor, 0.2));
@@ -733,7 +738,7 @@ export function applyTheme(theme) {
     }
 
     if (theme.linkColor) {
-        changeCss('.app__body .channel-header .channel-header__favorites.inactive:hover, .app__body .channel-header__links > a.active, .app__body a, .app__body a:focus, .app__body a:hover, .app__body .channel-header__links > .color--link.active, .app__body .color--link, .app__body a:focus, .app__body .color--link:hover, .app__body .btn, .app__body .btn:focus, .app__body .btn:hover', 'color:' + theme.linkColor);
+        changeCss('.app__body .post-add-reaction:hover .post-reaction, .app__body .channel-header .channel-header__favorites.inactive:hover, .app__body .channel-header__links > a.active, .app__body a, .app__body a:focus, .app__body a:hover, .app__body .channel-header__links > .color--link.active, .app__body .color--link, .app__body a:focus, .app__body .color--link:hover, .app__body .btn, .app__body .btn:focus, .app__body .btn:hover', 'color:' + theme.linkColor);
         changeCss('.app__body .attachment .attachment__container', 'border-left-color:' + changeOpacity(theme.linkColor, 0.5));
         changeCss('.app__body .member-list__popover .more-modal__list .more-modal__row:hover', 'background:' + changeOpacity(theme.linkColor, 0.08));
         changeCss('.app__body .channel-header__links .icon:hover, .app__body .channel-header__links > a.active .icon, .app__body .post .flag-icon__container.visible, .app__body .post .reacticon__container, .app__body .post .comment-icon__container, .app__body .post .post__reply', 'fill:' + theme.linkColor);
@@ -743,7 +748,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .channel-header .pinned-posts-button:hover svg', 'fill:' + changeOpacity(theme.linkColor, 0.6));
         changeCss('.app__body .member-list__popover .more-modal__actions svg, .app__body .channel-header .channel-header__icon:hover svg, .app__body .channel-header .channel-header__icon.active svg', 'fill:' + theme.linkColor);
         changeCss('.app__body .post-reaction.post-reaction--current-user', 'background:' + changeOpacity(theme.linkColor, 0.1));
-        changeCss('.app__body .post-reaction.post-reaction--current-user', 'border-color:' + changeOpacity(theme.linkColor, 0.4));
+        changeCss('.app__body .post-add-reaction:hover .post-reaction, .app__body .post-reaction.post-reaction--current-user', 'border-color:' + changeOpacity(theme.linkColor, 0.4));
         changeCss('.app__body .member-list__popover .more-modal__list .more-modal__row:hover, .app__body .channel-header .channel-header__icon:hover, .app__body .channel-header .channel-header__icon.active, .app__body .search-bar__container .search__form.focused', 'border-color:' + theme.linkColor);
         changeCss('.app__body .post-reaction.post-reaction--current-user', 'color:' + theme.linkColor);
         changeCss('.app__body .channel-header__title.open .heading, .app__body .channel-header__info .channel-header__title.open .header-dropdown__icon', 'color:' + theme.linkColor);
@@ -1328,18 +1333,31 @@ export function canCreateCustomEmoji(user) {
     return true;
 }
 
-export function isValidPassword(password) {
+export function getPasswordConfig() {
+    return {
+        isEnterprise: global.window.mm_config.BuildEnterpriseReady === 'true',
+        isLicensed: global.window.mm_license.IsLicensed === 'true',
+        isPasswordRequirements: global.window.mm_license.PasswordRequirements === 'true',
+        minimumLength: parseInt(global.window.mm_config.PasswordMinimumLength, 10),
+        requireLowercase: global.window.mm_config.PasswordRequireLowercase === 'true',
+        requireUppercase: global.window.mm_config.PasswordRequireUppercase === 'true',
+        requireNumber: global.window.mm_config.PasswordRequireNumber === 'true',
+        requireSymbol: global.window.mm_config.PasswordRequireSymbol === 'true'
+    };
+}
+
+export function isValidPassword(password, passwordConfig) {
     let errorMsg = '';
     let errorId = 'user.settings.security.passwordError';
     let error = false;
     let minimumLength = Constants.MIN_PASSWORD_LENGTH;
 
-    if (global.window.mm_config.BuildEnterpriseReady === 'true' && global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.PasswordRequirements === 'true') {
-        if (password.length < parseInt(global.window.mm_config.PasswordMinimumLength, 10) || password.length > Constants.MAX_PASSWORD_LENGTH) {
+    if (passwordConfig.isEnterprise && passwordConfig.isLicensed && passwordConfig.isPasswordRequirements) {
+        if (password.length < passwordConfig.minimumLength || password.length > Constants.MAX_PASSWORD_LENGTH) {
             error = true;
         }
 
-        if (global.window.mm_config.PasswordRequireLowercase === 'true') {
+        if (passwordConfig.requireLowercase) {
             if (!password.match(/[a-z]/)) {
                 error = true;
             }
@@ -1347,23 +1365,23 @@ export function isValidPassword(password) {
             errorId += 'Lowercase';
         }
 
-        if (global.window.mm_config.PasswordRequireUppercase === 'true') {
-            if (!password.match(/[0-9]/)) {
+        if (passwordConfig.requireUppercase) {
+            if (!password.match(/[A-Z]/)) {
                 error = true;
             }
 
             errorId += 'Uppercase';
         }
 
-        if (global.window.mm_config.PasswordRequireNumber === 'true') {
-            if (!password.match(/[A-Z]/)) {
+        if (passwordConfig.requireNumber) {
+            if (!password.match(/[0-9]/)) {
                 error = true;
             }
 
             errorId += 'Number';
         }
 
-        if (global.window.mm_config.PasswordRequireSymbol === 'true') {
+        if (passwordConfig.requireSymbol) {
             if (!password.match(/[ !"\\#$%&'()*+,-./:;<=>?@[\]^_`|~]/)) {
                 error = true;
             }
@@ -1371,7 +1389,7 @@ export function isValidPassword(password) {
             errorId += 'Symbol';
         }
 
-        minimumLength = global.window.mm_config.PasswordMinimumLength;
+        minimumLength = passwordConfig.minimumLength;
     } else if (password.length < Constants.MIN_PASSWORD_LENGTH || password.length > Constants.MAX_PASSWORD_LENGTH) {
         error = true;
     }
@@ -1413,15 +1431,6 @@ export function handleFormattedTextClick(e) {
         e.preventDefault();
         browserHistory.push('/' + TeamStore.getCurrent().name + '/channels/' + channelMentionAttribute.value);
     }
-}
-
-// This should eventually be removed once everywhere else calls the action
-function searchForTerm(term) {
-    AppDispatcher.handleServerAction({
-        type: ActionTypes.RECEIVED_SEARCH_TERM,
-        term,
-        do_search: true
-    });
 }
 
 export function isEmptyObject(object) {

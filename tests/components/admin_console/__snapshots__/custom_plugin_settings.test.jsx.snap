@@ -1,0 +1,393 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/admin_console/CustomPluginSettings should match snapshot with no settings and plugin 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <h3
+    className="admin-console-header"
+  >
+    testplugin
+  </h3>
+  <form
+    className="form-horizontal"
+    onSubmit={[Function]}
+    role="form"
+  >
+    <SettingsGroup
+      show={true}
+    >
+      <div
+        className="banner"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<h1 class=\\"markdown__heading\\">Header</h1><p><em>This</em> is the <strong>header</strong></p>
+",
+          }
+        }
+      />
+      <TextSetting
+        helpText="This is some help text for the text field."
+        id="settinga"
+        key="testplugin_plugin_text_settinga"
+        label="Setting One"
+        maxLength={null}
+        onChange={[Function]}
+        placeholder="e.g. some setting"
+        type="input"
+        value="setting_default"
+      />
+      <BooleanSetting
+        disabled={false}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+            values={Object {}}
+          />
+        }
+        helpText="This is some help text for the bool field."
+        id="settingb"
+        key="testplugin_plugin_bool_settingb"
+        label="Setting Two"
+        onChange={[Function]}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+            values={Object {}}
+          />
+        }
+        value={true}
+      />
+      <DropdownSetting
+        helpText="This is some help text for the dropdown field."
+        id="settingc"
+        isDisabled={false}
+        key="testplugin_plugin_dropdown_settingc"
+        label="Setting Three"
+        onChange={[Function]}
+        value="option1"
+        values={
+          Array [
+            Object {
+              "text": "Option 1",
+              "value": "option1",
+            },
+            Object {
+              "text": "Option 2",
+              "value": "option2",
+            },
+            Object {
+              "text": "Option 3",
+              "value": "option3",
+            },
+          ]
+        }
+      />
+      <RadioSetting
+        helpText="This is some help text for the radio field."
+        id="settingd"
+        isDisabled={false}
+        key="testplugin_plugin_radio_settingd"
+        label="Setting Four"
+        onChange={[Function]}
+        value="option2"
+        values={
+          Array [
+            Object {
+              "text": "Option 1",
+              "value": "option1",
+            },
+            Object {
+              "text": "Option 2",
+              "value": "option2",
+            },
+            Object {
+              "text": "Option 3",
+              "value": "option3",
+            },
+          ]
+        }
+      />
+      <GeneratedSetting
+        disabled={false}
+        helpText="This is some help text for the generated field."
+        id="settinge"
+        key="testplugin_plugin_generated_settinge"
+        label="Setting Five"
+        onChange={[Function]}
+        placeholder="e.g. 47KyfOxtk5+ovi1MDHFyzMDHIA6esMWb"
+        regenerateHelpText="This is help text for the regenerate button."
+        regenerateText={
+          <FormattedMessage
+            defaultMessage="Regenerate"
+            id="admin.regenerate"
+            values={Object {}}
+          />
+        }
+        value=""
+      />
+      <UserAutocompleteSetting
+        helpText="This is some help text for the user autocomplete field."
+        id="settingf"
+        key="testplugin_plugin_userautocomplete_settingf"
+        label="Setting Six"
+        onChange={[Function]}
+        placeholder="Type a username here"
+        value=""
+      />
+      <div
+        className="banner"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<h1 class=\\"markdown__heading\\">Footer</h1><p><em>This</em> is the <strong>footer</strong></p>
+",
+          }
+        }
+      />
+    </SettingsGroup>
+    <div
+      className="form-group"
+    >
+      <FormError
+        error={null}
+        errors={Array []}
+      />
+    </div>
+    <div
+      className="form-group"
+    >
+      <div
+        className="col-sm-12"
+      >
+        <SaveButton
+          defaultMessage="Save"
+          disabled={true}
+          onClick={[Function]}
+          saving={false}
+          savingMessage="Saving Config..."
+        />
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`components/admin_console/CustomPluginSettings should match snapshot with settings and no plugin 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <h3
+    className="admin-console-header"
+  >
+    testplugin
+  </h3>
+  <form
+    className="form-horizontal"
+    onSubmit={[Function]}
+    role="form"
+  >
+    <SettingsGroup
+      show={true}
+    />
+    <div
+      className="form-group"
+    >
+      <FormError
+        error={null}
+        errors={Array []}
+      />
+    </div>
+    <div
+      className="form-group"
+    >
+      <div
+        className="col-sm-12"
+      >
+        <SaveButton
+          defaultMessage="Save"
+          disabled={true}
+          onClick={[Function]}
+          saving={false}
+          savingMessage="Saving Config..."
+        />
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`components/admin_console/CustomPluginSettings should match snapshot with settings and plugin 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <h3
+    className="admin-console-header"
+  >
+    testplugin
+  </h3>
+  <form
+    className="form-horizontal"
+    onSubmit={[Function]}
+    role="form"
+  >
+    <SettingsGroup
+      show={true}
+    >
+      <div
+        className="banner"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<h1 class=\\"markdown__heading\\">Header</h1><p><em>This</em> is the <strong>header</strong></p>
+",
+          }
+        }
+      />
+      <TextSetting
+        helpText="This is some help text for the text field."
+        id="settinga"
+        key="testplugin_plugin_text_settinga"
+        label="Setting One"
+        maxLength={null}
+        onChange={[Function]}
+        placeholder="e.g. some setting"
+        type="input"
+        value="fsdsdg"
+      />
+      <BooleanSetting
+        disabled={false}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+            values={Object {}}
+          />
+        }
+        helpText="This is some help text for the bool field."
+        id="settingb"
+        key="testplugin_plugin_bool_settingb"
+        label="Setting Two"
+        onChange={[Function]}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+            values={Object {}}
+          />
+        }
+        value={false}
+      />
+      <DropdownSetting
+        helpText="This is some help text for the dropdown field."
+        id="settingc"
+        isDisabled={false}
+        key="testplugin_plugin_dropdown_settingc"
+        label="Setting Three"
+        onChange={[Function]}
+        value="option3"
+        values={
+          Array [
+            Object {
+              "text": "Option 1",
+              "value": "option1",
+            },
+            Object {
+              "text": "Option 2",
+              "value": "option2",
+            },
+            Object {
+              "text": "Option 3",
+              "value": "option3",
+            },
+          ]
+        }
+      />
+      <RadioSetting
+        helpText="This is some help text for the radio field."
+        id="settingd"
+        isDisabled={false}
+        key="testplugin_plugin_radio_settingd"
+        label="Setting Four"
+        onChange={[Function]}
+        value="option1"
+        values={
+          Array [
+            Object {
+              "text": "Option 1",
+              "value": "option1",
+            },
+            Object {
+              "text": "Option 2",
+              "value": "option2",
+            },
+            Object {
+              "text": "Option 3",
+              "value": "option3",
+            },
+          ]
+        }
+      />
+      <GeneratedSetting
+        disabled={false}
+        helpText="This is some help text for the generated field."
+        id="settinge"
+        key="testplugin_plugin_generated_settinge"
+        label="Setting Five"
+        onChange={[Function]}
+        placeholder="e.g. 47KyfOxtk5+ovi1MDHFyzMDHIA6esMWb"
+        regenerateHelpText="This is help text for the regenerate button."
+        regenerateText={
+          <FormattedMessage
+            defaultMessage="Regenerate"
+            id="admin.regenerate"
+            values={Object {}}
+          />
+        }
+        value="Q6DHXrFLOIS5sOI5JNF4PyDLqWm7vh23"
+      />
+      <UserAutocompleteSetting
+        helpText="This is some help text for the user autocomplete field."
+        id="settingf"
+        key="testplugin_plugin_userautocomplete_settingf"
+        label="Setting Six"
+        onChange={[Function]}
+        placeholder="Type a username here"
+        value="3xz3r6n7dtbbmgref3yw4zg7sr"
+      />
+      <div
+        className="banner"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<h1 class=\\"markdown__heading\\">Footer</h1><p><em>This</em> is the <strong>footer</strong></p>
+",
+          }
+        }
+      />
+    </SettingsGroup>
+    <div
+      className="form-group"
+    >
+      <FormError
+        error={null}
+        errors={Array []}
+      />
+    </div>
+    <div
+      className="form-group"
+    >
+      <div
+        className="col-sm-12"
+      >
+        <SaveButton
+          defaultMessage="Save"
+          disabled={true}
+          onClick={[Function]}
+          saving={false}
+          savingMessage="Saving Config..."
+        />
+      </div>
+    </div>
+  </form>
+</div>
+`;

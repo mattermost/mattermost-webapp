@@ -9,7 +9,6 @@ import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as PostActions from 'actions/post_actions.jsx';
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import EmojiStore from 'stores/emoji_store.jsx';
 import MessageHistoryStore from 'stores/message_history_store.jsx';
@@ -23,6 +22,7 @@ import * as FileUtils from 'utils/file_utils';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
+import store from 'stores/redux_store.jsx';
 
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 
@@ -36,7 +36,6 @@ import TutorialTip from './tutorial/tutorial_tip.jsx';
 
 const Preferences = Constants.Preferences;
 const TutorialSteps = Constants.TutorialSteps;
-const ActionTypes = Constants.ActionTypes;
 const KeyCodes = Constants.KeyCodes;
 
 export const REACTION_PATTERN = /^(\+|-):([^:\s]+):\s*$/;
@@ -514,15 +513,14 @@ export default class CreatePost extends React.Component {
                 type = Utils.localizeMessage('create_post.post', 'Post');
             }
 
-            AppDispatcher.handleViewAction({
-                type: ActionTypes.RECEIVED_EDIT_POST,
-                refocusId: '#post_textbox',
-                title: type,
-                message: lastPost.message,
-                postId: lastPost.id,
-                channelId: lastPost.channel_id,
-                comments: PostStore.getCommentCount(lastPost)
-            });
+            store.dispatch(
+                PostActions.setEditingPost(
+                    lastPost.id,
+                    PostStore.getCommentCount(lastPost),
+                    '#post_textbox',
+                    type
+                )
+            );
         } else if (!e.ctrlKey && !e.metaKey && !e.altKey && e.shiftKey && e.keyCode === KeyCodes.UP && this.state.message === '' && lastPostEl) {
             e.preventDefault();
             if (document.createEvent) {

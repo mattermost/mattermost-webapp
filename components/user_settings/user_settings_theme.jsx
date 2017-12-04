@@ -33,8 +33,10 @@ export default class ThemeSetting extends React.Component {
         this.resetFields = this.resetFields.bind(this);
         this.handleImportModal = this.handleImportModal.bind(this);
 
-        this.state = this.getStateFromStores();
-        this.setState({isSaving: false});
+        this.state = {
+            ...this.getStateFromStores(),
+            isSaving: false
+        };
 
         this.originalTheme = Object.assign({}, this.state.theme);
     }
@@ -70,9 +72,7 @@ export default class ThemeSetting extends React.Component {
     }
 
     getStateFromStores() {
-        const teamId = TeamStore.getCurrentId();
-
-        const theme = PreferenceStore.getTheme(teamId);
+        const theme = PreferenceStore.getTheme();
         if (!theme.codeTheme) {
             theme.codeTheme = Constants.DEFAULT_CODE_THEME;
         }

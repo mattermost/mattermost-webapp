@@ -26,6 +26,7 @@ export default class UserList extends React.Component {
 
     render() {
         const users = this.props.users;
+        const RowComponentType = this.props.rowComponentType;
 
         let content;
         if (users == null) {
@@ -33,7 +34,7 @@ export default class UserList extends React.Component {
         } else if (users.length > 0) {
             content = users.map((user, index) => {
                 return (
-                    <UserListRow
+                    <RowComponentType
                         key={user.id}
                         user={user}
                         extraInfo={this.props.extraInfo[user.id]}
@@ -72,7 +73,8 @@ UserList.defaultProps = {
     users: [],
     extraInfo: {},
     actions: [],
-    actionProps: {}
+    actionProps: {},
+    rowComponentType: UserListRow
 };
 
 UserList.propTypes = {
@@ -80,5 +82,8 @@ UserList.propTypes = {
     extraInfo: PropTypes.object,
     actions: PropTypes.arrayOf(PropTypes.func),
     actionProps: PropTypes.object,
-    actionUserProps: PropTypes.object
+    actionUserProps: PropTypes.object,
+
+    // the type of user list row to render
+    rowComponentType: PropTypes.func
 };

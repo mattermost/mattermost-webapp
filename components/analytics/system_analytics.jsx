@@ -99,13 +99,8 @@ export default class SystemAnalytics extends React.Component {
                             />
                         }
                         data={postCountsDay}
-                        options={{
-                            legend: {
-                                display: false
-                            }
-                        }}
-                        width='740'
-                        height='225'
+                        width={740}
+                        height={225}
                     />
                 </div>
             );
@@ -120,13 +115,8 @@ export default class SystemAnalytics extends React.Component {
                             />
                         }
                         data={userCountsWithPostsDay}
-                        options={{
-                            legend: {
-                                display: false
-                            }
-                        }}
-                        width='740'
-                        height='225'
+                        width={740}
+                        height={225}
                     />
                 </div>
             );
@@ -240,8 +230,8 @@ export default class SystemAnalytics extends React.Component {
                             />
                         }
                         data={postTypeData}
-                        width='300'
-                        height='225'
+                        width={300}
+                        height={225}
                     />
                 );
             }
@@ -256,8 +246,8 @@ export default class SystemAnalytics extends React.Component {
                             />
                         }
                         data={channelTypeData}
-                        width='300'
-                        height='225'
+                        width={300}
+                        height={225}
                     />
                     {postTypeGraph}
                 </div>

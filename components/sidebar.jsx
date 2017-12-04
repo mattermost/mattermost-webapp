@@ -7,7 +7,7 @@ import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-import {browserHistory, Link} from 'react-router/es6';
+import {browserHistory, Link} from 'react-router';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getChannelsByCategory} from 'mattermost-redux/selectors/entities/channels';
@@ -591,13 +591,22 @@ export default class Sidebar extends React.Component {
             );
         } else if (channel.type === Constants.GM_CHANNEL) {
             icon = <div className='status status--group'>{UserStore.getProfileListInChannel(channel.id, true).length}</div>;
-        } else {
-            // set up status icon for direct message channels (status is null for other channel types)
-            icon = (
-                <StatusIcon
-                    type='avatar'
-                    status={channel.status}
-                />);
+        } else if (channel.type === Constants.DM_CHANNEL) {
+            const teammate = Utils.getDirectTeammate(channel.id);
+            if (teammate && teammate.delete_at) {
+                icon = (
+                    <span
+                        className='icon icon__archive'
+                        dangerouslySetInnerHTML={{__html: Constants.ARCHIVE_ICON_SVG}}
+                    />
+                );
+            } else {
+                icon = (
+                    <StatusIcon
+                        type='avatar'
+                        status={channel.status}
+                    />);
+            }
         }
 
         let closeButton = null;
@@ -628,7 +637,10 @@ export default class Sidebar extends React.Component {
                     overlay={removeTooltip}
                 >
                     <span
-                        onClick={(e) => handleClose(e, channel)}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleClose(e, channel);
+                        }}
                         className='btn-close'
                     >
                         {'×'}

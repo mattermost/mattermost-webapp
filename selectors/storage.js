@@ -21,3 +21,10 @@ export function makeGetGlobalItem(name, defaultValue) {
         return getGlobalItem(state, name, defaultValue);
     };
 }
+
+export function getItemFromStorage(storage, name, defaultValue) {
+    if (storage && typeof storage[name] !== 'undefined' && storage[name] !== null) {
+        return storage[name];
+    }
+    return defaultValue;
+}

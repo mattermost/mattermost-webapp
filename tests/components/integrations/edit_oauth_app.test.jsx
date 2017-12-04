@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
-import {browserHistory} from 'react-router/es6';
+import {browserHistory} from 'react-router';
 
 import EditOAuthApp from 'components/integrations/components/edit_oauth_app/edit_oauth_app.jsx';
 

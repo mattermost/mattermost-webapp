@@ -5,19 +5,15 @@ import $ from 'jquery';
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {browserHistory} from 'react-router/es6';
+import {browserHistory} from 'react-router';
 
 import iNoBounce from 'inobounce';
-
-import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
 import {startPeriodicStatusUpdates, stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import {startPeriodicSync, stopPeriodicSync} from 'actions/websocket_actions.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
-import PostStore from 'stores/post_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
-import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
@@ -41,12 +37,13 @@ import RemovedFromChannelModal from 'components/removed_from_channel_modal.jsx';
 import ResetStatusModal from 'components/reset_status_modal';
 import ShortcutsModal from 'components/shortcuts_modal.jsx';
 import SidebarRight from 'components/sidebar_right';
-import SidebarRightMenu from 'components/sidebar_right_menu.jsx';
+import SidebarRightMenu from 'components/sidebar_right_menu';
 import TeamSettingsModal from 'components/team_settings_modal.jsx';
 import ImportThemeModal from 'components/user_settings/import_theme_modal.jsx';
 import UserSettingsModal from 'components/user_settings/user_settings_modal.jsx';
 import WebrtcNotification from 'components/webrtc/components/webrtc_notification.jsx';
 import WebrtcSidebar from 'components/webrtc/components/webrtc_sidebar.jsx';
+import ModalController from 'components/modal_controller';
 
 const TutorialSteps = Constants.TutorialSteps;
 const Preferences = Constants.Preferences;
@@ -60,48 +57,49 @@ export default class NeedsTeam extends React.Component {
             PropTypes.element
         ]),
         navbar: PropTypes.element,
+        params: PropTypes.object,
         sidebar: PropTypes.element,
         team_sidebar: PropTypes.element,
         center: PropTypes.element,
-        params: PropTypes.object,
         user: PropTypes.object,
         actions: PropTypes.shape({
             viewChannel: PropTypes.func.isRequired,
             getMyChannelMembers: PropTypes.func.isRequired
-        }).isRequired
+        }).isRequired,
+        theme: PropTypes.object.isRequired
     }
 
     constructor(params) {
         super(params);
 
-        this.onTeamChanged = this.onTeamChanged.bind(this);
-        this.onPreferencesChanged = this.onPreferencesChanged.bind(this);
+        this.teamChanged = (e) => this.onTeamChanged(e);
+        this.shortcutKeyDown = (e) => this.onShortcutKeyDown(e);
 
         this.blurTime = new Date().getTime();
 
         const team = TeamStore.getCurrent();
 
         this.state = {
-            team,
-            theme: PreferenceStore.getTheme(team.id)
+            team
         };
+    }
+
+    onShortcutKeyDown(e) {
+        if (e.shiftKey && e.ctrlKey && e.keyCode === Constants.KeyCodes.L) {
+            if (document.getElementById('sidebar-right').className.match('sidebar--right sidebar--right--expanded')) {
+                document.getElementById('reply_textbox').focus();
+            } else {
+                document.getElementById('post_textbox').focus();
+            }
+        }
     }
 
     onTeamChanged() {
         const team = TeamStore.getCurrent();
 
         this.setState({
-            team,
-            theme: PreferenceStore.getTheme(team.id)
+            team
         });
-    }
-
-    onPreferencesChanged(category) {
-        if (!category || category === Preferences.CATEGORY_THEME) {
-            this.setState({
-                theme: PreferenceStore.getTheme(this.state.team.id)
-            });
-        }
     }
 
     componentWillMount() {
@@ -113,8 +111,7 @@ export default class NeedsTeam extends React.Component {
     }
 
     componentDidMount() {
-        TeamStore.addChangeListener(this.onTeamChanged);
-        PreferenceStore.addChangeListener(this.onPreferencesChanged);
+        TeamStore.addChangeListener(this.teamChanged);
 
         startPeriodicStatusUpdates();
         startPeriodicSync();
@@ -140,23 +137,17 @@ export default class NeedsTeam extends React.Component {
             }
         });
 
-        Utils.applyTheme(this.state.theme);
+        Utils.applyTheme(this.props.theme);
 
         if (UserAgent.isIosSafari()) {
             // Use iNoBounce to prevent scrolling past the boundaries of the page
             iNoBounce.enable();
         }
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (!Utils.areObjectsEqual(prevState.theme, this.state.theme)) {
-            Utils.applyTheme(this.state.theme);
-        }
+        document.addEventListener('keydown', this.shortcutKeyDown);
     }
 
     componentWillUnmount() {
-        TeamStore.removeChangeListener(this.onTeamChanged);
-        PreferenceStore.removeChangeListener(this.onPreferencesChanged);
+        TeamStore.removeChangeListener(this.teamChanged);
         $(window).off('focus');
         $(window).off('blur');
 
@@ -165,6 +156,14 @@ export default class NeedsTeam extends React.Component {
         }
         stopPeriodicStatusUpdates();
         stopPeriodicSync();
+        document.removeEventListener('keydown', this.shortcutKeyDown);
+    }
+
+    componentDidUpdate(prevProps) {
+        const {theme} = this.props;
+        if (!Utils.areObjectsEqual(prevProps.theme, theme)) {
+            Utils.applyTheme(theme);
+        }
     }
 
     render() {
@@ -199,24 +198,12 @@ export default class NeedsTeam extends React.Component {
             );
         }
 
-        let channel = ChannelStore.getByName(this.props.params.channel);
-        if (channel == null) {
-            // the permalink view is not really tied to a particular channel but still needs it
-            const postId = PostStore.getFocusedPostId();
-            const post = getPost(store.getState(), postId);
-
-            // the post take some time before being available on page load
-            if (post != null) {
-                channel = ChannelStore.get(post.channel_id);
-            }
-        }
-
         return (
             <div className='channel-view'>
                 <AnnouncementBar/>
                 <WebrtcNotification/>
                 <div className='container-fluid'>
-                    <SidebarRight channel={channel}/>
+                    <SidebarRight/>
                     <SidebarRightMenu teamType={this.state.team.type}/>
                     <WebrtcSidebar/>
                     {content}
@@ -236,6 +223,7 @@ export default class NeedsTeam extends React.Component {
                     <ResetStatusModal/>
                     <LeavePrivateChannelModal/>
                     <ShortcutsModal isMac={Utils.isMac()}/>
+                    <ModalController/>
                 </div>
             </div>
         );
