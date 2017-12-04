@@ -457,24 +457,6 @@ export default class UserSettingsDisplay extends React.Component {
             }
         });
 
-
-        const teammateNameValues = [
-            {value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_USERNAME, text: Utils.localizeMessage('admin.team.showUsername', 'Show username (default)')},
-            {value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME, text: Utils.localizeMessage('admin.team.showNickname', 'Show nickname if one exists, otherwise show first and last name')},
-            {value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_FULLNAME, text: Utils.localizeMessage('admin.team.showFullname', 'Show first and last name')}
-        ];
-        const selectedTeammateValue = this.state.teammateNameDisplay || global.window.mm_config.TeammateNameDisplay;
-        const selectedTeammateLabel = teammateNameValues.filter(
-            (element) => element.value === selectedTeammateValue).map(
-                (element) => element.text);
-        const messageTitle = (
-            <FormattedMessage
-                id='user.settings.display.teammateNameDisplay'
-                defaultMessage='Teammate Name Display'
-            />
-        );
-        
-
         const messageDisplaySection = this.createSection({
             section: Preferences.MESSAGE_DISPLAY,
             display: 'messageDisplay',
