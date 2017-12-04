@@ -54,7 +54,7 @@ export default class MessageExportSettings extends AdminSettings {
                     <div className='banner__content'>
                         <FormattedHTMLMessage
                             id='admin.complianceExport.description'
-                            defaultMessage='This feature supports compliance exports to the Actiance XML format, and is currently in beta. Support for the GlobalRelay EML format and the Mattermost CSV format are scheduled for a future release, and will replace the existing <a href=\"/admin_console/general/compliance\" target=\"_blank\">Compliance</a> feature.'
+                            defaultMessage='This feature supports compliance exports to the Actiance XML format, and is currently in beta. Support for the GlobalRelay EML format and the Mattermost CSV format are scheduled for a future release, and will replace the existing <a href=\"/admin_console/general/compliance\">Compliance</a> feature.'
                         />
                     </div>
                 </div>
@@ -70,7 +70,7 @@ export default class MessageExportSettings extends AdminSettings {
                     helpText={
                         <FormattedHTMLMessage
                             id='admin.service.complianceExportDesc'
-                            defaultMessage='When true, Mattermost will generate a compliance export file that contains all messages that were posted in the past 24h. The export task is scheduled to run once per day. See <a href=\"https://about.mattermost.com/default-compliance-export-documentation\" target=\"_blank\">the documentation</a> to learn more.'
+                            defaultMessage='When true, Mattermost will generate a compliance export file that contains all messages that were posted in the last 24h. The export task is scheduled to run once per day. See <a href=\"https://about.mattermost.com/default-compliance-export-documentation\" target=\"_blank\">the documentation</a> to learn more.'
                         />
                     }
                     value={this.state.enableMessageExport}
@@ -89,7 +89,7 @@ export default class MessageExportSettings extends AdminSettings {
                     helpText={
                         <FormattedHTMLMessage
                             id='admin.complianceExport.exportJobStartTime.description'
-                            defaultMessage='Set the start time of the daily scheduled compliance export job. Choose a time when fewer people are using your system.<br />Must be a 24-hour time stamp in the form HH:MM. For example, 1:15am would be expressed as 01:15, while 1:15pm would be expressed as 13:15.'
+                            defaultMessage='Set the start time of the daily scheduled compliance export job. Choose a time when fewer people are using your system. Must be a 24-hour time stamp in the form HH:MM.'
                         />
                     }
                     value={this.state.exportJobStartTime}
@@ -110,7 +110,7 @@ export default class MessageExportSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.complianceExport.exportFormat.description'
-                            defaultMessage='The file format to write exported data in. Corresponds to the system that you want to import the data into.'
+                            defaultMessage='The file format of the compliance export. Corresponds to the system that you want to import the data into.'
                         />
                     }
                     value='actiance'
@@ -144,7 +144,7 @@ export default class MessageExportSettings extends AdminSettings {
                     createJobButtonText={
                         <FormattedMessage
                             id='admin.complianceExport.createJob.title'
-                            defaultMessage='Run Compliance Export job now'
+                            defaultMessage='Run Compliance Export Job Now'
                         />
                     }
                     createJobHelpText={
