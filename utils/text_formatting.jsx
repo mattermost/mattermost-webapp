@@ -187,7 +187,7 @@ function autolinkChannelMentions(text, tokens, channelNamesMap, team) {
         }
 
         tokens.set(alias, {
-            value: `<a class="mention-link" href="${href}" data-channel-mention="${channelName}">~${displayName}</a>`,
+            value: `<a class="mention-link" href="${href}" data-channel-mention="${channelName}">${displayName}</a>`,
             originalText: mention
         });
         return alias;
