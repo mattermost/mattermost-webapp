@@ -852,7 +852,7 @@ class UserSettingsGeneralTab extends React.Component {
         if (this.props.activeSection === 'nickname') {
             let extraInfo;
             let submit = null;
-            if ((this.props.user.auth_service === 'ldap' && global.window.mm_config.LdapNicknameAttributeSet) || (this.props.user.auth_service === Constants.SAML_SERVICE && global.window.mm_config.LdapNicknameAttributeSet)) {
+            if ((this.props.user.auth_service === 'ldap' && global.window.mm_config.LdapNicknameAttributeSet === 'true') || (this.props.user.auth_service === Constants.SAML_SERVICE && global.window.mm_config.LdapNicknameAttributeSet === 'true')) {
                 extraInfo = (
                     <span>
                         <FormattedMessage
