@@ -232,6 +232,16 @@ export default class MoreDirectChannels extends React.Component {
                     }}
                 />
             );
+        } else if (option.delete_at) {
+            modalName = (
+                <FormattedMessage
+                    id='more_direct_channels.directchannel.deactivated'
+                    defaultMessage='{displayname} - Deactivated'
+                    values={{
+                        displayname: displayName
+                    }}
+                />
+            );
         }
 
         var rowSelected = '';
@@ -307,17 +317,17 @@ export default class MoreDirectChannels extends React.Component {
             />
         );
 
-        let users = [];
-        if (this.state.users) {
-            users = this.state.users.filter((user) => user.delete_at === 0);
-        }
+        let users = this.state.users || [];
 
         if (this.state.values.length) {
-            for (var i = users.length - 1; i >= 0; i--) {
-                if (users[i].id === this.props.currentUserId) {
-                    users.splice(i, 1);
-                }
+            users = this.state.users.filter((user) => user.delete_at === 0 && user.id !== this.props.currentUserId);
+        } else {
+            const active = [];
+            const inactive = [];
+            for (const user of users) {
+                (user.delete_at ? inactive : active).push(user);
             }
+            users = active.concat(inactive);
         }
 
         return (
@@ -353,7 +363,9 @@ export default class MoreDirectChannels extends React.Component {
                         maxValues={MAX_SELECTABLE_VALUES}
                         numRemainingText={numRemainingText}
                         buttonSubmitText={buttonSubmitText}
-                        submitImmediatelyOn={[this.props.currentUserId]}
+                        submitImmediatelyOn={(value) => {
+                            return value.id === this.props.currentUserId || value.delete_at;
+                        }}
                         saving={this.state.loadingChannel}
                     />
                 </Modal.Body>
