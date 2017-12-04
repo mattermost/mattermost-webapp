@@ -457,7 +457,7 @@ export default class UserSettingsDisplay extends React.Component {
             }
         });
 
-        let teammateNameSection;
+
         const teammateNameValues = [
             {value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_USERNAME, text: Utils.localizeMessage('admin.team.showUsername', 'Show username (default)')},
             {value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME, text: Utils.localizeMessage('admin.team.showNickname', 'Show nickname if one exists, otherwise show first and last name')},
@@ -473,25 +473,7 @@ export default class UserSettingsDisplay extends React.Component {
                 defaultMessage='Teammate Name Display'
             />
         );
-        if (this.props.activeSection === 'teammateName') {
-            teammateNameSection = this.createTeammateDisplaySection({
-                display: 'teammateNameDisplay',
-                values: teammateNameValues,
-                value: selectedTeammateValue,
-                title: messageTitle
-            });
-        } else {
-            teammateNameSection = (
-                <SettingItemMin
-                    title={messageTitle}
-                    width='medium'
-                    describe={selectedTeammateLabel}
-                    updateSection={() => {
-                        this.updateSection('teammateName');
-                    }}
-                />
-            );
-        }
+        
 
         const messageDisplaySection = this.createSection({
             section: Preferences.MESSAGE_DISPLAY,
