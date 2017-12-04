@@ -6,6 +6,7 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import Scrollbars from 'react-custom-scrollbars';
 
 import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
@@ -15,6 +16,30 @@ import * as Utils from 'utils/utils.jsx';
 
 import SearchResultsHeader from '../search_results_header';
 import SearchResultsItem from '../search_results_item.jsx';
+
+export function renderView(props) {
+    return (
+        <div
+            {...props}
+            className='scrollbar--view'
+        />);
+}
+
+export function renderThumbHorizontal(props) {
+    return (
+        <div
+            {...props}
+            className='scrollbar--horizontal'
+        />);
+}
+
+export function renderThumbVertical(props) {
+    return (
+        <div
+            {...props}
+            className='scrollbar--vertical'
+        />);
+}
 
 export default class SearchResults extends React.PureComponent {
     static propTypes = {
@@ -53,9 +78,6 @@ export default class SearchResults extends React.PureComponent {
 
         this.resize();
         window.addEventListener('resize', this.handleResize);
-        if (!Utils.isMobile()) {
-            $('.sidebar--right .search-items-container').perfectScrollbar();
-        }
     }
 
     componentWillUnmount() {
@@ -360,12 +382,22 @@ export default class SearchResults extends React.PureComponent {
                     channelDisplayName={this.props.channelDisplayName}
                     isLoading={this.props.loading}
                 />
-                <div
-                    id='search-items-container'
-                    className='search-items-container'
+                <Scrollbars
+                    autoHide={true}
+                    autoHideTimeout={500}
+                    autoHideDuration={500}
+                    renderThumbHorizontal={renderThumbHorizontal}
+                    renderThumbVertical={renderThumbVertical}
+                    renderView={renderView}
+                    onScroll={this.handleScroll}
                 >
-                    {ctls}
-                </div>
+                    <div
+                        id='search-items-container'
+                        className='search-items-container'
+                    >
+                        {ctls}
+                    </div>
+                </Scrollbars>
             </div>
         );
     }
