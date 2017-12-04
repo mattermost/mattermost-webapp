@@ -217,7 +217,9 @@ export const ActionTypes = keyMirror({
     REMOVED_WEBAPP_PLUGIN: null,
 
     MODAL_OPEN: null,
-    MODAL_CLOSE: null
+    MODAL_CLOSE: null,
+
+    POPOVER_MENTION_KEY_CLICK: null
 });
 
 export const WebrtcActionTypes = keyMirror({
