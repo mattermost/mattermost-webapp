@@ -83,7 +83,6 @@
     @include flex(1 1 auto);
     -webkit-overflow-scrolling: touch;
     height: calc(100% - 56px);
-    overflow: auto;
     padding-top: 10px;
     position: relative;
 }

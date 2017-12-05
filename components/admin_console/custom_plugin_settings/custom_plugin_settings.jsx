@@ -6,6 +6,8 @@ import React from 'react';
 import {PluginSettings} from 'utils/constants.jsx';
 import {formatText} from 'utils/text_formatting.jsx';
 
+import * as Utils from 'utils/utils.jsx';
+
 import LoadingScreen from 'components/loading_screen.jsx';
 import AdminSettings from 'components/admin_console/admin_settings.jsx';
 import BooleanSetting from 'components/admin_console/boolean_setting.jsx';
@@ -29,6 +31,7 @@ export default class CustomPluginSettings extends AdminSettings {
         this.buildPluginRadioSetting = this.buildPluginRadioSetting.bind(this);
         this.buildPluginGeneratedSetting = this.buildPluginGeneratedSetting.bind(this);
         this.buildPluginUsernameSetting = this.buildPluginUsernameSetting.bind(this);
+        this.handleGeneratedChange = this.handleGeneratedChange.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -74,7 +77,7 @@ export default class CustomPluginSettings extends AdminSettings {
     }
 
     renderTitle() {
-        return this.props.plugin ? this.props.plugin.id : '';
+        return this.props.plugin ? (this.props.plugin.name || this.props.plugin.id) : '';
     }
 
     buildPluginSetting = (id, setting) => {
@@ -101,7 +104,7 @@ export default class CustomPluginSettings extends AdminSettings {
             <TextSetting
                 key={this.props.plugin.id + '_plugin_text_' + id}
                 id={id}
-                label={setting.display_name}
+                label={setting.display_name + ':'}
                 helpText={setting.help_text}
                 placeholder={setting.placeholder}
                 value={this.state[id] || ''}
@@ -115,7 +118,7 @@ export default class CustomPluginSettings extends AdminSettings {
             <BooleanSetting
                 key={this.props.plugin.id + '_plugin_bool_' + id}
                 id={id}
-                label={setting.display_name}
+                label={setting.display_name + ':'}
                 helpText={setting.help_text}
                 value={this.state[id] || false}
                 onChange={this.handleChange}
@@ -132,7 +135,7 @@ export default class CustomPluginSettings extends AdminSettings {
                 key={this.props.plugin.id + '_plugin_dropdown_' + id}
                 id={id}
                 values={values}
-                label={setting.display_name}
+                label={setting.display_name + ':'}
                 helpText={setting.help_text}
                 value={this.state[id] || values[0]}
                 onChange={this.handleChange}
@@ -149,7 +152,7 @@ export default class CustomPluginSettings extends AdminSettings {
                 key={this.props.plugin.id + '_plugin_radio_' + id}
                 id={id}
                 values={values}
-                label={setting.display_name}
+                label={setting.display_name + ':'}
                 helpText={setting.help_text}
                 value={this.state[id] || values[0]}
                 onChange={this.handleChange}
@@ -162,14 +165,18 @@ export default class CustomPluginSettings extends AdminSettings {
             <GeneratedSetting
                 key={this.props.plugin.id + '_plugin_generated_' + id}
                 id={id}
-                label={setting.display_name}
+                label={setting.display_name + ':'}
                 helpText={setting.help_text}
                 regenerateHelpText={setting.regenerate_help_text}
                 placeholder={setting.placeholder}
                 value={this.state[id] || ''}
-                onChange={this.handleChange}
+                onChange={this.handleGeneratedChange}
             />
         );
+    }
+
+    handleGeneratedChange(id, s) {
+        this.handleChange(id, s.replace('+', '-').replace('/', '_'));
     }
 
     buildPluginUsernameSetting(id, setting) {
@@ -177,9 +184,9 @@ export default class CustomPluginSettings extends AdminSettings {
             <UserAutocompleteSetting
                 key={this.props.plugin.id + '_plugin_userautocomplete_' + id}
                 id={id}
-                label={setting.display_name}
+                label={setting.display_name + ':'}
                 helpText={setting.help_text}
-                placeholder={setting.placeholder}
+                placeholder={setting.placeholder || Utils.localizeMessage('search_bar.search', 'Search')}
                 value={this.state[id] || ''}
                 onChange={this.handleChange}
             />
