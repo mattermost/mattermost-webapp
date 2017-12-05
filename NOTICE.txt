@@ -1164,7 +1164,7 @@ SOFTWARE.
 
 ---
 
-## react
+## react-dom
 
 This product contains a modified portion of 'react-dom',  to be paired with the isomorphic React, which will be shipped as react to npm.
 
