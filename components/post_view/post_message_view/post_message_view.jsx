@@ -5,14 +5,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import store from 'stores/redux_store.jsx';
-
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import {Posts} from 'mattermost-redux/constants';   // eslint-disable-line import/order
-import {getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';   // eslint-disable-line import/order
 
 import {renderSystemMessage} from './system_message_helpers.jsx';
 
@@ -82,7 +79,12 @@ export default class PostMessageView extends React.PureComponent {
         /**
          * The logged in user
          */
-        currentUser: PropTypes.object.isRequired
+        currentUser: PropTypes.object.isRequired,
+
+        /**
+         * A map of channel names to channel objects
+         */
+        channelNamesMap: PropTypes.object.isRequired
     };
 
     static defaultProps = {
@@ -129,7 +131,8 @@ export default class PostMessageView extends React.PureComponent {
             emojis,
             siteUrl,
             team,
-            lastPostCount
+            lastPostCount,
+            channelNamesMap
         } = this.props;
 
         if (post.state === Posts.POST_DELETED) {
@@ -163,7 +166,7 @@ export default class PostMessageView extends React.PureComponent {
             siteURL: siteUrl,
             mentionKeys,
             atMentions: true,
-            channelNamesMap: getChannelsNameMapInCurrentTeam(store.getState()),
+            channelNamesMap,
             team
         });
 
