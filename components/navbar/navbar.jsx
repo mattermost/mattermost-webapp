@@ -42,6 +42,8 @@ import ToggleModalButton from 'components/toggle_modal_button.jsx';
 
 import NavbarInfoButton from './navbar_info_button.jsx';
 
+import Pluggable from 'plugins/pluggable';
+
 export default class Navbar extends React.Component {
     static propTypes = {
         teamDisplayName: PropTypes.string,
@@ -914,6 +916,7 @@ export default class Navbar extends React.Component {
                                 channel={channel}
                                 showEditChannelHeaderModal={this.showEditChannelHeaderModal}
                             />
+                            <Pluggable pluggableName='MobileChannelHeaderButton'/>
                             {channelMenuDropdown}
                         </div>
                     </div>
