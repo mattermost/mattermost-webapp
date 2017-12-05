@@ -135,11 +135,18 @@ class CustomThemeChooser extends React.Component {
     handleColorChange = (settingId, color) => {
         const {updateTheme, theme} = this.props;
         if (theme[settingId] !== color) {
-            updateTheme({
+            const newTheme = {
                 ...theme,
                 type: 'custom',
                 [settingId]: color
-            });
+            };
+
+            // For backwards compatability
+            if (settingId === 'mentionBg') {
+                newTheme['mentionBj'] = color;
+            }
+
+            updateTheme(newTheme);
         }
     }
 
