@@ -70,7 +70,7 @@ export default class MessageExportSettings extends AdminSettings {
                     helpText={
                         <FormattedHTMLMessage
                             id='admin.service.complianceExportDesc'
-                            defaultMessage='When true, Mattermost will generate a compliance export file that contains all messages that were posted in the last 24h. The export task is scheduled to run once per day. See <a href=\"https://about.mattermost.com/default-compliance-export-documentation\" target=\"_blank\">the documentation</a> to learn more.'
+                            defaultMessage='When true, Mattermost will generate a compliance export file that contains all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See <a href=\"https://about.mattermost.com/default-compliance-export-documentation\" target=\"_blank\">the documentation</a> to learn more.'
                         />
                     }
                     value={this.state.enableMessageExport}
@@ -110,7 +110,7 @@ export default class MessageExportSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.complianceExport.exportFormat.description'
-                            defaultMessage='The file format of the compliance export. Corresponds to the system that you want to import the data into.'
+                            defaultMessage='File format of the compliance export. Corresponds to the system that you want to import the data into.'
                         />
                     }
                     value='actiance'
@@ -130,7 +130,7 @@ export default class MessageExportSettings extends AdminSettings {
                     helpText={
                         <FormattedHTMLMessage
                             id='admin.complianceExport.exportLocation.description'
-                            defaultMessage='The directory to write compliance export files to. Must be a subdirectory of the <a href=\"/admin_console/files/storage\" target=\"_blank\">Local Storage Directory</a>. Mattermost must have write access to this directory, and the path that you set must not include a filename.'
+                            defaultMessage='The directory to write compliance export files to. Must be a subdirectory of the <a href=\"/admin_console/files/storage\">Local Storage Directory</a>. Mattermost must have write access to this directory, and the path that you set must not include a filename.'
                         />
                     }
                     value={this.state.exportLocation}
