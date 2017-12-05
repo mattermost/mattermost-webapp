@@ -155,9 +155,9 @@ export default class MoreDirectChannels extends React.Component {
                 users = Object.assign([], searchProfilesInCurrentTeam(store.getState(), this.term, false));
             }
         } else if (this.listType === 'any') {
-            users = Object.assign([], UserStore.getProfileList(false));
+            users = Object.assign([], UserStore.getProfileList(false, true));
         } else {
-            users = Object.assign([], UserStore.getProfileListInTeam(TeamStore.getCurrentId(), false));
+            users = Object.assign([], UserStore.getProfileListInTeam(TeamStore.getCurrentId(), false, false));
         }
 
         for (let i = 0; i < users.length; i++) {
@@ -249,6 +249,8 @@ export default class MoreDirectChannels extends React.Component {
             rowSelected = 'more-modal__row--selected';
         }
 
+        const status = option.delete_at ? null : UserStore.getStatus(option.id);
+
         return (
             <div
                 key={option.id}
@@ -258,7 +260,7 @@ export default class MoreDirectChannels extends React.Component {
             >
                 <ProfilePicture
                     src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}
-                    status={`${UserStore.getStatus(option.id)}`}
+                    status={status}
                     width='32'
                     height='32'
                 />
