@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import {batchActions} from 'redux-batched-actions';
-import {createTransform, persistStore} from 'redux-persist';
 
 import localForage from "localforage";
 import { extendPrototype } from "localforage-observable";
@@ -10,6 +9,7 @@ import { extendPrototype } from "localforage-observable";
 import {General, RequestStatus} from 'mattermost-redux/constants';
 import configureServiceStore from 'mattermost-redux/store';
 import reduxInitialState from 'mattermost-redux/store/initial_state';
+import {createTransform, persistStore} from 'mattermost-redux/store/persist';
 
 import {storageRehydrate} from 'actions/storage';
 
