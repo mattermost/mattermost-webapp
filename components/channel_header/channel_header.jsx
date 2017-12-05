@@ -77,6 +77,7 @@ export default class ChannelHeader extends React.Component {
             showEditChannelPurposeModal: false,
             showMembersModal: false,
             showRenameChannelModal: false,
+            showChannelNotificationsModal: false,
             isBusy: WebrtcStore.isBusy()
         };
     }
@@ -164,6 +165,20 @@ export default class ChannelHeader extends React.Component {
     hideRenameChannelModal = () => {
         this.setState({
             showRenameChannelModal: false
+        });
+    }
+
+    showChannelNotificationsModal = (e) => {
+        e.preventDefault();
+
+        this.setState({
+            showChannelNotificationsModal: true
+        });
+    }
+
+    hideChannelNotificationsModal = () => {
+        this.setState({
+            showChannelNotificationsModal: false
         });
     }
 
@@ -392,22 +407,17 @@ export default class ChannelHeader extends React.Component {
                     key='notification_preferences'
                     role='presentation'
                 >
-                    <ToggleModalButtonRedux
-                        id='channelnotificationPreferencesGroup'
+                    <button
+                        className='style--none'
+                        id='channelNotificationsGroup'
                         role='menuitem'
-                        modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
-                        dialogType={ChannelNotificationsModal}
-                        dialogProps={{
-                            channel,
-                            channelMember: this.props.channelMember,
-                            currentUser: this.props.currentUser
-                        }}
+                        onClick={this.showChannelNotificationsModal}
                     >
                         <FormattedMessage
                             id='channel_header.notificationPreferences'
                             defaultMessage='Notification Preferences'
                         />
-                    </ToggleModalButtonRedux>
+                    </button>
                 </li>
             );
 
@@ -476,22 +486,17 @@ export default class ChannelHeader extends React.Component {
                     key='notification_preferences'
                     role='presentation'
                 >
-                    <ToggleModalButtonRedux
-                        id='channelNotificationPreferences'
+                    <button
+                        className='style--none'
+                        id='channelNotificationsGroup'
                         role='menuitem'
-                        modalId={ModalIdentifiers.CHANNEL_NOTIFICATIONS}
-                        dialogType={ChannelNotificationsModal}
-                        dialogProps={{
-                            channel,
-                            channelMember: this.props.channelMember,
-                            currentUser: this.props.currentUser
-                        }}
+                        onClick={this.showChannelNotificationsModal}
                     >
                         <FormattedMessage
                             id='channel_header.notificationPreferences'
                             defaultMessage='Notification Preferences'
                         />
-                    </ToggleModalButtonRedux>
+                    </button>
                 </li>
             );
 
@@ -979,6 +984,13 @@ export default class ChannelHeader extends React.Component {
                 {editHeaderModal}
                 {editPurposeModal}
                 {channelMembersModal}
+                <ChannelNotificationsModal
+                    show={this.state.showChannelNotificationsModal}
+                    onHide={this.hideChannelNotificationsModal}
+                    channel={channel}
+                    channelMember={this.props.channelMember}
+                    currentUser={this.props.currentUser}
+                />
                 <RenameChannelModal
                     show={this.state.showRenameChannelModal}
                     onHide={this.hideRenameChannelModal}

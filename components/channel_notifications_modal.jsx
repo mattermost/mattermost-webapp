@@ -20,7 +20,6 @@ export default class ChannelNotificationsModal extends React.Component {
         super(props);
 
         this.updateSection = this.updateSection.bind(this);
-        this.onHide = this.onHide.bind(this);
 
         this.handleSubmitDesktopNotifyLevel = this.handleSubmitDesktopNotifyLevel.bind(this);
         this.handleUpdateDesktopNotifyLevel = this.handleUpdateDesktopNotifyLevel.bind(this);
@@ -36,7 +35,6 @@ export default class ChannelNotificationsModal extends React.Component {
 
         this.state = {
             activeSection: '',
-            show: true,
             notifyLevel: props.channelMember.notify_props.desktop,
             unreadLevel: props.channelMember.notify_props.mark_unread,
             pushLevel: props.channelMember.notify_props.push || NotificationLevels.DEFAULT
@@ -48,10 +46,6 @@ export default class ChannelNotificationsModal extends React.Component {
             $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
         }
         this.setState({activeSection: section});
-    }
-
-    onHide() {
-        this.setState({show: false});
     }
 
     handleSubmitDesktopNotifyLevel() {
@@ -608,9 +602,9 @@ export default class ChannelNotificationsModal extends React.Component {
 
         return (
             <Modal
-                show={this.state.show}
+                show={this.props.show}
                 dialogClassName='settings-modal settings-modal--tabless'
-                onHide={this.onHide}
+                onHide={this.props.onHide}
                 onExited={this.props.onHide}
             >
                 <Modal.Header closeButton={true}>
@@ -647,6 +641,7 @@ export default class ChannelNotificationsModal extends React.Component {
 }
 
 ChannelNotificationsModal.propTypes = {
+    show: PropTypes.bool.isRequired,
     onHide: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
     channelMember: PropTypes.object.isRequired,

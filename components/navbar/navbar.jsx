@@ -63,6 +63,7 @@ export default class Navbar extends React.Component {
             showMembersModal: false,
             showRenameChannelModal: false,
             showQuickSwitchModal: false,
+            showChannelNotificationsModal: false,
             quickSwitchMode: 'channel'
         };
     }
@@ -164,6 +165,20 @@ export default class Navbar extends React.Component {
     hideEditChannelHeaderModal = () => {
         this.setState({
             showEditChannelHeaderModal: false
+        });
+    }
+
+    showChannelNotificationsModal = (e) => {
+        e.preventDefault();
+
+        this.setState({
+            showChannelNotificationsModal: true
+        });
+    }
+
+    hideChannelNotificationsModal = () => {
+        this.setState({
+            showChannelNotificationsModal: false
         });
     }
 
@@ -275,7 +290,7 @@ export default class Navbar extends React.Component {
                         >
                             <FormattedMessage
                                 id='channel_header.channelHeader'
-                                defaultMessage='Set Channel Header...'
+                                defaultMessage='Edit Channel Header'
                             />
                         </a>
                     </li>
@@ -290,7 +305,7 @@ export default class Navbar extends React.Component {
                         >
                             <FormattedMessage
                                 id='channel_header.channelHeader'
-                                defaultMessage='Set Channel Header...'
+                                defaultMessage='Edit Channel Header'
                             />
                         </a>
                     </li>
@@ -298,20 +313,16 @@ export default class Navbar extends React.Component {
 
                 notificationPreferenceOption = (
                     <li role='presentation'>
-                        <ToggleModalButton
+                        <a
                             role='menuitem'
-                            dialogType={ChannelNotificationsModal}
-                            dialogProps={{
-                                channel,
-                                channelMember: this.state.member,
-                                currentUser: this.state.currentUser
-                            }}
+                            href='#'
+                            onClick={this.showChannelNotificationsModal}
                         >
                             <FormattedMessage
                                 id='navbar.preferences'
                                 defaultMessage='Notification Preferences'
                             />
-                        </ToggleModalButton>
+                        </a>
                     </li>
                 );
 
@@ -438,20 +449,16 @@ export default class Navbar extends React.Component {
 
                 notificationPreferenceOption = (
                     <li role='presentation'>
-                        <ToggleModalButton
+                        <a
                             role='menuitem'
-                            dialogType={ChannelNotificationsModal}
-                            dialogProps={{
-                                channel,
-                                channelMember: this.state.member,
-                                currentUser: this.state.currentUser
-                            }}
+                            href='#'
+                            onClick={this.showChannelNotificationsModal}
                         >
                             <FormattedMessage
                                 id='navbar.preferences'
                                 defaultMessage='Notification Preferences'
                             />
-                        </ToggleModalButton>
+                        </a>
                     </li>
                 );
 
@@ -710,6 +717,7 @@ export default class Navbar extends React.Component {
         var editChannelPurposeModal = null;
         let renameChannelModal = null;
         let channelMembersModal = null;
+        let channelNotificationsModal = null;
         let quickSwitchModal = null;
 
         if (channel) {
@@ -762,6 +770,16 @@ export default class Navbar extends React.Component {
                 );
             }
 
+            channelNotificationsModal = (
+                <ChannelNotificationsModal
+                    show={this.state.showChannelNotificationsModal}
+                    onHide={this.hideChannelNotificationsModal}
+                    channel={channel}
+                    channelMember={this.state.member}
+                    currentUser={this.state.currentUser}
+                />
+            );
+
             quickSwitchModal = (
                 <QuickSwitchModal
                     show={this.state.showQuickSwitchModal}
@@ -813,6 +831,7 @@ export default class Navbar extends React.Component {
                 {editChannelPurposeModal}
                 {renameChannelModal}
                 {channelMembersModal}
+                {channelNotificationsModal}
                 {quickSwitchModal}
             </div>
         );
