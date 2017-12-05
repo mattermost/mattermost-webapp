@@ -389,6 +389,23 @@ export default class PluginManagement extends React.Component {
         }
 
         const enableUploads = this.props.config.PluginSettings.EnableUploads;
+        let uploadHelpText;
+        if (enableUploads) {
+            uploadHelpText = (
+                <FormattedHTMLMessage
+                    id='admin.plugin.uploadDesc'
+                    defaultMessage='Upload a plugin for your Mattermost server. See <a href="https://about.mattermost.com/default-plugin-uploads" target="_blank">documentation</a> to learn more.'
+                />
+            );
+        } else {
+            uploadHelpText = (
+                <FormattedHTMLMessage
+                    id='admin.plugin.uploadDisabledDesc'
+                    defaultMessage='To enable plugin uploads, go to <strong>Plugins > Configuration</strong>. See <a href="https://about.mattermost.com/default-plugin-uploads" target="_blank">documentation</a> to learn more.'
+                />
+            );
+        }
+
         const uploadBtnClass = enableUploads ? 'btn btn-primary' : 'btn';
 
         return (
@@ -443,10 +460,7 @@ export default class PluginManagement extends React.Component {
                             </div>
                             {serverError}
                             <p className='help-text'>
-                                <FormattedHTMLMessage
-                                    id='admin.plugin.uploadDesc'
-                                    defaultMessage='Upload a plugin for your Mattermost server. See <a href="https://about.mattermost.com/default-plugin-uploads" target="_blank">documentation</a> to learn more.'
-                                />
+                                {uploadHelpText}
                             </p>
                         </div>
                     </div>
