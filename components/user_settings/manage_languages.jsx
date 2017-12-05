@@ -43,8 +43,10 @@ export default class ManageLanguage extends React.Component {
 
         updateUser(user, Constants.UserUpdateEvents.LANGUAGE,
             () => {
-                GlobalActions.newLocalizationSelected(user.locale);
                 this.setState({isSaving: false});
+                setTimeout(() => {
+                    GlobalActions.newLocalizationSelected(user.locale);
+                }, 0);
             },
             (err) => {
                 let serverError;
