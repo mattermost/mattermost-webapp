@@ -427,15 +427,6 @@ export const Constants = {
     STAT_MAX_ACTIVE_USERS: 20,
     STAT_MAX_NEW_USERS: 20,
 
-    UserUpdateEvents: {
-        USERNAME: 'username',
-        FULLNAME: 'fullname',
-        NICKNAME: 'nickname',
-        EMAIL: 'email',
-        LANGUAGE: 'language',
-        POSITION: 'position'
-    },
-
     ScrollTypes: {
         FREE: 1,
         BOTTOM: 2,
