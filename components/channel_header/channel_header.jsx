@@ -274,7 +274,7 @@ export default class ChannelHeader extends React.Component {
 
             const webrtcEnabled = global.mm_config.EnableWebrtc === 'true' && userMedia && Utils.isFeatureEnabled(PreReleaseFeatures.WEBRTC_PREVIEW);
 
-            if (webrtcEnabled) {
+            if (!webrtcEnabled) {
                 const isOffline = dmUserStatus === UserStatuses.OFFLINE;
                 const busy = this.props.dmUserIsInCall;
                 let circleClass = '';
@@ -311,7 +311,7 @@ export default class ChannelHeader extends React.Component {
                 );
 
                 webrtc = (
-                    <div className='webrtc__header channel-header__icon'>
+                    <div className={'webrtc__header channel-header__icon wide text ' + circleClass}>
                         <button
                             className='style--none'
                             onClick={() => this.initWebrtc(dmUserId, !isOffline)}
@@ -327,7 +327,7 @@ export default class ChannelHeader extends React.Component {
                                     id='webrtc-btn'
                                     className={'webrtc__button ' + circleClass}
                                 >
-                                    <span dangerouslySetInnerHTML={{__html: Constants.VIDEO_ICON}}/>
+                                    {'WebRTC'}
                                 </div>
                             </OverlayTrigger>
                         </button>
