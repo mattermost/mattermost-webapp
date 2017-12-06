@@ -274,7 +274,7 @@ export default class ChannelHeader extends React.Component {
 
             const webrtcEnabled = global.mm_config.EnableWebrtc === 'true' && userMedia && Utils.isFeatureEnabled(PreReleaseFeatures.WEBRTC_PREVIEW);
 
-            if (!webrtcEnabled) {
+            if (webrtcEnabled) {
                 const isOffline = dmUserStatus === UserStatuses.OFFLINE;
                 const busy = this.props.dmUserIsInCall;
                 let circleClass = '';
