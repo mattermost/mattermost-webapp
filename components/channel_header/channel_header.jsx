@@ -27,6 +27,7 @@ import ChannelInfoModal from 'components/channel_info_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
 import ChannelNotificationsModal from 'components/channel_notifications_modal';
+import ConvertChannelModal from 'components/convert_channel_modal';
 import DeleteChannelModal from 'components/delete_channel_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
@@ -726,6 +727,28 @@ export default class ChannelHeader extends React.Component {
                             </button>
                         </li>
                     </ChannelPermissionGate>
+                );
+            }
+
+            if (ChannelUtils.showConvertOption(channel, isTeamAdmin, isSystemAdmin)) {
+                dropdownContents.push(
+                    <li
+                        key='convert_channel'
+                        role='presentation'
+                    >
+                        <ToggleModalButtonRedux
+                            id='channelConvert'
+                            role='menuitem'
+                            modalId={ModalIdentifiers.CONVERT_CHANNEL}
+                            dialogType={ConvertChannelModal}
+                            dialogProps={{channel}}
+                        >
+                            <FormattedMessage
+                                id='channel_header.convert'
+                                defaultMessage='Convert to Private Channel'
+                            />
+                        </ToggleModalButtonRedux>
+                    </li>
                 );
             }
 

@@ -78,6 +78,22 @@ export function canManageMembers(channel) {
     return true;
 }
 
+export function showConvertOption(channel, isTeamAdmin, isSystemAdmin) {
+    if (ChannelUtilsRedux.isDefault(channel)) {
+        return false;
+    }
+
+    if (channel.type === Constants.PRIVATE_CHANNEL) {
+        return false;
+    }
+
+    if (!isTeamAdmin && !isSystemAdmin) {
+        return false;
+    }
+
+    return true;
+}
+
 export function getCountsStateFromStores(team = TeamStore.getCurrent(), teamMembers = TeamStore.getMyTeamMembers(), unreadCounts = ChannelStore.getUnreadCounts()) {
     let mentionCount = 0;
     let messageCount = 0;

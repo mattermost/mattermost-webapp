@@ -286,6 +286,7 @@ export const ModalIdentifiers = {
     CREATE_DM_CHANNEL: 'create_dm_channel',
     EDIT_CHANNEL_HEADER: 'edit_channel_header',
     DELETE_POST: 'delete_post',
+    CONVERT_CHANNEL: 'convert_channel',
 };
 
 export const UserStatuses = {
