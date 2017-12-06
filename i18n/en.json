@@ -1441,6 +1441,7 @@
   "custom_emoji.search": "Search Custom Emoji",
   "deactivate_member_modal.cancel": "Cancel",
   "deactivate_member_modal.deactivate": "Deactivate",
+  "deactivate_member_modal.sso_warning": "You must also deactivate this user in the SSO provider or they will be reactivated on next login or sync.",
   "deactivate_member_modal.desc": "This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system. Are you sure you want to deactivate {username}?",
   "deactivate_member_modal.title": "Deactivate {username}",
   "default_channel.purpose": "Post messages here that you want everyone to see. Everyone automatically becomes a permanent member of this channel when they join the team.",
