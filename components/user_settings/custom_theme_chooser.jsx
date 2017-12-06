@@ -143,7 +143,7 @@ class CustomThemeChooser extends React.Component {
 
             // For backwards compatability
             if (settingId === 'mentionBg') {
-                newTheme['mentionBj'] = color;
+                newTheme.mentionBj = color;
             }
 
             updateTheme(newTheme);
