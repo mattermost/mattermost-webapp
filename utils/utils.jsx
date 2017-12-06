@@ -1095,6 +1095,16 @@ export function displayUsernameForUser(user) {
 }
 
 /**
+ * Sort users according to display name, respecting the TeammateNameDisplay configuration setting
+ */
+export function sortUsersByDisplayName(a, b) {
+    const aName = displayUsernameForUser(a);
+    const bName = displayUsernameForUser(b);
+
+    return aName.localeCompare(bName);
+}
+
+/**
  * Gets the entire name, including username, full name, and nickname, of the user with the specified id
  */
 export function displayEntireName(userId) {

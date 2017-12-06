@@ -12,8 +12,9 @@ import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
-import Constants from 'utils/constants.jsx';
+import Constants, {UserStatusesWeight} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
+import * as Utils from 'utils/utils.jsx';
 
 import ChannelMembersDropdown from 'components/channel_members_dropdown';
 import SearchableUserList from 'components/searchable_user_list/searchable_user_list_container.jsx';
@@ -144,7 +145,9 @@ export default class MemberListChannel extends React.Component {
                 const user = users[i];
 
                 if (teamMembers[user.id] && channelMembers[user.id] && user.delete_at === 0) {
-                    usersToDisplay.push(user);
+                    const status = UserStore.getStatus(user.id);
+                    usersToDisplay.push({...user, status});
+
                     actionUserProps[user.id] = {
                         channel: this.props.channel,
                         teamMember: teamMembers[user.id],
@@ -152,6 +155,10 @@ export default class MemberListChannel extends React.Component {
                     };
                 }
             }
+
+            usersToDisplay.sort((a, b) => {
+                return UserStatusesWeight[a.status] - UserStatusesWeight[b.status] || Utils.sortUsersByDisplayName(a, b);
+            });
         }
 
         return (

@@ -17,7 +17,7 @@ import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
 import {canManageMembers} from 'utils/channel_utils.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants, {UserStatusesWeight} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import ChannelInviteModal from 'components/channel_invite_modal';
@@ -90,7 +90,6 @@ export default class PopoverListMembers extends React.Component {
     render() {
         let popoverButton;
         const popoverHtml = [];
-        const members = this.props.members;
         const teamMembers = UserStore.getProfilesUsernameMap();
         const currentUserId = UserStore.getCurrentId();
 
@@ -98,15 +97,15 @@ export default class PopoverListMembers extends React.Component {
         const isTeamAdmin = TeamStore.isTeamAdminForCurrentTeam();
         const isChannelAdmin = ChannelStore.isChannelAdminForCurrentChannel();
 
-        if (members && teamMembers) {
-            members.sort((a, b) => {
-                const aName = Utils.displayUsernameForUser(a);
-                const bName = Utils.displayUsernameForUser(b);
-
-                return aName.localeCompare(bName);
+        if (this.props.members && teamMembers) {
+            const sortedMembers = this.props.members.map((member) => {
+                const status = UserStore.getStatus(member.id);
+                return {...member, status};
+            }).sort((a, b) => {
+                return UserStatusesWeight[a.status] - UserStatusesWeight[b.status] || Utils.sortUsersByDisplayName(a, b);
             });
 
-            members.forEach((m, i) => {
+            sortedMembers.forEach((m, i) => {
                 let messageIcon;
                 if (currentUserId !== m.id && this.props.channel.type !== Constants.DM_CHANNEl) {
                     messageIcon = (
@@ -131,6 +130,7 @@ export default class PopoverListMembers extends React.Component {
                         >
                             <ProfilePicture
                                 src={Client4.getProfilePictureUrl(m.id, m.last_picture_update)}
+                                status={m.status}
                                 width='40'
                                 height='40'
                             />
