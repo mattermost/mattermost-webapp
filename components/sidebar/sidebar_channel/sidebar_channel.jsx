@@ -4,26 +4,29 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
+import {browserHistory} from 'react-router';
 
 import {Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import * as GlobalActions from 'actions/global_actions.jsx';
 
-import SidebarChannelButtonOrLink from './sidebar_channel_button_or_link/sidebar_channel_button_or_link.jsx';
-import SidebarTutorialTip from './sidebar_tutorial_tip.jsx';
+import SidebarChannelButtonOrLink from '../sidebar_channel_button_or_link/sidebar_channel_button_or_link.jsx';
+import SidebarTutorialTip from '../sidebar_tutorial_tip.jsx';
 
 export default class SidebarChannel extends React.PureComponent {
     static propTypes = {
-        channelDisplayName: PropTypes.string.isRequired,
-        channelName: PropTypes.string.isRequired,
+        config: PropTypes.object.isRequired,
         channelId: PropTypes.string.isRequired,
+        channelName: PropTypes.string.isRequired,
+        channelDisplayName: PropTypes.string.isRequired,
         channelType: PropTypes.string.isRequired,
         channelStatus: PropTypes.string,
-        channelFake: PropTypes.string,
+        channelFake: PropTypes.bool,
+        channelStringified: PropTypes.string,
         channelTeammateId: PropTypes.string,
-        channelTeammateDeletedAt: PropTypes.instanceOf(Date),
-        stringifiedChannel: PropTypes.string,
+        channelTeammateDeletedAt: PropTypes.number,
         index: PropTypes.number,
-        handleClose: PropTypes.func,
         membership: PropTypes.object,
         unreadMsgs: PropTypes.number.isRequired,
         unreadMentions: PropTypes.number.isRequired,
@@ -34,8 +37,14 @@ export default class SidebarChannel extends React.PureComponent {
         showTutorialTip: PropTypes.bool.isRequired,
         townSquareDisplayName: PropTypes.string,
         offTopicDisplayName: PropTypes.string,
-        membersCount: PropTypes.number.isRequired
+        membersCount: PropTypes.number.isRequired,
+        actions: PropTypes.shape({
+            savePreferences: PropTypes.func.isRequired,
+            leaveChannel: PropTypes.func.isRequired
+        }).isRequired
     }
+
+    isLeaving = false;
 
     openLeftSidebar = () => {
         if (Utils.isMobile()) {
@@ -46,7 +55,57 @@ export default class SidebarChannel extends React.PureComponent {
         }
     }
 
+    handleLeavePublicChannel = () => {
+        this.props.actions.leaveChannel(this.props.channelId);
+        trackEvent('ui', 'ui_public_channel_x_button_clicked');
+    }
+
+    handleLeavePrivateChannel = () => {
+        GlobalActions.showLeavePrivateChannelModal({id: this.props.channelId, display_name: this.props.channelDisplayName});
+        trackEvent('ui', 'ui_private_channel_x_button_clicked');
+    }
+
+    handleLeaveDirectChannel = () => {
+        if (!this.isLeaving) {
+            this.isLeaving = true;
+
+            let id;
+            let category;
+            if (this.props.channelType === Constants.DM_CHANNEL) {
+                id = this.props.channelTeammateId;
+                category = Constants.Preferences.CATEGORY_DIRECT_CHANNEL_SHOW;
+            } else {
+                id = this.props.channelId;
+                category = Constants.Preferences.CATEGORY_GROUP_CHANNEL_SHOW;
+            }
+
+            const currentUserId = this.props.currentUserId;
+            this.props.actions.savePreferences(currentUserId, [{user_id: currentUserId, category, name: id, value: 'false'}]).then(
+                () => {
+                    this.isLeaving = false;
+                }
+            );
+
+            trackEvent('ui', 'ui_direct_channel_x_button_clicked');
+        }
+
+        if (this.props.active) {
+            browserHistory.push('/' + this.props.currentTeamName + '/channels/town-square');
+        }
+    }
+
     render = () => {
+        let closeHandler = null;
+        if (this.props.channelType === Constants.DM_CHANNEL || this.props.channelType === Constants.GM_CHANNEL) {
+            closeHandler = this.handleLeaveDirectChannel;
+        } else if (this.props.config.EnableXToLeaveChannelsFromLHS === 'true') {
+            if (this.props.channelType === Constants.OPEN_CHANNEL && this.props.channelName !== Constants.DEFAULT_CHANNEL) {
+                closeHandler = this.handleLeavePublicChannel;
+            } else if (this.props.channelType === Constants.PRIVATE_CHANNEL) {
+                closeHandler = this.handleLeavePrivateChannel;
+            }
+        }
+
         let linkClass = '';
         if (this.props.active) {
             linkClass = 'active';
@@ -77,7 +136,7 @@ export default class SidebarChannel extends React.PureComponent {
             rowClass += ' has-badge';
         }
 
-        if (this.props.handleClose && !badge) {
+        if (closeHandler && !badge) {
             rowClass += ' has-close';
         }
 
@@ -94,7 +153,7 @@ export default class SidebarChannel extends React.PureComponent {
 
         let link = '';
         if (this.props.channelFake) {
-            link = '/' + this.props.currentTeamName + '/channels/' + this.props.channelName + '?fakechannel=' + encodeURIComponent(this.props.stringifiedChannel);
+            link = '/' + this.props.currentTeamName + '/channels/' + this.props.channelName + '?fakechannel=' + encodeURIComponent(this.props.channelStringified);
         } else {
             link = '/' + this.props.currentTeamName + '/channels/' + this.props.channelName;
         }
@@ -117,7 +176,7 @@ export default class SidebarChannel extends React.PureComponent {
         return (
             <li
                 key={this.props.channelName}
-                ref={this.props.channelName}
+                ref={'channel'}
                 className={linkClass}
             >
                 <SidebarChannelButtonOrLink
@@ -127,7 +186,7 @@ export default class SidebarChannel extends React.PureComponent {
                     channelStatus={this.props.channelStatus}
                     channelType={this.props.channelType}
                     displayName={displayName}
-                    handleClose={this.props.handleClose}
+                    handleClose={closeHandler}
                     badge={badge}
                     unreadMentions={this.props.unreadMentions}
                     membersCount={this.props.membersCount}

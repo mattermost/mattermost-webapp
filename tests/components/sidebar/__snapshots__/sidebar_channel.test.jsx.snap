@@ -15,7 +15,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     link="/current-team/channels/channel-name"
     membersCount={8}
     rowClass="sidebar-item has-close"
-    teammateDeletedAt={2017-01-31T23:00:00.000Z}
+    teammateDeletedAt={1}
     teammateId="teammate-id"
     unreadMentions={0}
   />
@@ -37,7 +37,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     link="/current-team/channels/channel-name"
     membersCount={8}
     rowClass="sidebar-item has-close"
-    teammateDeletedAt={2017-01-31T23:00:00.000Z}
+    teammateDeletedAt={1}
     teammateId="teammate-id"
     unreadMentions={0}
   />
@@ -51,15 +51,15 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
 >
   <SidebarChannelButtonOrLink
     badge={null}
-    channelId="test-channel-id"
+    channelId="test"
     channelStatus="test"
-    channelType="D"
-    displayName="Channel display name"
-    handleClose={[Function]}
+    channelType="O"
+    displayName="Town Square"
+    handleClose={null}
     link="/current-team/channels/town-square"
     membersCount={8}
-    rowClass="sidebar-item has-close"
-    teammateDeletedAt={2017-01-31T23:00:00.000Z}
+    rowClass="sidebar-item"
+    teammateDeletedAt={1}
     teammateId="teammate-id"
     unreadMentions={0}
   />
@@ -85,7 +85,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     link="/current-team/channels/channel-name"
     membersCount={8}
     rowClass="sidebar-item unread-title has-badge"
-    teammateDeletedAt={2017-01-31T23:00:00.000Z}
+    teammateDeletedAt={1}
     teammateId="teammate-id"
     unreadMentions={4}
   />
@@ -107,7 +107,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     link="/current-team/channels/channel-name"
     membersCount={8}
     rowClass="sidebar-item"
-    teammateDeletedAt={2017-01-31T23:00:00.000Z}
+    teammateDeletedAt={1}
     teammateId="teammate-id"
     unreadMentions={0}
   />
@@ -129,7 +129,51 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     link="/current-team/channels/channel-name"
     membersCount={8}
     rowClass="sidebar-item unread-title has-close"
-    teammateDeletedAt={2017-01-31T23:00:00.000Z}
+    teammateDeletedAt={1}
+    teammateId="teammate-id"
+    unreadMentions={0}
+  />
+</li>
+`;
+
+exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on default channel show 1`] = `
+<li
+  className=""
+  key="town-square"
+>
+  <SidebarChannelButtonOrLink
+    badge={null}
+    channelId="test-channel-id"
+    channelStatus="test"
+    channelType="P"
+    displayName="Channel display name"
+    handleClose={null}
+    link="/current-team/channels/town-square"
+    membersCount={8}
+    rowClass="sidebar-item"
+    teammateDeletedAt={1}
+    teammateId="teammate-id"
+    unreadMentions={0}
+  />
+</li>
+`;
+
+exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on default channel show with enable X to close 1`] = `
+<li
+  className=""
+  key="town-square"
+>
+  <SidebarChannelButtonOrLink
+    badge={null}
+    channelId="test-channel-id"
+    channelStatus="test"
+    channelType="O"
+    displayName="Channel display name"
+    handleClose={null}
+    link="/current-team/channels/town-square"
+    membersCount={8}
+    rowClass="sidebar-item"
+    teammateDeletedAt={1}
     teammateId="teammate-id"
     unreadMentions={0}
   />
@@ -148,10 +192,54 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     channelType="D"
     displayName="Channel display name"
     handleClose={[Function]}
-    link="/current-team/channels/channel-name?fakechannel=%7B%7D"
+    link="/current-team/channels/channel-name?fakechannel=%7B%22display_name%22%3A%22Channel%20display%20name%22%2C%22name%22%3A%22channel-name%22%2C%22type%22%3A%22D%22%2C%22id%22%3A%22test-channel-id%22%2C%22status%22%3A%22test%22%2C%22fake%22%3Atrue%7D"
     membersCount={8}
     rowClass="sidebar-item has-close"
-    teammateDeletedAt={2017-01-31T23:00:00.000Z}
+    teammateDeletedAt={1}
+    teammateId="teammate-id"
+    unreadMentions={0}
+  />
+</li>
+`;
+
+exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on group channel show 1`] = `
+<li
+  className=""
+  key="channel-name"
+>
+  <SidebarChannelButtonOrLink
+    badge={null}
+    channelId="test-channel-id"
+    channelStatus="test"
+    channelType="P"
+    displayName="Channel display name"
+    handleClose={null}
+    link="/current-team/channels/channel-name"
+    membersCount={8}
+    rowClass="sidebar-item"
+    teammateDeletedAt={1}
+    teammateId="teammate-id"
+    unreadMentions={0}
+  />
+</li>
+`;
+
+exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on group channel show with enable X to close 1`] = `
+<li
+  className=""
+  key="channel-name"
+>
+  <SidebarChannelButtonOrLink
+    badge={null}
+    channelId="test-channel-id"
+    channelStatus="test"
+    channelType="P"
+    displayName="Channel display name"
+    handleClose={[Function]}
+    link="/current-team/channels/channel-name"
+    membersCount={8}
+    rowClass="sidebar-item has-close"
+    teammateDeletedAt={1}
     teammateId="teammate-id"
     unreadMentions={0}
   />
@@ -183,8 +271,96 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     link="/current-team/channels/channel-name"
     membersCount={8}
     rowClass="sidebar-item has-close"
-    teammateDeletedAt={2017-01-31T23:00:00.000Z}
+    teammateDeletedAt={1}
     teammateId="myself"
+    unreadMentions={0}
+  />
+</li>
+`;
+
+exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on private channel show 1`] = `
+<li
+  className=""
+  key="channel-name"
+>
+  <SidebarChannelButtonOrLink
+    badge={null}
+    channelId="test-channel-id"
+    channelStatus="test"
+    channelType="P"
+    displayName="Channel display name"
+    handleClose={null}
+    link="/current-team/channels/channel-name"
+    membersCount={8}
+    rowClass="sidebar-item"
+    teammateDeletedAt={1}
+    teammateId="teammate-id"
+    unreadMentions={0}
+  />
+</li>
+`;
+
+exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on private channel show with enable X to close 1`] = `
+<li
+  className=""
+  key="channel-name"
+>
+  <SidebarChannelButtonOrLink
+    badge={null}
+    channelId="test-channel-id"
+    channelStatus="test"
+    channelType="P"
+    displayName="Channel display name"
+    handleClose={[Function]}
+    link="/current-team/channels/channel-name"
+    membersCount={8}
+    rowClass="sidebar-item has-close"
+    teammateDeletedAt={1}
+    teammateId="teammate-id"
+    unreadMentions={0}
+  />
+</li>
+`;
+
+exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on public channel show 1`] = `
+<li
+  className=""
+  key="channel-name"
+>
+  <SidebarChannelButtonOrLink
+    badge={null}
+    channelId="test-channel-id"
+    channelStatus="test"
+    channelType="O"
+    displayName="Channel display name"
+    handleClose={null}
+    link="/current-team/channels/channel-name"
+    membersCount={8}
+    rowClass="sidebar-item"
+    teammateDeletedAt={1}
+    teammateId="teammate-id"
+    unreadMentions={0}
+  />
+</li>
+`;
+
+exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on public channel show with enable X to close 1`] = `
+<li
+  className=""
+  key="channel-name"
+>
+  <SidebarChannelButtonOrLink
+    badge={null}
+    channelId="test-channel-id"
+    channelStatus="test"
+    channelType="O"
+    displayName="Channel display name"
+    handleClose={[Function]}
+    link="/current-team/channels/channel-name"
+    membersCount={8}
+    rowClass="sidebar-item has-close"
+    teammateDeletedAt={1}
+    teammateId="teammate-id"
     unreadMentions={0}
   />
 </li>

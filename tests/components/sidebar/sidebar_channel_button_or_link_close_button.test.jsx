@@ -84,7 +84,7 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
             />
         );
         expect(mock).not.toBeCalled();
-        wrapper.find('.btn-close').simulate('click', {stopPropagation: jest.fn()});
+        wrapper.find('.btn-close').simulate('click', {stopPropagation: jest.fn(), preventDefault: jest.fn()});
         expect(mock).toBeCalled();
     });
 });

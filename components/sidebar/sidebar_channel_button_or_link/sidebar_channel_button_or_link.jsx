@@ -28,7 +28,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         membersCount: PropTypes.number.isRequired,
         unreadMentions: PropTypes.number,
         teammateId: PropTypes.string,
-        teammateDeletedAt: PropTypes.instanceOf(Date)
+        teammateDeletedAt: PropTypes.number
     }
 
     trackChannelSelectedEvent = () => {
@@ -74,6 +74,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
                         handleClose={this.props.handleClose}
                         channelId={this.props.channelId}
                         channelType={this.props.channelType}
+                        teammateId={this.props.teammateId}
                         badge={this.props.badge}
                     />
                 </button>
@@ -99,6 +100,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
                         handleClose={this.props.handleClose}
                         channelId={this.props.channelId}
                         channelType={this.props.channelType}
+                        teammateId={this.props.teammateId}
                         badge={this.props.badge}
                     />
                 </Link>

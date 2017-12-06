@@ -15,7 +15,7 @@ export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent 
         membersCount: PropTypes.number,
         channelStatus: PropTypes.string,
         teammateId: PropTypes.string,
-        teammateDeletedAt: PropTypes.instanceOf(Date)
+        teammateDeletedAt: PropTypes.number
     }
 
     render() {

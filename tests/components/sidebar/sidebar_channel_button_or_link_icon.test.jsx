@@ -26,7 +26,7 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 channelType={Constants.DM_CHANNEL}
                 channelId={'test-channel-id'}
                 teammateId={'test'}
-                teammateDeletedAt={new Date()}
+                teammateDeletedAt={1}
             />
         );
         expect(wrapper).toMatchSnapshot();

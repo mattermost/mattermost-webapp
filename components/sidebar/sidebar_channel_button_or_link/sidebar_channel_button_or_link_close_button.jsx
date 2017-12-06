@@ -13,7 +13,16 @@ export default class SidebarChannelButtonOrLinkCloseButton extends React.PureCom
         handleClose: PropTypes.func,
         channelId: PropTypes.string.isRequired,
         channelType: PropTypes.string.isRequired,
+        teammateId: PropTypes.string,
         badge: PropTypes.string
+    }
+
+    overlayTriggerAttr = ['hover', 'focus']
+
+    handleClose = (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        this.props.handleClose();
     }
 
     render() {
@@ -42,16 +51,13 @@ export default class SidebarChannelButtonOrLinkCloseButton extends React.PureCom
         if (this.props.handleClose && !this.props.badge) {
             closeButton = (
                 <OverlayTrigger
-                    trigger={['hover', 'focus']}
+                    trigger={this.overlayTriggerAttr}
                     delayShow={1000}
                     placement='top'
                     overlay={removeTooltip}
                 >
                     <span
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            this.props.handleClose(e, this.props.channelId);
-                        }}
+                        onClick={this.handleClose}
                         className='btn-close'
                     >
                         {'×'}

@@ -48,7 +48,7 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 membersCount={3}
                 unreadMentions={6}
                 teammateId={'test-teammate-id'}
-                teammateDeletedAt={new Date(2017, 1, 1)}
+                teammateDeletedAt={1}
             />
         );
         expect(wrapper).toMatchSnapshot();
@@ -68,7 +68,7 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 membersCount={3}
                 unreadMentions={6}
                 teammateId={'test-teammate-id'}
-                teammateDeletedAt={new Date(2017, 1, 1)}
+                teammateDeletedAt={1}
             />
         );
         expect(wrapper).toMatchSnapshot();
@@ -87,7 +87,7 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 membersCount={3}
                 unreadMentions={6}
                 teammateId={'test-teammate-id'}
-                teammateDeletedAt={new Date(2017, 1, 1)}
+                teammateDeletedAt={1}
             />
         );
         expect(wrapper).toMatchSnapshot();
@@ -106,7 +106,7 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 membersCount={3}
                 unreadMentions={6}
                 teammateId={'test-teammate-id'}
-                teammateDeletedAt={new Date(2017, 1, 1)}
+                teammateDeletedAt={1}
             />
         );
         const reactRouterMock = require.requireMock('react-router');
@@ -137,7 +137,7 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 membersCount={3}
                 unreadMentions={6}
                 teammateId={'test-teammate-id'}
-                teammateDeletedAt={new Date(2017, 1, 1)}
+                teammateDeletedAt={1}
             />
         );
         expect(wrapper).toMatchSnapshot();
@@ -160,7 +160,7 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 membersCount={3}
                 unreadMentions={6}
                 teammateId={'test-teammate-id'}
-                teammateDeletedAt={new Date(2017, 1, 1)}
+                teammateDeletedAt={1}
             />
         );
         expect(wrapper).toMatchSnapshot();
@@ -182,7 +182,7 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 membersCount={3}
                 unreadMentions={6}
                 teammateId={'test-teammate-id'}
-                teammateDeletedAt={new Date(2017, 1, 1)}
+                teammateDeletedAt={1}
             />
         );
         expect(wrapper).toMatchSnapshot();
@@ -204,7 +204,7 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 membersCount={3}
                 unreadMentions={6}
                 teammateId={'test-teammate-id'}
-                teammateDeletedAt={new Date(2017, 1, 1)}
+                teammateDeletedAt={1}
             />
         );
         const reactRouterMock = require.requireMock('react-router');

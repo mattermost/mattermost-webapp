@@ -10,7 +10,7 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
     channelStatus="test"
     channelType="D"
     membersCount={3}
-    teammateDeletedAt={2017-01-31T23:00:00.000Z}
+    teammateDeletedAt={1}
     teammateId="test-teammate-id"
   />
   <span
@@ -27,6 +27,7 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
     channelId="test-channel-id"
     channelType="D"
     handleClose={[Function]}
+    teammateId="test-teammate-id"
   />
 </button>
 `;
@@ -41,7 +42,7 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
     channelStatus="test"
     channelType="D"
     membersCount={3}
-    teammateDeletedAt={2017-01-31T23:00:00.000Z}
+    teammateDeletedAt={1}
     teammateId="test-teammate-id"
   />
   <span
@@ -59,6 +60,7 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
     channelId="test-channel-id"
     channelType="D"
     handleClose={[Function]}
+    teammateId="test-teammate-id"
   />
 </button>
 `;
@@ -73,7 +75,7 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
     channelStatus="test"
     channelType="D"
     membersCount={3}
-    teammateDeletedAt={2017-01-31T23:00:00.000Z}
+    teammateDeletedAt={1}
     teammateId="test-teammate-id"
   />
   <span
@@ -85,6 +87,7 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
     channelId="test-channel-id"
     channelType="D"
     handleClose={[Function]}
+    teammateId="test-teammate-id"
   />
 </button>
 `;
@@ -102,7 +105,7 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
     channelStatus="test"
     channelType="D"
     membersCount={3}
-    teammateDeletedAt={2017-01-31T23:00:00.000Z}
+    teammateDeletedAt={1}
     teammateId="test-teammate-id"
   />
   <span
@@ -119,6 +122,7 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
     channelId="test-channel-id"
     channelType="D"
     handleClose={[Function]}
+    teammateId="test-teammate-id"
   />
 </Link>
 `;
@@ -136,7 +140,7 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
     channelStatus="test"
     channelType="D"
     membersCount={3}
-    teammateDeletedAt={2017-01-31T23:00:00.000Z}
+    teammateDeletedAt={1}
     teammateId="test-teammate-id"
   />
   <span
@@ -154,6 +158,7 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
     channelId="test-channel-id"
     channelType="D"
     handleClose={[Function]}
+    teammateId="test-teammate-id"
   />
 </Link>
 `;
@@ -171,7 +176,7 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
     channelStatus="test"
     channelType="D"
     membersCount={3}
-    teammateDeletedAt={2017-01-31T23:00:00.000Z}
+    teammateDeletedAt={1}
     teammateId="test-teammate-id"
   />
   <span
@@ -183,6 +188,7 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
     channelId="test-channel-id"
     channelType="D"
     handleClose={[Function]}
+    teammateId="test-teammate-id"
   />
 </Link>
 `;
