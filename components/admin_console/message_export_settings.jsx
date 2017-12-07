@@ -22,7 +22,6 @@ export default class MessageExportSettings extends AdminSettings {
     getConfigFromState(config) {
         config.MessageExportSettings.EnableExport = this.state.enableMessageExport;
         config.MessageExportSettings.DailyRunTime = this.state.exportJobStartTime;
-        config.MessageExportSettings.FileLocation = this.state.exportLocation;
         return config;
     }
 
@@ -30,7 +29,6 @@ export default class MessageExportSettings extends AdminSettings {
         return {
             enableMessageExport: config.MessageExportSettings.EnableExport,
             exportJobStartTime: config.MessageExportSettings.DailyRunTime,
-            exportLocation: config.MessageExportSettings.FileLocation
         };
     }
 
@@ -54,7 +52,7 @@ export default class MessageExportSettings extends AdminSettings {
                     <div className='banner__content'>
                         <FormattedHTMLMessage
                             id='admin.complianceExport.description'
-                            defaultMessage='This feature supports compliance exports to the Actiance XML format, and is currently in beta. Support for the GlobalRelay EML format and the Mattermost CSV format are scheduled for a future release, and will replace the existing <a href=\"/admin_console/general/compliance\">Compliance</a> feature.'
+                            defaultMessage='This feature supports compliance exports to the Actiance XML format, and is currently in beta. Support for the GlobalRelay EML format and the Mattermost CSV format are scheduled for a future release, and will replace the existing <a href=\"/admin_console/general/compliance\">Compliance</a> feature. Compliance Export files will be written to the \"exports\" subdirectory of the configured <a href=\"/admin_console/files/storage\">Local Storage Directory</a>.'
                         />
                     </div>
                 </div>
@@ -114,26 +112,6 @@ export default class MessageExportSettings extends AdminSettings {
                         />
                     }
                     value='actiance'
-                    disabled={!this.state.enableMessageExport}
-                    onChange={this.handleChange}
-                />
-
-                <TextSetting
-                    id='exportLocation'
-                    label={
-                        <FormattedMessage
-                            id='admin.complianceExport.exportLocation.title'
-                            defaultMessage='Export Directory:'
-                        />
-                    }
-                    placeholder={Utils.localizeMessage('admin.complianceExport.exportLocation.example', 'E.g.: /var/mattermost/exports/')}
-                    helpText={
-                        <FormattedHTMLMessage
-                            id='admin.complianceExport.exportLocation.description'
-                            defaultMessage='The directory to write compliance export files to. Must be a subdirectory of the <a href=\"/admin_console/files/storage\">Local Storage Directory</a>. Mattermost must have write access to this directory, and the path that you set must not include a filename.'
-                        />
-                    }
-                    value={this.state.exportLocation}
                     disabled={!this.state.enableMessageExport}
                     onChange={this.handleChange}
                 />
