@@ -12,7 +12,7 @@ import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
-import Constants, {UserStatusesWeight} from 'utils/constants.jsx';
+import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -156,9 +156,7 @@ export default class MemberListChannel extends React.Component {
                 }
             }
 
-            usersToDisplay.sort((a, b) => {
-                return UserStatusesWeight[a.status] - UserStatusesWeight[b.status] || Utils.sortUsersByDisplayName(a, b);
-            });
+            usersToDisplay.sort(Utils.sortUsersByStatusAndDisplayName);
         }
 
         return (

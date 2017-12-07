@@ -17,7 +17,7 @@ import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
 import {canManageMembers} from 'utils/channel_utils.jsx';
-import Constants, {UserStatusesWeight} from 'utils/constants.jsx';
+import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import ChannelInviteModal from 'components/channel_invite_modal';
@@ -101,9 +101,7 @@ export default class PopoverListMembers extends React.Component {
             const sortedMembers = this.props.members.map((member) => {
                 const status = UserStore.getStatus(member.id);
                 return {...member, status};
-            }).sort((a, b) => {
-                return UserStatusesWeight[a.status] - UserStatusesWeight[b.status] || Utils.sortUsersByDisplayName(a, b);
-            });
+            }).sort(Utils.sortUsersByStatusAndDisplayName);
 
             sortedMembers.forEach((m, i) => {
                 let messageIcon;
