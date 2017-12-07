@@ -24,7 +24,7 @@ import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 
 import * as ChannelUtils from 'utils/channel_utils.jsx';
-import {ActionTypes, Constants, UserStatuses} from 'utils/constants.jsx';
+import {ActionTypes, Constants, UserStatuses, RHSStates} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import ChannelInfoModal from 'components/channel_info_modal';
@@ -49,7 +49,8 @@ export default class Navbar extends React.Component {
         teamDisplayName: PropTypes.string,
         isPinnedPosts: PropTypes.bool,
         actions: PropTypes.shape({
-            closeRightHandSide: PropTypes.func
+            closeRightHandSide: PropTypes.func,
+            updateRhsState: PropTypes.func
         })
     };
 
@@ -162,9 +163,7 @@ export default class Navbar extends React.Component {
     }
 
     showSearch = () => {
-        AppDispatcher.handleServerAction({
-            type: ActionTypes.SHOW_SEARCH
-        });
+        this.props.actions.updateRhsState(RHSStates.SEARCH);
     }
 
     onChange = () => {
