@@ -71,6 +71,21 @@
             }
         }
 
+        &.text {
+            font-weight: 600;
+            padding: 0 14px;
+
+            button {
+                @include opacity(.4);
+            }
+
+            &:hover {
+                button {
+                    @include opacity(1);
+                }
+            }
+        }
+
         .icon__text {
             font-weight: 600;
             margin-right: 9px;
