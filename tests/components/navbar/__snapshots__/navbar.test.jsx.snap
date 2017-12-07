@@ -154,24 +154,9 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
               <li
                 role="presentation"
               >
-                <ModalToggleButton
-                  className=""
-                  dialogProps={
-                    Object {
-                      "channel": Object {
-                        "display_name": "display_name",
-                        "id": "channel_id",
-                        "type": "P",
-                      },
-                      "channelMember": Object {
-                        "id": "member_id",
-                      },
-                      "currentUser": Object {
-                        "id": "current_user_id",
-                      },
-                    }
-                  }
-                  dialogType={[Function]}
+                <a
+                  href="#"
+                  onClick={[Function]}
                   role="menuitem"
                 >
                   <FormattedMessage
@@ -179,7 +164,7 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
                     id="navbar.preferences"
                     values={Object {}}
                   />
-                </ModalToggleButton>
+                </a>
               </li>
               <li
                 role="presentation"
@@ -347,6 +332,27 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
     onHide={[Function]}
     show={false}
   />
+  <ChannelNotificationsModal
+    channel={
+      Object {
+        "display_name": "display_name",
+        "id": "channel_id",
+        "type": "P",
+      }
+    }
+    channelMember={
+      Object {
+        "id": "member_id",
+      }
+    }
+    currentUser={
+      Object {
+        "id": "current_user_id",
+      }
+    }
+    onHide={[Function]}
+    show={false}
+  />
   <Connect(QuickSwitchModal)
     initialMode="channel"
     onHide={[Function]}
@@ -509,24 +515,9 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
               <li
                 role="presentation"
               >
-                <ModalToggleButton
-                  className=""
-                  dialogProps={
-                    Object {
-                      "channel": Object {
-                        "display_name": "display_name",
-                        "id": "channel_id",
-                        "type": "O",
-                      },
-                      "channelMember": Object {
-                        "id": "member_id",
-                      },
-                      "currentUser": Object {
-                        "id": "current_user_id",
-                      },
-                    }
-                  }
-                  dialogType={[Function]}
+                <a
+                  href="#"
+                  onClick={[Function]}
                   role="menuitem"
                 >
                   <FormattedMessage
@@ -534,7 +525,7 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
                     id="navbar.preferences"
                     values={Object {}}
                   />
-                </ModalToggleButton>
+                </a>
               </li>
               <li
                 role="presentation"
@@ -702,6 +693,27 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
     onHide={[Function]}
     show={false}
   />
+  <ChannelNotificationsModal
+    channel={
+      Object {
+        "display_name": "display_name",
+        "id": "channel_id",
+        "type": "O",
+      }
+    }
+    channelMember={
+      Object {
+        "id": "member_id",
+      }
+    }
+    currentUser={
+      Object {
+        "id": "current_user_id",
+      }
+    }
+    onHide={[Function]}
+    show={false}
+  />
   <Connect(QuickSwitchModal)
     initialMode="channel"
     onHide={[Function]}
@@ -831,7 +843,7 @@ exports[`components/navbar/Navbar should match snapshot, if enabled WebRTC and D
                   role="menuitem"
                 >
                   <FormattedMessage
-                    defaultMessage="Set Channel Header..."
+                    defaultMessage="Edit Channel Header"
                     id="channel_header.channelHeader"
                     values={Object {}}
                   />
@@ -872,6 +884,28 @@ exports[`components/navbar/Navbar should match snapshot, if enabled WebRTC and D
         "id": "channel_id",
         "name": "user_id_1__user_id_2",
         "type": "D",
+      }
+    }
+    onHide={[Function]}
+    show={false}
+  />
+  <ChannelNotificationsModal
+    channel={
+      Object {
+        "display_name": "display_name",
+        "id": "channel_id",
+        "name": "user_id_1__user_id_2",
+        "type": "D",
+      }
+    }
+    channelMember={
+      Object {
+        "id": "member_id",
+      }
+    }
+    currentUser={
+      Object {
+        "id": "current_user_id",
       }
     }
     onHide={[Function]}
@@ -1039,24 +1073,9 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
               <li
                 role="presentation"
               >
-                <ModalToggleButton
-                  className=""
-                  dialogProps={
-                    Object {
-                      "channel": Object {
-                        "display_name": "display_name",
-                        "id": "channel_id",
-                        "type": "O",
-                      },
-                      "channelMember": Object {
-                        "id": "member_id",
-                      },
-                      "currentUser": Object {
-                        "id": "current_user_id",
-                      },
-                    }
-                  }
-                  dialogType={[Function]}
+                <a
+                  href="#"
+                  onClick={[Function]}
                   role="menuitem"
                 >
                   <FormattedMessage
@@ -1064,7 +1083,7 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
                     id="navbar.preferences"
                     values={Object {}}
                   />
-                </ModalToggleButton>
+                </a>
               </li>
               <li
                 role="presentation"
@@ -1227,6 +1246,27 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
         "display_name": "display_name",
         "id": "channel_id",
         "type": "O",
+      }
+    }
+    onHide={[Function]}
+    show={false}
+  />
+  <ChannelNotificationsModal
+    channel={
+      Object {
+        "display_name": "display_name",
+        "id": "channel_id",
+        "type": "O",
+      }
+    }
+    channelMember={
+      Object {
+        "id": "member_id",
+      }
+    }
+    currentUser={
+      Object {
+        "id": "current_user_id",
       }
     }
     onHide={[Function]}
@@ -1396,24 +1436,9 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
               <li
                 role="presentation"
               >
-                <ModalToggleButton
-                  className=""
-                  dialogProps={
-                    Object {
-                      "channel": Object {
-                        "display_name": "display_name",
-                        "id": "channel_id",
-                        "type": "O",
-                      },
-                      "channelMember": Object {
-                        "id": "member_id",
-                      },
-                      "currentUser": Object {
-                        "id": "current_user_id",
-                      },
-                    }
-                  }
-                  dialogType={[Function]}
+                <a
+                  href="#"
+                  onClick={[Function]}
                   role="menuitem"
                 >
                   <FormattedMessage
@@ -1421,7 +1446,7 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
                     id="navbar.preferences"
                     values={Object {}}
                   />
-                </ModalToggleButton>
+                </a>
               </li>
               <li
                 role="presentation"
@@ -1584,6 +1609,27 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
         "display_name": "display_name",
         "id": "channel_id",
         "type": "O",
+      }
+    }
+    onHide={[Function]}
+    show={false}
+  />
+  <ChannelNotificationsModal
+    channel={
+      Object {
+        "display_name": "display_name",
+        "id": "channel_id",
+        "type": "O",
+      }
+    }
+    channelMember={
+      Object {
+        "id": "member_id",
+      }
+    }
+    currentUser={
+      Object {
+        "id": "current_user_id",
       }
     }
     onHide={[Function]}
