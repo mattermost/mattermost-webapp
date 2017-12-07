@@ -28,7 +28,7 @@ export default class MessageExportSettings extends AdminSettings {
     getStateFromConfig(config) {
         return {
             enableMessageExport: config.MessageExportSettings.EnableExport,
-            exportJobStartTime: config.MessageExportSettings.DailyRunTime,
+            exportJobStartTime: config.MessageExportSettings.DailyRunTime
         };
     }
 
