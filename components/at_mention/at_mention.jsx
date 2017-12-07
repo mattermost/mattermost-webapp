@@ -51,7 +51,7 @@ export default class AtMention extends React.PureComponent {
         let mentionName = props.mentionName;
 
         while (mentionName.length > 0) {
-            if (usersByUsername[mentionName]) {
+            if (usersByUsername.hasOwnProperty(mentionName)) {
                 return usersByUsername[mentionName];
             }
 

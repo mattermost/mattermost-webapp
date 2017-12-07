@@ -180,6 +180,7 @@ export default class NeedsTeam extends React.Component {
             );
             content.push(
                 <div
+                    id='inner-wrap-webrtc'
                     key='inner-wrap'
                     className='inner-wrap channel__wrap'
                 >

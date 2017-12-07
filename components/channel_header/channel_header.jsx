@@ -291,20 +291,29 @@ export default class ChannelHeader extends React.Component {
 
             if (webrtcEnabled) {
                 const isOffline = dmUserStatus === UserStatuses.OFFLINE;
+                const isDoNotDisturb = dmUserStatus === UserStatuses.DND;
                 const busy = this.props.dmUserIsInCall;
                 let circleClass = '';
                 let webrtcMessage;
 
-                if (isOffline || busy) {
+                if (isOffline || isDoNotDisturb || busy) {
                     circleClass = 'offline';
-                    webrtcMessage = (
-                        <FormattedMessage
-                            id='channel_header.webrtc.offline'
-                            defaultMessage='The user is offline'
-                        />
-                    );
 
-                    if (busy) {
+                    if (isOffline) {
+                        webrtcMessage = (
+                            <FormattedMessage
+                                id='channel_header.webrtc.offline'
+                                defaultMessage='The user is offline'
+                            />
+                        );
+                    } else if (isDoNotDisturb) {
+                        webrtcMessage = (
+                            <FormattedMessage
+                                id='channel_header.webrtc.doNotDisturb'
+                                defaultMessage='Do not disturb'
+                            />
+                        );
+                    } else if (busy) {
                         webrtcMessage = (
                             <FormattedMessage
                                 id='channel_header.webrtc.unavailable'
@@ -329,8 +338,8 @@ export default class ChannelHeader extends React.Component {
                     <div className='webrtc__header channel-header__icon'>
                         <button
                             className='style--none'
-                            onClick={() => this.initWebrtc(dmUserId, !isOffline)}
-                            disabled={isOffline}
+                            onClick={() => this.initWebrtc(dmUserId, !isOffline || !isDoNotDisturb)}
+                            disabled={isOffline || isDoNotDisturb}
                         >
                             <OverlayTrigger
                                 trigger={['hover', 'focus']}
