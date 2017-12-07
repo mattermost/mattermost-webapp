@@ -70,6 +70,7 @@ export default class TeamButton extends React.Component {
                 </div>
             );
         } else {
+            const toolTip = this.props.displayName ? this.props.tip : 'Name undefined';
             btn = (
                 <OverlayTrigger
                     trigger={['hover', 'focus']}
@@ -77,7 +78,7 @@ export default class TeamButton extends React.Component {
                     placement={this.props.placement}
                     overlay={
                         <Tooltip id={`tooltip-${this.props.url}`}>
-                            {this.props.tip}
+                            {toolTip}
                         </Tooltip>
                     }
                 >
