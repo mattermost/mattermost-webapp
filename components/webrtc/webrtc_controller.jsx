@@ -400,7 +400,12 @@ export default class WebrtcController extends React.Component {
             isRemotePaused,
             isRemoteMuted
         });
-        this.toggleIcons();
+
+        const icons = this.refs.icons;
+        if (icons) {
+            icons.classList.remove('hidden');
+            icons.classList.add('active');
+        }
     }
 
     handleClose(e) {
