@@ -40,6 +40,8 @@ import RenameChannelModal from 'components/rename_channel_modal';
 import StatusIcon from 'components/status_icon.jsx';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
 
+import Pluggable from 'plugins/pluggable';
+
 import NavbarInfoButton from './navbar_info_button.jsx';
 
 export default class Navbar extends React.Component {
@@ -914,6 +916,7 @@ export default class Navbar extends React.Component {
                                 channel={channel}
                                 showEditChannelHeaderModal={this.showEditChannelHeaderModal}
                             />
+                            <Pluggable pluggableName='MobileChannelHeaderButton'/>
                             {channelMenuDropdown}
                         </div>
                     </div>
