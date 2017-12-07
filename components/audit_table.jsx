@@ -173,7 +173,7 @@ const holders = defineMessages({
     },
     verified: {
         id: 'audit_table.verified',
-        defaultMessage: 'Sucessfully verified your email address'
+        defaultMessage: 'Successfully verified your email address'
     },
     revokedAll: {
         id: 'audit_table.revokedAll',
