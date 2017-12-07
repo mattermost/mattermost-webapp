@@ -81,6 +81,9 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
           }
           showEditChannelHeaderModal={[Function]}
         />
+        <Connect(Pluggable)
+          pluggableName="MobileChannelHeaderButton"
+        />
         <div
           className="navbar-brand"
         >
@@ -441,6 +444,9 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
             }
           }
           showEditChannelHeaderModal={[Function]}
+        />
+        <Connect(Pluggable)
+          pluggableName="MobileChannelHeaderButton"
         />
         <div
           className="navbar-brand"
@@ -804,6 +810,9 @@ exports[`components/navbar/Navbar should match snapshot, if enabled WebRTC and D
           }
           showEditChannelHeaderModal={[Function]}
         />
+        <Connect(Pluggable)
+          pluggableName="MobileChannelHeaderButton"
+        />
         <div
           className="navbar-brand"
         >
@@ -999,6 +1008,9 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
             }
           }
           showEditChannelHeaderModal={[Function]}
+        />
+        <Connect(Pluggable)
+          pluggableName="MobileChannelHeaderButton"
         />
         <div
           className="navbar-brand"
@@ -1362,6 +1374,9 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
             }
           }
           showEditChannelHeaderModal={[Function]}
+        />
+        <Connect(Pluggable)
+          pluggableName="MobileChannelHeaderButton"
         />
         <div
           className="navbar-brand"
