@@ -60,7 +60,7 @@ const messages = defineMessages({
         id: 'user.settings.custom_theme.dndIndicator',
         defaultMessage: 'Do Not Disturb Indicator'
     },
-    mentionBj: {
+    mentionBg: {
         id: 'user.settings.custom_theme.mentionBj',
         defaultMessage: 'Mention Jewel BG'
     },
@@ -135,11 +135,18 @@ class CustomThemeChooser extends React.Component {
     handleColorChange = (settingId, color) => {
         const {updateTheme, theme} = this.props;
         if (theme[settingId] !== color) {
-            updateTheme({
+            const newTheme = {
                 ...theme,
                 type: 'custom',
                 [settingId]: color
-            });
+            };
+
+            // For backwards compatability
+            if (settingId === 'mentionBg') {
+                newTheme.mentionBj = color;
+            }
+
+            updateTheme(newTheme);
         }
     }
 
@@ -303,6 +310,12 @@ class CustomThemeChooser extends React.Component {
                     </div>
                 );
             } else if (element.group === 'sidebarElements') {
+                // Need to support old typo mentionBj element for mentionBg
+                let color = theme[element.id];
+                if (!color && element.id === 'mentionBg') {
+                    color = theme.mentionBj;
+                }
+
                 sidebarElements.push(
                     <div
                         className='col-sm-6 form-group element'
@@ -311,7 +324,7 @@ class CustomThemeChooser extends React.Component {
                         <ColorChooser
                             id={element.id}
                             label={formatMessage(messages[element.id])}
-                            color={theme[element.id]}
+                            color={color}
                             onChange={this.handleColorChange}
                         />
                     </div>
