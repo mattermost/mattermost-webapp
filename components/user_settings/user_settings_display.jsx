@@ -495,6 +495,10 @@ export default class UserSettingsDisplay extends React.Component {
             );
         }
 
+        if (Object.keys(I18n.getLanguages()).length === 1) {
+            languagesSection = null;
+        }
+
         let themeSection;
         if (global.mm_config.EnableThemeSelection !== 'false') {
             themeSection = (
