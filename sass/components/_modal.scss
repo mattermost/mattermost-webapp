@@ -117,6 +117,10 @@
             }
         }
 
+        textarea {
+            overflow-x: hidden;
+        }
+
         &.modal-image {
             .modal-backdrop {
                 &.in {
