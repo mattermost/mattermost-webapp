@@ -25,23 +25,9 @@ export default class LoggedIn extends React.Component {
 
         this.onUserChanged = this.onUserChanged.bind(this);
 
-        // Because current CSS requires the root tag to have specific stuff
-        $('#root').attr('class', 'channel-view');
-
-        // Device tracking setup
-        if (UserAgent.isIos()) {
-            $('body').addClass('ios');
-        } else if (UserAgent.isAndroid()) {
-            $('body').addClass('android');
-        }
-
         this.state = {
             user: UserStore.getCurrentUser()
         };
-
-        if (!this.state.user) {
-            GlobalActions.emitUserLoggedOutEvent('/login');
-        }
     }
 
     isValidState() {
@@ -65,11 +51,25 @@ export default class LoggedIn extends React.Component {
         // Listen for user
         UserStore.addChangeListener(this.onUserChanged);
 
-        // Listen for focussed tab/window state
+        // Listen for focused tab/window state
         window.addEventListener('focus', this.onFocusListener);
         window.addEventListener('blur', this.onBlurListener);
 
-        // ???
+        // Because current CSS requires the root tag to have specific stuff
+        $('#root').attr('class', 'channel-view');
+
+        // Device tracking setup
+        if (UserAgent.isIos()) {
+            $('body').addClass('ios');
+        } else if (UserAgent.isAndroid()) {
+            $('body').addClass('android');
+        }
+
+        if (!this.state.user) {
+            $('#root').attr('class', '');
+            GlobalActions.emitUserLoggedOutEvent('/login');
+        }
+
         $('body').on('mouseenter mouseleave', '.post', function mouseOver(ev) {
             if (ev.type === 'mouseenter') {
                 $(this).parent('div').prev('.date-separator, .new-separator').addClass('hovered--after');
@@ -114,8 +114,6 @@ export default class LoggedIn extends React.Component {
     }
 
     componentWillUnmount() {
-        $('#root').attr('class', '');
-
         WebSocketActions.close();
         UserStore.removeChangeListener(this.onUserChanged);
 
