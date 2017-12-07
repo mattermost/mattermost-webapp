@@ -2136,6 +2136,7 @@
   "more_channels.title": "More Channels",
   "more_direct_channels.close": "Close",
   "more_direct_channels.directchannel.you": "{displayname} (you)",
+  "more_direct_channels.directchannel.deactivated": "{displayname} - Deactivated",
   "more_direct_channels.message": "Message",
   "more_direct_channels.new_convo_note": "This will start a new conversation. If you’re adding a lot of people, consider creating a private channel instead.",
   "more_direct_channels.new_convo_note.full": "You’ve reached the maximum number of people for this conversation. Consider creating a private channel instead.",
