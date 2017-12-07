@@ -278,7 +278,8 @@ function handlePostEditEvent(msg) {
             posts: {
                 [post.id]: post
             }
-        }
+        },
+        channelId: post.channel_id
     });
 
     // Update channel state
