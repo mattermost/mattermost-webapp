@@ -55,12 +55,7 @@ export default class PostMarkdown extends React.PureComponent {
         /*
          * The current team
          */
-        team: PropTypes.object.isRequired,
-
-        /**
-         * A map of channel names to channel objects
-         */
-        channelNamesMap: PropTypes.object.isRequired
+        team: PropTypes.object.isRequired
 
     };
 
