@@ -22,6 +22,7 @@ exports[`comoponents/edit_channel_purpose_modal/edit_channel_purpose_modal.jsx c
       "remove": [Function],
     }
   }
+  onEntering={[Function]}
   onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
