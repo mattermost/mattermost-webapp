@@ -3,13 +3,13 @@
 
 import {connect} from 'react-redux';
 
-import {getUsersByUsername} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getUsersByUsername} from 'mattermost-redux/selectors/entities/users';
 
 import AtMention from './at_mention.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
-        ...ownProps,
+        currentUserId: getCurrentUserId(state),
         usersByUsername: getUsersByUsername(state)
     };
 }

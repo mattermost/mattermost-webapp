@@ -81,13 +81,8 @@ export default class MultiSelect extends React.Component {
         this.refs.select.focus();
 
         const submitImmediatelyOn = this.props.submitImmediatelyOn;
-        if (submitImmediatelyOn) {
-            for (let i = 0; i < submitImmediatelyOn.length; i++) {
-                if (submitImmediatelyOn[i] === value.id) {
-                    this.props.handleSubmit([value]);
-                    return;
-                }
-            }
+        if (submitImmediatelyOn && submitImmediatelyOn(value)) {
+            this.props.handleSubmit([value]);
         }
     }
 
@@ -294,6 +289,6 @@ MultiSelect.propTypes = {
     maxValues: PropTypes.number,
     numRemainingText: PropTypes.node,
     buttonSubmitText: PropTypes.node,
-    submitImmediatelyOn: PropTypes.arrayOf(PropTypes.string),
+    submitImmediatelyOn: PropTypes.func,
     saving: PropTypes.bool
 };

@@ -147,7 +147,7 @@ export default class PostList extends React.PureComponent {
                 this.hasScrolledToFocusedPost = false;
                 this.hasScrolledToNewMessageSeparator = false;
                 this.atBottom = false;
-                this.setState({atEnd: false, lastViewed: nextProps.lastViewedAt, isDoingInitialLoad: !nextProps.posts});
+                this.setState({atEnd: false, lastViewed: nextProps.lastViewedAt, isDoingInitialLoad: !nextProps.posts, unViewedCount: 0});
 
                 if (nextChannel.id) {
                     this.loadPosts(nextChannel.id);
