@@ -25,8 +25,8 @@ export default class AdvancedSettingsDisplay extends React.Component {
         this.updateSection = this.updateSection.bind(this);
         this.updateSetting = this.updateSetting.bind(this);
         this.toggleFeature = this.toggleFeature.bind(this);
-        this.saveEnabledFeatures = this.saveEnabledFeatures.bind(this);
 
+        this.saveEnabledFeatures = this.saveEnabledFeatures.bind(this);
         this.renderFormattingSection = this.renderFormattingSection.bind(this);
         this.renderJoinLeaveSection = this.renderJoinLeaveSection.bind(this);
 
@@ -77,11 +77,15 @@ export default class AdvancedSettingsDisplay extends React.Component {
 
         const isSaving = false;
 
-        return {preReleaseFeatures: PreReleaseFeatures,
+        const previewFeaturesEnabled = global.window.mm_config.EnablePreviewFeatures === 'true';
+
+        return {
+            preReleaseFeatures: PreReleaseFeatures,
             settings,
             preReleaseFeaturesKeys,
             enabledFeatures,
-            isSaving
+            isSaving,
+            previewFeaturesEnabled
         };
     }
 
@@ -447,7 +451,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
 
         let previewFeaturesSection;
         let previewFeaturesSectionDivider;
-        if (this.state.preReleaseFeaturesKeys.length > 0) {
+        if (this.state.previewFeaturesEnabled && this.state.preReleaseFeaturesKeys.length > 0) {
             previewFeaturesSectionDivider = (
                 <div className='divider-light'/>
             );

@@ -2,6 +2,7 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
+import {FormattedMessage} from 'react-intl';
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -51,6 +52,7 @@ export function renderThumbVertical(props) {
 export default class RhsThread extends React.Component {
     static propTypes = {
         posts: PropTypes.arrayOf(PropTypes.object).isRequired,
+        channel: PropTypes.object.isRequired,
         selected: PropTypes.object.isRequired,
         previousRhsState: PropTypes.string,
         isWebrtc: PropTypes.bool,
@@ -402,6 +404,22 @@ export default class RhsThread extends React.Component {
                     />
                 </div>
             );
+        }
+
+        if (this.props.channel.type === Constants.DM_CHANNEL) {
+            const teammate = Utils.getDirectTeammate(this.props.channel.id);
+            if (teammate && teammate.delete_at) {
+                createComment = (
+                    <div
+                        className='post-create-message'
+                    >
+                        <FormattedMessage
+                            id='create_post.deactivated'
+                            defaultMessage='You are viewing an archived channel with a deactivated user.'
+                        />
+                    </div>
+                );
+            }
         }
 
         return (

@@ -591,13 +591,22 @@ export default class Sidebar extends React.Component {
             );
         } else if (channel.type === Constants.GM_CHANNEL) {
             icon = <div className='status status--group'>{UserStore.getProfileListInChannel(channel.id, true).length}</div>;
-        } else {
-            // set up status icon for direct message channels (status is null for other channel types)
-            icon = (
-                <StatusIcon
-                    type='avatar'
-                    status={channel.status}
-                />);
+        } else if (channel.type === Constants.DM_CHANNEL) {
+            const teammate = Utils.getDirectTeammate(channel.id);
+            if (teammate && teammate.delete_at) {
+                icon = (
+                    <span
+                        className='icon icon__archive'
+                        dangerouslySetInnerHTML={{__html: Constants.ARCHIVE_ICON_SVG}}
+                    />
+                );
+            } else {
+                icon = (
+                    <StatusIcon
+                        type='avatar'
+                        status={channel.status}
+                    />);
+            }
         }
 
         let closeButton = null;

@@ -17,6 +17,7 @@ import ManageTeamsModal from 'components/admin_console/manage_teams_modal/manage
 import ManageTokensModal from 'components/admin_console/manage_tokens_modal';
 import ResetPasswordModal from 'components/admin_console/reset_password_modal.jsx';
 import SearchableUserList from 'components/searchable_user_list/searchable_user_list.jsx';
+import UserListRowWithError from 'components/user_list_row_with_error.jsx';
 
 import SystemUsersDropdown from './system_users_dropdown.jsx';
 
@@ -269,6 +270,7 @@ export default class SystemUsersList extends React.Component {
                     page={this.state.page}
                     term={this.props.term}
                     onTermChange={this.props.onTermChange}
+                    rowComponentType={UserListRowWithError}
                 />
                 <ManageTeamsModal
                     user={this.state.user}

@@ -440,7 +440,7 @@ export async function autocompleteUsers(username, success) {
     }
 }
 
-export async function updateUser(user, type, success, error) {
+export async function updateUser(user, success, error) {
     const {data, error: err} = await UserActions.updateMe(user)(dispatch, getState);
     if (data && success) {
         success(data);

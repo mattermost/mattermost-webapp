@@ -33,6 +33,10 @@
         .icon__globe {
             top: 1px;
         }
+
+        .icon__archive {
+            top: 2px;
+        }
     }
 
     .sidebar-item__name {
@@ -225,6 +229,7 @@
                 width: 100%;
 
                 .icon {
+                    &.icon__archive,
                     &.icon__globe,
                     &.icon__lock {
                         @include opacity(.5);
@@ -285,6 +290,7 @@
                 }
 
                 .icon {
+                    &.icon__archive,
                     &.icon__globe,
                     &.icon__lock {
                         @include opacity(.7);

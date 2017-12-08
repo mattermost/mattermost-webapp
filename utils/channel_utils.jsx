@@ -2,10 +2,7 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
-import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getGroupOrDirectChannelVisibility} from 'mattermost-redux/selectors/entities/channels';
 import * as ChannelUtilsRedux from 'mattermost-redux/utils/channel_utils';
 
 import ChannelStore from 'stores/channel_store.jsx';
@@ -209,15 +206,7 @@ function isDirectChannelVisible(channel) {
         return false;
     }
 
-    const state = store.getState();
-
-    return ChannelUtilsRedux.isDirectChannelVisible(
-        getCurrentUserId(state),
-        getConfig(state),
-        getMyPreferences(state),
-        channel,
-        getLastPostPerChannel(state)[channel.id]
-    );
+    return getGroupOrDirectChannelVisibility(store.getState(), channel.id);
 }
 
 function isGroupChannelVisible(channel) {
@@ -225,12 +214,5 @@ function isGroupChannelVisible(channel) {
         return false;
     }
 
-    const state = store.getState();
-
-    return ChannelUtilsRedux.isGroupChannelVisible(
-        getConfig(state),
-        getMyPreferences(state),
-        channel,
-        getLastPostPerChannel(state)[channel.id]
-    );
+    return getGroupOrDirectChannelVisibility(store.getState(), channel.id);
 }

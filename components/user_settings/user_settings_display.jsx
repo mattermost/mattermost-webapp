@@ -41,8 +41,10 @@ export default class UserSettingsDisplay extends React.Component {
         this.updateSection = this.updateSection.bind(this);
         this.updateState = this.updateState.bind(this);
 
-        this.state = getDisplayStateFromStores();
-        this.setState({isSaving: false});
+        this.state = {
+            ...getDisplayStateFromStores(),
+            isSaving: false
+        };
     }
 
     handleSubmit() {
@@ -491,6 +493,10 @@ export default class UserSettingsDisplay extends React.Component {
                     <div className='divider-dark'/>
                 </div>
             );
+        }
+
+        if (Object.keys(I18n.getLanguages()).length === 1) {
+            languagesSection = null;
         }
 
         let themeSection;

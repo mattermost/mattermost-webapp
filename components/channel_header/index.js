@@ -13,6 +13,7 @@ import {getCurrentUser, getStatusForUserId, getUser} from 'mattermost-redux/sele
 import {getUserIdFromChannelName, isDefault, isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
 
 import {showFlaggedPosts, showPinnedPosts, showMentions, closeRightHandSide} from 'actions/views/rhs';
+import {openModal} from 'actions/views/modals';
 
 import {getRhsState} from 'selectors/rhs';
 
@@ -35,7 +36,7 @@ function mapStateToProps(state, ownProps) {
         channel,
         channelMember: getMyChannelMember(state, ownProps.channelId),
         teamMember: getMyTeamMember(state, channel.team_id),
-        isFavorite: isFavoriteChannel(prefs, {...channel}),
+        isFavorite: isFavoriteChannel(prefs, ownProps.channelId),
         isDefault: isDefault(channel),
         currentUser: user,
         dmUser,
@@ -54,7 +55,8 @@ function mapDispatchToProps(dispatch) {
             showFlaggedPosts,
             showPinnedPosts,
             showMentions,
-            closeRightHandSide
+            closeRightHandSide,
+            openModal
         }, dispatch)
     };
 }

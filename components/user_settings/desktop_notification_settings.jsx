@@ -214,7 +214,7 @@ export default class DesktopNotificationSettings extends React.Component {
                 <span>
                     <FormattedMessage
                         id='user.settings.notifications.desktop.durationInfo'
-                        defaultMessage='Sets how long desktop notifications will remain on screen when using Firefox or Chrome. Desktop notifications in Edge and Safari can only stay on screen for a maximum of 5 seconds.'
+                        defaultMessage='Sets how long desktop notifications will remain on screen when using Firefox or Chrome. Desktop notifications in Edge, Safari and Mattermost Desktop Apps can only stay on screen for a maximum of 5 seconds.'
                     />
                 </span>
             );

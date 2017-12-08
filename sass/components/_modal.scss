@@ -117,6 +117,10 @@
             }
         }
 
+        textarea {
+            overflow-x: hidden;
+        }
+
         &.modal-image {
             .modal-backdrop {
                 &.in {
@@ -608,6 +612,7 @@
     }
 
     .more-modal__details {
+        align-self: center;
         flex-grow: 1;
         flex-shrink: 1;
         overflow: hidden;
@@ -635,6 +640,10 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+
+        &:empty {
+            display: none;
+        }
     }
 
     .more-modal__row {
@@ -663,6 +672,25 @@
         opacity: 0;
         text-align: center;
         width: 32px;
+    }
+
+    .more-modal__right {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        .control-label {
+            font-weight: normal;
+            padding: 5px 0 0 5px;
+        }
+    }
+
+    .more-modal__top {
+        display: flex;
+    }
+
+    .more-modal__bottom>.has-error {
+        padding-left: 5px;
     }
 
     p {

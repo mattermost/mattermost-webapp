@@ -1,0 +1,1659 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/navbar/Navbar should match snapshot, for private channel 1`] = `
+<div>
+  <nav
+    className="navbar navbar-default navbar-fixed-top"
+    role="navigation"
+  >
+    <div
+      className="container-fluid theme"
+    >
+      <div
+        className="navbar-header"
+      >
+        <button
+          className="navbar-toggle"
+          data-target="#sidebar-nav"
+          data-toggle="collapse"
+          key="navbar-toggle-sidebar"
+          onClick={[Function]}
+          type="button"
+        >
+          <span
+            className="sr-only"
+          >
+            <FormattedMessage
+              defaultMessage="Toggle sidebar"
+              id="navbar.toggle2"
+              values={Object {}}
+            />
+          </span>
+          <span
+            aria-hidden="true"
+            className="icon icon__menu icon--sidebarHeaderTextColor"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<svg width='16px' height='10px' viewBox='0 0 16 10' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'> <g stroke='none' stroke-width='1' fill='inherit' fill-rule='evenodd'> <g transform='translate(-26.000000, -24.000000)' fill-rule='nonzero' fill='inherit'> <g transform='translate(26.000000, 24.000000)'> <path d='M1.5,0 L0.5,0 C0.224,0 0,0.224 0,0.5 L0,1.5 C0,1.776 0.224,2 0.5,2 L1.5,2 C1.776,2 2,1.776 2,1.5 L2,0.5 C2,0.224 1.776,0 1.5,0 Z'></path> <path d='M15.5,0 L3.5,0 C3.224,0 3,0.224 3,0.5 L3,1.5 C3,1.776 3.224,2 3.5,2 L15.5,2 C15.776,2 16,1.776 16,1.5 L16,0.5 C16,0.224 15.776,0 15.5,0 Z'></path> <path d='M1.5,4 L0.5,4 C0.224,4 0,4.224 0,4.5 L0,5.5 C0,5.776 0.224,6 0.5,6 L1.5,6 C1.776,6 2,5.776 2,5.5 L2,4.5 C2,4.224 1.776,4 1.5,4 Z'></path> <path d='M3.5,6 L11.5,6 C11.776,6 12,5.776 12,5.5 L12,4.5 C12,4.224 11.776,4 11.5,4 L3.5,4 C3.224,4 3,4.224 3,4.5 L3,5.5 C3,5.776 3.224,6 3.5,6 Z'></path> <path d='M1.5,8 L0.5,8 C0.224,8 0,8.224 0,8.5 L0,9.5 C0,9.776 0.224,10 0.5,10 L1.5,10 C1.776,10 2,9.776 2,9.5 L2,8.5 C2,8.224 1.776,8 1.5,8 Z'></path> <path d='M13.5,8 L3.5,8 C3.224,8 3,8.224 3,8.5 L3,9.5 C3,9.776 3.224,10 3.5,10 L13.5,10 C13.776,10 14,9.776 14,9.5 L14,8.5 C14,8.224 13.776,8 13.5,8 Z'></path> </g> </g> </g> </svg>",
+              }
+            }
+          />
+          <NotifyCounts />
+        </button>
+        <button
+          className="navbar-toggle navbar-right__icon menu-toggle pull-right"
+          data-target="#sidebar-nav"
+          data-toggle="collapse"
+          key="navbar-toggle-menu"
+          onClick={[Function]}
+          type="button"
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<svg width='16px' height='10px' viewBox='0 0 16 10' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'> <g stroke='none' stroke-width='1' fill='inherit' fill-rule='evenodd'> <g transform='translate(-188.000000, -38.000000)' fill-rule='nonzero' fill='inherit'> <g> <g> <g transform='translate(188.000000, 38.000000)'> <path d='M15.5,0 C15.776,0 16,0.224 16,0.5 L16,1.5 C16,1.776 15.776,2 15.5,2 L0.5,2 C0.224,2 0,1.776 0,1.5 L0,0.5 C0,0.224 0.224,0 0.5,0 L15.5,0 Z M15.5,4 C15.776,4 16,4.224 16,4.5 L16,5.5 C16,5.776 15.776,6 15.5,6 L0.5,6 C0.224,6 0,5.776 0,5.5 L0,4.5 C0,4.224 0.224,4 0.5,4 L15.5,4 Z M15.5,8 C15.776,8 16,8.224 16,8.5 L16,9.5 C16,9.776 15.776,10 15.5,10 L0.5,10 C0.224,10 0,9.776 0,9.5 L0,8.5 C0,8.224 0.224,8 0.5,8 L15.5,8 Z'></path> </g> </g> </g> </g> </g> </svg>",
+              }
+            }
+          />
+        </button>
+        <button
+          className="navbar-toggle navbar-right__icon navbar-search pull-right"
+          onClick={[Function]}
+          type="button"
+        >
+          <span
+            aria-hidden="true"
+            className="icon icon__search"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<svg width='19px' height='18px' viewBox='0 0 19 18' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'> <g stroke='inherit' stroke-width='1' fill='none' fill-rule='evenodd'> <g transform='translate(-719.000000, -20.000000)' stroke-width='1.5'> <g transform='translate(0.000000, 1.000000)'> <g transform='translate(63.000000, 10.000000)'> <g transform='translate(657.000000, 10.000000)'> <circle cx='7' cy='7' r='7'></circle> <path d='M12.5,11.5 L16.5,15.5' stroke-linecap='round'></path> </g> </g> </g> </g> </g> </svg>",
+              }
+            }
+          />
+        </button>
+        <NavbarInfoButton
+          channel={
+            Object {
+              "display_name": "display_name",
+              "id": "channel_id",
+              "type": "P",
+            }
+          }
+          showEditChannelHeaderModal={[Function]}
+        />
+        <Connect(Pluggable)
+          pluggableName="MobileChannelHeaderButton"
+        />
+        <div
+          className="navbar-brand"
+        >
+          <div
+            className="dropdown"
+          >
+            <a
+              aria-expanded="true"
+              className="dropdown-toggle theme"
+              data-toggle="dropdown"
+              href="#"
+              type="button"
+            >
+              <span
+                className="heading"
+              >
+                <StatusIcon
+                  className=""
+                  status={null}
+                />
+                display_name
+                 
+              </span>
+              <span
+                className="fa fa-angle-down header-dropdown__icon"
+              />
+            </a>
+            <ul
+              className="dropdown-menu"
+              role="menu"
+            >
+              <li
+                role="presentation"
+              >
+                <ModalToggleButton
+                  className=""
+                  dialogProps={
+                    Object {
+                      "channel": Object {
+                        "display_name": "display_name",
+                        "id": "channel_id",
+                        "type": "P",
+                      },
+                    }
+                  }
+                  dialogType={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="View Info"
+                    id="navbar.viewInfo"
+                    values={Object {}}
+                  />
+                </ModalToggleButton>
+              </li>
+              <li
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="View Pinned Posts"
+                    id="navbar.viewPinnedPosts"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <li
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Notification Preferences"
+                    id="navbar.preferences"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <li
+                role="presentation"
+              >
+                <ModalToggleButton
+                  className=""
+                  dialogProps={
+                    Object {
+                      "channel": Object {
+                        "display_name": "display_name",
+                        "id": "channel_id",
+                        "type": "P",
+                      },
+                      "currentUser": Object {
+                        "id": "current_user_id",
+                      },
+                    }
+                  }
+                  dialogType={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Add Members"
+                    id="navbar.addMembers"
+                    values={Object {}}
+                  />
+                </ModalToggleButton>
+              </li>
+              <li
+                key="manage_members"
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Manage Members"
+                    id="channel_header.manageMembers"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <li
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Edit Channel Header"
+                    id="channel_header.setHeader"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <li
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Edit Channel Purpose"
+                    id="channel_header.setPurpose"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <li
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Rename Channel"
+                    id="channel_header.rename"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <li
+                role="presentation"
+              >
+                <ModalToggleButton
+                  className=""
+                  dialogProps={
+                    Object {
+                      "channel": Object {
+                        "display_name": "display_name",
+                        "id": "channel_id",
+                        "type": "P",
+                      },
+                    }
+                  }
+                  dialogType={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Delete Channel"
+                    id="channel_header.delete"
+                    values={Object {}}
+                  />
+                </ModalToggleButton>
+              </li>
+              <li
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Leave Channel"
+                    id="channel_header.leave"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <li
+                key="toggle_favorite"
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Add to Favorites"
+                    id="channelHeader.addToFavorites"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <div
+                className="close visible-xs-block"
+                onClick={[Function]}
+              >
+                ×
+              </div>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <Connect(InjectIntl(RenameChannelModal))
+    channel={
+      Object {
+        "display_name": "display_name",
+        "id": "channel_id",
+        "type": "P",
+      }
+    }
+    onHide={[Function]}
+    show={false}
+  />
+  <ChannelNotificationsModal
+    channel={
+      Object {
+        "display_name": "display_name",
+        "id": "channel_id",
+        "type": "P",
+      }
+    }
+    channelMember={
+      Object {
+        "id": "member_id",
+      }
+    }
+    currentUser={
+      Object {
+        "id": "current_user_id",
+      }
+    }
+    onHide={[Function]}
+    show={false}
+  />
+  <Connect(QuickSwitchModal)
+    initialMode="channel"
+    onHide={[Function]}
+    show={false}
+  />
+</div>
+`;
+
+exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enabled 1`] = `
+<div>
+  <nav
+    className="navbar navbar-default navbar-fixed-top"
+    role="navigation"
+  >
+    <div
+      className="container-fluid theme"
+    >
+      <div
+        className="navbar-header"
+      >
+        <button
+          className="navbar-toggle"
+          data-target="#sidebar-nav"
+          data-toggle="collapse"
+          key="navbar-toggle-sidebar"
+          onClick={[Function]}
+          type="button"
+        >
+          <span
+            className="sr-only"
+          >
+            <FormattedMessage
+              defaultMessage="Toggle sidebar"
+              id="navbar.toggle2"
+              values={Object {}}
+            />
+          </span>
+          <span
+            aria-hidden="true"
+            className="icon icon__menu icon--sidebarHeaderTextColor"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<svg width='16px' height='10px' viewBox='0 0 16 10' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'> <g stroke='none' stroke-width='1' fill='inherit' fill-rule='evenodd'> <g transform='translate(-26.000000, -24.000000)' fill-rule='nonzero' fill='inherit'> <g transform='translate(26.000000, 24.000000)'> <path d='M1.5,0 L0.5,0 C0.224,0 0,0.224 0,0.5 L0,1.5 C0,1.776 0.224,2 0.5,2 L1.5,2 C1.776,2 2,1.776 2,1.5 L2,0.5 C2,0.224 1.776,0 1.5,0 Z'></path> <path d='M15.5,0 L3.5,0 C3.224,0 3,0.224 3,0.5 L3,1.5 C3,1.776 3.224,2 3.5,2 L15.5,2 C15.776,2 16,1.776 16,1.5 L16,0.5 C16,0.224 15.776,0 15.5,0 Z'></path> <path d='M1.5,4 L0.5,4 C0.224,4 0,4.224 0,4.5 L0,5.5 C0,5.776 0.224,6 0.5,6 L1.5,6 C1.776,6 2,5.776 2,5.5 L2,4.5 C2,4.224 1.776,4 1.5,4 Z'></path> <path d='M3.5,6 L11.5,6 C11.776,6 12,5.776 12,5.5 L12,4.5 C12,4.224 11.776,4 11.5,4 L3.5,4 C3.224,4 3,4.224 3,4.5 L3,5.5 C3,5.776 3.224,6 3.5,6 Z'></path> <path d='M1.5,8 L0.5,8 C0.224,8 0,8.224 0,8.5 L0,9.5 C0,9.776 0.224,10 0.5,10 L1.5,10 C1.776,10 2,9.776 2,9.5 L2,8.5 C2,8.224 1.776,8 1.5,8 Z'></path> <path d='M13.5,8 L3.5,8 C3.224,8 3,8.224 3,8.5 L3,9.5 C3,9.776 3.224,10 3.5,10 L13.5,10 C13.776,10 14,9.776 14,9.5 L14,8.5 C14,8.224 13.776,8 13.5,8 Z'></path> </g> </g> </g> </svg>",
+              }
+            }
+          />
+          <NotifyCounts />
+        </button>
+        <button
+          className="navbar-toggle navbar-right__icon menu-toggle pull-right"
+          data-target="#sidebar-nav"
+          data-toggle="collapse"
+          key="navbar-toggle-menu"
+          onClick={[Function]}
+          type="button"
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<svg width='16px' height='10px' viewBox='0 0 16 10' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'> <g stroke='none' stroke-width='1' fill='inherit' fill-rule='evenodd'> <g transform='translate(-188.000000, -38.000000)' fill-rule='nonzero' fill='inherit'> <g> <g> <g transform='translate(188.000000, 38.000000)'> <path d='M15.5,0 C15.776,0 16,0.224 16,0.5 L16,1.5 C16,1.776 15.776,2 15.5,2 L0.5,2 C0.224,2 0,1.776 0,1.5 L0,0.5 C0,0.224 0.224,0 0.5,0 L15.5,0 Z M15.5,4 C15.776,4 16,4.224 16,4.5 L16,5.5 C16,5.776 15.776,6 15.5,6 L0.5,6 C0.224,6 0,5.776 0,5.5 L0,4.5 C0,4.224 0.224,4 0.5,4 L15.5,4 Z M15.5,8 C15.776,8 16,8.224 16,8.5 L16,9.5 C16,9.776 15.776,10 15.5,10 L0.5,10 C0.224,10 0,9.776 0,9.5 L0,8.5 C0,8.224 0.224,8 0.5,8 L15.5,8 Z'></path> </g> </g> </g> </g> </g> </svg>",
+              }
+            }
+          />
+        </button>
+        <button
+          className="navbar-toggle navbar-right__icon navbar-search pull-right"
+          onClick={[Function]}
+          type="button"
+        >
+          <span
+            aria-hidden="true"
+            className="icon icon__search"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<svg width='19px' height='18px' viewBox='0 0 19 18' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'> <g stroke='inherit' stroke-width='1' fill='none' fill-rule='evenodd'> <g transform='translate(-719.000000, -20.000000)' stroke-width='1.5'> <g transform='translate(0.000000, 1.000000)'> <g transform='translate(63.000000, 10.000000)'> <g transform='translate(657.000000, 10.000000)'> <circle cx='7' cy='7' r='7'></circle> <path d='M12.5,11.5 L16.5,15.5' stroke-linecap='round'></path> </g> </g> </g> </g> </g> </svg>",
+              }
+            }
+          />
+        </button>
+        <NavbarInfoButton
+          channel={
+            Object {
+              "display_name": "display_name",
+              "id": "channel_id",
+              "type": "O",
+            }
+          }
+          showEditChannelHeaderModal={[Function]}
+        />
+        <Connect(Pluggable)
+          pluggableName="MobileChannelHeaderButton"
+        />
+        <div
+          className="navbar-brand"
+        >
+          <div
+            className="dropdown"
+          >
+            <a
+              aria-expanded="true"
+              className="dropdown-toggle theme"
+              data-toggle="dropdown"
+              href="#"
+              type="button"
+            >
+              <span
+                className="heading"
+              >
+                <StatusIcon
+                  className=""
+                  status={null}
+                />
+                display_name
+                 
+              </span>
+              <span
+                className="fa fa-angle-down header-dropdown__icon"
+              />
+            </a>
+            <ul
+              className="dropdown-menu"
+              role="menu"
+            >
+              <li
+                role="presentation"
+              >
+                <ModalToggleButton
+                  className=""
+                  dialogProps={
+                    Object {
+                      "channel": Object {
+                        "display_name": "display_name",
+                        "id": "channel_id",
+                        "type": "O",
+                      },
+                    }
+                  }
+                  dialogType={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="View Info"
+                    id="navbar.viewInfo"
+                    values={Object {}}
+                  />
+                </ModalToggleButton>
+              </li>
+              <li
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="View Pinned Posts"
+                    id="navbar.viewPinnedPosts"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <li
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Notification Preferences"
+                    id="navbar.preferences"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <li
+                role="presentation"
+              >
+                <ModalToggleButton
+                  className=""
+                  dialogProps={
+                    Object {
+                      "channel": Object {
+                        "display_name": "display_name",
+                        "id": "channel_id",
+                        "type": "O",
+                      },
+                      "currentUser": Object {
+                        "id": "current_user_id",
+                      },
+                    }
+                  }
+                  dialogType={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Add Members"
+                    id="navbar.addMembers"
+                    values={Object {}}
+                  />
+                </ModalToggleButton>
+              </li>
+              <li
+                key="manage_members"
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Manage Members"
+                    id="channel_header.manageMembers"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <li
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Edit Channel Header"
+                    id="channel_header.setHeader"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <li
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Edit Channel Purpose"
+                    id="channel_header.setPurpose"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <li
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Rename Channel"
+                    id="channel_header.rename"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <li
+                role="presentation"
+              >
+                <ModalToggleButton
+                  className=""
+                  dialogProps={
+                    Object {
+                      "channel": Object {
+                        "display_name": "display_name",
+                        "id": "channel_id",
+                        "type": "O",
+                      },
+                    }
+                  }
+                  dialogType={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Delete Channel"
+                    id="channel_header.delete"
+                    values={Object {}}
+                  />
+                </ModalToggleButton>
+              </li>
+              <li
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Leave Channel"
+                    id="channel_header.leave"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <li
+                key="toggle_favorite"
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Add to Favorites"
+                    id="channelHeader.addToFavorites"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <div
+                className="close visible-xs-block"
+                onClick={[Function]}
+              >
+                ×
+              </div>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <Connect(InjectIntl(RenameChannelModal))
+    channel={
+      Object {
+        "display_name": "display_name",
+        "id": "channel_id",
+        "type": "O",
+      }
+    }
+    onHide={[Function]}
+    show={false}
+  />
+  <ChannelNotificationsModal
+    channel={
+      Object {
+        "display_name": "display_name",
+        "id": "channel_id",
+        "type": "O",
+      }
+    }
+    channelMember={
+      Object {
+        "id": "member_id",
+      }
+    }
+    currentUser={
+      Object {
+        "id": "current_user_id",
+      }
+    }
+    onHide={[Function]}
+    show={false}
+  />
+  <Connect(QuickSwitchModal)
+    initialMode="channel"
+    onHide={[Function]}
+    show={false}
+  />
+</div>
+`;
+
+exports[`components/navbar/Navbar should match snapshot, if enabled WebRTC and DM channel 1`] = `
+<div>
+  <nav
+    className="navbar navbar-default navbar-fixed-top"
+    role="navigation"
+  >
+    <div
+      className="container-fluid theme"
+    >
+      <div
+        className="navbar-header"
+      >
+        <button
+          className="navbar-toggle"
+          data-target="#sidebar-nav"
+          data-toggle="collapse"
+          key="navbar-toggle-sidebar"
+          onClick={[Function]}
+          type="button"
+        >
+          <span
+            className="sr-only"
+          >
+            <FormattedMessage
+              defaultMessage="Toggle sidebar"
+              id="navbar.toggle2"
+              values={Object {}}
+            />
+          </span>
+          <span
+            aria-hidden="true"
+            className="icon icon__menu icon--sidebarHeaderTextColor"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<svg width='16px' height='10px' viewBox='0 0 16 10' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'> <g stroke='none' stroke-width='1' fill='inherit' fill-rule='evenodd'> <g transform='translate(-26.000000, -24.000000)' fill-rule='nonzero' fill='inherit'> <g transform='translate(26.000000, 24.000000)'> <path d='M1.5,0 L0.5,0 C0.224,0 0,0.224 0,0.5 L0,1.5 C0,1.776 0.224,2 0.5,2 L1.5,2 C1.776,2 2,1.776 2,1.5 L2,0.5 C2,0.224 1.776,0 1.5,0 Z'></path> <path d='M15.5,0 L3.5,0 C3.224,0 3,0.224 3,0.5 L3,1.5 C3,1.776 3.224,2 3.5,2 L15.5,2 C15.776,2 16,1.776 16,1.5 L16,0.5 C16,0.224 15.776,0 15.5,0 Z'></path> <path d='M1.5,4 L0.5,4 C0.224,4 0,4.224 0,4.5 L0,5.5 C0,5.776 0.224,6 0.5,6 L1.5,6 C1.776,6 2,5.776 2,5.5 L2,4.5 C2,4.224 1.776,4 1.5,4 Z'></path> <path d='M3.5,6 L11.5,6 C11.776,6 12,5.776 12,5.5 L12,4.5 C12,4.224 11.776,4 11.5,4 L3.5,4 C3.224,4 3,4.224 3,4.5 L3,5.5 C3,5.776 3.224,6 3.5,6 Z'></path> <path d='M1.5,8 L0.5,8 C0.224,8 0,8.224 0,8.5 L0,9.5 C0,9.776 0.224,10 0.5,10 L1.5,10 C1.776,10 2,9.776 2,9.5 L2,8.5 C2,8.224 1.776,8 1.5,8 Z'></path> <path d='M13.5,8 L3.5,8 C3.224,8 3,8.224 3,8.5 L3,9.5 C3,9.776 3.224,10 3.5,10 L13.5,10 C13.776,10 14,9.776 14,9.5 L14,8.5 C14,8.224 13.776,8 13.5,8 Z'></path> </g> </g> </g> </svg>",
+              }
+            }
+          />
+          <NotifyCounts />
+        </button>
+        <button
+          className="navbar-toggle navbar-right__icon menu-toggle pull-right"
+          data-target="#sidebar-nav"
+          data-toggle="collapse"
+          key="navbar-toggle-menu"
+          onClick={[Function]}
+          type="button"
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<svg width='16px' height='10px' viewBox='0 0 16 10' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'> <g stroke='none' stroke-width='1' fill='inherit' fill-rule='evenodd'> <g transform='translate(-188.000000, -38.000000)' fill-rule='nonzero' fill='inherit'> <g> <g> <g transform='translate(188.000000, 38.000000)'> <path d='M15.5,0 C15.776,0 16,0.224 16,0.5 L16,1.5 C16,1.776 15.776,2 15.5,2 L0.5,2 C0.224,2 0,1.776 0,1.5 L0,0.5 C0,0.224 0.224,0 0.5,0 L15.5,0 Z M15.5,4 C15.776,4 16,4.224 16,4.5 L16,5.5 C16,5.776 15.776,6 15.5,6 L0.5,6 C0.224,6 0,5.776 0,5.5 L0,4.5 C0,4.224 0.224,4 0.5,4 L15.5,4 Z M15.5,8 C15.776,8 16,8.224 16,8.5 L16,9.5 C16,9.776 15.776,10 15.5,10 L0.5,10 C0.224,10 0,9.776 0,9.5 L0,8.5 C0,8.224 0.224,8 0.5,8 L15.5,8 Z'></path> </g> </g> </g> </g> </g> </svg>",
+              }
+            }
+          />
+        </button>
+        <button
+          className="navbar-toggle navbar-right__icon navbar-search pull-right"
+          onClick={[Function]}
+          type="button"
+        >
+          <span
+            aria-hidden="true"
+            className="icon icon__search"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<svg width='19px' height='18px' viewBox='0 0 19 18' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'> <g stroke='inherit' stroke-width='1' fill='none' fill-rule='evenodd'> <g transform='translate(-719.000000, -20.000000)' stroke-width='1.5'> <g transform='translate(0.000000, 1.000000)'> <g transform='translate(63.000000, 10.000000)'> <g transform='translate(657.000000, 10.000000)'> <circle cx='7' cy='7' r='7'></circle> <path d='M12.5,11.5 L16.5,15.5' stroke-linecap='round'></path> </g> </g> </g> </g> </g> </svg>",
+              }
+            }
+          />
+        </button>
+        <NavbarInfoButton
+          channel={
+            Object {
+              "display_name": "display_name",
+              "id": "channel_id",
+              "name": "user_id_1__user_id_2",
+              "type": "D",
+            }
+          }
+          showEditChannelHeaderModal={[Function]}
+        />
+        <Connect(Pluggable)
+          pluggableName="MobileChannelHeaderButton"
+        />
+        <div
+          className="navbar-brand"
+        >
+          <div
+            className="dropdown"
+          >
+            <a
+              aria-expanded="true"
+              className="dropdown-toggle theme"
+              data-toggle="dropdown"
+              href="#"
+              type="button"
+            >
+              <span
+                className="heading"
+              >
+                <StatusIcon
+                  className=""
+                  status="offline"
+                />
+                 
+              </span>
+              <span
+                className="fa fa-angle-down header-dropdown__icon"
+              />
+            </a>
+            <ul
+              className="dropdown-menu"
+              role="menu"
+            >
+              <li
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Edit Channel Header"
+                    id="channel_header.channelHeader"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <li
+                key="toggle_favorite"
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Add to Favorites"
+                    id="channelHeader.addToFavorites"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <div
+                className="close visible-xs-block"
+                onClick={[Function]}
+              >
+                ×
+              </div>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <Connect(InjectIntl(RenameChannelModal))
+    channel={
+      Object {
+        "display_name": "display_name",
+        "id": "channel_id",
+        "name": "user_id_1__user_id_2",
+        "type": "D",
+      }
+    }
+    onHide={[Function]}
+    show={false}
+  />
+  <ChannelNotificationsModal
+    channel={
+      Object {
+        "display_name": "display_name",
+        "id": "channel_id",
+        "name": "user_id_1__user_id_2",
+        "type": "D",
+      }
+    }
+    channelMember={
+      Object {
+        "id": "member_id",
+      }
+    }
+    currentUser={
+      Object {
+        "id": "current_user_id",
+      }
+    }
+    onHide={[Function]}
+    show={false}
+  />
+  <Connect(QuickSwitchModal)
+    initialMode="channel"
+    onHide={[Function]}
+    show={false}
+  />
+</div>
+`;
+
+exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
+<div>
+  <nav
+    className="navbar navbar-default navbar-fixed-top"
+    role="navigation"
+  >
+    <div
+      className="container-fluid theme"
+    >
+      <div
+        className="navbar-header"
+      >
+        <button
+          className="navbar-toggle"
+          data-target="#sidebar-nav"
+          data-toggle="collapse"
+          key="navbar-toggle-sidebar"
+          onClick={[Function]}
+          type="button"
+        >
+          <span
+            className="sr-only"
+          >
+            <FormattedMessage
+              defaultMessage="Toggle sidebar"
+              id="navbar.toggle2"
+              values={Object {}}
+            />
+          </span>
+          <span
+            aria-hidden="true"
+            className="icon icon__menu icon--sidebarHeaderTextColor"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<svg width='16px' height='10px' viewBox='0 0 16 10' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'> <g stroke='none' stroke-width='1' fill='inherit' fill-rule='evenodd'> <g transform='translate(-26.000000, -24.000000)' fill-rule='nonzero' fill='inherit'> <g transform='translate(26.000000, 24.000000)'> <path d='M1.5,0 L0.5,0 C0.224,0 0,0.224 0,0.5 L0,1.5 C0,1.776 0.224,2 0.5,2 L1.5,2 C1.776,2 2,1.776 2,1.5 L2,0.5 C2,0.224 1.776,0 1.5,0 Z'></path> <path d='M15.5,0 L3.5,0 C3.224,0 3,0.224 3,0.5 L3,1.5 C3,1.776 3.224,2 3.5,2 L15.5,2 C15.776,2 16,1.776 16,1.5 L16,0.5 C16,0.224 15.776,0 15.5,0 Z'></path> <path d='M1.5,4 L0.5,4 C0.224,4 0,4.224 0,4.5 L0,5.5 C0,5.776 0.224,6 0.5,6 L1.5,6 C1.776,6 2,5.776 2,5.5 L2,4.5 C2,4.224 1.776,4 1.5,4 Z'></path> <path d='M3.5,6 L11.5,6 C11.776,6 12,5.776 12,5.5 L12,4.5 C12,4.224 11.776,4 11.5,4 L3.5,4 C3.224,4 3,4.224 3,4.5 L3,5.5 C3,5.776 3.224,6 3.5,6 Z'></path> <path d='M1.5,8 L0.5,8 C0.224,8 0,8.224 0,8.5 L0,9.5 C0,9.776 0.224,10 0.5,10 L1.5,10 C1.776,10 2,9.776 2,9.5 L2,8.5 C2,8.224 1.776,8 1.5,8 Z'></path> <path d='M13.5,8 L3.5,8 C3.224,8 3,8.224 3,8.5 L3,9.5 C3,9.776 3.224,10 3.5,10 L13.5,10 C13.776,10 14,9.776 14,9.5 L14,8.5 C14,8.224 13.776,8 13.5,8 Z'></path> </g> </g> </g> </svg>",
+              }
+            }
+          />
+          <NotifyCounts />
+        </button>
+        <button
+          className="navbar-toggle navbar-right__icon menu-toggle pull-right"
+          data-target="#sidebar-nav"
+          data-toggle="collapse"
+          key="navbar-toggle-menu"
+          onClick={[Function]}
+          type="button"
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<svg width='16px' height='10px' viewBox='0 0 16 10' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'> <g stroke='none' stroke-width='1' fill='inherit' fill-rule='evenodd'> <g transform='translate(-188.000000, -38.000000)' fill-rule='nonzero' fill='inherit'> <g> <g> <g transform='translate(188.000000, 38.000000)'> <path d='M15.5,0 C15.776,0 16,0.224 16,0.5 L16,1.5 C16,1.776 15.776,2 15.5,2 L0.5,2 C0.224,2 0,1.776 0,1.5 L0,0.5 C0,0.224 0.224,0 0.5,0 L15.5,0 Z M15.5,4 C15.776,4 16,4.224 16,4.5 L16,5.5 C16,5.776 15.776,6 15.5,6 L0.5,6 C0.224,6 0,5.776 0,5.5 L0,4.5 C0,4.224 0.224,4 0.5,4 L15.5,4 Z M15.5,8 C15.776,8 16,8.224 16,8.5 L16,9.5 C16,9.776 15.776,10 15.5,10 L0.5,10 C0.224,10 0,9.776 0,9.5 L0,8.5 C0,8.224 0.224,8 0.5,8 L15.5,8 Z'></path> </g> </g> </g> </g> </g> </svg>",
+              }
+            }
+          />
+        </button>
+        <button
+          className="navbar-toggle navbar-right__icon navbar-search pull-right"
+          onClick={[Function]}
+          type="button"
+        >
+          <span
+            aria-hidden="true"
+            className="icon icon__search"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<svg width='19px' height='18px' viewBox='0 0 19 18' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'> <g stroke='inherit' stroke-width='1' fill='none' fill-rule='evenodd'> <g transform='translate(-719.000000, -20.000000)' stroke-width='1.5'> <g transform='translate(0.000000, 1.000000)'> <g transform='translate(63.000000, 10.000000)'> <g transform='translate(657.000000, 10.000000)'> <circle cx='7' cy='7' r='7'></circle> <path d='M12.5,11.5 L16.5,15.5' stroke-linecap='round'></path> </g> </g> </g> </g> </g> </svg>",
+              }
+            }
+          />
+        </button>
+        <NavbarInfoButton
+          channel={
+            Object {
+              "display_name": "display_name",
+              "id": "channel_id",
+              "type": "O",
+            }
+          }
+          showEditChannelHeaderModal={[Function]}
+        />
+        <Connect(Pluggable)
+          pluggableName="MobileChannelHeaderButton"
+        />
+        <div
+          className="navbar-brand"
+        >
+          <div
+            className="dropdown"
+          >
+            <a
+              aria-expanded="true"
+              className="dropdown-toggle theme"
+              data-toggle="dropdown"
+              href="#"
+              type="button"
+            >
+              <span
+                className="heading"
+              >
+                <StatusIcon
+                  className=""
+                  status={null}
+                />
+                display_name
+                 
+              </span>
+              <span
+                className="fa fa-angle-down header-dropdown__icon"
+              />
+            </a>
+            <ul
+              className="dropdown-menu"
+              role="menu"
+            >
+              <li
+                role="presentation"
+              >
+                <ModalToggleButton
+                  className=""
+                  dialogProps={
+                    Object {
+                      "channel": Object {
+                        "display_name": "display_name",
+                        "id": "channel_id",
+                        "type": "O",
+                      },
+                    }
+                  }
+                  dialogType={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="View Info"
+                    id="navbar.viewInfo"
+                    values={Object {}}
+                  />
+                </ModalToggleButton>
+              </li>
+              <li
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="View Pinned Posts"
+                    id="navbar.viewPinnedPosts"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <li
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Notification Preferences"
+                    id="navbar.preferences"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <li
+                role="presentation"
+              >
+                <ModalToggleButton
+                  className=""
+                  dialogProps={
+                    Object {
+                      "channel": Object {
+                        "display_name": "display_name",
+                        "id": "channel_id",
+                        "type": "O",
+                      },
+                      "currentUser": Object {
+                        "id": "current_user_id",
+                      },
+                    }
+                  }
+                  dialogType={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Add Members"
+                    id="navbar.addMembers"
+                    values={Object {}}
+                  />
+                </ModalToggleButton>
+              </li>
+              <li
+                key="manage_members"
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Manage Members"
+                    id="channel_header.manageMembers"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <li
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Edit Channel Header"
+                    id="channel_header.setHeader"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <li
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Edit Channel Purpose"
+                    id="channel_header.setPurpose"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <li
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Rename Channel"
+                    id="channel_header.rename"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <li
+                role="presentation"
+              >
+                <ModalToggleButton
+                  className=""
+                  dialogProps={
+                    Object {
+                      "channel": Object {
+                        "display_name": "display_name",
+                        "id": "channel_id",
+                        "type": "O",
+                      },
+                    }
+                  }
+                  dialogType={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Delete Channel"
+                    id="channel_header.delete"
+                    values={Object {}}
+                  />
+                </ModalToggleButton>
+              </li>
+              <li
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Leave Channel"
+                    id="channel_header.leave"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <li
+                key="toggle_favorite"
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Add to Favorites"
+                    id="channelHeader.addToFavorites"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <div
+                className="close visible-xs-block"
+                onClick={[Function]}
+              >
+                ×
+              </div>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <Connect(InjectIntl(RenameChannelModal))
+    channel={
+      Object {
+        "display_name": "display_name",
+        "id": "channel_id",
+        "type": "O",
+      }
+    }
+    onHide={[Function]}
+    show={false}
+  />
+  <ChannelNotificationsModal
+    channel={
+      Object {
+        "display_name": "display_name",
+        "id": "channel_id",
+        "type": "O",
+      }
+    }
+    channelMember={
+      Object {
+        "id": "member_id",
+      }
+    }
+    currentUser={
+      Object {
+        "id": "current_user_id",
+      }
+    }
+    onHide={[Function]}
+    show={false}
+  />
+  <Connect(QuickSwitchModal)
+    initialMode="channel"
+    onHide={[Function]}
+    show={false}
+  />
+</div>
+`;
+
+exports[`components/navbar/Navbar should match snapshot, invalid state 1`] = `""`;
+
+exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
+<div>
+  <nav
+    className="navbar navbar-default navbar-fixed-top"
+    role="navigation"
+  >
+    <div
+      className="container-fluid theme"
+    >
+      <div
+        className="navbar-header"
+      >
+        <button
+          className="navbar-toggle"
+          data-target="#sidebar-nav"
+          data-toggle="collapse"
+          key="navbar-toggle-sidebar"
+          onClick={[Function]}
+          type="button"
+        >
+          <span
+            className="sr-only"
+          >
+            <FormattedMessage
+              defaultMessage="Toggle sidebar"
+              id="navbar.toggle2"
+              values={Object {}}
+            />
+          </span>
+          <span
+            aria-hidden="true"
+            className="icon icon__menu icon--sidebarHeaderTextColor"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<svg width='16px' height='10px' viewBox='0 0 16 10' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'> <g stroke='none' stroke-width='1' fill='inherit' fill-rule='evenodd'> <g transform='translate(-26.000000, -24.000000)' fill-rule='nonzero' fill='inherit'> <g transform='translate(26.000000, 24.000000)'> <path d='M1.5,0 L0.5,0 C0.224,0 0,0.224 0,0.5 L0,1.5 C0,1.776 0.224,2 0.5,2 L1.5,2 C1.776,2 2,1.776 2,1.5 L2,0.5 C2,0.224 1.776,0 1.5,0 Z'></path> <path d='M15.5,0 L3.5,0 C3.224,0 3,0.224 3,0.5 L3,1.5 C3,1.776 3.224,2 3.5,2 L15.5,2 C15.776,2 16,1.776 16,1.5 L16,0.5 C16,0.224 15.776,0 15.5,0 Z'></path> <path d='M1.5,4 L0.5,4 C0.224,4 0,4.224 0,4.5 L0,5.5 C0,5.776 0.224,6 0.5,6 L1.5,6 C1.776,6 2,5.776 2,5.5 L2,4.5 C2,4.224 1.776,4 1.5,4 Z'></path> <path d='M3.5,6 L11.5,6 C11.776,6 12,5.776 12,5.5 L12,4.5 C12,4.224 11.776,4 11.5,4 L3.5,4 C3.224,4 3,4.224 3,4.5 L3,5.5 C3,5.776 3.224,6 3.5,6 Z'></path> <path d='M1.5,8 L0.5,8 C0.224,8 0,8.224 0,8.5 L0,9.5 C0,9.776 0.224,10 0.5,10 L1.5,10 C1.776,10 2,9.776 2,9.5 L2,8.5 C2,8.224 1.776,8 1.5,8 Z'></path> <path d='M13.5,8 L3.5,8 C3.224,8 3,8.224 3,8.5 L3,9.5 C3,9.776 3.224,10 3.5,10 L13.5,10 C13.776,10 14,9.776 14,9.5 L14,8.5 C14,8.224 13.776,8 13.5,8 Z'></path> </g> </g> </g> </svg>",
+              }
+            }
+          />
+          <NotifyCounts />
+        </button>
+        <button
+          className="navbar-toggle navbar-right__icon menu-toggle pull-right"
+          data-target="#sidebar-nav"
+          data-toggle="collapse"
+          key="navbar-toggle-menu"
+          onClick={[Function]}
+          type="button"
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<svg width='16px' height='10px' viewBox='0 0 16 10' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'> <g stroke='none' stroke-width='1' fill='inherit' fill-rule='evenodd'> <g transform='translate(-188.000000, -38.000000)' fill-rule='nonzero' fill='inherit'> <g> <g> <g transform='translate(188.000000, 38.000000)'> <path d='M15.5,0 C15.776,0 16,0.224 16,0.5 L16,1.5 C16,1.776 15.776,2 15.5,2 L0.5,2 C0.224,2 0,1.776 0,1.5 L0,0.5 C0,0.224 0.224,0 0.5,0 L15.5,0 Z M15.5,4 C15.776,4 16,4.224 16,4.5 L16,5.5 C16,5.776 15.776,6 15.5,6 L0.5,6 C0.224,6 0,5.776 0,5.5 L0,4.5 C0,4.224 0.224,4 0.5,4 L15.5,4 Z M15.5,8 C15.776,8 16,8.224 16,8.5 L16,9.5 C16,9.776 15.776,10 15.5,10 L0.5,10 C0.224,10 0,9.776 0,9.5 L0,8.5 C0,8.224 0.224,8 0.5,8 L15.5,8 Z'></path> </g> </g> </g> </g> </g> </svg>",
+              }
+            }
+          />
+        </button>
+        <button
+          className="navbar-toggle navbar-right__icon navbar-search pull-right"
+          onClick={[Function]}
+          type="button"
+        >
+          <span
+            aria-hidden="true"
+            className="icon icon__search"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<svg width='19px' height='18px' viewBox='0 0 19 18' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'> <g stroke='inherit' stroke-width='1' fill='none' fill-rule='evenodd'> <g transform='translate(-719.000000, -20.000000)' stroke-width='1.5'> <g transform='translate(0.000000, 1.000000)'> <g transform='translate(63.000000, 10.000000)'> <g transform='translate(657.000000, 10.000000)'> <circle cx='7' cy='7' r='7'></circle> <path d='M12.5,11.5 L16.5,15.5' stroke-linecap='round'></path> </g> </g> </g> </g> </g> </svg>",
+              }
+            }
+          />
+        </button>
+        <NavbarInfoButton
+          channel={
+            Object {
+              "display_name": "display_name",
+              "id": "channel_id",
+              "type": "O",
+            }
+          }
+          showEditChannelHeaderModal={[Function]}
+        />
+        <Connect(Pluggable)
+          pluggableName="MobileChannelHeaderButton"
+        />
+        <div
+          className="navbar-brand"
+        >
+          <div
+            className="dropdown"
+          >
+            <a
+              aria-expanded="true"
+              className="dropdown-toggle theme"
+              data-toggle="dropdown"
+              href="#"
+              type="button"
+            >
+              <span
+                className="heading"
+              >
+                <StatusIcon
+                  className=""
+                  status={null}
+                />
+                display_name
+                 
+              </span>
+              <span
+                className="fa fa-angle-down header-dropdown__icon"
+              />
+            </a>
+            <ul
+              className="dropdown-menu"
+              role="menu"
+            >
+              <li
+                role="presentation"
+              >
+                <ModalToggleButton
+                  className=""
+                  dialogProps={
+                    Object {
+                      "channel": Object {
+                        "display_name": "display_name",
+                        "id": "channel_id",
+                        "type": "O",
+                      },
+                    }
+                  }
+                  dialogType={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="View Info"
+                    id="navbar.viewInfo"
+                    values={Object {}}
+                  />
+                </ModalToggleButton>
+              </li>
+              <li
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="View Pinned Posts"
+                    id="navbar.viewPinnedPosts"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <li
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Notification Preferences"
+                    id="navbar.preferences"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <li
+                role="presentation"
+              >
+                <ModalToggleButton
+                  className=""
+                  dialogProps={
+                    Object {
+                      "channel": Object {
+                        "display_name": "display_name",
+                        "id": "channel_id",
+                        "type": "O",
+                      },
+                      "currentUser": Object {
+                        "id": "current_user_id",
+                      },
+                    }
+                  }
+                  dialogType={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Add Members"
+                    id="navbar.addMembers"
+                    values={Object {}}
+                  />
+                </ModalToggleButton>
+              </li>
+              <li
+                key="manage_members"
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Manage Members"
+                    id="channel_header.manageMembers"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <li
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Edit Channel Header"
+                    id="channel_header.setHeader"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <li
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Edit Channel Purpose"
+                    id="channel_header.setPurpose"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <li
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Rename Channel"
+                    id="channel_header.rename"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <li
+                role="presentation"
+              >
+                <ModalToggleButton
+                  className=""
+                  dialogProps={
+                    Object {
+                      "channel": Object {
+                        "display_name": "display_name",
+                        "id": "channel_id",
+                        "type": "O",
+                      },
+                    }
+                  }
+                  dialogType={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Delete Channel"
+                    id="channel_header.delete"
+                    values={Object {}}
+                  />
+                </ModalToggleButton>
+              </li>
+              <li
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Leave Channel"
+                    id="channel_header.leave"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <li
+                key="toggle_favorite"
+                role="presentation"
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  role="menuitem"
+                >
+                  <FormattedMessage
+                    defaultMessage="Add to Favorites"
+                    id="channelHeader.addToFavorites"
+                    values={Object {}}
+                  />
+                </a>
+              </li>
+              <div
+                className="close visible-xs-block"
+                onClick={[Function]}
+              >
+                ×
+              </div>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <Connect(InjectIntl(RenameChannelModal))
+    channel={
+      Object {
+        "display_name": "display_name",
+        "id": "channel_id",
+        "type": "O",
+      }
+    }
+    onHide={[Function]}
+    show={false}
+  />
+  <ChannelNotificationsModal
+    channel={
+      Object {
+        "display_name": "display_name",
+        "id": "channel_id",
+        "type": "O",
+      }
+    }
+    channelMember={
+      Object {
+        "id": "member_id",
+      }
+    }
+    currentUser={
+      Object {
+        "id": "current_user_id",
+      }
+    }
+    onHide={[Function]}
+    show={false}
+  />
+  <Connect(QuickSwitchModal)
+    initialMode="channel"
+    onHide={[Function]}
+    show={false}
+  />
+</div>
+`;

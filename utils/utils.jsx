@@ -601,10 +601,12 @@ export function applyTheme(theme) {
     changeCss('.app__body .status.status--dnd', 'color:' + dndIndicator);
     changeCss('.app__body .status .dnd--icon', 'fill:' + dndIndicator);
 
-    if (theme.mentionBj) {
-        changeCss('.sidebar--left .nav-pills__unread-indicator', 'background:' + theme.mentionBj);
-        changeCss('.app__body .sidebar--left .badge', 'background:' + theme.mentionBj);
-        changeCss('.multi-teams .team-sidebar .badge', 'background:' + theme.mentionBj);
+    // Including 'mentionBj' for backwards compatability (old typo)
+    const mentionBg = theme.mentionBg || theme.mentionBj;
+    if (mentionBg) {
+        changeCss('.sidebar--left .nav-pills__unread-indicator', 'background:' + mentionBg);
+        changeCss('.app__body .sidebar--left .badge', 'background:' + mentionBg);
+        changeCss('.multi-teams .team-sidebar .badge', 'background:' + mentionBg);
     }
 
     if (theme.mentionColor) {
@@ -738,7 +740,7 @@ export function applyTheme(theme) {
     }
 
     if (theme.linkColor) {
-        changeCss('.app__body .post-add-reaction:hover .post-reaction, .app__body .channel-header .channel-header__favorites.inactive:hover, .app__body .channel-header__links > a.active, .app__body a, .app__body a:focus, .app__body a:hover, .app__body .channel-header__links > .color--link.active, .app__body .color--link, .app__body a:focus, .app__body .color--link:hover, .app__body .btn, .app__body .btn:focus, .app__body .btn:hover', 'color:' + theme.linkColor);
+        changeCss('.app__body .webrtc__header:not(.offline) button:hover, .app__body .post-add-reaction:hover .post-reaction, .app__body .channel-header .channel-header__favorites.inactive:hover, .app__body .channel-header__links > a.active, .app__body a, .app__body a:focus, .app__body a:hover, .app__body .channel-header__links > .color--link.active, .app__body .color--link, .app__body a:focus, .app__body .color--link:hover, .app__body .btn, .app__body .btn:focus, .app__body .btn:hover', 'color:' + theme.linkColor);
         changeCss('.app__body .attachment .attachment__container', 'border-left-color:' + changeOpacity(theme.linkColor, 0.5));
         changeCss('.app__body .member-list__popover .more-modal__list .more-modal__row:hover', 'background:' + changeOpacity(theme.linkColor, 0.08));
         changeCss('.app__body .channel-header__links .icon:hover, .app__body .channel-header__links > a.active .icon, .app__body .post .flag-icon__container.visible, .app__body .post .reacticon__container, .app__body .post .comment-icon__container, .app__body .post .post__reply', 'fill:' + theme.linkColor);

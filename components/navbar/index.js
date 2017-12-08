@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {closeRightHandSide} from 'actions/views/rhs';
+import {closeRightHandSide, updateRhsState} from 'actions/views/rhs';
 
 import {getRhsState} from 'selectors/rhs';
 
@@ -23,7 +23,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            closeRightHandSide
+            closeRightHandSide,
+            updateRhsState
         }, dispatch)
     };
 }

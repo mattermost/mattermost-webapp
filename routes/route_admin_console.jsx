@@ -4,7 +4,6 @@
 import React from 'react';
 import {IndexRedirect, Redirect, Route} from 'react-router';
 
-import JIRASettings from 'plugins/jira/components/settings.jsx';
 import * as RouteUtils from 'routes/route_utils.jsx';
 
 import Audits from 'components/admin_console/audits';
@@ -30,6 +29,7 @@ import LicenseSettings from 'components/admin_console/license_settings.jsx';
 import LinkPreviewsSettings from 'components/admin_console/link_previews_settings.jsx';
 import LocalizationSettings from 'components/admin_console/localization_settings.jsx';
 import LogSettings from 'components/admin_console/log_settings.jsx';
+import MessageExportSettings from 'components/admin_console/message_export_settings';
 import MetricsSettings from 'components/admin_console/metrics_settings.jsx';
 import MfaSettings from 'components/admin_console/mfa_settings.jsx';
 import NativeAppLinkSettings from 'components/admin_console/native_app_link_settings.jsx';
@@ -187,10 +187,6 @@ export default (
                 component={PluginManagement}
             />
             <Route
-                path='jira'
-                component={JIRASettings}
-            />
-            <Route
                 path='custom/:plugin_id'
                 component={CustomPluginSettings}
             />
@@ -238,6 +234,10 @@ export default (
             <Route
                 path='dataretention'
                 component={DataRetentionSettings}
+            />
+            <Route
+                path='message_export'
+                component={MessageExportSettings}
             />
             <Route
                 path='elasticsearch'

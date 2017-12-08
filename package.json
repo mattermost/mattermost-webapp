@@ -27,7 +27,7 @@
     "localforage-observable": "1.4.0",
     "marked": "mattermost/marked#802e981ade71149a497cbe79d12b8a3f82f7657e",
     "match-at": "0.1.1",
-    "mattermost-redux": "https://github.com/mattermost/mattermost-redux.git#fb083f67b5560ff64fe251415460a1af5d690e5a",
+    "mattermost-redux": "https://github.com/mattermost/mattermost-redux.git#3688abb1a0b820305e371dfda38017b66ccf232e",
     "object-assign": "4.1.1",
     "pdfjs-dist": "2.0.106",
     "perfect-scrollbar": "0.8.1",
@@ -50,7 +50,7 @@
     "superagent": "3.8.1",
     "twemoji": "2.5.0",
     "velocity-animate": "1.5.0",
-    "webrtc-adapter": "6.0.0",
+    "webrtc-adapter": "6.0.2",
     "whatwg-fetch": "2.0.3",
     "xregexp": "3.2.0"
   },
@@ -134,7 +134,7 @@
     "moduleNameMapper": {
       "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "identity-obj-proxy",
       "^.+\\.(css|less|scss)$": "identity-obj-proxy",
-      "^.+\\.(json)$": "identity-obj-proxy"
+      "^.*i18n.*\\.(json)$": "identity-obj-proxy"
     },
     "moduleDirectories": [
       "",

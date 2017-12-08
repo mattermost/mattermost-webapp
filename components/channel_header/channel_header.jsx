@@ -14,7 +14,7 @@ import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 
 import * as ChannelUtils from 'utils/channel_utils.jsx';
-import {ActionTypes, Constants, RHSStates, UserStatuses} from 'utils/constants.jsx';
+import {ActionTypes, Constants, RHSStates, UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import {getSiteURL} from 'utils/url.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -31,7 +31,7 @@ import PopoverListMembers from 'components/popover_list_members';
 import RenameChannelModal from 'components/rename_channel_modal';
 import NavbarSearchBox from 'components/search_bar';
 import StatusIcon from 'components/status_icon.jsx';
-import ToggleModalButton from 'components/toggle_modal_button.jsx';
+import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 
 import Pluggable from 'plugins/pluggable';
 
@@ -59,7 +59,8 @@ export default class ChannelHeader extends React.Component {
             showFlaggedPosts: PropTypes.func.isRequired,
             showPinnedPosts: PropTypes.func.isRequired,
             showMentions: PropTypes.func.isRequired,
-            closeRightHandSide: PropTypes.func.isRequired
+            closeRightHandSide: PropTypes.func.isRequired,
+            openModal: PropTypes.func.isRequired
         }).isRequired
     }
 
@@ -76,6 +77,7 @@ export default class ChannelHeader extends React.Component {
             showEditChannelPurposeModal: false,
             showMembersModal: false,
             showRenameChannelModal: false,
+            showChannelNotificationsModal: false,
             isBusy: WebrtcStore.isBusy()
         };
     }
@@ -166,6 +168,20 @@ export default class ChannelHeader extends React.Component {
         });
     }
 
+    showChannelNotificationsModal = (e) => {
+        e.preventDefault();
+
+        this.setState({
+            showChannelNotificationsModal: true
+        });
+    }
+
+    hideChannelNotificationsModal = () => {
+        this.setState({
+            showChannelNotificationsModal: false
+        });
+    }
+
     initWebrtc = (contactId, isOnline) => {
         if (isOnline && !this.state.isBusy) {
             this.props.actions.closeRightHandSide();
@@ -196,6 +212,7 @@ export default class ChannelHeader extends React.Component {
         const mentionsIcon = Constants.MENTIONS_ICON_SVG;
 
         const channel = this.props.channel;
+
         const recentMentionsTooltip = (
             <Tooltip id='recentMentionsTooltip'>
                 <FormattedMessage
@@ -272,22 +289,31 @@ export default class ChannelHeader extends React.Component {
 
             const webrtcEnabled = global.mm_config.EnableWebrtc === 'true' && userMedia && Utils.isFeatureEnabled(PreReleaseFeatures.WEBRTC_PREVIEW);
 
-            if (webrtcEnabled) {
+            if (webrtcEnabled && this.props.currentUser.id !== teammateId) {
                 const isOffline = dmUserStatus === UserStatuses.OFFLINE;
+                const isDoNotDisturb = dmUserStatus === UserStatuses.DND;
                 const busy = this.props.dmUserIsInCall;
                 let circleClass = '';
                 let webrtcMessage;
 
-                if (isOffline || busy) {
+                if (isOffline || isDoNotDisturb || busy) {
                     circleClass = 'offline';
-                    webrtcMessage = (
-                        <FormattedMessage
-                            id='channel_header.webrtc.offline'
-                            defaultMessage='The user is offline'
-                        />
-                    );
 
-                    if (busy) {
+                    if (isOffline) {
+                        webrtcMessage = (
+                            <FormattedMessage
+                                id='channel_header.webrtc.offline'
+                                defaultMessage='The user is offline'
+                            />
+                        );
+                    } else if (isDoNotDisturb) {
+                        webrtcMessage = (
+                            <FormattedMessage
+                                id='channel_header.webrtc.doNotDisturb'
+                                defaultMessage='Do not disturb'
+                            />
+                        );
+                    } else if (busy) {
                         webrtcMessage = (
                             <FormattedMessage
                                 id='channel_header.webrtc.unavailable'
@@ -309,11 +335,11 @@ export default class ChannelHeader extends React.Component {
                 );
 
                 webrtc = (
-                    <div className='webrtc__header channel-header__icon'>
+                    <div className={'webrtc__header channel-header__icon wide text ' + circleClass}>
                         <button
                             className='style--none'
-                            onClick={() => this.initWebrtc(dmUserId, !isOffline)}
-                            disabled={isOffline}
+                            onClick={() => this.initWebrtc(dmUserId, !isOffline || !isDoNotDisturb)}
+                            disabled={isOffline || isDoNotDisturb}
                         >
                             <OverlayTrigger
                                 trigger={['hover', 'focus']}
@@ -325,7 +351,7 @@ export default class ChannelHeader extends React.Component {
                                     id='webrtc-btn'
                                     className={'webrtc__button ' + circleClass}
                                 >
-                                    <span dangerouslySetInnerHTML={{__html: Constants.VIDEO_ICON}}/>
+                                    {'WebRTC'}
                                 </div>
                             </OverlayTrigger>
                         </button>
@@ -350,9 +376,10 @@ export default class ChannelHeader extends React.Component {
                     key='edit_header_direct'
                     role='presentation'
                 >
-                    <ToggleModalButton
+                    <ToggleModalButtonRedux
                         id='channelEditHeaderDirect'
                         role='menuitem'
+                        modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
                         dialogType={EditChannelHeaderModal}
                         dialogProps={{channel}}
                     >
@@ -360,7 +387,7 @@ export default class ChannelHeader extends React.Component {
                             id='channel_header.channelHeader'
                             defaultMessage='Edit Channel Header'
                         />
-                    </ToggleModalButton>
+                    </ToggleModalButtonRedux>
                 </li>
             );
         } else if (isGroup) {
@@ -369,9 +396,10 @@ export default class ChannelHeader extends React.Component {
                     key='edit_header_direct'
                     role='presentation'
                 >
-                    <ToggleModalButton
+                    <ToggleModalButtonRedux
                         id='channelEditHeaderGroup'
                         role='menuitem'
+                        modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
                         dialogType={EditChannelHeaderModal}
                         dialogProps={{channel}}
                     >
@@ -379,7 +407,7 @@ export default class ChannelHeader extends React.Component {
                             id='channel_header.channelHeader'
                             defaultMessage='Edit Channel Header'
                         />
-                    </ToggleModalButton>
+                    </ToggleModalButtonRedux>
                 </li>
             );
 
@@ -388,21 +416,17 @@ export default class ChannelHeader extends React.Component {
                     key='notification_preferences'
                     role='presentation'
                 >
-                    <ToggleModalButton
-                        id='channelnotificationPreferencesGroup'
+                    <button
+                        className='style--none'
+                        id='channelNotificationsGroup'
                         role='menuitem'
-                        dialogType={ChannelNotificationsModal}
-                        dialogProps={{
-                            channel,
-                            channelMember: this.props.channelMember,
-                            currentUser: this.props.currentUser
-                        }}
+                        onClick={this.showChannelNotificationsModal}
                     >
                         <FormattedMessage
                             id='channel_header.notificationPreferences'
                             defaultMessage='Notification Preferences'
                         />
-                    </ToggleModalButton>
+                    </button>
                 </li>
             );
 
@@ -430,9 +454,10 @@ export default class ChannelHeader extends React.Component {
                     key='view_info'
                     role='presentation'
                 >
-                    <ToggleModalButton
+                    <ToggleModalButtonRedux
                         id='channelViewInfo'
                         role='menuitem'
+                        modalId={ModalIdentifiers.CHANNEL_INFO}
                         dialogType={ChannelInfoModal}
                         dialogProps={{channel}}
                     >
@@ -440,7 +465,7 @@ export default class ChannelHeader extends React.Component {
                             id='channel_header.viewInfo'
                             defaultMessage='View Info'
                         />
-                    </ToggleModalButton>
+                    </ToggleModalButtonRedux>
                 </li>
             );
 
@@ -470,21 +495,17 @@ export default class ChannelHeader extends React.Component {
                     key='notification_preferences'
                     role='presentation'
                 >
-                    <ToggleModalButton
-                        id='channelNotificationPreferences'
+                    <button
+                        className='style--none'
+                        id='channelNotificationsGroup'
                         role='menuitem'
-                        dialogType={ChannelNotificationsModal}
-                        dialogProps={{
-                            channel,
-                            channelMember: this.props.channelMember,
-                            currentUser: this.props.currentUser
-                        }}
+                        onClick={this.showChannelNotificationsModal}
                     >
                         <FormattedMessage
                             id='channel_header.notificationPreferences'
                             defaultMessage='Notification Preferences'
                         />
-                    </ToggleModalButton>
+                    </button>
                 </li>
             );
 
@@ -502,10 +523,11 @@ export default class ChannelHeader extends React.Component {
                             key='add_members'
                             role='presentation'
                         >
-                            <ToggleModalButton
+                            <ToggleModalButtonRedux
                                 id='channelAddMembers'
                                 ref='channelInviteModalButton'
                                 role='menuitem'
+                                modalId={ModalIdentifiers.CHANNEL_INVITE}
                                 dialogType={ChannelInviteModal}
                                 dialogProps={{channel, currentUser: this.props.currentUser}}
                             >
@@ -513,7 +535,7 @@ export default class ChannelHeader extends React.Component {
                                     id='channel_header.addMembers'
                                     defaultMessage='Add Members'
                                 />
-                            </ToggleModalButton>
+                            </ToggleModalButtonRedux>
                         </li>
                     );
 
@@ -570,9 +592,10 @@ export default class ChannelHeader extends React.Component {
                         key='set_channel_header'
                         role='presentation'
                     >
-                        <ToggleModalButton
+                        <ToggleModalButtonRedux
                             id='channelEditHeader'
                             role='menuitem'
+                            modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
                             dialogType={EditChannelHeaderModal}
                             dialogProps={{channel}}
                         >
@@ -580,7 +603,7 @@ export default class ChannelHeader extends React.Component {
                                 id='channel_header.setHeader'
                                 defaultMessage='Edit Channel Header'
                             />
-                        </ToggleModalButton>
+                        </ToggleModalButtonRedux>
                     </li>
                 );
 
@@ -629,9 +652,10 @@ export default class ChannelHeader extends React.Component {
                         key='delete_channel'
                         role='presentation'
                     >
-                        <ToggleModalButton
+                        <ToggleModalButtonRedux
                             id='channelDelete'
                             role='menuitem'
+                            modalId={ModalIdentifiers.DELETE_CHANNEL}
                             dialogType={DeleteChannelModal}
                             dialogProps={{channel}}
                         >
@@ -639,7 +663,7 @@ export default class ChannelHeader extends React.Component {
                                 id='channel_header.delete'
                                 defaultMessage='Delete Channel'
                             />
-                        </ToggleModalButton>
+                        </ToggleModalButtonRedux>
                     </li>
                 );
             }
@@ -675,7 +699,7 @@ export default class ChannelHeader extends React.Component {
 
         let dmHeaderIconStatus;
         let dmHeaderTextStatus;
-        if (channel.type === Constants.DM_CHANNEL) {
+        if (channel.type === Constants.DM_CHANNEL && !this.props.dmUser.delete_at) {
             dmHeaderIconStatus = (
                 <StatusIcon
                     type='avatar'
@@ -812,10 +836,18 @@ export default class ChannelHeader extends React.Component {
 
         let channelMembersModal;
         if (this.state.showMembersModal) {
+            const inviteModalData = {
+                modalId: ModalIdentifiers.CHANNEL_INVITE,
+                dialogType: ChannelInviteModal,
+                dialogProps: {channel, currentUser: this.props.currentUser}
+            };
+
+            const {openModal} = this.props.actions;
+
             channelMembersModal = (
                 <ChannelMembersModal
                     onModalDismissed={() => this.setState({showMembersModal: false})}
-                    showInviteModal={() => this.refs.channelInviteModalButton.show()}
+                    showInviteModal={() => openModal(inviteModalData)}
                     channel={channel}
                 />
             );
@@ -961,6 +993,13 @@ export default class ChannelHeader extends React.Component {
                 {editHeaderModal}
                 {editPurposeModal}
                 {channelMembersModal}
+                <ChannelNotificationsModal
+                    show={this.state.showChannelNotificationsModal}
+                    onHide={this.hideChannelNotificationsModal}
+                    channel={channel}
+                    channelMember={this.props.channelMember}
+                    currentUser={this.props.currentUser}
+                />
                 <RenameChannelModal
                     show={this.state.showRenameChannelModal}
                     onHide={this.hideRenameChannelModal}

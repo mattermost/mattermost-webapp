@@ -21,6 +21,7 @@ exports[`components/rename_channel_modal/rename_channel_modal.jsx should match s
       "remove": [Function],
     }
   }
+  onEntering={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}

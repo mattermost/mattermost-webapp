@@ -81,7 +81,8 @@ export function actionOnItemsWithPrefix(prefix, action) {
 }
 
 export function storageRehydrate(incoming) {
-    return async (dispatch) => {
+    return async (dispatch, persistor) => {
+        persistor.pause();
         Object.keys(incoming).forEach((key) => {
             let storage = {};
             try {
@@ -94,6 +95,7 @@ export function storageRehydrate(incoming) {
                 data: storage
             });
         });
+        persistor.resume();
         return {data: true};
     };
 }
