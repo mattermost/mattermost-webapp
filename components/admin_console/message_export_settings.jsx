@@ -20,14 +20,14 @@ export default class MessageExportSettings extends AdminSettings {
     }
 
     getConfigFromState(config) {
-        config.MessageExportSettings.EnableExport = this.state.enableMessageExport;
+        config.MessageExportSettings.EnableExport = this.state.enableComplianceExport;
         config.MessageExportSettings.DailyRunTime = this.state.exportJobStartTime;
         return config;
     }
 
     getStateFromConfig(config) {
         return {
-            enableMessageExport: config.MessageExportSettings.EnableExport,
+            enableComplianceExport: config.MessageExportSettings.EnableExport,
             exportJobStartTime: config.MessageExportSettings.DailyRunTime
         };
     }
@@ -71,7 +71,7 @@ export default class MessageExportSettings extends AdminSettings {
                             defaultMessage='When true, Mattermost will generate a compliance export file that contains all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See <a href=\"https://about.mattermost.com/default-compliance-export-documentation\" target=\"_blank\">the documentation</a> to learn more.'
                         />
                     }
-                    value={this.state.enableMessageExport}
+                    value={this.state.enableComplianceExport}
                     onChange={this.handleChange}
                 />
 
@@ -91,7 +91,7 @@ export default class MessageExportSettings extends AdminSettings {
                         />
                     }
                     value={this.state.exportJobStartTime}
-                    disabled={!this.state.enableMessageExport}
+                    disabled={!this.state.enableComplianceExport}
                     onChange={this.handleChange}
                 />
 
@@ -112,13 +112,13 @@ export default class MessageExportSettings extends AdminSettings {
                         />
                     }
                     value='actiance'
-                    disabled={!this.state.enableMessageExport}
+                    disabled={!this.state.enableComplianceExport}
                     onChange={this.handleChange}
                 />
 
                 <JobsTable
                     jobType={JobTypes.MESSAGE_EXPORT}
-                    disabled={!this.state.enableMessageExport}
+                    disabled={!this.state.enableComplianceExport}
                     createJobButtonText={
                         <FormattedMessage
                             id='admin.complianceExport.createJob.title'
