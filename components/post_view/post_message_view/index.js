@@ -7,12 +7,11 @@ import {createSelector} from 'reselect';
 import {Preferences} from 'mattermost-redux/constants';
 
 import {getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
-import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 import {getTheme, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser, getCurrentUserMentionKeys, getUsersByUsername} from 'mattermost-redux/selectors/entities/users';
 
-import {EmojiMap} from 'stores/emoji_store.jsx';
+import {getEmojiMap} from 'selectors/emojis';
 
 import {getSiteURL} from 'utils/url.jsx';
 
@@ -29,35 +28,24 @@ const getChannelNamesMap = createSelector(
     }
 );
 
-function makeMapStateToProps() {
-    let emojiMap;
-    let oldCustomEmoji;
+function mapStateToProps(state, ownProps) {
+    const user = getCurrentUser(state);
 
-    return function mapStateToProps(state, ownProps) {
-        const newCustomEmoji = getCustomEmojisByName(state);
-        if (newCustomEmoji !== oldCustomEmoji) {
-            emojiMap = new EmojiMap(newCustomEmoji);
-        }
-        oldCustomEmoji = newCustomEmoji;
+    const channelNamesMap = getChannelNamesMap(state, ownProps.post.props);
 
-        const user = getCurrentUser(state);
-
-        const channelNamesMap = getChannelNamesMap(state, ownProps.post.props);
-
-        return {
-            ...ownProps,
-            emojis: emojiMap,
-            enableFormatting: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'formatting', true),
-            mentionKeys: getCurrentUserMentionKeys(state),
-            usernameMap: getUsersByUsername(state),
-            team: getCurrentTeam(state),
-            siteUrl: getSiteURL(),
-            theme: getTheme(state),
-            pluginPostTypes: state.plugins.postTypes,
-            currentUser: user,
-            channelNamesMap
-        };
+    return {
+        ...ownProps,
+        emojis: getEmojiMap(state),
+        enableFormatting: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'formatting', true),
+        mentionKeys: getCurrentUserMentionKeys(state),
+        usernameMap: getUsersByUsername(state),
+        team: getCurrentTeam(state),
+        siteUrl: getSiteURL(),
+        theme: getTheme(state),
+        pluginPostTypes: state.plugins.postTypes,
+        currentUser: user,
+        channelNamesMap
     };
 }
 
-export default connect(makeMapStateToProps)(PostMessageView);
+export default connect(mapStateToProps)(PostMessageView);
