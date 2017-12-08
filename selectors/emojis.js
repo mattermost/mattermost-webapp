@@ -10,7 +10,6 @@ import {EmojiMap} from 'stores/emoji_store.jsx';
 export const getEmojiMap = createSelector(
     getCustomEmojisByName,
     (customEmojisByName) => {
-        console.log('recalculating emojis1');
         return new EmojiMap(customEmojisByName);
     }
 );
