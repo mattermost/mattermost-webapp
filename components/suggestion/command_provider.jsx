@@ -36,6 +36,9 @@ export default class CommandProvider {
     handlePretextChanged(suggestionId, pretext) {
         if (pretext.startsWith('/')) {
             getSuggestedCommands(pretext.toLowerCase(), suggestionId, CommandSuggestion, pretext.toLowerCase());
+
+            return true;
         }
+        return false;
     }
 }
