@@ -301,7 +301,7 @@ export default {
                         Promise.all([
                             System.import('components/team_sidebar'),
                             System.import('components/sidebar.jsx'),
-                            System.import('components/channel_view.jsx')
+                            System.import('components/channel_view')
                         ]).then(
                         (comarr) => callback(null, {team_sidebar: comarr[0].default, sidebar: comarr[1].default, center: comarr[2].default})
                         );
@@ -327,7 +327,7 @@ export default {
                         Promise.all([
                             System.import('components/team_sidebar'),
                             System.import('components/sidebar.jsx'),
-                            System.import('components/channel_view.jsx')
+                            System.import('components/channel_view')
                         ]).then(
                         (comarr) => callback(null, {team_sidebar: comarr[0].default, sidebar: comarr[1].default, center: comarr[2].default})
                         );
