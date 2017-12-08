@@ -12,6 +12,8 @@ import {switchTeams} from 'actions/team_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import {isDesktopApp} from 'utils/user_agent.jsx';
 
+import {localizeMessage} from 'utils/utils.jsx';
+
 export default class TeamButton extends React.Component {
     constructor(props) {
         super(props);
@@ -70,7 +72,7 @@ export default class TeamButton extends React.Component {
                 </div>
             );
         } else {
-            const toolTip = this.props.displayName ? this.props.tip : 'Name undefined';
+            const toolTip = this.props.displayName ? this.props.tip : localizeMessage('team.button.name_undefined', 'Name undefined');
             btn = (
                 <OverlayTrigger
                     trigger={['hover', 'focus']}
