@@ -208,10 +208,6 @@
         }
     }
 
-    .scrollbar--view {
-        margin-right: 0 !important;
-    }
-
     .post-code__language {
         @include opacity(.6);
         @include transition(none);
@@ -1665,7 +1661,7 @@
     .webrtc__button {
         display: none !important;
     }
- 
+
     .webrtc__option {
         display: block;
 
