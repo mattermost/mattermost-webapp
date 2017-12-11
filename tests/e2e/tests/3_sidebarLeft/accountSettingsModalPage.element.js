@@ -76,27 +76,43 @@ module.exports = {
 
         const displaySettingsSection = accountSettingsModalSection.section.displaySettings;
         displaySettingsSection
+            .assert.visible('@displaySettingsTitle')
+            .assert.containsText('@displaySettingsTitle', 'Display Settings')
             .assert.visible('@themeTitle')
+            .assert.containsText('@themeTitle', 'Theme')
             .assert.visible('@themeEdit')
             .assert.visible('@themeDesc')
+            .assert.containsText('@themeDesc', 'Open to manage your theme')
             .assert.visible('@clockTitle')
+            .assert.containsText('@clockTitle', 'Clock Display')
             .assert.visible('@clockEdit')
             .assert.visible('@clockDesc')
+            .assert.containsText('@clockDesc', '12-hour clock (example: 4:00 PM)')
             .assert.visible('@linkPreviewTitle')
+            .assert.containsText('@linkPreviewTitle', 'Website Link Previews')
             .assert.visible('@linkPreviewEdit')
             .assert.visible('@linkPreviewDesc')
+            .assert.containsText('@linkPreviewDesc', 'On')
             .assert.visible('@collapseTitle')
+            .assert.containsText('@collapseTitle', 'Default appearance of image link previews')
             .assert.visible('@collapseEdit')
             .assert.visible('@collapseDesc')
+            .assert.containsText('@collapseDesc', 'Expanded')
             .assert.visible('@messageDisplayTitle')
+            .assert.containsText('@messageDisplayTitle', 'Message Display')
             .assert.visible('@messageDisplayEdit')
             .assert.visible('@messageDisplayDesc')
+            .assert.containsText('@messageDisplayDesc', 'Standard')
             .assert.visible('@channelDisplayModeTitle')
+            .assert.containsText('@channelDisplayModeTitle', 'Channel Display Mode')
             .assert.visible('@channelDisplayModeEdit')
             .assert.visible('@channelDisplayModeDesc')
+            .assert.containsText('@channelDisplayModeDesc', 'Full width')
             .assert.visible('@languageTitle')
+            .assert.containsText('@languageTitle', 'Language')
             .assert.visible('@languageEdit')
-            .assert.visible('@languageDesc');
+            .assert.visible('@languageDesc')
+            .assert.containsText('@languageDesc', 'English');
 
         sidebarLeftPage.click('@sidebarHeaderDropdownButton');
     }

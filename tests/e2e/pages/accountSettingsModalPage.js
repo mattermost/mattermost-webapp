@@ -39,6 +39,7 @@ const tabList = {
 const displaySettings = {
     selector: '#displaySettings',
     elements: {
+        displaySettingsTitle: {selector: '#displaySettingsTitle'},
         themeTitle: {selector: '#ThemeTitle'},
         themeEdit: {selector: '#ThemeEdit'},
         themeDesc: {selector: '#ThemeDesc'},
