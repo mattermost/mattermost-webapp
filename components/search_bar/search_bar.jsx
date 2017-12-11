@@ -13,6 +13,7 @@ import SearchChannelProvider from 'components/suggestion/search_channel_provider
 import SearchSuggestionList from 'components/suggestion/search_suggestion_list.jsx';
 import SearchUserProvider from 'components/suggestion/search_user_provider.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
+import FlagIcon from 'components/svg/flag_icon';
 import MentionsIcon from 'components/svg/mentions_icon';
 
 const {KeyCodes} = Constants;
@@ -164,7 +165,6 @@ export default class SearchBar extends React.Component {
     }
 
     render() {
-        const flagIcon = Constants.FLAG_ICON_SVG;
         const searchIcon = Constants.SEARCH_ICON_SVG;
 
         var isSearching = null;
@@ -238,10 +238,7 @@ export default class SearchBar extends React.Component {
                             onClick={this.getFlagged}
                             className='style--none'
                         >
-                            <span
-                                className='icon icon__flag'
-                                dangerouslySetInnerHTML={{__html: flagIcon}}
-                            />
+                            <FlagIcon className='icon icon__flag'/>
                         </button>
                     </div>
                 </OverlayTrigger>

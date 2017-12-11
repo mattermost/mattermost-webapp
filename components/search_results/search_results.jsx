@@ -8,14 +8,15 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
 
+import SearchResultsHeader from 'components/search_results_header';
+import SearchResultsItem from 'components/search_results_item';
+import FlagIcon from 'components/svg/flag_icon';
+
 import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
-import SearchResultsHeader from '../search_results_header';
-import SearchResultsItem from '../search_results_item.jsx';
 
 export function renderView(props) {
     return (
@@ -122,7 +123,6 @@ export default class SearchResults extends React.PureComponent {
         const noResults = (!results || results.length === 0);
         const searchTerms = this.props.searchTerms;
         const profiles = this.state.profiles || {};
-        const flagIcon = Constants.FLAG_ICON_SVG;
 
         let ctls = null;
 
@@ -152,10 +152,7 @@ export default class SearchResults extends React.PureComponent {
                         id='search_results.usageFlag2'
                         defaultMessage='You can add a flag to messages and comments by clicking the '
                     />
-                    <span
-                        className='usage__icon'
-                        dangerouslySetInnerHTML={{__html: flagIcon}}
-                    />
+                    <FlagIcon className='usage__icon'/>
                     <FormattedMessage
                         id='search_results.usageFlag3'
                         defaultMessage=' icon next to the timestamp.'

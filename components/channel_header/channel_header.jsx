@@ -31,6 +31,7 @@ import PopoverListMembers from 'components/popover_list_members';
 import RenameChannelModal from 'components/rename_channel_modal';
 import NavbarSearchBox from 'components/search_bar';
 import StatusIcon from 'components/status_icon.jsx';
+import FlagIcon from 'components/svg/flag_icon';
 import MentionsIcon from 'components/svg/mentions_icon';
 import PinIcon from 'components/svg/pin_icon';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
@@ -208,8 +209,6 @@ export default class ChannelHeader extends React.Component {
                 <div className='channel-header'/>
             );
         }
-
-        const flagIcon = Constants.FLAG_ICON_SVG;
 
         const channel = this.props.channel;
 
@@ -980,10 +979,7 @@ export default class ChannelHeader extends React.Component {
                                 onClick={this.getFlagged}
 
                             >
-                                <span
-                                    className='icon icon__flag'
-                                    dangerouslySetInnerHTML={{__html: flagIcon}}
-                                />
+                                <FlagIcon className='icon icon__flag'/>
                             </button>
                         </OverlayTrigger>
                     </div>
