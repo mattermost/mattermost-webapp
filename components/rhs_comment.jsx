@@ -22,6 +22,7 @@ import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
 import PostMessageContainer from 'components/post_view/post_message_view';
 import ReactionListContainer from 'components/post_view/reaction_list';
 import ProfilePicture from 'components/profile_picture.jsx';
+import MattermostLogo from 'components/svg/mattermost_logo';
 
 import UserProfile from './user_profile.jsx';
 
@@ -219,7 +220,6 @@ export default class RhsComment extends React.Component {
 
     render() {
         const post = this.props.post;
-        const mattermostLogo = Constants.MATTERMOST_ICON_SVG;
 
         let idCount = -1;
         if (this.props.lastPostCount >= 0 && this.props.lastPostCount < Constants.TEST_ID_COUNT) {
@@ -325,10 +325,7 @@ export default class RhsComment extends React.Component {
             );
         } else if (isSystemMessage) {
             profilePic = (
-                <span
-                    className='icon'
-                    dangerouslySetInnerHTML={{__html: mattermostLogo}}
-                />
+                <MattermostLogo className='icon'/>
             );
         }
 

@@ -23,6 +23,7 @@ import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
 import PostMessageContainer from 'components/post_view/post_message_view';
 import ReactionListContainer from 'components/post_view/reaction_list';
 import ProfilePicture from 'components/profile_picture.jsx';
+import MattermostLogo from 'components/svg/mattermost_logo';
 
 import UserProfile from './user_profile.jsx';
 
@@ -214,7 +215,6 @@ export default class RhsRootPost extends React.Component {
     render() {
         const post = this.props.post;
         const user = this.props.user;
-        const mattermostLogo = Constants.MATTERMOST_ICON_SVG;
         var channel = ChannelStore.get(post.channel_id);
 
         const isEphemeral = Utils.isPostEphemeral(post);
@@ -328,10 +328,7 @@ export default class RhsRootPost extends React.Component {
         let profilePic;
         if (isSystemMessage) {
             profilePic = (
-                <span
-                    className='icon'
-                    dangerouslySetInnerHTML={{__html: mattermostLogo}}
-                />
+                <MattermostLogo className='icon'/>
             );
         } else if (post.props && post.props.from_webhook) {
             profilePic = (

@@ -173,7 +173,7 @@
         "no-unsafe-negation": 2,
         "no-unused-expressions": 2,
         "no-unused-vars": [2, {"vars": "all", "args": "after-used"}],
-        "no-use-before-define": [2, "nofunc"],
+        "no-use-before-define": [2, {"classes": false, "functions": false, "variables": false}],
         "no-useless-computed-key": 2,
         "no-useless-concat": 2,
         "no-useless-constructor": 2,
