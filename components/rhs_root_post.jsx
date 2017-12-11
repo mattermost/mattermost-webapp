@@ -23,6 +23,7 @@ import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
 import PostMessageContainer from 'components/post_view/post_message_view';
 import ReactionListContainer from 'components/post_view/reaction_list';
 import ProfilePicture from 'components/profile_picture.jsx';
+import EmojiIcon from 'components/svg/emoji_icon';
 import MattermostLogo from 'components/svg/mattermost_logo';
 
 import UserProfile from './user_profile.jsx';
@@ -253,10 +254,7 @@ export default class RhsRootPost extends React.Component {
                         onClick={this.toggleEmojiPicker}
                         ref='rhs_root_reacticon'
                     >
-                        <span
-                            className='icon icon--emoji'
-                            dangerouslySetInnerHTML={{__html: Constants.EMOJI_ICON_SVG}}
-                        />
+                        <EmojiIcon className='icon icon--emoji'/>
                     </button>
                 </span>
 

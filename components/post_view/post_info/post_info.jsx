@@ -19,6 +19,7 @@ import DotMenu from 'components/dot_menu';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
 import PostTime from 'components/post_view/post_time.jsx';
+import EmojiIcon from 'components/svg/emoji_icon';
 
 export default class PostInfo extends React.PureComponent {
     static propTypes = {
@@ -175,10 +176,7 @@ export default class PostInfo extends React.PureComponent {
                             className='reacticon__container color--link style--none'
                             onClick={this.toggleEmojiPicker}
                         >
-                            <span
-                                className='icon icon--emoji'
-                                dangerouslySetInnerHTML={{__html: Constants.EMOJI_ICON_SVG}}
-                            />
+                            <EmojiIcon className='icon icon--emoji'/>
                         </button>
                     </span>
 
