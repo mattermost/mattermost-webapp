@@ -54,24 +54,10 @@ export default class RhsRootPost extends React.Component {
 
         this.state = {
             currentTeamDisplayName: TeamStore.getCurrent().name,
-            width: '',
-            height: '',
             showEmojiPicker: false,
             testStateObj: true,
             dropdownOpened: false
         };
-    }
-
-    componentDidMount() {
-        window.addEventListener('resize', () => {
-            Utils.updateWindowDimensions(this);
-        });
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', () => {
-            Utils.updateWindowDimensions(this);
-        });
     }
 
     shouldComponentUpdate(nextProps, nextState) {

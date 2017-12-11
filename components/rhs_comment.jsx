@@ -50,23 +50,9 @@ export default class RhsComment extends React.Component {
 
         this.state = {
             currentTeamDisplayName: TeamStore.getCurrent().name,
-            width: '',
-            height: '',
             showEmojiPicker: false,
             dropdownOpened: false
         };
-    }
-
-    componentDidMount() {
-        window.addEventListener('resize', () => {
-            Utils.updateWindowDimensions(this);
-        });
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', () => {
-            Utils.updateWindowDimensions(this);
-        });
     }
 
     removePost() {

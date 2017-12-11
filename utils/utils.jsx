@@ -1458,10 +1458,6 @@ export function isEmptyObject(object) {
     return false;
 }
 
-export function updateWindowDimensions(component) {
-    component.setState({width: window.innerWidth, height: window.innerHeight});
-}
-
 export function removePrefixFromLocalStorage(prefix) {
     const keys = [];
     for (let i = 0; i < localStorage.length; i++) {
