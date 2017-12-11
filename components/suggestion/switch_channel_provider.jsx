@@ -10,6 +10,9 @@ import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, searchProfiles} from 'mattermost-redux/selectors/entities/users';
 
+import GlobeIcon from 'components/svg/globe_icon';
+import LockIcon from 'components/svg/lock_icon';
+
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import store from 'stores/redux_store.jsx';
 
@@ -26,8 +29,6 @@ class SwitchChannelSuggestion extends Suggestion {
     render() {
         const {item, isSelection} = this.props;
         const channel = item.channel;
-        const globeIcon = Constants.GLOBE_ICON_SVG;
-        const lockIcon = Constants.LOCK_ICON_SVG;
 
         let className = 'mentions__name';
         if (isSelection) {
@@ -38,17 +39,11 @@ class SwitchChannelSuggestion extends Suggestion {
         let icon = null;
         if (channel.type === Constants.OPEN_CHANNEL) {
             icon = (
-                <span
-                    className='icon icon__globe icon--body'
-                    dangerouslySetInnerHTML={{__html: globeIcon}}
-                />
+                <GlobeIcon className='icon icon__globe icon--body'/>
             );
         } else if (channel.type === Constants.PRIVATE_CHANNEL) {
             icon = (
-                <span
-                    className='icon icon__lock icon--body'
-                    dangerouslySetInnerHTML={{__html: lockIcon}}
-                />
+                <LockIcon className='icon icon__lock icon--body'/>
             );
         } else if (channel.type === Constants.GM_CHANNEL) {
             displayName = getChannelDisplayName(channel);

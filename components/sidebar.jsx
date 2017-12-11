@@ -34,6 +34,8 @@ import loadingGif from 'images/load.gif';
 
 import MoreChannels from 'components/more_channels';
 import MoreDirectChannels from 'components/more_direct_channels';
+import GlobeIcon from 'components/svg/globe_icon';
+import LockIcon from 'components/svg/lock_icon';
 
 import NewChannelFlow from './new_channel_flow.jsx';
 import SidebarHeader from './sidebar_header.jsx';
@@ -573,21 +575,13 @@ export default class Sidebar extends React.Component {
         }
 
         var icon = null;
-        const globeIcon = Constants.GLOBE_ICON_SVG;
-        const lockIcon = Constants.LOCK_ICON_SVG;
         if (channel.type === Constants.OPEN_CHANNEL) {
             icon = (
-                <span
-                    className='icon icon__globe'
-                    dangerouslySetInnerHTML={{__html: globeIcon}}
-                />
+                <GlobeIcon className='icon icon__globe'/>
             );
         } else if (channel.type === Constants.PRIVATE_CHANNEL) {
             icon = (
-                <span
-                    className='icon icon__lock'
-                    dangerouslySetInnerHTML={{__html: lockIcon}}
-                />
+                <LockIcon className='icon icon__lock'/>
             );
         } else if (channel.type === Constants.GM_CHANNEL) {
             icon = <div className='status status--group'>{UserStore.getProfileListInChannel(channel.id, true).length}</div>;
