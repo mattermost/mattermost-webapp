@@ -26,11 +26,10 @@ export default class EmojiPickerItem extends React.PureComponent {
         super(props);
         this.handleMouseOver = this.handleMouseOver.bind(this);
         this.handleClick = this.handleClick.bind(this);
-        this.emojiItemRef = (emojiItem) => {
-            this.emojiItem = emojiItem;
-        };
     }
-
+    emojiItemRef = (emojiItem) => {
+        this.emojiItem = emojiItem;
+    };
     componentWillReceiveProps(nextProps) {
         if (!this.props.isSelected && nextProps.isSelected) {
             const topOfTheEmojiContainer = this.emojiItem.offsetTop;
