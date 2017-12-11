@@ -31,6 +31,7 @@ import PopoverListMembers from 'components/popover_list_members';
 import RenameChannelModal from 'components/rename_channel_modal';
 import NavbarSearchBox from 'components/search_bar';
 import StatusIcon from 'components/status_icon.jsx';
+import MentionsIcon from 'components/svg/mentions_icon';
 import PinIcon from 'components/svg/pin_icon';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 
@@ -209,7 +210,6 @@ export default class ChannelHeader extends React.Component {
         }
 
         const flagIcon = Constants.FLAG_ICON_SVG;
-        const mentionsIcon = Constants.MENTIONS_ICON_SVG;
 
         const channel = this.props.channel;
 
@@ -960,9 +960,8 @@ export default class ChannelHeader extends React.Component {
                                 className='channel-header__icon icon--hidden style--none'
                                 onClick={this.searchMentions}
                             >
-                                <span
+                                <MentionsIcon
                                     className='icon icon__mentions'
-                                    dangerouslySetInnerHTML={{__html: mentionsIcon}}
                                     aria-hidden='true'
                                 />
                             </button>
