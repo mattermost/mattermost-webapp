@@ -123,7 +123,7 @@ export default class SidebarRight extends React.Component {
 
     onPostPinnedChange = () => {
         if (this.props.channel && this.props.isPinnedPosts) {
-            this.props.actions.getPinnedPosts();
+            this.props.actions.getPinnedPosts(this.props.channel.id);
         }
     }
 
