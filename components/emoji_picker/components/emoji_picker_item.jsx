@@ -76,8 +76,6 @@ export default class EmojiPickerItem extends React.PureComponent {
                 </div>
             );
         } else {
-            // 'emoji-picker__item-wrapper'
-            // 'emoji-picker__item emoticon'
             item = (
                 <div
                     className={itemClassName}
