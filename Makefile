@@ -1,4 +1,4 @@
-.PHONY: build test run clean stop check-style run-unit emojis help
+.PHONY: build test test-e2e run clean stop check-style run-unit emojis help
 
 BUILD_SERVER_DIR = ../mattermost-server
 EMOJI_TOOLS_DIR = ./build/emoji
@@ -12,6 +12,11 @@ test: .yarninstall ## Runs tests
 	@echo Running jest unit/component testing
 
 	yarn run test
+
+test-e2e: .yarninstall ## Run end-to-end testing
+	@echo Running end-to-end testing
+
+	yarn run test:e2e
 
 .yarninstall: package.json
 	@echo Getting dependencies using yarn

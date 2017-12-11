@@ -87,9 +87,6 @@ function local_tests {
     else
         message "E2E full local chrome starts..."
         nightwatch -e chrome --suiteRetries 1
-
-        message "E2E full local firefox starts..."
-        nightwatch -e firefox --skiptags tutorial --suiteRetries 1
     fi
 }
 

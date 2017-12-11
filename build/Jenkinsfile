@@ -12,6 +12,9 @@ node {
     stage('Unit/Component Tests') {
         sh 'make test'
     }
+    stage('End-to-End Tests') {
+        sh 'make test-e2e'
+    }
     stage('Build') {
         sh 'make build'
         sh 'make package'
