@@ -7,6 +7,8 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
+import AttachmentIcon from 'components/svg/attachment_icon';
+
 import Constants from 'utils/constants.jsx';
 import * as FileUtils from 'utils/file_utils';
 import * as Utils from 'utils/utils.jsx';
@@ -157,10 +159,7 @@ export default class FileAttachment extends React.PureComponent {
                         className='post-image__name'
                         rel='noopener noreferrer'
                     >
-                        <span
-                            className='icon'
-                            dangerouslySetInnerHTML={{__html: Constants.ATTACHMENT_ICON_SVG}}
-                        />
+                        <AttachmentIcon className='icon'/>
                         {trimmedFilename}
                     </a>
                 </OverlayTrigger>
