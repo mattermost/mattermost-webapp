@@ -151,7 +151,7 @@
     "build": "cross-env NODE_ENV=production webpack --display-error-details --verbose --progress",
     "run": "cross-env NODE_ENV=production webpack --progress --watch",
     "run-fullmap": "webpack --progress --watch",
-    "test": "jest",
+    "test": "jest --forceExit",
     "updatesnapshot": "jest --updateSnapshot",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
