@@ -1,17 +1,12 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 export default class MattermostLogo extends React.PureComponent {
-    static propTypes = {
-        className: PropTypes.string
-    };
-
     render() {
         return (
-            <span className={this.props.className}>
+            <span {...this.props}>
                 <svg
                     version='1.1'
                     id='Layer_1'
