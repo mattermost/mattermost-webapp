@@ -4,57 +4,57 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Constants from 'utils/constants.jsx';
+import ReplyIcon from 'components/svg/reply_icon';
+
 import * as Utils from 'utils/utils.jsx';
 
-export default function CommentIcon(props) {
-    let commentCountSpan = '';
-    let iconStyle = 'comment-icon__container';
-    if (props.commentCount > 0) {
-        iconStyle += ' icon--show';
-        commentCountSpan = (
-            <span className='comment-count'>
-                {props.commentCount}
-            </span>
+export default class CommentIcon extends React.PureComponent {
+    static propTypes = {
+        idPrefix: PropTypes.string.isRequired,
+        idCount: PropTypes.number,
+        handleCommentClick: PropTypes.func.isRequired,
+        searchStyle: PropTypes.string,
+        commentCount: PropTypes.number,
+        id: PropTypes.string
+    };
+
+    static defaultProps = {
+        idCount: -1,
+        searchStyle: '',
+        commentCount: 0,
+        id: ''
+    };
+
+    render() {
+        let commentCountSpan = '';
+        let iconStyle = 'comment-icon__container';
+        if (this.props.commentCount > 0) {
+            iconStyle += ' icon--show';
+            commentCountSpan = (
+                <span className='comment-count'>
+                    {this.props.commentCount}
+                </span>
+            );
+        } else if (this.props.searchStyle !== '') {
+            iconStyle = iconStyle + ' ' + this.props.searchStyle;
+        }
+
+        let selectorId = this.props.idPrefix;
+        if (this.props.idCount > -1) {
+            selectorId += this.props.idCount;
+        }
+
+        const id = Utils.createSafeId(this.props.idPrefix + '_' + this.props.id);
+
+        return (
+            <button
+                id={id}
+                className={iconStyle + ' color--link style--none ' + selectorId}
+                onClick={this.props.handleCommentClick}
+            >
+                <ReplyIcon className='comment-icon'/>
+                {commentCountSpan}
+            </button>
         );
-    } else if (props.searchStyle !== '') {
-        iconStyle = iconStyle + ' ' + props.searchStyle;
     }
-
-    let selectorId = props.idPrefix;
-    if (props.idCount > -1) {
-        selectorId += props.idCount;
-    }
-
-    const id = Utils.createSafeId(props.idPrefix + '_' + props.id);
-
-    return (
-        <button
-            id={id}
-            className={iconStyle + ' color--link style--none ' + selectorId}
-            onClick={props.handleCommentClick}
-        >
-            <span
-                className='comment-icon'
-                dangerouslySetInnerHTML={{__html: Constants.REPLY_ICON}}
-            />
-            {commentCountSpan}
-        </button>
-    );
 }
-
-CommentIcon.propTypes = {
-    idPrefix: PropTypes.string.isRequired,
-    idCount: PropTypes.number,
-    handleCommentClick: PropTypes.func.isRequired,
-    searchStyle: PropTypes.string,
-    commentCount: PropTypes.number,
-    id: PropTypes.string
-};
-
-CommentIcon.defaultProps = {
-    idCount: -1,
-    searchStyle: '',
-    commentCount: 0,
-    id: ''
-};
