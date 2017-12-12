@@ -13,20 +13,22 @@ import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 
-import {Constants, WebrtcActionTypes} from 'utils/constants.jsx';
+import {
+    Constants,
+    Preferences,
+    TutorialSteps,
+    WebrtcActionTypes
+} from 'utils/constants.jsx';
 import {useSafeUrl} from 'utils/url.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import AboutBuildModal from 'components/about_build_modal';
 import AddUsersToTeam from 'components/add_users_to_team';
+import LeaveTeamIcon from 'components/svg/leave_team_icon';
 import TeamMembersModal from 'components/team_members_modal';
+import ToggleModalButton from 'components/toggle_modal_button.jsx';
 import {createMenuTip} from 'components/tutorial/tutorial_tip.jsx';
-
-import ToggleModalButton from '../toggle_modal_button.jsx';
-
-const Preferences = Constants.Preferences;
-const TutorialSteps = Constants.TutorialSteps;
 
 export default class SidebarRightMenu extends React.Component {
     static propTypes = {
@@ -292,10 +294,7 @@ export default class SidebarRightMenu extends React.Component {
                     href='#'
                     onClick={GlobalActions.showLeaveTeamModal}
                 >
-                    <span
-                        className='icon'
-                        dangerouslySetInnerHTML={{__html: Constants.LEAVE_TEAM_SVG}}
-                    />
+                    <LeaveTeamIcon className='icon'/>
                     <FormattedMessage
                         id='navbar_dropdown.leave'
                         defaultMessage='Leave Team'
