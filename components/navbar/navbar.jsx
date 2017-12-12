@@ -39,6 +39,7 @@ import QuickSwitchModal from 'components/quick_switch_modal';
 import RenameChannelModal from 'components/rename_channel_modal';
 import StatusIcon from 'components/status_icon.jsx';
 import MenuIcon from 'components/svg/menu_icon';
+import SearchIcon from 'components/svg/search_icon';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 
@@ -880,16 +881,14 @@ export default class Navbar extends React.Component {
 
         var collapseButtons = this.createCollapseButtons(currentId);
 
-        const searchIcon = Constants.SEARCH_ICON_SVG;
         const searchButton = (
             <button
                 type='button'
                 className='navbar-toggle navbar-right__icon navbar-search pull-right'
                 onClick={this.showSearch}
             >
-                <span
+                <SearchIcon
                     className='icon icon__search'
-                    dangerouslySetInnerHTML={{__html: searchIcon}}
                     aria-hidden='true'
                 />
             </button>

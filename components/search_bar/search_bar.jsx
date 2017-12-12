@@ -15,6 +15,7 @@ import SearchUserProvider from 'components/suggestion/search_user_provider.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import FlagIcon from 'components/svg/flag_icon';
 import MentionsIcon from 'components/svg/mentions_icon';
+import SearchIcon from 'components/svg/search_icon';
 
 const {KeyCodes} = Constants;
 
@@ -165,8 +166,6 @@ export default class SearchBar extends React.Component {
     }
 
     render() {
-        const searchIcon = Constants.SEARCH_ICON_SVG;
-
         var isSearching = null;
         if (this.props.isSearching) {
             isSearching = <span className={'fa fa-spin fa-spinner'}/>;
@@ -276,10 +275,9 @@ export default class SearchBar extends React.Component {
                         style={{overflow: 'visible'}}
                         autoComplete='off'
                     >
-                        <span
+                        <SearchIcon
                             id='searchIcon'
                             className='search__icon'
-                            dangerouslySetInnerHTML={{__html: searchIcon}}
                             aria-hidden='true'
                         />
                         <SuggestionBox
