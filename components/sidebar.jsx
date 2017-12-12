@@ -42,7 +42,6 @@ import MoreDirectChannels from 'components/more_direct_channels';
 import ArchiveIcon from 'components/svg/archive_icon';
 import GlobeIcon from 'components/svg/globe_icon';
 import LockIcon from 'components/svg/lock_icon';
-import SwitchChannelIcon from 'components/svg/switch_channel_icon';
 import NewChannelFlow from 'components/new_channel_flow.jsx';
 import SidebarHeader from 'components/sidebar_header.jsx';
 import StatusIcon from 'components/status_icon.jsx';
@@ -1069,7 +1068,6 @@ export default class Sidebar extends React.Component {
                         className='btn btn-link'
                         onClick={this.openQuickSwitcher}
                     >
-                        <SwitchChannelIcon className='icon icon__switch'/>
                         <FormattedMessage
                             id={'channel_switch_modal.title'}
                             defaultMessage='Switch Channels'
