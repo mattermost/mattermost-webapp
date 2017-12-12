@@ -1260,7 +1260,7 @@
   "audit_table.userAdded": "Added {username} to the {channelName} channel/group",
   "audit_table.userId": "사용자 ID",
   "audit_table.userRemoved": "Removed {username} to the {channelName} channel/group",
-  "audit_table.verified": "Sucessfully verified your email address",
+  "audit_table.verified": "Successfully verified your email address",
   "authorize.access": "Allow <strong>{appName}</strong> access?",
   "authorize.allow": "허용하기",
   "authorize.app": "The app <strong>{appName}</strong> would like the ability to access and modify your basic information.",
