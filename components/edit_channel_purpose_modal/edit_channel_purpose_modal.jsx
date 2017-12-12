@@ -128,6 +128,10 @@ export default class EditChannelPurposeModal extends React.Component {
         this.setState({purpose: e.target.value});
     }
 
+    getPurpose = (node) => {
+        this.purpose = node;
+    };
+
     render() {
         let serverError = null;
         if (this.state.serverError) {
@@ -193,9 +197,7 @@ export default class EditChannelPurposeModal extends React.Component {
                         {channelPurposeModal}
                     </p>
                     <textarea
-                        ref={(e) => {
-                            this.purpose = e;
-                        }}
+                        ref={this.getPurpose}
                         className='form-control no-resize'
                         rows='6'
                         maxLength='250'

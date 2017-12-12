@@ -171,17 +171,23 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         return null;
     }
 
+    getSmallImageContainer = (node) => {
+        this.smallImageContainer = node;
+    }
+
     wrapInSmallImageContainer(imageElement) {
         return (
             <div
                 className='attachment__image__container--openraph'
-                ref={(div) => {
-                    this.smallImageContainer = div;
-                }}
+                ref={this.getSmallImageContainer}
             >
                 {imageElement}
             </div>
         );
+    }
+
+    getSmallImageElement = (node) => {
+        this.smallImageElement = node;
     }
 
     imageTag(imageUrl, renderingForLargeImage = false) {
@@ -211,9 +217,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                         <img
                             className={'attachment__image attachment__image--openraph'}
                             src={imageUrl}
-                            ref={(img) => {
-                                this.smallImageElement = img;
-                            }}
+                            ref={this.getSmallImageElement}
                         />
                     );
                 }

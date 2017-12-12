@@ -42,7 +42,7 @@ class ColorInput extends React.Component {
 
     checkClick = (e) => {
         const colorPickerDOMNode = ReactDom.findDOMNode(this.colorPicker);
-        if (!colorPickerDOMNode.contains(e.target)) {
+        if (!colorPickerDOMNode || !colorPickerDOMNode.contains(e.target)) {
             this.setState({isOpened: false});
         }
     };
@@ -58,6 +58,10 @@ class ColorInput extends React.Component {
         if (handleChange) {
             handleChange(hex);
         }
+    };
+
+    getColorPicker = (node) => {
+        this.colorPicker = node;
     };
 
     render() {
@@ -85,9 +89,7 @@ class ColorInput extends React.Component {
                 </span>
                 {isOpened && (
                     <div
-                        ref={(item) => {
-                            this.colorPicker = item;
-                        }}
+                        ref={this.getColorPicker}
                         className='color-popover'
                     >
                         <ChromePicker
