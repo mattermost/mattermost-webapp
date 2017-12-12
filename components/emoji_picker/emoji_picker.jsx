@@ -142,6 +142,12 @@ export default class EmojiPicker extends React.PureComponent {
         this.lastVisibleEmojiRef = (lastVisibleEmoji) => {
             this.lastVisibleEmoji = lastVisibleEmoji;
         };
+        this.emojiPickerContainerRef = (emojiPickerContainer) => {
+            this.emojiPickerContainer = emojiPickerContainer;
+        };
+        this.emojiSearchInput = (input) => {
+            this.searchInput = input;
+        };
     }
 
     componentWillMount() {
@@ -389,9 +395,7 @@ export default class EmojiPicker extends React.PureComponent {
             <div className='emoji-picker__search-container'>
                 <span className='fa fa-search emoji-picker__search-icon'/>
                 <input
-                    ref={(input) => {
-                        this.searchInput = input;
-                    }}
+                    ref={this.emojiSearchInput}
                     className='emoji-picker__search'
                     type='text'
                     onChange={this.handleFilterChange}
@@ -427,9 +431,7 @@ export default class EmojiPicker extends React.PureComponent {
 
         return (
             <div
-                ref={(emojiPickerContainer) => {
-                    this.emojiPickerContainer = emojiPickerContainer;
-                }}
+                ref={this.emojiPickerContainerRef}
                 onScroll={this.handleScrollThrottle}
                 className='emoji-picker__items'
                 style={EMOJI_CONTAINER_STYLE}
