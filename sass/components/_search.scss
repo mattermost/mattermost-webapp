@@ -41,6 +41,7 @@
 }
 
 .search__form {
+    padding: 0 30px 0 40px;
     position: relative;
 
     .search-bar__container & {
@@ -61,7 +62,6 @@
         font-size: 14px;
         height: 35px;
         outline: none;
-        padding: 0 30px 0 40px;
         width: 100%;
     }
 
