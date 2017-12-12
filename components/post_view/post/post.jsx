@@ -195,6 +195,10 @@ export default class Post extends React.PureComponent {
         return className + ' ' + sameUserClass + ' ' + rootUser + ' ' + postType + ' ' + currentUserCss;
     }
 
+    getRef = (node) => {
+        this.domNode = node;
+    }
+
     render() {
         const post = this.props.post || {};
         const mattermostLogo = Constants.MATTERMOST_ICON_SVG;
@@ -261,9 +265,7 @@ export default class Post extends React.PureComponent {
 
         return (
             <div
-                ref={(div) => {
-                    this.domNode = div;
-                }}
+                ref={this.getRef}
             >
                 <div
                     id={'post_' + post.id}
