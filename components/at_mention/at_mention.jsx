@@ -85,7 +85,7 @@ export default class AtMention extends React.PureComponent {
                 <OverlayTrigger
                     ref='overlay'
                     trigger='click'
-                    placement='right'
+                    placement='left'
                     rootClose={true}
                     overlay={
                         <Pluggable>
