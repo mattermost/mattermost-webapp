@@ -142,7 +142,25 @@ export default class SearchResultsItem extends React.PureComponent {
             return true;
         }
 
+        if ((this.state.width !== nextState.width) || this.state.height !== nextState.height) {
+            return true;
+        }
+
         return false;
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', this.setDimentions);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.setDimentions);
+    }
+
+    setDimentions = () => {
+        this.setState({
+            ...Utils.getWindowDimentions()
+        });
     }
 
     shrinkSidebar() {

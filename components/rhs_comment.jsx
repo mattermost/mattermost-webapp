@@ -51,24 +51,9 @@ export default class RhsComment extends React.Component {
         this.state = {
             currentTeamDisplayName: TeamStore.getCurrent().name,
             showEmojiPicker: false,
-            dropdownOpened: false
+            dropdownOpened: false,
+            ...Utils.getWindowDimentions()
         };
-    }
-
-    removePost() {
-        this.props.removePost(this.props.post);
-    }
-
-    createRemovePostButton() {
-        return (
-            <button
-                className='post__remove theme color--link style--none'
-                type='button'
-                onClick={this.removePost}
-            >
-                {'×'}
-            </button>
-        );
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -124,7 +109,41 @@ export default class RhsComment extends React.Component {
             return true;
         }
 
+        if ((this.state.width !== nextState.width) || this.state.height !== nextState.height) {
+            return true;
+        }
+
         return false;
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', this.setDimentions);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.setDimentions);
+    }
+
+    setDimentions = () => {
+        this.setState({
+            ...Utils.getWindowDimentions()
+        });
+    }
+
+    removePost() {
+        this.props.removePost(this.props.post);
+    }
+
+    createRemovePostButton() {
+        return (
+            <button
+                className='post__remove theme color--link style--none'
+                type='button'
+                onClick={this.removePost}
+            >
+                {'×'}
+            </button>
+        );
     }
 
     timeTag(post, timeOptions) {

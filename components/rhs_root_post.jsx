@@ -113,7 +113,25 @@ export default class RhsRootPost extends React.Component {
             return true;
         }
 
+        if ((this.state.width !== nextState.width) || this.state.height !== nextState.height) {
+            return true;
+        }
+
         return false;
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', this.setDimentions);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.setDimentions);
+    }
+
+    setDimentions = () => {
+        this.setState({
+            ...Utils.getWindowDimentions()
+        });
     }
 
     timeTag(post, timeOptions) {

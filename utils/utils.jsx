@@ -1237,6 +1237,13 @@ export function windowHeight() {
     return $(window).height();
 }
 
+export function getWindowDimentions() {
+    return {
+        width: window.innerWidth,
+        height: window.innerHeight
+    };
+}
+
 export function getChannelTerm(channelType) {
     let channelTerm = 'Channel';
     if (channelType === Constants.PRIVATE_CHANNEL) {

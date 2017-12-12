@@ -7,7 +7,7 @@ import {Link} from 'react-router';
 
 import TeamStore from 'stores/team_store.jsx';
 
-import {isMobile, updateWindowDimensions} from 'utils/utils.jsx';
+import {isMobile, getWindowDimentions} from 'utils/utils.jsx';
 
 export default class PostTime extends React.PureComponent {
     static propTypes = {
@@ -43,20 +43,21 @@ export default class PostTime extends React.PureComponent {
 
         this.state = {
             currentTeamDisplayName: TeamStore.getCurrent().name,
-            width: '',
-            height: ''
+            ...getWindowDimentions()
         };
     }
 
     componentDidMount() {
-        window.addEventListener('resize', () => {
-            updateWindowDimensions(this);
-        });
+        window.addEventListener('resize', this.setDimentions);
     }
 
     componentWillUnmount() {
-        window.removeEventListener('resize', () => {
-            updateWindowDimensions(this);
+        window.removeEventListener('resize', this.setDimentions);
+    }
+
+    setDimentions = () => {
+        this.setState({
+            ...getWindowDimentions()
         });
     }
 
