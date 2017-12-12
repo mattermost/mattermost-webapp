@@ -403,9 +403,28 @@ export default class EmojiPicker extends React.PureComponent {
     }
 
     emojiCurrentResults() {
-        const {cursor, filter} = this.state;
+        const {filter} = this.state;
         const categories = filter ? [CATEGORY_SEARCH_RESULTS] : Object.keys(this.state.categories);
-        let numEmojisLoaded = -1;
+        let numEmojisLoaded = 0;
+
+        let categoryComponents = [];
+
+        for (let i = 0; i < categories.length; i++) {
+            const category = this.getCategoriesByKey(categories[i]);
+            const emojis = this.getEmojisByCategory(category);
+            const items = this.emojiCurrentResultsItems(i, emojis, numEmojisLoaded);
+            numEmojisLoaded += items.length;
+            categoryComponents = [...categoryComponents, (
+                <EmojiPickerCategorySection
+                    key={category.id}
+                    categoryName={category.name}
+                    updateCategoryOffset={this.updateCategoryOffset}
+                >
+                    {items}
+                </EmojiPickerCategorySection>
+            )];
+        }
+
         return (
             <div
                 ref={(emojiPickerContainer) => {
@@ -416,61 +435,55 @@ export default class EmojiPicker extends React.PureComponent {
                 style={EMOJI_CONTAINER_STYLE}
             >
                 <div className='emoji-picker__container'>
-                    {categories.map((key, categoryIndex) => {
-                        const category = this.getCategoriesByKey(key);
-                        const emojis = this.getEmojisByCategory(category);
-                        return (
-                            <EmojiPickerCategorySection
-                                key={category.id}
-                                categoryName={category.name}
-                                updateCategoryOffset={this.updateCategoryOffset}
-                            >
-                                {emojis.map((emoji, emojiIndex) => {
-                                    numEmojisLoaded++;
-
-                                    // set ref on first unloaded emoji
-                                    let ref;
-                                    if (numEmojisLoaded === this.state.emojisToShow) {
-                                        ref = this.lastVisibleEmojiRef;
-                                    }
-                                    if (numEmojisLoaded >= this.state.emojisToShow) {
-                                        return (
-                                            <div
-                                                key={numEmojisLoaded}
-                                                className='emoji-picker__item'
-                                                ref={ref}
-                                            >
-                                                <img
-                                                    src='/static/images/img_trans.gif'
-                                                    className='emojisprite'
-                                                />
-                                            </div>
-                                        );
-                                    }
-                                    return (
-                                        <EmojiPickerItem
-                                            key={emoji.filename}
-                                            emoji={emoji}
-                                            onItemOver={this.handleItemOver}
-                                            onItemClick={this.handleItemClick}
-                                            onItemUnmount={emoji}
-                                            category={emoji.category}
-                                            isSelected={cursor[0] === (categoryIndex) && cursor[1] === emojiIndex}
-                                            categoryIndex={categoryIndex}
-                                            emojiIndex={emojiIndex}
-                                            containerRef={this.emojiPickerContainer}
-                                            containerTop={this.state.divTopOffset}
-                                            containerBottom={this.state.divTopOffset + this.divHeight}
-                                        />
-                                    );
-                                })}
-                            </EmojiPickerCategorySection>
-                        );
-                    })}
+                    {categoryComponents}
                 </div>
             </div>
         );
     }
+    emojiCurrentResultsItems = (categoryIndex, emojis, currentEmojiLoadedCount) => {
+        const {cursor, emojisToShow} = this.state;
+        let numEmojisLoaded = currentEmojiLoadedCount;
+
+        return emojis.map((emoji, emojiIndex) => {
+            numEmojisLoaded++;
+
+            // set ref on first unloaded emoji
+            let ref;
+            if (numEmojisLoaded === emojisToShow) {
+                ref = this.lastVisibleEmojiRef;
+            }
+            if (numEmojisLoaded >= emojisToShow) {
+                return (
+                    <div
+                        key={numEmojisLoaded}
+                        className='emoji-picker__item'
+                        ref={ref}
+                    >
+                        <img
+                            src='/static/images/img_trans.gif'
+                            className='emojisprite'
+                        />
+                    </div>
+                );
+            }
+            return (
+                <EmojiPickerItem
+                    key={emoji.filename}
+                    emoji={emoji}
+                    onItemOver={this.handleItemOver}
+                    onItemClick={this.handleItemClick}
+                    onItemUnmount={emoji}
+                    category={emoji.category}
+                    isSelected={cursor[0] === (categoryIndex) && cursor[1] === emojiIndex}
+                    categoryIndex={categoryIndex}
+                    emojiIndex={emojiIndex}
+                    containerRef={this.emojiPickerContainer}
+                    containerTop={this.state.divTopOffset}
+                    containerBottom={this.state.divTopOffset + this.divHeight}
+                />
+            );
+        });
+    };
 
     updateCategoryOffset(categoryName, offset) {
         if (categoryName !== CATEGORY_SEARCH_RESULTS) {
