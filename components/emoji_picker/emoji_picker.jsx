@@ -138,16 +138,6 @@ export default class EmojiPicker extends React.PureComponent {
             divTopOffset: 0,
             emojisToShow: EMOJI_TO_LOAD_PER_UPDATE
         };
-
-        this.lastVisibleEmojiRef = (lastVisibleEmoji) => {
-            this.lastVisibleEmoji = lastVisibleEmoji;
-        };
-        this.emojiPickerContainerRef = (emojiPickerContainer) => {
-            this.emojiPickerContainer = emojiPickerContainer;
-        };
-        this.emojiSearchInput = (input) => {
-            this.searchInput = input;
-        };
     }
 
     componentWillMount() {
@@ -177,6 +167,16 @@ export default class EmojiPicker extends React.PureComponent {
             }
         }
     }
+
+    lastVisibleEmojiRef = (lastVisibleEmoji) => {
+        this.lastVisibleEmoji = lastVisibleEmoji;
+    };
+    emojiPickerContainerRef = (emojiPickerContainer) => {
+        this.emojiPickerContainer = emojiPickerContainer;
+    };
+    emojiSearchInput = (input) => {
+        this.searchInput = input;
+    };
 
     handleCategoryClick(categoryName) {
         this.emojiPickerContainer.scrollTop = this.state.categories[categoryName].offset;
