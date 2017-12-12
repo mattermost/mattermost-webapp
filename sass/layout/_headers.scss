@@ -57,8 +57,10 @@
         line-height: 36px;
         margin: 17px 10px 0 0;
         min-width: 30px;
+        position: relative;
         text-align: center;
         width: 37px;
+        z-index: 5;
 
         &.wide {
             @include border-radius(37px);
