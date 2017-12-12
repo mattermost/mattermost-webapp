@@ -23,6 +23,8 @@ import * as Utils from 'utils/utils.jsx';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
+import MemberIcon from 'components/svg/member_icon';
+import MessageIcon from 'components/svg/message_icon';
 import TeamMembersModal from 'components/team_members_modal';
 
 export default class PopoverListMembers extends React.Component {
@@ -95,7 +97,6 @@ export default class PopoverListMembers extends React.Component {
         const isSystemAdmin = UserStore.isSystemAdminForCurrentUser();
         const isTeamAdmin = TeamStore.isTeamAdminForCurrentTeam();
         const isChannelAdmin = ChannelStore.isChannelAdminForCurrentChannel();
-        const membersIcon = Constants.MEMBERS_ICON_SVG;
 
         if (members && teamMembers) {
             members.sort((a, b) => {
@@ -106,9 +107,14 @@ export default class PopoverListMembers extends React.Component {
             });
 
             members.forEach((m, i) => {
-                let messageIcon = '';
+                let messageIcon;
                 if (currentUserId !== m.id && this.props.channel.type !== Constants.DM_CHANNEl) {
-                    messageIcon = Constants.MESSAGE_ICON_SVG;
+                    messageIcon = (
+                        <MessageIcon
+                            className='icon icon__message'
+                            aria-hidden='true'
+                        />
+                    );
                 }
 
                 let name = '';
@@ -138,11 +144,7 @@ export default class PopoverListMembers extends React.Component {
                             <div
                                 className='more-modal__actions'
                             >
-                                <span
-                                    className='icon icon__message'
-                                    dangerouslySetInnerHTML={{__html: messageIcon}}
-                                    aria-hidden='true'
-                                />
+                                {messageIcon}
                             </div>
                         </div>
                     );
@@ -264,10 +266,9 @@ export default class PopoverListMembers extends React.Component {
                         >
                             {countText}
                         </span>
-                        <span
+                        <MemberIcon
                             id='channelMemberIcon'
                             className='icon icon__members'
-                            dangerouslySetInnerHTML={{__html: membersIcon}}
                             aria-hidden='true'
                         />
                     </div>
