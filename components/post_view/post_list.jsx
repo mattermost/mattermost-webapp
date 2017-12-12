@@ -173,10 +173,12 @@ export default class PostList extends React.PureComponent {
         const prevPosts = prevProps.posts || [];
         const posts = this.props.posts || [];
 
-        const hasNewPosts = (prevPosts.length === 0 && posts.length > 0) || (prevPosts.length > 0 && posts.length > 0 && prevPosts[0].id !== posts[0].id);
+        if (this.props.focusedPostId == null) {
+            const hasNewPosts = (prevPosts.length === 0 && posts.length > 0) || (prevPosts.length > 0 && posts.length > 0 && prevPosts[0].id !== posts[0].id);
 
-        if (!this.checkBottom() && hasNewPosts) {
-            this.setUnreadsBelow(posts, this.props.currentUserId);
+            if (!this.checkBottom() && hasNewPosts) {
+                this.setUnreadsBelow(posts, this.props.currentUserId);
+            }
         }
 
         const postList = this.refs.postlist;
