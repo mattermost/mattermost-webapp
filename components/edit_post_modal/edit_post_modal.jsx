@@ -160,7 +160,7 @@ export default class EditPostModal extends React.PureComponent {
 
         this.props.actions.addMessageIntoHistory(updatedPost.message);
 
-        const data = await this.props.actions.editPost(updatedPost);
+        const {data} = await this.props.actions.editPost(updatedPost);
         if (data) {
             window.scrollTo(0, 0);
         }
