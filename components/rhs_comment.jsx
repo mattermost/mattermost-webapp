@@ -134,7 +134,7 @@ export default class RhsComment extends React.Component {
             return true;
         }
 
-        if (this.props.user.last_picture_update !== nextProps.user.last_picture_update) {
+        if (!Utils.areObjectsEqual(nextProps.user, this.props.user)) {
             return true;
         }
 
