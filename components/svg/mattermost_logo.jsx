@@ -41,7 +41,6 @@ const style = {
     },
     st0: {
         fillRule: 'evenodd',
-        clipRule: 'evenodd',
-        fill: '#222222'
+        clipRule: 'evenodd'
     }
 };
