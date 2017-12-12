@@ -89,12 +89,6 @@
             .icon--white {
                 color: $white;
             }
-
-            &:hover,
-            &:active,
-            &:focus {
-                background: transparent;
-            }
         }
 
         .navbar-info-button {
@@ -150,16 +144,20 @@
                 &.webrtc__button {
                     @include border-radius(50px);
                     cursor: pointer;
+                    font-size: 14px;
+                    font-weight: 600;
                     height: 32px;
                     line-height: 32px;
                     margin: 9px 10px 0 0;
+                    padding: 0 10px;
                     position: relative;
                     text-align: center;
                     vertical-align: top;
-                    width: 32px;
+                    width: auto;
 
-                    &:hover {
-                        background: transparent;
+                    a {
+                        color: inherit;
+                        text-decoration: none;
                     }
 
                     &.offline {

@@ -346,10 +346,9 @@ export default class Navbar extends React.Component {
 
         return (
             <div className={'pull-right description navbar-right__icon webrtc__button ' + circleClass}>
-                <a
-                    dangerouslySetInnerHTML={{__html: Constants.VIDEO_ICON}}
-                    onClick={this.initWebrtc}
-                />
+                <a onClick={this.initWebrtc}>
+                    {'WebRTC'}
+                </a>
             </div>
         );
     }

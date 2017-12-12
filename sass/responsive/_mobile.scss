@@ -208,10 +208,6 @@
         }
     }
 
-    .scrollbar--view {
-        margin-right: 0 !important;
-    }
-
     .post-code__language {
         @include opacity(.6);
         @include transition(none);
@@ -1189,6 +1185,18 @@
                     }
                 }
 
+                .sidebar-item {
+                    &.has-close {
+                        .btn-close {
+                            @include opacity(.5);
+                            display: block;
+                            right: 4px;
+                            text-align: center;
+                            width: 40px;
+                        }
+                    }
+                }
+
                 h4 {
                     margin: 2em 0 1.5em;
                 }
@@ -1201,16 +1209,6 @@
                     &:hover,
                     &:focus {
                         background: transparent !important;
-                    }
-
-                    &.has-close {
-                        .btn-close {
-                            @include opacity(.5);
-                            display: block;
-                            right: 0;
-                            text-align: center;
-                            width: 40px;
-                        }
                     }
                 }
             }
@@ -1665,7 +1663,7 @@
     .webrtc__button {
         display: none !important;
     }
- 
+
     .webrtc__option {
         display: block;
 
