@@ -46,7 +46,12 @@
                 "javascriptEnabled": true,
                 "acceptSslCerts": true,
                 "chromeOptions": {
-                    "args": ["window-position=0,0", "window-size=1920,1080", "--disable-popup-blocking"]
+                    "args": [
+                        "window-position=0,0",
+                        "window-size=1920,1080",
+                        "--disable-popup-blocking",
+                        "--headless"
+                    ]
                 }
             }
         },
