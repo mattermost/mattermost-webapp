@@ -19,6 +19,7 @@ import * as Utils from 'utils/utils.jsx';
 import ring from 'images/ring.mp3';
 
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
+const MARGIN_TOP = {marginTop: '5px'};
 
 export default class WebrtcNotification extends React.Component {
     constructor() {
@@ -303,7 +304,7 @@ export default class WebrtcNotification extends React.Component {
                     />
                     <div
                         className='webrtc-buttons webrtc-icons active'
-                        style={{marginTop: '5px'}}
+                        style={MARGIN_TOP}
                     >
                         {answerBtn}
                         {rejectBtn}

@@ -12,6 +12,8 @@ import * as TextFormatting from 'utils/text_formatting.jsx';
 import {isUrlSafe} from 'utils/url.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
+const CLEAR_BOTH = {clear: 'both'};
+
 export default class PostAttachment extends React.PureComponent {
     static propTypes = {
 
@@ -353,7 +355,7 @@ export default class PostAttachment extends React.PureComponent {
                                 {actions}
                             </div>
                             {thumb}
-                            <div style={{clear: 'both'}}/>
+                            <div style={CLEAR_BOTH}/>
                         </div>
                     </div>
                 </div>

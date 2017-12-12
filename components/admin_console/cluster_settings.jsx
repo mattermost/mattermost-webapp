@@ -14,6 +14,8 @@ import ClusterTableContainer from './cluster_table_container.jsx';
 import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting.jsx';
 
+const MARGIN_BOTTOM = {marginBottom: '10px'};
+
 export default class ClusterSettings extends AdminSettings {
     constructor(props) {
         super(props);
@@ -79,7 +81,7 @@ export default class ClusterSettings extends AdminSettings {
         if (Client4.clusterId) {
             configLoadedFromCluster = (
                 <div
-                    style={{marginBottom: '10px'}}
+                    style={MARGIN_BOTTOM}
                     className='alert alert-warning'
                 >
                     <i className='fa fa-warning'/>
@@ -98,7 +100,7 @@ export default class ClusterSettings extends AdminSettings {
         if (this.state.showWarning) {
             warning = (
                 <div
-                    style={{marginBottom: '10px'}}
+                    style={MARGIN_BOTTOM}
                     className='alert alert-warning'
                 >
                     <i className='fa fa-warning'/>

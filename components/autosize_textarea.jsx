@@ -4,6 +4,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+const DIV_STYLE = {height: 0, overflow: 'hidden'};
+const TEXTAREA_STYLE = {height: 'auto', width: '100%'};
+
 export default class AutosizeTextarea extends React.Component {
     static propTypes = {
         value: PropTypes.string,
@@ -83,11 +86,11 @@ export default class AutosizeTextarea extends React.Component {
                     {...heightProps}
                     {...props}
                 />
-                <div style={{height: 0, overflow: 'hidden'}}>
+                <div style={DIV_STYLE}>
                     <textarea
                         ref='reference'
                         id={id + '-reference'}
-                        style={{height: 'auto', width: '100%'}}
+                        style={TEXTAREA_STYLE}
                         disabled={true}
                         value={value}
                         placeholder={placeholder}

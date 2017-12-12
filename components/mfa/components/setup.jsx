@@ -10,6 +10,8 @@ import UserStore from 'stores/user_store.jsx';
 
 import * as Utils from 'utils/utils.jsx';
 
+const MAX_HEIGHT_STYLE = {maxHeight: 170};
+
 export default class Setup extends React.Component {
     constructor(props) {
         super(props);
@@ -102,7 +104,7 @@ export default class Setup extends React.Component {
                     <div className='form-group'>
                         <div className='col-sm-12'>
                             <img
-                                style={{maxHeight: 170}}
+                                style={MAX_HEIGHT_STYLE}
                                 src={'data:image/png;base64,' + this.state.qrCode}
                             />
                         </div>

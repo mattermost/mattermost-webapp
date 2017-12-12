@@ -13,6 +13,12 @@ import * as Utils from 'utils/utils.jsx';
 
 import LoadingScreen from 'components/loading_screen.jsx';
 
+const WHITESPACE_NOWRAP = {whiteSpace: 'nowrap'};
+const COLOR_RED = {color: 'red'};
+const COLOR_GREEN = {color: 'green'};
+const MARGIN = {margin: '10px'};
+const MARGIN_TOP = {marginTop: '10px'};
+
 export default class ComplianceReports extends React.PureComponent {
     static propTypes = {
 
@@ -100,7 +106,7 @@ export default class ComplianceReports extends React.PureComponent {
     getDateTime(millis) {
         const date = new Date(millis);
         return (
-            <span style={{whiteSpace: 'nowrap'}}>
+            <span style={WHITESPACE_NOWRAP}>
                 <FormattedDate
                     value={date}
                     day='2-digit'
@@ -158,6 +164,7 @@ export default class ComplianceReports extends React.PureComponent {
                 }
 
                 let download = '';
+                let status = '';
                 if (report.status === 'finished') {
                     download = (
                         <a href={`${Client4.getBaseRoute()}/compliance/reports/${report.id}/download`}>
@@ -167,18 +174,13 @@ export default class ComplianceReports extends React.PureComponent {
                             />
                         </a>
                     );
-                }
 
-                let status = report.status;
-                if (report.status === 'finished') {
                     status = (
-                        <span style={{color: 'green'}}>{report.status}</span>
+                        <span style={COLOR_GREEN}>{report.status}</span>
                     );
-                }
-
-                if (report.status === 'failed') {
+                } else if (report.status === 'failed') {
                     status = (
-                        <span style={{color: 'red'}}>{report.status}</span>
+                        <span style={COLOR_RED}>{report.status}</span>
                     );
                 }
 
@@ -190,20 +192,20 @@ export default class ComplianceReports extends React.PureComponent {
 
                 list[i] = (
                     <tr key={report.id}>
-                        <td style={{whiteSpace: 'nowrap'}}>{download}</td>
+                        <td style={WHITESPACE_NOWRAP}>{download}</td>
                         <td>{this.getDateTime(report.create_at)}</td>
                         <td>{status}</td>
                         <td>{report.count}</td>
                         <td>{report.type}</td>
-                        <td style={{whiteSpace: 'nowrap'}}>{report.desc}</td>
+                        <td style={WHITESPACE_NOWRAP}>{report.desc}</td>
                         <td>{user}</td>
-                        <td style={{whiteSpace: 'nowrap'}}>{params}</td>
+                        <td style={WHITESPACE_NOWRAP}>{params}</td>
                     </tr>
                 );
             }
 
             content = (
-                <div style={{margin: '10px'}}>
+                <div style={MARGIN}>
                     <table className='table'>
                         <thead>
                             <tr>
@@ -265,7 +267,7 @@ export default class ComplianceReports extends React.PureComponent {
             serverError = (
                 <div
                     className='form-group has-error'
-                    style={{marginTop: '10px'}}
+                    style={MARGIN_TOP}
                 >
                     <label className='control-label'>{this.props.serverError}</label>
                 </div>

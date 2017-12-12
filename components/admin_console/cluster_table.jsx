@@ -10,6 +10,12 @@ import * as Utils from 'utils/utils.jsx';
 import statusGreen from 'images/status_green.png';
 import statusYellow from 'images/status_yellow.png';
 
+const WHITESPACE_NOWRAP = {whiteSpace: 'nowrap'};
+const MARGIN = {
+    margin: '10px',
+    marginBottom: '30px'
+};
+
 export default class ClusterTable extends React.Component {
     static propTypes = {
         clusterInfos: PropTypes.array.isRequired,
@@ -96,11 +102,11 @@ export default class ClusterTable extends React.Component {
 
             return (
                 <tr key={clusterInfo.ipaddress}>
-                    <td style={{whiteSpace: 'nowrap'}}>{status}</td>
-                    <td style={{whiteSpace: 'nowrap'}}>{clusterInfo.hostname}</td>
-                    <td style={{whiteSpace: 'nowrap'}}>{versionMismatch} {clusterInfo.version}</td>
-                    <td style={{whiteSpace: 'nowrap'}}><div className='config-hash'>{configMismatch} {clusterInfo.config_hash}</div></td>
-                    <td style={{whiteSpace: 'nowrap'}}>{clusterInfo.ipaddress}</td>
+                    <td style={WHITESPACE_NOWRAP}>{status}</td>
+                    <td style={WHITESPACE_NOWRAP}>{clusterInfo.hostname}</td>
+                    <td style={WHITESPACE_NOWRAP}>{versionMismatch} {clusterInfo.version}</td>
+                    <td style={WHITESPACE_NOWRAP}><div className='config-hash'>{configMismatch} {clusterInfo.config_hash}</div></td>
+                    <td style={WHITESPACE_NOWRAP}>{clusterInfo.ipaddress}</td>
                 </tr>
             );
         });
@@ -108,10 +114,7 @@ export default class ClusterTable extends React.Component {
         return (
             <div
                 className='cluster-panel__table'
-                style={{
-                    margin: '10px',
-                    marginBottom: '30px'
-                }}
+                style={MARGIN}
             >
                 <div className='text-right'>
                     <button

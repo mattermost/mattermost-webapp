@@ -9,6 +9,8 @@ import * as Utils from 'utils/utils.jsx';
 
 import LoadingScreen from 'components/loading_screen.jsx';
 
+const FLEX_STYLE = {flexGrow: 0, flexShrink: 0};
+
 export default class BackstageList extends React.Component {
     static propTypes = {
         children: PropTypes.node,
@@ -97,7 +99,7 @@ export default class BackstageList extends React.Component {
                             placeholder={this.props.searchPlaceholder}
                             value={this.state.filter}
                             onChange={this.updateFilter}
-                            style={{flexGrow: 0, flexShrink: 0}}
+                            style={FLEX_STYLE}
                         />
                     </div>
                 </div>
