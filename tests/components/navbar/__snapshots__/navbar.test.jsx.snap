@@ -129,6 +129,7 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
                     }
                   }
                   dialogType={[Function]}
+                  modalId="channel_info"
                   role="menuitem"
                 >
                   <FormattedMessage
@@ -492,6 +493,7 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
                     }
                   }
                   dialogType={[Function]}
+                  modalId="channel_info"
                   role="menuitem"
                 >
                   <FormattedMessage
@@ -1055,6 +1057,7 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
                     }
                   }
                   dialogType={[Function]}
+                  modalId="channel_info"
                   role="menuitem"
                 >
                   <FormattedMessage
@@ -1420,6 +1423,7 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
                     }
                   }
                   dialogType={[Function]}
+                  modalId="channel_info"
                   role="menuitem"
                 >
                   <FormattedMessage
