@@ -489,6 +489,7 @@ export default class CreatePost extends React.Component {
     }
 
     removePreview = (id) => {
+        let modifiedDraft = {};
         const draft = {...this.props.draft};
         const channelId = this.props.currentChannel.id;
 
@@ -501,14 +502,26 @@ export default class CreatePost extends React.Component {
             index = draft.uploadsInProgress.indexOf(id);
 
             if (index !== -1) {
-                draft.uploadsInProgress.splice(index, 1);
+                const uploadsInProgress = draft.uploadsInProgress.filter((item, itemIndex) => index !== itemIndex);
+
+                modifiedDraft = {
+                    ...draft,
+                    uploadsInProgress
+                };
+
+                // draft.uploadsInProgress.splice(index, 1);
                 this.refs.fileUpload.getWrappedInstance().cancelUpload(id);
             }
         } else {
-            draft.fileInfos.splice(index, 1);
+            const fileInfos = draft.fileInfos.filter((item, itemIndex) => index !== itemIndex);
+
+            modifiedDraft = {
+                ...draft,
+                fileInfos
+            };
         }
 
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, modifiedDraft);
         const enableSendButton = this.handleEnableSendButton(this.state.message, draft.fileInfos);
 
         this.setState({enableSendButton});
