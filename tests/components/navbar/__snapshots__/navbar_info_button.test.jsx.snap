@@ -1,0 +1,180 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/navbar/NavbarInfoButton should match snapshot, with channel header 1`] = `
+<NavbarInfoButton
+  channel={
+    Object {
+      "header": "channel header",
+      "id": "channel_id",
+    }
+  }
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatHTMLMessage": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatPlural": [Function],
+      "formatRelative": [Function],
+      "formatTime": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralFormat": [Function],
+        "getRelativeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "now": [Function],
+      "textComponent": "span",
+    }
+  }
+  showEditChannelHeaderModal={[Function]}
+>
+  <OverlayTrigger
+    className="description"
+    defaultOverlayShown={false}
+    overlay={
+      <Popover
+        bsClass="popover"
+        bsStyle="info"
+        id="header-popover"
+        placement="bottom"
+      >
+        <MessageWrapper
+          message="channel header"
+          options={
+            Object {
+              "mentionHighlight": false,
+              "singleline": true,
+            }
+          }
+        />
+        <div
+          className="close visible-xs-block"
+          onClick={[Function]}
+        >
+          ×
+        </div>
+      </Popover>
+    }
+    placement="bottom"
+    rootClose={true}
+    trigger="click"
+  >
+    <div
+      className="navbar-toggle navbar-right__icon navbar-info-button pull-right"
+      onClick={[Function]}
+    >
+      <span
+        aria-hidden="true"
+        className="icon icon__info"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<svg width='22px' height='22px' viewBox='0 0 22 22' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'> <g stroke='none' stroke-width='1' fill='inherit' fill-rule='evenodd'> <g transform='translate(-388.000000, -18.000000)' fill='inherit'> <g> <g transform='translate(381.000000, 11.000000)'> <g transform='translate(7.000000, 7.000000)'> <path d='M11,22 C4.92486775,22 0,17.0751322 0,11 C0,4.92486775 4.92486775,0 11,0 C17.0751322,0 22,4.92486775 22,11 C22,17.0751322 17.0751322,22 11,22 Z M11,20.7924685 C16.408231,20.7924685 20.7924685,16.408231 20.7924685,11 C20.7924685,5.59176898 16.408231,1.20753149 11,1.20753149 C5.59176898,1.20753149 1.20753149,5.59176898 1.20753149,11 C1.20753149,16.408231 5.59176898,20.7924685 11,20.7924685 Z M10.1572266,16.0625 L10.1572266,8.69335938 L11.3466797,8.69335938 L11.3466797,16.0625 L10.1572266,16.0625 Z M10.7519531,7.50390625 C10.3417969,7.50390625 10,7.16210938 10,6.75195312 C10,6.33496094 10.3417969,6 10.7519531,6 C11.1689453,6 11.5039062,6.33496094 11.5039062,6.75195312 C11.5039062,7.16210938 11.1689453,7.50390625 10.7519531,7.50390625 Z'></path> </g> </g> </g> </g> </g> </svg>",
+          }
+        }
+      />
+    </div>
+  </OverlayTrigger>
+</NavbarInfoButton>
+`;
+
+exports[`components/navbar/NavbarInfoButton should match snapshot, without channel header 1`] = `
+<NavbarInfoButton
+  channel={
+    Object {
+      "id": "channel_id",
+    }
+  }
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatHTMLMessage": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatPlural": [Function],
+      "formatRelative": [Function],
+      "formatTime": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralFormat": [Function],
+        "getRelativeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "now": [Function],
+      "textComponent": "span",
+    }
+  }
+  showEditChannelHeaderModal={[Function]}
+>
+  <OverlayTrigger
+    className="description"
+    defaultOverlayShown={false}
+    overlay={
+      <Popover
+        bsClass="popover"
+        bsStyle="info"
+        id="header-popover"
+        placement="bottom"
+      >
+        <div>
+          <FormattedMessage
+            defaultMessage="No channel header yet.{newline}{link} to add one."
+            id="navbar.noHeader"
+            values={
+              Object {
+                "link": <a
+                  href="#"
+                  onClick={[Function]}
+                >
+                  <FormattedMessage
+                    defaultMessage="Click here"
+                    id="navbar.click"
+                    values={Object {}}
+                  />
+                </a>,
+                "newline": <br />,
+              }
+            }
+          />
+        </div>
+        <div
+          className="close visible-xs-block"
+          onClick={[Function]}
+        >
+          ×
+        </div>
+      </Popover>
+    }
+    placement="bottom"
+    rootClose={true}
+    trigger="click"
+  >
+    <div
+      className="navbar-toggle navbar-right__icon navbar-info-button pull-right"
+      onClick={[Function]}
+    >
+      <span
+        aria-hidden="true"
+        className="icon icon__info"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<svg width='22px' height='22px' viewBox='0 0 22 22' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'> <g stroke='none' stroke-width='1' fill='inherit' fill-rule='evenodd'> <g transform='translate(-388.000000, -18.000000)' fill='inherit'> <g> <g transform='translate(381.000000, 11.000000)'> <g transform='translate(7.000000, 7.000000)'> <path d='M11,22 C4.92486775,22 0,17.0751322 0,11 C0,4.92486775 4.92486775,0 11,0 C17.0751322,0 22,4.92486775 22,11 C22,17.0751322 17.0751322,22 11,22 Z M11,20.7924685 C16.408231,20.7924685 20.7924685,16.408231 20.7924685,11 C20.7924685,5.59176898 16.408231,1.20753149 11,1.20753149 C5.59176898,1.20753149 1.20753149,5.59176898 1.20753149,11 C1.20753149,16.408231 5.59176898,20.7924685 11,20.7924685 Z M10.1572266,16.0625 L10.1572266,8.69335938 L11.3466797,8.69335938 L11.3466797,16.0625 L10.1572266,16.0625 Z M10.7519531,7.50390625 C10.3417969,7.50390625 10,7.16210938 10,6.75195312 C10,6.33496094 10.3417969,6 10.7519531,6 C11.1689453,6 11.5039062,6.33496094 11.5039062,6.75195312 C11.5039062,7.16210938 11.1689453,7.50390625 10.7519531,7.50390625 Z'></path> </g> </g> </g> </g> </g> </svg>",
+          }
+        }
+      />
+    </div>
+  </OverlayTrigger>
+</NavbarInfoButton>
+`;

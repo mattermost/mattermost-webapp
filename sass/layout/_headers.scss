@@ -71,6 +71,21 @@
             }
         }
 
+        &.text {
+            font-weight: 600;
+            padding: 0 14px;
+
+            button {
+                @include opacity(.4);
+            }
+
+            &:hover {
+                button {
+                    @include opacity(1);
+                }
+            }
+        }
+
         .icon__text {
             font-weight: 600;
             margin-right: 9px;
@@ -209,7 +224,6 @@
     }
 
     .channel-header__description {
-        cursor: pointer;
         height: 24px;
         margin-bottom: 3px;
         margin-top: 3px;
@@ -227,15 +241,18 @@
             margin: 0;
         }
 
+        code {
+            margin: 1px 0 0;
+            padding: 2px 5px 0;
+        }
+
         &.light {
             @include opacity(.8);
             color: inherit;
 
-            &:hover,
-            &:focus {
-                color: inherit;
-
-                span {
+            button {
+                &:hover
+                &:focus {
                     text-decoration: underline;
                 }
             }

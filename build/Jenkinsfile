@@ -1,85 +1,52 @@
 #!/usr/bin/env groovy
 
-podTemplate(label: 'jenkins-slave-webapp', 
-    containers: [
-        containerTemplate(
-            name: 'mattermost-node', 
-            image: 'node', 
-            ttyEnabled: true, 
-            command: 'cat',
-            alwaysPullImage: false,
-            resourceRequestCpu: '1000m',
-            resourceLimitCpu: '2000m',
-            resourceRequestMemory: '2Gi',
-            resourceLimitMemory: '4Gi'
-        )
-    ]
-)
-{
-    def gitCommit
-    node('jenkins-slave-webapp') {
-        stage('Checkout') {
-            container('mattermost-node') {
-                dir('mattermost-webapp') {
-                    checkout scm
-                    gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-                }
-            }
-        }
-        stage('Check Style') {
-            container('mattermost-node') {
-                dir('mattermost-webapp') {
-                    sh 'make check-style'
-                }
-            }
-        }
-        stage('Unit/Component Tests') {
-            container('mattermost-node') {
-                dir('mattermost-webapp') {
-                    sh 'make test'
-                }
-            }
-        }
-        stage('Build') {
-            container('mattermost-node') {
-                dir('mattermost-webapp') {
-                    sh 'make build'
-                    sh 'make package'
-                }
-            }
-        }
-        stage('Push to S3') {
-            step([$class: 'S3BucketPublisher', dontWaitForConcurrentBuildCompletion: false, entries: [[
-                bucket: 'releases.mattermost.com/mattermost-webapp/${BRANCH_NAME}',
-                excludedFile: '',
-                flatten: true,
-                gzipFiles: false,
-                keepForever: false,
-                managedArtifacts: false,
-                noUploadOnFailure: true,
-                selectedRegion: 'us-east-1',
-                showDirectlyInBrowser: false,
-                sourceFile: 'mattermost-webapp/*.tar.gz',
-                storageClass: 'STANDARD',
-                uploadFromSlave: false,
-                useServerSideEncryption: false,
-                userMetadata: [[key: 'Cache-Control', value: 'no-cache']]
-            ], [
-                bucket: "releases.mattermost.com/mattermost-webapp/commit/${gitCommit}",
-                excludedFile: '',
-                flatten: true,
-                gzipFiles: false,
-                keepForever: false,
-                managedArtifacts: false,
-                noUploadOnFailure: true,
-                selectedRegion: 'us-east-1',
-                showDirectlyInBrowser: false,
-                sourceFile: 'mattermost-webapp/*.tar.gz',
-                storageClass: 'STANDARD',
-                uploadFromSlave: false,
-                useServerSideEncryption: false,
-                userMetadata: [[key: 'Cache-Control', value: 'no-cache']]
-            ]], profileName: 'Releases', userMetadAta: []])
-        }
+def gitCommit
+node {
+    stage('Checkout') {
+        checkout scm
+        gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+    }
+    stage('Check Style') {
+        sh 'make check-style'
+    }
+    stage('Unit/Component Tests') {
+        sh 'make test'
+    }
+    stage('Build') {
+        sh 'make build'
+        sh 'make package'
+    }
+    stage('Push to S3') {
+        step([$class: 'S3BucketPublisher', dontWaitForConcurrentBuildCompletion: false, entries: [[
+            bucket: 'releases.mattermost.com/mattermost-webapp/${BRANCH_NAME}',
+            excludedFile: '',
+            flatten: true,
+            gzipFiles: false,
+            keepForever: false,
+            managedArtifacts: false,
+            noUploadOnFailure: true,
+            selectedRegion: 'us-east-1',
+            showDirectlyInBrowser: false,
+            sourceFile: '*.tar.gz',
+            storageClass: 'STANDARD',
+            uploadFromSlave: false,
+            useServerSideEncryption: false,
+            userMetadata: [[key: 'Cache-Control', value: 'no-cache']]
+        ], [
+            bucket: "releases.mattermost.com/mattermost-webapp/commit/${gitCommit}",
+            excludedFile: '',
+            flatten: true,
+            gzipFiles: false,
+            keepForever: false,
+            managedArtifacts: false,
+            noUploadOnFailure: true,
+            selectedRegion: 'us-east-1',
+            showDirectlyInBrowser: false,
+            sourceFile: '*.tar.gz',
+            storageClass: 'STANDARD',
+            uploadFromSlave: false,
+            useServerSideEncryption: false,
+            userMetadata: [[key: 'Cache-Control', value: 'no-cache']]
+        ]], profileName: 'Releases', userMetadAta: []])
     }
 }

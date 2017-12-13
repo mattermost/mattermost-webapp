@@ -13,10 +13,11 @@ import ProfilePopover from 'components/profile_popover.jsx';
 
 export default class AtMention extends React.PureComponent {
     static propTypes = {
-        mentionName: PropTypes.string.isRequired,
-        usersByUsername: PropTypes.object.isRequired,
+        currentUserId: PropTypes.string.isRequired,
+        hasMention: PropTypes.bool,
         isRHS: PropTypes.bool,
-        hasMention: PropTypes.bool
+        mentionName: PropTypes.string.isRequired,
+        usersByUsername: PropTypes.object.isRequired
     };
 
     static defaultProps = {
@@ -51,7 +52,7 @@ export default class AtMention extends React.PureComponent {
         let mentionName = props.mentionName;
 
         while (mentionName.length > 0) {
-            if (usersByUsername[mentionName]) {
+            if (usersByUsername.hasOwnProperty(mentionName)) {
                 return usersByUsername[mentionName];
             }
 
@@ -74,6 +75,11 @@ export default class AtMention extends React.PureComponent {
         const user = this.state.user;
         const suffix = this.props.mentionName.substring(user.username.length);
 
+        let className = 'mention-link';
+        if (user.id === this.props.currentUserId) {
+            className += ' mention--highlight';
+        }
+
         return (
             <span>
                 <OverlayTrigger
@@ -93,7 +99,7 @@ export default class AtMention extends React.PureComponent {
                         </Pluggable>
                     }
                 >
-                    <a className='mention-link'>{'@' + user.username}</a>
+                    <a className={className}>{'@' + user.username}</a>
                 </OverlayTrigger>
                 {suffix}
             </span>

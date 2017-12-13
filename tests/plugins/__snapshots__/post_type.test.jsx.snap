@@ -57,7 +57,6 @@ exports[`plugins/PostMessageView should match snapshot with extended post type 1
     }
     enableFormatting={true}
     isRHS={false}
-    mentionKeys={Array []}
     options={Object {}}
     pluginPostTypes={
       Object {
@@ -68,6 +67,7 @@ exports[`plugins/PostMessageView should match snapshot with extended post type 1
     }
     post={
       Object {
+        "message": "this is some text",
         "type": "testtype",
       }
     }
@@ -84,9 +84,9 @@ exports[`plugins/PostMessageView should match snapshot with extended post type 1
   >
     <PostTypePlugin
       isRHS={false}
-      mentionKeys={Array []}
       post={
         Object {
+          "message": "this is some text",
           "type": "testtype",
         }
       }
@@ -163,11 +163,11 @@ exports[`plugins/PostMessageView should match snapshot with no extended post typ
     }
     enableFormatting={true}
     isRHS={false}
-    mentionKeys={Array []}
     options={Object {}}
     pluginPostTypes={Object {}}
     post={
       Object {
+        "message": "this is some text",
         "type": "testtype",
       }
     }
@@ -187,7 +187,51 @@ exports[`plugins/PostMessageView should match snapshot with no extended post typ
         className="post-message__text"
         id={null}
         onClick={[Function]}
-      />
+      >
+        <Connect(PostMarkdown)
+          isRHS={false}
+          message="this is some text"
+          options={Object {}}
+          post={
+            Object {
+              "message": "this is some text",
+              "type": "testtype",
+            }
+          }
+        >
+          <PostMarkdown
+            channelNamesMap={Object {}}
+            dispatch={[Function]}
+            emojis={
+              EmojiMap {
+                "customEmojis": Map {},
+                "customEmojisArray": Array [],
+              }
+            }
+            isRHS={false}
+            mentionKeys={Array []}
+            message="this is some text"
+            options={Object {}}
+            post={
+              Object {
+                "message": "this is some text",
+                "type": "testtype",
+              }
+            }
+            siteURL="null"
+          >
+            <span>
+              <p
+                key="0"
+              >
+                this is some text
+              </p>
+              
+
+            </span>
+          </PostMarkdown>
+        </Connect(PostMarkdown)>
+      </span>
     </div>
   </PostMessageView>
 </Provider>

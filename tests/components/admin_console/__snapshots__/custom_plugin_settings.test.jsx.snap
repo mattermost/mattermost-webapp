@@ -30,7 +30,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         helpText="This is some help text for the text field."
         id="settinga"
         key="testplugin_plugin_text_settinga"
-        label="Setting One"
+        label="Setting One:"
         maxLength={null}
         onChange={[Function]}
         placeholder="e.g. some setting"
@@ -49,7 +49,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         helpText="This is some help text for the bool field."
         id="settingb"
         key="testplugin_plugin_bool_settingb"
-        label="Setting Two"
+        label="Setting Two:"
         onChange={[Function]}
         trueText={
           <FormattedMessage
@@ -65,7 +65,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         id="settingc"
         isDisabled={false}
         key="testplugin_plugin_dropdown_settingc"
-        label="Setting Three"
+        label="Setting Three:"
         onChange={[Function]}
         value="option1"
         values={
@@ -90,7 +90,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         id="settingd"
         isDisabled={false}
         key="testplugin_plugin_radio_settingd"
-        label="Setting Four"
+        label="Setting Four:"
         onChange={[Function]}
         value="option2"
         values={
@@ -115,7 +115,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         helpText="This is some help text for the generated field."
         id="settinge"
         key="testplugin_plugin_generated_settinge"
-        label="Setting Five"
+        label="Setting Five:"
         onChange={[Function]}
         placeholder="e.g. 47KyfOxtk5+ovi1MDHFyzMDHIA6esMWb"
         regenerateHelpText="This is help text for the regenerate button."
@@ -132,7 +132,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         helpText="This is some help text for the user autocomplete field."
         id="settingf"
         key="testplugin_plugin_userautocomplete_settingf"
-        label="Setting Six"
+        label="Setting Six:"
         onChange={[Function]}
         placeholder="Type a username here"
         value=""
@@ -248,7 +248,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         helpText="This is some help text for the text field."
         id="settinga"
         key="testplugin_plugin_text_settinga"
-        label="Setting One"
+        label="Setting One:"
         maxLength={null}
         onChange={[Function]}
         placeholder="e.g. some setting"
@@ -267,7 +267,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         helpText="This is some help text for the bool field."
         id="settingb"
         key="testplugin_plugin_bool_settingb"
-        label="Setting Two"
+        label="Setting Two:"
         onChange={[Function]}
         trueText={
           <FormattedMessage
@@ -283,7 +283,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         id="settingc"
         isDisabled={false}
         key="testplugin_plugin_dropdown_settingc"
-        label="Setting Three"
+        label="Setting Three:"
         onChange={[Function]}
         value="option3"
         values={
@@ -308,7 +308,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         id="settingd"
         isDisabled={false}
         key="testplugin_plugin_radio_settingd"
-        label="Setting Four"
+        label="Setting Four:"
         onChange={[Function]}
         value="option1"
         values={
@@ -333,7 +333,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         helpText="This is some help text for the generated field."
         id="settinge"
         key="testplugin_plugin_generated_settinge"
-        label="Setting Five"
+        label="Setting Five:"
         onChange={[Function]}
         placeholder="e.g. 47KyfOxtk5+ovi1MDHFyzMDHIA6esMWb"
         regenerateHelpText="This is help text for the regenerate button."
@@ -350,7 +350,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         helpText="This is some help text for the user autocomplete field."
         id="settingf"
         key="testplugin_plugin_userautocomplete_settingf"
-        label="Setting Six"
+        label="Setting Six:"
         onChange={[Function]}
         placeholder="Type a username here"
         value="3xz3r6n7dtbbmgref3yw4zg7sr"

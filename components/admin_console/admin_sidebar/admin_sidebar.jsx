@@ -192,8 +192,8 @@ export default class AdminSidebar extends React.Component {
                         name='message_export'
                         title={
                             <FormattedMessage
-                                id='admin.sidebar.message_export'
-                                defaultMessage='Message Export (Beta)'
+                                id='admin.sidebar.compliance_export'
+                                defaultMessage='Compliance Export (Beta)'
                             />
                         }
                     />
@@ -647,15 +647,6 @@ export default class AdminSidebar extends React.Component {
                                         <FormattedMessage
                                             id='admin.sidebar.plugins.management'
                                             defaultMessage='Management'
-                                        />
-                                    }
-                                />
-                                <AdminSidebarSection
-                                    name='jira'
-                                    title={
-                                        <FormattedMessage
-                                            id='admin.sidebar.jira'
-                                            defaultMessage='JIRA (Beta)'
                                         />
                                     }
                                 />

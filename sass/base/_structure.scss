@@ -20,14 +20,19 @@ body {
     background: $white;
 
     > .container-fluid {
-        overflow: auto;
+        display: flex;
+        height: auto;
+        position: relative;
+        width: 100%;
     }
 
     .inner-wrap {
+        width: 100%;
+
         > .row {
             &.content {
                 margin-bottom: -89px;
-                min-height: 100%;
+                min-height: 100vh;
             }
         }
     }

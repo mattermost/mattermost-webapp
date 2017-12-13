@@ -5614,9 +5614,9 @@ math-expression-evaluator@^1.2.14:
   version "1.2.16"
   resolved "https://registry.yarnpkg.com/math-expression-evaluator/-/math-expression-evaluator-1.2.16.tgz#b357fa1ca9faefb8e48d10c14ef2bcb2d9f0a7c9"
 
-"mattermost-redux@https://github.com/mattermost/mattermost-redux.git#fb083f67b5560ff64fe251415460a1af5d690e5a":
-  version "1.0.1"
-  resolved "https://github.com/mattermost/mattermost-redux.git#fb083f67b5560ff64fe251415460a1af5d690e5a"
+mattermost-redux@mattermost/mattermost-redux#5919d4cb64d91cec783ce91c7f822e96853923c1:
+  version "1.1.0"
+  resolved "https://codeload.github.com/mattermost/mattermost-redux/tar.gz/5919d4cb64d91cec783ce91c7f822e96853923c1"
   dependencies:
     deep-equal "1.0.1"
     form-data "2.3.1"
@@ -9015,9 +9015,9 @@ webpack@3.8.1:
     webpack-sources "^1.0.1"
     yargs "^8.0.2"
 
-webrtc-adapter@6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/webrtc-adapter/-/webrtc-adapter-6.0.0.tgz#06d26fa3bf7e7965145dfe183ce6100be52b3a7c"
+webrtc-adapter@6.0.2:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/webrtc-adapter/-/webrtc-adapter-6.0.2.tgz#765f99c163e46046a758fec457f7859c90a19487"
   dependencies:
     rtcpeerconnection-shim "^1.1.13"
     sdp "^2.3.0"
