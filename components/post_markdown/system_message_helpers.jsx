@@ -97,7 +97,7 @@ function renderRemoveFromChannelMessage(post, options) {
     return (
         <FormattedMessage
             id='api.channel.remove_member.removed'
-            defaultMessage='{removedUsername} was removed from the team'
+            defaultMessage='{removedUsername} was removed from the channel'
             values={{
                 removedUsername
             }}
