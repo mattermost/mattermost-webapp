@@ -722,7 +722,7 @@ export default class ChannelHeader extends React.Component {
         let headerTextContainer;
         if (channel.header) {
             let headerTextElement;
-            let textFormattingOptions = {singleline: true, mentionHighlight: false, siteURL: getSiteURL(), channelNamesMap: ChannelStore.getChannelNamesMap(), team: TeamStore.getCurrent(), atMentions: true};
+            const textFormattingOptions = {singleline: true, mentionHighlight: false, siteURL: getSiteURL(), channelNamesMap: ChannelStore.getChannelNamesMap(), team: TeamStore.getCurrent(), atMentions: true};
             if (this.props.enableFormatting) {
                 headerTextElement = (
                     <div
