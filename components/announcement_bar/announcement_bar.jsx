@@ -11,7 +11,7 @@ import AnalyticsStore from 'stores/analytics_store.jsx';
 import ErrorStore from 'stores/error_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
-import {ErrorBarTypes, StatTypes} from 'utils/constants.jsx';
+import {ErrorBarTypes, StatTypes, StoragePrefixes} from 'utils/constants.jsx';
 import {displayExpiryDate, isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod} from 'utils/license_utils.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -21,8 +21,6 @@ const RENEWAL_LINK = 'https://licensing.mattermost.com/renew';
 const BAR_DEVELOPER_TYPE = 'developer';
 const BAR_CRITICAL_TYPE = 'critical';
 const BAR_ANNOUNCEMENT_TYPE = 'announcement';
-
-const ANNOUNCEMENT_KEY = 'announcement--';
 
 export default class AnnouncementBar extends React.PureComponent {
     static propTypes = {
@@ -81,19 +79,20 @@ export default class AnnouncementBar extends React.PureComponent {
 
     getState() {
         const error = ErrorStore.getLastError();
-        if (error) {
+        if (error && Object.keys(error).length > 0 && error.message && error.type) {
             return {message: error.message, color: null, textColor: null, type: error.type, allowDismissal: true};
         }
 
         const bannerText = global.window.mm_config.BannerText || '';
         const allowDismissal = global.window.mm_config.AllowBannerDismissal === 'true';
-        const bannerDismissed = localStorage.getItem(ANNOUNCEMENT_KEY + global.window.mm_config.BannerText);
+        const bannerDismissed = localStorage.getItem(StoragePrefixes.ANNOUNCEMENT + global.window.mm_config.BannerText);
 
         if (global.window.mm_config.EnableBanner === 'true' &&
-                bannerText.length > 0 &&
-                (!bannerDismissed || !allowDismissal)) {
+            bannerText.length > 0 &&
+            (!bannerDismissed || !allowDismissal)
+        ) {
             // Remove old local storage items
-            Utils.removePrefixFromLocalStorage(ANNOUNCEMENT_KEY);
+            Utils.removePrefixFromLocalStorage(StoragePrefixes.ANNOUNCEMENT);
             return {
                 message: bannerText,
                 color: global.window.mm_config.BannerColor,
@@ -168,7 +167,7 @@ export default class AnnouncementBar extends React.PureComponent {
         }
 
         if (this.state.type === BAR_ANNOUNCEMENT_TYPE) {
-            localStorage.setItem(ANNOUNCEMENT_KEY + this.state.message, true);
+            localStorage.setItem(StoragePrefixes.ANNOUNCEMENT + this.state.message, true);
         }
 
         if (ErrorStore.getLastError() && ErrorStore.getLastError().notification) {
