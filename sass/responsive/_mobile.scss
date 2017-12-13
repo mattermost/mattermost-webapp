@@ -1190,7 +1190,13 @@
                     }
                 }
 
+                .nav-more {
+                    padding: 12px 0 12px 17px;
+                }
+
                 .sidebar-item {
+                    padding: 12px 0 12px 17px;
+
                     &.has-close {
                         .btn-close {
                             @include opacity(.5);
@@ -1203,7 +1209,7 @@
                 }
 
                 h4 {
-                    margin: 2em 0 1.5em;
+                    margin: 1.5 0 1em;
                 }
 
                 > a {
