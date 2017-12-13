@@ -4,7 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal, OverlayTrigger, Tooltip} from 'react-bootstrap';
-import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import TeamStore from 'stores/team_store.jsx';
@@ -12,13 +11,65 @@ import TeamStore from 'stores/team_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as URL from 'utils/url.jsx';
 
-export default class ChangeUrlModal extends React.Component {
+export default class ChangeUrlModal extends React.PureComponent {
+
+    static propTypes = {
+
+        /**
+        * Set whether to show the modal or not
+        */
+        show: PropTypes.bool.isRequired,
+
+        /**
+        * Set to change the title of the modal
+        */
+        title: PropTypes.node,
+
+        /**
+        * Set to change the submit button text
+        */
+        submitButtonText: PropTypes.node,
+
+        /**
+        * Set to change the current URL
+        */
+        currentURL: PropTypes.string,
+
+        /**
+        * Server error from failed channel creation
+        */
+        serverError: PropTypes.node,
+
+        /**
+         * Function to call when modal is submitted
+         */
+        onModalSubmit: PropTypes.func.isRequired,
+
+        /**
+         * Function to call when modal is exited
+         */
+        onModalExited: PropTypes.func,
+
+        /**
+         * Function to call when modal is dimissed
+         */
+        onModalDismissed: PropTypes.func.isRequired
+    }
+
+    static defaultProps = {
+        show: false,
+        title: 'Change URL',
+        submitButtonText: 'Save',
+        currentURL: '',
+        serverError: null
+    }
+
     constructor(props) {
         super(props);
 
         this.onURLChanged = this.onURLChanged.bind(this);
-        this.doSubmit = this.doSubmit.bind(this);
-        this.doCancel = this.doCancel.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+        this.onCancel = this.onCancel.bind(this);
 
         this.state = {
             currentURL: props.currentURL,
@@ -34,12 +85,6 @@ export default class ChangeUrlModal extends React.Component {
             this.setState({
                 currentURL: nextProps.currentURL
             });
-        }
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.show === true && prevProps.show === false) {
-            ReactDOM.findDOMNode(this.refs.urlinput).select();
         }
     }
 
@@ -107,10 +152,9 @@ export default class ChangeUrlModal extends React.Component {
         return error;
     }
 
-    doSubmit(e) {
+    onSubmit(e) {
         e.preventDefault();
-
-        const url = ReactDOM.findDOMNode(this.refs.urlinput).value;
+        const url = this.refs.urlinput.value;
         const cleanedURL = URL.cleanUpUrlable(url);
         if (cleanedURL !== url || url.length < 2 || url.indexOf('__') > -1) {
             this.setState({urlError: this.getURLError(url)});
@@ -120,7 +164,7 @@ export default class ChangeUrlModal extends React.Component {
         this.props.onModalSubmit(url);
     }
 
-    doCancel() {
+    onCancel() {
         this.setState({urlError: '', userEdit: false});
         this.props.onModalDismissed();
     }
@@ -152,7 +196,7 @@ export default class ChangeUrlModal extends React.Component {
         return (
             <Modal
                 show={this.props.show}
-                onHide={this.doCancel}
+                onHide={this.onCancel}
                 onExited={this.props.onModalExited}
             >
                 <Modal.Header closeButton={true}>
@@ -205,7 +249,7 @@ export default class ChangeUrlModal extends React.Component {
                         <button
                             type='button'
                             className='btn btn-default'
-                            onClick={this.doCancel}
+                            onClick={this.onCancel}
                         >
                             <FormattedMessage
                                 id='change_url.close'
@@ -213,7 +257,7 @@ export default class ChangeUrlModal extends React.Component {
                             />
                         </button>
                         <button
-                            onClick={this.doSubmit}
+                            onClick={this.onSubmit}
                             type='submit'
                             className='btn btn-primary'
                             tabIndex='2'
@@ -226,22 +270,3 @@ export default class ChangeUrlModal extends React.Component {
         );
     }
 }
-
-ChangeUrlModal.defaultProps = {
-    show: false,
-    title: 'Change URL',
-    submitButtonText: 'Save',
-    currentURL: '',
-    serverError: null
-};
-
-ChangeUrlModal.propTypes = {
-    show: PropTypes.bool.isRequired,
-    title: PropTypes.node,
-    submitButtonText: PropTypes.node,
-    currentURL: PropTypes.string,
-    serverError: PropTypes.node,
-    onModalSubmit: PropTypes.func.isRequired,
-    onModalExited: PropTypes.func,
-    onModalDismissed: PropTypes.func.isRequired
-};
