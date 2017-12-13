@@ -1065,7 +1065,6 @@
             .search-bar {
                 font-size: 14px;
                 height: 32px;
-                padding: 0 40px;
             }
 
             .search__icon {
@@ -1433,6 +1432,7 @@
         .dropdown-menu {
             > li {
                 > button {
+                    @include border-radius(0);
                     border-top: 1px solid;
                     padding: 15px 20px;
                 }
@@ -1457,7 +1457,64 @@
     }
 
     .app__body {
+        &.error-bar--fixed {
+            .modal {
+                padding-top: 21px;
+            }
+        }
+
         .modal {
+            overflow: hidden;
+            padding: 0;
+
+            .modal-dialog {
+                height: 100%;
+                margin: 0;
+                max-width: 100%;
+
+                .modal-content {
+                    height: 100%;
+                }
+            }
+
+            .modal-footer {
+                bottom: 0;
+                position: fixed;
+                width: 100%;
+            }
+
+            .about-modal {
+                .about-modal__content {
+                    display: block;
+                }
+
+                .about-modal__hash {
+                    p {
+                        word-break: break-all;
+
+                        &:first-child {
+                            float: none;
+                        }
+                    }
+                }
+
+                .about-modal__logo {
+                    float: none;
+                    padding: 0;
+                    text-align: center;
+                    width: 100%;
+
+                    svg {
+                        height: 100px;
+                        width: 100px;
+                    }
+                }
+
+                .about-modal__logo + div {
+                    padding: 2em 0 0;
+                }
+            }
+
             .more-modal {
                 .modal-body {
                     max-height: calc(100vh - 62px);
@@ -1530,59 +1587,6 @@
                     line-height: 45px;
                     position: relative;
                     text-align: center;
-                }
-            }
-        }
-
-        .modal {
-            overflow: hidden;
-            padding: 0 !important;
-
-            .modal-dialog {
-                height: 100%;
-                margin: 0;
-                max-width: 100%;
-
-                .modal-content {
-                    height: 100%;
-                }
-            }
-
-            .modal-footer {
-                bottom: 0;
-                position: fixed;
-                width: 100%;
-            }
-
-            .about-modal {
-                .about-modal__content {
-                    display: block;
-                }
-
-                .about-modal__hash {
-                    p {
-                        word-break: break-all;
-
-                        &:first-child {
-                            float: none;
-                        }
-                    }
-                }
-
-                .about-modal__logo {
-                    float: none;
-                    padding: 0;
-                    text-align: center;
-                    width: 100%;
-
-                    svg {
-                        height: 100px;
-                        width: 100px;
-                    }
-                }
-
-                .about-modal__logo + div {
-                    padding: 2em 0 0;
                 }
             }
         }
@@ -1682,7 +1686,7 @@
             @include opacity(.5);
             pointer-events: none;
         }
-     }
+    }
 
     #user-profile-popover {
         left: 50px !important;
