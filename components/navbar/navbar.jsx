@@ -24,7 +24,7 @@ import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 
 import * as ChannelUtils from 'utils/channel_utils.jsx';
-import {ActionTypes, Constants, UserStatuses, RHSStates} from 'utils/constants.jsx';
+import {ActionTypes, Constants, ModalIdentifiers, RHSStates, UserStatuses} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import ChannelInfoModal from 'components/channel_info_modal';
@@ -39,6 +39,7 @@ import QuickSwitchModal from 'components/quick_switch_modal';
 import RenameChannelModal from 'components/rename_channel_modal';
 import StatusIcon from 'components/status_icon.jsx';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
+import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 
 import Pluggable from 'plugins/pluggable';
 
@@ -434,8 +435,9 @@ export default class Navbar extends React.Component {
             } else {
                 viewInfoOption = (
                     <li role='presentation'>
-                        <ToggleModalButton
+                        <ToggleModalButtonRedux
                             role='menuitem'
+                            modalId={ModalIdentifiers.CHANNEL_INFO}
                             dialogType={ChannelInfoModal}
                             dialogProps={{channel}}
                         >
@@ -443,7 +445,7 @@ export default class Navbar extends React.Component {
                                 id='navbar.viewInfo'
                                 defaultMessage='View Info'
                             />
-                        </ToggleModalButton>
+                        </ToggleModalButtonRedux>
                     </li>
                 );
 
