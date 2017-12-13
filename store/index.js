@@ -38,7 +38,7 @@ const setTransforms = [
     ...teamSetTransform
 ];
 
-export default function configureStore(initialState, persistorStorage = null) {
+export default function configureStore(initialState) {
     const setTransformer = createTransform(
         (inboundState, key) => {
             if (key === 'entities') {
@@ -73,7 +73,7 @@ export default function configureStore(initialState, persistorStorage = null) {
     const offlineOptions = {
         persist: (store, options) => {
             const localforage = extendPrototype(localForage);
-            var storage = persistorStorage || localforage;
+            var storage = localforage;
             const KEY_PREFIX = "reduxPersist:";
             const persistor = persistStore(store, {storage, keyPrefix: KEY_PREFIX, ...options}, () => {
                 store.dispatch({
@@ -120,21 +120,19 @@ export default function configureStore(initialState, persistorStorage = null) {
                 if (state.requests.users.logout.status === RequestStatus.SUCCESS && !purging) {
                     purging = true;
 
-                    persistor.purge();
+                    persistor.purge().then(() => {
+                        document.cookie = 'MMUSERID=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+                        window.location.href = '/';
 
-                    document.cookie = 'MMUSERID=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-                    window.location.href = '/';
-
-                    store.dispatch(batchActions([
-                        {
+                        store.dispatch({
                             type: General.OFFLINE_STORE_RESET,
                             data: Object.assign({}, reduxInitialState, initialState)
-                        }
-                    ]));
+                        });
 
-                    setTimeout(() => {
-                        purging = false;
-                    }, 500);
+                        setTimeout(() => {
+                            purging = false;
+                        }, 500);
+                    })
                 }
             });
 
@@ -175,7 +173,6 @@ export default function configureStore(initialState, persistorStorage = null) {
                 state[key] = value;
                 return state;
             }
-
         },
         detectNetwork: detect
     };
