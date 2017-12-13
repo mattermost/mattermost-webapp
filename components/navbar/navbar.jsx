@@ -39,6 +39,7 @@ import QuickSwitchModal from 'components/quick_switch_modal';
 import RenameChannelModal from 'components/rename_channel_modal';
 import StatusIcon from 'components/status_icon.jsx';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
+import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 
 import Pluggable from 'plugins/pluggable';
 
@@ -434,7 +435,7 @@ export default class Navbar extends React.Component {
             } else {
                 viewInfoOption = (
                     <li role='presentation'>
-                        <ToggleModalButton
+                        <ToggleModalButtonRedux
                             role='menuitem'
                             dialogType={ChannelInfoModal}
                             dialogProps={{channel}}
@@ -443,7 +444,7 @@ export default class Navbar extends React.Component {
                                 id='navbar.viewInfo'
                                 defaultMessage='View Info'
                             />
-                        </ToggleModalButton>
+                        </ToggleModalButtonRedux>
                     </li>
                 );
 

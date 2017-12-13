@@ -118,8 +118,7 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
               <li
                 role="presentation"
               >
-                <ModalToggleButton
-                  className=""
+                <Connect(ModalToggleButtonRedux)
                   dialogProps={
                     Object {
                       "channel": Object {
@@ -137,7 +136,7 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
                     id="navbar.viewInfo"
                     values={Object {}}
                   />
-                </ModalToggleButton>
+                </Connect(ModalToggleButtonRedux)>
               </li>
               <li
                 role="presentation"
@@ -482,8 +481,7 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
               <li
                 role="presentation"
               >
-                <ModalToggleButton
-                  className=""
+                <Connect(ModalToggleButtonRedux)
                   dialogProps={
                     Object {
                       "channel": Object {
@@ -501,7 +499,7 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
                     id="navbar.viewInfo"
                     values={Object {}}
                   />
-                </ModalToggleButton>
+                </Connect(ModalToggleButtonRedux)>
               </li>
               <li
                 role="presentation"
@@ -1046,8 +1044,7 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
               <li
                 role="presentation"
               >
-                <ModalToggleButton
-                  className=""
+                <Connect(ModalToggleButtonRedux)
                   dialogProps={
                     Object {
                       "channel": Object {
@@ -1065,7 +1062,7 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
                     id="navbar.viewInfo"
                     values={Object {}}
                   />
-                </ModalToggleButton>
+                </Connect(ModalToggleButtonRedux)>
               </li>
               <li
                 role="presentation"
@@ -1412,8 +1409,7 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
               <li
                 role="presentation"
               >
-                <ModalToggleButton
-                  className=""
+                <Connect(ModalToggleButtonRedux)
                   dialogProps={
                     Object {
                       "channel": Object {
@@ -1431,7 +1427,7 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
                     id="navbar.viewInfo"
                     values={Object {}}
                   />
-                </ModalToggleButton>
+                </Connect(ModalToggleButtonRedux)>
               </li>
               <li
                 role="presentation"
