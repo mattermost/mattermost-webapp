@@ -85,7 +85,7 @@ export default class NeedsTeam extends React.Component {
     }
 
     onShortcutKeyDown(e) {
-        if (e.shiftKey && e.ctrlKey && e.keyCode === Constants.KeyCodes.L) {
+        if (e.shiftKey && Utils.cmdOrCtrlPressed(e) && e.keyCode === Constants.KeyCodes.L) {
             if (document.getElementById('sidebar-right').className.match('sidebar--right sidebar--right--expanded')) {
                 document.getElementById('reply_textbox').focus();
             } else {
@@ -180,6 +180,7 @@ export default class NeedsTeam extends React.Component {
             );
             content.push(
                 <div
+                    id='inner-wrap-webrtc'
                     key='inner-wrap'
                     className='inner-wrap channel__wrap'
                 >

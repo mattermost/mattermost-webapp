@@ -56,6 +56,7 @@ export default class SelectTeamItem extends React.PureComponent {
                     placement='top'
                     overlay={descriptionTooltip}
                     ref='descriptionOverlay'
+                    rootClose={true}
                 >
                     <span
                         className='icon icon--info'

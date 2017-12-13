@@ -144,7 +144,7 @@ class UserSettingsGeneralTab extends React.Component {
 
         trackEvent('settings', 'user_settings_update', {field: 'username'});
 
-        this.submitUser(user, Constants.UserUpdateEvents.USERNAME, false);
+        this.submitUser(user, false);
     }
 
     submitNickname(e) {
@@ -162,7 +162,7 @@ class UserSettingsGeneralTab extends React.Component {
 
         trackEvent('settings', 'user_settings_update', {field: 'username'});
 
-        this.submitUser(user, Constants.UserUpdateEvents.NICKNAME, false);
+        this.submitUser(user, false);
     }
 
     submitName(e) {
@@ -182,7 +182,7 @@ class UserSettingsGeneralTab extends React.Component {
 
         trackEvent('settings', 'user_settings_update', {field: 'fullname'});
 
-        this.submitUser(user, Constants.UserUpdateEvents.FULLNAME, false);
+        this.submitUser(user, false);
     }
 
     submitEmail(e) {
@@ -211,13 +211,14 @@ class UserSettingsGeneralTab extends React.Component {
 
         user.email = email;
         trackEvent('settings', 'user_settings_update', {field: 'email'});
-        this.submitUser(user, Constants.UserUpdateEvents.EMAIL, true);
+        this.submitUser(user, true);
     }
 
-    submitUser(user, type, emailUpdated) {
+    submitUser(user, emailUpdated) {
         this.setState({sectionIsSaving: true});
 
-        updateUser(user, type,
+        updateUser(
+            user,
             () => {
                 this.updateSection('');
                 this.props.actions.getMe();
@@ -296,7 +297,7 @@ class UserSettingsGeneralTab extends React.Component {
 
         trackEvent('settings', 'user_settings_update', {field: 'position'});
 
-        this.submitUser(user, Constants.UserUpdateEvents.Position, false);
+        this.submitUser(user, false);
     }
 
     updateUsername(e) {
@@ -852,7 +853,7 @@ class UserSettingsGeneralTab extends React.Component {
         if (this.props.activeSection === 'nickname') {
             let extraInfo;
             let submit = null;
-            if ((this.props.user.auth_service === 'ldap' && global.window.mm_config.LdapNicknameAttributeSet) || (this.props.user.auth_service === Constants.SAML_SERVICE && global.window.mm_config.LdapNicknameAttributeSet)) {
+            if ((this.props.user.auth_service === 'ldap' && global.window.mm_config.LdapNicknameAttributeSet === 'true') || (this.props.user.auth_service === Constants.SAML_SERVICE && global.window.mm_config.LdapNicknameAttributeSet === 'true')) {
                 extraInfo = (
                     <span>
                         <FormattedMessage

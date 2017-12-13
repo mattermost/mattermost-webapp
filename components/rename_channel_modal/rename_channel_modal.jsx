@@ -4,7 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal, OverlayTrigger, Tooltip} from 'react-bootstrap';
-import ReactDOM from 'react-dom';
 import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import {browserHistory} from 'react-router';
 
@@ -110,12 +109,6 @@ export class RenameChannelModal extends React.PureComponent {
         }
     }
 
-    componentDidUpdate(prevProps) {
-        if (!prevProps.show && this.props.show) {
-            this.handleShow();
-        }
-    }
-
     setError = (err) => {
         this.setState({serverError: err.message});
     }
@@ -124,10 +117,8 @@ export class RenameChannelModal extends React.PureComponent {
         this.setState({serverError: ''});
     }
 
-    handleShow = () => {
-        const textbox = ReactDOM.findDOMNode(this.refs.displayName);
-        textbox.focus();
-        Utils.placeCaretAtEnd(textbox);
+    handleEntering = () => {
+        Utils.placeCaretAtEnd(this.textbox);
     }
 
     handleHide = (e) => {
@@ -230,6 +221,10 @@ export class RenameChannelModal extends React.PureComponent {
         this.setState({displayName: e.target.value});
     }
 
+    getTextbox = (node) => {
+        this.textbox = node;
+    }
+
     render() {
         let displayNameError = null;
         let displayNameClass = 'form-group';
@@ -269,6 +264,7 @@ export class RenameChannelModal extends React.PureComponent {
         return (
             <Modal
                 show={this.props.show}
+                onEntering={this.handleEntering}
                 onHide={this.handleCancel}
             >
                 <Modal.Header closeButton={true}>
@@ -291,7 +287,7 @@ export class RenameChannelModal extends React.PureComponent {
                             <input
                                 onChange={this.onDisplayNameChange}
                                 type='text'
-                                ref='displayName'
+                                ref={this.getTextbox}
                                 id='display_name'
                                 className='form-control'
                                 placeholder={formatMessage(holders.displayNameHolder)}
@@ -316,7 +312,6 @@ export class RenameChannelModal extends React.PureComponent {
                                     onChange={this.onNameChange}
                                     type='text'
                                     className={handleInputClass}
-                                    ref='channelName'
                                     id='channel_name'
                                     placeholder={formatMessage(holders.handleHolder)}
                                     value={this.state.channelName}

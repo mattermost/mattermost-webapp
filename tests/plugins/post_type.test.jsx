@@ -17,7 +17,7 @@ class PostTypePlugin extends React.PureComponent {
 }
 
 describe('plugins/PostMessageView', () => {
-    const post = {type: 'testtype'};
+    const post = {type: 'testtype', message: 'this is some text'};
     const pluginPostTypes = {
         testtype: {component: PostTypePlugin}
     };

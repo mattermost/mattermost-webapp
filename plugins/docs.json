@@ -33,5 +33,9 @@
     "ChannelHeaderButton": {
         "desc": "A component on the right side of the channel header, beside buttons such as the pinned posts button.",
         "props": {}
+    },
+    "MobileChannelHeaderButton": {
+        "desc": "Same as ChannelHeaderButton, except shown in mobile view when the screen is less than 768 pixels wide.",
+        "props": {}
     }
 }

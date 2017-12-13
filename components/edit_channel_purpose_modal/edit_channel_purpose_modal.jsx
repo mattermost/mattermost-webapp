@@ -61,10 +61,6 @@ export default class EditChannelPurposeModal extends React.Component {
         };
     }
 
-    componentDidMount() {
-        Utils.placeCaretAtEnd(this.refs.purpose);
-    }
-
     componentWillReceiveProps(nextProps) {
         const {requestStatus: nextRequestStatus, serverError: nextServerError} = nextProps;
         const {requestStatus} = this.props;
@@ -97,6 +93,10 @@ export default class EditChannelPurposeModal extends React.Component {
         this.setState({serverError: ''});
     }
 
+    handleEntering = () => {
+        Utils.placeCaretAtEnd(this.purpose);
+    }
+
     handleHide = () => {
         this.setState({show: false});
     }
@@ -127,6 +127,10 @@ export default class EditChannelPurposeModal extends React.Component {
         e.preventDefault();
         this.setState({purpose: e.target.value});
     }
+
+    getPurpose = (node) => {
+        this.purpose = node;
+    };
 
     render() {
         let serverError = null;
@@ -180,6 +184,7 @@ export default class EditChannelPurposeModal extends React.Component {
                 ref='modal'
                 show={this.state.show}
                 onHide={this.handleHide}
+                onEntering={this.handleEntering}
                 onExited={this.props.onModalDismissed}
             >
                 <Modal.Header closeButton={true}>
@@ -192,7 +197,7 @@ export default class EditChannelPurposeModal extends React.Component {
                         {channelPurposeModal}
                     </p>
                     <textarea
-                        ref='purpose'
+                        ref={this.getPurpose}
                         className='form-control no-resize'
                         rows='6'
                         maxLength='250'
