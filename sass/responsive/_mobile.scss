@@ -954,6 +954,11 @@
                 visibility: hidden;
                 width: 100%;
 
+                .error-bar--fixed & {
+                    height: calc(100% - 70px);
+                    top: 70px;
+                }
+
                 .close {
                     @include border-radius(50%);
                     border: 1px solid $white;
