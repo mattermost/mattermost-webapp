@@ -1,9 +1,13 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import {combineReducers} from 'redux';
+
+import {General} from 'mattermost-redux/constants';
+
 import {StorageTypes} from 'utils/constants';
 
-export default function storage(state = {}, action) {
+function storage(state = {}, action) {
     const nextState = {...state};
     var key;
 
@@ -59,3 +63,18 @@ export default function storage(state = {}, action) {
         return state;
     }
 }
+
+function initialized(state = false, action) {
+    switch (action.type) {
+    case General.STORE_REHYDRATION_COMPLETE:
+        return state || action.complete;
+
+    default:
+        return state;
+    }
+}
+
+export default combineReducers({
+    storage,
+    initialized
+});

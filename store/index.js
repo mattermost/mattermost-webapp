@@ -152,8 +152,8 @@ export default function configureStore(initialState, persistorStorage = null) {
             _stateIterator: (collection, callback) => {
                 return Object.keys(collection).forEach((key) => {
                     if (key === 'storage') {
-                        Object.keys(collection[key]).forEach((subkey) => {
-                            callback(collection[key][subkey], key+":"+subkey)
+                        Object.keys(collection.storage.storage).forEach((storageKey) => {
+                            callback(collection.storage.storage[storageKey], 'storage:' + storageKey)
                         })
                     } else {
                         callback(collection[key], key)
@@ -162,15 +162,15 @@ export default function configureStore(initialState, persistorStorage = null) {
             },
             _stateGetter: (state, key) => {
                 if (key.indexOf('storage:') == 0) {
-                    state.storage = state.storage || {};
-                    return state.storage[key.substr(8)];
+                    state.storage = state.storage || {storage: {}};
+                    return state.storage.storage[key.substr(8)];
                 }
                 return state[key];
             },
             _stateSetter: (state, key, value) => {
                 if (key.indexOf('storage:') == 0) {
-                    state.storage = state.storage || {};
-                    state.storage[key.substr(8)] = value;
+                    state.storage = state.storage || {storage: {}};
+                    state.storage.storage[key.substr(8)] = value;
                 }
                 state[key] = value;
                 return state;
