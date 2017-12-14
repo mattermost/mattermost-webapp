@@ -107,7 +107,7 @@ export default class ChannelView extends React.Component {
             </div>
         );
         const channel = ChannelStore.get(this.state.channelId);
-        if (channel.type === Constants.DM_CHANNEL) {
+        if (channel && channel.type === Constants.DM_CHANNEL) {
             const teammate = Utils.getDirectTeammate(channel.id);
             if (teammate && teammate.delete_at) {
                 createPost = (
