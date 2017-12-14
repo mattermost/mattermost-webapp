@@ -304,7 +304,9 @@ describe('comoponents/edit_post_modal/edit_post_modal.jsx', () => {
 
     it('should scroll up when editPost return data', async () => {
         const actions = {
-            editPost: jest.fn((data) => data),
+            editPost: jest.fn((data) => {
+                return {data};
+            }),
             addMessageIntoHistory: jest.fn(),
             setEditingPost: jest.fn()
         };

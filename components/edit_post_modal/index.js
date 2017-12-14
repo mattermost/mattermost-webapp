@@ -3,12 +3,16 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getBool} from 'mattermost-redux/selectors/entities/preferences';
+
+import {addMessageIntoHistory} from 'mattermost-redux/actions/posts';
 import {Preferences} from 'mattermost-redux/constants';
+import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {getEditingPost} from 'selectors/posts';
+
 import {setEditingPost} from 'actions/post_actions';
-import {editPost, addMessageIntoHistory} from 'mattermost-redux/actions/posts';
+import {editPost} from 'actions/views/edit_post_modal';
+
+import {getEditingPost} from 'selectors/posts';
 
 import EditPostModal from './edit_post_modal.jsx';
 
@@ -22,13 +26,12 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             editPost,
             setEditingPost,
-            addMessageIntoHistory,
+            addMessageIntoHistory
         }, dispatch)
     };
 }
