@@ -8,6 +8,7 @@ import {PostTypes} from 'mattermost-redux/action_types';
 import {getMyChannelMember} from 'mattermost-redux/actions/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
 import * as Selectors from 'mattermost-redux/selectors/entities/posts';
+import * as UserAgent from 'utils/user_agent';
 
 import {sendDesktopNotification} from 'actions/notification_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
@@ -121,7 +122,12 @@ export async function createPost(post, files, success) {
         }
     }
 
-    await PostActions.createPost(post, files)(dispatch, getState);
+    if (UserAgent.isIosClassic()) {
+        await PostActions.createPostImmediately(post, files)(dispatch, getState);
+    } else {
+        await PostActions.createPost(post, files)(dispatch, getState);
+    }
+
     if (post.root_id) {
         PostStore.storeCommentDraft(post.root_id, null);
     } else {
