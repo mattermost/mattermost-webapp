@@ -15,7 +15,7 @@ import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import SearchResultsHeader from '../search_results_header';
-import SearchResultsItem from '../search_results_item.jsx';
+import SearchResultsItem from 'components/search_results_item';
 
 export function renderView(props) {
     return (
