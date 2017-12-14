@@ -177,7 +177,7 @@ export default class SearchableUserList extends React.Component {
             const pageEnd = pageStart + this.props.usersPerPage;
             usersToDisplay = this.props.users.slice(pageStart, pageEnd);
 
-            if (usersToDisplay.length >= this.props.usersPerPage) {
+            if (pageEnd < this.props.users.length) {
                 nextButton = (
                     <button
                         className='btn btn-default filter-control filter-control__next'
