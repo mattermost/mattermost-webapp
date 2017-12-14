@@ -67,10 +67,6 @@ export default class ChangeUrlModal extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.onURLChanged = this.onURLChanged.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
-        this.onCancel = this.onCancel.bind(this);
-
         this.state = {
             currentURL: props.currentURL,
             urlError: '',
@@ -88,12 +84,12 @@ export default class ChangeUrlModal extends React.PureComponent {
         }
     }
 
-    onURLChanged(e) {
+    onURLChanged = (e) => {
         const url = e.target.value.trim();
         this.setState({currentURL: url.replace(/[^A-Za-z0-9-_]/g, '').toLowerCase(), userEdit: true});
     }
 
-    getURLError(url) {
+    getURLError = (url) => {
         let error = []; //eslint-disable-line prefer-const
         if (url.length < 2) {
             error.push(
@@ -152,7 +148,7 @@ export default class ChangeUrlModal extends React.PureComponent {
         return error;
     }
 
-    onSubmit(e) {
+    onSubmit = (e) => {
         e.preventDefault();
         const url = this.refs.urlinput.value;
         const cleanedURL = URL.cleanUpUrlable(url);
@@ -164,7 +160,7 @@ export default class ChangeUrlModal extends React.PureComponent {
         this.props.onModalSubmit(url);
     }
 
-    onCancel() {
+    onCancel = () => {
         this.setState({urlError: '', userEdit: false});
         this.props.onModalDismissed();
     }

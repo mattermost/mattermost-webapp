@@ -107,7 +107,7 @@ export default class NewChannelModal extends React.PureComponent {
         }
     }
 
-    onEnterKeyDown(e) {
+    onEnterKeyDown = (e) => {
         if (this.props.ctrlSend && e.keyCode === Constants.KeyCodes.ENTER && e.ctrlKey) {
             this.handleSubmit(e);
         } else if (!this.props.ctrlSend && e.keyCode === Constants.KeyCodes.ENTER && !e.shiftKey && !e.altKey) {
@@ -115,7 +115,7 @@ export default class NewChannelModal extends React.PureComponent {
         }
     }
 
-    handleSubmit(e) {
+    handleSubmit = (e) => {
         e.preventDefault();
 
         const displayName = ReactDOM.findDOMNode(this.refs.display_name).value.trim();
@@ -127,7 +127,7 @@ export default class NewChannelModal extends React.PureComponent {
         this.props.onSubmitChannel();
     }
 
-    handleChange() {
+    handleChange = () => {
         const newData = {
             displayName: this.refs.display_name.value,
             header: this.refs.channel_header.value,
@@ -256,7 +256,7 @@ export default class NewChannelModal extends React.PureComponent {
                                 <div className='col-sm-9'>
                                     <input
                                         id={inputPrefixId + 'Name'}
-                                        onChange={() => this.handleChange()}
+                                        onChange={this.handleChange}
                                         type='text'
                                         ref='display_name'
                                         className='form-control'
@@ -265,7 +265,7 @@ export default class NewChannelModal extends React.PureComponent {
                                         value={this.props.channelData.displayName}
                                         autoFocus={true}
                                         tabIndex='1'
-                                        onKeyDown={(e) => this.onEnterKeyDown(e)}
+                                        onKeyDown={this.onEnterKeyDown}
                                     />
                                     {displayNameError}
                                     <p className='input__help dark'>
@@ -310,7 +310,7 @@ export default class NewChannelModal extends React.PureComponent {
                                         placeholder={Utils.localizeMessage('channel_modal.purposeEx', 'E.g.: "A channel to file bugs and improvements"')}
                                         maxLength='250'
                                         value={this.props.channelData.purpose}
-                                        onChange={() => this.handleChange()}
+                                        onChange={this.handleChange}
                                         tabIndex='2'
                                     />
                                     <p className='input__help'>
@@ -345,7 +345,7 @@ export default class NewChannelModal extends React.PureComponent {
                                         placeholder={Utils.localizeMessage('channel_modal.headerEx', 'E.g.: "[Link Title](http://example.com)"')}
                                         maxLength='1024'
                                         value={this.props.channelData.header}
-                                        onChange={() => this.handleChange()}
+                                        onChange={this.handleChange}
                                         tabIndex='2'
                                     />
                                     <p className='input__help'>
@@ -370,7 +370,7 @@ export default class NewChannelModal extends React.PureComponent {
                                 />
                             </button>
                             <button
-                                onClick={(e) => this.handleSubmit(e)}
+                                onClick={this.handleSubmit}
                                 type='submit'
                                 className='btn btn-primary'
                                 tabIndex='3'
