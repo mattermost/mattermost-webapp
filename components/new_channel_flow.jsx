@@ -22,14 +22,6 @@ export default class NewChannelFlow extends React.Component {
     constructor(props) {
         super(props);
 
-        this.doSubmit = this.doSubmit.bind(this);
-        this.onModalExited = this.onModalExited.bind(this);
-        this.typeSwitched = this.typeSwitched.bind(this);
-        this.urlChangeRequested = this.urlChangeRequested.bind(this);
-        this.urlChangeSubmitted = this.urlChangeSubmitted.bind(this);
-        this.urlChangeDismissed = this.urlChangeDismissed.bind(this);
-        this.channelDataChanged = this.channelDataChanged.bind(this);
-
         this.state = {
             serverError: '',
             channelType: props.channelType || 'O',
@@ -56,7 +48,7 @@ export default class NewChannelFlow extends React.Component {
             });
         }
     }
-    doSubmit() {
+    onSubmit = () => {
         if (!this.state.channelDisplayName) {
             this.setState({serverError: Utils.localizeMessage('channel_flow.invalidName', 'Invalid Channel Name')});
             return;
@@ -89,12 +81,12 @@ export default class NewChannelFlow extends React.Component {
             }
         );
     }
-    onModalExited() {
+    onModalExited = () => {
         if (this.doOnModalExited) {
             this.doOnModalExited();
         }
     }
-    typeSwitched(e) {
+    typeSwitched = (e) => {
         e.preventDefault();
         if (this.state.channelType === 'P') {
             this.setState({channelType: 'O'});
@@ -102,19 +94,19 @@ export default class NewChannelFlow extends React.Component {
             this.setState({channelType: 'P'});
         }
     }
-    urlChangeRequested(e) {
+    urlChangeRequested = (e) => {
         if (e) {
             e.preventDefault();
         }
         this.setState({flowState: SHOW_EDIT_URL});
     }
-    urlChangeSubmitted(newURL) {
+    urlChangeSubmitted = (newURL) => {
         this.setState({flowState: SHOW_NEW_CHANNEL, serverError: null, channelName: newURL, nameModified: true});
     }
-    urlChangeDismissed() {
+    urlChangeDismissed = () => {
         this.setState({flowState: SHOW_NEW_CHANNEL});
     }
-    channelDataChanged(data) {
+    channelDataChanged = (data) => {
         this.setState({
             channelDisplayName: data.displayName,
             channelPurpose: data.purpose,
@@ -167,7 +159,7 @@ export default class NewChannelFlow extends React.Component {
                     channelType={'O'}
                     channelData={channelData}
                     serverError={this.state.serverError}
-                    onSubmitChannel={this.doSubmit}
+                    onSubmitChannel={this.onSubmit}
                     onModalDismissed={this.props.onModalDismissed}
                     onModalExited={this.onModalExited}
                     onTypeSwitched={this.typeSwitched}
@@ -179,7 +171,7 @@ export default class NewChannelFlow extends React.Component {
                     channelType={'P'}
                     channelData={channelData}
                     serverError={this.state.serverError}
-                    onSubmitChannel={this.doSubmit}
+                    onSubmitChannel={this.onSubmit}
                     onModalExited={this.onModalExited}
                     onModalDismissed={this.props.onModalDismissed}
                     onTypeSwitched={this.typeSwitched}
