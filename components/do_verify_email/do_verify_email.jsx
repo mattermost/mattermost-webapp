@@ -65,26 +65,6 @@ export default class DoVerifyEmail extends React.PureComponent {
         }
     }
 
-    verifyEmail = async () => {
-        const {actions: {verifyUserEmail}} = this.props;
-        const {data, error} = await verifyUserEmail(this.props.location.query.token);
-
-        if (data) {
-            browserHistory.push('/login?extra=verified&email=' + encodeURIComponent(this.props.location.query.email));
-        } else if (error) {
-            const serverError = (
-                <FormattedMessage
-                    id='signup_user_completed.invalid_invite'
-                    defaultMessage='The invite link was invalid.  Please speak with your Administrator to receive an invitation.'
-                />
-            );
-
-            this.setState({
-                verifyStatus: 'failure',
-                serverError
-            });
-        }
-    }
     render() {
         if (this.state.verifyStatus !== 'failure') {
             return (<LoadingScreen/>);
