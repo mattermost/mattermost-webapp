@@ -87,10 +87,6 @@ export default class NewChannelModal extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.onEnterKeyDown = this.onEnterKeyDown.bind(this);
-
         this.state = {
             displayNameError: ''
         };
@@ -102,9 +98,9 @@ export default class NewChannelModal extends React.PureComponent {
                 displayNameError: ''
             });
 
-            document.addEventListener('keydown', this.onEnterKeyDown);
+            document.addEventListener('keydown', (e) => this.onEnterKeyDown(e));
         } else if (nextProps.show === false && this.props.show === true) {
-            document.removeEventListener('keydown', this.onEnterKeyDown);
+            document.removeEventListener('keydown', (e) => this.onEnterKeyDown(e));
         }
     }
 
@@ -264,7 +260,7 @@ export default class NewChannelModal extends React.PureComponent {
                                 <div className='col-sm-9'>
                                     <input
                                         id={inputPrefixId + 'Name'}
-                                        onChange={this.handleChange}
+                                        onChange={() => this.handleChange()}
                                         type='text'
                                         ref='display_name'
                                         className='form-control'
@@ -317,7 +313,7 @@ export default class NewChannelModal extends React.PureComponent {
                                         placeholder={Utils.localizeMessage('channel_modal.purposeEx', 'E.g.: "A channel to file bugs and improvements"')}
                                         maxLength='250'
                                         value={this.props.channelData.purpose}
-                                        onChange={this.handleChange}
+                                        onChange={() => this.handleChange()}
                                         tabIndex='2'
                                     />
                                     <p className='input__help'>
@@ -352,7 +348,7 @@ export default class NewChannelModal extends React.PureComponent {
                                         placeholder={Utils.localizeMessage('channel_modal.headerEx', 'E.g.: "[Link Title](http://example.com)"')}
                                         maxLength='1024'
                                         value={this.props.channelData.header}
-                                        onChange={this.handleChange}
+                                        onChange={() => this.handleChange()}
                                         tabIndex='2'
                                     />
                                     <p className='input__help'>
@@ -377,7 +373,7 @@ export default class NewChannelModal extends React.PureComponent {
                                 />
                             </button>
                             <button
-                                onClick={this.handleSubmit}
+                                onClick={(e) => this.handleSubmit(e)}
                                 type='submit'
                                 className='btn btn-primary'
                                 tabIndex='3'
