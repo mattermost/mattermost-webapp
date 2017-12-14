@@ -22,6 +22,7 @@ import {getSelectedPostId} from 'selectors/rhs';
 
 import {ActionTypes, Constants} from 'utils/constants.jsx';
 import {EMOJI_PATTERN} from 'utils/emoticons.jsx';
+import * as UserAgent from 'utils/user_agent';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -121,7 +122,12 @@ export async function createPost(post, files, success) {
         }
     }
 
-    await PostActions.createPost(post, files)(dispatch, getState);
+    if (UserAgent.isIosClassic()) {
+        await PostActions.createPostImmediately(post, files)(dispatch, getState);
+    } else {
+        await PostActions.createPost(post, files)(dispatch, getState);
+    }
+
     if (post.root_id) {
         PostStore.storeCommentDraft(post.root_id, null);
     } else {
