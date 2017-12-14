@@ -929,6 +929,12 @@
 
             .navbar-toggle {
                 display: block;
+
+                &:not(.navbar-right__icon) {
+                    &:hover {
+                        background: transparent;
+                    }
+                }
             }
 
             .dropdown {
