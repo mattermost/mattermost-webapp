@@ -2,6 +2,7 @@
 
 def gitCommit
 node {
+    label 'linux-mattermost-server'
     stage('Checkout') {
         checkout scm
         gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
