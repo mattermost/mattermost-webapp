@@ -97,10 +97,6 @@ export default class NewChannelModal extends React.PureComponent {
             this.setState({
                 displayNameError: ''
             });
-
-            document.addEventListener('keydown', (e) => this.onEnterKeyDown(e));
-        } else if (nextProps.show === false && this.props.show === true) {
-            document.removeEventListener('keydown', (e) => this.onEnterKeyDown(e));
         }
     }
 
@@ -269,6 +265,7 @@ export default class NewChannelModal extends React.PureComponent {
                                         value={this.props.channelData.displayName}
                                         autoFocus={true}
                                         tabIndex='1'
+                                        onKeyDown={(e) => this.onEnterKeyDown(e)}
                                     />
                                     {displayNameError}
                                     <p className='input__help dark'>
