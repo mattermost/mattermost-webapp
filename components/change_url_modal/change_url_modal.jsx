@@ -6,8 +6,6 @@ import React from 'react';
 import {Modal, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import TeamStore from 'stores/team_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as URL from 'utils/url.jsx';
 
@@ -34,6 +32,11 @@ export default class ChangeURLModal extends React.PureComponent {
         * Set to change the current URL
         */
         currentURL: PropTypes.string,
+
+        /**
+        * Set to the current team URL
+        */
+        currentTeamURL: PropTypes.string.isRequired,
 
         /**
         * Server error from failed channel creation
@@ -183,10 +186,10 @@ export default class ChangeURLModal extends React.PureComponent {
             );
         }
 
-        const fullUrl = TeamStore.getCurrentTeamUrl() + '/channels';
-        const shortURL = URL.getShortenedURL(fullUrl);
+        const fullURL = this.props.currentTeamURL + '/channels';
+        const shortURL = URL.getShortenedURL(fullURL);
         const urlTooltip = (
-            <Tooltip id='urlTooltip'>{fullUrl}</Tooltip>
+            <Tooltip id='urlTooltip'>{fullURL}</Tooltip>
         );
 
         return (
