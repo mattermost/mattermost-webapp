@@ -12,6 +12,7 @@ import PDFJS from 'pdfjs-dist';
 
 import * as Websockets from 'actions/websocket_actions.jsx';
 import {loadMeAndConfig} from 'actions/user_actions.jsx';
+import PersistGate from 'components/persist_gate';
 import ChannelStore from 'stores/channel_store.jsx';
 import * as I18n from 'i18n/i18n.jsx';
 import {initializePlugins} from 'plugins';
@@ -118,10 +119,12 @@ function preRenderSetup(callwhendone) {
 function renderRootComponent() {
     ReactDOM.render((
         <Provider store={store}>
-            <Router
-                history={browserHistory}
-                routes={rRoot}
-            />
+            <PersistGate loading={null}>
+                <Router
+                    history={browserHistory}
+                    routes={rRoot}
+                />
+            </PersistGate>
         </Provider>
     ),
     document.getElementById('root'));

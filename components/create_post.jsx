@@ -78,16 +78,15 @@ export default class CreatePost extends React.Component {
 
         const channel = ChannelStore.getCurrent();
         const channelId = channel.id;
-        const draft = PostStore.getDraft(channelId);
         const stats = ChannelStore.getCurrentStats();
         const members = stats.member_count - 1;
 
         this.state = {
             channelId,
             channel,
-            message: draft.message,
-            uploadsInProgress: draft.uploadsInProgress,
-            fileInfos: draft.fileInfos,
+            message: '', // These are loaded in componentWillMount
+            uploadsInProgress: [],
+            fileInfos: [],
             submitting: false,
             ctrlSend: PreferenceStore.getBool(Constants.Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
             fullWidthTextBox: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT) === Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN,
@@ -422,6 +421,14 @@ export default class CreatePost extends React.Component {
             fullWidthTextBox: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT) === Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN,
             showTutorialTip: tutorialStep === TutorialSteps.POST_POPOVER,
             enableSendButton
+        });
+
+        const draft = PostStore.getDraft(this.state.channelId);
+
+        this.setState({
+            message: draft.message,
+            uploadsInProgress: draft.uploadsInProgress,
+            fileInfos: draft.fileInfos
         });
     }
 
