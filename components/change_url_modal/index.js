@@ -3,14 +3,18 @@
 
 import {connect} from 'react-redux';
 
-import {getCurrentTeamUrl} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+
+import {getSiteURL} from 'utils/url';
 
 import ChangeURLModal from './change_url_modal';
 
 function mapStateToProps(state, ownProps) {
+    const currentTeam = getCurrentTeam(state);
+    const currentTeamURL = `${getSiteURL()}/${currentTeam.name}`;
     return {
         ...ownProps,
-        currentTeamURL: getCurrentTeamUrl(state)
+        currentTeamURL
     };
 }
 
