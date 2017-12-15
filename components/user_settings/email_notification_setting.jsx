@@ -62,16 +62,18 @@ export default class EmailNotificationSetting extends React.Component {
         }
     }
 
-    handleExpand = () => {
-        this.props.updateSection('email');
-    }
+    handleUpdateSection = (section) => {
+        if (section) {
+            this.props.updateSection(section);
+        } else {
+            this.props.updateSection('');
 
-    handleCancel = (e) => {
-        this.setState({
-            enableEmail: this.props.enableEmail,
-            emailInterval: this.props.emailInterval
-        });
-        this.props.onCancel(e);
+            this.setState({
+                enableEmail: this.props.enableEmail,
+                emailInterval: this.props.emailInterval
+            });
+            this.props.onCancel();
+        }
     }
 
     render() {
@@ -95,7 +97,8 @@ export default class EmailNotificationSetting extends React.Component {
                     title={localizeMessage('user.settings.notifications.emailNotifications', 'Email notifications')}
                     inputs={inputs}
                     server_error={this.state.serverError}
-                    updateSection={this.handleCancel}
+                    section={'email'}
+                    updateSection={this.handleUpdateSection}
                 />
             );
         }
@@ -150,7 +153,8 @@ export default class EmailNotificationSetting extends React.Component {
                 <SettingItemMin
                     title={localizeMessage('user.settings.notifications.emailNotifications', 'Email notifications')}
                     describe={description}
-                    updateSection={this.handleExpand}
+                    section={'email'}
+                    updateSection={this.handleUpdateSection}
                 />
             );
         }
@@ -261,7 +265,7 @@ export default class EmailNotificationSetting extends React.Component {
                 submit={this.handleSubmit}
                 saving={this.props.saving}
                 server_error={this.props.serverError}
-                updateSection={this.handleCancel}
+                updateSection={this.handleUpdateSection}
             />
         );
     }

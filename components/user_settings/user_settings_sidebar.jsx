@@ -11,8 +11,8 @@ import UserStore from 'stores/user_store.jsx';
 
 import Constants from 'utils/constants.jsx';
 
-import SettingItemMax from '../setting_item_max.jsx';
-import SettingItemMin from '../setting_item_min.jsx';
+import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMin from 'components/setting_item_min.jsx';
 
 export default class SidebarSettingsDisplay extends React.Component {
     constructor(props) {
@@ -48,7 +48,7 @@ export default class SidebarSettingsDisplay extends React.Component {
         this.setState(settings);
     }
 
-    handleSubmit(setting) {
+    handleSubmit = (setting) => {
         const preferences = [];
         const userId = UserStore.getCurrentId();
 
@@ -148,13 +148,11 @@ export default class SidebarSettingsDisplay extends React.Component {
                             </div>
                         </div>
                     ]}
-                    submit={() => this.handleSubmit('close_unused_direct_messages')}
+                    setting={'close_unused_direct_messages'}
+                    submit={this.handleSubmit}
                     saving={this.state.isSaving}
                     server_error={this.state.serverError}
-                    updateSection={(e) => {
-                        this.updateSection('');
-                        e.preventDefault();
-                    }}
+                    updateSection={this.updateSection}
                 />
             );
         }
@@ -168,7 +166,8 @@ export default class SidebarSettingsDisplay extends React.Component {
                     />
                 }
                 describe={this.renderAutoCloseDMLabel(this.state.settings.close_unused_direct_messages)}
-                updateSection={() => this.props.updateSection('autoCloseDM')}
+                section={'autoCloseDM'}
+                updateSection={this.updateSection}
             />
         );
     }

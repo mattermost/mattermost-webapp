@@ -101,6 +101,7 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
       ]
     }
     saving={false}
+    section=""
     server_error=""
     submit={[Function]}
     title="Email notifications"
@@ -253,6 +254,7 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
       values={Object {}}
     />
   }
+  section="email"
   title="Email notifications"
   updateSection={[Function]}
 />
@@ -267,6 +269,7 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
       values={Object {}}
     />
   }
+  section="email"
   title="Email notifications"
   updateSection={[Function]}
 />
@@ -285,6 +288,7 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
       }
     />
   }
+  section="email"
   title="Email notifications"
   updateSection={[Function]}
 />
@@ -438,6 +442,7 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
       ]
     }
     saving={false}
+    section=""
     server_error=""
     submit={[Function]}
     title="Email notifications"
@@ -657,6 +662,7 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
     ]
   }
   saving={false}
+  section="email"
   title="Email notifications"
   updateSection={[Function]}
 />
@@ -728,6 +734,7 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
     ]
   }
   saving={false}
+  section=""
   server_error="serverError"
   submit={[Function]}
   title="Email notifications"
