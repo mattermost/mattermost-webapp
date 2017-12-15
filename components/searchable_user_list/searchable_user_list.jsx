@@ -127,7 +127,7 @@ export default class SearchableUserList extends React.Component {
             endCount = -1;
         } else {
             startCount = this.props.page * this.props.usersPerPage;
-            endCount = startCount + count;
+            endCount = Math.min(startCount + this.props.usersPerPage, total);
         }
 
         if (this.props.renderCount) {
