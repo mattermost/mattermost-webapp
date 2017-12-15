@@ -79,7 +79,7 @@ export default class AnnouncementBar extends React.PureComponent {
 
     getState() {
         const error = ErrorStore.getLastError();
-        if (error && Object.keys(error).length > 0 && error.message && error.type) {
+        if (error && error.message) {
             return {message: error.message, color: null, textColor: null, type: error.type, allowDismissal: true};
         }
 

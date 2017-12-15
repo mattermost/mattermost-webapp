@@ -38,11 +38,6 @@ export default class EditPostModal extends React.PureComponent {
         config: PropTypes.object.isRequired,
 
         /**
-         * Global license object
-         */
-        license: PropTypes.object.isRequired,
-
-        /**
          * Editing post information
          */
         editingPost: PropTypes.object.isRequired,
@@ -72,16 +67,6 @@ export default class EditPostModal extends React.PureComponent {
         }
         if (!this.props.editingPost || !this.props.editingPost.post) {
             return false;
-        }
-        if (this.props.license.IsLicensed === 'true') {
-            if (this.props.config.AllowEditPost === Constants.ALLOW_EDIT_POST_NEVER) {
-                return false;
-            }
-            if (this.props.config.AllowEditPost === Constants.ALLOW_EDIT_POST_TIME_LIMIT) {
-                if ((this.props.editingPost.post.create_at + (this.props.config.PostEditTimeLimit * 1000)) < Utils.getTimestamp()) {
-                    return false;
-                }
-            }
         }
         return true;
     }

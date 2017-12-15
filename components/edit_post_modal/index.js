@@ -7,7 +7,7 @@ import {bindActionCreators} from 'redux';
 import {addMessageIntoHistory} from 'mattermost-redux/actions/posts';
 import {Preferences} from 'mattermost-redux/constants';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {setEditingPost} from 'actions/post_actions';
 import {editPost} from 'actions/views/edit_post_modal';
@@ -21,7 +21,6 @@ function mapStateToProps(state, ownProps) {
         ...ownProps,
         ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
         config: getConfig(state),
-        license: getLicense(state),
         editingPost: getEditingPost(state)
     };
 }
