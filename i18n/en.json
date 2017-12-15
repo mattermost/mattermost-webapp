@@ -1589,6 +1589,7 @@
   "general_tab.regenerate": "Regenerate",
   "general_tab.required": "This field is required",
   "general_tab.teamDescription": "Team Description",
+  "general_tab.teamNameRestrictions": "Team Name must be {min} or more characters up to a maximum of {max}. You can add a longer team description.",
   "general_tab.teamDescriptionInfo": "Team description provides additional information to help users select the right team. Maximum of 50 characters.",
   "general_tab.teamName": "Team Name",
   "general_tab.teamNameInfo": "Set the name of the team as it appears on your sign-in screen and at the top of the left-hand sidebar.",

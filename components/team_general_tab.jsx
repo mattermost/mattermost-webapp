@@ -108,11 +108,25 @@ class GeneralTab extends React.Component {
         let valid = true;
 
         const name = this.state.name.trim();
-        if (name) {
-            state.clientError = '';
-        } else {
+
+        if (!name) {
             state.clientError = Utils.localizeMessage('general_tab.required', 'This field is required');
             valid = false;
+        } else if (name.length < Constants.MIN_TEAMNAME_LENGTH) {
+            state.clientError = (
+                <FormattedMessage
+                    id='general_tab.teamNameRestrictions'
+                    defaultMessage='Team Name must be {min} or more characters up to a maximum of {max}. You can add a longer team description.'
+                    values={{
+                        min: Constants.MIN_TEAMNAME_LENGTH,
+                        max: Constants.MAX_TEAMNAME_LENGTH
+                    }}
+                />
+            );
+
+            valid = false;
+        } else {
+            state.clientError = '';
         }
 
         this.setState(state);
