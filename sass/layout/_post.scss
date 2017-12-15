@@ -281,12 +281,12 @@
 
     .new-messages__button {
         @include opacity(0);
+        @include translateX(-50%);
         bottom: 0;
         font-size: 13.5px;
-        left: 0;
+        left: 50%;
         margin: 5px auto;
         position: absolute;
-        right: 0;
         text-align: center;
         visibility: hidden;
         z-index: 1;

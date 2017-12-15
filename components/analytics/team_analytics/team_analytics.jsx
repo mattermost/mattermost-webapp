@@ -141,7 +141,17 @@ export default class TeamAnalytics extends React.Component {
         const postCountsDay = formatPostsPerDayData(stats[StatTypes.POST_PER_DAY]);
         const userCountsWithPostsDay = formatUsersWithPostsPerDayData(stats[StatTypes.USERS_WITH_POSTS_PER_DAY]);
 
-        let banner;
+        let banner = (
+            <div className='banner'>
+                <div className='banner__content'>
+                    <FormattedMessage
+                        id='analytics.system.info'
+                        defaultMessage='Only data for the chosen team is calculated. Excludes posts made in direct message channels, which are not tied to a team.'
+                    />
+                </div>
+            </div>
+        );
+
         let totalPostsCount;
         let postTotalGraph;
         let userActiveGraph;
@@ -150,8 +160,8 @@ export default class TeamAnalytics extends React.Component {
                 <div className='banner'>
                     <div className='banner__content'>
                         <FormattedHTMLMessage
-                            id='analytics.system.skippedIntensiveQueries'
-                            defaultMessage="Some statistics have been omitted because they put too much load on the system to calculate. See <a href='https://docs.mattermost.com/administration/statistics.html' target='_blank'>https://docs.mattermost.com/administration/statistics.html</a> for more details."
+                            id='analytics.system.infoAndSkippedIntensiveQueries'
+                            defaultMessage="Only data for the chosen team is calculated. Excludes posts made in direct message channels, which are not tied to a team. <br><br> Some statistics have been omitted because they put too much load on the system to calculate. See <a href='https://docs.mattermost.com/administration/statistics.html' target='_blank'>https://docs.mattermost.com/administration/statistics.html</a> for more details."
                         />
                     </div>
                 </div>

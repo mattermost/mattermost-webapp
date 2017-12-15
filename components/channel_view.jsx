@@ -16,7 +16,7 @@ import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import ChannelHeader from 'components/channel_header';
-import CreatePost from 'components/create_post.jsx';
+import CreatePost from 'components/create_post';
 import FileUploadOverlay from 'components/file_upload_overlay.jsx';
 import PostView from 'components/post_view';
 import TutorialView from 'components/tutorial/tutorial_view.jsx';

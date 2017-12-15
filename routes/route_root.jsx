@@ -98,7 +98,7 @@ export default {
                         {
                             path: 'do_verify_email',
                             getComponents: (location, callback) => {
-                                System.import('components/do_verify_email.jsx').then(RouteUtils.importComponentSuccess(callback));
+                                System.import('components/do_verify_email').then(RouteUtils.importComponentSuccess(callback));
                             }
                         },
                         helpRoute
