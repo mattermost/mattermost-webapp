@@ -6,8 +6,8 @@ import React from 'react';
 import {Modal, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import Constants from 'utils/constants.jsx';
-import * as URL from 'utils/url.jsx';
+import Constants from 'utils/constants';
+import {getShortenedURL, cleanUpUrlable} from 'utils/url';
 
 export default class ChangeURLModal extends React.PureComponent {
 
@@ -69,7 +69,6 @@ export default class ChangeURLModal extends React.PureComponent {
 
     constructor(props) {
         super(props);
-
         this.state = {
             currentURL: props.currentURL,
             urlError: '',
@@ -92,61 +91,45 @@ export default class ChangeURLModal extends React.PureComponent {
         this.setState({currentURL: url.replace(/[^A-Za-z0-9-_]/g, '').toLowerCase(), userEdit: true});
     }
 
+    formattedError = (key, id, message) => {
+        return (<span key={key}>
+            <FormattedMessage
+                id={id}
+                defaultMessage={message}
+            />
+            <br/>
+        </span>);
+    }
+
     getURLError = (url) => {
         let error = []; //eslint-disable-line prefer-const
+
         if (url.length < 2) {
             error.push(
-                <span key='error1'>
-                    <FormattedMessage
-                        id='change_url.longer'
-                        defaultMessage='URL must be two or more characters.'
-                    />
-                    <br/>
-                </span>
+              this.formattedError('error1', 'change_url.longer', 'URL must be two or more characters.')
             );
         }
         if (url.charAt(0) === '-' || url.charAt(0) === '_') {
             error.push(
-                <span key='error2'>
-                    <FormattedMessage
-                        id='change_url.startWithLetter'
-                        defaultMessage='URL must start with a letter or number.'
-                    />
-                    <br/>
-                </span>
+              this.formattedError('error2', 'change_url.startWithLetter', 'URL must start with a letter or number.')
             );
         }
         if (url.length > 1 && (url.charAt(url.length - 1) === '-' || url.charAt(url.length - 1) === '_')) {
             error.push(
-                <span key='error3'>
-                    <FormattedMessage
-                        id='change_url.endWithLetter'
-                        defaultMessage='URL must end with a letter or number.'
-                    />
-                    <br/>
-                </span>);
+              this.formattedError('error3', 'change_url.endWithLetter', 'URL must end with a letter or number.')
+            );
         }
         if (url.indexOf('__') > -1) {
             error.push(
-                <span key='error4'>
-                    <FormattedMessage
-                        id='change_url.noUnderscore'
-                        defaultMessage='URL can not contain two underscores in a row.'
-                    />
-                    <br/>
-                </span>);
+              this.formattedError('error4', 'change_url.noUnderscore', 'URL can not contain two underscores in a row.')
+            );
         }
 
         // In case of error we don't detect
         if (error.length === 0) {
             error.push(
-                <span key='errorlast'>
-                    <FormattedMessage
-                        id='change_url.invalidUrl'
-                        defaultMessage='Invalid URL'
-                    />
-                    <br/>
-                </span>);
+              this.formattedError('errorlast', 'change_url.invalidUrl', 'Invalid URL')
+            );
         }
         return error;
     }
@@ -154,7 +137,7 @@ export default class ChangeURLModal extends React.PureComponent {
     onSubmit = (e) => {
         e.preventDefault();
         const url = this.refs.urlinput.value;
-        const cleanedURL = URL.cleanUpUrlable(url);
+        const cleanedURL = cleanUpUrlable(url);
         if (cleanedURL !== url || url.length < 2 || url.indexOf('__') > -1) {
             this.setState({urlError: this.getURLError(url)});
             return;
@@ -187,7 +170,7 @@ export default class ChangeURLModal extends React.PureComponent {
         }
 
         const fullURL = this.props.currentTeamURL + '/channels';
-        const shortURL = URL.getShortenedURL(fullURL);
+        const shortURL = getShortenedURL(fullURL);
         const urlTooltip = (
             <Tooltip id='urlTooltip'>{fullURL}</Tooltip>
         );
