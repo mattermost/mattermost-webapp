@@ -1,0 +1,153 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component/sidebar/SidebarTutorialTip should match snapshot, with townSquare and with offTopic 1`] = `
+<TutorialTip
+  diagnosticsTag="tutorial_tip_2_channels"
+  overlayClass="tip-overlay--sidebar"
+  placement="right"
+  screens={
+    Array [
+      <div>
+        <FormattedHTMLMessage
+          defaultMessage="<h4>Channels</h4><p><strong>Channels</strong> organize conversations across different topics. They’re open to everyone on your team. To send private communications use <strong>Direct Messages</strong> for a single person or <strong>Private Channels</strong> for multiple people.</p>"
+          id="sidebar.tutorialScreen1"
+          values={Object {}}
+        />
+      </div>,
+      <div>
+        <FormattedHTMLMessage
+          defaultMessage="<h4>\\"{townsquare}\\" and \\"{offtopic}\\" channels</h4> <p>Here are two public channels to start:</p> <p><strong>{townsquare}</strong> is a place for team-wide communication. Everyone in your team is a member of this channel.</p> <p><strong>{offtopic}</strong> is a place for fun and humor outside of work-related channels. You and your team can decide what other channels to create.</p>"
+          id="sidebar.tutorialScreen2"
+          values={
+            Object {
+              "offtopic": "TestOffTopic",
+              "townsquare": "TestTownSquare",
+            }
+          }
+        />
+      </div>,
+      <div>
+        <FormattedHTMLMessage
+          defaultMessage="<h4>Creating and Joining Channels</h4> <p>Click <strong>\\"More...\\"</strong> to create a new channel or join an existing one.</p> <p>You can also create a new public or private channel by clicking the <strong>\\"+\\" symbol</strong> next to the public or private channel header.</p>"
+          id="sidebar.tutorialScreen3"
+          values={Object {}}
+        />
+      </div>,
+    ]
+  }
+/>
+`;
+
+exports[`component/sidebar/SidebarTutorialTip should match snapshot, with townSquare and without offTopic 1`] = `
+<TutorialTip
+  diagnosticsTag="tutorial_tip_2_channels"
+  overlayClass="tip-overlay--sidebar"
+  placement="right"
+  screens={
+    Array [
+      <div>
+        <FormattedHTMLMessage
+          defaultMessage="<h4>Channels</h4><p><strong>Channels</strong> organize conversations across different topics. They’re open to everyone on your team. To send private communications use <strong>Direct Messages</strong> for a single person or <strong>Private Channels</strong> for multiple people.</p>"
+          id="sidebar.tutorialScreen1"
+          values={Object {}}
+        />
+      </div>,
+      <div>
+        <FormattedHTMLMessage
+          defaultMessage="<h4>\\"{townsquare}\\" and \\"{offtopic}\\" channels</h4> <p>Here are two public channels to start:</p> <p><strong>{townsquare}</strong> is a place for team-wide communication. Everyone in your team is a member of this channel.</p> <p><strong>{offtopic}</strong> is a place for fun and humor outside of work-related channels. You and your team can decide what other channels to create.</p>"
+          id="sidebar.tutorialScreen2"
+          values={
+            Object {
+              "offtopic": "Off-Topic",
+              "townsquare": "TestTownSquare",
+            }
+          }
+        />
+      </div>,
+      <div>
+        <FormattedHTMLMessage
+          defaultMessage="<h4>Creating and Joining Channels</h4> <p>Click <strong>\\"More...\\"</strong> to create a new channel or join an existing one.</p> <p>You can also create a new public or private channel by clicking the <strong>\\"+\\" symbol</strong> next to the public or private channel header.</p>"
+          id="sidebar.tutorialScreen3"
+          values={Object {}}
+        />
+      </div>,
+    ]
+  }
+/>
+`;
+
+exports[`component/sidebar/SidebarTutorialTip should match snapshot, without townSquare and with offTopic 1`] = `
+<TutorialTip
+  diagnosticsTag="tutorial_tip_2_channels"
+  overlayClass="tip-overlay--sidebar"
+  placement="right"
+  screens={
+    Array [
+      <div>
+        <FormattedHTMLMessage
+          defaultMessage="<h4>Channels</h4><p><strong>Channels</strong> organize conversations across different topics. They’re open to everyone on your team. To send private communications use <strong>Direct Messages</strong> for a single person or <strong>Private Channels</strong> for multiple people.</p>"
+          id="sidebar.tutorialScreen1"
+          values={Object {}}
+        />
+      </div>,
+      <div>
+        <FormattedHTMLMessage
+          defaultMessage="<h4>\\"{townsquare}\\" and \\"{offtopic}\\" channels</h4> <p>Here are two public channels to start:</p> <p><strong>{townsquare}</strong> is a place for team-wide communication. Everyone in your team is a member of this channel.</p> <p><strong>{offtopic}</strong> is a place for fun and humor outside of work-related channels. You and your team can decide what other channels to create.</p>"
+          id="sidebar.tutorialScreen2"
+          values={
+            Object {
+              "offtopic": "TestOffTopic",
+              "townsquare": "Town Square",
+            }
+          }
+        />
+      </div>,
+      <div>
+        <FormattedHTMLMessage
+          defaultMessage="<h4>Creating and Joining Channels</h4> <p>Click <strong>\\"More...\\"</strong> to create a new channel or join an existing one.</p> <p>You can also create a new public or private channel by clicking the <strong>\\"+\\" symbol</strong> next to the public or private channel header.</p>"
+          id="sidebar.tutorialScreen3"
+          values={Object {}}
+        />
+      </div>,
+    ]
+  }
+/>
+`;
+
+exports[`component/sidebar/SidebarTutorialTip should match snapshot, without townSquare and without offTopic 1`] = `
+<TutorialTip
+  diagnosticsTag="tutorial_tip_2_channels"
+  overlayClass="tip-overlay--sidebar"
+  placement="right"
+  screens={
+    Array [
+      <div>
+        <FormattedHTMLMessage
+          defaultMessage="<h4>Channels</h4><p><strong>Channels</strong> organize conversations across different topics. They’re open to everyone on your team. To send private communications use <strong>Direct Messages</strong> for a single person or <strong>Private Channels</strong> for multiple people.</p>"
+          id="sidebar.tutorialScreen1"
+          values={Object {}}
+        />
+      </div>,
+      <div>
+        <FormattedHTMLMessage
+          defaultMessage="<h4>\\"{townsquare}\\" and \\"{offtopic}\\" channels</h4> <p>Here are two public channels to start:</p> <p><strong>{townsquare}</strong> is a place for team-wide communication. Everyone in your team is a member of this channel.</p> <p><strong>{offtopic}</strong> is a place for fun and humor outside of work-related channels. You and your team can decide what other channels to create.</p>"
+          id="sidebar.tutorialScreen2"
+          values={
+            Object {
+              "offtopic": "Off-Topic",
+              "townsquare": "Town Square",
+            }
+          }
+        />
+      </div>,
+      <div>
+        <FormattedHTMLMessage
+          defaultMessage="<h4>Creating and Joining Channels</h4> <p>Click <strong>\\"More...\\"</strong> to create a new channel or join an existing one.</p> <p>You can also create a new public or private channel by clicking the <strong>\\"+\\" symbol</strong> next to the public or private channel header.</p>"
+          id="sidebar.tutorialScreen3"
+          values={Object {}}
+        />
+      </div>,
+    ]
+  }
+/>
+`;
