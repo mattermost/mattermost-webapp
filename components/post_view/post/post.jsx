@@ -13,7 +13,7 @@ import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import PostBody from 'components/post_view/post_body';
-import PostHeader from 'components/post_view/post_header';
+import PostHeader from 'components/post_view/post_header/post_header.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 
 const ActionTypes = Constants.ActionTypes;
@@ -90,6 +90,11 @@ export default class Post extends React.PureComponent {
          * The post count used for selenium tests
          */
         lastPostCount: PropTypes.number,
+
+        /**
+         * Display name preferences passed down to channel header
+         */
+        displayNameType: PropTypes.string,
 
         /**
          * Function to get the post list HTML element
@@ -288,6 +293,7 @@ export default class Post extends React.PureComponent {
                                 replyCount={this.props.replyCount}
                                 consecutivePostByUser={this.props.consecutivePostByUser}
                                 getPostList={this.props.getPostList}
+                                displayNameType={this.props.displayNameType}
                             />
                             <PostBody
                                 post={post}
