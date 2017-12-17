@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {browserHistory} from 'react-router';
 
-import {displayUsernameForUser, getDirectTeammate, isMobile} from 'utils/utils.jsx';
+import {displayUsernameForUser, getDirectTeammate} from 'utils/utils.jsx';
 
 import SearchResultsItem from 'components/search_results_item/search_results_item.jsx';
 
