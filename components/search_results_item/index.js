@@ -10,9 +10,8 @@ import {closeRightHandSide} from 'actions/views/rhs';
 
 import SelectResultsItem from './search_results_item.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
-        ...ownProps,
         currentTeamName: getCurrentTeam(state).name
     };
 }
