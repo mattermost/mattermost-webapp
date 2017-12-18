@@ -22,6 +22,7 @@ import {getSelectedPostId} from 'selectors/rhs';
 
 import {ActionTypes, Constants} from 'utils/constants.jsx';
 import {EMOJI_PATTERN} from 'utils/emoticons.jsx';
+import * as UserAgent from 'utils/user_agent';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -121,7 +122,12 @@ export async function createPost(post, files, success) {
         }
     }
 
-    await PostActions.createPost(post, files)(dispatch, getState);
+    if (UserAgent.isIosClassic()) {
+        await PostActions.createPostImmediately(post, files)(dispatch, getState);
+    } else {
+        await PostActions.createPost(post, files)(dispatch, getState);
+    }
+
     if (post.root_id) {
         PostStore.storeCommentDraft(post.root_id, null);
     } else {
@@ -274,11 +280,32 @@ export function doPostAction(postId, actionId) {
 
 export function setEditingPost(postId = '', commentsCount = 0, refocusId = '', title = '') {
     return async (doDispatch, doGetState) => {
-        doDispatch({
-            type: ActionTypes.SET_EDITING_POST,
-            data: {postId, commentsCount, refocusId, title}
-        }, doGetState);
+        const state = doGetState();
 
-        return {data: true};
+        let canEditNow = true;
+
+        // Only show the modal if we can edit the post now, but allow it to be hidden at any time
+        if (postId && state.entities.general.license.IsLicensed === 'true') {
+            const config = state.entities.general.config;
+
+            if (config.AllowEditPost === Constants.ALLOW_EDIT_POST_NEVER) {
+                canEditNow = false;
+            } else if (config.AllowEditPost === Constants.ALLOW_EDIT_POST_TIME_LIMIT) {
+                const post = Selectors.getPost(state, postId);
+
+                if ((post.create_at + (config.PostEditTimeLimit * 1000)) < Date.now()) {
+                    canEditNow = false;
+                }
+            }
+        }
+
+        if (canEditNow) {
+            doDispatch({
+                type: ActionTypes.SET_EDITING_POST,
+                data: {postId, commentsCount, refocusId, title}
+            }, doGetState);
+        }
+
+        return {data: canEditNow};
     };
 }

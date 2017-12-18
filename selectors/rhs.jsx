@@ -66,7 +66,7 @@ export function makeGetCommentDraft(rootId) {
 
 export function makeGetPostsEmbedVisibleObj() {
     return createSelector(
-        (state) => state.storage,
+        (state) => state.storage.storage,
         (state) => getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, Preferences.COLLAPSE_DISPLAY_DEFAULT),
         (state, posts) => posts,
         (storage, previewCollapsed, posts) => {

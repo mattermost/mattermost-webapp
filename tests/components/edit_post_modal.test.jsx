@@ -123,90 +123,6 @@ describe('comoponents/edit_post_modal/edit_post_modal.jsx', () => {
         });
     });
 
-    it('should not allow to edit when config and license restrict edition', () => {
-        const config = {
-            AllowEditPost: 'never',
-            PostEditTimeLimit: 300,
-            EnableEmojiPicker: 'false'
-        };
-        const license = {
-            IsLicensed: 'true'
-        };
-
-        const wrapper = shallow(createEditPost({config, license}));
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    it('should not allow to edit when have license and the post is after the editing time limit', () => {
-        const config = {
-            AllowEditPost: 'time_limit',
-            PostEditTimeLimit: 300,
-            EnableEmojiPicker: 'false'
-        };
-        const license = {
-            IsLicensed: 'true'
-        };
-        const editingPost = {
-            postId: '123',
-            post: {
-                id: '123',
-                message: 'test',
-                channel_id: '5',
-                create_at: new Date() - (350 * 1000)
-            },
-            commentsCount: 3,
-            refocusId: '#test',
-            title: 'test'
-        };
-        const wrapper = shallow(createEditPost({config, license, editingPost}));
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    it('should allow to edit when have license and the post is before the editing time limit', () => {
-        const config = {
-            AllowEditPost: 'time_limit',
-            PostEditTimeLimit: 300,
-            EnableEmojiPicker: 'false'
-        };
-        const license = {
-            IsLicensed: 'true'
-        };
-        const editingPost = {
-            postId: '123',
-            post: {
-                id: '123',
-                message: 'test',
-                channel_id: '5',
-                create_at: new Date() - (150 * 1000)
-            },
-            commentsCount: 3,
-            refocusId: '#test',
-            title: 'test'
-        };
-        const wrapper = shallow(createEditPost({config, license, editingPost}));
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    it('should allow to edit when have license and always allow to edit', () => {
-        const license = {
-            IsLicensed: 'true'
-        };
-        const editingPost = {
-            postId: '123',
-            post: {
-                id: '123',
-                message: 'test',
-                channel_id: '5',
-                create_at: new Date() - (150 * 1000)
-            },
-            commentsCount: 3,
-            refocusId: '#test',
-            title: 'test'
-        };
-        const wrapper = shallow(createEditPost({license, editingPost}));
-        expect(wrapper).toMatchSnapshot();
-    });
-
     it('should show emojis on emojis click', () => {
         const wrapper = shallow(createEditPost());
         wrapper.find('.edit-post__actions .icon--emoji').simulate('click');
@@ -344,7 +260,9 @@ describe('comoponents/edit_post_modal/edit_post_modal.jsx', () => {
 
     it('should scroll up when editPost return data', async () => {
         const actions = {
-            editPost: jest.fn((data) => data),
+            editPost: jest.fn((data) => {
+                return {data};
+            }),
             addMessageIntoHistory: jest.fn(),
             setEditingPost: jest.fn()
         };
