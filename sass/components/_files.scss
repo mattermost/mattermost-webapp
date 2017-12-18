@@ -298,7 +298,6 @@
     }
 
     .post-image__download {
-        @include opacity(.7);
         align-items: center;
         cursor: pointer;
         display: flex;
@@ -313,11 +312,17 @@
         width: 50px;
 
         svg {
+            @include opacity(.7);
+            @include single-transition(all, .1s, linear);
             @include border-radius(50%);
             border: 1px solid;
             display: inline-block;
             height: 30px;
             width: 30px;
+
+            &:hover {
+                @include opacity(1);
+            }
         }
     }
 }
