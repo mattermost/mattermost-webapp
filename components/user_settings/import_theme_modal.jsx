@@ -143,12 +143,16 @@ export default class ImportThemeModal extends React.Component {
         }
     }
 
+    handleOnHide = () => {
+        this.setState({show: false});
+    }
+
     render() {
         return (
             <span>
                 <Modal
                     show={this.state.show}
-                    onHide={() => this.setState({show: false})}
+                    onHide={this.handleOnHide}
                 >
                     <Modal.Header closeButton={true}>
                         <Modal.Title>
@@ -189,7 +193,7 @@ export default class ImportThemeModal extends React.Component {
                                 id='cancelButton'
                                 type='button'
                                 className='btn btn-default'
-                                onClick={() => this.setState({show: false})}
+                                onClick={this.handleOnHide}
                             >
                                 <FormattedMessage
                                     id='user.settings.import_theme.cancel'

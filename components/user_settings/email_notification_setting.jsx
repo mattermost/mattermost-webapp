@@ -43,7 +43,9 @@ export default class EmailNotificationSetting extends React.Component {
         }
     }
 
-    handleChange = (enableEmail, emailInterval) => {
+    handleChange = (e) => {
+        const enableEmail = e.currentTarget.getAttribute('data-enable-email');
+        const emailInterval = parseInt(e.currentTarget.getAttribute('data-email-interval'), 10);
         this.setState({
             enableEmail,
             emailInterval
@@ -171,7 +173,9 @@ export default class EmailNotificationSetting extends React.Component {
                                 type='radio'
                                 name='emailNotifications'
                                 checked={this.state.emailInterval === Preferences.INTERVAL_FIFTEEN_MINUTES}
-                                onChange={() => this.handleChange('true', Preferences.INTERVAL_FIFTEEN_MINUTES)}
+                                data-enable-email={'true'}
+                                data-email-interval={Preferences.INTERVAL_FIFTEEN_MINUTES}
+                                onChange={this.handleChange}
                             />
                             <FormattedMessage
                                 id='user.settings.notifications.email.everyXMinutes'
@@ -187,7 +191,9 @@ export default class EmailNotificationSetting extends React.Component {
                                 type='radio'
                                 name='emailNotifications'
                                 checked={this.state.emailInterval === Preferences.INTERVAL_HOUR}
-                                onChange={() => this.handleChange('true', Preferences.INTERVAL_HOUR)}
+                                data-enable-email={'true'}
+                                data-email-interval={Preferences.INTERVAL_HOUR}
+                                onChange={this.handleChange}
                             />
                             <FormattedMessage
                                 id='user.settings.notifications.email.everyHour'
@@ -224,7 +230,9 @@ export default class EmailNotificationSetting extends React.Component {
                                     type='radio'
                                     name='emailNotifications'
                                     checked={this.state.emailInterval === Preferences.INTERVAL_IMMEDIATE}
-                                    onChange={() => this.handleChange('true', Preferences.INTERVAL_IMMEDIATE)}
+                                    data-enable-email={'true'}
+                                    data-email-interval={Preferences.INTERVAL_IMMEDIATE}
+                                    onChange={this.handleChange}
                                 />
                                 <FormattedMessage
                                     id='user.settings.notifications.email.immediately'
@@ -240,7 +248,9 @@ export default class EmailNotificationSetting extends React.Component {
                                     type='radio'
                                     name='emailNotifications'
                                     checked={this.state.emailInterval === Preferences.INTERVAL_NEVER}
-                                    onChange={() => this.handleChange('false', Preferences.INTERVAL_NEVER)}
+                                    data-enable-email={'false'}
+                                    data-email-interval={Preferences.INTERVAL_NEVER}
+                                    onChange={this.handleChange}
                                 />
                                 <FormattedMessage
                                     id='user.settings.notifications.email.never'

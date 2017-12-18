@@ -18,6 +18,15 @@ export default function DotMenuEdit(props) {
         editId = props.idPrefix;
     }
 
+    function handleOnClick() {
+        props.actions.setEditingPost(
+            props.post.id,
+            props.commentsCount,
+            props.idPrefix.indexOf(Constants.CENTER) === 0 ? 'post_textbox' : 'reply_textbox',
+            props.idPrefix.indexOf(Constants.CENTER) === 0 ? props.type : Utils.localizeMessage('rhs_comment.comment', 'Comment')
+        );
+    }
+
     return (
         <li
             id={Utils.createSafeId(editId)}
@@ -26,12 +35,7 @@ export default function DotMenuEdit(props) {
         >
             <button
                 className='style--none'
-                onClick={() => props.actions.setEditingPost(
-                    props.post.id,
-                    props.commentsCount,
-                    props.idPrefix.indexOf(Constants.CENTER) === 0 ? 'post_textbox' : 'reply_textbox',
-                    props.idPrefix.indexOf(Constants.CENTER) === 0 ? props.type : Utils.localizeMessage('rhs_comment.comment', 'Comment')
-                )}
+                onClick={handleOnClick}
             >
                 <FormattedMessage
                     id='post_info.edit'

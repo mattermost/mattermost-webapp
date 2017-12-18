@@ -198,6 +198,14 @@ export default class QuickSwitchModal extends React.PureComponent {
         }
     }
 
+    handleOnClick = (e) => {
+        e.preventDefault();
+        const mode = e.currentTarget.getAttribute('data-mode');
+        this.enableChannelProvider();
+        this.setState({mode});
+        this.focusTextbox();
+    }
+
     render() {
         let providers = this.channelProviders;
         let header;
@@ -232,13 +240,9 @@ export default class QuickSwitchModal extends React.PureComponent {
                 <div className='nav nav-tabs'>
                     <li className={channelsActiveClass}>
                         <a
+                            data-mode={'channel'}
                             href='#'
-                            onClick={(e) => {
-                                e.preventDefault();
-                                this.enableChannelProvider();
-                                this.setState({mode: 'channel'});
-                                this.focusTextbox();
-                            }}
+                            onClick={this.handleOnClick}
                         >
                             <FormattedMessage
                                 id='quick_switch_modal.channels'
@@ -254,13 +258,9 @@ export default class QuickSwitchModal extends React.PureComponent {
                     </li>
                     <li className={teamsActiveClass}>
                         <a
+                            data-mode={'team'}
                             href='#'
-                            onClick={(e) => {
-                                e.preventDefault();
-                                this.enableTeamProvider();
-                                this.setState({mode: 'team'});
-                                this.focusTextbox();
-                            }}
+                            onClick={this.handleOnClick}
                         >
                             <FormattedMessage
                                 id='quick_switch_modal.teams'

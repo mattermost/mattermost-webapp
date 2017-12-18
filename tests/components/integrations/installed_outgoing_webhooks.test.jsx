@@ -5,7 +5,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import InstalledOutgoingWebhooks from 'components/integrations/components/installed_outgoing_webhooks/installed_outgoing_webhooks.jsx';
-import InstalledOutgoingWebhook from 'components/integrations/components/installed_outgoing_webhook.jsx';
 
 describe('components/integrations/InstalledOutgoingWebhooks', () => {
     let outgoingWebhooks = {};
@@ -138,8 +137,9 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
                 }}
             />
         );
-        wrapper.find(InstalledOutgoingWebhook).first().prop('onRegenToken')(outgoingWebhooks['7h88x419ubbyuxzs7dfwtgkffr']);
-        expect(mockFunc).toHaveBeenCalled();
+        wrapper.instance().regenOutgoingWebhookToken(outgoingWebhooks[0]);
+        expect(mockFunc).toHaveBeenCalledTimes(1);
+        expect(mockFunc).toHaveBeenCalledWith(outgoingWebhooks[0].id);
     });
 
     test('should call removeOutgoingHook function', () => {
@@ -184,7 +184,10 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
                 }}
             />
         );
-        wrapper.find(InstalledOutgoingWebhook).first().prop('onDelete')(outgoingWebhooks['7h88x419ubbyuxzs7dfwtgkfff']);
+
+        wrapper.instance().removeOutgoingHook(outgoingWebhooks[1]);
+        expect(mockFunc).toHaveBeenCalledTimes(1);
+        expect(mockFunc).toHaveBeenCalledWith(outgoingWebhooks[1].id);
         expect(mockFunc).toHaveBeenCalled();
     });
 });

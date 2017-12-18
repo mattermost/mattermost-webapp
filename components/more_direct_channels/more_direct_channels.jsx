@@ -287,6 +287,10 @@ export default class MoreDirectChannels extends React.Component {
         return user.username;
     }
 
+    handleSubmitImmediatelyOn = (value) => {
+        return value.id === this.props.currentUserId || value.delete_at;
+    }
+
     render() {
         let note;
         if (this.props.startingUsers) {
@@ -365,9 +369,7 @@ export default class MoreDirectChannels extends React.Component {
                         maxValues={MAX_SELECTABLE_VALUES}
                         numRemainingText={numRemainingText}
                         buttonSubmitText={buttonSubmitText}
-                        submitImmediatelyOn={(value) => {
-                            return value.id === this.props.currentUserId || value.delete_at;
-                        }}
+                        submitImmediatelyOn={this.handleSubmitImmediatelyOn}
                         saving={this.state.loadingChannel}
                     />
                 </Modal.Body>

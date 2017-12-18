@@ -136,6 +136,11 @@ export default class NewChannelModal extends React.PureComponent {
         this.props.onDataChanged(newData);
     }
 
+    handleOnURLChange = (e) => {
+        e.preventDefault();
+        this.props.onChangeURLPressed();
+    }
+
     render() {
         var displayNameError = null;
         var serverError = null;
@@ -272,10 +277,7 @@ export default class NewChannelModal extends React.PureComponent {
                                         {'URL: ' + prettyTeamURL + this.props.channelData.name + ' ('}
                                         <button
                                             className='color--link style--none'
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                this.props.onChangeURLPressed();
-                                            }}
+                                            onClick={this.handleOnURLChange}
                                         >
                                             <FormattedMessage
                                                 id='channel_modal.edit'
