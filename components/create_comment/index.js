@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {resetHistoryIndex} from 'mattermost-redux/actions/posts';
+import {resetCreatePostRequest, resetHistoryIndex} from 'mattermost-redux/actions/posts';
 import {Preferences, Posts} from 'mattermost-redux/constants';
 
 import {
@@ -21,7 +21,7 @@ import CreateComment from './create_comment.jsx';
 
 function mapStateToProps(state, ownProps) {
     const err = state.requests.posts.createPost.error || {};
-
+    
     const getCommentDraft = makeGetCommentDraft(ownProps.rootId);
 
     const draft = getCommentDraft(state);
@@ -81,7 +81,8 @@ function makeMapDispatchToProps() {
             onResetHistoryIndex,
             onMoveHistoryIndexBack,
             onMoveHistoryIndexForward,
-            onEditLatestPost
+            onEditLatestPost,
+            resetCreatePostRequest
         }, dispatch);
     };
 }
