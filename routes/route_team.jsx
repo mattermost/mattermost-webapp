@@ -92,7 +92,7 @@ function preNeedsTeam(nextState, replace, callback) {
 
     wakeUpInterval = setInterval(() => {
         const currentTime = (new Date()).getTime();
-        if (currentTime > (lastTime + WAKEUP_THRESHOLD)) {  // ignore small delays
+        if (currentTime > (lastTime + WAKEUP_THRESHOLD)) { // ignore small delays
             console.log('computer woke up - fetching latest'); //eslint-disable-line no-console
             reconnect(false);
         }
@@ -302,9 +302,13 @@ export default {
                             import('components/team_sidebar'),
                             import('components/sidebar.jsx'),
                             import('components/channel_view')
-                        ]).then(
-                        (comarr) => callback(null, {team_sidebar: comarr[0].default, sidebar: comarr[1].default, center: comarr[2].default})
-                        );
+                        ]).then((comarr) => {
+                            callback(null, {
+                                team_sidebar: comarr[0].default,
+                                sidebar: comarr[1].default,
+                                center: comarr[2].default
+                            });
+                        });
                     }
                 },
                 {
@@ -315,9 +319,13 @@ export default {
                             import('components/team_sidebar'),
                             import('components/sidebar.jsx'),
                             import('components/permalink_view.jsx')
-                        ]).then(
-                        (comarr) => callback(null, {team_sidebar: comarr[0].default, sidebar: comarr[1].default, center: comarr[2].default})
-                        );
+                        ]).then((comarr) => {
+                            callback(null, {
+                                team_sidebar: comarr[0].default,
+                                sidebar: comarr[1].default,
+                                center: comarr[2].default
+                            });
+                        });
                     }
                 },
                 {
@@ -328,9 +336,13 @@ export default {
                             import('components/team_sidebar'),
                             import('components/sidebar.jsx'),
                             import('components/channel_view')
-                        ]).then(
-                        (comarr) => callback(null, {team_sidebar: comarr[0].default, sidebar: comarr[1].default, center: comarr[2].default})
-                        );
+                        ]).then((comarr) => {
+                            callback(null, {
+                                team_sidebar: comarr[0].default,
+                                sidebar: comarr[1].default,
+                                center: comarr[2].default
+                            });
+                        });
                     }
                 },
                 {
@@ -340,9 +352,13 @@ export default {
                             import('components/team_sidebar'),
                             import('components/sidebar.jsx'),
                             import('components/tutorial/tutorial_view.jsx')
-                        ]).then(
-                        (comarr) => callback(null, {team_sidebar: comarr[0].default, sidebar: comarr[1].default, center: comarr[2].default})
-                        );
+                        ]).then((comarr) => {
+                            callback(null, {
+                                team_sidebar: comarr[0].default,
+                                sidebar: comarr[1].default,
+                                center: comarr[2].default
+                            });
+                        });
                     }
                 }
             ]

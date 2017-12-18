@@ -14,7 +14,6 @@ import * as Utils from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 
 export default class UserListRowWithError extends React.Component {
-
     static propTypes = {
         user: PropTypes.object.isRequired,
         extraInfo: PropTypes.arrayOf(PropTypes.object),

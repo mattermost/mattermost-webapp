@@ -27,7 +27,8 @@
         "it": true,
         "expect": true,
         "before": true,
-        "after": true
+        "after": true,
+        "beforeEach": true
     },
     "settings": {
         "import/resolver": "webpack"

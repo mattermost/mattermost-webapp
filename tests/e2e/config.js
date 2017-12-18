@@ -2,13 +2,13 @@
 // See License.txt for license information.
 
 module.exports = {
-    baseURL: "https://selenium-release.storage.googleapis.com",
-    version: "3.4.0",
+    baseURL: 'https://selenium-release.storage.googleapis.com',
+    version: '3.4.0',
     drivers: {
         chrome: {
-            version: "2.31",
+            version: '2.31',
             arch: process.arch,
-            baseURL: "https://chromedriver.storage.googleapis.com"
+            baseURL: 'https://chromedriver.storage.googleapis.com'
         },
         ie: {
             version: '3.4.0',

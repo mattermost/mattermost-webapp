@@ -195,7 +195,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 preventDefault: jest.fn(),
                 target: {value: 'new info'}
             }
-         );
+        );
 
         expect(wrapper.state('purpose')).toBe('new info');
     });

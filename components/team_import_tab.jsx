@@ -120,7 +120,6 @@ class TeamImportTab extends React.Component {
 
         var messageSection;
         switch (this.state.status) {
-
         case 'ready':
             messageSection = '';
             break;
@@ -152,7 +151,7 @@ class TeamImportTab extends React.Component {
                         />
                     </a>
                 </p>
-        );
+            );
             break;
         case 'fail':
             messageSection = (

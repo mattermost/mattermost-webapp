@@ -12,6 +12,6 @@ function mapStateToProps(state, ownProps) {
         ...ownProps,
         config: getConfig(state)
     };
-};
+}
 
 export default connect(mapStateToProps)(NotLoggedIn);

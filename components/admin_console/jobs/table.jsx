@@ -12,7 +12,6 @@ import {JobStatuses} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 class JobTable extends React.PureComponent {
-
     static propTypes = {
 
         /**
@@ -27,7 +26,7 @@ class JobTable extends React.PureComponent {
 
         actions: PropTypes.shape({
 
-             /**
+            /**
              * Function to fetch jobs
              */
             getJobsByType: PropTypes.func.isRequired
@@ -75,7 +74,7 @@ class JobTable extends React.PureComponent {
     componentDidMount() {
         this.props.actions.getJobsByType(this.props.jobType).then(
             () => this.setState({loading: false})
-         );
+        );
     }
 
     componentWillUnmount() {

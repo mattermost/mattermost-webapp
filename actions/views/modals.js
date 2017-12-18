@@ -1,8 +1,10 @@
+// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
+// See License.txt for license information.
+
 import {ActionTypes} from 'utils/constants';
-import * as Utils from 'utils/utils';
 
 export function openModal(modalData) {
-    return (dispatch, getState) => {
+    return (dispatch) => {
         const action = {
             type: ActionTypes.MODAL_OPEN,
             modalId: modalData.modalId,
@@ -15,10 +17,10 @@ export function openModal(modalData) {
 }
 
 export function closeModal(modalId) {
-    return (dispatch, getState) => {
+    return (dispatch) => {
         const action = {
             type: ActionTypes.MODAL_CLOSE,
-            modalId: modalId
+            modalId
         };
 
         dispatch(action);

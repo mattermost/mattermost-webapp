@@ -5,9 +5,10 @@ import assert from 'assert';
 
 import * as Actions from 'actions/post_actions';
 
-import configureStore from 'store'
+import configureStore from 'store';
 
 describe('Actions.Posts', () => {
+    let store;
     beforeEach(async () => {
         store = await configureStore();
     });

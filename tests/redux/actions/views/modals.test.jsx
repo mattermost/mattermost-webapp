@@ -27,6 +27,7 @@ class TestModal extends React.Component {
 describe('modals view actions', () => {
     const mockStore = configureStore([thunk]);
 
+    let store;
     beforeEach(() => {
         store = mockStore();
     });

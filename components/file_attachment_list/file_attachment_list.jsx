@@ -85,7 +85,7 @@ export default class FileAttachmentList extends React.Component {
                         key={`fileCount-${i}`}
                         className='post-image__column post-image__column--placeholder'
                     />
-            );
+                );
             }
         }
 
