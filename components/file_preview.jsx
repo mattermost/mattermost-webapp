@@ -74,11 +74,17 @@ export default class FilePreview extends React.PureComponent {
                     imageClassName += ' normal';
                 }
 
+                let thumbnailUrl = getFileThumbnailUrl(info.id);
+                if (Utils.isGIFImage(info.extension) && !info.has_preview_image) {
+                    thumbnailUrl = getFileUrl(info.id);
+                }
+
                 previewImage = (
                     <div
                         className={imageClassName}
                         style={{
-                            backgroundImage: `url(${getFileThumbnailUrl(info.id)})`
+                            backgroundImage: `url(${thumbnailUrl})`,
+                            backgroundSize: 'cover'
                         }}
                     />
                 );
