@@ -11,8 +11,8 @@ import SettingItemMax from 'components/setting_item_max.jsx';
 describe('components/SettingItemMin', () => {
     const baseProps = {
         inputs: ['input_1'],
-        client_error: '',
-        server_error: '',
+        clientError: '',
+        serverError: '',
         infoPosition: 'bottom',
         section: 'section',
         updateSection: jest.fn(),
@@ -40,8 +40,8 @@ describe('components/SettingItemMin', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot, on client_error', () => {
-        const props = {...baseProps, client_error: 'client_error'};
+    test('should match snapshot, on clientError', () => {
+        const props = {...baseProps, clientError: 'clientError'};
         const wrapper = shallow(
             <SettingItemMax {...props}/>
         );
@@ -49,8 +49,8 @@ describe('components/SettingItemMin', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot, on server_error', () => {
-        const props = {...baseProps, server_error: 'server_error'};
+    test('should match snapshot, on serverError', () => {
+        const props = {...baseProps, serverError: 'serverError'};
         const wrapper = shallow(
             <SettingItemMax {...props}/>
         );

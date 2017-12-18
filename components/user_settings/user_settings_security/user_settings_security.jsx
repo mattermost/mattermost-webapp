@@ -372,7 +372,7 @@ export default class SecurityTab extends React.Component {
                     title={Utils.localizeMessage('user.settings.mfa.title', 'Multi-factor Authentication')}
                     inputs={inputs}
                     extraInfo={extraInfo}
-                    server_error={this.state.serverError}
+                    serverError={this.state.serverError}
                     updateSection={this.handleUpdateSection}
                     width='medium'
                 />
@@ -553,8 +553,8 @@ export default class SecurityTab extends React.Component {
                     inputs={inputs}
                     submit={submit}
                     saving={this.state.savingPassword}
-                    server_error={this.state.serverError}
-                    client_error={this.state.passwordError}
+                    serverError={this.state.serverError}
+                    clientError={this.state.passwordError}
                     updateSection={this.handleUpdateSection}
                 />
             );
@@ -788,7 +788,7 @@ export default class SecurityTab extends React.Component {
                     title={Utils.localizeMessage('user.settings.security.method', 'Sign-in Method')}
                     extraInfo={extraInfo}
                     inputs={inputs}
-                    server_error={this.state.serverError}
+                    serverError={this.state.serverError}
                     updateSection={this.handleUpdateSection}
                 />
             );
@@ -950,7 +950,7 @@ export default class SecurityTab extends React.Component {
                 <SettingItemMax
                     title={title}
                     inputs={inputs}
-                    server_error={this.state.serverError}
+                    serverError={this.state.serverError}
                     updateSection={this.handleUpdateSection}
                     width='full'
                     cancelButtonText={
@@ -1382,7 +1382,7 @@ export default class SecurityTab extends React.Component {
                     inputs={inputs}
                     extraInfo={extraInfo}
                     infoPosition='top'
-                    server_error={this.state.serverError}
+                    serverError={this.state.serverError}
                     updateSection={this.handleUpdateSection}
                     width='full'
                     cancelButtonText={

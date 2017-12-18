@@ -133,7 +133,7 @@ describe('components/user_settings/EmailNotificationSetting', () => {
 
         expect(newOnSubmit).toBeCalled();
         expect(newOnSubmit).toHaveBeenCalledTimes(1);
-        expect(newOnSubmit).toBeCalledWith({enableEmail: 'false'});
+        expect(newOnSubmit).toBeCalledWith('false');
 
         expect(savePreference).toHaveBeenCalledTimes(1);
         expect(savePreference).toBeCalledWith('notifications', 'email_interval', '0');

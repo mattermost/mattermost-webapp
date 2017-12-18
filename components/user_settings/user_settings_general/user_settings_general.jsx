@@ -569,8 +569,8 @@ class UserSettingsGeneralTab extends React.Component {
                     inputs={inputs}
                     submit={submit}
                     saving={this.state.sectionIsSaving}
-                    server_error={this.state.serverError}
-                    client_error={this.state.emailError}
+                    serverError={this.state.serverError}
+                    clientError={this.state.emailError}
                     updateSection={this.updateSection}
                 />
             );
@@ -789,8 +789,8 @@ class UserSettingsGeneralTab extends React.Component {
                     inputs={inputs}
                     submit={submit}
                     saving={this.state.sectionIsSaving}
-                    server_error={serverError}
-                    client_error={clientError}
+                    serverError={serverError}
+                    clientError={clientError}
                     updateSection={this.updateSection}
                     extraInfo={extraInfo}
                 />
@@ -893,8 +893,8 @@ class UserSettingsGeneralTab extends React.Component {
                     inputs={inputs}
                     submit={submit}
                     saving={this.state.sectionIsSaving}
-                    server_error={serverError}
-                    client_error={clientError}
+                    serverError={serverError}
+                    clientError={clientError}
                     updateSection={this.updateSection}
                     extraInfo={extraInfo}
                 />
@@ -992,8 +992,8 @@ class UserSettingsGeneralTab extends React.Component {
                     inputs={inputs}
                     submit={submit}
                     saving={this.state.sectionIsSaving}
-                    server_error={serverError}
-                    client_error={clientError}
+                    serverError={serverError}
+                    clientError={clientError}
                     updateSection={this.updateSection}
                     extraInfo={extraInfo}
                 />
@@ -1071,8 +1071,8 @@ class UserSettingsGeneralTab extends React.Component {
                     inputs={inputs}
                     submit={submit}
                     saving={this.state.sectionIsSaving}
-                    server_error={serverError}
-                    client_error={clientError}
+                    serverError={serverError}
+                    clientError={clientError}
                     updateSection={this.updateSection}
                     extraInfo={extraInfo}
                 />

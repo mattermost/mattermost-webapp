@@ -291,7 +291,7 @@ class GeneralTab extends React.Component {
                     title={Utils.localizeMessage('general_tab.openInviteTitle', 'Allow any user with an account on this server to join this team')}
                     inputs={inputs}
                     submit={this.handleOpenInviteSubmit}
-                    server_error={serverError}
+                    serverError={serverError}
                     section={'open_invite'}
                     updateSection={this.handleUpdateSection}
                 />
@@ -369,8 +369,8 @@ class GeneralTab extends React.Component {
                     title={Utils.localizeMessage('general_tab.codeTitle', 'Invite Code')}
                     inputs={inputs}
                     submit={this.handleInviteIdSubmit}
-                    server_error={serverError}
-                    client_error={clientError}
+                    serverError={serverError}
+                    clientError={clientError}
                     section={'invite_id'}
                     updateSection={this.handleUpdateSection}
                 />
@@ -426,8 +426,8 @@ class GeneralTab extends React.Component {
                     title={Utils.localizeMessage('general_tab.teamName', 'Team Name')}
                     inputs={inputs}
                     submit={this.handleNameSubmit}
-                    server_error={serverError}
-                    client_error={clientError}
+                    serverError={serverError}
+                    clientError={clientError}
                     section={'name'}
                     updateSection={this.handleUpdateSection}
                     extraInfo={nameExtraInfo}
@@ -486,8 +486,8 @@ class GeneralTab extends React.Component {
                     title={Utils.localizeMessage('general_tab.teamDescription', 'Team Description')}
                     inputs={inputs}
                     submit={this.handleDescriptionSubmit}
-                    server_error={serverError}
-                    client_error={clientError}
+                    serverError={serverError}
+                    clientError={clientError}
                     section={'description'}
                     updateSection={this.handleUpdateSection}
                     extraInfo={descriptionExtraInfo}

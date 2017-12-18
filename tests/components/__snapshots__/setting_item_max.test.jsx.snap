@@ -48,7 +48,7 @@ exports[`components/SettingItemMin should match snapshot 1`] = `
 </ul>
 `;
 
-exports[`components/SettingItemMin should match snapshot, on client_error 1`] = `
+exports[`components/SettingItemMin should match snapshot, on clientError 1`] = `
 <ul
   className="section-max form-horizontal"
 >
@@ -79,7 +79,7 @@ exports[`components/SettingItemMin should match snapshot, on client_error 1`] = 
             className="col-sm-12 has-error"
             id="clientError"
           >
-            client_error
+            clientError
           </label>
         </div>
         <SaveButton
@@ -106,7 +106,7 @@ exports[`components/SettingItemMin should match snapshot, on client_error 1`] = 
 </ul>
 `;
 
-exports[`components/SettingItemMin should match snapshot, on server_error 1`] = `
+exports[`components/SettingItemMin should match snapshot, on serverError 1`] = `
 <ul
   className="section-max form-horizontal"
 >
@@ -137,7 +137,7 @@ exports[`components/SettingItemMin should match snapshot, on server_error 1`] = 
             className="col-sm-12 has-error"
             id="serverError"
           >
-            server_error
+            serverError
           </label>
         </div>
         <SaveButton

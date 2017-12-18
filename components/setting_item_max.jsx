@@ -27,12 +27,12 @@ export default class SettingItemMax extends React.PureComponent {
         /**
          * Client error
          */
-        client_error: PropTypes.string,
+        clientError: PropTypes.string,
 
         /**
          * Server error
          */
-        server_error: PropTypes.string,
+        serverError: PropTypes.string,
 
         /**
          * Settings extra information
@@ -121,28 +121,28 @@ export default class SettingItemMax extends React.PureComponent {
 
     render() {
         let clientError = null;
-        if (this.props.client_error) {
+        if (this.props.clientError) {
             clientError = (
                 <div className='form-group'>
                     <label
                         id='clientError'
                         className='col-sm-12 has-error'
                     >
-                        {this.props.client_error}
+                        {this.props.clientError}
                     </label>
                 </div>
             );
         }
 
         let serverError = null;
-        if (this.props.server_error) {
+        if (this.props.serverError) {
             serverError = (
                 <div className='form-group'>
                     <label
                         id='serverError'
                         className='col-sm-12 has-error'
                     >
-                        {this.props.server_error}
+                        {this.props.serverError}
                     </label>
                 </div>
             );
