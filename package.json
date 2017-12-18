@@ -137,7 +137,7 @@
     "setupTestFrameworkScriptFile": "<rootDir>/tests/setup.js"
   },
   "scripts": {
-    "check": "eslint --ext \".jsx\" --ignore-pattern node_modules --quiet .",
+    "check": "eslint --ext \".jsx\" --ext \".js\" --ignore-pattern node_modules . --quiet",
     "build": "cross-env NODE_ENV=production webpack --display-error-details --verbose --progress",
     "run": "cross-env NODE_ENV=production webpack --progress --watch",
     "run-fullmap": "webpack --progress --watch",
