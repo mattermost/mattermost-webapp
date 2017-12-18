@@ -138,7 +138,9 @@ export default class NewChannelModal extends React.PureComponent {
 
     handleOnURLChange = (e) => {
         e.preventDefault();
-        this.props.onChangeURLPressed();
+        if (this.props.onChangeURLPressed) {
+            this.props.onChangeURLPressed();
+        }
     }
 
     render() {

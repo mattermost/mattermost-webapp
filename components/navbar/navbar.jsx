@@ -798,7 +798,9 @@ export default class Navbar extends React.Component {
     }
 
     showChannelInviteModalButton = () => {
-        this.refs.channelInviteModalButton.show();
+        if (this.refs.channelInviteModalButton) {
+            this.refs.channelInviteModalButton.show();
+        }
     }
 
     render() {

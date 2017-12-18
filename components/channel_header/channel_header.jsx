@@ -203,11 +203,15 @@ export default class ChannelHeader extends React.Component {
     }
 
     handleOnMouseOver = () => {
-        this.refs.headerOverlay.show();
+        if (this.refs.headerOverlay) {
+            this.refs.headerOverlay.show();
+        }
     }
 
     handleOnMouseOut = () => {
-        this.refs.headerOverlay.hide();
+        if (this.refs.headerOverlay) {
+            this.refs.headerOverlay.hide();
+        }
     }
 
     showMembersModal = () => {
