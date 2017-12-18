@@ -9,11 +9,10 @@ import {getSiteURL} from 'utils/url';
 
 import ChangeURLModal from './change_url_modal';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const currentTeam = getCurrentTeam(state);
     const currentTeamURL = `${getSiteURL()}/${currentTeam.name}`;
     return {
-        ...ownProps,
         currentTeamURL
     };
 }
