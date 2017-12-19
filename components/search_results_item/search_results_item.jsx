@@ -52,7 +52,7 @@ export default class SearchResultsItem extends React.PureComponent {
         isMentionSearch: PropTypes.bool,
 
         /**
-        *  Flag for highlighting mentions
+        *  Flag for highlighting search term
         */
         term: PropTypes.string,
 
@@ -203,7 +203,7 @@ export default class SearchResultsItem extends React.PureComponent {
 
         if (channel) {
             channelName = channel.display_name;
-            if (channel.type === 'D') {
+            if (channel.type === Constants.DM_CHANNEL) {
                 channelName = (
                     <FormattedMessage
                         id='search_item.direct'
