@@ -90,10 +90,14 @@ export function reconnect(includeWebSocket = true) {
     }
 
     loadPluginsIfNecessary();
-    loadChannelsForCurrentUser();
-    getPosts(ChannelStore.getCurrentId())(dispatch, getState);
-    StatusActions.loadStatusesForChannelAndSidebar();
-    TeamActions.getMyTeamUnreads()(dispatch, getState);
+
+    const currentTeamId = getState().entities.teams.currentTeamId;
+    if (currentTeamId) {
+        loadChannelsForCurrentUser();
+        getPosts(ChannelStore.getCurrentId())(dispatch, getState);
+        StatusActions.loadStatusesForChannelAndSidebar();
+        TeamActions.getMyTeamUnreads()(dispatch, getState);
+    }
 
     ErrorStore.clearLastError();
     ErrorStore.emitChange();
