@@ -15,13 +15,14 @@ export default class EmojiPickerCategorySection extends React.PureComponent {
     componentDidMount() {
         this.props.updateCategoryOffset(this.props.categoryName, this.div.offsetTop);
     }
+    divRef = (div) => {
+        this.div = div;
+    };
 
     render() {
         return (
             <div
-                ref={(div) => {
-                    this.div = div;
-                }}
+                ref={this.divRef}
             >
                 <div className='emoji-picker-items__container'>
                     <div

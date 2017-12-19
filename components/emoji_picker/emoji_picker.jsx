@@ -352,7 +352,6 @@ export default class EmojiPicker extends React.PureComponent {
     }
 
     getCurrentEmojiCategoryName() {
-        // commented out code is how you could discover based on scroll position
         const categories = Object.keys(this.state.categories);
         let currentCategoryName = '';
         for (let i = categories.length - 1; i >= 0; i--) {
