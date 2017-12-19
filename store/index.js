@@ -1,9 +1,10 @@
 // Copyright (c) 2017 Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+/* eslint-disable max-nested-callbacks */
+
 import localForage from 'localforage';
 import {extendPrototype} from 'localforage-observable';
-import {batchActions} from 'redux-batched-actions';
 import {createTransform, persistStore} from 'redux-persist';
 
 import {General, RequestStatus} from 'mattermost-redux/constants';
@@ -137,7 +138,7 @@ export default function configureStore(initialState) {
                         setTimeout(() => {
                             purging = false;
                         }, 500);
-                    })
+                    });
                 }
             });
 
@@ -164,14 +165,14 @@ export default function configureStore(initialState) {
                 });
             },
             _stateGetter: (state, key) => {
-                if (key.indexOf('storage:') == 0) {
+                if (key.indexOf('storage:') === 0) {
                     state.storage = state.storage || {storage: {}};
                     return state.storage.storage[key.substr(8)];
                 }
                 return state[key];
             },
             _stateSetter: (state, key, value) => {
-                if (key.indexOf('storage:') == 0) {
+                if (key.indexOf('storage:') === 0) {
                     state.storage = state.storage || {storage: {}};
                     state.storage.storage[key.substr(8)] = value;
                 }

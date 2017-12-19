@@ -25,12 +25,12 @@ export default function deferComponentRender(WrappedComponent, PreRenderComponen
 
         componentDidMount() {
             window.requestAnimationFrame(() => {
-                window.requestAnimationFrame(() => this.setState({ shouldRender: true }));
+                window.requestAnimationFrame(() => this.setState({shouldRender: true}));
             });
         }
 
         render() {
-            return this.state.shouldRender ? <WrappedComponent {...this.props} /> : PreRenderComponent;
+            return this.state.shouldRender ? <WrappedComponent {...this.props}/> : PreRenderComponent;
         }
     }
 

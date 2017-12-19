@@ -7,7 +7,7 @@ import {createSelector} from 'reselect';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getDirectTeammate} from 'utils/utils.jsx';
-import {Constants, TutorialSteps, Preferences} from 'utils/constants.jsx';
+import {TutorialSteps, Preferences} from 'utils/constants.jsx';
 
 import ChannelView from './channel_view.jsx';
 
@@ -21,7 +21,7 @@ const getDeactivatedChannel = createSelector(
     }
 );
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const channelId = state.entities.channels.currentChannelId;
 
     return {
