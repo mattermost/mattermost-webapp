@@ -7,8 +7,7 @@ import {Link} from 'react-router';
 
 import TeamStore from 'stores/team_store.jsx';
 
-import Constants from 'utils/constants.jsx';
-import {getDateForUnixTicks, isMobile, updateWindowDimensions} from 'utils/utils.jsx';
+import {isMobile, updateWindowDimensions} from 'utils/utils.jsx';
 
 export default class PostTime extends React.PureComponent {
     static propTypes = {
@@ -50,23 +49,19 @@ export default class PostTime extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.intervalId = setInterval(() => {
-            this.forceUpdate();
-        }, Constants.TIME_SINCE_UPDATE_INTERVAL);
         window.addEventListener('resize', () => {
             updateWindowDimensions(this);
         });
     }
 
     componentWillUnmount() {
-        clearInterval(this.intervalId);
         window.removeEventListener('resize', () => {
             updateWindowDimensions(this);
         });
     }
 
     renderTimeTag() {
-        const date = getDateForUnixTicks(this.props.eventTime);
+        const date = new Date(this.props.eventTime);
 
         return (
             <time

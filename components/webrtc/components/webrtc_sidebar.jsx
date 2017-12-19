@@ -94,10 +94,6 @@ export default class SidebarRight extends React.Component {
             videoCallWithUserId: userId,
             expanded
         });
-
-        if (userId !== null) {
-            this.forceUpdate();
-        }
     }
 
     render() {

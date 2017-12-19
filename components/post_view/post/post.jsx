@@ -126,11 +126,6 @@ export default class Post extends React.PureComponent {
         });
     }
 
-    forceUpdateInfo = () => {
-        this.refs.info.forceUpdate();
-        this.refs.header.forceUpdate();
-    }
-
     getClassName = (post, isSystemMessage, fromWebhook) => {
         let className = 'post';
 
@@ -275,7 +270,6 @@ export default class Post extends React.PureComponent {
                         {profilePicContainer}
                         <div>
                             <PostHeader
-                                ref='header'
                                 post={post}
                                 handleCommentClick={this.handleCommentClick}
                                 handleDropdownOpened={this.handleDropdownOpened}
