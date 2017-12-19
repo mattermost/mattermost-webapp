@@ -20,6 +20,9 @@ class GlobalEventEmitterClass extends EventEmitter {
         case EventTypes.POST_LIST_SCROLL_CHANGE:
             this.emit(type, value, args);
             break;
+        case EventTypes.FOCUS_RHS:
+            this.emit(type, value, args);
+            break;
         }
     }
 }

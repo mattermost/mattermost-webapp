@@ -4,5 +4,6 @@
 import keyMirror from 'key-mirror';
 
 export default keyMirror({
-    POST_LIST_SCROLL_CHANGE: null
+    POST_LIST_SCROLL_CHANGE: null,
+    FOCUS_RHS: null
 });

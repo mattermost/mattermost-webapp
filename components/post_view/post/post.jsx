@@ -7,6 +7,7 @@ import React from 'react';
 import {Posts} from 'mattermost-redux/constants';
 
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
+import * as GlobalActions from 'actions/global_actions.jsx';
 
 import Constants from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
@@ -118,6 +119,7 @@ export default class Post extends React.PureComponent {
             postId: Utils.getRootId(post),
             channelId: post.channel_id
         });
+        GlobalActions.focusRhs()
     }
 
     handleDropdownOpened = (opened) => {
