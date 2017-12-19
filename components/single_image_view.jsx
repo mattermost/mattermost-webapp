@@ -30,9 +30,8 @@ export default class SingleImageView extends React.PureComponent {
         super(props);
 
         this.state = {
-            imageHeight: '100%',
             loaded: false,
-            progress: true,
+            progress: 0,
             showPreviewModal: false
         };
     }
@@ -41,7 +40,7 @@ export default class SingleImageView extends React.PureComponent {
         this.loadImage();
     }
 
-    loadImage() {
+    loadImage = () => {
         const {fileInfo} = this.props;
         const fileType = Utils.getFileType(fileInfo.extension);
 
@@ -56,8 +55,8 @@ export default class SingleImageView extends React.PureComponent {
 
             Utils.loadImage(
                 previewUrl,
-                () => this.handleImageLoaded(),
-                (completedPercentage) => this.handleImageProgress(completedPercentage)
+                this.handleImageLoaded,
+                this.handleImageProgress
             );
         } else {
             // there's nothing to load for non-image files
@@ -69,8 +68,8 @@ export default class SingleImageView extends React.PureComponent {
         this.setState({loaded: true});
     }
 
-    handleImageProgress = (completedPercentage) => {
-        this.setState({progress: completedPercentage});
+    handleImageProgress = (progress) => {
+        this.setState({progress});
     }
 
     handleImageClick = (e) => {
@@ -78,50 +77,73 @@ export default class SingleImageView extends React.PureComponent {
         this.setState({showPreviewModal: true});
     }
 
+    showPreviewModal = () => {
+        this.setState({showPreviewModal: false});
+    }
+
     render() {
-        const {fileInfo} = this.props;
-        const fileUrl = getFileUrl(fileInfo.id);
-
-        const {has_preview_image: hasPreviewImage, id} = fileInfo;
-        const previewUrl = hasPreviewImage ? getFilePreviewUrl(id) : fileUrl;
-
-        const canDownloadFiles = FileUtils.canDownloadFiles();
-        let downloadButton = null;
-        if (canDownloadFiles) {
-            downloadButton = (
-                <a
-                    href={fileUrl}
-                    download={fileInfo.name}
-                    className='file__download'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                >
-                    <span
-                        className='icon'
-                        dangerouslySetInnerHTML={{__html: Constants.DOWNLOAD_ICON_SVG}}
-                    />
-                </a>
-            );
-        }
-
-        let content;
+        let content = null;
+        let loadingClass = '';
         if (this.state.loaded) {
-            const fileType = Utils.getFileType(fileInfo.extension);
+            const {fileInfo} = this.props;
+            const fileUrl = getFileUrl(fileInfo.id);
+            const {has_preview_image: hasPreviewImage, id} = fileInfo;
+            const previewUrl = hasPreviewImage ? getFilePreviewUrl(id) : fileUrl;
 
+            const canDownloadFiles = FileUtils.canDownloadFiles();
+            let downloadButton = null;
+            if (canDownloadFiles) {
+                downloadButton = (
+                    <a
+                        href={fileUrl}
+                        download={fileInfo.name}
+                        className='file__download'
+                        target='_blank'
+                        rel='noopener noreferrer'
+                    >
+                        <span
+                            className='icon'
+                            dangerouslySetInnerHTML={{__html: Constants.DOWNLOAD_ICON_SVG}}
+                        />
+                    </a>
+                );
+            }
+
+            const fileType = Utils.getFileType(fileInfo.extension);
             let svgClass;
             if (fileType === 'svg') {
                 svgClass = 'post-image normal';
             }
 
             content = (
-                <img
-                    src={previewUrl}
-                    style={{cursor: 'pointer'}}
-                    className={svgClass}
-                    onClick={this.handleImageClick}
-                />
+                <div>
+                    <div className='file-details'>
+                        <span className='file-details__name'>
+                            {fileInfo.name.toUpperCase()}
+                        </span>
+                        <span className='file-details__extension'>
+                            {`${fileInfo.extension.toUpperCase()}  ${Utils.fileSizeToString(fileInfo.size)}`}
+                        </span>
+                    </div>
+                    <div className='file__image'>
+                        <img
+                            src={previewUrl}
+                            style={{cursor: 'pointer'}}
+                            className={svgClass}
+                            onClick={this.handleImageClick}
+                        />
+                        {downloadButton}
+                    </div>
+                    <ViewImageModal
+                        show={this.state.showPreviewModal}
+                        onModalDismissed={this.showPreviewModal}
+                        fileInfos={[fileInfo]}
+                    />
+                </div>
             );
         } else {
+            loadingClass = 'loading';
+
             // display a progress indicator when the preview for an image is still loading
             const loading = Utils.localizeMessage('view_image.loading', 'Loading');
             const progress = Math.floor(this.state.progress);
@@ -130,29 +152,14 @@ export default class SingleImageView extends React.PureComponent {
                 <LoadingImagePreview
                     loading={loading}
                     progress={progress}
+                    containerClass={'file__image-loading'}
                 />
             );
         }
 
         return (
-            <div className={'file-view--single'}>
-                <div className='file-details'>
-                    <span className='file-details__name'>
-                        {fileInfo.name.toUpperCase()}
-                    </span>
-                    <span className='file-details__extension'>
-                        {`${fileInfo.extension.toUpperCase()}  ${Utils.fileSizeToString(fileInfo.size)}`}
-                    </span>
-                </div>
-                <div className='file__image'>
-                    {content}
-                    {downloadButton}
-                </div>
-                <ViewImageModal
-                    show={this.state.showPreviewModal}
-                    onModalDismissed={() => this.setState({showPreviewModal: false})}
-                    fileInfos={[fileInfo]}
-                />
+            <div className={`${'file-view--single'} ${loadingClass}`}>
+                {content}
             </div>
         );
     }

@@ -138,6 +138,14 @@
 .file-view--single {
     margin: 5px 0;
 
+    &.loading {
+        min-height: 100px;
+    }
+
+    .file__image-loading {
+        min-height: 100px;
+    }
+
     .file__image {
         display: inline-block;
         position: relative;
