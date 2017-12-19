@@ -1,0 +1,132 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/channel_notifications_modal/ChannelNotificationsModal should match snapshot 1`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  dialogClassName="settings-modal settings-modal--tabless"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onExited={[Function]}
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  show={true}
+>
+  <ModalHeader
+    bsClass="modal-header"
+    closeButton={true}
+    closeLabel="Close"
+  >
+    <ModalTitle
+      bsClass="modal-title"
+      componentClass="h4"
+    >
+      <FormattedMessage
+        defaultMessage="Notification Preferences for "
+        id="channel_notifications.preferences"
+        values={Object {}}
+      />
+      <span
+        className="name"
+      />
+    </ModalTitle>
+  </ModalHeader>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+  >
+    <div
+      className="settings-table"
+    >
+      <div
+        className="settings-content"
+      >
+        <div
+          className="user-settings"
+        >
+          <br />
+          <div
+            className="divider-dark first"
+          />
+          <SettingItemMin
+            describe={
+              <FormattedMessage
+                id="channel_notifications.never"
+                values={Object {}}
+              />
+            }
+            title={
+              <FormattedMessage
+                defaultMessage="Send desktop notifications"
+                id="channel_notifications.sendDesktop"
+                values={Object {}}
+              />
+            }
+            updateSection={[Function]}
+          />
+          <div>
+            <div
+              className="divider-light"
+            />
+            <SettingItemMin
+              describe={
+                <FormattedMessage
+                  id="channel_notifications.never"
+                  values={Object {}}
+                />
+              }
+              title={
+                <FormattedMessage
+                  defaultMessage="Send mobile push notifications"
+                  id="channel_notifications.push"
+                  values={Object {}}
+                />
+              }
+              updateSection={[Function]}
+            />
+          </div>
+          <div
+            className="divider-light"
+          />
+          <SettingItemMin
+            describe={
+              <FormattedMessage
+                defaultMessage="For all unread messages"
+                id="channel_notifications.allUnread"
+                values={Object {}}
+              />
+            }
+            title={
+              <FormattedMessage
+                defaultMessage="Mark Channel Unread"
+                id="channel_notifications.markUnread"
+                values={Object {}}
+              />
+            }
+            updateSection={[Function]}
+          />
+          <div
+            className="divider-dark"
+          />
+        </div>
+      </div>
+    </div>
+  </ModalBody>
+</Modal>
+`;
