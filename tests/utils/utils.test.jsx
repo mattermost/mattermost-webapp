@@ -294,3 +294,80 @@ describe('Utils.isValidPassword', function() {
         }
     });
 });
+
+describe('Utils.isEmail', function() {
+   test('', function() {
+       for (const data of [
+           {
+               email: 'prettyandsimple@example.com',
+               valid: true
+           },
+           {
+               email: 'very.common@example.com',
+               valid: true
+           },
+           {
+               email: 'disposable.style.email.with+symbol@example.com',
+               valid: true
+           },
+           {
+               email: 'other.email-with-dash@example.com',
+               valid: true
+           },
+           {
+               email: 'fully-qualified-domain@example.com',
+               valid: true
+           },
+           {
+               email: 'user.name+tag+sorting@example.com',
+               valid: true
+           },
+           {
+               email: 'x@example.com',
+               valid: true
+           },
+           {
+               email: 'example-indeed@strange-example.com',
+               valid: true
+           },
+           {
+               email: 'admin@mailserver1',
+               valid: true
+           },
+           {
+               email: '#!$%&\'*+-/=?^_`{}|~@example.org',
+               valid: true
+           },
+           {
+               email: 'example@s.solutions',
+               valid: true
+           },
+           {
+               // no @ symbol
+               email: 'Abc.example.com',
+               valid: false
+           },
+           {
+               // too many @ symbols
+               email: 'A@b@c@example.com',
+               valid: false
+           },
+           {
+               // outlook format - we don't allow it, because we require user to type entire email when logging in
+               email: '<Jonathan Fritz> jonathan.fritz@mattermost.com',
+               valid: false
+           },
+           {
+               // we don't allow comma-separated lists of addresses
+               email: 'comma@domain.com, separated@domain.com',
+               valid: false
+           },
+           {
+               email: 'comma@domain.com,separated@domain.com',
+               valid: false
+           }
+       ]) {
+           expect(Utils.isEmail(data.email)).toEqual(data.valid);
+       }
+   });
+});
