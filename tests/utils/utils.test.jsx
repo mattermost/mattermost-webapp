@@ -355,6 +355,10 @@ describe('Utils.isEmail', function() {
                 valid: false
             },
             {
+                email: 'test <test@address.do>',
+                valid: false
+            },
+            {
                 email: 'comma@domain.com, separated@domain.com',
                 valid: false
             },
