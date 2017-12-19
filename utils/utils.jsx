@@ -1237,7 +1237,7 @@ export function windowHeight() {
     return $(window).height();
 }
 
-export function getWindowDimentions() {
+export function getWindowDimensions() {
     return {
         width: window.innerWidth,
         height: window.innerHeight

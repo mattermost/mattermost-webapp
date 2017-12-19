@@ -121,16 +121,16 @@ export default class RhsRootPost extends React.Component {
     }
 
     componentDidMount() {
-        window.addEventListener('resize', this.setDimentions);
+        window.addEventListener('resize', this.setDimensions);
     }
 
     componentWillUnmount() {
-        window.removeEventListener('resize', this.setDimentions);
+        window.removeEventListener('resize', this.setDimensions);
     }
 
-    setDimentions = () => {
+    setDimensions = () => {
         this.setState({
-            ...Utils.getWindowDimentions()
+            ...Utils.getWindowDimensions()
         });
     }
 
