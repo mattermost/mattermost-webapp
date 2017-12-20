@@ -13,12 +13,6 @@ import * as Utils from 'utils/utils.jsx';
 
 import LoadingScreen from 'components/loading_screen.jsx';
 
-const WHITESPACE_NOWRAP = {whiteSpace: 'nowrap'};
-const COLOR_RED = {color: 'red'};
-const COLOR_GREEN = {color: 'green'};
-const MARGIN = {margin: '10px'};
-const MARGIN_TOP = {marginTop: '10px'};
-
 export default class ComplianceReports extends React.PureComponent {
     static propTypes = {
 
@@ -106,7 +100,7 @@ export default class ComplianceReports extends React.PureComponent {
     getDateTime(millis) {
         const date = new Date(millis);
         return (
-            <span style={WHITESPACE_NOWRAP}>
+            <span style={style.date}>
                 <FormattedDate
                     value={date}
                     day='2-digit'
@@ -176,11 +170,11 @@ export default class ComplianceReports extends React.PureComponent {
                     );
 
                     status = (
-                        <span style={COLOR_GREEN}>{report.status}</span>
+                        <span style={style.greenStatus}>{report.status}</span>
                     );
                 } else if (report.status === 'failed') {
                     status = (
-                        <span style={COLOR_RED}>{report.status}</span>
+                        <span style={style.redStatus}>{report.status}</span>
                     );
                 }
 
@@ -192,20 +186,20 @@ export default class ComplianceReports extends React.PureComponent {
 
                 list[i] = (
                     <tr key={report.id}>
-                        <td style={WHITESPACE_NOWRAP}>{download}</td>
+                        <td style={style.dataCell}>{download}</td>
                         <td>{this.getDateTime(report.create_at)}</td>
                         <td>{status}</td>
                         <td>{report.count}</td>
                         <td>{report.type}</td>
-                        <td style={WHITESPACE_NOWRAP}>{report.desc}</td>
+                        <td style={style.dataCell}>{report.desc}</td>
                         <td>{user}</td>
-                        <td style={WHITESPACE_NOWRAP}>{params}</td>
+                        <td style={style.dataCell}>{params}</td>
                     </tr>
                 );
             }
 
             content = (
-                <div style={MARGIN}>
+                <div style={style.content}>
                     <table className='table'>
                         <thead>
                             <tr>
@@ -267,7 +261,7 @@ export default class ComplianceReports extends React.PureComponent {
             serverError = (
                 <div
                     className='form-group has-error'
-                    style={MARGIN_TOP}
+                    style={style.serverError}
                 >
                     <label className='control-label'>{this.props.serverError}</label>
                 </div>
@@ -396,3 +390,12 @@ export default class ComplianceReports extends React.PureComponent {
         );
     }
 }
+
+const style = {
+    content: {margin: 10},
+    greenStatus: {color: 'green'},
+    redStatus: {color: 'red'},
+    dataCell: {whiteSpace: 'nowrap'},
+    date: {whiteSpace: 'nowrap'},
+    serverError: {marginTop: '10px'}
+};

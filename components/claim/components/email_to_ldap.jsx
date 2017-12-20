@@ -12,8 +12,6 @@ import * as Utils from 'utils/utils.jsx';
 
 import LoginMfa from 'components/login/components/login_mfa.jsx';
 
-const DISPLAY_NONE = {display: 'none'};
-
 export default class EmailToLDAP extends React.Component {
     constructor(props) {
         super(props);
@@ -194,7 +192,7 @@ export default class EmailToLDAP extends React.Component {
                     </p>
                     <input
                         type='text'
-                        style={DISPLAY_NONE}
+                        style={style.usernameInput}
                         name='fakeusernameremembered'
                     />
                     <div className={passwordClass}>
@@ -271,4 +269,8 @@ EmailToLDAP.defaultProps = {
 };
 EmailToLDAP.propTypes = {
     email: PropTypes.string
+};
+
+const style = {
+    usernameInput: {display: 'none'}
 };

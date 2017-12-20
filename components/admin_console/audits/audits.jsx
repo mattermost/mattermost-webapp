@@ -9,8 +9,6 @@ import ComplianceReports from 'components/admin_console/compliance_reports';
 import AuditTable from 'components/audit_table.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
-const MARGIN = {margin: '10px'};
-
 export default class Audits extends React.PureComponent {
     static propTypes = {
 
@@ -60,7 +58,7 @@ export default class Audits extends React.PureComponent {
             content = <LoadingScreen/>;
         } else {
             content = (
-                <div style={MARGIN}>
+                <div style={style.auditTable}>
                     <AuditTable
                         audits={this.props.audits}
                         showUserId={true}
@@ -101,3 +99,7 @@ export default class Audits extends React.PureComponent {
         );
     }
 }
+
+const style = {
+    auditTable: {margin: 10}
+};

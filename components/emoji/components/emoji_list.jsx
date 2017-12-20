@@ -16,8 +16,6 @@ import LoadingScreen from 'components/loading_screen.jsx';
 
 import EmojiListItem from './emoji_list_item.jsx';
 
-const FLEX_STYLE = {flexGrow: 0, flexShrink: 0};
-
 export default class EmojiList extends React.Component {
     static get propTypes() {
         return {
@@ -171,7 +169,7 @@ export default class EmojiList extends React.Component {
                             placeholder={Utils.localizeMessage('emoji_list.search', 'Search Custom Emoji')}
                             value={this.state.filter}
                             onChange={this.updateFilter}
-                            style={FLEX_STYLE}
+                            style={style.search}
                         />
                     </div>
                 </div>
@@ -228,3 +226,7 @@ export default class EmojiList extends React.Component {
         );
     }
 }
+
+const style = {
+    search: {flexGrow: 0, flexShrink: 0}
+};

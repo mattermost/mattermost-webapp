@@ -15,7 +15,6 @@ import SearchUserProvider from '../suggestion/search_user_provider.jsx';
 import SuggestionBox from '../suggestion/suggestion_box.jsx';
 
 const {KeyCodes} = Constants;
-const OVERFLOW_VISIBLE = {overflow: 'visible'};
 
 export default class SearchBar extends React.Component {
     static propTypes = {
@@ -278,7 +277,7 @@ export default class SearchBar extends React.Component {
                         role='form'
                         className={searchFormClass}
                         onSubmit={this.handleSubmit}
-                        style={OVERFLOW_VISIBLE}
+                        style={style.searchForm}
                         autoComplete='off'
                     >
                         <span
@@ -338,4 +337,8 @@ SearchBar.propTypes = {
     showMentionFlagBtns: PropTypes.bool,
     isCommentsPage: PropTypes.bool,
     isFocus: PropTypes.bool
+};
+
+const style = {
+    searchForm: {overflow: 'visible'}
 };

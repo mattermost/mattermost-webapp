@@ -10,12 +10,6 @@ import * as Utils from 'utils/utils.jsx';
 import statusGreen from 'images/status_green.png';
 import statusYellow from 'images/status_yellow.png';
 
-const WHITESPACE_NOWRAP = {whiteSpace: 'nowrap'};
-const MARGIN = {
-    margin: '10px',
-    marginBottom: '30px'
-};
-
 export default class ClusterTable extends React.Component {
     static propTypes = {
         clusterInfos: PropTypes.array.isRequired,
@@ -102,11 +96,11 @@ export default class ClusterTable extends React.Component {
 
             return (
                 <tr key={clusterInfo.ipaddress}>
-                    <td style={WHITESPACE_NOWRAP}>{status}</td>
-                    <td style={WHITESPACE_NOWRAP}>{clusterInfo.hostname}</td>
-                    <td style={WHITESPACE_NOWRAP}>{versionMismatch} {clusterInfo.version}</td>
-                    <td style={WHITESPACE_NOWRAP}><div className='config-hash'>{configMismatch} {clusterInfo.config_hash}</div></td>
-                    <td style={WHITESPACE_NOWRAP}>{clusterInfo.ipaddress}</td>
+                    <td style={style.clusterCell}>{status}</td>
+                    <td style={style.clusterCell}>{clusterInfo.hostname}</td>
+                    <td style={style.clusterCell}>{versionMismatch} {clusterInfo.version}</td>
+                    <td style={style.clusterCell}><div className='config-hash'>{configMismatch} {clusterInfo.config_hash}</div></td>
+                    <td style={style.clusterCell}>{clusterInfo.ipaddress}</td>
                 </tr>
             );
         });
@@ -114,7 +108,7 @@ export default class ClusterTable extends React.Component {
         return (
             <div
                 className='cluster-panel__table'
-                style={MARGIN}
+                style={style.clusterTable}
             >
                 <div className='text-right'>
                     <button
@@ -172,3 +166,8 @@ export default class ClusterTable extends React.Component {
         );
     }
 }
+
+const style = {
+    clusterTable: {margin: 10, marginBottom: 30},
+    clusterCell: {whiteSpace: 'nowrap'}
+};
