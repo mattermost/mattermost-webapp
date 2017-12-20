@@ -94,6 +94,7 @@ export function submitReaction(postId, action, emojiName) {
     return (dispatch) => {
         if (action === '+') {
             dispatch(addReaction(postId, emojiName));
+            PostActions.emitEmojiPosted(emojiName);
         } else if (action === '-') {
             dispatch(removeReaction(postId, emojiName));
         }

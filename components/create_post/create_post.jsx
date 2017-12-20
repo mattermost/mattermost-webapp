@@ -9,6 +9,7 @@ import {Posts} from 'mattermost-redux/constants';
 
 import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
+import {emitEmojiPosted} from 'actions/post_actions.jsx';
 import EmojiStore from 'stores/emoji_store.jsx';
 import Constants, {StoragePrefixes} from 'utils/constants.jsx';
 import * as FileUtils from 'utils/file_utils';
@@ -369,14 +370,17 @@ export default class CreatePost extends React.Component {
         });
     }
 
-    sendReaction(isReaction) {
+    sendReaction = async (isReaction) => {
         const channelId = this.props.currentChannel.id;
         const action = isReaction[1];
         const emojiName = isReaction[2];
         const postId = this.props.recentPostIdInChannel;
 
         if (postId && action === '+') {
-            this.props.actions.addReaction(postId, emojiName);
+            const {data} = await this.props.actions.addReaction(postId, emojiName);
+            if (data) {
+                emitEmojiPosted(emojiName);
+            }
         } else if (postId && action === '-') {
             this.props.actions.removeReaction(postId, emojiName);
         }
