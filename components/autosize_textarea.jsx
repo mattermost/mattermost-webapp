@@ -83,11 +83,11 @@ export default class AutosizeTextarea extends React.Component {
                     {...heightProps}
                     {...props}
                 />
-                <div style={{height: 0, overflow: 'hidden'}}>
+                <div style={style.container}>
                     <textarea
                         ref='reference'
                         id={id + '-reference'}
-                        style={{height: 'auto', width: '100%'}}
+                        style={style.reference}
                         disabled={true}
                         value={value}
                         placeholder={placeholder}
@@ -99,3 +99,8 @@ export default class AutosizeTextarea extends React.Component {
         );
     }
 }
+
+const style = {
+    reference: {height: 0, overflow: 'hidden'},
+    container: {height: 'auto', width: '100%'}
+};

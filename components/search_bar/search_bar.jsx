@@ -277,7 +277,7 @@ export default class SearchBar extends React.Component {
                         role='form'
                         className={searchFormClass}
                         onSubmit={this.handleSubmit}
-                        style={{overflow: 'visible'}}
+                        style={style.searchForm}
                         autoComplete='off'
                     >
                         <span
@@ -337,4 +337,8 @@ SearchBar.propTypes = {
     showMentionFlagBtns: PropTypes.bool,
     isCommentsPage: PropTypes.bool,
     isFocus: PropTypes.bool
+};
+
+const style = {
+    searchForm: {overflow: 'visible'}
 };
