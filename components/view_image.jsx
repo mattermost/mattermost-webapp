@@ -200,7 +200,8 @@ export default class ViewImageModal extends React.PureComponent {
         }
 
         const fileInfo = this.props.fileInfos[this.state.imageIndex];
-        const fileUrl = getFileUrl(fileInfo.id);
+        const fileName = fileInfo.link || fileInfo.name;
+        const fileUrl = fileInfo.link || getFileUrl(fileInfo.id);
 
         let content;
         if (this.state.loaded[this.state.imageIndex]) {
@@ -314,7 +315,7 @@ export default class ViewImageModal extends React.PureComponent {
                                 show={this.state.showFooter}
                                 fileIndex={this.state.imageIndex}
                                 totalFiles={this.props.fileInfos.length}
-                                filename={fileInfo.name}
+                                filename={fileName}
                                 fileURL={fileUrl}
                                 onGetPublicLink={this.handleGetPublicLink}
                             />
