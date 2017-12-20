@@ -47,7 +47,7 @@ export default {
         [
             {
                 getComponents: (location, callback) => {
-                    System.import('components/header_footer_template').then(RouteUtils.importComponentSuccess(callback));
+                    import('components/header_footer_template').then(RouteUtils.importComponentSuccess(callback));
                 },
                 getChildRoutes: RouteUtils.createGetChildComponentsFunction(
                     [
@@ -55,50 +55,50 @@ export default {
                             path: 'login',
                             onEnter: preLogin,
                             getComponents: (location, callback) => {
-                                System.import('components/login/login_controller.jsx').then(RouteUtils.importComponentSuccess(callback));
+                                import('components/login/login_controller.jsx').then(RouteUtils.importComponentSuccess(callback));
                             }
                         },
                         {
                             path: 'reset_password',
                             getComponents: (location, callback) => {
-                                System.import('components/password_reset_send_link.jsx').then(RouteUtils.importComponentSuccess(callback));
+                                import('components/password_reset_send_link.jsx').then(RouteUtils.importComponentSuccess(callback));
                             }
                         },
                         {
                             path: 'reset_password_complete',
                             getComponents: (location, callback) => {
-                                System.import('components/password_reset_form.jsx').then(RouteUtils.importComponentSuccess(callback));
+                                import('components/password_reset_form.jsx').then(RouteUtils.importComponentSuccess(callback));
                             }
                         },
                         claimAccountRoute,
                         {
                             path: 'signup_user_complete',
                             getComponents: (location, callback) => {
-                                System.import('components/signup/signup_controller.jsx').then(RouteUtils.importComponentSuccess(callback));
+                                import('components/signup/signup_controller.jsx').then(RouteUtils.importComponentSuccess(callback));
                             }
                         },
                         {
                             path: 'signup_email',
                             getComponents: (location, callback) => {
-                                System.import('components/signup/components/signup_email.jsx').then(RouteUtils.importComponentSuccess(callback));
+                                import('components/signup/components/signup_email.jsx').then(RouteUtils.importComponentSuccess(callback));
                             }
                         },
                         {
                             path: 'signup_ldap',
                             getComponents: (location, callback) => {
-                                System.import('components/signup/components/signup_ldap.jsx').then(RouteUtils.importComponentSuccess(callback));
+                                import('components/signup/components/signup_ldap.jsx').then(RouteUtils.importComponentSuccess(callback));
                             }
                         },
                         {
                             path: 'should_verify_email',
                             getComponents: (location, callback) => {
-                                System.import('components/should_verify_email.jsx').then(RouteUtils.importComponentSuccess(callback));
+                                import('components/should_verify_email.jsx').then(RouteUtils.importComponentSuccess(callback));
                             }
                         },
                         {
                             path: 'do_verify_email',
                             getComponents: (location, callback) => {
-                                System.import('components/do_verify_email').then(RouteUtils.importComponentSuccess(callback));
+                                import('components/do_verify_email').then(RouteUtils.importComponentSuccess(callback));
                             }
                         },
                         helpRoute
@@ -108,24 +108,24 @@ export default {
             {
                 path: 'get_ios_app',
                 getComponents: (location, callback) => {
-                    System.import('components/get_ios_app/get_ios_app.jsx').then(RouteUtils.importComponentSuccess(callback));
+                    import('components/get_ios_app/get_ios_app.jsx').then(RouteUtils.importComponentSuccess(callback));
                 }
             },
             {
                 path: 'get_android_app',
                 getComponents: (location, callback) => {
-                    System.import('components/get_android_app/get_android_app.jsx').then(RouteUtils.importComponentSuccess(callback));
+                    import('components/get_android_app/get_android_app.jsx').then(RouteUtils.importComponentSuccess(callback));
                 }
             },
             {
                 path: 'error',
                 getComponents: (location, callback) => {
-                    System.import('components/error_page').then(RouteUtils.importComponentSuccess(callback));
+                    import('components/error_page').then(RouteUtils.importComponentSuccess(callback));
                 }
             },
             {
                 getComponents: (location, callback) => {
-                    System.import('components/logged_in.jsx').then(RouteUtils.importComponentSuccess(callback));
+                    import('components/logged_in.jsx').then(RouteUtils.importComponentSuccess(callback));
                 },
                 onEnter: preLoggedIn,
                 getChildRoutes: RouteUtils.createGetChildComponentsFunction(
@@ -133,29 +133,29 @@ export default {
                         {
                             path: 'admin_console',
                             getComponents: (location, callback) => {
-                                System.import('components/admin_console').then(RouteUtils.importComponentSuccess(callback));
+                                import('components/admin_console').then(RouteUtils.importComponentSuccess(callback));
                             },
                             indexRoute: {onEnter: (nextState, replace) => replace('/admin_console/system_analytics')},
                             getChildRoutes: (location, callback) => {
-                                System.import('routes/route_admin_console.jsx').then((comp) => callback(null, comp.default));
+                                import('routes/route_admin_console.jsx').then((comp) => callback(null, comp.default));
                             }
                         },
                         {
                             getComponents: (location, callback) => {
-                                System.import('components/header_footer_template').then(RouteUtils.importComponentSuccess(callback));
+                                import('components/header_footer_template').then(RouteUtils.importComponentSuccess(callback));
                             },
                             getChildRoutes: RouteUtils.createGetChildComponentsFunction(
                                 [
                                     {
                                         path: 'select_team',
                                         getComponents: (location, callback) => {
-                                            System.import('components/select_team').then(RouteUtils.importComponentSuccess(callback));
+                                            import('components/select_team').then(RouteUtils.importComponentSuccess(callback));
                                         }
                                     },
                                     {
                                         path: 'oauth/authorize',
                                         getComponents: (location, callback) => {
-                                            System.import('components/authorize.jsx').then(RouteUtils.importComponentSuccess(callback));
+                                            import('components/authorize.jsx').then(RouteUtils.importComponentSuccess(callback));
                                         }
                                     },
                                     createTeamRoute
