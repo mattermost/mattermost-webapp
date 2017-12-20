@@ -101,6 +101,6 @@ export default class AutosizeTextarea extends React.Component {
 }
 
 const style = {
-    reference: {height: 0, overflow: 'hidden'},
-    container: {height: 'auto', width: '100%'}
+    container: {height: 0, overflow: 'hidden'},
+    reference: {height: 'auto', width: '100%'}
 };
