@@ -316,6 +316,7 @@ export default class Post extends React.PureComponent {
                                 compactDisplay={this.props.compactDisplay}
                                 lastPostCount={this.props.lastPostCount}
                                 isCommentMention={this.props.isCommentMention}
+                                isFirstReply={this.props.isFirstReply}
                             />
                         </div>
                     </div>
