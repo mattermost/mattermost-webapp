@@ -1,18 +1,15 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import $ from 'jquery';
-
 import {browserHistory} from 'react-router';
 
-import {fetchMyChannelsAndMembers, joinChannel} from 'mattermost-redux/actions/channels';
+import {joinChannel} from 'mattermost-redux/actions/channels';
 import {getMyTeamUnreads} from 'mattermost-redux/actions/teams';
 import {getUser, getUserByEmail, getUserByUsername} from 'mattermost-redux/actions/users';
 
 import {openDirectChannelToUser} from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
-import {loadStatusesForChannelAndSidebar} from 'actions/status_actions.jsx';
-import {loadNewDMIfNeeded, loadNewGMIfNeeded, loadProfilesForSidebar} from 'actions/user_actions.jsx';
+import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import {reconnect} from 'actions/websocket_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import BrowserStore from 'stores/browser_store.jsx';
@@ -119,21 +116,7 @@ function preNeedsTeam(nextState, replace, callback) {
     BrowserStore.setGlobalItem('team', team.id);
     TeamStore.emitChange();
     GlobalActions.emitCloseRightHandSide();
-
-    const d1 = $.Deferred(); //eslint-disable-line new-cap
-
-    fetchMyChannelsAndMembers(team.id)(dispatch, getState).then(
-        () => {
-            loadStatusesForChannelAndSidebar();
-            loadProfilesForSidebar();
-
-            d1.resolve();
-        }
-    );
-
-    $.when(d1).done(() => {
-        callback();
-    });
+    callback();
 }
 
 function selectLastChannel(nextState, replace, callback) {
