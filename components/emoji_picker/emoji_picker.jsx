@@ -205,11 +205,11 @@ export default class EmojiPicker extends React.PureComponent {
         switch (e.key) {
         case 'ArrowRight':
             e.preventDefault();
-            this.selectNextEmoji(1);
+            this.selectNextEmoji();
             break;
         case 'ArrowLeft':
             e.preventDefault();
-            this.selectPrevEmoji(1);
+            this.selectPrevEmoji();
             break;
         case 'ArrowUp':
             e.preventDefault();
@@ -232,7 +232,7 @@ export default class EmojiPicker extends React.PureComponent {
         this.setState({divTopOffset: this.emojiPickerContainer.scrollTop});
     }
 
-    selectNextEmoji(offset) {
+    selectNextEmoji(offset = 1) {
         const {cursor} = this.state;
 
         // try moving to next emoji in index
@@ -249,7 +249,7 @@ export default class EmojiPicker extends React.PureComponent {
         }
     }
 
-    selectPrevEmoji(offset) {
+    selectPrevEmoji(offset = 1) {
         const {cursor} = this.state;
 
         // try moving to prev emoji in index
