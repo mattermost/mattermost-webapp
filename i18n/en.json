@@ -1539,6 +1539,7 @@
   "error.oauth_missing_code.google.link": "Google Apps",
   "error.oauth_missing_code.office365": "For {link} make sure the administrator of your Microsoft organization has enabled the Mattermost app.",
   "error.oauth_missing_code.office365.link": "Office 365",
+  "error.oauth_missing_code.title": "Mattermost needs your help",
   "error_bar.expired": "Enterprise license is expired and some features may be disabled. <a href='{link}' target='_blank'>Please renew</a>.",
   "error_bar.expiring": "Enterprise license expires on {date}. <a href='{link}' target='_blank'>Please renew</a>.",
   "error_bar.past_grace": "Enterprise license is expired and some features may be disabled. Please contact your System Administrator for details.",
