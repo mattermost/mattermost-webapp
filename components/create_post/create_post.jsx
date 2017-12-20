@@ -370,17 +370,15 @@ export default class CreatePost extends React.Component {
         });
     }
 
-    sendReaction = async (isReaction) => {
+    sendReaction(isReaction) {
         const channelId = this.props.currentChannel.id;
         const action = isReaction[1];
         const emojiName = isReaction[2];
         const postId = this.props.recentPostIdInChannel;
 
         if (postId && action === '+') {
-            const {data} = await this.props.actions.addReaction(postId, emojiName);
-            if (data) {
-                emitEmojiPosted(emojiName);
-            }
+            this.props.actions.addReaction(postId, emojiName);
+            emitEmojiPosted(emojiName);
         } else if (postId && action === '-') {
             this.props.actions.removeReaction(postId, emojiName);
         }
