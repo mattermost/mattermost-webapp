@@ -47,7 +47,8 @@ export default class SearchResults extends React.PureComponent {
         channels: PropTypes.object,
         searchTerms: PropTypes.string,
         isFlaggedByPostId: PropTypes.object,
-        loading: PropTypes.bool,
+        isSearchingTerm: PropTypes.bool,
+        isSearchingFlaggedPost: PropTypes.bool,
         compactDisplay: PropTypes.bool,
         useMilitaryTime: PropTypes.bool.isRequired,
         toggleSize: PropTypes.func,
@@ -126,7 +127,7 @@ export default class SearchResults extends React.PureComponent {
 
         let ctls = null;
 
-        if (this.props.loading) {
+        if (this.props.isSearchingTerm || this.props.isSearchingFlaggedPost) {
             ctls =
             (
                 <div className='sidebar--right__subheader'>
@@ -380,7 +381,7 @@ export default class SearchResults extends React.PureComponent {
                     isFlaggedPosts={this.props.isFlaggedPosts}
                     isPinnedPosts={this.props.isPinnedPosts}
                     channelDisplayName={this.props.channelDisplayName}
-                    isLoading={this.props.loading}
+                    isLoading={this.props.isSearchingTerm}
                 />
                 <Scrollbars
                     autoHide={true}
