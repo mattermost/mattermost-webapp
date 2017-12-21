@@ -40,11 +40,6 @@ export default class PostHeader extends React.PureComponent {
         compactDisplay: PropTypes.bool,
 
         /*
-         * Set to render the post time when not hovering
-         */
-        showTimeWithoutHover: PropTypes.bool,
-
-        /*
          * The method for displaying the post creator's name
          */
         displayNameType: PropTypes.string,
@@ -79,7 +74,15 @@ export default class PostHeader extends React.PureComponent {
          */
         getPostList: PropTypes.func.isRequired,
 
-        hover: PropTypes.bool.isRequired
+        /**
+         * Set to mark post as being hovered over
+         */
+        hover: PropTypes.bool.isRequired,
+
+        /*
+         * Set to render the post time when not hovering
+         */
+        showTimeWithoutHover: PropTypes.bool
     }
 
     constructor(props) {

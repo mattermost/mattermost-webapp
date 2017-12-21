@@ -229,7 +229,7 @@ export default class Post extends React.PureComponent {
         }
 
         let profilePic;
-        const hideProfilePicture = this.state.sameRoot && this.props.consecutivePostByUser;
+        const hideProfilePicture = this.state.sameRoot && this.props.consecutivePostByUser && (!post.root_id && this.props.replyCount === 0);
         if (!hideProfilePicture) {
             profilePic = (
                 <ProfilePicture

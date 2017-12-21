@@ -74,7 +74,14 @@ export default class PostInfo extends React.PureComponent {
          */
         getPostList: PropTypes.func.isRequired,
 
+        /**
+         * Set to mark post as being hovered over
+         */
         hover: PropTypes.bool.isRequired,
+
+        /**
+         * Set to render the post time when not hovering
+         */
         showTimeWithoutHover: PropTypes.bool.isRequired,
 
         actions: PropTypes.shape({
@@ -161,6 +168,7 @@ export default class PostInfo extends React.PureComponent {
                         handleCommentClick={this.props.handleCommentClick}
                         commentCount={this.props.replyCount}
                         id={post.channel_id + '_' + post.id}
+                        extraClass='pull-right'
                     />
                 );
             }
