@@ -28,14 +28,20 @@ export default class ManageLanguage extends React.Component {
     setLanguage(e) {
         this.setState({locale: e.target.value});
     }
+
     changeLanguage(e) {
         e.preventDefault();
 
-        this.submitUser({
-            ...this.props.user,
-            locale: this.state.locale
-        });
+        if (this.props.user.locale === this.state.locale) {
+            this.props.updateSection(e);
+        } else {
+            this.submitUser({
+                ...this.props.user,
+                locale: this.state.locale
+            });
+        }
     }
+
     submitUser(user) {
         this.setState({isSaving: true});
 
@@ -55,6 +61,7 @@ export default class ManageLanguage extends React.Component {
             }
         );
     }
+
     render() {
         let serverError;
         if (this.state.serverError) {
