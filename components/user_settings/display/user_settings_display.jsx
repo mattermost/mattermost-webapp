@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {savePreferences} from 'actions/user_actions.jsx';
+import {deletePreferences, savePreferences} from 'actions/user_actions.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import Constants from 'utils/constants.jsx';
@@ -21,7 +21,8 @@ const Preferences = Constants.Preferences;
 
 function getDisplayStateFromStores() {
     return {
-        militaryTime: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, 'use_military_time', 'false'),
+        militaryTime: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, Preferences.USE_MILITARY_TIME_DEFAULT),
+        teammateDisplayName: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.TEAMMATE_DISPLAY_NAME, global.window.mm_config.TeammateNameDisplay),
         channelDisplayMode: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT),
         messageDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT),
         collapseDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, Preferences.COLLAPSE_DISPLAY_DEFAULT),
@@ -57,7 +58,12 @@ export default class UserSettingsDisplay extends React.Component {
             name: 'use_military_time',
             value: this.state.militaryTime,
         };
-
+        const displayNamePreference = {
+            user_id: userId,
+            category: Preferences.CATEGORY_DISPLAY_SETTINGS,
+            name: Preferences.TEAMMATE_DISPLAY_NAME,
+            value: this.state.teammateDisplayName
+        };
         const channelDisplayModePreference = {
             user_id: userId,
             category: Preferences.CATEGORY_DISPLAY_SETTINGS,
@@ -85,18 +91,16 @@ export default class UserSettingsDisplay extends React.Component {
 
         this.setState({isSaving: true});
 
-        savePreferences(
-            [
-                timePreference,
-                channelDisplayModePreference,
-                messageDisplayPreference,
-                collapseDisplayPreference,
-                linkPreviewDisplayPreference,
-            ],
-            () => {
-                this.updateSection('');
-            }
-        );
+        const preferences = [timePreference, channelDisplayModePreference, messageDisplayPreference, collapseDisplayPreference, linkPreviewDisplayPreference];
+        if (this.state.teammateDisplayName === global.window.mm_config.TeammateNameDisplay) {
+            deletePreferences([displayNamePreference]);
+        } else {
+            preferences.push(displayNamePreference);
+        }
+
+        savePreferences(preferences, () => {
+            this.updateSection('');
+        });
     }
 
     handleClockRadio = (militaryTime) => {
@@ -145,7 +149,8 @@ export default class UserSettingsDisplay extends React.Component {
             title,
             firstOption,
             secondOption,
-            description,
+            thirdOption,
+            description
         } = props;
 
         const firstMessage = (
@@ -169,6 +174,13 @@ export default class UserSettingsDisplay extends React.Component {
             );
         }
 
+        const secondMessage = (
+            <FormattedMessage
+                id={secondOption.radionButtonText.id}
+                defaultMessage={secondOption.radionButtonText.message}
+            />
+        );
+
         let secondMessageMore;
         if (secondOption.radionButtonText.moreId) {
             secondMessageMore = (
@@ -181,12 +193,15 @@ export default class UserSettingsDisplay extends React.Component {
             );
         }
 
-        const secondMessage = (
-            <FormattedMessage
-                id={secondOption.radionButtonText.id}
-                defaultMessage={secondOption.radionButtonText.message}
-            />
-        );
+        let thirdMessage;
+        if (thirdOption) {
+            thirdMessage = (
+                <FormattedMessage
+                    id={thirdOption.radionButtonText.id}
+                    defaultMessage={thirdOption.radionButtonText.message}
+                />
+            );
+        }
 
         const messageTitle = (
             <FormattedMessage
@@ -203,11 +218,13 @@ export default class UserSettingsDisplay extends React.Component {
         );
 
         if (this.props.activeSection === section) {
-            const format = [false, false];
+            const format = [false, false, false];
             if (value === firstOption.value) {
                 format[0] = true;
-            } else {
+            } else if (value === secondOption.value) {
                 format[1] = true;
+            } else {
+                format[2] = true;
             }
 
             const name = section + 'Format';
@@ -218,6 +235,30 @@ export default class UserSettingsDisplay extends React.Component {
 
             const secondDisplay = {};
             secondDisplay[display] = secondOption.value;
+
+            const thirdDisplay = {};
+            if (thirdOption) {
+                thirdDisplay[display] = thirdOption.value;
+            }
+
+            let thirdSection;
+            if (thirdMessage) {
+                thirdSection = (
+                    <div className='radio'>
+                        <label>
+                            <input
+                                id={name + 'C'}
+                                type='radio'
+                                name={name}
+                                checked={format[2]}
+                                onChange={() => this.handleOnChange(thirdDisplay)}
+                            />
+                            {thirdMessage}
+                        </label>
+                        <br/>
+                    </div>
+                );
+            }
 
             const inputs = [
                 <div key={key}>
@@ -251,6 +292,7 @@ export default class UserSettingsDisplay extends React.Component {
                         </label>
                         <br/>
                     </div>
+                    {thirdSection}
                     <div>
                         <br/>
                         {messageDesc}
@@ -276,8 +318,10 @@ export default class UserSettingsDisplay extends React.Component {
         let describe;
         if (value === firstOption.value) {
             describe = firstMessage;
-        } else {
+        } else if (value === secondOption.value) {
             describe = secondMessage;
+        } else {
+            describe = thirdMessage;
         }
 
         return (
@@ -387,6 +431,42 @@ export default class UserSettingsDisplay extends React.Component {
                 id: 'user.settings.display.preferTime',
                 message: 'Select how you prefer time displayed.',
             },
+        });
+
+        const displayNameSection = this.createSection({
+            section: Preferences.TEAMMATE_DISPLAY_NAME,
+            display: 'teammateDisplayName',
+            value: this.state.teammateDisplayName,
+            defaultDisplay: global.window.mm_config.TeammateNameDisplay,
+            title: {
+                id: 'user.settings.display.teammateNameDisplayTitle',
+                message: 'Teammate Name Display'
+            },
+            firstOption: {
+                value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_USERNAME,
+                radionButtonText: {
+                    id: 'user.settings.display.teammateNameDisplayUsername',
+                    message: 'Show username'
+                }
+            },
+            secondOption: {
+                value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME,
+                radionButtonText: {
+                    id: 'user.settings.display.teammateNameDisplayNicknameFullname',
+                    message: 'Show nickname if one exists, otherwise show first and last name'
+                }
+            },
+            thirdOption: {
+                value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_FULLNAME,
+                radionButtonText: {
+                    id: 'user.settings.display.teammateNameDisplayFullname',
+                    message: 'Show first and last name'
+                }
+            },
+            description: {
+                id: 'user.settings.display.teammateNameDisplayDescription',
+                message: 'Set how to display other user\'s names in posts and the Direct Messages list'
+            }
         });
 
         const messageDisplaySection = this.createSection({
@@ -557,6 +637,7 @@ export default class UserSettingsDisplay extends React.Component {
                     <div className='divider-dark first'/>
                     {themeSection}
                     {clockSection}
+                    {displayNameSection}
                     {linkPreviewSection}
                     {collapseSection}
                     {messageDisplaySection}

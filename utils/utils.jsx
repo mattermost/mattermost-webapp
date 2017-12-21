@@ -1116,7 +1116,8 @@ export function displayUsernameForUser(user) {
     const config = getConfig(store.getState());
 
     if (user) {
-        const nameFormat = config.TeammateNameDisplay;
+        const globalNameFormat = config.TeammateNameDisplay;
+        const userNameFormat = PreferenceStore.get(Constants.Preferences.CATEGORY_DISPLAY_SETTINGS, Constants.Preferences.TEAMMATE_DISPLAY_NAME, global.window.mm_config.TeammateNameDisplay);
         let name = user.username;
         if (nameFormat === Constants.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME && user.nickname && user.nickname.trim().length > 0) {
             name = user.nickname;
