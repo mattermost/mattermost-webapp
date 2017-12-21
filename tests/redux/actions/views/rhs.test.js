@@ -237,6 +237,7 @@ describe('rhs view actions', () => {
             const result = await Client4.getFlaggedPosts(currentUserId, '', currentTeamId);
             await PostActions.getProfilesAndStatusesForPosts(result.posts, compareStore.dispatch, compareStore.getState);
             compareStore.dispatch(receivedSearchResultsAction(currentTeamId, result));
+            compareStore.dispatch({type: ActionTypes.SEARCH_FLAGGED_POSTS_SUCCESS});
 
             expect(store.getActions()).toEqual(compareStore.getActions());
         });
@@ -247,6 +248,7 @@ describe('rhs view actions', () => {
             store.dispatch(showFlaggedPosts());
 
             const compareStore = mockStore(initialState);
+            compareStore.dispatch({type: ActionTypes.SEARCH_FLAGGED_POSTS_REQUEST});
             compareStore.dispatch(getFlaggedPosts());
             compareStore.dispatch(updateSearchTerms(''));
             compareStore.dispatch(updateRhsState(RHSStates.FLAG));
