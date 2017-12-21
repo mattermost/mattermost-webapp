@@ -104,31 +104,10 @@ export default class SearchResultsItem extends React.PureComponent {
         super(props);
 
         this.state = {
-<<<<<<< HEAD:components/search_results_item/search_results_item.jsx
-            width: '',
-            height: '',
-=======
-            currentTeamDisplayName: TeamStore.getCurrent().name,
->>>>>>> Remove updateWindowDimensions references:components/search_results_item.jsx
             dropdownOpened: false
         };
     }
 
-<<<<<<< HEAD:components/search_results_item/search_results_item.jsx
-    componentDidMount() {
-        window.addEventListener('resize', this.onUpdateWindowDimensions);
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.onUpdateWindowDimensions);
-    }
-
-    onUpdateWindowDimensions = () => {
-        Utils.updateWindowDimensions(this);
-    }
-
-    shrinkSidebar = () => {
-=======
     shouldComponentUpdate(nextProps, nextState) {
         if (!Utils.areObjectsEqual(nextState.post, this.props.post)) {
             return true;
@@ -164,7 +143,6 @@ export default class SearchResultsItem extends React.PureComponent {
     }
 
     shrinkSidebar() {
->>>>>>> Remove updateWindowDimensions references:components/search_results_item.jsx
         setTimeout(() => {
             this.props.shrink();
         });

@@ -48,11 +48,11 @@ export default class PostTime extends React.PureComponent {
     }
 
     componentDidMount() {
-        window.addEventListener('resize', this.setDimentions);
+        window.addEventListener('resize', this.setDimensions);
     }
 
     componentWillUnmount() {
-        window.removeEventListener('resize', this.setDimentions);
+        window.removeEventListener('resize', this.setDimensions);
     }
 
     setDimensions = () => {
