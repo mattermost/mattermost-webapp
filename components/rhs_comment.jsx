@@ -50,39 +50,10 @@ export default class RhsComment extends React.Component {
 
         this.state = {
             currentTeamDisplayName: TeamStore.getCurrent().name,
-            width: '',
-            height: '',
             showEmojiPicker: false,
-            dropdownOpened: false
+            dropdownOpened: false,
+            ...Utils.getWindowDimensions()
         };
-    }
-
-    componentDidMount() {
-        window.addEventListener('resize', () => {
-            Utils.updateWindowDimensions(this);
-        });
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', () => {
-            Utils.updateWindowDimensions(this);
-        });
-    }
-
-    removePost() {
-        this.props.removePost(this.props.post);
-    }
-
-    createRemovePostButton() {
-        return (
-            <button
-                className='post__remove theme color--link style--none'
-                type='button'
-                onClick={this.removePost}
-            >
-                {'×'}
-            </button>
-        );
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -138,7 +109,41 @@ export default class RhsComment extends React.Component {
             return true;
         }
 
+        if ((this.state.width !== nextState.width) || this.state.height !== nextState.height) {
+            return true;
+        }
+
         return false;
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', this.setDimensions);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.setDimensions);
+    }
+
+    setDimensions = () => {
+        this.setState({
+            ...Utils.getWindowDimensions()
+        });
+    }
+
+    removePost() {
+        this.props.removePost(this.props.post);
+    }
+
+    createRemovePostButton() {
+        return (
+            <button
+                className='post__remove theme color--link style--none'
+                type='button'
+                onClick={this.removePost}
+            >
+                {'×'}
+            </button>
+        );
     }
 
     timeTag(post, timeOptions) {

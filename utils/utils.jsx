@@ -1237,6 +1237,13 @@ export function windowHeight() {
     return $(window).height();
 }
 
+export function getWindowDimensions() {
+    return {
+        width: window.innerWidth,
+        height: window.innerHeight
+    };
+}
+
 export function getChannelTerm(channelType) {
     let channelTerm = 'Channel';
     if (channelType === Constants.PRIVATE_CHANNEL) {
@@ -1456,10 +1463,6 @@ export function isEmptyObject(object) {
     }
 
     return false;
-}
-
-export function updateWindowDimensions(component) {
-    component.setState({width: window.innerWidth, height: window.innerHeight});
 }
 
 export function removePrefixFromLocalStorage(prefix) {

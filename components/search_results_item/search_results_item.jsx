@@ -104,25 +104,25 @@ export default class SearchResultsItem extends React.PureComponent {
         super(props);
 
         this.state = {
-            width: '',
-            height: '',
             dropdownOpened: false
         };
     }
 
     componentDidMount() {
-        window.addEventListener('resize', this.onUpdateWindowDimensions);
+        window.addEventListener('resize', this.setDimensions);
     }
 
     componentWillUnmount() {
-        window.removeEventListener('resize', this.onUpdateWindowDimensions);
+        window.removeEventListener('resize', this.setDimensions);
     }
 
-    onUpdateWindowDimensions = () => {
-        Utils.updateWindowDimensions(this);
+    setDimensions = () => {
+        this.setState({
+            ...Utils.getWindowDimensions()
+        });
     }
 
-    shrinkSidebar = () => {
+    shrinkSidebar() {
         setTimeout(() => {
             this.props.shrink();
         });
