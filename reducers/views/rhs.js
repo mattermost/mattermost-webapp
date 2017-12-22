@@ -85,7 +85,20 @@ function isSearchingFlaggedPost(state = false, action) {
     switch (action.type) {
     case ActionTypes.SEARCH_FLAGGED_POSTS_REQUEST:
         return true;
+    case ActionTypes.SEARCH_FLAGGED_POSTS_FAILURE:
     case ActionTypes.SEARCH_FLAGGED_POSTS_SUCCESS:
+        return false;
+    default:
+        return state;
+    }
+}
+
+function isSearchingPinnedPost(state = false, action) {
+    switch (action.type) {
+    case ActionTypes.SEARCH_PINNED_POSTS_REQUEST:
+        return true;
+    case ActionTypes.SEARCH_PINNED_POSTS_FAILURE:
+    case ActionTypes.SEARCH_PINNED_POSTS_SUCCESS:
         return false;
     default:
         return state;
@@ -99,5 +112,6 @@ export default combineReducers({
     rhsState,
     searchTerms,
     isSearchingTerm,
-    isSearchingFlaggedPost
+    isSearchingFlaggedPost,
+    isSearchingPinnedPost
 });

@@ -15,7 +15,8 @@ describe('Reducers.RHS', () => {
         rhsState: null,
         searchTerms: '',
         isSearchingTerm: false,
-        isSearchingFlaggedPost: false
+        isSearchingFlaggedPost: false,
+        isSearchingPinnedPost: false
     };
 
     test('Initial state', () => {

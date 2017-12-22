@@ -236,22 +236,71 @@ describe('rhs view actions', () => {
             const compareStore = mockStore(initialState);
             const result = await Client4.getFlaggedPosts(currentUserId, '', currentTeamId);
             await PostActions.getProfilesAndStatusesForPosts(result.posts, compareStore.dispatch, compareStore.getState);
-            compareStore.dispatch(receivedSearchResultsAction(currentTeamId, result));
-            compareStore.dispatch({type: ActionTypes.SEARCH_FLAGGED_POSTS_SUCCESS});
+
+            compareStore.dispatch(batchActions([
+                {
+                    type: SearchTypes.RECEIVED_SEARCH_POSTS,
+                    data: result
+                },
+                {
+                    type: SearchTypes.RECEIVED_SEARCH_TERM,
+                    data: {
+                        teamId: '321',
+                        terms: null,
+                        isOrSearch: false
+                    }
+                },
+                {
+                    type: SearchTypes.SEARCH_POSTS_SUCCESS
+                }
+            ]));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
         });
     });
 
     describe('showFlaggedPosts', () => {
-        test('it dispatches the right actions', () => {
+        test('it dispatches the right actions', async () => {
             store.dispatch(showFlaggedPosts());
 
             const compareStore = mockStore(initialState);
-            compareStore.dispatch({type: ActionTypes.SEARCH_FLAGGED_POSTS_REQUEST});
-            compareStore.dispatch(getFlaggedPosts());
-            compareStore.dispatch(updateSearchTerms(''));
-            compareStore.dispatch(updateRhsState(RHSStates.FLAG));
+            const result = await Client4.getFlaggedPosts(currentUserId, '', currentTeamId);
+            await PostActions.getProfilesAndStatusesForPosts(result.posts, compareStore.dispatch, compareStore.getState);
+            
+            compareStore.dispatch(batchActions([
+                {
+                    type: ActionTypes.SEARCH_FLAGGED_POSTS_REQUEST
+                },
+                {
+                    type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
+                    terms: ''
+                },
+                {
+                    type: ActionTypes.UPDATE_RHS_STATE,
+                    state: RHSStates.FLAG
+                }
+            ]));
+
+            compareStore.dispatch(batchActions([
+                {
+                    type: SearchTypes.RECEIVED_SEARCH_POSTS,
+                    data: result
+                },
+                {
+                    type: SearchTypes.RECEIVED_SEARCH_TERM,
+                    data: {
+                        teamId: '321',
+                        terms: null,
+                        isOrSearch: false
+                    }
+                },
+                {
+                    type: SearchTypes.SEARCH_POSTS_SUCCESS
+                },
+                {
+                    type: ActionTypes.SEARCH_FLAGGED_POSTS_SUCCESS
+                }
+            ]));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
         });
@@ -264,20 +313,72 @@ describe('rhs view actions', () => {
             const compareStore = mockStore(initialState);
             const result = await Client4.getPinnedPosts(currentChannelId);
             await PostActions.getProfilesAndStatusesForPosts(result.posts, compareStore.dispatch, compareStore.getState);
-            compareStore.dispatch(receivedSearchResultsAction(currentTeamId, result));
+
+            compareStore.dispatch(batchActions([
+                {
+                    type: SearchTypes.RECEIVED_SEARCH_POSTS,
+                    data: result
+                },
+                {
+                    type: SearchTypes.RECEIVED_SEARCH_TERM,
+                    data: {
+                        teamId: '321',
+                        terms: null,
+                        isOrSearch: false
+                    }
+                },
+                {
+                    type: SearchTypes.SEARCH_POSTS_SUCCESS
+                }
+            ]));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
         });
     });
 
     describe('showPinnedPosts', () => {
-        test('it dispatches the right actions', () => {
+        test('it dispatches the right actions', async () => {
             store.dispatch(showPinnedPosts());
 
             const compareStore = mockStore(initialState);
-            compareStore.dispatch(getPinnedPosts());
-            compareStore.dispatch(updateSearchTerms(''));
-            compareStore.dispatch(updateRhsState(RHSStates.PIN));
+            const result = await Client4.getPinnedPosts('123');
+            await PostActions.getProfilesAndStatusesForPosts(result.posts, compareStore.dispatch, compareStore.getState);
+
+            compareStore.dispatch(batchActions([
+                {
+                    type: ActionTypes.SEARCH_PINNED_POSTS_REQUEST
+                },
+                {
+                    type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
+                    terms: ''
+                },
+                {
+                    type: ActionTypes.UPDATE_RHS_STATE,
+                    state: RHSStates.PIN,
+                    channelId: '123'
+                }
+            ]));
+
+            compareStore.dispatch(batchActions([
+                {
+                    type: SearchTypes.RECEIVED_SEARCH_POSTS,
+                    data: result
+                },
+                {
+                    type: SearchTypes.RECEIVED_SEARCH_TERM,
+                    data: {
+                        teamId: '321',
+                        terms: null,
+                        isOrSearch: false
+                    }
+                },
+                {
+                    type: SearchTypes.SEARCH_POSTS_SUCCESS
+                },
+                {
+                    type: ActionTypes.SEARCH_PINNED_POSTS_SUCCESS
+                }
+            ]));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
         });
@@ -288,9 +389,18 @@ describe('rhs view actions', () => {
             store.dispatch(showMentions());
 
             const compareStore = mockStore(initialState);
-            compareStore.dispatch(updateSearchTerms('@mattermost '));
+
             compareStore.dispatch(performSearch('@mattermost ', true));
-            compareStore.dispatch(updateRhsState(RHSStates.MENTION));
+            compareStore.dispatch(batchActions([
+                {
+                    type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
+                    terms: '@mattermost '
+                },
+                {
+                    type: ActionTypes.UPDATE_RHS_STATE,
+                    state: RHSStates.MENTION
+                }
+            ]));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
         });
@@ -312,12 +422,17 @@ describe('rhs view actions', () => {
             store.dispatch(closeRightHandSide());
 
             const compareStore = mockStore(initialState);
-            compareStore.dispatch(updateRhsState(null));
-            compareStore.dispatch({
-                type: ActionTypes.SELECT_POST,
-                postId: '',
-                channelId: ''
-            });
+            compareStore.dispatch(batchActions([
+                {
+                    type: ActionTypes.UPDATE_RHS_STATE,
+                    state: null
+                },
+                {
+                    type: ActionTypes.SELECT_POST,
+                    postId: '',
+                    channelId: ''
+                }
+            ]));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
         });
