@@ -8,7 +8,7 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {closeRightHandSide} from 'actions/views/rhs';
 
-import SelectResultsItem from './search_results_item.jsx';
+import SearchResultsItem from './search_results_item.jsx';
 
 function mapStateToProps(state) {
     return {
@@ -24,4 +24,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelectResultsItem);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchResultsItem);
