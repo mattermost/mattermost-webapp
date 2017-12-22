@@ -9,7 +9,7 @@ import {makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/po
 
 import {closeRightHandSide} from 'actions/views/rhs';
 
-import SelectResultsItem from './search_results_item.jsx';
+import SearchResultsItem from './search_results_item.jsx';
 
 function mapStateToProps() {
     const getCommentCountForPost = makeGetCommentCountForPost();
@@ -27,4 +27,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelectResultsItem);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchResultsItem);

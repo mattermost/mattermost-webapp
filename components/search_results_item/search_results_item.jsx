@@ -101,7 +101,7 @@ export default class SearchResultsItem extends React.PureComponent {
         *  Function used for closing LHS
         */
         actions: PropTypes.shape({
-            emitCloseRightHandSide: PropTypes.func.isRequired
+            closeRightHandSide: PropTypes.func.isRequired
         }).isRequired
     };
 
@@ -140,7 +140,7 @@ export default class SearchResultsItem extends React.PureComponent {
 
     handleJumpClick = () => {
         if (Utils.isMobile()) {
-            this.props.actions.emitCloseRightHandSide();
+            this.props.actions.closeRightHandSide();
         }
 
         this.shrinkSidebar();

@@ -87,7 +87,7 @@ describe('components/search_results_item', () => {
             status: 'hello',
             onSelect: mockFunc,
             actions: {
-                emitCloseRightHandSide: mockFunc
+                closeRightHandSide: mockFunc
             }
         };
     });
