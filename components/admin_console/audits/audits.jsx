@@ -58,7 +58,7 @@ export default class Audits extends React.PureComponent {
             content = <LoadingScreen/>;
         } else {
             content = (
-                <div style={{margin: '10px'}}>
+                <div style={style.auditTable}>
                     <AuditTable
                         audits={this.props.audits}
                         showUserId={true}
@@ -99,3 +99,7 @@ export default class Audits extends React.PureComponent {
         );
     }
 }
+
+const style = {
+    auditTable: {margin: 10}
+};

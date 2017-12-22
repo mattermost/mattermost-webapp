@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {createPost} from 'actions/post_actions.jsx';
 
-export default class FailedPostOptions extends React.Component {
+export default class FailedPostOptions extends React.PureComponent {
     static propTypes = {
 
         /*
@@ -30,8 +30,6 @@ export default class FailedPostOptions extends React.Component {
         this.cancelPost = this.cancelPost.bind(this);
 
         this.submitting = false;
-
-        this.state = {};
     }
 
     retryPost(e) {
@@ -52,8 +50,6 @@ export default class FailedPostOptions extends React.Component {
             (err) => {
                 if (err && err.id && err.id === 'api.post.create_post.root_id.app_error') {
                     this.showPostDeletedModal();
-                } else {
-                    this.forceUpdate();
                 }
 
                 this.submitting = false;
@@ -67,28 +63,30 @@ export default class FailedPostOptions extends React.Component {
     }
 
     render() {
-        return (<span className='pending-post-actions'>
-            <a
-                className='post-retry'
-                href='#'
-                onClick={this.retryPost}
-            >
-                <FormattedMessage
-                    id='pending_post_actions.retry'
-                    defaultMessage='Retry'
-                />
-            </a>
-            {' - '}
-            <a
-                className='post-cancel'
-                href='#'
-                onClick={this.cancelPost}
-            >
-                <FormattedMessage
-                    id='pending_post_actions.cancel'
-                    defaultMessage='Cancel'
-                />
-            </a>
-        </span>);
+        return (
+            <span className='pending-post-actions'>
+                <a
+                    className='post-retry'
+                    href='#'
+                    onClick={this.retryPost}
+                >
+                    <FormattedMessage
+                        id='pending_post_actions.retry'
+                        defaultMessage='Retry'
+                    />
+                </a>
+                {' - '}
+                <a
+                    className='post-cancel'
+                    href='#'
+                    onClick={this.cancelPost}
+                >
+                    <FormattedMessage
+                        id='pending_post_actions.cancel'
+                        defaultMessage='Cancel'
+                    />
+                </a>
+            </span>
+        );
     }
 }

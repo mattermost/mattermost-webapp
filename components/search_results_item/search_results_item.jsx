@@ -1,76 +1,113 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 import {FormattedDate, FormattedMessage} from 'react-intl';
 import {browserHistory, Link} from 'react-router';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
-
 import PostMessageContainer from 'components/post_view/post_message_view';
 import FileAttachmentListContainer from 'components/file_attachment_list';
-
 import CommentIcon from 'components/common/comment_icon.jsx';
 import DotMenu from 'components/dot_menu';
+import ProfilePicture from 'components/profile_picture.jsx';
+import UserProfile from 'components/user_profile.jsx';
 import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
-import TeamStore from 'stores/team_store.jsx';
 
 import Constants from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import ProfilePicture from './profile_picture.jsx';
-import UserProfile from './user_profile.jsx';
-
-export default class SearchResultsItem extends React.Component {
+export default class SearchResultsItem extends React.PureComponent {
     static propTypes = {
+
+        /**
+        *  Data used for rendering post
+        */
         post: PropTypes.object,
+
+        /**
+        *  count used for passing down to PostFlagIcon, DotMenu and CommentIcon
+        */
         lastPostCount: PropTypes.number,
+
+        /**
+        *  user object for rendering profile_picture
+        */
         user: PropTypes.object,
+
+        /**
+        *  channel object for rendering channel name on top of result
+        */
         channel: PropTypes.object,
+
+        /**
+        *  Flag for determining result display setting
+        */
         compactDisplay: PropTypes.bool,
+
+        /**
+        *  Flag for highlighting mentions
+        */
         isMentionSearch: PropTypes.bool,
-        isFlaggedSearch: PropTypes.bool,
+
+        /**
+        *  Flag for highlighting search term
+        */
         term: PropTypes.string,
+
+        /**
+        *  Flag for determining time format
+        */
         useMilitaryTime: PropTypes.bool.isRequired,
-        shrink: PropTypes.func,
+
+        /**
+        *  Flag for determining result flag state
+        */
         isFlagged: PropTypes.bool,
+
+        /**
+        *  Flag for determining profile busy status
+        */
         isBusy: PropTypes.bool,
+
+        /**
+        *  Data used for status in profile
+        */
         status: PropTypes.string,
-        onSelect: PropTypes.func
+
+        /**
+        *  Data used creating URl for jump to post
+        */
+        currentTeamName: PropTypes.string,
+
+        /**
+        *  Function used for shrinking LHS
+        *  on click of jump to message in expanded mode
+        */
+        shrink: PropTypes.func,
+
+        /**
+        *  Function used for selecting a post to comment
+        */
+        onSelect: PropTypes.func,
+
+        /**
+        *  Function used for closing LHS
+        */
+        actions: PropTypes.shape({
+            emitCloseRightHandSide: PropTypes.func.isRequired
+        }).isRequired
     };
 
     constructor(props) {
         super(props);
 
-        this.handleFocusRHSClick = this.handleFocusRHSClick.bind(this);
-        this.handleJumpClick = this.handleJumpClick.bind(this);
-        this.handleDropdownOpened = this.handleDropdownOpened.bind(this);
-        this.shrinkSidebar = this.shrinkSidebar.bind(this);
-
         this.state = {
-            currentTeamDisplayName: TeamStore.getCurrent().name,
             width: '',
             height: '',
             dropdownOpened: false
         };
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        if (!Utils.areObjectsEqual(nextState.post, this.props.post)) {
-            return true;
-        }
-
-        if (nextProps.isFlagged !== this.props.isFlagged) {
-            return true;
-        }
-
-        if (nextState.dropdownOpened !== this.state.dropdownOpened) {
-            return true;
-        }
-
-        return false;
     }
 
     componentDidMount() {
@@ -85,24 +122,24 @@ export default class SearchResultsItem extends React.Component {
         Utils.updateWindowDimensions(this);
     }
 
-    shrinkSidebar() {
+    shrinkSidebar = () => {
         setTimeout(() => {
             this.props.shrink();
         });
     }
 
-    handleFocusRHSClick(e) {
+    handleFocusRHSClick = (e) => {
         e.preventDefault();
         this.props.onSelect(this.props.post);
     }
 
-    handleJumpClick() {
+    handleJumpClick = () => {
         if (Utils.isMobile()) {
-            GlobalActions.emitCloseRightHandSide();
+            this.props.actions.emitCloseRightHandSide();
         }
 
         this.shrinkSidebar();
-        browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/pl/' + this.props.post.id);
+        browserHistory.push(`/${this.props.currentTeamName}/pl/${this.props.post.id}`);
     }
 
     handleDropdownOpened = (isOpened) => {
@@ -135,7 +172,7 @@ export default class SearchResultsItem extends React.Component {
             this.timeTag(post) :
             (
                 <Link
-                    to={`/${this.state.currentTeamDisplayName}/pl/${post.id}`}
+                    to={`/${this.props.currentTeamName}/pl/${post.id}`}
                     target='_blank'
                     className='post__permalink'
                 >
@@ -164,14 +201,9 @@ export default class SearchResultsItem extends React.Component {
         const user = this.props.user || {};
         const post = this.props.post;
 
-        let idCount = -1;
-        if (this.props.lastPostCount >= 0 && this.props.lastPostCount < Constants.TEST_ID_COUNT) {
-            idCount = this.props.lastPostCount;
-        }
-
         if (channel) {
             channelName = channel.display_name;
-            if (channel.type === 'D') {
+            if (channel.type === Constants.DM_CHANNEL) {
                 channelName = (
                     <FormattedMessage
                         id='search_item.direct'
@@ -242,7 +274,7 @@ export default class SearchResultsItem extends React.Component {
             flagContent = (
                 <PostFlagIcon
                     idPrefix={'searchPostFlag'}
-                    idCount={idCount}
+                    idCount={this.props.lastPostCount}
                     postId={post.id}
                     isFlagged={this.props.isFlagged}
                 />
@@ -252,14 +284,14 @@ export default class SearchResultsItem extends React.Component {
                 <div className='col__controls'>
                     <DotMenu
                         idPrefix={Constants.SEARCH_POST}
-                        idCount={idCount}
+                        idCount={this.props.lastPostCount}
                         post={post}
                         isFlagged={this.props.isFlagged}
                         handleDropdownOpened={this.handleDropdownOpened}
                     />
                     <CommentIcon
                         idPrefix={'searchCommentIcon'}
-                        idCount={idCount}
+                        idCount={this.props.lastPostCount}
                         handleCommentClick={this.handleFocusRHSClick}
                         searchStyle={'search-item__comment'}
                     />

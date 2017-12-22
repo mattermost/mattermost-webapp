@@ -191,16 +191,6 @@ export default class RhsThread extends React.Component {
         return false;
     }
 
-    forceUpdateInfo = () => {
-        if (this.state.postList) {
-            for (var postId in this.state.postList.posts) {
-                if (this.refs[postId]) {
-                    this.refs[postId].forceUpdate();
-                }
-            }
-        }
-    }
-
     handleResize = () => {
         this.setState({
             windowWidth: Utils.windowWidth(),
@@ -213,7 +203,6 @@ export default class RhsThread extends React.Component {
             compactDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
             flaggedPosts: PreferenceStore.getCategory(Constants.Preferences.CATEGORY_FLAGGED_POST)
         });
-        this.forceUpdateInfo();
     }
 
     onStatusChange = () => {

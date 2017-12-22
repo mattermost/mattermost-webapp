@@ -5,10 +5,10 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
 import {
-  addReaction,
-  removeReaction,
-  addMessageIntoHistory,
-  moveHistoryIndexBack
+    addReaction,
+    removeReaction,
+    addMessageIntoHistory,
+    moveHistoryIndexBack
 } from 'mattermost-redux/actions/posts';
 
 import {Posts} from 'mattermost-redux/constants';
@@ -314,10 +314,12 @@ describe('rhs view actions', () => {
             store = mockStore({
                 ...initialState,
                 storage: {
-                    [`${StoragePrefixes.COMMENT_DRAFT}${latestPostId}`]: {
-                        message: '+:smile:',
-                        fileInfos: [],
-                        uploadsInProgress: []
+                    storage: {
+                        [`${StoragePrefixes.COMMENT_DRAFT}${latestPostId}`]: {
+                            message: '+:smile:',
+                            fileInfos: [],
+                            uploadsInProgress: []
+                        }
                     }
                 }
             });

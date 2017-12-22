@@ -109,6 +109,9 @@ export const ActionTypes = keyMirror({
     UPDATE_RHS_STATE: null,
     UPDATE_RHS_SEARCH_TERMS: null,
 
+    SEARCH_FLAGGED_POSTS_REQUEST: null,
+    SEARCH_FLAGGED_POSTS_SUCCESS: null,
+
     RECEIVED_PROFILES: null,
     RECEIVED_PROFILES_IN_TEAM: null,
     RECEIVED_PROFILES_NOT_IN_TEAM: null,
@@ -353,7 +356,10 @@ export const StorageTypes = keyMirror({
 export const StoragePrefixes = {
     EMBED_VISIBLE: 'isVisible_',
     COMMENT_DRAFT: 'comment_draft_',
-    DRAFT: 'draft_'
+    DRAFT: 'draft_',
+    LOGOUT: '__logout__',
+    LOGIN: '__login__',
+    ANNOUNCEMENT: '__announcement__'
 };
 
 export const ErrorPageTypes = {
@@ -439,6 +445,7 @@ export const Constants = {
     SPECIAL_MENTIONS: ['all', 'channel', 'here'],
     NOTIFY_ALL_MEMBERS: 5,
     CHARACTER_LIMIT: 4000,
+    IMAGE_TYPE_GIF: 'gif',
     IMAGE_TYPES: ['jpg', 'gif', 'bmp', 'png', 'jpeg'],
     AUDIO_TYPES: ['mp3', 'wav', 'wma', 'm4a', 'flac', 'aac', 'ogg', 'm4r'],
     VIDEO_TYPES: ['mp4', 'avi', 'webm', 'mkv', 'wmv', 'mpg', 'mov', 'flv'],
@@ -535,6 +542,8 @@ export const Constants = {
     PRIVATE_CHANNEL: 'P',
     INVITE_TEAM: 'I',
     OPEN_TEAM: 'O',
+    SHOW_NEW_CHANNEL: 1,
+    SHOW_EDIT_URL: 2,
     MAX_POST_LEN: 4000,
     EMOJI_SIZE: 16,
     EMOJI_ICON_SVG: "<svg width='15px' height='15px' viewBox='0 0 15 15' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'> <g stroke='none' stroke-width='1' fill='inherit' fill-rule='evenodd'> <g transform='translate(-1071.000000, -954.000000)' fill='inherit'> <g transform='translate(25.000000, 937.000000)'> <g transform='translate(1046.000000, 17.000000)'> <path d='M7.5,0.0852272727 C3.405,0.0852272727 0.0852272727,3.405 0.0852272727,7.5 C0.0852272727,11.595 3.405,14.9147727 7.5,14.9147727 C11.595,14.9147727 14.9147727,11.595 14.9147727,7.5 C14.9147727,3.405 11.595,0.0852272727 7.5,0.0852272727 Z M7.5,14.0663436 C3.87926951,14.0663436 0.933656417,11.1207305 0.933656417,7.5 C0.933656417,3.87926951 3.87926951,0.933656417 7.5,0.933656417 C11.1207305,0.933656417 14.0663436,3.87926951 14.0663436,7.5 C14.0663436,11.1207305 11.1207305,14.0663436 7.5,14.0663436 Z'></path> <path d='M11.7732955,8.95397727 C12.0119318,8.90488636 12.2159659,9.11778409 12.1684091,9.35676136 C11.8063636,11.1790909 9.85346591,12.5710227 7.49846591,12.5710227 C5.15096591,12.5710227 3.20284091,11.1877841 2.83193182,9.37397727 C2.78181818,9.129375 2.99267045,8.911875 3.23744318,8.96198864 C4.85369318,9.29232955 10.1786932,9.28142045 11.7732955,8.95397727 Z'></path> <ellipse cx='4.94318182' cy='5.50431818' rx='1' ry='1.06534091'></ellipse> <ellipse cx='10.0568182' cy='5.50431818' rx='1' ry='1.06534091'></ellipse> </g> </g> </g> </g> </svg>",
@@ -1013,9 +1022,9 @@ export const Constants = {
     WEBRTC_TIME_DELAY: 750,
     WEBRTC_CLEAR_ERROR_DELAY: 15000,
     DEFAULT_MAX_USERS_PER_TEAM: 50,
-    MIN_TEAMNAME_LENGTH: 2,
     DEFAULT_MAX_CHANNELS_PER_TEAM: 2000,
     DEFAULT_MAX_NOTIFICATIONS_PER_CHANNEL: 1000,
+    MIN_TEAMNAME_LENGTH: 2,
     MAX_TEAMNAME_LENGTH: 15,
     MAX_TEAMDESCRIPTION_LENGTH: 50,
     MIN_CHANNELNAME_LENGTH: 2,
@@ -1029,7 +1038,6 @@ export const Constants = {
     MIN_TRIGGER_LENGTH: 1,
     MAX_TRIGGER_LENGTH: 128,
     MAX_SITENAME_LENGTH: 30,
-    TIME_SINCE_UPDATE_INTERVAL: 30000,
     MIN_HASHTAG_LINK_LENGTH: 3,
     CHANNEL_SCROLL_ADJUSTMENT: 100,
     EMOJI_PATH: '/static/emoji',

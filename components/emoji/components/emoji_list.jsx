@@ -169,7 +169,7 @@ export default class EmojiList extends React.Component {
                             placeholder={Utils.localizeMessage('emoji_list.search', 'Search Custom Emoji')}
                             value={this.state.filter}
                             onChange={this.updateFilter}
-                            style={{flexGrow: 0, flexShrink: 0}}
+                            style={style.search}
                         />
                     </div>
                 </div>
@@ -226,3 +226,7 @@ export default class EmojiList extends React.Component {
         );
     }
 }
+
+const style = {
+    search: {flexGrow: 0, flexShrink: 0}
+};

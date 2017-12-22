@@ -55,8 +55,12 @@ export function getSearchTerms(state) {
     return state.views.rhs.searchTerms;
 }
 
-export function getIsSearching(state) {
-    return state.views.rhs.isSearching;
+export function getIsSearchingTerm(state) {
+    return state.views.rhs.isSearchingTerm;
+}
+
+export function getIsSearchingFlaggedPost(state) {
+    return state.views.rhs.isSearchingFlaggedPost;
 }
 
 export function makeGetCommentDraft(rootId) {
@@ -66,7 +70,7 @@ export function makeGetCommentDraft(rootId) {
 
 export function makeGetPostsEmbedVisibleObj() {
     return createSelector(
-        (state) => state.storage,
+        (state) => state.storage.storage,
         (state) => getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, Preferences.COLLAPSE_DISPLAY_DEFAULT),
         (state, posts) => posts,
         (storage, previewCollapsed, posts) => {

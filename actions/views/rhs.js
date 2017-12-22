@@ -104,11 +104,13 @@ export function getFlaggedPosts() {
         await PostActions.getProfilesAndStatusesForPosts(result.posts, dispatch, getState);
 
         dispatch(receivedSearchPosts(teamId, result));
+        dispatch({type: ActionTypes.SEARCH_FLAGGED_POSTS_SUCCESS});
     };
 }
 
 export function showFlaggedPosts() {
     return (dispatch) => {
+        dispatch({type: ActionTypes.SEARCH_FLAGGED_POSTS_REQUEST});
         dispatch(getFlaggedPosts());
         dispatch(updateSearchTerms(''));
         dispatch(updateRhsState(RHSStates.FLAG));

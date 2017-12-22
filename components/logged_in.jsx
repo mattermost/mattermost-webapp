@@ -28,6 +28,7 @@ export default class LoggedIn extends React.Component {
         this.state = {
             user: UserStore.getCurrentUser()
         };
+        document.getElementById('root').className += ' channel-view';
     }
 
     isValidState() {
@@ -56,7 +57,6 @@ export default class LoggedIn extends React.Component {
         window.addEventListener('blur', this.onBlurListener);
 
         // Because current CSS requires the root tag to have specific stuff
-        $('#root').attr('class', 'channel-view');
 
         // Device tracking setup
         if (UserAgent.isIos()) {

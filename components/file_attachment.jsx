@@ -105,11 +105,17 @@ export default class FileAttachment extends React.PureComponent {
                     className += ' normal';
                 }
 
+                let thumbnailUrl = getFileThumbnailUrl(fileInfo.id);
+                if (Utils.isGIFImage(fileInfo.extension) && !fileInfo.has_preview_image) {
+                    thumbnailUrl = getFileUrl(fileInfo.id);
+                }
+
                 thumbnail = (
                     <div
                         className={className}
                         style={{
-                            backgroundImage: `url(${getFileThumbnailUrl(fileInfo.id)})`
+                            backgroundImage: `url(${thumbnailUrl})`,
+                            backgroundSize: 'cover'
                         }}
                     />
                 );

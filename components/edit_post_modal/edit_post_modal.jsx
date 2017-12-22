@@ -38,11 +38,6 @@ export default class EditPostModal extends React.PureComponent {
         config: PropTypes.object.isRequired,
 
         /**
-         * Global license object
-         */
-        license: PropTypes.object.isRequired,
-
-        /**
          * Editing post information
          */
         editingPost: PropTypes.object.isRequired,
@@ -62,26 +57,16 @@ export default class EditPostModal extends React.PureComponent {
             postError: '',
             errorClass: null,
             showEmojiPicker: false,
-            hidding: false
+            hiding: false
         };
     }
 
     mustBeShown = () => {
-        if (this.state.hidding) {
+        if (this.state.hiding) {
             return false;
         }
         if (!this.props.editingPost || !this.props.editingPost.post) {
             return false;
-        }
-        if (this.props.license.IsLicensed === 'true') {
-            if (this.props.config.AllowEditPost === Constants.ALLOW_EDIT_POST_NEVER) {
-                return false;
-            }
-            if (this.props.config.AllowEditPost === Constants.ALLOW_EDIT_POST_TIME_LIMIT) {
-                if ((this.props.editingPost.post.create_at + (this.props.config.PostEditTimeLimit * 1000)) < Utils.getTimestamp()) {
-                    return false;
-                }
-            }
         }
         return true;
     }
@@ -132,10 +117,11 @@ export default class EditPostModal extends React.PureComponent {
     }
 
     handleEdit = async () => {
+        const {actions, editingPost} = this.props;
         const updatedPost = {
             message: this.state.editText,
-            id: this.props.editingPost.postId,
-            channel_id: this.props.editingPost.post.channel_id
+            id: editingPost.postId,
+            channel_id: editingPost.post.channel_id
         };
 
         if (this.state.postError) {
@@ -146,21 +132,22 @@ export default class EditPostModal extends React.PureComponent {
             return;
         }
 
-        if (updatedPost.message === this.props.editingPost.post.message) {
+        if (updatedPost.message === editingPost.post.message) {
             // no changes so just close the modal
             this.handleHide();
             return;
         }
 
-        if (updatedPost.message.trim().length === 0) {
+        const hasAttachment = editingPost.post.file_ids && editingPost.post.file_ids.length > 0;
+        if (updatedPost.message.trim().length === 0 && !hasAttachment) {
             this.handleHide();
-            GlobalActions.showDeletePostModal(Selectors.getPost(getState(), this.props.editingPost.postId), this.props.editingPost.commentsCount);
+            GlobalActions.showDeletePostModal(Selectors.getPost(getState(), editingPost.postId), editingPost.commentsCount);
             return;
         }
 
-        this.props.actions.addMessageIntoHistory(updatedPost.message);
+        actions.addMessageIntoHistory(updatedPost.message);
 
-        const data = await this.props.actions.editPost(updatedPost);
+        const data = await actions.editPost(updatedPost);
         if (data) {
             window.scrollTo(0, 0);
         }
@@ -194,7 +181,7 @@ export default class EditPostModal extends React.PureComponent {
     }
 
     handleHide = () => {
-        this.setState({hidding: true});
+        this.setState({hiding: true});
     }
 
     handleEnter = () => {
@@ -223,7 +210,7 @@ export default class EditPostModal extends React.PureComponent {
             });
         }
         this.props.actions.setEditingPost();
-        this.setState({editText: '', postError: '', errorClass: null, hidding: false, showEmojiPicker: false});
+        this.setState({editText: '', postError: '', errorClass: null, hiding: false, showEmojiPicker: false});
     }
 
     render() {
