@@ -24,11 +24,10 @@ import * as Utils from 'utils/utils.jsx';
 import ChannelInfoModal from 'components/channel_info_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal.jsx';
-import ChannelNotificationsModal from 'components/channel_notifications_modal.jsx';
+import ChannelNotificationsModal from 'components/channel_notifications_modal';
 import DeleteChannelModal from 'components/delete_channel_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
-import MessageWrapper from 'components/message_wrapper.jsx';
 import PopoverListMembers from 'components/popover_list_members';
 import RenameChannelModal from 'components/rename_channel_modal';
 import NavbarSearchBox from 'components/search_bar';
@@ -244,7 +243,7 @@ export default class ChannelHeader extends React.Component {
                 />
             </Tooltip>
         );
-
+        const textFormattingOptions = {singleline: true, mentionHighlight: false, siteURL: getSiteURL(), channelNamesMap: ChannelStore.getChannelNamesMap(), team: TeamStore.getCurrent(), atMentions: true};
         const popoverContent = (
             <Popover
                 id='header-popover'
@@ -255,8 +254,9 @@ export default class ChannelHeader extends React.Component {
                 onMouseOver={() => this.refs.headerOverlay.show()}
                 onMouseOut={() => this.refs.headerOverlay.hide()}
             >
-                <MessageWrapper
-                    message={channel.header}
+                <span
+                    onClick={Utils.handleFormattedTextClick}
+                    dangerouslySetInnerHTML={{__html: TextFormatting.formatText(channel.header, textFormattingOptions)}}
                 />
             </Popover>
         );
@@ -722,7 +722,6 @@ export default class ChannelHeader extends React.Component {
         let headerTextContainer;
         if (channel.header) {
             let headerTextElement;
-            const textFormattingOptions = {singleline: true, mentionHighlight: false, siteURL: getSiteURL(), channelNamesMap: ChannelStore.getChannelNamesMap(), team: TeamStore.getCurrent(), atMentions: true};
             if (this.props.enableFormatting) {
                 headerTextElement = (
                     <div
