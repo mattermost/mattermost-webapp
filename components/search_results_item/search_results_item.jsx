@@ -82,6 +82,11 @@ export default class SearchResultsItem extends React.PureComponent {
         currentTeamName: PropTypes.string,
 
         /**
+        *  Data used for delete in DotMenu
+        */
+        commentCountForPost: PropTypes.number,
+
+        /**
         *  Function used for shrinking LHS
         *  on click of jump to message in expanded mode
         */
@@ -288,6 +293,7 @@ export default class SearchResultsItem extends React.PureComponent {
                         post={post}
                         isFlagged={this.props.isFlagged}
                         handleDropdownOpened={this.handleDropdownOpened}
+                        commentCount={this.props.commentCountForPost}
                     />
                     <CommentIcon
                         idPrefix={'searchCommentIcon'}
