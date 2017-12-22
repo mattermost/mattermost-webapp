@@ -108,26 +108,6 @@ export default class SearchResultsItem extends React.PureComponent {
         };
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        if (!Utils.areObjectsEqual(nextState.post, this.props.post)) {
-            return true;
-        }
-
-        if (nextProps.isFlagged !== this.props.isFlagged) {
-            return true;
-        }
-
-        if (nextState.dropdownOpened !== this.state.dropdownOpened) {
-            return true;
-        }
-
-        if ((this.state.width !== nextState.width) || this.state.height !== nextState.height) {
-            return true;
-        }
-
-        return false;
-    }
-
     componentDidMount() {
         window.addEventListener('resize', this.setDimensions);
     }
