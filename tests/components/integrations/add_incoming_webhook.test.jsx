@@ -17,6 +17,8 @@ describe('components/integrations/AddIncomingWebhook', () => {
             status: 'not_started',
             error: null
         },
+        enablePostUsernameOverride: true,
+        enablePostIconOverride: true,
         actions: {createIncomingHook}
     };
 
@@ -29,7 +31,9 @@ describe('components/integrations/AddIncomingWebhook', () => {
         const hook = {
             channel_id: 'channel_id',
             display_name: 'display_name',
-            description: 'description'
+            description: 'description',
+            post_username: 'post_username',
+            post_icon_url: 'post_icon_url'
         };
         const wrapper = shallow(<AddIncomingWebhook {...props}/>);
         wrapper.instance().addIncomingHook(hook);

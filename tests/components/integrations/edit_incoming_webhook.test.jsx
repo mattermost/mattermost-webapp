@@ -8,8 +8,6 @@ import {browserHistory} from 'react-router';
 import EditIncomingWebhook from 'components/integrations/components/edit_incoming_webhook/edit_incoming_webhook.jsx';
 
 describe('components/integrations/EditIncomingWebhook', () => {
-    global.window.mm_config = {};
-
     const hook = {
         id: 'id',
         token: 'token'
@@ -29,20 +27,19 @@ describe('components/integrations/EditIncomingWebhook', () => {
         updateIncomingHookRequest: {
             status: 'not_started',
             error: null
-        }
+        },
+        enableIncomingWebhooks: true,
+        enablePostUsernameOverride: true,
+        enablePostIconOverride: true
     };
 
     afterEach(() => {
-        global.window.mm_config = {};
-
         updateIncomingHook = null;
         getIncomingHook = null;
         actions = {};
     });
 
     beforeEach(() => {
-        global.window.mm_config.EnableIncomingWebhooks = 'true';
-
         updateIncomingHook = jest.fn();
         getIncomingHook = jest.fn();
         actions = {
@@ -68,9 +65,7 @@ describe('components/integrations/EditIncomingWebhook', () => {
     });
 
     test('should not call getIncomingHook', () => {
-        global.window.mm_config.EnableIncomingWebhooks = 'false';
-
-        const props = {...requiredProps, actions};
+        const props = {...requiredProps, enableIncomingWebhooks: false, actions};
         const wrapper = shallow(<EditIncomingWebhook {...props}/>);
 
         expect(wrapper).toMatchSnapshot();

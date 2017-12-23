@@ -16,6 +16,8 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
         channel_id: '88cxd9wpzpbpfp8pad78xj75pr',
         description: 'testing'
     };
+    const enablePostUsernameOverride = true;
+    const enablePostIconOverride = true;
 
     const action = jest.genMockFunction().mockImplementation(
         () => {
@@ -31,6 +33,8 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
         footer,
         serverError,
         initialHook,
+        enablePostUsernameOverride,
+        enablePostIconOverride,
         action
     };
 
@@ -56,6 +60,24 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
         }});
 
         expect(action).not.toBeCalled();
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, hiding post username if not enabled', () => {
+        const props = {
+            ...requiredProps,
+            enablePostUsernameOverride: false
+        };
+        const wrapper = shallow(<AbstractIncomingWebhook {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, hiding post icon url if not enabled', () => {
+        const props = {
+            ...requiredProps,
+            enablePostIconOverride: false
+        };
+        const wrapper = shallow(<AbstractIncomingWebhook {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -96,5 +118,31 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
         wrapper.find('#description').simulate('change', evt);
 
         expect(wrapper.state('description')).toBe(newDescription);
+    });
+
+    test('should update state.postUsername on post username change', () => {
+        const newPostUsername = 'new_username';
+        const evt = {
+            preventDefault: jest.fn(),
+            target: {value: newPostUsername}
+        };
+
+        const wrapper = shallow(<AbstractIncomingWebhook {...requiredProps}/>);
+        wrapper.find('#postUsername').simulate('change', evt);
+
+        expect(wrapper.state('postUsername')).toBe(newPostUsername);
+    });
+
+    test('should update state.postIconURL on post icon url change', () => {
+        const newPostIconURL = 'http://example.com/icon';
+        const evt = {
+            preventDefault: jest.fn(),
+            target: {value: newPostIconURL}
+        };
+
+        const wrapper = shallow(<AbstractIncomingWebhook {...requiredProps}/>);
+        wrapper.find('#postIconURL').simulate('change', evt);
+
+        expect(wrapper.state('postIconURL')).toBe(newPostIconURL);
     });
 });

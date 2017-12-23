@@ -3,6 +3,8 @@
 exports[`components/integrations/EditIncomingWebhook should have called submitHook when editIncomingHook is initiated (no server error) 1`] = `
 <AbstractIncomingWebhook
   action={[Function]}
+  enablePostIconOverride={true}
+  enablePostUsernameOverride={true}
   footer={
     Object {
       "defaultMessage": "Update",
@@ -34,6 +36,8 @@ exports[`components/integrations/EditIncomingWebhook should have called submitHo
 exports[`components/integrations/EditIncomingWebhook should have called submitHook when editIncomingHook is initiated (with data) 1`] = `
 <AbstractIncomingWebhook
   action={[Function]}
+  enablePostIconOverride={true}
+  enablePostUsernameOverride={true}
   footer={
     Object {
       "defaultMessage": "Update",
@@ -65,6 +69,8 @@ exports[`components/integrations/EditIncomingWebhook should have called submitHo
 exports[`components/integrations/EditIncomingWebhook should have called submitHook when editIncomingHook is initiated (with server error) 1`] = `
 <AbstractIncomingWebhook
   action={[Function]}
+  enablePostIconOverride={true}
+  enablePostUsernameOverride={true}
   footer={
     Object {
       "defaultMessage": "Update",
@@ -102,6 +108,8 @@ exports[`components/integrations/EditIncomingWebhook should not call getIncoming
 exports[`components/integrations/EditIncomingWebhook should show AbstractIncomingWebhook 1`] = `
 <AbstractIncomingWebhook
   action={[Function]}
+  enablePostIconOverride={true}
+  enablePostUsernameOverride={true}
   footer={
     Object {
       "defaultMessage": "Update",
