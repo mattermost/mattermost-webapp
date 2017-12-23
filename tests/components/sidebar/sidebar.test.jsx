@@ -7,16 +7,6 @@ import {shallow} from 'enzyme';
 import {Constants} from 'utils/constants.jsx';
 import Sidebar from 'components/sidebar/sidebar.jsx';
 
-jest.mock('react-router', () => {
-    const original = require.requireActual('react-router');
-    return {
-        ...original,
-        browserHistory: {
-            push: jest.fn()
-        }
-    };
-});
-
 jest.mock('utils/utils', () => {
     const original = require.requireActual('utils/utils');
     return {
@@ -31,6 +21,44 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         RestrictPublicChannelCreation: Constants.PERMISSIONS_SYSTEM_ADMIN,
         RestrictPrivateChannelCreation: Constants.PERMISSIONS_SYSTEM_ADMIN
     };
+    const allChannels = {
+        c1: {
+            id: 'c1',
+            display_name: 'Public test 1',
+            name: 'public-test-1',
+            type: Constants.OPEN_CHANNEL
+        },
+        c2: {
+            id: 'c2',
+            display_name: 'Public test 2',
+            name: 'public-test-2',
+            type: Constants.OPEN_CHANNEL
+        },
+        c3: {
+            id: 'c3',
+            display_name: 'Private test 1',
+            name: 'private-test-1',
+            type: Constants.PRIVATE_CHANNEL
+        },
+        c4: {
+            id: 'c4',
+            display_name: 'Private test 2',
+            name: 'private-test-2',
+            type: Constants.PRIVATE_CHANNEL
+        },
+        c5: {
+            id: 'c5',
+            display_name: 'Direct message test',
+            name: 'direct-message-test',
+            type: Constants.DM_CHANNEL
+        },
+        c6: {
+            id: 'c6',
+            display_name: 'Group message test',
+            name: 'group-message-test',
+            type: Constants.GM_CHANNEL
+        }
+    };
 
     const defaultProps = {
         config: {
@@ -42,44 +70,6 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         favoriteChannelIds: [],
         directAndGroupChannelIds: ['c5', 'c6'],
         unreadChannelIds: [],
-        allChannels: {
-            c1: {
-                id: 'c1',
-                display_name: 'Public test 1',
-                name: 'public-test-1',
-                type: Constants.OPEN_CHANNEL
-            },
-            c2: {
-                id: 'c2',
-                display_name: 'Public test 2',
-                name: 'public-test-2',
-                type: Constants.OPEN_CHANNEL
-            },
-            c3: {
-                id: 'c3',
-                display_name: 'Private test 1',
-                name: 'private-test-1',
-                type: Constants.PRIVATE_CHANNEL
-            },
-            c4: {
-                id: 'c4',
-                display_name: 'Private test 2',
-                name: 'private-test-2',
-                type: Constants.PRIVATE_CHANNEL
-            },
-            c5: {
-                id: 'c5',
-                display_name: 'Direct message test',
-                name: 'direct-message-test',
-                type: Constants.DM_CHANNEL
-            },
-            c6: {
-                id: 'c6',
-                display_name: 'Group message test',
-                name: 'group-message-test',
-                type: Constants.GM_CHANNEL
-            }
-        },
         currentChannel: {
             id: 'c1',
             display_name: 'Public test 1',
@@ -122,8 +112,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         isSystemAdmin: true,
         isTeamAdmin: false,
         actions: {
-            savePreferences: jest.fn(),
-            leaveChannel: jest.fn()
+            goToChannelById: jest.fn()
         }
     };
 
@@ -180,7 +169,6 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
     });
 
     test('navigate to the next/prev channels', () => {
-        const browserHistory = require('react-router').browserHistory;
         const nextEvent = {
             preventDefault: jest.fn(),
             altKey: true,
@@ -202,72 +190,71 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         instance.componentDidUpdate = jest.fn();
         instance.navigateChannelShortcut({});
         expect(instance.updateScrollbarOnChannelChange).not.toBeCalled();
-        expect(browserHistory.push).not.toBeCalled();
+        expect(defaultProps.actions.goToChannelById).not.toBeCalled();
 
         instance.isSwitchingChannel = true;
         instance.navigateChannelShortcut(nextEvent);
         expect(instance.updateScrollbarOnChannelChange).not.toBeCalled();
-        expect(browserHistory.push).not.toBeCalled();
+        expect(defaultProps.actions.goToChannelById).not.toBeCalled();
         instance.isSwitchingChannel = false;
 
         instance.navigateChannelShortcut(nextEvent);
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c2');
-        expect(browserHistory.push).lastCalledWith('/test-team/channels/public-test-2');
-        wrapper.setProps({currentChannel: defaultProps.allChannels.c2});
+        expect(defaultProps.actions.goToChannelById).lastCalledWith('c2');
+        wrapper.setProps({currentChannel: allChannels.c2});
 
         instance.navigateChannelShortcut(nextEvent);
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c3');
-        expect(browserHistory.push).lastCalledWith('/test-team/channels/private-test-1');
-        wrapper.setProps({currentChannel: defaultProps.allChannels.c3});
+        expect(defaultProps.actions.goToChannelById).lastCalledWith('c3');
+        wrapper.setProps({currentChannel: allChannels.c3});
 
         instance.navigateChannelShortcut(nextEvent);
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c4');
-        expect(browserHistory.push).lastCalledWith('/test-team/channels/private-test-2');
-        wrapper.setProps({currentChannel: defaultProps.allChannels.c4});
+        expect(defaultProps.actions.goToChannelById).lastCalledWith('c4');
+        wrapper.setProps({currentChannel: allChannels.c4});
 
         instance.navigateChannelShortcut(nextEvent);
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c5');
-        expect(browserHistory.push).lastCalledWith('/test-team/channels/direct-message-test');
-        wrapper.setProps({currentChannel: defaultProps.allChannels.c5});
+        expect(defaultProps.actions.goToChannelById).lastCalledWith('c5');
+        wrapper.setProps({currentChannel: allChannels.c5});
 
         instance.navigateChannelShortcut(nextEvent);
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c6');
-        expect(browserHistory.push).lastCalledWith('/test-team/channels/group-message-test');
-        wrapper.setProps({currentChannel: defaultProps.allChannels.c6});
+        expect(defaultProps.actions.goToChannelById).lastCalledWith('c6');
+        wrapper.setProps({currentChannel: allChannels.c6});
 
         instance.navigateChannelShortcut(nextEvent);
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c1');
-        expect(browserHistory.push).lastCalledWith('/test-team/channels/public-test-1');
-        wrapper.setProps({currentChannel: defaultProps.allChannels.c1});
+        expect(defaultProps.actions.goToChannelById).lastCalledWith('c1');
+        wrapper.setProps({currentChannel: allChannels.c1});
 
         instance.navigateChannelShortcut(prevEvent);
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c6');
-        expect(browserHistory.push).lastCalledWith('/test-team/channels/group-message-test');
-        wrapper.setProps({currentChannel: defaultProps.allChannels.c6});
+        expect(defaultProps.actions.goToChannelById).lastCalledWith('c6');
+        wrapper.setProps({currentChannel: allChannels.c6});
 
         instance.navigateChannelShortcut(prevEvent);
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c5');
-        expect(browserHistory.push).lastCalledWith('/test-team/channels/direct-message-test');
-        wrapper.setProps({currentChannel: defaultProps.allChannels.c5});
+        expect(defaultProps.actions.goToChannelById).lastCalledWith('c5');
+        wrapper.setProps({currentChannel: allChannels.c5});
 
         instance.navigateChannelShortcut(prevEvent);
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c4');
-        expect(browserHistory.push).lastCalledWith('/test-team/channels/private-test-2');
-        wrapper.setProps({currentChannel: defaultProps.allChannels.c4});
+        expect(defaultProps.actions.goToChannelById).lastCalledWith('c4');
+        wrapper.setProps({currentChannel: allChannels.c4});
 
         instance.navigateChannelShortcut(prevEvent);
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c3');
-        expect(browserHistory.push).lastCalledWith('/test-team/channels/private-test-1');
-        wrapper.setProps({currentChannel: defaultProps.allChannels.c3});
+        expect(defaultProps.actions.goToChannelById).lastCalledWith('c3');
+        wrapper.setProps({currentChannel: allChannels.c3});
 
         instance.navigateChannelShortcut(prevEvent);
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c2');
-        expect(browserHistory.push).lastCalledWith('/test-team/channels/public-test-2');
-        wrapper.setProps({currentChannel: defaultProps.allChannels.c2});
+        expect(defaultProps.actions.goToChannelById).lastCalledWith('c2');
+        wrapper.setProps({currentChannel: allChannels.c2});
     });
 
     test('navigate to the next/prev unread channels', () => {
-        const browserHistory = require('react-router').browserHistory;
         const nextEvent = {
             preventDefault: jest.fn(),
             altKey: true,
@@ -292,49 +279,49 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
 
         instance.navigateUnreadChannelShortcut({});
         expect(instance.updateScrollbarOnChannelChange).not.toBeCalled();
-        expect(browserHistory.push).not.toBeCalled();
+        expect(defaultProps.actions.goToChannelById).not.toBeCalled();
 
         instance.isSwitchingChannel = true;
         instance.navigateUnreadChannelShortcut(nextEvent);
         expect(instance.updateScrollbarOnChannelChange).not.toBeCalled();
-        expect(browserHistory.push).not.toBeCalled();
+        expect(defaultProps.actions.goToChannelById).not.toBeCalled();
         instance.isSwitchingChannel = false;
 
         wrapper.setProps({unreadChannelIds: []});
         instance.navigateUnreadChannelShortcut(nextEvent);
         expect(instance.updateScrollbarOnChannelChange).not.toBeCalled();
-        expect(browserHistory.push).not.toBeCalled();
+        expect(defaultProps.actions.goToChannelById).not.toBeCalled();
 
         wrapper.setProps({unreadChannelIds: ['c3', 'c6']});
 
         instance.navigateUnreadChannelShortcut(nextEvent);
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c3');
-        expect(browserHistory.push).lastCalledWith('/test-team/channels/private-test-1');
-        wrapper.setProps({currentChannel: defaultProps.allChannels.c3, unreadChannelIds: ['c6']});
+        expect(defaultProps.actions.goToChannelById).lastCalledWith('c3');
+        wrapper.setProps({currentChannel: allChannels.c3, unreadChannelIds: ['c6']});
 
         instance.navigateUnreadChannelShortcut(nextEvent);
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c6');
-        expect(browserHistory.push).lastCalledWith('/test-team/channels/group-message-test');
-        wrapper.setProps({currentChannel: defaultProps.allChannels.c6, unreadChannelIds: ['c3']});
+        expect(defaultProps.actions.goToChannelById).lastCalledWith('c6');
+        wrapper.setProps({currentChannel: allChannels.c6, unreadChannelIds: ['c3']});
 
         instance.navigateUnreadChannelShortcut(nextEvent);
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c3');
-        expect(browserHistory.push).lastCalledWith('/test-team/channels/private-test-1');
-        wrapper.setProps({currentChannel: defaultProps.allChannels.c1, unreadChannelIds: ['c3', 'c6']});
+        expect(defaultProps.actions.goToChannelById).lastCalledWith('c3');
+        wrapper.setProps({currentChannel: allChannels.c1, unreadChannelIds: ['c3', 'c6']});
 
         instance.navigateUnreadChannelShortcut(prevEvent);
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c6');
-        expect(browserHistory.push).lastCalledWith('/test-team/channels/group-message-test');
-        wrapper.setProps({currentChannel: defaultProps.allChannels.c6, unreadChannelIds: ['c3']});
+        expect(defaultProps.actions.goToChannelById).lastCalledWith('c6');
+        wrapper.setProps({currentChannel: allChannels.c6, unreadChannelIds: ['c3']});
 
         instance.navigateUnreadChannelShortcut(prevEvent);
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c3');
-        expect(browserHistory.push).lastCalledWith('/test-team/channels/private-test-1');
-        wrapper.setProps({currentChannel: defaultProps.allChannels.c3, unreadChannelIds: ['c6']});
+        expect(defaultProps.actions.goToChannelById).lastCalledWith('c3');
+        wrapper.setProps({currentChannel: allChannels.c3, unreadChannelIds: ['c6']});
 
         instance.navigateUnreadChannelShortcut(prevEvent);
         expect(instance.updateScrollbarOnChannelChange).lastCalledWith('c6');
-        expect(browserHistory.push).lastCalledWith('/test-team/channels/group-message-test');
+        expect(defaultProps.actions.goToChannelById).lastCalledWith('c6');
     });
 
     test('open direct channel selector on CTRL/CMD+SHIFT+K', () => {

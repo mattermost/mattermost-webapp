@@ -44,27 +44,7 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 rowClass={'test-class'}
                 displayName={'test-channel-name'}
                 handleClose={jest.fn()}
-                badge={'mentions'}
-                membersCount={3}
-                unreadMentions={6}
-                teammateId={'test-teammate-id'}
-                teammateDeletedAt={1}
-            />
-        );
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should match snapshot, on desktop with loading badge', () => {
-        const wrapper = shallow(
-            <SidebarChannelButtonOrLink
-                channelType={Constants.DM_CHANNEL}
-                channelId={'test-channel-id'}
-                channelStatus={'test'}
-                link={'test-link'}
-                rowClass={'test-class'}
-                displayName={'test-channel-name'}
-                handleClose={jest.fn()}
-                badge={'loading'}
+                badge={true}
                 membersCount={3}
                 unreadMentions={6}
                 teammateId={'test-teammate-id'}
@@ -133,30 +113,7 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 rowClass={'test-class'}
                 displayName={'test-channel-name'}
                 handleClose={jest.fn()}
-                badge={'mentions'}
-                membersCount={3}
-                unreadMentions={6}
-                teammateId={'test-teammate-id'}
-                teammateDeletedAt={1}
-            />
-        );
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should match snapshot, on non-desktop with loading badge', () => {
-        const userAgentMock = require.requireMock('utils/user_agent');
-        userAgentMock.isDesktopApp.mockImplementation(() => false);
-
-        const wrapper = shallow(
-            <SidebarChannelButtonOrLink
-                channelType={Constants.DM_CHANNEL}
-                channelId={'test-channel-id'}
-                channelStatus={'test'}
-                link={'test-link'}
-                rowClass={'test-class'}
-                displayName={'test-channel-name'}
-                handleClose={jest.fn()}
-                badge={'loading'}
+                badge={true}
                 membersCount={3}
                 unreadMentions={6}
                 teammateId={'test-teammate-id'}

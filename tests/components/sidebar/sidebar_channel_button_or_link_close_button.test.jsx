@@ -24,7 +24,7 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 handleClose={jest.fn()}
                 channelId={'test-id'}
                 channelType={Constants.DM_CHANNEL}
-                badge={'test'}
+                badge={true}
             />
         );
         expect(wrapper).toMatchSnapshot();

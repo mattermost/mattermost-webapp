@@ -1,37 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLink should match snapshot, on desktop with loading badge 1`] = `
-<button
-  className="btn btn-link test-class"
-  onClick={[Function]}
->
-  <SidebarChannelButtonOrLinkIcon
-    channelId="test-channel-id"
-    channelStatus="test"
-    channelType="D"
-    membersCount={3}
-    teammateDeletedAt={1}
-    teammateId="test-teammate-id"
-  />
-  <span
-    className="sidebar-item__name"
-  >
-    test-channel-name
-  </span>
-  <img
-    className="channel-loading-gif pull-right"
-    src={null}
-  />
-  <SidebarChannelButtonOrLinkCloseButton
-    badge="loading"
-    channelId="test-channel-id"
-    channelType="D"
-    handleClose={[Function]}
-    teammateId="test-teammate-id"
-  />
-</button>
-`;
-
 exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLink should match snapshot, on desktop with mentions badge 1`] = `
 <button
   className="btn btn-link test-class"
@@ -56,7 +24,7 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
     6
   </span>
   <SidebarChannelButtonOrLinkCloseButton
-    badge="mentions"
+    badge={true}
     channelId="test-channel-id"
     channelType="D"
     handleClose={[Function]}
@@ -92,41 +60,6 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
 </button>
 `;
 
-exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLink should match snapshot, on non-desktop with loading badge 1`] = `
-<Link
-  className="test-class"
-  onClick={[Function]}
-  onlyActiveOnIndex={false}
-  style={Object {}}
-  to="test-link"
->
-  <SidebarChannelButtonOrLinkIcon
-    channelId="test-channel-id"
-    channelStatus="test"
-    channelType="D"
-    membersCount={3}
-    teammateDeletedAt={1}
-    teammateId="test-teammate-id"
-  />
-  <span
-    className="sidebar-item__name"
-  >
-    test-channel-name
-  </span>
-  <img
-    className="channel-loading-gif pull-right"
-    src={null}
-  />
-  <SidebarChannelButtonOrLinkCloseButton
-    badge="loading"
-    channelId="test-channel-id"
-    channelType="D"
-    handleClose={[Function]}
-    teammateId="test-teammate-id"
-  />
-</Link>
-`;
-
 exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLink should match snapshot, on non-desktop with mentions badge 1`] = `
 <Link
   className="test-class"
@@ -154,7 +87,7 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
     6
   </span>
   <SidebarChannelButtonOrLinkCloseButton
-    badge="mentions"
+    badge={true}
     channelId="test-channel-id"
     channelType="D"
     handleClose={[Function]}

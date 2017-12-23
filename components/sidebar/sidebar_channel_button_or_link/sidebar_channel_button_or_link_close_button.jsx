@@ -14,7 +14,7 @@ export default class SidebarChannelButtonOrLinkCloseButton extends React.PureCom
         channelId: PropTypes.string.isRequired,
         channelType: PropTypes.string.isRequired,
         teammateId: PropTypes.string,
-        badge: PropTypes.string
+        badge: PropTypes.bool
     }
 
     overlayTriggerAttr = ['hover', 'focus']
@@ -28,27 +28,27 @@ export default class SidebarChannelButtonOrLinkCloseButton extends React.PureCom
     render() {
         let closeButton = null;
 
-        let removeTooltip = (
-            <Tooltip id='remove-dm-tooltip'>
-                <FormattedMessage
-                    id='sidebar.removeList'
-                    defaultMessage='Remove from list'
-                />
-            </Tooltip>
-        );
-
-        if (this.props.channelType === Constants.OPEN_CHANNEL || this.props.channelType === Constants.PRIVATE_CHANNEL) {
-            removeTooltip = (
+        if (this.props.handleClose && !this.props.badge) {
+            let removeTooltip = (
                 <Tooltip id='remove-dm-tooltip'>
                     <FormattedMessage
-                        id='sidebar.leave'
-                        defaultMessage='Leave channel'
+                        id='sidebar.removeList'
+                        defaultMessage='Remove from list'
                     />
                 </Tooltip>
             );
-        }
 
-        if (this.props.handleClose && !this.props.badge) {
+            if (this.props.channelType === Constants.OPEN_CHANNEL || this.props.channelType === Constants.PRIVATE_CHANNEL) {
+                removeTooltip = (
+                    <Tooltip id='remove-dm-tooltip'>
+                        <FormattedMessage
+                            id='sidebar.leave'
+                            defaultMessage='Leave channel'
+                        />
+                    </Tooltip>
+                );
+            }
+
             closeButton = (
                 <OverlayTrigger
                     trigger={this.overlayTriggerAttr}

@@ -43,13 +43,12 @@ function mapStateToProps(state, ownProps) {
         unreadMsgs = 1;
     }
 
-    let teammate = {}
+    let teammate = null;
     if (channel.teammate_id) {
-        teammate = getUser(state, channel.teammate_id) || {};
+        teammate = getUser(state, channel.teammate_id);
     }
 
     return {
-        ...ownProps,
         config,
         channelId: channel.id,
         channelName: channel.name,
@@ -58,9 +57,9 @@ function mapStateToProps(state, ownProps) {
         channelStatus: channel.status,
         channelFake: channel.fake,
         channelStringified: channel.fake && JSON.stringify(channel),
-        channelTeammateId: teammate.id,
-        channelTeammateDeletedAt: teammate.delete_at,
-        showTutorialTip: tutorialStep === Constants.TutorialSteps.CHANNEL_POPOVER,
+        channelTeammateId: teammate && teammate.id,
+        channelTeammateDeletedAt: teammate && teammate.delete_at,
+        showTutorialTip: tutorialStep === Constants.TutorialSteps.CHANNEL_POPOVER && config.EnableTutorial === 'true',
         townSquareDisplayName: channelsByName[Constants.DEFAULT_CHANNEL] && channelsByName[Constants.DEFAULT_CHANNEL].display_name,
         offTopicDisplayName: channelsByName[Constants.OFFTOPIC_CHANNEL] && channelsByName[Constants.OFFTOPIC_CHANNEL].display_name,
         unreadMsgs,

@@ -14,12 +14,7 @@ import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 
 import * as ChannelUtils from 'utils/channel_utils.jsx';
-import {
-    ActionTypes,
-    Constants,
-    Preferences,
-    TutorialSteps
-} from 'utils/constants.jsx';
+import {ActionTypes, Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import favicon from 'images/favicon/favicon-16x16.png';
@@ -28,9 +23,6 @@ import redFavicon from 'images/favicon/redfavicon-16x16.png';
 import MoreChannels from 'components/more_channels';
 import MoreDirectChannels from 'components/more_direct_channels';
 
-import ArchiveIcon from 'components/svg/archive_icon';
-import GlobeIcon from 'components/svg/globe_icon';
-import LockIcon from 'components/svg/lock_icon';
 import NewChannelFlow from '../new_channel_flow.jsx';
 import SidebarHeader from '../sidebar_header.jsx';
 import UnreadChannelIndicator from '../unread_channel_indicator.jsx';
@@ -39,21 +31,84 @@ import SidebarChannel from './sidebar_channel';
 
 export default class Sidebar extends React.PureComponent {
     static propTypes = {
+
+        /**
+         * Global config object
+         */
         config: PropTypes.object.isRequired,
+
+        /**
+         * List of public channels (ids)
+         */
         publicChannelIds: PropTypes.array.isRequired,
+
+        /**
+         * List of private channels (ids)
+         */
         privateChannelIds: PropTypes.array.isRequired,
+
+        /**
+         * List of favorite channels (ids)
+         */
         favoriteChannelIds: PropTypes.array.isRequired,
+
+        /**
+         * List of direct/group channels (ids)
+         */
         directAndGroupChannelIds: PropTypes.array.isRequired,
+
+        /**
+         * List of unread channels (ids)
+         */
         unreadChannelIds: PropTypes.array.isRequired,
-        allChannels: PropTypes.object.isRequired,
+
+        /**
+         * Current channel object
+         */
         currentChannel: PropTypes.object,
+
+        /**
+         * Current channel teammeat (for direct messages)
+         */
         currentTeammate: PropTypes.object,
+
+        /**
+         * Current team object
+         */
         currentTeam: PropTypes.object.isRequired,
+
+        /**
+         * Current user object
+         */
         currentUser: PropTypes.object.isRequired,
+
+        /**
+         * User channels memerships
+         */
         memberships: PropTypes.object.isRequired,
+
+        /**
+         * Number of unread mentions/messages
+         */
         unreads: PropTypes.object.isRequired,
+
+        /**
+        * Set if the current user is a system admin
+        */
         isSystemAdmin: PropTypes.bool.isRequired,
-        isTeamAdmin: PropTypes.bool.isRequired
+
+        /**
+        * Set if the current user is a team admin
+        */
+        isTeamAdmin: PropTypes.bool.isRequired,
+
+        actions: PropTypes.shape({
+            goToChannelById: PropTypes.func.isRequired
+        }).isRequired
+    }
+
+    static defaultProps = {
+        currentChannel: {}
     }
 
     constructor(props) {
@@ -70,8 +125,7 @@ export default class Sidebar extends React.PureComponent {
         this.state = {
             newChannelModalType: '',
             showDirectChannelsModal: false,
-            showMoreChannelsModal: false,
-            loadingDMChannel: -1
+            showMoreChannelsModal: false
         };
     }
 
@@ -118,11 +172,52 @@ export default class Sidebar extends React.PureComponent {
                 $('.multi-teams .team-sidebar').removeClass('move--right');
             }
         }
+
+        this.updateTitle();
+
+        this.setBadgesActiveAndFavicon();
+        this.setFirstAndLastUnreadChannels();
     }
 
     componentWillUnmount() {
         document.removeEventListener('keydown', this.navigateChannelShortcut);
         document.removeEventListener('keydown', this.navigateUnreadChannelShortcut);
+    }
+
+    setBadgesActiveAndFavicon() {
+        this.lastBadgesActive = this.badgesActive;
+        this.badgesActive = this.props.unreads.mentions;
+
+        // update the favicon to show if there are any notifications
+        if (this.lastBadgesActive !== this.badgesActive) {
+            var link = document.createElement('link');
+            link.type = 'image/x-icon';
+            link.rel = 'shortcut icon';
+            link.id = 'favicon';
+            if (this.badgesActive) {
+                link.href = redFavicon;
+            } else {
+                link.href = favicon;
+            }
+            var head = document.getElementsByTagName('head')[0];
+            var oldLink = document.getElementById('favicon');
+            if (oldLink) {
+                head.removeChild(oldLink);
+            }
+            head.appendChild(link);
+        }
+    }
+
+    setFirstAndLastUnreadChannels() {
+        this.getDisplayedChannels().map((channelId) => {
+            if (channelId !== this.props.currentChannel.id && this.props.unreadChannelIds.includes(channelId)) {
+                if (!this.firstUnreadChannel) {
+                    this.firstUnreadChannel = channelId;
+                }
+                this.lastUnreadChannel = channelId;
+            }
+            return null;
+        });
     }
 
     handleOpenMoreDirectChannelsModal = (e) => {
@@ -244,7 +339,7 @@ export default class Sidebar extends React.PureComponent {
                 nextIndex = curIndex - 1;
             }
             const nextChannel = allChannelIds[Utils.mod(nextIndex, allChannelIds.length)];
-            browserHistory.push('/' + this.props.currentTeam.name + '/channels/' + this.props.allChannels[nextChannel].name);
+            this.props.actions.goToChannelById(nextChannel);
             this.updateScrollbarOnChannelChange(nextChannel);
             this.isSwitchingChannel = false;
         } else if (Utils.cmdOrCtrlPressed(e) && e.shiftKey && e.keyCode === Constants.KeyCodes.K) {
@@ -284,23 +379,19 @@ export default class Sidebar extends React.PureComponent {
             }
             if (this.props.unreadChannelIds.includes(allChannelIds[nextIndex])) {
                 const nextChannel = allChannelIds[nextIndex];
-                browserHistory.push('/' + this.props.currentTeam.name + '/channels/' + this.props.allChannels[nextChannel].name);
+                this.props.actions.goToChannelById(nextChannel);
                 this.updateScrollbarOnChannelChange(nextChannel);
             }
             this.isSwitchingChannel = false;
         }
     }
 
-    getDisplayedChannels = () => {
-        return this.getDisplayedChannelsForProps(this.props);
-    }
-
-    getDisplayedChannelsForProps = (props) => {
+    getDisplayedChannels = (props = this.props) => {
         return props.favoriteChannelIds.concat(props.publicChannelIds).concat(props.privateChannelIds).concat(props.directAndGroupChannelIds);
     }
 
     channelIdIsDisplayedForProps = (props, id) => {
-        const allChannels = this.getDisplayedChannelsForProps(props);
+        const allChannels = this.getDisplayedChannels(props);
         for (let i = 0; i < allChannels.length; i++) {
             if (allChannels[i] === id) {
                 return true;
@@ -342,29 +433,14 @@ export default class Sidebar extends React.PureComponent {
         });
     }
 
-    createSidebarChannel = (channelId, index) => {
-        const channel = this.props.allChannels[channelId];
-
-        if (channelId !== this.props.currentChannel.id && this.props.unreadChannelIds.includes(channelId)) {
-            if (!this.firstUnreadChannel) {
-                this.firstUnreadChannel = channelId;
-            }
-            this.lastUnreadChannel = channelId;
-        }
-
-        if (this.props.memberships[channel.id] && this.props.unreads.mentions) {
-            this.badgesActive = true;
-        }
-
+    createSidebarChannel = (channelId) => {
         return (
             <SidebarChannel
-                key={channel.id}
-                ref={channel.id}
-                channelId={channel.id}
-                index={index}
-                membership={this.props.memberships[channel.id]}
-                active={channel.id === this.props.currentChannel.id}
-                loadingDMChannel={this.state.loadingDMChannel === index && channel.type === Constants.DM_CHANNEL}
+                key={channelId}
+                ref={channelId}
+                channelId={channelId}
+                membership={this.props.memberships[channelId]}
+                active={channelId === this.props.currentChannel.id}
                 currentTeamName={this.props.currentTeam.name}
                 currentUserId={this.props.currentUser.id}
             />
@@ -372,14 +448,11 @@ export default class Sidebar extends React.PureComponent {
     }
 
     render() {
-        this.updateTitle();
-
         // Check if we have all info needed to render
         if (this.props.currentTeam == null || this.props.currentUser == null) {
             return (<div/>);
         }
 
-        this.lastBadgesActive = this.badgesActive;
         this.badgesActive = false;
 
         // keep track of the first and last unread channels so we can use them to set the unread indicators
@@ -391,25 +464,6 @@ export default class Sidebar extends React.PureComponent {
         const publicChannelItems = this.props.publicChannelIds.map(this.createSidebarChannel);
         const privateChannelItems = this.props.privateChannelIds.map(this.createSidebarChannel);
         const directMessageItems = this.props.directAndGroupChannelIds.map(this.createSidebarChannel);
-
-        // update the favicon to show if there are any notifications
-        if (this.lastBadgesActive !== this.badgesActive) {
-            var link = document.createElement('link');
-            link.type = 'image/x-icon';
-            link.rel = 'shortcut icon';
-            link.id = 'favicon';
-            if (this.badgesActive) {
-                link.href = redFavicon;
-            } else {
-                link.href = favicon;
-            }
-            var head = document.getElementsByTagName('head')[0];
-            var oldLink = document.getElementById('favicon');
-            if (oldLink) {
-                head.removeChild(oldLink);
-            }
-            head.appendChild(link);
-        }
 
         var directMessageMore = (
             <li key='more'>

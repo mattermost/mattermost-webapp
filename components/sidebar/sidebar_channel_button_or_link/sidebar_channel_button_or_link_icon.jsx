@@ -6,7 +6,10 @@ import PropTypes from 'prop-types';
 
 import {Constants} from 'utils/constants.jsx';
 
-import StatusIcon from '../../status_icon.jsx';
+import StatusIcon from 'components/status_icon.jsx';
+import ArchiveIcon from 'components/svg/archive_icon';
+import GlobeIcon from 'components/svg/globe_icon';
+import LockIcon from 'components/svg/lock_icon';
 
 export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent {
     static propTypes = {
@@ -20,38 +23,28 @@ export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent 
 
     render() {
         var icon = null;
-        const globeIcon = Constants.GLOBE_ICON_SVG;
-        const lockIcon = Constants.LOCK_ICON_SVG;
         if (this.props.channelType === Constants.OPEN_CHANNEL) {
             icon = (
-                <span
-                    className='icon icon__globe'
-                    dangerouslySetInnerHTML={{__html: globeIcon}}
-                />
+                <GlobeIcon className='icon icon__globe'/>
             );
         } else if (this.props.channelType === Constants.PRIVATE_CHANNEL) {
             icon = (
-                <span
-                    className='icon icon__lock'
-                    dangerouslySetInnerHTML={{__html: lockIcon}}
-                />
+                <LockIcon className='icon icon__lock'/>
             );
         } else if (this.props.channelType === Constants.GM_CHANNEL) {
             icon = <div className='status status--group'>{this.props.membersCount}</div>;
         } else if (this.props.channelType === Constants.DM_CHANNEL) {
             if (this.props.teammateId && this.props.teammateDeletedAt) {
                 icon = (
-                    <span
-                        className='icon icon__archive'
-                        dangerouslySetInnerHTML={{__html: Constants.ARCHIVE_ICON_SVG}}
-                    />
+                    <ArchiveIcon className='icon icon__archive'/>
                 );
             } else {
                 icon = (
                     <StatusIcon
                         type='avatar'
                         status={this.props.channelStatus}
-                    />);
+                    />
+                );
             }
         }
         return icon;

@@ -51,12 +51,10 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         channelFake: false,
         channelTeammateId: 'teammate-id',
         channelTeammateDeletedAt: 1,
-        index: 2,
         handleClose: jest.fn,
         unreadMsgs: 0,
         unreadMentions: 0,
         active: false,
-        loadingDMChannel: false,
         currentTeamName: 'current-team',
         currentUserId: 'user-id',
         showTutorialTip: false,
@@ -163,18 +161,6 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
                     ...defaultProps,
                     membership: {mention_count: 3},
                     unreadMentions: 0
-                }}
-            />
-        );
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should match snapshot, on channel show without membership and wit loading channel (must have loading badge)', () => {
-        const wrapper = shallow(
-            <SidebarChannel
-                {...{
-                    ...defaultProps,
-                    loadingDMChannel: true
                 }}
             />
         );

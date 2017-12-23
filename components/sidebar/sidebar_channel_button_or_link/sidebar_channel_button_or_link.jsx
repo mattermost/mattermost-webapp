@@ -7,7 +7,6 @@ import {browserHistory, Link} from 'react-router';
 
 import {mark, trackEvent} from 'actions/diagnostics_actions.jsx';
 import {isDesktopApp} from 'utils/user_agent.jsx';
-import loadingGif from 'images/load.gif';
 
 import SidebarChannelButtonOrLinkIcon from './sidebar_channel_button_or_link_icon.jsx';
 import SidebarChannelButtonOrLinkCloseButton from './sidebar_channel_button_or_link_close_button.jsx';
@@ -24,7 +23,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         ]).isRequired,
         channelStatus: PropTypes.string,
         handleClose: PropTypes.func,
-        badge: PropTypes.string,
+        badge: PropTypes.bool,
         membersCount: PropTypes.number.isRequired,
         unreadMentions: PropTypes.number,
         teammateId: PropTypes.string,
@@ -36,29 +35,22 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         trackEvent('ui', 'ui_channel_selected');
     }
 
-    handleClick = (link) => {
+    handleClick = () => {
         this.trackChannelSelectedEvent();
-        browserHistory.push(link);
+        browserHistory.push(this.props.link);
     }
 
     render = () => {
         let badge = null;
-        if (this.props.badge === 'mentions') {
+        if (this.props.badge) {
             badge = <span className='badge'>{this.props.unreadMentions}</span>;
-        } else if (this.props.badge === 'loading') {
-            badge = (
-                <img
-                    className='channel-loading-gif pull-right'
-                    src={loadingGif}
-                />
-            );
         }
         let element;
         if (isDesktopApp()) {
             element = (
                 <button
                     className={'btn btn-link ' + this.props.rowClass}
-                    onClick={() => this.handleClick(this.props.link)}
+                    onClick={this.handleClick}
                 >
                     <SidebarChannelButtonOrLinkIcon
                         channelId={this.props.channelId}

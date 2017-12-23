@@ -16,28 +16,107 @@ import SidebarTutorialTip from '../sidebar_tutorial_tip.jsx';
 
 export default class SidebarChannel extends React.PureComponent {
     static propTypes = {
+
+        /**
+         * Global config object
+         */
         config: PropTypes.object.isRequired,
+
+        /**
+         * Channel id
+         */
         channelId: PropTypes.string.isRequired,
+
+        /**
+         * Channel name
+         */
         channelName: PropTypes.string.isRequired,
+
+        /**
+         * Channel display name
+         */
         channelDisplayName: PropTypes.string.isRequired,
+
+        /**
+         * Channel type
+         */
         channelType: PropTypes.string.isRequired,
+
+        /**
+         * Channel status
+         */
         channelStatus: PropTypes.string,
+
+        /**
+         * Channel is fake
+         */
         channelFake: PropTypes.bool,
+
+        /**
+         * Serialized channel information (for fake channels)
+         */
         channelStringified: PropTypes.string,
+
+        /**
+         * Teammate id (for direct messages)
+         */
         channelTeammateId: PropTypes.string,
+
+        /**
+         * Teammate delete at date (for direct messages)
+         */
         channelTeammateDeletedAt: PropTypes.number,
-        index: PropTypes.number,
+
+        /**
+         * User's channel membership
+         */
         membership: PropTypes.object,
+
+        /**
+         * Number of unread messages
+         */
         unreadMsgs: PropTypes.number.isRequired,
+
+        /**
+         * Number of unread mentions
+         */
         unreadMentions: PropTypes.number.isRequired,
+
+        /**
+         * Set if the channel is the current active channel
+         */
         active: PropTypes.bool.isRequired,
-        loadingDMChannel: PropTypes.bool.isRequired,
+
+        /**
+         * Current team name
+         */
         currentTeamName: PropTypes.string.isRequired,
+
+        /**
+         * Current user id
+         */
         currentUserId: PropTypes.string.isRequired,
+
+        /**
+         * Set if the tutorial must be shown
+         */
         showTutorialTip: PropTypes.bool.isRequired,
+
+        /**
+         * TownSquare (default channel) display name
+         */
         townSquareDisplayName: PropTypes.string,
+
+        /**
+         * OffTopic (default channel) display name
+         */
         offTopicDisplayName: PropTypes.string,
+
+        /**
+         * Number of members
+         */
         membersCount: PropTypes.number.isRequired,
+
         actions: PropTypes.shape({
             savePreferences: PropTypes.func.isRequired,
             leaveChannel: PropTypes.func.isRequired
@@ -123,13 +202,9 @@ export default class SidebarChannel extends React.PureComponent {
             rowClass += ' unread-title';
         }
 
-        var badge = null;
-        if (this.props.membership) {
-            if (this.props.unreadMentions) {
-                badge = 'mentions';
-            }
-        } else if (this.props.loadingDMChannel) {
-            badge = 'loading';
+        var badge = false;
+        if (this.props.membership && this.props.unreadMentions) {
+            badge = true;
         }
 
         if (this.props.unreadMentions > 0) {
