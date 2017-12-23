@@ -22,7 +22,7 @@ const Preferences = Constants.Preferences;
 function getDisplayStateFromStores() {
     return {
         militaryTime: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, Preferences.USE_MILITARY_TIME_DEFAULT),
-        teammateDisplayName: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.TEAMMATE_DISPLAY_NAME, global.window.mm_config.TeammateNameDisplay),
+        teammateNameDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.TEAMMATE_NAME_DISPLAY, global.window.mm_config.TeammateNameDisplay),
         channelDisplayMode: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT),
         messageDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT),
         collapseDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, Preferences.COLLAPSE_DISPLAY_DEFAULT),
@@ -58,11 +58,11 @@ export default class UserSettingsDisplay extends React.Component {
             name: 'use_military_time',
             value: this.state.militaryTime,
         };
-        const displayNamePreference = {
+        const teammateNameDisplayPreference = {
             user_id: userId,
             category: Preferences.CATEGORY_DISPLAY_SETTINGS,
-            name: Preferences.TEAMMATE_DISPLAY_NAME,
-            value: this.state.teammateDisplayName
+            name: Preferences.TEAMMATE_NAME_DISPLAY,
+            value: this.state.teammateNameDisplay
         };
         const channelDisplayModePreference = {
             user_id: userId,
@@ -92,10 +92,10 @@ export default class UserSettingsDisplay extends React.Component {
         this.setState({isSaving: true});
 
         const preferences = [timePreference, channelDisplayModePreference, messageDisplayPreference, collapseDisplayPreference, linkPreviewDisplayPreference];
-        if (this.state.teammateDisplayName === global.window.mm_config.TeammateNameDisplay) {
-            deletePreferences([displayNamePreference]);
+        if (this.state.teammateNameDisplay === global.window.mm_config.TeammateNameDisplay) {
+            deletePreferences([teammateNameDisplayPreference]);
         } else {
-            preferences.push(displayNamePreference);
+            preferences.push(teammateNameDisplayPreference);
         }
 
         savePreferences(preferences, () => {
@@ -433,10 +433,10 @@ export default class UserSettingsDisplay extends React.Component {
             },
         });
 
-        const displayNameSection = this.createSection({
-            section: Preferences.TEAMMATE_DISPLAY_NAME,
-            display: 'teammateDisplayName',
-            value: this.state.teammateDisplayName,
+        const teammateNameDisplaySection = this.createSection({
+            section: Preferences.TEAMMATE_NAME_DISPLAY,
+            display: 'teammateNameDisplay',
+            value: this.state.teammateNameDisplay,
             defaultDisplay: global.window.mm_config.TeammateNameDisplay,
             title: {
                 id: 'user.settings.display.teammateNameDisplayTitle',
@@ -465,7 +465,7 @@ export default class UserSettingsDisplay extends React.Component {
             },
             description: {
                 id: 'user.settings.display.teammateNameDisplayDescription',
-                message: 'Set how to display other user\'s names in posts and the Direct Messages list'
+                message: 'Set how to display other user\'s names in posts and the Direct Messages list.'
             }
         });
 
@@ -637,7 +637,7 @@ export default class UserSettingsDisplay extends React.Component {
                     <div className='divider-dark first'/>
                     {themeSection}
                     {clockSection}
-                    {displayNameSection}
+                    {teammateNameDisplaySection}
                     {linkPreviewSection}
                     {collapseSection}
                     {messageDisplaySection}
