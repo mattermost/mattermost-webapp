@@ -139,7 +139,7 @@
     margin: 5px 0;
 
     &.loading {
-        min-height: 100px;
+        height: 400px;
     }
 
     .file__image-loading {
@@ -164,12 +164,13 @@
 
     .file-details__name {
         display: block;
-        font-size: 16px;
+        font-size: 14px;
         font-weight: bold;
     }
 
     .file-details__extension {
         display: block;
+        font-size: 12px;
         margin-bottom: 5px;
     }
 
