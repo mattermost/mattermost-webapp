@@ -157,6 +157,7 @@
         }
 
         img {
+            @include border-radius(4px);
             min-height: 75px;
             min-width: 75px;
         }
@@ -199,6 +200,7 @@
     height: 100px;
     margin: 5px 10px 5px 0;
     max-width: 100%;
+    overflow: hidden;
     position: relative;
     width: 320px;
 
