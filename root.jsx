@@ -95,6 +95,7 @@ function preRenderSetup(callwhendone) {
         $.when(d1).done(() => {
             initializePlugins();
             I18n.doAddLocaleData();
+            devModeInit();
             callwhendone();
         });
     }
@@ -161,6 +162,15 @@ function appendOnLoadEvent(fn) {
         };
     } else {
         window.onload = fn;
+    }
+}
+
+function devModeInit() {
+    if (window.mm_config && window.mm_config.EnableDeveloper === 'true') {
+        const {whyDidYouUpdate} = require('why-did-you-update'); // eslint-disable-line global-require
+        whyDidYouUpdate(React);
+
+        // Add other dev. mode init here
     }
 }
 
