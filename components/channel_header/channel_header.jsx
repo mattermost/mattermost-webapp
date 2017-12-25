@@ -884,32 +884,34 @@ export default class ChannelHeader extends React.Component {
                                 id='channelHeaderTitle'
                                 className='channel-header__title dropdown'
                             >
-                                <button
-                                    id='channelHeaderDropdownButton'
-                                    className='dropdown-toggle theme style--none'
-                                    type='button'
-                                    data-toggle='dropdown'
-                                    aria-expanded='true'
-                                >
-                                    <strong
-                                        id='channelHeaderTitle'
-                                        className='heading'
+                                <h2>
+                                    <button
+                                        id='channelHeaderDropdownButton'
+                                        className='dropdown-toggle theme style--none'
+                                        type='button'
+                                        data-toggle='dropdown'
+                                        aria-expanded='true'
                                     >
-                                        {channelTitle}
-                                    </strong>
-                                    <span
-                                        id='channelHeaderDropdownIcon'
-                                        className='fa fa-angle-down header-dropdown__icon'
-                                    />
-                                </button>
-                                <ul
-                                    id='channelHeaderDropdownMenu'
-                                    className='dropdown-menu'
-                                    role='menu'
-                                    aria-labelledby='channel_header_dropdown'
-                                >
-                                    {dropdownContents}
-                                </ul>
+                                        <strong
+                                            id='channelHeaderTitle'
+                                            className='heading'
+                                        >
+                                            {channelTitle}
+                                        </strong>
+                                        <span
+                                            id='channelHeaderDropdownIcon'
+                                            className='fa fa-angle-down header-dropdown__icon'
+                                        />
+                                    </button>
+                                    <ul
+                                        id='channelHeaderDropdownMenu'
+                                        className='dropdown-menu'
+                                        role='menu'
+                                        aria-labelledby='channel_header_dropdown'
+                                    >
+                                        {dropdownContents}
+                                    </ul>
+                                </h2>
                             </div>
                             {headerTextContainer}
                         </div>
