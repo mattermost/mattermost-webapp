@@ -220,6 +220,12 @@
             width: calc(100% - 65px);
         }
 
+        h2 {
+            font-size: inherit;
+            line-height: inherit;
+            margin: 0;
+        }
+
         .modal {
             white-space: normal;
         }
@@ -482,6 +488,7 @@
 
         .team__name {
             line-height: 22px;
+            margin: 0;
         }
 
         .user__name {

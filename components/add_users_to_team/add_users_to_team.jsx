@@ -235,7 +235,7 @@ export default class AddUsersToTeam extends React.Component {
 
         let addError = null;
         if (this.state.addError) {
-            addError = (<label className='has-error control-label'>{this.state.addError}</label>);
+            addError = (<div className='has-error col-sm-12'><label className='control-label font-weight--normal'>{this.state.addError}</label></div>);
         }
 
         return (
