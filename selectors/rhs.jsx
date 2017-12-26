@@ -63,6 +63,10 @@ export function getIsSearchingFlaggedPost(state) {
     return state.views.rhs.isSearchingFlaggedPost;
 }
 
+export function getIsSearchingPinnedPost(state) {
+    return state.views.rhs.isSearchingPinnedPost;
+}
+
 export function makeGetCommentDraft(rootId) {
     const defaultValue = {message: '', fileInfos: [], uploadsInProgress: []};
     return makeGetGlobalItem(`${StoragePrefixes.COMMENT_DRAFT}${rootId}`, defaultValue);

@@ -49,6 +49,7 @@ export default class SearchResults extends React.PureComponent {
         isFlaggedByPostId: PropTypes.object,
         isSearchingTerm: PropTypes.bool,
         isSearchingFlaggedPost: PropTypes.bool,
+        isSearchingPinnedPost: PropTypes.bool,
         compactDisplay: PropTypes.bool,
         useMilitaryTime: PropTypes.bool.isRequired,
         toggleSize: PropTypes.func,
@@ -127,7 +128,11 @@ export default class SearchResults extends React.PureComponent {
 
         let ctls = null;
 
-        if (this.props.isSearchingTerm || this.props.isSearchingFlaggedPost) {
+        if (
+            this.props.isSearchingTerm ||
+            this.props.isSearchingFlaggedPost ||
+            this.props.isSearchingPinnedPost
+        ) {
             ctls =
             (
                 <div className='sidebar--right__subheader'>
