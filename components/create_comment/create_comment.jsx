@@ -102,7 +102,12 @@ export default class CreateComment extends React.PureComponent {
         /**
          * Called to initiate editing the user's latest post
          */
-        onEditLatestPost: PropTypes.func.isRequired
+        onEditLatestPost: PropTypes.func.isRequired,
+
+        /**
+         * Reset state of createPost request
+         */
+        resetCreatePostRequest: PropTypes.func.isRequired
     }
 
     constructor(props) {
@@ -129,6 +134,10 @@ export default class CreateComment extends React.PureComponent {
 
     componentDidMount() {
         this.focusTextbox();
+    }
+
+    componentWillUnmount() {
+        this.props.resetCreatePostRequest();
     }
 
     componentWillReceiveProps(newProps) {
@@ -407,6 +416,8 @@ export default class CreateComment extends React.PureComponent {
         this.setState({
             showPostDeletedModal: false
         });
+
+        this.props.resetCreatePostRequest();
     }
 
     handleBlur = () => {

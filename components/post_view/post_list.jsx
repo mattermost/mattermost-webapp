@@ -119,12 +119,12 @@ export default class PostList extends React.PureComponent {
         this.loadPosts(this.props.channel.id, this.props.focusedPostId);
         GlobalEventEmitter.addListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.handleResize);
 
-        window.addEventListener('resize', () => this.handleResize());
+        window.addEventListener('resize', this.handleResize);
     }
 
     componentWillUnmount() {
         GlobalEventEmitter.removeListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.handleResize);
-        window.removeEventListener('resize', () => this.handleResize());
+        window.removeEventListener('resize', this.handleResize);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -153,14 +153,6 @@ export default class PostList extends React.PureComponent {
                     this.loadPosts(nextChannel.id);
                 }
             }
-
-            const nextPosts = nextProps.posts || [];
-            const posts = this.props.posts || [];
-            const hasNewPosts = (posts.length === 0 && nextPosts.length > 0) || (posts.length > 0 && nextPosts.length > 0 && posts[0].id !== nextPosts[0].id);
-
-            if (!this.checkBottom() && hasNewPosts) {
-                this.setUnreadsBelow(nextPosts, nextProps.currentUserId);
-            }
         }
     }
 
@@ -178,10 +170,18 @@ export default class PostList extends React.PureComponent {
             return;
         }
 
-        const prevPosts = prevProps.posts;
-        const posts = this.props.posts;
-        const postList = this.refs.postlist;
+        const prevPosts = prevProps.posts || [];
+        const posts = this.props.posts || [];
 
+        if (this.props.focusedPostId == null) {
+            const hasNewPosts = (prevPosts.length === 0 && posts.length > 0) || (prevPosts.length > 0 && posts.length > 0 && prevPosts[0].id !== posts[0].id);
+
+            if (!this.checkBottom() && hasNewPosts) {
+                this.setUnreadsBelow(posts, this.props.currentUserId);
+            }
+        }
+
+        const postList = this.refs.postlist;
         if (!postList) {
             return;
         }

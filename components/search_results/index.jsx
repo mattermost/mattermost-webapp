@@ -9,7 +9,12 @@ import * as PreferenceSelectors from 'mattermost-redux/selectors/entities/prefer
 
 import {selectPostFromRightHandSideSearch} from 'actions/views/rhs';
 
-import {getSearchTerms, getIsSearching} from 'selectors/rhs';
+import {
+    getSearchTerms,
+    getIsSearchingTerm,
+    getIsSearchingFlaggedPost,
+    getIsSearchingPinnedPost
+} from 'selectors/rhs';
 
 import {Preferences} from 'utils/constants.jsx';
 
@@ -64,7 +69,9 @@ function makeMapStateToProps() {
             channels,
             searchTerms: getSearchTerms(state),
             isFlaggedByPostId,
-            loading: getIsSearching(state),
+            isSearchingTerm: getIsSearchingTerm(state),
+            isSearchingFlaggedPost: getIsSearchingFlaggedPost(state),
+            isSearchingPinnedPost: getIsSearchingPinnedPost(state),
             compactDisplay: PreferenceSelectors.get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT
         };
     };

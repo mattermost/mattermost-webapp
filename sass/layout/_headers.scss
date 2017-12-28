@@ -57,8 +57,10 @@
         line-height: 36px;
         margin: 17px 10px 0 0;
         min-width: 30px;
+        position: relative;
         text-align: center;
         width: 37px;
+        z-index: 5;
 
         &.wide {
             @include border-radius(37px);
@@ -216,6 +218,12 @@
             display: inline-block;
             text-decoration: none;
             width: calc(100% - 65px);
+        }
+
+        h2 {
+            font-size: inherit;
+            line-height: inherit;
+            margin: 0;
         }
 
         .modal {
@@ -480,6 +488,7 @@
 
         .team__name {
             line-height: 22px;
+            margin: 0;
         }
 
         .user__name {

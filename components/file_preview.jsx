@@ -51,7 +51,7 @@ export default class FilePreview extends React.PureComponent {
     }
 
     render() {
-        var previews = [];
+        const previews = [];
         const fileInfos = this.state.fileInfos.sort((a, b) => a.create_at - b.create_at);
         fileInfos.forEach((info) => {
             const type = Utils.getFileType(info.extension);
@@ -74,11 +74,17 @@ export default class FilePreview extends React.PureComponent {
                     imageClassName += ' normal';
                 }
 
+                let thumbnailUrl = getFileThumbnailUrl(info.id);
+                if (Utils.isGIFImage(info.extension) && !info.has_preview_image) {
+                    thumbnailUrl = getFileUrl(info.id);
+                }
+
                 previewImage = (
                     <div
                         className={imageClassName}
                         style={{
-                            backgroundImage: `url(${getFileThumbnailUrl(info.id)})`
+                            backgroundImage: `url(${thumbnailUrl})`,
+                            backgroundSize: 'cover'
                         }}
                     />
                 );

@@ -8,7 +8,7 @@ import * as Actions from 'actions/storage';
 
 import store from 'stores/redux_store.jsx';
 
-import {ErrorPageTypes} from 'utils/constants.jsx';
+import {ErrorPageTypes, StoragePrefixes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 const dispatch = store.dispatch;
@@ -44,14 +44,16 @@ class BrowserStoreClass {
             // PLT-1285 store an identifier in session storage so we can catch if the logout came from this tab on IE11
             const logoutId = Utils.generateId();
 
-            sessionStorage.setItem('__logout__', logoutId);
-            localStorage.setItem('__logout__', logoutId);
-            localStorage.removeItem('__logout__');
+            Utils.removePrefixFromLocalStorage(StoragePrefixes.ANNOUNCEMENT);
+
+            sessionStorage.setItem(StoragePrefixes.LOGOUT, logoutId);
+            localStorage.setItem(StoragePrefixes.LOGOUT, logoutId);
+            localStorage.removeItem(StoragePrefixes.LOGOUT);
         }
     }
 
     isSignallingLogout(logoutId) {
-        return logoutId === sessionStorage.getItem('__logout__');
+        return logoutId === sessionStorage.getItem(StoragePrefixes.LOGOUT);
     }
 
     signalLogin() {
@@ -59,14 +61,14 @@ class BrowserStoreClass {
             // PLT-1285 store an identifier in session storage so we can catch if the logout came from this tab on IE11
             const loginId = Utils.generateId();
 
-            sessionStorage.setItem('__login__', loginId);
-            localStorage.setItem('__login__', loginId);
-            localStorage.removeItem('__login__');
+            sessionStorage.setItem(StoragePrefixes.LOGIN, loginId);
+            localStorage.setItem(StoragePrefixes.LOGIN, loginId);
+            localStorage.removeItem(StoragePrefixes.LOGIN);
         }
     }
 
     isSignallingLogin(loginId) {
-        return loginId === sessionStorage.getItem('__login__');
+        return loginId === sessionStorage.getItem(StoragePrefixes.LOGIN);
     }
 
     /**

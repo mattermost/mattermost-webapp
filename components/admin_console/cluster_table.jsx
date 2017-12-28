@@ -96,11 +96,11 @@ export default class ClusterTable extends React.Component {
 
             return (
                 <tr key={clusterInfo.ipaddress}>
-                    <td style={{whiteSpace: 'nowrap'}}>{status}</td>
-                    <td style={{whiteSpace: 'nowrap'}}>{clusterInfo.hostname}</td>
-                    <td style={{whiteSpace: 'nowrap'}}>{versionMismatch} {clusterInfo.version}</td>
-                    <td style={{whiteSpace: 'nowrap'}}><div className='config-hash'>{configMismatch} {clusterInfo.config_hash}</div></td>
-                    <td style={{whiteSpace: 'nowrap'}}>{clusterInfo.ipaddress}</td>
+                    <td style={style.clusterCell}>{status}</td>
+                    <td style={style.clusterCell}>{clusterInfo.hostname}</td>
+                    <td style={style.clusterCell}>{versionMismatch} {clusterInfo.version}</td>
+                    <td style={style.clusterCell}><div className='config-hash'>{configMismatch} {clusterInfo.config_hash}</div></td>
+                    <td style={style.clusterCell}>{clusterInfo.ipaddress}</td>
                 </tr>
             );
         });
@@ -108,10 +108,7 @@ export default class ClusterTable extends React.Component {
         return (
             <div
                 className='cluster-panel__table'
-                style={{
-                    margin: '10px',
-                    marginBottom: '30px'
-                }}
+                style={style.clusterTable}
             >
                 <div className='text-right'>
                     <button
@@ -169,3 +166,8 @@ export default class ClusterTable extends React.Component {
         );
     }
 }
+
+const style = {
+    clusterTable: {margin: 10, marginBottom: 30},
+    clusterCell: {whiteSpace: 'nowrap'}
+};

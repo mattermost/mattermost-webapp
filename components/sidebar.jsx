@@ -13,7 +13,7 @@ import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getChannelsByCategory} from 'mattermost-redux/selectors/entities/channels';
 
 import * as ChannelActions from 'actions/channel_actions.jsx';
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {mark, trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
@@ -727,6 +727,7 @@ export default class Sidebar extends React.Component {
     }
 
     trackChannelSelectedEvent = () => {
+        mark('SidebarChannelLink#click');
         trackEvent('ui', 'ui_channel_selected');
     }
 

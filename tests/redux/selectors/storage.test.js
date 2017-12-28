@@ -19,8 +19,10 @@ describe('Selectors.Storage', () => {
             }
         },
         storage: {
-            'global-item': 'global-item-value',
-            user_id_item: 'item-value'
+            storage: {
+                'global-item': 'global-item-value',
+                user_id_item: 'item-value'
+            }
         }
     };
 

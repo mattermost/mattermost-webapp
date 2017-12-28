@@ -97,7 +97,7 @@ export default class BackstageList extends React.Component {
                             placeholder={this.props.searchPlaceholder}
                             value={this.state.filter}
                             onChange={this.updateFilter}
-                            style={{flexGrow: 0, flexShrink: 0}}
+                            style={style.search}
                         />
                     </div>
                 </div>
@@ -111,3 +111,7 @@ export default class BackstageList extends React.Component {
         );
     }
 }
+
+const style = {
+    search: {flexGrow: 0, flexShrink: 0}
+};

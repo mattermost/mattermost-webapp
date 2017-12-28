@@ -17,7 +17,7 @@ import BrowserStore from 'stores/browser_store.jsx';
 import LocalizationStore from 'stores/localization_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
-import Constants from 'utils/constants.jsx';
+import Constants, {StoragePrefixes} from 'utils/constants.jsx';
 
 export default class Root extends React.Component {
     constructor(props) {
@@ -58,7 +58,7 @@ export default class Root extends React.Component {
         // Force logout of all tabs if one tab is logged out
         $(window).bind('storage', (e) => {
             // when one tab on a browser logs out, it sets __logout__ in localStorage to trigger other tabs to log out
-            if (e.originalEvent.key === '__logout__' && e.originalEvent.storageArea === localStorage && e.originalEvent.newValue) {
+            if (e.originalEvent.key === StoragePrefixes.LOGOUT && e.originalEvent.storageArea === localStorage && e.originalEvent.newValue) {
                 // make sure it isn't this tab that is sending the logout signal (only necessary for IE11)
                 if (BrowserStore.isSignallingLogout(e.originalEvent.newValue)) {
                     return;
@@ -68,7 +68,7 @@ export default class Root extends React.Component {
                 GlobalActions.emitUserLoggedOutEvent('/', false);
             }
 
-            if (e.originalEvent.key === '__login__' && e.originalEvent.storageArea === localStorage && e.originalEvent.newValue) {
+            if (e.originalEvent.key === StoragePrefixes.LOGIN && e.originalEvent.storageArea === localStorage && e.originalEvent.newValue) {
                 // make sure it isn't this tab that is sending the logout signal (only necessary for IE11)
                 if (BrowserStore.isSignallingLogin(e.originalEvent.newValue)) {
                     return;

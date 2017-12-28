@@ -48,8 +48,10 @@ describe('Selectors.makeGetPostsEmbedVisibleObj', () => {
                 }
             },
             storage: {
-                [`${StoragePrefixes.EMBED_VISIBLE}c`]: false,
-                [`${StoragePrefixes.EMBED_VISIBLE}d`]: false
+                storage: {
+                    [`${StoragePrefixes.EMBED_VISIBLE}c`]: false,
+                    [`${StoragePrefixes.EMBED_VISIBLE}d`]: false
+                }
             }
         };
     });
@@ -67,7 +69,10 @@ describe('Selectors.makeGetPostsEmbedVisibleObj', () => {
             ...state,
             storage: {
                 ...state.storage,
-                [`${StoragePrefixes.EMBED_VISIBLE}c`]: null
+                storage: {
+                    ...state.storage.storage,
+                    [`${StoragePrefixes.EMBED_VISIBLE}c`]: null
+                }
             }
         };
 
@@ -140,7 +145,10 @@ describe('Selectors.makeGetPostsEmbedVisibleObj', () => {
             ...state,
             storage: {
                 ...state.storage,
-                [`${StoragePrefixes.EMBED_VISIBLE}c`]: true
+                storage: {
+                    ...state.storage.storage,
+                    [`${StoragePrefixes.EMBED_VISIBLE}c`]: true
+                }
             }
         };
 
@@ -166,7 +174,10 @@ describe('Selectors.makeGetPostsEmbedVisibleObj', () => {
             ...state,
             storage: {
                 ...state.storage,
-                [`${StoragePrefixes.EMBED_VISIBLE}d`]: false
+                storage: {
+                    ...state.storage.storage,
+                    [`${StoragePrefixes.EMBED_VISIBLE}d`]: false
+                }
             }
         };
 

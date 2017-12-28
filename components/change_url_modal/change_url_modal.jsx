@@ -4,22 +4,71 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal, OverlayTrigger, Tooltip} from 'react-bootstrap';
-import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
-import TeamStore from 'stores/team_store.jsx';
+import Constants from 'utils/constants';
+import {getShortenedURL, cleanUpUrlable} from 'utils/url';
 
-import Constants from 'utils/constants.jsx';
-import * as URL from 'utils/url.jsx';
+export default class ChangeURLModal extends React.PureComponent {
 
-export default class ChangeUrlModal extends React.Component {
+    static propTypes = {
+
+        /**
+        * Set whether to show the modal or not
+        */
+        show: PropTypes.bool.isRequired,
+
+        /**
+        * Set to change the title of the modal
+        */
+        title: PropTypes.node,
+
+        /**
+        * Set to change the submit button text
+        */
+        submitButtonText: PropTypes.node,
+
+        /**
+        * Set to change the current URL
+        */
+        currentURL: PropTypes.string,
+
+        /**
+        * Set to the current team URL
+        */
+        currentTeamURL: PropTypes.string.isRequired,
+
+        /**
+        * Server error from failed channel creation
+        */
+        serverError: PropTypes.node,
+
+        /**
+         * Function to call when modal is submitted
+         */
+        onModalSubmit: PropTypes.func.isRequired,
+
+        /**
+         * Function to call when modal is exited
+         */
+        onModalExited: PropTypes.func,
+
+        /**
+         * Function to call when modal is dimissed
+         */
+        onModalDismissed: PropTypes.func.isRequired
+    }
+
+    static defaultProps = {
+        show: false,
+        title: 'Change URL',
+        submitButtonText: 'Save',
+        currentURL: '',
+        serverError: null
+    }
+
     constructor(props) {
         super(props);
-
-        this.onURLChanged = this.onURLChanged.bind(this);
-        this.doSubmit = this.doSubmit.bind(this);
-        this.doCancel = this.doCancel.bind(this);
-
         this.state = {
             currentURL: props.currentURL,
             urlError: '',
@@ -37,81 +86,58 @@ export default class ChangeUrlModal extends React.Component {
         }
     }
 
-    componentDidUpdate(prevProps) {
-        if (this.props.show === true && prevProps.show === false) {
-            ReactDOM.findDOMNode(this.refs.urlinput).select();
-        }
-    }
-
-    onURLChanged(e) {
+    onURLChanged = (e) => {
         const url = e.target.value.trim();
         this.setState({currentURL: url.replace(/[^A-Za-z0-9-_]/g, '').toLowerCase(), userEdit: true});
     }
 
-    getURLError(url) {
+    formattedError = (key, id, message) => {
+        return (<span key={key}>
+            <FormattedMessage
+                id={id}
+                defaultMessage={message}
+            />
+            <br/>
+        </span>);
+    }
+
+    getURLError = (url) => {
         let error = []; //eslint-disable-line prefer-const
+
         if (url.length < 2) {
             error.push(
-                <span key='error1'>
-                    <FormattedMessage
-                        id='change_url.longer'
-                        defaultMessage='URL must be two or more characters.'
-                    />
-                    <br/>
-                </span>
+              this.formattedError('error1', 'change_url.longer', 'URL must be two or more characters.')
             );
         }
         if (url.charAt(0) === '-' || url.charAt(0) === '_') {
             error.push(
-                <span key='error2'>
-                    <FormattedMessage
-                        id='change_url.startWithLetter'
-                        defaultMessage='URL must start with a letter or number.'
-                    />
-                    <br/>
-                </span>
+              this.formattedError('error2', 'change_url.startWithLetter', 'URL must start with a letter or number.')
             );
         }
         if (url.length > 1 && (url.charAt(url.length - 1) === '-' || url.charAt(url.length - 1) === '_')) {
             error.push(
-                <span key='error3'>
-                    <FormattedMessage
-                        id='change_url.endWithLetter'
-                        defaultMessage='URL must end with a letter or number.'
-                    />
-                    <br/>
-                </span>);
+              this.formattedError('error3', 'change_url.endWithLetter', 'URL must end with a letter or number.')
+            );
         }
         if (url.indexOf('__') > -1) {
             error.push(
-                <span key='error4'>
-                    <FormattedMessage
-                        id='change_url.noUnderscore'
-                        defaultMessage='URL can not contain two underscores in a row.'
-                    />
-                    <br/>
-                </span>);
+              this.formattedError('error4', 'change_url.noUnderscore', 'URL can not contain two underscores in a row.')
+            );
         }
 
         // In case of error we don't detect
         if (error.length === 0) {
             error.push(
-                <span key='errorlast'>
-                    <FormattedMessage
-                        id='change_url.invalidUrl'
-                        defaultMessage='Invalid URL'
-                    />
-                    <br/>
-                </span>);
+              this.formattedError('errorlast', 'change_url.invalidUrl', 'Invalid URL')
+            );
         }
         return error;
     }
 
-    doSubmit(e) {
+    onSubmit = (e) => {
         e.preventDefault();
-
-        const url = ReactDOM.findDOMNode(this.refs.urlinput).value;
-        const cleanedURL = URL.cleanUpUrlable(url);
+        const url = this.refs.urlinput.value;
+        const cleanedURL = cleanUpUrlable(url);
         if (cleanedURL !== url || url.length < 2 || url.indexOf('__') > -1) {
             this.setState({urlError: this.getURLError(url)});
             return;
@@ -120,7 +146,7 @@ export default class ChangeUrlModal extends React.Component {
         this.props.onModalSubmit(url);
     }
 
-    doCancel() {
+    onCancel = () => {
         this.setState({urlError: '', userEdit: false});
         this.props.onModalDismissed();
     }
@@ -143,16 +169,16 @@ export default class ChangeUrlModal extends React.Component {
             );
         }
 
-        const fullUrl = TeamStore.getCurrentTeamUrl() + '/channels';
-        const shortURL = URL.getShortenedURL(fullUrl);
+        const fullURL = this.props.currentTeamURL + '/channels';
+        const shortURL = getShortenedURL(fullURL);
         const urlTooltip = (
-            <Tooltip id='urlTooltip'>{fullUrl}</Tooltip>
+            <Tooltip id='urlTooltip'>{fullURL}</Tooltip>
         );
 
         return (
             <Modal
                 show={this.props.show}
-                onHide={this.doCancel}
+                onHide={this.onCancel}
                 onExited={this.props.onModalExited}
             >
                 <Modal.Header closeButton={true}>
@@ -205,7 +231,7 @@ export default class ChangeUrlModal extends React.Component {
                         <button
                             type='button'
                             className='btn btn-default'
-                            onClick={this.doCancel}
+                            onClick={this.onCancel}
                         >
                             <FormattedMessage
                                 id='change_url.close'
@@ -213,7 +239,7 @@ export default class ChangeUrlModal extends React.Component {
                             />
                         </button>
                         <button
-                            onClick={this.doSubmit}
+                            onClick={this.onSubmit}
                             type='submit'
                             className='btn btn-primary'
                             tabIndex='2'
@@ -226,22 +252,3 @@ export default class ChangeUrlModal extends React.Component {
         );
     }
 }
-
-ChangeUrlModal.defaultProps = {
-    show: false,
-    title: 'Change URL',
-    submitButtonText: 'Save',
-    currentURL: '',
-    serverError: null
-};
-
-ChangeUrlModal.propTypes = {
-    show: PropTypes.bool.isRequired,
-    title: PropTypes.node,
-    submitButtonText: PropTypes.node,
-    currentURL: PropTypes.string,
-    serverError: PropTypes.node,
-    onModalSubmit: PropTypes.func.isRequired,
-    onModalExited: PropTypes.func,
-    onModalDismissed: PropTypes.func.isRequired
-};

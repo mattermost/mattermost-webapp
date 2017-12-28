@@ -87,10 +87,6 @@ export default class NewChannelModal extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.onEnterKeyDown = this.onEnterKeyDown.bind(this);
-
         this.state = {
             displayNameError: ''
         };
@@ -101,10 +97,6 @@ export default class NewChannelModal extends React.PureComponent {
             this.setState({
                 displayNameError: ''
             });
-
-            document.addEventListener('keydown', this.onEnterKeyDown);
-        } else if (nextProps.show === false && this.props.show === true) {
-            document.removeEventListener('keydown', this.onEnterKeyDown);
         }
     }
 
@@ -115,7 +107,7 @@ export default class NewChannelModal extends React.PureComponent {
         }
     }
 
-    onEnterKeyDown(e) {
+    onEnterKeyDown = (e) => {
         if (this.props.ctrlSend && e.keyCode === Constants.KeyCodes.ENTER && e.ctrlKey) {
             this.handleSubmit(e);
         } else if (!this.props.ctrlSend && e.keyCode === Constants.KeyCodes.ENTER && !e.shiftKey && !e.altKey) {
@@ -123,7 +115,7 @@ export default class NewChannelModal extends React.PureComponent {
         }
     }
 
-    handleSubmit(e) {
+    handleSubmit = (e) => {
         e.preventDefault();
 
         const displayName = ReactDOM.findDOMNode(this.refs.display_name).value.trim();
@@ -135,7 +127,7 @@ export default class NewChannelModal extends React.PureComponent {
         this.props.onSubmitChannel();
     }
 
-    handleChange() {
+    handleChange = () => {
         const newData = {
             displayName: this.refs.display_name.value,
             header: this.refs.channel_header.value,
@@ -273,6 +265,7 @@ export default class NewChannelModal extends React.PureComponent {
                                         value={this.props.channelData.displayName}
                                         autoFocus={true}
                                         tabIndex='1'
+                                        onKeyDown={this.onEnterKeyDown}
                                     />
                                     {displayNameError}
                                     <p className='input__help dark'>

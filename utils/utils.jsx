@@ -26,9 +26,13 @@ import icon50 from 'images/icon50x50.png';
 import iconWS from 'images/icon_WS.png';
 
 export function isEmail(email) {
-    // writing a regex to match all valid email addresses is really, really hard (see http://stackoverflow.com/a/201378)
-    // so we just do a simple check and rely on a verification email to tell if it's a real address
-    return (/^.+@.+$/).test(email);
+    // writing a regex to match all valid email addresses is really, really hard. (see http://stackoverflow.com/a/201378)
+    // this regex ensures:
+    // - at least one character that is not a space, comma, or @ symbol
+    // - followed by a single @ symbol
+    // - followed by at least one character that is not a space, comma, or @ symbol
+    // this prevents <Outlook Style> outlook.style@domain.com addresses and multiple comma-separated addresses from being accepted
+    return (/^[^ ,@]+@[^ ,@]+$/).test(email);
 }
 
 export function isMac() {
@@ -398,6 +402,10 @@ export function insertHtmlEntities(text) {
     return newtext;
 }
 
+export function isGIFImage(extin) {
+    return extin.toLowerCase() === Constants.IMAGE_TYPE_GIF;
+}
+
 export function getFileType(extin) {
     var ext = extin.toLowerCase();
     if (Constants.IMAGE_TYPES.indexOf(ext) > -1) {
@@ -565,6 +573,7 @@ export function applyTheme(theme) {
         changeCss('@media(max-width: 768px){.app__body .search-bar__container', 'color:' + theme.sidebarHeaderTextColor);
         changeCss('@media(max-width: 768px){.app__body .search-bar__container .search__form', 'background:' + theme.sidebarHeaderTextColor);
         changeCss('.app__body .navbar-right__icon', 'background:' + changeOpacity(theme.sidebarHeaderTextColor, 0.2));
+        changeCss('.app__body .navbar-right__icon:hover', 'background:' + changeOpacity(theme.sidebarHeaderTextColor, 0.3));
         changeCss('.app__body .navbar-right__icon svg', 'fill:' + theme.sidebarHeaderTextColor);
         changeCss('.app__body .navbar-right__icon svg', 'stroke:' + theme.sidebarHeaderTextColor);
     }
@@ -1228,6 +1237,13 @@ export function windowHeight() {
     return $(window).height();
 }
 
+export function getWindowDimensions() {
+    return {
+        width: window.innerWidth,
+        height: window.innerHeight
+    };
+}
+
 export function getChannelTerm(channelType) {
     let channelTerm = 'Channel';
     if (channelType === Constants.PRIVATE_CHANNEL) {
@@ -1310,6 +1326,8 @@ export function localizeMessage(id, defaultMessage) {
 export function mod(a, b) {
     return ((a % b) + b) % b;
 }
+
+export const REACTION_PATTERN = /^(\+|-):([^:\s]+):\s*$/;
 
 export function canCreateCustomEmoji(user) {
     if (global.window.mm_license.IsLicensed !== 'true') {
@@ -1445,10 +1463,6 @@ export function isEmptyObject(object) {
     }
 
     return false;
-}
-
-export function updateWindowDimensions(component) {
-    component.setState({width: window.innerWidth, height: window.innerHeight});
 }
 
 export function removePrefixFromLocalStorage(prefix) {

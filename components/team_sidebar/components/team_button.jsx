@@ -6,11 +6,13 @@ import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {Link} from 'react-router';
 
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {mark, trackEvent} from 'actions/diagnostics_actions.jsx';
 import {switchTeams} from 'actions/team_actions.jsx';
 
 import Constants from 'utils/constants.jsx';
 import {isDesktopApp} from 'utils/user_agent.jsx';
+
+import {localizeMessage} from 'utils/utils.jsx';
 
 export default class TeamButton extends React.Component {
     constructor(props) {
@@ -22,6 +24,7 @@ export default class TeamButton extends React.Component {
 
     handleSwitch(e) {
         e.preventDefault();
+        mark('TeamLink#click');
         trackEvent('ui', 'ui_team_sidebar_switch_team');
         switchTeams(this.props.url);
     }
@@ -51,7 +54,7 @@ export default class TeamButton extends React.Component {
         let initials = this.props.displayName;
         let content = this.props.content;
         if (!content) {
-            initials = initials.replace(/\s/g, '').substring(0, 2);
+            initials = initials ? initials.replace(/\s/g, '').substring(0, 2) : '??';
 
             content = (
                 <div className='team-btn__initials'>
@@ -70,6 +73,7 @@ export default class TeamButton extends React.Component {
                 </div>
             );
         } else {
+            const toolTip = this.props.displayName ? this.props.tip : localizeMessage('team.button.name_undefined', 'Name undefined');
             btn = (
                 <OverlayTrigger
                     trigger={['hover', 'focus']}
@@ -77,7 +81,7 @@ export default class TeamButton extends React.Component {
                     placement={this.props.placement}
                     overlay={
                         <Tooltip id={`tooltip-${this.props.url}`}>
-                            {this.props.tip}
+                            {toolTip}
                         </Tooltip>
                     }
                 >
