@@ -256,10 +256,9 @@ export default class ChannelHeader extends React.Component {
                 onMouseOut={() => this.refs.headerOverlay.hide()}
             >
                 <MessageWrapper
-                    message = {channel.header}
-                    options = {textFormattingOptions}
+                    message={channel.header}
+                    options={textFormattingOptions}
                 />
-                
             </Popover>
         );
 
