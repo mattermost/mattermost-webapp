@@ -16,6 +16,7 @@ import TeamStore from 'stores/team_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 
 import * as ChannelUtils from 'utils/channel_utils.jsx';
+import MessageWrapper from 'components/message_wrapper.jsx';
 import {ActionTypes, Constants, RHSStates, UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import {getSiteURL} from 'utils/url.jsx';
@@ -254,10 +255,11 @@ export default class ChannelHeader extends React.Component {
                 onMouseOver={() => this.refs.headerOverlay.show()}
                 onMouseOut={() => this.refs.headerOverlay.hide()}
             >
-                <span
-                    onClick={Utils.handleFormattedTextClick}
-                    dangerouslySetInnerHTML={{__html: TextFormatting.formatText(channel.header, textFormattingOptions)}}
+                <MessageWrapper
+                    message = {channel.header}
+                    options = {textFormattingOptions}
                 />
+                
             </Popover>
         );
 

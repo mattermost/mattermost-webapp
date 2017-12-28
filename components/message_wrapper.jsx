@@ -16,9 +16,15 @@ export default class MessageWrapper extends React.Component {
 
     render() {
         if (this.props.message) {
-            const options = Object.assign({}, this.props.options, {
-                siteURL: getSiteURL()
-            });
+            let options = {};
+            if(!this.props.options) {
+                options = Object.assign({}, this.props.options, {
+                    siteURL: getSiteURL()
+                });
+            } else {
+                options = this.props.options;
+            }
+            
 
             return (
                 <div
