@@ -106,8 +106,7 @@
     "style-loader": "0.19.0",
     "url-loader": "0.6.2",
     "webpack": "3.8.1",
-    "webpack-node-externals": "1.6.0",
-    "why-did-you-update": "https://github.com/mkraft/why-did-you-update.git#master"
+    "webpack-node-externals": "1.6.0"
   },
   "jest": {
     "snapshotSerializers": [

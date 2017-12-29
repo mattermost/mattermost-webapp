@@ -4,8 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import shallowEqualExceptKeys from 'utils/equality';
-
 export default class FormError extends React.Component {
     static get propTypes() {
         // accepts either a single error or an array of errors
@@ -22,10 +20,6 @@ export default class FormError extends React.Component {
             error: null,
             errors: []
         };
-    }
-
-    shouldComponentUpdate(nextProps) {
-        return !shallowEqualExceptKeys(nextProps, this.props, ['errors']);
     }
 
     render() {
