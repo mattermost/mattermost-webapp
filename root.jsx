@@ -14,7 +14,6 @@ import * as Websockets from 'actions/websocket_actions.jsx';
 import {loadMeAndConfig} from 'actions/user_actions.jsx';
 import PersistGate from 'components/persist_gate';
 import ChannelStore from 'stores/channel_store.jsx';
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as I18n from 'i18n/i18n.jsx';
 import {initializePlugins} from 'plugins';
 
@@ -131,43 +130,7 @@ function renderRootComponent() {
     document.getElementById('root'));
 }
 
-function trackLoadTime() {
-    // Must be wrapped in setTimeout because loadEventEnd property is 0
-    // until onload is complete, also time added because analytics
-    // code isn't loaded until a subsequent window event has fired.
-    const tenSeconds = 10000;
-    setTimeout(() => {
-        const {loadEventEnd, navigationStart} = window.performance.timing;
-        const pageLoadTime = loadEventEnd - navigationStart;
-        trackEvent('performance', 'page_load', {duration: pageLoadTime});
-    }, tenSeconds);
-}
-
-/**
- * Adds a function to be invoked onload appended to any existing onload
- * event handlers.
- *
- * @param   {function} fn onload event handler
- *
- */
-function appendOnLoadEvent(fn) {
-    if (window.attachEvent) {
-        window.attachEvent('onload', fn);
-    } else if (window.onload) {
-        const curronload = window.onload;
-        window.onload = (evt) => {
-            curronload(evt);
-            fn(evt);
-        };
-    } else {
-        window.onload = fn;
-    }
-}
-
 global.window.setup_root = () => {
-    // Append trackLoadTime function to any exisitng onload events
-    appendOnLoadEvent(trackLoadTime);
-
     // Do the pre-render setup and call renderRootComponent when done
     preRenderSetup(renderRootComponent);
 };
