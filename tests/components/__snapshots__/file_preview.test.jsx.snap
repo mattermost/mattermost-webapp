@@ -5,26 +5,61 @@ exports[`component/FilePreview should match snapshot 1`] = `
   className="file-preview__container"
 >
   <div
-    className="file-preview"
+    className="file-preview post-image__column"
     key="file_id_1"
   >
     <div
-      className="post-image normal"
-      style={
-        Object {
-          "backgroundImage": "url(/api/v4/files/file_id_1/thumbnail)",
-          "backgroundSize": "cover",
-        }
-      }
-    />
-    <a
-      className="file-preview__remove"
-      onClick={[Function]}
+      className="post-image__thumbnail"
     >
-      <i
-        className="fa fa-remove"
+      <div
+        className="post-image normal"
+        style={
+          Object {
+            "backgroundImage": "url(/api/v4/files/file_id_1/thumbnail)",
+            "backgroundSize": "cover",
+          }
+        }
       />
-    </a>
+    </div>
+    <div
+      className="post-image__details"
+    >
+      <FilenameOverlay
+        canDownload={false}
+        compactDisplay={false}
+        fileInfo={
+          Object {
+            "create_at": "1",
+            "extension": "jpg",
+            "height": 100,
+            "id": "file_id_1",
+            "width": 100,
+          }
+        }
+        handleImageClick={null}
+        index={0}
+      />
+      <div>
+        <a
+          className="file-preview__remove"
+          onClick={[Function]}
+        >
+          <i
+            className="fa fa-remove"
+          />
+        </a>
+        <span
+          className="post-image__type"
+        >
+          JPG
+        </span>
+        <span
+          className="post-image__size"
+        >
+          undefinedB
+        </span>
+      </div>
+    </div>
   </div>
   <div
     className="file-preview"
@@ -52,26 +87,61 @@ exports[`component/FilePreview should match snapshot when props are changed 1`] 
   className="file-preview__container"
 >
   <div
-    className="file-preview"
+    className="file-preview post-image__column"
     key="file_id_1"
   >
     <div
-      className="post-image normal"
-      style={
-        Object {
-          "backgroundImage": "url(/api/v4/files/file_id_1/thumbnail)",
-          "backgroundSize": "cover",
-        }
-      }
-    />
-    <a
-      className="file-preview__remove"
-      onClick={[Function]}
+      className="post-image__thumbnail"
     >
-      <i
-        className="fa fa-remove"
+      <div
+        className="post-image normal"
+        style={
+          Object {
+            "backgroundImage": "url(/api/v4/files/file_id_1/thumbnail)",
+            "backgroundSize": "cover",
+          }
+        }
       />
-    </a>
+    </div>
+    <div
+      className="post-image__details"
+    >
+      <FilenameOverlay
+        canDownload={false}
+        compactDisplay={false}
+        fileInfo={
+          Object {
+            "create_at": "1",
+            "extension": "jpg",
+            "height": 100,
+            "id": "file_id_1",
+            "width": 100,
+          }
+        }
+        handleImageClick={null}
+        index={0}
+      />
+      <div>
+        <a
+          className="file-preview__remove"
+          onClick={[Function]}
+        >
+          <i
+            className="fa fa-remove"
+          />
+        </a>
+        <span
+          className="post-image__type"
+        >
+          JPG
+        </span>
+        <span
+          className="post-image__size"
+        >
+          undefinedB
+        </span>
+      </div>
+    </div>
   </div>
   <div
     className="file-preview"
@@ -99,48 +169,118 @@ exports[`component/FilePreview should match snapshot when props are changed 2`] 
   className="file-preview__container"
 >
   <div
-    className="file-preview"
+    className="file-preview post-image__column"
     key="file_id_1"
   >
     <div
-      className="post-image normal"
-      style={
-        Object {
-          "backgroundImage": "url(/api/v4/files/file_id_1/thumbnail)",
-          "backgroundSize": "cover",
-        }
-      }
-    />
-    <a
-      className="file-preview__remove"
-      onClick={[Function]}
+      className="post-image__thumbnail"
     >
-      <i
-        className="fa fa-remove"
+      <div
+        className="post-image normal"
+        style={
+          Object {
+            "backgroundImage": "url(/api/v4/files/file_id_1/thumbnail)",
+            "backgroundSize": "cover",
+          }
+        }
       />
-    </a>
+    </div>
+    <div
+      className="post-image__details"
+    >
+      <FilenameOverlay
+        canDownload={false}
+        compactDisplay={false}
+        fileInfo={
+          Object {
+            "create_at": "1",
+            "extension": "jpg",
+            "height": 100,
+            "id": "file_id_1",
+            "width": 100,
+          }
+        }
+        handleImageClick={null}
+        index={0}
+      />
+      <div>
+        <a
+          className="file-preview__remove"
+          onClick={[Function]}
+        >
+          <i
+            className="fa fa-remove"
+          />
+        </a>
+        <span
+          className="post-image__type"
+        >
+          JPG
+        </span>
+        <span
+          className="post-image__size"
+        >
+          undefinedB
+        </span>
+      </div>
+    </div>
   </div>
   <div
-    className="file-preview"
+    className="file-preview post-image__column"
     key="file_id_2"
   >
     <div
-      className="post-image normal"
-      style={
-        Object {
-          "backgroundImage": "url(/api/v4/files/file_id_2/thumbnail)",
-          "backgroundSize": "cover",
-        }
-      }
-    />
-    <a
-      className="file-preview__remove"
-      onClick={[Function]}
+      className="post-image__thumbnail"
     >
-      <i
-        className="fa fa-remove"
+      <div
+        className="post-image normal"
+        style={
+          Object {
+            "backgroundImage": "url(/api/v4/files/file_id_2/thumbnail)",
+            "backgroundSize": "cover",
+          }
+        }
       />
-    </a>
+    </div>
+    <div
+      className="post-image__details"
+    >
+      <FilenameOverlay
+        canDownload={false}
+        compactDisplay={false}
+        fileInfo={
+          Object {
+            "create_at": "2",
+            "extension": "jpg",
+            "height": 100,
+            "id": "file_id_2",
+            "width": 100,
+          }
+        }
+        handleImageClick={null}
+        index={1}
+      />
+      <div>
+        <a
+          className="file-preview__remove"
+          onClick={[Function]}
+        >
+          <i
+            className="fa fa-remove"
+          />
+        </a>
+        <span
+          className="post-image__type"
+        >
+          JPG
+        </span>
+        <span
+          className="post-image__size"
+        >
+          undefinedB
+        </span>
+      </div>
+    </div>
   </div>
 </div>
 `;

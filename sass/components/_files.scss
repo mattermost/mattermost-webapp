@@ -1,9 +1,9 @@
 @charset 'UTF-8';
 
 .file-preview__container {
-    height: 100px;
-    margin: 1px 0 10px;
-    max-height: 100px;
+    height: 108px;
+    margin: 1px 0 5px;
+    max-height: 108px;
     overflow-x: auto;
     overflow-y: hidden;
     position: relative;
@@ -146,6 +146,16 @@
 
     &--placeholder {
         visibility: hidden;
+    }
+
+    &.file-preview {
+        margin: 0 10px 0 0;
+        float: none;
+        .post-image__details {
+            .post-image__name {
+                white-space: normal;
+            }
+        }
     }
 }
 
