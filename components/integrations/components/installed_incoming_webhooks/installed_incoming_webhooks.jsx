@@ -76,11 +76,11 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
     componentDidMount() {
         if (window.mm_config.EnableIncomingWebhooks === 'true') {
             this.props.actions.getIncomingHooks(
-              this.props.teamId,
-              Constants.Integrations.START_PAGE_NUM,
-              Constants.Integrations.PAGE_SIZE
+                this.props.teamId,
+                Constants.Integrations.START_PAGE_NUM,
+                Constants.Integrations.PAGE_SIZE
             ).then(
-              () => this.setState({loading: false})
+                () => this.setState({loading: false})
             );
         }
     }

@@ -1165,19 +1165,21 @@ export default class SecurityTab extends React.Component {
                             />
                         </span>
                     );
-                    activeLink = (<a
-                        name={token.id + '_activate'}
-                        href='#'
-                        onClick={(e) => {
-                            e.preventDefault();
-                            this.activateToken(token.id);
-                        }}
-                                  >
-                        <FormattedMessage
-                            id='user.settings.tokens.activate'
-                            defaultMessage='Activate'
-                        />
-                    </a>);
+                    activeLink = (
+                        <a
+                            name={token.id + '_activate'}
+                            href='#'
+                            onClick={(e) => {
+                                e.preventDefault();
+                                this.activateToken(token.id);
+                            }}
+                        >
+                            <FormattedMessage
+                                id='user.settings.tokens.activate'
+                                defaultMessage='Activate'
+                            />
+                        </a>
+                    );
                 }
 
                 tokenList.push(

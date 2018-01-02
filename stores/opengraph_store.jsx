@@ -16,7 +16,7 @@ const URL_DATA_CHANGE_EVENT = 'url_data_change';
 class OpenGraphStoreClass extends EventEmitter {
     constructor() {
         super();
-        this.ogDataObject = {};  // Format: {<url>: <data-object>}
+        this.ogDataObject = {}; // Format: {<url>: <data-object>}
     }
 
     emitChange() {

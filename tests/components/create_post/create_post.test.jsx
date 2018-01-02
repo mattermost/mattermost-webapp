@@ -65,19 +65,19 @@ const actionsProp = {
 };
 
 function createPost({
-      currentChannel = currentChannelProp,
-      currentTeamId = currentTeamIdProp,
-      currentUserId = currentUserIdProp,
-      showTutorialTip = showTutorialTipProp,
-      currentChannelMembersCount = currentChannelMembersCountProp,
-      fullWidthTextBox = fullWidthTextBoxProp,
-      draft = draftProp,
-      recentPostIdInChannel = recentPostIdInChannelProp,
-      actions = actionsProp,
-      ctrlSend = ctrlSendProp,
-      currentUsersLatestPost = currentUsersLatestPostProp,
-      commentCountForPost = commentCountForPostProp
-    } = {}) {
+    currentChannel = currentChannelProp,
+    currentTeamId = currentTeamIdProp,
+    currentUserId = currentUserIdProp,
+    showTutorialTip = showTutorialTipProp,
+    currentChannelMembersCount = currentChannelMembersCountProp,
+    fullWidthTextBox = fullWidthTextBoxProp,
+    draft = draftProp,
+    recentPostIdInChannel = recentPostIdInChannelProp,
+    actions = actionsProp,
+    ctrlSend = ctrlSendProp,
+    currentUsersLatestPost = currentUsersLatestPostProp,
+    commentCountForPost = commentCountForPostProp
+} = {}) {
     return (
         <CreatePost
             currentChannel={currentChannel}

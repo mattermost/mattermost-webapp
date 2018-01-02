@@ -9,8 +9,8 @@ module.exports = {
         const testUser = Constants.USERS.test;
         const loginPage = client.page.loginPage();
 
-        loginPage.navigate()
-            .login(testUser.email, testUser.password);
+        loginPage.navigate().
+            login(testUser.email, testUser.password);
     },
     after: (client) => client.end(),
     'Center page - element check': (client) => {
@@ -18,34 +18,34 @@ module.exports = {
         channelHeaderPage.expect.section('@channelHeader').to.be.visible;
 
         const channelHeaderSection = channelHeaderPage.section.channelHeader;
-        channelHeaderSection
-            .assert.visible('@channelHeaderPinButton')
-            .assert.visible('@channelHeaderMentionButton')
-            .assert.visible('@channelHeaderFlagButton');
+        channelHeaderSection.
+            assert.visible('@channelHeaderPinButton').
+            assert.visible('@channelHeaderMentionButton').
+            assert.visible('@channelHeaderFlagButton');
 
         channelHeaderSection.expect.section('@channelHeaderInfo').to.be.visible;
         const channelHeaderInfoSection = channelHeaderSection.section.channelHeaderInfo;
-        channelHeaderInfoSection
-            .assert.visible('@toggleFavorite')
-            .assert.visible('@channelHeaderTitle')
-            .assert.visible('@channelHeaderDescription')
-            .assert.visible('@channelHeaderDropdownButton')
-            .assert.visible('@channelHeaderTitle')
-            .assert.visible('@channelHeaderDropdownIcon')
-            .assert.hidden('@channelHeaderDropdownMenu');
+        channelHeaderInfoSection.
+            assert.visible('@toggleFavorite').
+            assert.visible('@channelHeaderTitle').
+            assert.visible('@channelHeaderDescription').
+            assert.visible('@channelHeaderDropdownButton').
+            assert.visible('@channelHeaderTitle').
+            assert.visible('@channelHeaderDropdownIcon').
+            assert.hidden('@channelHeaderDropdownMenu');
 
         channelHeaderSection.expect.section('@channelMember').to.be.visible;
         const channelMemberSection = channelHeaderSection.section.channelMember;
-        channelMemberSection
-            .assert.visible('@memberPopover')
-            .assert.visible('@channelMemberCountText')
-            .assert.visible('@channelMemberIcon');
+        channelMemberSection.
+            assert.visible('@memberPopover').
+            assert.visible('@channelMemberCountText').
+            assert.visible('@channelMemberIcon');
 
         channelHeaderSection.expect.section('@searchFormContainer').to.be.visible;
         const searchFormSection = channelHeaderSection.section.searchFormContainer;
-        searchFormSection
-            .assert.visible('@searchIcon')
-            .assert.visible('@searchBox')
-            .assert.hidden('@searchClearButton');
+        searchFormSection.
+            assert.visible('@searchIcon').
+            assert.visible('@searchBox').
+            assert.hidden('@searchClearButton');
     }
 };

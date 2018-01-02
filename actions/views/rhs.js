@@ -132,7 +132,7 @@ export function getFlaggedPosts() {
         await PostActions.getProfilesAndStatusesForPosts(result.posts, dispatch, getState);
 
         const searchActions = getSearchActions(result, teamId);
-        
+
         dispatch(batchActions(searchActions));
     };
 }
@@ -154,7 +154,7 @@ export function showFlaggedPosts() {
         let result;
         try {
             result = await Client4.getFlaggedPosts(userId, '', teamId);
-        } catch(error) {
+        } catch (error) {
             dispatch({type: ActionTypes.SEARCH_FLAGGED_POSTS_FAILURE, error});
         }
 
@@ -201,7 +201,7 @@ export function showPinnedPosts(channelId) {
         let result;
         try {
             result = await Client4.getPinnedPosts(channelId || currentChannelId);
-        } catch(error) {
+        } catch (error) {
             dispatch({type: ActionTypes.SEARCH_PINNED_POSTS_FAILURE, error});
         }
 

@@ -14,7 +14,7 @@ function mapStateToProps(state, ownProps) {
     return {
         ...ownProps,
         openGraphData: getOpenGraphMetadataForUrl(state, ownProps.link),
-        currentUser: getCurrentUser(state),
+        currentUser: getCurrentUser(state)
     };
 }
 

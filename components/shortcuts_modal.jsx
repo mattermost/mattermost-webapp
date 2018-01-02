@@ -391,14 +391,14 @@ function renderShortcut(text) {
 
     let keys = null;
     if (shortcut.length > 1) {
-        keys = shortcut[1].split('|').map((key) =>
+        keys = shortcut[1].split('|').map((key) => (
             <span
                 className='shortcut-key'
                 key={key}
             >
                 {key}
             </span>
-        );
+        ));
     }
 
     return (

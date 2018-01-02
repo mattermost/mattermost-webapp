@@ -21,7 +21,7 @@ import CreateComment from './create_comment.jsx';
 
 function mapStateToProps(state, ownProps) {
     const err = state.requests.posts.createPost.error || {};
-    
+
     const getCommentDraft = makeGetCommentDraft(ownProps.rootId);
 
     const draft = getCommentDraft(state);

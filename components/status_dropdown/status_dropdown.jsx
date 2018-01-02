@@ -13,7 +13,6 @@ import BootstrapSpan from 'components/bootstrap_span.jsx';
 import StatusIcon from 'components/status_icon.jsx';
 
 export default class StatusDropdown extends React.Component {
-
     static propTypes = {
         style: PropTypes.object,
         status: PropTypes.string,

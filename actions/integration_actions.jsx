@@ -246,16 +246,16 @@ export function getSuggestedCommands(command, suggestionId, component) {
 
 export function getYoutubeVideoInfo(googleKey, videoId, success, error) {
     request.get('https://www.googleapis.com/youtube/v3/videos').
-    query({part: 'snippet', id: videoId, key: googleKey}).
-    end((err, res) => {
-        if (err) {
-            return error(err);
-        }
+        query({part: 'snippet', id: videoId, key: googleKey}).
+        end((err, res) => {
+            if (err) {
+                return error(err);
+            }
 
-        if (!res.body) {
-            console.error('Missing response body for getYoutubeVideoInfo'); // eslint-disable-line no-console
-        }
+            if (!res.body) {
+                console.error('Missing response body for getYoutubeVideoInfo'); // eslint-disable-line no-console
+            }
 
-        return success(res.body);
-    });
+            return success(res.body);
+        });
 }

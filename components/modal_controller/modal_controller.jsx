@@ -42,5 +42,4 @@ export default class ModalController extends React.Component {
             </div>
         );
     }
-
 }

@@ -28,7 +28,8 @@
         "it": true,
         "expect": true,
         "before": true,
-        "after": true
+        "after": true,
+        "beforeEach": true
     },
     "settings": {
         "import/resolver": "webpack"
@@ -43,7 +44,7 @@
         "brace-style": [2, "1tbs", { "allowSingleLine": false }],
         "camelcase": [2, {"properties": "never"}],
         "capitalized-comments": 0,
-        "class-methods-use-this": 1,
+        "class-methods-use-this": 0,
         "comma-dangle": [2, "never"],
         "comma-spacing": [2, {"before": false, "after": true}],
         "comma-style": [2, "last"],
@@ -227,7 +228,6 @@
         "react/jsx-no-target-blank": 2,
         "react/jsx-no-undef": 2,
         "react/jsx-pascal-case": 2,
-        "react/jsx-space-before-closing": [2, "never"],
         "react/jsx-tag-spacing": [2, { "closingSlash": "never", "beforeSelfClosing": "never", "afterOpening": "never" }],
         "react/jsx-uses-react": 2,
         "react/jsx-uses-vars": 2,

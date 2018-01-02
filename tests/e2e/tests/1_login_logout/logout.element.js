@@ -9,14 +9,14 @@ module.exports = {
         const testUser = Constants.USERS.test;
         const loginPage = client.page.loginPage();
 
-        loginPage.navigate()
-            .login(testUser.email, testUser.password);
+        loginPage.navigate().
+            login(testUser.email, testUser.password);
     },
     after: (client) => client.end(),
     'Test logout action': (client) => {
         const logoutPage = client.page.logoutPage();
 
-        logoutPage.navigate()
-            .logout();
+        logoutPage.navigate().
+            logout();
     }
 };

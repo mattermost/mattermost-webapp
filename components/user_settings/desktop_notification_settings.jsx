@@ -370,7 +370,7 @@ export default class DesktopNotificationSettings extends React.Component {
                 />
             );
         } else {
-            if (Utils.hasSoundOptions() && this.props.sound !== 'false') {  //eslint-disable-line no-lonely-if
+            if (Utils.hasSoundOptions() && this.props.sound !== 'false') { //eslint-disable-line no-lonely-if
                 if (this.props.duration === '0') { //eslint-disable-line no-lonely-if
                     describe = (
                         <FormattedMessage

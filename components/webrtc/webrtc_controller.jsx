@@ -167,8 +167,7 @@ export default class WebrtcController extends React.Component {
 
     getLocalMedia(constraints, element, callback) {
         const media = constraints || {audio: true, video: true};
-        navigator.mediaDevices.getUserMedia(media).
-        then((stream) => {
+        navigator.mediaDevices.getUserMedia(media).then((stream) => {
             if (element) {
                 element.srcObject = stream;
             }
@@ -176,8 +175,7 @@ export default class WebrtcController extends React.Component {
             if (callback && typeof callback === 'function') {
                 callback(null, stream);
             }
-        }).
-        catch((error) => {
+        }).catch((error) => {
             callback(error);
         });
     }

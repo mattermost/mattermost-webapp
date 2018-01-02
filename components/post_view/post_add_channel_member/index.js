@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 
 import {addChannelMember} from 'mattermost-redux/actions/channels';
 import {removePost} from 'mattermost-redux/actions/posts';
-import {getPost} from 'mattermost-redux/selectors/entities/posts'
+import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getChannel, getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
@@ -18,7 +18,7 @@ function mapStateToProps(state, ownProps) {
     return {
         ...ownProps,
         team: getCurrentTeam(state),
-        channel: getChannel(state, currentChannelId),
+        channel: getChannel(state, currentChannelId)
     };
 }
 
