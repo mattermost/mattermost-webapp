@@ -8,8 +8,8 @@ export default class StatusOnlineIcon extends React.PureComponent {
         return (
             <span {...this.props}>
                 <svg
-                    width='100%'
-                    height='100%'
+                    width='13px'
+                    height='13px'
                     viewBox='0 0 20 20'
                     style={style}
                 >

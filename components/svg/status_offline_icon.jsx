@@ -9,8 +9,8 @@ export default class StatusOfflineIcon extends React.PureComponent {
             <span {...this.props}>
                 <svg
                     className='offline--icon'
-                    width='100%'
-                    height='100%'
+                    width='13px'
+                    height='13px'
                     viewBox='0 0 20 20'
                     style={style}
                 >

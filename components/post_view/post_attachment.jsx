@@ -353,7 +353,7 @@ export default class PostAttachment extends React.PureComponent {
                                 {actions}
                             </div>
                             {thumb}
-                            <div style={{clear: 'both'}}/>
+                            <div style={style.footer}/>
                         </div>
                     </div>
                 </div>
@@ -361,3 +361,7 @@ export default class PostAttachment extends React.PureComponent {
         );
     }
 }
+
+const style = {
+    footer: {clear: 'both'}
+};

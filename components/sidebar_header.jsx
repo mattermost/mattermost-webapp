@@ -42,7 +42,7 @@ export default class SidebarHeader extends React.Component {
             return {};
         }
         const tutorialStep = PreferenceStore.getInt(Preferences.TUTORIAL_STEP, this.props.currentUser.id, 999);
-        const showTutorialTip = tutorialStep === TutorialSteps.MENU_POPOVER && !Utils.isMobile();
+        const showTutorialTip = tutorialStep === TutorialSteps.MENU_POPOVER && !Utils.isMobile() && global.window.mm_config.EnableTutorial === 'true';
 
         return {showTutorialTip};
     }
@@ -83,12 +83,12 @@ export default class SidebarHeader extends React.Component {
         let teamNameWithToolTip = null;
         if (this.props.teamDescription === '') {
             teamNameWithToolTip = (
-                <div
+                <h1
                     id='headerTeamName'
                     className='team__name'
                 >
                     {this.props.teamDisplayName}
-                </div>
+                </h1>
             );
         } else {
             teamNameWithToolTip = (
@@ -99,12 +99,12 @@ export default class SidebarHeader extends React.Component {
                     overlay={<Tooltip id='team-name__tooltip'>{this.props.teamDescription}</Tooltip>}
                     ref='descriptionOverlay'
                 >
-                    <div
+                    <h1
                         id='headerTeamName'
                         className='team__name'
                     >
                         {this.props.teamDisplayName}
-                    </div>
+                    </h1>
                 </OverlayTrigger>
             );
         }

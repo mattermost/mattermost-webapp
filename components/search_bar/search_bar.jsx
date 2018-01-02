@@ -21,7 +21,7 @@ const {KeyCodes} = Constants;
 
 export default class SearchBar extends React.Component {
     static propTypes = {
-        isSearching: PropTypes.bool,
+        isSearchingTerm: PropTypes.bool,
         searchTerms: PropTypes.string,
         isMentionSearch: PropTypes.bool,
         isFlaggedPosts: PropTypes.bool,
@@ -166,9 +166,9 @@ export default class SearchBar extends React.Component {
     }
 
     render() {
-        var isSearching = null;
-        if (this.props.isSearching) {
-            isSearching = <span className={'fa fa-spin fa-spinner'}/>;
+        var isSearchingTerm = null;
+        if (this.props.isSearchingTerm) {
+            isSearchingTerm = <span className={'fa fa-spin fa-spinner'}/>;
         }
 
         let helpClass = 'search-help-popover';
@@ -245,7 +245,7 @@ export default class SearchBar extends React.Component {
         }
 
         let clearClass = 'sidebar__search-clear';
-        if (!this.props.isSearching && this.props.searchTerms && this.props.searchTerms.trim() !== '') {
+        if (!this.props.isSearchingTerm && this.props.searchTerms && this.props.searchTerms.trim() !== '') {
             clearClass += ' visible';
         }
 
@@ -272,7 +272,7 @@ export default class SearchBar extends React.Component {
                         role='form'
                         className={searchFormClass}
                         onSubmit={this.handleSubmit}
-                        style={{overflow: 'visible'}}
+                        style={style.searchForm}
                         autoComplete='off'
                     >
                         <SearchIcon
@@ -307,7 +307,7 @@ export default class SearchBar extends React.Component {
                                 {'×'}
                             </span>
                         </div>
-                        {isSearching}
+                        {isSearchingTerm}
                         {this.renderHintPopover(helpClass)}
                     </form>
                 </div>
@@ -331,4 +331,8 @@ SearchBar.propTypes = {
     showMentionFlagBtns: PropTypes.bool,
     isCommentsPage: PropTypes.bool,
     isFocus: PropTypes.bool
+};
+
+const style = {
+    searchForm: {overflow: 'visible'}
 };

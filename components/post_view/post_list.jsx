@@ -119,12 +119,12 @@ export default class PostList extends React.PureComponent {
         this.loadPosts(this.props.channel.id, this.props.focusedPostId);
         GlobalEventEmitter.addListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.handleResize);
 
-        window.addEventListener('resize', () => this.handleResize());
+        window.addEventListener('resize', this.handleResize);
     }
 
     componentWillUnmount() {
         GlobalEventEmitter.removeListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.handleResize);
-        window.removeEventListener('resize', () => this.handleResize());
+        window.removeEventListener('resize', this.handleResize);
     }
 
     componentWillReceiveProps(nextProps) {

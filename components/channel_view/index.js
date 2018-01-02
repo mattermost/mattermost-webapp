@@ -27,7 +27,7 @@ function mapStateToProps(state, ownProps) {
     return {
         channelId,
         deactivatedChannel: getDeactivatedChannel(state, channelId),
-        showTutorial: Number(get(state, Preferences.TUTORIAL_STEP, state.entities.users.currentUserId, 999)) <= TutorialSteps.INTRO_SCREENS
+        showTutorial: Number(get(state, Preferences.TUTORIAL_STEP, state.entities.users.currentUserId, 999)) <= TutorialSteps.INTRO_SCREENS && global.window.mm_config.EnableTutorial === 'true'
     };
 }
 

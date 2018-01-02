@@ -56,24 +56,10 @@ export default class RhsRootPost extends React.Component {
 
         this.state = {
             currentTeamDisplayName: TeamStore.getCurrent().name,
-            width: '',
-            height: '',
             showEmojiPicker: false,
             testStateObj: true,
             dropdownOpened: false
         };
-    }
-
-    componentDidMount() {
-        window.addEventListener('resize', () => {
-            Utils.updateWindowDimensions(this);
-        });
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', () => {
-            Utils.updateWindowDimensions(this);
-        });
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -129,7 +115,25 @@ export default class RhsRootPost extends React.Component {
             return true;
         }
 
+        if ((this.state.width !== nextState.width) || this.state.height !== nextState.height) {
+            return true;
+        }
+
         return false;
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', this.setDimensions);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.setDimensions);
+    }
+
+    setDimensions = () => {
+        this.setState({
+            ...Utils.getWindowDimensions()
+        });
     }
 
     timeTag(post, timeOptions) {

@@ -303,7 +303,7 @@ export default class WebrtcNotification extends React.Component {
                     />
                     <div
                         className='webrtc-buttons webrtc-icons active'
-                        style={{marginTop: '5px'}}
+                        style={style.buttons}
                     >
                         {answerBtn}
                         {rejectBtn}
@@ -345,3 +345,7 @@ export default class WebrtcNotification extends React.Component {
         return <div/>;
     }
 }
+
+const style = {
+    buttons: {marginTop: 5}
+};

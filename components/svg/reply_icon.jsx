@@ -11,6 +11,8 @@ export default class ReplyIcon extends React.PureComponent {
                     id='Layer_1'
                     x='0px'
                     y='0px'
+                    width='17px'
+                    height='17px'
                     viewBox='-158 242 18 18'
                     style={style}
                 >

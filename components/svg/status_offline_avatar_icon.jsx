@@ -11,6 +11,8 @@ export default class StatusDndAvatarIcon extends React.PureComponent {
                     id='Layer_1'
                     x='0px'
                     y='0px'
+                    width='13px'
+                    height='13px'
                     viewBox='-299 391 12 12'
                     style={style}
                 >

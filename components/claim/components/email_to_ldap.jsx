@@ -192,7 +192,7 @@ export default class EmailToLDAP extends React.Component {
                     </p>
                     <input
                         type='text'
-                        style={{display: 'none'}}
+                        style={style.usernameInput}
                         name='fakeusernameremembered'
                     />
                     <div className={passwordClass}>
@@ -269,4 +269,8 @@ EmailToLDAP.defaultProps = {
 };
 EmailToLDAP.propTypes = {
     email: PropTypes.string
+};
+
+const style = {
+    usernameInput: {display: 'none'}
 };
