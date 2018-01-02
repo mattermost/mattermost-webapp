@@ -20,13 +20,13 @@ import EmailNotificationSetting from './email_notification_setting.jsx';
 function getNotificationsStateFromStores() {
     const user = UserStore.getCurrentUser();
 
-    let desktop = NotificationLevels.DEFAULT;
+    let desktop = NotificationLevels.MENTION;
     let sound = 'true';
     let desktopDuration = '5';
     let comments = 'never';
     let enableEmail = 'true';
     let pushActivity = NotificationLevels.MENTION;
-    let pushStatus = Constants.UserStatuses.ONLINE;
+    let pushStatus = Constants.UserStatuses.AWAY;
 
     if (user.notify_props) {
         if (user.notify_props.desktop) {
