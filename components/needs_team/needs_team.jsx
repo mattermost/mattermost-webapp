@@ -105,7 +105,7 @@ export default class NeedsTeam extends React.Component {
     componentWillMount() {
         // Go to tutorial if we are first arriving
         const tutorialStep = PreferenceStore.getInt(Preferences.TUTORIAL_STEP, UserStore.getCurrentId(), 999);
-        if (tutorialStep <= TutorialSteps.INTRO_SCREENS) {
+        if (tutorialStep <= TutorialSteps.INTRO_SCREENS && global.window.mm_config.EnableTutorial === 'true') {
             browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/tutorial');
         }
     }
