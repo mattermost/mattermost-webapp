@@ -16,9 +16,9 @@ import LoadingScreen from 'components/loading_screen.jsx';
 
 import EmojiListItem from './emoji_list_item.jsx';
 
-const deleteEmoji = (emoji)  => {
+function deleteEmoji(emoji) {
     EmojiActions.deleteEmoji(emoji.id);
-};
+}
 
 export default class EmojiList extends React.Component {
     static get propTypes() {
