@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/search_results_item should match snapshot for DM 1`] = `
+exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
 <div
   className="search-item__container"
 >
@@ -207,7 +207,7 @@ exports[`components/search_results_item should match snapshot for DM 1`] = `
 </div>
 `;
 
-exports[`components/search_results_item should match snapshot for channel 1`] = `
+exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
 <div
   className="search-item__container"
 >
@@ -383,7 +383,7 @@ exports[`components/search_results_item should match snapshot for channel 1`] = 
 </div>
 `;
 
-exports[`components/search_results_item should match snapshot for deleted message with attachments by bot 1`] = `
+exports[`components/SearchResultsItem should match snapshot for deleted message with attachments by bot 1`] = `
 <div
   className="search-item__container"
 >

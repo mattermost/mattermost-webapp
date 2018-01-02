@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/rename_channel_modal/rename_channel_modal.jsx should match snapshot 1`] = `
+exports[`components/RenameChannelModal should match snapshot 1`] = `
 <Modal
   animation={true}
   autoFocus={true}

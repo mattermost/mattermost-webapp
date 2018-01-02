@@ -53,7 +53,7 @@ function createEditPost({ctrlSend, config, license, editingPost, actions} = {}) 
     );
 }
 
-describe('comoponents/edit_post_modal/edit_post_modal.jsx', () => {
+describe('comoponents/EditPostModal', () => {
     it('should match with default config', () => {
         const wrapper = shallow(createEditPost());
         expect(wrapper).toMatchSnapshot();

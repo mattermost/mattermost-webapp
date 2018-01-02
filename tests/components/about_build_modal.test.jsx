@@ -10,15 +10,29 @@ import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import AboutBuildModal from 'components/about_build_modal/about_build_modal.jsx';
 
 describe('components/AboutBuildModal', () => {
+    const RealDate = Date;
+
+    function mockDate(date) {
+        global.Date = class extends RealDate {
+            constructor() {
+                super();
+                return new RealDate(date);
+            }
+        };
+    }
+
     let config = null;
     let license = null;
 
     afterEach(() => {
+        global.Date = RealDate;
         config = null;
         license = null;
     });
 
     beforeEach(() => {
+        mockDate('2017-01-01');
+
         config = {
             BuildEnterpriseReady: 'true',
             Version: '3.6.0',

@@ -17,7 +17,7 @@ jest.mock('actions/global_actions.jsx', () => {
     };
 });
 
-describe('components/integrations/DotMenuItem', () => {
+describe('components/dot_menu/DotMenuItem', () => {
     test('should match snapshot, on Reply', () => {
         const props = {
             idPrefix: 'idPrefixDotMenuReply',
