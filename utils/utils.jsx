@@ -948,9 +948,10 @@ export function isMobile() {
 }
 
 export function getDirectTeammate(channelId) {
-    var userIds = ChannelStore.get(channelId).name.split('__');
-    var curUserId = UserStore.getCurrentId();
-    var teammate = {};
+    const channel = ChannelStore.get(channelId) || {};
+    const userIds = channel.name.split('__');
+    const curUserId = UserStore.getCurrentId();
+    let teammate = {};
 
     if (userIds.length !== 2 || userIds.indexOf(curUserId) === -1) {
         return teammate;
