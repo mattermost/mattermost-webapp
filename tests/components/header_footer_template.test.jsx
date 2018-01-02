@@ -20,7 +20,7 @@ describe('components/HeaderFooterTemplate', () => {
     }
 
     beforeEach(() => {
-        mockDate('2017-01-01');
+        mockDate('2017-06-01');
 
         const elm = document.createElement('div');
         elm.setAttribute('id', 'root');
