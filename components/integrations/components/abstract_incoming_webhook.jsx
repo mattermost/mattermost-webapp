@@ -66,8 +66,8 @@ export default class AbstractIncomingWebhook extends React.Component {
             displayName: hook.display_name || '',
             description: hook.description || '',
             channelId: hook.channel_id || '',
-            postUsername: hook.post_username || '',
-            postIconURL: hook.post_icon_url || '',
+            username: hook.username || '',
+            iconURL: hook.icon_url || '',
             saving: false,
             serverError: '',
             clientError: null
@@ -105,8 +105,8 @@ export default class AbstractIncomingWebhook extends React.Component {
             channel_id: this.state.channelId,
             display_name: this.state.displayName,
             description: this.state.description,
-            post_username: this.state.postUsername,
-            post_icon_url: this.state.postIconURL
+            username: this.state.username,
+            icon_url: this.state.iconURL
         };
 
         this.props.action(hook).then(() => this.setState({saving: false}));
@@ -130,15 +130,15 @@ export default class AbstractIncomingWebhook extends React.Component {
         });
     }
 
-    updatePostUsername = (e) => {
+    updateUsername = (e) => {
         this.setState({
-            postUsername: e.target.value
+            username: e.target.value
         });
     }
 
-    updatePostIconURL = (e) => {
+    updateIconURL = (e) => {
         this.setState({
-            postIconURL: e.target.value
+            iconURL: e.target.value
         });
     }
 
@@ -249,25 +249,25 @@ export default class AbstractIncomingWebhook extends React.Component {
                             <div className='form-group'>
                                 <label
                                     className='control-label col-sm-4'
-                                    htmlFor='postUsername'
+                                    htmlFor='username'
                                 >
                                     <FormattedMessage
-                                        id='add_incoming_webhook.post_username'
+                                        id='add_incoming_webhook.username'
                                         defaultMessage='Username'
                                     />
                                 </label>
                                 <div className='col-md-5 col-sm-8'>
                                     <input
-                                        id='postUsername'
+                                        id='username'
                                         type='text'
                                         maxLength='22'
                                         className='form-control'
-                                        value={this.state.postUsername}
-                                        onChange={this.updatePostUsername}
+                                        value={this.state.username}
+                                        onChange={this.updateUsername}
                                     />
                                     <div className='form__help'>
                                         <FormattedMessage
-                                            id='add_incoming_webhook.post_username.help'
+                                            id='add_incoming_webhook.username.help'
                                             defaultMessage='Choose the username this integration will post as. Usernames can be up to 22 characters, and may contain lowercase letters, numbers and the symbols "-", "_", and ".".'
                                         />
                                     </div>
@@ -278,25 +278,25 @@ export default class AbstractIncomingWebhook extends React.Component {
                             <div className='form-group'>
                                 <label
                                     className='control-label col-sm-4'
-                                    htmlFor='postIconURL'
+                                    htmlFor='iconURL'
                                 >
                                     <FormattedMessage
-                                        id='add_incoming_webhook.post_icon_url'
+                                        id='add_incoming_webhook.icon_url'
                                         defaultMessage='Profile Picture'
                                     />
                                 </label>
                                 <div className='col-md-5 col-sm-8'>
                                     <input
-                                        id='postIconURL'
+                                        id='iconURL'
                                         type='text'
                                         maxLength='1024'
                                         className='form-control'
-                                        value={this.state.postIconURL}
-                                        onChange={this.updatePostIconURL}
+                                        value={this.state.iconURL}
+                                        onChange={this.updateIconURL}
                                     />
                                     <div className='form__help'>
                                         <FormattedMessage
-                                            id='add_incoming_webhook.post_icon_url.help'
+                                            id='add_incoming_webhook.icon_url.help'
                                             defaultMessage='Choose the profile picture this integration will use when posting. Enter the URL of a .png or .jpg file at least 128 pixels by 128 pixels.'
                                         />
                                     </div>

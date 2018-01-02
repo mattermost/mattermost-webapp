@@ -139,11 +139,11 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
       >
         <label
           className="control-label col-sm-4"
-          htmlFor="postUsername"
+          htmlFor="username"
         >
           <FormattedMessage
             defaultMessage="Username"
-            id="add_incoming_webhook.post_username"
+            id="add_incoming_webhook.username"
             values={Object {}}
           />
         </label>
@@ -152,7 +152,7 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
         >
           <input
             className="form-control"
-            id="postUsername"
+            id="username"
             maxLength="22"
             onChange={[Function]}
             type="text"
@@ -163,7 +163,7 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
           >
             <FormattedMessage
               defaultMessage="Choose the username this integration will post as. Usernames can be up to 22 characters, and may contain lowercase letters, numbers and the symbols \\"-\\", \\"_\\", and \\".\\"."
-              id="add_incoming_webhook.post_username.help"
+              id="add_incoming_webhook.username.help"
               values={Object {}}
             />
           </div>
@@ -174,11 +174,11 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
       >
         <label
           className="control-label col-sm-4"
-          htmlFor="postIconURL"
+          htmlFor="iconURL"
         >
           <FormattedMessage
             defaultMessage="Profile Picture"
-            id="add_incoming_webhook.post_icon_url"
+            id="add_incoming_webhook.icon_url"
             values={Object {}}
           />
         </label>
@@ -187,7 +187,7 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
         >
           <input
             className="form-control"
-            id="postIconURL"
+            id="iconURL"
             maxLength="1024"
             onChange={[Function]}
             type="text"
@@ -198,7 +198,7 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
           >
             <FormattedMessage
               defaultMessage="Choose the profile picture this integration will use when posting. Enter the URL of a .png or .jpg file at least 128 pixels by 128 pixels."
-              id="add_incoming_webhook.post_icon_url.help"
+              id="add_incoming_webhook.icon_url.help"
               values={Object {}}
             />
           </div>
@@ -386,11 +386,11 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
       >
         <label
           className="control-label col-sm-4"
-          htmlFor="postUsername"
+          htmlFor="username"
         >
           <FormattedMessage
             defaultMessage="Username"
-            id="add_incoming_webhook.post_username"
+            id="add_incoming_webhook.username"
             values={Object {}}
           />
         </label>
@@ -399,7 +399,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
         >
           <input
             className="form-control"
-            id="postUsername"
+            id="username"
             maxLength="22"
             onChange={[Function]}
             type="text"
@@ -410,7 +410,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
           >
             <FormattedMessage
               defaultMessage="Choose the username this integration will post as. Usernames can be up to 22 characters, and may contain lowercase letters, numbers and the symbols \\"-\\", \\"_\\", and \\".\\"."
-              id="add_incoming_webhook.post_username.help"
+              id="add_incoming_webhook.username.help"
               values={Object {}}
             />
           </div>
@@ -421,11 +421,11 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
       >
         <label
           className="control-label col-sm-4"
-          htmlFor="postIconURL"
+          htmlFor="iconURL"
         >
           <FormattedMessage
             defaultMessage="Profile Picture"
-            id="add_incoming_webhook.post_icon_url"
+            id="add_incoming_webhook.icon_url"
             values={Object {}}
           />
         </label>
@@ -434,7 +434,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
         >
           <input
             className="form-control"
-            id="postIconURL"
+            id="iconURL"
             maxLength="1024"
             onChange={[Function]}
             type="text"
@@ -445,7 +445,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
           >
             <FormattedMessage
               defaultMessage="Choose the profile picture this integration will use when posting. Enter the URL of a .png or .jpg file at least 128 pixels by 128 pixels."
-              id="add_incoming_webhook.post_icon_url.help"
+              id="add_incoming_webhook.icon_url.help"
               values={Object {}}
             />
           </div>
@@ -633,11 +633,11 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
       >
         <label
           className="control-label col-sm-4"
-          htmlFor="postUsername"
+          htmlFor="username"
         >
           <FormattedMessage
             defaultMessage="Username"
-            id="add_incoming_webhook.post_username"
+            id="add_incoming_webhook.username"
             values={Object {}}
           />
         </label>
@@ -646,7 +646,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
         >
           <input
             className="form-control"
-            id="postUsername"
+            id="username"
             maxLength="22"
             onChange={[Function]}
             type="text"
@@ -657,7 +657,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           >
             <FormattedMessage
               defaultMessage="Choose the username this integration will post as. Usernames can be up to 22 characters, and may contain lowercase letters, numbers and the symbols \\"-\\", \\"_\\", and \\".\\"."
-              id="add_incoming_webhook.post_username.help"
+              id="add_incoming_webhook.username.help"
               values={Object {}}
             />
           </div>
@@ -668,11 +668,11 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
       >
         <label
           className="control-label col-sm-4"
-          htmlFor="postIconURL"
+          htmlFor="iconURL"
         >
           <FormattedMessage
             defaultMessage="Profile Picture"
-            id="add_incoming_webhook.post_icon_url"
+            id="add_incoming_webhook.icon_url"
             values={Object {}}
           />
         </label>
@@ -681,7 +681,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
         >
           <input
             className="form-control"
-            id="postIconURL"
+            id="iconURL"
             maxLength="1024"
             onChange={[Function]}
             type="text"
@@ -692,7 +692,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           >
             <FormattedMessage
               defaultMessage="Choose the profile picture this integration will use when posting. Enter the URL of a .png or .jpg file at least 128 pixels by 128 pixels."
-              id="add_incoming_webhook.post_icon_url.help"
+              id="add_incoming_webhook.icon_url.help"
               values={Object {}}
             />
           </div>
@@ -884,11 +884,11 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
       >
         <label
           className="control-label col-sm-4"
-          htmlFor="postUsername"
+          htmlFor="username"
         >
           <FormattedMessage
             defaultMessage="Username"
-            id="add_incoming_webhook.post_username"
+            id="add_incoming_webhook.username"
             values={Object {}}
           />
         </label>
@@ -897,7 +897,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
         >
           <input
             className="form-control"
-            id="postUsername"
+            id="username"
             maxLength="22"
             onChange={[Function]}
             type="text"
@@ -908,7 +908,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           >
             <FormattedMessage
               defaultMessage="Choose the username this integration will post as. Usernames can be up to 22 characters, and may contain lowercase letters, numbers and the symbols \\"-\\", \\"_\\", and \\".\\"."
-              id="add_incoming_webhook.post_username.help"
+              id="add_incoming_webhook.username.help"
               values={Object {}}
             />
           </div>
@@ -1096,11 +1096,11 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
       >
         <label
           className="control-label col-sm-4"
-          htmlFor="postIconURL"
+          htmlFor="iconURL"
         >
           <FormattedMessage
             defaultMessage="Profile Picture"
-            id="add_incoming_webhook.post_icon_url"
+            id="add_incoming_webhook.icon_url"
             values={Object {}}
           />
         </label>
@@ -1109,7 +1109,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
         >
           <input
             className="form-control"
-            id="postIconURL"
+            id="iconURL"
             maxLength="1024"
             onChange={[Function]}
             type="text"
@@ -1120,7 +1120,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           >
             <FormattedMessage
               defaultMessage="Choose the profile picture this integration will use when posting. Enter the URL of a .png or .jpg file at least 128 pixels by 128 pixels."
-              id="add_incoming_webhook.post_icon_url.help"
+              id="add_incoming_webhook.icon_url.help"
               values={Object {}}
             />
           </div>
@@ -1308,11 +1308,11 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
       >
         <label
           className="control-label col-sm-4"
-          htmlFor="postUsername"
+          htmlFor="username"
         >
           <FormattedMessage
             defaultMessage="Username"
-            id="add_incoming_webhook.post_username"
+            id="add_incoming_webhook.username"
             values={Object {}}
           />
         </label>
@@ -1321,7 +1321,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
         >
           <input
             className="form-control"
-            id="postUsername"
+            id="username"
             maxLength="22"
             onChange={[Function]}
             type="text"
@@ -1332,7 +1332,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           >
             <FormattedMessage
               defaultMessage="Choose the username this integration will post as. Usernames can be up to 22 characters, and may contain lowercase letters, numbers and the symbols \\"-\\", \\"_\\", and \\".\\"."
-              id="add_incoming_webhook.post_username.help"
+              id="add_incoming_webhook.username.help"
               values={Object {}}
             />
           </div>
@@ -1343,11 +1343,11 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
       >
         <label
           className="control-label col-sm-4"
-          htmlFor="postIconURL"
+          htmlFor="iconURL"
         >
           <FormattedMessage
             defaultMessage="Profile Picture"
-            id="add_incoming_webhook.post_icon_url"
+            id="add_incoming_webhook.icon_url"
             values={Object {}}
           />
         </label>
@@ -1356,7 +1356,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
         >
           <input
             className="form-control"
-            id="postIconURL"
+            id="iconURL"
             maxLength="1024"
             onChange={[Function]}
             type="text"
@@ -1367,7 +1367,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
           >
             <FormattedMessage
               defaultMessage="Choose the profile picture this integration will use when posting. Enter the URL of a .png or .jpg file at least 128 pixels by 128 pixels."
-              id="add_incoming_webhook.post_icon_url.help"
+              id="add_incoming_webhook.icon_url.help"
               values={Object {}}
             />
           </div>

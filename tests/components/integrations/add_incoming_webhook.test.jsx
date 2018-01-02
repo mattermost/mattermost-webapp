@@ -32,8 +32,8 @@ describe('components/integrations/AddIncomingWebhook', () => {
             channel_id: 'channel_id',
             display_name: 'display_name',
             description: 'description',
-            post_username: 'post_username',
-            post_icon_url: 'post_icon_url'
+            username: 'username',
+            icon_url: 'icon_url'
         };
         const wrapper = shallow(<AddIncomingWebhook {...props}/>);
         wrapper.instance().addIncomingHook(hook);

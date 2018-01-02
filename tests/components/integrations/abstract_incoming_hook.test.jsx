@@ -120,29 +120,29 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
         expect(wrapper.state('description')).toBe(newDescription);
     });
 
-    test('should update state.postUsername on post username change', () => {
-        const newPostUsername = 'new_username';
+    test('should update state.username on post username change', () => {
+        const newUsername = 'new_username';
         const evt = {
             preventDefault: jest.fn(),
-            target: {value: newPostUsername}
+            target: {value: newUsername}
         };
 
         const wrapper = shallow(<AbstractIncomingWebhook {...requiredProps}/>);
-        wrapper.find('#postUsername').simulate('change', evt);
+        wrapper.find('#username').simulate('change', evt);
 
-        expect(wrapper.state('postUsername')).toBe(newPostUsername);
+        expect(wrapper.state('username')).toBe(newUsername);
     });
 
-    test('should update state.postIconURL on post icon url change', () => {
-        const newPostIconURL = 'http://example.com/icon';
+    test('should update state.iconURL on post icon url change', () => {
+        const newIconURL = 'http://example.com/icon';
         const evt = {
             preventDefault: jest.fn(),
-            target: {value: newPostIconURL}
+            target: {value: newIconURL}
         };
 
         const wrapper = shallow(<AbstractIncomingWebhook {...requiredProps}/>);
-        wrapper.find('#postIconURL').simulate('change', evt);
+        wrapper.find('#iconURL').simulate('change', evt);
 
-        expect(wrapper.state('postIconURL')).toBe(newPostIconURL);
+        expect(wrapper.state('iconURL')).toBe(newIconURL);
     });
 });
