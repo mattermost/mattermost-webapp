@@ -12,6 +12,16 @@ import AboutBuildModal from 'components/about_build_modal/about_build_modal.jsx'
 describe('components/AboutBuildModal', () => {
     let config = null;
     let license = null;
+    const RealDate = Date;
+
+    function mockDate(date) {
+        global.Date = class extends RealDate {
+            constructor() {
+                super();
+                return new RealDate(date);
+            }
+        };
+    }
 
     afterEach(() => {
         config = null;
@@ -19,6 +29,8 @@ describe('components/AboutBuildModal', () => {
     });
 
     beforeEach(() => {
+        mockDate('2017-06-01');
+
         config = {
             BuildEnterpriseReady: 'true',
             Version: '3.6.0',

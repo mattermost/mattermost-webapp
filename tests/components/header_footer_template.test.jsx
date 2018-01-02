@@ -8,7 +8,20 @@ import {shallow} from 'enzyme';
 import NotLoggedIn from 'components/header_footer_template/header_footer_template.jsx';
 
 describe('components/HeaderFooterTemplate', () => {
+    const RealDate = Date;
+
+    function mockDate(date) {
+        global.Date = class extends RealDate {
+            constructor() {
+                super();
+                return new RealDate(date);
+            }
+        };
+    }
+
     beforeEach(() => {
+        mockDate('2017-06-01');
+
         const elm = document.createElement('div');
         elm.setAttribute('id', 'root');
         document.body.appendChild(elm);
