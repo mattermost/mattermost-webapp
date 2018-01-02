@@ -209,26 +209,6 @@ describe('rhs view actions', () => {
         });
     });
 
-    function receivedSearchResultsAction(teamId, result) {
-        return batchActions([
-            {
-                type: SearchTypes.RECEIVED_SEARCH_POSTS,
-                data: result
-            },
-            {
-                type: SearchTypes.RECEIVED_SEARCH_TERM,
-                data: {
-                    teamId,
-                    terms: null,
-                    isOrSearch: false
-                }
-            },
-            {
-                type: SearchTypes.SEARCH_POSTS_SUCCESS
-            }
-        ], 'SEARCH_POST_BATCH');
-    }
-
     describe('getFlaggedPosts', () => {
         test('it dispatches the right actions', async () => {
             await store.dispatch(getFlaggedPosts());
@@ -266,7 +246,7 @@ describe('rhs view actions', () => {
             const compareStore = mockStore(initialState);
             const result = await Client4.getFlaggedPosts(currentUserId, '', currentTeamId);
             await PostActions.getProfilesAndStatusesForPosts(result.posts, compareStore.dispatch, compareStore.getState);
-            
+
             compareStore.dispatch(batchActions([
                 {
                     type: ActionTypes.SEARCH_FLAGGED_POSTS_REQUEST
