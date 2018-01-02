@@ -87,7 +87,7 @@ export default class Sidebar extends React.Component {
             teamMembers,
             ...displayableChannels,
             unreadCounts: JSON.parse(JSON.stringify(ChannelStore.getUnreadCounts())),
-            showTutorialTip: tutorialStep === TutorialSteps.CHANNEL_POPOVER,
+            showTutorialTip: tutorialStep === TutorialSteps.CHANNEL_POPOVER && global.window.mm_config.EnableTutorial === 'true',
             currentTeam: TeamStore.getCurrent(),
             currentUser: UserStore.getCurrentUser(),
             townSquare: ChannelStore.getByName(Constants.DEFAULT_CHANNEL),

@@ -15,7 +15,7 @@ import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import SearchResultsHeader from '../search_results_header';
-import SearchResultsItem from '../search_results_item.jsx';
+import SearchResultsItem from 'components/search_results_item';
 
 export function renderView(props) {
     return (
@@ -47,7 +47,9 @@ export default class SearchResults extends React.PureComponent {
         channels: PropTypes.object,
         searchTerms: PropTypes.string,
         isFlaggedByPostId: PropTypes.object,
-        loading: PropTypes.bool,
+        isSearchingTerm: PropTypes.bool,
+        isSearchingFlaggedPost: PropTypes.bool,
+        isSearchingPinnedPost: PropTypes.bool,
         compactDisplay: PropTypes.bool,
         useMilitaryTime: PropTypes.bool.isRequired,
         toggleSize: PropTypes.func,
@@ -126,7 +128,11 @@ export default class SearchResults extends React.PureComponent {
 
         let ctls = null;
 
-        if (this.props.loading) {
+        if (
+            this.props.isSearchingTerm ||
+            this.props.isSearchingFlaggedPost ||
+            this.props.isSearchingPinnedPost
+        ) {
             ctls =
             (
                 <div className='sidebar--right__subheader'>
@@ -359,7 +365,6 @@ export default class SearchResults extends React.PureComponent {
                         user={profile}
                         term={searchTerms}
                         isMentionSearch={this.props.isMentionSearch}
-                        isFlaggedSearch={this.props.isFlaggedPosts}
                         useMilitaryTime={this.props.useMilitaryTime}
                         shrink={this.props.shrink}
                         isFlagged={isFlagged}
@@ -380,7 +385,7 @@ export default class SearchResults extends React.PureComponent {
                     isFlaggedPosts={this.props.isFlaggedPosts}
                     isPinnedPosts={this.props.isPinnedPosts}
                     channelDisplayName={this.props.channelDisplayName}
-                    isLoading={this.props.loading}
+                    isLoading={this.props.isSearchingTerm}
                 />
                 <Scrollbars
                     autoHide={true}

@@ -35,7 +35,7 @@ export default class EmailNotificationSetting extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.enableEmail !== this.props.enableEmail || nextProps.emailInterval !== this.props.emailInterval) {
+        if (!nextProps.saving && (nextProps.enableEmail !== this.props.enableEmail || nextProps.emailInterval !== this.props.emailInterval)) {
             this.setState({
                 enableEmail: nextProps.enableEmail,
                 emailInterval: nextProps.emailInterval

@@ -55,8 +55,16 @@ export function getSearchTerms(state) {
     return state.views.rhs.searchTerms;
 }
 
-export function getIsSearching(state) {
-    return state.views.rhs.isSearching;
+export function getIsSearchingTerm(state) {
+    return state.views.rhs.isSearchingTerm;
+}
+
+export function getIsSearchingFlaggedPost(state) {
+    return state.views.rhs.isSearchingFlaggedPost;
+}
+
+export function getIsSearchingPinnedPost(state) {
+    return state.views.rhs.isSearchingPinnedPost;
 }
 
 export function makeGetCommentDraft(rootId) {
