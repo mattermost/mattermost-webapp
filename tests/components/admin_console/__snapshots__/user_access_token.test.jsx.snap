@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/admin_console/UserAccessTokens should match snapshot with base props 1`] = `
+<div
+  className="wrapper--fixed"
+>
+  <h3
+    className="admin-console-header"
+  >
+    <FormattedMessage
+      defaultMessage="Personal Access Tokens"
+      id="admin.user_access_tokens.title"
+      values={Object {}}
+    />
+  </h3>
+  <div
+    className="banner"
+  >
+    <div
+      className="banner__content"
+    >
+      <FormattedHTMLMessage
+        defaultMessage="Personal access tokens function similarly to session tokens and can be used by integrations to <a href=\\"https://about.mattermost.com/default-api-authentication\\" target=\\"_blank\\">interact with this Mattermost server</a>. Learn more about <a href=\\"https://about.mattermost.com/default-user-access-tokens\\" target=\\"_blank\\">personal access tokens</a>."
+        id="analytics.user_access_tokens.info"
+        values={Object {}}
+      />
+    </div>
+  </div>
+  <div
+    className="more-modal__list member-list-holder"
+  >
+    <UserAccessTokensList
+      itemsPerPage={10}
+    />
+  </div>
+</div>
+`;

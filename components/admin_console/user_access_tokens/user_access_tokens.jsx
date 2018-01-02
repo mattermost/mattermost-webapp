@@ -27,7 +27,9 @@ export default class UserAccessTokens extends React.PureComponent {
                     </div>
                 </div>
                 <div className='more-modal__list member-list-holder'>
-                    <UserAccessTokensList/>
+                    <UserAccessTokensList
+                        itemsPerPage={10}
+                    />
                 </div>
             </div>
         );

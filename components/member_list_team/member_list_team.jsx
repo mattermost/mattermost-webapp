@@ -11,7 +11,8 @@ import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
-import SearchableUserList from 'components/searchable_user_list/searchable_user_list_container.jsx';
+
+import SearchableItemList from 'components/searchable_item_list/searchable_item_list_container.jsx';
 import TeamMembersDropdown from 'components/team_members_dropdown';
 
 const USERS_PER_PAGE = 50;
@@ -147,9 +148,9 @@ export default class MemberListTeam extends React.Component {
         }
 
         return (
-            <SearchableUserList
-                users={usersToDisplay}
-                usersPerPage={USERS_PER_PAGE}
+            <SearchableItemList
+                items={usersToDisplay}
+                itemsPerPage={USERS_PER_PAGE}
                 total={this.state.total}
                 nextPage={this.nextPage}
                 search={this.search}

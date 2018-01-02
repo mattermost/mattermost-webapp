@@ -14,7 +14,7 @@ import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 import ChannelMembersDropdown from 'components/channel_members_dropdown';
-import SearchableUserList from 'components/searchable_user_list/searchable_user_list_container.jsx';
+import SearchableItemList from 'components/searchable_item_list/searchable_item_list_container.jsx';
 
 const USERS_PER_PAGE = 50;
 
@@ -194,9 +194,9 @@ export default class MemberListChannel extends React.Component {
 
     render() {
         return (
-            <SearchableUserList
-                users={this.state.usersToDisplay}
-                usersPerPage={USERS_PER_PAGE}
+            <SearchableItemList
+                items={this.state.usersToDisplay}
+                itemsPerPage={USERS_PER_PAGE}
                 total={this.state.total}
                 nextPage={this.nextPage}
                 search={this.handleSearch}
