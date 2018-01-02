@@ -2559,7 +2559,7 @@
   "textbox.help": "Hilfe",
   "textbox.inlinecode": "`inline code`",
   "textbox.italic": "_kursiv_",
-  "textbox.preformatted": "```vorvormatiert```",
+  "textbox.preformatted": "```vorformatiert```",
   "textbox.preview": "Vorschau",
   "textbox.quote": ">Zitat",
   "textbox.strike": "Durchgestrichen",
