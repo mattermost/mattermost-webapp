@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Constants from 'utils/constants.jsx';
+import UnreadBelowIcon from 'components/svg/unread_below_icon';
 
 export default class UnreadChannelIndicator extends React.PureComponent {
     static propTypes = {
@@ -42,8 +42,6 @@ export default class UnreadChannelIndicator extends React.PureComponent {
     };
 
     render() {
-        const unreadIcon = Constants.UNREAD_ICON_SVG;
-
         let displayValue = 'none';
         if (this.props.show) {
             displayValue = 'block';
@@ -57,10 +55,7 @@ export default class UnreadChannelIndicator extends React.PureComponent {
                 onClick={this.props.onClick}
             >
                 {this.props.content}
-                <span
-                    className='icon icon__unread'
-                    dangerouslySetInnerHTML={{__html: unreadIcon}}
-                />
+                <UnreadBelowIcon className='icon icon__unread'/>
             </div>
         );
     }

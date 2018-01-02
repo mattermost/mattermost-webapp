@@ -8,7 +8,8 @@ import {browserHistory, Link} from 'react-router';
 
 import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
 
-import {Constants} from 'utils/constants.jsx';
+import TeamInfoIcon from 'components/svg/team_info_icon';
+
 import * as Utils from 'utils/utils.jsx';
 
 export default class SelectTeamItem extends React.PureComponent {
@@ -29,7 +30,6 @@ export default class SelectTeamItem extends React.PureComponent {
 
     render() {
         let icon;
-        const infoIcon = Constants.TEAM_INFO_SVG;
         if (this.props.loading) {
             icon = (
                 <span className='fa fa-refresh fa-spin right signup-team__icon'/>
@@ -58,10 +58,7 @@ export default class SelectTeamItem extends React.PureComponent {
                     ref='descriptionOverlay'
                     rootClose={true}
                 >
-                    <span
-                        className='icon icon--info'
-                        dangerouslySetInnerHTML={{__html: infoIcon}}
-                    />
+                    <TeamInfoIcon className='icon icon--info'/>
                 </OverlayTrigger>
             );
         }

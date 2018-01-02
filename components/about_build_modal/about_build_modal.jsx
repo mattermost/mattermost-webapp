@@ -6,7 +6,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
-import Constants from 'utils/constants.jsx';
+import MattermostLogo from 'components/svg/mattermost_logo';
 
 export default class AboutBuildModal extends React.PureComponent {
     static defaultProps = {
@@ -48,7 +48,6 @@ export default class AboutBuildModal extends React.PureComponent {
     render() {
         const config = this.props.config;
         const license = this.props.license;
-        const mattermostLogo = Constants.MATTERMOST_ICON_SVG;
 
         let title = (
             <FormattedMessage
@@ -153,10 +152,7 @@ export default class AboutBuildModal extends React.PureComponent {
                 <Modal.Body>
                     <div className='about-modal__content'>
                         <div className='about-modal__logo'>
-                            <span
-                                className='icon'
-                                dangerouslySetInnerHTML={{__html: mattermostLogo}}
-                            />
+                            <MattermostLogo/>
                         </div>
                         <div>
                             <h3 className='about-modal__title'>{'Mattermost'} {title}</h3>

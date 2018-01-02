@@ -6,9 +6,8 @@ import React from 'react';
 import {OverlayTrigger, Popover} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import Constants from 'utils/constants.jsx';
-
 import MessageWrapper from 'components/message_wrapper.jsx';
+import InfoIcon from 'components/svg/info_icon';
 
 export default class NavbarInfoButton extends React.PureComponent {
     static propTypes = {
@@ -90,9 +89,8 @@ export default class NavbarInfoButton extends React.PureComponent {
                 rootClose={true}
             >
                 <div className='navbar-toggle navbar-right__icon navbar-info-button pull-right'>
-                    <span
+                    <InfoIcon
                         className='icon icon__info'
-                        dangerouslySetInnerHTML={{__html: Constants.INFO_ICON_SVG}}
                         aria-hidden='true'
                     />
                 </div>

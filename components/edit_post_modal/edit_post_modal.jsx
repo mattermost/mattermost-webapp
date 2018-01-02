@@ -17,8 +17,8 @@ import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
-
-import Textbox from '../textbox.jsx';
+import EmojiIcon from 'components/svg/emoji_icon';
+import Textbox from 'components/textbox.jsx';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -234,10 +234,9 @@ export default class EditPostModal extends React.PureComponent {
                         rightOffset={50}
                         topOffset={-20}
                     />
-                    <span
+                    <EmojiIcon
                         className='icon icon--emoji'
                         onClick={this.toggleEmojiPicker}
-                        dangerouslySetInnerHTML={{__html: Constants.EMOJI_ICON_SVG}}
                     />
                 </span>
             );

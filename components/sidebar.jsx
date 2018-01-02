@@ -24,7 +24,12 @@ import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
 import * as ChannelUtils from 'utils/channel_utils.jsx';
-import {ActionTypes, Constants} from 'utils/constants.jsx';
+import {
+    ActionTypes,
+    Constants,
+    Preferences,
+    TutorialSteps
+} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {isDesktopApp} from 'utils/user_agent.jsx';
 
@@ -34,15 +39,14 @@ import loadingGif from 'images/load.gif';
 
 import MoreChannels from 'components/more_channels';
 import MoreDirectChannels from 'components/more_direct_channels';
-
-import NewChannelFlow from './new_channel_flow.jsx';
-import SidebarHeader from './sidebar_header.jsx';
-import StatusIcon from './status_icon.jsx';
-import TutorialTip from './tutorial/tutorial_tip.jsx';
-import UnreadChannelIndicator from './unread_channel_indicator.jsx';
-
-const Preferences = Constants.Preferences;
-const TutorialSteps = Constants.TutorialSteps;
+import ArchiveIcon from 'components/svg/archive_icon';
+import GlobeIcon from 'components/svg/globe_icon';
+import LockIcon from 'components/svg/lock_icon';
+import NewChannelFlow from 'components/new_channel_flow.jsx';
+import SidebarHeader from 'components/sidebar_header.jsx';
+import StatusIcon from 'components/status_icon.jsx';
+import TutorialTip from 'components/tutorial/tutorial_tip.jsx';
+import UnreadChannelIndicator from 'components/unread_channel_indicator.jsx';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -573,21 +577,13 @@ export default class Sidebar extends React.Component {
         }
 
         var icon = null;
-        const globeIcon = Constants.GLOBE_ICON_SVG;
-        const lockIcon = Constants.LOCK_ICON_SVG;
         if (channel.type === Constants.OPEN_CHANNEL) {
             icon = (
-                <span
-                    className='icon icon__globe'
-                    dangerouslySetInnerHTML={{__html: globeIcon}}
-                />
+                <GlobeIcon className='icon icon__globe'/>
             );
         } else if (channel.type === Constants.PRIVATE_CHANNEL) {
             icon = (
-                <span
-                    className='icon icon__lock'
-                    dangerouslySetInnerHTML={{__html: lockIcon}}
-                />
+                <LockIcon className='icon icon__lock'/>
             );
         } else if (channel.type === Constants.GM_CHANNEL) {
             icon = <div className='status status--group'>{UserStore.getProfileListInChannel(channel.id, true).length}</div>;
@@ -595,17 +591,15 @@ export default class Sidebar extends React.Component {
             const teammate = Utils.getDirectTeammate(channel.id);
             if (teammate && teammate.delete_at) {
                 icon = (
-                    <span
-                        className='icon icon__archive'
-                        dangerouslySetInnerHTML={{__html: Constants.ARCHIVE_ICON_SVG}}
-                    />
+                    <ArchiveIcon className='icon icon__archive'/>
                 );
             } else {
                 icon = (
                     <StatusIcon
                         type='avatar'
                         status={channel.status}
-                    />);
+                    />
+                );
             }
         }
 
@@ -731,8 +725,6 @@ export default class Sidebar extends React.Component {
     }
 
     render() {
-        const switchChannelIcon = Constants.SWITCH_CHANNEL_ICON_SVG;
-
         // Check if we have all info needed to render
         if (this.state.currentTeam == null || this.state.currentUser == null) {
             return (<div/>);
@@ -1076,10 +1068,6 @@ export default class Sidebar extends React.Component {
                         className='btn btn-link'
                         onClick={this.openQuickSwitcher}
                     >
-                        <span
-                            className='icon icon__switch'
-                            dangerouslySetInnerHTML={{__html: switchChannelIcon}}
-                        />
                         <FormattedMessage
                             id={'channel_switch_modal.title'}
                             defaultMessage='Switch Channels'

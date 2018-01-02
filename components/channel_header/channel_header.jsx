@@ -31,6 +31,9 @@ import PopoverListMembers from 'components/popover_list_members';
 import RenameChannelModal from 'components/rename_channel_modal';
 import NavbarSearchBox from 'components/search_bar';
 import StatusIcon from 'components/status_icon.jsx';
+import FlagIcon from 'components/svg/flag_icon';
+import MentionsIcon from 'components/svg/mentions_icon';
+import PinIcon from 'components/svg/pin_icon';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 
 import Pluggable from 'plugins/pluggable';
@@ -206,10 +209,6 @@ export default class ChannelHeader extends React.Component {
                 <div className='channel-header'/>
             );
         }
-
-        const flagIcon = Constants.FLAG_ICON_SVG;
-        const pinIcon = Constants.PIN_ICON_SVG;
-        const mentionsIcon = Constants.MENTIONS_ICON_SVG;
 
         const channel = this.props.channel;
 
@@ -937,9 +936,8 @@ export default class ChannelHeader extends React.Component {
                                 className={'style--none ' + pinnedIconClass}
                                 onClick={this.getPinnedPosts}
                             >
-                                <span
+                                <PinIcon
                                     className='icon icon__pin'
-                                    dangerouslySetInnerHTML={{__html: pinIcon}}
                                     aria-hidden='true'
                                 />
                             </button>
@@ -963,9 +961,8 @@ export default class ChannelHeader extends React.Component {
                                 className='channel-header__icon icon--hidden style--none'
                                 onClick={this.searchMentions}
                             >
-                                <span
+                                <MentionsIcon
                                     className='icon icon__mentions'
-                                    dangerouslySetInnerHTML={{__html: mentionsIcon}}
                                     aria-hidden='true'
                                 />
                             </button>
@@ -984,10 +981,7 @@ export default class ChannelHeader extends React.Component {
                                 onClick={this.getFlagged}
 
                             >
-                                <span
-                                    className='icon icon__flag'
-                                    dangerouslySetInnerHTML={{__html: flagIcon}}
-                                />
+                                <FlagIcon className='icon icon__flag'/>
                             </button>
                         </OverlayTrigger>
                     </div>

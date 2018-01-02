@@ -6,6 +6,8 @@ import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import MenuIcon from 'components/svg/menu_icon';
+
 import Constants from 'utils/constants.jsx';
 
 export default class SidebarHeaderDropdownButton extends React.PureComponent {
@@ -36,10 +38,7 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
                     className='sidebar-header-dropdown__toggle cursor--pointer style--none'
                     onClick={this.props.onClick}
                 >
-                    <span
-                        className='sidebar-header-dropdown__icon'
-                        dangerouslySetInnerHTML={{__html: Constants.MENU_ICON}}
-                    />
+                    <MenuIcon className='sidebar-header-dropdown__icon'/>
                 </button>
             </OverlayTrigger>
         );

@@ -16,13 +16,13 @@ import * as PostUtils from 'utils/post_utils.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
-
 import ConfirmModal from 'components/confirm_modal.jsx';
+import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview.jsx';
 import FileUpload from 'components/file_upload.jsx';
 import MsgTyping from 'components/msg_typing.jsx';
 import PostDeletedModal from 'components/post_deleted_modal.jsx';
+import EmojiIcon from 'components/svg/emoji_icon';
 import Textbox from 'components/textbox.jsx';
 import TutorialTip from 'components/tutorial/tutorial_tip.jsx';
 
@@ -779,10 +779,9 @@ export default class CreatePost extends React.Component {
                         rightOffset={15}
                         topOffset={-7}
                     />
-                    <span
+                    <EmojiIcon
                         id='emojiPickerButton'
                         className={'icon icon--emoji ' + (this.state.showEmojiPicker ? 'active' : '')}
-                        dangerouslySetInnerHTML={{__html: Constants.EMOJI_ICON_SVG}}
                         onClick={this.toggleEmojiPicker}
                     />
                 </span>
