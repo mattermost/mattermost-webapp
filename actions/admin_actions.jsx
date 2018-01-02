@@ -86,8 +86,8 @@ export async function recycleDatabaseConnection(success, error) {
     }
 }
 
-export async function adminResetPassword(userId, password, success, error) {
-    const {data, error: err} = await UserActions.updateUserPassword(userId, '', password)(dispatch, getState);
+export async function adminResetPassword(userId, currentPassword, password, success, error) {
+    const {data, error: err} = await UserActions.updateUserPassword(userId, currentPassword, password)(dispatch, getState);
     if (data && success) {
         success(data);
     } else if (err && error) {

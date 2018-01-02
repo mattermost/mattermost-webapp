@@ -7,6 +7,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {adminResetPassword} from 'actions/admin_actions.jsx';
+import UserStore from 'stores/user_store.jsx';
 
 import * as Utils from 'utils/utils.jsx';
 
@@ -29,35 +30,64 @@ export default class ResetPasswordModal extends React.Component {
         this.doCancel = this.doCancel.bind(this);
 
         this.state = {
-            serverError: null
+            serverErrorNewPass: null,
+            serverErrorCurrentPass: null
         };
+    }
+
+    componentWillUnmount() {
+        this.setState({
+            serverErrorNewPass: null,
+            serverErrorCurrentPass: null
+        });
     }
 
     doSubmit(e) {
         e.preventDefault();
+        let currentPassword = '';
+        if (this.refs.currentPassword) {
+            currentPassword = this.refs.currentPassword.value;
+            if (currentPassword === '') {
+                let errorMsg = '';
+                errorMsg = (
+                    <FormattedMessage
+                        id='admin.reset_password.missing_current'
+                        defaultMessage='Please enter your current password.'
+                    />
+                );
+                this.setState({serverErrorCurrentPass: errorMsg});
+                return;
+            }
+        }
+
         const password = this.refs.password.value;
 
         const passwordErr = Utils.isValidPassword(password, Utils.getPasswordConfig());
         if (passwordErr) {
-            this.setState({serverError: passwordErr});
+            this.setState({serverErrorNewPass: passwordErr});
             return;
         }
-        this.setState({serverError: null});
+
+        this.setState({serverErrorNewPass: null});
 
         adminResetPassword(
             this.props.user.id,
+            currentPassword,
             password,
             () => {
                 this.props.onModalSubmit(this.props.user);
             },
             (err) => {
-                this.setState({serverError: err.message});
+                this.setState({serverErrorCurrentPass: err.message});
             }
         );
     }
 
     doCancel() {
-        this.setState({serverError: null});
+        this.setState({
+            serverErrorNewPass: null,
+            serverErrorCurrentPass: null
+        });
         this.props.onModalDismissed();
     }
 
@@ -68,11 +98,11 @@ export default class ResetPasswordModal extends React.Component {
         }
 
         let urlClass = 'input-group input-group--limit';
-        let serverError = null;
+        let serverErrorNewPass = null;
 
-        if (this.state.serverError) {
+        if (this.state.serverErrorNewPass) {
             urlClass += ' has-error';
-            serverError = <div className='has-error'><p className='input__help error'>{this.state.serverError}</p></div>;
+            serverErrorNewPass = <div className='has-error'><p className='input__help error'>{this.state.serverErrorNewPass}</p></div>;
         }
 
         let title;
@@ -92,6 +122,43 @@ export default class ResetPasswordModal extends React.Component {
             );
         }
 
+        const currentUserId = UserStore.getCurrentId();
+        let currentPassword = null;
+        let serverErrorCurrentPass = null;
+        let newPasswordFocus = true;
+        if (currentUserId === user.id) {
+            newPasswordFocus = false;
+            let urlClassCurrentPass = 'input-group input-group--limit';
+            if (this.state.serverErrorCurrentPass) {
+                urlClassCurrentPass += ' has-error';
+                serverErrorCurrentPass = <div className='has-error'><p className='input__help error'>{this.state.serverErrorCurrentPass}</p></div>;
+            }
+            currentPassword = (
+                <div className='col-sm-10 password__group-addon-space'>
+                    <div className={urlClassCurrentPass}>
+                        <span
+                            data-toggle='tooltip'
+                            title='Current Password'
+                            className='input-group-addon password__group-addon'
+                        >
+                            <FormattedMessage
+                                id='admin.reset_password.curentPassword'
+                                defaultMessage='Current Password'
+                            />
+                        </span>
+                        <input
+                            type='password'
+                            ref='currentPassword'
+                            className='form-control'
+                            maxLength='22'
+                            autoFocus={true}
+                            tabIndex='1'
+                        />
+                    </div>
+                </div>
+            );
+        }
+
         return (
             <Modal
                 show={this.props.show}
@@ -108,12 +175,13 @@ export default class ResetPasswordModal extends React.Component {
                 >
                     <Modal.Body>
                         <div className='form-group'>
+                            {currentPassword}
                             <div className='col-sm-10'>
                                 <div className={urlClass}>
                                     <span
                                         data-toggle='tooltip'
                                         title='New Password'
-                                        className='input-group-addon'
+                                        className='input-group-addon password__group-addon'
                                     >
                                         <FormattedMessage
                                             id='admin.reset_password.newPassword'
@@ -125,11 +193,12 @@ export default class ResetPasswordModal extends React.Component {
                                         ref='password'
                                         className='form-control'
                                         maxLength='22'
-                                        autoFocus={true}
+                                        autoFocus={newPasswordFocus}
                                         tabIndex='1'
                                     />
                                 </div>
-                                {serverError}
+                                {serverErrorNewPass}
+                                {serverErrorCurrentPass}
                             </div>
                         </div>
                     </Modal.Body>
