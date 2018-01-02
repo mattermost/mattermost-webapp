@@ -1868,6 +1868,7 @@
   "login.verified": " Email Verified",
   "login_mfa.enterToken": "To complete the sign in process, please enter a token from your smartphone's authenticator",
   "login_mfa.submit": "Submit",
+  "login_mfa.submitting": "Submitting...",
   "login_mfa.token": "MFA Token",
   "login_mfa.tokenReq": "Please enter an MFA token",
   "member_item.makeAdmin": "Make Admin",
