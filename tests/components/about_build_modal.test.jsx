@@ -31,7 +31,7 @@ describe('components/AboutBuildModal', () => {
     });
 
     beforeEach(() => {
-        mockDate('2017-01-01');
+        mockDate('2017-06-01');
 
         config = {
             BuildEnterpriseReady: 'true',
