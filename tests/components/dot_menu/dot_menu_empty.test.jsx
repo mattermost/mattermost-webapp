@@ -22,7 +22,7 @@ jest.mock('utils/post_utils', () => {
     };
 });
 
-describe('components/integrations/DotMenu returning empty ("")', () => {
+describe('components/dot_menu/DotMenu returning empty ("")', () => {
     global.window.mm_license = {};
 
     beforeEach(() => {

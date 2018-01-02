@@ -24,7 +24,7 @@ jest.mock('utils/post_utils', () => {
     };
 });
 
-describe('components/integrations/DotMenu', () => {
+describe('components/dot_menu/DotMenu', () => {
     global.window.mm_license = {};
 
     beforeEach(() => {
