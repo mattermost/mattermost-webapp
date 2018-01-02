@@ -56,7 +56,8 @@ jest.mock('actions/global_actions.jsx', () => ({
 
 jest.mock('actions/post_actions.jsx', () => ({
     createPost: jest.fn(),
-    setEditingPost: (...args) => ({type: 'MOCK_SET_EDITING_POST', args})
+    setEditingPost: (...args) => ({type: 'MOCK_SET_EDITING_POST', args}),
+    emitEmojiPosted: jest.fn()
 }));
 
 jest.mock('actions/storage', () => ({
@@ -231,6 +232,7 @@ describe('rhs view actions', () => {
 
             const testStore = mockStore(initialState);
             testStore.dispatch(addReaction('', ''));
+            expect(PostActions.emitEmojiPosted).toHaveBeenCalled();
 
             expect(store.getActions()).toEqual(testStore.getActions());
         });
@@ -240,6 +242,7 @@ describe('rhs view actions', () => {
 
             const testStore = mockStore(initialState);
             testStore.dispatch(removeReaction('', ''));
+            expect(PostActions.emitEmojiPosted).not.toHaveBeenCalled();
 
             expect(store.getActions()).toEqual(testStore.getActions());
         });

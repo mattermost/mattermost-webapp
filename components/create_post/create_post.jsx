@@ -9,6 +9,7 @@ import {Posts} from 'mattermost-redux/constants';
 
 import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
+import {emitEmojiPosted} from 'actions/post_actions.jsx';
 import EmojiStore from 'stores/emoji_store.jsx';
 import Constants, {StoragePrefixes} from 'utils/constants.jsx';
 import * as FileUtils from 'utils/file_utils';
@@ -377,6 +378,7 @@ export default class CreatePost extends React.Component {
 
         if (postId && action === '+') {
             this.props.actions.addReaction(postId, emojiName);
+            emitEmojiPosted(emojiName);
         } else if (postId && action === '-') {
             this.props.actions.removeReaction(postId, emojiName);
         }
