@@ -24,6 +24,7 @@ const EMOJI_CONTAINER_STYLE = {
 const EMOJI_LAZY_LOAD_BUFFER = 75;
 const EMOJI_PER_ROW = 9;
 const EMOJI_TO_LOAD_PER_UPDATE = 135;
+const EMOJI_LAZY_LOAD_SCROLL_THROTTLE = 100;
 
 const CATEGORIES = {
     recent: {
@@ -126,7 +127,7 @@ export default class EmojiPicker extends React.PureComponent {
         this.handleItemClick = this.handleItemClick.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
         this.handleScroll = this.handleScroll.bind(this);
-        this.handleScrollThrottle = throttle(this.handleScroll, 500, {leading: false, trailing: true});
+        this.handleScrollThrottle = throttle(this.handleScroll, EMOJI_LAZY_LOAD_SCROLL_THROTTLE, {leading: false, trailing: true});
         this.updateCategoryOffset = this.updateCategoryOffset.bind(this);
 
         this.divHeight = 0;
