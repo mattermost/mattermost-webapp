@@ -65,6 +65,7 @@ exports[`components/ViewImageModal should match snapshot on onModalShown and onM
           filename=""
           onGetPublicLink={[Function]}
           show={false}
+          showPublicLink={true}
           totalFiles={3}
         />
       </div>
@@ -158,6 +159,7 @@ exports[`components/ViewImageModal should match snapshot on onModalShown and onM
           filename=""
           onGetPublicLink={[Function]}
           show={false}
+          showPublicLink={true}
           totalFiles={3}
         />
       </div>
@@ -252,6 +254,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with AudioVideo
           filename=""
           onGetPublicLink={[Function]}
           show={false}
+          showPublicLink={true}
           totalFiles={1}
         />
       </div>
@@ -326,6 +329,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with AudioVideo
           filename=""
           onGetPublicLink={[Function]}
           show={false}
+          showPublicLink={true}
           totalFiles={1}
         />
       </div>
@@ -400,6 +404,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with CodePrevie
           filename=""
           onGetPublicLink={[Function]}
           show={false}
+          showPublicLink={true}
           totalFiles={1}
         />
       </div>
@@ -474,6 +479,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with FileInfoPr
           filename=""
           onGetPublicLink={[Function]}
           show={false}
+          showPublicLink={true}
           totalFiles={1}
         />
       </div>
@@ -547,6 +553,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with ImagePrevi
           filename=""
           onGetPublicLink={[Function]}
           show={false}
+          showPublicLink={true}
           totalFiles={1}
         />
       </div>
@@ -621,6 +628,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with PDFPreview
           filename=""
           onGetPublicLink={[Function]}
           show={false}
+          showPublicLink={true}
           totalFiles={1}
         />
       </div>
@@ -694,6 +702,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with ViewImageP
           filename=""
           onGetPublicLink={[Function]}
           show={false}
+          showPublicLink={true}
           totalFiles={1}
         />
       </div>
@@ -767,6 +776,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with footer 1`]
           filename=""
           onGetPublicLink={[Function]}
           show={true}
+          showPublicLink={true}
           totalFiles={3}
         />
       </div>
@@ -860,6 +870,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
           filename=""
           onGetPublicLink={[Function]}
           show={false}
+          showPublicLink={true}
           totalFiles={3}
         />
       </div>
@@ -954,6 +965,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
           filename=""
           onGetPublicLink={[Function]}
           show={false}
+          showPublicLink={true}
           totalFiles={3}
         />
       </div>
@@ -1048,6 +1060,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
           filename=""
           onGetPublicLink={[Function]}
           show={false}
+          showPublicLink={true}
           totalFiles={3}
         />
       </div>
@@ -1137,6 +1150,7 @@ exports[`components/ViewImageModal should match snapshot, loading 1`] = `
           filename=""
           onGetPublicLink={[Function]}
           show={false}
+          showPublicLink={true}
           totalFiles={1}
         />
       </div>
@@ -1206,6 +1220,7 @@ exports[`components/ViewImageModal should match snapshot, modal not shown 1`] = 
           filename=""
           onGetPublicLink={[Function]}
           show={false}
+          showPublicLink={true}
           totalFiles={1}
         />
       </div>
