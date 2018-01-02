@@ -29,7 +29,7 @@ jest.mock('utils/post_utils.jsx', () => ({
     isEdited: jest.fn().mockReturnValue(true)
 }));
 
-describe('components/search_results_item', () => {
+describe('components/SearchResultsItem', () => {
     let mockFunc;
     let user;
     let post;

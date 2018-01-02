@@ -98,16 +98,6 @@
                 z-index: 5;
             }
 
-            .icon {
-                display: none;
-                margin-right: 15px;
-
-                svg {
-                    position: relative;
-                    top: 7px;
-                }
-            }
-
             &:hover {
                 span {
                     @include opacity(1);

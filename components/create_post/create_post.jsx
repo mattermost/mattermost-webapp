@@ -9,6 +9,7 @@ import {Posts} from 'mattermost-redux/constants';
 
 import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
+import {emitEmojiPosted} from 'actions/post_actions.jsx';
 import EmojiStore from 'stores/emoji_store.jsx';
 import Constants, {StoragePrefixes} from 'utils/constants.jsx';
 import * as FileUtils from 'utils/file_utils';
@@ -16,13 +17,13 @@ import * as PostUtils from 'utils/post_utils.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
-
 import ConfirmModal from 'components/confirm_modal.jsx';
+import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview.jsx';
 import FileUpload from 'components/file_upload.jsx';
 import MsgTyping from 'components/msg_typing.jsx';
 import PostDeletedModal from 'components/post_deleted_modal.jsx';
+import EmojiIcon from 'components/svg/emoji_icon';
 import Textbox from 'components/textbox.jsx';
 import TutorialTip from 'components/tutorial/tutorial_tip.jsx';
 
@@ -377,6 +378,7 @@ export default class CreatePost extends React.Component {
 
         if (postId && action === '+') {
             this.props.actions.addReaction(postId, emojiName);
+            emitEmojiPosted(emojiName);
         } else if (postId && action === '-') {
             this.props.actions.removeReaction(postId, emojiName);
         }
@@ -733,7 +735,7 @@ export default class CreatePost extends React.Component {
         }
 
         let tutorialTip = null;
-        if (parseInt(this.props.showTutorialTip, 10) === TutorialSteps.POST_POPOVER) {
+        if (parseInt(this.props.showTutorialTip, 10) === TutorialSteps.POST_POPOVER && global.window.mm_config.EnableTutorial === 'true') {
             tutorialTip = this.createTutorialTip();
         }
 
@@ -779,10 +781,9 @@ export default class CreatePost extends React.Component {
                         rightOffset={15}
                         topOffset={-7}
                     />
-                    <span
+                    <EmojiIcon
                         id='emojiPickerButton'
                         className={'icon icon--emoji ' + (this.state.showEmojiPicker ? 'active' : '')}
-                        dangerouslySetInnerHTML={{__html: Constants.EMOJI_ICON_SVG}}
                         onClick={this.toggleEmojiPicker}
                     />
                 </span>

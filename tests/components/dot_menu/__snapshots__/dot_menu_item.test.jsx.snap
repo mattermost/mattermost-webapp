@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/integrations/DotMenuItem should match snapshot, on Delete 1`] = `
+exports[`components/dot_menu/DotMenuItem should match snapshot, on Delete 1`] = `
 <li
   id={null}
   key="idPrefixDotMenuDelete"
@@ -20,7 +20,7 @@ exports[`components/integrations/DotMenuItem should match snapshot, on Delete 1`
 </li>
 `;
 
-exports[`components/integrations/DotMenuItem should match snapshot, on Permalink 1`] = `
+exports[`components/dot_menu/DotMenuItem should match snapshot, on Permalink 1`] = `
 <li
   id={null}
   key="idPrefixDotMenuPermalink"
@@ -40,7 +40,7 @@ exports[`components/integrations/DotMenuItem should match snapshot, on Permalink
 </li>
 `;
 
-exports[`components/integrations/DotMenuItem should match snapshot, on Pin - pinned 1`] = `
+exports[`components/dot_menu/DotMenuItem should match snapshot, on Pin - pinned 1`] = `
 <li
   id="idPrefixDotMenuPin5"
   key="idPrefixDotMenuPin"
@@ -60,7 +60,7 @@ exports[`components/integrations/DotMenuItem should match snapshot, on Pin - pin
 </li>
 `;
 
-exports[`components/integrations/DotMenuItem should match snapshot, on Pin - unpinned 1`] = `
+exports[`components/dot_menu/DotMenuItem should match snapshot, on Pin - unpinned 1`] = `
 <li
   id={null}
   key="idPrefixDotMenuPin"
@@ -80,7 +80,7 @@ exports[`components/integrations/DotMenuItem should match snapshot, on Pin - unp
 </li>
 `;
 
-exports[`components/integrations/DotMenuItem should match snapshot, on RHS_ROOT 1`] = `
+exports[`components/dot_menu/DotMenuItem should match snapshot, on RHS_ROOT 1`] = `
 <li
   id="rhsroot"
   key="rhsroot"
@@ -97,7 +97,7 @@ exports[`components/integrations/DotMenuItem should match snapshot, on RHS_ROOT 
 </li>
 `;
 
-exports[`components/integrations/DotMenuItem should match snapshot, on Reply 1`] = `
+exports[`components/dot_menu/DotMenuItem should match snapshot, on Reply 1`] = `
 <li
   id={null}
   key="idPrefixDotMenuReply"

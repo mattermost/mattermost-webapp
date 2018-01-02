@@ -6,7 +6,7 @@ import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {Link} from 'react-router';
 
-import {mark, trackEvent} from 'actions/diagnostics_actions.jsx';
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {switchTeams} from 'actions/team_actions.jsx';
 
 import Constants from 'utils/constants.jsx';
@@ -24,7 +24,6 @@ export default class TeamButton extends React.Component {
 
     handleSwitch(e) {
         e.preventDefault();
-        mark('TeamLink#click');
         trackEvent('ui', 'ui_team_sidebar_switch_team');
         switchTeams(this.props.url);
     }

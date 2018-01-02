@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 class BootstrapSpan extends React.PureComponent {
-
     static propTypes = {
         children: PropTypes.element
     }

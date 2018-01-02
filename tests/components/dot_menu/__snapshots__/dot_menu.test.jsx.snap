@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/integrations/DotMenu should match snapshot, canDelete 1`] = `
+exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
 <div
   className="dropdown"
   id={null}
@@ -69,7 +69,7 @@ exports[`components/integrations/DotMenu should match snapshot, canDelete 1`] = 
 </div>
 `;
 
-exports[`components/integrations/DotMenu should match snapshot, on Center 1`] = `
+exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
 <div
   className="dropdown"
   id={null}
@@ -127,7 +127,7 @@ exports[`components/integrations/DotMenu should match snapshot, on Center 1`] = 
 </div>
 `;
 
-exports[`components/integrations/DotMenu should match snapshot, on Center 2`] = `
+exports[`components/dot_menu/DotMenu should match snapshot, on Center 2`] = `
 <div
   className="dropdown"
   id="rhsrootDotMenu"
@@ -180,7 +180,7 @@ exports[`components/integrations/DotMenu should match snapshot, on Center 2`] = 
 </div>
 `;
 
-exports[`components/integrations/DotMenu should match snapshot, on Center 3`] = `
+exports[`components/dot_menu/DotMenu should match snapshot, on Center 3`] = `
 <div
   className="dropdown"
   id="rhsrootDotMenu"

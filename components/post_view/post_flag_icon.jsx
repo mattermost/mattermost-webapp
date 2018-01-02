@@ -8,88 +8,80 @@ import {FormattedMessage} from 'react-intl';
 
 import {flagPost, unflagPost} from 'actions/post_actions.jsx';
 
+import FlagIcon from 'components/svg/flag_icon';
+import FlagIconFilled from 'components/svg/flag_icon_filled';
+
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-function flagToolTip(isFlagged) {
-    return (
-        <Tooltip id='flagTooltip'>
-            <FormattedMessage
-                id={isFlagged ? 'flag_post.unflag' : 'flag_post.flag'}
-                defaultMessage={isFlagged ? 'Unflag' : 'Flag for follow up'}
-            />
-        </Tooltip>
-    );
-}
+export default class PostFlagIcon extends React.PureComponent {
+    static propTypes = {
+        idPrefix: PropTypes.string.isRequired,
+        idCount: PropTypes.number,
+        postId: PropTypes.string.isRequired,
+        isFlagged: PropTypes.bool.isRequired,
+        isEphemeral: PropTypes.bool
+    };
 
-function flagIcon(isFlagged) {
-    let flagIconSvg = Constants.FLAG_ICON_SVG;
+    static defaultProps = {
+        idCount: -1,
+        isEphemeral: false
+    };
 
-    if (isFlagged) {
-        flagIconSvg = Constants.FLAG_FILLED_ICON_SVG;
-    }
-
-    return (
-        <span
-            className='icon'
-            dangerouslySetInnerHTML={{__html: flagIconSvg}}
-        />
-    );
-}
-
-export default function PostFlagIcon(props) {
-    function onFlagPost(e) {
+    handlePress = (e) => {
         e.preventDefault();
-        flagPost(props.postId);
+
+        if (this.props.isFlagged) {
+            unflagPost(this.props.postId);
+        } else {
+            flagPost(this.props.postId);
+        }
     }
 
-    function onUnflagPost(e) {
-        e.preventDefault();
-        unflagPost(props.postId);
-    }
+    render() {
+        if (this.props.isEphemeral) {
+            return null;
+        }
 
-    const flagFunc = props.isFlagged ? onUnflagPost : onFlagPost;
-    const flagVisible = props.isFlagged ? 'visible' : '';
+        const isFlagged = this.props.isFlagged;
 
-    let flagIconId = null;
-    if (props.idCount > -1) {
-        flagIconId = Utils.createSafeId(props.idPrefix + props.idCount);
-    }
+        const flagVisible = isFlagged ? 'visible' : '';
 
-    if (!props.isEphemeral) {
+        let flagIconId = null;
+        if (this.props.idCount > -1) {
+            flagIconId = Utils.createSafeId(this.props.idPrefix + this.props.idCount);
+        }
+
+        let flagIcon;
+        if (isFlagged) {
+            flagIcon = <FlagIconFilled className='icon'/>;
+        } else {
+            flagIcon = <FlagIcon className='icon'/>;
+        }
+
         return (
             <OverlayTrigger
                 trigger={['hover', 'focus']}
                 key={'flagtooltipkey' + flagVisible}
                 delayShow={Constants.OVERLAY_TIME_DELAY}
                 placement='top'
-                overlay={flagToolTip(props.isFlagged)}
+                overlay={
+                    <Tooltip id='flagTooltip'>
+                        <FormattedMessage
+                            id={isFlagged ? 'flag_post.unflag' : 'flag_post.flag'}
+                            defaultMessage={isFlagged ? 'Unflag' : 'Flag for follow up'}
+                        />
+                    </Tooltip>
+                }
             >
                 <button
                     id={flagIconId}
                     className={'style--none flag-icon__container ' + flagVisible}
-                    onClick={flagFunc}
+                    onClick={this.handlePress}
                 >
-                    {flagIcon(props.isFlagged)}
+                    {flagIcon}
                 </button>
             </OverlayTrigger>
         );
     }
-
-    return null;
 }
-
-PostFlagIcon.propTypes = {
-    idPrefix: PropTypes.string.isRequired,
-    idCount: PropTypes.number,
-    postId: PropTypes.string.isRequired,
-    isFlagged: PropTypes.bool.isRequired,
-    isEphemeral: PropTypes.bool
-};
-
-PostFlagIcon.defaultProps = {
-    idCount: -1,
-    postId: '',
-    isFlagged: false,
-    isEphemeral: false
-};

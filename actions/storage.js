@@ -84,11 +84,13 @@ export function storageRehydrate(incoming) {
     return async (dispatch, persistor) => {
         persistor.pause();
         Object.keys(incoming).forEach((key) => {
-            let storage = {};
+            const storage = {};
             try {
                 storage[key] = JSON.parse(incoming[key]);
             } catch (err) {
-                if (process.env.NODE_ENV !== 'production') console.warn(`Error rehydrating data for key "storage"`, err)
+                if (process.env.NODE_ENV !== 'production') { // eslint-disable-line no-process-env
+                    console.warn('Error rehydrating data for key "storage"', err); // eslint-disable-line no-console
+                }
             }
             dispatch({
                 type: StorageTypes.STORAGE_REHYDRATE,

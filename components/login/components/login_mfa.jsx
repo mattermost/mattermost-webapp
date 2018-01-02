@@ -5,34 +5,69 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import * as Utils from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 
-export default class LoginMfa extends React.Component {
+import SaveButton from 'components/save_button.jsx';
+
+export default class LoginMfa extends React.PureComponent {
+    static propTypes = {
+
+        /*
+         * User's login ID
+         */
+        loginId: PropTypes.string.isRequired,
+
+        /*
+         * User's password
+         */
+        password: PropTypes.string.isRequired,
+
+        /*
+         * Function to call when submitting user credentials
+         */
+        submit: PropTypes.func.isRequired
+    };
+
     constructor(props) {
         super(props);
 
-        this.handleSubmit = this.handleSubmit.bind(this);
-
         this.state = {
+            saving: false,
+            token: '',
             serverError: ''
         };
     }
 
-    handleSubmit(e) {
+    handleChange = (e) => {
+        e.preventDefault();
+        const token = e.target.value.trim().replace(/\s/g, '');
+
+        if (token !== this.state.token) {
+            this.setState({
+                token
+            });
+        }
+    }
+
+    handleSubmit = (e) => {
         e.preventDefault();
         const state = {};
 
-        const token = this.refs.token.value.trim().replace(/\s/g, '');
-        if (!token) {
-            state.serverError = Utils.localizeMessage('login_mfa.tokenReq', 'Please enter an MFA token');
+        if (!this.state.token) {
+            state.serverError = localizeMessage('login_mfa.tokenReq', 'Please enter an MFA token');
             this.setState(state);
             return;
         }
 
         state.serverError = '';
+        state.saving = true;
         this.setState(state);
 
-        this.props.submit(this.props.loginId, this.props.password, token);
+        this.props.submit(
+            this.props.loginId,
+            this.props.password,
+            this.state.token
+        );
     }
 
     render() {
@@ -60,34 +95,24 @@ export default class LoginMfa extends React.Component {
                             type='text'
                             className='form-control'
                             name='token'
-                            ref='token'
-                            placeholder={Utils.localizeMessage('login_mfa.token', 'MFA Token')}
+                            placeholder={localizeMessage('login_mfa.token', 'MFA Token')}
                             spellCheck='false'
                             autoComplete='off'
                             autoFocus={true}
+                            onChange={this.handleChange}
                         />
                     </div>
                     <div className='form-group'>
-                        <button
-                            type='submit'
-                            className='btn btn-primary'
-                        >
-                            <FormattedMessage
-                                id='login_mfa.submit'
-                                defaultMessage='Submit'
-                            />
-                        </button>
+                        <SaveButton
+                            saving={this.state.saving}
+                            disabled={this.state.saving}
+                            onClick={this.handleSubmit}
+                            defaultMessage={localizeMessage('login_mfa.submit', 'Submit')}
+                            savingMessage={localizeMessage('login_mfa.submitting', 'Submitting...')}
+                        />
                     </div>
                 </div>
             </form>
         );
     }
 }
-LoginMfa.defaultProps = {
-};
-
-LoginMfa.propTypes = {
-    loginId: PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired,
-    submit: PropTypes.func.isRequired
-};

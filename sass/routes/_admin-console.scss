@@ -762,3 +762,13 @@
 .admin-setting-user__fullname {
     @include opacity(.5);
 }
+
+.password__group-addon {
+    min-width: 150px;
+    text-align: left;
+
+}
+
+.password__group-addon-space {
+    margin-bottom: 20px;
+}

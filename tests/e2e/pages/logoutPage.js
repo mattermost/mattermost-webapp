@@ -8,11 +8,11 @@ const logoutCommands = {
         return this.waitForElementVisible('@mainMenuButton', Constants.DEFAULT_WAIT);
     },
     logout() {
-        return this
-            .waitForElementVisible('@mainMenuButton', Constants.DEFAULT_WAIT)
-            .click('@mainMenuButton')
-            .waitForElementVisible('@logoutButton', Constants.DEFAULT_WAIT)
-            .click('@logoutButton');
+        return this.
+            waitForElementVisible('@mainMenuButton', Constants.DEFAULT_WAIT).
+            click('@mainMenuButton').
+            waitForElementVisible('@logoutButton', Constants.DEFAULT_WAIT).
+            click('@logoutButton');
     }
 };
 

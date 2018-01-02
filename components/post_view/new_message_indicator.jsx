@@ -5,13 +5,17 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import Constants from 'utils/constants.jsx';
+import UnreadBelowIcon from 'components/svg/unread_below_icon';
 
 export default class NewMessageIndicator extends React.PureComponent {
     static propTypes = {
         onClick: PropTypes.func.isRequired,
         newMessages: PropTypes.number
-    }
+    };
+
+    static defaultProps = {
+        newMessages: 0
+    };
 
     constructor(props) {
         super(props);
@@ -32,7 +36,6 @@ export default class NewMessageIndicator extends React.PureComponent {
     }
 
     render() {
-        const unreadIcon = Constants.UNREAD_ICON_SVG;
         let className = 'new-messages__button';
         if (this.state.visible) {
             className += ' visible';
@@ -52,10 +55,7 @@ export default class NewMessageIndicator extends React.PureComponent {
                         defaultMessage='New {count, plural, one {message} other {messages}}'
                         values={{count: this.props.newMessages}}
                     />
-                    <span
-                        className='icon icon__unread'
-                        dangerouslySetInnerHTML={{__html: unreadIcon}}
-                    />
+                    <UnreadBelowIcon className='icon icon__unread'/>
                 </div>
             </div>
         );
@@ -67,7 +67,3 @@ export default class NewMessageIndicator extends React.PureComponent {
         this.setState({rendered: this.state.visible});
     }
 }
-
-NewMessageIndicator.defaultProps = {
-    newMessages: 0
-};

@@ -8,15 +8,14 @@ import {Posts} from 'mattermost-redux/constants';
 
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 
-import Constants from 'utils/constants.jsx';
+import {ActionTypes} from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import PostBody from 'components/post_view/post_body';
 import PostHeader from 'components/post_view/post_header';
 import ProfilePicture from 'components/profile_picture.jsx';
-
-const ActionTypes = Constants.ActionTypes;
+import MattermostLogo from 'components/svg/mattermost_logo';
 
 export default class Post extends React.PureComponent {
     static propTypes = {
@@ -196,7 +195,6 @@ export default class Post extends React.PureComponent {
 
     render() {
         const post = this.props.post || {};
-        const mattermostLogo = Constants.MATTERMOST_ICON_SVG;
 
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const fromWebhook = post && post.props && post.props.from_webhook === 'true';
@@ -224,10 +222,7 @@ export default class Post extends React.PureComponent {
             );
         } else if (PostUtils.isSystemMessage(post)) {
             profilePic = (
-                <span
-                    className='icon'
-                    dangerouslySetInnerHTML={{__html: mattermostLogo}}
-                />
+                <MattermostLogo className='icon'/>
             );
         }
 

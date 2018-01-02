@@ -42,7 +42,7 @@ export default class SidebarHeader extends React.Component {
             return {};
         }
         const tutorialStep = PreferenceStore.getInt(Preferences.TUTORIAL_STEP, this.props.currentUser.id, 999);
-        const showTutorialTip = tutorialStep === TutorialSteps.MENU_POPOVER && !Utils.isMobile();
+        const showTutorialTip = tutorialStep === TutorialSteps.MENU_POPOVER && !Utils.isMobile() && global.window.mm_config.EnableTutorial === 'true';
 
         return {showTutorialTip};
     }

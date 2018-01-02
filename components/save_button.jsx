@@ -27,7 +27,7 @@ export default class SaveButton extends React.PureComponent {
         if (saving) {
             contents = (
                 <span>
-                    <span className='icon fa fa-refresh icon--rotate'/>
+                    <span className='fa fa-refresh icon--rotate'/>
                     {savingMessage}
                 </span>
             );
@@ -36,7 +36,7 @@ export default class SaveButton extends React.PureComponent {
         }
 
         let className = 'save-button btn';
-        if (!disabled) {
+        if (!disabled || saving) {
             className += ' btn-primary';
         }
 

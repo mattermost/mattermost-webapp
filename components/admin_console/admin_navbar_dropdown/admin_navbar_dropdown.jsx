@@ -12,12 +12,12 @@ import {Link} from 'react-router';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import TeamStore from 'stores/team_store.jsx';
 
-import Constants from 'utils/constants.jsx';
 import {sortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import AboutBuildModal from 'components/about_build_modal';
 import BlockableLink from 'components/admin_console/blockable_link';
+import MenuIcon from 'components/svg/menu_icon';
 
 export default class AdminNavbarDropdown extends React.Component {
     static propTypes = {
@@ -159,10 +159,7 @@ export default class AdminNavbarDropdown extends React.Component {
                         role='button'
                         aria-expanded='false'
                     >
-                        <span
-                            className='dropdown__icon admin-navbar-dropdown__icon'
-                            dangerouslySetInnerHTML={{__html: Constants.MENU_ICON}}
-                        />
+                        <MenuIcon className='dropdown__icon admin-navbar-dropdown__icon'/>
                     </a>
                     <ul
                         className='dropdown-menu'

@@ -1,21 +1,6 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-export const utils = {
-    cmdOrCtrl() {
-        if (process.platform === 'darwin') {
-            return '\uE03D';
-        }
-
-        return '\uE009';
-    },
-    testBaseUrl() {
-        return Constants.TEST_BASE_URL;
-    }
-};
-
-export default utils;
-
 export const Constants = {
     TEST_BASE_URL: 'http://localhost:8065',
     DEFAULT_WAIT: 20000,
@@ -47,3 +32,18 @@ export const Constants = {
         }
     }
 };
+
+export const utils = {
+    cmdOrCtrl() {
+        if (process.platform === 'darwin') {
+            return '\uE03D';
+        }
+
+        return '\uE009';
+    },
+    testBaseUrl() {
+        return Constants.TEST_BASE_URL;
+    }
+};
+
+export default utils;

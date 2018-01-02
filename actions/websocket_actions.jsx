@@ -11,6 +11,7 @@ import {getChannelAndMyMember, getChannelStats, viewChannel} from 'mattermost-re
 import {setServerVersion} from 'mattermost-redux/actions/general';
 import {getPosts, getProfilesAndStatusesForPosts} from 'mattermost-redux/actions/posts';
 import * as TeamActions from 'mattermost-redux/actions/teams';
+import {getMe} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
@@ -412,13 +413,11 @@ function handleUserUpdatedEvent(msg) {
     const user = msg.data.user;
 
     if (currentUser.id === user.id) {
-        dispatch({
-            type: UserTypes.RECEIVED_ME,
-            data: {
-                ...currentUser,
-                last_picture_update: user.last_picture_update
-            }
-        });
+        if (user.update_at > currentUser.update_at) {
+            // Need to request me to make sure we don't override with sanitized fields from the
+            // websocket event
+            getMe()(dispatch, getState);
+        }
     } else {
         UserStore.saveProfile(user);
     }

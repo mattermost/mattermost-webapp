@@ -283,7 +283,7 @@ class TeamStoreClass extends EventEmitter {
         return Object.values(Selectors.getTeamMemberships(store.getState()));
     }
 
-    saveMembersInTeam(teamId = this.getCurrentId(), members) {
+    saveMembersInTeam(members) {
         store.dispatch({
             type: TeamTypes.RECEIVED_MEMBERS_IN_TEAM,
             data: Object.values(members)
@@ -448,7 +448,7 @@ TeamStore.dispatchToken = AppDispatcher.register((payload) => {
         TeamStore.saveTeamListings(action.teams);
         break;
     case ActionTypes.RECEIVED_MEMBERS_IN_TEAM:
-        TeamStore.saveMembersInTeam(action.team_id, action.team_members);
+        TeamStore.saveMembersInTeam(action.team_members);
         break;
     case ActionTypes.RECEIVED_TEAM_STATS:
         TeamStore.saveStats(action.team_id, action.stats);

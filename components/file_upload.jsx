@@ -11,13 +11,16 @@ import {defineMessages, injectIntl, intlShape} from 'react-intl';
 import 'jquery-dragster/jquery.dragster.js';
 
 import {uploadFile} from 'actions/file_actions.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
+
+import AttachmentIcon from 'components/svg/attachment_icon';
 
 import Constants from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
 import * as FileUtils from 'utils/file_utils';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
+
+import ChannelStore from 'stores/channel_store.jsx';
 
 const holders = defineMessages({
     limited: {
@@ -390,9 +393,7 @@ class FileUpload extends React.Component {
                     id='fileUploadButton'
                     className='icon icon--attachment'
                 >
-                    <span
-                        dangerouslySetInnerHTML={{__html: Constants.ATTACHMENT_ICON_SVG}}
-                    />
+                    <AttachmentIcon/>
                     <input
                         ref='fileInput'
                         type='file'
