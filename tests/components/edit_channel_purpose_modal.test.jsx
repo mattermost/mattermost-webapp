@@ -5,7 +5,7 @@ import {shallow} from 'enzyme';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal/edit_channel_purpose_modal.jsx';
 import Constants from 'utils/constants.jsx';
 
-describe('comoponents/edit_channel_purpose_modal/edit_channel_purpose_modal.jsx', () => {
+describe('comoponents/EditChannelPurposeModal', () => {
     const channel = {
         id: 'fake-id',
         purpose: 'purpose'

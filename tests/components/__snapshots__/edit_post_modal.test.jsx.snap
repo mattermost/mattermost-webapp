@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`comoponents/edit_post_modal/edit_post_modal.jsx should match with default config 1`] = `
+exports[`comoponents/EditPostModal should match with default config 1`] = `
 <Modal
   animation={true}
   autoFocus={true}
@@ -134,7 +134,7 @@ exports[`comoponents/edit_post_modal/edit_post_modal.jsx should match with defau
 </Modal>
 `;
 
-exports[`comoponents/edit_post_modal/edit_post_modal.jsx should match without editingPost 1`] = `
+exports[`comoponents/EditPostModal should match without editingPost 1`] = `
 <Modal
   animation={true}
   autoFocus={true}
@@ -267,7 +267,7 @@ exports[`comoponents/edit_post_modal/edit_post_modal.jsx should match without ed
 </Modal>
 `;
 
-exports[`comoponents/edit_post_modal/edit_post_modal.jsx should match without emoji picker 1`] = `
+exports[`comoponents/EditPostModal should match without emoji picker 1`] = `
 <Modal
   animation={true}
   autoFocus={true}
@@ -376,7 +376,7 @@ exports[`comoponents/edit_post_modal/edit_post_modal.jsx should match without em
 </Modal>
 `;
 
-exports[`comoponents/edit_post_modal/edit_post_modal.jsx should show emojis on emojis click 1`] = `
+exports[`comoponents/EditPostModal should show emojis on emojis click 1`] = `
 <Modal
   animation={true}
   autoFocus={true}
@@ -510,7 +510,7 @@ exports[`comoponents/edit_post_modal/edit_post_modal.jsx should show emojis on e
 </Modal>
 `;
 
-exports[`comoponents/edit_post_modal/edit_post_modal.jsx should show errors when it is set in the state 1`] = `
+exports[`comoponents/EditPostModal should show errors when it is set in the state 1`] = `
 <Modal
   animation={true}
   autoFocus={true}
