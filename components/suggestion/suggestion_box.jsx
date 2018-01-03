@@ -313,8 +313,7 @@ export default class SuggestionBox extends React.Component {
 
         // override if user finished typing term before results returned from API
         if (shouldEmitWordSuggestion) {
-            const override = pretext.endsWith(term);
-            GlobalActions.emitCompleteWordSuggestion(this.suggestionId, '', override);
+            GlobalActions.emitCompleteWordSuggestion(this.suggestionId, '');
         }
     }
 
