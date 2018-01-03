@@ -5,10 +5,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
-import FilenameOverlay from 'components/file_attachment/filename_overlay.jsx';
 import Constants from 'utils/constants.jsx';
 import * as FileUtils from 'utils/file_utils';
 import * as Utils from 'utils/utils.jsx';
+
+import FilenameOverlay from 'components/file_attachment/filename_overlay.jsx';
+import DownloadIcon from 'components/svg/download_icon';
 
 export default class FileAttachment extends React.PureComponent {
     static propTypes = {
@@ -144,10 +146,7 @@ export default class FileAttachment extends React.PureComponent {
                     target='_blank'
                     rel='noopener noreferrer'
                 >
-                    <span
-                        className='icon'
-                        dangerouslySetInnerHTML={{__html: Constants.DOWNLOAD_ICON_SVG}}
-                    />
+                    <DownloadIcon/>
                 </a>
             );
         }

@@ -6,10 +6,10 @@ import React from 'react';
 
 import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
-import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils';
 import * as FileUtils from 'utils/file_utils';
 
+import DownloadIcon from 'components/svg/download_icon';
 import LoadingImagePreview from 'components/loading_image_preview';
 import ViewImageModal from 'components/view_image.jsx';
 
@@ -101,10 +101,7 @@ export default class SingleImageView extends React.PureComponent {
                         target='_blank'
                         rel='noopener noreferrer'
                     >
-                        <span
-                            className='icon'
-                            dangerouslySetInnerHTML={{__html: Constants.DOWNLOAD_ICON_SVG}}
-                        />
+                        <DownloadIcon/>
                     </a>
                 );
             }
