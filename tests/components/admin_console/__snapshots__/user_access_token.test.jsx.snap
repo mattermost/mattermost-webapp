@@ -29,8 +29,8 @@ exports[`components/admin_console/UserAccessTokens should match snapshot with ba
   <div
     className="more-modal__list member-list-holder"
   >
-    <UserAccessTokensList
-      itemsPerPage={10}
+    <UserAccessTokensContainer
+      itemsPerPage={30}
     />
   </div>
 </div>

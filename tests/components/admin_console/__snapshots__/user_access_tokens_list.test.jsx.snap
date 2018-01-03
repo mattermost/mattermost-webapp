@@ -1,14 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/admin_console/UserAccessTokensList should match snapshot with base props 1`] = `
-<SearchableItemList
-  actionProps={Object {}}
-  actionUserProps={Object {}}
-  actions={Array []}
-  extraInfo={Object {}}
-  focusOnMount={false}
-  items={Array []}
-  itemsPerPage={50}
-  showTeamToggle={false}
-/>
+<div>
+  list
+</div>
 `;
