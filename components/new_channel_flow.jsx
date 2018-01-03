@@ -37,12 +37,12 @@ export default class NewChannelFlow extends React.Component {
         * Function to call when modal is dimissed
         */
         onModalDismissed: PropTypes.func.isRequired
-    }
+    };
 
     static defaultProps = {
         show: false,
         channelType: Constants.OPEN_CHANNEL
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -57,6 +57,7 @@ export default class NewChannelFlow extends React.Component {
             nameModified: false
         };
     }
+
     componentWillReceiveProps(nextProps) {
         // If we are being shown, grab channel type from props and clear
         if (nextProps.show === true && this.props.show === false) {
@@ -72,6 +73,7 @@ export default class NewChannelFlow extends React.Component {
             });
         }
     }
+
     onSubmit = () => {
         if (!this.state.channelDisplayName) {
             this.setState({serverError: Utils.localizeMessage('channel_flow.invalidName', 'Invalid Channel Name')});
@@ -119,12 +121,14 @@ export default class NewChannelFlow extends React.Component {
                 }
             }
         );
-    }
+    };
+
     onModalExited = () => {
         if (this.doOnModalExited) {
             this.doOnModalExited();
         }
-    }
+    };
+
     typeSwitched = (e) => {
         e.preventDefault();
         if (this.state.channelType === Constants.PRIVATE_CHANNEL) {
@@ -132,23 +136,27 @@ export default class NewChannelFlow extends React.Component {
         } else {
             this.setState({channelType: Constants.PRIVATE_CHANNEL});
         }
-    }
+    };
+
     urlChangeRequested = (e) => {
         if (e) {
             e.preventDefault();
         }
         this.setState({flowState: SHOW_EDIT_URL});
-    }
+    };
+
     urlChangeSubmitted = (newURL) => {
         if (this.state.flowState === SHOW_EDIT_URL_THEN_COMPLETE) {
             this.setState({channelName: newURL, nameModified: true}, this.onSubmit);
         } else {
             this.setState({flowState: SHOW_NEW_CHANNEL, serverError: null, channelName: newURL, nameModified: true});
         }
-    }
+    };
+
     urlChangeDismissed = () => {
         this.setState({flowState: SHOW_NEW_CHANNEL});
-    }
+    };
+
     channelDataChanged = (data) => {
         this.setState({
             channelDisplayName: data.displayName,
@@ -158,7 +166,8 @@ export default class NewChannelFlow extends React.Component {
         if (!this.state.nameModified) {
             this.setState({channelName: cleanUpUrlable(data.displayName.trim())});
         }
-    }
+    };
+
     render() {
         const channelData = {
             name: this.state.channelName,
