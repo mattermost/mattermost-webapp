@@ -16,8 +16,9 @@ import Constants from 'utils/constants';
 import NewChannelModal from 'components/new_channel_modal';
 import ChangeURLModal from 'components/change_url_modal';
 
-export default class NewChannelFlow extends React.Component {
+const SHOW_EDIT_URL_THEN_COMPLETE = 3;
 
+export default class NewChannelFlow extends React.Component {
     static propTypes = {
 
         /**
@@ -75,6 +76,11 @@ export default class NewChannelFlow extends React.Component {
             return;
         }
 
+        if (this.state.channelName < 2) {
+            this.setState({flowState: SHOW_EDIT_URL_THEN_COMPLETE});
+            return;
+        }
+
         const channel = {
             team_id: TeamStore.getCurrentId(),
             name: this.state.channelName,
@@ -94,11 +100,21 @@ export default class NewChannelFlow extends React.Component {
                 this.props.onModalDismissed();
             },
             (err) => {
-                if (err.id === 'store.sql_channel.update.exists.app_error') {
+                if (err.id === 'model.channel.is_valid.2_or_more.app_error') {
+                    this.setState({
+                        flowState: SHOW_EDIT_URL_THEN_COMPLETE,
+                        serverError: (
+                            <FormattedMessage
+                                id='channel_flow.handleTooShort'
+                                defaultMessage='Channel URL must be 2 or more lowercase alphanumeric characters'
+                            />
+                        )
+                    });
+                } else if (err.id === 'store.sql_channel.update.exists.app_error') {
                     this.setState({serverError: Utils.localizeMessage('channel_flow.alreadyExist', 'A channel with that URL already exists')});
-                    return;
+                } else {
+                    this.setState({serverError: err.message});
                 }
-                this.setState({serverError: err.message});
             }
         );
     }
@@ -122,7 +138,11 @@ export default class NewChannelFlow extends React.Component {
         this.setState({flowState: Constants.SHOW_EDIT_URL});
     }
     urlChangeSubmitted = (newURL) => {
-        this.setState({flowState: Constants.SHOW_NEW_CHANNEL, serverError: null, channelName: newURL, nameModified: true});
+        if (this.state.flowState === SHOW_EDIT_URL_THEN_COMPLETE) {
+            this.setState({channelName: newURL, nameModified: true}, this.onSubmit);
+        } else {
+            this.setState({flowState: Constants.SHOW_NEW_CHANNEL, serverError: null, channelName: newURL, nameModified: true});
+        }
     }
     urlChangeDismissed = () => {
         this.setState({flowState: Constants.SHOW_NEW_CHANNEL});
@@ -170,6 +190,21 @@ export default class NewChannelFlow extends React.Component {
                     />
                 );
                 changeURLSubmitButtonText = changeURLTitle;
+                break;
+            case SHOW_EDIT_URL_THEN_COMPLETE:
+                showChangeURLModal = true;
+                changeURLTitle = (
+                    <FormattedMessage
+                        id='channel_flow.set_url_title'
+                        defaultMessage='Set Channel URL'
+                    />
+                );
+                changeURLSubmitButtonText = (
+                    <FormattedMessage
+                        id='channel_flow.create'
+                        defaultMessage='Create Channel'
+                    />
+                );
                 break;
             }
         }
