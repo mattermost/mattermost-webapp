@@ -252,6 +252,7 @@ export default class SuggestionBox extends React.Component {
         const pretext = textbox.value.substring(0, textbox.selectionEnd);
 
         let prefix;
+        let keepPretext = false;
         if (pretext.endsWith(matchedPretext)) {
             prefix = pretext.substring(0, pretext.length - matchedPretext.length);
         } else {
@@ -259,12 +260,19 @@ export default class SuggestionBox extends React.Component {
             const termWithoutMatched = term.substring(matchedPretext.length);
             const overlap = SuggestionBox.findOverlap(pretext, termWithoutMatched);
 
+            keepPretext = overlap.length === 0;
             prefix = pretext.substring(0, pretext.length - overlap.length - matchedPretext.length);
         }
 
         const suffix = text.substring(caret);
 
-        const newValue = prefix + term + ' ' + suffix;
+        let newValue;
+        if (keepPretext) {
+            newValue = pretext;
+        } else {
+            newValue = prefix + term + ' ' + suffix;
+        }
+
         this.refs.textbox.value = newValue;
 
         if (this.props.onChange) {
@@ -302,8 +310,11 @@ export default class SuggestionBox extends React.Component {
                 provider.handleCompleteWord(term, matchedPretext);
             }
         }
+
+        // override if user finished typing term before results returned from API
         if (shouldEmitWordSuggestion) {
-            GlobalActions.emitCompleteWordSuggestion(this.suggestionId);
+            const override = pretext.endsWith(term);
+            GlobalActions.emitCompleteWordSuggestion(this.suggestionId, '', override);
         }
     }
 
@@ -337,6 +348,10 @@ export default class SuggestionBox extends React.Component {
         let handled = false;
         for (const provider of this.props.providers) {
             handled = provider.handlePretextChanged(this.suggestionId, pretext) || handled;
+
+            if (handled) {
+                break;
+            }
         }
 
         if (!handled) {

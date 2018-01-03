@@ -295,6 +295,7 @@ class SuggestionStore extends EventEmitter {
             this.setSuggestionsPending(id, false);
 
             if (this.isCompletePending(id)) {
+                this.setCompletePending(id, false);
                 this.completeWord(id);
             } else {
                 this.emitSuggestionsChanged(id);
@@ -315,7 +316,7 @@ class SuggestionStore extends EventEmitter {
             this.emitSuggestionsChanged(id);
             break;
         case ActionTypes.SUGGESTION_COMPLETE_WORD:
-            if (this.areSuggestionsPending(id)) {
+            if (this.areSuggestionsPending(id) && !other.override) {
                 this.setCompletePending(id, true);
             } else {
                 this.completeWord(id, other.term, other.matchedPretext);
