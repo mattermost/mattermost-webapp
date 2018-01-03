@@ -33,6 +33,10 @@ describe('components/NewChannelFlow', () => {
         onModalDismissed: jest.fn()
     };
 
+    actions.createChannel = jest.fn((channel, success) => {
+        success(channel);
+    });
+
     test('should match snapshot, with base props', () => {
         const wrapper = shallow(
             <NewChannelFlow {...baseProps}/>
@@ -120,13 +124,15 @@ describe('components/NewChannelFlow', () => {
         expect(wrapper.state('serverError')).toEqual(Utils.localizeMessage('channel_flow.invalidName', 'Invalid Channel Name'));
     });
 
-    test('should call createChannel when onSubmit is called with valid channelDisplayName', () => {
+    test('should call createChannel when onSubmit is called with valid channelDisplayName and valid channelName', () => {
         const wrapper = shallow(
             <NewChannelFlow {...baseProps}/>
         );
-        actions.createChannel = jest.fn();
 
-        wrapper.setState({channelDisplayName: 'example'});
+        wrapper.setState({
+            channelDisplayName: 'example',
+            channelName: 'example'
+        });
         wrapper.instance().onSubmit();
         expect(actions.createChannel).toHaveBeenCalled();
     });
@@ -149,5 +155,102 @@ describe('components/NewChannelFlow', () => {
         wrapper.instance().onModalExited();
         expect(typeof wrapper.instance().doOnModalExited).not.toEqual('undefined');
         expect(wrapper.instance().doOnModalExited).toHaveBeenCalledTimes(1);
+    });
+
+    test('call onModalDismissed after successfully creating channel', () => {
+        const wrapper = shallow(
+            <NewChannelFlow {...baseProps}/>
+        );
+
+        wrapper.instance().channelDataChanged({
+            displayName: 'test',
+            header: '',
+            purpose: ''
+        });
+        wrapper.instance().onSubmit();
+        expect(actions.createChannel).toHaveBeenCalledTimes(1);
+        expect(baseProps.onModalDismissed).toHaveBeenCalledTimes(1);
+    });
+
+    test('don\'t call onModalDismissed after failing to create channel', () => {
+        const wrapper = shallow(
+            <NewChannelFlow {...baseProps}/>
+        );
+
+        wrapper.instance().channelDataChanged({
+            displayName: '',
+            header: '',
+            purpose: ''
+        });
+        wrapper.instance().onSubmit();
+        expect(baseProps.onModalDismissed).toHaveBeenCalledTimes(0);
+
+        wrapper.instance().channelDataChanged({
+            displayName: 't',
+            header: '',
+            purpose: ''
+        });
+        wrapper.instance().onSubmit();
+
+        wrapper.instance().channelDataChanged({
+            displayName: 'テスト',
+            header: '',
+            purpose: ''
+        });
+        wrapper.instance().onSubmit();
+        expect(baseProps.onModalDismissed).toHaveBeenCalledTimes(0);
+    });
+
+    test('call onModalDismissed after successfully creating channel', () => {
+        const wrapper = shallow(
+            <NewChannelFlow {...baseProps}/>
+        );
+
+        wrapper.instance().channelDataChanged({
+            displayName: 'test',
+            header: '',
+            purpose: ''
+        });
+        wrapper.instance().onSubmit();
+        expect(actions.createChannel).toHaveBeenCalledTimes(1);
+        expect(baseProps.onModalDismissed).toHaveBeenCalledTimes(1);
+    });
+
+    test('show URL modal when trying to submit non-Latin dislay name', () => {
+        const wrapper = shallow(
+            <NewChannelFlow {...baseProps}/>
+        );
+
+        wrapper.instance().channelDataChanged({
+            displayName: 'テスト',
+            header: '',
+            purpose: ''
+        });
+        expect(wrapper.state('channelDisplayName')).toEqual('テスト');
+        expect(wrapper.state('channelName')).toEqual('');
+
+        wrapper.instance().onSubmit();
+        expect(actions.createChannel).toHaveBeenCalledTimes(0);
+        expect(wrapper.state('flowState')).toEqual(SHOW_EDIT_URL_THEN_COMPLETE);
+    });
+
+    test('call onModalDismissed after successfully creating channel from URL modal', () => {
+        const wrapper = shallow(
+            <NewChannelFlow {...baseProps}/>
+        );
+
+        wrapper.instance().channelDataChanged({
+            displayName: 'テスト',
+            header: '',
+            purpose: ''
+        });
+
+        wrapper.instance().onSubmit();
+        expect(actions.createChannel).toHaveBeenCalledTimes(0);
+        expect(wrapper.state('flowState')).toEqual(SHOW_EDIT_URL_THEN_COMPLETE);
+
+        wrapper.instance().urlChangeSubmitted('test');
+        expect(actions.createChannel).toHaveBeenCalledTimes(1);
+        expect(baseProps.onModalDismissed).toHaveBeenCalledTimes(1);
     });
 });
