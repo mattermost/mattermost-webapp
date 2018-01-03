@@ -15,9 +15,9 @@ const NEXT_BUTTON_TIMEOUT = 500;
 
 export default class SearchableItemList extends React.Component {
     static propTypes = {
-        listComponent: PropTypes.element,
         items: PropTypes.arrayOf(PropTypes.object),
         itemsPerPage: PropTypes.number,
+        listComponent: PropTypes.element,
         total: PropTypes.number,
         extraInfo: PropTypes.object,
         nextPage: PropTypes.func.isRequired,
@@ -41,6 +41,7 @@ export default class SearchableItemList extends React.Component {
     static defaultProps = {
         items: [],
         itemsPerPage: 50, // eslint-disable-line no-magic-numbers
+        listComponent: UserList,
         extraInfo: {},
         actions: [],
         actionProps: {},
@@ -166,7 +167,7 @@ export default class SearchableItemList extends React.Component {
     }
 
     render() {
-        const List = this.props.listComponent || UserList;
+        const List = this.props.listComponent;
         let nextButton;
         let previousButton;
         let itemsToDisplay;
