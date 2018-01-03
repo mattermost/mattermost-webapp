@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
 
-import UserAccessTokensList from './user_access_tokens_list';
+import UserAccessTokensContainer from './user_access_tokens_container';
 
 export default class UserAccessTokens extends React.PureComponent {
     static propTypes = {};
@@ -27,8 +27,8 @@ export default class UserAccessTokens extends React.PureComponent {
                     </div>
                 </div>
                 <div className='more-modal__list member-list-holder'>
-                    <UserAccessTokensList
-                        itemsPerPage={10}
+                    <UserAccessTokensContainer
+                        itemsPerPage={30}
                     />
                 </div>
             </div>
