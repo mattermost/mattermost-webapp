@@ -28,6 +28,7 @@ import AddUsersToTeam from 'components/add_users_to_team';
 import LeaveTeamIcon from 'components/svg/leave_team_icon';
 import TeamMembersModal from 'components/team_members_modal';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
+import TeamSettingsModal from 'components/team_settings_modal.jsx';
 import {createMenuTip} from 'components/tutorial/tutorial_tip.jsx';
 
 export default class SidebarRightMenu extends React.Component {
@@ -48,7 +49,8 @@ export default class SidebarRightMenu extends React.Component {
         this.state = {
             ...this.getStateFromStores(),
             showAboutModal: false,
-            showAddUsersToTeamModal: false
+            showAddUsersToTeamModal: false,
+            showTeamSettingsModal: false
         };
     }
 
@@ -90,6 +92,19 @@ export default class SidebarRightMenu extends React.Component {
         this.setState({
             showAddUsersToTeamModal: false
         });
+    }
+
+    showTeamSettingsModal = (e) => {
+        e.preventDefault();
+
+        this.setState({
+            showTeamSettingsModal: true,
+            showDropdown: false
+        });
+    }
+
+    hideTeamSettingsModal = () => {
+        this.setState({showTeamSettingsModal: false});
     }
 
     getFlagged = (e) => {
@@ -319,8 +334,7 @@ export default class SidebarRightMenu extends React.Component {
                 <li>
                     <a
                         href='#'
-                        data-toggle='modal'
-                        data-target='#team_settings'
+                        onClick={this.showTeamSettingsModal}
                     >
                         <i className='icon fa fa-globe'/>
                         <FormattedMessage
@@ -555,6 +569,10 @@ export default class SidebarRightMenu extends React.Component {
                 <AboutBuildModal
                     show={this.state.showAboutModal}
                     onModalDismissed={this.aboutModalDismissed}
+                />
+                <TeamSettingsModal
+                    show={this.state.showTeamSettingsModal}
+                    onModalDismissed={this.hideTeamSettingsModal}
                 />
                 {addUsersToTeamModal}
             </div>

@@ -526,17 +526,19 @@ class GeneralTab extends React.Component {
                         className='close'
                         data-dismiss='modal'
                         aria-label='Close'
+                        onClick={this.props.closeModal}
                     >
-                        <span aria-hidden='true'>
-                            {'×'}
-                        </span>
+                        <span aria-hidden='true'>{'×'}</span>
                     </button>
                     <h4
                         className='modal-title'
                         ref='title'
                     >
                         <div className='modal-back'>
-                            <i className='fa fa-angle-left'/>
+                            <i
+                                className='fa fa-angle-left'
+                                onClick={this.props.collapseModal}
+                            />
                         </div>
                         <FormattedMessage
                             id='general_tab.title'
@@ -572,7 +574,9 @@ class GeneralTab extends React.Component {
 GeneralTab.propTypes = {
     updateSection: PropTypes.func.isRequired,
     team: PropTypes.object.isRequired,
-    activeSection: PropTypes.string.isRequired
+    activeSection: PropTypes.string.isRequired,
+    closeModal: PropTypes.func.isRequired,
+    collapseModal: PropTypes.func.isRequired
 };
 
 export default GeneralTab;
