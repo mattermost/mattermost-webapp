@@ -1190,7 +1190,7 @@
   "api.channel.post_update_channel_header_message_and_forget.removed": "{username} removed the channel header (was: {old})",
   "api.channel.post_update_channel_header_message_and_forget.updated_from": "{username} updated the channel header from: {old} to: {new}",
   "api.channel.post_update_channel_header_message_and_forget.updated_to": "{username} updated the channel header to: {new}",
-  "api.channel.remove_member.removed": "{removedUsername} was removed from the team",
+  "api.channel.remove_member.removed": "{removedUsername} was removed from the channel",
   "api.team.add_member.added": "{addedUsername} added to the team by {username}",
   "api.team.join_team.post_and_forget": "{username} joined the team.",
   "app.channel.post_update_channel_purpose_message.removed": "{username} removed the channel purpose (was: {old})",
