@@ -22,7 +22,7 @@ function mapStateToProps(state, ownProps) {
         updateIncomingHookRequest: state.requests.integrations.createIncomingHook,
         enableIncomingWebhooks,
         enablePostUsernameOverride,
-        enablePostIconOverride,
+        enablePostIconOverride
     };
 }
 

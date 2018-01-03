@@ -17,7 +17,7 @@ function mapStateToProps(state, ownProps) {
         ...ownProps,
         createIncomingHookRequest: state.requests.integrations.createIncomingHook,
         enablePostUsernameOverride,
-        enablePostIconOverride,
+        enablePostIconOverride
     };
 }
 
