@@ -76,7 +76,7 @@ export default class NewChannelFlow extends React.Component {
             return;
         }
 
-        if (this.state.channelName < 2) {
+        if (this.state.channelName.length < 2) {
             this.setState({flowState: SHOW_EDIT_URL_THEN_COMPLETE});
             return;
         }
