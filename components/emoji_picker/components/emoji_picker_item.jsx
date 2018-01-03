@@ -3,10 +3,12 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import debounce from 'lodash/debounce';
 
 import EmojiStore from 'stores/emoji_store.jsx';
 
 const SCROLLING_ADDT_VISUAL_SPACING = 10; // to make give the emoji some visual 'breathing room'
+const EMOJI_LAZY_LOAD_SCROLL_THROTTLE = 150;
 
 export default class EmojiPickerItem extends React.PureComponent {
     static propTypes = {
@@ -26,6 +28,7 @@ export default class EmojiPickerItem extends React.PureComponent {
         super(props);
         this.handleMouseOver = this.handleMouseOver.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.handleMouseOverThrottle = debounce(this.handleMouseOver, EMOJI_LAZY_LOAD_SCROLL_THROTTLE, {leading: true, trailing: true});
     }
     emojiItemRef = (emojiItem) => {
         this.emojiItem = emojiItem;
@@ -45,7 +48,9 @@ export default class EmojiPickerItem extends React.PureComponent {
     }
 
     handleMouseOver() {
-        this.props.onItemOver(this.props.categoryIndex, this.props.emojiIndex);
+        if (!this.props.isSelected) {
+            this.props.onItemOver(this.props.categoryIndex, this.props.emojiIndex);
+        }
     }
 
     handleClick() {
@@ -70,7 +75,7 @@ export default class EmojiPickerItem extends React.PureComponent {
                     <img
                         src='/static/images/img_trans.gif'
                         className={spriteClassName}
-                        onMouseOver={this.handleMouseOver}
+                        onMouseOver={this.handleMouseOverThrottle}
                         onClick={this.handleClick}
                     />
                 </div>
