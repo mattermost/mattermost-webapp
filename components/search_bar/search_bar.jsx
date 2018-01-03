@@ -9,10 +9,13 @@ import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import SearchChannelProvider from '../suggestion/search_channel_provider.jsx';
-import SearchSuggestionList from '../suggestion/search_suggestion_list.jsx';
-import SearchUserProvider from '../suggestion/search_user_provider.jsx';
-import SuggestionBox from '../suggestion/suggestion_box.jsx';
+import SearchChannelProvider from 'components/suggestion/search_channel_provider.jsx';
+import SearchSuggestionList from 'components/suggestion/search_suggestion_list.jsx';
+import SearchUserProvider from 'components/suggestion/search_user_provider.jsx';
+import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
+import FlagIcon from 'components/svg/flag_icon';
+import MentionsIcon from 'components/svg/mentions_icon';
+import SearchIcon from 'components/svg/search_icon';
 
 const {KeyCodes} = Constants;
 
@@ -163,10 +166,6 @@ export default class SearchBar extends React.Component {
     }
 
     render() {
-        const flagIcon = Constants.FLAG_ICON_SVG;
-        const searchIcon = Constants.SEARCH_ICON_SVG;
-        const mentionsIcon = Constants.MENTIONS_ICON_SVG;
-
         var isSearchingTerm = null;
         if (this.props.isSearchingTerm) {
             isSearchingTerm = <span className={'fa fa-spin fa-spinner'}/>;
@@ -214,9 +213,8 @@ export default class SearchBar extends React.Component {
                         className={'channel-header__icon ' + mentionBtnClass}
                         onClick={this.searchMentions}
                     >
-                        <span
+                        <MentionsIcon
                             className='icon icon__mentions'
-                            dangerouslySetInnerHTML={{__html: mentionsIcon}}
                             aria-hidden='true'
                         />
                     </div>
@@ -239,10 +237,7 @@ export default class SearchBar extends React.Component {
                             onClick={this.getFlagged}
                             className='style--none'
                         >
-                            <span
-                                className='icon icon__flag'
-                                dangerouslySetInnerHTML={{__html: flagIcon}}
-                            />
+                            <FlagIcon className='icon icon__flag'/>
                         </button>
                     </div>
                 </OverlayTrigger>
@@ -280,10 +275,9 @@ export default class SearchBar extends React.Component {
                         style={style.searchForm}
                         autoComplete='off'
                     >
-                        <span
+                        <SearchIcon
                             id='searchIcon'
                             className='search__icon'
-                            dangerouslySetInnerHTML={{__html: searchIcon}}
                             aria-hidden='true'
                         />
                         <SuggestionBox

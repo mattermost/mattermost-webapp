@@ -38,7 +38,8 @@ export default class RemovedFromChannelModal extends React.Component {
             () => {
                 browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + townSquare.name);
             },
-        1);
+            1
+        );
 
         this.setState(newState);
     }

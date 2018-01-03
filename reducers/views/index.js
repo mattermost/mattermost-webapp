@@ -3,7 +3,7 @@
 
 import {combineReducers} from 'redux';
 
-import admin from './admin'
+import admin from './admin';
 import channel from './channel';
 import rhs from './rhs';
 import posts from './posts';

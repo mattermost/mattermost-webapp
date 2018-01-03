@@ -47,11 +47,11 @@ export default class BackstageController extends React.Component {
     onTeamChange() {
         const team = TeamStore.getCurrent();
 
-        this.state = {
+        this.setState({
             team,
             isAdmin: UserStore.isSystemAdminForCurrentUser(this.props.user) ||
                 TeamStore.isTeamAdminForCurrentTeam(team)
-        };
+        });
     }
 
     render() {

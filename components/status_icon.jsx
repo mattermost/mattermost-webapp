@@ -4,51 +4,56 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Constants from 'utils/constants.jsx';
+import StatusAwayAvatarIcon from 'components/svg/status_away_avatar_icon';
+import StatusAwayIcon from 'components/svg/status_away_icon';
+import StatusDndAvatarIcon from 'components/svg/status_dnd_avatar_icon';
+import StatusDndIcon from 'components/svg/status_dnd_icon';
+import StatusOfflineAvatarIcon from 'components/svg/status_offline_avatar_icon';
+import StatusOfflineIcon from 'components/svg/status_offline_icon';
+import StatusOnlineAvatarIcon from 'components/svg/status_online_avatar_icon';
+import StatusOnlineIcon from 'components/svg/status_online_icon';
 
-export default function StatusIcon(props) {
-    const status = props.status;
-    const type = props.type;
+export default class StatusIcon extends React.PureComponent {
+    static propTypes = {
+        status: PropTypes.string,
+        className: PropTypes.string,
+        type: PropTypes.string
+    };
 
-    if (!status) {
-        return null;
-    }
+    static defaultProps = {
+        className: ''
+    };
 
-    let statusIcon = '';
-    if (type === 'avatar') {
-        if (status === 'online') {
-            statusIcon = Constants.ONLINE_AVATAR_SVG;
-        } else if (status === 'away') {
-            statusIcon = Constants.AWAY_AVATAR_SVG;
-        } else if (status === 'dnd') {
-            statusIcon = Constants.DND_AVATAR_SVG;
-        } else {
-            statusIcon = Constants.OFFLINE_AVATAR_SVG;
+    render() {
+        const {status, type} = this.props;
+
+        if (!status) {
+            return null;
         }
-    } else if (status === 'online') {
-        statusIcon = Constants.ONLINE_ICON_SVG;
-    } else if (status === 'away') {
-        statusIcon = Constants.AWAY_ICON_SVG;
-    } else if (status === 'dnd') {
-        statusIcon = Constants.DND_ICON_SVG;
-    } else {
-        statusIcon = Constants.OFFLINE_ICON_SVG;
+
+        const className = 'status ' + this.props.className;
+
+        let IconComponent = 'span';
+        if (type === 'avatar') {
+            if (status === 'online') {
+                IconComponent = StatusOnlineAvatarIcon;
+            } else if (status === 'away') {
+                IconComponent = StatusAwayAvatarIcon;
+            } else if (status === 'dnd') {
+                IconComponent = StatusDndAvatarIcon;
+            } else {
+                IconComponent = StatusOfflineAvatarIcon;
+            }
+        } else if (status === 'online') {
+            IconComponent = StatusOnlineIcon;
+        } else if (status === 'away') {
+            IconComponent = StatusAwayIcon;
+        } else if (status === 'dnd') {
+            IconComponent = StatusDndIcon;
+        } else {
+            IconComponent = StatusOfflineIcon;
+        }
+
+        return <IconComponent className={className}/>;
     }
-
-    return (
-        <span
-            className={'status ' + props.className}
-            dangerouslySetInnerHTML={{__html: statusIcon}}
-        />
-    );
 }
-
-StatusIcon.defaultProps = {
-    className: ''
-};
-
-StatusIcon.propTypes = {
-    status: PropTypes.string,
-    className: PropTypes.string,
-    type: PropTypes.string
-};

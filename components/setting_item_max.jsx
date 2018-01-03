@@ -155,8 +155,8 @@ export default class SettingItemMax extends React.Component {
 
 SettingItemMax.propTypes = {
     inputs: PropTypes.array,
-    client_error: PropTypes.string,
-    server_error: PropTypes.string,
+    client_error: PropTypes.node,
+    server_error: PropTypes.node,
     extraInfo: PropTypes.element,
     infoPosition: PropTypes.string,
     updateSection: PropTypes.func,

@@ -738,7 +738,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .emoji-picker__category, .app__body .emoji-picker__category:focus, .app__body .emoji-picker__category:hover', 'color:' + changeOpacity(theme.centerChannelColor, 0.3));
         changeCss('.app__body .emoji-picker__category--selected, .app__body .emoji-picker__category--selected:focus, .app__body .emoji-picker__category--selected:hover', 'color:' + theme.centerChannelColor);
         changeCss('.app__body .emoji-picker__item-wrapper:hover', 'background-color:' + changeOpacity(theme.centerChannelColor, 0.8));
-        changeCss('.app__body .emojisprite:hover', 'background-color:' + changeOpacity(theme.centerChannelColor, 0.8));
+
         changeCss('.app__body .icon__postcontent_picker:hover', 'color:' + changeOpacity(theme.centerChannelColor, 0.8));
         changeCss('.app__body .popover', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.07));
     }
@@ -948,9 +948,10 @@ export function isMobile() {
 }
 
 export function getDirectTeammate(channelId) {
-    var userIds = ChannelStore.get(channelId).name.split('__');
-    var curUserId = UserStore.getCurrentId();
-    var teammate = {};
+    const channel = ChannelStore.get(channelId) || {};
+    const userIds = channel.name.split('__');
+    const curUserId = UserStore.getCurrentId();
+    let teammate = {};
 
     if (userIds.length !== 2 || userIds.indexOf(curUserId) === -1) {
         return teammate;

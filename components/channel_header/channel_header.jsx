@@ -12,8 +12,11 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import * as WebrtcActions from 'actions/webrtc_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
+import TeamStore from 'stores/team_store.jsx';
+import ChannelStore from 'stores/channel_store.jsx';
 
 import * as ChannelUtils from 'utils/channel_utils.jsx';
+import MessageWrapper from 'components/message_wrapper.jsx';
 import {ActionTypes, Constants, RHSStates, UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import {getSiteURL} from 'utils/url.jsx';
@@ -21,16 +24,18 @@ import * as Utils from 'utils/utils.jsx';
 
 import ChannelInfoModal from 'components/channel_info_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
-import ChannelMembersModal from 'components/channel_members_modal.jsx';
+import ChannelMembersModal from 'components/channel_members_modal';
 import ChannelNotificationsModal from 'components/channel_notifications_modal.jsx';
 import DeleteChannelModal from 'components/delete_channel_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
-import MessageWrapper from 'components/message_wrapper.jsx';
 import PopoverListMembers from 'components/popover_list_members';
 import RenameChannelModal from 'components/rename_channel_modal';
 import NavbarSearchBox from 'components/search_bar';
 import StatusIcon from 'components/status_icon.jsx';
+import FlagIcon from 'components/svg/flag_icon';
+import MentionsIcon from 'components/svg/mentions_icon';
+import PinIcon from 'components/svg/pin_icon';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 
 import Pluggable from 'plugins/pluggable';
@@ -207,10 +212,6 @@ export default class ChannelHeader extends React.Component {
             );
         }
 
-        const flagIcon = Constants.FLAG_ICON_SVG;
-        const pinIcon = Constants.PIN_ICON_SVG;
-        const mentionsIcon = Constants.MENTIONS_ICON_SVG;
-
         const channel = this.props.channel;
 
         const recentMentionsTooltip = (
@@ -242,7 +243,7 @@ export default class ChannelHeader extends React.Component {
                 />
             </Tooltip>
         );
-
+        const textFormattingOptions = {singleline: true, mentionHighlight: false, siteURL: getSiteURL(), channelNamesMap: ChannelStore.getChannelNamesMap(), team: TeamStore.getCurrent(), atMentions: true};
         const popoverContent = (
             <Popover
                 id='header-popover'
@@ -255,6 +256,7 @@ export default class ChannelHeader extends React.Component {
             >
                 <MessageWrapper
                     message={channel.header}
+                    options={textFormattingOptions}
                 />
             </Popover>
         );
@@ -730,7 +732,7 @@ export default class ChannelHeader extends React.Component {
                         {dmHeaderTextStatus}
                         <span
                             onClick={Utils.handleFormattedTextClick}
-                            dangerouslySetInnerHTML={{__html: TextFormatting.formatText(channel.header, {singleline: true, mentionHighlight: false, siteURL: getSiteURL()})}}
+                            dangerouslySetInnerHTML={{__html: TextFormatting.formatText(channel.header, textFormattingOptions)}}
                         />
                     </div>
                 );
@@ -937,9 +939,8 @@ export default class ChannelHeader extends React.Component {
                                 className={'style--none ' + pinnedIconClass}
                                 onClick={this.getPinnedPosts}
                             >
-                                <span
+                                <PinIcon
                                     className='icon icon__pin'
-                                    dangerouslySetInnerHTML={{__html: pinIcon}}
                                     aria-hidden='true'
                                 />
                             </button>
@@ -963,9 +964,8 @@ export default class ChannelHeader extends React.Component {
                                 className='channel-header__icon icon--hidden style--none'
                                 onClick={this.searchMentions}
                             >
-                                <span
+                                <MentionsIcon
                                     className='icon icon__mentions'
-                                    dangerouslySetInnerHTML={{__html: mentionsIcon}}
                                     aria-hidden='true'
                                 />
                             </button>
@@ -984,10 +984,7 @@ export default class ChannelHeader extends React.Component {
                                 onClick={this.getFlagged}
 
                             >
-                                <span
-                                    className='icon icon__flag'
-                                    dangerouslySetInnerHTML={{__html: flagIcon}}
-                                />
+                                <FlagIcon className='icon icon__flag'/>
                             </button>
                         </OverlayTrigger>
                     </div>

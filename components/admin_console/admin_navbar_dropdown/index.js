@@ -3,17 +3,18 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import {deferNavigation} from 'actions/admin_actions.jsx';
-import {getNavigationBlocked} from 'selectors/views/admin'; 
+
+import {getNavigationBlocked} from 'selectors/views/admin';
 
 import AdminNavbarDropdown from './admin_navbar_dropdown.jsx';
 
-function mapStateToProps(state, ownProps) { 
+function mapStateToProps(state) {
     return {
-        ...ownProps,
-        navigationBlocked: getNavigationBlocked(state)         
+        navigationBlocked: getNavigationBlocked(state)
     };
-};
+}
 
 function mapDispatchToProps(dispatch) {
     return {

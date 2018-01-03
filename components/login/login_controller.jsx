@@ -361,11 +361,12 @@ export default class LoginController extends React.Component {
                 errorClass = ' has-error';
             }
 
-            let loginButton =
-                (<FormattedMessage
+            let loginButton = (
+                <FormattedMessage
                     id='login.signIn'
                     defaultMessage='Sign in'
-                 />);
+                />
+            );
 
             if (this.state.loading) {
                 loginButton =

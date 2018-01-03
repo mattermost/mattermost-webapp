@@ -18,7 +18,7 @@ jest.mock('react-dom', () => ({
     })
 }));
 
-describe('components/edit_channel_header_modal/edit_channel_header_modal', () => {
+describe('components/EditChannelHeaderModal', () => {
     const channel = {
         id: 'fake-id',
         header: 'Fake Channel'

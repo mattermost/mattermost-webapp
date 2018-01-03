@@ -77,8 +77,7 @@ export default class ManageLanguage extends React.Component {
                 name: locales[l].name,
                 order: locales[l].order
             };
-        }).
-        sort((a, b) => a.order - b.order);
+        }).sort((a, b) => a.order - b.order);
 
         languages.forEach((lang) => {
             options.push(

@@ -9,11 +9,11 @@ import {makeGetMessageInHistoryItem, makeGetCommentCountForPost, getPost} from '
 import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 
 import {
-  addReaction,
-  removeReaction,
-  addMessageIntoHistory,
-  moveHistoryIndexBack,
-  moveHistoryIndexForward
+    addReaction,
+    removeReaction,
+    addMessageIntoHistory,
+    moveHistoryIndexBack,
+    moveHistoryIndexForward
 } from 'mattermost-redux/actions/posts';
 
 import {Posts} from 'mattermost-redux/constants';
@@ -94,6 +94,7 @@ export function submitReaction(postId, action, emojiName) {
     return (dispatch) => {
         if (action === '+') {
             dispatch(addReaction(postId, emojiName));
+            PostActions.emitEmojiPosted(emojiName);
         } else if (action === '-') {
             dispatch(removeReaction(postId, emojiName));
         }

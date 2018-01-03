@@ -6,31 +6,33 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Constants from 'utils/constants.jsx';
+import ScrollToBottomIcon from 'components/svg/scroll_to_bottom_icon';
 
-export default function ScrollToBottomArrows(props) {
-    // only show on mobile
-    if ($(window).width() > 768) {
-        return <noscript/>;
+export default class ScrollToBottomArrows extends React.PureComponent {
+    static propTypes = {
+        isScrolling: PropTypes.bool.isRequired,
+        atBottom: PropTypes.bool.isRequired,
+        onClick: PropTypes.func.isRequired
+    };
+
+    render() {
+        // only show on mobile
+        if ($(window).width() > 768) {
+            return null;
+        }
+
+        let className = 'post-list__arrows';
+        if (this.props.isScrolling && !this.props.atBottom) {
+            className += ' scrolling';
+        }
+
+        return (
+            <div
+                className={className}
+                onClick={this.props.onClick}
+            >
+                <ScrollToBottomIcon/>
+            </div>
+        );
     }
-
-    let className = 'post-list__arrows';
-    if (props.isScrolling && !props.atBottom) {
-        className += ' scrolling';
-    }
-
-    return (
-        <div
-            className={className}
-            onClick={props.onClick}
-        >
-            <span dangerouslySetInnerHTML={{__html: Constants.SCROLL_BOTTOM_ICON}}/>
-        </div>
-    );
 }
-
-ScrollToBottomArrows.propTypes = {
-    isScrolling: PropTypes.bool.isRequired,
-    atBottom: PropTypes.bool.isRequired,
-    onClick: PropTypes.func.isRequired
-};

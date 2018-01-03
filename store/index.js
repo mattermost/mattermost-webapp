@@ -1,11 +1,11 @@
 // Copyright (c) 2017 Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {batchActions} from 'redux-batched-actions';
-import {createTransform, persistStore} from 'redux-persist';
+/* eslint-disable max-nested-callbacks */
 
-import localForage from "localforage";
-import { extendPrototype } from "localforage-observable";
+import localForage from 'localforage';
+import {extendPrototype} from 'localforage-observable';
+import {createTransform, persistStore} from 'redux-persist';
 
 import {General, RequestStatus} from 'mattermost-redux/constants';
 import configureServiceStore from 'mattermost-redux/store';
@@ -15,7 +15,8 @@ import {storageRehydrate} from 'actions/storage';
 
 import appReducer from 'reducers';
 
-import {transformSet} from './utils';
+import {transformSet} from 'store/utils';
+
 import {detect} from 'utils/network.js';
 
 function getAppReducer() {
@@ -73,70 +74,72 @@ export default function configureStore(initialState) {
     const offlineOptions = {
         persist: (store, options) => {
             const localforage = extendPrototype(localForage);
-            var storage = localforage;
-            const KEY_PREFIX = "reduxPersist:";
-            const persistor = persistStore(store, {storage, keyPrefix: KEY_PREFIX, ...options}, () => {
-                store.dispatch({
-                    type: General.STORE_REHYDRATION_COMPLETE,
-                    complete: true
+            const storage = localforage;
+            const KEY_PREFIX = 'reduxPersist:';
+
+            localforage.ready(() => {
+                const persistor = persistStore(store, {storage, keyPrefix: KEY_PREFIX, ...options}, () => {
+                    store.dispatch({
+                        type: General.STORE_REHYDRATION_COMPLETE,
+                        complete: true
+                    });
+                });
+
+                localforage.configObservables({
+                    crossTabNotification: true
+                });
+
+                const observable = localforage.newObservable({
+                    crossTabNotification: true,
+                    changeDetection: true
+                });
+
+                const restoredState = {};
+                localforage.iterate((value, key) => {
+                    if (key && key.indexOf(KEY_PREFIX + 'storage:') === 0) {
+                        const keyspace = key.substr((KEY_PREFIX + 'storage:').length);
+                        restoredState[keyspace] = value;
+                    }
+                }).then(() => {
+                    storageRehydrate(restoredState)(store.dispatch, persistor);
+                });
+
+                observable.subscribe({
+                    next: (args) => {
+                        if (args.key && args.key.indexOf(KEY_PREFIX + 'storage:') === 0 && args.oldValue === null) {
+                            const keyspace = args.key.substr((KEY_PREFIX + 'storage:').length);
+
+                            var statePartial = {};
+                            statePartial[keyspace] = args.newValue;
+                            storageRehydrate(statePartial)(store.dispatch, persistor);
+                        }
+                    }
+                });
+
+                let purging = false;
+
+                // check to see if the logout request was successful
+                store.subscribe(() => {
+                    const state = store.getState();
+                    if (state.requests.users.logout.status === RequestStatus.SUCCESS && !purging) {
+                        purging = true;
+
+                        persistor.purge().then(() => {
+                            document.cookie = 'MMUSERID=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+                            window.location.href = '/';
+
+                            store.dispatch({
+                                type: General.OFFLINE_STORE_RESET,
+                                data: Object.assign({}, reduxInitialState, initialState)
+                            });
+
+                            setTimeout(() => {
+                                purging = false;
+                            }, 500);
+                        });
+                    }
                 });
             });
-            if (localforage === storage) {
-                localforage.ready(() => {
-                    localforage.configObservables({
-                        crossTabNotification: true,
-                    });
-                    var observable = localforage.newObservable({
-                        crossTabNotification: true,
-                        changeDetection: true
-                    });
-                    var restoredState = {}
-                    localforage.iterate((value, key) => {
-                        if(key && key.indexOf(KEY_PREFIX+"storage:") === 0){
-                            const keyspace = key.substr((KEY_PREFIX+"storage:").length);
-                            restoredState[keyspace] = value;
-                        }
-                    }).then(() => {
-                        storageRehydrate(restoredState)(store.dispatch, persistor);
-                    });
-                    observable.subscribe({
-                        next: (args) => {
-                            if(args.key && args.key.indexOf(KEY_PREFIX+"storage:") === 0 && args.oldValue === null){
-                                const keyspace = args.key.substr((KEY_PREFIX+"storage:").length);
-
-                                var statePartial = {};
-                                statePartial[keyspace] = args.newValue;
-                                storageRehydrate(statePartial)(store.dispatch, persistor);
-                            }
-                        }
-                    })
-                })
-            }
-            let purging = false;
-
-            // check to see if the logout request was successful
-            store.subscribe(() => {
-                const state = store.getState();
-                if (state.requests.users.logout.status === RequestStatus.SUCCESS && !purging) {
-                    purging = true;
-
-                    persistor.purge().then(() => {
-                        document.cookie = 'MMUSERID=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-                        window.location.href = '/';
-
-                        store.dispatch({
-                            type: General.OFFLINE_STORE_RESET,
-                            data: Object.assign({}, reduxInitialState, initialState)
-                        });
-
-                        setTimeout(() => {
-                            purging = false;
-                        }, 500);
-                    })
-                }
-            });
-
-            return persistor;
         },
         persistOptions: {
             autoRehydrate: {
@@ -151,22 +154,22 @@ export default function configureStore(initialState) {
                 return Object.keys(collection).forEach((key) => {
                     if (key === 'storage') {
                         Object.keys(collection.storage.storage).forEach((storageKey) => {
-                            callback(collection.storage.storage[storageKey], 'storage:' + storageKey)
-                        })
+                            callback(collection.storage.storage[storageKey], 'storage:' + storageKey);
+                        });
                     } else {
-                        callback(collection[key], key)
+                        callback(collection[key], key);
                     }
                 });
             },
             _stateGetter: (state, key) => {
-                if (key.indexOf('storage:') == 0) {
+                if (key.indexOf('storage:') === 0) {
                     state.storage = state.storage || {storage: {}};
                     return state.storage.storage[key.substr(8)];
                 }
                 return state[key];
             },
             _stateSetter: (state, key, value) => {
-                if (key.indexOf('storage:') == 0) {
+                if (key.indexOf('storage:') === 0) {
                     state.storage = state.storage || {storage: {}};
                     state.storage.storage[key.substr(8)] = value;
                 }

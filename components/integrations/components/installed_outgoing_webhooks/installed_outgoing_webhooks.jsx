@@ -83,12 +83,12 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
     componentDidMount() {
         if (window.mm_config.EnableOutgoingWebhooks === 'true') {
             this.props.actions.getOutgoingHooks(
-              '',
-              this.props.teamId,
-              Constants.Integrations.START_PAGE_NUM,
-              Constants.Integrations.PAGE_SIZE
+                '',
+                this.props.teamId,
+                Constants.Integrations.START_PAGE_NUM,
+                Constants.Integrations.PAGE_SIZE
             ).then(
-              () => this.setState({loading: false})
+                () => this.setState({loading: false})
             );
         }
     }

@@ -27,6 +27,10 @@ jest.mock('react-dom', () => ({
     })
 }));
 
+jest.mock('actions/post_actions.jsx', () => ({
+    emitEmojiPosted: jest.fn()
+}));
+
 const KeyCodes = Constants.KeyCodes;
 const currentTeamIdProp = 'r7rws4y7ppgszym3pdd5kaibfa';
 const currentUserIdProp = 'zaktnt8bpbgu8mb6ez9k64r7sa';
@@ -65,19 +69,19 @@ const actionsProp = {
 };
 
 function createPost({
-      currentChannel = currentChannelProp,
-      currentTeamId = currentTeamIdProp,
-      currentUserId = currentUserIdProp,
-      showTutorialTip = showTutorialTipProp,
-      currentChannelMembersCount = currentChannelMembersCountProp,
-      fullWidthTextBox = fullWidthTextBoxProp,
-      draft = draftProp,
-      recentPostIdInChannel = recentPostIdInChannelProp,
-      actions = actionsProp,
-      ctrlSend = ctrlSendProp,
-      currentUsersLatestPost = currentUsersLatestPostProp,
-      commentCountForPost = commentCountForPostProp
-    } = {}) {
+    currentChannel = currentChannelProp,
+    currentTeamId = currentTeamIdProp,
+    currentUserId = currentUserIdProp,
+    showTutorialTip = showTutorialTipProp,
+    currentChannelMembersCount = currentChannelMembersCountProp,
+    fullWidthTextBox = fullWidthTextBoxProp,
+    draft = draftProp,
+    recentPostIdInChannel = recentPostIdInChannelProp,
+    actions = actionsProp,
+    ctrlSend = ctrlSendProp,
+    currentUsersLatestPost = currentUsersLatestPostProp,
+    commentCountForPost = commentCountForPostProp
+} = {}) {
     return (
         <CreatePost
             currentChannel={currentChannel}

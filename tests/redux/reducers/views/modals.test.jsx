@@ -8,8 +8,6 @@ import modalsReducer from 'reducers/views/modals';
 
 import {ActionTypes, ModalIdentifiers} from 'utils/constants.jsx';
 
-import DeleteChannelModal from 'components/delete_channel_modal';
-
 class TestModal extends React.Component {
     render() {
         return (
@@ -85,5 +83,4 @@ describe('Reducers.Modals', () => {
 
         expect(nextState).toEqual(expectedState);
     });
-
 });
