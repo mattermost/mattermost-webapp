@@ -19,7 +19,7 @@ function mapStateToProps(state, ownProps) {
         ...ownProps,
         hookId,
         hook: state.entities.integrations.incomingHooks[hookId],
-        updateIncomingHookRequest: state.requests.integrations.createIncomingHook,
+        updateIncomingHookRequest: state.requests.integrations.updateIncomingHook,
         enableIncomingWebhooks,
         enablePostUsernameOverride,
         enablePostIconOverride
