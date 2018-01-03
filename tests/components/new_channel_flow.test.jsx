@@ -8,7 +8,11 @@ import * as Utils from 'utils/utils';
 import Constants from 'utils/constants';
 import * as actions from 'actions/channel_actions';
 
-import NewChannelFlow from 'components/new_channel_flow';
+import NewChannelFlow, {
+    SHOW_NEW_CHANNEL,
+    SHOW_EDIT_URL,
+    SHOW_EDIT_URL_THEN_COMPLETE
+} from 'components/new_channel_flow';
 
 describe('components/NewChannelFlow', () => {
     global.window.mm_license = {};
@@ -54,7 +58,7 @@ describe('components/NewChannelFlow', () => {
         );
         wrapper.instance().urlChangeDismissed();
 
-        expect(wrapper.state('flowState')).toEqual(Constants.SHOW_NEW_CHANNEL);
+        expect(wrapper.state('flowState')).toEqual(SHOW_NEW_CHANNEL);
     });
 
     test('should match state when urlChangeSubmitted is called', () => {
@@ -64,7 +68,7 @@ describe('components/NewChannelFlow', () => {
         const newUrl = 'example.com';
         wrapper.instance().urlChangeSubmitted(newUrl);
 
-        expect(wrapper.state('flowState')).toEqual(Constants.SHOW_NEW_CHANNEL);
+        expect(wrapper.state('flowState')).toEqual(SHOW_NEW_CHANNEL);
         expect(wrapper.state('serverError')).toEqual(null);
         expect(wrapper.state('channelName')).toEqual(newUrl);
         expect(wrapper.state('nameModified')).toEqual(true);
@@ -76,7 +80,7 @@ describe('components/NewChannelFlow', () => {
         );
 
         wrapper.instance().urlChangeRequested({preventDefault: jest.fn()});
-        expect(wrapper.state('flowState')).toEqual(Constants.SHOW_EDIT_URL);
+        expect(wrapper.state('flowState')).toEqual(SHOW_EDIT_URL);
     });
 
     test('should match state when typeSwitched is called, with state switched from OPEN_CHANNEL', () => {

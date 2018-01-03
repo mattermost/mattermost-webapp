@@ -16,7 +16,9 @@ import Constants from 'utils/constants';
 import NewChannelModal from 'components/new_channel_modal';
 import ChangeURLModal from 'components/change_url_modal';
 
-const SHOW_EDIT_URL_THEN_COMPLETE = 3;
+export const SHOW_NEW_CHANNEL = 1;
+export const SHOW_EDIT_URL = 2;
+export const SHOW_EDIT_URL_THEN_COMPLETE = 3;
 
 export default class NewChannelFlow extends React.Component {
     static propTypes = {
@@ -47,7 +49,7 @@ export default class NewChannelFlow extends React.Component {
         this.state = {
             serverError: '',
             channelType: props.channelType || Constants.OPEN_CHANNEL,
-            flowState: Constants.SHOW_NEW_CHANNEL,
+            flowState: SHOW_NEW_CHANNEL,
             channelDisplayName: '',
             channelName: '',
             channelPurpose: '',
@@ -61,7 +63,7 @@ export default class NewChannelFlow extends React.Component {
             this.setState({
                 serverError: '',
                 channelType: nextProps.channelType,
-                flowState: Constants.SHOW_NEW_CHANNEL,
+                flowState: SHOW_NEW_CHANNEL,
                 channelDisplayName: '',
                 channelName: '',
                 channelPurpose: '',
@@ -135,17 +137,17 @@ export default class NewChannelFlow extends React.Component {
         if (e) {
             e.preventDefault();
         }
-        this.setState({flowState: Constants.SHOW_EDIT_URL});
+        this.setState({flowState: SHOW_EDIT_URL});
     }
     urlChangeSubmitted = (newURL) => {
         if (this.state.flowState === SHOW_EDIT_URL_THEN_COMPLETE) {
             this.setState({channelName: newURL, nameModified: true}, this.onSubmit);
         } else {
-            this.setState({flowState: Constants.SHOW_NEW_CHANNEL, serverError: null, channelName: newURL, nameModified: true});
+            this.setState({flowState: SHOW_NEW_CHANNEL, serverError: null, channelName: newURL, nameModified: true});
         }
     }
     urlChangeDismissed = () => {
-        this.setState({flowState: Constants.SHOW_NEW_CHANNEL});
+        this.setState({flowState: SHOW_NEW_CHANNEL});
     }
     channelDataChanged = (data) => {
         this.setState({
@@ -174,14 +176,14 @@ export default class NewChannelFlow extends React.Component {
         // Only listen to flow state if we are being shown
         if (this.props.show) {
             switch (this.state.flowState) {
-            case Constants.SHOW_NEW_CHANNEL:
+            case SHOW_NEW_CHANNEL:
                 if (this.state.channelType === Constants.OPEN_CHANNEL) {
                     showChannelModal = true;
                 } else {
                     showGroupModal = true;
                 }
                 break;
-            case Constants.SHOW_EDIT_URL:
+            case SHOW_EDIT_URL:
                 showChangeURLModal = true;
                 changeURLTitle = (
                     <FormattedMessage

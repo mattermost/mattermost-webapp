@@ -547,8 +547,6 @@ export const Constants = {
     PRIVATE_CHANNEL: 'P',
     INVITE_TEAM: 'I',
     OPEN_TEAM: 'O',
-    SHOW_NEW_CHANNEL: 1,
-    SHOW_EDIT_URL: 2,
     MAX_POST_LEN: 4000,
     EMOJI_SIZE: 16,
     THEMES: {
