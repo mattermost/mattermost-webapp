@@ -77,72 +77,69 @@ export default function configureStore(initialState) {
             const storage = localforage;
             const KEY_PREFIX = 'reduxPersist:';
 
-            const persistor = persistStore(store, {storage, keyPrefix: KEY_PREFIX, ...options}, () => {
-                store.dispatch({
-                    type: General.STORE_REHYDRATION_COMPLETE,
-                    complete: true
-                });
-            });
-
-            if (localforage === storage) {
-                localforage.ready(() => {
-                    localforage.configObservables({
-                        crossTabNotification: true
-                    });
-
-                    const observable = localforage.newObservable({
-                        crossTabNotification: true,
-                        changeDetection: true
-                    });
-
-                    const restoredState = {};
-                    localforage.iterate((value, key) => {
-                        if (key && key.indexOf(KEY_PREFIX + 'storage:') === 0) {
-                            const keyspace = key.substr((KEY_PREFIX + 'storage:').length);
-                            restoredState[keyspace] = value;
-                        }
-                    }).then(() => {
-                        storageRehydrate(restoredState)(store.dispatch, persistor);
-                    });
-
-                    observable.subscribe({
-                        next: (args) => {
-                            if (args.key && args.key.indexOf(KEY_PREFIX + 'storage:') === 0 && args.oldValue === null) {
-                                const keyspace = args.key.substr((KEY_PREFIX + 'storage:').length);
-
-                                var statePartial = {};
-                                statePartial[keyspace] = args.newValue;
-                                storageRehydrate(statePartial)(store.dispatch, persistor);
-                            }
-                        }
+            localforage.ready(() => {
+                const persistor = persistStore(store, {storage, keyPrefix: KEY_PREFIX, ...options}, () => {
+                    store.dispatch({
+                        type: General.STORE_REHYDRATION_COMPLETE,
+                        complete: true
                     });
                 });
-            }
-            let purging = false;
 
-            // check to see if the logout request was successful
-            store.subscribe(() => {
-                const state = store.getState();
-                if (state.requests.users.logout.status === RequestStatus.SUCCESS && !purging) {
-                    purging = true;
+                localforage.configObservables({
+                    crossTabNotification: true
+                });
 
-                    persistor.purge().then(() => {
-                        document.cookie = 'MMUSERID=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-                        window.location.href = '/';
+                const observable = localforage.newObservable({
+                    crossTabNotification: true,
+                    changeDetection: true
+                });
 
-                        store.dispatch({
-                            type: General.OFFLINE_STORE_RESET,
-                            data: Object.assign({}, reduxInitialState, initialState)
+                const restoredState = {};
+                localforage.iterate((value, key) => {
+                    if (key && key.indexOf(KEY_PREFIX + 'storage:') === 0) {
+                        const keyspace = key.substr((KEY_PREFIX + 'storage:').length);
+                        restoredState[keyspace] = value;
+                    }
+                }).then(() => {
+                    storageRehydrate(restoredState)(store.dispatch, persistor);
+                });
+
+                observable.subscribe({
+                    next: (args) => {
+                        if (args.key && args.key.indexOf(KEY_PREFIX + 'storage:') === 0 && args.oldValue === null) {
+                            const keyspace = args.key.substr((KEY_PREFIX + 'storage:').length);
+
+                            var statePartial = {};
+                            statePartial[keyspace] = args.newValue;
+                            storageRehydrate(statePartial)(store.dispatch, persistor);
+                        }
+                    }
+                });
+
+                let purging = false;
+
+                // check to see if the logout request was successful
+                store.subscribe(() => {
+                    const state = store.getState();
+                    if (state.requests.users.logout.status === RequestStatus.SUCCESS && !purging) {
+                        purging = true;
+
+                        persistor.purge().then(() => {
+                            document.cookie = 'MMUSERID=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+                            window.location.href = '/';
+
+                            store.dispatch({
+                                type: General.OFFLINE_STORE_RESET,
+                                data: Object.assign({}, reduxInitialState, initialState)
+                            });
+
+                            setTimeout(() => {
+                                purging = false;
+                            }, 500);
                         });
-
-                        setTimeout(() => {
-                            purging = false;
-                        }, 500);
-                    });
-                }
+                    }
+                });
             });
-
-            return persistor;
         },
         persistOptions: {
             autoRehydrate: {
