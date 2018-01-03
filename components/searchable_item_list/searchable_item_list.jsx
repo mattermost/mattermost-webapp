@@ -15,6 +15,7 @@ const NEXT_BUTTON_TIMEOUT = 500;
 
 export default class SearchableItemList extends React.Component {
     static propTypes = {
+        listComponent: PropTypes.element,
         items: PropTypes.arrayOf(PropTypes.object),
         itemsPerPage: PropTypes.number,
         total: PropTypes.number,
@@ -165,6 +166,7 @@ export default class SearchableItemList extends React.Component {
     }
 
     render() {
+        const List = this.props.listComponent || UserList;
         let nextButton;
         let previousButton;
         let itemsToDisplay;
@@ -238,7 +240,7 @@ export default class SearchableItemList extends React.Component {
                 <div
                     className='more-modal__list'
                 >
-                    <UserList
+                    <List
                         ref='itemList'
                         users={itemsToDisplay}
                         extraInfo={this.props.extraInfo}
