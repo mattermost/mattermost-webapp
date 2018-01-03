@@ -12,8 +12,11 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import * as WebrtcActions from 'actions/webrtc_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
+import TeamStore from 'stores/team_store.jsx';
+import ChannelStore from 'stores/channel_store.jsx';
 
 import * as ChannelUtils from 'utils/channel_utils.jsx';
+import MessageWrapper from 'components/message_wrapper.jsx';
 import {ActionTypes, Constants, RHSStates, UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import {getSiteURL} from 'utils/url.jsx';
@@ -26,7 +29,6 @@ import ChannelNotificationsModal from 'components/channel_notifications_modal.js
 import DeleteChannelModal from 'components/delete_channel_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
-import MessageWrapper from 'components/message_wrapper.jsx';
 import PopoverListMembers from 'components/popover_list_members';
 import RenameChannelModal from 'components/rename_channel_modal';
 import NavbarSearchBox from 'components/search_bar';
@@ -241,7 +243,7 @@ export default class ChannelHeader extends React.Component {
                 />
             </Tooltip>
         );
-
+        const textFormattingOptions = {singleline: true, mentionHighlight: false, siteURL: getSiteURL(), channelNamesMap: ChannelStore.getChannelNamesMap(), team: TeamStore.getCurrent(), atMentions: true};
         const popoverContent = (
             <Popover
                 id='header-popover'
@@ -254,6 +256,7 @@ export default class ChannelHeader extends React.Component {
             >
                 <MessageWrapper
                     message={channel.header}
+                    options={textFormattingOptions}
                 />
             </Popover>
         );
@@ -729,7 +732,7 @@ export default class ChannelHeader extends React.Component {
                         {dmHeaderTextStatus}
                         <span
                             onClick={Utils.handleFormattedTextClick}
-                            dangerouslySetInnerHTML={{__html: TextFormatting.formatText(channel.header, {singleline: true, mentionHighlight: false, siteURL: getSiteURL()})}}
+                            dangerouslySetInnerHTML={{__html: TextFormatting.formatText(channel.header, textFormattingOptions)}}
                         />
                     </div>
                 );
