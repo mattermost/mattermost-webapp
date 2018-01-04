@@ -497,7 +497,8 @@ describe('components/create_post', () => {
         const setDraft = jest.fn();
         const fileInfos = {
             id: 'a',
-            extension: 'jpg'
+            extension: 'jpg',
+            name: 'trimmedFilename'
         };
         const uploadsInProgressDraft = {
             ...draftProp,

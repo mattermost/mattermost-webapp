@@ -22,36 +22,21 @@ exports[`component/FileAttachment should match snapshot, after change from file 
   <div
     className="post-image__details"
   >
-    <OverlayTrigger
-      defaultOverlayShown={false}
-      delayShow={1000}
-      overlay={
-        <Tooltip
-          bsClass="tooltip"
-          id="file-name__tooltip"
-          placement="right"
-        >
-          Download "test.png"
-        </Tooltip>
+    <FilenameOverlay
+      canDownload={true}
+      fileInfo={
+        Object {
+          "extension": "png",
+          "height": 400,
+          "id": 2,
+          "name": "test.png",
+          "size": 100,
+          "width": 600,
+        }
       }
-      placement="top"
-      trigger={
-        Array [
-          "hover",
-          "focus",
-        ]
-      }
-    >
-      <a
-        className="post-image__name"
-        download="test.png"
-        href="/api/v4/files/2"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        test.png
-      </a>
-    </OverlayTrigger>
+      handleImageClick={[Function]}
+      index={3}
+    />
     <div>
       <a
         className="post-image__download"
@@ -95,36 +80,19 @@ exports[`component/FileAttachment should match snapshot, file with long name 1`]
   <div
     className="post-image__details"
   >
-    <OverlayTrigger
-      defaultOverlayShown={false}
-      delayShow={1000}
-      overlay={
-        <Tooltip
-          bsClass="tooltip"
-          id="file-name__tooltip"
-          placement="right"
-        >
-          Download "a-quite-long-filename-to-test-the-filename-shortener.pdf"
-        </Tooltip>
+    <FilenameOverlay
+      canDownload={true}
+      fileInfo={
+        Object {
+          "extension": "pdf",
+          "id": 1,
+          "name": "a-quite-long-filename-to-test-the-filename-shortener.pdf",
+          "size": 100,
+        }
       }
-      placement="top"
-      trigger={
-        Array [
-          "hover",
-          "focus",
-        ]
-      }
-    >
-      <a
-        className="post-image__name"
-        download="a-quite-long-filename-to-test-the-filename-shortener.pdf"
-        href="/api/v4/files/1"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        a-quite-long-filename-to-test-the-f...
-      </a>
-    </OverlayTrigger>
+      handleImageClick={[Function]}
+      index={3}
+    />
     <div>
       <a
         className="post-image__download"
@@ -168,36 +136,19 @@ exports[`component/FileAttachment should match snapshot, regular file 1`] = `
   <div
     className="post-image__details"
   >
-    <OverlayTrigger
-      defaultOverlayShown={false}
-      delayShow={1000}
-      overlay={
-        <Tooltip
-          bsClass="tooltip"
-          id="file-name__tooltip"
-          placement="right"
-        >
-          Download "test.pdf"
-        </Tooltip>
+    <FilenameOverlay
+      canDownload={true}
+      fileInfo={
+        Object {
+          "extension": "pdf",
+          "id": 1,
+          "name": "test.pdf",
+          "size": 100,
+        }
       }
-      placement="top"
-      trigger={
-        Array [
-          "hover",
-          "focus",
-        ]
-      }
-    >
-      <a
-        className="post-image__name"
-        download="test.pdf"
-        href="/api/v4/files/1"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        test.pdf
-      </a>
-    </OverlayTrigger>
+      handleImageClick={[Function]}
+      index={3}
+    />
     <div>
       <a
         className="post-image__download"
@@ -247,36 +198,21 @@ exports[`component/FileAttachment should match snapshot, regular image 1`] = `
   <div
     className="post-image__details"
   >
-    <OverlayTrigger
-      defaultOverlayShown={false}
-      delayShow={1000}
-      overlay={
-        <Tooltip
-          bsClass="tooltip"
-          id="file-name__tooltip"
-          placement="right"
-        >
-          Download "test.png"
-        </Tooltip>
+    <FilenameOverlay
+      canDownload={true}
+      fileInfo={
+        Object {
+          "extension": "png",
+          "height": 400,
+          "id": 1,
+          "name": "test.png",
+          "size": 100,
+          "width": 600,
+        }
       }
-      placement="top"
-      trigger={
-        Array [
-          "hover",
-          "focus",
-        ]
-      }
-    >
-      <a
-        className="post-image__name"
-        download="test.png"
-        href="/api/v4/files/1"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        test.png
-      </a>
-    </OverlayTrigger>
+      handleImageClick={[Function]}
+      index={3}
+    />
     <div>
       <a
         className="post-image__download"
@@ -326,36 +262,21 @@ exports[`component/FileAttachment should match snapshot, small image 1`] = `
   <div
     className="post-image__details"
   >
-    <OverlayTrigger
-      defaultOverlayShown={false}
-      delayShow={1000}
-      overlay={
-        <Tooltip
-          bsClass="tooltip"
-          id="file-name__tooltip"
-          placement="right"
-        >
-          Download "test.png"
-        </Tooltip>
+    <FilenameOverlay
+      canDownload={true}
+      fileInfo={
+        Object {
+          "extension": "png",
+          "height": 16,
+          "id": 1,
+          "name": "test.png",
+          "size": 100,
+          "width": 16,
+        }
       }
-      placement="top"
-      trigger={
-        Array [
-          "hover",
-          "focus",
-        ]
-      }
-    >
-      <a
-        className="post-image__name"
-        download="test.png"
-        href="/api/v4/files/1"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        test.png
-      </a>
-    </OverlayTrigger>
+      handleImageClick={[Function]}
+      index={3}
+    />
     <div>
       <a
         className="post-image__download"
@@ -400,36 +321,21 @@ exports[`component/FileAttachment should match snapshot, svg image 1`] = `
   <div
     className="post-image__details"
   >
-    <OverlayTrigger
-      defaultOverlayShown={false}
-      delayShow={1000}
-      overlay={
-        <Tooltip
-          bsClass="tooltip"
-          id="file-name__tooltip"
-          placement="right"
-        >
-          Download "test.svg"
-        </Tooltip>
+    <FilenameOverlay
+      canDownload={true}
+      fileInfo={
+        Object {
+          "extension": "svg",
+          "height": 400,
+          "id": 1,
+          "name": "test.svg",
+          "size": 100,
+          "width": 600,
+        }
       }
-      placement="top"
-      trigger={
-        Array [
-          "hover",
-          "focus",
-        ]
-      }
-    >
-      <a
-        className="post-image__name"
-        download="test.svg"
-        href="/api/v4/files/1"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        test.svg
-      </a>
-    </OverlayTrigger>
+      handleImageClick={[Function]}
+      index={3}
+    />
     <div>
       <a
         className="post-image__download"
@@ -473,36 +379,19 @@ exports[`component/FileAttachment should match snapshot, when file is not loaded
   <div
     className="post-image__details"
   >
-    <OverlayTrigger
-      defaultOverlayShown={false}
-      delayShow={1000}
-      overlay={
-        <Tooltip
-          bsClass="tooltip"
-          id="file-name__tooltip"
-          placement="right"
-        >
-          Download "test.pdf"
-        </Tooltip>
+    <FilenameOverlay
+      canDownload={true}
+      fileInfo={
+        Object {
+          "extension": "pdf",
+          "id": 1,
+          "name": "test.pdf",
+          "size": 100,
+        }
       }
-      placement="top"
-      trigger={
-        Array [
-          "hover",
-          "focus",
-        ]
-      }
-    >
-      <a
-        className="post-image__name"
-        download="test.pdf"
-        href="/api/v4/files/1"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        test.pdf
-      </a>
-    </OverlayTrigger>
+      handleImageClick={[Function]}
+      index={3}
+    />
     <div>
       <a
         className="post-image__download"
@@ -546,38 +435,20 @@ exports[`component/FileAttachment should match snapshot, with compact display 1`
   <div
     className="post-image__details"
   >
-    <OverlayTrigger
-      defaultOverlayShown={false}
-      delayShow={1000}
-      overlay={
-        <Tooltip
-          bsClass="tooltip"
-          id="file-name__tooltip"
-          placement="right"
-        >
-          test.pdf
-        </Tooltip>
+    <FilenameOverlay
+      canDownload={true}
+      compactDisplay={true}
+      fileInfo={
+        Object {
+          "extension": "pdf",
+          "id": 1,
+          "name": "test.pdf",
+          "size": 100,
+        }
       }
-      placement="top"
-      trigger={
-        Array [
-          "hover",
-          "focus",
-        ]
-      }
-    >
-      <a
-        className="post-image__name"
-        href="#"
-        onClick={[Function]}
-        rel="noopener noreferrer"
-      >
-        <AttachmentIcon
-          className="icon"
-        />
-        test.pdf
-      </a>
-    </OverlayTrigger>
+      handleImageClick={[Function]}
+      index={3}
+    />
     <div>
       <a
         className="post-image__download"
@@ -621,11 +492,19 @@ exports[`component/FileAttachment should match snapshot, without compact display
   <div
     className="post-image__details"
   >
-    <span
-      className="post-image__name"
-    >
-      test.pdf
-    </span>
+    <FilenameOverlay
+      canDownload={false}
+      fileInfo={
+        Object {
+          "extension": "pdf",
+          "id": 1,
+          "name": "test.pdf",
+          "size": 100,
+        }
+      }
+      handleImageClick={[Function]}
+      index={3}
+    />
     <div>
       <span
         className="post-image__type"
