@@ -275,12 +275,11 @@ export function emitSelectPreviousSuggestion(suggestionId) {
     });
 }
 
-export function emitCompleteWordSuggestion(suggestionId, term = '', override = false) {
+export function emitCompleteWordSuggestion(suggestionId, term = '') {
     AppDispatcher.handleViewAction({
         type: Constants.ActionTypes.SUGGESTION_COMPLETE_WORD,
         id: suggestionId,
-        term,
-        override
+        term
     });
 }
 

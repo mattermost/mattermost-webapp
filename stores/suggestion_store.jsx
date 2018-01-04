@@ -239,22 +239,6 @@ class SuggestionStore extends EventEmitter {
         return pretext.endsWith(matchedPretext);
     }
 
-    setSuggestionsPending(id, pending) {
-        this.suggestions.get(id).suggestionsPending = pending;
-    }
-
-    areSuggestionsPending(id) {
-        return this.suggestions.get(id).suggestionsPending;
-    }
-
-    setCompletePending(id, pending) {
-        this.suggestions.get(id).completePending = pending;
-    }
-
-    isCompletePending(id) {
-        return this.suggestions.get(id).completePending;
-    }
-
     completeWord(id, term = '', matchedPretext = '') {
         this.emitCompleteWord(id, term || this.getSelection(id), matchedPretext || this.getSelectedMatchedPretext(id));
 
@@ -292,14 +276,7 @@ class SuggestionStore extends EventEmitter {
             this.addSuggestions(id, other.terms, other.items, other.component, other.matchedPretext);
             this.ensureSelectionExists(id);
 
-            this.setSuggestionsPending(id, false);
-
-            if (this.isCompletePending(id)) {
-                this.setCompletePending(id, false);
-                this.completeWord(id);
-            } else {
-                this.emitSuggestionsChanged(id);
-            }
+            this.emitSuggestionsChanged(id);
             break;
         case ActionTypes.SUGGESTION_CLEAR_SUGGESTIONS:
             this.setPretext(id, '');
@@ -316,11 +293,7 @@ class SuggestionStore extends EventEmitter {
             this.emitSuggestionsChanged(id);
             break;
         case ActionTypes.SUGGESTION_COMPLETE_WORD:
-            if (this.areSuggestionsPending(id) && !other.override) {
-                this.setCompletePending(id, true);
-            } else {
-                this.completeWord(id, other.term, other.matchedPretext);
-            }
+            this.completeWord(id, other.term, other.matchedPretext);
             break;
         case ActionTypes.POPOVER_MENTION_KEY_CLICK:
             this.emitPopoverMentionKeyClick(other.isRHS, other.mentionKey);
