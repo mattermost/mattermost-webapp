@@ -387,7 +387,7 @@ export default class SidebarHeaderDropdown extends React.Component {
             );
         }
 
-        if (!config.DefaultTeamName) {
+        if (!config.ExperimentalPrimaryTeam) {
             const isAlreadyMember = this.state.teamMembers.reduce((result, item) => {
                 result[item.team_id] = true;
                 return result;

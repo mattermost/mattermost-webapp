@@ -92,13 +92,13 @@ export default class Root extends React.Component {
     }
 
     redirectIfNecessary(props) {
-        const DefaultTeamName = global.window.mm_config.DefaultTeamName;
-        const defaultTeam = TeamStore.getByName(DefaultTeamName);
+        const experimentalPrimaryTeam = global.mm_config.ExperimentalPrimaryTeam;
+        const primaryTeam = TeamStore.getByName(experimentalPrimaryTeam);
         if (props.location.pathname === '/') {
             if (UserStore.getNoAccounts()) {
                 browserHistory.push('/signup_user_complete');
-            } else if (UserStore.getCurrentUser() && defaultTeam) {
-                browserHistory.push(`/${defaultTeam.name}/channels/town-square`);
+            } else if (UserStore.getCurrentUser() && primaryTeam) {
+                browserHistory.push(`/${primaryTeam.name}/channels/town-square`);
             } else if (UserStore.getCurrentUser()) {
                 GlobalActions.redirectUserToDefaultTeam();
             } else {

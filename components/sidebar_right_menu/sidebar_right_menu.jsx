@@ -241,7 +241,7 @@ export default class SidebarRightMenu extends React.Component {
                 }
             }
 
-            if (moreTeams && !global.window.mm_config.DefaultTeamName) {
+            if (moreTeams && !global.mm_config.ExperimentalPrimaryTeam) {
                 joinAnotherTeamLink = (
                     <li key='joinTeam_li'>
                         <Link to='/select_team'>
@@ -288,7 +288,7 @@ export default class SidebarRightMenu extends React.Component {
         );
 
         let leaveTeam = '';
-        if (!global.mm_config.DefaultTeamName) {
+        if (!global.mm_config.ExperimentalPrimaryTeam) {
             leaveTeam = (
                 <li key='leaveTeam_li'>
                     <a

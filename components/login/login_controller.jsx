@@ -64,10 +64,10 @@ export default class LoginController extends React.Component {
     componentDidMount() {
         document.title = global.window.mm_config.SiteName;
         BrowserStore.removeGlobalItem('team');
-        const DefaultTeamName = global.window.mm_config.DefaultTeamName;
-        const defaultTeam = TeamStore.getByName(DefaultTeamName);
-        if (UserStore.getCurrentUser() && defaultTeam) {
-            browserHistory.push(`/${defaultTeam.name}/channels/town-square`);
+        const experimentalPrimaryTeam = global.mm_config.ExperimentalPrimaryTeam;
+        const primaryTeam = TeamStore.getByName(experimentalPrimaryTeam);
+        if (UserStore.getCurrentUser() && primaryTeam) {
+            browserHistory.push(`/${primaryTeam.name}/channels/town-square`);
         } else if (UserStore.getCurrentUser()) {
             GlobalActions.redirectUserToDefaultTeam();
         }
@@ -219,16 +219,16 @@ export default class LoginController extends React.Component {
     }
 
     finishSignin(team) {
-        const DefaultTeamName = global.window.mm_config.DefaultTeamName;
-        const defaultTeam = TeamStore.getByName(DefaultTeamName);
+        const experimentalPrimaryTeam = global.mm_config.ExperimentalPrimaryTeam;
+        const primaryTeam = TeamStore.getByName(experimentalPrimaryTeam);
         const query = this.props.location.query;
         GlobalActions.loadCurrentLocale();
         if (query.redirect_to && query.redirect_to.match(/^\/([^/]|$)/)) {
             browserHistory.push(query.redirect_to);
         } else if (team) {
             browserHistory.push(`/${team.name}`);
-        } else if (defaultTeam) {
-            browserHistory.push(`/${defaultTeam.name}/channels/town-square`);
+        } else if (primaryTeam) {
+            browserHistory.push(`/${primaryTeam.name}/channels/town-square`);
         } else {
             GlobalActions.redirectUserToDefaultTeam();
         }
