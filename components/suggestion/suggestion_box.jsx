@@ -242,10 +242,10 @@ export default class SuggestionBox extends React.Component {
             insertText = ' ' + insertText;
         }
 
-        this.handleCompleteWord(insertText, '', false);
+        this.addTextAtCaret(insertText, '');
     }
 
-    handleCompleteWord(term, matchedPretext, shouldEmitWordSuggestion = true) {
+    addTextAtCaret(term, matchedPretext) {
         const textbox = this.getTextbox();
         const caret = textbox.selectionEnd;
         const text = this.props.value;
@@ -285,6 +285,17 @@ export default class SuggestionBox extends React.Component {
             this.props.onChange(e);
         }
 
+        // set the caret position after the next rendering
+        window.requestAnimationFrame(() => {
+            if (textbox.value === newValue) {
+                Utils.setCaretPosition(textbox, prefix.length + term.length + 1);
+            }
+        });
+    }
+
+    handleCompleteWord(term, matchedPretext) {
+        this.addTextAtCaret(term, matchedPretext);
+
         if (this.props.onItemSelected) {
             const items = SuggestionStore.getItems(this.suggestionId);
             const terms = SuggestionStore.getTerms(this.suggestionId);
@@ -296,14 +307,7 @@ export default class SuggestionBox extends React.Component {
             }
         }
 
-        textbox.focus();
-
-        // set the caret position after the next rendering
-        window.requestAnimationFrame(() => {
-            if (textbox.value === newValue) {
-                Utils.setCaretPosition(textbox, prefix.length + term.length + 1);
-            }
-        });
+        this.getTextbox().focus();
 
         for (const provider of this.props.providers) {
             if (provider.handleCompleteWord) {
@@ -311,11 +315,7 @@ export default class SuggestionBox extends React.Component {
             }
         }
 
-        // override if user finished typing term before results returned from API
-        if (shouldEmitWordSuggestion) {
-            const override = pretext.endsWith(term);
-            GlobalActions.emitCompleteWordSuggestion(this.suggestionId, '', override);
-        }
+        GlobalActions.emitCompleteWordSuggestion(this.suggestionId);
     }
 
     handleKeyDown(e) {
