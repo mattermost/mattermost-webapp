@@ -54,6 +54,11 @@ export default class PostInfo extends React.PureComponent {
          */
         replyCount: PropTypes.number,
 
+        /**
+         * Set to indicate that this is previous post was not a reply to the same thread
+         */
+        isFirstReply: PropTypes.bool,
+
         /*
          * Post identifiers for selenium tests
          */
@@ -68,6 +73,16 @@ export default class PostInfo extends React.PureComponent {
          * Function to get the post list HTML element
          */
         getPostList: PropTypes.func.isRequired,
+
+        /**
+         * Set to mark post as being hovered over
+         */
+        hover: PropTypes.bool.isRequired,
+
+        /**
+         * Set to render the post time when not hovering
+         */
+        showTimeWithoutHover: PropTypes.bool.isRequired,
 
         actions: PropTypes.shape({
 
@@ -136,32 +151,29 @@ export default class PostInfo extends React.PureComponent {
         return this.refs.dotMenu;
     };
 
-    render() {
-        const post = this.props.post;
-
-        let idCount = -1;
-        if (this.props.lastPostCount >= 0 && this.props.lastPostCount < Constants.TEST_ID_COUNT) {
-            idCount = this.props.lastPostCount;
+    buildOptions = (post, isSystemMessage, idCount) => {
+        if (!PostUtils.shouldShowDotMenu(post)) {
+            return null;
         }
 
-        const isEphemeral = Utils.isPostEphemeral(post);
-        const isSystemMessage = PostUtils.isSystemMessage(post);
+        let comments;
+        let react;
 
-        let comments = null;
-        let react = null;
-        let flagIcon = null;
-        if (!isEphemeral && !post.failed && !isSystemMessage) {
-            comments = (
-                <CommentIcon
-                    idPrefix='commentIcon'
-                    idCount={idCount}
-                    handleCommentClick={this.props.handleCommentClick}
-                    commentCount={this.props.replyCount}
-                    id={post.channel_id + '_' + post.id}
-                />
-            );
+        if (!isSystemMessage) {
+            if (this.props.hover || (!post.root_id && this.props.replyCount) || this.props.isFirstReply) {
+                comments = (
+                    <CommentIcon
+                        idPrefix='commentIcon'
+                        idCount={idCount}
+                        handleCommentClick={this.props.handleCommentClick}
+                        commentCount={this.props.replyCount}
+                        id={post.channel_id + '_' + post.id}
+                        extraClass='pull-right'
+                    />
+                );
+            }
 
-            if (window.mm_config.EnableEmojiPicker === 'true') {
+            if (this.props.hover && window.mm_config.EnableEmojiPicker === 'true') {
                 react = (
                     <span>
                         <EmojiPickerOverlay
@@ -182,7 +194,48 @@ export default class PostInfo extends React.PureComponent {
 
                 );
             }
+        }
 
+        let dotMenu;
+        if (this.props.hover) {
+            dotMenu = (
+                <DotMenu
+                    idPrefix={Constants.CENTER}
+                    idCount={idCount}
+                    post={post}
+                    commentCount={this.props.replyCount}
+                    isFlagged={this.props.isFlagged}
+                    handleCommentClick={this.props.handleCommentClick}
+                    handleDropdownOpened={this.props.handleDropdownOpened}
+                />
+            );
+        }
+
+        return (
+            <div
+                ref='dotMenu'
+                className='col col__reply'
+            >
+                {dotMenu}
+                {react}
+                {comments}
+            </div>
+        );
+    }
+
+    render() {
+        const post = this.props.post;
+
+        let idCount = -1;
+        if (this.props.lastPostCount >= 0 && this.props.lastPostCount < Constants.TEST_ID_COUNT) {
+            idCount = this.props.lastPostCount;
+        }
+
+        const isEphemeral = Utils.isPostEphemeral(post);
+        const isSystemMessage = PostUtils.isSystemMessage(post);
+
+        let flagIcon;
+        if (!isEphemeral && !post.failed && !isSystemMessage && (this.props.hover || this.props.isFlagged)) {
             flagIcon = (
                 <PostFlagIcon
                     idPrefix='centerPostFlag'
@@ -202,30 +255,7 @@ export default class PostInfo extends React.PureComponent {
                 </div>
             );
         } else if (!post.failed) {
-            const dotMenu = (
-                <DotMenu
-                    idPrefix={Constants.CENTER}
-                    idCount={idCount}
-                    post={this.props.post}
-                    commentCount={this.props.replyCount}
-                    isFlagged={this.props.isFlagged}
-                    handleCommentClick={this.props.handleCommentClick}
-                    handleDropdownOpened={this.props.handleDropdownOpened}
-                />
-            );
-
-            if (PostUtils.shouldShowDotMenu(this.props.post)) {
-                options = (
-                    <div
-                        ref='dotMenu'
-                        className='col col__reply'
-                    >
-                        {dotMenu}
-                        {react}
-                        {comments}
-                    </div>
-                );
-            }
+            options = this.buildOptions(post, isSystemMessage, idCount);
         }
 
         let visibleMessage;
@@ -252,22 +282,28 @@ export default class PostInfo extends React.PureComponent {
             );
         }
 
-        // timestamp should not be a permalink if the post has been deleted, is ephemeral message, or is pending
-        const isPermalink = !(isEphemeral ||
-            Posts.POST_DELETED === this.props.post.state ||
-            ReduxPostUtils.isPostPendingOrFailed(this.props.post));
+        let postTime;
+        if (this.props.hover || this.props.showTimeWithoutHover) {
+            // timestamp should not be a permalink if the post has been deleted, is ephemeral message, or is pending
+            const isPermalink = !(isEphemeral ||
+                Posts.POST_DELETED === this.props.post.state ||
+                ReduxPostUtils.isPostPendingOrFailed(this.props.post));
+
+            postTime = (
+                <PostTime
+                    isPermalink={isPermalink}
+                    eventTime={post.create_at}
+                    useMilitaryTime={this.props.useMilitaryTime}
+                    postId={post.id}
+                />
+            );
+        }
 
         return (
             <div className='post__header--info'>
                 <div className='col'>
-                    <PostTime
-                        isPermalink={isPermalink}
-                        eventTime={post.create_at}
-                        useMilitaryTime={this.props.useMilitaryTime}
-                        postId={post.id}
-                    />
+                    {postTime}
                     {pinnedBadge}
-                    {this.state.showEmojiPicker}
                     {flagIcon}
                     {visibleMessage}
                 </div>

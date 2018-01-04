@@ -148,6 +148,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
             />
             <CommentIcon
               commentCount={0}
+              extraClass=""
               handleCommentClick={[Function]}
               id=""
               idCount={-1}
@@ -324,6 +325,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
             />
             <CommentIcon
               commentCount={0}
+              extraClass=""
               handleCommentClick={[Function]}
               id=""
               idCount={-1}

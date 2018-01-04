@@ -58,6 +58,11 @@ export default class PostBody extends React.PureComponent {
         isCommentMention: PropTypes.bool,
 
         /**
+         * Set to render a preview of the parent post above this reply
+         */
+        isFirstReply: PropTypes.bool,
+
+        /**
          * Set to collapse image and video previews
          */
         previewCollapsed: PropTypes.string,
@@ -124,7 +129,7 @@ export default class PostBody extends React.PureComponent {
         let comment = '';
         let postClass = '';
         const isEphemeral = Utils.isPostEphemeral(post);
-        if (parentPost && !isEphemeral) {
+        if (this.props.isFirstReply && parentPost && !isEphemeral) {
             const profile = this.props.parentPostUser;
 
             let apostrophe = '';

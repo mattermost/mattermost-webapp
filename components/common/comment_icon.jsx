@@ -15,14 +15,16 @@ export default class CommentIcon extends React.PureComponent {
         handleCommentClick: PropTypes.func.isRequired,
         searchStyle: PropTypes.string,
         commentCount: PropTypes.number,
-        id: PropTypes.string
+        id: PropTypes.string,
+        extraClass: PropTypes.string
     };
 
     static defaultProps = {
         idCount: -1,
         searchStyle: '',
         commentCount: 0,
-        id: ''
+        id: '',
+        extraClass: ''
     };
 
     render() {
@@ -49,7 +51,7 @@ export default class CommentIcon extends React.PureComponent {
         return (
             <button
                 id={id}
-                className={iconStyle + ' color--link style--none ' + selectorId}
+                className={iconStyle + ' color--link style--none ' + selectorId + this.props.extraClass}
                 onClick={this.props.handleCommentClick}
             >
                 <ReplyIcon className='comment-icon'/>
