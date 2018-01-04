@@ -42,8 +42,7 @@ export default class RhsComment extends React.Component {
         removePost: PropTypes.func.isRequired,
         previewCollapsed: PropTypes.string.isRequired,
         previewEnabled: PropTypes.bool.isRequired,
-        isEmbedVisible: PropTypes.bool,
-        pluginPostTypes: PropTypes.object
+        isEmbedVisible: PropTypes.bool
     };
 
     constructor(props) {
@@ -451,10 +450,8 @@ export default class RhsComment extends React.Component {
             />
         );
 
-        const hasPlugin = post.type && this.props.pluginPostTypes.hasOwnProperty(post.type);
-
         let messageWithAdditionalContent;
-        if (this.props.post.state === Posts.POST_DELETED || hasPlugin) {
+        if (this.props.post.state === Posts.POST_DELETED) {
             messageWithAdditionalContent = messageWrapper;
         } else {
             messageWithAdditionalContent = (
