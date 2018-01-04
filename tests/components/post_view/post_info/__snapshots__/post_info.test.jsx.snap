@@ -6,81 +6,10 @@ exports[`components/post_view/PostInfo hideEmojiPicker, should have called props
 >
   <div
     className="col"
-  >
-    <PostTime
-      eventTime={1502715365009}
-      isPermalink={true}
-      postId="e584uzbwwpny9kengqayx5ayzw"
-      useMilitaryTime={false}
-    />
-    <PostFlagIcon
-      idCount={-1}
-      idPrefix="centerPostFlag"
-      isEphemeral={false}
-      isFlagged={false}
-      postId="e584uzbwwpny9kengqayx5ayzw"
-    />
-  </div>
+  />
   <div
     className="col col__reply"
-  >
-    <Connect(DotMenu)
-      commentCount={0}
-      handleCommentClick={[Function]}
-      handleDropdownOpened={[Function]}
-      idCount={-1}
-      idPrefix="center"
-      isFlagged={false}
-      post={
-        Object {
-          "channel_id": "g6139tbospd18cmxroesdk3kkc",
-          "create_at": 1502715365009,
-          "delete_at": 0,
-          "edit_at": 1502715372443,
-          "hashtags": "",
-          "id": "e584uzbwwpny9kengqayx5ayzw",
-          "is_pinned": false,
-          "message": "post message",
-          "original_id": "",
-          "parent_id": "",
-          "pending_post_id": "",
-          "props": Object {},
-          "root_id": "",
-          "type": "",
-          "update_at": 1502715372443,
-          "user_id": "b4pfxi8sn78y8yq7phzxxfor7h",
-        }
-      }
-    />
-    <span>
-      <EmojiPickerOverlay
-        container={[Function]}
-        onEmojiClick={[Function]}
-        onHide={[Function]}
-        rightOffset={7}
-        show={false}
-        spaceRequiredAbove={422}
-        spaceRequiredBelow={436}
-        target={[Function]}
-      />
-      <button
-        className="reacticon__container color--link style--none"
-        onClick={[Function]}
-      >
-        <EmojiIcon
-          className="icon icon--emoji"
-        />
-      </button>
-    </span>
-    <CommentIcon
-      commentCount={0}
-      handleCommentClick={[Function]}
-      id="g6139tbospd18cmxroesdk3kkc_e584uzbwwpny9kengqayx5ayzw"
-      idCount={-1}
-      idPrefix="commentIcon"
-      searchStyle=""
-    />
-  </div>
+  />
 </div>
 `;
 
@@ -90,81 +19,10 @@ exports[`components/post_view/PostInfo reactEmojiClick, should have called props
 >
   <div
     className="col"
-  >
-    <PostTime
-      eventTime={1502715365009}
-      isPermalink={true}
-      postId="e584uzbwwpny9kengqayx5ayzw"
-      useMilitaryTime={false}
-    />
-    <PostFlagIcon
-      idCount={-1}
-      idPrefix="centerPostFlag"
-      isEphemeral={false}
-      isFlagged={false}
-      postId="e584uzbwwpny9kengqayx5ayzw"
-    />
-  </div>
+  />
   <div
     className="col col__reply"
-  >
-    <Connect(DotMenu)
-      commentCount={0}
-      handleCommentClick={[Function]}
-      handleDropdownOpened={[Function]}
-      idCount={-1}
-      idPrefix="center"
-      isFlagged={false}
-      post={
-        Object {
-          "channel_id": "g6139tbospd18cmxroesdk3kkc",
-          "create_at": 1502715365009,
-          "delete_at": 0,
-          "edit_at": 1502715372443,
-          "hashtags": "",
-          "id": "e584uzbwwpny9kengqayx5ayzw",
-          "is_pinned": false,
-          "message": "post message",
-          "original_id": "",
-          "parent_id": "",
-          "pending_post_id": "",
-          "props": Object {},
-          "root_id": "",
-          "type": "",
-          "update_at": 1502715372443,
-          "user_id": "b4pfxi8sn78y8yq7phzxxfor7h",
-        }
-      }
-    />
-    <span>
-      <EmojiPickerOverlay
-        container={[Function]}
-        onEmojiClick={[Function]}
-        onHide={[Function]}
-        rightOffset={7}
-        show={false}
-        spaceRequiredAbove={422}
-        spaceRequiredBelow={436}
-        target={[Function]}
-      />
-      <button
-        className="reacticon__container color--link style--none"
-        onClick={[Function]}
-      >
-        <EmojiIcon
-          className="icon icon--emoji"
-        />
-      </button>
-    </span>
-    <CommentIcon
-      commentCount={0}
-      handleCommentClick={[Function]}
-      id="g6139tbospd18cmxroesdk3kkc_e584uzbwwpny9kengqayx5ayzw"
-      idCount={-1}
-      idPrefix="commentIcon"
-      searchStyle=""
-    />
-  </div>
+  />
 </div>
 `;
 
@@ -174,81 +32,10 @@ exports[`components/post_view/PostInfo removePost, should have called props.acti
 >
   <div
     className="col"
-  >
-    <PostTime
-      eventTime={1502715365009}
-      isPermalink={true}
-      postId="e584uzbwwpny9kengqayx5ayzw"
-      useMilitaryTime={false}
-    />
-    <PostFlagIcon
-      idCount={-1}
-      idPrefix="centerPostFlag"
-      isEphemeral={false}
-      isFlagged={false}
-      postId="e584uzbwwpny9kengqayx5ayzw"
-    />
-  </div>
+  />
   <div
     className="col col__reply"
-  >
-    <Connect(DotMenu)
-      commentCount={0}
-      handleCommentClick={[Function]}
-      handleDropdownOpened={[Function]}
-      idCount={-1}
-      idPrefix="center"
-      isFlagged={false}
-      post={
-        Object {
-          "channel_id": "g6139tbospd18cmxroesdk3kkc",
-          "create_at": 1502715365009,
-          "delete_at": 0,
-          "edit_at": 1502715372443,
-          "hashtags": "",
-          "id": "e584uzbwwpny9kengqayx5ayzw",
-          "is_pinned": false,
-          "message": "post message",
-          "original_id": "",
-          "parent_id": "",
-          "pending_post_id": "",
-          "props": Object {},
-          "root_id": "",
-          "type": "",
-          "update_at": 1502715372443,
-          "user_id": "b4pfxi8sn78y8yq7phzxxfor7h",
-        }
-      }
-    />
-    <span>
-      <EmojiPickerOverlay
-        container={[Function]}
-        onEmojiClick={[Function]}
-        onHide={[Function]}
-        rightOffset={7}
-        show={false}
-        spaceRequiredAbove={422}
-        spaceRequiredBelow={436}
-        target={[Function]}
-      />
-      <button
-        className="reacticon__container color--link style--none"
-        onClick={[Function]}
-      >
-        <EmojiIcon
-          className="icon icon--emoji"
-        />
-      </button>
-    </span>
-    <CommentIcon
-      commentCount={0}
-      handleCommentClick={[Function]}
-      id="g6139tbospd18cmxroesdk3kkc_e584uzbwwpny9kengqayx5ayzw"
-      idCount={-1}
-      idPrefix="commentIcon"
-      searchStyle=""
-    />
-  </div>
+  />
 </div>
 `;
 
@@ -258,61 +45,10 @@ exports[`components/post_view/PostInfo should match snapshot 1`] = `
 >
   <div
     className="col"
-  >
-    <PostTime
-      eventTime={1502715365009}
-      isPermalink={true}
-      postId="e584uzbwwpny9kengqayx5ayzw"
-      useMilitaryTime={false}
-    />
-    <PostFlagIcon
-      idCount={-1}
-      idPrefix="centerPostFlag"
-      isEphemeral={false}
-      isFlagged={false}
-      postId="e584uzbwwpny9kengqayx5ayzw"
-    />
-  </div>
+  />
   <div
     className="col col__reply"
-  >
-    <Connect(DotMenu)
-      commentCount={0}
-      handleCommentClick={[Function]}
-      handleDropdownOpened={[Function]}
-      idCount={-1}
-      idPrefix="center"
-      isFlagged={false}
-      post={
-        Object {
-          "channel_id": "g6139tbospd18cmxroesdk3kkc",
-          "create_at": 1502715365009,
-          "delete_at": 0,
-          "edit_at": 1502715372443,
-          "hashtags": "",
-          "id": "e584uzbwwpny9kengqayx5ayzw",
-          "is_pinned": false,
-          "message": "post message",
-          "original_id": "",
-          "parent_id": "",
-          "pending_post_id": "",
-          "props": Object {},
-          "root_id": "",
-          "type": "",
-          "update_at": 1502715372443,
-          "user_id": "b4pfxi8sn78y8yq7phzxxfor7h",
-        }
-      }
-    />
-    <CommentIcon
-      commentCount={0}
-      handleCommentClick={[Function]}
-      id="g6139tbospd18cmxroesdk3kkc_e584uzbwwpny9kengqayx5ayzw"
-      idCount={-1}
-      idPrefix="commentIcon"
-      searchStyle=""
-    />
-  </div>
+  />
 </div>
 `;
 
@@ -322,61 +58,10 @@ exports[`components/post_view/PostInfo should match snapshot, compact display 1`
 >
   <div
     className="col"
-  >
-    <PostTime
-      eventTime={1502715365009}
-      isPermalink={true}
-      postId="e584uzbwwpny9kengqayx5ayzw"
-      useMilitaryTime={false}
-    />
-    <PostFlagIcon
-      idCount={-1}
-      idPrefix="centerPostFlag"
-      isEphemeral={false}
-      isFlagged={false}
-      postId="e584uzbwwpny9kengqayx5ayzw"
-    />
-  </div>
+  />
   <div
     className="col col__reply"
-  >
-    <Connect(DotMenu)
-      commentCount={0}
-      handleCommentClick={[Function]}
-      handleDropdownOpened={[Function]}
-      idCount={-1}
-      idPrefix="center"
-      isFlagged={false}
-      post={
-        Object {
-          "channel_id": "g6139tbospd18cmxroesdk3kkc",
-          "create_at": 1502715365009,
-          "delete_at": 0,
-          "edit_at": 1502715372443,
-          "hashtags": "",
-          "id": "e584uzbwwpny9kengqayx5ayzw",
-          "is_pinned": false,
-          "message": "post message",
-          "original_id": "",
-          "parent_id": "",
-          "pending_post_id": "",
-          "props": Object {},
-          "root_id": "",
-          "type": "",
-          "update_at": 1502715372443,
-          "user_id": "b4pfxi8sn78y8yq7phzxxfor7h",
-        }
-      }
-    />
-    <CommentIcon
-      commentCount={0}
-      handleCommentClick={[Function]}
-      id="g6139tbospd18cmxroesdk3kkc_e584uzbwwpny9kengqayx5ayzw"
-      idCount={-1}
-      idPrefix="commentIcon"
-      searchStyle=""
-    />
-  </div>
+  />
 </div>
 `;
 
@@ -386,81 +71,10 @@ exports[`components/post_view/PostInfo should match snapshot, enable emoji picke
 >
   <div
     className="col"
-  >
-    <PostTime
-      eventTime={1502715365009}
-      isPermalink={true}
-      postId="e584uzbwwpny9kengqayx5ayzw"
-      useMilitaryTime={false}
-    />
-    <PostFlagIcon
-      idCount={-1}
-      idPrefix="centerPostFlag"
-      isEphemeral={false}
-      isFlagged={false}
-      postId="e584uzbwwpny9kengqayx5ayzw"
-    />
-  </div>
+  />
   <div
     className="col col__reply"
-  >
-    <Connect(DotMenu)
-      commentCount={0}
-      handleCommentClick={[Function]}
-      handleDropdownOpened={[Function]}
-      idCount={-1}
-      idPrefix="center"
-      isFlagged={false}
-      post={
-        Object {
-          "channel_id": "g6139tbospd18cmxroesdk3kkc",
-          "create_at": 1502715365009,
-          "delete_at": 0,
-          "edit_at": 1502715372443,
-          "hashtags": "",
-          "id": "e584uzbwwpny9kengqayx5ayzw",
-          "is_pinned": false,
-          "message": "post message",
-          "original_id": "",
-          "parent_id": "",
-          "pending_post_id": "",
-          "props": Object {},
-          "root_id": "",
-          "type": "",
-          "update_at": 1502715372443,
-          "user_id": "b4pfxi8sn78y8yq7phzxxfor7h",
-        }
-      }
-    />
-    <span>
-      <EmojiPickerOverlay
-        container={[Function]}
-        onEmojiClick={[Function]}
-        onHide={[Function]}
-        rightOffset={7}
-        show={false}
-        spaceRequiredAbove={422}
-        spaceRequiredBelow={436}
-        target={[Function]}
-      />
-      <button
-        className="reacticon__container color--link style--none"
-        onClick={[Function]}
-      >
-        <EmojiIcon
-          className="icon icon--emoji"
-        />
-      </button>
-    </span>
-    <CommentIcon
-      commentCount={0}
-      handleCommentClick={[Function]}
-      id="g6139tbospd18cmxroesdk3kkc_e584uzbwwpny9kengqayx5ayzw"
-      idCount={-1}
-      idPrefix="commentIcon"
-      searchStyle=""
-    />
-  </div>
+  />
 </div>
 `;
 
@@ -470,14 +84,7 @@ exports[`components/post_view/PostInfo should match snapshot, ephemeral deleted 
 >
   <div
     className="col"
-  >
-    <PostTime
-      eventTime={1502715365009}
-      isPermalink={false}
-      postId="e584uzbwwpny9kengqayx5ayzw"
-      useMilitaryTime={false}
-    />
-  </div>
+  />
   <div
     className="col col__remove"
   >
@@ -499,12 +106,6 @@ exports[`components/post_view/PostInfo should match snapshot, ephemeral post 1`]
   <div
     className="col"
   >
-    <PostTime
-      eventTime={1502715365009}
-      isPermalink={false}
-      postId="e584uzbwwpny9kengqayx5ayzw"
-      useMilitaryTime={false}
-    />
     <span
       className="post__visibility"
     >
@@ -536,6 +137,27 @@ exports[`components/post_view/PostInfo should match snapshot, flagged post 1`] =
   <div
     className="col"
   >
+    <PostFlagIcon
+      idCount={-1}
+      idPrefix="centerPostFlag"
+      isEphemeral={false}
+      isFlagged={true}
+      postId="e584uzbwwpny9kengqayx5ayzw"
+    />
+  </div>
+  <div
+    className="col col__reply"
+  />
+</div>
+`;
+
+exports[`components/post_view/PostInfo should match snapshot, hover 1`] = `
+<div
+  className="post__header--info"
+>
+  <div
+    className="col"
+  >
     <PostTime
       eventTime={1502715365009}
       isPermalink={true}
@@ -546,7 +168,7 @@ exports[`components/post_view/PostInfo should match snapshot, flagged post 1`] =
       idCount={-1}
       idPrefix="centerPostFlag"
       isEphemeral={false}
-      isFlagged={true}
+      isFlagged={false}
       postId="e584uzbwwpny9kengqayx5ayzw"
     />
   </div>
@@ -559,7 +181,7 @@ exports[`components/post_view/PostInfo should match snapshot, flagged post 1`] =
       handleDropdownOpened={[Function]}
       idCount={-1}
       idPrefix="center"
-      isFlagged={true}
+      isFlagged={false}
       post={
         Object {
           "channel_id": "g6139tbospd18cmxroesdk3kkc",
@@ -583,6 +205,7 @@ exports[`components/post_view/PostInfo should match snapshot, flagged post 1`] =
     />
     <CommentIcon
       commentCount={0}
+      extraClass="pull-right"
       handleCommentClick={[Function]}
       id="g6139tbospd18cmxroesdk3kkc_e584uzbwwpny9kengqayx5ayzw"
       idCount={-1}
@@ -599,61 +222,10 @@ exports[`components/post_view/PostInfo should match snapshot, military time 1`] 
 >
   <div
     className="col"
-  >
-    <PostTime
-      eventTime={1502715365009}
-      isPermalink={true}
-      postId="e584uzbwwpny9kengqayx5ayzw"
-      useMilitaryTime={true}
-    />
-    <PostFlagIcon
-      idCount={-1}
-      idPrefix="centerPostFlag"
-      isEphemeral={false}
-      isFlagged={false}
-      postId="e584uzbwwpny9kengqayx5ayzw"
-    />
-  </div>
+  />
   <div
     className="col col__reply"
-  >
-    <Connect(DotMenu)
-      commentCount={0}
-      handleCommentClick={[Function]}
-      handleDropdownOpened={[Function]}
-      idCount={-1}
-      idPrefix="center"
-      isFlagged={false}
-      post={
-        Object {
-          "channel_id": "g6139tbospd18cmxroesdk3kkc",
-          "create_at": 1502715365009,
-          "delete_at": 0,
-          "edit_at": 1502715372443,
-          "hashtags": "",
-          "id": "e584uzbwwpny9kengqayx5ayzw",
-          "is_pinned": false,
-          "message": "post message",
-          "original_id": "",
-          "parent_id": "",
-          "pending_post_id": "",
-          "props": Object {},
-          "root_id": "",
-          "type": "",
-          "update_at": 1502715372443,
-          "user_id": "b4pfxi8sn78y8yq7phzxxfor7h",
-        }
-      }
-    />
-    <CommentIcon
-      commentCount={0}
-      handleCommentClick={[Function]}
-      id="g6139tbospd18cmxroesdk3kkc_e584uzbwwpny9kengqayx5ayzw"
-      idCount={-1}
-      idPrefix="commentIcon"
-      searchStyle=""
-    />
-  </div>
+  />
 </div>
 `;
 
@@ -664,12 +236,6 @@ exports[`components/post_view/PostInfo should match snapshot, pinned post 1`] = 
   <div
     className="col"
   >
-    <PostTime
-      eventTime={1502715365009}
-      isPermalink={true}
-      postId="e584uzbwwpny9kengqayx5ayzw"
-      useMilitaryTime={false}
-    />
     <span
       className="post__pinned-badge"
     >
@@ -679,58 +245,14 @@ exports[`components/post_view/PostInfo should match snapshot, pinned post 1`] = 
         values={Object {}}
       />
     </span>
-    <PostFlagIcon
-      idCount={-1}
-      idPrefix="centerPostFlag"
-      isEphemeral={false}
-      isFlagged={false}
-      postId="e584uzbwwpny9kengqayx5ayzw"
-    />
   </div>
   <div
     className="col col__reply"
-  >
-    <Connect(DotMenu)
-      commentCount={0}
-      handleCommentClick={[Function]}
-      handleDropdownOpened={[Function]}
-      idCount={-1}
-      idPrefix="center"
-      isFlagged={false}
-      post={
-        Object {
-          "channel_id": "g6139tbospd18cmxroesdk3kkc",
-          "create_at": 1502715365009,
-          "delete_at": 0,
-          "edit_at": 1502715372443,
-          "hashtags": "",
-          "id": "e584uzbwwpny9kengqayx5ayzw",
-          "is_pinned": true,
-          "message": "post message",
-          "original_id": "",
-          "parent_id": "",
-          "pending_post_id": "",
-          "props": Object {},
-          "root_id": "",
-          "type": "",
-          "update_at": 1502715372443,
-          "user_id": "b4pfxi8sn78y8yq7phzxxfor7h",
-        }
-      }
-    />
-    <CommentIcon
-      commentCount={0}
-      handleCommentClick={[Function]}
-      id="g6139tbospd18cmxroesdk3kkc_e584uzbwwpny9kengqayx5ayzw"
-      idCount={-1}
-      idPrefix="commentIcon"
-      searchStyle=""
-    />
-  </div>
+  />
 </div>
 `;
 
-exports[`components/post_view/PostInfo toggleEmojiPicker, should have called props.handleDropdownOpened 1`] = `
+exports[`components/post_view/PostInfo should match snapshot, showTimeWithoutHover 1`] = `
 <div
   className="post__header--info"
 >
@@ -743,73 +265,22 @@ exports[`components/post_view/PostInfo toggleEmojiPicker, should have called pro
       postId="e584uzbwwpny9kengqayx5ayzw"
       useMilitaryTime={false}
     />
-    <PostFlagIcon
-      idCount={-1}
-      idPrefix="centerPostFlag"
-      isEphemeral={false}
-      isFlagged={false}
-      postId="e584uzbwwpny9kengqayx5ayzw"
-    />
   </div>
   <div
     className="col col__reply"
-  >
-    <Connect(DotMenu)
-      commentCount={0}
-      handleCommentClick={[Function]}
-      handleDropdownOpened={[Function]}
-      idCount={-1}
-      idPrefix="center"
-      isFlagged={false}
-      post={
-        Object {
-          "channel_id": "g6139tbospd18cmxroesdk3kkc",
-          "create_at": 1502715365009,
-          "delete_at": 0,
-          "edit_at": 1502715372443,
-          "hashtags": "",
-          "id": "e584uzbwwpny9kengqayx5ayzw",
-          "is_pinned": false,
-          "message": "post message",
-          "original_id": "",
-          "parent_id": "",
-          "pending_post_id": "",
-          "props": Object {},
-          "root_id": "",
-          "type": "",
-          "update_at": 1502715372443,
-          "user_id": "b4pfxi8sn78y8yq7phzxxfor7h",
-        }
-      }
-    />
-    <span>
-      <EmojiPickerOverlay
-        container={[Function]}
-        onEmojiClick={[Function]}
-        onHide={[Function]}
-        rightOffset={7}
-        show={false}
-        spaceRequiredAbove={422}
-        spaceRequiredBelow={436}
-        target={[Function]}
-      />
-      <button
-        className="reacticon__container color--link style--none"
-        onClick={[Function]}
-      >
-        <EmojiIcon
-          className="icon icon--emoji"
-        />
-      </button>
-    </span>
-    <CommentIcon
-      commentCount={0}
-      handleCommentClick={[Function]}
-      id="g6139tbospd18cmxroesdk3kkc_e584uzbwwpny9kengqayx5ayzw"
-      idCount={-1}
-      idPrefix="commentIcon"
-      searchStyle=""
-    />
-  </div>
+  />
+</div>
+`;
+
+exports[`components/post_view/PostInfo toggleEmojiPicker, should have called props.handleDropdownOpened 1`] = `
+<div
+  className="post__header--info"
+>
+  <div
+    className="col"
+  />
+  <div
+    className="col col__reply"
+  />
 </div>
 `;

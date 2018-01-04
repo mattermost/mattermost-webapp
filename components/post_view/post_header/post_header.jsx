@@ -40,11 +40,6 @@ export default class PostHeader extends React.PureComponent {
         compactDisplay: PropTypes.bool,
 
         /*
-         * Set to render the post as if it was part of the previous post
-         */
-        consecutivePostByUser: PropTypes.bool,
-
-        /*
          * The method for displaying the post creator's name
          */
         displayNameType: PropTypes.string,
@@ -64,6 +59,11 @@ export default class PostHeader extends React.PureComponent {
          */
         replyCount: PropTypes.number,
 
+        /**
+         * Set to indicate that this is previous post was not a reply to the same thread
+         */
+        isFirstReply: PropTypes.bool,
+
         /*
          * Post identifiers for selenium tests
          */
@@ -72,7 +72,17 @@ export default class PostHeader extends React.PureComponent {
         /**
          * Function to get the post list HTML element
          */
-        getPostList: PropTypes.func.isRequired
+        getPostList: PropTypes.func.isRequired,
+
+        /**
+         * Set to mark post as being hovered over
+         */
+        hover: PropTypes.bool.isRequired,
+
+        /*
+         * Set to render the post time when not hovering
+         */
+        showTimeWithoutHover: PropTypes.bool
     }
 
     constructor(props) {
@@ -148,8 +158,10 @@ export default class PostHeader extends React.PureComponent {
                         compactDisplay={this.props.compactDisplay}
                         lastPostCount={this.props.lastPostCount}
                         replyCount={this.props.replyCount}
-                        consecutivePostByUser={this.props.consecutivePostByUser}
+                        isFirstReply={this.props.isFirstReply}
+                        showTimeWithoutHover={this.props.showTimeWithoutHover}
                         getPostList={this.props.getPostList}
+                        hover={this.props.hover}
                     />
                 </div>
             </div>
