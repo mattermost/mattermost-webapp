@@ -18,7 +18,7 @@ describe('components/GetChannelLinkModal', () => {
     test('should match snapshot with currentTeamUrl passed in', () => {
         const wrapper = shallow(
             <GetChannelLinkModal
-                link = '/foo/bar'
+                link='/foo/bar'
             />
         );
 
