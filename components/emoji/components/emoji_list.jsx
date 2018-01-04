@@ -16,10 +16,6 @@ import LoadingScreen from 'components/loading_screen.jsx';
 
 import EmojiListItem from './emoji_list_item.jsx';
 
-function deleteEmoji(emoji) {
-    EmojiActions.deleteEmoji(emoji.id);
-}
-
 export default class EmojiList extends React.Component {
     static get propTypes() {
         return {
@@ -35,6 +31,7 @@ export default class EmojiList extends React.Component {
 
         this.handleEmojiChange = this.handleEmojiChange.bind(this);
         this.handleUserChange = this.handleUserChange.bind(this);
+        this.deleteEmoji = this.deleteEmoji.bind(this);
         this.updateFilter = this.updateFilter.bind(this);
 
         this.state = {
@@ -86,6 +83,10 @@ export default class EmojiList extends React.Component {
         });
     }
 
+    deleteEmoji(emoji) {
+        EmojiActions.deleteEmoji(emoji.id);
+    }
+
     render() {
         const filter = this.state.filter.toLowerCase();
         const isSystemAdmin = Utils.isSystemAdmin(this.props.user.roles);
@@ -120,7 +121,7 @@ export default class EmojiList extends React.Component {
             for (const [, emoji] of this.state.emojis) {
                 let onDelete = null;
                 if (isSystemAdmin || this.props.user.id === emoji.creator_id) {
-                    onDelete = deleteEmoji;
+                    onDelete = this.deleteEmoji;
                 }
 
                 emojis.push(

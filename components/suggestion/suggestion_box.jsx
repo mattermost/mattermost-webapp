@@ -242,16 +242,17 @@ export default class SuggestionBox extends React.Component {
             insertText = ' ' + insertText;
         }
 
-        this.handleCompleteWord(insertText, '', false);
+        this.addTextAtCaret(insertText, '');
     }
 
-    handleCompleteWord(term, matchedPretext, shouldEmitWordSuggestion = true) {
+    addTextAtCaret(term, matchedPretext) {
         const textbox = this.getTextbox();
         const caret = textbox.selectionEnd;
         const text = this.props.value;
         const pretext = textbox.value.substring(0, textbox.selectionEnd);
 
         let prefix;
+        let keepPretext = false;
         if (pretext.endsWith(matchedPretext)) {
             prefix = pretext.substring(0, pretext.length - matchedPretext.length);
         } else {
@@ -259,12 +260,19 @@ export default class SuggestionBox extends React.Component {
             const termWithoutMatched = term.substring(matchedPretext.length);
             const overlap = SuggestionBox.findOverlap(pretext, termWithoutMatched);
 
+            keepPretext = overlap.length === 0;
             prefix = pretext.substring(0, pretext.length - overlap.length - matchedPretext.length);
         }
 
         const suffix = text.substring(caret);
 
-        const newValue = prefix + term + ' ' + suffix;
+        let newValue;
+        if (keepPretext) {
+            newValue = pretext;
+        } else {
+            newValue = prefix + term + ' ' + suffix;
+        }
+
         this.refs.textbox.value = newValue;
 
         if (this.props.onChange) {
@@ -277,6 +285,17 @@ export default class SuggestionBox extends React.Component {
             this.props.onChange(e);
         }
 
+        // set the caret position after the next rendering
+        window.requestAnimationFrame(() => {
+            if (textbox.value === newValue) {
+                Utils.setCaretPosition(textbox, prefix.length + term.length + 1);
+            }
+        });
+    }
+
+    handleCompleteWord(term, matchedPretext) {
+        this.addTextAtCaret(term, matchedPretext);
+
         if (this.props.onItemSelected) {
             const items = SuggestionStore.getItems(this.suggestionId);
             const terms = SuggestionStore.getTerms(this.suggestionId);
@@ -288,23 +307,15 @@ export default class SuggestionBox extends React.Component {
             }
         }
 
-        textbox.focus();
-
-        // set the caret position after the next rendering
-        window.requestAnimationFrame(() => {
-            if (textbox.value === newValue) {
-                Utils.setCaretPosition(textbox, prefix.length + term.length + 1);
-            }
-        });
+        this.getTextbox().focus();
 
         for (const provider of this.props.providers) {
             if (provider.handleCompleteWord) {
                 provider.handleCompleteWord(term, matchedPretext);
             }
         }
-        if (shouldEmitWordSuggestion) {
-            GlobalActions.emitCompleteWordSuggestion(this.suggestionId);
-        }
+
+        GlobalActions.emitCompleteWordSuggestion(this.suggestionId);
     }
 
     handleKeyDown(e) {
@@ -337,6 +348,10 @@ export default class SuggestionBox extends React.Component {
         let handled = false;
         for (const provider of this.props.providers) {
             handled = provider.handlePretextChanged(this.suggestionId, pretext) || handled;
+
+            if (handled) {
+                break;
+            }
         }
 
         if (!handled) {
