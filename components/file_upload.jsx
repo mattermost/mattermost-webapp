@@ -88,6 +88,7 @@ class FileUpload extends React.Component {
 
         // keep track of how many files have been too large
         const tooLargeFiles = [];
+        const clientIds = [];
 
         for (let i = 0; i < sortedFiles.length && numUploads < uploadsRemaining; i++) {
             if (sortedFiles[i].size > global.mm_config.MaxFileSize) {
@@ -110,11 +111,12 @@ class FileUpload extends React.Component {
             const requests = this.state.requests;
             requests[clientId] = request;
             this.setState({requests});
-
-            this.props.onUploadStart([clientId], channelId);
+            clientIds.push(clientId);
 
             numUploads += 1;
         }
+
+        this.props.onUploadStart(clientIds, channelId);
 
         const {formatMessage} = this.props.intl;
         if (sortedFiles.length > uploadsRemaining) {
