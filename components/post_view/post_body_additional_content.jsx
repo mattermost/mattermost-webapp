@@ -83,7 +83,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
     }
 
     toggleEmbedVisibility = () => {
-        // save the taggle info in the localstorage
+        // save the toggle info in the localstorage
         BrowserStore.setGlobalItem(StoragePrefixes.EMBED_VISIBLE + this.props.post.id, !this.props.isEmbedVisible);
     }
 
