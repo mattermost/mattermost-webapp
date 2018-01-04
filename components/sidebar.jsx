@@ -8,6 +8,7 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import {browserHistory, Link} from 'react-router';
+import {ContextMenu, MenuItem, ContextMenuTrigger} from 'react-contextmenu';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getChannelsByCategory} from 'mattermost-redux/selectors/entities/channels';
@@ -651,13 +652,6 @@ export default class Sidebar extends React.Component {
             this.openLeftSidebar();
         }
 
-        let link = '';
-        if (channel.fake) {
-            link = '/' + this.state.currentTeam.name + '/channels/' + channel.name + '?fakechannel=' + encodeURIComponent(JSON.stringify(channel));
-        } else {
-            link = '/' + this.state.currentTeam.name + '/channels/' + channel.name;
-        }
-
         const user = UserStore.getCurrentUser();
         let displayName = '';
         if (user.id === channel.teammate_id) {
@@ -674,7 +668,7 @@ export default class Sidebar extends React.Component {
             displayName = channel.display_name;
         }
 
-        const channelLink = this.createChannelButtonOrLink(link, rowClass, icon, displayName, badge, closeButton);
+        const channelLink = this.createChannelButtonOrLink(channel, rowClass, icon, displayName, badge, closeButton);
 
         return (
             <li
@@ -685,22 +679,58 @@ export default class Sidebar extends React.Component {
                 {channelLink}
                 {tutorialTip}
             </li>
+
         );
     }
 
-    createChannelButtonOrLink(link, rowClass, icon, displayName, badge, closeButton) {
+    copyURLToClipboard = (e, link) => {
+        e.preventDefault();
+        GlobalActions.showGetChannelLinkModal(link.link);
+    }
+
+    createChannelButtonOrLink(channel, rowClass, icon, displayName, badge, closeButton) {
+        let link = '';
+        if (channel.fake) {
+            link = '/' + this.state.currentTeam.name + '/channels/' + channel.name + '?fakechannel=' + encodeURIComponent(JSON.stringify(channel));
+        } else {
+            link = '/' + this.state.currentTeam.name + '/channels/' + channel.name;
+        }
+
         let element;
         if (isDesktopApp()) {
+            const contextMenu = (
+                <ContextMenu id={'lhs-channel-context-click-menu' + channel.id}>
+                    <MenuItem
+                        data={{link}}
+                        onClick={this.copyURLToClipboard}
+                    >
+                        <FormattedMessage
+                            id='sidebar_right_context.getChannelLink'
+                            defaultMessage='Get Channel Link'
+                        />
+                    </MenuItem>
+                </ContextMenu>
+            );
+
+            const contextMenuTrigger = (
+                <ContextMenuTrigger id={'lhs-channel-context-click-menu' + channel.id}>
+                    <button
+                        className={'btn btn-link ' + rowClass}
+                        onClick={() => this.handleClick(link)}
+                    >
+                        {icon}
+                        <span className='sidebar-item__name'>{displayName}</span>
+                        {badge}
+                        {closeButton}
+                    </button>
+                </ContextMenuTrigger>
+            );
+
             element = (
-                <button
-                    className={'btn btn-link ' + rowClass}
-                    onClick={() => this.handleClick(link)}
-                >
-                    {icon}
-                    <span className='sidebar-item__name'>{displayName}</span>
-                    {badge}
-                    {closeButton}
-                </button>
+                <span>
+                    {contextMenu}
+                    {contextMenuTrigger}
+                </span>
             );
         } else {
             element = (

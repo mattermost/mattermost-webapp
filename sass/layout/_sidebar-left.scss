@@ -380,3 +380,12 @@
     margin-top: 5px;
     width: 25px;
 }
+
+/* context menu shown when right-clicking on a channel in the LHS when using the desktop app */
+.react-contextmenu--visible {
+    background: $primary-color;
+    color: $white;
+    cursor: pointer;
+    padding: 5px;
+    z-index: 100;
+}
