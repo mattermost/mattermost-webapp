@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'unsafe-inline' 'self' cdn.segment.com/analytics.js/ 'nonce-{{.Nonce}}' 'unsafe-eval'">
+    <script nonce="{{.Nonce}}">
+        window.csp_nonce = "{{.Nonce}}";
+    </script>
+
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0'>
     <meta name='robots' content='noindex, nofollow'>
@@ -91,7 +96,7 @@
             </div>
         </div>
     </div>
-    <script>
+    <script nonce="{{.Nonce}}">
         if (typeof window.setup_root !== 'function') {
             document.querySelector('.error-screen').classList.add('error-screen-visible');
         }

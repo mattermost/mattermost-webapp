@@ -83,6 +83,7 @@ export function loadPlugin(manifest) {
         script.id = 'plugin_' + manifest.id;
         script.type = 'text/javascript';
         script.text = this.responseText;
+        script.nonce = window.csp_nonce;
         document.getElementsByTagName('head')[0].appendChild(script);
 
         // Initialize the plugin
