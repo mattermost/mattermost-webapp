@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router';
+import {Posts} from 'mattermost-redux/constants/index';
 
 import {addReaction, emitEmojiPosted} from 'actions/post_actions.jsx';
 import TeamStore from 'stores/team_store.jsx';
@@ -441,6 +442,30 @@ export default class RhsComment extends React.Component {
             hour12: !this.props.useMilitaryTime
         };
 
+        const messageWrapper = (
+            <PostMessageContainer
+                post={post}
+                isRHS={true}
+                hasMention={true}
+            />
+        );
+
+        let messageWithAdditionalContent;
+        if (this.props.post.state === Posts.POST_DELETED) {
+            messageWithAdditionalContent = messageWrapper;
+        } else {
+            messageWithAdditionalContent = (
+                <PostBodyAdditionalContent
+                    post={post}
+                    previewCollapsed={this.props.previewCollapsed}
+                    previewEnabled={this.props.previewEnabled}
+                    isEmbedVisible={this.props.isEmbedVisible}
+                >
+                    {messageWrapper}
+                </PostBodyAdditionalContent>
+            );
+        }
+
         return (
             <div
                 ref={'post_body_' + post.id}
@@ -471,18 +496,7 @@ export default class RhsComment extends React.Component {
                         <div className='post__body' >
                             <div className={postClass}>
                                 {failedPostOptions}
-                                <PostBodyAdditionalContent
-                                    post={post}
-                                    previewCollapsed={this.props.previewCollapsed}
-                                    previewEnabled={this.props.previewEnabled}
-                                    isEmbedVisible={this.props.isEmbedVisible}
-                                >
-                                    <PostMessageContainer
-                                        post={post}
-                                        isRHS={true}
-                                        hasMention={true}
-                                    />
-                                </PostBodyAdditionalContent>
+                                {messageWithAdditionalContent}
                             </div>
                             {fileAttachment}
                             <ReactionListContainer post={post}/>
