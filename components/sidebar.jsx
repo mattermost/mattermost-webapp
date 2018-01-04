@@ -32,6 +32,7 @@ import {
     TutorialSteps
 } from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {getSiteURL} from 'utils/url.jsx';
 import {isDesktopApp} from 'utils/user_agent.jsx';
 
 import favicon from 'images/favicon/favicon-16x16.png';
@@ -683,9 +684,25 @@ export default class Sidebar extends React.Component {
         );
     }
 
-    copyURLToClipboard = (e, link) => {
-        e.preventDefault();
-        GlobalActions.showGetChannelLinkModal(link.link);
+    copyURLToClipboard = (e, data) => {
+        // creates a tiny temporary text area to copy text out of
+        // see https://stackoverflow.com/a/30810322/591374 for details
+        var textArea = document.createElement('textarea');
+        textArea.style.position = 'fixed';
+        textArea.style.top = 0;
+        textArea.style.left = 0;
+        textArea.style.width = '2em';
+        textArea.style.height = '2em';
+        textArea.style.padding = 0;
+        textArea.style.border = 'none';
+        textArea.style.outline = 'none';
+        textArea.style.boxShadow = 'none';
+        textArea.style.background = 'transparent';
+        textArea.value = getSiteURL() + data.link;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
     }
 
     createChannelButtonOrLink(channel, rowClass, icon, displayName, badge, closeButton) {
@@ -706,7 +723,7 @@ export default class Sidebar extends React.Component {
                     >
                         <FormattedMessage
                             id='sidebar_right_context.getChannelLink'
-                            defaultMessage='Copy Link Location'
+                            defaultMessage='Copy Link'
                         />
                     </MenuItem>
                 </ContextMenu>

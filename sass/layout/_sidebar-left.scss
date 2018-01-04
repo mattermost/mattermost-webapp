@@ -383,9 +383,11 @@
 
 /* context menu shown when right-clicking on a channel in the LHS when using the desktop app */
 .react-contextmenu--visible {
-    background: $primary-color;
-    color: $white;
+    background: #f0f0f0;
+    border: 1px solid #c4c4c4;
+    border-radius: 5px;
+    color: black;
     cursor: pointer;
-    padding: 5px;
+    padding: 5px 15px 5px 15px;
     z-index: 100;
 }

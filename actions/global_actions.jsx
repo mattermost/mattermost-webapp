@@ -232,14 +232,6 @@ export function showGetTeamInviteLinkModal() {
     });
 }
 
-export function showGetChannelLinkModal(url) {
-    AppDispatcher.handleViewAction({
-        type: Constants.ActionTypes.TOGGLE_GET_CHANNEL_LINK_MODAL,
-        value: true,
-        link: url
-    });
-}
-
 export function showInviteMemberModal() {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_INVITE_MEMBER_MODAL,
