@@ -10,14 +10,22 @@ import * as Utils from 'utils/utils.jsx';
 import {getSiteURL} from 'utils/url.jsx';
 
 import GetLinkModal from 'components/get_link_modal.jsx';
+import PropTypes from "prop-types";
 
 export default class GetChannelLinkModal extends React.PureComponent {
+
+    static propTypes = {
+        /**
+         * Optional channel link prop - typically only used by tests
+         */
+        link: PropTypes.string,
+    }
 
     constructor(props) {
         super(props);
         this.state = {
             show: false,
-            channelLink: ''
+            channelLink: props.link ? props.link : ''
         };
     }
 

@@ -706,7 +706,7 @@ export default class Sidebar extends React.Component {
                     >
                         <FormattedMessage
                             id='sidebar_right_context.getChannelLink'
-                            defaultMessage='Get Channel Link'
+                            defaultMessage='Copy Link Location'
                         />
                     </MenuItem>
                 </ContextMenu>
