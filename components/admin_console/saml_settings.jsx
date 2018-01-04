@@ -209,7 +209,7 @@ export default class SamlSettings extends AdminSettings {
                     }
                     uploadingText={Utils.localizeMessage('admin.saml.uploading.certificate', 'Uploading Certificate...')}
                     disabled={!this.state.enable}
-                    fileType='.crt,.cer'
+                    fileType='.crt,.cer,.cert'
                     onSubmit={this.uploadCertificate}
                     error={this.state.idpCertificateFileError}
                 />
