@@ -78,13 +78,6 @@ export function getPlugins() {
 
 export function loadPlugin(manifest) {
     function onLoad() {
-        // Add the plugin's js to the page
-        const script = document.createElement('script');
-        script.id = 'plugin_' + manifest.id;
-        script.type = 'text/javascript';
-        script.text = this.responseText;
-        document.getElementsByTagName('head')[0].appendChild(script);
-
         // Initialize the plugin
         console.log('Registering ' + manifest.id + ' plugin...'); //eslint-disable-line no-console
         const plugin = window.plugins[manifest.id];
@@ -92,18 +85,18 @@ export function loadPlugin(manifest) {
         console.log('...done'); //eslint-disable-line no-console
     }
 
-    // Fetch the plugin's bundled js
-    const xhrObj = new XMLHttpRequest();
-
     // Backwards compatibility for old plugins
     let bundlePath = manifest.webapp.bundle_path;
     if (bundlePath.includes('/static/') && !bundlePath.includes('/static/plugins/')) {
         bundlePath = bundlePath.replace('/static/', '/static/plugins/');
     }
 
-    xhrObj.open('GET', getSiteURL() + bundlePath, true);
-    xhrObj.addEventListener('load', onLoad);
-    xhrObj.send('');
+    const script = document.createElement('script');
+    script.id = 'plugin_' + manifest.id;
+    script.type = 'text/javascript';
+    script.src = getSiteURL() + bundlePath;
+    script.onload = onLoad;
+    document.getElementsByTagName('head')[0].appendChild(script);
 }
 
 export function removePlugin(manifest) {
