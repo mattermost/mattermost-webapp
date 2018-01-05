@@ -13,6 +13,7 @@ import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
 import {checkMfa, webLogin} from 'actions/user_actions.jsx';
 import BrowserStore from 'stores/browser_store.jsx';
 import UserStore from 'stores/user_store.jsx';
+import TeamStore from 'stores/team_store.jsx';
 
 import Constants from 'utils/constants.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
@@ -63,7 +64,11 @@ export default class LoginController extends React.Component {
     componentDidMount() {
         document.title = global.window.mm_config.SiteName;
         BrowserStore.removeGlobalItem('team');
-        if (UserStore.getCurrentUser()) {
+        const experimentalPrimaryTeam = global.mm_config.ExperimentalPrimaryTeam;
+        const primaryTeam = TeamStore.getByName(experimentalPrimaryTeam);
+        if (UserStore.getCurrentUser() && primaryTeam) {
+            browserHistory.push(`/${primaryTeam.name}/channels/town-square`);
+        } else if (UserStore.getCurrentUser()) {
             GlobalActions.redirectUserToDefaultTeam();
         }
 
@@ -214,12 +219,16 @@ export default class LoginController extends React.Component {
     }
 
     finishSignin(team) {
+        const experimentalPrimaryTeam = global.mm_config.ExperimentalPrimaryTeam;
+        const primaryTeam = TeamStore.getByName(experimentalPrimaryTeam);
         const query = this.props.location.query;
         GlobalActions.loadCurrentLocale();
         if (query.redirect_to && query.redirect_to.match(/^\/([^/]|$)/)) {
             browserHistory.push(query.redirect_to);
         } else if (team) {
             browserHistory.push(`/${team.name}`);
+        } else if (primaryTeam) {
+            browserHistory.push(`/${primaryTeam.name}/channels/town-square`);
         } else {
             GlobalActions.redirectUserToDefaultTeam();
         }
