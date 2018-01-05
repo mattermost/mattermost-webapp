@@ -14,7 +14,6 @@ import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as WebrtcActions from 'actions/webrtc_actions.jsx';
-import {getPinnedPosts} from 'actions/post_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import ModalStore from 'stores/modal_store.jsx';
@@ -53,7 +52,8 @@ export default class Navbar extends React.Component {
         isPinnedPosts: PropTypes.bool,
         actions: PropTypes.shape({
             closeRightHandSide: PropTypes.func,
-            updateRhsState: PropTypes.func
+            updateRhsState: PropTypes.func,
+            showPinnedPosts: PropTypes.func
         })
     };
 
@@ -270,7 +270,7 @@ export default class Navbar extends React.Component {
         if (this.props.isPinnedPosts) {
             GlobalActions.emitCloseRightHandSide();
         } else {
-            getPinnedPosts(this.state.channel.id);
+            this.props.actions.showPinnedPosts(this.state.channel.id);
         }
     }
 
