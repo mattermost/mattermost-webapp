@@ -92,7 +92,12 @@ export default class PostList extends React.PureComponent {
             /**
              * Function to increase the number of posts being rendered
              */
-            increasePostVisibility: PropTypes.func.isRequired
+            increasePostVisibility: PropTypes.func.isRequired,
+
+            /**
+             * Function to check and set if app is in mobile view
+             */
+            checkAndSetMobileView: PropTypes.func.isRequired
         }).isRequired
     }
 
@@ -117,6 +122,7 @@ export default class PostList extends React.PureComponent {
 
     componentDidMount() {
         this.loadPosts(this.props.channel.id, this.props.focusedPostId);
+        this.props.actions.checkAndSetMobileView();
         GlobalEventEmitter.addListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.handleResize);
 
         window.addEventListener('resize', this.handleResize);
@@ -297,6 +303,8 @@ export default class PostList extends React.PureComponent {
 
             this.atBottom = this.checkBottom();
         }
+
+        this.props.actions.checkAndSetMobileView();
     }
 
     loadPosts = async (channelId, focusedPostId) => {
