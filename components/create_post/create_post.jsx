@@ -6,10 +6,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
+import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
 import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {emitEmojiPosted} from 'actions/post_actions.jsx';
+import store from 'stores/redux_store.jsx';
 import EmojiStore from 'stores/emoji_store.jsx';
 import Constants, {StoragePrefixes} from 'utils/constants.jsx';
 import * as FileUtils from 'utils/file_utils';
@@ -26,9 +28,13 @@ import PostDeletedModal from 'components/post_deleted_modal.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
 import Textbox from 'components/textbox.jsx';
 import TutorialTip from 'components/tutorial/tutorial_tip.jsx';
+import {ActionTypes} from '../../utils/constants';
+import AppDispatcher from '../../dispatcher/app_dispatcher';
 
 const TutorialSteps = Constants.TutorialSteps;
 const KeyCodes = Constants.KeyCodes;
+
+const getState = store.getState;
 
 export default class CreatePost extends React.Component {
     static propTypes = {
@@ -565,14 +571,10 @@ export default class CreatePost extends React.Component {
     }
 
     handleKeyDown = (e) => {
-        const channelId = this.props.currentChannel.id;
         if (this.props.ctrlSend && e.keyCode === KeyCodes.ENTER && e.ctrlKey === true) {
             this.postMsgKeyPress(e);
             return;
         }
-
-        const latestReplyablePostId = this.props.latestReplyablePostId;
-        const lastPostEl = document.getElementById(`commentIcon_${channelId}_${latestReplyablePostId}`);
 
         if (!e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey && e.keyCode === KeyCodes.UP && this.state.message === '') {
             e.preventDefault();
@@ -589,15 +591,17 @@ export default class CreatePost extends React.Component {
                 type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
             }
             this.props.actions.setEditingPost(lastPost.id, this.props.commentCountForPost, '#post_textbox', type);
-        } else if (!e.ctrlKey && !e.metaKey && !e.altKey && e.shiftKey && e.keyCode === KeyCodes.UP && this.state.message === '' && lastPostEl) {
+        } else if (!e.ctrlKey && !e.metaKey && !e.altKey && e.shiftKey && e.keyCode === KeyCodes.UP && this.state.message === '') {
             e.preventDefault();
-            if (document.createEvent) {
-                const evt = document.createEvent('MouseEvents');
-                evt.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-                lastPostEl.dispatchEvent(evt);
-            } else if (document.createEventObject) {
-                const evObj = document.createEventObject();
-                lastPostEl.fireEvent('onclick', evObj);
+            const latestReplyablePostId = this.props.latestReplyablePostId;
+            const lastPost = getPost(getState(), latestReplyablePostId);
+
+            if (lastPost) {
+                AppDispatcher.handleServerAction({
+                    type: ActionTypes.RECEIVED_POST_SELECTED,
+                    postId: Utils.getRootId(lastPost),
+                    channelId: lastPost.channel_id
+                });
             }
         }
 
