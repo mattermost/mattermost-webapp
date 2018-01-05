@@ -314,6 +314,8 @@ export const PostTypes = {
     JOIN_LEAVE: 'system_join_leave',
     JOIN_CHANNEL: 'system_join_channel',
     LEAVE_CHANNEL: 'system_leave_channel',
+    JOIN_TEAM: 'system_join_team',
+    LEAVE_TEAM: 'system_leave_team',
     ADD_TO_CHANNEL: 'system_add_to_channel',
     REMOVE_FROM_CHANNEL: 'system_remove_from_channel',
     ADD_REMOVE: 'system_add_remove',
@@ -430,7 +432,7 @@ export const Constants = {
 
     MAX_POST_VISIBILITY: 1000000,
 
-    IGNORE_POST_TYPES: [PostTypes.JOIN_LEAVE, PostTypes.JOIN_CHANNEL, PostTypes.LEAVE_CHANNEL, PostTypes.REMOVE_FROM_CHANNEL, PostTypes.ADD_REMOVE],
+    IGNORE_POST_TYPES: [PostTypes.JOIN_LEAVE, PostTypes.JOIN_TEAM, PostTypes.LEAVE_TEAM, PostTypes.JOIN_CHANNEL, PostTypes.LEAVE_CHANNEL, PostTypes.REMOVE_FROM_CHANNEL, PostTypes.ADD_REMOVE],
 
     PayloadSources: keyMirror({
         SERVER_ACTION: null,
