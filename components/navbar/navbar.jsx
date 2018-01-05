@@ -357,7 +357,9 @@ export default class Navbar extends React.Component {
     }
 
     hideHeaderOverlay = () => {
-        this.refs.headerOverlay.hide();
+        if (this.refs.headerOverlay) {
+            this.refs.headerOverlay.hide();
+        }
     }
 
     createDropdown = (channel, channelTitle, isSystemAdmin, isTeamAdmin, isChannelAdmin, isDirect, isGroup) => {
