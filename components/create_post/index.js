@@ -12,6 +12,7 @@ import {addMessageIntoHistory, moveHistoryIndexBack, moveHistoryIndexForward, cr
 import {Posts} from 'mattermost-redux/constants';
 
 import {setEditingPost} from 'actions/post_actions.jsx';
+import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {makeGetGlobalItem} from 'selectors/storage';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {Preferences, StoragePrefixes} from 'utils/constants.jsx';
@@ -61,6 +62,7 @@ function mapDispatchToProps(dispatch) {
             removeReaction,
             setDraft: setGlobalItem,
             clearDraftUploads: actionOnGlobalItemsWithPrefix,
+            selectPostFromRightHandSideSearchByPostId,
             setEditingPost
         }, dispatch)
     };

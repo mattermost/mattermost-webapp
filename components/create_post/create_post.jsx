@@ -6,7 +6,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
-import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
 import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
@@ -158,7 +157,12 @@ export default class CreatePost extends React.Component {
             /**
             *  func called for editing posts
             */
-            setEditingPost: PropTypes.func.isRequired
+            setEditingPost: PropTypes.func.isRequired,
+
+            /**
+             *  func called for opening the last replayable post in the RHS
+             */
+            selectPostFromRightHandSideSearchByPostId: PropTypes.func.isRequired
         }).isRequired
     }
 
@@ -594,14 +598,9 @@ export default class CreatePost extends React.Component {
         } else if (!e.ctrlKey && !e.metaKey && !e.altKey && e.shiftKey && e.keyCode === KeyCodes.UP && this.state.message === '') {
             e.preventDefault();
             const latestReplyablePostId = this.props.latestReplyablePostId;
-            const lastPost = getPost(getState(), latestReplyablePostId);
 
-            if (lastPost) {
-                AppDispatcher.handleServerAction({
-                    type: ActionTypes.RECEIVED_POST_SELECTED,
-                    postId: Utils.getRootId(lastPost),
-                    channelId: lastPost.channel_id
-                });
+            if (latestReplyablePostId) {
+                this.props.actions.selectPostFromRightHandSideSearchByPostId(latestReplyablePostId);
             }
         }
 
