@@ -10,7 +10,6 @@ import {Posts} from 'mattermost-redux/constants';
 import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {emitEmojiPosted} from 'actions/post_actions.jsx';
-import store from 'stores/redux_store.jsx';
 import EmojiStore from 'stores/emoji_store.jsx';
 import Constants, {StoragePrefixes} from 'utils/constants.jsx';
 import * as FileUtils from 'utils/file_utils';
@@ -27,13 +26,9 @@ import PostDeletedModal from 'components/post_deleted_modal.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
 import Textbox from 'components/textbox.jsx';
 import TutorialTip from 'components/tutorial/tutorial_tip.jsx';
-import {ActionTypes} from '../../utils/constants';
-import AppDispatcher from '../../dispatcher/app_dispatcher';
 
 const TutorialSteps = Constants.TutorialSteps;
 const KeyCodes = Constants.KeyCodes;
-
-const getState = store.getState;
 
 export default class CreatePost extends React.Component {
     static propTypes = {
