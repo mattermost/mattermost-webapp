@@ -287,6 +287,8 @@ export function renderSystemMessage(post, options) {
         return null;
     } else if (systemMessageRenderers[post.type]) {
         return systemMessageRenderers[post.type](post, options);
+    } else if (post.type === PostTypes.EPHEMERAL_ADD_TO_CHANNEL) {
+        return renderAddToChannelMessage(post, options);
     }
 
     return null;

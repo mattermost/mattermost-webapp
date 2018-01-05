@@ -24,7 +24,7 @@ import UserStore from 'stores/user_store.jsx';
 
 import WebSocketClient from 'client/web_websocket_client.jsx';
 
-import {ActionTypes, Constants, ErrorPageTypes} from 'utils/constants.jsx';
+import {ActionTypes, Constants, ErrorPageTypes, PostTypes} from 'utils/constants.jsx';
 import EventTypes from 'utils/event_types.jsx';
 import {sortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -330,12 +330,33 @@ export function sendEphemeralPost(message, channelId, parentId) {
         user_id: '0',
         channel_id: channelId || ChannelStore.getCurrentId(),
         message,
-        type: Constants.PostTypes.EPHEMERAL,
+        type: PostTypes.EPHEMERAL,
         create_at: timestamp,
         update_at: timestamp,
         root_id: parentId,
         parent_id: parentId,
         props: {}
+    };
+
+    handleNewPost(post);
+}
+
+export function sendAddToChannelEphemeralPost(user, addedUsername, channelId, postRootId = '') {
+    const timestamp = Utils.getTimestamp();
+    const post = {
+        id: Utils.generateId(),
+        user_id: user.id,
+        channel_id: channelId || ChannelStore.getCurrentId(),
+        message: '',
+        type: PostTypes.EPHEMERAL_ADD_TO_CHANNEL,
+        create_at: timestamp,
+        update_at: timestamp,
+        root_id: postRootId,
+        parent_id: postRootId,
+        props: {
+            username: user.username,
+            addedUsername
+        }
     };
 
     handleNewPost(post);

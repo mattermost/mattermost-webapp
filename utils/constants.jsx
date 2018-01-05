@@ -327,6 +327,7 @@ export const PostTypes = {
     CHANNEL_DELETED: 'system_channel_deleted',
     FAKE_PARENT_DELETED: 'system_fake_parent_deleted',
     EPHEMERAL: 'system_ephemeral',
+    EPHEMERAL_ADD_TO_CHANNEL: 'system_ephemeral_add_to_channel',
     REMOVE_LINK_PREVIEW: 'remove_link_preview'
 };
 

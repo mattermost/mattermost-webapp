@@ -219,20 +219,6 @@ export default class Post extends React.PureComponent {
 
     render() {
         const post = this.props.post || {};
-        const isEphemeral = Utils.isPostEphemeral(post);
-
-        // When user/s is added to channel by clicking @mention links,
-        // add-user-to-channel system message is posted at center while ephemeral message at RHS.
-        // This condition prevents add-user-to-channel ephemeral message at center posts.
-        if (
-            isEphemeral &&
-            post.root_id &&
-            post.props &&
-            post.props.username &&
-            post.props.addedUsername
-        ) {
-            return null;
-        }
 
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const fromWebhook = post && post.props && post.props.from_webhook === 'true';

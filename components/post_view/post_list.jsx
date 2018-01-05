@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom';
 import {FormattedDate, FormattedMessage} from 'react-intl';
 
 import {createChannelIntroMessage} from 'utils/channel_intro_messages.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants, {PostTypes} from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
 import EventTypes from 'utils/event_types.jsx';
 import GlobalEventEmitter from 'utils/global_event_emitter.jsx';
@@ -426,7 +426,10 @@ export default class PostList extends React.PureComponent {
         for (let i = posts.length - 1; i >= 0; i--) {
             const post = posts[i];
 
-            if (post == null) {
+            if (
+                post == null ||
+                post.type === PostTypes.EPHEMERAL_ADD_TO_CHANNEL
+            ) {
                 continue;
             }
 
