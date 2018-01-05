@@ -109,6 +109,8 @@ export const ActionTypes = keyMirror({
     UPDATE_RHS_STATE: null,
     UPDATE_RHS_SEARCH_TERMS: null,
 
+    UPDATE_MOBILE_VIEW: null,
+
     SEARCH_FLAGGED_POSTS_REQUEST: null,
     SEARCH_FLAGGED_POSTS_SUCCESS: null,
     SEARCH_FLAGGED_POSTS_FAILURE: null,
