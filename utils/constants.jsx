@@ -318,8 +318,6 @@ export const PostTypes = {
     JOIN_TEAM: 'system_join_team',
     LEAVE_TEAM: 'system_leave_team',
     ADD_TO_CHANNEL: 'system_add_to_channel',
-    JOIN_TEAM: 'system_join_team',
-    LEAVE_TEAM: 'system_leave_team',
     ADD_TO_TEAM: 'system_add_to_team',
     REMOVE_FROM_CHANNEL: 'system_remove_from_channel',
     ADD_REMOVE: 'system_add_remove',
