@@ -164,10 +164,10 @@ function appendOnLoadEvent(fn) {
     }
 }
 
-global.window.setup_root = () => {
-    // Append trackLoadTime function to any exisitng onload events
-    appendOnLoadEvent(trackLoadTime);
-
+appendOnLoadEvent(() => {
     // Do the pre-render setup and call renderRootComponent when done
     preRenderSetup(renderRootComponent);
-};
+});
+
+// Append trackLoadTime function to any exisitng onload events
+appendOnLoadEvent(trackLoadTime);
