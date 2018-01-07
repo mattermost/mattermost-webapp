@@ -14,7 +14,7 @@ import {NotificationLevels} from 'utils/constants.jsx';
 
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
-import {isChannelMuted} from "../utils/channel_utils";
+import {isChannelMuted} from 'utils/channel_utils.jsx';
 
 export default class ChannelNotificationsModal extends React.Component {
     constructor(props) {
@@ -480,12 +480,12 @@ export default class ChannelNotificationsModal extends React.Component {
         const notifyLevel = this.state.muteLevel;
         const currentUserId = this.props.currentUser.id;
 
-        if (this.props.channelMember.notify_props.mute === notifyLevel) {
+        if (this.props.channelMember.notify_props.mark_unread === notifyLevel) {
             this.updateSection('');
             return;
         }
 
-        const options = {mute: notifyLevel};
+        const options = {mark_unread: notifyLevel};
         const data = {
             channel_id: channelId,
             user_id: currentUserId

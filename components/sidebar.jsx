@@ -501,7 +501,7 @@ export default class Sidebar extends React.Component {
         const activeId = this.state.activeId;
         const channelMember = members[channel.id];
         const unreadCount = this.state.unreadCounts[channel.id] || {msgs: 0, mentions: 0};
-        const channelMuted = isChannelMuted(channelMember);
+        const channelMuted = ChannelUtils.isChannelMuted(channelMember);
         let msgCount;
 
         let linkClass = '';
