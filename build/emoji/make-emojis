@@ -41,9 +41,8 @@ emoji_added = []
 Emoji.all.clone.each do |emoji|
   next unless emoji.raw
 
-  sequences = unicode_emoji_helper.emoji_modifier_sequences(emoji.raw.split('')[0])
+  sequences = unicode_emoji_helper.emoji_modifier_sequences(emoji.raw.split(''))
   next unless sequences
-
   sequences.each do |sequence|
     pngbytes = apple_extractor.png(sequence)
     print 'x' if pngbytes.nil?
@@ -52,7 +51,6 @@ Emoji.all.clone.each do |emoji|
     modifier = sequence.split('')[1]
     short_name = Mattermost::UnicodeEmojiHelper::SKIN_TONE_MAP[modifier]
     new_name = "#{emoji.name}_#{short_name.gsub(/[\s-]/, '_')}"
-
     new_emoji = Emoji.create(new_name) do |char|
       char.category = 'skintone'
       char.add_unicode_alias sequence
