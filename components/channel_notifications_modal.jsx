@@ -8,14 +8,13 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {updateChannelNotifyProps} from 'actions/channel_actions.jsx';
-import {NotificationLevels} from 'utils/constants.jsx';
-import * as Utils from 'utils/utils.jsx';
-import SettingItemMax from 'components/setting_item_max.jsx';
-import SettingItemMin from 'components/setting_item_min.jsx';
 
-const SECTION_MARK_UNREAD_LEVEL = 'markUnreadLevel';
-const SECTION_DESKTOP = 'desktop';
-const SECTION_PUSH = 'push';
+import {NotificationLevels, NotificationSections} from 'utils/constants.jsx';
+import * as Utils from 'utils/utils.jsx';
+
+import ChannelMarkUnreadNotificationSection from 'components/channel_mark_unread_notification_section.jsx';
+import ChannelDesktopNotificationSection from 'components/channel_desktop_notification_section.jsx';
+import ChannelPushNotificationSection from 'components/channel_push_notification_section.jsx';
 
 export default class ChannelNotificationsModal extends React.Component {
     constructor(props) {
@@ -25,18 +24,15 @@ export default class ChannelNotificationsModal extends React.Component {
 
         this.handleSubmitDesktopNotifyLevel = this.handleSubmitDesktopNotifyLevel.bind(this);
         this.handleUpdateDesktopNotifyLevel = this.handleUpdateDesktopNotifyLevel.bind(this);
-        this.createDesktopNotifyLevelSection = this.createDesktopNotifyLevelSection.bind(this);
 
         this.handleSubmitMarkUnreadLevel = this.handleSubmitMarkUnreadLevel.bind(this);
         this.handleUpdateMarkUnreadLevel = this.handleUpdateMarkUnreadLevel.bind(this);
-        this.createMarkUnreadLevelSection = this.createMarkUnreadLevelSection.bind(this);
 
         this.handleSubmitPushNotificationLevel = this.handleSubmitPushNotificationLevel.bind(this);
         this.handleUpdatePushNotificationLevel = this.handleUpdatePushNotificationLevel.bind(this);
-        this.createPushNotificationLevelSection = this.createPushNotificationLevelSection.bind(this);
 
         this.state = {
-            activeSection: '',
+            activeSection: NotificationSections.NONE,
             notifyLevel: props.channelMember.notify_props.desktop,
             unreadLevel: props.channelMember.notify_props.mark_unread,
             pushLevel: props.channelMember.notify_props.push || NotificationLevels.DEFAULT
@@ -55,7 +51,7 @@ export default class ChannelNotificationsModal extends React.Component {
 
     handleOnHide = () => {
         this.setState({
-            activeSection: ''
+            activeSection: NotificationSections.NONE
         });
 
         this.props.onHide();
@@ -68,7 +64,8 @@ export default class ChannelNotificationsModal extends React.Component {
         this.setState({activeSection: section});
     }
 
-    handleSubmitDesktopNotifyLevel() {
+    handleSubmitDesktopNotifyLevel(e) {
+        e.preventDefault();
         const channelId = this.props.channel.id;
         const notifyLevel = this.state.notifyLevel;
         const currentUserId = this.props.currentUser.id;
@@ -98,207 +95,15 @@ export default class ChannelNotificationsModal extends React.Component {
         this.setState({notifyLevel});
     }
 
-    setUnreadLevel = () => {
+    handleUpdateDesktopSection = (section = NotificationSections.NONE) => {
+        this.updateSection(section);
         this.setState({
-            unreadLevel: this.props.channelMember.notify_props.mark_unread
+            notifyLevel: this.props.channelMember.notify_props.desktop
         });
     }
 
-    handleMinUpdateSection = (section) => {
-        this.updateSection(section);
-
-        switch (section) {
-        case SECTION_MARK_UNREAD_LEVEL:
-            this.setUnreadLevel();
-            break;
-        default:
-        }
-    }
-
-    handleMaxUpdateSection = (section) => {
-        this.updateSection(section);
-
-        switch (this.state.activeSection) {
-        case SECTION_DESKTOP:
-            this.setState({
-                notifyLevel: this.props.channelMember.notify_props.desktop
-            });
-            break;
-        case SECTION_MARK_UNREAD_LEVEL:
-            this.setUnreadLevel();
-            break;
-
-        case SECTION_PUSH:
-            this.setState({
-                pushLevel: this.props.channelMember.notify_props.push || NotificationLevels.DEFAULT
-            });
-            break;
-        default:
-        }
-    }
-
-    createDesktopNotifyLevelSection(serverError) {
-        // Get glabal user setting for notifications
-        const globalNotifyLevel = this.props.currentUser.notify_props ? this.props.currentUser.notify_props.desktop : NotificationLevels.ALL;
-        let globalNotifyLevelName;
-        if (globalNotifyLevel === NotificationLevels.ALL) {
-            globalNotifyLevelName = (
-                <FormattedMessage
-                    id='channel_notifications.allActivity'
-                    defaultMessage='For all activity'
-                />
-            );
-        } else if (globalNotifyLevel === NotificationLevels.MENTION) {
-            globalNotifyLevelName = (
-                <FormattedMessage
-                    id='channel_notifications.onlyMentions'
-                    defaultMessage='Only for mentions'
-                />
-            );
-        } else {
-            globalNotifyLevelName = (
-                <FormattedMessage
-                    id='channel_notifications.never'
-                    defaultMessage='Never'
-                />
-            );
-        }
-
-        const sendDesktop = (
-            <FormattedMessage
-                id='channel_notifications.sendDesktop'
-                defaultMessage='Send desktop notifications'
-            />
-        );
-
-        const notificationLevel = this.state.notifyLevel;
-
-        if (this.state.activeSection === SECTION_DESKTOP) {
-            const notifyActive = [false, false, false, false];
-            if (notificationLevel === NotificationLevels.DEFAULT) {
-                notifyActive[0] = true;
-            } else if (notificationLevel === NotificationLevels.ALL) {
-                notifyActive[1] = true;
-            } else if (notificationLevel === NotificationLevels.MENTION) {
-                notifyActive[2] = true;
-            } else {
-                notifyActive[3] = true;
-            }
-
-            var inputs = [];
-
-            inputs.push(
-                <div key='channel-notification-level-radio'>
-                    <div className='radio'>
-                        <label>
-                            <input
-                                id='channelNotificationGlobalDefault'
-                                type='radio'
-                                name='desktopNotificationLevel'
-                                checked={notifyActive[0]}
-                                onChange={this.handleUpdateDesktopNotifyLevel.bind(this, NotificationLevels.DEFAULT)}
-                            />
-                            <FormattedMessage
-                                id='channel_notifications.globalDefault'
-                                defaultMessage='Global default ({notifyLevel})'
-                                values={{
-                                    notifyLevel: (globalNotifyLevelName)
-                                }}
-                            />
-                        </label>
-                        <br/>
-                    </div>
-                    <div className='radio'>
-                        <label>
-                            <input
-                                id='channelNotificationAllActivity'
-                                type='radio'
-                                name='desktopNotificationLevel'
-                                checked={notifyActive[1]}
-                                onChange={this.handleUpdateDesktopNotifyLevel.bind(this, NotificationLevels.ALL)}
-                            />
-                            <FormattedMessage id='channel_notifications.allActivity'/>
-                        </label>
-                        <br/>
-                    </div>
-                    <div className='radio'>
-                        <label>
-                            <input
-                                id='channelNotificationMentions'
-                                type='radio'
-                                name='desktopNotificationLevel'
-                                checked={notifyActive[2]}
-                                onChange={this.handleUpdateDesktopNotifyLevel.bind(this, NotificationLevels.MENTION)}
-                            />
-                            <FormattedMessage id='channel_notifications.onlyMentions'/>
-                        </label>
-                        <br/>
-                    </div>
-                    <div className='radio'>
-                        <label>
-                            <input
-                                id='channelNotificationNever'
-                                type='radio'
-                                name='desktopNotificationLevel'
-                                checked={notifyActive[3]}
-                                onChange={this.handleUpdateDesktopNotifyLevel.bind(this, NotificationLevels.NONE)}
-                            />
-                            <FormattedMessage id='channel_notifications.never'/>
-                        </label>
-                    </div>
-                </div>
-            );
-
-            const extraInfo = (
-                <span>
-                    <FormattedMessage
-                        id='channel_notifications.override'
-                        defaultMessage='Selecting an option other than "Default" will override the global notification settings. Desktop notifications are available on Firefox, Safari, and Chrome.'
-                    />
-                </span>
-            );
-
-            return (
-                <SettingItemMax
-                    title={sendDesktop}
-                    inputs={inputs}
-                    submit={this.handleSubmitDesktopNotifyLevel}
-                    server_error={serverError}
-                    updateSection={this.handleMaxUpdateSection}
-                    extraInfo={extraInfo}
-                />
-            );
-        }
-
-        var describe;
-        if (notificationLevel === NotificationLevels.DEFAULT) {
-            describe = (
-                <FormattedMessage
-                    id='channel_notifications.globalDefault'
-                    values={{
-                        notifyLevel: (globalNotifyLevelName)
-                    }}
-                />
-            );
-        } else if (notificationLevel === NotificationLevels.MENTION) {
-            describe = (<FormattedMessage id='channel_notifications.onlyMentions'/>);
-        } else if (notificationLevel === NotificationLevels.ALL) {
-            describe = (<FormattedMessage id='channel_notifications.allActivity'/>);
-        } else {
-            describe = (<FormattedMessage id='channel_notifications.never'/>);
-        }
-
-        return (
-            <SettingItemMin
-                title={sendDesktop}
-                describe={describe}
-                section={SECTION_DESKTOP}
-                updateSection={this.handleMinUpdateSection}
-            />
-        );
-    }
-
-    handleSubmitMarkUnreadLevel() {
+    handleSubmitMarkUnreadLevel(e) {
+        e.preventDefault();
         const channelId = this.props.channel.id;
         const markUnreadLevel = this.state.unreadLevel;
 
@@ -327,94 +132,11 @@ export default class ChannelNotificationsModal extends React.Component {
         this.setState({unreadLevel});
     }
 
-    createMarkUnreadLevelSection(serverError) {
-        let content;
-
-        const markUnread = (
-            <FormattedMessage
-                id='channel_notifications.markUnread'
-                defaultMessage='Mark Channel Unread'
-            />
-        );
-        if (this.state.activeSection === SECTION_MARK_UNREAD_LEVEL) {
-            const inputs = [(
-                <div key='channel-notification-unread-radio'>
-                    <div className='radio'>
-                        <label>
-                            <input
-                                id='channelUnreadAll'
-                                type='radio'
-                                name='markUnreadLevel'
-                                checked={this.state.unreadLevel === NotificationLevels.ALL}
-                                onChange={this.handleUpdateMarkUnreadLevel.bind(this, NotificationLevels.ALL)}
-                            />
-                            <FormattedMessage
-                                id='channel_notifications.allUnread'
-                                defaultMessage='For all unread messages'
-                            />
-                        </label>
-                        <br/>
-                    </div>
-                    <div className='radio'>
-                        <label>
-                            <input
-                                id='channelUnreadMentions'
-                                type='radio'
-                                name='markUnreadLevel'
-                                checked={this.state.unreadLevel === NotificationLevels.MENTION}
-                                onChange={this.handleUpdateMarkUnreadLevel.bind(this, NotificationLevels.MENTION)}
-                            />
-                            <FormattedMessage id='channel_notifications.onlyMentions'/>
-                        </label>
-                        <br/>
-                    </div>
-                </div>
-            )];
-
-            const extraInfo = (
-                <span>
-                    <FormattedMessage
-                        id='channel_notifications.unreadInfo'
-                        defaultMessage='The channel name is bolded in the sidebar when there are unread messages. Selecting "Only for mentions" will bold the channel only when you are mentioned.'
-                    />
-                </span>
-            );
-
-            content = (
-                <SettingItemMax
-                    title={markUnread}
-                    inputs={inputs}
-                    submit={this.handleSubmitMarkUnreadLevel}
-                    server_error={serverError}
-                    updateSection={this.handleMaxUpdateSection}
-                    extraInfo={extraInfo}
-                />
-            );
-        } else {
-            let describe;
-
-            if (!this.state.unreadLevel || this.state.unreadLevel === NotificationLevels.ALL) {
-                describe = (
-                    <FormattedMessage
-                        id='channel_notifications.allUnread'
-                        defaultMessage='For all unread messages'
-                    />
-                );
-            } else {
-                describe = (<FormattedMessage id='channel_notifications.onlyMentions'/>);
-            }
-
-            content = (
-                <SettingItemMin
-                    title={markUnread}
-                    describe={describe}
-                    section={SECTION_MARK_UNREAD_LEVEL}
-                    updateSection={this.handleMinUpdateSection}
-                />
-            );
-        }
-
-        return content;
+    handleUpdateMarkUnreadSection = (section = NotificationSections.NONE) => {
+        this.updateSection(section);
+        this.setState({
+            unreadLevel: this.props.channelMember.notify_props.mark_unread
+        });
     }
 
     handleSubmitPushNotificationLevel() {
@@ -447,177 +169,11 @@ export default class ChannelNotificationsModal extends React.Component {
         this.setState({pushLevel});
     }
 
-    createPushNotificationLevelSection(serverError) {
-        if (global.mm_config.SendPushNotifications === 'false') {
-            return null;
-        }
-
-        // Get glabal user setting for notifications
-        const globalNotifyLevel = this.props.currentUser.notify_props ? this.props.currentUser.notify_props.push : NotificationLevels.ALL;
-        let globalNotifyLevelName;
-        if (globalNotifyLevel === NotificationLevels.ALL) {
-            globalNotifyLevelName = (
-                <FormattedMessage
-                    id='channel_notifications.allActivity'
-                    defaultMessage='For all activity'
-                />
-            );
-        } else if (globalNotifyLevel === NotificationLevels.MENTION) {
-            globalNotifyLevelName = (
-                <FormattedMessage
-                    id='channel_notifications.onlyMentions'
-                    defaultMessage='Only for mentions'
-                />
-            );
-        } else {
-            globalNotifyLevelName = (
-                <FormattedMessage
-                    id='channel_notifications.never'
-                    defaultMessage='Never'
-                />
-            );
-        }
-
-        const sendPushNotifications = (
-            <FormattedMessage
-                id='channel_notifications.push'
-                defaultMessage='Send mobile push notifications'
-            />
-        );
-
-        const notificationLevel = this.state.pushLevel;
-
-        let content;
-        if (this.state.activeSection === SECTION_PUSH) {
-            const notifyActive = [false, false, false, false];
-            if (notificationLevel === NotificationLevels.DEFAULT) {
-                notifyActive[0] = true;
-            } else if (notificationLevel === NotificationLevels.ALL) {
-                notifyActive[1] = true;
-            } else if (notificationLevel === NotificationLevels.MENTION) {
-                notifyActive[2] = true;
-            } else {
-                notifyActive[3] = true;
-            }
-
-            const inputs = [];
-
-            inputs.push(
-                <div key='channel-notification-level-radio'>
-                    <div className='radio'>
-                        <label>
-                            <input
-                                id='channelPushNotificationGlobalDefault'
-                                type='radio'
-                                name='pushNotificationLevel'
-                                checked={notifyActive[0]}
-                                onChange={this.handleUpdatePushNotificationLevel.bind(this, NotificationLevels.DEFAULT)}
-                            />
-                            <FormattedMessage
-                                id='channel_notifications.globalDefault'
-                                defaultMessage='Global default ({notifyLevel})'
-                                values={{
-                                    notifyLevel: (globalNotifyLevelName)
-                                }}
-                            />
-                        </label>
-                        <br/>
-                    </div>
-                    <div className='radio'>
-                        <label>
-                            <input
-                                id='channelPushNotificationAllActivity'
-                                type='radio'
-                                name='pushNotificationLevel'
-                                checked={notifyActive[1]}
-                                onChange={this.handleUpdatePushNotificationLevel.bind(this, NotificationLevels.ALL)}
-                            />
-                            <FormattedMessage id='channel_notifications.allActivity'/>
-                        </label>
-                        <br/>
-                    </div>
-                    <div className='radio'>
-                        <label>
-                            <input
-                                id='channelPushNotificationMentions'
-                                type='radio'
-                                name='pushNotificationLevel'
-                                checked={notifyActive[2]}
-                                onChange={this.handleUpdatePushNotificationLevel.bind(this, NotificationLevels.MENTION)}
-                            />
-                            <FormattedMessage id='channel_notifications.onlyMentions'/>
-                        </label>
-                        <br/>
-                    </div>
-                    <div className='radio'>
-                        <label>
-                            <input
-                                id='channelPushNotificationNever'
-                                type='radio'
-                                name='pushNotificationLevel'
-                                checked={notifyActive[3]}
-                                onChange={this.handleUpdatePushNotificationLevel.bind(this, NotificationLevels.NONE)}
-                            />
-                            <FormattedMessage id='channel_notifications.never'/>
-                        </label>
-                    </div>
-                </div>
-            );
-
-            const extraInfo = (
-                <span>
-                    <FormattedMessage
-                        id='channel_notifications.overridePush'
-                        defaultMessage='Selecting an option other than "Global default" will override the global notification settings for mobile push notifications in account settings. Push notifications must be enabled by the System Admin.'
-                    />
-                </span>
-            );
-
-            content = (
-                <SettingItemMax
-                    title={sendPushNotifications}
-                    inputs={inputs}
-                    submit={this.handleSubmitPushNotificationLevel}
-                    server_error={serverError}
-                    updateSection={this.handleMaxUpdateSection}
-                    extraInfo={extraInfo}
-                />
-            );
-        } else {
-            let describe;
-            if (notificationLevel === NotificationLevels.DEFAULT) {
-                describe = (
-                    <FormattedMessage
-                        id='channel_notifications.globalDefault'
-                        values={{
-                            notifyLevel: (globalNotifyLevelName)
-                        }}
-                    />
-                );
-            } else if (notificationLevel === NotificationLevels.MENTION) {
-                describe = (<FormattedMessage id='channel_notifications.onlyMentions'/>);
-            } else if (notificationLevel === NotificationLevels.ALL) {
-                describe = (<FormattedMessage id='channel_notifications.allActivity'/>);
-            } else {
-                describe = (<FormattedMessage id='channel_notifications.never'/>);
-            }
-
-            content = (
-                <SettingItemMin
-                    title={sendPushNotifications}
-                    describe={describe}
-                    section={SECTION_PUSH}
-                    updateSection={this.handleMinUpdateSection}
-                />
-            );
-        }
-
-        return (
-            <div>
-                <div className='divider-light'/>
-                {content}
-            </div>
-        );
+    handleUpdatePushSection = (section = NotificationSections.NONE) => {
+        this.updateSection(section);
+        this.setState({
+            pushLevel: this.props.channelMember.notify_props.push
+        });
     }
 
     render() {
@@ -651,10 +207,41 @@ export default class ChannelNotificationsModal extends React.Component {
                             >
                                 <br/>
                                 <div className='divider-dark first'/>
-                                {this.createDesktopNotifyLevelSection(serverError)}
-                                {this.createPushNotificationLevelSection(serverError)}
+                                <ChannelDesktopNotificationSection
+                                    expand={this.state.activeSection === NotificationSections.DESKTOP}
+                                    memberNotificationLevel={this.state.notifyLevel}
+                                    globalNotificationLevel={this.props.currentUser.notify_props ?
+                                        this.props.currentUser.notify_props.desktop :
+                                        NotificationLevels.ALL
+                                    }
+                                    onChange={this.handleUpdateDesktopNotifyLevel}
+                                    onSubmit={this.handleSubmitDesktopNotifyLevel}
+                                    onUpdateSection={this.handleUpdateDesktopSection}
+                                    serverError={this.state.serverError}
+                                />
+                                {global.mm_config.SendPushNotifications !== 'false' &&
+                                <ChannelPushNotificationSection
+                                    expand={this.state.activeSection === NotificationSections.PUSH}
+                                    memberNotificationLevel={this.state.pushLevel}
+                                    globalNotificationLevel={this.props.currentUser.notify_props ?
+                                        this.props.currentUser.notify_props.push :
+                                        NotificationLevels.ALL
+                                    }
+                                    onChange={this.handleUpdatePushNotificationLevel}
+                                    onSubmit={this.handleSubmitPushNotificationLevel}
+                                    onUpdateSection={this.handleUpdatePushSection}
+                                    serverError={this.state.serverError}
+                                />
+                                }
                                 <div className='divider-light'/>
-                                {this.createMarkUnreadLevelSection(serverError)}
+                                <ChannelMarkUnreadNotificationSection
+                                    expand={this.state.activeSection === NotificationSections.MARK_UNREAD}
+                                    notificationLevel={this.state.unreadLevel}
+                                    onChange={this.handleUpdateMarkUnreadLevel}
+                                    onSubmit={this.handleSubmitMarkUnreadLevel}
+                                    onUpdateSection={this.handleUpdateMarkUnreadSection}
+                                    serverError={this.state.serverError}
+                                />
                                 <div className='divider-dark'/>
                             </div>
                         </div>
