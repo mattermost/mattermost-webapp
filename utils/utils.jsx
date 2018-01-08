@@ -832,7 +832,7 @@ export function changeCss(className, classValue) {
     try {
         styleSheet.insertRule(className + '{' + classValue + '}' + mediaQuery, styleSheet.cssRules.length);
     } catch (e) {
-        // do nothing
+        console.error(e); // eslint-disable-line no-console
     }
 }
 
