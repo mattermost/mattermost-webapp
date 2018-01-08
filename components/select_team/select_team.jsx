@@ -4,9 +4,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router';
+import {browserHistory, Link} from 'react-router';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
+import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
+
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
@@ -30,12 +32,10 @@ export default class SelectTeam extends React.Component {
 
     constructor(props) {
         super(props);
-        this.onTeamChange = this.onTeamChange.bind(this);
-        this.handleTeamClick = this.handleTeamClick.bind(this);
-        this.teamContentsCompare = this.teamContentsCompare.bind(this);
 
         const state = this.getStateFromStores(false);
         state.loadingTeamId = '';
+        state.error = null;
         this.state = state;
     }
 
@@ -48,9 +48,9 @@ export default class SelectTeam extends React.Component {
         TeamStore.removeChangeListener(this.onTeamChange);
     }
 
-    onTeamChange() {
+    onTeamChange = () => {
         this.setState(this.getStateFromStores(true));
-    }
+    };
 
     getStateFromStores(loaded) {
         return {
@@ -61,82 +61,113 @@ export default class SelectTeam extends React.Component {
         };
     }
 
-    handleTeamClick(team) {
+    handleTeamClick = (team) => {
         this.setState({loadingTeamId: team.id});
-    }
+
+        addUserToTeamFromInvite('', '', team.invite_id,
+            () => {
+                browserHistory.push(`/${team.name}/channels/town-square`);
+            },
+            (error) => {
+                this.setState({
+                    error,
+                    loadingTeamId: ''
+                });
+            }
+        );
+    };
+
+    clearError = (e) => {
+        e.preventDefault();
+
+        this.setState({
+            error: null
+        });
+    };
 
     teamContentsCompare(teamItemA, teamItemB) {
         return teamItemA.props.team.display_name.localeCompare(teamItemB.props.team.display_name);
     }
 
     render() {
-        let openTeamContents = [];
-        const isAlreadyMember = new Map();
         const isSystemAdmin = Utils.isSystemAdmin(UserStore.getCurrentUser().roles);
 
-        for (const teamMember of this.state.teamMembers) {
-            const teamId = teamMember.team_id;
-            isAlreadyMember[teamId] = true;
-        }
+        let openContent;
 
-        for (const id in this.state.teamListings) {
-            if (this.state.teamListings.hasOwnProperty(id) && !isAlreadyMember[id]) {
-                const openTeam = this.state.teamListings[id];
-                openTeamContents.push(
-                    <SelectTeamItem
-                        key={'team_' + openTeam.name}
-                        team={openTeam}
-                        onTeamClick={this.handleTeamClick}
-                        loading={this.state.loadingTeamId === openTeam.id}
-                    />
+        if (!this.state.loaded || this.state.loadingTeamId) {
+            openContent = <LoadingScreen/>;
+        } else if (this.state.error) {
+            openContent = (
+                <div className='signup__content'>
+                    <div className={'form-group has-error'}>
+                        <label className='control-label'>{this.state.error.message}</label>
+                    </div>
+                </div>
+            );
+        } else {
+            let openTeamContents = [];
+            const isAlreadyMember = new Map();
+
+            for (const teamMember of this.state.teamMembers) {
+                const teamId = teamMember.team_id;
+                isAlreadyMember[teamId] = true;
+            }
+
+            for (const id in this.state.teamListings) {
+                if (this.state.teamListings.hasOwnProperty(id) && !isAlreadyMember[id]) {
+                    const openTeam = this.state.teamListings[id];
+                    openTeamContents.push(
+                        <SelectTeamItem
+                            key={'team_' + openTeam.name}
+                            team={openTeam}
+                            onTeamClick={this.handleTeamClick}
+                            loading={this.state.loadingTeamId === openTeam.id}
+                        />
+                    );
+                }
+            }
+
+            if (openTeamContents.length === 0 && (global.window.mm_config.EnableTeamCreation === 'true' || isSystemAdmin)) {
+                openTeamContents = (
+                    <div className='signup-team-dir-err'>
+                        <div>
+                            <FormattedMessage
+                                id='signup_team.no_open_teams_canCreate'
+                                defaultMessage='No teams are available to join. Please create a new team or ask your administrator for an invite.'
+                            />
+                        </div>
+                    </div>
+                );
+            } else if (openTeamContents.length === 0) {
+                openTeamContents = (
+                    <div className='signup-team-dir-err'>
+                        <div>
+                            <FormattedMessage
+                                id='signup_team.no_open_teams'
+                                defaultMessage='No teams are available to join. Please ask your administrator for an invite.'
+                            />
+                        </div>
+                    </div>
                 );
             }
-        }
 
-        if (openTeamContents.length === 0 && (global.window.mm_config.EnableTeamCreation === 'true' || isSystemAdmin)) {
-            openTeamContents = (
-                <div className='signup-team-dir-err'>
-                    <div>
+            if (Array.isArray(openTeamContents)) {
+                openTeamContents = openTeamContents.sort(this.teamContentsCompare);
+            }
+
+            openContent = (
+                <div className='signup__content'>
+                    <h4>
                         <FormattedMessage
-                            id='signup_team.no_open_teams_canCreate'
-                            defaultMessage='No teams are available to join. Please create a new team or ask your administrator for an invite.'
+                            id='signup_team.join_open'
+                            defaultMessage='Teams you can join: '
                         />
+                    </h4>
+                    <div className='signup-team-all'>
+                        {openTeamContents}
                     </div>
                 </div>
             );
-        } else if (openTeamContents.length === 0) {
-            openTeamContents = (
-                <div className='signup-team-dir-err'>
-                    <div>
-                        <FormattedMessage
-                            id='signup_team.no_open_teams'
-                            defaultMessage='No teams are available to join. Please ask your administrator for an invite.'
-                        />
-                    </div>
-                </div>
-            );
-        }
-
-        if (Array.isArray(openTeamContents)) {
-            openTeamContents = openTeamContents.sort(this.teamContentsCompare);
-        }
-
-        let openContent = (
-            <div className='signup__content'>
-                <h4>
-                    <FormattedMessage
-                        id='signup_team.join_open'
-                        defaultMessage='Teams you can join: '
-                    />
-                </h4>
-                <div className='signup-team-all'>
-                    {openTeamContents}
-                </div>
-            </div>
-        );
-
-        if (!this.state.loaded || this.state.loadingTeamId !== '') {
-            openContent = <LoadingScreen/>;
         }
 
         let teamHelp = null;
@@ -199,14 +230,16 @@ export default class SelectTeam extends React.Component {
         }
 
         let headerButton;
-        if (this.state.teamMembers.length) {
-            headerButton = (<BackButton/>);
+        if (this.state.error) {
+            headerButton = <BackButton onClick={this.clearError}/>;
+        } else if (this.state.teamMembers.length) {
+            headerButton = <BackButton/>;
         } else {
             headerButton = (
                 <div className='signup-header'>
                     <a
                         href='#'
-                        onClick={() => GlobalActions.emitUserLoggedOutEvent()}
+                        onClick={GlobalActions.emitUserLoggedOutEvent}
                     >
                         <span className='fa fa-chevron-left'/>
                         <FormattedMessage id='web.header.logout'/>
