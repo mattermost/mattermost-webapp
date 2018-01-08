@@ -152,7 +152,12 @@ export default class CreatePost extends React.Component {
             /**
             *  func called for editing posts
             */
-            setEditingPost: PropTypes.func.isRequired
+            setEditingPost: PropTypes.func.isRequired,
+
+            /**
+             *  func called for opening the last replayable post in the RHS
+             */
+            selectPostFromRightHandSideSearchByPostId: PropTypes.func.isRequired
         }).isRequired
     }
 
@@ -565,14 +570,10 @@ export default class CreatePost extends React.Component {
     }
 
     handleKeyDown = (e) => {
-        const channelId = this.props.currentChannel.id;
         if (this.props.ctrlSend && e.keyCode === KeyCodes.ENTER && e.ctrlKey === true) {
             this.postMsgKeyPress(e);
             return;
         }
-
-        const latestReplyablePostId = this.props.latestReplyablePostId;
-        const lastPostEl = document.getElementById(`commentIcon_${channelId}_${latestReplyablePostId}`);
 
         if (!e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey && e.keyCode === KeyCodes.UP && this.state.message === '') {
             e.preventDefault();
@@ -589,15 +590,12 @@ export default class CreatePost extends React.Component {
                 type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
             }
             this.props.actions.setEditingPost(lastPost.id, this.props.commentCountForPost, '#post_textbox', type);
-        } else if (!e.ctrlKey && !e.metaKey && !e.altKey && e.shiftKey && e.keyCode === KeyCodes.UP && this.state.message === '' && lastPostEl) {
+        } else if (!e.ctrlKey && !e.metaKey && !e.altKey && e.shiftKey && e.keyCode === KeyCodes.UP && this.state.message === '') {
             e.preventDefault();
-            if (document.createEvent) {
-                const evt = document.createEvent('MouseEvents');
-                evt.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-                lastPostEl.dispatchEvent(evt);
-            } else if (document.createEventObject) {
-                const evObj = document.createEventObject();
-                lastPostEl.fireEvent('onclick', evObj);
+            const latestReplyablePostId = this.props.latestReplyablePostId;
+
+            if (latestReplyablePostId) {
+                this.props.actions.selectPostFromRightHandSideSearchByPostId(latestReplyablePostId);
             }
         }
 
