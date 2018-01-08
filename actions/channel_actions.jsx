@@ -103,7 +103,7 @@ export function executeCommand(message, args, success, error) {
             if (ChannelUtils.isFavoriteChannel(channel)) {
                 unmarkFavorite(channel.id);
             }
-            browserHistory.push(`${TeamStore.getCurrentTeamRelativeUrl()}/channels/town-square`);
+            browserHistory.push(`${TeamStore.getCurrentTeamRelativeUrl()}/channels/${Constants.DEFAULT_CHANNEL}`);
             return;
         }
         break;
@@ -378,7 +378,7 @@ export async function leaveChannel(channelId, success) {
         unmarkFavorite(channelId);
     }
 
-    const townsquare = ChannelStore.getByName('town-square');
+    const townsquare = ChannelStore.getByName(Constants.DEFAULT_CHANNEL);
     browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + townsquare.name);
 
     if (success) {

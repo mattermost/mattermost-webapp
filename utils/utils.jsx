@@ -146,9 +146,9 @@ export function notifyMe(title, body, channel, teamId, duration, silent) {
                             } else if (channel) {
                                 browserHistory.push(TeamStore.getTeamUrl(teamId) + '/channels/' + channel.name);
                             } else if (teamId) {
-                                browserHistory.push(TeamStore.getTeamUrl(teamId) + '/channels/town-square');
+                                browserHistory.push(TeamStore.getTeamUrl(teamId) + `/channels/${Constants.DEFAULT_CHANNEL}`);
                             } else {
-                                browserHistory.push(TeamStore.getCurrentTeamUrl() + '/channels/town-square');
+                                browserHistory.push(TeamStore.getCurrentTeamUrl() + `/channels/${Constants.DEFAULT_CHANNEL}`);
                             }
                         };
 

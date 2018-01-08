@@ -6,6 +6,8 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router';
 
+import {Constants} from 'utils/constants.jsx';
+
 export default class BackstageNavbar extends React.Component {
     static get propTypes() {
         return {
@@ -22,7 +24,7 @@ export default class BackstageNavbar extends React.Component {
             <div className='backstage-navbar'>
                 <Link
                     className='backstage-navbar__back'
-                    to={`/${this.props.team.name}/channels/town-square`}
+                    to={`/${this.props.team.name}/channels/${Constants.DEFAULT_CHANNEL}`}
                 >
                     <i className='fa fa-angle-left'/>
                     <span>

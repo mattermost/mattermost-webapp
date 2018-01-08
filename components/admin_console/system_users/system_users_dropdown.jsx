@@ -12,7 +12,7 @@ import {updateActive, revokeAllSessions} from 'actions/user_actions.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
-import Constants from 'utils/constants.jsx';
+import {Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {clientLogout} from 'actions/global_actions.jsx';
 
@@ -122,7 +122,7 @@ export default class SystemUsersDropdown extends React.Component {
         const teamUrl = TeamStore.getCurrentTeamUrl();
         if (teamUrl) {
             // the channel is added to the URL cause endless loading not being fully fixed
-            window.location.href = teamUrl + '/channels/town-square';
+            window.location.href = teamUrl + `/channels/${Constants.DEFAULT_CHANNEL}`;
         } else {
             window.location.href = '/';
         }

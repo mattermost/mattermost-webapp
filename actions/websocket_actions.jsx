@@ -391,7 +391,7 @@ function handleUserRemovedEvent(msg) {
 
         GlobalActions.emitCloseRightHandSide();
 
-        const townsquare = ChannelStore.getByName('town-square');
+        const townsquare = ChannelStore.getByName(Constants.DEFAULT_CHANNEL);
         browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + townsquare.name);
 
         dispatch({

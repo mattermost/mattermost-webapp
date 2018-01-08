@@ -463,7 +463,7 @@ export default class SidebarRightMenu extends React.Component {
                 <div className='team__header theme'>
                     <Link
                         className='team__name'
-                        to='/channels/town-square'
+                        to={`/channels/${Constants.DEFAULT_CHANNEL}`}
                     >
                         {teamDisplayName}
                     </Link>

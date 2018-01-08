@@ -11,6 +11,7 @@ import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
 import TeamInfoIcon from 'components/svg/team_info_icon';
 
 import * as Utils from 'utils/utils.jsx';
+import {Constants} from 'utils/constants.jsx';
 
 export default class SelectTeamItem extends React.PureComponent {
     static propTypes = {
@@ -22,7 +23,7 @@ export default class SelectTeamItem extends React.PureComponent {
     handleTeamClick = () => {
         addUserToTeamFromInvite('', '', this.props.team.invite_id,
             () => {
-                browserHistory.push(`/${this.props.team.name}/channels/town-square`);
+                browserHistory.push(`/${this.props.team.name}/channels/${Constants.DEFAULT_CHANNEL}`);
             }
         );
         this.props.onTeamClick(this.props.team);
