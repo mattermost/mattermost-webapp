@@ -300,7 +300,7 @@ export default {
                     getComponents: (location, callback) => {
                         Promise.all([
                             import('components/team_sidebar'),
-                            import('components/sidebar.jsx'),
+                            import('components/sidebar'),
                             import('components/channel_view')
                         ]).then((comarr) => {
                             callback(null, {
@@ -317,7 +317,7 @@ export default {
                     getComponents: (location, callback) => {
                         Promise.all([
                             import('components/team_sidebar'),
-                            import('components/sidebar.jsx'),
+                            import('components/sidebar'),
                             import('components/permalink_view.jsx')
                         ]).then((comarr) => {
                             callback(null, {
@@ -334,7 +334,7 @@ export default {
                     getComponents: (location, callback) => {
                         Promise.all([
                             import('components/team_sidebar'),
-                            import('components/sidebar.jsx'),
+                            import('components/sidebar'),
                             import('components/channel_view')
                         ]).then((comarr) => {
                             callback(null, {
@@ -350,7 +350,7 @@ export default {
                     getComponents: (location, callback) => {
                         Promise.all([
                             import('components/team_sidebar'),
-                            import('components/sidebar.jsx'),
+                            import('components/sidebar'),
                             import('components/tutorial/tutorial_view.jsx')
                         ]).then((comarr) => {
                             callback(null, {
