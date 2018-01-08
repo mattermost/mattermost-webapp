@@ -59,6 +59,11 @@ export default class PostInfo extends React.PureComponent {
          */
         isFirstReply: PropTypes.bool,
 
+        /**
+         * Set to render in mobile view
+         */
+        isMobile: PropTypes.bool,
+
         /*
          * Post identifiers for selenium tests
          */
@@ -156,11 +161,14 @@ export default class PostInfo extends React.PureComponent {
             return null;
         }
 
+        const isMobile = this.props.isMobile;
+
         let comments;
         let react;
 
         if (!isSystemMessage) {
-            if (this.props.hover || (!post.root_id && this.props.replyCount) || this.props.isFirstReply) {
+            if (isMobile || this.props.hover || (!post.root_id && this.props.replyCount) || this.props.isFirstReply) {
+                const extraClass = isMobile ? '' : 'pull-right';
                 comments = (
                     <CommentIcon
                         idPrefix='commentIcon'
@@ -168,7 +176,7 @@ export default class PostInfo extends React.PureComponent {
                         handleCommentClick={this.props.handleCommentClick}
                         commentCount={this.props.replyCount}
                         id={post.channel_id + '_' + post.id}
-                        extraClass='pull-right'
+                        extraClass={extraClass}
                     />
                 );
             }
@@ -197,7 +205,7 @@ export default class PostInfo extends React.PureComponent {
         }
 
         let dotMenu;
-        if (this.props.hover) {
+        if (isMobile || this.props.hover) {
             dotMenu = (
                 <DotMenu
                     idPrefix={Constants.CENTER}

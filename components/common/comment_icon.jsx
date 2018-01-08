@@ -51,7 +51,7 @@ export default class CommentIcon extends React.PureComponent {
         return (
             <button
                 id={id}
-                className={iconStyle + ' color--link style--none ' + selectorId + this.props.extraClass}
+                className={iconStyle + ' color--link style--none ' + selectorId + ' ' + this.props.extraClass}
                 onClick={this.props.handleCommentClick}
             >
                 <ReplyIcon className='comment-icon'/>

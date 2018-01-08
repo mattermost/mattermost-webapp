@@ -29,7 +29,19 @@ function renderJoinChannelMessage(post, options) {
     return (
         <FormattedMessage
             id='api.channel.join_channel.post_and_forget'
-            defaultMessage='{username} has joined the channel.'
+            defaultMessage='{username} joined the channel.'
+            values={{username}}
+        />
+    );
+}
+
+function renderJoinTeamMessage(post, options) {
+    const username = renderUsername(post.props.username, options);
+
+    return (
+        <FormattedMessage
+            id='api.team.join_team.post_and_forget'
+            defaultMessage='{username} joined the team.'
             values={{username}}
         />
     );
@@ -55,6 +67,22 @@ function renderAddToChannelMessage(post, options) {
         <FormattedMessage
             id='api.channel.add_member.added'
             defaultMessage='{addedUsername} added to the channel by {username}'
+            values={{
+                username,
+                addedUsername
+            }}
+        />
+    );
+}
+
+function renderAddToTeamMessage(post, options) {
+    const username = renderUsername(post.props.username, options);
+    const addedUsername = renderUsername(post.props.addedUsername, options);
+
+    return (
+        <FormattedMessage
+            id='api.team.add_member.added'
+            defaultMessage='{addedUsername} added to the team by {username}'
             values={{
                 username,
                 addedUsername
@@ -222,8 +250,10 @@ function renderChannelDeletedMessage(post, options) {
 
 const systemMessageRenderers = {
     [PostTypes.JOIN_CHANNEL]: renderJoinChannelMessage,
+    [PostTypes.JOIN_TEAM]: renderJoinTeamMessage,
     [PostTypes.LEAVE_CHANNEL]: renderLeaveChannelMessage,
     [PostTypes.ADD_TO_CHANNEL]: renderAddToChannelMessage,
+    [PostTypes.ADD_TO_TEAM]: renderAddToTeamMessage,
     [PostTypes.REMOVE_FROM_CHANNEL]: renderRemoveFromChannelMessage,
     [PostTypes.HEADER_CHANGE]: renderHeaderChangeMessage,
     [PostTypes.DISPLAYNAME_CHANGE]: renderDisplayNameChangeMessage,

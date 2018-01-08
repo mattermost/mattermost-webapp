@@ -75,9 +75,19 @@ function focusedPostId(state = '', action) {
     }
 }
 
+function mobileView(state = false, action) {
+    switch (action.type) {
+    case ActionTypes.UPDATE_MOBILE_VIEW:
+        return action.data;
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     postVisibility,
     lastChannelViewTime,
     loadingPosts,
-    focusedPostId
+    focusedPostId,
+    mobileView
 });

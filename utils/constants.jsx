@@ -109,6 +109,8 @@ export const ActionTypes = keyMirror({
     UPDATE_RHS_STATE: null,
     UPDATE_RHS_SEARCH_TERMS: null,
 
+    UPDATE_MOBILE_VIEW: null,
+
     SEARCH_FLAGGED_POSTS_REQUEST: null,
     SEARCH_FLAGGED_POSTS_SUCCESS: null,
     SEARCH_FLAGGED_POSTS_FAILURE: null,
@@ -279,6 +281,7 @@ export const SocketEvents = {
     DIRECT_ADDED: 'direct_added',
     NEW_USER: 'new_user',
     ADDED_TO_TEAM: 'added_to_team',
+    JOIN_TEAM: 'join_team',
     LEAVE_TEAM: 'leave_team',
     UPDATE_TEAM: 'update_team',
     USER_ADDED: 'user_added',
@@ -312,7 +315,10 @@ export const PostTypes = {
     JOIN_LEAVE: 'system_join_leave',
     JOIN_CHANNEL: 'system_join_channel',
     LEAVE_CHANNEL: 'system_leave_channel',
+    JOIN_TEAM: 'system_join_team',
+    LEAVE_TEAM: 'system_leave_team',
     ADD_TO_CHANNEL: 'system_add_to_channel',
+    ADD_TO_TEAM: 'system_add_to_team',
     REMOVE_FROM_CHANNEL: 'system_remove_from_channel',
     ADD_REMOVE: 'system_add_remove',
     HEADER_CHANGE: 'system_header_change',
@@ -428,7 +434,7 @@ export const Constants = {
 
     MAX_POST_VISIBILITY: 1000000,
 
-    IGNORE_POST_TYPES: [PostTypes.JOIN_LEAVE, PostTypes.JOIN_CHANNEL, PostTypes.LEAVE_CHANNEL, PostTypes.REMOVE_FROM_CHANNEL, PostTypes.ADD_TO_CHANNEL, PostTypes.ADD_REMOVE],
+    IGNORE_POST_TYPES: [PostTypes.JOIN_LEAVE, PostTypes.JOIN_TEAM, PostTypes.LEAVE_TEAM, PostTypes.JOIN_CHANNEL, PostTypes.LEAVE_CHANNEL, PostTypes.REMOVE_FROM_CHANNEL, PostTypes.ADD_REMOVE],
 
     PayloadSources: keyMirror({
         SERVER_ACTION: null,
@@ -547,8 +553,6 @@ export const Constants = {
     PRIVATE_CHANNEL: 'P',
     INVITE_TEAM: 'I',
     OPEN_TEAM: 'O',
-    SHOW_NEW_CHANNEL: 1,
-    SHOW_EDIT_URL: 2,
     MAX_POST_LEN: 4000,
     EMOJI_SIZE: 16,
     THEMES: {

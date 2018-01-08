@@ -11,6 +11,7 @@ import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {increasePostVisibility} from 'actions/post_actions.jsx';
+import {checkAndSetMobileView} from 'actions/views/channel';
 
 import {Preferences} from 'utils/constants.jsx';
 
@@ -48,7 +49,8 @@ function mapDispatchToProps(dispatch) {
             getPostsBefore,
             getPostsAfter,
             getPostThread,
-            increasePostVisibility
+            increasePostVisibility,
+            checkAndSetMobileView
         }, dispatch)
     };
 }

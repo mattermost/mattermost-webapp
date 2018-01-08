@@ -123,7 +123,8 @@ function makeChannelSearchFilter(channelPrefix) {
         let searchString = channel.display_name;
 
         if (channel.type === Constants.GM_CHANNEL || channel.type === Constants.DM_CHANNEL) {
-            for (const userId of usersInChannels[channel.id]) {
+            const usersInChannel = usersInChannels[channel.id] || [];
+            for (const userId of usersInChannel) {
                 let userString = userSearchStrings[userId];
 
                 if (!userString) {

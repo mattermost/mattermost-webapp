@@ -20,7 +20,7 @@ module Mattermost
           next unless glyph_name =~ /\.[1-5]($|\.)/
         end
         matches = glyph_name_to_emoji(glyph_name)
-        next unless matches && (matches.include?(emoji) || matches.include?(emoji + "\u{fe0f 200d 2642}"))
+        next unless matches && (matches.include?(emoji) || matches.include?(emoji + "\u{fe0f 200d 2640}"))
         return binread.call
       end
       nil
