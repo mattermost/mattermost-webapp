@@ -48,7 +48,10 @@ export default class SearchBar extends React.Component {
     componentDidMount() {
         if (Utils.isMobile()) {
             setTimeout(() => {
-                document.querySelector('.app__body .sidebar--menu').classList.remove('visible');
+                const element = document.querySelector('.app__body .sidebar--menu');
+                if (element) {
+                    element.classList.remove('visible');
+                }
             });
         }
     }
