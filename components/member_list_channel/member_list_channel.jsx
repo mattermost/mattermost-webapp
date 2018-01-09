@@ -14,6 +14,7 @@ import UserStore from 'stores/user_store.jsx';
 
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
+import * as Utils from 'utils/utils.jsx';
 
 import ChannelMembersDropdown from 'components/channel_members_dropdown';
 import SearchableUserList from 'components/searchable_user_list/searchable_user_list_container.jsx';
@@ -33,7 +34,7 @@ export default class MemberListChannel extends React.Component {
 
         this.onChange = this.onChange.bind(this);
         this.onStatsChange = this.onStatsChange.bind(this);
-        this.search = this.search.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
         this.loadComplete = this.loadComplete.bind(this);
 
         this.searchTimeoutId = 0;
@@ -46,7 +47,9 @@ export default class MemberListChannel extends React.Component {
             teamMembers: Object.assign({}, TeamStore.getMembersInTeam()),
             channelMembers: Object.assign({}, ChannelStore.getMembersInChannel()),
             total: stats.member_count,
-            loading: true
+            loading: true,
+            actionUserProps: {},
+            usersToDisplay: []
         };
     }
 
@@ -69,6 +72,65 @@ export default class MemberListChannel extends React.Component {
         ChannelStore.removeStatsChangeListener(this.onStatsChange);
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        if (nextState.loading !== this.state.loading) {
+            return true;
+        }
+
+        if (nextState.total !== this.state.total) {
+            return true;
+        }
+
+        if (!Utils.areObjectsEqual(nextState.usersToDisplay, this.state.usersToDisplay)) {
+            return true;
+        }
+
+        if (!Utils.areObjectsEqual(nextState.actionUserProps, this.state.actionUserProps)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    componentWillUpdate(_, nextState) {
+        if (!nextState.loading) {
+            const {
+                users,
+                teamMembers,
+                channelMembers
+            } = nextState;
+
+            this.setUsersDisplayAndActionProps(users, teamMembers, channelMembers);
+        }
+    }
+
+    setUsersDisplayAndActionProps(users, teamMembers, channelMembers) {
+        const actionUserProps = {};
+        const usersToDisplay = [];
+
+        for (let i = 0; i < users.length; i++) {
+            const user = users[i];
+
+            if (teamMembers[user.id] && channelMembers[user.id] && user.delete_at === 0) {
+                const status = UserStore.getStatus(user.id);
+                usersToDisplay.push({...user, status});
+
+                actionUserProps[user.id] = {
+                    channel: this.props.channel,
+                    teamMember: teamMembers[user.id],
+                    channelMember: channelMembers[user.id]
+                };
+            }
+        }
+
+        usersToDisplay.sort(Utils.sortUsersByStatusAndDisplayName);
+
+        this.setState({
+            usersToDisplay,
+            actionUserProps
+        });
+    }
+
     loadComplete() {
         this.setState({loading: false});
     }
@@ -81,11 +143,16 @@ export default class MemberListChannel extends React.Component {
             users = UserStore.getProfileListInChannel(ChannelStore.getCurrentId(), false, true);
         }
 
+        const teamMembers = Object.assign({}, TeamStore.getMembersInTeam());
+        const channelMembers = Object.assign({}, ChannelStore.getMembersInChannel());
+
         this.setState({
             users,
-            teamMembers: Object.assign({}, TeamStore.getMembersInTeam()),
-            channelMembers: Object.assign({}, ChannelStore.getMembersInChannel())
+            teamMembers,
+            channelMembers
         });
+
+        this.setUsersDisplayAndActionProps(users, teamMembers, channelMembers);
     }
 
     onStatsChange() {
@@ -97,7 +164,7 @@ export default class MemberListChannel extends React.Component {
         loadProfilesAndTeamMembersAndChannelMembers(page + 1, USERS_PER_PAGE);
     }
 
-    search(term) {
+    handleSearch(term) {
         clearTimeout(this.searchTimeoutId);
         this.term = term;
 
@@ -129,40 +196,15 @@ export default class MemberListChannel extends React.Component {
     }
 
     render() {
-        const teamMembers = this.state.teamMembers;
-        const channelMembers = this.state.channelMembers;
-        const users = this.state.users;
-        const actionUserProps = {};
-
-        let usersToDisplay;
-        if (this.state.loading) {
-            usersToDisplay = null;
-        } else {
-            usersToDisplay = [];
-
-            for (let i = 0; i < users.length; i++) {
-                const user = users[i];
-
-                if (teamMembers[user.id] && channelMembers[user.id] && user.delete_at === 0) {
-                    usersToDisplay.push(user);
-                    actionUserProps[user.id] = {
-                        channel: this.props.channel,
-                        teamMember: teamMembers[user.id],
-                        channelMember: channelMembers[user.id]
-                    };
-                }
-            }
-        }
-
         return (
             <SearchableUserList
-                users={usersToDisplay}
+                users={this.state.usersToDisplay}
                 usersPerPage={USERS_PER_PAGE}
                 total={this.state.total}
                 nextPage={this.nextPage}
-                search={this.search}
+                search={this.handleSearch}
                 actions={[ChannelMembersDropdown]}
-                actionUserProps={actionUserProps}
+                actionUserProps={this.state.actionUserProps}
                 focusOnMount={!UserAgent.isMobile()}
             />
         );
