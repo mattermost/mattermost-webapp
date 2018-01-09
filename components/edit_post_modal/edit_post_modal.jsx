@@ -38,11 +38,6 @@ export default class EditPostModal extends React.PureComponent {
         config: PropTypes.object.isRequired,
 
         /**
-         * Global license object
-         */
-        license: PropTypes.object.isRequired,
-
-        /**
          * Editing post information
          */
         editingPost: PropTypes.object.isRequired,
