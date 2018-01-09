@@ -25,6 +25,8 @@ import bing from 'images/bing.mp3';
 import icon50 from 'images/icon50x50.png';
 import iconWS from 'images/icon_WS.png';
 
+import {getSiteURL} from 'utils/url';
+
 export function isEmail(email) {
     // writing a regex to match all valid email addresses is really, really hard. (see http://stackoverflow.com/a/201378)
     // this regex ensures:
@@ -1520,4 +1522,25 @@ export function getEmailInterval(isEmailEnabled) {
     }
 
     return emailInterval;
+}
+
+export function copyToClipboard(e, data) {
+    // creates a tiny temporary text area to copy text out of
+    // see https://stackoverflow.com/a/30810322/591374 for details
+    var textArea = document.createElement('textarea');
+    textArea.style.position = 'fixed';
+    textArea.style.top = 0;
+    textArea.style.left = 0;
+    textArea.style.width = '2em';
+    textArea.style.height = '2em';
+    textArea.style.padding = 0;
+    textArea.style.border = 'none';
+    textArea.style.outline = 'none';
+    textArea.style.boxShadow = 'none';
+    textArea.style.background = 'transparent';
+    textArea.value = getSiteURL() + data.link;
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textArea);
 }

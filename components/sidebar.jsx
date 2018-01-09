@@ -8,7 +8,6 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import {browserHistory, Link} from 'react-router';
-import {ContextMenu, MenuItem, ContextMenuTrigger} from 'react-contextmenu';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getChannelsByCategory} from 'mattermost-redux/selectors/entities/channels';
@@ -32,7 +31,6 @@ import {
     TutorialSteps
 } from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {getSiteURL} from 'utils/url.jsx';
 import {isDesktopApp} from 'utils/user_agent.jsx';
 
 import favicon from 'images/favicon/favicon-16x16.png';
@@ -49,6 +47,7 @@ import SidebarHeader from 'components/sidebar_header.jsx';
 import StatusIcon from 'components/status_icon.jsx';
 import TutorialTip from 'components/tutorial/tutorial_tip.jsx';
 import UnreadChannelIndicator from 'components/unread_channel_indicator.jsx';
+import CopyUrlContextMenu from 'components/copy_url_context_menu';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -684,27 +683,6 @@ export default class Sidebar extends React.Component {
         );
     }
 
-    copyURLToClipboard = (e, data) => {
-        // creates a tiny temporary text area to copy text out of
-        // see https://stackoverflow.com/a/30810322/591374 for details
-        var textArea = document.createElement('textarea');
-        textArea.style.position = 'fixed';
-        textArea.style.top = 0;
-        textArea.style.left = 0;
-        textArea.style.width = '2em';
-        textArea.style.height = '2em';
-        textArea.style.padding = 0;
-        textArea.style.border = 'none';
-        textArea.style.outline = 'none';
-        textArea.style.boxShadow = 'none';
-        textArea.style.background = 'transparent';
-        textArea.value = getSiteURL() + data.link;
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textArea);
-    }
-
     createChannelButtonOrLink(channel, rowClass, icon, displayName, badge, closeButton) {
         let link = '';
         if (channel.fake) {
@@ -715,39 +693,22 @@ export default class Sidebar extends React.Component {
 
         let element;
         if (isDesktopApp()) {
-            const contextMenu = (
-                <ContextMenu id={'lhs-channel-context-click-menu' + channel.id}>
-                    <MenuItem
-                        data={{link}}
-                        onClick={this.copyURLToClipboard}
-                    >
-                        <FormattedMessage
-                            id='sidebar_right_context.getChannelLink'
-                            defaultMessage='Copy Link'
-                        />
-                    </MenuItem>
-                </ContextMenu>
-            );
-
-            const contextMenuTrigger = (
-                <ContextMenuTrigger id={'lhs-channel-context-click-menu' + channel.id}>
-                    <button
-                        className={'btn btn-link ' + rowClass}
-                        onClick={() => this.handleClick(link)}
-                    >
-                        {icon}
-                        <span className='sidebar-item__name'>{displayName}</span>
-                        {badge}
-                        {closeButton}
-                    </button>
-                </ContextMenuTrigger>
-            );
-
             element = (
-                <span>
-                    {contextMenu}
-                    {contextMenuTrigger}
-                </span>
+                <CopyUrlContextMenu
+                    child={(
+                        <button
+                            className={'btn btn-link ' + rowClass}
+                            onClick={() => this.handleClick(link)}
+                        >
+                            {icon}
+                            <span className='sidebar-item__name'>{displayName}</span>
+                            {badge}
+                            {closeButton}
+                        </button>
+                    )}
+                    link={link}
+                    menuId={channel.id}
+                />
             );
         } else {
             element = (
