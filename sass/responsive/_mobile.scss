@@ -1049,6 +1049,7 @@
     .search-bar__container {
         @include flex(0 0 50px);
         background: $primary-color;
+        color: $white;
         padding: 0;
 
         .search-form__container {
@@ -1059,6 +1060,7 @@
         .search__form {
             @include single-transition(all, .2s, linear);
             @include translateX(0);
+            background: $white;
             border: none;
             margin-top: 9px;
             width: 100%;
