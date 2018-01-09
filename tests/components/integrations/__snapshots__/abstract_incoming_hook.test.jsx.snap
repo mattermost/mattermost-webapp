@@ -135,6 +135,76 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
         </div>
       </div>
       <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+          htmlFor="username"
+        >
+          <FormattedMessage
+            defaultMessage="Username"
+            id="add_incoming_webhook.username"
+            values={Object {}}
+          />
+        </label>
+        <div
+          className="col-md-5 col-sm-8"
+        >
+          <input
+            className="form-control"
+            id="username"
+            maxLength="22"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <div
+            className="form__help"
+          >
+            <FormattedMessage
+              defaultMessage="Choose the username this integration will post as. Usernames can be up to 22 characters, and may contain lowercase letters, numbers and the symbols \\"-\\", \\"_\\", and \\".\\"."
+              id="add_incoming_webhook.username.help"
+              values={Object {}}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+          htmlFor="iconURL"
+        >
+          <FormattedMessage
+            defaultMessage="Profile Picture"
+            id="add_incoming_webhook.icon_url"
+            values={Object {}}
+          />
+        </label>
+        <div
+          className="col-md-5 col-sm-8"
+        >
+          <input
+            className="form-control"
+            id="iconURL"
+            maxLength="1024"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <div
+            className="form__help"
+          >
+            <FormattedMessage
+              defaultMessage="Choose the profile picture this integration will use when posting. Enter the URL of a .png or .jpg file at least 128 pixels by 128 pixels."
+              id="add_incoming_webhook.icon_url.help"
+              values={Object {}}
+            />
+          </div>
+        </div>
+      </div>
+      <div
         className="backstage-form__footer"
       >
         <FormError
@@ -306,6 +376,76 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
             <FormattedMessage
               defaultMessage="Public or private channel that receives the webhook payloads. You must belong to the private channel when setting up the webhook."
               id="add_incoming_webhook.channel.help"
+              values={Object {}}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+          htmlFor="username"
+        >
+          <FormattedMessage
+            defaultMessage="Username"
+            id="add_incoming_webhook.username"
+            values={Object {}}
+          />
+        </label>
+        <div
+          className="col-md-5 col-sm-8"
+        >
+          <input
+            className="form-control"
+            id="username"
+            maxLength="22"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <div
+            className="form__help"
+          >
+            <FormattedMessage
+              defaultMessage="Choose the username this integration will post as. Usernames can be up to 22 characters, and may contain lowercase letters, numbers and the symbols \\"-\\", \\"_\\", and \\".\\"."
+              id="add_incoming_webhook.username.help"
+              values={Object {}}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+          htmlFor="iconURL"
+        >
+          <FormattedMessage
+            defaultMessage="Profile Picture"
+            id="add_incoming_webhook.icon_url"
+            values={Object {}}
+          />
+        </label>
+        <div
+          className="col-md-5 col-sm-8"
+        >
+          <input
+            className="form-control"
+            id="iconURL"
+            maxLength="1024"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <div
+            className="form__help"
+          >
+            <FormattedMessage
+              defaultMessage="Choose the profile picture this integration will use when posting. Enter the URL of a .png or .jpg file at least 128 pixels by 128 pixels."
+              id="add_incoming_webhook.icon_url.help"
               values={Object {}}
             />
           </div>
@@ -489,6 +629,76 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
         </div>
       </div>
       <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+          htmlFor="username"
+        >
+          <FormattedMessage
+            defaultMessage="Username"
+            id="add_incoming_webhook.username"
+            values={Object {}}
+          />
+        </label>
+        <div
+          className="col-md-5 col-sm-8"
+        >
+          <input
+            className="form-control"
+            id="username"
+            maxLength="22"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <div
+            className="form__help"
+          >
+            <FormattedMessage
+              defaultMessage="Choose the username this integration will post as. Usernames can be up to 22 characters, and may contain lowercase letters, numbers and the symbols \\"-\\", \\"_\\", and \\".\\"."
+              id="add_incoming_webhook.username.help"
+              values={Object {}}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+          htmlFor="iconURL"
+        >
+          <FormattedMessage
+            defaultMessage="Profile Picture"
+            id="add_incoming_webhook.icon_url"
+            values={Object {}}
+          />
+        </label>
+        <div
+          className="col-md-5 col-sm-8"
+        >
+          <input
+            className="form-control"
+            id="iconURL"
+            maxLength="1024"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <div
+            className="form__help"
+          >
+            <FormattedMessage
+              defaultMessage="Choose the profile picture this integration will use when posting. Enter the URL of a .png or .jpg file at least 128 pixels by 128 pixels."
+              id="add_incoming_webhook.icon_url.help"
+              values={Object {}}
+            />
+          </div>
+        </div>
+      </div>
+      <div
         className="backstage-form__footer"
       >
         <FormError
@@ -501,6 +711,430 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
                 id="add_incoming_webhook.channelRequired"
                 values={Object {}}
               />,
+            ]
+          }
+          type="backstage"
+        />
+        <Link
+          className="btn btn-sm"
+          onlyActiveOnIndex={false}
+          style={Object {}}
+          to="/team_name/integrations/incoming_webhooks"
+        >
+          <FormattedMessage
+            defaultMessage="Cancel"
+            id="add_incoming_webhook.cancel"
+            values={Object {}}
+          />
+        </Link>
+        <SpinnerButton
+          className="btn btn-primary"
+          onClick={[Function]}
+          spinning={false}
+          type="submit"
+        >
+          <FormattedMessage
+            defaultMessage="Footer"
+            id="footer_id"
+            values={Object {}}
+          />
+        </SpinnerButton>
+      </div>
+    </form>
+  </div>
+</div>
+`;
+
+exports[`components/integrations/AbstractIncomingWebhook should match snapshot, hiding post icon url if not enabled 1`] = `
+<div
+  className="backstage-content"
+>
+  <BackstageHeader>
+    <Link
+      onlyActiveOnIndex={false}
+      style={Object {}}
+      to="/team_name/integrations/incoming_webhooks"
+    >
+      <FormattedMessage
+        defaultMessage="Incoming Webhooks"
+        id="installed_incoming_webhooks.header"
+        values={Object {}}
+      />
+    </Link>
+    <FormattedMessage
+      defaultMessage="Header"
+      id="header_id"
+      values={Object {}}
+    />
+  </BackstageHeader>
+  <div
+    className="backstage-form"
+  >
+    <form
+      className="form-horizontal"
+      onSubmit={[Function]}
+    >
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+          htmlFor="displayName"
+        >
+          <FormattedMessage
+            defaultMessage="Title"
+            id="add_incoming_webhook.displayName"
+            values={Object {}}
+          />
+        </label>
+        <div
+          className="col-md-5 col-sm-8"
+        >
+          <input
+            className="form-control"
+            id="displayName"
+            maxLength="64"
+            onChange={[Function]}
+            type="text"
+            value="testIncomingWebhook"
+          />
+          <div
+            className="form__help"
+          >
+            <FormattedMessage
+              defaultMessage="Choose a title to be displayed on the webhook settings page. Maximum 64 characters."
+              id="add_incoming_webhook.displayName.help"
+              values={Object {}}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+          htmlFor="description"
+        >
+          <FormattedMessage
+            defaultMessage="Description"
+            id="add_incoming_webhook.description"
+            values={Object {}}
+          />
+        </label>
+        <div
+          className="col-md-5 col-sm-8"
+        >
+          <input
+            className="form-control"
+            id="description"
+            maxLength="128"
+            onChange={[Function]}
+            type="text"
+            value="testing"
+          />
+          <div
+            className="form__help"
+          >
+            <FormattedMessage
+              defaultMessage="Description for your incoming webhook."
+              id="add_incoming_webhook.description.help"
+              values={Object {}}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+          htmlFor="channelId"
+        >
+          <FormattedMessage
+            defaultMessage="Channel"
+            id="add_incoming_webhook.channel"
+            values={Object {}}
+          />
+        </label>
+        <div
+          className="col-md-5 col-sm-8"
+        >
+          <ChannelSelect
+            id="channelId"
+            onChange={[Function]}
+            selectDm={false}
+            selectOpen={true}
+            selectPrivate={true}
+            value="88cxd9wpzpbpfp8pad78xj75pr"
+          />
+          <div
+            className="form__help"
+          >
+            <FormattedMessage
+              defaultMessage="Public or private channel that receives the webhook payloads. You must belong to the private channel when setting up the webhook."
+              id="add_incoming_webhook.channel.help"
+              values={Object {}}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+          htmlFor="username"
+        >
+          <FormattedMessage
+            defaultMessage="Username"
+            id="add_incoming_webhook.username"
+            values={Object {}}
+          />
+        </label>
+        <div
+          className="col-md-5 col-sm-8"
+        >
+          <input
+            className="form-control"
+            id="username"
+            maxLength="22"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <div
+            className="form__help"
+          >
+            <FormattedMessage
+              defaultMessage="Choose the username this integration will post as. Usernames can be up to 22 characters, and may contain lowercase letters, numbers and the symbols \\"-\\", \\"_\\", and \\".\\"."
+              id="add_incoming_webhook.username.help"
+              values={Object {}}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="backstage-form__footer"
+      >
+        <FormError
+          error={null}
+          errors={
+            Array [
+              "",
+              null,
+            ]
+          }
+          type="backstage"
+        />
+        <Link
+          className="btn btn-sm"
+          onlyActiveOnIndex={false}
+          style={Object {}}
+          to="/team_name/integrations/incoming_webhooks"
+        >
+          <FormattedMessage
+            defaultMessage="Cancel"
+            id="add_incoming_webhook.cancel"
+            values={Object {}}
+          />
+        </Link>
+        <SpinnerButton
+          className="btn btn-primary"
+          onClick={[Function]}
+          spinning={false}
+          type="submit"
+        >
+          <FormattedMessage
+            defaultMessage="Footer"
+            id="footer_id"
+            values={Object {}}
+          />
+        </SpinnerButton>
+      </div>
+    </form>
+  </div>
+</div>
+`;
+
+exports[`components/integrations/AbstractIncomingWebhook should match snapshot, hiding post username if not enabled 1`] = `
+<div
+  className="backstage-content"
+>
+  <BackstageHeader>
+    <Link
+      onlyActiveOnIndex={false}
+      style={Object {}}
+      to="/team_name/integrations/incoming_webhooks"
+    >
+      <FormattedMessage
+        defaultMessage="Incoming Webhooks"
+        id="installed_incoming_webhooks.header"
+        values={Object {}}
+      />
+    </Link>
+    <FormattedMessage
+      defaultMessage="Header"
+      id="header_id"
+      values={Object {}}
+    />
+  </BackstageHeader>
+  <div
+    className="backstage-form"
+  >
+    <form
+      className="form-horizontal"
+      onSubmit={[Function]}
+    >
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+          htmlFor="displayName"
+        >
+          <FormattedMessage
+            defaultMessage="Title"
+            id="add_incoming_webhook.displayName"
+            values={Object {}}
+          />
+        </label>
+        <div
+          className="col-md-5 col-sm-8"
+        >
+          <input
+            className="form-control"
+            id="displayName"
+            maxLength="64"
+            onChange={[Function]}
+            type="text"
+            value="testIncomingWebhook"
+          />
+          <div
+            className="form__help"
+          >
+            <FormattedMessage
+              defaultMessage="Choose a title to be displayed on the webhook settings page. Maximum 64 characters."
+              id="add_incoming_webhook.displayName.help"
+              values={Object {}}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+          htmlFor="description"
+        >
+          <FormattedMessage
+            defaultMessage="Description"
+            id="add_incoming_webhook.description"
+            values={Object {}}
+          />
+        </label>
+        <div
+          className="col-md-5 col-sm-8"
+        >
+          <input
+            className="form-control"
+            id="description"
+            maxLength="128"
+            onChange={[Function]}
+            type="text"
+            value="testing"
+          />
+          <div
+            className="form__help"
+          >
+            <FormattedMessage
+              defaultMessage="Description for your incoming webhook."
+              id="add_incoming_webhook.description.help"
+              values={Object {}}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+          htmlFor="channelId"
+        >
+          <FormattedMessage
+            defaultMessage="Channel"
+            id="add_incoming_webhook.channel"
+            values={Object {}}
+          />
+        </label>
+        <div
+          className="col-md-5 col-sm-8"
+        >
+          <ChannelSelect
+            id="channelId"
+            onChange={[Function]}
+            selectDm={false}
+            selectOpen={true}
+            selectPrivate={true}
+            value="88cxd9wpzpbpfp8pad78xj75pr"
+          />
+          <div
+            className="form__help"
+          >
+            <FormattedMessage
+              defaultMessage="Public or private channel that receives the webhook payloads. You must belong to the private channel when setting up the webhook."
+              id="add_incoming_webhook.channel.help"
+              values={Object {}}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+          htmlFor="iconURL"
+        >
+          <FormattedMessage
+            defaultMessage="Profile Picture"
+            id="add_incoming_webhook.icon_url"
+            values={Object {}}
+          />
+        </label>
+        <div
+          className="col-md-5 col-sm-8"
+        >
+          <input
+            className="form-control"
+            id="iconURL"
+            maxLength="1024"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <div
+            className="form__help"
+          >
+            <FormattedMessage
+              defaultMessage="Choose the profile picture this integration will use when posting. Enter the URL of a .png or .jpg file at least 128 pixels by 128 pixels."
+              id="add_incoming_webhook.icon_url.help"
+              values={Object {}}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="backstage-form__footer"
+      >
+        <FormError
+          error={null}
+          errors={
+            Array [
+              "",
+              null,
             ]
           }
           type="backstage"
@@ -664,6 +1298,76 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
             <FormattedMessage
               defaultMessage="Public or private channel that receives the webhook payloads. You must belong to the private channel when setting up the webhook."
               id="add_incoming_webhook.channel.help"
+              values={Object {}}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+          htmlFor="username"
+        >
+          <FormattedMessage
+            defaultMessage="Username"
+            id="add_incoming_webhook.username"
+            values={Object {}}
+          />
+        </label>
+        <div
+          className="col-md-5 col-sm-8"
+        >
+          <input
+            className="form-control"
+            id="username"
+            maxLength="22"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <div
+            className="form__help"
+          >
+            <FormattedMessage
+              defaultMessage="Choose the username this integration will post as. Usernames can be up to 22 characters, and may contain lowercase letters, numbers and the symbols \\"-\\", \\"_\\", and \\".\\"."
+              id="add_incoming_webhook.username.help"
+              values={Object {}}
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+          htmlFor="iconURL"
+        >
+          <FormattedMessage
+            defaultMessage="Profile Picture"
+            id="add_incoming_webhook.icon_url"
+            values={Object {}}
+          />
+        </label>
+        <div
+          className="col-md-5 col-sm-8"
+        >
+          <input
+            className="form-control"
+            id="iconURL"
+            maxLength="1024"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <div
+            className="form__help"
+          >
+            <FormattedMessage
+              defaultMessage="Choose the profile picture this integration will use when posting. Enter the URL of a .png or .jpg file at least 128 pixels by 128 pixels."
+              id="add_incoming_webhook.icon_url.help"
               values={Object {}}
             />
           </div>

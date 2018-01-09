@@ -23,6 +23,16 @@ export default class AddIncomingWebhook extends React.PureComponent {
         */
         createIncomingHookRequest: PropTypes.object.isRequired,
 
+        /**
+        * Whether to allow configuration of the default post username.
+        */
+        enablePostUsernameOverride: PropTypes.bool.isRequired,
+
+        /**
+        * Whether to allow configuration of the default post icon.
+        */
+        enablePostIconOverride: PropTypes.bool.isRequired,
+
         actions: PropTypes.shape({
 
             /**
@@ -60,6 +70,8 @@ export default class AddIncomingWebhook extends React.PureComponent {
                 team={this.props.team}
                 header={HEADER}
                 footer={FOOTER}
+                enablePostUsernameOverride={this.props.enablePostUsernameOverride}
+                enablePostIconOverride={this.props.enablePostIconOverride}
                 action={this.addIncomingHook}
                 serverError={this.state.serverError}
             />
