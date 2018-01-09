@@ -34,6 +34,21 @@ export default class EditIncomingWebhook extends React.PureComponent {
         */
         updateIncomingHookRequest: PropTypes.object.isRequired,
 
+        /**
+        * Whether or not incoming webhooks are enabled.
+        */
+        enableIncomingWebhooks: PropTypes.bool.isRequired,
+
+        /**
+        * Whether to allow configuration of the default post username.
+        */
+        enablePostUsernameOverride: PropTypes.bool.isRequired,
+
+        /**
+        * Whether to allow configuration of the default post icon.
+        */
+        enablePostIconOverride: PropTypes.bool.isRequired,
+
         actions: PropTypes.shape({
 
             /**
@@ -58,7 +73,7 @@ export default class EditIncomingWebhook extends React.PureComponent {
     }
 
     componentDidMount() {
-        if (window.mm_config.EnableIncomingWebhooks === 'true') {
+        if (this.props.enableIncomingWebhooks) {
             this.props.actions.getIncomingHook(this.props.hookId);
         }
     }
@@ -102,6 +117,8 @@ export default class EditIncomingWebhook extends React.PureComponent {
                 team={this.props.team}
                 header={HEADER}
                 footer={FOOTER}
+                enablePostUsernameOverride={this.props.enablePostUsernameOverride}
+                enablePostIconOverride={this.props.enablePostIconOverride}
                 action={this.editIncomingHook}
                 serverError={this.state.serverError}
                 initialHook={this.props.hook}

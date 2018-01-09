@@ -10,12 +10,19 @@ import EditIncomingWebhook from './edit_incoming_webhook.jsx';
 
 function mapStateToProps(state, ownProps) {
     const hookId = ownProps.location.query.id;
+    const config = state.entities.general.config;
+    const enableIncomingWebhooks = config.EnableIncomingWebhooks === 'true';
+    const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
+    const enablePostIconOverride = config.EnablePostIconOverride === 'true';
 
     return {
         ...ownProps,
         hookId,
         hook: state.entities.integrations.incomingHooks[hookId],
-        updateIncomingHookRequest: state.requests.integrations.createIncomingHook
+        updateIncomingHookRequest: state.requests.integrations.updateIncomingHook,
+        enableIncomingWebhooks,
+        enablePostUsernameOverride,
+        enablePostIconOverride
     };
 }
 
