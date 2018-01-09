@@ -123,7 +123,7 @@ function renderRemoveFromTeamMessage(post, options) {
     return (
         <FormattedMessage
             id='api.team.remove_user_from_team.removed'
-            defaultMessage='{removedUsername} was removed from the team."'
+            defaultMessage='{removedUsername} was removed from the team.'
             values={{
                 removedUsername
             }}
