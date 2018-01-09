@@ -152,6 +152,11 @@ export default class PostInfo extends React.PureComponent {
         this.props.handleDropdownOpened(false);
     }
 
+    handleDotMenuOpened = (open) => {
+        this.setState({showDotMenu: open});
+        this.props.handleDropdownOpened(open);
+    }
+
     getDotMenu = () => {
         return this.refs.dotMenu;
     };
@@ -162,12 +167,13 @@ export default class PostInfo extends React.PureComponent {
         }
 
         const isMobile = this.props.isMobile;
+        const hover = this.props.hover || this.state.showEmojiPicker || this.state.showDotMenu;
 
         let comments;
         let react;
 
         if (!isSystemMessage) {
-            if (isMobile || this.props.hover || (!post.root_id && this.props.replyCount) || this.props.isFirstReply) {
+            if (isMobile || hover || (!post.root_id && this.props.replyCount) || this.props.isFirstReply) {
                 const extraClass = isMobile ? '' : 'pull-right';
                 comments = (
                     <CommentIcon
@@ -181,7 +187,7 @@ export default class PostInfo extends React.PureComponent {
                 );
             }
 
-            if (this.props.hover && window.mm_config.EnableEmojiPicker === 'true') {
+            if (hover && window.mm_config.EnableEmojiPicker === 'true') {
                 react = (
                     <span>
                         <EmojiPickerOverlay
@@ -205,7 +211,7 @@ export default class PostInfo extends React.PureComponent {
         }
 
         let dotMenu;
-        if (isMobile || this.props.hover) {
+        if (isMobile || hover) {
             dotMenu = (
                 <DotMenu
                     idPrefix={Constants.CENTER}
@@ -214,7 +220,7 @@ export default class PostInfo extends React.PureComponent {
                     commentCount={this.props.replyCount}
                     isFlagged={this.props.isFlagged}
                     handleCommentClick={this.props.handleCommentClick}
-                    handleDropdownOpened={this.props.handleDropdownOpened}
+                    handleDropdownOpened={this.handleDotMenuOpened}
                 />
             );
         }

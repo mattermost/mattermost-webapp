@@ -829,7 +829,11 @@ export function changeCss(className, classValue) {
     if (className.indexOf('@media') >= 0) {
         mediaQuery = '}';
     }
-    styleSheet.insertRule(className + '{' + classValue + '}' + mediaQuery, styleSheet.cssRules.length);
+    try {
+        styleSheet.insertRule(className + '{' + classValue + '}' + mediaQuery, styleSheet.cssRules.length);
+    } catch (e) {
+        console.error(e); // eslint-disable-line no-console
+    }
 }
 
 export function updateCodeTheme(userTheme) {
