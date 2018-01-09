@@ -23,6 +23,12 @@ export default class StatusDropdown extends React.Component {
         }).isRequired
     }
 
+    static defaultProps = {
+        userId: '',
+        profilePicture: '',
+        status: UserStatuses.OFFLINE
+    }
+
     state = {
         showDropdown: false
     }
