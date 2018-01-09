@@ -1161,7 +1161,7 @@ export function imageURLForUser(userIdOrObject) {
         if (profile) {
             return imageURLForUser(profile);
         }
-        return Client4.getUsersRoute() + '/' + userIdOrObject + '/image?_=0';
+        return Constants.TRANSPARENT_PIXEL;
     }
     return Client4.getUsersRoute() + '/' + userIdOrObject.id + '/image?_=' + (userIdOrObject.last_picture_update || 0);
 }

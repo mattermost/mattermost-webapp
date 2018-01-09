@@ -1064,7 +1064,8 @@ export const Constants = {
         SHOW_FULLNAME: 'full_name'
     },
     SEARCH_POST: 'searchpost',
-    CHANNEL_ID_LENGTH: 26
+    CHANNEL_ID_LENGTH: 26,
+    TRANSPARENT_PIXEL: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
 };
 
 export default Constants;
