@@ -39,7 +39,9 @@ export default class DeletePostModal extends React.Component {
     componentDidUpdate(prevProps, prevState) {
         if (this.state.show && !prevState.show) {
             setTimeout(() => {
-                this.deletePostBtn.focus();
+                if (this.deletePostBtn) {
+                    this.deletePostBtn.focus();
+                }
             }, 200);
         }
     }
