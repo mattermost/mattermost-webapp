@@ -42,8 +42,8 @@ export default class DeletePostModal extends React.Component {
     componentDidUpdate(prevProps, prevState) {
         if (this.state.show && !prevState.show) {
             setTimeout(() => {
-                $(ReactDOM.findDOMNode(this.refs.deletePostBtn)).focus();
-            }, 0);
+                this.deletePostBtn.focus();
+            }, 200);
         }
     }
 
@@ -149,8 +149,9 @@ export default class DeletePostModal extends React.Component {
                         />
                     </button>
                     <button
-                        ref='deletePostBtn'
+                        ref={(deletePostBtn) => this.deletePostBtn = deletePostBtn}
                         type='button'
+                        autoFocus
                         className='btn btn-danger'
                         onClick={this.handleDelete}
                     >
