@@ -1,4 +1,164 @@
+
+// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
+// See License.txt for license information.
+
 import * as Utils from 'utils/utils.jsx';
+
+describe('Utils.displayUsernameForUser', function() {
+    global.window.mm_config = {};
+
+    beforeEach(() => {
+        global.window.mm_config.TeammateNameDisplay = 'username';
+    });
+
+    afterEach(() => {
+        global.window.mm_config = {};
+    });
+
+    const userA = {username: 'a_user', nickname: 'a_nickname', first_name: 'a_first_name', last_name: ''};
+    const userB = {username: 'b_user', nickname: 'b_nickname', first_name: '', last_name: 'b_last_name'};
+    const userC = {username: 'c_user', nickname: '', first_name: 'c_first_name', last_name: 'c_last_name'};
+    const userD = {username: 'd_user', nickname: 'd_nickname', first_name: 'd_first_name', last_name: 'd_last_name'};
+    const userE = {username: 'e_user', nickname: '', first_name: 'e_first_name', last_name: 'e_last_name'};
+    const userF = {username: 'f_user', nickname: 'f_nickname', first_name: 'f_first_name', last_name: 'f_last_name'};
+    const userG = {username: 'g_user', nickname: '', first_name: 'g_first_name', last_name: 'g_last_name'};
+    const userH = {username: 'h_user', nickname: 'h_nickname', first_name: '', last_name: 'h_last_name'};
+    const userI = {username: 'i_user', nickname: 'i_nickname', first_name: 'i_first_name', last_name: ''};
+    const userJ = {username: 'j_user', nickname: '', first_name: 'j_first_name', last_name: ''};
+
+    test('Show display name of user with TeammateNameDisplay set to username', function() {
+        [userA, userB, userC, userD, userE, userF, userG, userH, userI, userJ].forEach((user) => {
+            expect(Utils.displayUsernameForUser(user)).toEqual(user.username);
+        });
+    });
+
+    test('Show display name of user with TeammateNameDisplay set to username', function() {
+        global.window.mm_config.TeammateNameDisplay = 'nickname_full_name';
+        for (const data of [
+            {user: userA, result: userA.nickname},
+            {user: userB, result: userB.nickname},
+            {user: userC, result: `${userC.first_name} ${userC.last_name}`},
+            {user: userD, result: userD.nickname},
+            {user: userE, result: `${userE.first_name} ${userE.last_name}`},
+            {user: userF, result: userF.nickname},
+            {user: userG, result: `${userG.first_name} ${userG.last_name}`},
+            {user: userH, result: userH.nickname},
+            {user: userI, result: userI.nickname},
+            {user: userJ, result: userJ.first_name}
+        ]) {
+            expect(Utils.displayUsernameForUser(data.user)).toEqual(data.result);
+        }
+    });
+
+    test('Show display name of user with TeammateNameDisplay set to username', function() {
+        global.window.mm_config.TeammateNameDisplay = 'full_name';
+        for (const data of [
+            {user: userA, result: userA.first_name},
+            {user: userB, result: userB.last_name},
+            {user: userC, result: `${userC.first_name} ${userC.last_name}`},
+            {user: userD, result: `${userD.first_name} ${userD.last_name}`},
+            {user: userE, result: `${userE.first_name} ${userE.last_name}`},
+            {user: userF, result: `${userF.first_name} ${userF.last_name}`},
+            {user: userG, result: `${userG.first_name} ${userG.last_name}`},
+            {user: userH, result: userH.last_name},
+            {user: userI, result: userI.first_name},
+            {user: userJ, result: userJ.first_name}
+        ]) {
+            expect(Utils.displayUsernameForUser(data.user)).toEqual(data.result);
+        }
+    });
+});
+
+describe('Utils.sortUsersByStatusAndDisplayName', function() {
+    global.window.mm_config = {};
+
+    beforeEach(() => {
+        global.window.mm_config.TeammateNameDisplay = 'username';
+    });
+
+    afterEach(() => {
+        global.window.mm_config = {};
+    });
+
+    const userA = {status: 'dnd', username: 'a_user', nickname: 'ja_nickname', first_name: 'a_first_name', last_name: 'ja_last_name'};
+    const userB = {status: 'away', username: 'b_user', nickname: 'ib_nickname', first_name: 'a_first_name', last_name: 'ib_last_name'};
+    const userC = {status: 'offline', username: 'c_user', nickname: 'hc_nickname', first_name: 'a_first_name', last_name: 'hc_last_name'};
+    const userD = {status: 'online', username: 'd_user', nickname: 'gd_nickname', first_name: 'a_first_name', last_name: 'gd_last_name'};
+    const userE = {status: 'online', username: 'e_user', nickname: 'fe_nickname', first_name: 'b_first_name', last_name: 'fe_last_name'};
+    const userF = {status: 'online', username: 'f_user', nickname: 'ef_nickname', first_name: 'b_first_name', last_name: 'ef_last_name'};
+    const userG = {status: 'dnd', username: 'g_user', nickname: 'dg_nickname', first_name: 'b_first_name', last_name: 'dg_last_name'};
+    const userH = {status: 'away', username: 'h_user', nickname: 'ch_nickname', first_name: 'c_first_name', last_name: 'ch_last_name'};
+    const userI = {status: 'offline', username: 'i_user', nickname: 'bi_nickname', first_name: 'c_first_name', last_name: 'bi_last_name'};
+    const userJ = {status: 'online', username: 'j_user', nickname: 'aj_nickname', first_name: 'c_first_name', last_name: 'aj_last_name'};
+
+    test('Users sort by status and displayname, TeammateNameDisplay set to username', function() {
+        for (const data of [
+            {
+                users: [userF, userA, userB, userC, userD, userE],
+                result: [userD, userE, userF, userB, userC, userA]
+            },
+            {
+                users: [userJ, userI, userH, userG, userF, userE],
+                result: [userE, userF, userJ, userH, userI, userG]
+            },
+            {
+                users: [userJ, userF, userE, userD],
+                result: [userD, userE, userF, userJ]
+            }
+        ]) {
+            const sortedUsers = data.users.sort(Utils.sortUsersByStatusAndDisplayName);
+            for (let i = 0; i < sortedUsers.length; i++) {
+                expect(sortedUsers[i]).toEqual(data.result[i]);
+            }
+        }
+    });
+
+    test('Users sort by status and displayname, TeammateNameDisplay set to nickname_full_name', function() {
+        global.window.mm_config.TeammateNameDisplay = 'nickname_full_name';
+        for (const data of [
+            {
+                users: [userF, userA, userB, userC, userD, userE],
+                result: [userF, userE, userD, userB, userC, userA]
+            },
+            {
+                users: [userJ, userI, userH, userG, userF, userE],
+                result: [userJ, userF, userE, userH, userI, userG]
+            },
+            {
+                users: [userJ, userF, userE, userD],
+                result: [userJ, userF, userE, userD]
+            }
+        ]) {
+            const sortedUsers = data.users.sort(Utils.sortUsersByStatusAndDisplayName);
+            for (let i = 0; i < sortedUsers.length; i++) {
+                expect(sortedUsers[i]).toEqual(data.result[i]);
+            }
+        }
+    });
+
+    test('Users sort by status and displayname, TeammateNameDisplay set to full_name', function() {
+        global.window.mm_config.TeammateNameDisplay = 'full_name';
+        for (const data of [
+            {
+                users: [userF, userA, userB, userC, userD, userE],
+                result: [userD, userF, userE, userB, userC, userA]
+            },
+            {
+                users: [userJ, userI, userH, userG, userF, userE],
+                result: [userF, userE, userJ, userH, userI, userG]
+            },
+            {
+                users: [userJ, userF, userE, userD],
+                result: [userD, userF, userE, userJ]
+            }
+        ]) {
+            const sortedUsers = data.users.sort(Utils.sortUsersByStatusAndDisplayName);
+            for (let i = 0; i < sortedUsers.length; i++) {
+                expect(sortedUsers[i]).toEqual(data.result[i]);
+            }
+        }
+    });
+});
 
 describe('Utils.isValidPassword', function() {
     test('Password min/max length enforced if no EE password requirements set', function() {

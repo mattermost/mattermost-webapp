@@ -32,6 +32,7 @@ export default class PopoverListMembers extends React.Component {
         channel: PropTypes.object.isRequired,
         members: PropTypes.array.isRequired,
         memberCount: PropTypes.number,
+        currentUserId: PropTypes.string.isRequired,
         actions: PropTypes.shape({
             getProfilesInChannel: PropTypes.func.isRequired
         }).isRequired
@@ -49,12 +50,33 @@ export default class PopoverListMembers extends React.Component {
             showPopover: false,
             showTeamMembersModal: false,
             showChannelMembersModal: false,
-            showChannelInviteModal: false
+            showChannelInviteModal: false,
+            teamMembers: UserStore.getProfilesUsernameMap(),
+            isSystemAdmin: UserStore.isSystemAdminForCurrentUser(),
+            isTeamAdmin: TeamStore.isTeamAdminForCurrentTeam(),
+            isChannelAdmin: ChannelStore.isChannelAdminForCurrentChannel(),
+            sortedMembers: []
         };
     }
 
     componentDidUpdate() {
         $('.member-list__popover .popover-content .more-modal__body').perfectScrollbar();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (!Utils.areObjectsEqual(this.props.members, nextProps.members)) {
+            const sortedMembers = this.sortMembers(nextProps.members);
+            const teamMembers = UserStore.getProfilesUsernameMap();
+
+            this.setState({sortedMembers, teamMembers});
+        }
+    }
+
+    sortMembers(members = []) {
+        return members.map((member) => {
+            const status = UserStore.getStatus(member.id);
+            return {...member, status};
+        }).sort(Utils.sortUsersByStatusAndDisplayName);
     }
 
     handleShowDirectChannel(teammate, e) {
@@ -90,25 +112,19 @@ export default class PopoverListMembers extends React.Component {
     render() {
         let popoverButton;
         const popoverHtml = [];
-        const members = this.props.members;
-        const teamMembers = UserStore.getProfilesUsernameMap();
-        const currentUserId = UserStore.getCurrentId();
 
-        const isSystemAdmin = UserStore.isSystemAdminForCurrentUser();
-        const isTeamAdmin = TeamStore.isTeamAdminForCurrentTeam();
-        const isChannelAdmin = ChannelStore.isChannelAdminForCurrentChannel();
+        const {
+            sortedMembers,
+            teamMembers,
+            isSystemAdmin,
+            isTeamAdmin,
+            isChannelAdmin
+        } = this.state;
 
-        if (members && teamMembers) {
-            members.sort((a, b) => {
-                const aName = Utils.displayUsernameForUser(a);
-                const bName = Utils.displayUsernameForUser(b);
-
-                return aName.localeCompare(bName);
-            });
-
-            members.forEach((m, i) => {
+        if (this.props.members && teamMembers) {
+            sortedMembers.forEach((m, i) => {
                 let messageIcon;
-                if (currentUserId !== m.id && this.props.channel.type !== Constants.DM_CHANNEl) {
+                if (this.props.currentUserId !== m.id && this.props.channel.type !== Constants.DM_CHANNEl) {
                     messageIcon = (
                         <MessageIcon
                             className='icon icon__message'
@@ -131,8 +147,9 @@ export default class PopoverListMembers extends React.Component {
                         >
                             <ProfilePicture
                                 src={Client4.getProfilePictureUrl(m.id, m.last_picture_update)}
-                                width='40'
-                                height='40'
+                                status={m.status}
+                                width='32'
+                                height='32'
                             />
                             <div className='more-modal__details'>
                                 <div
