@@ -105,8 +105,9 @@ export default class PostAttachment extends React.PureComponent {
             }
             buttons.push(
                 <button
+                    data-action-id={action.id}
                     key={action.id}
-                    onClick={() => this.handleActionButtonClick(action.id)}
+                    onClick={this.handleActionButtonClick}
                 >
                     {action.name}
                 </button>
@@ -122,7 +123,9 @@ export default class PostAttachment extends React.PureComponent {
         );
     }
 
-    handleActionButtonClick(actionId) {
+    handleActionButtonClick(e) {
+        e.preventDefault();
+        const actionId = e.currentTarget.getAttribute('data-action-id');
         PostActions.doPostAction(this.props.postId, actionId);
     }
 

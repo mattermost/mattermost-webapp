@@ -10,7 +10,7 @@ import {updateUser} from 'actions/user_actions.jsx';
 
 import * as I18n from 'i18n/i18n.jsx';
 
-import SettingItemMax from '../setting_item_max.jsx';
+import SettingItemMax from 'components/setting_item_max.jsx';
 
 export default class ManageLanguage extends React.Component {
     constructor(props) {

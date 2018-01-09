@@ -12,6 +12,7 @@ import {Client4} from 'mattermost-redux/client';
 import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
+import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
@@ -45,6 +46,13 @@ export function selectPostFromRightHandSideSearch(post) {
             channelId: post.channel_id,
             previousRhsState: getRhsState(getState())
         });
+    };
+}
+
+export function selectPostFromRightHandSideSearchByPostId(postId) {
+    return async (dispatch, getState) => {
+        const post = getPost(getState(), postId);
+        return selectPostFromRightHandSideSearch(post)(dispatch, getState);
     };
 }
 

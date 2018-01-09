@@ -1,0 +1,141 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLinkCloseButton should be null, on close button with badge 1`] = `""`;
+
+exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLinkCloseButton should be null, on close button without handleClose 1`] = `""`;
+
+exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLinkCloseButton should match snapshot, on close button with direct message 1`] = `
+<OverlayTrigger
+  defaultOverlayShown={false}
+  delayShow={1000}
+  overlay={
+    <Tooltip
+      bsClass="tooltip"
+      id="remove-dm-tooltip"
+      placement="right"
+    >
+      <FormattedMessage
+        defaultMessage="Remove from list"
+        id="sidebar.removeList"
+        values={Object {}}
+      />
+    </Tooltip>
+  }
+  placement="top"
+  trigger={
+    Array [
+      "hover",
+      "focus",
+    ]
+  }
+>
+  <span
+    className="btn-close"
+    onClick={[Function]}
+  >
+    ×
+  </span>
+</OverlayTrigger>
+`;
+
+exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLinkCloseButton should match snapshot, on close button with group message 1`] = `
+<OverlayTrigger
+  defaultOverlayShown={false}
+  delayShow={1000}
+  overlay={
+    <Tooltip
+      bsClass="tooltip"
+      id="remove-dm-tooltip"
+      placement="right"
+    >
+      <FormattedMessage
+        defaultMessage="Remove from list"
+        id="sidebar.removeList"
+        values={Object {}}
+      />
+    </Tooltip>
+  }
+  placement="top"
+  trigger={
+    Array [
+      "hover",
+      "focus",
+    ]
+  }
+>
+  <span
+    className="btn-close"
+    onClick={[Function]}
+  >
+    ×
+  </span>
+</OverlayTrigger>
+`;
+
+exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLinkCloseButton should match snapshot, on close button with private channel 1`] = `
+<OverlayTrigger
+  defaultOverlayShown={false}
+  delayShow={1000}
+  overlay={
+    <Tooltip
+      bsClass="tooltip"
+      id="remove-dm-tooltip"
+      placement="right"
+    >
+      <FormattedMessage
+        defaultMessage="Leave channel"
+        id="sidebar.leave"
+        values={Object {}}
+      />
+    </Tooltip>
+  }
+  placement="top"
+  trigger={
+    Array [
+      "hover",
+      "focus",
+    ]
+  }
+>
+  <span
+    className="btn-close"
+    onClick={[Function]}
+  >
+    ×
+  </span>
+</OverlayTrigger>
+`;
+
+exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLinkCloseButton should match snapshot, on close button with public channel 1`] = `
+<OverlayTrigger
+  defaultOverlayShown={false}
+  delayShow={1000}
+  overlay={
+    <Tooltip
+      bsClass="tooltip"
+      id="remove-dm-tooltip"
+      placement="right"
+    >
+      <FormattedMessage
+        defaultMessage="Leave channel"
+        id="sidebar.leave"
+        values={Object {}}
+      />
+    </Tooltip>
+  }
+  placement="top"
+  trigger={
+    Array [
+      "hover",
+      "focus",
+    ]
+  }
+>
+  <span
+    className="btn-close"
+    onClick={[Function]}
+  >
+    ×
+  </span>
+</OverlayTrigger>
+`;

@@ -18,7 +18,7 @@ import LocalizationStore from 'stores/localization_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 
-import Constants from 'utils/constants.jsx';
+import Constants, {UserStatusesWeight} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 
 import bing from 'images/bing.mp3';
@@ -831,7 +831,11 @@ export function changeCss(className, classValue) {
     if (className.indexOf('@media') >= 0) {
         mediaQuery = '}';
     }
-    styleSheet.insertRule(className + '{' + classValue + '}' + mediaQuery, styleSheet.cssRules.length);
+    try {
+        styleSheet.insertRule(className + '{' + classValue + '}' + mediaQuery, styleSheet.cssRules.length);
+    } catch (e) {
+        console.error(e); // eslint-disable-line no-console
+    }
 }
 
 export function updateCodeTheme(userTheme) {
@@ -1093,6 +1097,20 @@ export function displayUsernameForUser(user) {
 }
 
 /**
+ * Sort users by status then by display name, respecting the TeammateNameDisplay configuration setting
+ */
+export function sortUsersByStatusAndDisplayName(userA, userB) {
+    function sortByDisplayName(a, b) {
+        const aName = displayUsernameForUser(a);
+        const bName = displayUsernameForUser(b);
+
+        return aName.localeCompare(bName);
+    }
+
+    return UserStatusesWeight[userA.status] - UserStatusesWeight[userB.status] || sortByDisplayName(userA, userB);
+}
+
+/**
  * Gets the entire name, including username, full name, and nickname, of the user with the specified id
  */
 export function displayEntireName(userId) {
@@ -1145,7 +1163,7 @@ export function imageURLForUser(userIdOrObject) {
         if (profile) {
             return imageURLForUser(profile);
         }
-        return Client4.getUsersRoute() + '/' + userIdOrObject + '/image?_=0';
+        return Constants.TRANSPARENT_PIXEL;
     }
     return Client4.getUsersRoute() + '/' + userIdOrObject.id + '/image?_=' + (userIdOrObject.last_picture_update || 0);
 }

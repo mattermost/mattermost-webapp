@@ -28,6 +28,11 @@ import ToggleModalButton from 'components/toggle_modal_button.jsx';
 const TOKEN_CREATING = 'creating';
 const TOKEN_CREATED = 'created';
 const TOKEN_NOT_CREATING = 'not_creating';
+const SECTION_MFA = 'mfa';
+const SECTION_PASSWORD = 'password';
+const SECTION_SIGNIN = 'signin';
+const SECTION_APPS = 'apps';
+const SECTION_TOKENS = 'tokens';
 
 export default class SecurityTab extends React.Component {
     static propTypes = {
@@ -123,13 +128,11 @@ export default class SecurityTab extends React.Component {
         }
     }
 
-    submitPassword = (e) => {
-        e.preventDefault();
-
-        var user = this.props.user;
-        var currentPassword = this.state.currentPassword;
-        var newPassword = this.state.newPassword;
-        var confirmPassword = this.state.confirmPassword;
+    submitPassword = () => {
+        const user = this.props.user;
+        const currentPassword = this.state.currentPassword;
+        const newPassword = this.state.newPassword;
+        const confirmPassword = this.state.confirmPassword;
 
         if (currentPassword === '') {
             this.setState({passwordError: Utils.localizeMessage('user.settings.security.currentPasswordError', 'Please enter your current password.'), serverError: ''});
@@ -146,7 +149,7 @@ export default class SecurityTab extends React.Component {
         }
 
         if (newPassword !== confirmPassword) {
-            var defaultState = Object.assign(this.getDefaultState(), {passwordError: Utils.localizeMessage('user.settings.security.passwordMatchError', 'The new passwords you entered do not match.'), serverError: ''});
+            const defaultState = Object.assign(this.getDefaultState(), {passwordError: Utils.localizeMessage('user.settings.security.passwordMatchError', 'The new passwords you entered do not match.'), serverError: ''});
             this.setState(defaultState);
             return;
         }
@@ -235,11 +238,44 @@ export default class SecurityTab extends React.Component {
         );
     }
 
-    createMfaSection = () => {
-        let updateSectionStatus;
-        let submit;
+    handleUpdateSection = (section) => {
+        if (section) {
+            this.props.updateSection(section);
+        } else {
+            switch (this.props.activeSection) {
+            case SECTION_MFA:
+            case SECTION_SIGNIN:
+            case SECTION_APPS:
+                this.setState({
+                    serverError: null
+                });
+                break;
+            case SECTION_PASSWORD:
+                this.setState({
+                    currentPassword: '',
+                    newPassword: '',
+                    confirmPassword: '',
+                    serverError: null,
+                    passwordError: null
+                });
+                break;
+            case SECTION_TOKENS:
+                this.setState({
+                    newToken: null,
+                    tokenCreationState: TOKEN_NOT_CREATING,
+                    serverError: null,
+                    tokenError: ''
+                });
+                break;
+            default:
+            }
 
-        if (this.props.activeSection === 'mfa') {
+            this.props.updateSection('');
+        }
+    }
+
+    createMfaSection = () => {
+        if (this.props.activeSection === SECTION_MFA) {
             let content;
             let extraInfo;
             if (this.props.user.mfa_active) {
@@ -331,20 +367,13 @@ export default class SecurityTab extends React.Component {
                 </div>
             );
 
-            updateSectionStatus = function resetSection(e) {
-                this.props.updateSection('');
-                this.setState({serverError: null});
-                e.preventDefault();
-            }.bind(this);
-
             return (
                 <SettingItemMax
                     title={Utils.localizeMessage('user.settings.mfa.title', 'Multi-factor Authentication')}
                     inputs={inputs}
                     extraInfo={extraInfo}
-                    submit={submit}
-                    server_error={this.state.serverError}
-                    updateSection={updateSectionStatus}
+                    serverError={this.state.serverError}
+                    updateSection={this.handleUpdateSection}
                     width='medium'
                 />
             );
@@ -357,23 +386,18 @@ export default class SecurityTab extends React.Component {
             describe = Utils.localizeMessage('user.settings.security.inactive', 'Inactive');
         }
 
-        updateSectionStatus = function updateSection() {
-            this.props.updateSection('mfa');
-        }.bind(this);
-
         return (
             <SettingItemMin
                 title={Utils.localizeMessage('user.settings.mfa.title', 'Multi-factor Authentication')}
                 describe={describe}
-                updateSection={updateSectionStatus}
+                section={SECTION_MFA}
+                updateSection={this.handleUpdateSection}
             />
         );
     }
 
     createPasswordSection = () => {
-        let updateSectionStatus;
-
-        if (this.props.activeSection === 'password') {
+        if (this.props.activeSection === SECTION_PASSWORD) {
             const inputs = [];
             let submit;
 
@@ -518,12 +542,6 @@ export default class SecurityTab extends React.Component {
                 );
             }
 
-            updateSectionStatus = function resetSection(e) {
-                this.props.updateSection('');
-                this.setState({currentPassword: '', newPassword: '', confirmPassword: '', serverError: null, passwordError: null});
-                e.preventDefault();
-            }.bind(this);
-
             return (
                 <SettingItemMax
                     title={
@@ -535,9 +553,9 @@ export default class SecurityTab extends React.Component {
                     inputs={inputs}
                     submit={submit}
                     saving={this.state.savingPassword}
-                    server_error={this.state.serverError}
-                    client_error={this.state.passwordError}
-                    updateSection={updateSectionStatus}
+                    serverError={this.state.serverError}
+                    clientError={this.state.passwordError}
+                    updateSection={this.handleUpdateSection}
                 />
             );
         }
@@ -609,10 +627,6 @@ export default class SecurityTab extends React.Component {
             );
         }
 
-        updateSectionStatus = function updateSection() {
-            this.props.updateSection('password');
-        }.bind(this);
-
         return (
             <SettingItemMin
                 title={
@@ -622,16 +636,16 @@ export default class SecurityTab extends React.Component {
                     />
                 }
                 describe={describe}
-                updateSection={updateSectionStatus}
+                section={SECTION_PASSWORD}
+                updateSection={this.handleUpdateSection}
             />
         );
     }
 
     createSignInSection = () => {
-        let updateSectionStatus;
         const user = this.props.user;
 
-        if (this.props.activeSection === 'signin') {
+        if (this.props.activeSection === SECTION_SIGNIN) {
             let emailOption;
             let gitlabOption;
             let googleOption;
@@ -760,12 +774,6 @@ export default class SecurityTab extends React.Component {
                 </div>
             );
 
-            updateSectionStatus = function updateSection(e) {
-                this.props.updateSection('');
-                this.setState({serverError: null});
-                e.preventDefault();
-            }.bind(this);
-
             const extraInfo = (
                 <span>
                     <FormattedMessage
@@ -780,15 +788,11 @@ export default class SecurityTab extends React.Component {
                     title={Utils.localizeMessage('user.settings.security.method', 'Sign-in Method')}
                     extraInfo={extraInfo}
                     inputs={inputs}
-                    server_error={this.state.serverError}
-                    updateSection={updateSectionStatus}
+                    serverError={this.state.serverError}
+                    updateSection={this.handleUpdateSection}
                 />
             );
         }
-
-        updateSectionStatus = function updateSection() {
-            this.props.updateSection('signin');
-        }.bind(this);
 
         let describe = (
             <FormattedMessage
@@ -837,15 +841,14 @@ export default class SecurityTab extends React.Component {
             <SettingItemMin
                 title={Utils.localizeMessage('user.settings.security.method', 'Sign-in Method')}
                 describe={describe}
-                updateSection={updateSectionStatus}
+                section={SECTION_SIGNIN}
+                updateSection={this.handleUpdateSection}
             />
         );
     }
 
     createOAuthAppsSection = () => {
-        let updateSectionStatus;
-
-        if (this.props.activeSection === 'apps') {
+        if (this.props.activeSection === SECTION_APPS) {
             let apps;
             if (this.state.authorizedApps && this.state.authorizedApps.length > 0) {
                 apps = this.state.authorizedApps.map((app) => {
@@ -933,12 +936,6 @@ export default class SecurityTab extends React.Component {
                 </div>
             );
 
-            updateSectionStatus = function updateSection(e) {
-                this.props.updateSection('');
-                this.setState({serverError: null});
-                e.preventDefault();
-            }.bind(this);
-
             const title = (
                 <div>
                     <FormattedMessage
@@ -953,8 +950,8 @@ export default class SecurityTab extends React.Component {
                 <SettingItemMax
                     title={title}
                     inputs={inputs}
-                    server_error={this.state.serverError}
-                    updateSection={updateSectionStatus}
+                    serverError={this.state.serverError}
+                    updateSection={this.handleUpdateSection}
                     width='full'
                     cancelButtonText={
                         <FormattedMessage
@@ -966,10 +963,6 @@ export default class SecurityTab extends React.Component {
             );
         }
 
-        updateSectionStatus = function updateSection() {
-            this.props.updateSection('apps');
-        }.bind(this);
-
         return (
             <SettingItemMin
                 title={Utils.localizeMessage('user.settings.security.oauthApps', 'OAuth 2.0 Applications')}
@@ -979,7 +972,8 @@ export default class SecurityTab extends React.Component {
                         defaultMessage="Click 'Edit' to manage your OAuth 2.0 Applications"
                     />
                 }
-                updateSection={updateSectionStatus}
+                section={SECTION_APPS}
+                updateSection={this.handleUpdateSection}
             />
         );
     }
@@ -1128,10 +1122,9 @@ export default class SecurityTab extends React.Component {
     }
 
     createTokensSection = () => {
-        let updateSectionStatus;
         let tokenListClass = '';
 
-        if (this.props.activeSection === 'tokens') {
+        if (this.props.activeSection === SECTION_TOKENS) {
             const tokenList = [];
             Object.values(this.props.userAccessTokens).forEach((token) => {
                 if (this.state.newToken && this.state.newToken.id === token.id) {
@@ -1383,20 +1376,14 @@ export default class SecurityTab extends React.Component {
                 </div>
             );
 
-            updateSectionStatus = function resetSection(e) {
-                this.props.updateSection('');
-                this.setState({newToken: null, tokenCreationState: TOKEN_NOT_CREATING, serverError: null, tokenError: ''});
-                e.preventDefault();
-            }.bind(this);
-
             return (
                 <SettingItemMax
                     title={Utils.localizeMessage('user.settings.tokens.title', 'Personal Access Tokens')}
                     inputs={inputs}
                     extraInfo={extraInfo}
                     infoPosition='top'
-                    server_error={this.state.serverError}
-                    updateSection={updateSectionStatus}
+                    serverError={this.state.serverError}
+                    updateSection={this.handleUpdateSection}
                     width='full'
                     cancelButtonText={
                         <FormattedMessage
@@ -1410,15 +1397,12 @@ export default class SecurityTab extends React.Component {
 
         const describe = Utils.localizeMessage('user.settings.tokens.clickToEdit', "Click 'Edit' to manage your personal access tokens");
 
-        updateSectionStatus = function updateSection() {
-            this.props.updateSection('tokens');
-        }.bind(this);
-
         return (
             <SettingItemMin
                 title={Utils.localizeMessage('user.settings.tokens.title', 'Personal Access Tokens')}
                 describe={describe}
-                updateSection={updateSectionStatus}
+                section={SECTION_TOKENS}
+                updateSection={this.handleUpdateSection}
             />
         );
     }

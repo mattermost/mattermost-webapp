@@ -59,6 +59,10 @@ export default class FileAttachmentList extends React.Component {
         this.setState({showPreviewModal: true, startImgIndex: indexClicked});
     }
 
+    hidePreviewModal = () => {
+        this.setState({showPreviewModal: false});
+    }
+
     render() {
         const postFiles = [];
         let fileInfos = [];
@@ -96,7 +100,7 @@ export default class FileAttachmentList extends React.Component {
                 </div>
                 <ViewImageModal
                     show={this.state.showPreviewModal}
-                    onModalDismissed={() => this.setState({showPreviewModal: false})}
+                    onModalDismissed={this.hidePreviewModal}
                     startIndex={this.state.startImgIndex}
                     fileInfos={fileInfos}
                 />

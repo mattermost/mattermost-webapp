@@ -225,6 +225,10 @@ export default class RhsComment extends React.Component {
         });
     }
 
+    getDotMenuRef = () => {
+        return this.refs.dotMenu;
+    }
+
     render() {
         const post = this.props.post;
 
@@ -377,7 +381,7 @@ export default class RhsComment extends React.Component {
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
                         onHide={this.toggleEmojiPicker}
-                        target={() => this.refs.dotMenu}
+                        target={this.getDotMenuRef}
                         onEmojiClick={this.reactEmojiClick}
                         rightOffset={15}
                         spaceRequiredAbove={342}

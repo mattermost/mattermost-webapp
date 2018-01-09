@@ -264,6 +264,13 @@ export const UserStatuses = {
     DND: 'dnd'
 };
 
+export const UserStatusesWeight = {
+    online: 0,
+    away: 1,
+    offline: 2,
+    dnd: 3
+};
+
 export const UserSearchOptions = {
     ALLOW_INACTIVE: 'allow_inactive',
     WITHOUT_TEAM: 'without_team'
@@ -1057,7 +1064,8 @@ export const Constants = {
         SHOW_FULLNAME: 'full_name'
     },
     SEARCH_POST: 'searchpost',
-    CHANNEL_ID_LENGTH: 26
+    CHANNEL_ID_LENGTH: 26,
+    TRANSPARENT_PIXEL: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
 };
 
 export default Constants;

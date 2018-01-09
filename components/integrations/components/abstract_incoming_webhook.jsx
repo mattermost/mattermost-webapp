@@ -40,6 +40,16 @@ export default class AbstractIncomingWebhook extends React.Component {
         initialHook: PropTypes.object,
 
         /**
+        * Whether to allow configuration of the default post username.
+        */
+        enablePostUsernameOverride: PropTypes.bool.isRequired,
+
+        /**
+        * Whether to allow configuration of the default post icon.
+        */
+        enablePostIconOverride: PropTypes.bool.isRequired,
+
+        /**
         * The async function to run when the action button is pressed
         */
         action: PropTypes.func.isRequired
@@ -56,6 +66,8 @@ export default class AbstractIncomingWebhook extends React.Component {
             displayName: hook.display_name || '',
             description: hook.description || '',
             channelId: hook.channel_id || '',
+            username: hook.username || '',
+            iconURL: hook.icon_url || '',
             saving: false,
             serverError: '',
             clientError: null
@@ -92,7 +104,9 @@ export default class AbstractIncomingWebhook extends React.Component {
         const hook = {
             channel_id: this.state.channelId,
             display_name: this.state.displayName,
-            description: this.state.description
+            description: this.state.description,
+            username: this.state.username,
+            icon_url: this.state.iconURL
         };
 
         this.props.action(hook).then(() => this.setState({saving: false}));
@@ -113,6 +127,18 @@ export default class AbstractIncomingWebhook extends React.Component {
     updateChannelId = (e) => {
         this.setState({
             channelId: e.target.value
+        });
+    }
+
+    updateUsername = (e) => {
+        this.setState({
+            username: e.target.value
+        });
+    }
+
+    updateIconURL = (e) => {
+        this.setState({
+            iconURL: e.target.value
         });
     }
 
@@ -219,6 +245,64 @@ export default class AbstractIncomingWebhook extends React.Component {
                                 </div>
                             </div>
                         </div>
+                        { this.props.enablePostUsernameOverride &&
+                            <div className='form-group'>
+                                <label
+                                    className='control-label col-sm-4'
+                                    htmlFor='username'
+                                >
+                                    <FormattedMessage
+                                        id='add_incoming_webhook.username'
+                                        defaultMessage='Username'
+                                    />
+                                </label>
+                                <div className='col-md-5 col-sm-8'>
+                                    <input
+                                        id='username'
+                                        type='text'
+                                        maxLength='22'
+                                        className='form-control'
+                                        value={this.state.username}
+                                        onChange={this.updateUsername}
+                                    />
+                                    <div className='form__help'>
+                                        <FormattedMessage
+                                            id='add_incoming_webhook.username.help'
+                                            defaultMessage='Choose the username this integration will post as. Usernames can be up to 22 characters, and may contain lowercase letters, numbers and the symbols "-", "_", and ".".'
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        { this.props.enablePostIconOverride &&
+                            <div className='form-group'>
+                                <label
+                                    className='control-label col-sm-4'
+                                    htmlFor='iconURL'
+                                >
+                                    <FormattedMessage
+                                        id='add_incoming_webhook.icon_url'
+                                        defaultMessage='Profile Picture'
+                                    />
+                                </label>
+                                <div className='col-md-5 col-sm-8'>
+                                    <input
+                                        id='iconURL'
+                                        type='text'
+                                        maxLength='1024'
+                                        className='form-control'
+                                        value={this.state.iconURL}
+                                        onChange={this.updateIconURL}
+                                    />
+                                    <div className='form__help'>
+                                        <FormattedMessage
+                                            id='add_incoming_webhook.icon_url.help'
+                                            defaultMessage='Choose the profile picture this integration will use when posting. Enter the URL of a .png or .jpg file at least 128 pixels by 128 pixels.'
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        }
                         <div className='backstage-form__footer'>
                             <FormError
                                 type='backstage'

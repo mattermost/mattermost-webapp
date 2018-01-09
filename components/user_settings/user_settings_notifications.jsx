@@ -121,7 +121,7 @@ export default class NotificationsTab extends React.Component {
         this.state = getNotificationsStateFromStores();
     }
 
-    handleSubmit({enableEmail = this.state.enableEmail}) {
+    handleSubmit(enableEmail = this.state.enableEmail) {
         const data = {};
         data.user_id = this.props.user.id;
         data.email = enableEmail;
@@ -160,10 +160,20 @@ export default class NotificationsTab extends React.Component {
     }
 
     handleCancel(e) {
-        e.preventDefault();
+        if (e) {
+            e.preventDefault();
+        }
         this.updateState();
-        this.props.updateSection('');
     }
+
+    handleUpdateSection = (section) => {
+        if (section) {
+            this.props.updateSection(section);
+        } else {
+            this.props.updateSection('');
+            this.handleCancel();
+        }
+    };
 
     setStateValue(key, value) {
         const data = {};
@@ -433,7 +443,7 @@ export default class NotificationsTab extends React.Component {
                     inputs={inputs}
                     submit={submit}
                     server_error={this.state.serverError}
-                    updateSection={this.handleCancel}
+                    updateSection={this.handleUpdateSection}
                 />
             );
         }
@@ -501,15 +511,12 @@ export default class NotificationsTab extends React.Component {
             }
         }
 
-        const handleUpdatePushSection = () => {
-            this.props.updateSection('push');
-        };
-
         return (
             <SettingItemMin
                 title={Utils.localizeMessage('user.settings.notifications.push', 'Mobile push notifications')}
                 describe={describe}
-                updateSection={handleUpdatePushSection}
+                section={'push'}
+                updateSection={this.handleUpdateSection}
             />
         );
     }
@@ -519,7 +526,6 @@ export default class NotificationsTab extends React.Component {
         const user = this.props.user;
 
         let keysSection;
-        let handleUpdateKeysSection;
         if (this.props.activeSection === 'keys') {
             const inputs = [];
 
@@ -644,7 +650,7 @@ export default class NotificationsTab extends React.Component {
                     submit={this.handleSubmit}
                     saving={this.state.isSaving}
                     server_error={serverError}
-                    updateSection={this.handleCancel}
+                    updateSection={this.handleUpdateSection}
                     extraInfo={extraInfo}
                 />
             );
@@ -684,21 +690,17 @@ export default class NotificationsTab extends React.Component {
                 );
             }
 
-            handleUpdateKeysSection = function updateKeysSection() {
-                this.props.updateSection('keys');
-            }.bind(this);
-
             keysSection = (
                 <SettingItemMin
                     title={Utils.localizeMessage('user.settings.notifications.wordsTrigger', 'Words that trigger mentions')}
                     describe={describe}
-                    updateSection={handleUpdateKeysSection}
+                    section={'keys'}
+                    updateSection={this.handleUpdateSection}
                 />
             );
         }
 
         let commentsSection;
-        let handleUpdateCommentsSection;
         if (this.props.activeSection === 'comments') {
             const commentsActive = [false, false, false];
             if (this.state.notifyCommentsLevel === 'never') {
@@ -780,7 +782,7 @@ export default class NotificationsTab extends React.Component {
                     submit={this.handleSubmit}
                     saving={this.state.isSaving}
                     server_error={serverError}
-                    updateSection={this.handleCancel}
+                    updateSection={this.handleUpdateSection}
                 />
             );
         } else {
@@ -808,15 +810,12 @@ export default class NotificationsTab extends React.Component {
                 );
             }
 
-            handleUpdateCommentsSection = function updateCommentsSection() {
-                this.props.updateSection('comments');
-            }.bind(this);
-
             commentsSection = (
                 <SettingItemMin
                     title={Utils.localizeMessage('user.settings.notifications.comments', 'Reply notifications')}
                     describe={describe}
-                    updateSection={handleUpdateCommentsSection}
+                    section={'comments'}
+                    updateSection={this.handleUpdateSection}
                 />
             );
         }

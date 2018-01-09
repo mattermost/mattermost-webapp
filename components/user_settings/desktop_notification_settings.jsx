@@ -21,6 +21,22 @@ export default class DesktopNotificationSettings extends React.Component {
         this.state = {};
     }
 
+    handleMinUpdateSection = (section) => {
+        this.props.updateSection(section);
+
+        this.props.cancel();
+    }
+
+    handleMaxUpdateSection = (section) => {
+        this.props.updateSection(section);
+    }
+
+    handleOnChange = (e) => {
+        const key = e.currentTarget.getAttribute('data-key');
+        const value = e.currentTarget.getAttribute('data-value');
+        this.props.setParentState(key, value);
+    }
+
     buildMaximizedSetting() {
         const inputs = [];
         let extraInfo = null;
@@ -62,7 +78,9 @@ export default class DesktopNotificationSettings extends React.Component {
                                     type='radio'
                                     name='notificationSounds'
                                     checked={soundRadio[0]}
-                                    onChange={() => this.props.setParentState('desktopSound', 'true')}
+                                    data-key={'desktopSound'}
+                                    data-value={'true'}
+                                    onChange={this.handleOnChange}
                                 />
                                 <FormattedMessage
                                     id='user.settings.notifications.on'
@@ -78,7 +96,9 @@ export default class DesktopNotificationSettings extends React.Component {
                                     type='radio'
                                     name='notificationSounds'
                                     checked={soundRadio[1]}
-                                    onChange={() => this.props.setParentState('desktopSound', 'false')}
+                                    data-key={'desktopSound'}
+                                    data-value={'false'}
+                                    onChange={this.handleOnChange}
                                 />
                                 <FormattedMessage
                                     id='user.settings.notifications.off'
@@ -143,7 +163,9 @@ export default class DesktopNotificationSettings extends React.Component {
                                 type='radio'
                                 name='desktopDuration'
                                 checked={durationRadio[0]}
-                                onChange={() => this.props.setParentState('desktopDuration', '3')}
+                                data-key={'desktopDuration'}
+                                data-value={'3'}
+                                onChange={this.handleOnChange}
                             />
                             <FormattedMessage
                                 id='user.settings.notifications.desktop.seconds'
@@ -162,7 +184,9 @@ export default class DesktopNotificationSettings extends React.Component {
                                 type='radio'
                                 name='desktopDuration'
                                 checked={durationRadio[1]}
-                                onChange={() => this.props.setParentState('desktopDuration', '5')}
+                                data-key={'desktopDuration'}
+                                data-value={'5'}
+                                onChange={this.handleOnChange}
                             />
                             <FormattedMessage
                                 id='user.settings.notifications.desktop.seconds'
@@ -181,7 +205,9 @@ export default class DesktopNotificationSettings extends React.Component {
                                 type='radio'
                                 name='desktopDuration'
                                 checked={durationRadio[2]}
-                                onChange={() => this.props.setParentState('desktopDuration', '10')}
+                                data-key={'desktopDuration'}
+                                data-value={'10'}
+                                onChange={this.handleOnChange}
                             />
                             <FormattedMessage
                                 id='user.settings.notifications.desktop.seconds'
@@ -199,7 +225,9 @@ export default class DesktopNotificationSettings extends React.Component {
                                 type='radio'
                                 name='desktopDuration'
                                 checked={durationRadio[3]}
-                                onChange={() => this.props.setParentState('desktopDuration', '0')}
+                                data-key={'desktopDuration'}
+                                data-value={'0'}
+                                onChange={this.handleOnChange}
                             />
                             <FormattedMessage
                                 id='user.settings.notifications.desktop.unlimited'
@@ -236,7 +264,9 @@ export default class DesktopNotificationSettings extends React.Component {
                             type='radio'
                             name='desktopNotificationLevel'
                             checked={activityRadio[0]}
-                            onChange={() => this.props.setParentState('desktopActivity', NotificationLevels.ALL)}
+                            data-key={'desktopActivity'}
+                            data-value={NotificationLevels.ALL}
+                            onChange={this.handleOnChange}
                         />
                         <FormattedMessage
                             id='user.settings.notifications.allActivity'
@@ -252,7 +282,9 @@ export default class DesktopNotificationSettings extends React.Component {
                             type='radio'
                             name='desktopNotificationLevel'
                             checked={activityRadio[1]}
-                            onChange={() => this.props.setParentState('desktopActivity', NotificationLevels.MENTION)}
+                            data-key={'desktopActivity'}
+                            data-value={NotificationLevels.MENTION}
+                            onChange={this.handleOnChange}
                         />
                         <FormattedMessage
                             id='user.settings.notifications.onlyMentions'
@@ -268,7 +300,9 @@ export default class DesktopNotificationSettings extends React.Component {
                             type='radio'
                             name='desktopNotificationLevel'
                             checked={activityRadio[2]}
-                            onChange={() => this.props.setParentState('desktopActivity', NotificationLevels.NONE)}
+                            data-key={'desktopActivity'}
+                            data-value={NotificationLevels.NONE}
+                            onChange={this.handleOnChange}
                         />
                         <FormattedMessage
                             id='user.settings.notifications.never'
@@ -296,7 +330,7 @@ export default class DesktopNotificationSettings extends React.Component {
                 submit={this.props.submit}
                 saving={this.props.saving}
                 server_error={this.props.error}
-                updateSection={this.props.cancel}
+                updateSection={this.handleMaxUpdateSection}
             />
         );
     }
@@ -430,15 +464,12 @@ export default class DesktopNotificationSettings extends React.Component {
             }
         }
 
-        const handleUpdateDesktopSection = function updateDesktopSection() {
-            this.props.updateSection('desktop');
-        }.bind(this);
-
         return (
             <SettingItemMin
                 title={Utils.localizeMessage('user.settings.notifications.desktop.title', 'Desktop notifications')}
                 describe={describe}
-                updateSection={handleUpdateDesktopSection}
+                section={'desktop'}
+                updateSection={this.handleMinUpdateSection}
             />
         );
     }
