@@ -50,33 +50,32 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         if (isDesktopApp()) {
             element = (
                 <CopyUrlContextMenu
-                    child={(
-                        <button
-                            className={'btn btn-link ' + this.props.rowClass}
-                            onClick={this.handleClick}
-                        >
-                            <SidebarChannelButtonOrLinkIcon
-                                channelId={this.props.channelId}
-                                channelStatus={this.props.channelStatus}
-                                channelType={this.props.channelType}
-                                membersCount={this.props.membersCount}
-                                teammateId={this.props.teammateId}
-                                teammateDeletedAt={this.props.teammateDeletedAt}
-                            />
-                            <span className='sidebar-item__name'>{this.props.displayName}</span>
-                            {badge}
-                            <SidebarChannelButtonOrLinkCloseButton
-                                handleClose={this.props.handleClose}
-                                channelId={this.props.channelId}
-                                channelType={this.props.channelType}
-                                teammateId={this.props.teammateId}
-                                badge={this.props.badge}
-                            />
-                        </button>
-                    )}
                     link={this.props.link}
                     menuId={this.props.channelId}
-                />
+                >
+                    <button
+                        className={'btn btn-link ' + this.props.rowClass}
+                        onClick={this.handleClick}
+                    >
+                        <SidebarChannelButtonOrLinkIcon
+                            channelId={this.props.channelId}
+                            channelStatus={this.props.channelStatus}
+                            channelType={this.props.channelType}
+                            membersCount={this.props.membersCount}
+                            teammateId={this.props.teammateId}
+                            teammateDeletedAt={this.props.teammateDeletedAt}
+                        />
+                        <span className='sidebar-item__name'>{this.props.displayName}</span>
+                        {badge}
+                        <SidebarChannelButtonOrLinkCloseButton
+                            handleClose={this.props.handleClose}
+                            channelId={this.props.channelId}
+                            channelType={this.props.channelType}
+                            teammateId={this.props.teammateId}
+                            badge={this.props.badge}
+                        />
+                    </button>
+                </CopyUrlContextMenu>
             );
         } else {
             element = (

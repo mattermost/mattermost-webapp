@@ -109,10 +109,11 @@ export default class TeamButton extends React.Component {
             if (!this.props.url.endsWith('create_team') && !this.props.url.endsWith('select_team')) {
                 teamButton = (
                     <CopyUrlContextMenu
-                        child={teamButton}
                         link={this.props.url}
                         menuId={this.props.url}
-                    />
+                    >
+                        {teamButton}
+                    </CopyUrlContextMenu>
                 );
             }
         } else {

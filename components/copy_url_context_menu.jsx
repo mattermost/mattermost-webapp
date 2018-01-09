@@ -15,7 +15,7 @@ export default class CopyUrlContextMenu extends React.Component {
         /**
          * The child component that will be right-clicked on to show the context menu
          */
-        child: PropTypes.element.isRequired,
+        children: PropTypes.element,
 
         /**
          * The link to copy to the user's clipboard when the 'Copy' option is selected from the context menu
@@ -45,7 +45,7 @@ export default class CopyUrlContextMenu extends React.Component {
 
         const contextMenuTrigger = (
             <ContextMenuTrigger id={'copy-url-context-menu' + this.props.menuId}>
-                {this.props.child}
+                {this.props.children}
             </ContextMenuTrigger>
         );
 
