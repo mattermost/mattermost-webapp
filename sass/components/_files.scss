@@ -1,9 +1,8 @@
 @charset 'UTF-8';
 
 .file-preview__container {
-    height: 108px;
     margin: 1px 0 5px;
-    max-height: 108px;
+    max-height: 118px;
     overflow-x: auto;
     overflow-y: hidden;
     position: relative;
@@ -153,6 +152,7 @@
         float: none;
         .post-image__details {
             .post-image__name {
+                max-width: 80px;
                 white-space: normal;
             }
         }
