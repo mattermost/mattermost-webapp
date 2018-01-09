@@ -18,6 +18,9 @@
     max-width: none;
     transform-origin: 0 0;
     width: 64px;
+    &.selected {
+        background-color: rgba(61, 60, 64, 0.8);
+    }
 }
 .emojisprite-loading {
     background-image: none !important;
