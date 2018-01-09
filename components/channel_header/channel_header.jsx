@@ -202,6 +202,59 @@ export default class ChannelHeader extends React.Component {
         });
     }
 
+    handleOnMouseOver = () => {
+        if (this.refs.headerOverlay) {
+            this.refs.headerOverlay.show();
+        }
+    }
+
+    handleOnMouseOut = () => {
+        if (this.refs.headerOverlay) {
+            this.refs.headerOverlay.hide();
+        }
+    }
+
+    showMembersModal = () => {
+        this.setState({showMembersModal: true});
+    }
+
+    hideMembersModal = () => {
+        this.setState({showMembersModal: false});
+    }
+
+    showEditChannelPurposeModal = () => {
+        this.setState({showEditChannelPurposeModal: true});
+    }
+
+    hideEditChannelPurposeModal = () => {
+        this.setState({showEditChannelPurposeModal: false});
+    }
+
+    hideEditChannelHeaderModal = () => {
+        this.setState({showEditChannelHeaderModal: false});
+    }
+
+    handleWebRTCOnClick = (e) => {
+        e.preventDefault();
+        const dmUserId = this.props.dmUser.id;
+        const dmUserStatus = this.props.dmUserStatus.status;
+        const isOffline = dmUserStatus === UserStatuses.OFFLINE;
+        const isDoNotDisturb = dmUserStatus === UserStatuses.DND;
+
+        this.initWebrtc(dmUserId, !isOffline || !isDoNotDisturb);
+    }
+
+    showInviteModal = () => {
+        const {channel, currentUser, actions} = this.props;
+        const inviteModalData = {
+            modalId: ModalIdentifiers.CHANNEL_INVITE,
+            dialogType: ChannelInviteModal,
+            dialogProps: {channel, currentUser}
+        };
+
+        actions.openModal(inviteModalData);
+    }
+
     render() {
         if (Utils.isEmptyObject(this.props.channel) ||
                 Utils.isEmptyObject(this.props.channelMember) ||
@@ -251,8 +304,8 @@ export default class ChannelHeader extends React.Component {
                 bSize='large'
                 placement='bottom'
                 className='description'
-                onMouseOver={() => this.refs.headerOverlay.show()}
-                onMouseOut={() => this.refs.headerOverlay.hide()}
+                onMouseOver={this.handleOnMouseOver}
+                onMouseOut={this.handleOnMouseOut}
             >
                 <MessageWrapper
                     message={channel.header}
@@ -271,7 +324,6 @@ export default class ChannelHeader extends React.Component {
 
         if (isDirect) {
             const userMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-            const dmUserId = this.props.dmUser.id;
             const dmUserStatus = this.props.dmUserStatus.status;
 
             const teammateId = Utils.getUserIdFromChannelName(channel);
@@ -340,7 +392,7 @@ export default class ChannelHeader extends React.Component {
                     <div className={'webrtc__header channel-header__icon wide text ' + circleClass}>
                         <button
                             className='style--none'
-                            onClick={() => this.initWebrtc(dmUserId, !isOffline || !isDoNotDisturb)}
+                            onClick={this.handleWebRTCOnClick}
                             disabled={isOffline || isDoNotDisturb}
                         >
                             <OverlayTrigger
@@ -481,7 +533,7 @@ export default class ChannelHeader extends React.Component {
                             className='style--none'
                             id='channelManageMembers'
                             role='menuitem'
-                            onClick={() => this.setState({showMembersModal: true})}
+                            onClick={this.showMembersModal}
                         >
                             <FormattedMessage
                                 id='channel_header.viewMembers'
@@ -550,7 +602,7 @@ export default class ChannelHeader extends React.Component {
                                 className='style--none'
                                 id='channelManageMembers'
                                 role='menuitem'
-                                onClick={() => this.setState({showMembersModal: true})}
+                                onClick={this.showMembersModal}
                             >
                                 <FormattedMessage
                                     id='channel_header.manageMembers'
@@ -569,7 +621,7 @@ export default class ChannelHeader extends React.Component {
                                 className='style--none'
                                 id='channelViewMembers'
                                 role='menuitem'
-                                onClick={() => this.setState({showMembersModal: true})}
+                                onClick={this.showMembersModal}
                             >
                                 <FormattedMessage
                                     id='channel_header.viewMembers'
@@ -618,7 +670,7 @@ export default class ChannelHeader extends React.Component {
                             className='style--none'
                             id='channelEditPurpose'
                             role='menuitem'
-                            onClick={() => this.setState({showEditChannelPurposeModal: true})}
+                            onClick={this.showEditChannelPurposeModal}
                         >
                             <FormattedMessage
                                 id='channel_header.setPurpose'
@@ -767,7 +819,7 @@ export default class ChannelHeader extends React.Component {
                 editMessage = (
                     <button
                         className='style--none'
-                        onClick={() => this.setState({showEditChannelHeaderModal: true})}
+                        onClick={this.showEditChannelPurposeModal}
                     >
                         <FormattedMessage
                             id='channel_header.addChannelHeader'
@@ -792,7 +844,7 @@ export default class ChannelHeader extends React.Component {
         if (this.state.showEditChannelHeaderModal) {
             editHeaderModal = (
                 <EditChannelHeaderModal
-                    onHide={() => this.setState({showEditChannelHeaderModal: false})}
+                    onHide={this.hideEditChannelHeaderModal}
                     channel={channel}
                 />
             );
@@ -838,18 +890,10 @@ export default class ChannelHeader extends React.Component {
 
         let channelMembersModal;
         if (this.state.showMembersModal) {
-            const inviteModalData = {
-                modalId: ModalIdentifiers.CHANNEL_INVITE,
-                dialogType: ChannelInviteModal,
-                dialogProps: {channel, currentUser: this.props.currentUser}
-            };
-
-            const {openModal} = this.props.actions;
-
             channelMembersModal = (
                 <ChannelMembersModal
-                    onModalDismissed={() => this.setState({showMembersModal: false})}
-                    showInviteModal={() => openModal(inviteModalData)}
+                    onModalDismissed={this.hideMembersModal}
+                    showInviteModal={this.showInviteModal}
                     channel={channel}
                 />
             );
@@ -859,7 +903,7 @@ export default class ChannelHeader extends React.Component {
         if (this.state.showEditChannelPurposeModal) {
             editPurposeModal = (
                 <EditChannelPurposeModal
-                    onModalDismissed={() => this.setState({showEditChannelPurposeModal: false})}
+                    onModalDismissed={this.hideEditChannelPurposeModal}
                     channel={channel}
                 />
             );

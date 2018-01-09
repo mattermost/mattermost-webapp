@@ -47,6 +47,10 @@ export default class GetTeamInviteLinkModal extends React.PureComponent {
         });
     }
 
+    onHide = () => {
+        this.handleToggle(false);
+    }
+
     render() {
         const inviteUrl = getSiteURL() + '/signup_user_complete/?id=' + this.props.currentTeam.invite_id;
 
@@ -60,7 +64,7 @@ export default class GetTeamInviteLinkModal extends React.PureComponent {
         return (
             <GetLinkModal
                 show={this.state.show}
-                onHide={() => this.handleToggle(false)}
+                onHide={this.onHide}
                 title={Utils.localizeMessage('get_team_invite_link_modal.title', 'Team Invite Link')}
                 helpText={helpText}
                 link={inviteUrl}

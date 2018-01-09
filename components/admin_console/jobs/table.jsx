@@ -268,11 +268,12 @@ class JobTable extends React.PureComponent {
         );
     };
 
-    handleCancelJob = (e, job) => {
+    handleCancelJob = (e) => {
         e.preventDefault();
+        const jobId = e.currentTarget.getAttribute('data-job-id');
 
         cancelJob(
-            job.id,
+            jobId,
             () => {
                 this.reload();
             },
@@ -310,7 +311,8 @@ class JobTable extends React.PureComponent {
         if (!this.props.disabled && (job.status === JobStatuses.PENDING || job.status === JobStatuses.IN_PROGRESS)) {
             cancelButton = (
                 <span
-                    onClick={(e) => this.handleCancelJob(e, job)}
+                    data-job-id={job.id}
+                    onClick={this.handleCancelJob}
                     className='job-table__cancel-button'
                     title={Utils.localizeMessage('admin.jobTable.cancelButton', 'Cancel')}
                 >

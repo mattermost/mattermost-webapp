@@ -94,6 +94,17 @@ export default class TutorialTip extends React.Component {
             '999'
         );
     }
+
+    handleCircleClick = (e) => {
+        e.preventDefault();
+        const currentScreen = e.currentTarget.getAttribute('data-screen');
+        this.setState({currentScreen});
+    }
+
+    getTarget = () => {
+        return this.refs.target;
+    }
+
     render() {
         const buttonText = this.state.currentScreen === this.props.screens.length - 1 ? (
             <FormattedMessage
@@ -120,10 +131,8 @@ export default class TutorialTip extends React.Component {
                         href='#'
                         key={'dotactive' + i}
                         className={className}
-                        onClick={(e) => { //eslint-disable-line no-loop-func
-                            e.preventDefault();
-                            this.setState({currentScreen: i});
-                        }}
+                        data-screen={i}
+                        onClick={this.handleCircleClick}
                     />
                 );
             }
@@ -159,7 +168,7 @@ export default class TutorialTip extends React.Component {
                     show={this.state.show}
                     rootClose={true}
                     onHide={this.toggle}
-                    target={() => this.refs.target}
+                    target={this.getTarget}
                 >
                     <div className={'tip-overlay ' + this.props.overlayClass}>
                         <div className='arrow'/>

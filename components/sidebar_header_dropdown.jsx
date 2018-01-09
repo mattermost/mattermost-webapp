@@ -201,6 +201,10 @@ export default class SidebarHeaderDropdown extends React.Component {
         );
     }
 
+    handleEmitUserLoggedOutEvent = () => {
+        GlobalActions.emitUserLoggedOutEvent();
+    }
+
     render() {
         const config = global.mm_config;
         const currentUser = this.props.currentUser;
@@ -560,7 +564,7 @@ export default class SidebarHeaderDropdown extends React.Component {
                 <button
                     className='style--none'
                     id='logout'
-                    onClick={() => GlobalActions.emitUserLoggedOutEvent()}
+                    onClick={this.handleEmitUserLoggedOutEvent}
                 >
                     <FormattedMessage
                         id='navbar_dropdown.logout'

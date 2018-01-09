@@ -151,6 +151,14 @@ export default class SidebarRightMenu extends React.Component {
         }
     }
 
+    showAccountSettingsModal = () => {
+        GlobalActions.showAccountSettingsModal();
+    }
+
+    handleEmitUserLoggedOutEvent = () => {
+        GlobalActions.emitUserLoggedOutEvent();
+    }
+
     render() {
         const currentUser = UserStore.getCurrentUser();
         let teamLink;
@@ -492,7 +500,7 @@ export default class SidebarRightMenu extends React.Component {
                         <li>
                             <a
                                 href='#'
-                                onClick={() => GlobalActions.showAccountSettingsModal()}
+                                onClick={this.showAccountSettingsModal}
                             >
                                 <i className='icon fa fa-cog'/>
                                 <FormattedMessage
@@ -533,7 +541,7 @@ export default class SidebarRightMenu extends React.Component {
                         <li>
                             <a
                                 href='#'
-                                onClick={() => GlobalActions.emitUserLoggedOutEvent()}
+                                onClick={this.handleEmitUserLoggedOutEvent}
                             >
                                 <i className='icon fa fa-sign-out'/>
                                 <FormattedMessage

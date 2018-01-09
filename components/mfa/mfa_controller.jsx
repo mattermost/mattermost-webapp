@@ -19,6 +19,11 @@ export default class MFAController extends React.Component {
         }
     }
 
+    handleOnClick = (e) => {
+        e.preventDefault();
+        emitUserLoggedOutEvent('/login');
+    }
+
     render() {
         let backButton;
         if (window.mm_config.EnforceMultifactorAuthentication === 'true') {
@@ -26,10 +31,7 @@ export default class MFAController extends React.Component {
                 <div className='signup-header'>
                     <button
                         className='style--none color--link'
-                        onClick={(e) => {
-                            e.preventDefault();
-                            emitUserLoggedOutEvent('/login');
-                        }}
+                        onClick={this.handleOnClick}
                     >
                         <span className='fa fa-chevron-left'/>
                         <FormattedMessage

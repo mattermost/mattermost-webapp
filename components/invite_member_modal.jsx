@@ -243,6 +243,10 @@ class InviteMemberModal extends React.Component {
         }
     }
 
+    hideConfirmModal = () => {
+        this.setState({showConfirmModal: false});
+    }
+
     render() {
         var currentUser = UserStore.getCurrentUser();
         const {formatMessage} = this.props.intl;
@@ -522,7 +526,7 @@ class InviteMemberModal extends React.Component {
                         confirmButtonText={formatMessage(holders.modalButton)}
                         show={this.state.showConfirmModal}
                         onConfirm={this.handleHide.bind(this, false)}
-                        onCancel={() => this.setState({showConfirmModal: false})}
+                        onCancel={this.hideConfirmModal}
                     />
                 </div>
             );

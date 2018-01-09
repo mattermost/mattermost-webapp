@@ -79,8 +79,9 @@ export default class PopoverListMembers extends React.Component {
         }).sort(Utils.sortUsersByStatusAndDisplayName);
     }
 
-    handleShowDirectChannel(teammate, e) {
+    handleShowDirectChannel(e) {
         e.preventDefault();
+        const teammate = e.currentTarget.getAttribute('data-member');
 
         openDirectChannelToUser(
             teammate.id,
@@ -107,6 +108,31 @@ export default class PopoverListMembers extends React.Component {
             showPopover: false,
             showChannelMembersModal: true
         });
+    }
+
+    hideChannelMembersModal = () => {
+        this.setState({showChannelMembersModal: false});
+    }
+
+    showChannelInviteModal = () => {
+        this.setState({showChannelInviteModal: true});
+    }
+
+    hideChannelInviteModal = () => {
+        this.setState({showChannelInviteModal: false});
+    }
+
+    hideTeamMembersModal = () => {
+        this.setState({showTeamMembersModal: false});
+    }
+
+    handleGetProfilesInChannel = (e) => {
+        this.setState({popoverTarget: e.target, showPopover: !this.state.showPopover});
+        this.props.actions.getProfilesInChannel(this.props.channel.id, 0);
+    }
+
+    getTargetPopover = () => {
+        return this.state.popoverTarget;
     }
 
     render() {
@@ -141,8 +167,9 @@ export default class PopoverListMembers extends React.Component {
                 if (name) {
                     popoverHtml.push(
                         <div
+                            data-member={m}
                             className='more-modal__row'
-                            onClick={(e) => this.handleShowDirectChannel(m, e)}
+                            onClick={this.handleShowDirectChannel}
                             key={'popover-member-' + i}
                         >
                             <ProfilePicture
@@ -221,8 +248,8 @@ export default class PopoverListMembers extends React.Component {
         if (this.state.showChannelMembersModal) {
             channelMembersModal = (
                 <ChannelMembersModal
-                    onModalDismissed={() => this.setState({showChannelMembersModal: false})}
-                    showInviteModal={() => this.setState({showChannelInviteModal: true})}
+                    onModalDismissed={this.hideChannelMembersModal}
+                    showInviteModal={this.showChannelInviteModal}
                     channel={this.props.channel}
                 />
             );
@@ -232,7 +259,7 @@ export default class PopoverListMembers extends React.Component {
         if (this.state.showTeamMembersModal) {
             teamMembersModal = (
                 <TeamMembersModal
-                    onHide={() => this.setState({showTeamMembersModal: false})}
+                    onHide={this.hideTeamMembersModal}
                     isAdmin={isTeamAdmin || isSystemAdmin}
                 />
             );
@@ -242,7 +269,7 @@ export default class PopoverListMembers extends React.Component {
         if (this.state.showChannelInviteModal) {
             channelInviteModal = (
                 <ChannelInviteModal
-                    onHide={() => this.setState({showChannelInviteModal: false})}
+                    onHide={this.hideChannelInviteModal}
                     channel={this.props.channel}
                 />
             );
@@ -272,10 +299,7 @@ export default class PopoverListMembers extends React.Component {
                         id='member_popover'
                         className='member-popover__trigger'
                         ref='member_popover_target'
-                        onClick={(e) => {
-                            this.setState({popoverTarget: e.target, showPopover: !this.state.showPopover});
-                            this.props.actions.getProfilesInChannel(this.props.channel.id, 0);
-                        }}
+                        onClick={this.handleGetProfilesInChannel}
                     >
                         <span
                             id='channelMemberCountText'
@@ -294,7 +318,7 @@ export default class PopoverListMembers extends React.Component {
                     rootClose={true}
                     onHide={this.closePopover}
                     show={this.state.showPopover}
-                    target={() => this.state.popoverTarget}
+                    target={this.getTargetPopover}
                     placement='bottom'
                 >
                     <Popover
