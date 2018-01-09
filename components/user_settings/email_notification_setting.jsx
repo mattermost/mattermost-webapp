@@ -56,22 +56,24 @@ export default class EmailNotificationSetting extends React.Component {
             // until the rest of the notification settings are moved to preferences, we have to do this separately
             savePreference(Preferences.CATEGORY_NOTIFICATIONS, Preferences.EMAIL_INTERVAL, emailInterval.toString());
 
-            this.props.onSubmit({enableEmail});
+            this.props.onSubmit(enableEmail);
         } else {
             this.props.updateSection('');
         }
     }
 
-    handleExpand = () => {
-        this.props.updateSection('email');
-    }
+    handleUpdateSection = (section) => {
+        if (section) {
+            this.props.updateSection(section);
+        } else {
+            this.props.updateSection('');
 
-    handleCancel = (e) => {
-        this.setState({
-            enableEmail: this.props.enableEmail,
-            emailInterval: this.props.emailInterval
-        });
-        this.props.onCancel(e);
+            this.setState({
+                enableEmail: this.props.enableEmail,
+                emailInterval: this.props.emailInterval
+            });
+            this.props.onCancel();
+        }
     }
 
     render() {
@@ -95,7 +97,8 @@ export default class EmailNotificationSetting extends React.Component {
                     title={localizeMessage('user.settings.notifications.emailNotifications', 'Email notifications')}
                     inputs={inputs}
                     server_error={this.state.serverError}
-                    updateSection={this.handleCancel}
+                    section={'email'}
+                    updateSection={this.handleUpdateSection}
                 />
             );
         }
@@ -150,7 +153,8 @@ export default class EmailNotificationSetting extends React.Component {
                 <SettingItemMin
                     title={localizeMessage('user.settings.notifications.emailNotifications', 'Email notifications')}
                     describe={description}
-                    updateSection={this.handleExpand}
+                    section={'email'}
+                    updateSection={this.handleUpdateSection}
                 />
             );
         }
@@ -261,7 +265,7 @@ export default class EmailNotificationSetting extends React.Component {
                 submit={this.handleSubmit}
                 saving={this.props.saving}
                 server_error={this.props.serverError}
-                updateSection={this.handleCancel}
+                updateSection={this.handleUpdateSection}
             />
         );
     }

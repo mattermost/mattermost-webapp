@@ -21,6 +21,16 @@ export default class DesktopNotificationSettings extends React.Component {
         this.state = {};
     }
 
+    handleMinUpdateSection = (section) => {
+        this.props.updateSection(section);
+
+        this.props.cancel();
+    }
+
+    handleMaxUpdateSection = (section) => {
+        this.props.updateSection(section);
+    }
+
     buildMaximizedSetting() {
         const inputs = [];
         let extraInfo = null;
@@ -296,7 +306,7 @@ export default class DesktopNotificationSettings extends React.Component {
                 submit={this.props.submit}
                 saving={this.props.saving}
                 server_error={this.props.error}
-                updateSection={this.props.cancel}
+                updateSection={this.handleMaxUpdateSection}
             />
         );
     }
@@ -430,15 +440,12 @@ export default class DesktopNotificationSettings extends React.Component {
             }
         }
 
-        const handleUpdateDesktopSection = function updateDesktopSection() {
-            this.props.updateSection('desktop');
-        }.bind(this);
-
         return (
             <SettingItemMin
                 title={Utils.localizeMessage('user.settings.notifications.desktop.title', 'Desktop notifications')}
                 describe={describe}
-                updateSection={handleUpdateDesktopSection}
+                section={'desktop'}
+                updateSection={this.handleMinUpdateSection}
             />
         );
     }

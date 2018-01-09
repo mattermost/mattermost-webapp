@@ -133,35 +133,28 @@ describe('components/user_settings/EmailNotificationSetting', () => {
 
         expect(newOnSubmit).toBeCalled();
         expect(newOnSubmit).toHaveBeenCalledTimes(1);
-        expect(newOnSubmit).toBeCalledWith({enableEmail: 'false'});
+        expect(newOnSubmit).toBeCalledWith('false');
 
         expect(savePreference).toHaveBeenCalledTimes(1);
         expect(savePreference).toBeCalledWith('notifications', 'email_interval', '0');
     });
 
-    test('should pass handleExpand', () => {
+    test('should pass handleUpdateSection', () => {
         const newUpdateSection = jest.fn();
-        const props = {...requiredProps, updateSection: newUpdateSection};
-        const wrapper = mountWithIntl(<EmailNotificationSetting {...props}/>);
-
-        wrapper.instance().handleExpand();
-
-        expect(newUpdateSection).toBeCalled();
-        expect(newUpdateSection).toHaveBeenCalledTimes(1);
-        expect(newUpdateSection).toBeCalledWith('email');
-    });
-
-    test('should pass handleCancel', () => {
         const newOnCancel = jest.fn();
-        const props = {...requiredProps, onCancel: newOnCancel};
-        const evt = {preventDefault: jest.fn()};
+        const props = {...requiredProps, updateSection: newUpdateSection, onCancel: newOnCancel};
         const wrapper = mountWithIntl(<EmailNotificationSetting {...props}/>);
 
-        wrapper.instance().handleCancel(evt);
+        wrapper.instance().handleUpdateSection('email');
+        expect(newUpdateSection).toBeCalledWith('email');
+        expect(newUpdateSection).toHaveBeenCalledTimes(1);
+        expect(newOnCancel).not.toBeCalled();
 
+        wrapper.instance().handleUpdateSection();
+        expect(newUpdateSection).toBeCalled();
+        expect(newUpdateSection).toHaveBeenCalledTimes(2);
+        expect(newUpdateSection).toBeCalledWith('');
         expect(newOnCancel).toBeCalled();
-        expect(newOnCancel).toHaveBeenCalledTimes(1);
-        expect(newOnCancel).toBeCalledWith(evt);
     });
 
     test('should pass componentWillReceiveProps', () => {

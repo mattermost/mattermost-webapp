@@ -16,9 +16,9 @@ import UserStore from 'stores/user_store.jsx';
 import {ActionTypes, Constants, Preferences} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import AppDispatcher from '../../dispatcher/app_dispatcher.jsx';
-import SettingItemMax from '../setting_item_max.jsx';
-import SettingItemMin from '../setting_item_min.jsx';
+import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
+import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMin from 'components/setting_item_min.jsx';
 
 import CustomThemeChooser from './custom_theme_chooser.jsx';
 import PremadeThemeChooser from './premade_theme_chooser.jsx';
@@ -111,9 +111,7 @@ export default class ThemeSetting extends React.Component {
         $('.ps-container.modal-body').scrollTop(0);
     }
 
-    submitTheme(e) {
-        e.preventDefault();
-
+    submitTheme() {
         const teamId = this.state.applyToAllTeams ? '' : this.state.teamId;
 
         this.setState({isSaving: true});
@@ -173,6 +171,10 @@ export default class ThemeSetting extends React.Component {
         });
 
         this.props.setEnforceFocus(false);
+    }
+
+    handleUpdateSection = (section) => {
+        this.props.updateSection(section);
     }
 
     render() {
@@ -325,10 +327,7 @@ export default class ThemeSetting extends React.Component {
                     saving={this.state.isSaving}
                     server_error={serverError}
                     width='full'
-                    updateSection={(e) => {
-                        this.props.updateSection('');
-                        e.preventDefault();
-                    }}
+                    updateSection={this.handleUpdateSection}
                 />
             );
         } else {
@@ -346,9 +345,8 @@ export default class ThemeSetting extends React.Component {
                             defaultMessage='Open to manage your theme'
                         />
                     }
-                    updateSection={() => {
-                        this.props.updateSection('theme');
-                    }}
+                    section={'theme'}
+                    updateSection={this.handleUpdateSection}
                 />
             );
         }

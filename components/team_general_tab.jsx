@@ -12,8 +12,8 @@ import {updateTeam} from 'actions/team_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import SettingItemMax from './setting_item_max.jsx';
-import SettingItemMin from './setting_item_min.jsx';
+import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMin from 'components/setting_item_min.jsx';
 
 class GeneralTab extends React.Component {
     constructor(props) {
@@ -25,13 +25,9 @@ class GeneralTab extends React.Component {
         this.handleOpenInviteSubmit = this.handleOpenInviteSubmit.bind(this);
         this.handleDescriptionSubmit = this.handleDescriptionSubmit.bind(this);
         this.handleClose = this.handleClose.bind(this);
-        this.onUpdateNameSection = this.onUpdateNameSection.bind(this);
         this.updateName = this.updateName.bind(this);
         this.updateDescription = this.updateDescription.bind(this);
-        this.onUpdateDescriptionSection = this.onUpdateDescriptionSection.bind(this);
-        this.onUpdateInviteIdSection = this.onUpdateInviteIdSection.bind(this);
         this.updateInviteId = this.updateInviteId.bind(this);
-        this.onUpdateOpenInviteSection = this.onUpdateOpenInviteSection.bind(this);
         this.handleOpenInviteRadio = this.handleOpenInviteRadio.bind(this);
         this.handleGenerateInviteId = this.handleGenerateInviteId.bind(this);
 
@@ -83,9 +79,7 @@ class GeneralTab extends React.Component {
         this.setState({allow_open_invite: openInvite});
     }
 
-    handleOpenInviteSubmit(e) {
-        e.preventDefault();
-
+    handleOpenInviteSubmit() {
         var state = {serverError: '', clientError: ''};
 
         var data = {...this.props.team};
@@ -101,9 +95,7 @@ class GeneralTab extends React.Component {
         );
     }
 
-    handleNameSubmit(e) {
-        e.preventDefault();
-
+    handleNameSubmit() {
         var state = {serverError: '', clientError: ''};
         let valid = true;
 
@@ -148,9 +140,7 @@ class GeneralTab extends React.Component {
         );
     }
 
-    handleInviteIdSubmit(e) {
-        e.preventDefault();
-
+    handleInviteIdSubmit() {
         var state = {serverError: '', clientError: ''};
         let valid = true;
 
@@ -185,9 +175,7 @@ class GeneralTab extends React.Component {
         this.updateSection('');
     }
 
-    handleDescriptionSubmit(e) {
-        e.preventDefault();
-
+    handleDescriptionSubmit() {
         var state = {serverError: '', clientError: ''};
         let valid = true;
 
@@ -226,40 +214,8 @@ class GeneralTab extends React.Component {
         $('#team_settings').off('hidden.bs.modal', this.handleClose);
     }
 
-    onUpdateNameSection(e) {
-        e.preventDefault();
-        if (this.props.activeSection === 'name') {
-            this.updateSection('');
-        } else {
-            this.updateSection('name');
-        }
-    }
-
-    onUpdateDescriptionSection(e) {
-        e.preventDefault();
-        if (this.props.activeSection === 'description') {
-            this.updateSection('');
-        } else {
-            this.updateSection('description');
-        }
-    }
-
-    onUpdateInviteIdSection(e) {
-        e.preventDefault();
-        if (this.props.activeSection === 'invite_id') {
-            this.updateSection('');
-        } else {
-            this.updateSection('invite_id');
-        }
-    }
-
-    onUpdateOpenInviteSection(e) {
-        e.preventDefault();
-        if (this.props.activeSection === 'open_invite') {
-            this.updateSection('');
-        } else {
-            this.updateSection('open_invite');
-        }
+    handleUpdateSection = (section) => {
+        this.updateSection(section);
     }
 
     updateName(e) {
@@ -335,8 +291,9 @@ class GeneralTab extends React.Component {
                     title={Utils.localizeMessage('general_tab.openInviteTitle', 'Allow any user with an account on this server to join this team')}
                     inputs={inputs}
                     submit={this.handleOpenInviteSubmit}
-                    server_error={serverError}
-                    updateSection={this.onUpdateOpenInviteSection}
+                    serverError={serverError}
+                    section={'open_invite'}
+                    updateSection={this.handleUpdateSection}
                 />
             );
         } else {
@@ -351,7 +308,7 @@ class GeneralTab extends React.Component {
                 <SettingItemMin
                     title={Utils.localizeMessage('general_tab.openInviteTitle', 'Allow any user with an account on this server to join this team')}
                     describe={describe}
-                    updateSection={this.onUpdateOpenInviteSection}
+                    updateSection={this.handleUpdateSection}
                 />
             );
         }
@@ -412,9 +369,10 @@ class GeneralTab extends React.Component {
                     title={Utils.localizeMessage('general_tab.codeTitle', 'Invite Code')}
                     inputs={inputs}
                     submit={this.handleInviteIdSubmit}
-                    server_error={serverError}
-                    client_error={clientError}
-                    updateSection={this.onUpdateInviteIdSection}
+                    serverError={serverError}
+                    clientError={clientError}
+                    section={'invite_id'}
+                    updateSection={this.handleUpdateSection}
                 />
             );
         } else {
@@ -422,7 +380,7 @@ class GeneralTab extends React.Component {
                 <SettingItemMin
                     title={Utils.localizeMessage('general_tab.codeTitle', 'Invite Code')}
                     describe={Utils.localizeMessage('general_tab.codeDesc', "Click 'Edit' to regenerate Invite Code.")}
-                    updateSection={this.onUpdateInviteIdSection}
+                    updateSection={this.handleUpdateSection}
                 />
             );
         }
@@ -468,9 +426,10 @@ class GeneralTab extends React.Component {
                     title={Utils.localizeMessage('general_tab.teamName', 'Team Name')}
                     inputs={inputs}
                     submit={this.handleNameSubmit}
-                    server_error={serverError}
-                    client_error={clientError}
-                    updateSection={this.onUpdateNameSection}
+                    serverError={serverError}
+                    clientError={clientError}
+                    section={'name'}
+                    updateSection={this.handleUpdateSection}
                     extraInfo={nameExtraInfo}
                 />
             );
@@ -481,7 +440,7 @@ class GeneralTab extends React.Component {
                 <SettingItemMin
                     title={Utils.localizeMessage('general_tab.teamName', 'Team Name')}
                     describe={describe}
-                    updateSection={this.onUpdateNameSection}
+                    updateSection={this.handleUpdateSection}
                 />
             );
         }
@@ -527,9 +486,10 @@ class GeneralTab extends React.Component {
                     title={Utils.localizeMessage('general_tab.teamDescription', 'Team Description')}
                     inputs={inputs}
                     submit={this.handleDescriptionSubmit}
-                    server_error={serverError}
-                    client_error={clientError}
-                    updateSection={this.onUpdateDescriptionSection}
+                    serverError={serverError}
+                    clientError={clientError}
+                    section={'description'}
+                    updateSection={this.handleUpdateSection}
                     extraInfo={descriptionExtraInfo}
                 />
             );
@@ -550,7 +510,7 @@ class GeneralTab extends React.Component {
                 <SettingItemMin
                     title={Utils.localizeMessage('general_tab.teamDescription', 'Team Description')}
                     describe={describemsg}
-                    updateSection={this.onUpdateDescriptionSection}
+                    updateSection={this.handleUpdateSection}
                 />
             );
         }
