@@ -69,6 +69,10 @@ export default class SelectTeam extends React.Component {
         return teamItemA.props.team.display_name.localeCompare(teamItemB.props.team.display_name);
     }
 
+    handleLoggedOutEvent = () => {
+        GlobalActions.emitUserLoggedOutEvent();
+    }
+
     render() {
         let openTeamContents = [];
         const isAlreadyMember = new Map();
@@ -206,7 +210,7 @@ export default class SelectTeam extends React.Component {
                 <div className='signup-header'>
                     <a
                         href='#'
-                        onClick={() => GlobalActions.emitUserLoggedOutEvent()}
+                        onClick={this.handleLoggedOutEvent}
                     >
                         <span className='fa fa-chevron-left'/>
                         <FormattedMessage id='web.header.logout'/>

@@ -132,8 +132,8 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
                 <InstalledOutgoingWebhook
                     key={outgoingWebhook.id}
                     outgoingWebhook={outgoingWebhook}
-                    onRegenToken={() => this.regenOutgoingWebhookToken(outgoingWebhook)}
-                    onDelete={() => this.removeOutgoingHook(outgoingWebhook)}
+                    onRegenToken={this.regenOutgoingWebhookToken}
+                    onDelete={this.removeOutgoingHook}
                     creator={this.props.users[outgoingWebhook.creator_id] || {}}
                     canChange={canChange}
                     team={this.props.team}

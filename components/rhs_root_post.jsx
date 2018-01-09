@@ -217,6 +217,10 @@ export default class RhsRootPost extends React.Component {
         });
     }
 
+    getDotMenuRef = () => {
+        return this.refs.dotMenu;
+    }
+
     render() {
         const post = this.props.post;
         const user = this.props.user;
@@ -247,7 +251,7 @@ export default class RhsRootPost extends React.Component {
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
                         onHide={this.toggleEmojiPicker}
-                        target={() => this.refs.dotMenu}
+                        target={this.getDotMenuRef}
                         onEmojiClick={this.reactEmojiClick}
                         rightOffset={15}
                         spaceRequiredAbove={342}

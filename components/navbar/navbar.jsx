@@ -356,6 +356,12 @@ export default class Navbar extends React.Component {
         );
     }
 
+    hideHeaderOverlay = () => {
+        if (this.refs.headerOverlay) {
+            this.refs.headerOverlay.hide();
+        }
+    }
+
     createDropdown = (channel, channelTitle, isSystemAdmin, isTeamAdmin, isChannelAdmin, isDirect, isGroup) => {
         if (channel) {
             let viewInfoOption;
@@ -692,7 +698,7 @@ export default class Navbar extends React.Component {
                             {toggleFavoriteOption}
                             <div
                                 className='close visible-xs-block'
-                                onClick={() => this.refs.headerOverlay.hide()}
+                                onClick={this.hideHeaderOverlay}
                             >
                                 {'×'}
                             </div>
@@ -789,6 +795,16 @@ export default class Navbar extends React.Component {
         return null;
     }
 
+    hideEditChannelHeaderModal = () => {
+        this.setState({showEditChannelHeaderModal: false});
+    }
+
+    showChannelInviteModalButton = () => {
+        if (this.refs.channelInviteModalButton) {
+            this.refs.channelInviteModalButton.show();
+        }
+    }
+
     render() {
         if (!this.isStateValid()) {
             return null;
@@ -837,7 +853,7 @@ export default class Navbar extends React.Component {
             if (this.state.showEditChannelHeaderModal) {
                 editChannelHeaderModal = (
                     <EditChannelHeaderModal
-                        onHide={() => this.setState({showEditChannelHeaderModal: false})}
+                        onHide={this.hideEditChannelHeaderModal}
                         channel={channel}
                     />
                 );
@@ -864,7 +880,7 @@ export default class Navbar extends React.Component {
                 channelMembersModal = (
                     <ChannelMembersModal
                         onModalDismissed={this.hideMembersModal}
-                        showInviteModal={() => this.refs.channelInviteModalButton.show()}
+                        showInviteModal={this.showChannelInviteModalButton}
                         channel={channel}
                     />
                 );

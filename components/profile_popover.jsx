@@ -235,7 +235,7 @@ class ProfilePopover extends React.Component {
                     <a
                         href='#'
                         className='text-nowrap user-popover__email'
-                        onClick={() => this.initWebrtc()}
+                        onClick={this.initWebrtc}
                         disabled={!isOnline}
                     >
                         <i className='fa fa-video-camera'/>
