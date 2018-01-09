@@ -146,7 +146,7 @@ export default class Sidebar extends React.Component {
         }
 
         // reset the scrollbar upon switching teams
-        if (this.state.currentTeam !== prevState.currentTeam) {
+        if (this.refs.container && this.state.currentTeam !== prevState.currentTeam) {
             this.refs.container.scrollTop = 0;
             $('.nav-pills__container').perfectScrollbar('update');
         }
@@ -190,7 +190,7 @@ export default class Sidebar extends React.Component {
     }
 
     onChange = () => {
-        if (this.state.currentTeam.id !== TeamStore.getCurrentId()) {
+        if (this.state.currentTeam && this.state.currentTeam.id !== TeamStore.getCurrentId()) {
             ChannelStore.clear();
         }
         this.setState(this.getStateFromStores());

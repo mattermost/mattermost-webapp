@@ -26,6 +26,10 @@ export default class GetTeamInviteLinkModal extends React.PureComponent {
         config: PropTypes.object.isRequired
     }
 
+    static defaultProps = {
+        currentTeam: {}
+    }
+
     constructor(props) {
         super(props);
         this.state = {

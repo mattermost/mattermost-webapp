@@ -21,7 +21,7 @@ import CreatePost from './create_post.jsx';
 
 function mapStateToProps() {
     return (state, ownProps) => {
-        const currentChannel = getCurrentChannel(state);
+        const currentChannel = getCurrentChannel(state) || {};
         const getDraft = makeGetGlobalItem(StoragePrefixes.DRAFT + currentChannel.id, {
             message: '',
             uploadsInProgress: [],
