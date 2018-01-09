@@ -16,6 +16,7 @@ describe('components/CreateComment', () => {
 
     beforeEach(() => {
         global.window.mm_config.EnableEmojiPicker = 'true';
+        global.window.mm_config.EnableConfirmNotificationsToChannel = 'true';
     });
 
     afterEach(() => {
@@ -29,6 +30,7 @@ describe('components/CreateComment', () => {
     const baseProps = {
         channelId,
         rootId,
+        channelMembersCount: 3,
         draft: {
             message: 'Test message',
             uploadsInProgress: [{}],
@@ -399,6 +401,62 @@ describe('components/CreateComment', () => {
         wrapper.instance().handleSubmit({preventDefault});
         expect(onSubmit).toHaveBeenCalled();
         expect(preventDefault).toHaveBeenCalled();
+    });
+
+    it('handleSubmit should show Confirm Modal for @all/@channel mentions when needed', () => {
+        let onSubmit = jest.fn();
+        let draft = {
+            message: 'Test message @all',
+            uploadsInProgress: [],
+            fileInfos: [{}, {}, {}]
+        };
+
+        const props = {...baseProps, draft, onSubmit};
+
+        const wrapper = shallow(
+            <CreateComment {...props}/>
+        );
+
+        let preventDefault = jest.fn();
+        wrapper.instance().handleSubmit({preventDefault});
+        expect(onSubmit).toHaveBeenCalled();
+        expect(preventDefault).toHaveBeenCalled();
+        expect(wrapper.state('showConfirmModal')).toBe(false);
+
+        onSubmit = jest.fn();
+        wrapper.setProps({channelMembersCount: 8, onSubmit});
+
+        preventDefault = jest.fn();
+        wrapper.instance().handleSubmit({preventDefault});
+        expect(onSubmit).not.toHaveBeenCalled();
+        expect(preventDefault).toHaveBeenCalled();
+        expect(wrapper.state('showConfirmModal')).toBe(true);
+
+        draft = {
+            message: 'Test message @channel',
+            uploadsInProgress: [],
+            fileInfos: [{}, {}, {}]
+        };
+        wrapper.setState({showConfirmModal: false, draft});
+
+        preventDefault = jest.fn();
+        wrapper.instance().handleSubmit({preventDefault});
+        expect(onSubmit).not.toHaveBeenCalled();
+        expect(preventDefault).toHaveBeenCalled();
+        expect(wrapper.state('showConfirmModal')).toBe(true);
+
+        draft = {
+            message: 'Test message',
+            uploadsInProgress: [],
+            fileInfos: [{}, {}, {}]
+        };
+        wrapper.setState({showConfirmModal: false, draft});
+
+        preventDefault = jest.fn();
+        wrapper.instance().handleSubmit({preventDefault});
+        expect(onSubmit).toHaveBeenCalled();
+        expect(preventDefault).toHaveBeenCalled();
+        expect(wrapper.state('showConfirmModal')).toBe(false);
     });
 
     test('removePreview should remove file info and upload in progress with corresponding id', () => {
