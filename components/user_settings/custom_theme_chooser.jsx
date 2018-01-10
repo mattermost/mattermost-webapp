@@ -115,12 +115,10 @@ class CustomThemeChooser extends React.Component {
         super(props);
         this.selectTheme = this.selectTheme.bind(this);
 
-        const copyTheme = Object.assign({}, this.props.theme);
-        delete copyTheme.type;
-        delete copyTheme.image;
+        const copyTheme = this.setCopyTheme(this.props.theme);
 
         this.state = {
-            copyTheme: JSON.stringify(copyTheme)
+            copyTheme
         };
     }
 
@@ -147,7 +145,21 @@ class CustomThemeChooser extends React.Component {
             }
 
             updateTheme(newTheme);
+
+            const copyTheme = this.setCopyTheme(newTheme);
+
+            this.setState({
+                copyTheme
+            });
         }
+    }
+
+    setCopyTheme(theme) {
+        const copyTheme = Object.assign({}, theme);
+        delete copyTheme.type;
+        delete copyTheme.image;
+
+        return JSON.stringify(copyTheme);
     }
 
     pasteBoxChange = (e) => {
