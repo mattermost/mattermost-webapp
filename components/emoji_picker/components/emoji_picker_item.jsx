@@ -39,10 +39,8 @@ export default class EmojiPickerItem extends React.PureComponent {
             const bottomOfTheEmojiItem = topOfTheEmojiItem + this.emojiItem.offsetHeight;
             const {containerRef, containerTop, containerBottom} = nextProps;
             if (topOfTheEmojiItem < containerTop) {
-                // this.emojiItem.scrollIntoView();
                 containerRef.scrollTop = topOfTheEmojiItem - SCROLLING_ADDT_VISUAL_SPACING;
             } else if (bottomOfTheEmojiItem > containerBottom) {
-                // this.emojiItem.scrollIntoView(false);
                 containerRef.scrollTop = (bottomOfTheEmojiItem - containerRef.offsetHeight) + SCROLLING_ADDT_VISUAL_SPACING;
             }
         }
