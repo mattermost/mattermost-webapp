@@ -16,6 +16,9 @@ import * as Utils from 'utils/utils.jsx';
 import FormError from 'components/form_error.jsx';
 
 const HTTP_STATUS_OK = 200;
+const UPLOAD_LOADING_STATUS = 'loading';
+const UPLOAD_COMPLETE_STATUS = 'complete';
+const UPLOAD_DEFAULT_STATUS = '';
 
 export default class BrandImageSetting extends React.PureComponent {
     static propTypes = {
@@ -36,9 +39,8 @@ export default class BrandImageSetting extends React.PureComponent {
             brandImage: null,
             brandImageExists: false,
             brandImageTimestamp: Date.now(),
-            uploading: false,
-            uploadCompleted: false,
-            error: ''
+            error: '',
+            status: UPLOAD_DEFAULT_STATUS
         };
     }
 
@@ -72,7 +74,8 @@ export default class BrandImageSetting extends React.PureComponent {
 
         if (element.prop('files').length > 0) {
             this.setState({
-                brandImage: element.prop('files')[0]
+                brandImage: element.prop('files')[0],
+                status: UPLOAD_DEFAULT_STATUS
             });
         }
     }
@@ -84,35 +87,29 @@ export default class BrandImageSetting extends React.PureComponent {
             return;
         }
 
-        if (this.state.uploading) {
+        if (this.state.status === UPLOAD_LOADING_STATUS) {
             return;
         }
 
-        $(this.refs.upload).button('loading');
-
         this.setState({
-            uploading: true,
-            error: ''
+            error: '',
+            status: UPLOAD_LOADING_STATUS
         });
 
         uploadBrandImage(
             this.state.brandImage,
             () => {
-                $(this.refs.upload).button('complete');
-
                 this.setState({
                     brandImageExists: true,
                     brandImage: null,
                     brandImageTimestamp: Date.now(),
-                    uploading: false
+                    status: UPLOAD_COMPLETE_STATUS
                 });
             },
             (err) => {
-                $(this.refs.upload).button('reset');
-
                 this.setState({
-                    uploading: false,
-                    error: err.message
+                    error: err.message,
+                    status: UPLOAD_DEFAULT_STATUS
                 });
             }
         );
@@ -187,20 +184,12 @@ export default class BrandImageSetting extends React.PureComponent {
                             onChange={this.handleImageChange}
                         />
                     </div>
-                    <button
-                        className={btnPrimaryClass}
+                    <UploadButton
+                        primaryClass={btnPrimaryClass}
+                        status={this.state.status}
                         disabled={this.props.disabled || !this.state.brandImage}
                         onClick={this.handleImageSubmit}
-                        id='upload-button'
-                        ref='upload'
-                        data-loading-text={'<span class=\'fa fa-refresh fa-rotate\'></span> ' + Utils.localizeMessage('admin.team.uploading', 'Uploading..')}
-                        data-complete-text={'<span class=\'fa fa-check\'></span> ' + Utils.localizeMessage('admin.team.uploaded', 'Uploaded!')}
-                    >
-                        <FormattedMessage
-                            id='admin.team.upload'
-                            defaultMessage='Upload'
-                        />
-                    </button>
+                    />
                     <br/>
                     <FormError error={this.state.error}/>
                     <p className='help-text no-margin'>
@@ -214,3 +203,45 @@ export default class BrandImageSetting extends React.PureComponent {
         );
     }
 }
+
+function UploadButton(props) {
+    let buttonIcon;
+    let buttonText;
+
+    switch (props.status) {
+    case UPLOAD_LOADING_STATUS:
+        buttonIcon = (
+            <i className='fa fa-refresh icon--rotate'/>
+        );
+        buttonText = Utils.localizeMessage('admin.team.uploading', 'Uploading..');
+        break;
+    case UPLOAD_COMPLETE_STATUS:
+        buttonIcon = (
+            <i className='fa fa-check'/>
+        );
+        buttonText = Utils.localizeMessage('admin.team.uploaded', 'Uploaded!');
+        break;
+    default:
+        buttonText = Utils.localizeMessage('admin.team.upload', 'Upload');
+    }
+
+    return (
+        <button
+            className={props.primaryClass}
+            disabled={props.disabled}
+            onClick={props.onClick}
+            id='upload-button'
+        >
+            {buttonIcon}
+            {' '}
+            {buttonText}
+        </button>
+    );
+}
+
+UploadButton.propTypes = {
+    status: PropTypes.string,
+    primaryClass: PropTypes.string,
+    disabled: PropTypes.bool,
+    onClick: PropTypes.func
+};
