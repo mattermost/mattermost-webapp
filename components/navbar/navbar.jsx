@@ -99,9 +99,9 @@ export default class Navbar extends React.Component {
         UserStore.removeChangeListener(this.onChange);
         PreferenceStore.removeChangeListener(this.onChange);
         ModalStore.removeModalListener(ActionTypes.TOGGLE_QUICK_SWITCH_MODAL, this.toggleQuickSwitchModal);
-        ModalStore.addModalListener(ActionTypes.TOGGLE_CHANNEL_HEADER_UPDATE_MODAL, this.hideEditChannelHeaderModal);
-        ModalStore.addModalListener(ActionTypes.TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL, this.hideChannelPurposeModal);
-        ModalStore.addModalListener(ActionTypes.TOGGLE_CHANNEL_NAME_UPDATE_MODAL, this.hideRenameChannelModal);
+        ModalStore.removeModalListener(ActionTypes.TOGGLE_CHANNEL_HEADER_UPDATE_MODAL, this.hideEditChannelHeaderModal);
+        ModalStore.removeModalListener(ActionTypes.TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL, this.hideChannelPurposeModal);
+        ModalStore.removeModalListener(ActionTypes.TOGGLE_CHANNEL_NAME_UPDATE_MODAL, this.hideRenameChannelModal);
         WebrtcStore.removeChangedListener(this.onChange);
         WebrtcStore.removeBusyListener(this.onBusy);
         document.removeEventListener('keydown', this.handleQuickSwitchKeyPress);
