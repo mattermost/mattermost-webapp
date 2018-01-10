@@ -204,28 +204,28 @@ export default class EmojiPicker extends React.PureComponent {
 
     handleKeyDown(e) {
         switch (e.key) {
-            case 'ArrowRight':
-                e.preventDefault();
-                this.selectNextEmoji();
-                break;
-            case 'ArrowLeft':
-                e.preventDefault();
-                this.selectPrevEmoji();
-                break;
-            case 'ArrowUp':
-                e.preventDefault();
-                this.selectPrevEmoji(EMOJI_PER_ROW);
-                break;
-            case 'ArrowDown':
-                e.preventDefault();
-                this.selectNextEmoji(EMOJI_PER_ROW);
-                break;
-            case 'Enter':
-                e.preventDefault();
-                if (this.getCurrentEmojiByCursor(this.state.cursor)) {
-                    this.props.onEmojiClick(this.getCurrentEmojiByCursor(this.state.cursor));
-                }
-                break;
+        case 'ArrowRight':
+            e.preventDefault();
+            this.selectNextEmoji();
+            break;
+        case 'ArrowLeft':
+            e.preventDefault();
+            this.selectPrevEmoji();
+            break;
+        case 'ArrowUp':
+            e.preventDefault();
+            this.selectPrevEmoji(EMOJI_PER_ROW);
+            break;
+        case 'ArrowDown':
+            e.preventDefault();
+            this.selectNextEmoji(EMOJI_PER_ROW);
+            break;
+        case 'Enter':
+            e.preventDefault();
+            if (this.getCurrentEmojiByCursor(this.state.cursor)) {
+                this.props.onEmojiClick(this.getCurrentEmojiByCursor(this.state.cursor));
+            }
+            break;
         }
     }
 
