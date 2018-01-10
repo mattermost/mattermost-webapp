@@ -158,9 +158,6 @@
             vertical-align: middle;
             width: 26px;
             border-radius: 3px;
-            &.selected {
-                background-color: #2389d7;
-            }
         }
 
         > span {
@@ -224,7 +221,6 @@
         .emoji-picker__preview-aliases {
             display: block;
             font-size: 12px;
-
             font-weight: bold;
         }
     }
