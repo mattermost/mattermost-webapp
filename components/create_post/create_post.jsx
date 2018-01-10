@@ -599,7 +599,13 @@ export default class CreatePost extends React.Component {
             }
         }
 
-        if ((e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey && (e.keyCode === KeyCodes.UP || e.keyCode === KeyCodes.DOWN)) {
+        if (
+            (e.ctrlKey || e.metaKey) &&
+            !e.altKey &&
+            !e.shiftKey &&
+            (e.keyCode === KeyCodes.UP || e.keyCode === KeyCodes.DOWN) &&
+            this.props.draft.message.length === 0
+        ) {
             e.preventDefault();
             if (e.keyCode === KeyCodes.UP) {
                 this.props.actions.moveHistoryIndexBack(Posts.MESSAGE_TYPES.POST).then(() => this.fillMessageFromHistory());
