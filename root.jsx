@@ -14,7 +14,7 @@ import * as Websockets from 'actions/websocket_actions.jsx';
 import {loadMeAndConfig} from 'actions/user_actions.jsx';
 import PersistGate from 'components/persist_gate';
 import ChannelStore from 'stores/channel_store.jsx';
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {trackLoadTime} from 'actions/diagnostics_actions.jsx';
 import * as I18n from 'i18n/i18n.jsx';
 import {initializePlugins} from 'plugins';
 
@@ -129,18 +129,6 @@ function renderRootComponent() {
         </Provider>
     ),
     document.getElementById('root'));
-}
-
-function trackLoadTime() {
-    // Must be wrapped in setTimeout because loadEventEnd property is 0
-    // until onload is complete, also time added because analytics
-    // code isn't loaded until a subsequent window event has fired.
-    const tenSeconds = 10000;
-    setTimeout(() => {
-        const {loadEventEnd, navigationStart} = window.performance.timing;
-        const pageLoadTime = loadEventEnd - navigationStart;
-        trackEvent('performance', 'page_load', {duration: pageLoadTime});
-    }, tenSeconds);
 }
 
 /**

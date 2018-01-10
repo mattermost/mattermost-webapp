@@ -11,6 +11,7 @@ import {FormattedMessage} from 'react-intl';
 import {updateChannelNotifyProps} from 'actions/channel_actions.jsx';
 
 import {NotificationLevels} from 'utils/constants.jsx';
+import * as Utils from 'utils/utils.jsx';
 
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
@@ -43,6 +44,24 @@ export default class ChannelNotificationsModal extends React.Component {
             unreadLevel: props.channelMember.notify_props.mark_unread,
             pushLevel: props.channelMember.notify_props.push || NotificationLevels.DEFAULT
         };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (!Utils.areObjectsEqual(this.props.channelMember.notify_props, nextProps.channelMember.notify_props)) {
+            this.setState({
+                notifyLevel: nextProps.channelMember.notify_props.desktop,
+                unreadLevel: nextProps.channelMember.notify_props.mark_unread,
+                pushLevel: nextProps.channelMember.notify_props.push || NotificationLevels.DEFAULT
+            });
+        }
+    }
+
+    handleOnHide = () => {
+        this.setState({
+            activeSection: ''
+        });
+
+        this.props.onHide();
     }
 
     updateSection(section) {
@@ -614,8 +633,8 @@ export default class ChannelNotificationsModal extends React.Component {
             <Modal
                 show={this.props.show}
                 dialogClassName='settings-modal settings-modal--tabless'
-                onHide={this.props.onHide}
-                onExited={this.props.onHide}
+                onHide={this.handleOnHide}
+                onExited={this.handleOnHide}
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title>

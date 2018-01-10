@@ -35,18 +35,6 @@ function renderJoinChannelMessage(post, options) {
     );
 }
 
-function renderJoinTeamMessage(post, options) {
-    const username = renderUsername(post.props.username, options);
-
-    return (
-        <FormattedMessage
-            id='api.team.join_team.post_and_forget'
-            defaultMessage='{username} joined the team.'
-            values={{username}}
-        />
-    );
-}
-
 function renderLeaveChannelMessage(post, options) {
     const username = renderUsername(post.props.username, options);
 
@@ -75,6 +63,44 @@ function renderAddToChannelMessage(post, options) {
     );
 }
 
+function renderRemoveFromChannelMessage(post, options) {
+    const removedUsername = renderUsername(post.props.removedUsername, options);
+
+    return (
+        <FormattedMessage
+            id='api.channel.remove_member.removed'
+            defaultMessage='{removedUsername} was removed from the channel'
+            values={{
+                removedUsername
+            }}
+        />
+    );
+}
+
+function renderJoinTeamMessage(post, options) {
+    const username = renderUsername(post.props.username, options);
+
+    return (
+        <FormattedMessage
+            id='api.team.join_team.post_and_forget'
+            defaultMessage='{username} joined the team.'
+            values={{username}}
+        />
+    );
+}
+
+function renderLeaveTeamMessage(post, options) {
+    const username = renderUsername(post.props.username, options);
+
+    return (
+        <FormattedMessage
+            id='api.team.leave.left'
+            defaultMessage='{username} left the team.'
+            values={{username}}
+        />
+    );
+}
+
 function renderAddToTeamMessage(post, options) {
     const username = renderUsername(post.props.username, options);
     const addedUsername = renderUsername(post.props.addedUsername, options);
@@ -91,13 +117,13 @@ function renderAddToTeamMessage(post, options) {
     );
 }
 
-function renderRemoveFromChannelMessage(post, options) {
+function renderRemoveFromTeamMessage(post, options) {
     const removedUsername = renderUsername(post.props.removedUsername, options);
 
     return (
         <FormattedMessage
-            id='api.channel.remove_member.removed'
-            defaultMessage='{removedUsername} was removed from the channel'
+            id='api.team.remove_user_from_team.removed'
+            defaultMessage='{removedUsername} was removed from the team.'
             values={{
                 removedUsername
             }}
@@ -250,11 +276,13 @@ function renderChannelDeletedMessage(post, options) {
 
 const systemMessageRenderers = {
     [PostTypes.JOIN_CHANNEL]: renderJoinChannelMessage,
-    [PostTypes.JOIN_TEAM]: renderJoinTeamMessage,
     [PostTypes.LEAVE_CHANNEL]: renderLeaveChannelMessage,
     [PostTypes.ADD_TO_CHANNEL]: renderAddToChannelMessage,
-    [PostTypes.ADD_TO_TEAM]: renderAddToTeamMessage,
     [PostTypes.REMOVE_FROM_CHANNEL]: renderRemoveFromChannelMessage,
+    [PostTypes.JOIN_TEAM]: renderJoinTeamMessage,
+    [PostTypes.LEAVE_TEAM]: renderLeaveTeamMessage,
+    [PostTypes.ADD_TO_TEAM]: renderAddToTeamMessage,
+    [PostTypes.REMOVE_FROM_TEAM]: renderRemoveFromTeamMessage,
     [PostTypes.HEADER_CHANGE]: renderHeaderChangeMessage,
     [PostTypes.DISPLAYNAME_CHANGE]: renderDisplayNameChangeMessage,
     [PostTypes.PURPOSE_CHANGE]: renderPurposeChangeMessage,
@@ -287,6 +315,8 @@ export function renderSystemMessage(post, options) {
         return null;
     } else if (systemMessageRenderers[post.type]) {
         return systemMessageRenderers[post.type](post, options);
+    } else if (post.type === PostTypes.EPHEMERAL_ADD_TO_CHANNEL) {
+        return renderAddToChannelMessage(post, options);
     }
 
     return null;

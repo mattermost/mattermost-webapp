@@ -373,13 +373,13 @@ export async function getChannelMembersForUserIds(channelId, userIds, success, e
 }
 
 export async function leaveChannel(channelId, success) {
+    const townsquare = ChannelStore.getByName('town-square');
+    browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + townsquare.name);
+
     await ChannelActions.leaveChannel(channelId)(dispatch, getState);
     if (ChannelUtils.isFavoriteChannelId(channelId)) {
         unmarkFavorite(channelId);
     }
-
-    const townsquare = ChannelStore.getByName(Constants.DEFAULT_CHANNEL);
-    browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + townsquare.name);
 
     if (success) {
         success();

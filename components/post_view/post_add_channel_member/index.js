@@ -9,6 +9,7 @@ import {removePost} from 'mattermost-redux/actions/posts';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getChannel, getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
 import PostAddChannelMember from './post_add_channel_member.jsx';
 
@@ -18,7 +19,8 @@ function mapStateToProps(state, ownProps) {
     return {
         ...ownProps,
         team: getCurrentTeam(state),
-        channel: getChannel(state, currentChannelId)
+        channel: getChannel(state, currentChannelId),
+        currentUser: getCurrentUser(state)
     };
 }
 

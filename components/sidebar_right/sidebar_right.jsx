@@ -145,9 +145,8 @@ export default class SidebarRight extends React.Component {
             expandedClass = 'sidebar--right--expanded';
         }
 
-        var currentId = this.props.currentUser.id;
         var searchForm = null;
-        if (currentId) {
+        if (this.props.currentUser) {
             searchForm = <SearchBox isFocus={this.props.searchVisible && Utils.isMobile()}/>;
         }
 
