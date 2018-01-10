@@ -409,7 +409,7 @@
         bottom: 0;
         max-height: 162px;
         overflow: hidden;
-        padding: 14px 0 14px 20px;
+        padding: 12px 0 12px 15px;
         resize: none;
 
         &:not(.custom-textarea--emoji-picker) {
@@ -421,178 +421,101 @@
         }
 
         &.textbox-preview-area {
-          overflow-y: auto;
-      }
-  }
+            overflow-y: auto;
+        }
+    }
 
-  .emoji-picker {
-    position: absolute;
-    right: 0;
-    top: -361px;
-}
+    .emoji-picker {
+        position: absolute;
+        right: 0;
+        top: -361px;
+    }
 
-.scroll {
+    .scroll {
+        .post-body__actions {
+            right: 10px;
+        }
+
+        .custom-textarea {
+            -ms-overflow-style: auto;
+            -webkit-overflow-scrolling: touch;
+            overflow: auto;
+
+            &:not(.custom-textarea--emoji-picker) {
+                padding-right: 50px;
+            }
+
+            &.custom-textarea--emoji-picker {
+                padding-right: 90px;
+            }
+        }
+    }
+
     .post-body__actions {
-        right: 10px;
-    }
-
-    .custom-textarea {
-        -ms-overflow-style: auto;
-        -webkit-overflow-scrolling: touch;
-        overflow: auto;
-
-        &:not(.custom-textarea--emoji-picker) {
-            padding-right: 50px;
-        }
-
-        &.custom-textarea--emoji-picker {
-            padding-right: 90px;
-        }
-    }
-}
-
-.post-body__actions {
-    display: flex;
-    height: 100%;
-    position: absolute;
-    right: 0;
-    top: 0;
-
-    > span {
-        border-left: 1px solid transparent;
-        width: 41px;
-
-        &:first-child {
-            border: none;
-        }
-
-        > span,
-        div {
-            display: block;
-            height: 49px;
-            line-height: 49px;
-            text-align: center;
-            width: 100%;
-        }
-    }
-
-    &:hover,
-    &:active {
-        box-shadow: none;
-    }
-
-    &.btn-file__disabled {
-        @include opacity(.1);
-
-        &:hover,
-        &:active {
-            @include opacity(.1);
-        }
-    }
-
-    .icon--emoji {
-        @include opacity(.5);
-        @include single-transition(all, .15s);
-        cursor: pointer;
-
-        &:hover {
-            @include opacity(.7);
-        }
-
-        svg {
-            position: relative;
-            top: 2px;
-        }
-    }
-
-    .icon--attachment {
-        @include opacity(.4);
-        @include single-transition(all, .15s);
-        cursor: pointer;
-        overflow: hidden;
-        position: relative;
-        vertical-align: top;
-
-        &:hover {
-            @include opacity(.6);
-        }
-
-        input {
-            cursor: pointer;
-            direction: ltr;
-            filter: alpha(opacity=0);
-            font-size: 23px;
-            height: 100%;
-            margin: 0;
-            opacity: 0;
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: 100%;
-        }
-
-        svg {
-            position: relative;
-            top: 3px;
-        }
-    }
-}
-
-.post-create-body {
-    padding: 0 0 2px;
-    position: relative;
-
-    .post-body__cell {
-        position: relative;
-        vertical-align: top;
-    }
-
-    .send-button {
-        @include single-transition(all, .15s);
-        border-left: 1px solid transparent;
-        cursor: pointer;
-        display: none;
-        font-size: 17px;
+        display: flex;
         height: 100%;
-        line-height: 49px;
-        padding-right: 4px;
-        text-align: center;
-        vertical-align: bottom;
-        width: 45px;
+        position: absolute;
+        right: 0;
+        top: 0;
 
-        &:active {
-            @include opacity(.75);
-        }
+        > span {
+            border-left: 1px solid transparent;
+            width: 42px;
 
-        &.disabled {
-            i {
-                color: inherit;
+            &:first-child {
+                border: none;
+            }
+
+            > span,
+            div {
+                display: block;
+                height: 49px;
+                line-height: 49px;
+                text-align: center;
+                width: 100%;
             }
         }
 
-        .android &,
-        .ios & {
-            display: block;
-        }
-    }
-
-
-    .icon--emoji-picker {
-        @include opacity(.5);
-        @include single-transition(all, .15s);
-        cursor: pointer;
-
         &:hover,
         &:active {
-            @include opacity(.9);
             box-shadow: none;
         }
 
-        .icon--attachment {
+        &.btn-file__disabled {
+            @include opacity(.1);
+
+            &:hover,
+            &:active {
+                @include opacity(.1);
+            }
+        }
+
+        .icon--emoji {
             @include opacity(.5);
-            display: inline-block;
+            @include single-transition(all, .15s);
+            cursor: pointer;
+
+            &:hover {
+                @include opacity(.7);
+            }
+
+            svg {
+                position: relative;
+                top: 2px;
+            }
+        }
+
+        .icon--attachment {
+            @include opacity(.4);
+            @include single-transition(all, .15s);
+            cursor: pointer;
+            overflow: hidden;
             position: relative;
             vertical-align: top;
+
+            &:hover {
+                @include opacity(.6);
+            }
 
             input {
                 cursor: pointer;
@@ -608,44 +531,121 @@
                 width: 100%;
             }
 
-            &:hover {
-                @include opacity(.9);
+            svg {
+                position: relative;
+                top: 3px;
             }
         }
     }
 
-    textarea {
-        box-shadow: none;
+    .post-create-body {
+        padding: 0 0 2px;
+        position: relative;
+
+        .post-body__cell {
+            position: relative;
+            vertical-align: top;
+        }
+
+        .send-button {
+            @include single-transition(all, .15s);
+            border-left: 1px solid transparent;
+            cursor: pointer;
+            display: none;
+            font-size: 17px;
+            height: 100%;
+            line-height: 49px;
+            padding-right: 4px;
+            text-align: center;
+            vertical-align: bottom;
+            width: 45px;
+
+            &:active {
+                @include opacity(.75);
+            }
+
+            &.disabled {
+                i {
+                    color: inherit;
+                }
+            }
+
+            .android &,
+            .ios & {
+                display: block;
+            }
+        }
+
+
+        .icon--emoji-picker {
+            @include opacity(.5);
+            @include single-transition(all, .15s);
+            cursor: pointer;
+
+            &:hover,
+            &:active {
+                @include opacity(.9);
+                box-shadow: none;
+            }
+
+            .icon--attachment {
+                @include opacity(.5);
+                display: inline-block;
+                position: relative;
+                vertical-align: top;
+
+                input {
+                    cursor: pointer;
+                    direction: ltr;
+                    filter: alpha(opacity=0);
+                    font-size: 23px;
+                    height: 100%;
+                    margin: 0;
+                    opacity: 0;
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    width: 100%;
+                }
+
+                &:hover {
+                    @include opacity(.9);
+                }
+            }
+        }
+
+        textarea {
+            box-shadow: none;
+        }
     }
-}
 
-.post-create-footer {
-    @include clearfix;
-    font-size: 13px;
-    padding: 3px 0 0;
-    position: relative;
+    .post-create-footer {
+        @include clearfix;
+        font-size: 13px;
+        padding: 3px 0 0;
+        position: relative;
 
-    .post-error {
-        @include opacity(.55);
-        display: inline-block;
-        font-size: .85em;
-        font-weight: normal;
-        margin-bottom: 0;
-        position: absolute;
-        top: 4px;
+        .post-error {
+            @include opacity(.55);
+            display: inline-block;
+            font-size: .85em;
+            font-weight: normal;
+            margin-bottom: 0;
+            position: absolute;
+            top: 4px;
+        }
     }
-}
 
-.msg-typing {
-    @include opacity(.7);
-    display: block;
-    font-size: .95em;
-    height: 20px;
-    margin-bottom: 5px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
+    .msg-typing {
+        @include opacity(.7);
+        display: block;
+        font-size: .95em;
+        height: 20px;
+        margin-bottom: 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
 }
 
 .post-list__table {
@@ -967,7 +967,7 @@
         position: relative;
     }
 
-    // If the last paragraph of an edited post is a paragraph, make it inline-block so that the (edited) indicator can be on the same line as it
+
     &:not(.post--compact) {
         .post--edited {
             .post-message__text > p:last-child {
