@@ -11,6 +11,7 @@ import {browserHistory} from 'react-router';
 import {PropTypes} from 'prop-types';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {initTeamChangeActions} from 'actions/views/lhs.js';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 
 import * as ChannelUtils from 'utils/channel_utils.jsx';
@@ -130,10 +131,18 @@ export default class Sidebar extends React.PureComponent {
     }
 
     componentDidMount() {
+        if (this.props.currentTeam && this.props.currentTeam.id) {
+            initTeamChangeActions(this.props.currentTeam.id);
+        }
         this.updateUnreadIndicators();
-
         document.addEventListener('keydown', this.navigateChannelShortcut);
         document.addEventListener('keydown', this.navigateUnreadChannelShortcut);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.currentTeam.id !== nextProps.currentTeam.id) {
+            initTeamChangeActions(nextProps.currentTeam.id);
+        }
     }
 
     componentWillUpdate() {
