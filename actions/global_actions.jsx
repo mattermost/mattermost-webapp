@@ -492,10 +492,10 @@ export async function redirectUserToDefaultTeam() {
             if (data) {
                 redirect(teams[teamId].name, data.channel.name);
             } else {
-                redirect(teams[teamId].name, 'town-square');
+                redirect(teams[teamId].name, Constants.DEFAULT_CHANNEL);
             }
         } else {
-            redirect(teams[teamId].name, 'town-square');
+            redirect(teams[teamId].name, Constants.DEFAULT_CHANNEL);
         }
     } else {
         browserHistory.push('/select_team');

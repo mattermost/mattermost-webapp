@@ -62,7 +62,7 @@ function doChannelChange(state, replace, callback) {
                         GlobalActions.emitChannelClickEvent(channel);
                     } else if (result.error) {
                         if (state.params.team) {
-                            replace('/' + state.params.team + '/channels/town-square');
+                            replace('/' + state.params.team + `/channels/${Constants.DEFAULT_CHANNEL}`);
                         } else {
                             replace('/');
                         }
@@ -141,7 +141,7 @@ function selectLastChannel(nextState, replace, callback) {
     const channelId = BrowserStore.getGlobalItem(team.id);
     const channel = ChannelStore.getChannelById(channelId);
 
-    let channelName = 'town-square';
+    let channelName = Constants.DEFAULT_CHANNEL;
     if (channel) {
         channelName = channel.name;
     }

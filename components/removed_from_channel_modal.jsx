@@ -12,6 +12,7 @@ import BrowserStore from 'stores/browser_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
+import {Constants} from 'utils/constants.jsx';
 
 export default class RemovedFromChannelModal extends React.Component {
     constructor(props) {
@@ -33,7 +34,7 @@ export default class RemovedFromChannelModal extends React.Component {
             BrowserStore.removeItem('channel-removed-state');
         }
 
-        var townSquare = ChannelStore.getByName('town-square');
+        var townSquare = ChannelStore.getByName(Constants.DEFAULT_CHANNEL);
         setTimeout(
             () => {
                 browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + townSquare.name);

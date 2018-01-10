@@ -148,7 +148,7 @@ export default class Sidebar extends React.PureComponent {
             this.channelIdIsDisplayedForProps(prevProps, this.props.currentChannel.id)
         ) {
             this.closedDirectChannel = true;
-            browserHistory.push('/' + this.props.currentTeam.name + '/channels/town-square');
+            browserHistory.push(`/${this.props.currentTeam.name}/channels/${Constants.DEFAULT_CHANNEL}`);
             return;
         }
 

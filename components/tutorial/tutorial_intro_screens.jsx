@@ -55,7 +55,7 @@ export default class TutorialIntroScreens extends React.Component {
             return;
         }
 
-        browserHistory.push(TeamStore.getCurrentTeamUrl() + '/channels/town-square');
+        browserHistory.push(TeamStore.getCurrentTeamUrl() + `/channels/${Constants.DEFAULT_CHANNEL}`);
 
         const step = PreferenceStore.getInt(Preferences.TUTORIAL_STEP, UserStore.getCurrentId(), 0);
 
@@ -86,7 +86,7 @@ export default class TutorialIntroScreens extends React.Component {
             '999'
         );
 
-        browserHistory.push(TeamStore.getCurrentTeamUrl() + '/channels/town-square');
+        browserHistory.push(TeamStore.getCurrentTeamUrl() + `/channels/${Constants.DEFAULT_CHANNEL}`);
     }
     createScreen() {
         switch (this.state.currentScreen) {

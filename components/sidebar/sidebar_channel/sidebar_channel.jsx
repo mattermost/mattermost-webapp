@@ -169,7 +169,7 @@ export default class SidebarChannel extends React.PureComponent {
         }
 
         if (this.props.active) {
-            browserHistory.push('/' + this.props.currentTeamName + '/channels/town-square');
+            browserHistory.push(`/${this.props.currentTeamName}/channels/${Constants.DEFAULT_CHANNEL}`);
         }
     }
 

@@ -711,7 +711,7 @@ export default class Navbar extends React.Component {
         return (
             <div className='navbar-brand'>
                 <Link
-                    to={TeamStore.getCurrentTeamUrl() + '/channels/town-square'}
+                    to={TeamStore.getCurrentTeamUrl() + `/channels/${Constants.DEFAULT_CHANNEL}`}
                     className='heading'
                 >
                     {channelTitle}

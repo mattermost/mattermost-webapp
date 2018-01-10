@@ -14,6 +14,7 @@ import TeamStore from 'stores/team_store.jsx';
 
 import {sortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {Constants} from 'utils/constants.jsx';
 
 import AboutBuildModal from 'components/about_build_modal';
 import BlockableLink from 'components/admin_console/blockable_link';
@@ -111,7 +112,7 @@ export default class AdminNavbarDropdown extends React.Component {
                     <li key={'team_' + team.name}>
                         <BlockableLink
                             id={'swithTo' + Utils.createSafeId(team.name)}
-                            to={'/' + team.name + '/channels/town-square'}
+                            to={'/' + team.name + `/channels/${Constants.DEFAULT_CHANNEL}`}
                         >
                             <FormattedMessage
                                 id='navbar_dropdown.switchTo'

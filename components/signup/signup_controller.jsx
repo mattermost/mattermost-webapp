@@ -20,6 +20,7 @@ import AnnouncementBar from 'components/announcement_bar';
 import BackButton from 'components/common/back_button.jsx';
 import FormError from 'components/form_error.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
+import {Constants} from 'utils/constants.jsx';
 
 export default class SignupController extends React.Component {
     constructor(props) {
@@ -76,7 +77,7 @@ export default class SignupController extends React.Component {
                     (team) => {
                         loadMe().then(
                             () => {
-                                browserHistory.push('/' + team.name + '/channels/town-square');
+                                browserHistory.push('/' + team.name + `/channels/${Constants.DEFAULT_CHANNEL}`);
                             }
                         );
                     },
