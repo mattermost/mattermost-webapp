@@ -31,32 +31,17 @@ export default class NotLoggedIn extends React.PureComponent {
     render() {
         const content = [];
 
-        if (this.props.config.HelpLink) {
+        if (this.props.config.AboutLink) {
             content.push(
                 <a
-                    key='help_link'
-                    id='help_link'
-                    className='pull-right footer-link'
+                    key='about_link'
+                    id='about_link'
+                    className='footer-link'
                     target='_blank'
                     rel='noopener noreferrer'
-                    href={this.props.config.HelpLink}
+                    href={this.props.config.AboutLink}
                 >
-                    <FormattedMessage id='web.footer.help'/>
-                </a>
-            );
-        }
-
-        if (this.props.config.TermsOfServiceLink) {
-            content.push(
-                <a
-                    key='terms_link'
-                    id='terms_link'
-                    className='pull-right footer-link'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    href={this.props.config.TermsOfServiceLink}
-                >
-                    <FormattedMessage id='web.footer.terms'/>
+                    <FormattedMessage id='web.footer.about'/>
                 </a>
             );
         }
@@ -66,7 +51,7 @@ export default class NotLoggedIn extends React.PureComponent {
                 <a
                     key='privacy_link'
                     id='privacy_link'
-                    className='pull-right footer-link'
+                    className='footer-link'
                     target='_blank'
                     rel='noopener noreferrer'
                     href={this.props.config.PrivacyPolicyLink}
@@ -76,17 +61,32 @@ export default class NotLoggedIn extends React.PureComponent {
             );
         }
 
-        if (this.props.config.AboutLink) {
+        if (this.props.config.TermsOfServiceLink) {
             content.push(
                 <a
-                    key='about_link'
-                    id='about_link'
-                    className='pull-right footer-link'
+                    key='terms_link'
+                    id='terms_link'
+                    className='footer-link'
                     target='_blank'
                     rel='noopener noreferrer'
-                    href={this.props.config.AboutLink}
+                    href={this.props.config.TermsOfServiceLink}
                 >
-                    <FormattedMessage id='web.footer.about'/>
+                    <FormattedMessage id='web.footer.terms'/>
+                </a>
+            );
+        }
+
+        if (this.props.config.HelpLink) {
+            content.push(
+                <a
+                    key='help_link'
+                    id='help_link'
+                    className='footer-link'
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    href={this.props.config.HelpLink}
+                >
+                    <FormattedMessage id='web.footer.help'/>
                 </a>
             );
         }
@@ -106,7 +106,9 @@ export default class NotLoggedIn extends React.PureComponent {
                             <span className='pull-right footer-link copyright'>
                                 {`© 2015-${new Date().getFullYear()} Mattermost, Inc.`}
                             </span>
-                            {content}
+                            <span className='pull-right'>
+                                {content}
+                            </span>
                         </div>
                     </div>
                 </div>
