@@ -53,12 +53,11 @@ function mapStateToProps() {
 }
 
 function mapDispatchToProps(dispatch) {
-
     var createPostTemp = createPost;
     if (UserAgent.isIosClassic()) {
         createPostTemp = createPostImmediately;
     }
-    
+
     return {
         actions: bindActionCreators({
             addMessageIntoHistory,
