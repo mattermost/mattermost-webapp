@@ -36,6 +36,11 @@ export default class ViewImagePopoverBar extends React.PureComponent {
         fileURL: PropTypes.string.isRequired,
 
         /**
+         * Set whether to show "Get Public Link"
+         */
+        showPublicLink: PropTypes.func,
+
+        /**
          * Function to call when click on "Get Public Link"
          */
         onGetPublicLink: PropTypes.func
@@ -46,12 +51,13 @@ export default class ViewImagePopoverBar extends React.PureComponent {
         fileIndex: 0,
         totalFiles: 0,
         filename: '',
-        fileURL: ''
+        fileURL: '',
+        showPublicLink: true
     };
 
     render() {
         var publicLink = '';
-        if (global.window.mm_config.EnablePublicLink === 'true') {
+        if (global.window.mm_config.EnablePublicLink === 'true' && this.props.showPublicLink) {
             publicLink = (
                 <div>
                     <a

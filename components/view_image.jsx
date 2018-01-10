@@ -200,7 +200,9 @@ export default class ViewImageModal extends React.PureComponent {
         }
 
         const fileInfo = this.props.fileInfos[this.state.imageIndex];
-        const fileUrl = getFileUrl(fileInfo.id);
+        const showPublicLink = !fileInfo.link;
+        const fileName = fileInfo.link || fileInfo.name;
+        const fileUrl = fileInfo.link || getFileUrl(fileInfo.id);
 
         let content;
         if (this.state.loaded[this.state.imageIndex]) {
@@ -312,9 +314,10 @@ export default class ViewImageModal extends React.PureComponent {
                             </div>
                             <ViewImagePopoverBar
                                 show={this.state.showFooter}
+                                showPublicLink={showPublicLink}
                                 fileIndex={this.state.imageIndex}
                                 totalFiles={this.props.fileInfos.length}
-                                filename={fileInfo.name}
+                                filename={fileName}
                                 fileURL={fileUrl}
                                 onGetPublicLink={this.handleGetPublicLink}
                             />

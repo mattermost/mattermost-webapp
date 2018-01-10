@@ -10,6 +10,7 @@ import * as Utils from 'utils/utils.jsx';
 import {StoragePrefixes} from 'utils/constants.jsx';
 
 import YoutubeVideo from 'components/youtube_video';
+import ViewImageModal from 'components/view_image';
 
 import PostAttachmentList from './post_attachment_list.jsx';
 import PostAttachmentOpenGraph from './post_attachment_opengraph';
@@ -159,6 +160,12 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         });
     }
 
+    handleImageClick = () => {
+        this.setState({
+            showPreviewModal: true
+        });
+    };
+
     generateToggleableEmbed() {
         const link = this.state.link;
         if (!link) {
@@ -183,6 +190,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
                     link={link}
                     onLinkLoadError={this.handleLinkLoadError}
                     onLinkLoaded={this.handleLinkLoaded}
+                    handleImageClick={this.handleImageClick}
                 />
             );
         }
@@ -207,6 +215,33 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         }
 
         return null;
+    }
+
+    renderImagePreview() {
+        const link = this.state.link;
+        if (!link || !this.isLinkImage(link)) {
+            return null;
+        }
+
+        const captureExt = /(?:\.([^.]+))?$/;
+        if (!captureExt || captureExt.length <= 1) {
+            return null;
+        }
+
+        const ext = captureExt.exec(link)[1];
+
+        return (
+            <ViewImageModal
+                show={this.state.showPreviewModal}
+                onModalDismissed={() => this.setState({showPreviewModal: false})}
+                startIndex={0}
+                fileInfos={[{
+                    hasPreviewImage: false,
+                    link,
+                    extension: ext
+                }]}
+            />
+        );
     }
 
     render() {
@@ -250,10 +285,12 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
                     </div>
                 );
             }
+            const imagePreview = this.renderImagePreview();
 
             return (
                 <div>
                     {contents}
+                    {imagePreview}
                 </div>
             );
         }

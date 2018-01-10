@@ -9,8 +9,8 @@ import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 import {canDownloadFiles} from 'utils/file_utils';
 
 export default function ImagePreview({fileInfo}) {
-    const {has_preview_image: hasPreviewImage, id} = fileInfo;
-    const fileUrl = getFileUrl(id);
+    const {has_preview_image: hasPreviewImage, id, link} = fileInfo;
+    const fileUrl = link || getFileUrl(id);
     const previewUrl = hasPreviewImage ? getFilePreviewUrl(id) : fileUrl;
 
     if (!canDownloadFiles()) {
