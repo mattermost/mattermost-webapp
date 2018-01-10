@@ -7,6 +7,7 @@ import $ from 'jquery';
 
 global.$ = $;
 global.jQuery = $;
+global.performance = {};
 
 configure({adapter: new Adapter()});
 

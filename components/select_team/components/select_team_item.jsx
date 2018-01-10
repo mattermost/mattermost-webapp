@@ -4,14 +4,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
-import {browserHistory, Link} from 'react-router';
-
-import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
+import {Link} from 'react-router';
 
 import TeamInfoIcon from 'components/svg/team_info_icon';
 
 import * as Utils from 'utils/utils.jsx';
-import {Constants} from 'utils/constants.jsx';
 
 export default class SelectTeamItem extends React.PureComponent {
     static propTypes = {
@@ -21,11 +18,6 @@ export default class SelectTeamItem extends React.PureComponent {
     };
 
     handleTeamClick = () => {
-        addUserToTeamFromInvite('', '', this.props.team.invite_id,
-            () => {
-                browserHistory.push(`/${this.props.team.name}/channels/${Constants.DEFAULT_CHANNEL}`);
-            }
-        );
         this.props.onTeamClick(this.props.team);
     }
 

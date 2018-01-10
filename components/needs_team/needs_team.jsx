@@ -199,13 +199,15 @@ export default class NeedsTeam extends React.Component {
             );
         }
 
+        const teamType = this.state.team ? this.state.team.type : '';
+
         return (
             <div className='channel-view'>
                 <AnnouncementBar/>
                 <WebrtcNotification/>
                 <div className='container-fluid'>
                     <SidebarRight/>
-                    <SidebarRightMenu teamType={this.state.team.type}/>
+                    <SidebarRightMenu teamType={teamType}/>
                     <WebrtcSidebar/>
                     {content}
 

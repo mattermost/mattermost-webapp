@@ -1,11 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import $ from 'jquery';
-
 import React from 'react';
 import {Modal} from 'react-bootstrap';
-import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import {deletePost} from 'actions/post_actions.jsx';
@@ -42,8 +39,10 @@ export default class DeletePostModal extends React.Component {
     componentDidUpdate(prevProps, prevState) {
         if (this.state.show && !prevState.show) {
             setTimeout(() => {
-                $(ReactDOM.findDOMNode(this.refs.deletePostBtn)).focus();
-            }, 0);
+                if (this.deletePostBtn) {
+                    this.deletePostBtn.focus();
+                }
+            }, 200);
         }
     }
 
@@ -149,8 +148,11 @@ export default class DeletePostModal extends React.Component {
                         />
                     </button>
                     <button
-                        ref='deletePostBtn'
+                        ref={(deletePostBtn) => {
+                            this.deletePostBtn = deletePostBtn;
+                        }}
                         type='button'
+                        autoFocus={true}
                         className='btn btn-danger'
                         onClick={this.handleDelete}
                     >
