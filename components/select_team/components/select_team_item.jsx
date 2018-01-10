@@ -9,7 +9,6 @@ import {Link} from 'react-router';
 import TeamInfoIcon from 'components/svg/team_info_icon';
 
 import * as Utils from 'utils/utils.jsx';
-import {Constants} from 'utils/constants.jsx';
 
 export default class SelectTeamItem extends React.PureComponent {
     static propTypes = {
