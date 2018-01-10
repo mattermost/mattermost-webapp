@@ -98,7 +98,7 @@ export default class Root extends React.Component {
             if (UserStore.getNoAccounts()) {
                 browserHistory.push('/signup_user_complete');
             } else if (UserStore.getCurrentUser() && primaryTeam) {
-                browserHistory.push(`/${primaryTeam.name}/channels/town-square`);
+                browserHistory.push(`/${primaryTeam.name}/channels/${Constants.DEFAULT_CHANNEL}`);
             } else if (UserStore.getCurrentUser()) {
                 GlobalActions.redirectUserToDefaultTeam();
             } else {

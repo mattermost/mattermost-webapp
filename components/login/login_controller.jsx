@@ -67,7 +67,7 @@ export default class LoginController extends React.Component {
         const experimentalPrimaryTeam = global.mm_config.ExperimentalPrimaryTeam;
         const primaryTeam = TeamStore.getByName(experimentalPrimaryTeam);
         if (UserStore.getCurrentUser() && primaryTeam) {
-            browserHistory.push(`/${primaryTeam.name}/channels/town-square`);
+            browserHistory.push(`/${primaryTeam.name}/channels/${Constants.DEFAULT_CHANNEL}`);
         } else if (UserStore.getCurrentUser()) {
             GlobalActions.redirectUserToDefaultTeam();
         }
@@ -228,7 +228,7 @@ export default class LoginController extends React.Component {
         } else if (team) {
             browserHistory.push(`/${team.name}`);
         } else if (primaryTeam) {
-            browserHistory.push(`/${primaryTeam.name}/channels/town-square`);
+            browserHistory.push(`/${primaryTeam.name}/channels/${Constants.DEFAULT_CHANNEL}`);
         } else {
             GlobalActions.redirectUserToDefaultTeam();
         }
