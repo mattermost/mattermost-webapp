@@ -95,7 +95,6 @@ export default class NotLoggedIn extends React.PureComponent {
             <div className='inner-wrap'>
                 <div className='row content'>
                     {this.props.children}
-                    <div className='footer-push'/>
                 </div>
                 <div className='row footer'>
                     <div className='footer-pane col-xs-12'>
