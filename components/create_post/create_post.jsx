@@ -173,7 +173,8 @@ export default class CreatePost extends React.Component {
             showPostDeletedModal: false,
             enableSendButton: false,
             showEmojiPicker: false,
-            showConfirmModal: false
+            showConfirmModal: false,
+            textboxUserInputEmpty: true
         };
 
         this.lastBlurAt = 0;
@@ -298,7 +299,8 @@ export default class CreatePost extends React.Component {
             submitting: false,
             postError: null,
             serverError: null,
-            enableSendButton: false
+            enableSendButton: false,
+            textboxUserInputEmpty: true
         });
 
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
@@ -413,9 +415,11 @@ export default class CreatePost extends React.Component {
         const message = e.target.value;
         const channelId = this.props.currentChannel.id;
         const enableSendButton = this.handleEnableSendButton(message, this.props.draft.fileInfos);
+        const textboxUserInputEmpty = message === '';
         this.setState({
             message,
-            enableSendButton
+            enableSendButton,
+            textboxUserInputEmpty
         });
 
         const draft = {
@@ -575,7 +579,9 @@ export default class CreatePost extends React.Component {
             return;
         }
 
-        if (!e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey && e.keyCode === KeyCodes.UP && this.state.message === '') {
+        const editLastPostKey = !e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey && e.keyCode === KeyCodes.UP;
+        const replyToLastPostKey = !e.ctrlKey && !e.metaKey && !e.altKey && e.shiftKey && e.keyCode === KeyCodes.UP;
+        if (editLastPostKey && this.state.textboxUserInputEmpty) {
             e.preventDefault();
 
             const lastPost = this.props.currentUsersLatestPost;
@@ -590,7 +596,7 @@ export default class CreatePost extends React.Component {
                 type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
             }
             this.props.actions.setEditingPost(lastPost.id, this.props.commentCountForPost, '#post_textbox', type);
-        } else if (!e.ctrlKey && !e.metaKey && !e.altKey && e.shiftKey && e.keyCode === KeyCodes.UP && this.state.message === '') {
+        } else if (replyToLastPostKey && this.state.textboxUserInputEmpty) {
             e.preventDefault();
             const latestReplyablePostId = this.props.latestReplyablePostId;
 
@@ -599,7 +605,8 @@ export default class CreatePost extends React.Component {
             }
         }
 
-        if ((e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey && (e.keyCode === KeyCodes.UP || e.keyCode === KeyCodes.DOWN)) {
+        const moveHistoryKey = (e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey && (e.keyCode === KeyCodes.UP || e.keyCode === KeyCodes.DOWN);
+        if (moveHistoryKey && this.state.textboxUserInputEmpty) {
             e.preventDefault();
             if (e.keyCode === KeyCodes.UP) {
                 this.props.actions.moveHistoryIndexBack(Posts.MESSAGE_TYPES.POST).then(() => this.fillMessageFromHistory());
