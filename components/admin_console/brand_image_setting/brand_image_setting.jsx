@@ -11,9 +11,11 @@ import {Client4} from 'mattermost-redux/client';
 
 import {uploadBrandImage} from 'actions/admin_actions.jsx';
 
-import * as Utils from 'utils/utils.jsx';
+import {UploadStatuses} from 'utils/constants.jsx';
 
 import FormError from 'components/form_error.jsx';
+
+import UploadButton from './upload_button.jsx';
 
 const HTTP_STATUS_OK = 200;
 
@@ -36,9 +38,8 @@ export default class BrandImageSetting extends React.PureComponent {
             brandImage: null,
             brandImageExists: false,
             brandImageTimestamp: Date.now(),
-            uploading: false,
-            uploadCompleted: false,
-            error: ''
+            error: '',
+            status: UploadStatuses.DEFAULT
         };
     }
 
@@ -72,7 +73,8 @@ export default class BrandImageSetting extends React.PureComponent {
 
         if (element.prop('files').length > 0) {
             this.setState({
-                brandImage: element.prop('files')[0]
+                brandImage: element.prop('files')[0],
+                status: UploadStatuses.DEFAULT
             });
         }
     }
@@ -84,35 +86,29 @@ export default class BrandImageSetting extends React.PureComponent {
             return;
         }
 
-        if (this.state.uploading) {
+        if (this.state.status === UploadStatuses.LOADING) {
             return;
         }
 
-        $(this.refs.upload).button('loading');
-
         this.setState({
-            uploading: true,
-            error: ''
+            error: '',
+            status: UploadStatuses.LOADING
         });
 
         uploadBrandImage(
             this.state.brandImage,
             () => {
-                $(this.refs.upload).button('complete');
-
                 this.setState({
                     brandImageExists: true,
                     brandImage: null,
                     brandImageTimestamp: Date.now(),
-                    uploading: false
+                    status: UploadStatuses.COMPLETE
                 });
             },
             (err) => {
-                $(this.refs.upload).button('reset');
-
                 this.setState({
-                    uploading: false,
-                    error: err.message
+                    error: err.message,
+                    status: UploadStatuses.DEFAULT
                 });
             }
         );
@@ -187,20 +183,12 @@ export default class BrandImageSetting extends React.PureComponent {
                             onChange={this.handleImageChange}
                         />
                     </div>
-                    <button
-                        className={btnPrimaryClass}
+                    <UploadButton
+                        primaryClass={btnPrimaryClass}
+                        status={this.state.status}
                         disabled={this.props.disabled || !this.state.brandImage}
                         onClick={this.handleImageSubmit}
-                        id='upload-button'
-                        ref='upload'
-                        data-loading-text={'<span class=\'fa fa-refresh fa-rotate\'></span> ' + Utils.localizeMessage('admin.team.uploading', 'Uploading..')}
-                        data-complete-text={'<span class=\'fa fa-check\'></span> ' + Utils.localizeMessage('admin.team.uploaded', 'Uploaded!')}
-                    >
-                        <FormattedMessage
-                            id='admin.team.upload'
-                            defaultMessage='Upload'
-                        />
-                    </button>
+                    />
                     <br/>
                     <FormError error={this.state.error}/>
                     <p className='help-text no-margin'>
