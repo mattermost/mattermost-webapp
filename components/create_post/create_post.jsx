@@ -570,49 +570,62 @@ export default class CreatePost extends React.Component {
     }
 
     handleKeyDown = (e) => {
-        if (this.props.ctrlSend && e.keyCode === KeyCodes.ENTER && e.ctrlKey === true) {
+        const postMessageKeyCombo = this.props.ctrlSend && e.keyCode === KeyCodes.ENTER && e.ctrlKey === true;
+        if (postMessageKeyCombo) {
             this.postMsgKeyPress(e);
             return;
         }
+        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
+        const messageIsEmpty = this.state.message.length === 0;
+        const draftMessageIsEmpty = this.props.draft.message.length === 0;
+        const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && e.keyCode === KeyCodes.UP;
+        const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && e.keyCode === KeyCodes.UP;
+        const ctrlUpKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;
 
-        if (!e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey && e.keyCode === KeyCodes.UP && this.state.message === '') {
-            e.preventDefault();
+        if (upKeyOnly && messageIsEmpty) {
+            this.editLastPost(e);
+        } else if (shiftUpKeyCombo && messageIsEmpty) {
+            this.replyToLastPost(e);
+        } else if (ctrlUpKeyCombo && draftMessageIsEmpty && e.keyCode === KeyCodes.UP) {
+            this.loadPrevMessage(e);
+        } else if (ctrlUpKeyCombo && draftMessageIsEmpty && e.keyCode === KeyCodes.DOWN) {
+            this.loadNextMessage(e);
+        }
+    }
 
-            const lastPost = this.props.currentUsersLatestPost;
-            if (!lastPost) {
-                return;
-            }
+    editLastPost = (e) => {
+        e.preventDefault();
 
-            let type;
-            if (lastPost.root_id && lastPost.root_id.length > 0) {
-                type = Utils.localizeMessage('create_post.comment', Posts.MESSAGE_TYPES.COMMENT);
-            } else {
-                type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
-            }
-            this.props.actions.setEditingPost(lastPost.id, this.props.commentCountForPost, '#post_textbox', type);
-        } else if (!e.ctrlKey && !e.metaKey && !e.altKey && e.shiftKey && e.keyCode === KeyCodes.UP && this.state.message === '') {
-            e.preventDefault();
-            const latestReplyablePostId = this.props.latestReplyablePostId;
-
-            if (latestReplyablePostId) {
-                this.props.actions.selectPostFromRightHandSideSearchByPostId(latestReplyablePostId);
-            }
+        const lastPost = this.props.currentUsersLatestPost;
+        if (!lastPost) {
+            return;
         }
 
-        if (
-            (e.ctrlKey || e.metaKey) &&
-            !e.altKey &&
-            !e.shiftKey &&
-            (e.keyCode === KeyCodes.UP || e.keyCode === KeyCodes.DOWN) &&
-            this.props.draft.message.length === 0
-        ) {
-            e.preventDefault();
-            if (e.keyCode === KeyCodes.UP) {
-                this.props.actions.moveHistoryIndexBack(Posts.MESSAGE_TYPES.POST).then(() => this.fillMessageFromHistory());
-            } else {
-                this.props.actions.moveHistoryIndexForward(Posts.MESSAGE_TYPES.POST).then(() => this.fillMessageFromHistory());
-            }
+        let type;
+        if (lastPost.root_id && lastPost.root_id.length > 0) {
+            type = Utils.localizeMessage('create_post.comment', Posts.MESSAGE_TYPES.COMMENT);
+        } else {
+            type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
         }
+        this.props.actions.setEditingPost(lastPost.id, this.props.commentCountForPost, '#post_textbox', type);
+    }
+
+    replyToLastPost = (e) => {
+        e.preventDefault();
+        const latestReplyablePostId = this.props.latestReplyablePostId;
+        if (latestReplyablePostId) {
+            this.props.actions.selectPostFromRightHandSideSearchByPostId(latestReplyablePostId);
+        }
+    }
+
+    loadPrevMessage = (e) => {
+        e.preventDefault();
+        this.props.actions.moveHistoryIndexBack(Posts.MESSAGE_TYPES.POST).then(() => this.fillMessageFromHistory());
+    }
+
+    loadNextMessage = (e) => {
+        e.preventDefault();
+        this.props.actions.moveHistoryIndexForward(Posts.MESSAGE_TYPES.POST).then(() => this.fillMessageFromHistory());
     }
 
     handleBlur = () => {
