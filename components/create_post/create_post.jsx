@@ -9,7 +9,7 @@ import {Posts} from 'mattermost-redux/constants';
 
 import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
-import {emitEmojiPosted} from 'actions/post_actions.jsx';
+import {createPost, emitEmojiPosted} from 'actions/post_actions.jsx';
 import EmojiStore from 'stores/emoji_store.jsx';
 import Constants, {StoragePrefixes} from 'utils/constants.jsx';
 import * as FileUtils from 'utils/file_utils';
@@ -363,15 +363,10 @@ export default class CreatePost extends React.Component {
         post.parent_id = this.state.parentId;
 
         GlobalActions.emitUserPostedEvent(post);
-        this.props.actions.createPost(post, this.props.draft.fileInfos).then(() => GlobalActions.postListScrollChange(true)).catch((err) => {
-            if (err.id === 'api.post.create_post.root_id.app_error') {
-                // this should never actually happen since you can't reply from this textbox
-                this.showPostDeletedModal();
-            }
 
-            this.setState({
-                submitting: false
-            });
+        createPost(post, this.props.draft.fileInfos);
+        this.setState({
+            submitting: false
         });
     }
 
