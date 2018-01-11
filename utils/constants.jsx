@@ -428,6 +428,12 @@ export const RHSStates = {
     PIN: 'pin'
 };
 
+export const UploadStatuses = {
+    LOADING: 'loading',
+    COMPLETE: 'complete',
+    DEFAULT: ''
+};
+
 export const Constants = {
     PluginSettings,
     Preferences,
