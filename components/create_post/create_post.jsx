@@ -581,7 +581,7 @@ export default class CreatePost extends React.Component {
 
         const editLastPostKey = !e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey && e.keyCode === KeyCodes.UP;
         const replyToLastPostKey = !e.ctrlKey && !e.metaKey && !e.altKey && e.shiftKey && e.keyCode === KeyCodes.UP;
-        if (editLastPostKey && this.state.message === '') {
+        if (editLastPostKey && this.state.textboxUserInputEmpty) {
             e.preventDefault();
 
             const lastPost = this.props.currentUsersLatestPost;
@@ -596,7 +596,7 @@ export default class CreatePost extends React.Component {
                 type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
             }
             this.props.actions.setEditingPost(lastPost.id, this.props.commentCountForPost, '#post_textbox', type);
-        } else if (replyToLastPostKey && this.state.message === '') {
+        } else if (replyToLastPostKey && this.state.textboxUserInputEmpty) {
             e.preventDefault();
             const latestReplyablePostId = this.props.latestReplyablePostId;
 
