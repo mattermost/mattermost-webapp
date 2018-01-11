@@ -13,6 +13,7 @@ import DotMenu from 'components/dot_menu';
 import ProfilePicture from 'components/profile_picture.jsx';
 import UserProfile from 'components/user_profile.jsx';
 import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
+import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content.jsx';
 
 import Constants from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
@@ -314,13 +315,15 @@ export default class SearchResultsItem extends React.PureComponent {
             );
 
             message = (
-                <PostMessageContainer
-                    post={post}
-                    options={{
-                        searchTerm: this.props.term,
-                        mentionHighlight: this.props.isMentionSearch
-                    }}
-                />
+                <PostBodyAdditionalContent post={post}>
+                    <PostMessageContainer
+                        post={post}
+                        options={{
+                            searchTerm: this.props.term,
+                            mentionHighlight: this.props.isMentionSearch
+                        }}
+                    />
+                </PostBodyAdditionalContent>
             );
         }
 
