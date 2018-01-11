@@ -398,7 +398,8 @@ export default class CreatePost extends React.Component {
     }
 
     postMsgKeyPress = (e) => {
-        if (!UserAgent.isMobile() && ((this.props.ctrlSend && e.ctrlKey) || !this.props.ctrlSend)) {
+        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
+        if (!UserAgent.isMobile() && ((this.props.ctrlSend && ctrlOrMetaKeyPressed) || !this.props.ctrlSend)) {
             if (e.which === KeyCodes.ENTER && !e.shiftKey && !e.altKey) {
                 e.preventDefault();
                 ReactDOM.findDOMNode(this.refs.textbox).blur();
@@ -570,25 +571,23 @@ export default class CreatePost extends React.Component {
     }
 
     handleKeyDown = (e) => {
-        const postMessageKeyCombo = this.props.ctrlSend && e.keyCode === KeyCodes.ENTER && e.ctrlKey === true;
-        if (postMessageKeyCombo) {
-            this.postMsgKeyPress(e);
-            return;
-        }
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const messageIsEmpty = this.state.message.length === 0;
         const draftMessageIsEmpty = this.props.draft.message.length === 0;
+        const ctrlEnterKeyCombo = this.props.ctrlSend && e.keyCode === KeyCodes.ENTER && ctrlOrMetaKeyPressed;
         const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && e.keyCode === KeyCodes.UP;
         const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && e.keyCode === KeyCodes.UP;
-        const ctrlUpKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;
+        const ctrlKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;
 
-        if (upKeyOnly && messageIsEmpty) {
+        if (ctrlEnterKeyCombo) {
+            this.postMsgKeyPress(e);
+        } else if (upKeyOnly && messageIsEmpty) {
             this.editLastPost(e);
         } else if (shiftUpKeyCombo && messageIsEmpty) {
             this.replyToLastPost(e);
-        } else if (ctrlUpKeyCombo && draftMessageIsEmpty && e.keyCode === KeyCodes.UP) {
+        } else if (ctrlKeyCombo && draftMessageIsEmpty && e.keyCode === KeyCodes.UP) {
             this.loadPrevMessage(e);
-        } else if (ctrlUpKeyCombo && draftMessageIsEmpty && e.keyCode === KeyCodes.DOWN) {
+        } else if (ctrlKeyCombo && draftMessageIsEmpty && e.keyCode === KeyCodes.DOWN) {
             this.loadNextMessage(e);
         }
     }
