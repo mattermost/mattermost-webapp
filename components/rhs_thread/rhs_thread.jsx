@@ -15,6 +15,7 @@ import WebrtcStore from 'stores/webrtc_store.jsx';
 import Constants from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
 import * as Utils from 'utils/utils.jsx';
+import * as UserAgent from 'utils/user_agent.jsx';
 
 import CreateComment from 'components/create_comment';
 import DateSeparator from 'components/post_view/date_separator.jsx';
@@ -196,6 +197,10 @@ export default class RhsThread extends React.Component {
             windowWidth: Utils.windowWidth(),
             windowHeight: Utils.windowHeight()
         });
+
+        if (UserAgent.isMobile() && document.activeElement.id === 'reply_textbox') {
+            this.scrollToBottom();
+        }
     }
 
     onPreferenceChange = () => {
