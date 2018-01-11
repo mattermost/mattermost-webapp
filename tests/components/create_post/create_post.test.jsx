@@ -20,7 +20,8 @@ jest.mock('actions/global_actions.jsx', () => ({
     showChannelHeaderUpdateModal: jest.fn(),
     showChannelPurposeUpdateModal: jest.fn(),
     showChannelNameUpdateModal: jest.fn(),
-    toggleShortcutsModal: jest.fn()
+    toggleShortcutsModal: jest.fn(),
+    postListScrollChange: jest.fn()
 }));
 
 jest.mock('react-dom', () => ({
@@ -625,6 +626,7 @@ describe('components/create_post', () => {
         expect(GlobalActions.emitUserPostedEvent).toHaveBeenCalledWith(post);
 
         expect(PostActions.createPost).toHaveBeenCalledTimes(1);
-        expect(PostActions.createPost).toHaveBeenCalledWith(post, []);
+        expect(PostActions.createPost.mock.calls[0][0]).toEqual(post);
+        expect(PostActions.createPost.mock.calls[0][1]).toEqual([]);
     });
 });

@@ -125,11 +125,6 @@ export default class CreatePost extends React.Component {
             moveHistoryIndexForward: PropTypes.func.isRequired,
 
             /**
-            *  func called for posting message
-            */
-            createPost: PropTypes.func.isRequired,
-
-            /**
             *  func called for adding a reaction
             */
             addReaction: PropTypes.func.isRequired,
@@ -364,9 +359,11 @@ export default class CreatePost extends React.Component {
 
         GlobalActions.emitUserPostedEvent(post);
 
-        createPost(post, this.props.draft.fileInfos);
-        this.setState({
-            submitting: false
+        createPost(post, this.props.draft.fileInfos, () => {
+            GlobalActions.postListScrollChange(true);
+            this.setState({
+                submitting: false
+            });
         });
     }
 
