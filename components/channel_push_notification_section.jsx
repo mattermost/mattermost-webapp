@@ -53,13 +53,11 @@ export default class ChannelPushNotificationSection extends React.PureComponent 
         this.props.onChange(e.target.value);
     }
 
-    handleExpandSection = (e) => {
-        e.preventDefault();
+    handleExpandSection = () => {
         this.props.onUpdateSection(NotificationSections.PUSH);
     }
 
-    handleCollapseSection = (e) => {
-        e.preventDefault();
+    handleCollapseSection = () => {
         this.props.onUpdateSection();
     }
 

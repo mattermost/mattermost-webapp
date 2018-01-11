@@ -64,8 +64,7 @@ export default class ChannelNotificationsModal extends React.Component {
         this.setState({activeSection: section});
     }
 
-    handleSubmitDesktopNotifyLevel(e) {
-        e.preventDefault();
+    handleSubmitDesktopNotifyLevel() {
         const channelId = this.props.channel.id;
         const notifyLevel = this.state.notifyLevel;
         const currentUserId = this.props.currentUser.id;
@@ -102,8 +101,7 @@ export default class ChannelNotificationsModal extends React.Component {
         });
     }
 
-    handleSubmitMarkUnreadLevel(e) {
-        e.preventDefault();
+    handleSubmitMarkUnreadLevel() {
         const channelId = this.props.channel.id;
         const markUnreadLevel = this.state.unreadLevel;
 

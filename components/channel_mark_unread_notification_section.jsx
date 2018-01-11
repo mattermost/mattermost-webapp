@@ -52,13 +52,11 @@ export default class ChannelMarkUnreadNotificationSection extends React.PureComp
         this.props.onChange(e.target.value);
     }
 
-    handleExpandSection = (e) => {
-        e.preventDefault();
+    handleExpandSection = () => {
         this.props.onUpdateSection(NotificationSections.MARK_UNREAD);
     }
 
-    handleCollapseSection = (e) => {
-        e.preventDefault();
+    handleCollapseSection = () => {
         this.props.onUpdateSection();
     }
 
