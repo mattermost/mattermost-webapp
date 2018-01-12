@@ -443,9 +443,7 @@ export default class RhsThread extends React.Component {
                     onScroll={this.handleScroll}
                 >
                     <div className='post-right__scroll'>
-                        <DateSeparator
-                            date={rootPostDay}
-                        />
+                        <DateSeparator date={rootPostDay}/>
                         <RootPost
                             ref={selected.id}
                             post={selected}
