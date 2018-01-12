@@ -27,7 +27,7 @@
     "localforage": "1.5.3",
     "localforage-observable": "1.4.0",
     "marked": "mattermost/marked#802e981ade71149a497cbe79d12b8a3f82f7657e",
-    "mattermost-redux": "mattermost/mattermost-redux#c30ae69432a3ce7d73ba6e36cbe4f02e805ecc0c",
+    "mattermost-redux": "mattermost/mattermost-redux#d280fb4b82d3df196a87ed70a2db34a3f67fdae8",
     "pdfjs-dist": "2.0.106",
     "perfect-scrollbar": "0.8.1",
     "prop-types": "15.6.0",
