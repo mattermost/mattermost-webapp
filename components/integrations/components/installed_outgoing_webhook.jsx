@@ -69,7 +69,7 @@ export default class InstalledOutgoingWebhook extends React.PureComponent {
         this.props.onDelete(this.props.outgoingWebhook);
     }
 
-    static makeDisplayName(outgoingWebhook, channel) {
+    makeDisplayName(outgoingWebhook, channel) {
         if (outgoingWebhook.display_name) {
             return outgoingWebhook.display_name;
         } else if (channel) {
@@ -83,24 +83,34 @@ export default class InstalledOutgoingWebhook extends React.PureComponent {
         );
     }
 
-    static matchesFilter(outgoingWebhook, channel, filter) {
+    matchesFilter(outgoingWebhook, channel, filter) {
         if (!filter) {
             return true;
         }
 
-        if (outgoingWebhook.display_name.toLowerCase().indexOf(filter) !== -1 ||
-            outgoingWebhook.description.toLowerCase().indexOf(filter) !== -1) {
+        const {
+            display_name: displayName,
+            description,
+            trigger_words: triggerWords
+        } = outgoingWebhook;
+
+        if (
+            (displayName && displayName.toLowerCase().indexOf(filter) !== -1) ||
+            (description && description.toLowerCase().indexOf(filter) !== -1)
+        ) {
             return true;
         }
 
-        for (const trigger of outgoingWebhook.trigger_words) {
-            if (trigger.toLowerCase().indexOf(filter) !== -1) {
-                return true;
+        if (triggerWords) {
+            for (const triggerWord of triggerWords) {
+                if (triggerWord.toLowerCase().indexOf(filter) !== -1) {
+                    return true;
+                }
             }
         }
 
-        if (channel) {
-            if (channel && channel.name.toLowerCase().indexOf(filter) !== -1) {
+        if (channel && channel.name) {
+            if (channel.name.toLowerCase().indexOf(filter) !== -1) {
                 return true;
             }
         }
@@ -115,11 +125,11 @@ export default class InstalledOutgoingWebhook extends React.PureComponent {
         const triggerWordsFull = 0;
         const triggerWordsStartsWith = 1;
 
-        if (!InstalledOutgoingWebhook.matchesFilter(outgoingWebhook, channel, filter)) {
+        if (outgoingWebhook && !this.matchesFilter(outgoingWebhook, channel, filter)) {
             return null;
         }
 
-        const displayName = InstalledOutgoingWebhook.makeDisplayName(outgoingWebhook, channel);
+        const displayName = this.makeDisplayName(outgoingWebhook, channel);
 
         let description = null;
         if (outgoingWebhook.description) {
