@@ -253,7 +253,7 @@ export default class SuggestionBox extends React.Component {
 
         let prefix;
         let keepPretext = false;
-        if (pretext.endsWith(matchedPretext)) {
+        if (pretext.toLowerCase().endsWith(matchedPretext.toLowerCase())) {
             prefix = pretext.substring(0, pretext.length - matchedPretext.length);
         } else {
             // the pretext has changed since we got a term to complete so see if the term still fits the pretext
@@ -443,10 +443,13 @@ export default class SuggestionBox extends React.Component {
     // Finds the longest substring that's at both the end of b and the start of a. For example,
     // if a = "firepit" and b = "pitbull", findOverlap would return "pit".
     static findOverlap(a, b) {
-        for (let i = b.length; i > 0; i--) {
-            const substring = b.substring(0, i);
+        const aLower = a.toLowerCase();
+        const bLower = b.toLowerCase();
 
-            if (a.endsWith(substring)) {
+        for (let i = bLower.length; i > 0; i--) {
+            const substring = bLower.substring(0, i);
+
+            if (aLower.endsWith(substring)) {
                 return substring;
             }
         }

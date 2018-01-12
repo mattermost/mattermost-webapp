@@ -14,6 +14,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import BrowserStore from 'stores/browser_store.jsx';
+import ErrorStore from 'stores/error_store.jsx';
 import LocalizationStore from 'stores/localization_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
@@ -82,6 +83,9 @@ export default class Root extends React.Component {
 
         // Fastclick
         FastClick.attach(document.body);
+
+        // Loading page so reset connection failure count
+        ErrorStore.setConnectionErrorCount(0);
     }
 
     localizationChanged() {
