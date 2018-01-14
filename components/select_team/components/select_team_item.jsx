@@ -44,12 +44,13 @@ export default class SelectTeamItem extends React.PureComponent {
 
             showDescriptionTooltip = (
                 <OverlayTrigger
-                    trigger={['hover', 'focus', 'click']}
+                    trigger={['click']}
                     delayShow={1000}
                     placement='top'
                     overlay={descriptionTooltip}
                     ref='descriptionOverlay'
                     rootClose={true}
+                    container={this}
                 >
                     <TeamInfoIcon className='icon icon--info'/>
                 </OverlayTrigger>

@@ -23,8 +23,9 @@ body {
     background: $white;
 
     > .channel-view {
-        height: auto;
+        height: 100vh;
         padding: 0 15px;
+        overflow: auto;
     }
 
     .inner-wrap {
