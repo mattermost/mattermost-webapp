@@ -488,7 +488,7 @@ export default class ChannelNotificationsModal extends React.Component {
         const options = {mark_unread: notifyLevel};
         const data = {
             channel_id: channelId,
-            user_id: currentUserId
+            user_id: currentUserId,
         };
 
         updateChannelNotifyProps(data, options,
@@ -515,7 +515,7 @@ export default class ChannelNotificationsModal extends React.Component {
             />
         );
 
-        if (this.state.activeSection === 'mute') {
+        if (this.state.activeSection === SECTION_MUTE) {
             var inputs = [];
             inputs.push(
                 <div key='channel-notification-level-radio'>
@@ -554,14 +554,6 @@ export default class ChannelNotificationsModal extends React.Component {
                 </div>
             );
 
-            const handleUpdateSection = function handleUpdateSection(e) {
-                this.updateSection('');
-                this.setState({
-                    muteLevel: this.props.channelMember.notify_props.mark_unread
-                });
-                e.preventDefault();
-            }.bind(this);
-
             const extraInfo = (
                 <span>
                     <FormattedMessage
@@ -577,7 +569,10 @@ export default class ChannelNotificationsModal extends React.Component {
                     inputs={inputs}
                     submit={this.handleSubmitMuteNotificationLevel}
                     server_error={serverError}
-                    updateSection={handleUpdateSection}
+                    section={SECTION_MUTE}
+                    updateSection={() => {
+                        this.updateSection(SECTION_MUTE);
+                    }}
                     extraInfo={extraInfo}
                 />
             );
@@ -590,19 +585,14 @@ export default class ChannelNotificationsModal extends React.Component {
             describe = (<FormattedMessage id='channel_notifications.muteChannel.off.desc'/>);
         }
 
-        const handleUpdateSection = function handleUpdateSection(e) {
-            this.updateSection('mute');
-            this.setState({
-                unreadLevel: this.props.channelMember.notify_props.mark_unread
-            });
-            e.preventDefault();
-        }.bind(this);
-
         return (
             <SettingItemMin
                 title={muteNotifyName}
                 describe={describe}
-                updateSection={handleUpdateSection}
+                section={SECTION_MUTE}
+                updateSection={() => {
+                    this.updateSection(SECTION_MUTE);
+                }}
             />
         );
     }
