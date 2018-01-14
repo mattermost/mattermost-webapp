@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 
 import {browserHistory} from 'utils/browser_history';
 import {Constants} from 'utils/constants.jsx';
+import * as ChannelUtils from 'utils/channel_utils.jsx';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import SidebarChannelButtonOrLink from '../sidebar_channel_button_or_link/sidebar_channel_button_or_link.jsx';
@@ -182,6 +183,7 @@ export default class SidebarChannel extends React.PureComponent {
             return (<div/>);
         }
 
+        const channelMuted = ChannelUtils.isChannelMuted(this.props.membership);
         let closeHandler = null;
         if (!this.showChannelAsUnread()) {
             if (this.props.shouldHideChannel) {
@@ -205,14 +207,18 @@ export default class SidebarChannel extends React.PureComponent {
 
         let rowClass = 'sidebar-item';
         let badge = false;
-        if (this.showChannelAsUnread()) {
+        if (this.showChannelAsUnread() && !channelMuted) {
             rowClass += ' unread-title';
+        }
 
-            if (this.props.unreadMentions > 0) {
-                rowClass += ' has-badge';
+        if (this.props.unreadMentions > 0) {
+            rowClass += ' has-badge';
 
-                badge = true;
-            }
+            badge = true;
+        }
+
+        if (channelMuted) {
+            rowClass += ' muted';
         }
 
         if (closeHandler && !badge) {
