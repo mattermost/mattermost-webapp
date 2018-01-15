@@ -293,7 +293,6 @@ class GeneralTab extends React.Component {
                     inputs={inputs}
                     submit={this.handleOpenInviteSubmit}
                     serverError={serverError}
-                    section={'open_invite'}
                     updateSection={this.handleUpdateSection}
                 />
             );
@@ -374,7 +373,6 @@ class GeneralTab extends React.Component {
                     submit={this.handleInviteIdSubmit}
                     serverError={serverError}
                     clientError={clientError}
-                    section={'invite_id'}
                     updateSection={this.handleUpdateSection}
                 />
             );
@@ -433,7 +431,6 @@ class GeneralTab extends React.Component {
                     submit={this.handleNameSubmit}
                     serverError={serverError}
                     clientError={clientError}
-                    section={'name'}
                     updateSection={this.handleUpdateSection}
                     extraInfo={nameExtraInfo}
                 />
@@ -495,7 +492,6 @@ class GeneralTab extends React.Component {
                     submit={this.handleDescriptionSubmit}
                     serverError={serverError}
                     clientError={clientError}
-                    section={'description'}
                     updateSection={this.handleUpdateSection}
                     extraInfo={descriptionExtraInfo}
                 />

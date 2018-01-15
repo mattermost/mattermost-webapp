@@ -60,6 +60,7 @@ class InviteMemberModal extends React.Component {
         this.removeInviteFields = this.removeInviteFields.bind(this);
         this.showGetTeamInviteLinkModal = this.showGetTeamInviteLinkModal.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
+
         const team = TeamStore.getCurrent();
 
         this.state = {
