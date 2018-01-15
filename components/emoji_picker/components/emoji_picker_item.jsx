@@ -10,7 +10,7 @@ import EmojiStore from 'stores/emoji_store.jsx';
 const SCROLLING_ADDITIONAL_VISUAL_SPACING = 10; // to make give the emoji some visual 'breathing room'
 const EMOJI_LAZY_LOAD_SCROLL_THROTTLE = 150;
 
-export default class EmojiPickerItem extends React.PureComponent {
+export default class EmojiPickerItem extends React.Component {
     static propTypes = {
         emoji: PropTypes.object.isRequired,
         onItemOver: PropTypes.func.isRequired,
@@ -29,6 +29,9 @@ export default class EmojiPickerItem extends React.PureComponent {
         this.handleMouseOver = this.handleMouseOver.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleMouseOverThrottle = debounce(this.handleMouseOver, EMOJI_LAZY_LOAD_SCROLL_THROTTLE, {leading: true, trailing: true});
+    }
+    shouldComponentUpdate(nextProps) {
+        return nextProps.isSelected !== this.props.isSelected;
     }
     emojiItemRef = (emojiItem) => {
         this.emojiItem = emojiItem;

@@ -368,8 +368,9 @@ export default class EmojiPicker extends React.PureComponent {
 
     emojiCategories() {
         const categories = this.state.categories;
-        const currentCategoryName = this.getCurrentEmojiCategoryName();
-        const emojiPickerCategories = Object.keys(categories).map((categoryName) => {
+        const categoryKeys = Object.keys(categories);
+        const currentCategoryName = this.state.filter ? categoryKeys[0] : this.getCurrentEmojiCategoryName();
+        const emojiPickerCategories = categoryKeys.map((categoryName) => {
             const category = categories[categoryName];
             return (
                 <EmojiPickerCategory
