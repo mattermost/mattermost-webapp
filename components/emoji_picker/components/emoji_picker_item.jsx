@@ -3,37 +3,56 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import debounce from 'lodash/debounce';
 
 import EmojiStore from 'stores/emoji_store.jsx';
 
-export default class EmojiPickerItem extends React.PureComponent {
+const SCROLLING_ADDITIONAL_VISUAL_SPACING = 10; // to make give the emoji some visual 'breathing room'
+const EMOJI_LAZY_LOAD_SCROLL_THROTTLE = 150;
+
+export default class EmojiPickerItem extends React.Component {
     static propTypes = {
         emoji: PropTypes.object.isRequired,
         onItemOver: PropTypes.func.isRequired,
-        onItemOut: PropTypes.func.isRequired,
         onItemClick: PropTypes.func.isRequired,
-        onItemUnmount: PropTypes.func.isRequired,
-        category: PropTypes.string.isRequired
-    }
+        category: PropTypes.string.isRequired,
+        isSelected: PropTypes.bool,
+        categoryIndex: PropTypes.number.isRequired,
+        emojiIndex: PropTypes.number.isRequired,
+        containerRef: PropTypes.any,
+        containerTop: PropTypes.number.isRequired,
+        containerBottom: PropTypes.number.isRequired
+    };
 
     constructor(props) {
         super(props);
-
         this.handleMouseOver = this.handleMouseOver.bind(this);
-        this.handleMouseOut = this.handleMouseOut.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.handleMouseOverThrottle = debounce(this.handleMouseOver, EMOJI_LAZY_LOAD_SCROLL_THROTTLE, {leading: true, trailing: true});
     }
-
-    componentWillUnmount() {
-        this.props.onItemUnmount(this.props.emoji);
+    shouldComponentUpdate(nextProps) {
+        return nextProps.isSelected !== this.props.isSelected;
+    }
+    emojiItemRef = (emojiItem) => {
+        this.emojiItem = emojiItem;
+    };
+    componentWillReceiveProps(nextProps) {
+        if (!this.props.isSelected && nextProps.isSelected) {
+            const topOfTheEmojiItem = this.emojiItem.offsetTop;
+            const bottomOfTheEmojiItem = topOfTheEmojiItem + this.emojiItem.offsetHeight;
+            const {containerRef, containerTop, containerBottom} = nextProps;
+            if (topOfTheEmojiItem < containerTop) {
+                containerRef.scrollTop = topOfTheEmojiItem - SCROLLING_ADDITIONAL_VISUAL_SPACING;
+            } else if (bottomOfTheEmojiItem > containerBottom) {
+                containerRef.scrollTop = (bottomOfTheEmojiItem - containerRef.offsetHeight) + SCROLLING_ADDITIONAL_VISUAL_SPACING;
+            }
+        }
     }
 
     handleMouseOver() {
-        this.props.onItemOver(this.props.emoji);
-    }
-
-    handleMouseOut() {
-        this.props.onItemOut();
+        if (!this.props.isSelected) {
+            this.props.onItemOver(this.props.categoryIndex, this.props.emojiIndex);
+        }
     }
 
     handleClick() {
@@ -41,39 +60,41 @@ export default class EmojiPickerItem extends React.PureComponent {
     }
 
     render() {
-        let item = null;
         const {emoji} = this.props;
+        let item = null;
+        let itemClassName = 'emoji-picker__item';
+        itemClassName += this.props.isSelected ? ' selected' : '';
+        let spriteClassName = 'emojisprite';
+        spriteClassName += ' emoji-category-' + emoji.category + '-' + emoji.batch;
+        spriteClassName += ' emoji-' + emoji.filename;
 
         if (emoji.category && emoji.batch) {
-            let className = 'emojisprite';
-
-            className += ' emoji-category-' + emoji.category + '-' + emoji.batch;
-            className += ' emoji-' + emoji.filename;
-
             item = (
-                <div className={'emoji-picker__item'}>
+                <div
+                    className={itemClassName}
+                    ref={this.emojiItemRef}
+                >
                     <img
                         src='/static/images/img_trans.gif'
-                        className={className}
-                        onMouseOver={this.handleMouseOver}
-                        onMouseOut={this.handleMouseOut}
+                        className={spriteClassName}
+                        onMouseOver={this.handleMouseOverThrottle}
                         onClick={this.handleClick}
                     />
                 </div>
             );
         } else {
             item = (
-                <span
-                    onMouseOver={this.handleMouseOver}
-                    onMouseOut={this.handleMouseOut}
-                    onClick={this.handleClick}
-                    className='emoji-picker__item-wrapper'
+                <div
+                    className={itemClassName}
+                    ref={this.emojiItemRef}
                 >
                     <img
-                        className='emoji-picker__item emoticon'
                         src={EmojiStore.getEmojiImageUrl(emoji)}
+                        className={spriteClassName}
+                        onMouseOver={this.handleMouseOver}
+                        onClick={this.handleClick}
                     />
-                </span>
+                </div>
             );
         }
 
