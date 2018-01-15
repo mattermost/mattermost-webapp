@@ -107,6 +107,10 @@ export default class UserSettingsDisplay extends React.Component {
         this.setState({militaryTime});
     }
 
+    handleTeammateNameDisplayRadio = (teammateNameDisplay) => {
+        this.setState({teammateNameDisplay});
+    }
+
     handleChannelDisplayModeRadio(channelDisplayMode) {
         this.setState({channelDisplayMode});
     }

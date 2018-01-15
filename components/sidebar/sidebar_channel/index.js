@@ -14,6 +14,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {Constants, NotificationLevels} from 'utils/constants.jsx';
 import {open as openLhs} from 'actions/views/lhs.js';
+import {displayUsername} from 'utils/utils.jsx';
 
 import SidebarChannel from './sidebar_channel.jsx';
 
@@ -57,8 +58,21 @@ function makeMapStateToProps() {
         }
 
         let teammate = null;
-        if (channel.teammate_id) {
+        let channelTeammateId = null;
+        let channelTeammateDeletedAt = null;
+        let channelDisplayName = channel.display_name;
+        if (channel.type === Constants.DM_CHANNEL) {
+            if (ownProps.currentUserId === channel.teammate_id) {
+                channelDisplayName = displayUsername(ownProps.currentUserId);
+            } else {
+                channelDisplayName = displayUsername(channel.teammate_id);
+            }
+
             teammate = getUser(state, channel.teammate_id);
+            if (teammate) {
+                channelTeammateId = teammate.id;
+                channelTeammateDeletedAt = teammate.delete_at;
+            }
         }
 
         return {

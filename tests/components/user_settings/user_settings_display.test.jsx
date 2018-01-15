@@ -70,6 +70,12 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot, teammate name display section', () => {
+        const props = {...requiredProps, activeSection: 'teammate_name_display'};
+        const wrapper = shallow(<UserSettingsDisplay {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot, message display section', () => {
         const props = {...requiredProps, activeSection: 'message_display'};
         const wrapper = shallow(<UserSettingsDisplay {...props}/>);
@@ -160,6 +166,19 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
 
         wrapper.instance().handleClockRadio('true');
         expect(wrapper.state('militaryTime')).toBe('true');
+    });
+
+    test('should update teammateNameDisplay state', () => {
+        const wrapper = mountWithIntl(<UserSettingsDisplay {...requiredProps}/>);
+
+        wrapper.instance().handleTeammateNameDisplayRadio('username');
+        expect(wrapper.state('teammateNameDisplay')).toBe('username');
+
+        wrapper.instance().handleTeammateNameDisplayRadio('nickname_full_name');
+        expect(wrapper.state('teammateNameDisplay')).toBe('nickname_full_name');
+
+        wrapper.instance().handleTeammateNameDisplayRadio('full_name');
+        expect(wrapper.state('teammateNameDisplay')).toBe('full_name');
     });
 
     test('should update channelDisplayMode state', () => {
