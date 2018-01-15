@@ -115,7 +115,7 @@ export default class SettingItemMax extends React.PureComponent {
     }
 
     handleUpdateSection = (e) => {
-        this.props.updateSection(this.props.section);
+        this.props.updateSection('');
         e.preventDefault();
     }
 
