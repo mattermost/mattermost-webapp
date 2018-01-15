@@ -10,7 +10,8 @@ import {Link} from 'react-router-dom';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import TeamStore from 'stores/team_store.jsx';
-import {sortTeamsByDisplayName} from 'utils/team_utils.jsx';
+
+import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {Constants} from 'utils/constants.jsx';
 import AboutBuildModal from 'components/about_build_modal';
@@ -101,8 +102,7 @@ export default class AdminNavbarDropdown extends React.Component {
                 }
             }
 
-            // Sort teams alphabetically with display_name
-            teamsArray = teamsArray.sort(sortTeamsByDisplayName);
+            teamsArray = filterAndSortTeamsByDisplayName(teamsArray);
 
             for (const team of teamsArray) {
                 teams.push(
