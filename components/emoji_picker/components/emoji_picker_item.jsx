@@ -7,7 +7,7 @@ import debounce from 'lodash/debounce';
 
 import EmojiStore from 'stores/emoji_store.jsx';
 
-const SCROLLING_ADDT_VISUAL_SPACING = 10; // to make give the emoji some visual 'breathing room'
+const SCROLLING_ADDITIONAL_VISUAL_SPACING = 10; // to make give the emoji some visual 'breathing room'
 const EMOJI_LAZY_LOAD_SCROLL_THROTTLE = 150;
 
 export default class EmojiPickerItem extends React.PureComponent {
@@ -39,9 +39,9 @@ export default class EmojiPickerItem extends React.PureComponent {
             const bottomOfTheEmojiItem = topOfTheEmojiItem + this.emojiItem.offsetHeight;
             const {containerRef, containerTop, containerBottom} = nextProps;
             if (topOfTheEmojiItem < containerTop) {
-                containerRef.scrollTop = topOfTheEmojiItem - SCROLLING_ADDT_VISUAL_SPACING;
+                containerRef.scrollTop = topOfTheEmojiItem - SCROLLING_ADDITIONAL_VISUAL_SPACING;
             } else if (bottomOfTheEmojiItem > containerBottom) {
-                containerRef.scrollTop = (bottomOfTheEmojiItem - containerRef.offsetHeight) + SCROLLING_ADDT_VISUAL_SPACING;
+                containerRef.scrollTop = (bottomOfTheEmojiItem - containerRef.offsetHeight) + SCROLLING_ADDITIONAL_VISUAL_SPACING;
             }
         }
     }
