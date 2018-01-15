@@ -507,7 +507,6 @@ class GeneralTab extends React.Component {
                     />
                 );
             }
-
             descriptionSection = (
                 <SettingItemMin
                     title={Utils.localizeMessage('general_tab.teamDescription', 'Team Description')}
