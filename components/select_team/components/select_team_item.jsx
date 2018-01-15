@@ -50,6 +50,7 @@ export default class SelectTeamItem extends React.PureComponent {
                     overlay={descriptionTooltip}
                     ref='descriptionOverlay'
                     rootClose={true}
+                    container={this}
                 >
                     <TeamInfoIcon className='icon icon--info'/>
                 </OverlayTrigger>
