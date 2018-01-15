@@ -418,6 +418,7 @@ export default class SecurityTab extends React.Component {
                         <div className='col-sm-7'>
                             <input
                                 id='currentPassword'
+                                autoFocus={true}
                                 className='form-control'
                                 type='password'
                                 onChange={this.updateCurrentPassword}
@@ -1262,6 +1263,7 @@ export default class SecurityTab extends React.Component {
                             </label>
                             <div className='col-sm-5'>
                                 <input
+                                    autoFocus={true}
                                     ref='newtokendescription'
                                     className='form-control'
                                     type='text'

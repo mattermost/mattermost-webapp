@@ -195,6 +195,7 @@ export default class ChannelNotificationsModal extends React.Component {
                     <div className='radio'>
                         <label>
                             <input
+                                autoFocus={true}
                                 id='channelNotificationGlobalDefault'
                                 type='radio'
                                 name='desktopNotificationLevel'
@@ -346,6 +347,7 @@ export default class ChannelNotificationsModal extends React.Component {
                         <label>
                             <input
                                 id='channelUnreadAll'
+                                autoFocus={true}
                                 type='radio'
                                 name='markUnreadLevel'
                                 checked={this.state.unreadLevel === NotificationLevels.ALL}
@@ -511,6 +513,7 @@ export default class ChannelNotificationsModal extends React.Component {
                         <label>
                             <input
                                 id='channelPushNotificationGlobalDefault'
+                                autoFocus={true}
                                 type='radio'
                                 name='pushNotificationLevel'
                                 checked={notifyActive[0]}

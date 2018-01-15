@@ -248,6 +248,7 @@ class GeneralTab extends React.Component {
                         <label>
                             <input
                                 id='teamOpenInvite'
+                                autoFocus={true}
                                 name='userOpenInviteOptions'
                                 type='radio'
                                 defaultChecked={this.state.allow_open_invite}
@@ -383,6 +384,7 @@ class GeneralTab extends React.Component {
                     title={Utils.localizeMessage('general_tab.codeTitle', 'Invite Code')}
                     describe={Utils.localizeMessage('general_tab.codeDesc', "Click 'Edit' to regenerate Invite Code.")}
                     updateSection={this.handleUpdateSection}
+                    section={'invite_id'}
                 />
             );
         }
@@ -444,6 +446,7 @@ class GeneralTab extends React.Component {
                     title={Utils.localizeMessage('general_tab.teamName', 'Team Name')}
                     describe={describe}
                     updateSection={this.handleUpdateSection}
+                    section={'name'}
                 />
             );
         }
@@ -515,6 +518,7 @@ class GeneralTab extends React.Component {
                     title={Utils.localizeMessage('general_tab.teamDescription', 'Team Description')}
                     describe={describemsg}
                     updateSection={this.handleUpdateSection}
+                    section={'description'}
                 />
             );
         }
