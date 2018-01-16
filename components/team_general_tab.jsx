@@ -248,7 +248,6 @@ class GeneralTab extends React.Component {
                         <label>
                             <input
                                 id='teamOpenInvite'
-                                autoFocus={true}
                                 name='userOpenInviteOptions'
                                 type='radio'
                                 defaultChecked={this.state.allow_open_invite}
