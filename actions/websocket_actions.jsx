@@ -100,6 +100,7 @@ export function reconnect(includeWebSocket = true) {
         TeamActions.getMyTeamUnreads()(dispatch, getState);
     }
 
+    ErrorStore.setConnectionErrorCount(0);
     ErrorStore.clearLastError();
     ErrorStore.emitChange();
 }

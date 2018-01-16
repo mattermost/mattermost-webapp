@@ -173,13 +173,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
           <div
             className=" post--edited"
           >
-            <Connect(PostMessageView)
-              options={
-                Object {
-                  "mentionHighlight": false,
-                  "searchTerm": "test",
-                }
-              }
+            <PostBodyAdditionalContent
               post={
                 Object {
                   "channel_id": "channel_id",
@@ -199,7 +193,37 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
                   "user_id": "user_id",
                 }
               }
-            />
+              previewCollapsed=""
+              previewEnabled={false}
+            >
+              <Connect(PostMessageView)
+                options={
+                  Object {
+                    "mentionHighlight": false,
+                    "searchTerm": "test",
+                  }
+                }
+                post={
+                  Object {
+                    "channel_id": "channel_id",
+                    "create_at": 1502715365009,
+                    "delete_at": 0,
+                    "edit_at": 1502715372443,
+                    "id": "id",
+                    "is_pinned": true,
+                    "message": "post message",
+                    "original_id": "",
+                    "parent_id": "",
+                    "pending_post_id": "",
+                    "props": Object {},
+                    "root_id": "",
+                    "type": "",
+                    "update_at": 1502715372443,
+                    "user_id": "user_id",
+                  }
+                }
+              />
+            </PostBodyAdditionalContent>
           </div>
         </div>
       </div>
@@ -350,13 +374,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
           <div
             className=" post--edited"
           >
-            <Connect(PostMessageView)
-              options={
-                Object {
-                  "mentionHighlight": false,
-                  "searchTerm": "test",
-                }
-              }
+            <PostBodyAdditionalContent
               post={
                 Object {
                   "channel_id": "channel_id",
@@ -376,7 +394,37 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
                   "user_id": "user_id",
                 }
               }
-            />
+              previewCollapsed=""
+              previewEnabled={false}
+            >
+              <Connect(PostMessageView)
+                options={
+                  Object {
+                    "mentionHighlight": false,
+                    "searchTerm": "test",
+                  }
+                }
+                post={
+                  Object {
+                    "channel_id": "channel_id",
+                    "create_at": 1502715365009,
+                    "delete_at": 0,
+                    "edit_at": 1502715372443,
+                    "id": "id",
+                    "is_pinned": false,
+                    "message": "post message",
+                    "original_id": "",
+                    "parent_id": "",
+                    "pending_post_id": "",
+                    "props": Object {},
+                    "root_id": "",
+                    "type": "",
+                    "update_at": 1502715372443,
+                    "user_id": "user_id",
+                  }
+                }
+              />
+            </PostBodyAdditionalContent>
           </div>
         </div>
       </div>

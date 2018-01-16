@@ -38,7 +38,7 @@ export default class AnnouncementBar extends React.PureComponent {
         this.onAnalyticsChange = this.onAnalyticsChange.bind(this);
         this.handleClose = this.handleClose.bind(this);
 
-        ErrorStore.clearLastError();
+        ErrorStore.clearLastError(true);
 
         this.setInitialError();
 
