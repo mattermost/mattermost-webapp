@@ -185,7 +185,7 @@ export default class EmojiPicker extends React.PureComponent {
 
     handleFilterChange(e) {
         e.preventDefault();
-        const filter = e.target.value;
+        const filter = e.target.value.toLowerCase();
         this.setState(() => ({
             filter,
             cursor: [0, 0]
@@ -297,7 +297,7 @@ export default class EmojiPicker extends React.PureComponent {
         if (this.state.filter) {
             return Object.values(this.state.allEmojis).filter((emoji) => {
                 for (let i = 0; i < emoji.aliases.length; i++) {
-                    if (emoji.aliases[i].includes(this.state.filter)) {
+                    if (emoji.aliases[i].toLowerCase().includes(this.state.filter)) {
                         return true;
                     }
                 }
