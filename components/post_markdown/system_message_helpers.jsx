@@ -54,7 +54,7 @@ function renderAddToChannelMessage(post, options) {
     return (
         <FormattedMessage
             id='api.channel.add_member.added'
-            defaultMessage='{addedUsername} added to the channel by {username}'
+            defaultMessage='{addedUsername} added to the channel by {username}.'
             values={{
                 username,
                 addedUsername
@@ -69,7 +69,7 @@ function renderRemoveFromChannelMessage(post, options) {
     return (
         <FormattedMessage
             id='api.channel.remove_member.removed'
-            defaultMessage='{removedUsername} was removed from the channel'
+            defaultMessage='{removedUsername} removed from the channel.'
             values={{
                 removedUsername
             }}
@@ -108,7 +108,7 @@ function renderAddToTeamMessage(post, options) {
     return (
         <FormattedMessage
             id='api.team.add_member.added'
-            defaultMessage='{addedUsername} added to the team by {username}'
+            defaultMessage='{addedUsername} added to the team by {username}.'
             values={{
                 username,
                 addedUsername
@@ -123,7 +123,7 @@ function renderRemoveFromTeamMessage(post, options) {
     return (
         <FormattedMessage
             id='api.team.remove_user_from_team.removed'
-            defaultMessage='{removedUsername} was removed from the team.'
+            defaultMessage='{removedUsername} removed from the team.'
             values={{
                 removedUsername
             }}
