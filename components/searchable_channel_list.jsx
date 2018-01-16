@@ -7,11 +7,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
+import LoadingScreen from 'components/loading_screen';
+import QuickInput from 'components/quick_input';
 import * as UserAgent from 'utils/user_agent.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
-import loadingGif from 'images/load.gif';
 
-import LoadingScreen from './loading_screen.jsx';
+import loadingGif from 'images/load.gif';
 
 const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
 
@@ -184,7 +185,7 @@ export default class SearchableChannelList extends React.Component {
             <div className='filtered-user-list'>
                 <div className='filter-row'>
                     <div className='col-sm-12'>
-                        <input
+                        <QuickInput
                             id='searchChannelsTextbox'
                             ref='filter'
                             className='form-control filter-textbox'

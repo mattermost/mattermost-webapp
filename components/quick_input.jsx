@@ -34,6 +34,14 @@ export default class QuickInput extends React.PureComponent {
         this.refs.input.value = value;
     }
 
+    focus() {
+        this.refs.input.focus();
+    }
+
+    blur() {
+        this.refs.input.blur();
+    }
+
     getInput = () => {
         return this.refs.input;
     };
