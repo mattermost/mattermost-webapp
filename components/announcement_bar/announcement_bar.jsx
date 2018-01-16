@@ -9,7 +9,7 @@ import {Link} from 'react-router-dom';
 import * as AdminActions from 'actions/admin_actions.jsx';
 import AnalyticsStore from 'stores/analytics_store.jsx';
 import ErrorStore from 'stores/error_store.jsx';
-import UserStore from 'stores/user_store.jsx';
+
 import {ErrorBarTypes, StatTypes, StoragePrefixes} from 'utils/constants.jsx';
 import {displayExpiryDate, isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod} from 'utils/license_utils.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
@@ -27,11 +27,16 @@ export default class AnnouncementBar extends React.PureComponent {
         /*
          * Set if the user is logged in
          */
-        isLoggedIn: PropTypes.bool.isRequired
+        isLoggedIn: PropTypes.bool.isRequired,
+
+        /*
+         * Set if the user can view system errors
+         */
+        canViewSystemErrors: PropTypes.bool.isRequired
     }
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.onErrorChange = this.onErrorChange.bind(this);
         this.onAnalyticsChange = this.onAnalyticsChange.bind(this);
@@ -44,17 +49,11 @@ export default class AnnouncementBar extends React.PureComponent {
         this.state = this.getState();
     }
 
-    setInitialError() {
-        let isSystemAdmin = false;
-        const user = UserStore.getCurrentUser();
-        if (user) {
-            isSystemAdmin = Utils.isSystemAdmin(user.roles);
-        }
-
+    setInitialError = () => {
         const errorIgnored = ErrorStore.getIgnoreNotification();
 
         if (!errorIgnored) {
-            if (isSystemAdmin && global.mm_config.SiteURL === '') {
+            if (this.props.canViewSystemErrors && global.mm_config.SiteURL === '') {
                 ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.SITE_URL});
                 return;
             } else if (global.mm_config.SendEmailNotifications === 'false') {
@@ -64,14 +63,14 @@ export default class AnnouncementBar extends React.PureComponent {
         }
 
         if (isLicensePastGracePeriod()) {
-            if (isSystemAdmin) {
+            if (this.props.canViewSystemErrors) {
                 ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.LICENSE_EXPIRED, type: BAR_CRITICAL_TYPE});
             } else {
                 ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.LICENSE_PAST_GRACE, type: BAR_CRITICAL_TYPE});
             }
-        } else if (isLicenseExpired() && isSystemAdmin) {
+        } else if (isLicenseExpired() && this.props.canViewSystemErrors) {
             ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.LICENSE_EXPIRED, type: BAR_CRITICAL_TYPE});
-        } else if (isLicenseExpiring() && isSystemAdmin) {
+        } else if (isLicenseExpiring() && this.props.canViewSystemErrors) {
             ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.LICENSE_EXPIRING, type: BAR_CRITICAL_TYPE});
         }
     }

@@ -161,15 +161,6 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
             width="128"
           />
           <div
-            data-toggle="tooltip"
-            key="user-popover-email"
-          >
-            <a
-              className="text-nowrap text-lowercase user-popover__email"
-              href="mailto:undefined"
-            />
-          </div>
-          <div
             className="popover__row first"
             data-toggle="tooltip"
             key="user-popover-dm"

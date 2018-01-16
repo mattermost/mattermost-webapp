@@ -3,13 +3,16 @@
 
 import {connect} from 'react-redux';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {haveISystemPerm} from 'mattermost-redux/selectors/entities/roles';
+import {Permissions} from 'mattermost-redux/constants';
 
 import AnnouncementBar from './announcement_bar.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
+    const canViewSystemErrors = haveISystemPerm(state, {perm: Permissions.MANAGE_SYSTEM});
     return {
-        ...ownProps,
-        isLoggedIn: Boolean(getCurrentUserId(state))
+        isLoggedIn: Boolean(getCurrentUserId(state)),
+        canViewSystemErrors
     };
 }
 

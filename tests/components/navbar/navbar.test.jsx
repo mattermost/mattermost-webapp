@@ -16,7 +16,7 @@ describe('components/navbar/Navbar', () => {
     };
 
     const validState = {
-        channel: {type: 'O', id: 'channel_id', display_name: 'display_name'},
+        channel: {type: 'O', id: 'channel_id', display_name: 'display_name', team_id: 'team_id'},
         member: {id: 'member_id'},
         users: [{id: 'user_id_1'}],
         currentUser: {id: 'current_user_id'}
@@ -68,7 +68,7 @@ describe('components/navbar/Navbar', () => {
             <Navbar {...baseProps}/>
         );
 
-        const newValidState = {...validState, channel: {type: 'D', id: 'channel_id', name: 'user_id_1__user_id_2', display_name: 'display_name'}};
+        const newValidState = {...validState, channel: {type: 'D', id: 'channel_id', name: 'user_id_1__user_id_2', display_name: 'display_name', team_id: 'team_id'}};
         wrapper.setState(newValidState);
         expect(wrapper).toMatchSnapshot();
     });
@@ -88,7 +88,7 @@ describe('components/navbar/Navbar', () => {
             <Navbar {...baseProps}/>
         );
 
-        const newValidState = {...validState, channel: {type: 'P', id: 'channel_id', display_name: 'display_name'}};
+        const newValidState = {...validState, channel: {type: 'P', id: 'channel_id', display_name: 'display_name', team_id: 'team_id'}};
         wrapper.setState(newValidState);
         expect(wrapper).toMatchSnapshot();
     });

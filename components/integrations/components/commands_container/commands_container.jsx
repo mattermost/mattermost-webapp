@@ -36,11 +36,6 @@ export default class CommandsContainer extends React.PureComponent {
         user: PropTypes.object,
 
         /**
-        * Set if user is admin
-        */
-        isAdmin: PropTypes.bool,
-
-        /**
         * The users collection
         */
         users: PropTypes.object,
@@ -80,8 +75,7 @@ export default class CommandsContainer extends React.PureComponent {
             commands: this.props.commands || [],
             users: this.props.users,
             team: this.props.team,
-            user: this.props.user,
-            isAdmin: this.props.isAdmin
+            user: this.props.user
         };
         return (
             <div>

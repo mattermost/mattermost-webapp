@@ -68,9 +68,7 @@ function mapStateToProps(state) {
         currentTeammate,
         currentTeam: getCurrentTeam(state),
         currentUser: getCurrentUser(state),
-        unreads: getUnreads(state),
-        isSystemAdmin: isCurrentUserSystemAdmin(state),
-        isTeamAdmin: isCurrentUserCurrentTeamAdmin(state)
+        unreads: getUnreads(state)
     };
 }
 

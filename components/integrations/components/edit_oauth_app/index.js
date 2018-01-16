@@ -4,7 +4,6 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getOAuthApp, editOAuthApp} from 'mattermost-redux/actions/integrations';
-import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import EditOAuthApp from './edit_oauth_app.jsx';
 
@@ -12,8 +11,6 @@ function mapStateToProps(state, ownProps) {
     const oauthAppId = (new URLSearchParams(ownProps.location.search)).get('id');
 
     return {
-        ...ownProps,
-        isSystemAdmin: isCurrentUserSystemAdmin(state),
         oauthAppId,
         oauthApp: state.entities.integrations.oauthApps[oauthAppId]
     };

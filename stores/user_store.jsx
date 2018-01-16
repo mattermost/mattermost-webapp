@@ -23,8 +23,6 @@ const CHANGE_EVENT_SESSIONS = 'change_sessions';
 const CHANGE_EVENT_AUDITS = 'change_audits';
 const CHANGE_EVENT_STATUSES = 'change_statuses';
 
-var Utils;
-
 class UserStoreClass extends EventEmitter {
     constructor() {
         super();
@@ -466,20 +464,6 @@ class UserStoreClass extends EventEmitter {
 
     setNoAccounts(noAccounts) {
         this.noAccounts = noAccounts;
-    }
-
-    isSystemAdminForCurrentUser() {
-        if (!Utils) {
-            Utils = require('utils/utils.jsx'); //eslint-disable-line global-require
-        }
-
-        var current = this.getCurrentUser();
-
-        if (current) {
-            return Utils.isSystemAdmin(current.roles);
-        }
-
-        return false;
     }
 }
 

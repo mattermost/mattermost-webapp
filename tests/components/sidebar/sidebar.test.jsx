@@ -78,6 +78,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             type: Constants.OPEN_CHANNEL
         },
         currentTeam: {
+            id: 'team_id',
             name: 'test-team',
             display_name: 'Test team display name',
             description: 'Test team description',
@@ -110,8 +111,6 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             messageCount: 0,
             mentions: 0
         },
-        isSystemAdmin: true,
-        isTeamAdmin: false,
         actions: {
             goToChannelById: jest.fn()
         }
@@ -143,18 +142,6 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
                     ...defaultProps,
                     unreadChannelIds: ['c3', 'c5'],
                     showUnreadSection: true
-                }}
-            />
-        );
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should match snapshot, on sidebar show without permissions to create', () => {
-        const wrapper = shallow(
-            <Sidebar
-                {...{
-                    ...defaultProps,
-                    isSystemAdmin: false
                 }}
             />
         );

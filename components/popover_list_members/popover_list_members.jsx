@@ -48,9 +48,6 @@ export default class PopoverListMembers extends React.Component {
             showChannelMembersModal: false,
             showChannelInviteModal: false,
             teamMembers: UserStore.getProfilesUsernameMap(),
-            isSystemAdmin: UserStore.isSystemAdminForCurrentUser(),
-            isTeamAdmin: TeamStore.isTeamAdminForCurrentTeam(),
-            isChannelAdmin: ChannelStore.isChannelAdminForCurrentChannel(),
             sortedMembers: []
         };
     }
@@ -139,10 +136,7 @@ export default class PopoverListMembers extends React.Component {
 
         const {
             sortedMembers,
-            teamMembers,
-            isSystemAdmin,
-            isTeamAdmin,
-            isChannelAdmin
+            teamMembers
         } = this.state;
 
         if (this.props.members && teamMembers) {
@@ -201,7 +195,7 @@ export default class PopoverListMembers extends React.Component {
                     />
                 );
 
-                const manageMembers = canManageMembers(this.props.channel, isChannelAdmin, isTeamAdmin, isSystemAdmin);
+                const manageMembers = canManageMembers(this.props.channel);
                 const isDefaultChannel = ChannelStore.isDefault(this.props.channel);
 
                 if ((manageMembers === false && isDefaultChannel === false) || isDefaultChannel) {
@@ -258,7 +252,6 @@ export default class PopoverListMembers extends React.Component {
             teamMembersModal = (
                 <TeamMembersModal
                     onHide={this.hideTeamMembersModal}
-                    isAdmin={isTeamAdmin || isSystemAdmin}
                 />
             );
         }
