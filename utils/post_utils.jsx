@@ -124,7 +124,7 @@ export function containsAtMention(text, key) {
     }
 
     // This doesn't work for at mentions containing periods or hyphens
-    return new RegExp(`\\B${key}\\b`, 'i').test(removeCode(text));
+    return !text.startsWith('/') && new RegExp(`\\B${key}\\b`, 'i').test(removeCode(text));
 }
 
 // Returns a given text string with all Markdown code replaced with whitespace.
