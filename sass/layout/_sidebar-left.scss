@@ -206,7 +206,7 @@
                 white-space: nowrap;
             }
 
-            > .sidebar-item {
+            .sidebar-item {
                 @include single-transition(none);
                 border-radius: 0;
                 line-height: 1.5;
@@ -379,4 +379,30 @@
     margin-left: 10px;
     margin-top: 5px;
     width: 25px;
+}
+
+/* context menu shown when right-clicking on a channel in the LHS when using the desktop app */
+.react-contextmenu--visible {
+    background: #f0f0f0;
+    border: 1px solid #C6C6C6;
+    border-radius: 5px;
+    color: black;
+    cursor: pointer;
+    padding: 2px 0;
+    z-index: 100;
+}
+
+.react-contextmenu-item {
+    margin: 1px 0;
+    padding: 0 22px;
+
+    &:hover {
+        background: #489DFE;
+        color: $white;
+    }
+
+    &:focus,
+    span {
+        outline: none;
+    }
 }

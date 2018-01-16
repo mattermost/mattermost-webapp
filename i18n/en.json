@@ -2460,6 +2460,7 @@
   "sidebar_right_menu.teamLink": "Get Team Invite Link",
   "sidebar_right_menu.teamSettings": "Team Settings",
   "sidebar_right_menu.viewMembers": "View Members",
+  "copy_url_context_menu.getChannelLink": "Copy Link",
   "signup.email": "Email and Password",
   "signup.gitlab": "GitLab Single Sign-On",
   "signup.google": "Google Account",

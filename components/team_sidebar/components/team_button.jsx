@@ -13,6 +13,7 @@ import Constants from 'utils/constants.jsx';
 import {isDesktopApp} from 'utils/user_agent.jsx';
 
 import {localizeMessage} from 'utils/utils.jsx';
+import CopyUrlContextMenu from 'components/copy_url_context_menu';
 
 export default class TeamButton extends React.Component {
     constructor(props) {
@@ -103,6 +104,18 @@ export default class TeamButton extends React.Component {
                     {btn}
                 </button>
             );
+
+            // if this is not a "special" team button, give it a context menu
+            if (!this.props.url.endsWith('create_team') && !this.props.url.endsWith('select_team')) {
+                teamButton = (
+                    <CopyUrlContextMenu
+                        link={this.props.url}
+                        menuId={this.props.url}
+                    >
+                        {teamButton}
+                    </CopyUrlContextMenu>
+                );
+            }
         } else {
             teamButton = (
                 <Link
