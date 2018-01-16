@@ -622,6 +622,7 @@ export default class NotificationsTab extends React.Component {
                     </div>
                     <input
                         id='notificationTriggerCustomText'
+                        autoFocus={this.state.customKeysChecked}
                         ref='custommentions'
                         className='form-control mentions-input'
                         type='text'
