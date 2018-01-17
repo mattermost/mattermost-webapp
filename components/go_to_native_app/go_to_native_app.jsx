@@ -5,7 +5,7 @@ import React, {PureComponent} from 'react';
 import {FormattedMessage} from 'react-intl';
 import safeOpenProtocol from 'custom-protocol-detection';
 
-import MattermostLogo from 'images/logo.png';
+import MattermostLogoSvg from 'images/logo.svg';
 
 export default class GoNativeApp extends PureComponent {
     constructor(props) {
@@ -54,25 +54,22 @@ export default class GoNativeApp extends PureComponent {
 
         // prompt user to download in case they don't have the mobile app.
         return (
-            <div
-                className='get-app get-android-app'
-                style={{textAlign: 'center', marginTop: '50px'}}
-            >
+            <div className='get-app get-app--android'>
                 <img
-                    src={MattermostLogo}
+                    src={MattermostLogoSvg}
                     className='get-app__logo'
                 />
-                <div style={{fontSize: '30px', margin: '0 auto 65px'}}>
+                <div className='get-app__launching'>
                     <FormattedMessage
                         id='get_app.launching'
                         defaultMessage='Launching...'
                     />
                 </div>
-                <div style={{fontSize: '20px', margin: '0 auto 20px'}}>
+                <div className='get-app__status'>
                     {goNativeAppMessage}
                 </div>
                 <div>
-                    <div style={{fontSize: '15px', width: '80%', margin: '0 auto'}}>
+                    <div className='get-app__alternative'>
                         <FormattedMessage
                             id='get_app.ifNothingPrompts'
                             defaultMessage='If nothing prompts from browser,'
@@ -80,7 +77,7 @@ export default class GoNativeApp extends PureComponent {
                     </div>
                     <a
                         href='/downloads'
-                        className='btn btn-primary get-android-app__open-mattermost'
+                        className='btn btn-primary get-app__download'
                     >
                         <FormattedMessage
                             id='get_app.downloadMattermost'
@@ -90,8 +87,7 @@ export default class GoNativeApp extends PureComponent {
                 </div>
                 <a
                     href='/'
-                    className='btn btn-secondary get-android-app__continue-with-browser'
-                    style={{marginTop: '30px'}}
+                    className='btn btn-secondary get-app__continue'
                 >
                     <FormattedMessage
                         id='get_app.continueToBrowser'
