@@ -37,12 +37,38 @@ export default class EditPostModal extends React.PureComponent {
         /**
          * Editing post information
          */
-        editingPost: PropTypes.object.isRequired,
+        editingPost: PropTypes.shape({
+
+            /**
+             * The post being edited
+             */
+            post: PropTypes.object,
+
+            /**
+             * The ID of the post being edited
+             */
+            postId: PropTypes.string,
+
+            /**
+             * The ID of a DOM node to focus with the keyboard when this modal closes
+             */
+            refocusId: PropTypes.string,
+
+            /**
+             * Whether or not to show the modal
+             */
+            show: PropTypes.bool.isRequired,
+
+            /**
+             * What to show in the title of the modal as "Edit {title}"
+             */
+            title: PropTypes.string
+        }).isRequired,
 
         actions: PropTypes.shape({
-            editPost: PropTypes.func.isRequired,
             addMessageIntoHistory: PropTypes.func.isRequired,
-            setEditingPost: PropTypes.func.isRequired
+            editPost: PropTypes.func.isRequired,
+            hideEditPostModal: PropTypes.func.isRequired
         }).isRequired
     }
 
@@ -53,19 +79,16 @@ export default class EditPostModal extends React.PureComponent {
             editText: '',
             postError: '',
             errorClass: null,
-            showEmojiPicker: false,
-            hiding: false
+            showEmojiPicker: false
         };
     }
 
-    mustBeShown = () => {
-        if (this.state.hiding) {
-            return false;
+    componentWillUpdate(nextProps) {
+        if (!this.props.editingPost.show && nextProps.editingPost.show) {
+            this.setState({
+                editText: nextProps.editingPost.post.message_source || nextProps.editingPost.post.message
+            });
         }
-        if (!this.props.editingPost || !this.props.editingPost.post) {
-            return false;
-        }
-        return true;
     }
 
     getContainer = () => {
@@ -178,13 +201,7 @@ export default class EditPostModal extends React.PureComponent {
     }
 
     handleHide = () => {
-        this.setState({hiding: true});
-    }
-
-    handleEnter = () => {
-        this.setState({
-            editText: this.props.editingPost.post.message_source || this.props.editingPost.post.message
-        });
+        this.props.actions.hideEditPostModal();
     }
 
     handleEntered = () => {
@@ -198,7 +215,7 @@ export default class EditPostModal extends React.PureComponent {
 
     handleExited = () => {
         const refocusId = this.props.editingPost.refocusId;
-        if (refocusId !== '') {
+        if (refocusId) {
             setTimeout(() => {
                 const element = document.getElementById(refocusId);
                 if (element) {
@@ -206,8 +223,8 @@ export default class EditPostModal extends React.PureComponent {
                 }
             });
         }
-        this.props.actions.setEditingPost();
-        this.setState({editText: '', postError: '', errorClass: null, hiding: false, showEmojiPicker: false});
+
+        this.setState({editText: '', postError: '', errorClass: null, showEmojiPicker: false});
     }
 
     render() {
@@ -242,10 +259,9 @@ export default class EditPostModal extends React.PureComponent {
         return (
             <Modal
                 dialogClassName='edit-modal'
-                show={this.mustBeShown()}
+                show={this.props.editingPost.show}
                 onKeyDown={this.handleKeyDown}
                 onHide={this.handleHide}
-                onEnter={this.handleEnter}
                 onEntered={this.handleEntered}
                 onExit={this.handleExit}
                 onExited={this.handleExited}

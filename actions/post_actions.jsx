@@ -298,11 +298,17 @@ export function setEditingPost(postId = '', commentsCount = 0, refocusId = '', t
 
         if (canEditNow) {
             doDispatch({
-                type: ActionTypes.SET_EDITING_POST,
+                type: ActionTypes.SHOW_EDIT_POST_MODAL,
                 data: {postId, commentsCount, refocusId, title}
             }, doGetState);
         }
 
         return {data: canEditNow};
+    };
+}
+
+export function hideEditPostModal() {
+    return {
+        type: ActionTypes.HIDE_EDIT_POST_MODAL
     };
 }

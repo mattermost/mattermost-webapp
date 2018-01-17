@@ -101,7 +101,6 @@ export const ActionTypes = keyMirror({
     RECEIVED_FOCUSED_POST: null,
     RECEIVED_POST: null,
     RECEIVED_EDIT_POST: null,
-    SET_EDITING_POST: null,
     EDIT_POST: null,
     SELECT_POST: null,
     RECEIVED_POST_SELECTED: null,
@@ -214,6 +213,8 @@ export const ActionTypes = keyMirror({
     TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL: null,
     TOGGLE_CHANNEL_NAME_UPDATE_MODAL: null,
     TOGGLE_LEAVE_PRIVATE_CHANNEL_MODAL: null,
+    SHOW_EDIT_POST_MODAL: null,
+    HIDE_EDIT_POST_MODAL: null,
 
     SUGGESTION_PRETEXT_CHANGED: null,
     SUGGESTION_RECEIVED_SUGGESTIONS: null,
