@@ -17,10 +17,6 @@ export default class AutosizeTextarea extends React.Component {
         super(props);
 
         this.height = 0;
-
-        this.state = {
-            referenceValue: this.props.defaultValue
-        };
     }
 
     get value() {
@@ -29,10 +25,6 @@ export default class AutosizeTextarea extends React.Component {
 
     set value(value) {
         this.refs.textarea.value = value;
-
-        this.setState({
-            referenceValue: value
-        });
     }
 
     componentDidUpdate() {
@@ -64,12 +56,6 @@ export default class AutosizeTextarea extends React.Component {
     };
 
     handleChange = (e) => {
-        if (this.props.defaultValue != null) {
-            this.setState({
-                referenceValue: e.target.value
-            });
-        }
-
         if (this.props.onChange) {
             this.props.onChange(e);
         }
@@ -84,6 +70,7 @@ export default class AutosizeTextarea extends React.Component {
 
         const {
             value,
+            defaultValue,
             placeholder,
             id,
             ...otherProps
@@ -97,22 +84,17 @@ export default class AutosizeTextarea extends React.Component {
             heightProps.height = this.height;
         }
 
-        // We need to track the value of the main textbox ourselves if we're using a defaultValue
-        let referenceValue;
-        if (this.props.defaultValue == null) {
-            referenceValue = value;
-        } else {
-            referenceValue = this.state.referenceValue;
-        }
-
         return (
             <div>
                 <textarea
                     ref='textarea'
                     id={id + '-textarea'}
                     {...heightProps}
-                    {...props}
+                    {...otherProps}
+                    placeholder={placeholder}
                     onChange={this.handleChange}
+                    value={value}
+                    defaultValue={defaultValue}
                 />
                 <div style={style.container}>
                     <textarea
@@ -120,10 +102,10 @@ export default class AutosizeTextarea extends React.Component {
                         id={id + '-reference'}
                         style={style.reference}
                         disabled={true}
-                        value={referenceValue}
                         placeholder={placeholder}
                         rows='1'
                         {...otherProps}
+                        value={value || defaultValue}
                     />
                 </div>
             </div>
