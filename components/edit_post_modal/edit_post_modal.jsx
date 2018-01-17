@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
@@ -185,11 +184,11 @@ export default class EditPostModal extends React.PureComponent {
     handleEditKeyPress = (e) => {
         if (!UserAgent.isMobile() && !this.props.ctrlSend && e.which === KeyCodes.ENTER && !e.shiftKey && !e.altKey) {
             e.preventDefault();
-            ReactDOM.findDOMNode(this.refs.editbox).blur();
+            this.refs.editbox.blur();
             this.handleEdit();
         } else if (this.props.ctrlSend && e.ctrlKey && e.which === KeyCodes.ENTER) {
             e.preventDefault();
-            ReactDOM.findDOMNode(this.refs.editbox).blur();
+            this.refs.editbox.blur();
             this.handleEdit();
         }
     }
