@@ -6,7 +6,6 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {loadEmoji} from 'actions/emoji_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as WebSocketActions from 'actions/websocket_actions.jsx';
 import 'stores/emoji_store.jsx';
