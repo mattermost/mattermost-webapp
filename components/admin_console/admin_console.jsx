@@ -41,7 +41,8 @@ import PasswordSettings from 'components/admin_console/password_settings.jsx';
 import PluginSettings from 'components/admin_console/plugin_settings.jsx';
 import PluginManagement from 'components/admin_console/plugin_management';
 import CustomPluginSettings from 'components/admin_console/custom_plugin_settings';
-import PolicySettings from 'components/admin_console/policy_settings.jsx';
+import PolicySettings from 'components/admin_console/policy_settings';
+
 import PrivacySettings from 'components/admin_console/privacy_settings.jsx';
 import PublicLinkSettings from 'components/admin_console/public_link_settings.jsx';
 import PushSettings from 'components/admin_console/push_settings.jsx';

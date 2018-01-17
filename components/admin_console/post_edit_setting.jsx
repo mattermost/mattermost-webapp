@@ -70,7 +70,7 @@ export default class PostEditSetting extends React.Component {
                         />
                         <input
                             type='text'
-                            value={this.props.timeLimitValue}
+                            value={this.props.timeLimitValue || ''}
                             className='form-control'
                             name={this.props.timeLimitId}
                             onChange={this.handleTimeLimitChange}
@@ -93,7 +93,7 @@ PostEditSetting.propTypes = {
     timeLimitId: PropTypes.string.isRequired,
     label: PropTypes.node.isRequired,
     value: PropTypes.string.isRequired,
-    timeLimitValue: PropTypes.number.isRequired,
+    timeLimitValue: PropTypes.number,
     onChange: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
     helpText: PropTypes.node
