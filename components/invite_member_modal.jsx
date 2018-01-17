@@ -347,6 +347,7 @@ class InviteMemberModal extends React.Component {
                                 maxLength='64'
                                 disabled={!this.state.emailEnabled || !this.state.userCreationEnabled}
                                 spellCheck='false'
+                                autoFocus={true}
                             />
                             {emailError}
                         </div>
