@@ -145,7 +145,7 @@ export default class TeamSidebar extends React.Component {
                 );
             });
 
-        if (moreTeams) {
+        if (moreTeams && !global.mm_config.ExperimentalPrimaryTeam) {
             teams.push(
                 <TeamButton
                     btnClass='team-btn__add'
@@ -161,7 +161,7 @@ export default class TeamSidebar extends React.Component {
                     content={<i className='fa fa-plus'/>}
                 />
             );
-        } else if (global.window.mm_config.EnableTeamCreation === 'true' || isSystemAdmin) {
+        } else if (global.mm_config.EnableTeamCreation === 'true' || isSystemAdmin) {
             teams.push(
                 <TeamButton
                     btnClass='team-btn__add'
