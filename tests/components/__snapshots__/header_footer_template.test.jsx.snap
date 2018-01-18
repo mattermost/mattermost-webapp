@@ -6,11 +6,7 @@ exports[`components/HeaderFooterTemplate should match snapshot with about link 1
 >
   <div
     className="row content"
-  >
-    <div
-      className="footer-push"
-    />
-  </div>
+  />
   <div
     className="row footer"
   >
@@ -63,11 +59,7 @@ exports[`components/HeaderFooterTemplate should match snapshot with all links 1`
 >
   <div
     className="row content"
-  >
-    <div
-      className="footer-push"
-    />
-  </div>
+  />
   <div
     className="row footer"
   >
@@ -163,9 +155,6 @@ exports[`components/HeaderFooterTemplate should match snapshot with children 1`]
     <p>
       test
     </p>
-    <div
-      className="footer-push"
-    />
   </div>
   <div
     className="row footer"
@@ -205,11 +194,7 @@ exports[`components/HeaderFooterTemplate should match snapshot with help link 1`
 >
   <div
     className="row content"
-  >
-    <div
-      className="footer-push"
-    />
-  </div>
+  />
   <div
     className="row footer"
   >
@@ -262,11 +247,7 @@ exports[`components/HeaderFooterTemplate should match snapshot with privacy poli
 >
   <div
     className="row content"
-  >
-    <div
-      className="footer-push"
-    />
-  </div>
+  />
   <div
     className="row footer"
   >
@@ -319,11 +300,7 @@ exports[`components/HeaderFooterTemplate should match snapshot with term of serv
 >
   <div
     className="row content"
-  >
-    <div
-      className="footer-push"
-    />
-  </div>
+  />
   <div
     className="row footer"
   >
@@ -376,11 +353,7 @@ exports[`components/HeaderFooterTemplate should match snapshot without children 
 >
   <div
     className="row content"
-  >
-    <div
-      className="footer-push"
-    />
-  </div>
+  />
   <div
     className="row footer"
   >

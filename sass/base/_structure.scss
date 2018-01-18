@@ -3,11 +3,14 @@
 html,
 body {
     height: 100%;
+
+    &.sticky {
+        height: auto;
+    }
 }
 
 body {
     background: $bg--gray;
-    height: 100%;
     position: relative;
     width: 100%;
 
@@ -20,8 +23,9 @@ body {
     background: $white;
 
     > .channel-view {
-        height: auto;
+        height: 100vh;
         padding: 0 15px;
+        overflow: auto;
     }
 
     .inner-wrap {
@@ -29,8 +33,11 @@ body {
 
         > .row {
             &.content {
-                margin-bottom: -89px;
-                min-height: 100vh;
+                min-height: calc(100vh - 89px);
+
+                @media (max-width: 768px) {
+                    min-height: calc(100vh - 187px);
+                }
             }
         }
     }

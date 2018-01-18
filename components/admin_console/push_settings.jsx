@@ -52,6 +52,12 @@ export default class PushSettings extends AdminSettings {
                 this.setState({
                     pushNotificationServer: Constants.MTPNS
                 });
+            } else if (value === PUSH_NOTIFICATIONS_CUSTOM &&
+                (this.state.pushNotificationServerType === PUSH_NOTIFICATIONS_MTPNS ||
+                this.state.pushNotificationServerType === PUSH_NOTIFICATIONS_MHPNS)) {
+                this.setState({
+                    pushNotificationServer: ''
+                });
             }
         }
 

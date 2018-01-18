@@ -1,5 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/integrations/InstalledOutgoingWebhook Should match snapshot of makeDisplayName 1`] = `"hook display name"`;
+
+exports[`components/integrations/InstalledOutgoingWebhook Should match snapshot of makeDisplayName 2`] = `"channel display name"`;
+
+exports[`components/integrations/InstalledOutgoingWebhook Should match snapshot of makeDisplayName 3`] = `
+<FormattedMessage
+  defaultMessage="A Private Webhook"
+  id="installed_outgoing_webhooks.unknown_channel"
+  values={Object {}}
+/>
+`;
+
 exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 1`] = `
 <div
   className="backstage-list__item"
@@ -109,7 +121,7 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
           values={
             Object {
               "createAt": 1508327769020,
-              "creator": undefined,
+              "creator": "username",
             }
           }
         />

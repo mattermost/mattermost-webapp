@@ -35,11 +35,18 @@ export default class ChannelMembersDropdown extends React.Component {
         this.state = {
             serverError: null,
             user: null,
-            role: null
+            role: null,
+            removing: false
         };
     }
 
     handleRemoveFromChannel() {
+        if (this.state.removing) {
+            return;
+        }
+
+        this.setState({removing: true});
+
         removeUserFromChannel(
             this.props.channel.id,
             this.props.user.id,
@@ -47,7 +54,10 @@ export default class ChannelMembersDropdown extends React.Component {
                 this.props.actions.getChannelStats(this.props.channel.id);
             },
             (err) => {
-                this.setState({serverError: err.message});
+                this.setState({
+                    serverError: err.message,
+                    removing: false
+                });
             }
         );
     }
@@ -221,6 +231,7 @@ export default class ChannelMembersDropdown extends React.Component {
                     type='button'
                     className='btn btn-danger btn-message'
                     onClick={this.handleRemoveFromChannel}
+                    disabled={this.state.removing}
                 >
                     <FormattedMessage
                         id='channel_members_dropdown.remove_member'

@@ -380,7 +380,6 @@ export async function leaveChannel(channelId, success) {
     if (ChannelUtils.isFavoriteChannelId(channelId)) {
         unmarkFavorite(channelId);
     }
-
     if (success) {
         success();
     }

@@ -69,7 +69,7 @@ function renderRemoveFromChannelMessage(post, options) {
     return (
         <FormattedMessage
             id='api.channel.remove_member.removed'
-            defaultMessage='{removedUsername} removed from the channel.'
+            defaultMessage='{removedUsername} was removed from the channel'
             values={{
                 removedUsername
             }}
@@ -123,7 +123,7 @@ function renderRemoveFromTeamMessage(post, options) {
     return (
         <FormattedMessage
             id='api.team.remove_user_from_team.removed'
-            defaultMessage='{removedUsername} removed from the team.'
+            defaultMessage='{removedUsername} was removed from the team.'
             values={{
                 removedUsername
             }}
