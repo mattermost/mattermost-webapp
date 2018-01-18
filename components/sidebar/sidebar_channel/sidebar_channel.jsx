@@ -207,7 +207,7 @@ export default class SidebarChannel extends React.PureComponent {
 
         let rowClass = 'sidebar-item';
         let badge = false;
-        if (this.showChannelAsUnread() && !channelMuted) {
+        if (this.showChannelAsUnread()) {
             rowClass += ' unread-title';
         }
 
