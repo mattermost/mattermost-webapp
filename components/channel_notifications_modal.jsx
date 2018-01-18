@@ -16,6 +16,10 @@ import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 import {isChannelMuted} from 'utils/channel_utils.jsx';
 
+const SECTION_DESKTOP = 'desktop';
+const SECTION_PUSH = 'push';
+const SECTION_MUTE = 'mute';
+
 export default class ChannelNotificationsModal extends React.Component {
     constructor(props) {
         super(props);
@@ -85,6 +89,31 @@ export default class ChannelNotificationsModal extends React.Component {
         this.setState({notifyLevel});
     }
 
+    handleMaxUpdateSection = (section) => {
+        this.updateSection(section);
+
+        switch (this.state.activeSection) {
+        case SECTION_MUTE:
+            this.setState({
+                muteLevel: this.props.channelMember.notify_props.mark_unread
+            });
+            break;
+
+        case SECTION_DESKTOP:
+            this.setState({
+                notifyLevel: this.props.channelMember.notify_props.desktop
+            });
+            break;
+
+        case SECTION_PUSH:
+            this.setState({
+                pushLevel: this.props.channelMember.notify_props.push || NotificationLevels.DEFAULT
+            });
+            break;
+        default:
+        }
+    }
+
     createDesktopNotifyLevelSection(serverError) {
         if (isChannelMuted(this.props.channelMember)) {
             return null;
@@ -125,7 +154,7 @@ export default class ChannelNotificationsModal extends React.Component {
 
         const notificationLevel = this.state.notifyLevel;
 
-        if (this.state.activeSection === 'desktop') {
+        if (this.state.activeSection === SECTION_DESKTOP) {
             const notifyActive = [false, false, false, false];
             if (notificationLevel === NotificationLevels.DEFAULT) {
                 notifyActive[0] = true;
@@ -516,6 +545,13 @@ export default class ChannelNotificationsModal extends React.Component {
         );
 
         if (this.state.activeSection === SECTION_MUTE) {
+            const notifyActive = [false, false];
+            if (notificationLevel === NotificationLevels.MENTION) {
+                notifyActive[0] = true;
+            } else if (notificationLevel === NotificationLevels.ALL) {
+                notifyActive[1] = true;
+            }
+
             var inputs = [];
             inputs.push(
                 <div key='channel-notification-level-radio'>
@@ -525,7 +561,7 @@ export default class ChannelNotificationsModal extends React.Component {
                                 id='channelNotificationMute'
                                 type='radio'
                                 name='muteNotificationLevel'
-                                checked={this.state.muteLevel === NotificationLevels.MENTION}
+                                checked={notifyActive[0]}
                                 onChange={this.handleUpdateMuteNotificationLevel.bind(this, NotificationLevels.MENTION)}
                             />
                             <FormattedMessage
@@ -541,7 +577,7 @@ export default class ChannelNotificationsModal extends React.Component {
                                 id='channelNotificationUnmute'
                                 type='radio'
                                 name='muteNotificationLevel'
-                                checked={this.state.muteLevel === NotificationLevels.ALL}
+                                checked={notifyActive[1]}
                                 onChange={this.handleUpdateMuteNotificationLevel.bind(this, NotificationLevels.ALL)}
                             />
                             <FormattedMessage
@@ -569,10 +605,7 @@ export default class ChannelNotificationsModal extends React.Component {
                     inputs={inputs}
                     submit={this.handleSubmitMuteNotificationLevel}
                     server_error={serverError}
-                    section={SECTION_MUTE}
-                    updateSection={() => {
-                        this.updateSection(SECTION_MUTE);
-                    }}
+                    updateSection={this.handleMaxUpdateSection}
                     extraInfo={extraInfo}
                 />
             );
@@ -580,9 +613,9 @@ export default class ChannelNotificationsModal extends React.Component {
 
         let describe;
         if (notificationLevel === NotificationLevels.MENTION) {
-            describe = (<FormattedMessage id='channel_notifications.muteChannel.on.desc'/>);
+            describe = (<FormattedMessage id='channel_notifications.muteChannel.on.title'/>);
         } else {
-            describe = (<FormattedMessage id='channel_notifications.muteChannel.off.desc'/>);
+            describe = (<FormattedMessage id='channel_notifications.muteChannel.off.title'/>);
         }
 
         return (
