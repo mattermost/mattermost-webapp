@@ -156,6 +156,10 @@ export default class CreateComment extends React.PureComponent {
         if (newProps.rootId !== this.props.rootId) {
             this.setState({draft: {...newProps.draft, uploadsInProgress: []}});
         }
+
+        if (!Utils.areObjectsEqual(this.props.draft, newProps.draft)) {
+            this.setState({draft: newProps.draft});
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
