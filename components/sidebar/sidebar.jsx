@@ -98,10 +98,15 @@ export default class Sidebar extends React.PureComponent {
         */
         isTeamAdmin: PropTypes.bool.isRequired,
 
+        /**
+         * Flag to display the Unread channels section
+         */
+        showUnreadSection: PropTypes.bool.isRequired,
+
         actions: PropTypes.shape({
             goToChannelById: PropTypes.func.isRequired
         }).isRequired
-    }
+    };
 
     static defaultProps = {
         currentChannel: {}
@@ -391,8 +396,11 @@ export default class Sidebar extends React.PureComponent {
     }
 
     getDisplayedChannels = (props = this.props) => {
+        if (props.showUnreadSection) {
+            return props.unreadChannelIds;
+        }
         return props.favoriteChannelIds.concat(props.publicChannelIds).concat(props.privateChannelIds).concat(props.directAndGroupChannelIds);
-    }
+    };
 
     channelIdIsDisplayedForProps = (props, id) => {
         const allChannels = this.getDisplayedChannels(props);
@@ -452,6 +460,15 @@ export default class Sidebar extends React.PureComponent {
     }
 
     render() {
+        const {
+            directAndGroupChannelIds,
+            favoriteChannelIds,
+            publicChannelIds,
+            privateChannelIds,
+            unreadChannelIds,
+            showUnreadSection
+        } = this.props;
+
         // Check if we have all info needed to render
         if (this.props.currentTeam == null || this.props.currentUser == null) {
             return (<div/>);
@@ -463,11 +480,12 @@ export default class Sidebar extends React.PureComponent {
         this.firstUnreadChannel = null;
         this.lastUnreadChannel = null;
 
-        // create elements for all 4 types of channels
-        const favoriteItems = this.props.favoriteChannelIds.map(this.createSidebarChannel);
-        const publicChannelItems = this.props.publicChannelIds.map(this.createSidebarChannel);
-        const privateChannelItems = this.props.privateChannelIds.map(this.createSidebarChannel);
-        const directMessageItems = this.props.directAndGroupChannelIds.map(this.createSidebarChannel);
+        // create elements for all 5 types of channels
+        const unreadChannelItems = showUnreadSection ? unreadChannelIds.map(this.createSidebarChannel) : null;
+        const favoriteItems = favoriteChannelIds.map(this.createSidebarChannel);
+        const publicChannelItems = publicChannelIds.map(this.createSidebarChannel);
+        const privateChannelItems = privateChannelIds.map(this.createSidebarChannel);
+        const directMessageItems = directAndGroupChannelIds.map(this.createSidebarChannel);
 
         var directMessageMore = (
             <li key='more'>
@@ -672,6 +690,17 @@ export default class Sidebar extends React.PureComponent {
                     className='nav-pills__container'
                     onScroll={this.onScroll}
                 >
+                    {unreadChannelItems.length !== 0 && <ul className='nav nav-pills nav-stacked'>
+                        <li>
+                            <h4 id='favoriteChannel'>
+                                <FormattedMessage
+                                    id='sidebar.unreadSection'
+                                    defaultMessage='UNREADS'
+                                />
+                            </h4>
+                        </li>
+                        {unreadChannelItems}
+                    </ul>}
                     {favoriteItems.length !== 0 && <ul className='nav nav-pills nav-stacked'>
                         <li>
                             <h4 id='favoriteChannel'>
