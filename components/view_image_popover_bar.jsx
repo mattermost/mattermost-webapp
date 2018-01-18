@@ -38,7 +38,7 @@ export default class ViewImagePopoverBar extends React.PureComponent {
         /**
          * Set whether to show "Get Public Link"
          */
-        showPublicLink: PropTypes.func,
+        showPublicLink: PropTypes.bool,
 
         /**
          * Function to call when click on "Get Public Link"
