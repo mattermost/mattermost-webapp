@@ -169,6 +169,11 @@
         font-weight: bold;
     }
 
+    .file-details__name:hover {
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
     .file-details__extension {
         display: block;
         font-size: 12px;
@@ -285,26 +290,33 @@
     display: flex;
     font-size: 13px;
     height: 100%;
-    padding: 0 60px 0 15px;
+    padding-right: 50px;
     width: 100%;
 
-    .post-image__detail {
-        line-height: normal;
+    .post-image__detail_wrapper {
+        height: 100%;
+        padding-left: 15px;
         width: 100%;
 
-        .post-image__name {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 3px;
-        }
-
-        .post-image__type {
-            @include opacity(.6);
-        }
-
-        .post-image__size {
-            @include opacity(.6);
-            margin-left: 4px;
+        .post-image__detail {
+            line-height: normal;
+            width: 100%;
+            height: 100%;
+    
+            .post-image__name {
+                display: block;
+                font-weight: 600;
+                margin-bottom: 3px;
+            }
+    
+            .post-image__type {
+                @include opacity(.6);
+            }
+    
+            .post-image__size {
+                @include opacity(.6);
+                margin-left: 4px;
+            }
         }
     }
 

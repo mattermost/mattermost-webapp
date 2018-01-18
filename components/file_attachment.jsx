@@ -161,18 +161,23 @@ export default class FileAttachment extends React.PureComponent {
                     {thumbnail}
                 </a>
                 <div className='post-image__details'>
-                    <FilenameOverlay
-                        fileInfo={this.props.fileInfo}
-                        index={this.props.index}
-                        handleImageClick={this.props.handleImageClick}
-                        compactDisplay={this.props.compactDisplay}
-                        canDownload={canDownloadFiles}
-                    />
-                    <div>
-                        {downloadButton}
-                        <span className='post-image__type'>{fileInfo.extension.toUpperCase()}</span>
-                        <span className='post-image__size'>{Utils.fileSizeToString(fileInfo.size)}</span>
+                    <div
+                        className='post-image__detail_wrapper'
+                        onClick={this.onAttachmentClick}
+                    >
+                        <div className='post-image__detail'>
+                            <FilenameOverlay
+                                fileInfo={this.props.fileInfo}
+                                index={this.props.index}
+                                handleImageClick={this.props.handleImageClick}
+                                compactDisplay={this.props.compactDisplay}
+                                canDownload={canDownloadFiles}
+                            />
+                            <span className='post-image__type'>{fileInfo.extension.toUpperCase()}</span>
+                            <span className='post-image__size'>{Utils.fileSizeToString(fileInfo.size)}</span>
+                        </div>
                     </div>
+                    {downloadButton}
                 </div>
             </div>
         );

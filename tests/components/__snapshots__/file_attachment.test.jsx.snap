@@ -22,49 +22,39 @@ exports[`component/FileAttachment should match snapshot, after change from file 
   <div
     className="post-image__details"
   >
-    <FilenameOverlay
-      canDownload={true}
-      fileInfo={
-        Object {
-          "extension": "png",
-          "height": 400,
-          "id": 2,
-          "name": "test.png",
-          "size": 100,
-          "width": 600,
-        }
-      }
-      handleImageClick={[Function]}
-      index={3}
-    />
-    <div>
-      <a
-        className="post-image__download"
-        download="test.png"
-        href="/api/v4/files/2"
-        rel="noopener noreferrer"
-        target="_blank"
+    <div
+      className="post-image__detail_wrapper"
+      onClick={[Function]}
+    >
+      <div
+        className="post-image__detail"
       >
-        <a
-          className="post-image__name"
-          download="test.png"
-          href="/api/v4/files/2"
-          rel="noopener noreferrer"
-          target="_blank"
+        <FilenameOverlay
+          canDownload={true}
+          fileInfo={
+            Object {
+              "extension": "png",
+              "height": 400,
+              "id": 2,
+              "name": "test.png",
+              "size": 100,
+              "width": 600,
+            }
+          }
+          handleImageClick={[Function]}
+          index={3}
+        />
+        <span
+          className="post-image__type"
         >
-          test.png
-        </a>
-      </OverlayTrigger>
-      <span
-        className="post-image__type"
-      >
-        PNG
-      </span>
-      <span
-        className="post-image__size"
-      >
-        100B
-      </span>
+          PNG
+        </span>
+        <span
+          className="post-image__size"
+        >
+          100B
+        </span>
+      </div>
     </div>
     <a
       className="post-image__download"
@@ -95,47 +85,37 @@ exports[`component/FileAttachment should match snapshot, file with long name 1`]
   <div
     className="post-image__details"
   >
-    <FilenameOverlay
-      canDownload={true}
-      fileInfo={
-        Object {
-          "extension": "pdf",
-          "id": 1,
-          "name": "a-quite-long-filename-to-test-the-filename-shortener.pdf",
-          "size": 100,
-        }
-      }
-      handleImageClick={[Function]}
-      index={3}
-    />
-    <div>
-      <a
-        className="post-image__download"
-        download="a-quite-long-filename-to-test-the-filename-shortener.pdf"
-        href="/api/v4/files/1"
-        rel="noopener noreferrer"
-        target="_blank"
+    <div
+      className="post-image__detail_wrapper"
+      onClick={[Function]}
+    >
+      <div
+        className="post-image__detail"
       >
-        <a
-          className="post-image__name"
-          download="a-quite-long-filename-to-test-the-filename-shortener.pdf"
-          href="/api/v4/files/1"
-          rel="noopener noreferrer"
-          target="_blank"
+        <FilenameOverlay
+          canDownload={true}
+          fileInfo={
+            Object {
+              "extension": "pdf",
+              "id": 1,
+              "name": "a-quite-long-filename-to-test-the-filename-shortener.pdf",
+              "size": 100,
+            }
+          }
+          handleImageClick={[Function]}
+          index={3}
+        />
+        <span
+          className="post-image__type"
         >
-          a-quite-long-filename-to-test-the-f...
-        </a>
-      </OverlayTrigger>
-      <span
-        className="post-image__type"
-      >
-        PDF
-      </span>
-      <span
-        className="post-image__size"
-      >
-        100B
-      </span>
+          PDF
+        </span>
+        <span
+          className="post-image__size"
+        >
+          100B
+        </span>
+      </div>
     </div>
     <a
       className="post-image__download"
@@ -166,47 +146,37 @@ exports[`component/FileAttachment should match snapshot, regular file 1`] = `
   <div
     className="post-image__details"
   >
-    <FilenameOverlay
-      canDownload={true}
-      fileInfo={
-        Object {
-          "extension": "pdf",
-          "id": 1,
-          "name": "test.pdf",
-          "size": 100,
-        }
-      }
-      handleImageClick={[Function]}
-      index={3}
-    />
-    <div>
-      <a
-        className="post-image__download"
-        download="test.pdf"
-        href="/api/v4/files/1"
-        rel="noopener noreferrer"
-        target="_blank"
+    <div
+      className="post-image__detail_wrapper"
+      onClick={[Function]}
+    >
+      <div
+        className="post-image__detail"
       >
-        <a
-          className="post-image__name"
-          download="test.pdf"
-          href="/api/v4/files/1"
-          rel="noopener noreferrer"
-          target="_blank"
+        <FilenameOverlay
+          canDownload={true}
+          fileInfo={
+            Object {
+              "extension": "pdf",
+              "id": 1,
+              "name": "test.pdf",
+              "size": 100,
+            }
+          }
+          handleImageClick={[Function]}
+          index={3}
+        />
+        <span
+          className="post-image__type"
         >
-          test.pdf
-        </a>
-      </OverlayTrigger>
-      <span
-        className="post-image__type"
-      >
-        PDF
-      </span>
-      <span
-        className="post-image__size"
-      >
-        100B
-      </span>
+          PDF
+        </span>
+        <span
+          className="post-image__size"
+        >
+          100B
+        </span>
+      </div>
     </div>
     <a
       className="post-image__download"
@@ -243,49 +213,39 @@ exports[`component/FileAttachment should match snapshot, regular image 1`] = `
   <div
     className="post-image__details"
   >
-    <FilenameOverlay
-      canDownload={true}
-      fileInfo={
-        Object {
-          "extension": "png",
-          "height": 400,
-          "id": 1,
-          "name": "test.png",
-          "size": 100,
-          "width": 600,
-        }
-      }
-      handleImageClick={[Function]}
-      index={3}
-    />
-    <div>
-      <a
-        className="post-image__download"
-        download="test.png"
-        href="/api/v4/files/1"
-        rel="noopener noreferrer"
-        target="_blank"
+    <div
+      className="post-image__detail_wrapper"
+      onClick={[Function]}
+    >
+      <div
+        className="post-image__detail"
       >
-        <a
-          className="post-image__name"
-          download="test.png"
-          href="/api/v4/files/1"
-          rel="noopener noreferrer"
-          target="_blank"
+        <FilenameOverlay
+          canDownload={true}
+          fileInfo={
+            Object {
+              "extension": "png",
+              "height": 400,
+              "id": 1,
+              "name": "test.png",
+              "size": 100,
+              "width": 600,
+            }
+          }
+          handleImageClick={[Function]}
+          index={3}
+        />
+        <span
+          className="post-image__type"
         >
-          test.png
-        </a>
-      </OverlayTrigger>
-      <span
-        className="post-image__type"
-      >
-        PNG
-      </span>
-      <span
-        className="post-image__size"
-      >
-        100B
-      </span>
+          PNG
+        </span>
+        <span
+          className="post-image__size"
+        >
+          100B
+        </span>
+      </div>
     </div>
     <a
       className="post-image__download"
@@ -322,49 +282,39 @@ exports[`component/FileAttachment should match snapshot, small image 1`] = `
   <div
     className="post-image__details"
   >
-    <FilenameOverlay
-      canDownload={true}
-      fileInfo={
-        Object {
-          "extension": "png",
-          "height": 16,
-          "id": 1,
-          "name": "test.png",
-          "size": 100,
-          "width": 16,
-        }
-      }
-      handleImageClick={[Function]}
-      index={3}
-    />
-    <div>
-      <a
-        className="post-image__download"
-        download="test.png"
-        href="/api/v4/files/1"
-        rel="noopener noreferrer"
-        target="_blank"
+    <div
+      className="post-image__detail_wrapper"
+      onClick={[Function]}
+    >
+      <div
+        className="post-image__detail"
       >
-        <a
-          className="post-image__name"
-          download="test.png"
-          href="/api/v4/files/1"
-          rel="noopener noreferrer"
-          target="_blank"
+        <FilenameOverlay
+          canDownload={true}
+          fileInfo={
+            Object {
+              "extension": "png",
+              "height": 16,
+              "id": 1,
+              "name": "test.png",
+              "size": 100,
+              "width": 16,
+            }
+          }
+          handleImageClick={[Function]}
+          index={3}
+        />
+        <span
+          className="post-image__type"
         >
-          test.png
-        </a>
-      </OverlayTrigger>
-      <span
-        className="post-image__type"
-      >
-        PNG
-      </span>
-      <span
-        className="post-image__size"
-      >
-        100B
-      </span>
+          PNG
+        </span>
+        <span
+          className="post-image__size"
+        >
+          100B
+        </span>
+      </div>
     </div>
     <a
       className="post-image__download"
@@ -396,49 +346,39 @@ exports[`component/FileAttachment should match snapshot, svg image 1`] = `
   <div
     className="post-image__details"
   >
-    <FilenameOverlay
-      canDownload={true}
-      fileInfo={
-        Object {
-          "extension": "svg",
-          "height": 400,
-          "id": 1,
-          "name": "test.svg",
-          "size": 100,
-          "width": 600,
-        }
-      }
-      handleImageClick={[Function]}
-      index={3}
-    />
-    <div>
-      <a
-        className="post-image__download"
-        download="test.svg"
-        href="/api/v4/files/1"
-        rel="noopener noreferrer"
-        target="_blank"
+    <div
+      className="post-image__detail_wrapper"
+      onClick={[Function]}
+    >
+      <div
+        className="post-image__detail"
       >
-        <a
-          className="post-image__name"
-          download="test.svg"
-          href="/api/v4/files/1"
-          rel="noopener noreferrer"
-          target="_blank"
+        <FilenameOverlay
+          canDownload={true}
+          fileInfo={
+            Object {
+              "extension": "svg",
+              "height": 400,
+              "id": 1,
+              "name": "test.svg",
+              "size": 100,
+              "width": 600,
+            }
+          }
+          handleImageClick={[Function]}
+          index={3}
+        />
+        <span
+          className="post-image__type"
         >
-          test.svg
-        </a>
-      </OverlayTrigger>
-      <span
-        className="post-image__type"
-      >
-        SVG
-      </span>
-      <span
-        className="post-image__size"
-      >
-        100B
-      </span>
+          SVG
+        </span>
+        <span
+          className="post-image__size"
+        >
+          100B
+        </span>
+      </div>
     </div>
     <a
       className="post-image__download"
@@ -469,47 +409,37 @@ exports[`component/FileAttachment should match snapshot, when file is not loaded
   <div
     className="post-image__details"
   >
-    <FilenameOverlay
-      canDownload={true}
-      fileInfo={
-        Object {
-          "extension": "pdf",
-          "id": 1,
-          "name": "test.pdf",
-          "size": 100,
-        }
-      }
-      handleImageClick={[Function]}
-      index={3}
-    />
-    <div>
-      <a
-        className="post-image__download"
-        download="test.pdf"
-        href="/api/v4/files/1"
-        rel="noopener noreferrer"
-        target="_blank"
+    <div
+      className="post-image__detail_wrapper"
+      onClick={[Function]}
+    >
+      <div
+        className="post-image__detail"
       >
-        <a
-          className="post-image__name"
-          download="test.pdf"
-          href="/api/v4/files/1"
-          rel="noopener noreferrer"
-          target="_blank"
+        <FilenameOverlay
+          canDownload={true}
+          fileInfo={
+            Object {
+              "extension": "pdf",
+              "id": 1,
+              "name": "test.pdf",
+              "size": 100,
+            }
+          }
+          handleImageClick={[Function]}
+          index={3}
+        />
+        <span
+          className="post-image__type"
         >
-          test.pdf
-        </a>
-      </OverlayTrigger>
-      <span
-        className="post-image__type"
-      >
-        PDF
-      </span>
-      <span
-        className="post-image__size"
-      >
-        100B
-      </span>
+          PDF
+        </span>
+        <span
+          className="post-image__size"
+        >
+          100B
+        </span>
+      </div>
     </div>
     <a
       className="post-image__download"
@@ -540,86 +470,38 @@ exports[`component/FileAttachment should match snapshot, with compact display 1`
   <div
     className="post-image__details"
   >
-<<<<<<< HEAD
-    <FilenameOverlay
-      canDownload={true}
-      compactDisplay={true}
-      fileInfo={
-        Object {
-          "extension": "pdf",
-          "id": 1,
-          "name": "test.pdf",
-          "size": 100,
-        }
-      }
-      handleImageClick={[Function]}
-      index={3}
-    />
-=======
     <div
-      className="post-image__detail"
+      className="post-image__detail_wrapper"
+      onClick={[Function]}
     >
-      <OverlayTrigger
-        defaultOverlayShown={false}
-        delayShow={1000}
-        overlay={
-          <Tooltip
-            bsClass="tooltip"
-            id="file-name__tooltip"
-            placement="right"
-          >
-            test.pdf
-          </Tooltip>
-        }
-        placement="top"
-        trigger={
-          Array [
-            "hover",
-            "focus",
-          ]
-        }
+      <div
+        className="post-image__detail"
       >
-<<<<<<< HEAD
-        <AttachmentIcon
-          className="icon"
+        <FilenameOverlay
+          canDownload={true}
+          compactDisplay={true}
+          fileInfo={
+            Object {
+              "extension": "pdf",
+              "id": 1,
+              "name": "test.pdf",
+              "size": 100,
+            }
+          }
+          handleImageClick={[Function]}
+          index={3}
         />
-        test.pdf
-      </a>
-    </OverlayTrigger>
->>>>>>> basic functionality for image thumbnails improvement
-    <div>
-      <a
-        className="post-image__download"
-        download="test.pdf"
-        href="/api/v4/files/1"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
         <span
-          className="fa fa-download"
-        />
-      </a>
-=======
-        <a
-          className="post-image__name"
-          href="#"
-          onClick={[Function]}
-          rel="noopener noreferrer"
+          className="post-image__type"
         >
-          test.pdf
-        </a>
-      </OverlayTrigger>
->>>>>>> rebase to latest and create component for download icon
-      <span
-        className="post-image__type"
-      >
-        PDF
-      </span>
-      <span
-        className="post-image__size"
-      >
-        100B
-      </span>
+          PDF
+        </span>
+        <span
+          className="post-image__size"
+        >
+          100B
+        </span>
+      </div>
     </div>
     <a
       className="post-image__download"
@@ -650,41 +532,37 @@ exports[`component/FileAttachment should match snapshot, without compact display
   <div
     className="post-image__details"
   >
-<<<<<<< HEAD
-    <FilenameOverlay
-      canDownload={false}
-      fileInfo={
-        Object {
-          "extension": "pdf",
-          "id": 1,
-          "name": "test.pdf",
-          "size": 100,
-        }
-      }
-      handleImageClick={[Function]}
-      index={3}
-    />
-    <div>
-=======
     <div
-      className="post-image__detail"
+      className="post-image__detail_wrapper"
+      onClick={[Function]}
     >
-      <span
-        className="post-image__name"
+      <div
+        className="post-image__detail"
       >
-        test.pdf
-      </span>
->>>>>>> basic functionality for image thumbnails improvement
-      <span
-        className="post-image__type"
-      >
-        PDF
-      </span>
-      <span
-        className="post-image__size"
-      >
-        100B
-      </span>
+        <FilenameOverlay
+          canDownload={false}
+          fileInfo={
+            Object {
+              "extension": "pdf",
+              "id": 1,
+              "name": "test.pdf",
+              "size": 100,
+            }
+          }
+          handleImageClick={[Function]}
+          index={3}
+        />
+        <span
+          className="post-image__type"
+        >
+          PDF
+        </span>
+        <span
+          className="post-image__size"
+        >
+          100B
+        </span>
+      </div>
     </div>
   </div>
 </div>

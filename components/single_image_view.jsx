@@ -115,7 +115,10 @@ export default class SingleImageView extends React.PureComponent {
             content = (
                 <div>
                     <div className='file-details'>
-                        <span className='file-details__name'>
+                        <span
+                            className='file-details__name'
+                            onClick={this.handleImageClick}
+                        >
                             {fileInfo.name.toUpperCase()}
                         </span>
                         <span className='file-details__extension'>
