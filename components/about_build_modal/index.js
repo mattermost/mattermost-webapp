@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import {connect} from 'react-redux';
-
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import AboutBuildModal from './about_build_modal.jsx';

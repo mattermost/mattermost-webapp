@@ -6,7 +6,6 @@ import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import * as AdminActions from 'actions/admin_actions.jsx';
 import AnalyticsStore from 'stores/analytics_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 

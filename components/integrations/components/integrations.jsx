@@ -6,7 +6,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
-
 import IncomingWebhookIcon from 'images/incoming_webhook.jpg';
 import OAuthIcon from 'images/oauth_icon.png';
 import OutgoingWebhookIcon from 'images/outgoing_webhook.jpg';

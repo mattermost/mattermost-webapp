@@ -5,7 +5,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-
 import ColorInput from 'components/color_input.jsx';
 
 describe('components/ColorInput', () => {

@@ -3,7 +3,6 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-
 import {ContextMenu, ContextMenuTrigger, MenuItem} from 'react-contextmenu';
 import {FormattedMessage} from 'react-intl';
 

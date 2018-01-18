@@ -4,23 +4,20 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {browserHistory, Link} from 'react-router';
-
+import {Link} from 'react-router-dom';
 import {Client4} from 'mattermost-redux/client';
 
+import {browserHistory} from 'utils/browser_history';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
 import {checkMfa, webLogin} from 'actions/user_actions.jsx';
 import BrowserStore from 'stores/browser_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import logoImage from 'images/logo.png';
-
 import AnnouncementBar from 'components/announcement_bar';
 import FormError from 'components/form_error.jsx';
 
@@ -29,8 +26,7 @@ import LoginMfa from './components/login_mfa.jsx';
 export default class LoginController extends React.Component {
     static get propTypes() {
         return {
-            location: PropTypes.object.isRequired,
-            params: PropTypes.object.isRequired
+            location: PropTypes.object.isRequired
         };
     }
 
@@ -45,8 +41,8 @@ export default class LoginController extends React.Component {
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
 
         let loginId = '';
-        if (this.props.location.query.extra === Constants.SIGNIN_VERIFIED && this.props.location.query.email) {
-            loginId = this.props.location.query.email;
+        if ((new URLSearchParams(this.props.location.search)).get('extra') === Constants.SIGNIN_VERIFIED && (new URLSearchParams(this.props.location.search)).get('email')) {
+            loginId = (new URLSearchParams(this.props.location.search)).get('email');
         }
 
         this.state = {
@@ -72,7 +68,7 @@ export default class LoginController extends React.Component {
             GlobalActions.redirectUserToDefaultTeam();
         }
 
-        if (this.props.location.query.extra === Constants.SIGNIN_VERIFIED && this.props.location.query.email) {
+        if ((new URLSearchParams(this.props.location.search)).get('extra') === Constants.SIGNIN_VERIFIED && (new URLSearchParams(this.props.location.search)).get('email')) {
             this.refs.password.focus();
         }
     }
@@ -163,9 +159,9 @@ export default class LoginController extends React.Component {
             token,
             () => {
                 // check for query params brought over from signup_user_complete
-                const hash = this.props.location.query.h;
-                const data = this.props.location.query.d;
-                const inviteId = this.props.location.query.id;
+                const hash = (new URLSearchParams(this.props.location.search)).get('h');
+                const data = (new URLSearchParams(this.props.location.search)).get('d');
+                const inviteId = (new URLSearchParams(this.props.location.search)).get('id');
                 if (inviteId || hash) {
                     addUserToTeamFromInvite(
                         data,
@@ -221,10 +217,12 @@ export default class LoginController extends React.Component {
     finishSignin(team) {
         const experimentalPrimaryTeam = global.mm_config.ExperimentalPrimaryTeam;
         const primaryTeam = TeamStore.getByName(experimentalPrimaryTeam);
-        const query = this.props.location.query;
+        const query = new URLSearchParams(this.props.location.search);
+        const redirectTo = query.get('redirect_to');
+
         GlobalActions.loadCurrentLocale();
-        if (query.redirect_to && query.redirect_to.match(/^\/([^/]|$)/)) {
-            browserHistory.push(query.redirect_to);
+        if (redirectTo && redirectTo.match(/^\/([^/]|$)/)) {
+            browserHistory.push(redirectTo);
         } else if (team) {
             browserHistory.push(`/${team.name}`);
         } else if (primaryTeam) {
@@ -308,7 +306,7 @@ export default class LoginController extends React.Component {
     }
 
     createLoginOptions() {
-        const extraParam = this.props.location.query.extra;
+        const extraParam = (new URLSearchParams(this.props.location.search)).get('extra');
         let extraBox = '';
         if (extraParam) {
             if (extraParam === Constants.SIGNIN_CHANGE) {

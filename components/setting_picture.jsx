@@ -4,13 +4,10 @@
 import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
-
 import exif2css from 'exif2css';
 
 import Constants from 'utils/constants.jsx';
-
 import loadingGif from 'images/load.gif';
-
 import FormError from 'components/form_error.jsx';
 
 export default class SettingPicture extends Component {

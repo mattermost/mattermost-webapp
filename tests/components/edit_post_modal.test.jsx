@@ -2,11 +2,8 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-
 import * as GlobalActions from 'actions/global_actions.jsx';
-
 import Constants from 'utils/constants';
-
 import EditPostModal from 'components/edit_post_modal/edit_post_modal.jsx';
 
 jest.useFakeTimers();

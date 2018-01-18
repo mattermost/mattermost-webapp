@@ -3,8 +3,8 @@
 
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
-
 import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {withRouter} from 'react-router-dom';
 
 import {getDirectTeammate} from 'utils/utils.jsx';
 import {TutorialSteps, Preferences} from 'utils/constants.jsx';
@@ -31,4 +31,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(ChannelView);
+export default withRouter(connect(mapStateToProps)(ChannelView));

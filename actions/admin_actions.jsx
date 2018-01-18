@@ -121,11 +121,11 @@ export function getOAuthAppInfo(clientId, success, error) {
 }
 
 export function allowOAuth2(params, success, error) {
-    const responseType = params.response_type;
-    const clientId = params.client_id;
-    const redirectUri = params.redirect_uri;
-    const state = params.state;
-    const scope = params.scope;
+    const responseType = params.get('response_type');
+    const clientId = params.get('client_id');
+    const redirectUri = params.get('redirect_uri');
+    const state = params.get('state');
+    const scope = params.get('scope');
 
     Client4.authorizeOAuthApp(responseType, clientId, redirectUri, state, scope).then(
         (data) => {

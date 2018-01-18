@@ -5,9 +5,7 @@ import React from 'react';
 
 import {PluginSettings} from 'utils/constants.jsx';
 import {formatText} from 'utils/text_formatting.jsx';
-
 import * as Utils from 'utils/utils.jsx';
-
 import LoadingScreen from 'components/loading_screen.jsx';
 import AdminSettings from 'components/admin_console/admin_settings.jsx';
 import BooleanSetting from 'components/admin_console/boolean_setting.jsx';

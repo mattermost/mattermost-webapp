@@ -8,7 +8,6 @@ import ReactSelect from 'react-select';
 
 import Constants from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
-
 import SaveButton from 'components/save_button.jsx';
 
 import MultiSelectList from './multiselect_list.jsx';

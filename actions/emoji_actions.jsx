@@ -7,7 +7,6 @@ import {getProfilesByIds} from 'mattermost-redux/actions/users';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import store from 'stores/redux_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import {ActionTypes} from 'utils/constants.jsx';
 
 const dispatch = store.dispatch;

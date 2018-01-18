@@ -9,7 +9,6 @@ import * as Selectors from 'mattermost-redux/selectors/entities/users';
 import ChannelStore from 'stores/channel_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 
 const UserStatuses = Constants.UserStatuses;

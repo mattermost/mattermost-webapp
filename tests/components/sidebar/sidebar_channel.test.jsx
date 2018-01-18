@@ -5,7 +5,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {Constants} from 'utils/constants.jsx';
-
 import SidebarChannel from 'components/sidebar/sidebar_channel/sidebar_channel.jsx';
 
 jest.mock('actions/diagnostics_actions.jsx', () => {
@@ -14,8 +13,8 @@ jest.mock('actions/diagnostics_actions.jsx', () => {
     };
 });
 
-jest.mock('react-router', () => {
-    const original = require.requireActual('react-router');
+jest.mock('utils/browser_history', () => {
+    const original = require.requireActual('utils/browser_history');
     return {
         ...original,
         browserHistory: {
@@ -362,7 +361,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
     test('should leave the active channel', () => {
         const savePreferences = jest.fn(() => Promise.resolve());
         const trackEvent = require('actions/diagnostics_actions.jsx').trackEvent;
-        const browserHistory = require('react-router').browserHistory;
+        const browserHistory = require('utils/browser_history').browserHistory;
 
         const wrapper = shallow(
             <SidebarChannel

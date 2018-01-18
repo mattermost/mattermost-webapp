@@ -6,7 +6,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {resendVerification} from 'actions/user_actions.jsx';
-
 import BackButton from 'components/common/back_button.jsx';
 
 export default class ShouldVerifyEmail extends React.Component {
@@ -20,7 +19,7 @@ export default class ShouldVerifyEmail extends React.Component {
         };
     }
     handleResend() {
-        const email = this.props.location.query.email;
+        const email = (new URLSearchParams(this.props.location.search)).get('email');
 
         this.setState({resendStatus: 'sending'});
 

@@ -4,16 +4,13 @@
 import EventEmitter from 'events';
 
 import {batchActions} from 'redux-batched-actions';
-
-import UserStore from 'stores/user_store.jsx'; // eslint-disable-line import/order
-
 import {ChannelTypes} from 'mattermost-redux/action_types';
 import * as Selectors from 'mattermost-redux/selectors/entities/channels';
 
+import UserStore from 'stores/user_store.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
-
 import {ActionTypes, Constants} from 'utils/constants.jsx';
 import {isFromWebhook, isSystemMessage} from 'utils/post_utils.jsx';
 
@@ -582,5 +579,7 @@ ChannelStore.dispatchToken = AppDispatcher.register((payload) => {
         break;
     }
 });
+
+global.channelstore = ChannelStore;
 
 export default ChannelStore;

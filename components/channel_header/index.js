@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {favoriteChannel, leaveChannel, unfavoriteChannel} from 'mattermost-redux/actions/channels';
 import {General, Preferences} from 'mattermost-redux/constants';
 import {getChannel, getMyChannelMember} from 'mattermost-redux/selectors/entities/channels';
@@ -12,9 +11,10 @@ import {getMyTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {getUserIdFromChannelName, isDefault, isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
 
+import {withRouter} from 'react-router-dom';
+
 import {showFlaggedPosts, showPinnedPosts, showMentions, closeRightHandSide} from 'actions/views/rhs';
 import {openModal} from 'actions/views/modals';
-
 import {getRhsState} from 'selectors/rhs';
 
 import ChannelHeader from './channel_header.jsx';
@@ -61,4 +61,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChannelHeader);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ChannelHeader));

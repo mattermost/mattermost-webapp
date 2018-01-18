@@ -7,7 +7,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {deletePost} from 'actions/post_actions.jsx';
 import ModalStore from 'stores/modal_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 
 var ActionTypes = Constants.ActionTypes;

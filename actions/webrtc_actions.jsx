@@ -4,7 +4,6 @@
 import {Client4} from 'mattermost-redux/client';
 
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-
 import {WebrtcActionTypes} from 'utils/constants.jsx';
 
 export function initWebrtc(userId, isCalling) {

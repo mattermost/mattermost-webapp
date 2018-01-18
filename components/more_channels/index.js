@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {getChannels} from 'mattermost-redux/actions/channels';
 
 import MoreChannels from './more_channels.jsx';

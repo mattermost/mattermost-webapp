@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {addReaction, removePost} from 'mattermost-redux/actions/posts';
 import {get, getBool} from 'mattermost-redux/selectors/entities/preferences';
 

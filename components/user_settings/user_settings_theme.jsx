@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -12,10 +11,8 @@ import * as UserActions from 'actions/user_actions.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import {ActionTypes, Constants, Preferences} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';

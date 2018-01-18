@@ -4,11 +4,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-
 import {Posts} from 'mattermost-redux/constants';
 
 import PostMarkdown from 'components/post_markdown';
-
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 

@@ -3,8 +3,8 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {browserHistory} from 'react-router';
 
+import {browserHistory} from 'utils/browser_history';
 import AbstractCommand from '../abstract_command.jsx';
 
 const HEADER = {id: 'integrations.add', defaultMessage: 'Add'};

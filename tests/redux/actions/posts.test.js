@@ -4,7 +4,6 @@
 import assert from 'assert';
 
 import * as Actions from 'actions/post_actions';
-
 import configureStore from 'store';
 
 describe('Actions.Posts', () => {

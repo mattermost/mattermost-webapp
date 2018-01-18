@@ -8,7 +8,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {adminResetPassword} from 'actions/admin_actions.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import * as Utils from 'utils/utils.jsx';
 
 export default class ResetPasswordModal extends React.Component {

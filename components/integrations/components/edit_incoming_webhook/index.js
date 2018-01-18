@@ -3,17 +3,16 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {getIncomingHook, updateIncomingHook} from 'mattermost-redux/actions/integrations';
 
 import EditIncomingWebhook from './edit_incoming_webhook.jsx';
 
 function mapStateToProps(state, ownProps) {
-    const hookId = ownProps.location.query.id;
     const config = state.entities.general.config;
     const enableIncomingWebhooks = config.EnableIncomingWebhooks === 'true';
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
     const enablePostIconOverride = config.EnablePostIconOverride === 'true';
+    const hookId = (new URLSearchParams(ownProps.location.search)).get('id');
 
     return {
         ...ownProps,

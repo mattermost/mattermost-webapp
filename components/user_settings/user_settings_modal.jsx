@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
@@ -10,14 +9,12 @@ import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-int
 
 import ModalStore from 'stores/modal_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import ConfirmModal from '../confirm_modal.jsx';
-import SettingsSidebar from '../settings_sidebar.jsx';
-
-import UserSettings from './user_settings.jsx';
+import {AsyncComponent} from 'components/async_load';
+import loadUserSettings from 'bundle-loader?lazy!./user_settings.jsx';
+import loadSettingsSidebar from 'bundle-loader?lazy!../settings_sidebar.jsx';
 
 const holders = defineMessages({
     general: {
@@ -272,14 +269,16 @@ class UserSettingsModal extends React.Component {
                 <Modal.Body ref='modalBody'>
                     <div className='settings-table'>
                         <div className='settings-links'>
-                            <SettingsSidebar
+                            <AsyncComponent
+                                doLoad={loadSettingsSidebar}
                                 tabs={tabs}
                                 activeTab={this.state.active_tab}
                                 updateTab={this.updateTab}
                             />
                         </div>
                         <div className='settings-content minimize-settings'>
-                            <UserSettings
+                            <AsyncComponent
+                                doLoad={loadUserSettings}
                                 ref='userSettings'
                                 activeTab={this.state.active_tab}
                                 activeSection={this.state.active_section}

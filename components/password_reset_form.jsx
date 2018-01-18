@@ -7,7 +7,6 @@ import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import {resetPassword} from 'actions/user_actions.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -43,7 +42,7 @@ class PasswordResetForm extends React.Component {
         });
 
         resetPassword(
-            this.props.location.query.token,
+            (new URLSearchParams(this.props.location.search)).get('token'),
             password,
             () => {
                 this.setState({error: null});

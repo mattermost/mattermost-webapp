@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {shallow} from 'enzyme';
 
 import ViewImagePopoverBar from 'components/view_image_popover_bar';

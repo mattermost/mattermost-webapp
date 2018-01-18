@@ -5,7 +5,6 @@ import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import * as AdminActions from 'actions/admin_actions.jsx';
-
 import * as Utils from 'utils/utils.jsx';
 
 import AdminSettings from './admin_settings.jsx';

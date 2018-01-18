@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import React from 'react';
-
 import {shallow} from 'enzyme';
 
 import CreateComment from 'components/create_comment/create_comment.jsx';

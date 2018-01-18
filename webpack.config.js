@@ -3,8 +3,10 @@ const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
-
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const extractCSS = new ExtractTextPlugin('[name].[contentHash].css');
+const extractSCSS = new ExtractTextPlugin('[name].[contentHash].css');
 
 const NPM_TARGET = process.env.npm_lifecycle_event; //eslint-disable-line no-process-env
 
@@ -21,6 +23,12 @@ if (NPM_TARGET === 'run' || NPM_TARGET === 'run-fullmap') {
 if (NPM_TARGET === 'test') {
     DEV = false;
     TEST = true;
+}
+
+if (NPM_TARGET === 'stats') {
+    DEV = true;
+    TEST = false;
+    FULLMAP = true;
 }
 
 const STANDARD_EXCLUDE = [
@@ -166,23 +174,8 @@ var config = {
                 ]
             },
             {
-                test: /(node_modules|non_npm_dependencies)(\\|\/).+\.(js|jsx)$/,
-                use: [
-                    {
-                        loader: 'imports-loader',
-                        options: {
-                            $: 'jquery',
-                            jQuery: 'jquery'
-                        }
-                    }
-                ]
-            },
-            {
                 test: /\.scss$/,
-                use: [
-                    {
-                        loader: 'style-loader'
-                    },
+                use: extractSCSS.extract([
                     {
                         loader: 'css-loader'
                     },
@@ -192,18 +185,15 @@ var config = {
                             includePaths: ['node_modules/compass-mixins/lib']
                         }
                     }
-                ]
+                ])
             },
             {
                 test: /\.css$/,
-                use: [
-                    {
-                        loader: 'style-loader'
-                    },
+                use: extractCSS.extract([
                     {
                         loader: 'css-loader'
                     }
-                ]
+                ])
             },
             {
                 test: /\.(png|eot|tiff|svg|woff2|woff|ttf|gif|mp3|jpg)$/,
@@ -240,7 +230,7 @@ var config = {
             path.resolve(__dirname)
         ],
         alias: {
-            jquery: 'jquery/dist/jquery',
+            jquery: 'jquery/src/jquery',
             superagent: 'node_modules/superagent/lib/client'
         },
         extensions: ['.js', '.jsx']
@@ -249,10 +239,11 @@ var config = {
         hints: 'warning'
     },
     target: 'web',
-    stats: MYSTATS,
     plugins: [
         new webpack.ProvidePlugin({
-            'window.jQuery': 'jquery'
+            'window.jQuery': 'jquery',
+            $: 'jquery',
+            jQuery: 'jquery'
         }),
         new webpack.LoaderOptionsPlugin({
             minimize: !DEV,
@@ -261,9 +252,15 @@ var config = {
         new webpack.optimize.CommonsChunkPlugin({
             minChunks: 2,
             children: true
-        })
+        }),
+        extractCSS,
+        extractSCSS
     ]
 };
+
+if (NPM_TARGET !== 'stats') {
+    config.stats = MYSTATS;
+}
 
 // Development mode configuration
 if (DEV) {
@@ -299,6 +296,9 @@ if (!DEV) {
                 NODE_ENV: JSON.stringify('production')
             }
         })
+    );
+    config.plugins.push(
+        new webpack.optimize.ModuleConcatenationPlugin(),
     );
 }
 

@@ -3,8 +3,8 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
-import {browserHistory} from 'react-router';
 
+import {browserHistory} from 'utils/browser_history';
 import EditIncomingWebhook from 'components/integrations/components/edit_incoming_webhook/edit_incoming_webhook.jsx';
 
 describe('components/integrations/EditIncomingWebhook', () => {

@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import {connect} from 'react-redux';
-
 import {
     getSortedPublicChannelWithUnreadsIds,
     getSortedPrivateChannelWithUnreadsIds,

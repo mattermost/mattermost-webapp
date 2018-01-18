@@ -14,14 +14,12 @@ import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
-
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 import MessageWrapper from 'components/message_wrapper.jsx';
 import {ActionTypes, Constants, RHSStates, UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import {getSiteURL} from 'utils/url.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import ChannelInfoModal from 'components/channel_info_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
@@ -37,7 +35,6 @@ import FlagIcon from 'components/svg/flag_icon';
 import MentionsIcon from 'components/svg/mentions_icon';
 import PinIcon from 'components/svg/pin_icon';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
-
 import Pluggable from 'plugins/pluggable';
 
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;

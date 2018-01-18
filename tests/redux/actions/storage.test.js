@@ -4,7 +4,6 @@
 import assert from 'assert';
 
 import * as Actions from 'actions/storage';
-
 import configureStore from 'store';
 
 describe('Actions.Storage', () => {

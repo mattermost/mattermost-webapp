@@ -2,22 +2,17 @@
 // See License.txt for license information.
 
 import {batchActions} from 'redux-batched-actions';
-
 import {SearchTypes} from 'mattermost-redux/action_types';
 import {searchPosts} from 'mattermost-redux/actions/search';
 import * as PostActions from 'mattermost-redux/actions/posts';
-
 import {Client4} from 'mattermost-redux/client';
-
 import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-
 import {getSearchTerms, getRhsState} from 'selectors/rhs';
-
 import {ActionTypes, RHSStates} from 'utils/constants';
 import * as Utils from 'utils/utils';
 

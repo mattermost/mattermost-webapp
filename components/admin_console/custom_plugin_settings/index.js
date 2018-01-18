@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import CustomPluginSettings from './custom_plugin_settings.jsx';
 
 function mapStateToProps(state, ownProps) {
-    const pluginId = ownProps.routeParams.plugin_id;
+    const pluginId = ownProps.match.params.plugin_id;
 
     return {
         plugin: state.entities.admin.plugins[pluginId]

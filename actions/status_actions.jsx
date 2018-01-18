@@ -8,7 +8,6 @@ import PostStore from 'stores/post_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import store from 'stores/redux_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import {Constants, Preferences} from 'utils/constants.jsx';
 
 const dispatch = store.dispatch;

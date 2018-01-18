@@ -6,14 +6,12 @@ import {Modal} from 'react-bootstrap';
 import {shallow} from 'enzyme';
 
 import Constants from 'utils/constants.jsx';
-
 import ViewImageModal from 'components/view_image';
 import AudioVideoPreview from 'components/audio_video_preview';
 import CodePreview from 'components/code_preview';
 import FileInfoPreview from 'components/file_info_preview';
 import ImagePreview from 'components/image_preview';
 import LoadingImagePreview from 'components/loading_image_preview';
-import PDFPreview from 'components/pdf_preview';
 import ViewImagePopoverBar from 'components/view_image_popover_bar';
 
 describe('components/ViewImageModal', () => {
@@ -71,17 +69,6 @@ describe('components/ViewImageModal', () => {
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(LoadingImagePreview).exists()).toBe(false);
         expect(wrapper.find(AudioVideoPreview).exists()).toBe(true);
-    });
-
-    test('should match snapshot, loaded with PDFPreview', () => {
-        const fileInfos = [{id: 'file_id', extension: 'pdf'}];
-        const props = {...requiredProps, fileInfos};
-        const wrapper = shallow(<ViewImageModal {...props}/>);
-
-        wrapper.setState({loaded: [true]});
-        expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find(LoadingImagePreview).exists()).toBe(false);
-        expect(wrapper.find(PDFPreview).exists()).toBe(true);
     });
 
     test('should match snapshot, loaded with CodePreview', () => {

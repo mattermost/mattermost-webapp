@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Constants from 'utils/constants.jsx';
-
 import FileAttachment from 'components/file_attachment.jsx';
 import ViewImageModal from 'components/view_image.jsx';
 

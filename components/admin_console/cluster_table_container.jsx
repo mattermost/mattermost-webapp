@@ -4,7 +4,6 @@
 import React from 'react';
 
 import {getClusterStatus} from 'actions/admin_actions.jsx';
-
 import LoadingScreen from '../loading_screen.jsx';
 
 import ClusterTable from './cluster_table.jsx';

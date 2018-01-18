@@ -6,7 +6,6 @@ import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import {invalidateAllCaches, reloadConfig} from 'actions/admin_actions.jsx';
 import ErrorStore from 'stores/error_store.jsx';
-
 import {ErrorBarTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 

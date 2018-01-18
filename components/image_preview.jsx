@@ -3,7 +3,6 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-
 import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
 import {canDownloadFiles} from 'utils/file_utils';

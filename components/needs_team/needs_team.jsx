@@ -2,27 +2,27 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
-import {browserHistory} from 'react-router';
-
+import {Route, Switch, Redirect} from 'react-router-dom';
 import iNoBounce from 'inobounce';
 
-import {startPeriodicStatusUpdates, stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
-import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
-import {startPeriodicSync, stopPeriodicSync} from 'actions/websocket_actions.jsx';
+import {getMyTeamUnreads} from 'mattermost-redux/actions/teams';
+import {fetchMyChannelsAndMembers} from 'mattermost-redux/actions/channels';
+
+import {loadStatusesForChannelAndSidebar, startPeriodicStatusUpdates, stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
+import {startPeriodicSync, stopPeriodicSync, reconnect} from 'actions/websocket_actions.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
-import PreferenceStore from 'stores/preference_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
+import BrowserStore from 'stores/browser_store';
+import * as GlobalActions from 'actions/global_actions.jsx';
 import Pluggable from 'plugins/pluggable';
-
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-
+import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
+import {checkIfMFARequired} from 'utils/route';
 import AnnouncementBar from 'components/announcement_bar';
 import DeletePostModal from 'components/delete_post_modal.jsx';
 import EditPostModal from 'components/edit_post_modal';
@@ -44,24 +44,31 @@ import UserSettingsModal from 'components/user_settings/user_settings_modal.jsx'
 import WebrtcNotification from 'components/webrtc/components/webrtc_notification.jsx';
 import WebrtcSidebar from 'components/webrtc/components/webrtc_sidebar.jsx';
 import ModalController from 'components/modal_controller';
+import TeamSidebar from 'components/team_sidebar';
+import Sidebar from 'components/sidebar';
+import ChannelView from 'components/channel_view';
+import PermalinkView from 'components/permalink_view';
+import MessageIdentifierRouter from 'components/message_indentifier_router';
+import {makeAsyncComponent} from 'components/async_load';
+import loadBackstageController from 'bundle-loader?lazy!components/backstage/backstage_controller';
 
-const TutorialSteps = Constants.TutorialSteps;
-const Preferences = Constants.Preferences;
+const BackstageController = makeAsyncComponent(loadBackstageController);
+
+import store from 'stores/redux_store.jsx';
+
+const dispatch = store.dispatch;
+const getState = store.getState;
 
 const UNREAD_CHECK_TIME_MILLISECONDS = 10000;
 
+let wakeUpInterval;
+let lastTime = (new Date()).getTime();
+const WAKEUP_CHECK_INTERVAL = 30000; // 30 seconds
+const WAKEUP_THRESHOLD = 60000; // 60 seconds
+
 export default class NeedsTeam extends React.Component {
     static propTypes = {
-        children: PropTypes.oneOfType([
-            PropTypes.arrayOf(PropTypes.element),
-            PropTypes.element
-        ]),
-        navbar: PropTypes.element,
         params: PropTypes.object,
-        sidebar: PropTypes.element,
-        team_sidebar: PropTypes.element,
-        center: PropTypes.element,
-        user: PropTypes.object,
         actions: PropTypes.shape({
             viewChannel: PropTypes.func.isRequired,
             getMyChannelMembers: PropTypes.func.isRequired
@@ -72,16 +79,75 @@ export default class NeedsTeam extends React.Component {
     constructor(params) {
         super(params);
 
-        this.teamChanged = (e) => this.onTeamChanged(e);
         this.shortcutKeyDown = (e) => this.onShortcutKeyDown(e);
+        this.updateCurrentTeam = this.updateCurrentTeam.bind(this);
 
         this.blurTime = new Date().getTime();
 
-        const team = TeamStore.getCurrent();
+        if (checkIfMFARequired(this.props.match.url)) {
+            this.props.history.push('/mfa/setup');
+            return;
+        }
+
+        clearInterval(wakeUpInterval);
+
+        wakeUpInterval = setInterval(() => {
+            const currentTime = (new Date()).getTime();
+            if (currentTime > (lastTime + WAKEUP_THRESHOLD)) { // ignore small delays
+                console.log('computer woke up - fetching latest'); //eslint-disable-line no-console
+                reconnect(false);
+            }
+            lastTime = currentTime;
+        }, WAKEUP_CHECK_INTERVAL);
+
+        const team = this.updateCurrentTeam(this.props);
 
         this.state = {
-            team
+            team,
+            finishedFetchingChannels: false
         };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.match.params.team !== nextProps.match.params.team) {
+            this.setState({team: this.updateCurrentTeam(nextProps)});
+        }
+    }
+
+    updateCurrentTeam(props) {
+        // First check to make sure you're in the current team
+        // for the current url.
+        const teamName = props.match.params.team;
+        const team = TeamStore.getByName(teamName);
+
+        if (!team) {
+            props.history.push('/?redirect_to=' + encodeURIComponent(props.location.pathname));
+            return null;
+        }
+
+        // If current team is set, then this is not first load
+        // The first load action pulls team unreads
+        if (TeamStore.getCurrentId()) {
+            getMyTeamUnreads()(dispatch, getState);
+        }
+
+        TeamStore.saveMyTeam(team);
+        BrowserStore.setGlobalItem('team', team.id);
+        TeamStore.emitChange();
+        GlobalActions.emitCloseRightHandSide();
+
+        fetchMyChannelsAndMembers(team.id)(dispatch, getState).then(
+            () => {
+                this.setState({
+                    finishedFetchingChannels: true
+                });
+            }
+        );
+
+        loadStatusesForChannelAndSidebar();
+        loadProfilesForSidebar();
+
+        return team;
     }
 
     onShortcutKeyDown(e) {
@@ -94,25 +160,7 @@ export default class NeedsTeam extends React.Component {
         }
     }
 
-    onTeamChanged() {
-        const team = TeamStore.getCurrent();
-
-        this.setState({
-            team
-        });
-    }
-
-    componentWillMount() {
-        // Go to tutorial if we are first arriving
-        const tutorialStep = PreferenceStore.getInt(Preferences.TUTORIAL_STEP, UserStore.getCurrentId(), 999);
-        if (tutorialStep <= TutorialSteps.INTRO_SCREENS && global.window.mm_config.EnableTutorial === 'true') {
-            browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/tutorial');
-        }
-    }
-
     componentDidMount() {
-        TeamStore.addChangeListener(this.teamChanged);
-
         startPeriodicStatusUpdates();
         startPeriodicSync();
 
@@ -147,7 +195,6 @@ export default class NeedsTeam extends React.Component {
     }
 
     componentWillUnmount() {
-        TeamStore.removeChangeListener(this.teamChanged);
         $(window).off('focus');
         $(window).off('blur');
 
@@ -156,6 +203,7 @@ export default class NeedsTeam extends React.Component {
         }
         stopPeriodicStatusUpdates();
         stopPeriodicSync();
+        clearInterval(wakeUpInterval);
         document.removeEventListener('keydown', this.shortcutKeyDown);
     }
 
@@ -167,68 +215,83 @@ export default class NeedsTeam extends React.Component {
     }
 
     render() {
-        let content = [];
-        if (this.props.children) {
-            content = this.props.children;
-        } else {
-            content.push(
-                this.props.navbar
-            );
-            content.push(this.props.team_sidebar);
-            content.push(
-                this.props.sidebar
-            );
-            content.push(
-                <div
-                    id='inner-wrap-webrtc'
-                    key='inner-wrap'
-                    className='inner-wrap channel__wrap'
-                >
-                    <div className='row header'>
-                        <div id='navbar'>
-                            <Navbar/>
-                        </div>
-                    </div>
-                    <div className='row main'>
-                        {React.cloneElement(this.props.center, {
-                            user: this.props.user,
-                            team: this.state.team
-                        })}
-                    </div>
-                </div>
-            );
+        if (this.state.team === null || this.state.finishedFetchingChannels === false) {
+            return <div/>;
         }
 
         const teamType = this.state.team ? this.state.team.type : '';
 
         return (
-            <div className='channel-view'>
-                <AnnouncementBar/>
-                <WebrtcNotification/>
-                <div className='container-fluid'>
-                    <SidebarRight/>
-                    <SidebarRightMenu teamType={teamType}/>
-                    <WebrtcSidebar/>
-                    {content}
+            <Switch>
+                <Route
+                    path={'/:team/integrations'}
+                    component={BackstageController}
+                />
+                <Route
+                    path={'/:team/emoji'}
+                    component={BackstageController}
+                />
+                <Route
+                    render={() => (
+                        <div className='channel-view'>
+                            <AnnouncementBar/>
+                            <WebrtcNotification/>
+                            <div className='container-fluid'>
+                                <SidebarRight/>
+                                <SidebarRightMenu teamType={teamType}/>
+                                <WebrtcSidebar/>
+                                <Route component={TeamSidebar}/>
+                                <Route component={Sidebar}/>
+                                <div
+                                    id='inner-wrap-webrtc'
+                                    key='inner-wrap'
+                                    className='inner-wrap channel__wrap'
+                                >
+                                    <div className='row header'>
+                                        <div id='navbar'>
+                                            <Navbar/>
+                                        </div>
+                                    </div>
+                                    <div className='row main'>
+                                        <Switch>
+                                            <Route
+                                                path={`${this.props.match.url}/channels/:channel`}
+                                                component={ChannelView}
+                                            />
+                                            <Route
+                                                path={`${this.props.match.url}/pl/:postid`}
+                                                component={PermalinkView}
+                                            />
+                                            <Route
+                                                path={'/:team/messages/:identifier'}
+                                                component={MessageIdentifierRouter}
+                                            />
+                                            <Redirect to={`${this.props.match.url}/channels/town-square`}/>
+                                        </Switch>
+                                    </div>
+                                </div>
 
-                    <Pluggable pluggableName='Root'/>
-                    <UserSettingsModal/>
-                    <GetPostLinkModal/>
-                    <GetPublicLinkModal/>
-                    <GetTeamInviteLinkModal/>
-                    <InviteMemberModal/>
-                    <LeaveTeamModal/>
-                    <ImportThemeModal/>
-                    <TeamSettingsModal/>
-                    <EditPostModal/>
-                    <DeletePostModal/>
-                    <RemovedFromChannelModal/>
-                    <ResetStatusModal/>
-                    <LeavePrivateChannelModal/>
-                    <ShortcutsModal isMac={Utils.isMac()}/>
-                    <ModalController/>
-                </div>
-            </div>
+                                <Pluggable pluggableName='Root'/>
+                                <UserSettingsModal/>
+                                <GetPostLinkModal/>
+                                <GetPublicLinkModal/>
+                                <GetTeamInviteLinkModal/>
+                                <InviteMemberModal/>
+                                <LeaveTeamModal/>
+                                <ImportThemeModal/>
+                                <TeamSettingsModal/>
+                                <EditPostModal/>
+                                <DeletePostModal/>
+                                <RemovedFromChannelModal/>
+                                <ResetStatusModal/>
+                                <LeavePrivateChannelModal/>
+                                <ShortcutsModal isMac={Utils.isMac()}/>
+                                <ModalController/>
+                            </div>
+                        </div>
+                    )}
+                />
+            </Switch>
         );
     }
 }
