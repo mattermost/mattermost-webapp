@@ -64,7 +64,7 @@ export default class Logs extends React.PureComponent {
         if (this.props.logs.length >= this.props.perPage) {
             nextButton = (
                 <button
-                    className='btn btn-default filter-control filter-control__next'
+                    className='btn btn-default filter-control filter-control__next pull-right'
                     onClick={this.nextPage}
                     disabled={this.state.nextDisabled}
                 >
@@ -72,6 +72,7 @@ export default class Logs extends React.PureComponent {
                         id='admin.logs.next'
                         defaultMessage='Next'
                     />
+                    <i className='fa fa-chevron-right margin-left'/>
                 </button>
             );
         }
@@ -82,6 +83,7 @@ export default class Logs extends React.PureComponent {
                     className='btn btn-default filter-control filter-control__prev'
                     onClick={this.previousPage}
                 >
+                    <i className='fa fa-angle-left'/>
                     <FormattedMessage
                         id='admin.logs.prev'
                         defaultMessage='Previous'
@@ -122,7 +124,7 @@ export default class Logs extends React.PureComponent {
                 >
                     {content}
                 </div>
-                <div className='filter-controls'>
+                <div className='padding-top padding-bottom x2 filter-controls'>
                     {previousButton}
                     {nextButton}
                 </div>
