@@ -174,6 +174,9 @@ export default class SidebarChannel extends React.PureComponent {
     }
 
     render = () => {
+        if (!this.props.channelDisplayName || !this.props.channelType) {
+            return null;
+        }
         let closeHandler = null;
         if (this.props.channelType === Constants.DM_CHANNEL || this.props.channelType === Constants.GM_CHANNEL) {
             closeHandler = this.handleLeaveDirectChannel;

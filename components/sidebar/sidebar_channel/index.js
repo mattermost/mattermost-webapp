@@ -18,7 +18,7 @@ import SidebarChannel from './sidebar_channel.jsx';
 
 function mapStateToProps(state, ownProps) {
     const config = getConfig(state);
-    const channel = getChannel(state, ownProps.channelId);
+    const channel = getChannel(state, ownProps.channelId) || {};
     const tutorialStep = getPreference(state, Constants.Preferences.TUTORIAL_STEP, ownProps.currentUserId, 999);
     const channelsByName = getChannelsNameMapInCurrentTeam(state);
     const memberIds = getUserIdsInChannels(state);
