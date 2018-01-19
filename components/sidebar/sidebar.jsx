@@ -288,24 +288,26 @@ export default class Sidebar extends React.PureComponent {
     updateUnreadIndicators = () => {
         const container = $(ReactDOM.findDOMNode(this.refs.container));
 
-        var showTopUnread = false;
-        var showBottomUnread = false;
+        let showTopUnread = false;
+        let showBottomUnread = false;
 
         // Consider partially obscured channels as above/below
         const unreadMargin = 15;
 
         if (this.firstUnreadChannel) {
-            var firstUnreadElement = $(ReactDOM.findDOMNode(this.refs[this.firstUnreadChannel]));
+            const firstUnreadElement = $(ReactDOM.findDOMNode(this.refs[this.firstUnreadChannel]));
+            const fistUnreadPosition = firstUnreadElement ? firstUnreadElement.position() : null;
 
-            if (firstUnreadElement.position().top + firstUnreadElement.height() < unreadMargin) {
+            if (fistUnreadPosition && fistUnreadPosition.top + firstUnreadElement.height() < unreadMargin) {
                 showTopUnread = true;
             }
         }
 
         if (this.lastUnreadChannel) {
-            var lastUnreadElement = $(ReactDOM.findDOMNode(this.refs[this.lastUnreadChannel]));
+            const lastUnreadElement = $(ReactDOM.findDOMNode(this.refs[this.lastUnreadChannel]));
+            const lastUnreadPosition = lastUnreadElement ? lastUnreadElement.position() : null;
 
-            if (lastUnreadElement.position().top > container.height() - unreadMargin) {
+            if (lastUnreadPosition && lastUnreadPosition.top > container.height() - unreadMargin) {
                 showBottomUnread = true;
             }
         }
@@ -396,10 +398,11 @@ export default class Sidebar extends React.PureComponent {
     }
 
     getDisplayedChannels = (props = this.props) => {
-        if (props.showUnreadSection) {
-            return props.unreadChannelIds;
-        }
-        return props.favoriteChannelIds.concat(props.publicChannelIds).concat(props.privateChannelIds).concat(props.directAndGroupChannelIds);
+        return props.unreadChannelIds.
+        concat(props.favoriteChannelIds).
+        concat(props.publicChannelIds).
+        concat(props.privateChannelIds).
+        concat(props.directAndGroupChannelIds);
     };
 
     channelIdIsDisplayedForProps = (props, id) => {
@@ -481,7 +484,7 @@ export default class Sidebar extends React.PureComponent {
         this.lastUnreadChannel = null;
 
         // create elements for all 5 types of channels
-        const unreadChannelItems = showUnreadSection ? unreadChannelIds.map(this.createSidebarChannel) : null;
+        const unreadChannelItems = showUnreadSection ? unreadChannelIds.map(this.createSidebarChannel) : [];
         const favoriteItems = favoriteChannelIds.map(this.createSidebarChannel);
         const publicChannelItems = publicChannelIds.map(this.createSidebarChannel);
         const privateChannelItems = privateChannelIds.map(this.createSidebarChannel);

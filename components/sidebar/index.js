@@ -1,7 +1,6 @@
 // Copyright (c) 2017 Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import {Preferences} from 'mattermost-redux/constants/index';
@@ -75,11 +74,11 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps() {
     return {
-        actions: bindActionCreators({
+        actions: {
             goToChannelById
-        }, dispatch)
+        }
     };
 }
 
