@@ -41,23 +41,8 @@ export default class PostTime extends React.PureComponent {
         super(props);
 
         this.state = {
-            currentTeamDisplayName: TeamStore.getCurrent().name,
-            ...getWindowDimensions()
+            currentTeamDisplayName: TeamStore.getCurrent().name
         };
-    }
-
-    componentDidMount() {
-        window.addEventListener('resize', this.setDimensions);
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.setDimensions);
-    }
-
-    setDimensions = () => {
-        this.setState({
-            ...getWindowDimensions()
-        });
     }
 
     renderTimeTag() {
