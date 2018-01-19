@@ -13,7 +13,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {get as getPreference} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
-import SidebarSettingsDisplay from './user_settings_sidebar.jsx';
+import UserSettingsSidebar from './user_settings_sidebar.jsx';
 
 function mapStateToProps(state) {
     const config = getConfig(state);
@@ -45,4 +45,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SidebarSettingsDisplay);
+export default connect(mapStateToProps, mapDispatchToProps)(UserSettingsSidebar);

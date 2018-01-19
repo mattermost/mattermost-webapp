@@ -10,7 +10,7 @@ import Constants from 'utils/constants.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 
-export default class SidebarSettingsDisplay extends React.Component {
+export default class UserSettingsSidebar extends React.Component {
     static propTypes = {
         actions: PropTypes.shape({
 
