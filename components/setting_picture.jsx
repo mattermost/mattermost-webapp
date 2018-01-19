@@ -184,7 +184,7 @@ export default class SettingPicture extends Component {
                         <li className='setting-list-item padding-top x2'>
                             <FormattedMessage
                                 id='setting_picture.help'
-                                defaultMessage='Upload a profile picture in BMP, JPG, JPEG or PNG format, at least {width}px in width and {height}px height.'
+                                defaultMessage='Upload a profile picture in BMP, JPG, JPEG or PNG format.'
                                 values={{
                                     width: Constants.PROFILE_WIDTH,
                                     height: Constants.PROFILE_WIDTH
