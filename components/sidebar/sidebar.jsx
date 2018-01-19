@@ -239,23 +239,29 @@ export default class Sidebar extends React.PureComponent {
     }
 
     updateTitle = () => {
-        const channel = this.props.currentChannel;
-        if (channel && this.props.currentTeam) {
+        const {
+            config,
+            currentChannel,
+            currentTeam,
+            currentTeammate,
+            unreads
+        } = this.props;
+
+        if (currentChannel && currentTeam) {
             let currentSiteName = '';
-            if (this.props.config.SiteName != null) {
-                currentSiteName = this.props.config.SiteName;
+            if (config.SiteName != null) {
+                currentSiteName = config.SiteName;
             }
 
-            let currentChannelName = channel.display_name;
-            if (channel.type === Constants.DM_CHANNEL) {
-                if (this.props.currentTeammate != null) {
-                    currentChannelName = this.props.currentTeammate.display_name;
+            let currentChannelName = currentChannel.display_name;
+            if (currentChannel.type === Constants.DM_CHANNEL) {
+                if (currentTeammate != null) {
+                    currentChannelName = currentTeammate.display_name;
                 }
             }
 
-            const unread = this.props.unreads;
-            const mentionTitle = unread.mentions > 0 ? '(' + unread.mentions + ') ' : '';
-            const unreadTitle = unread.messageCount > 0 ? '* ' : '';
+            const mentionTitle = unreads.mentionCount > 0 ? '(' + unreads.mentionCount + ') ' : '';
+            const unreadTitle = unreads.messageCount > 0 ? '* ' : '';
             document.title = mentionTitle + unreadTitle + currentChannelName + ' - ' + this.props.currentTeam.display_name + ' ' + currentSiteName;
         }
     }
