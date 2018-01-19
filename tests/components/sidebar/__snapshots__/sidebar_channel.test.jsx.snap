@@ -55,7 +55,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     channelStatus="test"
     channelType="O"
     displayName="Town Square"
-    handleClose={null}
     link="/current-team/channels/town-square"
     membersCount={8}
     rowClass="sidebar-item"
@@ -125,7 +124,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     channelStatus="test"
     channelType="P"
     displayName="Channel display name"
-    handleClose={null}
     link="/current-team/channels/town-square"
     membersCount={8}
     rowClass="sidebar-item"
@@ -147,7 +145,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     channelStatus="test"
     channelType="O"
     displayName="Channel display name"
-    handleClose={null}
     link="/current-team/channels/town-square"
     membersCount={8}
     rowClass="sidebar-item"
@@ -191,7 +188,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     channelStatus="test"
     channelType="P"
     displayName="Channel display name"
-    handleClose={null}
     link="/current-team/channels/channel-name"
     membersCount={8}
     rowClass="sidebar-item"
@@ -267,7 +263,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     channelStatus="test"
     channelType="P"
     displayName="Channel display name"
-    handleClose={null}
     link="/current-team/channels/channel-name"
     membersCount={8}
     rowClass="sidebar-item"
@@ -311,7 +306,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     channelStatus="test"
     channelType="O"
     displayName="Channel display name"
-    handleClose={null}
     link="/current-team/channels/channel-name"
     membersCount={8}
     rowClass="sidebar-item"

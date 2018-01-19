@@ -1,4 +1,4 @@
-.PHONY: build test run clean stop check-style run-unit emojis help
+.PHONY: build test run clean stop check-style run-unit emojis help flow
 
 BUILD_SERVER_DIR = ../mattermost-server
 EMOJI_TOOLS_DIR = ./build/emoji
@@ -12,6 +12,18 @@ test: .yarninstall ## Runs tests
 	@echo Running jest unit/component testing
 
 	yarn run test
+
+flow: .flowinstall ## Runs flow types checking
+	@echo Running flow type checking
+
+	yarn run flow
+
+.flowinstall: .yarninstall
+	@echo Getting flow types for node modules
+
+	yarn run flow-typed install
+
+	touch $@
 
 .yarninstall: package.json
 	@echo Getting dependencies using yarn

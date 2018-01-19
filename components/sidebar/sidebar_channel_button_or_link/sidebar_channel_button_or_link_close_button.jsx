@@ -1,28 +1,32 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
+// @flow
 
 import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-import PropTypes from 'prop-types';
 
 import {Constants} from 'utils/constants.jsx';
 
-export default class SidebarChannelButtonOrLinkCloseButton extends React.PureComponent {
-    static propTypes = {
-        handleClose: PropTypes.func,
-        channelId: PropTypes.string.isRequired,
-        channelType: PropTypes.string.isRequired,
-        teammateId: PropTypes.string,
-        badge: PropTypes.bool
-    }
+type Props = {
+    handleClose?: () => void,
+    channelId: string,
+    channelType: string,
+    teammateId?: string,
+    badge?: bool
+}
+
+export default class SidebarChannelButtonOrLinkCloseButton extends React.PureComponent<Props> {
+    props: Props;
 
     overlayTriggerAttr = ['hover', 'focus']
 
-    handleClose = (e) => {
+    handleClose = (e: Event) => {
         e.stopPropagation();
         e.preventDefault();
-        this.props.handleClose();
+        if (this.props.handleClose) {
+            this.props.handleClose();
+        }
     }
 
     render() {

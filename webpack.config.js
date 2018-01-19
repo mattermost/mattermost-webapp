@@ -33,7 +33,8 @@ if (NPM_TARGET === 'stats') {
 
 const STANDARD_EXCLUDE = [
     path.join(__dirname, 'node_modules'),
-    path.join(__dirname, 'non_npm_dependencies')
+    path.join(__dirname, 'non_npm_dependencies'),
+    path.join(__dirname, 'flow-typed')
 ];
 
 var MYSTATS = {
@@ -148,9 +149,10 @@ var config = {
                             presets: [
                                 'react',
                                 ['es2015', {modules: false}],
-                                'stage-0'
+                                'stage-0',
+                                'flow'
                             ],
-                            plugins: ['transform-runtime'],
+                            plugins: ['react-flow-props-to-prop-types', 'transform-runtime'],
                             cacheDirectory: true
                         }
                     }

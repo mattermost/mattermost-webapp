@@ -1,12 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
+// @flow
 
 import $ from 'jquery';
 import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
-import {PropTypes} from 'prop-types';
 
 import {browserHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
@@ -25,103 +25,118 @@ import UnreadChannelIndicator from '../unread_channel_indicator.jsx';
 
 import SidebarChannel from './sidebar_channel';
 
-export default class Sidebar extends React.PureComponent {
-    static propTypes = {
+type State = {
+    newChannelModalType: string,
+    showDirectChannelsModal: boolean,
+    showMoreChannelsModal: boolean,
+    showTopUnread: boolean,
+    showBottomUnread: boolean,
+    startingUsers: Array<Object> | null
+}
 
-        /**
-         * Global config object
-         */
-        config: PropTypes.object.isRequired,
+type Props = {
 
-        /**
-         * List of public channels (ids)
-         */
-        publicChannelIds: PropTypes.array.isRequired,
+    /**
+     * Global config object
+     */
+    config: Object,
 
-        /**
-         * List of private channels (ids)
-         */
-        privateChannelIds: PropTypes.array.isRequired,
+    /**
+     * List of public channels (ids)
+     */
+    publicChannelIds: Array<string>,
 
-        /**
-         * List of favorite channels (ids)
-         */
-        favoriteChannelIds: PropTypes.array.isRequired,
+    /**
+     * List of private channels (ids)
+     */
+    privateChannelIds: Array<string>,
 
-        /**
-         * List of direct/group channels (ids)
-         */
-        directAndGroupChannelIds: PropTypes.array.isRequired,
+    /**
+     * List of favorite channels (ids)
+     */
+    favoriteChannelIds: Array<string>,
 
-        /**
-         * List of unread channels (ids)
-         */
-        unreadChannelIds: PropTypes.array.isRequired,
+    /**
+     * List of direct/group channels (ids)
+     */
+    directAndGroupChannelIds: Array<string>,
 
-        /**
-         * Current channel object
-         */
-        currentChannel: PropTypes.object,
+    /**
+     * List of unread channels (ids)
+     */
+    unreadChannelIds: Array<string>,
 
-        /**
-         * Current channel teammeat (for direct messages)
-         */
-        currentTeammate: PropTypes.object,
+    /**
+     * Current channel object
+     */
+    currentChannel?: Object,
 
-        /**
-         * Current team object
-         */
-        currentTeam: PropTypes.object.isRequired,
+    /**
+     * Current channel teammeat (for direct messages)
+     */
+    currentTeammate?: Object,
 
-        /**
-         * Current user object
-         */
-        currentUser: PropTypes.object.isRequired,
+    /**
+     * Current team object
+     */
+    currentTeam: Object,
 
-        /**
-         * Number of unread mentions/messages
-         */
-        unreads: PropTypes.object.isRequired,
+    /**
+     * Current user object
+     */
+    currentUser: Object,
 
-        /**
-        * Set if the current user is a system admin
-        */
-        isSystemAdmin: PropTypes.bool.isRequired,
+    /**
+     * Number of unread mentions/messages
+     */
+    unreads: {mentionCount: number, messageCount: number},
 
-        /**
-        * Set if the current user is a team admin
-        */
-        isTeamAdmin: PropTypes.bool.isRequired,
+    /**
+    * Set if the current user is a system admin
+    */
+    isSystemAdmin: boolean,
 
-        /**
-         * Flag to display the Unread channels section
-         */
-        showUnreadSection: PropTypes.bool.isRequired,
+    /**
+    * Set if the current user is a team admin
+    */
+    isTeamAdmin: boolean,
 
-        actions: PropTypes.shape({
-            goToChannelById: PropTypes.func.isRequired
-        }).isRequired
-    };
+    /**
+     * Flag to display the Unread channels section
+     */
+    showUnreadSection: boolean,
 
+    actions: {
+        goToChannelById: (string) => void
+    }
+}
+
+export default class Sidebar extends React.PureComponent<Props, State> {
     static defaultProps = {
         currentChannel: {}
     }
 
-    constructor(props) {
+    props: Props;
+    lastUnreadChannel = null;
+    firstUnreadChannel = null;
+    badgesActive = false;
+    isSwitchingChannel = false;
+    closedDirectChannel = false;
+    isLeaving: {[string]: boolean};
+    lastBadgesActive = false;
+
+    constructor(props: Object) {
         super(props);
 
-        this.badgesActive = false;
-        this.firstUnreadChannel = null;
-        this.lastUnreadChannel = null;
-
         this.isLeaving = new Map();
-        this.isSwitchingChannel = false;
-        this.closedDirectChannel = false;
 
         this.state = {
             newChannelModalType: '',
             showDirectChannelsModal: false,
-            showMoreChannelsModal: false
+            showMoreChannelsModal: false,
+            showTopUnread: false,
+            showBottomUnread: false,
+            startingUsers: null
         };
     }
 
@@ -134,7 +149,7 @@ export default class Sidebar extends React.PureComponent {
         document.addEventListener('keydown', this.navigateUnreadChannelShortcut);
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps: Object) {
         if (this.props.currentTeam.id !== nextProps.currentTeam.id) {
             initTeamChangeActions(nextProps.currentTeam.id);
         }
@@ -144,9 +159,10 @@ export default class Sidebar extends React.PureComponent {
         this.updateUnreadIndicators();
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Object) {
         // if the active channel disappeared (which can happen when dm channels autoclose), go to town square
-        if (this.props.currentTeam === prevProps.currentTeam &&
+        if (this.props.currentChannel && prevProps.currentChannel &&
+            this.props.currentTeam === prevProps.currentTeam &&
             this.props.currentChannel.id === prevProps.currentChannel.id &&
             !this.channelIdIsDisplayedForProps(this.props, this.props.currentChannel.id) &&
             this.channelIdIsDisplayedForProps(prevProps, this.props.currentChannel.id)
@@ -157,17 +173,20 @@ export default class Sidebar extends React.PureComponent {
         }
 
         if (!Utils.isMobile()) {
+            // $FlowFixMe
             $('.sidebar--left .nav-pills__container').perfectScrollbar();
         }
 
         // reset the scrollbar upon switching teams
         if (this.props.currentTeam !== prevProps.currentTeam) {
             this.refs.container.scrollTop = 0;
+
+            // $FlowFixMe
             $('.nav-pills__container').perfectScrollbar('update');
         }
 
         // close the LHS on mobile when you change channels
-        if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
+        if (this.props.currentChannel && prevProps.currentChannel && this.props.currentChannel.id !== prevProps.currentChannel.id) {
             if (this.closedDirectChannel) {
                 this.closedDirectChannel = false;
             } else {
@@ -197,7 +216,7 @@ export default class Sidebar extends React.PureComponent {
 
     setBadgesActiveAndFavicon() {
         this.lastBadgesActive = this.badgesActive;
-        this.badgesActive = this.props.unreads.mentions;
+        this.badgesActive = this.props.unreads.mentionCount;
 
         // update the favicon to show if there are any notifications
         if (this.lastBadgesActive !== this.badgesActive) {
@@ -221,7 +240,7 @@ export default class Sidebar extends React.PureComponent {
 
     setFirstAndLastUnreadChannels() {
         this.getDisplayedChannels().map((channelId) => {
-            if (channelId !== this.props.currentChannel.id && this.props.unreadChannelIds.includes(channelId)) {
+            if (this.props.currentChannel && channelId !== this.props.currentChannel.id && this.props.unreadChannelIds.includes(channelId)) {
                 if (!this.firstUnreadChannel) {
                     this.firstUnreadChannel = channelId;
                 }
@@ -231,7 +250,7 @@ export default class Sidebar extends React.PureComponent {
         });
     }
 
-    handleOpenMoreDirectChannelsModal = (e) => {
+    handleOpenMoreDirectChannelsModal = (e: Object) => {
         e.preventDefault();
         if (this.state.showDirectChannelsModal) {
             this.hideMoreDirectChannelsModal();
@@ -272,21 +291,36 @@ export default class Sidebar extends React.PureComponent {
         this.updateUnreadIndicators();
     }
 
+    getRef = (referenceName: string | null): Object | null => {
+        if (referenceName === null) {
+            return null;
+        }
+        let element = null;
+        const reference = this.refs[referenceName];
+        if (reference) {
+            const ref = ReactDOM.findDOMNode(this.refs.container);
+            if (ref) {
+                element = $(ref);
+            }
+        }
+        return element;
+    }
+
     scrollToFirstUnreadChannel = () => {
-        if (this.firstUnreadChannel) {
+        const container = this.getRef('container');
+        const firstUnreadElement = this.getRef(this.firstUnreadChannel);
+        if (container && firstUnreadElement) {
             const unreadMargin = 15;
-            const container = $(ReactDOM.findDOMNode(this.refs.container));
-            const firstUnreadElement = $(ReactDOM.findDOMNode(this.refs[this.firstUnreadChannel]));
             const scrollTop = (container.scrollTop() + firstUnreadElement.position().top) - unreadMargin;
             container.stop().animate({scrollTop}, 500, 'swing');
         }
     }
 
     scrollToLastUnreadChannel = () => {
-        if (this.lastUnreadChannel) {
+        const container = this.getRef('container');
+        const lastUnreadElement = this.getRef(this.lastUnreadChannel);
+        if (container && lastUnreadElement) {
             const unreadMargin = 15;
-            const container = $(ReactDOM.findDOMNode(this.refs.container));
-            const lastUnreadElement = $(ReactDOM.findDOMNode(this.refs[this.lastUnreadChannel]));
             const elementBottom = lastUnreadElement.position().top + lastUnreadElement.height();
             const scrollTop = (container.scrollTop() + (elementBottom - container.height())) + unreadMargin;
             container.stop().animate({scrollTop}, 500, 'swing');
@@ -294,7 +328,7 @@ export default class Sidebar extends React.PureComponent {
     }
 
     updateUnreadIndicators = () => {
-        const container = $(ReactDOM.findDOMNode(this.refs.container));
+        const container = this.getRef('container');
 
         let showTopUnread = false;
         let showBottomUnread = false;
@@ -326,15 +360,17 @@ export default class Sidebar extends React.PureComponent {
         });
     }
 
-    updateScrollbarOnChannelChange = (channelId) => {
+    updateScrollbarOnChannelChange = (channelId:string) => {
         const curChannel = this.refs[channelId].getWrappedInstance().refs.channel.getBoundingClientRect();
         if ((curChannel.top - Constants.CHANNEL_SCROLL_ADJUSTMENT < 0) || (curChannel.top + curChannel.height > this.refs.container.getBoundingClientRect().height)) {
             this.refs.container.scrollTop = this.refs.container.scrollTop + (curChannel.top - Constants.CHANNEL_SCROLL_ADJUSTMENT);
+
+            // $FlowFixMe
             $('.nav-pills__container').perfectScrollbar('update');
         }
     }
 
-    navigateChannelShortcut = (e) => {
+    navigateChannelShortcut = (e: Object) => {
         if (e.altKey && !e.shiftKey && (e.keyCode === Constants.KeyCodes.UP || e.keyCode === Constants.KeyCodes.DOWN)) {
             e.preventDefault();
 
@@ -344,7 +380,7 @@ export default class Sidebar extends React.PureComponent {
 
             this.isSwitchingChannel = true;
             const allChannelIds = this.getDisplayedChannels();
-            const curChannelId = this.props.currentChannel.id;
+            const curChannelId = this.props.currentChannel && this.props.currentChannel.id;
             let curIndex = -1;
             for (let i = 0; i < allChannelIds.length; i++) {
                 if (allChannelIds[i] === curChannelId) {
@@ -366,7 +402,7 @@ export default class Sidebar extends React.PureComponent {
         }
     }
 
-    navigateUnreadChannelShortcut = (e) => {
+    navigateUnreadChannelShortcut = (e: Object) => {
         if (e.altKey && e.shiftKey && (e.keyCode === Constants.KeyCodes.UP || e.keyCode === Constants.KeyCodes.DOWN)) {
             e.preventDefault();
 
@@ -402,7 +438,7 @@ export default class Sidebar extends React.PureComponent {
         }
     }
 
-    getDisplayedChannels = (props = this.props) => {
+    getDisplayedChannels = (props: Object = this.props) => {
         return props.unreadChannelIds.
             concat(props.favoriteChannelIds).
             concat(props.publicChannelIds).
@@ -410,7 +446,7 @@ export default class Sidebar extends React.PureComponent {
             concat(props.directAndGroupChannelIds);
     };
 
-    channelIdIsDisplayedForProps = (props, id) => {
+    channelIdIsDisplayedForProps = (props: Object, id: string) => {
         const allChannels = this.getDisplayedChannels(props);
         for (let i = 0; i < allChannels.length; i++) {
             if (allChannels[i] === id) {
@@ -429,7 +465,7 @@ export default class Sidebar extends React.PureComponent {
         this.setState({showMoreChannelsModal: false});
     }
 
-    showNewChannelModal = (type) => {
+    showNewChannelModal = (type: string) => {
         this.setState({newChannelModalType: type});
     }
 
@@ -437,29 +473,29 @@ export default class Sidebar extends React.PureComponent {
         this.setState({newChannelModalType: ''});
     }
 
-    showMoreDirectChannelsModal = (startingUsers) => {
+    showMoreDirectChannelsModal = () => {
         trackEvent('ui', 'ui_channels_more_direct');
-        this.setState({showDirectChannelsModal: true, startingUsers});
+        this.setState({showDirectChannelsModal: true, startingUsers: null});
     }
 
     hideMoreDirectChannelsModal = () => {
         this.setState({showDirectChannelsModal: false, startingUsers: null});
     }
 
-    openQuickSwitcher = (e) => {
+    openQuickSwitcher = (e: Object) => {
         e.preventDefault();
         AppDispatcher.handleViewAction({
             type: ActionTypes.TOGGLE_QUICK_SWITCH_MODAL
         });
     }
 
-    createSidebarChannel = (channelId) => {
+    createSidebarChannel = (channelId: string) => {
         return (
             <SidebarChannel
                 key={channelId}
                 ref={channelId}
                 channelId={channelId}
-                active={channelId === this.props.currentChannel.id}
+                active={this.props.currentChannel && channelId === this.props.currentChannel.id}
                 currentTeamName={this.props.currentTeam.name}
                 currentUserId={this.props.currentUser.id}
             />

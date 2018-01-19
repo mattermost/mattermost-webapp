@@ -7,3 +7,5 @@ node_modules
 tests/reports
 .DS_Store
 mattermost-webapp.iml
+flow-typed
+.flowinstall

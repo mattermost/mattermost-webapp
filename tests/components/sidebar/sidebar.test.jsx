@@ -108,7 +108,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         },
         unreads: {
             messageCount: 0,
-            mentions: 0
+            mentionCount: 0
         },
         isSystemAdmin: true,
         isTeamAdmin: false,

@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
+// @flow
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 
 import {browserHistory} from 'utils/browser_history';
@@ -13,24 +13,23 @@ import CopyUrlContextMenu from 'components/copy_url_context_menu';
 import SidebarChannelButtonOrLinkIcon from './sidebar_channel_button_or_link_icon.jsx';
 import SidebarChannelButtonOrLinkCloseButton from './sidebar_channel_button_or_link_close_button.jsx';
 
-export default class SidebarChannelButtonOrLink extends React.PureComponent {
-    static propTypes = {
-        link: PropTypes.string.isRequired,
-        rowClass: PropTypes.string.isRequired,
-        channelType: PropTypes.string.isRequired,
-        channelId: PropTypes.string.isRequired,
-        displayName: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.object
-        ]).isRequired,
-        channelStatus: PropTypes.string,
-        handleClose: PropTypes.func,
-        badge: PropTypes.bool,
-        membersCount: PropTypes.number.isRequired,
-        unreadMentions: PropTypes.number,
-        teammateId: PropTypes.string,
-        teammateDeletedAt: PropTypes.number
-    }
+type Props = {
+    link: string,
+    rowClass: string,
+    channelId: string,
+    channelStatus?: string,
+    channelType: string,
+    displayName: string | Object,
+    handleClose?: () => void,
+    badge: boolean,
+    unreadMentions?: number,
+    membersCount: number,
+    teammateId?: string,
+    teammateDeletedAt?: number,
+}
+
+export default class SidebarChannelButtonOrLink extends React.PureComponent<Props> {
+    props: Props;
 
     trackChannelSelectedEvent = () => {
         mark('SidebarChannelLink#click');

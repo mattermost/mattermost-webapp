@@ -2,9 +2,11 @@
   "presets": [
     ["es2015", { "modules": false }],
     "react",
-    "stage-0"
+    "stage-0",
+    "flow"
   ],
   "plugins": [
+    "react-flow-props-to-prop-types",
     "transform-es2015-modules-commonjs",
     "dynamic-import-node"
   ]

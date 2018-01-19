@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
+// @flow
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import {Constants} from 'utils/constants.jsx';
 import StatusIcon from 'components/status_icon.jsx';
@@ -10,15 +10,17 @@ import ArchiveIcon from 'components/svg/archive_icon';
 import GlobeIcon from 'components/svg/globe_icon';
 import LockIcon from 'components/svg/lock_icon';
 
-export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent {
-    static propTypes = {
-        channelType: PropTypes.string.isRequired,
-        channelId: PropTypes.string.isRequired,
-        membersCount: PropTypes.number,
-        channelStatus: PropTypes.string,
-        teammateId: PropTypes.string,
-        teammateDeletedAt: PropTypes.number
-    }
+type Props = {
+    channelType: string,
+    channelId: string,
+    membersCount?: number,
+    channelStatus?: string,
+    teammateId?: string,
+    teammateDeletedAt?: number
+}
+
+export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent<Props> {
+    props: Props;
 
     render() {
         var icon = null;
