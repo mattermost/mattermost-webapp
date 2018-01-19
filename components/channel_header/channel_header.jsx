@@ -234,6 +234,10 @@ export default class ChannelHeader extends React.Component {
         this.setState({showEditChannelHeaderModal: false});
     }
 
+    showEditChannelHeaderModal = () => {
+        this.setState({showEditChannelHeaderModal: true});
+    }
+
     handleWebRTCOnClick = (e) => {
         e.preventDefault();
         const dmUserId = this.props.dmUser.id;
@@ -819,7 +823,7 @@ export default class ChannelHeader extends React.Component {
                 editMessage = (
                     <button
                         className='style--none'
-                        onClick={this.showEditChannelPurposeModal}
+                        onClick={this.showEditChannelHeaderModal}
                     >
                         <FormattedMessage
                             id='channel_header.addChannelHeader'
