@@ -23,6 +23,7 @@ import * as Utils from 'utils/utils.jsx';
 import AboutBuildModal from 'components/about_build_modal';
 import AddUsersToTeam from 'components/add_users_to_team';
 import TeamMembersModal from 'components/team_members_modal';
+import TeamSettingsModal from 'components/team_settings_modal.jsx';
 
 import SidebarHeaderDropdownButton from './sidebar_header_dropdown_button.jsx';
 
@@ -65,6 +66,7 @@ export default class SidebarHeaderDropdown extends React.Component {
             teamListings: TeamStore.getTeamListings(),
             showAboutModal: false,
             showDropdown: false,
+            showTeamSettingsModal: false,
             showTeamMembersModal: false,
             showAddUsersToTeamModal: false
         };
@@ -147,6 +149,21 @@ export default class SidebarHeaderDropdown extends React.Component {
         this.setState({showDropdown: false});
 
         GlobalActions.showGetTeamInviteLinkModal();
+    }
+
+    showTeamSettingsModal = (e) => {
+        e.preventDefault();
+
+        this.setState({
+            showDropdown: false,
+            showTeamSettingsModal: true
+        });
+    }
+
+    hideTeamSettingsModal = () => {
+        this.setState({
+            showTeamSettingsModal: false
+        });
     }
 
     showTeamMembersModal(e) {
@@ -299,9 +316,7 @@ export default class SidebarHeaderDropdown extends React.Component {
                     <button
                         className='style--none'
                         id='teamSettings'
-                        data-toggle='modal'
-                        data-target='#team_settings'
-                        onClick={this.toggleDropdown}
+                        onClick={this.showTeamSettingsModal}
                     >
                         <FormattedMessage
                             id='navbar_dropdown.teamSettings'
@@ -643,6 +658,10 @@ export default class SidebarHeaderDropdown extends React.Component {
                     {logoutDivider}
                     {logout}
                     {teamMembersModal}
+                    <TeamSettingsModal
+                        show={this.state.showTeamSettingsModal}
+                        onModalDismissed={this.hideTeamSettingsModal}
+                    />
                     <AboutBuildModal
                         show={this.state.showAboutModal}
                         onModalDismissed={this.aboutModalDismissed}

@@ -2,6 +2,7 @@
 // See License.txt for license information.
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 
 import * as utils from 'utils/utils.jsx';
@@ -183,6 +184,7 @@ class TeamImportTab extends React.Component {
                         className='close'
                         data-dismiss='modal'
                         aria-label='Close'
+                        onClick={this.props.closeModal}
                     >
                         <span aria-hidden='true'>{'×'}</span>
                     </button>
@@ -191,7 +193,10 @@ class TeamImportTab extends React.Component {
                         ref='title'
                     >
                         <div className='modal-back'>
-                            <i className='fa fa-angle-left'/>
+                            <i
+                                className='fa fa-angle-left'
+                                onClick={this.props.collapseModal}
+                            />
                         </div>
                         <FormattedMessage
                             id='team_import_tab.import'
@@ -220,7 +225,9 @@ class TeamImportTab extends React.Component {
 }
 
 TeamImportTab.propTypes = {
-    intl: intlShape.isRequired
+    intl: intlShape.isRequired,
+    closeModal: PropTypes.func.isRequired,
+    collapseModal: PropTypes.func.isRequired
 };
 
 export default injectIntl(TeamImportTab);
