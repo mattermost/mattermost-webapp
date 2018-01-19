@@ -12,6 +12,7 @@ import {leaveChannel} from 'mattermost-redux/actions/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {Constants} from 'utils/constants.jsx';
+import ChannelStore from 'stores/channel_store.jsx';
 
 import SidebarChannel from './sidebar_channel.jsx';
 
@@ -30,18 +31,7 @@ function mapStateToProps(state, ownProps) {
         }
     }
 
-    let unreadMentions = 0;
-    let unreadMsgs = 0;
-    const m = ownProps.membership;
-
-    if (channel.type === 'D') {
-        unreadMentions = channel.total_msg_count - m.msg_count;
-    } else if (m.mention_count > 0) {
-        unreadMentions = m.mention_count;
-    }
-    if (m.notify_props && m.notify_props.mark_unread !== 'mention' && channel.total_msg_count - m.msg_count > 0) {
-        unreadMsgs = 1;
-    }
+    const unreads = ChannelStore.getUnreadCount(channel.id);
 
     let teammate = null;
     if (channel.teammate_id) {
@@ -62,8 +52,8 @@ function mapStateToProps(state, ownProps) {
         showTutorialTip: tutorialStep === Constants.TutorialSteps.CHANNEL_POPOVER && config.EnableTutorial === 'true',
         townSquareDisplayName: channelsByName[Constants.DEFAULT_CHANNEL] && channelsByName[Constants.DEFAULT_CHANNEL].display_name,
         offTopicDisplayName: channelsByName[Constants.OFFTOPIC_CHANNEL] && channelsByName[Constants.OFFTOPIC_CHANNEL].display_name,
-        unreadMsgs,
-        unreadMentions,
+        unreadMsgs: unreads.msgs,
+        unreadMentions: unreads.mentions,
         membersCount
     };
 }
