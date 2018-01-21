@@ -30,6 +30,13 @@ export default class AdvancedSettingsDisplay extends React.Component {
         this.renderJoinLeaveSection = this.renderJoinLeaveSection.bind(this);
 
         this.state = this.getStateFromStores();
+
+        this.prevSections = {
+            advancedCtrlSend: 'dummySectionName', // dummy value that should never match any section name
+            formatting: 'advancedCtrlSend',
+            join_leave: 'formatting',
+            advancedPreviewFeatures: 'join_leave'
+        };
     }
 
     getStateFromStores() {
@@ -240,6 +247,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
                     />
                 }
                 describe={this.renderOnOffLabel(this.state.settings.formatting)}
+                focused={this.props.prevActiveSection === this.prevSections.formatting}
                 section={'formatting'}
                 updateSection={this.handleUpdateSection}
             />
@@ -318,6 +326,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
                         />
                     }
                     describe={this.renderOnOffLabel(this.state.settings.join_leave)}
+                    focused={this.props.prevActiveSection === this.prevSections.join_leave}
                     section={'join_leave'}
                     updateSection={this.handleUpdateSection}
                 />
@@ -427,6 +436,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
                         />
                     }
                     describe={this.renderOnOffLabel(this.state.settings.send_on_ctrl_enter)}
+                    focused={this.props.prevActiveSection === this.prevSections.advancedCtrlSend}
                     section={'advancedCtrlSend'}
                     updateSection={this.handleUpdateSection}
                 />
@@ -443,6 +453,9 @@ export default class AdvancedSettingsDisplay extends React.Component {
         let displayJoinLeaveSectionDivider = null;
         if (displayJoinLeaveSection) {
             displayJoinLeaveSectionDivider = <div className='divider-light'/>;
+            this.prevSections.advancedPreviewFeatures = 'join_leave';
+        } else {
+            this.prevSections.advancedPreviewFeatures = this.prevSections.join_leave;
         }
 
         let previewFeaturesSection;
@@ -511,6 +524,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
                                 values={{count: this.state.enabledFeatures}}
                             />
                         }
+                        focused={this.props.prevActiveSection === this.prevSections.advancedPreviewFeatures}
                         section={'advancedPreviewFeatures'}
                         updateSection={this.handleUpdateSection}
                     />
@@ -574,6 +588,7 @@ AdvancedSettingsDisplay.propTypes = {
     updateSection: PropTypes.func,
     updateTab: PropTypes.func,
     activeSection: PropTypes.string,
+    prevActiveSection: PropTypes.string,
     closeModal: PropTypes.func.isRequired,
     collapseModal: PropTypes.func.isRequired
 };

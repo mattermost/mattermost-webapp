@@ -100,6 +100,14 @@ function getNotificationsStateFromStores() {
     };
 }
 
+const prevSections = {
+    desktop: 'dummySectionName', // dummy value that should never match any section name
+    email: 'desktop',
+    push: 'email',
+    keys: 'push',
+    comments: 'keys'
+};
+
 export default class NotificationsTab extends React.Component {
     constructor(props) {
         super(props);
@@ -515,6 +523,7 @@ export default class NotificationsTab extends React.Component {
             <SettingItemMin
                 title={Utils.localizeMessage('user.settings.notifications.push', 'Mobile push notifications')}
                 describe={describe}
+                focused={this.props.prevActiveSection === prevSections.push}
                 section={'push'}
                 updateSection={this.handleUpdateSection}
             />
@@ -695,6 +704,7 @@ export default class NotificationsTab extends React.Component {
                 <SettingItemMin
                     title={Utils.localizeMessage('user.settings.notifications.wordsTrigger', 'Words that trigger mentions')}
                     describe={describe}
+                    focused={this.props.prevActiveSection === prevSections.keys}
                     section={'keys'}
                     updateSection={this.handleUpdateSection}
                 />
@@ -815,6 +825,7 @@ export default class NotificationsTab extends React.Component {
                 <SettingItemMin
                     title={Utils.localizeMessage('user.settings.notifications.comments', 'Reply notifications')}
                     describe={describe}
+                    focused={this.props.prevActiveSection === prevSections.comments}
                     section={'comments'}
                     updateSection={this.handleUpdateSection}
                 />
@@ -874,6 +885,7 @@ export default class NotificationsTab extends React.Component {
                         cancel={this.handleCancel}
                         error={this.state.serverError}
                         active={this.props.activeSection === 'desktop'}
+                        focused={this.props.prevActiveSection === prevSections.desktop}
                     />
                     <div className='divider-light'/>
                     <EmailNotificationSetting
@@ -885,6 +897,7 @@ export default class NotificationsTab extends React.Component {
                         onCancel={this.handleCancel}
                         saving={this.state.isSaving}
                         serverError={this.state.serverError}
+                        focused={this.props.prevActiveSection === prevSections.email}
                     />
                     <div className='divider-light'/>
                     {pushNotificationSection}
@@ -903,6 +916,7 @@ export default class NotificationsTab extends React.Component {
 NotificationsTab.defaultProps = {
     user: null,
     activeSection: '',
+    prevActiveSection: '',
     activeTab: ''
 };
 NotificationsTab.propTypes = {
@@ -910,6 +924,7 @@ NotificationsTab.propTypes = {
     updateSection: PropTypes.func,
     updateTab: PropTypes.func,
     activeSection: PropTypes.string,
+    prevActiveSection: PropTypes.string,
     activeTab: PropTypes.string,
     closeModal: PropTypes.func.isRequired,
     collapseModal: PropTypes.func.isRequired
