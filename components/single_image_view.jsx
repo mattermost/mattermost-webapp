@@ -6,8 +6,13 @@ import React from 'react';
 
 import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
-import * as Utils from 'utils/utils';
-import * as FileUtils from 'utils/file_utils';
+import {
+    fileSizeToString,
+    getFileType,
+    loadImage,
+    localizeMessage
+} from 'utils/utils';
+import {canDownloadFiles} from 'utils/file_utils';
 
 import DownloadIcon from 'components/svg/download_icon';
 import LoadingImagePreview from 'components/loading_image_preview';
@@ -42,7 +47,7 @@ export default class SingleImageView extends React.PureComponent {
 
     loadImage = () => {
         const {fileInfo} = this.props;
-        const fileType = Utils.getFileType(fileInfo.extension);
+        const fileType = getFileType(fileInfo.extension);
 
         if (fileType === 'image') {
             let previewUrl;
@@ -53,7 +58,7 @@ export default class SingleImageView extends React.PureComponent {
                 previewUrl = getFileUrl(fileInfo.id);
             }
 
-            Utils.loadImage(
+            loadImage(
                 previewUrl,
                 this.handleImageLoaded,
                 this.handleImageProgress
@@ -90,9 +95,9 @@ export default class SingleImageView extends React.PureComponent {
             const {has_preview_image: hasPreviewImage, id} = fileInfo;
             const previewUrl = hasPreviewImage ? getFilePreviewUrl(id) : fileUrl;
 
-            const canDownloadFiles = FileUtils.canDownloadFiles();
+            const canDownload = canDownloadFiles();
             let downloadButton = null;
-            if (canDownloadFiles) {
+            if (canDownload) {
                 downloadButton = (
                     <a
                         href={fileUrl}
@@ -106,7 +111,7 @@ export default class SingleImageView extends React.PureComponent {
                 );
             }
 
-            const fileType = Utils.getFileType(fileInfo.extension);
+            const fileType = getFileType(fileInfo.extension);
             let svgClass;
             if (fileType === 'svg') {
                 svgClass = 'post-image normal';
@@ -122,7 +127,7 @@ export default class SingleImageView extends React.PureComponent {
                             {fileInfo.name.toUpperCase()}
                         </span>
                         <span className='file-details__extension'>
-                            {`${fileInfo.extension.toUpperCase()}  ${Utils.fileSizeToString(fileInfo.size)}`}
+                            {`${fileInfo.extension.toUpperCase()}  ${fileSizeToString(fileInfo.size)}`}
                         </span>
                     </div>
                     <div className='file__image'>
@@ -145,7 +150,7 @@ export default class SingleImageView extends React.PureComponent {
             loadingClass = 'loading';
 
             // display a progress indicator when the preview for an image is still loading
-            const loading = Utils.localizeMessage('view_image.loading', 'Loading');
+            const loading = localizeMessage('view_image.loading', 'Loading');
             const progress = Math.floor(this.state.progress);
 
             content = (
