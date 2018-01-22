@@ -194,6 +194,7 @@ class ProfilePopover extends React.Component {
         delete popoverProps.hide;
         delete popoverProps.isRHS;
         delete popoverProps.hasMention;
+        delete popoverProps.dispatch;
 
         let webrtc;
         const userMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
