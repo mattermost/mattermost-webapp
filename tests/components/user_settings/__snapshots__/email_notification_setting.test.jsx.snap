@@ -216,6 +216,7 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
             <SaveButton
               defaultMessage="Save"
               disabled={false}
+              extraClasses=""
               onClick={[Function]}
               saving={false}
               savingMessage="Saving"
@@ -632,6 +633,7 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
             <SaveButton
               defaultMessage="Save"
               disabled={false}
+              extraClasses=""
               onClick={[Function]}
               saving={false}
               savingMessage="Saving"
