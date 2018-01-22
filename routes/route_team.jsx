@@ -80,6 +80,10 @@ const WAKEUP_CHECK_INTERVAL = 30000; // 30 seconds
 const WAKEUP_THRESHOLD = 60000; // 60 seconds
 
 function preNeedsTeam(nextState, replace, callback) {
+    if (nextState.location.action === 'REPLACE') {
+        callback();
+        return;
+    }
     if (RouteUtils.checkIfMFARequired(nextState)) {
         browserHistory.push('/mfa/setup');
         return;
