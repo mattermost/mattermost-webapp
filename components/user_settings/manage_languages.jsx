@@ -29,11 +29,9 @@ export default class ManageLanguage extends React.Component {
         this.setState({locale: e.target.value});
     }
 
-    changeLanguage(e) {
-        e.preventDefault();
-
+    changeLanguage() {
         if (this.props.user.locale === this.state.locale) {
-            this.props.updateSection(e);
+            this.props.updateSection('');
         } else {
             this.submitUser({
                 ...this.props.user,
