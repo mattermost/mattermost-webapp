@@ -56,7 +56,8 @@ export default class SamlSettings extends AdminSettings {
         const siteUrl = config.ServiceSettings.SiteURL;
         let consumerServiceUrl = settings.AssertionConsumerServiceURL;
         if (siteUrl.length > 0 && consumerServiceUrl.length === 0) {
-            consumerServiceUrl = siteUrl + '/login/sso/saml';
+            const addSlashIfNeeded = siteUrl[siteUrl.length - 1] === '/' ? '' : '/';
+            consumerServiceUrl = `${siteUrl}${addSlashIfNeeded}login/sso/saml`;
         }
 
         return {
