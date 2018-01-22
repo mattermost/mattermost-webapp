@@ -77,20 +77,22 @@ export default class PopoverListMembers extends React.Component {
 
     handleShowDirectChannel(e) {
         e.preventDefault();
-        const teammate = e.currentTarget.getAttribute('data-member');
+        const teammateId = e.currentTarget.getAttribute('data-member-id');
 
-        openDirectChannelToUser(
-            teammate.id,
-            (channel, channelAlreadyExisted) => {
-                browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + channel.name);
-                if (channelAlreadyExisted) {
+        if (teammateId) {
+            openDirectChannelToUser(
+                teammateId,
+                (channel, channelAlreadyExisted) => {
+                    browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + channel.name);
+                    if (channelAlreadyExisted) {
+                        this.closePopover();
+                    }
+                },
+                () => {
                     this.closePopover();
                 }
-            },
-            () => {
-                this.closePopover();
-            }
-        );
+            );
+        }
     }
 
     closePopover() {
@@ -163,7 +165,7 @@ export default class PopoverListMembers extends React.Component {
                 if (name) {
                     popoverHtml.push(
                         <div
-                            data-member={m}
+                            data-member-id={m.id}
                             className='more-modal__row'
                             onClick={this.handleShowDirectChannel}
                             key={'popover-member-' + i}
