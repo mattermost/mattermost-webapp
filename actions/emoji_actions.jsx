@@ -2,40 +2,13 @@
 // See License.txt for license information.
 
 import * as EmojiActions from 'mattermost-redux/actions/emojis';
-import {getProfilesByIds} from 'mattermost-redux/actions/users';
 
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import store from 'stores/redux_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 import {ActionTypes} from 'utils/constants.jsx';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
-
-export async function loadEmoji(getProfiles = true) {
-    const {data} = await EmojiActions.getAllCustomEmojis()(dispatch, getState);
-
-    if (data && getProfiles) {
-        loadProfilesForEmoji(data);
-    }
-}
-
-function loadProfilesForEmoji(emojiList) {
-    const profilesToLoad = {};
-    for (let i = 0; i < emojiList.length; i++) {
-        const emoji = emojiList[i];
-        if (!UserStore.hasProfile(emoji.creator_id)) {
-            profilesToLoad[emoji.creator_id] = true;
-        }
-    }
-
-    const list = Object.keys(profilesToLoad);
-    if (list.length === 0) {
-        return;
-    }
-
-    getProfilesByIds(list)(dispatch, getState);
-}
 
 export async function addEmoji(emoji, image, success, error) {
     const {data, error: err} = await EmojiActions.createCustomEmoji(emoji, image)(dispatch, getState);

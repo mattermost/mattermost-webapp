@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import {localizeMessage} from 'utils/utils.jsx';
+import {Emoji} from 'mattermost-redux/constants';
 
 import LoadingScreen from 'components/loading_screen.jsx';
 import SaveButton from 'components/save_button.jsx';
@@ -50,7 +51,7 @@ export default class EmojiList extends React.Component {
     }
 
     componentDidMount() {
-        this.props.actions.getCustomEmojis(0, EMOJI_PER_PAGE).then(() => this.setState({loading: false}));
+        this.props.actions.getCustomEmojis(0, EMOJI_PER_PAGE, Emoji.SORT_BY_NAME, true).then(() => this.setState({loading: false}));
     }
 
     nextPage = (e) => {
@@ -60,7 +61,7 @@ export default class EmojiList extends React.Component {
 
         const next = this.state.page + 1;
         this.setState({page: next, nextLoading: true});
-        this.props.actions.getCustomEmojis(next, EMOJI_PER_PAGE).then(() => this.setState({nextLoading: false}));
+        this.props.actions.getCustomEmojis(next, EMOJI_PER_PAGE, Emoji.SORT_BY_NAME, true).then(() => this.setState({nextLoading: false}));
     }
 
     previousPage = (e) => {
