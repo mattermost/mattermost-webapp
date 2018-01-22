@@ -7,17 +7,39 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannel, getCurrentChannelStats} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {get, getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {makeGetMessageInHistoryItem, getPost, getMostRecentPostIdInChannel, makeGetCommentCountForPost, getLatestReplyablePostId, getCurrentUsersLatestPost} from 'mattermost-redux/selectors/entities/posts';
-import {addMessageIntoHistory, moveHistoryIndexBack, moveHistoryIndexForward, addReaction, removeReaction} from 'mattermost-redux/actions/posts';
+import {
+    getCurrentUsersLatestPost,
+    getLatestReplyablePostId,
+    getMostRecentPostIdInChannel,
+    getPost,
+    makeGetCommentCountForPost,
+    makeGetMessageInHistoryItem
+} from 'mattermost-redux/selectors/entities/posts';
+import {
+    addMessageIntoHistory,
+    moveHistoryIndexBack,
+    moveHistoryIndexForward,
+    addReaction,
+    removeReaction
+} from 'mattermost-redux/actions/posts';
 import {Posts} from 'mattermost-redux/constants';
 
-import {setEditingPost} from 'actions/post_actions.jsx';
+import {emitUserPostedEvent, postListScrollChange} from 'actions/global_actions.jsx';
+import {createPost, setEditingPost} from 'actions/post_actions.jsx';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {makeGetGlobalItem} from 'selectors/storage';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {Preferences, StoragePrefixes} from 'utils/constants.jsx';
 
 import CreatePost from './create_post.jsx';
+
+function makeOnSubmitPost() {
+    return (post, fileInfos) => () => {
+        emitUserPostedEvent(post);
+        createPost(post, fileInfos);
+        postListScrollChange(true);
+    };
+}
 
 function mapStateToProps() {
     return (state, ownProps) => {
@@ -55,6 +77,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             addMessageIntoHistory,
+            onSubmitPost: makeOnSubmitPost(),
             moveHistoryIndexBack,
             moveHistoryIndexForward,
             addReaction,
