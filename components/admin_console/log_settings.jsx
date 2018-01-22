@@ -181,7 +181,7 @@ export default class LogSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.log.enableWebhookDebuggingDescription'
-                            defaultMessage='You can set this to false to disable the debug logging of all incoming webhook request bodies.'
+                            defaultMessage='To output the request body of incoming webhooks to the console, enable this setting and set <strong>Console Log Level</strong> to "DEBUG". Disable this setting to remove webhook request body information from console logs when in DEBUG mode.'
                         />
                     }
                     value={this.state.enableWebhookDebugging}
