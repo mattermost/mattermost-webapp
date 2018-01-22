@@ -5,8 +5,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
-import {localizeMessage} from 'utils/utils.jsx';
 import {Emoji} from 'mattermost-redux/constants';
+
+import {localizeMessage} from 'utils/utils.jsx';
 
 import LoadingScreen from 'components/loading_screen.jsx';
 import SaveButton from 'components/save_button.jsx';
