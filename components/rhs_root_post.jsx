@@ -4,7 +4,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router-dom';
+import {Posts} from 'mattermost-redux/constants';
+import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
 import {addReaction, emitEmojiPosted} from 'actions/post_actions.jsx';
 import UserStore from 'stores/user_store.jsx';
@@ -20,6 +21,7 @@ import PostBodyAdditionalContent from 'components/post_view/post_body_additional
 import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
 import PostMessageContainer from 'components/post_view/post_message_view';
 import ReactionListContainer from 'components/post_view/reaction_list';
+import PostTime from 'components/post_view/post_time.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
 import MattermostLogo from 'components/svg/mattermost_logo';
@@ -40,17 +42,14 @@ export default class RhsRootPost extends React.Component {
         previewEnabled: PropTypes.bool,
         isBusy: PropTypes.bool,
         isEmbedVisible: PropTypes.bool
-    }
+    };
 
     static defaultProps = {
         commentCount: 0
-    }
+    };
 
     constructor(props) {
         super(props);
-
-        this.reactEmojiClick = this.reactEmojiClick.bind(this);
-        this.handleDropdownOpened = this.handleDropdownOpened.bind(this);
 
         this.state = {
             currentTeamDisplayName: TeamStore.getCurrent().name,
@@ -120,52 +119,26 @@ export default class RhsRootPost extends React.Component {
         return false;
     }
 
-    componentDidMount() {
-        window.addEventListener('resize', this.setDimensions);
-    }
+    renderPostTime = (isEphemeral) => {
+        const post = this.props.post;
 
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.setDimensions);
-    }
-
-    setDimensions = () => {
-        this.setState({
-            ...Utils.getWindowDimensions()
-        });
-    }
-
-    timeTag(post, timeOptions) {
-        const date = Utils.getDateForUnixTicks(post.create_at);
-
-        return (
-            <time
-                className='post__time'
-                dateTime={date.toISOString()}
-                title={date}
-            >
-                {date.toLocaleString('en', timeOptions)}
-            </time>
-        );
-    }
-
-    renderTimeTag(post, timeOptions) {
         if (post.type === Constants.PostTypes.FAKE_PARENT_DELETED) {
             return null;
         }
 
-        if (Utils.isMobile()) {
-            return this.timeTag(post, timeOptions);
-        }
+        const isPermalink = !(isEphemeral ||
+            Posts.POST_DELETED === post.state ||
+            ReduxPostUtils.isPostPendingOrFailed(post));
 
         return (
-            <Link
-                to={`/${this.state.currentTeamDisplayName}/pl/${post.id}`}
-                className='post__permalink'
-            >
-                {this.timeTag(post, timeOptions)}
-            </Link>
+            <PostTime
+                isPermalink={isPermalink}
+                eventTime={post.create_at}
+                useMilitaryTime={this.props.useMilitaryTime}
+                postId={post.id}
+            />
         );
-    }
+    };
 
     toggleEmojiPicker = () => {
         const showEmojiPicker = !this.state.showEmojiPicker;
@@ -174,15 +147,15 @@ export default class RhsRootPost extends React.Component {
             showEmojiPicker,
             dropdownOpened: showEmojiPicker
         });
-    }
+    };
 
-    reactEmojiClick(emoji) {
+    reactEmojiClick = (emoji) => {
         this.setState({showEmojiPicker: false});
         const emojiName = emoji.name || emoji.aliases[0];
         addReaction(this.props.post.channel_id, this.props.post.id, emojiName);
         emitEmojiPosted(emojiName);
         this.handleDropdownOpened(false);
-    }
+    };
 
     getClassName = (post, isSystemMessage) => {
         let className = 'post post--root post--thread';
@@ -207,17 +180,17 @@ export default class RhsRootPost extends React.Component {
         }
 
         return className;
-    }
+    };
 
-    handleDropdownOpened(isOpened) {
+    handleDropdownOpened = (isOpened) => {
         this.setState({
             dropdownOpened: isOpened
         });
-    }
+    };
 
     getDotMenuRef = () => {
         return this.refs.dotMenu;
-    }
+    };
 
     render() {
         const post = this.props.post;
@@ -397,12 +370,6 @@ export default class RhsRootPost extends React.Component {
             );
         }
 
-        const timeOptions = {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: !this.props.useMilitaryTime
-        };
-
         const dotMenu = (
             <DotMenu
                 idPrefix={Constants.RHS_ROOT}
@@ -450,7 +417,7 @@ export default class RhsRootPost extends React.Component {
                             <div className='col__name'>{userProfile}</div>
                             {botIndicator}
                             <div className='col'>
-                                {this.renderTimeTag(post, timeOptions)}
+                                {this.renderPostTime(isEphemeral)}
                                 {pinnedBadge}
                                 {postFlagIcon}
                             </div>

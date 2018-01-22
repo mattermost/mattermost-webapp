@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants/index';
-import {Link} from 'react-router-dom';
+import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
 import {addReaction, emitEmojiPosted} from 'actions/post_actions.jsx';
 import TeamStore from 'stores/team_store.jsx';
@@ -19,6 +19,7 @@ import FailedPostOptions from 'components/post_view/failed_post_options';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content.jsx';
 import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
 import PostMessageContainer from 'components/post_view/post_message_view';
+import PostTime from 'components/post_view/post_time.jsx';
 import ReactionListContainer from 'components/post_view/reaction_list';
 import ProfilePicture from 'components/profile_picture.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
@@ -45,15 +46,11 @@ export default class RhsComment extends React.Component {
 
     constructor(props) {
         super(props);
-        this.removePost = this.removePost.bind(this);
-        this.reactEmojiClick = this.reactEmojiClick.bind(this);
-        this.handleDropdownOpened = this.handleDropdownOpened.bind(this);
 
         this.state = {
             currentTeamDisplayName: TeamStore.getCurrent().name,
             showEmojiPicker: false,
-            dropdownOpened: false,
-            ...Utils.getWindowDimensions()
+            dropdownOpened: false
         };
     }
 
@@ -117,25 +114,11 @@ export default class RhsComment extends React.Component {
         return false;
     }
 
-    componentDidMount() {
-        window.addEventListener('resize', this.setDimensions);
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.setDimensions);
-    }
-
-    setDimensions = () => {
-        this.setState({
-            ...Utils.getWindowDimensions()
-        });
-    }
-
-    removePost() {
+    removePost = () => {
         this.props.removePost(this.props.post);
-    }
+    };
 
-    createRemovePostButton() {
+    createRemovePostButton = () => {
         return (
             <button
                 className='post__remove theme color--link style--none'
@@ -145,34 +128,24 @@ export default class RhsComment extends React.Component {
                 {'×'}
             </button>
         );
-    }
+    };
 
-    timeTag(post, timeOptions) {
-        const date = Utils.getDateForUnixTicks(post.create_at);
+    renderPostTime = (isEphemeral) => {
+        const post = this.props.post;
+
+        const isPermalink = !(isEphemeral ||
+            Posts.POST_DELETED === post.state ||
+            ReduxPostUtils.isPostPendingOrFailed(post));
 
         return (
-            <time
-                className='post__time'
-                dateTime={date.toISOString()}
-                title={date}
-            >
-                {date.toLocaleString('en', timeOptions)}
-            </time>
+            <PostTime
+                isPermalink={isPermalink}
+                eventTime={post.create_at}
+                useMilitaryTime={this.props.useMilitaryTime}
+                postId={post.id}
+            />
         );
-    }
-
-    renderTimeTag(post, timeOptions) {
-        return Utils.isMobile() ?
-            this.timeTag(post, timeOptions) :
-            (
-                <Link
-                    to={`/${this.state.currentTeamDisplayName}/pl/${post.id}`}
-                    className='post__permalink'
-                >
-                    {this.timeTag(post, timeOptions)}
-                </Link>
-            );
-    }
+    };
 
     toggleEmojiPicker = () => {
         const showEmojiPicker = !this.state.showEmojiPicker;
@@ -181,15 +154,15 @@ export default class RhsComment extends React.Component {
             showEmojiPicker,
             dropdownOpened: showEmojiPicker
         });
-    }
+    };
 
-    reactEmojiClick(emoji) {
+    reactEmojiClick = (emoji) => {
         this.setState({showEmojiPicker: false});
         const emojiName = emoji.name || emoji.aliases[0];
         addReaction(this.props.post.channel_id, this.props.post.id, emojiName);
         emitEmojiPosted(emojiName);
         this.handleDropdownOpened(false);
-    }
+    };
 
     getClassName = (post, isSystemMessage) => {
         let className = 'post post--thread';
@@ -215,17 +188,17 @@ export default class RhsComment extends React.Component {
         }
 
         return className;
-    }
+    };
 
-    handleDropdownOpened(isOpened) {
+    handleDropdownOpened = (isOpened) => {
         this.setState({
             dropdownOpened: isOpened
         });
-    }
+    };
 
     getDotMenuRef = () => {
         return this.refs.dotMenu;
-    }
+    };
 
     render() {
         const post = this.props.post;
@@ -438,12 +411,6 @@ export default class RhsComment extends React.Component {
             );
         }
 
-        const timeOptions = {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: !this.props.useMilitaryTime
-        };
-
         const messageWrapper = (
             <PostMessageContainer
                 post={post}
@@ -482,7 +449,7 @@ export default class RhsComment extends React.Component {
                             </div>
                             {botIndicator}
                             <div className='col'>
-                                {this.renderTimeTag(post, timeOptions)}
+                                {this.renderPostTime(isEphemeral)}
                                 {pinnedBadge}
                                 <PostFlagIcon
                                     idPrefix={'rhsCommentFlag'}
