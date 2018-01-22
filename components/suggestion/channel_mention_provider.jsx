@@ -9,6 +9,7 @@ import ChannelStore from 'stores/channel_store.jsx';
 import SuggestionStore from 'stores/suggestion_store.jsx';
 
 import {ActionTypes, Constants} from 'utils/constants.jsx';
+import * as ChannelUtils from 'utils/channel_utils.jsx';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
@@ -87,7 +88,7 @@ export default class ChannelMentionProvider extends Provider {
 
         const words = prefix.toLowerCase().split(/\s+/);
         const wrappedChannelIds = {};
-        const wrappedChannels = [];
+        var wrappedChannels = [];
         ChannelStore.getAll().forEach((item) => {
             if (item.type !== 'O' || item.delete_at > 0) {
                 return;
@@ -119,10 +120,18 @@ export default class ChannelMentionProvider extends Provider {
                 channel: item
             });
         });
+        wrappedChannels = wrappedChannels.sort((a, b) => {
+            return ChannelUtils.sortChannelsByDisplayName(a.channel, b.channel);
+        });
         const channelMentions = wrappedChannels.map((item) => '~' + item.channel.name);
         if (channelMentions.length > 0) {
             SuggestionStore.addSuggestions(suggestionId, channelMentions, wrappedChannels, ChannelMentionSuggestion, captured[2]);
         }
+
+        SuggestionStore.addSuggestions(suggestionId, [''], [{
+            type: Constants.MENTION_MORE_CHANNELS,
+            loading: true
+        }], ChannelMentionSuggestion, captured[2]);
 
         autocompleteChannels(
             prefix,
@@ -158,6 +167,9 @@ export default class ChannelMentionProvider extends Provider {
                     moreChannels.push(item);
                 });
 
+                wrappedChannels = wrappedChannels.sort((a, b) => {
+                    return ChannelUtils.sortChannelsByDisplayName(a.channel, b.channel);
+                });
                 const wrapped = wrappedChannels.concat(wrappedMoreChannels);
                 const mentions = wrapped.map((item) => '~' + item.channel.name);
 
