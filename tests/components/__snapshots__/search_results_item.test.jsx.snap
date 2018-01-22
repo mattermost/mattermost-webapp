@@ -4,23 +4,9 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
 <div
   className="search-item__container"
 >
-  <div
-    className="date-separator"
-  >
-    <hr
-      className="separator__hr"
-    />
-    <div
-      className="separator__text"
-    >
-      <FormattedDate
-        day="numeric"
-        month="long"
-        value={1502715365009}
-        year="numeric"
-      />
-    </div>
-  </div>
+  <DateSeparator
+    date={2017-12-14T18:15:28.290Z}
+  />
   <div
     className="post post--thread post--compact"
   >
@@ -236,23 +222,9 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
 <div
   className="search-item__container"
 >
-  <div
-    className="date-separator"
-  >
-    <hr
-      className="separator__hr"
-    />
-    <div
-      className="separator__text"
-    >
-      <FormattedDate
-        day="numeric"
-        month="long"
-        value={1502715365009}
-        year="numeric"
-      />
-    </div>
-  </div>
+  <DateSeparator
+    date={2017-12-14T18:15:28.290Z}
+  />
   <div
     className="post post--thread post--compact"
   >
@@ -437,23 +409,9 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
 <div
   className="search-item__container"
 >
-  <div
-    className="date-separator"
-  >
-    <hr
-      className="separator__hr"
-    />
-    <div
-      className="separator__text"
-    >
-      <FormattedDate
-        day="numeric"
-        month="long"
-        value={1502715365009}
-        year="numeric"
-      />
-    </div>
-  </div>
+  <DateSeparator
+    date={2017-12-14T18:15:28.290Z}
+  />
   <div
     className="post post--thread post--compact"
   >

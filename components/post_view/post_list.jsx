@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {FormattedDate, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {createChannelIntroMessage} from 'utils/channel_intro_messages.jsx';
 import Constants, {PostTypes} from 'utils/constants.jsx';
@@ -15,6 +15,7 @@ import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import LoadingScreen from 'components/loading_screen.jsx';
+import DateSeparator from 'components/post_view/date_separator.jsx';
 
 import FloatingTimestamp from './floating_timestamp.jsx';
 import NewMessageIndicator from './new_message_indicator.jsx';
@@ -446,21 +447,10 @@ export default class PostList extends React.PureComponent {
             const currentPostDay = Utils.getDateForUnixTicks(post.create_at);
             if (currentPostDay.toDateString() !== previousPostDay.toDateString()) {
                 postCtls.push(
-                    <div
-                        key={currentPostDay.toDateString()}
-                        className='date-separator'
-                    >
-                        <hr className='separator__hr'/>
-                        <div className='separator__text'>
-                            <FormattedDate
-                                value={currentPostDay}
-                                weekday='short'
-                                month='short'
-                                day='2-digit'
-                                year='numeric'
-                            />
-                        </div>
-                    </div>
+                    <DateSeparator
+                        key={currentPostDay}
+                        date={currentPostDay}
+                    />
                 );
             }
 

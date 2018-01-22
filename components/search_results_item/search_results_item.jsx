@@ -14,6 +14,7 @@ import ProfilePicture from 'components/profile_picture.jsx';
 import UserProfile from 'components/user_profile.jsx';
 import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content.jsx';
+import DateSeparator from 'components/post_view/date_separator.jsx';
 
 import Constants from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
@@ -339,19 +340,11 @@ export default class SearchResultsItem extends React.PureComponent {
             );
         }
 
+        const currentPostDay = Utils.getDateForUnixTicks(post.create_at);
+
         return (
             <div className='search-item__container'>
-                <div className='date-separator'>
-                    <hr className='separator__hr'/>
-                    <div className='separator__text'>
-                        <FormattedDate
-                            value={post.create_at}
-                            day='numeric'
-                            month='long'
-                            year='numeric'
-                        />
-                    </div>
-                </div>
+                <DateSeparator date={currentPostDay}/>
                 <div className={this.getClassName()}>
                     <div className='search-channel__name'>{channelName}</div>
                     <div className='post__content'>
