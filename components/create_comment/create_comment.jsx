@@ -8,6 +8,8 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
+import GlobalEventEmitter from 'utils/global_event_emitter.jsx';
+import EventTypes from 'utils/event_types.jsx';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
@@ -139,6 +141,7 @@ export default class CreateComment extends React.PureComponent {
         this.props.clearCommentDraftUploads();
         this.props.onResetHistoryIndex();
         this.setState({draft: {...this.props.draft, uploadsInProgress: []}});
+        GlobalEventEmitter.addListener(EventTypes.FOCUS_RHS, this.onPostPinnedChange)
     }
 
     componentDidMount() {
@@ -147,6 +150,7 @@ export default class CreateComment extends React.PureComponent {
 
     componentWillUnmount() {
         this.props.resetCreatePostRequest();
+        GlobalEventEmitter.removeListener(EventTypes.FOCUS_RHS, this.onPostPinnedChange)
     }
 
     componentWillReceiveProps(newProps) {
@@ -166,10 +170,10 @@ export default class CreateComment extends React.PureComponent {
         if (prevState.draft.uploadsInProgress.length < this.state.draft.uploadsInProgress.length) {
             this.scrollToBottom();
         }
+    }
 
-        if (prevProps.rootId !== this.props.rootId) {
-            this.focusTextbox();
-        }
+    onPostPinnedChange = () => {
+        this.focusTextbox();
     }
 
     handleNotifyAllConfirmation = (e) => {

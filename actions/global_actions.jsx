@@ -530,6 +530,13 @@ export function postListScrollChange(forceScrollToBottom = false) {
     });
 }
 
+export function focusRhs() {
+    AppDispatcher.handleViewAction({
+        type: EventTypes.FOCUS_RHS,
+        value: null
+    });
+}
+
 export function emitPopoverMentionKeyClick(isRHS, mentionKey) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.POPOVER_MENTION_KEY_CLICK,
