@@ -65,7 +65,8 @@ export default class MoreDirectChannels extends React.Component {
             values,
             show: true,
             search: false,
-            loadingChannel: false
+            savingChannel: false,
+            loadingChannels: true
         };
     }
 
@@ -74,9 +75,13 @@ export default class MoreDirectChannels extends React.Component {
         UserStore.addInTeamChangeListener(this.onChange);
         UserStore.addStatusesChangeListener(this.onChange);
         if (this.listType === 'any') {
-            this.props.actions.getProfiles(0, USERS_PER_PAGE * 2, false);
+            this.props.actions.getProfiles(0, USERS_PER_PAGE * 2, false).then(() => {
+                this.toggleChannelLoadingState();
+            });
         } else {
-            this.props.actions.getProfilesInTeam(TeamStore.getCurrentId(), 0, USERS_PER_PAGE * 2);
+            this.props.actions.getProfilesInTeam(TeamStore.getCurrentId(), 0, USERS_PER_PAGE * 2).then(() => {
+                this.toggleChannelLoadingState();
+            });
         }
     }
 
@@ -90,6 +95,12 @@ export default class MoreDirectChannels extends React.Component {
         this.setState({show: false});
     }
 
+    toggleChannelLoadingState = (forceFlag) => {
+        this.setState({
+            loadingChannels: typeof forceFlag === 'undefined' ? !this.state.loadingChannels : forceFlag
+        });
+    }
+
     handleExit() {
         if (this.exitToChannel) {
             browserHistory.push(this.exitToChannel);
@@ -101,7 +112,7 @@ export default class MoreDirectChannels extends React.Component {
     }
 
     handleSubmit(values = this.state.values) {
-        if (this.state.loadingChannel) {
+        if (this.state.savingChannel) {
             return;
         }
 
@@ -110,19 +121,19 @@ export default class MoreDirectChannels extends React.Component {
             return;
         }
 
-        this.setState({loadingChannel: true});
+        this.setState({savingChannel: true});
 
         const success = (channel) => {
             // Due to how react-overlays Modal handles focus, we delay pushing
             // the new channel information until the modal is fully exited.
             // The channel information will be pushed in `handleExit`
             this.exitToChannel = TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + channel.name;
-            this.setState({loadingChannel: false});
+            this.setState({savingChannel: false});
             this.handleHide();
         };
 
         const error = () => {
-            this.setState({loadingChannel: false});
+            this.setState({savingChannel: false});
         };
 
         if (userIds.length === 1) {
@@ -172,9 +183,13 @@ export default class MoreDirectChannels extends React.Component {
     handlePageChange(page, prevPage) {
         if (page > prevPage) {
             if (this.listType === 'any') {
-                this.props.actions.getProfiles(page + 1, USERS_PER_PAGE);
+                this.props.actions.getProfiles(page + 1, USERS_PER_PAGE).then(() => {
+                    this.toggleChannelLoadingState(false);
+                });
             } else {
-                this.props.actions.getProfilesInTeam(page + 1, USERS_PER_PAGE);
+                this.props.actions.getProfilesInTeam(page + 1, USERS_PER_PAGE).then(() => {
+                    this.toggleChannelLoadingState(false);
+                });
             }
         }
     }
@@ -367,7 +382,8 @@ export default class MoreDirectChannels extends React.Component {
                         numRemainingText={numRemainingText}
                         buttonSubmitText={buttonSubmitText}
                         submitImmediatelyOn={this.handleSubmitImmediatelyOn}
-                        saving={this.state.loadingChannel}
+                        saving={this.state.savingChannel}
+                        loadingChannels={this.state.loadingChannels}
                     />
                 </Modal.Body>
             </Modal>

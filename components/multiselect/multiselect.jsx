@@ -267,6 +267,7 @@ export default class MultiSelect extends React.Component {
                     onPageChange={this.props.handlePageChange}
                     onAdd={this.onAdd}
                     onSelect={this.onSelect}
+                    loadingChannels={this.props.loadingChannels}
                 />
                 <div className='filter-controls'>
                     {previousButton}
@@ -293,5 +294,6 @@ MultiSelect.propTypes = {
     numRemainingText: PropTypes.node,
     buttonSubmitText: PropTypes.node,
     submitImmediatelyOn: PropTypes.func,
-    saving: PropTypes.bool
+    saving: PropTypes.bool,
+    loadingChannels: PropTypes.bool
 };
