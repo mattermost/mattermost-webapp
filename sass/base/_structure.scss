@@ -13,6 +13,7 @@ body {
     background: $bg--gray;
     position: relative;
     width: 100%;
+    overflow: hidden;
 
     &.error-bar--fixed {
         padding-top: 22px;
