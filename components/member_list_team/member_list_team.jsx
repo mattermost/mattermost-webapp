@@ -3,17 +3,14 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-
 import {searchProfilesInCurrentTeam} from 'mattermost-redux/selectors/entities/users';
 
 import {loadProfilesAndTeamMembers, loadTeamMembersForProfilesList, searchUsers} from 'actions/user_actions.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
-
 import SearchableUserList from 'components/searchable_user_list/searchable_user_list_container.jsx';
 import TeamMembersDropdown from 'components/team_members_dropdown';
 

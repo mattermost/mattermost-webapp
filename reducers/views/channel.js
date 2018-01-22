@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import {combineReducers} from 'redux';
-
 import {ChannelTypes, PostTypes} from 'mattermost-redux/action_types';
 
 import {ActionTypes, Constants} from 'utils/constants.jsx';

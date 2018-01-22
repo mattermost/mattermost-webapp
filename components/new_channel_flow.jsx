@@ -4,15 +4,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router';
 
+import {browserHistory} from 'utils/browser_history';
 import {createChannel} from 'actions/channel_actions';
 import TeamStore from 'stores/team_store';
-
 import {cleanUpUrlable} from 'utils/url';
 import * as Utils from 'utils/utils';
 import Constants from 'utils/constants';
-
 import NewChannelModal from 'components/new_channel_modal';
 import ChangeURLModal from 'components/change_url_modal';
 

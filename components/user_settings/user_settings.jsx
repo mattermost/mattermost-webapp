@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import UserStore from 'stores/user_store.jsx';
-
 import * as utils from 'utils/utils.jsx';
 
 import AdvancedTab from './user_settings_advanced.jsx';

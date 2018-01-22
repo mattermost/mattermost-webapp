@@ -6,7 +6,6 @@ import {shallow} from 'enzyme';
 import {Modal} from 'react-bootstrap';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-
 import GetLinkModal from 'components/get_link_modal.jsx';
 
 describe('components/GetLinkModal', () => {

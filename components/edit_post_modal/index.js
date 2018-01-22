@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {addMessageIntoHistory} from 'mattermost-redux/actions/posts';
 import {Preferences} from 'mattermost-redux/constants';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -11,7 +10,6 @@ import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 
 import {setEditingPost} from 'actions/post_actions';
 import {editPost} from 'actions/views/edit_post_modal';
-
 import {getEditingPost} from 'selectors/posts';
 
 import EditPostModal from './edit_post_modal.jsx';

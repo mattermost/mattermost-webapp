@@ -2,28 +2,23 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router';
 import {PropTypes} from 'prop-types';
 
+import {browserHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {initTeamChangeActions} from 'actions/views/lhs.js';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 import {ActionTypes, Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import favicon from 'images/favicon/favicon-16x16.png';
 import redFavicon from 'images/favicon/redfavicon-16x16.png';
-
 import MoreChannels from 'components/more_channels';
 import MoreDirectChannels from 'components/more_direct_channels';
-
 import NewChannelFlow from '../new_channel_flow.jsx';
 import SidebarHeader from '../sidebar_header.jsx';
 import UnreadChannelIndicator from '../unread_channel_indicator.jsx';

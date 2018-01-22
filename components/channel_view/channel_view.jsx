@@ -2,20 +2,29 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {joinChannel} from 'mattermost-redux/actions/channels';
 
 import * as UserAgent from 'utils/user_agent.jsx';
 import deferComponentRender from 'components/deferComponentRender';
-
+import Constants from 'utils/constants.jsx';
+import ChannelStore from 'stores/channel_store';
+import UserStore from 'stores/user_store';
+import TeamStore from 'stores/team_store';
+import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
+import * as GlobalActions from 'actions/global_actions.jsx';
 import ChannelHeader from 'components/channel_header';
 import CreatePost from 'components/create_post';
 import FileUploadOverlay from 'components/file_upload_overlay.jsx';
 import PostView from 'components/post_view';
 import TutorialView from 'components/tutorial/tutorial_view.jsx';
 import {clearMarks, mark, measure, trackEvent} from 'actions/diagnostics_actions.jsx';
+import store from 'stores/redux_store.jsx';
+
+const dispatch = store.dispatch;
+const getState = store.getState;
 
 export default class ChannelView extends React.PureComponent {
     static propTypes = {
@@ -38,6 +47,9 @@ export default class ChannelView extends React.PureComponent {
 
     constructor(props) {
         super(props);
+
+        this.updateChannel(this.props);
+
         this.createDeferredPostView();
     }
 
@@ -46,6 +58,46 @@ export default class ChannelView extends React.PureComponent {
             PostView,
             <div id='post-list'/>
         );
+    }
+
+    updateChannel(props) {
+        let channel;
+        const fakechannel = (new URLSearchParams(props.location.search)).get('fakechannel');
+        if (fakechannel) {
+            channel = JSON.parse(fakechannel);
+        } else {
+            channel = ChannelStore.getByName(props.match.params.channel);
+
+            if (channel && channel.type === Constants.DM_CHANNEL) {
+                loadNewDMIfNeeded(channel.id);
+            } else if (channel && channel.type === Constants.GM_CHANNEL) {
+                loadNewGMIfNeeded(channel.id);
+            }
+
+            if (channel) {
+                GlobalActions.emitChannelClickEvent(channel);
+            } else {
+                joinChannel(UserStore.getCurrentId(), TeamStore.getCurrentId(), null, props.match.params.channel)(dispatch, getState).then(
+                    (result) => {
+                        if (result.data) {
+                            channel = result.data.channel;
+                            if (channel && channel.type === Constants.DM_CHANNEL) {
+                                loadNewDMIfNeeded(channel.id);
+                            } else if (channel && channel.type === Constants.GM_CHANNEL) {
+                                loadNewGMIfNeeded(channel.id);
+                            }
+                            GlobalActions.emitChannelClickEvent(channel);
+                        } else if (result.error) {
+                            if (props.match.params.team) {
+                                props.history.push('/' + props.match.params.team + '/channels/town-square');
+                            } else {
+                                props.history.push('/');
+                            }
+                        }
+                    }
+                );
+            }
+        }
     }
 
     componentDidMount() {
@@ -62,7 +114,8 @@ export default class ChannelView extends React.PureComponent {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.channelId !== nextProps.channelId) {
+        if (this.props.match.url !== nextProps.match.url) {
+            this.updateChannel(nextProps);
             this.createDeferredPostView();
         }
     }

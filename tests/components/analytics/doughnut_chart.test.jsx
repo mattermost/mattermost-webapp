@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {shallow, mount} from 'enzyme';
 
 import DoughnutChart from 'components/analytics/doughnut_chart.jsx';

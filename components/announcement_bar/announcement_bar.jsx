@@ -4,13 +4,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 import * as AdminActions from 'actions/admin_actions.jsx';
 import AnalyticsStore from 'stores/analytics_store.jsx';
 import ErrorStore from 'stores/error_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import {ErrorBarTypes, StatTypes, StoragePrefixes} from 'utils/constants.jsx';
 import {displayExpiryDate, isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod} from 'utils/license_utils.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';

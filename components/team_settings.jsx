@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import TeamStore from 'stores/team_store.jsx';
-
 import * as Utils from 'utils/utils.jsx';
 
 import GeneralTab from './team_general_tab.jsx';

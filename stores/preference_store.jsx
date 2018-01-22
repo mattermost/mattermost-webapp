@@ -7,9 +7,7 @@ import {PreferenceTypes} from 'mattermost-redux/action_types';
 import * as Selectors from 'mattermost-redux/selectors/entities/preferences';
 
 import store from 'stores/redux_store.jsx';
-
 import Constants from 'utils/constants.jsx';
-
 import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
 
 const ActionTypes = Constants.ActionTypes;

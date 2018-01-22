@@ -10,10 +10,8 @@ import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {savePreference} from 'actions/user_actions.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import tutorialGif from 'images/tutorialTip.gif';
 import tutorialGifWhite from 'images/tutorialTipWhite.gif';
 

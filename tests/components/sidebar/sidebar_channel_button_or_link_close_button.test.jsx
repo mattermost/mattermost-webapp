@@ -5,7 +5,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {Constants} from 'utils/constants.jsx';
-
 import SidebarChannelButtonOrLinkCloseButton from 'components/sidebar/sidebar_channel_button_or_link/sidebar_channel_button_or_link_close_button.jsx';
 describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLinkCloseButton', () => {
     test('should be null, on close button without handleClose', () => {

@@ -7,7 +7,6 @@ import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
-
 import PostInfo from 'components/post_view/post_info';
 import UserProfile from 'components/user_profile.jsx';
 

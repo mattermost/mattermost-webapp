@@ -6,7 +6,6 @@ import React from 'react';
 import {OverlayTrigger} from 'react-bootstrap';
 
 import Pluggable from 'plugins/pluggable';
-
 import * as Utils from 'utils/utils.jsx';
 
 import ProfilePopover from './profile_popover.jsx';

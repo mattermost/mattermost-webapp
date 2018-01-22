@@ -7,12 +7,10 @@ import {FormattedMessage} from 'react-intl';
 import UserStore from 'stores/user_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
-
 import {canManageMembers} from 'utils/channel_utils.jsx';
 import {Constants, PostTypes} from 'utils/constants.jsx';
 import {formatText} from 'utils/text_formatting.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import PostAddChannelMember from 'components/post_view/post_add_channel_member';
 
 function renderUsername(value, options) {

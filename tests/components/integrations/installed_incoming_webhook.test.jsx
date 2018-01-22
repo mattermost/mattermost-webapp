@@ -2,8 +2,7 @@
 // See License.txt for license information.
 
 import React from 'react';
-import {Link} from 'react-router';
-
+import {Link} from 'react-router-dom';
 import {shallow} from 'enzyme';
 
 import DeleteIntegration from 'components/integrations/components/delete_integration.jsx';

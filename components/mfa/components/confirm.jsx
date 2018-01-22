@@ -3,10 +3,8 @@
 
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router';
 
 import {loadMe} from 'actions/user_actions.jsx';
-
 import Constants from 'utils/constants.jsx';
 
 const KeyCodes = Constants.KeyCodes;
@@ -29,7 +27,7 @@ export default class Confirm extends React.Component {
     submit(e) {
         e.preventDefault();
         loadMe().then(() => {
-            browserHistory.push('/');
+            this.props.history.push('/');
         });
     }
 

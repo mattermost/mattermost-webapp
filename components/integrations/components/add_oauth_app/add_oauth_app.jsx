@@ -3,8 +3,8 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {browserHistory} from 'react-router';
 
+import {browserHistory} from 'utils/browser_history';
 import AbstractOAuthApp from '../abstract_oauth_app.jsx';
 
 const HEADER = {id: 'add_oauth_app.header', defaultMessage: 'Add'};

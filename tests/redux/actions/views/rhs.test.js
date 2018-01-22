@@ -2,15 +2,11 @@
 // See License.txt for license information.
 
 import {batchActions} from 'redux-batched-actions';
-
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-
 import * as PostActions from 'mattermost-redux/actions/posts';
 import {searchPosts} from 'mattermost-redux/actions/search';
-
 import {Client4} from 'mattermost-redux/client';
-
 import {SearchTypes} from 'mattermost-redux/action_types';
 
 import {
@@ -26,9 +22,7 @@ import {
     showMentions,
     closeRightHandSide
 } from 'actions/views/rhs';
-
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-
 import {ActionTypes, RHSStates} from 'utils/constants.jsx';
 
 const mockStore = configureStore([thunk]);

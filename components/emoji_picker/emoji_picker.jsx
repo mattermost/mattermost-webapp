@@ -6,7 +6,6 @@ import React from 'react';
 import throttle from 'lodash/throttle';
 
 import EmojiStore from 'stores/emoji_store.jsx';
-
 import * as Emoji from 'utils/emoji.jsx';
 import * as Utils from 'utils/utils.jsx';
 

@@ -3,10 +3,9 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 import * as Utils from 'utils/utils.jsx';
-
 import LoadingScreen from 'components/loading_screen.jsx';
 
 export default class BackstageList extends React.Component {

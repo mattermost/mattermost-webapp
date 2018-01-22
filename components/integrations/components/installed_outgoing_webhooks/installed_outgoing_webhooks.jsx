@@ -7,9 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 import Constants from 'utils/constants.jsx';
-
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
-
 import InstalledOutgoingWebhook from 'components/integrations/components/installed_outgoing_webhook.jsx';
 
 export default class InstalledOutgoingWebhooks extends React.PureComponent {

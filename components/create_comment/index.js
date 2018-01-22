@@ -15,7 +15,6 @@ import {
     makeOnSubmit,
     makeOnEditLatestPost
 } from 'actions/views/create_comment';
-
 import {makeGetCommentDraft} from 'selectors/rhs';
 
 import CreateComment from './create_comment.jsx';

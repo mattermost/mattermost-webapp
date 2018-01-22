@@ -3,8 +3,8 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {browserHistory} from 'react-router';
 
+import {browserHistory} from 'utils/browser_history';
 import AbstractOutgoingWebhook from 'components/integrations/components/abstract_outgoing_webhook.jsx';
 
 const HEADER = {id: 'integrations.add', defaultMessage: 'Add'};

@@ -4,20 +4,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedDate, FormattedHTMLMessage, FormattedMessage, FormattedTime} from 'react-intl';
-import {browserHistory, Link} from 'react-router';
-
+import {Link} from 'react-router-dom';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 
+import {browserHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {deactivateMfa, deauthorizeOAuthApp, getAuthorizedApps, updatePassword} from 'actions/user_actions.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import {isMobile} from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import icon50 from 'images/icon50x50.png';
-
 import AccessHistoryModal from 'components/access_history_modal';
 import ActivityLogModal from 'components/activity_log_modal';
 import ConfirmModal from 'components/confirm_modal.jsx';

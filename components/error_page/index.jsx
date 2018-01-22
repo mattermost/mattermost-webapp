@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 import ErrorTitle from './error_title.jsx';
 import ErrorMessage from './error_message.jsx';
@@ -23,6 +23,12 @@ export default class ErrorPage extends React.PureComponent {
     }
 
     render() {
+        const params = new URLSearchParams(this.props.location.search);
+        const type = params.get('type');
+        const title = params.get('title');
+        const message = params.get('message');
+        const service = params.get('service');
+
         return (
             <div className='container-fluid'>
                 <div className='error__container'>
@@ -31,14 +37,14 @@ export default class ErrorPage extends React.PureComponent {
                     </div>
                     <h2>
                         <ErrorTitle
-                            type={this.props.location.query.type}
-                            title={this.props.location.query.title}
+                            type={type}
+                            title={title}
                         />
                     </h2>
                     <ErrorMessage
-                        type={this.props.location.query.type}
-                        message={this.props.location.query.message}
-                        service={this.props.location.query.service}
+                        type={type}
+                        message={message}
+                        service={service}
                     />
                     <Link to='/'>
                         <FormattedMessage

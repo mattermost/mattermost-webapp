@@ -3,14 +3,11 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
 import FilenameOverlay from 'components/file_attachment/filename_overlay.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import loadingGif from 'images/load.gif';
 
 export default class FilePreview extends React.PureComponent {

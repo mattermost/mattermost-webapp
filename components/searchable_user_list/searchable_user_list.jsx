@@ -2,14 +2,12 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
-
 import UserList from 'components/user_list.jsx';
 
 const NEXT_BUTTON_TIMEOUT = 500;

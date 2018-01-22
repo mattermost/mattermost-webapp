@@ -3,7 +3,6 @@
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-
 import {addChannelMember} from 'mattermost-redux/actions/channels';
 import {removePost} from 'mattermost-redux/actions/posts';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';

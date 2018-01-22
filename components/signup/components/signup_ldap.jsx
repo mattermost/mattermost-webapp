@@ -4,17 +4,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-import {browserHistory, Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
+import {browserHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
 import {loadMe, webLoginByLdap} from 'actions/user_actions.jsx';
-
 import * as Utils from 'utils/utils.jsx';
-
 import logoImage from 'images/logo.png';
-
 import BackButton from 'components/common/back_button.jsx';
 import FormError from 'components/form_error.jsx';
 
@@ -76,9 +74,9 @@ export default class SignupLdap extends React.Component {
     }
 
     handleLdapSignupSuccess() {
-        const hash = this.props.location.query.h;
-        const data = this.props.location.query.d;
-        const inviteId = this.props.location.query.id;
+        const hash = (new URLSearchParams(this.props.location.search)).get('h');
+        const data = (new URLSearchParams(this.props.location.search)).get('d');
+        const inviteId = (new URLSearchParams(this.props.location.search)).get('id');
 
         if (inviteId || hash) {
             addUserToTeamFromInvite(
@@ -101,7 +99,7 @@ export default class SignupLdap extends React.Component {
     finishSignup() {
         loadMe().then(
             () => {
-                const query = this.props.location.query;
+                const query = (new URLSearchParams(this.props.location.search)).get('');
                 GlobalActions.loadDefaultLocale();
                 if (query.redirect_to) {
                     browserHistory.push(query.redirect_to);
@@ -242,7 +240,10 @@ export default class SignupLdap extends React.Component {
                             />
                             {' '}
                             <Link
-                                to={{pathname: '/login', query: Utils.isEmptyObject(this.props.location.query) ? null : this.props.location.query}}
+                                to={{
+                                    pathname: '/login',
+                                    search: this.props.location.search
+                                }}
                             >
                                 <FormattedMessage
                                     id='signup_user_completed.signIn'

@@ -6,10 +6,8 @@ import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import PreferenceStore from 'stores/preference_store.jsx';
-
 import {Constants, Preferences, TutorialSteps} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import StatusDropdown from 'components/status_dropdown/index.jsx';
 import {createMenuTip} from 'components/tutorial/tutorial_tip.jsx';
 

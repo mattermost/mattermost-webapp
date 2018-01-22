@@ -8,7 +8,6 @@ import thunk from 'redux-thunk';
 import {Modal} from 'react-bootstrap';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-
 import ChannelMembersModal from 'components/channel_members_modal/channel_members_modal';
 
 describe('components/ChannelMembersModal', () => {

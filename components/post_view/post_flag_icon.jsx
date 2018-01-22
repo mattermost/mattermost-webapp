@@ -7,10 +7,8 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {flagPost, unflagPost} from 'actions/post_actions.jsx';
-
 import FlagIcon from 'components/svg/flag_icon';
 import FlagIconFilled from 'components/svg/flag_icon_filled';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 

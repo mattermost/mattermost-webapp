@@ -2,10 +2,7 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
-import {browserHistory} from 'react-router';
 import {batchActions} from 'redux-batched-actions';
-
 import {ChannelTypes, EmojiTypes, PostTypes, TeamTypes, UserTypes} from 'mattermost-redux/action_types';
 import {getChannelAndMyMember, getChannelStats, viewChannel} from 'mattermost-redux/actions/channels';
 import {setServerVersion} from 'mattermost-redux/actions/general';
@@ -15,6 +12,7 @@ import {getMe} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
+import {browserHistory} from 'utils/browser_history';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {handleNewPost} from 'actions/post_actions.jsx';
@@ -28,10 +26,8 @@ import PreferenceStore from 'stores/preference_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
-
 import {ActionTypes, Constants, ErrorBarTypes, Preferences, SocketEvents, UserStatuses} from 'utils/constants.jsx';
 import {getSiteURL} from 'utils/url.jsx';
 

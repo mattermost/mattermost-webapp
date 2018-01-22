@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import {connect} from 'react-redux';
-
 import {Preferences} from 'mattermost-redux/constants';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {isCurrentUserCurrentTeamAdmin} from 'mattermost-redux/selectors/entities/teams';

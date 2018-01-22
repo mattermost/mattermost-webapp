@@ -5,17 +5,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router';
-
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 
+import {browserHistory} from 'utils/browser_history';
 import {goToChannel, openDirectChannelToUser} from 'actions/channel_actions.jsx';
 import store from 'stores/redux_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
-
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import SwitchChannelProvider from 'components/suggestion/switch_channel_provider.jsx';

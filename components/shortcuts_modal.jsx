@@ -7,7 +7,6 @@ import {Modal} from 'react-bootstrap';
 import {defineMessages, injectIntl, intlShape} from 'react-intl';
 
 import ModalStore from 'stores/modal_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 
 const allShortcuts = defineMessages({

@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import {connect} from 'react-redux';
-
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';

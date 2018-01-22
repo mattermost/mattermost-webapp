@@ -4,7 +4,6 @@
 import EventEmitter from 'events';
 
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-
 import Constants from 'utils/constants.jsx';
 
 const ActionTypes = Constants.ActionTypes;

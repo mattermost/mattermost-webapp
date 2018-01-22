@@ -6,7 +6,6 @@ import React from 'react';
 import {autocompleteChannels} from 'actions/channel_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
-
 import {ActionTypes, Constants} from 'utils/constants.jsx';
 
 import Provider from './provider.jsx';

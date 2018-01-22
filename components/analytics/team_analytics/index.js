@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {getTeams} from 'mattermost-redux/actions/teams';
 import {getProfilesInTeam} from 'mattermost-redux/actions/users';
 import {getTeamsList} from 'mattermost-redux/selectors/entities/teams';

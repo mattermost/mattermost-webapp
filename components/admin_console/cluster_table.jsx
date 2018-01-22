@@ -6,7 +6,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
-
 import statusGreen from 'images/status_green.png';
 import statusYellow from 'images/status_yellow.png';
 

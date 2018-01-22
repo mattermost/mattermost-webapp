@@ -6,16 +6,13 @@ import ReactDOM from 'react-dom';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
-
 import * as Selectors from 'mattermost-redux/selectors/entities/posts';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import store from 'stores/redux_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
 import Textbox from 'components/textbox.jsx';

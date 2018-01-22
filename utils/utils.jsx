@@ -2,29 +2,23 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router';
-
 import {Client4} from 'mattermost-redux/client';
 import {Posts} from 'mattermost-redux/constants';
 
+import {browserHistory} from 'utils/browser_history';
 import {searchForTerm} from 'actions/post_actions';
-
 import UserStore from 'stores/user_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import LocalizationStore from 'stores/localization_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
-
 import Constants, {UserStatusesWeight} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
-
 import bing from 'images/bing.mp3';
 import icon50 from 'images/icon50x50.png';
 import iconWS from 'images/icon_WS.png';
-
 import {getSiteURL} from 'utils/url';
 
 export function isEmail(email) {
@@ -144,13 +138,13 @@ export function notifyMe(title, body, channel, teamId, duration, silent) {
                         notification.onclick = () => {
                             window.focus();
                             if (channel && (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL)) {
-                                browserHistory.push(TeamStore.getCurrentTeamUrl() + '/channels/' + channel.name);
+                                browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + channel.name);
                             } else if (channel) {
-                                browserHistory.push(TeamStore.getTeamUrl(teamId) + '/channels/' + channel.name);
+                                browserHistory.push(TeamStore.getTeamRelativeUrl(teamId) + '/channels/' + channel.name);
                             } else if (teamId) {
-                                browserHistory.push(TeamStore.getTeamUrl(teamId) + `/channels/${Constants.DEFAULT_CHANNEL}`);
+                                browserHistory.push(TeamStore.getTeamRelativeUrl(teamId) + `/channels/${Constants.DEFAULT_CHANNEL}`);
                             } else {
-                                browserHistory.push(TeamStore.getCurrentTeamUrl() + `/channels/${Constants.DEFAULT_CHANNEL}`);
+                                browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + `/channels/${Constants.DEFAULT_CHANNEL}`);
                             }
                         };
 
@@ -1469,7 +1463,10 @@ export function handleFormattedTextClick(e) {
         if (!(e.button === MIDDLE_MOUSE_BUTTON || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey)) {
             e.preventDefault();
 
-            browserHistory.push(linkAttribute.value);
+            const urlparse = document.createElement('a');
+            urlparse.href = linkAttribute.value;
+
+            browserHistory.push(urlparse.pathname);
         }
     } else if (channelMentionAttribute) {
         e.preventDefault();

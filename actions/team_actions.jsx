@@ -1,14 +1,13 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {browserHistory} from 'react-router';
-
 import {TeamTypes} from 'mattermost-redux/action_types';
 import {viewChannel, getChannelStats} from 'mattermost-redux/actions/channels';
 import * as TeamActions from 'mattermost-redux/actions/teams';
 import {getUser} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 
+import {browserHistory} from 'utils/browser_history';
 import ChannelStore from 'stores/channel_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
@@ -29,7 +28,6 @@ export async function checkIfTeamExists(teamName, onSuccess, onError) {
 export async function createTeam(team, onSuccess, onError) {
     const {data: rteam, error: err} = await TeamActions.createTeam(team)(dispatch, getState);
     if (rteam && onSuccess) {
-        browserHistory.push('/' + rteam.name + `/channels/${Constants.DEFAULT_CHANNEL}`);
         onSuccess(rteam);
     } else if (err && onError) {
         onError({id: err.server_error_id, ...err});

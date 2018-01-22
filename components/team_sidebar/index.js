@@ -3,8 +3,8 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {getTeams} from 'mattermost-redux/actions/teams';
+import {withRouter} from 'react-router-dom';
 
 import TeamSidebar from './team_sidebar_controller.jsx';
 
@@ -22,4 +22,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TeamSidebar);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TeamSidebar));

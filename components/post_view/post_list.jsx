@@ -13,7 +13,6 @@ import EventTypes from 'utils/event_types.jsx';
 import GlobalEventEmitter from 'utils/global_event_emitter.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import LoadingScreen from 'components/loading_screen.jsx';
 import DateSeparator from 'components/post_view/date_separator.jsx';
 

@@ -2,17 +2,14 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {updateChannelNotifyProps} from 'actions/channel_actions.jsx';
-
 import {NotificationLevels} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 

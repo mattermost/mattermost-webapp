@@ -6,22 +6,16 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import Janus from 'janus';
-
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as WebrtcActions from 'actions/webrtc_actions.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
-
 import WebSocketClient from 'client/web_websocket_client.jsx';
-
 import {Constants, UserStatuses, WebrtcActionTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import ring from 'images/ring.mp3';
-
 import ConnectingScreen from 'components/loading_screen.jsx';
-
 import SearchBox from '../search_bar';
 
 import WebrtcHeader from './components/webrtc_header.jsx';

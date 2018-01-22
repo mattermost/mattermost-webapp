@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import EmojiStore from 'stores/emoji_store.jsx';
-
 import * as Emoticons from 'utils/emoticons.jsx';
 
 describe('Emoticons', () => {

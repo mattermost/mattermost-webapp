@@ -3,9 +3,9 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {getMyChannelMembers, viewChannel} from 'mattermost-redux/actions/channels';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
+import {withRouter} from 'react-router-dom';
 
 import NeedsTeam from './needs_team.jsx';
 
@@ -25,4 +25,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NeedsTeam);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NeedsTeam));

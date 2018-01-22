@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import {connect} from 'react-redux';
-
 import {Preferences} from 'mattermost-redux/constants';
 import {getTheme, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';

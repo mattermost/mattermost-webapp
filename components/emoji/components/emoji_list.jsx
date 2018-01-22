@@ -4,14 +4,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 import * as EmojiActions from 'actions/emoji_actions.jsx';
 import EmojiStore from 'stores/emoji_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import * as Utils from 'utils/utils.jsx';
-
 import LoadingScreen from 'components/loading_screen.jsx';
 
 import EmojiListItem from './emoji_list_item.jsx';

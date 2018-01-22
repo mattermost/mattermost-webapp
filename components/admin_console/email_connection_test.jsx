@@ -6,7 +6,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {testEmail} from 'actions/admin_actions.jsx';
-
 import * as Utils from 'utils/utils.jsx';
 
 export default class EmailConnectionTestButton extends React.Component {

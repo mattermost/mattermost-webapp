@@ -2,13 +2,11 @@
 // See License.txt for license information.
 
 import React from 'react';
-
 import * as Selectors from 'mattermost-redux/selectors/entities/teams';
 
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import LocalizationStore from 'stores/localization_store.jsx';
 import store from 'stores/redux_store.jsx';
-
 import {ActionTypes} from 'utils/constants.jsx';
 
 import Provider from './provider.jsx';

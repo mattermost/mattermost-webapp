@@ -3,8 +3,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {browserHistory, Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
+import {browserHistory} from 'utils/browser_history';
 import {mark, trackEvent} from 'actions/diagnostics_actions.jsx';
 import {isDesktopApp} from 'utils/user_agent.jsx';
 import CopyUrlContextMenu from 'components/copy_url_context_menu';

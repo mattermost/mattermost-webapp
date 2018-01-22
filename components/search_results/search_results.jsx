@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -11,10 +10,8 @@ import Scrollbars from 'react-custom-scrollbars';
 import SearchResultsHeader from 'components/search_results_header';
 import SearchResultsItem from 'components/search_results_item';
 import FlagIcon from 'components/svg/flag_icon';
-
 import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 

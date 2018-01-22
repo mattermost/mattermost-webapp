@@ -3,12 +3,10 @@
 
 import React from 'react';
 import {Modal} from 'react-bootstrap';
-
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
 import {openModal, closeModal} from 'actions/views/modals';
-
 import {ActionTypes, ModalIdentifiers} from 'utils/constants.jsx';
 
 class TestModal extends React.Component {

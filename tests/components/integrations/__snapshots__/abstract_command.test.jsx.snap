@@ -6,8 +6,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
 >
   <BackstageHeader>
     <Link
-      onlyActiveOnIndex={false}
-      style={Object {}}
+      replace={false}
       to="/test/integrations/commands"
     >
       <FormattedMessage
@@ -439,8 +438,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
         />
         <Link
           className="btn btn-sm"
-          onlyActiveOnIndex={false}
-          style={Object {}}
+          replace={false}
           to="/test/integrations/commands"
         >
           <FormattedMessage
@@ -474,8 +472,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
 >
   <BackstageHeader>
     <Link
-      onlyActiveOnIndex={false}
-      style={Object {}}
+      replace={false}
       to="/test/integrations/commands"
     >
       <FormattedMessage
@@ -911,8 +908,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
         />
         <Link
           className="btn btn-sm"
-          onlyActiveOnIndex={false}
-          style={Object {}}
+          replace={false}
           to="/test/integrations/commands"
         >
           <FormattedMessage

@@ -283,6 +283,25 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
           <div
             className="col"
           >
+            <Link
+              className="post__permalink"
+              replace={false}
+              target="_blank"
+              to="/test/pl/id"
+            >
+              <time
+                className="search-item-time"
+                dateTime="2017-12-14T18:15:28.290Z"
+                title={2017-12-14T18:15:28.290Z}
+              >
+                <FormattedDate
+                  hour="2-digit"
+                  hour12={false}
+                  minute="2-digit"
+                  value={1502715365009}
+                />
+              </time>
+            </Link>
             <PostFlagIcon
               idCount={-1}
               idPrefix="searchPostFlag"

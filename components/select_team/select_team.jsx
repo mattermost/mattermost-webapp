@@ -4,19 +4,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {browserHistory, Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
-
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import logoImage from 'images/logo.png';
-
 import AnnouncementBar from 'components/announcement_bar';
 import BackButton from 'components/common/back_button.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
@@ -66,7 +62,7 @@ export default class SelectTeam extends React.Component {
 
         addUserToTeamFromInvite('', '', team.invite_id,
             () => {
-                browserHistory.push(`/${team.name}/channels/town-square`);
+                this.props.history.push(`/${team.name}/channels/town-square`);
             },
             (error) => {
                 this.setState({

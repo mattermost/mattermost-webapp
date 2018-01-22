@@ -4,18 +4,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router';
+import {Route, Switch} from 'react-router-dom';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
-
 import logoImage from 'images/logo.png';
-
 import BackButton from 'components/common/back_button.jsx';
+import Setup from 'components/mfa/components/setup';
+import Confirm from 'components/mfa/components/confirm';
 
 export default class MFAController extends React.Component {
     componentDidMount() {
         if (window.mm_license.MFA !== 'true' || window.mm_config.EnableMultifactorAuthentication !== 'true') {
-            browserHistory.push('/');
+            this.props.history.push('/');
         }
     }
 
@@ -63,7 +63,28 @@ export default class MFAController extends React.Component {
                                     src={logoImage}
                                 />
                                 <div id='mfa'>
-                                    {React.cloneElement(this.props.children, {})}
+                                    <Switch>
+                                        <Route
+                                            path={`${this.props.match.url}/setup`}
+                                            render={(props) => (
+                                                <Setup
+                                                    state={this.state}
+                                                    updateParent={this.updateParent}
+                                                    {...props}
+                                                />
+                                        )}
+                                        />
+                                        <Route
+                                            path={`${this.props.match.url}/confirm`}
+                                            render={(props) => (
+                                                <Confirm
+                                                    state={this.state}
+                                                    updateParent={this.updateParent}
+                                                    {...props}
+                                                />
+                                        )}
+                                        />
+                                    </Switch>
                                 </div>
                             </div>
                         </div>

@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import React from 'react';
-
 import {Client4} from 'mattermost-redux/client';
 import {Preferences} from 'mattermost-redux/constants';
 import {getChannelsInCurrentTeam, getGroupChannels, getMyChannelMemberships} from 'mattermost-redux/selectors/entities/channels';
@@ -12,10 +11,8 @@ import {getCurrentUserId, searchProfiles, getUserIdsInChannels, getUser} from 'm
 
 import GlobeIcon from 'components/svg/globe_icon';
 import LockIcon from 'components/svg/lock_icon';
-
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import store from 'stores/redux_store.jsx';
-
 import {getChannelDisplayName, sortChannelsByDisplayName} from 'utils/channel_utils.jsx';
 import {ActionTypes, Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';

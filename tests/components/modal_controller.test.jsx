@@ -3,10 +3,8 @@
 
 import React from 'react';
 import {Modal} from 'react-bootstrap';
-
 import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
-
 import {mount} from 'enzyme';
 
 import ModalController from 'components/modal_controller';

@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import * as Actions from 'mattermost-redux/actions/posts';
 import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';

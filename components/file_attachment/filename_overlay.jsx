@@ -4,7 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
-
 import {getFileUrl} from 'mattermost-redux/utils/file_utils';
 
 import AttachmentIcon from 'components/svg/attachment_icon';

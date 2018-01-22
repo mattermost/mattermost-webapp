@@ -5,9 +5,7 @@ import React from 'react';
 import {mount, shallow} from 'enzyme';
 
 import Pluggable from 'plugins/pluggable/pluggable.jsx';
-
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
-
 import ProfilePopover from 'components/profile_popover.jsx';
 
 class ProfilePopoverPlugin extends React.PureComponent {

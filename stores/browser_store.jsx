@@ -1,13 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {browserHistory} from 'react-router';
-
+import {browserHistory} from 'utils/browser_history';
 import * as Selectors from 'selectors/storage';
 import * as Actions from 'actions/storage';
-
 import store from 'stores/redux_store.jsx';
-
 import {ErrorPageTypes, StoragePrefixes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 

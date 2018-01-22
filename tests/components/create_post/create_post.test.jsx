@@ -2,9 +2,7 @@
 // See License.txt for license information.
 
 import React from 'react';
-
 import {shallow} from 'enzyme';
-
 import {Posts} from 'mattermost-redux/constants';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';

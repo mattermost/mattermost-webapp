@@ -9,11 +9,9 @@ import * as Selectors from 'mattermost-redux/selectors/entities/teams';
 import ChannelStore from 'stores/channel_store.jsx';
 import store from 'stores/redux_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import {isFromWebhook, isSystemMessage} from 'utils/post_utils.jsx';
 import {getSiteURL} from 'utils/url.jsx';
-
 import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
 
 const NotificationPrefs = Constants.NotificationPrefs;
@@ -156,10 +154,7 @@ class TeamStoreClass extends EventEmitter {
     }
 
     getCurrentTeamRelativeUrl() {
-        if (this.getCurrent()) {
-            return '/' + this.getCurrent().name;
-        }
-        return '';
+        return this.getTeamRelativeUrl(this.getCurrentId());
     }
 
     getCurrentInviteLink() {
@@ -170,6 +165,16 @@ class TeamStoreClass extends EventEmitter {
         }
 
         return '';
+    }
+
+    getTeamRelativeUrl(id) {
+        const team = this.get(id);
+
+        if (!team) {
+            return '';
+        }
+
+        return '/' + team.name;
     }
 
     getTeamUrl(id) {

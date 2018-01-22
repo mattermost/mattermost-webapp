@@ -7,7 +7,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {NotificationLevels} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 
