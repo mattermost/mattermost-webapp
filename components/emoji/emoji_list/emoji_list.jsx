@@ -47,12 +47,18 @@ export default class EmojiList extends React.Component {
             loading: true,
             page: 0,
             nextLoading: false,
-            searchEmojis: null
+            searchEmojis: null,
+            missingPages: true
         };
     }
 
     componentDidMount() {
-        this.props.actions.getCustomEmojis(0, EMOJI_PER_PAGE, Emoji.SORT_BY_NAME, true).then(() => this.setState({loading: false}));
+        this.props.actions.getCustomEmojis(0, EMOJI_PER_PAGE + 1, Emoji.SORT_BY_NAME, true).then(({data}) => {
+            this.setState({loading: false})
+            if (data && data.length < EMOJI_PER_PAGE) {
+                this.setState({missingPages: false})
+            }
+        });
     }
 
     nextPage = (e) => {
@@ -61,8 +67,13 @@ export default class EmojiList extends React.Component {
         }
 
         const next = this.state.page + 1;
-        this.setState({page: next, nextLoading: true});
-        this.props.actions.getCustomEmojis(next, EMOJI_PER_PAGE, Emoji.SORT_BY_NAME, true).then(() => this.setState({nextLoading: false}));
+        this.setState({nextLoading: true});
+        this.props.actions.getCustomEmojis(next, EMOJI_PER_PAGE, Emoji.SORT_BY_NAME, true).then(({data}) => {
+            this.setState({page: next, nextLoading: false})
+            if (data && data.length < EMOJI_PER_PAGE) {
+                this.setState({missingPages: false})
+            }
+        });
     }
 
     previousPage = (e) => {
@@ -70,7 +81,7 @@ export default class EmojiList extends React.Component {
             e.preventDefault();
         }
 
-        this.setState({page: this.state.page - 1, nextDisabled: false});
+        this.setState({page: this.state.page - 1, nextLoading: false});
     }
 
     onSearchChange = (e) => {
@@ -161,6 +172,7 @@ export default class EmojiList extends React.Component {
             const pageStart = this.state.page * EMOJI_PER_PAGE;
             const pageEnd = pageStart + EMOJI_PER_PAGE;
             const emojisToDisplay = this.props.emojiIds.slice(pageStart, pageEnd);
+            console.log(this.props.emojiIds.length);
 
             emojisToDisplay.forEach((emojiId) => {
                 emojis.push(
@@ -171,7 +183,7 @@ export default class EmojiList extends React.Component {
                 );
             });
 
-            if (pageEnd < this.props.emojiIds.length) {
+            if (this.state.missingPages) {
                 nextButton = (
                     <SaveButton
                         extraClasses='pull-right'
