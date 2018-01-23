@@ -129,7 +129,7 @@ export default class EditPostModal extends React.PureComponent {
             return;
         }
 
-        if (updatedPost.message === editingPost.post.message) {
+        if (updatedPost.message === (editingPost.post.message_source || editingPost.post.message)) {
             // no changes so just close the modal
             this.handleHide();
             return;
@@ -183,7 +183,7 @@ export default class EditPostModal extends React.PureComponent {
 
     handleEnter = () => {
         this.setState({
-            editText: this.props.editingPost.post.message
+            editText: this.props.editingPost.post.message_source || this.props.editingPost.post.message
         });
     }
 
