@@ -33,14 +33,6 @@ import {Preferences, StoragePrefixes} from 'utils/constants.jsx';
 
 import CreatePost from './create_post.jsx';
 
-function makeOnSubmitPost() {
-    return (post, fileInfos) => () => {
-        emitUserPostedEvent(post);
-        createPost(post, fileInfos);
-        postListScrollChange(true);
-    };
-}
-
 function mapStateToProps() {
     return (state, ownProps) => {
         const currentChannel = getCurrentChannel(state) || {};
@@ -73,11 +65,19 @@ function mapStateToProps() {
     };
 }
 
+function onSubmitPost(post, fileInfos) {
+    return () => {
+        emitUserPostedEvent(post);
+        createPost(post, fileInfos);
+        postListScrollChange(true);
+    };
+}
+
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             addMessageIntoHistory,
-            onSubmitPost: makeOnSubmitPost(),
+            onSubmitPost,
             moveHistoryIndexBack,
             moveHistoryIndexForward,
             addReaction,
