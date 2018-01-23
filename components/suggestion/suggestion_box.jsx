@@ -8,6 +8,7 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import QuickInput from 'components/quick_input.jsx';
 import SuggestionStore from 'stores/suggestion_store.jsx';
 import Constants from 'utils/constants.jsx';
+import * as Utils from 'utils/utils.jsx';
 
 const KeyCodes = Constants.KeyCodes;
 
