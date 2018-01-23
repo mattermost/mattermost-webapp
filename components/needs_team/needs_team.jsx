@@ -214,6 +214,18 @@ export default class NeedsTeam extends React.Component {
         }
     }
 
+    toLastChannel = () => {
+        let channelName = Constants.DEFAULT_CHANNEL;
+        const team = TeamStore.getByName(this.props.match.params.team);
+        const channelId = BrowserStore.getGlobalItem(team.id);
+        const channel = ChannelStore.getChannelById(channelId);
+
+        if (channel) {
+            channelName = channel.name;
+        }
+        return `${this.props.match.url}/channels/${channelName}`;
+    }
+
     render() {
         if (this.state.team === null || this.state.finishedFetchingChannels === false) {
             return <div/>;
@@ -266,7 +278,7 @@ export default class NeedsTeam extends React.Component {
                                                 path={'/:team/messages/:identifier'}
                                                 component={MessageIdentifierRouter}
                                             />
-                                            <Redirect to={`${this.props.match.url}/channels/town-square`}/>
+                                            <Redirect to={this.toLastChannel()}/>
                                         </Switch>
                                     </div>
                                 </div>
