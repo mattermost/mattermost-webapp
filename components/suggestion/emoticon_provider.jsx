@@ -78,7 +78,9 @@ export default class EmoticonProvider {
             }
         }
 
-        autocompleteCustomEmojis(partialName)(store.dispatch, store.getState).then(() => this.findAndSuggestEmojis(suggestionId, text, partialName));
+        if (store.getState().entities.general.config.EnableCustomEmoji === 'true') {
+            autocompleteCustomEmojis(partialName)(store.dispatch, store.getState).then(() => this.findAndSuggestEmojis(suggestionId, text, partialName));
+        }
 
         this.findAndSuggestEmojis(suggestionId, text, partialName);
 
