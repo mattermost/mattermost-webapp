@@ -102,7 +102,7 @@ export function rolesFromMapping(mappingValues, roles) {
     // Purge roles that aren't present in MAPPING, we don't care about them.
     purgeNonPertinentRoles(rolesClone);
 
-    Object.entries(MAPPING).forEach(([mappingKey]) => {
+    Object.keys(MAPPING).forEach((mappingKey) => {
         const value = mappingValues[mappingKey];
         if (value) {
             mutateRolesBasedOnMapping(mappingKey, value, rolesClone);
@@ -142,7 +142,7 @@ export function mappingValueFromRoles(key, roles) {
 function purgeNonPertinentRoles(roles) {
     const pertinentRoleNames = roleNamesInMapping();
 
-    Object.entries(roles).forEach(([key]) => {
+    Object.keys(roles).forEach((key) => {
         if (!pertinentRoleNames.includes(key)) {
             delete roles[key];
         }
