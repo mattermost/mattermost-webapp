@@ -70,35 +70,35 @@
     width: 100%;
 
     &.audio {
-        @include file-icon('../images/icons/audio.png');
+        @include file-icon('../images/icons/audio.svg');
     }
 
     &.video {
-        @include file-icon('../images/icons/video.png');
+        @include file-icon('../images/icons/video.svg');
     }
 
     &.ppt {
-        @include file-icon('../images/icons/ppt.png');
+        @include file-icon('../images/icons/ppt.svg');
     }
 
     &.generic {
-        @include file-icon('../images/icons/generic.png');
+        @include file-icon('../images/icons/generic.svg');
     }
 
     &.code {
-        @include file-icon('../images/icons/code.png');
+        @include file-icon('../images/icons/code.svg');
     }
 
     &.excel {
-        @include file-icon('../images/icons/excel.png');
+        @include file-icon('../images/icons/excel.svg');
     }
 
     &.word {
-        @include file-icon('../images/icons/word.png');
+        @include file-icon('../images/icons/word.svg');
     }
 
     &.pdf {
-        @include file-icon('../images/icons/pdf.png');
+        @include file-icon('../images/icons/pdf.svg');
     }
 
     &.patch {
@@ -106,7 +106,7 @@
     }
 
     &.image {
-        @include file-icon('../images/icons/image.png');
+        @include file-icon('../images/icons/image.svg');
     }
 }
 
@@ -135,24 +135,101 @@
     }
 }
 
+.file-view--single {
+    margin: 5px 0;
+
+    &.loading {
+        height: 400px;
+    }
+
+    .file__image-loading {
+        min-height: 100px;
+    }
+
+    .file__image {
+        display: inline-block;
+        position: relative;
+
+        &:hover {
+            .file__download {
+                @include opacity(1);
+            }
+        }
+
+        img {
+            @include border-radius(4px);
+            min-height: 75px;
+            min-width: 75px;
+        }
+    }
+
+    .file-details__name {
+        display: block;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .file-details__name:hover {
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+    .file-details__extension {
+        display: block;
+        font-size: 12px;
+        margin-bottom: 5px;
+    }
+
+    .file__download {
+        @include single-transition(all, .25s);
+        @include border-radius(50%);
+        @include opacity(0);
+        background: rgba($black, .5);
+        bottom: 20px;
+        height: 40px;
+        position: absolute;
+        right: 20px;
+        width: 40px;
+    }
+}
+
+.post-image__columns {
+    display: flex;
+    flex-flow: wrap;
+}
+
 .post-image__column {
-    border: 1px solid alpha-color($black, .2);
-    float: left;
+    @include border-radius(4px);
+    @include single-transition(all, .1s, linear);
+    align-items: center;
+    border: 1px solid alpha-color($black, .1);
+    display: flex;
     height: 100px;
     margin: 5px 10px 5px 0;
+    max-width: 100%;
+    overflow: hidden;
     position: relative;
-    width: 240px;
+    width: 320px;
+
+    .post__content & {
+        cursor: pointer;
+
+        &:hover {
+            @include box-shadow(0 2px 5px 0 rgba($black, 0.1), 0 2px 10px 0 rgba($black, 0.1));
+        }
+    }
 
     &--placeholder {
         visibility: hidden;
     }
 
     &.file-preview {
+        float: left;
         margin: 0 10px 0 0;
-        float: none;
         .post-image__details {
             .post-image__name {
                 max-width: 80px;
+                text-decoration: none;
                 white-space: normal;
             }
         }
@@ -168,6 +245,7 @@
 }
 
 .post-image {
+    @include background-size(cover);
     background-color: $white;
     background-repeat: no-repeat;
     height: 100%;
@@ -210,42 +288,76 @@
 
 .post-image__thumbnail {
     @include cursor(zoom-in);
-    float: left;
+    flex: none;
     height: 100%;
-    width: 50%;
+    width: 100px;
 }
 
 .post-image__details {
     @include clearfix;
-    background: $white;
+    align-items: center;
     border-left: 1px solid $light-gray;
     color: alpha-color($black, .8);
-    float: left;
+    display: flex;
     font-size: 13px;
     height: 100%;
-    padding: 7px;
-    width: 50%;
-    word-break: break-word;
+    padding-right: 50px;
+    width: 100%;
 
-    .post-image__name {
-        display: block;
-        margin-bottom: 3px;
+    .post-image__detail_wrapper {
+        padding-left: 15px;
+        width: 100%;
+
+        .post-image__detail {
+            line-height: normal;
+            width: 100%;
+            height: 100%;
+
+            .post-image__name {
+                display: block;
+                font-weight: 600;
+                margin-bottom: 3px;
+                text-decoration: none;
+            }
+
+            .post-image__type {
+                @include opacity(.6);
+            }
+
+            .post-image__size {
+                @include opacity(.6);
+                margin-left: 4px;
+            }
+        }
     }
 
     .post-image__download {
-        @include opacity(.7);
+        align-items: center;
         cursor: pointer;
-        display: inline-block;
-        padding-right: 7px;
-    }
+        display: flex;
+        height: 100%;
+        justify-content: center;
+        line-height: 0;
+        padding-right: 10px;
+        position: absolute;
+        right: 0;
+        text-align: center;
+        top: 0;
+        width: 50px;
 
-    .post-image__type {
-        @include opacity(.6);
-    }
+        svg {
+            @include opacity(.7);
+            @include single-transition(all, .1s, linear);
+            @include border-radius(50%);
+            border: 1px solid;
+            display: inline-block;
+            height: 30px;
+            width: 30px;
 
-    .post-image__size {
-        @include opacity(.6);
-        margin-left: 4px;
+            &:hover {
+                @include opacity(1);
+            }
+        }
     }
 }
 
@@ -277,6 +389,10 @@
         height: 270px;
         vertical-align: center;
         width: 320px;
+
+        img {
+            width: 80px;
+        }
 
         // helper to center the image icon in the preview window
         .file-details__preview-helper {

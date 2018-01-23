@@ -5,15 +5,15 @@
 
 import keyMirror from 'key-mirror';
 
-import audioIcon from 'images/icons/audio.png';
-import codeIcon from 'images/icons/code.png';
-import excelIcon from 'images/icons/excel.png';
-import genericIcon from 'images/icons/generic.png';
+import audioIcon from 'images/icons/audio.svg';
+import codeIcon from 'images/icons/code.svg';
+import excelIcon from 'images/icons/excel.svg';
+import genericIcon from 'images/icons/generic.svg';
 import patchIcon from 'images/icons/patch.png';
-import pdfIcon from 'images/icons/pdf.png';
-import pptIcon from 'images/icons/ppt.png';
-import videoIcon from 'images/icons/video.png';
-import wordIcon from 'images/icons/word.png';
+import pdfIcon from 'images/icons/pdf.svg';
+import pptIcon from 'images/icons/ppt.svg';
+import videoIcon from 'images/icons/video.svg';
+import wordIcon from 'images/icons/word.svg';
 import logoImage from 'images/logo_compact.png';
 import githubIcon from 'images/themes/code_themes/github.png';
 import monokaiIcon from 'images/themes/code_themes/monokai.png';

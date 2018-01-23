@@ -5,7 +5,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Constants from 'utils/constants.jsx';
+import {getFileType} from 'utils/utils';
+
 import FileAttachment from 'components/file_attachment.jsx';
+import SingleImageView from 'components/single_image_view.jsx';
 import ViewImageModal from 'components/view_image.jsx';
 
 export default class FileAttachmentList extends React.Component {
@@ -63,25 +66,39 @@ export default class FileAttachmentList extends React.Component {
     }
 
     render() {
+        const {fileInfos, fileCount, compactDisplay} = this.props;
         const postFiles = [];
-        let fileInfos = [];
-        if (this.props.fileInfos && this.props.fileInfos.length > 0) {
-            fileInfos = this.props.fileInfos.sort((a, b) => a.create_at - b.create_at);
-            for (let i = 0; i < Math.min(fileInfos.length, Constants.MAX_DISPLAY_FILES); i++) {
-                const fileInfo = fileInfos[i];
+        let sortedFileInfos = [];
+
+        if (fileInfos && fileInfos.length === 1 && compactDisplay === false) {
+            const fileType = getFileType(fileInfos[0].extension);
+
+            if (fileType === 'image' || fileType === 'svg') {
+                return (
+                    <SingleImageView
+                        fileInfo={fileInfos[0]}
+                    />
+                );
+            }
+        }
+
+        if (fileInfos && fileInfos.length > 0) {
+            sortedFileInfos = fileInfos.sort((a, b) => a.create_at - b.create_at);
+            for (let i = 0; i < Math.min(sortedFileInfos.length, Constants.MAX_DISPLAY_FILES); i++) {
+                const fileInfo = sortedFileInfos[i];
 
                 postFiles.push(
                     <FileAttachment
                         key={fileInfo.id}
-                        fileInfo={fileInfos[i]}
+                        fileInfo={sortedFileInfos[i]}
                         index={i}
                         handleImageClick={this.handleImageClick}
-                        compactDisplay={this.props.compactDisplay}
+                        compactDisplay={compactDisplay}
                     />
                 );
             }
-        } else if (this.props.fileCount > 0) {
-            for (let i = 0; i < Math.min(this.props.fileCount, Constants.MAX_DISPLAY_FILES); i++) {
+        } else if (fileCount > 0) {
+            for (let i = 0; i < Math.min(fileCount, Constants.MAX_DISPLAY_FILES); i++) {
                 // Add a placeholder to avoid pop-in once we get the file infos for this post
                 postFiles.push(
                     <div
@@ -101,7 +118,7 @@ export default class FileAttachmentList extends React.Component {
                     show={this.state.showPreviewModal}
                     onModalDismissed={this.hidePreviewModal}
                     startIndex={this.state.startImgIndex}
-                    fileInfos={fileInfos}
+                    fileInfos={sortedFileInfos}
                 />
             </div>
         );

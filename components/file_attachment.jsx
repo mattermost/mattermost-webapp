@@ -5,10 +5,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
-import FilenameOverlay from 'components/file_attachment/filename_overlay.jsx';
 import Constants from 'utils/constants.jsx';
 import * as FileUtils from 'utils/file_utils';
 import * as Utils from 'utils/utils.jsx';
+
+import FilenameOverlay from 'components/file_attachment/filename_overlay.jsx';
+import DownloadIcon from 'components/svg/download_icon';
 
 export default class FileAttachment extends React.PureComponent {
     static propTypes = {
@@ -144,7 +146,7 @@ export default class FileAttachment extends React.PureComponent {
                     target='_blank'
                     rel='noopener noreferrer'
                 >
-                    <span className='fa fa-download'/>
+                    <DownloadIcon/>
                 </a>
             );
         }
@@ -159,18 +161,23 @@ export default class FileAttachment extends React.PureComponent {
                     {thumbnail}
                 </a>
                 <div className='post-image__details'>
-                    <FilenameOverlay
-                        fileInfo={this.props.fileInfo}
-                        index={this.props.index}
-                        handleImageClick={this.props.handleImageClick}
-                        compactDisplay={this.props.compactDisplay}
-                        canDownload={canDownloadFiles}
-                    />
-                    <div>
-                        {downloadButton}
-                        <span className='post-image__type'>{fileInfo.extension.toUpperCase()}</span>
-                        <span className='post-image__size'>{Utils.fileSizeToString(fileInfo.size)}</span>
+                    <div
+                        className='post-image__detail_wrapper'
+                        onClick={this.onAttachmentClick}
+                    >
+                        <div className='post-image__detail'>
+                            <FilenameOverlay
+                                fileInfo={this.props.fileInfo}
+                                index={this.props.index}
+                                handleImageClick={this.props.handleImageClick}
+                                compactDisplay={this.props.compactDisplay}
+                                canDownload={canDownloadFiles}
+                            />
+                            <span className='post-image__type'>{fileInfo.extension.toUpperCase()}</span>
+                            <span className='post-image__size'>{Utils.fileSizeToString(fileInfo.size)}</span>
+                        </div>
                     </div>
+                    {downloadButton}
                 </div>
             </div>
         );

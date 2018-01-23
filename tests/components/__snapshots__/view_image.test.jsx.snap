@@ -1065,6 +1065,7 @@ exports[`components/ViewImageModal should match snapshot, loading 1`] = `
           className="modal-image__content"
         >
           <LoadingImagePreview
+            containerClass="view-image__loading"
             loading="Loading"
             progress={0}
           />
@@ -1135,6 +1136,7 @@ exports[`components/ViewImageModal should match snapshot, modal not shown 1`] = 
           className="modal-image__content"
         >
           <LoadingImagePreview
+            containerClass="view-image__loading"
             loading="Loading"
             progress={0}
           />
