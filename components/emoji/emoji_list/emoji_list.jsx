@@ -54,9 +54,9 @@ export default class EmojiList extends React.Component {
 
     componentDidMount() {
         this.props.actions.getCustomEmojis(0, EMOJI_PER_PAGE + 1, Emoji.SORT_BY_NAME, true).then(({data}) => {
-            this.setState({loading: false})
+            this.setState({loading: false});
             if (data && data.length < EMOJI_PER_PAGE) {
-                this.setState({missingPages: false})
+                this.setState({missingPages: false});
             }
         });
     }
@@ -69,9 +69,9 @@ export default class EmojiList extends React.Component {
         const next = this.state.page + 1;
         this.setState({nextLoading: true});
         this.props.actions.getCustomEmojis(next, EMOJI_PER_PAGE, Emoji.SORT_BY_NAME, true).then(({data}) => {
-            this.setState({page: next, nextLoading: false})
+            this.setState({page: next, nextLoading: false});
             if (data && data.length < EMOJI_PER_PAGE) {
-                this.setState({missingPages: false})
+                this.setState({missingPages: false});
             }
         });
     }
@@ -172,7 +172,6 @@ export default class EmojiList extends React.Component {
             const pageStart = this.state.page * EMOJI_PER_PAGE;
             const pageEnd = pageStart + EMOJI_PER_PAGE;
             const emojisToDisplay = this.props.emojiIds.slice(pageStart, pageEnd);
-            console.log(this.props.emojiIds.length);
 
             emojisToDisplay.forEach((emojiId) => {
                 emojis.push(
