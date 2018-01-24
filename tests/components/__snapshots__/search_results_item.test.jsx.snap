@@ -75,18 +75,12 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
           <div
             className="col"
           >
-            <time
-              className="search-item-time"
-              dateTime="2017-12-14T18:15:28.290Z"
-              title={2017-12-14T18:15:28.290Z}
-            >
-              <FormattedDate
-                hour="2-digit"
-                hour12={false}
-                minute="2-digit"
-                value={1502715365009}
-              />
-            </time>
+            <PostTime
+              eventTime={1502715365009}
+              isPermalink={true}
+              postId="id"
+              useMilitaryTime={true}
+            />
             <span
               className="post__pinned-badge"
             >
@@ -283,25 +277,12 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
           <div
             className="col"
           >
-            <Link
-              className="post__permalink"
-              replace={false}
-              target="_blank"
-              to="/test/pl/id"
-            >
-              <time
-                className="search-item-time"
-                dateTime="2017-12-14T18:15:28.290Z"
-                title={2017-12-14T18:15:28.290Z}
-              >
-                <FormattedDate
-                  hour="2-digit"
-                  hour12={false}
-                  minute="2-digit"
-                  value={1502715365009}
-                />
-              </time>
-            </Link>
+            <PostTime
+              eventTime={1502715365009}
+              isPermalink={true}
+              postId="id"
+              useMilitaryTime={true}
+            />
             <PostFlagIcon
               idCount={-1}
               idPrefix="searchPostFlag"
@@ -494,18 +475,12 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
           <div
             className="col"
           >
-            <time
-              className="search-item-time"
-              dateTime="2017-12-14T18:15:28.290Z"
-              title={2017-12-14T18:15:28.290Z}
-            >
-              <FormattedDate
-                hour="2-digit"
-                hour12={false}
-                minute="2-digit"
-                value={1502715365009}
-              />
-            </time>
+            <PostTime
+              eventTime={1502715365009}
+              isPermalink={true}
+              postId="id"
+              useMilitaryTime={true}
+            />
           </div>
         </div>
         <div

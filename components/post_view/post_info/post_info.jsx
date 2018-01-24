@@ -103,9 +103,6 @@ export default class PostInfo extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.removePost = this.removePost.bind(this);
-        this.reactEmojiClick = this.reactEmojiClick.bind(this);
-
         this.state = {
             showEmojiPicker: false,
             reactionPickerOffset: 21
@@ -124,11 +121,11 @@ export default class PostInfo extends React.PureComponent {
         this.props.handleDropdownOpened(false);
     };
 
-    removePost() {
+    removePost = () => {
         this.props.actions.removePost(this.props.post);
-    }
+    };
 
-    createRemovePostButton() {
+    createRemovePostButton = () => {
         return (
             <button
                 className='post__remove theme color--link style--none'
@@ -138,21 +135,21 @@ export default class PostInfo extends React.PureComponent {
                 {'×'}
             </button>
         );
-    }
+    };
 
-    reactEmojiClick(emoji) {
+    reactEmojiClick = (emoji) => {
         const pickerOffset = 21;
         this.setState({showEmojiPicker: false, reactionPickerOffset: pickerOffset});
         const emojiName = emoji.name || emoji.aliases[0];
         this.props.actions.addReaction(this.props.post.id, emojiName);
         emitEmojiPosted(emojiName);
         this.props.handleDropdownOpened(false);
-    }
+    };
 
     handleDotMenuOpened = (open) => {
         this.setState({showDotMenu: open});
         this.props.handleDropdownOpened(open);
-    }
+    };
 
     getDotMenu = () => {
         return this.refs.dotMenu;
@@ -232,7 +229,7 @@ export default class PostInfo extends React.PureComponent {
                 {comments}
             </div>
         );
-    }
+    };
 
     render() {
         const post = this.props.post;
@@ -297,8 +294,8 @@ export default class PostInfo extends React.PureComponent {
         if (this.props.hover || this.props.showTimeWithoutHover) {
             // timestamp should not be a permalink if the post has been deleted, is ephemeral message, or is pending
             const isPermalink = !(isEphemeral ||
-                Posts.POST_DELETED === this.props.post.state ||
-                ReduxPostUtils.isPostPendingOrFailed(this.props.post));
+                Posts.POST_DELETED === post.state ||
+                ReduxPostUtils.isPostPendingOrFailed(post));
 
             postTime = (
                 <PostTime
