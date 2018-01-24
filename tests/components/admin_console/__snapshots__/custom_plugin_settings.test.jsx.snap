@@ -162,6 +162,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         className="col-sm-12"
       >
         <SaveButton
+          btnClass="btn-primary"
           defaultMessage="Save"
           disabled={true}
           extraClasses=""
@@ -207,6 +208,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         className="col-sm-12"
       >
         <SaveButton
+          btnClass="btn-primary"
           defaultMessage="Save"
           disabled={true}
           extraClasses=""
@@ -382,6 +384,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         className="col-sm-12"
       >
         <SaveButton
+          btnClass="btn-primary"
           defaultMessage="Save"
           disabled={true}
           extraClasses=""

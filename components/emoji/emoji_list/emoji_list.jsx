@@ -13,7 +13,7 @@ import LoadingScreen from 'components/loading_screen.jsx';
 import SaveButton from 'components/save_button.jsx';
 import EmojiListItem from 'components/emoji/emoji_list_item';
 
-const EMOJI_PER_PAGE = 100;
+const EMOJI_PER_PAGE = 50;
 const EMOJI_SEARCH_DELAY_MILLISECONDS = 200;
 
 export default class EmojiList extends React.Component {
@@ -95,7 +95,7 @@ export default class EmojiList extends React.Component {
 
         this.searchTimeout = setTimeout(async () => {
             if (term.trim() === '') {
-                this.setState({searchEmojis: null});
+                this.setState({searchEmojis: null, page: 0});
                 return;
             }
 
@@ -183,15 +183,25 @@ export default class EmojiList extends React.Component {
             });
 
             if (this.state.missingPages) {
+                const buttonContents = (
+                    <span>
+                        <FormattedMessage
+                            id='filtered_user_list.next'
+                            defaultMessage='Next'
+                        />
+                        <i className='fa fa-chevron-right margin-left'/>
+                    </span>
+                );
+
                 nextButton = (
                     <SaveButton
+                        btnClass='btn-link'
                         extraClasses='pull-right'
                         onClick={this.nextPage}
-                        type='nextButton'
                         saving={this.state.nextLoading}
                         disabled={this.state.nextLoading}
-                        defaultMessage={localizeMessage('filtered_user_list.next', 'Next')}
-                        savingMessage={localizeMessage('filtered_user_list.next', 'Next')}
+                        defaultMessage={buttonContents}
+                        savingMessage={buttonContents}
                     />
                 );
             }

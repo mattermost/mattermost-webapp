@@ -35,6 +35,7 @@ exports[`components/login/LoginMfa should match snapshot 1`] = `
       className="form-group"
     >
       <SaveButton
+        btnClass="btn-primary"
         defaultMessage="Submit"
         disabled={false}
         extraClasses=""

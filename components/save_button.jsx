@@ -10,22 +10,22 @@ export default class SaveButton extends React.PureComponent {
     static propTypes = {
         saving: PropTypes.bool.isRequired,
         disabled: PropTypes.bool,
-        type: PropTypes.bool,
-        savingMessage: PropTypes.string,
-        defaultMessage: PropTypes.string,
+        savingMessage: PropTypes.node,
+        defaultMessage: PropTypes.node,
+        btnClass: PropTypes.string,
         extraClasses: PropTypes.string
     }
 
     static defaultProps = {
         disabled: false,
-        type: 'saveButton',
         savingMessage: localizeMessage('save_button.saving', 'Saving'),
         defaultMessage: localizeMessage('save_button.save', 'Save'),
+        btnClass: 'btn-primary',
         extraClasses: ''
     }
 
     render() {
-        const {saving, disabled, savingMessage, defaultMessage, type, extraClasses, ...props} = this.props; // eslint-disable-line no-use-before-define
+        const {saving, disabled, savingMessage, defaultMessage, btnClass, extraClasses, ...props} = this.props; // eslint-disable-line no-use-before-define
 
         let contents;
         if (saving) {
@@ -41,45 +41,11 @@ export default class SaveButton extends React.PureComponent {
 
         let className = 'save-button btn';
         if (!disabled || saving) {
-            className += ' btn-primary';
+            className += ' ' + this.props.btnClass;
         }
 
         if (extraClasses) {
             className += ' ' + extraClasses;
-        }
-
-        if (type === 'previousButton') {
-            className = 'btn btn-link ' + extraClasses;
-
-            return (
-                <button
-                    type='submit'
-                    id='saveSetting'
-                    className={className}
-                    disabled={disabled}
-                    {...props}
-                >
-                    <i className='fa fa-chevron-left margin-right'/>
-                    {contents}
-                </button>
-            );
-        }
-
-        if (type === 'nextButton') {
-            className = 'btn btn-link ' + extraClasses;
-
-            return (
-                <button
-                    type='submit'
-                    id='saveSetting'
-                    className={className}
-                    disabled={disabled}
-                    {...props}
-                >
-                    {contents}
-                    <i className='fa fa-chevron-right margin-left'/>
-                </button>
-            );
         }
 
         return (
