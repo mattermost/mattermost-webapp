@@ -10,6 +10,7 @@ export default class SaveButton extends React.PureComponent {
     static propTypes = {
         saving: PropTypes.bool.isRequired,
         disabled: PropTypes.bool,
+        type: PropTypes.bool,
         savingMessage: PropTypes.string,
         defaultMessage: PropTypes.string,
         extraClasses: PropTypes.string
@@ -17,13 +18,14 @@ export default class SaveButton extends React.PureComponent {
 
     static defaultProps = {
         disabled: false,
+        type: 'saveButton',
         savingMessage: localizeMessage('save_button.saving', 'Saving'),
         defaultMessage: localizeMessage('save_button.save', 'Save'),
         extraClasses: ''
     }
 
     render() {
-        const {saving, disabled, savingMessage, defaultMessage, extraClasses, ...props} = this.props; // eslint-disable-line no-use-before-define
+        const {saving, disabled, savingMessage, defaultMessage, type, extraClasses, ...props} = this.props; // eslint-disable-line no-use-before-define
 
         let contents;
         if (saving) {
@@ -44,6 +46,40 @@ export default class SaveButton extends React.PureComponent {
 
         if (extraClasses) {
             className += ' ' + extraClasses;
+        }
+
+        if (type === 'previousButton') {
+            className = 'btn btn-link ' + extraClasses;
+
+            return (
+                <button
+                    type='submit'
+                    id='saveSetting'
+                    className={className}
+                    disabled={disabled}
+                    {...props}
+                >
+                    <i className='fa fa-chevron-left margin-right'/>
+                    {contents}
+                </button>
+            );
+        }
+
+        if (type === 'nextButton') {
+            className = 'btn btn-link ' + extraClasses;
+
+            return (
+                <button
+                    type='submit'
+                    id='saveSetting'
+                    className={className}
+                    disabled={disabled}
+                    {...props}
+                >
+                    {contents}
+                    <i className='fa fa-chevron-right margin-left'/>
+                </button>
+            );
         }
 
         return (

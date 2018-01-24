@@ -187,6 +187,7 @@ export default class EmojiList extends React.Component {
                     <SaveButton
                         extraClasses='pull-right'
                         onClick={this.nextPage}
+                        type='nextButton'
                         saving={this.state.nextLoading}
                         disabled={this.state.nextLoading}
                         defaultMessage={localizeMessage('filtered_user_list.next', 'Next')}
@@ -198,9 +199,10 @@ export default class EmojiList extends React.Component {
             if (this.state.page > 0) {
                 previousButton = (
                     <button
-                        className='btn btn-primary'
+                        className='btn btn-link'
                         onClick={this.previousPage}
                     >
+                        <i className='fa fa-chevron-left margin-right'/>
                         <FormattedMessage
                             id='filtered_user_list.prev'
                             defaultMessage='Previous'
@@ -273,7 +275,7 @@ export default class EmojiList extends React.Component {
                         </tbody>
                     </table>
                 </div>
-                <div className='filter-controls'>
+                <div className='filter-controls padding-top x2'>
                     {previousButton}
                     {nextButton}
                 </div>
