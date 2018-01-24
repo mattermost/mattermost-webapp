@@ -23,11 +23,11 @@ const getChannelNamesMap = createSelector(
     }
 );
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
         channelNamesMap: getChannelNamesMap(state),
         emojis: getEmojiMap(state),
-        mentionKeys: ownProps.mentionKeys || getCurrentUserMentionKeys(state),
+        mentionKeys: getCurrentUserMentionKeys(state),
         siteURL: getSiteURL(),
         team: getCurrentTeam(state)
     };

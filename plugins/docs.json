@@ -11,11 +11,6 @@
                 "required": true,
                 "desc": "Post to be displayed"
             },
-            "mentionKeys": {
-                "type": { "name": "array" },
-                "required": false,
-                "desc": "Array of strings representing words to be interpreted as mentions for the logged-in user"
-            },
             "compactDisplay": {
                 "type": { "name": "bool" },
                 "required": false,
