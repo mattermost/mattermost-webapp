@@ -22,6 +22,7 @@ import LocalizationStore from 'stores/localization_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import {loadMeAndConfig} from 'actions/user_actions.jsx';
+import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions.jsx';
 import * as I18n from 'i18n/i18n.jsx';
 import {initializePlugins} from 'plugins';
 import Constants, {StoragePrefixes} from 'utils/constants.jsx';
@@ -182,6 +183,8 @@ export default class Root extends React.Component {
         } else {
             I18n.safariFix(afterIntl);
         }
+
+        loadRecentlyUsedCustomEmojis()(store.dispatch, store.getState);
     }
 
     localizationChanged() {

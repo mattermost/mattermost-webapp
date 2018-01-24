@@ -8,11 +8,13 @@ import channel from './channel';
 import rhs from './rhs';
 import posts from './posts';
 import modals from './modals';
+import emoji from './emoji';
 
 export default combineReducers({
     admin,
     channel,
     rhs,
     posts,
-    modals
+    modals,
+    emoji
 });

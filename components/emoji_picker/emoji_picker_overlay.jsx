@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Overlay} from 'react-bootstrap';
 
-import EmojiPicker from './emoji_picker.jsx';
+import EmojiPicker from './';
 
 export default class EmojiPickerOverlay extends React.PureComponent {
     static propTypes = {
