@@ -45,7 +45,7 @@ export default class FilenameOverlay extends React.PureComponent {
 
     render() {
         const fileInfo = this.props.fileInfo;
-        const fileName = fileInfo.name;
+        const fileName = decodeURIComponent(fileInfo.name);
         const fileUrl = getFileUrl(fileInfo.id);
 
         let trimmedFilename;
