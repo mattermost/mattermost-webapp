@@ -189,7 +189,7 @@ export class RenameChannelModal extends React.PureComponent {
 
         this.setState(state);
 
-        if (state.invalid || (oldName === channel.name && oldDisplayName === channel.display_name)) {
+        if (state.invalid) {
             return;
         }
 
