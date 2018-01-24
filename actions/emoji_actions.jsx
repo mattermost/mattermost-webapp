@@ -39,6 +39,10 @@ export async function deleteEmoji(emojiId, success, error) {
 
 export function loadRecentlyUsedCustomEmojis() {
     return async (dispatch, getState) => {
+        if (getState().entities.general.config.EnableCustomEmoji !== 'true') {
+            return {data: true};
+        }
+
         const recentEmojis = EmojiStore.getRecentEmojis();
         const emojiMap = getEmojiMap(getState());
         const missingEmojis = recentEmojis.filter((name) => !emojiMap.has(name));

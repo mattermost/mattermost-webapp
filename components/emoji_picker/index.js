@@ -13,6 +13,7 @@ import EmojiPicker from './emoji_picker.jsx';
 
 function mapStateToProps(state) {
     return {
+        customEmojisEnabled: state.entities.general.config.EnableCustomEmoji === 'true',
         customEmojiPage: state.views.emoji.emojiPickerCustomPage,
         emojiMap: getEmojiMap(state)
     };

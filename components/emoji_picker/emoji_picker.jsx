@@ -111,6 +111,7 @@ export default class EmojiPicker extends React.PureComponent {
         topOffset: PropTypes.number,
         placement: PropTypes.oneOf(['top', 'bottom', 'left']),
         onEmojiClick: PropTypes.func.isRequired,
+        customEmojisEnabled: PropTypes.bool,
         emojiMap: PropTypes.object.isRequired,
         customEmojiPage: PropTypes.number.isRequired,
         actions: PropTypes.shape({
@@ -123,7 +124,8 @@ export default class EmojiPicker extends React.PureComponent {
     static defaultProps = {
         rightOffset: 0,
         topOffset: 0,
-        customEmojiPage: 0
+        customEmojiPage: 0,
+        customEmojisEnabled: false
     };
 
     constructor(props) {
@@ -197,6 +199,10 @@ export default class EmojiPicker extends React.PureComponent {
     }
 
     loadMoreCustomEmojis = async () => {
+        if (!this.props.customEmojisEnabled) {
+            return;
+        }
+
         const {data} = await this.props.actions.getCustomEmojis(this.props.customEmojiPage, EMOJIS_PER_PAGE);
         if (!data) {
             return;
@@ -228,7 +234,7 @@ export default class EmojiPicker extends React.PureComponent {
         e.preventDefault();
         const filter = e.target.value.toLowerCase();
 
-        if (filter && filter.trim() !== '') {
+        if (this.props.customEmojisEnabled && filter && filter.trim() !== '') {
             this.props.actions.searchCustomEmojis(filter);
         }
 
