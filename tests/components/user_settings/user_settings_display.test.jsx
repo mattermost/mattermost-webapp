@@ -17,6 +17,11 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         id: 'user_id',
         username: 'username',
         locale: 'en',
+        timezone: {
+            useAutomaticTimezone: 'true',
+            automaticTimezone: 'America/New_York',
+            manualTimezone: '',
+        },
     };
 
     const requiredProps = {
@@ -31,6 +36,15 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         enableLinkPreviews: true,
         enableThemeSelection: false,
         defaultClientLocale: 'en',
+        timezones: [
+            'America/New_York',
+            'America/Los_Angeles',
+        ],
+        userTimezone: {
+            useAutomaticTimezone: 'true',
+            automaticTimezone: 'America/New_York',
+            manualTimezone: '',
+        },
     };
 
     test('should match snapshot, no active section', () => {
@@ -70,8 +84,13 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+<<<<<<< HEAD
     test('should match snapshot, teammate name display section', () => {
         const props = {...requiredProps, activeSection: 'teammate_name_display'};
+=======
+    test('should match snapshot, timezone section', () => {
+        const props = {...requiredProps, activeSection: 'timezone'};
+>>>>>>> Add timezone support
         const wrapper = shallow(<UserSettingsDisplay {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });

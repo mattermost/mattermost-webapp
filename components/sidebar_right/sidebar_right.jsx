@@ -8,7 +8,6 @@ import classNames from 'classnames';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {postListScrollChange} from 'actions/global_actions.jsx';
 import PostStore from 'stores/post_store.jsx';
-import PreferenceStore from 'stores/preference_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -41,18 +40,15 @@ export default class SidebarRight extends React.Component {
 
         this.state = {
             expanded: false,
-            useMilitaryTime: PreferenceStore.getBool(Constants.Preferences.CATEGORY_DISPLAY_SETTINGS, Constants.Preferences.USE_MILITARY_TIME, false),
         };
     }
 
     componentDidMount() {
         PostStore.addPostPinnedChangeListener(this.onPostPinnedChange);
-        PreferenceStore.addChangeListener(this.onPreferenceChange);
     }
 
     componentWillUnmount() {
         PostStore.removePostPinnedChangeListener(this.onPostPinnedChange);
-        PreferenceStore.removeChangeListener(this.onPreferenceChange);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -78,12 +74,6 @@ export default class SidebarRight extends React.Component {
         if (isOpen && !wasOpen) {
             setTimeout(() => postListScrollChange(), 0);
         }
-    }
-
-    onPreferenceChange = () => {
-        this.setState({
-            useMilitaryTime: PreferenceStore.getBool(Constants.Preferences.CATEGORY_DISPLAY_SETTINGS, Constants.Preferences.USE_MILITARY_TIME, false),
-        });
     }
 
     onPostPinnedChange = () => {
@@ -114,8 +104,6 @@ export default class SidebarRight extends React.Component {
             searchVisible,
         } = this.props;
 
-        const {useMilitaryTime} = this.state;
-
         let content = null;
         let expandedClass = '';
 
@@ -145,7 +133,6 @@ export default class SidebarRight extends React.Component {
                         isMentionSearch={isMentionSearch}
                         isFlaggedPosts={isFlaggedPosts}
                         isPinnedPosts={isPinnedPosts}
-                        useMilitaryTime={useMilitaryTime}
                         toggleSize={this.toggleSize}
                         shrink={this.onShrink}
                         channelDisplayName={channelDisplayName}
@@ -161,7 +148,6 @@ export default class SidebarRight extends React.Component {
                         previousRhsState={previousRhsState}
                         isWebrtc={WebrtcStore.isBusy()}
                         currentUser={currentUser}
-                        useMilitaryTime={useMilitaryTime}
                         toggleSize={this.toggleSize}
                         shrink={this.onShrink}
                     />

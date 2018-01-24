@@ -49,7 +49,6 @@ export default class SearchResults extends React.PureComponent {
         isSearchingFlaggedPost: PropTypes.bool,
         isSearchingPinnedPost: PropTypes.bool,
         compactDisplay: PropTypes.bool,
-        useMilitaryTime: PropTypes.bool.isRequired,
         toggleSize: PropTypes.func,
         shrink: PropTypes.func,
         isMentionSearch: PropTypes.bool,
@@ -361,7 +360,6 @@ export default class SearchResults extends React.PureComponent {
                         user={profile}
                         term={searchTerms}
                         isMentionSearch={this.props.isMentionSearch}
-                        useMilitaryTime={this.props.useMilitaryTime}
                         shrink={this.props.shrink}
                         isFlagged={isFlagged}
                         isBusy={this.state.isBusy}

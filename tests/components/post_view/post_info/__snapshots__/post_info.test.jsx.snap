@@ -162,7 +162,6 @@ exports[`components/post_view/PostInfo should match snapshot, hover 1`] = `
       eventTime={1502715365009}
       isPermalink={true}
       postId="e584uzbwwpny9kengqayx5ayzw"
-      useMilitaryTime={false}
     />
     <PostFlagIcon
       idCount={-1}
@@ -263,7 +262,6 @@ exports[`components/post_view/PostInfo should match snapshot, showTimeWithoutHov
       eventTime={1502715365009}
       isPermalink={true}
       postId="e584uzbwwpny9kengqayx5ayzw"
-      useMilitaryTime={false}
     />
   </div>
   <div

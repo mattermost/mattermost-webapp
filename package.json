@@ -28,6 +28,7 @@
     "localforage-observable": "1.4.0",
     "marked": "mattermost/marked#802e981ade71149a497cbe79d12b8a3f82f7657e",
     "mattermost-redux": "mattermost/mattermost-redux",
+    "moment-timezone": "0.5.14",
     "pdfjs-dist": "2.0.290",
     "perfect-scrollbar": "0.8.1",
     "prop-types": "15.6.0",
