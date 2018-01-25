@@ -1015,7 +1015,6 @@ export default class ChannelHeader extends React.Component {
                             className='channel-header__info'
                         >
                             {toggleFavorite}
-                            {muteTrigger}
                             <div
                                 id='channelHeaderTitle'
                                 className='channel-header__title dropdown'
@@ -1048,8 +1047,9 @@ export default class ChannelHeader extends React.Component {
                                         {dropdownContents}
                                     </ul>
                                 </h2>
+                                {muteTrigger}
+                                {headerTextContainer}
                             </div>
-                            {headerTextContainer}
                         </div>
                     </div>
                     <div className='flex-child'>
