@@ -137,7 +137,6 @@ export default class UserAutocompleteSetting extends React.Component {
                         listStyle='bottom'
                         providers={this.userSuggestionProviders}
                         disabled={this.props.disabled}
-                        type='input'
                         requiredCharacters={0}
                         openOnFocus={true}
                     />
