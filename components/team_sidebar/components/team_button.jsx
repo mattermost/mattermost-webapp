@@ -4,13 +4,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {mark, trackEvent} from 'actions/diagnostics_actions.jsx';
 import {switchTeams} from 'actions/team_actions.jsx';
-
 import Constants from 'utils/constants.jsx';
 import {isDesktopApp} from 'utils/user_agent.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
+import CopyUrlContextMenu from 'components/copy_url_context_menu';
 
 export default class TeamButton extends React.Component {
     constructor(props) {
@@ -22,6 +23,7 @@ export default class TeamButton extends React.Component {
 
     handleSwitch(e) {
         e.preventDefault();
+        mark('TeamLink#click');
         trackEvent('ui', 'ui_team_sidebar_switch_team');
         switchTeams(this.props.url);
     }
@@ -51,7 +53,7 @@ export default class TeamButton extends React.Component {
         let initials = this.props.displayName;
         let content = this.props.content;
         if (!content) {
-            initials = initials.replace(/\s/g, '').substring(0, 2);
+            initials = initials ? initials.replace(/\s/g, '').substring(0, 2) : '??';
 
             content = (
                 <div className='team-btn__initials'>
@@ -70,6 +72,7 @@ export default class TeamButton extends React.Component {
                 </div>
             );
         } else {
+            const toolTip = this.props.tip || localizeMessage('team.button.name_undefined', 'Name undefined');
             btn = (
                 <OverlayTrigger
                     trigger={['hover', 'focus']}
@@ -77,7 +80,7 @@ export default class TeamButton extends React.Component {
                     placement={this.props.placement}
                     overlay={
                         <Tooltip id={`tooltip-${this.props.url}`}>
-                            {this.props.tip}
+                            {toolTip}
                         </Tooltip>
                     }
                 >
@@ -99,6 +102,18 @@ export default class TeamButton extends React.Component {
                     {btn}
                 </button>
             );
+
+            // if this is not a "special" team button, give it a context menu
+            if (!this.props.url.endsWith('create_team') && !this.props.url.endsWith('select_team')) {
+                teamButton = (
+                    <CopyUrlContextMenu
+                        link={this.props.url}
+                        menuId={this.props.url}
+                    >
+                        {teamButton}
+                    </CopyUrlContextMenu>
+                );
+            }
         } else {
             teamButton = (
                 <Link

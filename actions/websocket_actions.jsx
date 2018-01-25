@@ -2,18 +2,17 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
-import {browserHistory} from 'react-router';
 import {batchActions} from 'redux-batched-actions';
-
 import {ChannelTypes, EmojiTypes, PostTypes, TeamTypes, UserTypes} from 'mattermost-redux/action_types';
 import {getChannelAndMyMember, getChannelStats, viewChannel} from 'mattermost-redux/actions/channels';
 import {setServerVersion} from 'mattermost-redux/actions/general';
 import {getPosts, getProfilesAndStatusesForPosts} from 'mattermost-redux/actions/posts';
 import * as TeamActions from 'mattermost-redux/actions/teams';
+import {getMe} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
+import {browserHistory} from 'utils/browser_history';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {handleNewPost} from 'actions/post_actions.jsx';
@@ -27,10 +26,8 @@ import PreferenceStore from 'stores/preference_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
-
 import {ActionTypes, Constants, ErrorBarTypes, Preferences, SocketEvents, UserStatuses} from 'utils/constants.jsx';
 import {getSiteURL} from 'utils/url.jsx';
 
@@ -90,11 +87,16 @@ export function reconnect(includeWebSocket = true) {
     }
 
     loadPluginsIfNecessary();
-    loadChannelsForCurrentUser();
-    getPosts(ChannelStore.getCurrentId())(dispatch, getState);
-    StatusActions.loadStatusesForChannelAndSidebar();
-    TeamActions.getMyTeamUnreads()(dispatch, getState);
 
+    const currentTeamId = getState().entities.teams.currentTeamId;
+    if (currentTeamId) {
+        loadChannelsForCurrentUser();
+        getPosts(ChannelStore.getCurrentId())(dispatch, getState);
+        StatusActions.loadStatusesForChannelAndSidebar();
+        TeamActions.getMyTeamUnreads()(dispatch, getState);
+    }
+
+    ErrorStore.setConnectionErrorCount(0);
     ErrorStore.clearLastError();
     ErrorStore.emitChange();
 }
@@ -386,7 +388,7 @@ function handleUserRemovedEvent(msg) {
 
         GlobalActions.emitCloseRightHandSide();
 
-        const townsquare = ChannelStore.getByName('town-square');
+        const townsquare = ChannelStore.getByName(Constants.DEFAULT_CHANNEL);
         browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + townsquare.name);
 
         dispatch({
@@ -408,13 +410,11 @@ function handleUserUpdatedEvent(msg) {
     const user = msg.data.user;
 
     if (currentUser.id === user.id) {
-        dispatch({
-            type: UserTypes.RECEIVED_ME,
-            data: {
-                ...currentUser,
-                last_picture_update: user.last_picture_update
-            }
-        });
+        if (user.update_at > currentUser.update_at) {
+            // Need to request me to make sure we don't override with sanitized fields from the
+            // websocket event
+            getMe()(dispatch, getState);
+        }
     } else {
         UserStore.saveProfile(user);
     }

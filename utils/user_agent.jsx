@@ -79,6 +79,10 @@ export function isAndroidWeb() {
     return isAndroidChrome();
 }
 
+export function isIosClassic() {
+    return isMobileApp() && isIos();
+}
+
 // Returns true if and only if the user is using a Mattermost mobile app. This will return false if the user is using the
 // web browser on a mobile device.
 export function isMobileApp() {

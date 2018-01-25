@@ -12,7 +12,6 @@ import ChannelStore from 'stores/channel_store.jsx';
 import ModalStore from 'stores/modal_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as utils from 'utils/utils.jsx';
 
@@ -243,6 +242,10 @@ class InviteMemberModal extends React.Component {
         }
     }
 
+    hideConfirmModal = () => {
+        this.setState({showConfirmModal: false});
+    }
+
     render() {
         var currentUser = UserStore.getCurrentUser();
         const {formatMessage} = this.props.intl;
@@ -343,6 +346,7 @@ class InviteMemberModal extends React.Component {
                                 maxLength='64'
                                 disabled={!this.state.emailEnabled || !this.state.userCreationEnabled}
                                 spellCheck='false'
+                                autoFocus={true}
                             />
                             {emailError}
                         </div>
@@ -522,7 +526,7 @@ class InviteMemberModal extends React.Component {
                         confirmButtonText={formatMessage(holders.modalButton)}
                         show={this.state.showConfirmModal}
                         onConfirm={this.handleHide.bind(this, false)}
-                        onCancel={() => this.setState({showConfirmModal: false})}
+                        onCancel={this.hideConfirmModal}
                     />
                 </div>
             );

@@ -3,10 +3,14 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {Route, Switch} from 'react-router-dom';
 
 import logoImage from 'images/logo.png';
-
 import BackButton from 'components/common/back_button.jsx';
+import OauthToEmail from 'components/claim/components/oauth_to_email';
+import EmailToOauth from 'components/claim/components/email_to_oauth';
+import LdapToEmail from 'components/claim/components/ldap_to_email';
+import EmailToLdap from 'components/claim/components/email_to_ldap';
 
 export default class ClaimController extends React.Component {
     constructor(props) {
@@ -16,9 +20,9 @@ export default class ClaimController extends React.Component {
     }
     componentWillMount() {
         this.setState({
-            email: this.props.location.query.email,
-            newType: this.props.location.query.new_type,
-            oldType: this.props.location.query.old_type
+            email: (new URLSearchParams(this.props.location.search)).get('email'),
+            newType: (new URLSearchParams(this.props.location.search)).get('new_type'),
+            oldType: (new URLSearchParams(this.props.location.search)).get('old_type')
         });
     }
     render() {
@@ -32,11 +36,44 @@ export default class ClaimController extends React.Component {
                             src={logoImage}
                         />
                         <div id='claim'>
-                            {React.cloneElement(this.props.children, {
-                                currentType: this.state.oldType,
-                                newType: this.state.newType,
-                                email: this.state.email
-                            })}
+                            <Switch>
+                                <Route
+                                    path={`${this.props.match.url}/oauth_to_email`}
+                                    render={(props) => (
+                                        <OauthToEmail
+                                            {...this.state}
+                                            {...props}
+                                        />
+                                )}
+                                />
+                                <Route
+                                    path={`${this.props.match.url}/email_to_oath`}
+                                    render={(props) => (
+                                        <EmailToOauth
+                                            {...this.state}
+                                            {...props}
+                                        />
+                                )}
+                                />
+                                <Route
+                                    path={`${this.props.match.url}/ldap_to_email`}
+                                    render={(props) => (
+                                        <LdapToEmail
+                                            {...this.state}
+                                            {...props}
+                                        />
+                                )}
+                                />
+                                <Route
+                                    path={`${this.props.match.url}/email_to_ldap`}
+                                    render={(props) => (
+                                        <EmailToLdap
+                                            {...this.state}
+                                            {...props}
+                                        />
+                                )}
+                                />
+                            </Switch>
                         </div>
                     </div>
                 </div>

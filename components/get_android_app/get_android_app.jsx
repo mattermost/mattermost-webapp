@@ -3,10 +3,9 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 import {useSafeUrl} from 'utils/url';
-
 import MattermostIcon from 'images/favicon/android-chrome-192x192.png';
 import Nexus6Mockup from 'images/nexus-6p-mockup.png';
 

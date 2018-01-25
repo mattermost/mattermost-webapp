@@ -5,9 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {savePreferences} from 'actions/user_actions.jsx';
-
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-
 import UserSettingsDisplay from 'components/user_settings/user_settings_display.jsx';
 
 jest.mock('actions/user_actions.jsx', () => ({

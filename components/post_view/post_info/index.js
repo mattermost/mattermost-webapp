@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {addReaction, removePost} from 'mattermost-redux/actions/posts';
 import {get, getBool} from 'mattermost-redux/selectors/entities/preferences';
 
@@ -15,7 +14,8 @@ function mapStateToProps(state, ownProps) {
     return {
         ...ownProps,
         useMilitaryTime: getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, false),
-        isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, ownProps.post.id, null) != null
+        isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, ownProps.post.id, null) != null,
+        isMobile: state.views.channel.mobileView
     };
 }
 

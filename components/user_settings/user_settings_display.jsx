@@ -8,14 +8,11 @@ import {FormattedMessage} from 'react-intl';
 import {savePreferences} from 'actions/user_actions.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import * as I18n from 'i18n/i18n.jsx';
-
-import SettingItemMax from '../setting_item_max.jsx';
-import SettingItemMin from '../setting_item_min.jsx';
+import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMin from 'components/setting_item_min.jsx';
 
 import ManageLanguages from './manage_languages.jsx';
 import ThemeSetting from './user_settings_theme.jsx';
@@ -84,7 +81,14 @@ export default class UserSettingsDisplay extends React.Component {
 
         this.setState({isSaving: true});
 
-        savePreferences([timePreference, channelDisplayModePreference, messageDisplayPreference, collapseDisplayPreference, linkPreviewDisplayPreference],
+        savePreferences(
+            [
+                timePreference,
+                channelDisplayModePreference,
+                messageDisplayPreference,
+                collapseDisplayPreference,
+                linkPreviewDisplayPreference
+            ],
             () => {
                 this.updateSection('');
             }
@@ -202,11 +206,6 @@ export default class UserSettingsDisplay extends React.Component {
                 format[1] = true;
             }
 
-            const handleUpdateSection = (e) => {
-                this.updateSection('');
-                e.preventDefault();
-            };
-
             const name = section + 'Format';
             const key = section + 'UserDisplay';
 
@@ -263,7 +262,7 @@ export default class UserSettingsDisplay extends React.Component {
                         submit={this.handleSubmit}
                         saving={this.state.isSaving}
                         server_error={this.state.serverError}
-                        updateSection={handleUpdateSection}
+                        updateSection={this.updateSection}
                     />
                     <div className='divider-dark'/>
                 </div>
@@ -277,16 +276,13 @@ export default class UserSettingsDisplay extends React.Component {
             describe = secondMessage;
         }
 
-        const handleUpdateSection = () => {
-            this.props.updateSection(section);
-        };
-
         return (
             <div>
                 <SettingItemMin
                     title={messageTitle}
                     describe={describe}
-                    updateSection={handleUpdateSection}
+                    section={section}
+                    updateSection={this.updateSection}
                 />
                 <div className='divider-dark'/>
             </div>
@@ -459,10 +455,7 @@ export default class UserSettingsDisplay extends React.Component {
                     <ManageLanguages
                         user={this.props.user}
                         locale={userLocale}
-                        updateSection={(e) => {
-                            this.updateSection('');
-                            e.preventDefault();
-                        }}
+                        updateSection={this.updateSection}
                     />
                     <div className='divider-dark'/>
                 </div>
@@ -486,9 +479,8 @@ export default class UserSettingsDisplay extends React.Component {
                         }
                         width='medium'
                         describe={locale}
-                        updateSection={() => {
-                            this.updateSection('languages');
-                        }}
+                        section={'languages'}
+                        updateSection={this.updateSection}
                     />
                     <div className='divider-dark'/>
                 </div>

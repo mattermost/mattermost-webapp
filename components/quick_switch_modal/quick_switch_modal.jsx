@@ -5,17 +5,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router';
-
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 
+import {browserHistory} from 'utils/browser_history';
 import {goToChannel, openDirectChannelToUser} from 'actions/channel_actions.jsx';
 import store from 'stores/redux_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
-
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import SwitchChannelProvider from 'components/suggestion/switch_channel_provider.jsx';
@@ -198,6 +195,14 @@ export default class QuickSwitchModal extends React.PureComponent {
         }
     }
 
+    handleOnClick = (e) => {
+        e.preventDefault();
+        const mode = e.currentTarget.getAttribute('data-mode');
+        this.enableChannelProvider();
+        this.setState({mode});
+        this.focusTextbox();
+    }
+
     render() {
         let providers = this.channelProviders;
         let header;
@@ -232,13 +237,9 @@ export default class QuickSwitchModal extends React.PureComponent {
                 <div className='nav nav-tabs'>
                     <li className={channelsActiveClass}>
                         <a
+                            data-mode={'channel'}
                             href='#'
-                            onClick={(e) => {
-                                e.preventDefault();
-                                this.enableChannelProvider();
-                                this.setState({mode: 'channel'});
-                                this.focusTextbox();
-                            }}
+                            onClick={this.handleOnClick}
                         >
                             <FormattedMessage
                                 id='quick_switch_modal.channels'
@@ -254,13 +255,9 @@ export default class QuickSwitchModal extends React.PureComponent {
                     </li>
                     <li className={teamsActiveClass}>
                         <a
+                            data-mode={'team'}
                             href='#'
-                            onClick={(e) => {
-                                e.preventDefault();
-                                this.enableTeamProvider();
-                                this.setState({mode: 'team'});
-                                this.focusTextbox();
-                            }}
+                            onClick={this.handleOnClick}
                         >
                             <FormattedMessage
                                 id='quick_switch_modal.teams'
@@ -319,7 +316,6 @@ export default class QuickSwitchModal extends React.PureComponent {
                     <SuggestionBox
                         ref={this.setSwitchBoxRef}
                         className='form-control focused'
-                        type='input'
                         onChange={this.onChange}
                         value={this.state.text}
                         onKeyDown={this.handleKeyDown}

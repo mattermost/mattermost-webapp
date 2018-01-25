@@ -2,21 +2,17 @@
 // See License.txt for license information.
 
 import {batchActions} from 'redux-batched-actions';
-
 import {SearchTypes} from 'mattermost-redux/action_types';
 import {searchPosts} from 'mattermost-redux/actions/search';
 import * as PostActions from 'mattermost-redux/actions/posts';
-
 import {Client4} from 'mattermost-redux/client';
-
 import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
+import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-
 import {getSearchTerms, getRhsState} from 'selectors/rhs';
-
 import {ActionTypes, RHSStates} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
@@ -48,6 +44,13 @@ export function selectPostFromRightHandSideSearch(post) {
     };
 }
 
+export function selectPostFromRightHandSideSearchByPostId(postId) {
+    return async (dispatch, getState) => {
+        const post = getPost(getState(), postId);
+        return selectPostFromRightHandSideSearch(post)(dispatch, getState);
+    };
+}
+
 export function updateSearchTerms(terms) {
     return {
         type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
@@ -73,8 +76,8 @@ export function showSearchResults() {
     };
 }
 
-function receivedSearchPosts(teamId, result) {
-    return batchActions([
+function getSearchActions(result, teamId) {
+    return [
         {
             type: SearchTypes.RECEIVED_SEARCH_POSTS,
             data: result
@@ -90,7 +93,35 @@ function receivedSearchPosts(teamId, result) {
         {
             type: SearchTypes.SEARCH_POSTS_SUCCESS
         }
-    ], 'SEARCH_POST_BATCH');
+    ];
+}
+
+function getPreRHSSearchActions(searchPostRequest, terms, rhsState, channelId) {
+    const updateRHSState = {
+        type: ActionTypes.UPDATE_RHS_STATE,
+        state: rhsState
+    };
+
+    if (channelId) {
+        updateRHSState.channelId = channelId;
+    }
+
+    return [
+        {
+            type: searchPostRequest
+        },
+        {
+            type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
+            terms
+        },
+        updateRHSState
+    ];
+}
+
+function getPostRHSSearchActions(searchPostSuccess, result, teamId) {
+    const searchActions = getSearchActions(result, teamId);
+
+    return [...searchActions, {type: searchPostSuccess}];
 }
 
 export function getFlaggedPosts() {
@@ -103,76 +134,130 @@ export function getFlaggedPosts() {
 
         await PostActions.getProfilesAndStatusesForPosts(result.posts, dispatch, getState);
 
-        dispatch(receivedSearchPosts(teamId, result));
+        const searchActions = getSearchActions(result, teamId);
+
+        dispatch(batchActions(searchActions));
     };
 }
 
 export function showFlaggedPosts() {
-    return (dispatch) => {
-        dispatch(getFlaggedPosts());
-        dispatch(updateSearchTerms(''));
-        dispatch(updateRhsState(RHSStates.FLAG));
+    return async (dispatch, getState) => {
+        const state = getState();
+        const userId = getCurrentUserId(state);
+        const teamId = getCurrentTeamId(state);
+
+        const preRHSSearchActions = getPreRHSSearchActions(
+            ActionTypes.SEARCH_FLAGGED_POSTS_REQUEST,
+            '',
+            RHSStates.FLAG
+        );
+
+        dispatch(batchActions(preRHSSearchActions));
+
+        let result;
+        try {
+            result = await Client4.getFlaggedPosts(userId, '', teamId);
+        } catch (error) {
+            dispatch({type: ActionTypes.SEARCH_FLAGGED_POSTS_FAILURE, error});
+        }
+
+        await PostActions.getProfilesAndStatusesForPosts(result.posts, dispatch, getState);
+
+        const postRHSSearchActions = getPostRHSSearchActions(
+            ActionTypes.SEARCH_FLAGGED_POSTS_SUCCESS,
+            result,
+            teamId
+        );
+
+        dispatch(batchActions(postRHSSearchActions));
     };
 }
 
 export function getPinnedPosts(channelId) {
     return async (dispatch, getState) => {
         const currentChannelId = getCurrentChannelId(getState());
-
         const result = await Client4.getPinnedPosts(channelId || currentChannelId);
 
         await PostActions.getProfilesAndStatusesForPosts(result.posts, dispatch, getState);
 
         const teamId = getCurrentTeamId(getState());
+        const searchActions = getSearchActions(result, teamId);
 
-        dispatch(receivedSearchPosts(teamId, result));
+        dispatch(batchActions(searchActions));
     };
 }
 
 export function showPinnedPosts(channelId) {
-    return (dispatch) => {
-        dispatch(getPinnedPosts(channelId));
-        dispatch(updateSearchTerms(''));
-        dispatch(updateRhsState(RHSStates.PIN));
+    return async (dispatch, getState) => {
+        const state = getState();
+        const currentChannelId = getCurrentChannelId(state);
+
+        const preRHSSearchActions = getPreRHSSearchActions(
+            ActionTypes.SEARCH_PINNED_POSTS_REQUEST,
+            '',
+            RHSStates.PIN,
+            currentChannelId
+        );
+
+        dispatch(batchActions(preRHSSearchActions));
+
+        let result;
+        try {
+            result = await Client4.getPinnedPosts(channelId || currentChannelId);
+        } catch (error) {
+            dispatch({type: ActionTypes.SEARCH_PINNED_POSTS_FAILURE, error});
+        }
+
+        await PostActions.getProfilesAndStatusesForPosts(result.posts, dispatch, getState);
+
+        const teamId = getCurrentTeamId(state);
+
+        const postRHSSearchActions = getPostRHSSearchActions(
+            ActionTypes.SEARCH_PINNED_POSTS_SUCCESS,
+            result,
+            teamId
+        );
+
+        dispatch(batchActions(postRHSSearchActions));
     };
 }
 
 export function showMentions() {
     return (dispatch, getState) => {
-        const termKeys = [...getCurrentUserMentionKeys(getState())];
+        const termKeys = getCurrentUserMentionKeys(getState()).filter(({key}) => {
+            return key !== '@channel' && key !== '@all' && key !== '@here';
+        });
 
-        const indexOfChannel = termKeys.indexOf('@channel');
-        if (indexOfChannel !== -1) {
-            termKeys.splice(indexOfChannel, 1);
-        }
-
-        const indexOfAll = termKeys.indexOf('@all');
-        if (indexOfAll !== -1) {
-            termKeys.splice(indexOfAll, 1);
-        }
-
-        const indexOfHere = termKeys.indexOf('@here');
-        if (indexOfHere !== -1) {
-            termKeys.splice(indexOfHere, 1);
-        }
-
-        const terms = termKeys.join(' ').trim() + ' ';
+        const terms = termKeys.map(({key}) => key).join(' ').trim() + ' ';
 
         trackEvent('api', 'api_posts_search_mention');
 
-        dispatch(updateSearchTerms(terms));
         dispatch(performSearch(terms, true));
-        dispatch(updateRhsState(RHSStates.MENTION));
+        dispatch(batchActions([
+            {
+                type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
+                terms
+            },
+            {
+                type: ActionTypes.UPDATE_RHS_STATE,
+                state: RHSStates.MENTION
+            }
+        ]));
     };
 }
 
 export function closeRightHandSide() {
     return (dispatch) => {
-        dispatch(updateRhsState(null));
-        dispatch({
-            type: ActionTypes.SELECT_POST,
-            postId: '',
-            channelId: ''
-        });
+        dispatch(batchActions([
+            {
+                type: ActionTypes.UPDATE_RHS_STATE,
+                state: null
+            },
+            {
+                type: ActionTypes.SELECT_POST,
+                postId: '',
+                channelId: ''
+            }
+        ]));
     };
 }

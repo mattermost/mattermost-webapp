@@ -4,13 +4,18 @@
 import React from 'react';
 import {Provider} from 'react-redux';
 import {shallow} from 'enzyme';
-import {browserHistory} from 'react-router';
 
+import {browserHistory} from 'utils/browser_history';
 import store from 'stores/redux_store.jsx';
-
+import {sendAddToChannelEphemeralPost} from 'actions/global_actions.jsx';
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
-
 import PostAddChannelMember from 'components/post_view/post_add_channel_member/post_add_channel_member.jsx';
+
+jest.mock('actions/global_actions.jsx', () => {
+    return {
+        sendAddToChannelEphemeralPost: jest.fn()
+    };
+});
 
 describe('components/post_view/PostAddChannelMember', () => {
     const team = {
@@ -24,6 +29,7 @@ describe('components/post_view/PostAddChannelMember', () => {
     };
 
     const requiredProps = {
+        currentUser: {id: 'current_user_id', username: 'current_username'},
         team,
         channel,
         postId: 'post_id_1',
@@ -83,7 +89,9 @@ describe('components/post_view/PostAddChannelMember', () => {
 
         expect(actions.getPost).toHaveBeenCalledTimes(1);
         expect(actions.addChannelMember).toHaveBeenCalledTimes(1);
-        expect(actions.addChannelMember).toHaveBeenCalledWith(channel.id, requiredProps.userIds[0], post.root_id);
+        expect(actions.addChannelMember).toHaveBeenCalledWith(channel.id, requiredProps.userIds[0]);
+        expect(sendAddToChannelEphemeralPost).toHaveBeenCalledTimes(1);
+        expect(sendAddToChannelEphemeralPost).toHaveBeenCalledWith(props.currentUser, props.usernames[0], channel.id, post.root_id);
         expect(actions.removePost).toHaveBeenCalledTimes(1);
         expect(actions.removePost).toHaveBeenCalledWith(post);
         expect(browserHistory.push).toHaveBeenCalledWith(`/${team.name}/channels/${channel.name}`);

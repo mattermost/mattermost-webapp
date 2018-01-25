@@ -4,10 +4,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import FormError from 'components/form_error.jsx';
@@ -250,13 +249,12 @@ export default class AbstractCommand extends React.PureComponent {
     }
 
     render() {
-        let autocompleteFields = null;
+        let autocompleteHint = null;
+        let autocompleteDescription = null;
+
         if (this.state.autocomplete) {
-            autocompleteFields = [(
-                <div
-                    key='autocompleteHint'
-                    className='form-group'
-                >
+            autocompleteHint = (
+                <div className='form-group'>
                     <label
                         className='control-label col-sm-4'
                         htmlFor='autocompleteHint'
@@ -284,12 +282,10 @@ export default class AbstractCommand extends React.PureComponent {
                         </div>
                     </div>
                 </div>
-            ),
-            (
-                <div
-                    key='autocompleteDescription'
-                    className='form-group'
-                >
+            );
+
+            autocompleteDescription = (
+                <div className='form-group'>
                     <label
                         className='control-label col-sm-4'
                         htmlFor='autocompleteDescription'
@@ -317,7 +313,7 @@ export default class AbstractCommand extends React.PureComponent {
                         </div>
                     </div>
                 </div>
-            )];
+            );
         }
 
         return (
@@ -588,7 +584,8 @@ export default class AbstractCommand extends React.PureComponent {
                                 </div>
                             </div>
                         </div>
-                        {autocompleteFields}
+                        {autocompleteHint}
+                        {autocompleteDescription}
                         <div className='backstage-form__footer'>
                             <FormError
                                 type='backstage'

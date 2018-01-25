@@ -9,7 +9,7 @@ import * as Utils from 'utils/utils.jsx';
 
 import AdminSettings from './admin_settings.jsx';
 import BooleanSetting from './boolean_setting.jsx';
-import BrandImageSetting from './brand_image_setting.jsx';
+import BrandImageSetting from './brand_image_setting/brand_image_setting.jsx';
 import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting.jsx';
 

@@ -5,10 +5,9 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import Constants from 'utils/constants.jsx';
-
 import DotMenuFlag from 'components/dot_menu/dot_menu_flag.jsx';
 
-describe('components/integrations/DotMenuFlag', () => {
+describe('components/dot_menu/DotMenuFlag', () => {
     const baseProps = {
         idCount: -1,
         idPrefix: Constants.CENTER,

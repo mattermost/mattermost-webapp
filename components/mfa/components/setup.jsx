@@ -3,11 +3,9 @@
 
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router';
 
 import {activateMfa, generateMfaSecret} from 'actions/user_actions.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import * as Utils from 'utils/utils.jsx';
 
 export default class Setup extends React.Component {
@@ -22,7 +20,7 @@ export default class Setup extends React.Component {
     componentDidMount() {
         const user = UserStore.getCurrentUser();
         if (!user || user.mfa_active) {
-            browserHistory.push('/');
+            this.props.history.push('/');
             return;
         }
 
@@ -45,7 +43,7 @@ export default class Setup extends React.Component {
         activateMfa(
             code,
             () => {
-                browserHistory.push('/mfa/confirm');
+                this.props.history.push('/mfa/confirm');
             },
             (err) => {
                 if (err.id === 'ent.mfa.activate.authenticate.app_error') {
@@ -102,7 +100,7 @@ export default class Setup extends React.Component {
                     <div className='form-group'>
                         <div className='col-sm-12'>
                             <img
-                                style={{maxHeight: 170}}
+                                style={style.qrCode}
                                 src={'data:image/png;base64,' + this.state.qrCode}
                             />
                         </div>
@@ -152,4 +150,8 @@ export default class Setup extends React.Component {
 Setup.defaultProps = {
 };
 Setup.propTypes = {
+};
+
+const style = {
+    qrCode: {maxHeight: 170}
 };

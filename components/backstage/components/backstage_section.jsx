@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Link} from 'react-router';
+import {NavLink} from 'react-router-dom';
 
 export default class BackstageSection extends React.Component {
     static get propTypes() {
@@ -62,7 +62,7 @@ export default class BackstageSection extends React.Component {
 
         return (
             <li className={className}>
-                <Link
+                <NavLink
                     className={`${className}-title`}
                     activeClassName={`${className}-title--active`}
                     to={link}
@@ -70,7 +70,7 @@ export default class BackstageSection extends React.Component {
                     <span className={`${className}-title__text`}>
                         {title}
                     </span>
-                </Link>
+                </NavLink>
                 {clonedChildren}
             </li>
         );

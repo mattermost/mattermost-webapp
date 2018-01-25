@@ -5,10 +5,9 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import Constants from 'utils/constants.jsx';
-
 import DotMenuEdit from 'components/dot_menu/dot_menu_edit.jsx';
 
-describe('components/integrations/DotMenuEdit', () => {
+describe('components/dot_menu/DotMenuEdit', () => {
     const baseProps = {
         idCount: -1,
         idPrefix: Constants.CENTER,

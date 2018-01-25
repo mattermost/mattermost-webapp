@@ -4,17 +4,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {FormattedDate, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {createChannelIntroMessage} from 'utils/channel_intro_messages.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants, {PostTypes} from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
 import EventTypes from 'utils/event_types.jsx';
 import GlobalEventEmitter from 'utils/global_event_emitter.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import LoadingScreen from 'components/loading_screen.jsx';
+import DateSeparator from 'components/post_view/date_separator.jsx';
 
 import FloatingTimestamp from './floating_timestamp.jsx';
 import NewMessageIndicator from './new_message_indicator.jsx';
@@ -92,7 +92,12 @@ export default class PostList extends React.PureComponent {
             /**
              * Function to increase the number of posts being rendered
              */
-            increasePostVisibility: PropTypes.func.isRequired
+            increasePostVisibility: PropTypes.func.isRequired,
+
+            /**
+             * Function to check and set if app is in mobile view
+             */
+            checkAndSetMobileView: PropTypes.func.isRequired
         }).isRequired
     }
 
@@ -117,14 +122,15 @@ export default class PostList extends React.PureComponent {
 
     componentDidMount() {
         this.loadPosts(this.props.channel.id, this.props.focusedPostId);
+        this.props.actions.checkAndSetMobileView();
         GlobalEventEmitter.addListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.handleResize);
 
-        window.addEventListener('resize', () => this.handleResize());
+        window.addEventListener('resize', this.handleResize);
     }
 
     componentWillUnmount() {
         GlobalEventEmitter.removeListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.handleResize);
-        window.removeEventListener('resize', () => this.handleResize());
+        window.removeEventListener('resize', this.handleResize);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -153,14 +159,6 @@ export default class PostList extends React.PureComponent {
                     this.loadPosts(nextChannel.id);
                 }
             }
-
-            const nextPosts = nextProps.posts || [];
-            const posts = this.props.posts || [];
-            const hasNewPosts = (posts.length === 0 && nextPosts.length > 0) || (posts.length > 0 && nextPosts.length > 0 && posts[0].id !== nextPosts[0].id);
-
-            if (!this.checkBottom() && hasNewPosts) {
-                this.setUnreadsBelow(nextPosts, nextProps.currentUserId);
-            }
         }
     }
 
@@ -178,10 +176,18 @@ export default class PostList extends React.PureComponent {
             return;
         }
 
-        const prevPosts = prevProps.posts;
-        const posts = this.props.posts;
-        const postList = this.refs.postlist;
+        const prevPosts = prevProps.posts || [];
+        const posts = this.props.posts || [];
 
+        if (this.props.focusedPostId == null) {
+            const hasNewPosts = (prevPosts.length === 0 && posts.length > 0) || (prevPosts.length > 0 && posts.length > 0 && prevPosts[0].id !== posts[0].id);
+
+            if (!this.checkBottom() && hasNewPosts) {
+                this.setUnreadsBelow(posts, this.props.currentUserId);
+            }
+        }
+
+        const postList = this.refs.postlist;
         if (!postList) {
             return;
         }
@@ -297,6 +303,8 @@ export default class PostList extends React.PureComponent {
 
             this.atBottom = this.checkBottom();
         }
+
+        this.props.actions.checkAndSetMobileView();
     }
 
     loadPosts = async (channelId, focusedPostId) => {
@@ -418,7 +426,10 @@ export default class PostList extends React.PureComponent {
         for (let i = posts.length - 1; i >= 0; i--) {
             const post = posts[i];
 
-            if (post == null) {
+            if (
+                post == null ||
+                post.type === PostTypes.EPHEMERAL_ADD_TO_CHANNEL
+            ) {
                 continue;
             }
 
@@ -435,21 +446,10 @@ export default class PostList extends React.PureComponent {
             const currentPostDay = Utils.getDateForUnixTicks(post.create_at);
             if (currentPostDay.toDateString() !== previousPostDay.toDateString()) {
                 postCtls.push(
-                    <div
-                        key={currentPostDay.toDateString()}
-                        className='date-separator'
-                    >
-                        <hr className='separator__hr'/>
-                        <div className='separator__text'>
-                            <FormattedDate
-                                value={currentPostDay}
-                                weekday='short'
-                                month='short'
-                                day='2-digit'
-                                year='numeric'
-                            />
-                        </div>
-                    </div>
+                    <DateSeparator
+                        key={currentPostDay}
+                        date={currentPostDay}
+                    />
                 );
             }
 

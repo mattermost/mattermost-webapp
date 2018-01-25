@@ -2,12 +2,10 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import ChannelStore from 'stores/channel_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 
 import TutorialIntroScreens from './tutorial_intro_screens.jsx';
@@ -49,6 +47,7 @@ export default class TutorialView extends React.Component {
             >
                 <TutorialIntroScreens
                     townSquare={this.state.townSquare}
+                    handleDone={this.handleDone}
                 />
             </div>
         );

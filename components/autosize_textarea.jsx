@@ -7,9 +7,11 @@ import React from 'react';
 export default class AutosizeTextarea extends React.Component {
     static propTypes = {
         value: PropTypes.string,
+        defaultValue: PropTypes.string,
         placeholder: PropTypes.string,
+        onChange: PropTypes.func,
         onHeightChange: PropTypes.func
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -25,11 +27,19 @@ export default class AutosizeTextarea extends React.Component {
         this.refs.textarea.value = value;
     }
 
+    focus() {
+        this.refs.textarea.focus();
+    }
+
+    blur() {
+        this.refs.textarea.blur();
+    }
+
     componentDidUpdate() {
         this.recalculateSize();
     }
 
-    recalculateSize() {
+    recalculateSize = () => {
         const height = this.refs.reference.scrollHeight;
 
         if (height > 0 && height !== this.height) {
@@ -47,11 +57,17 @@ export default class AutosizeTextarea extends React.Component {
                 this.props.onHeightChange(height, parseInt(style.maxHeight, 10));
             }
         }
-    }
+    };
 
-    getDOMNode() {
+    getDOMNode = () => {
         return this.refs.textarea;
-    }
+    };
+
+    handleChange = (e) => {
+        if (this.props.onChange) {
+            this.props.onChange(e);
+        }
+    };
 
     render() {
         const props = {...this.props};
@@ -62,6 +78,7 @@ export default class AutosizeTextarea extends React.Component {
 
         const {
             value,
+            defaultValue,
             placeholder,
             id,
             ...otherProps
@@ -81,21 +98,30 @@ export default class AutosizeTextarea extends React.Component {
                     ref='textarea'
                     id={id + '-textarea'}
                     {...heightProps}
-                    {...props}
+                    {...otherProps}
+                    placeholder={placeholder}
+                    onChange={this.handleChange}
+                    value={value}
+                    defaultValue={defaultValue}
                 />
-                <div style={{height: 0, overflow: 'hidden'}}>
+                <div style={style.container}>
                     <textarea
                         ref='reference'
                         id={id + '-reference'}
-                        style={{height: 'auto', width: '100%'}}
+                        style={style.reference}
                         disabled={true}
-                        value={value}
                         placeholder={placeholder}
                         rows='1'
                         {...otherProps}
+                        value={value || defaultValue}
                     />
                 </div>
             </div>
         );
     }
 }
+
+const style = {
+    container: {height: 0, overflow: 'hidden'},
+    reference: {height: 'auto', width: '100%'}
+};

@@ -54,6 +54,8 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
             <label>
               <input
                 checked={false}
+                data-email-interval={30}
+                data-enable-email="true"
                 id="emailNotificationImmediately"
                 name="emailNotifications"
                 onChange={[Function]}
@@ -72,6 +74,8 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
             <label>
               <input
                 checked={true}
+                data-email-interval={0}
+                data-enable-email="false"
                 id="emailNotificationNever"
                 name="emailNotifications"
                 onChange={[Function]}
@@ -101,6 +105,7 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
       ]
     }
     saving={false}
+    section=""
     server_error=""
     submit={[Function]}
     title="Email notifications"
@@ -143,6 +148,8 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
                 <label>
                   <input
                     checked={false}
+                    data-email-interval={30}
+                    data-enable-email="true"
                     id="emailNotificationImmediately"
                     name="emailNotifications"
                     onChange={[Function]}
@@ -165,6 +172,8 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
                 <label>
                   <input
                     checked={true}
+                    data-email-interval={0}
+                    data-enable-email="false"
                     id="emailNotificationNever"
                     name="emailNotifications"
                     onChange={[Function]}
@@ -253,6 +262,7 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
       values={Object {}}
     />
   }
+  section="email"
   title="Email notifications"
   updateSection={[Function]}
 />
@@ -267,6 +277,7 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
       values={Object {}}
     />
   }
+  section="email"
   title="Email notifications"
   updateSection={[Function]}
 />
@@ -285,6 +296,7 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
       }
     />
   }
+  section="email"
   title="Email notifications"
   updateSection={[Function]}
 />
@@ -344,6 +356,8 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
             <label>
               <input
                 checked={false}
+                data-email-interval={30}
+                data-enable-email="true"
                 id="emailNotificationImmediately"
                 name="emailNotifications"
                 onChange={[Function]}
@@ -363,6 +377,8 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
               <label>
                 <input
                   checked={false}
+                  data-email-interval={900}
+                  data-enable-email="true"
                   id="emailNotificationMinutes"
                   name="emailNotifications"
                   onChange={[Function]}
@@ -385,6 +401,8 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
               <label>
                 <input
                   checked={false}
+                  data-email-interval={3600}
+                  data-enable-email="true"
                   id="emailNotificationHour"
                   name="emailNotifications"
                   onChange={[Function]}
@@ -404,6 +422,8 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
             <label>
               <input
                 checked={true}
+                data-email-interval={0}
+                data-enable-email="false"
                 id="emailNotificationNever"
                 name="emailNotifications"
                 onChange={[Function]}
@@ -438,6 +458,7 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
       ]
     }
     saving={false}
+    section=""
     server_error=""
     submit={[Function]}
     title="Email notifications"
@@ -480,6 +501,8 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
                 <label>
                   <input
                     checked={false}
+                    data-email-interval={30}
+                    data-enable-email="true"
                     id="emailNotificationImmediately"
                     name="emailNotifications"
                     onChange={[Function]}
@@ -503,6 +526,8 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
                   <label>
                     <input
                       checked={false}
+                      data-email-interval={900}
+                      data-enable-email="true"
                       id="emailNotificationMinutes"
                       name="emailNotifications"
                       onChange={[Function]}
@@ -529,6 +554,8 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
                   <label>
                     <input
                       checked={false}
+                      data-email-interval={3600}
+                      data-enable-email="true"
                       id="emailNotificationHour"
                       name="emailNotifications"
                       onChange={[Function]}
@@ -552,6 +579,8 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
                 <label>
                   <input
                     checked={true}
+                    data-email-interval={0}
+                    data-enable-email="false"
                     id="emailNotificationNever"
                     name="emailNotifications"
                     onChange={[Function]}
@@ -657,6 +686,7 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
     ]
   }
   saving={false}
+  section="email"
   title="Email notifications"
   updateSection={[Function]}
 />
@@ -681,6 +711,8 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
           <label>
             <input
               checked={false}
+              data-email-interval={30}
+              data-enable-email="true"
               id="emailNotificationImmediately"
               name="emailNotifications"
               onChange={[Function]}
@@ -699,6 +731,8 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
           <label>
             <input
               checked={true}
+              data-email-interval={0}
+              data-enable-email="false"
               id="emailNotificationNever"
               name="emailNotifications"
               onChange={[Function]}
@@ -728,6 +762,7 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
     ]
   }
   saving={false}
+  section=""
   server_error="serverError"
   submit={[Function]}
   title="Email notifications"

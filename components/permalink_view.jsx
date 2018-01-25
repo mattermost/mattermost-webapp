@@ -2,35 +2,37 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 import ChannelStore from 'stores/channel_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
-
 import ChannelHeader from 'components/channel_header';
 import PostView from 'components/post_view';
+import * as GlobalActions from 'actions/global_actions.jsx';
 
 export default class PermalinkView extends React.PureComponent {
-    static propTypes = {
-        params: PropTypes.object.isRequired
-    }
-
     constructor(props) {
         super(props);
 
         this.getStateFromStores = this.getStateFromStores.bind(this);
         this.isStateValid = this.isStateValid.bind(this);
         this.updateState = this.updateState.bind(this);
+        this.doPermalinkEvent = this.doPermalinkEvent.bind(this);
+
+        this.doPermalinkEvent(props);
 
         this.state = this.getStateFromStores(props);
     }
 
+    doPermalinkEvent(props) {
+        const postId = props.match.params.postid;
+        GlobalActions.emitPostFocusEvent(postId);
+    }
+
     getStateFromStores(props) {
-        const postId = props.params.postid;
+        const postId = props.match.params.postid;
         const channel = ChannelStore.getCurrent();
         const channelId = channel ? channel.id : '';
         const channelName = channel ? channel.name : '';
@@ -67,6 +69,7 @@ export default class PermalinkView extends React.PureComponent {
     }
 
     componentWillReceiveProps(nextProps) {
+        this.doPermalinkEvent(nextProps);
         this.setState(this.getStateFromStores(nextProps));
     }
 

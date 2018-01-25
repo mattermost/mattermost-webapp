@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -11,13 +10,13 @@ import {defineMessages, injectIntl, intlShape} from 'react-intl';
 import 'jquery-dragster/jquery.dragster.js';
 
 import {uploadFile} from 'actions/file_actions.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
-
+import AttachmentIcon from 'components/svg/attachment_icon';
 import Constants from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
 import * as FileUtils from 'utils/file_utils';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
+import ChannelStore from 'stores/channel_store.jsx';
 
 const holders = defineMessages({
     limited: {
@@ -85,6 +84,7 @@ class FileUpload extends React.Component {
 
         // keep track of how many files have been too large
         const tooLargeFiles = [];
+        const clientIds = [];
 
         for (let i = 0; i < sortedFiles.length && numUploads < uploadsRemaining; i++) {
             if (sortedFiles[i].size > global.mm_config.MaxFileSize) {
@@ -107,11 +107,12 @@ class FileUpload extends React.Component {
             const requests = this.state.requests;
             requests[clientId] = request;
             this.setState({requests});
-
-            this.props.onUploadStart([clientId], channelId);
+            clientIds.push(clientId);
 
             numUploads += 1;
         }
+
+        this.props.onUploadStart(clientIds, channelId);
 
         const {formatMessage} = this.props.intl;
         if (sortedFiles.length > uploadsRemaining) {
@@ -390,9 +391,7 @@ class FileUpload extends React.Component {
                     id='fileUploadButton'
                     className='icon icon--attachment'
                 >
-                    <span
-                        dangerouslySetInnerHTML={{__html: Constants.ATTACHMENT_ICON_SVG}}
-                    />
+                    <AttachmentIcon/>
                     <input
                         ref='fileInput'
                         type='file'

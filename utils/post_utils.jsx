@@ -2,18 +2,16 @@
 // See License.txt for license information.
 
 import React from 'react';
-
 import {Parser, ProcessNodeDefinitions} from 'html-to-react';
 
 import ChannelStore from 'stores/channel_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import AtMention from 'components/at_mention';
 import MarkdownImage from 'components/markdown_image';
+import LatexBlock from 'components/latex_block';
 
 export function isSystemMessage(post) {
     return Boolean(post.type && (post.type.lastIndexOf(Constants.SYSTEM_MESSAGE_PREFIX) === 0));
@@ -124,7 +122,7 @@ export function containsAtMention(text, key) {
     }
 
     // This doesn't work for at mentions containing periods or hyphens
-    return new RegExp(`\\B${key}\\b`, 'i').test(removeCode(text));
+    return !text.startsWith('/') && new RegExp(`\\B${key}\\b`, 'i').test(removeCode(text));
 }
 
 // Returns a given text string with all Markdown code replaced with whitespace.
@@ -176,6 +174,14 @@ export function postMessageHtmlToComponent(html, isRHS) {
                     />
                 );
                 return callMarkdownImage;
+            }
+        },
+        {
+            shouldProcessNode: (node) => node.attribs && node.attribs['data-latex'],
+            processNode: (node) => {
+                return (
+                    <LatexBlock content={node.attribs['data-latex']}/>
+                );
             }
         },
         {

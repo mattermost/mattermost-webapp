@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {shallow} from 'enzyme';
 
 import LineChart from 'components/analytics/line_chart.jsx';

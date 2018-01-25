@@ -4,21 +4,19 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
-
 import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions';
-
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils';
-
 import AudioVideoPreview from 'components/audio_video_preview';
 import CodePreview from 'components/code_preview';
 import FileInfoPreview from 'components/file_info_preview';
 import ImagePreview from 'components/image_preview';
 import LoadingImagePreview from 'components/loading_image_preview';
-import PDFPreview from 'components/pdf_preview';
 import ViewImagePopoverBar from 'components/view_image_popover_bar';
+import {AsyncComponent} from 'components/async_load.jsx';
+import loadPDFPreview from 'bundle-loader?lazy!components/pdf_preview';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -200,7 +198,9 @@ export default class ViewImageModal extends React.PureComponent {
         }
 
         const fileInfo = this.props.fileInfos[this.state.imageIndex];
-        const fileUrl = getFileUrl(fileInfo.id);
+        const showPublicLink = !fileInfo.link;
+        const fileName = fileInfo.link || fileInfo.name;
+        const fileUrl = fileInfo.link || getFileUrl(fileInfo.id);
 
         let content;
         if (this.state.loaded[this.state.imageIndex]) {
@@ -215,9 +215,10 @@ export default class ViewImageModal extends React.PureComponent {
                         fileUrl={fileUrl}
                     />
                 );
-            } else if (PDFPreview.supports(fileInfo)) {
+            } else if (fileInfo && fileInfo.extension && fileInfo.extension === 'pdf') {
                 content = (
-                    <PDFPreview
+                    <AsyncComponent
+                        doLoad={loadPDFPreview}
                         fileInfo={fileInfo}
                         fileUrl={fileUrl}
                     />
@@ -312,9 +313,10 @@ export default class ViewImageModal extends React.PureComponent {
                             </div>
                             <ViewImagePopoverBar
                                 show={this.state.showFooter}
+                                showPublicLink={showPublicLink}
                                 fileIndex={this.state.imageIndex}
                                 totalFiles={this.props.fileInfos.length}
-                                filename={fileInfo.name}
+                                filename={fileName}
                                 fileURL={fileUrl}
                                 onGetPublicLink={this.handleGetPublicLink}
                             />

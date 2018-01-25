@@ -7,10 +7,8 @@ import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {updateUser} from 'actions/user_actions.jsx';
-
 import * as I18n from 'i18n/i18n.jsx';
-
-import SettingItemMax from '../setting_item_max.jsx';
+import SettingItemMax from 'components/setting_item_max.jsx';
 
 export default class ManageLanguage extends React.Component {
     constructor(props) {
@@ -28,14 +26,18 @@ export default class ManageLanguage extends React.Component {
     setLanguage(e) {
         this.setState({locale: e.target.value});
     }
-    changeLanguage(e) {
-        e.preventDefault();
 
-        this.submitUser({
-            ...this.props.user,
-            locale: this.state.locale
-        });
+    changeLanguage() {
+        if (this.props.user.locale === this.state.locale) {
+            this.props.updateSection('');
+        } else {
+            this.submitUser({
+                ...this.props.user,
+                locale: this.state.locale
+            });
+        }
     }
+
     submitUser(user) {
         this.setState({isSaving: true});
 
@@ -55,6 +57,7 @@ export default class ManageLanguage extends React.Component {
             }
         );
     }
+
     render() {
         let serverError;
         if (this.state.serverError) {
@@ -70,8 +73,7 @@ export default class ManageLanguage extends React.Component {
                 name: locales[l].name,
                 order: locales[l].order
             };
-        }).
-        sort((a, b) => a.order - b.order);
+        }).sort((a, b) => a.order - b.order);
 
         languages.forEach((lang) => {
             options.push(

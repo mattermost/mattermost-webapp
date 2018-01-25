@@ -4,14 +4,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-
 import {getUser} from 'mattermost-redux/actions/users';
 
 import store from 'stores/redux_store.jsx';
-
 import {Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import ManageRolesModal from 'components/admin_console/manage_roles_modal';
 import ManageTeamsModal from 'components/admin_console/manage_teams_modal/manage_teams_modal.jsx';
 import ManageTokensModal from 'components/admin_console/manage_tokens_modal';

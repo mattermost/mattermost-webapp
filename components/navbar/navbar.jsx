@@ -2,19 +2,16 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
-
 import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as WebrtcActions from 'actions/webrtc_actions.jsx';
-import {getPinnedPosts} from 'actions/post_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import ModalStore from 'stores/modal_store.jsx';
@@ -22,24 +19,22 @@ import PreferenceStore from 'stores/preference_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
-
 import * as ChannelUtils from 'utils/channel_utils.jsx';
-import {ActionTypes, Constants, UserStatuses, RHSStates} from 'utils/constants.jsx';
+import {ActionTypes, Constants, ModalIdentifiers, RHSStates, UserStatuses} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import ChannelInfoModal from 'components/channel_info_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
-import ChannelMembersModal from 'components/channel_members_modal.jsx';
+import ChannelMembersModal from 'components/channel_members_modal';
 import ChannelNotificationsModal from 'components/channel_notifications_modal.jsx';
-
 import DeleteChannelModal from 'components/delete_channel_modal';
-
 import NotifyCounts from 'components/notify_counts.jsx';
 import QuickSwitchModal from 'components/quick_switch_modal';
 import RenameChannelModal from 'components/rename_channel_modal';
 import StatusIcon from 'components/status_icon.jsx';
+import MenuIcon from 'components/svg/menu_icon';
+import SearchIcon from 'components/svg/search_icon';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
-
+import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import Pluggable from 'plugins/pluggable';
 
 import NavbarInfoButton from './navbar_info_button.jsx';
@@ -50,7 +45,8 @@ export default class Navbar extends React.Component {
         isPinnedPosts: PropTypes.bool,
         actions: PropTypes.shape({
             closeRightHandSide: PropTypes.func,
-            updateRhsState: PropTypes.func
+            updateRhsState: PropTypes.func,
+            showPinnedPosts: PropTypes.func
         })
     };
 
@@ -96,9 +92,9 @@ export default class Navbar extends React.Component {
         UserStore.removeChangeListener(this.onChange);
         PreferenceStore.removeChangeListener(this.onChange);
         ModalStore.removeModalListener(ActionTypes.TOGGLE_QUICK_SWITCH_MODAL, this.toggleQuickSwitchModal);
-        ModalStore.addModalListener(ActionTypes.TOGGLE_CHANNEL_HEADER_UPDATE_MODAL, this.hideEditChannelHeaderModal);
-        ModalStore.addModalListener(ActionTypes.TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL, this.hideChannelPurposeModal);
-        ModalStore.addModalListener(ActionTypes.TOGGLE_CHANNEL_NAME_UPDATE_MODAL, this.hideRenameChannelModal);
+        ModalStore.removeModalListener(ActionTypes.TOGGLE_CHANNEL_HEADER_UPDATE_MODAL, this.hideEditChannelHeaderModal);
+        ModalStore.removeModalListener(ActionTypes.TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL, this.hideChannelPurposeModal);
+        ModalStore.removeModalListener(ActionTypes.TOGGLE_CHANNEL_NAME_UPDATE_MODAL, this.hideRenameChannelModal);
         WebrtcStore.removeChangedListener(this.onChange);
         WebrtcStore.removeBusyListener(this.onBusy);
         document.removeEventListener('keydown', this.handleQuickSwitchKeyPress);
@@ -267,7 +263,7 @@ export default class Navbar extends React.Component {
         if (this.props.isPinnedPosts) {
             GlobalActions.emitCloseRightHandSide();
         } else {
-            getPinnedPosts(this.state.channel.id);
+            this.props.actions.showPinnedPosts(this.state.channel.id);
         }
     }
 
@@ -346,12 +342,17 @@ export default class Navbar extends React.Component {
 
         return (
             <div className={'pull-right description navbar-right__icon webrtc__button ' + circleClass}>
-                <a
-                    dangerouslySetInnerHTML={{__html: Constants.VIDEO_ICON}}
-                    onClick={this.initWebrtc}
-                />
+                <a onClick={this.initWebrtc}>
+                    {'WebRTC'}
+                </a>
             </div>
         );
+    }
+
+    hideHeaderOverlay = () => {
+        if (this.refs.headerOverlay) {
+            this.refs.headerOverlay.hide();
+        }
     }
 
     createDropdown = (channel, channelTitle, isSystemAdmin, isTeamAdmin, isChannelAdmin, isDirect, isGroup) => {
@@ -435,8 +436,9 @@ export default class Navbar extends React.Component {
             } else {
                 viewInfoOption = (
                     <li role='presentation'>
-                        <ToggleModalButton
+                        <ToggleModalButtonRedux
                             role='menuitem'
+                            modalId={ModalIdentifiers.CHANNEL_INFO}
                             dialogType={ChannelInfoModal}
                             dialogProps={{channel}}
                         >
@@ -444,7 +446,7 @@ export default class Navbar extends React.Component {
                                 id='navbar.viewInfo'
                                 defaultMessage='View Info'
                             />
-                        </ToggleModalButton>
+                        </ToggleModalButtonRedux>
                     </li>
                 );
 
@@ -689,7 +691,7 @@ export default class Navbar extends React.Component {
                             {toggleFavoriteOption}
                             <div
                                 className='close visible-xs-block'
-                                onClick={() => this.refs.headerOverlay.hide()}
+                                onClick={this.hideHeaderOverlay}
                             >
                                 {'×'}
                             </div>
@@ -702,7 +704,7 @@ export default class Navbar extends React.Component {
         return (
             <div className='navbar-brand'>
                 <Link
-                    to={TeamStore.getCurrentTeamUrl() + '/channels/town-square'}
+                    to={TeamStore.getCurrentTeamUrl() + `/channels/${Constants.DEFAULT_CHANNEL}`}
                     className='heading'
                 >
                     {channelTitle}
@@ -713,7 +715,6 @@ export default class Navbar extends React.Component {
 
     createCollapseButtons = (currentId) => {
         var buttons = [];
-        const menuIcon = Constants.MENU_ICON_SVG;
 
         if (currentId == null) {
             buttons.push(
@@ -751,11 +752,7 @@ export default class Navbar extends React.Component {
                             defaultMessage='Toggle sidebar'
                         />
                     </span>
-                    <span
-                        className='icon icon__menu icon--sidebarHeaderTextColor'
-                        dangerouslySetInnerHTML={{__html: menuIcon}}
-                        aria-hidden='true'
-                    />
+                    <MenuIcon className='icon icon__menu icon--sidebarHeaderTextColor'/>
                     <NotifyCounts/>
                 </button>
             );
@@ -769,7 +766,7 @@ export default class Navbar extends React.Component {
                     data-target='#sidebar-nav'
                     onClick={this.toggleRightSidebar}
                 >
-                    <span dangerouslySetInnerHTML={{__html: Constants.MENU_ICON}}/>
+                    <MenuIcon/>
                 </button>
             );
         }
@@ -789,6 +786,16 @@ export default class Navbar extends React.Component {
             }
         }
         return null;
+    }
+
+    hideEditChannelHeaderModal = () => {
+        this.setState({showEditChannelHeaderModal: false});
+    }
+
+    showChannelInviteModalButton = () => {
+        if (this.refs.channelInviteModalButton) {
+            this.refs.channelInviteModalButton.show();
+        }
     }
 
     render() {
@@ -819,7 +826,19 @@ export default class Navbar extends React.Component {
             if (channel.type === Constants.DM_CHANNEL) {
                 isDirect = true;
                 const teammateId = Utils.getUserIdFromChannelName(channel);
-                channelTitle = Utils.displayUsername(teammateId);
+                if (currentId === teammateId) {
+                    channelTitle = (
+                        <FormattedMessage
+                            id='channel_header.directchannel.you'
+                            defaultMessage='{displayname} (you) '
+                            values={{
+                                displayname: Utils.displayUsername(teammateId)
+                            }}
+                        />
+                    );
+                } else {
+                    channelTitle = Utils.displayUsername(teammateId);
+                }
             } else if (channel.type === Constants.GM_CHANNEL) {
                 isGroup = true;
             }
@@ -827,7 +846,7 @@ export default class Navbar extends React.Component {
             if (this.state.showEditChannelHeaderModal) {
                 editChannelHeaderModal = (
                     <EditChannelHeaderModal
-                        onHide={() => this.setState({showEditChannelHeaderModal: false})}
+                        onHide={this.hideEditChannelHeaderModal}
                         channel={channel}
                     />
                 );
@@ -853,11 +872,9 @@ export default class Navbar extends React.Component {
             if (this.state.showMembersModal) {
                 channelMembersModal = (
                     <ChannelMembersModal
-                        show={true}
                         onModalDismissed={this.hideMembersModal}
-                        showInviteModal={() => this.refs.channelInviteModalButton.show()}
+                        showInviteModal={this.showChannelInviteModalButton}
                         channel={channel}
-                        isAdmin={isTeamAdmin || isSystemAdmin}
                     />
                 );
             }
@@ -883,16 +900,14 @@ export default class Navbar extends React.Component {
 
         var collapseButtons = this.createCollapseButtons(currentId);
 
-        const searchIcon = Constants.SEARCH_ICON_SVG;
         const searchButton = (
             <button
                 type='button'
                 className='navbar-toggle navbar-right__icon navbar-search pull-right'
                 onClick={this.showSearch}
             >
-                <span
+                <SearchIcon
                     className='icon icon__search'
-                    dangerouslySetInnerHTML={{__html: searchIcon}}
                     aria-hidden='true'
                 />
             </button>

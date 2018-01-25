@@ -19,7 +19,8 @@
         "browser": true,
         "node": true,
         "jquery": true,
-        "es6": true
+        "es6": true,
+        "jest": true
     },
     "globals": {
         "jest": true,
@@ -27,7 +28,8 @@
         "it": true,
         "expect": true,
         "before": true,
-        "after": true
+        "after": true,
+        "beforeEach": true
     },
     "settings": {
         "import/resolver": "webpack"
@@ -42,7 +44,7 @@
         "brace-style": [2, "1tbs", { "allowSingleLine": false }],
         "camelcase": [2, {"properties": "never"}],
         "capitalized-comments": 0,
-        "class-methods-use-this": 1,
+        "class-methods-use-this": 0,
         "comma-dangle": [2, "never"],
         "comma-spacing": [2, {"before": false, "after": true}],
         "comma-style": [2, "last"],
@@ -58,7 +60,7 @@
         "func-call-spacing": [2, "never"],
         "func-name-matching": 0,
         "func-names": 2,
-        "func-style": [2, "declaration"],
+        "func-style": [2, "declaration", { "allowArrowFunctions": true }],
         "generator-star-spacing": [2, {"before": false, "after": true}],
         "global-require": 2,
         "guard-for-in": 2,
@@ -173,7 +175,7 @@
         "no-unsafe-negation": 2,
         "no-unused-expressions": 2,
         "no-unused-vars": [2, {"vars": "all", "args": "after-used"}],
-        "no-use-before-define": [2, "nofunc"],
+        "no-use-before-define": [2, {"classes": false, "functions": false, "variables": false}],
         "no-useless-computed-key": 2,
         "no-useless-concat": 2,
         "no-useless-constructor": 2,
@@ -205,7 +207,7 @@
         "quote-props": [2, "as-needed"],
         "quotes": [2, "single", "avoid-escape"],
         "radix": 2,
-        "react/display-name": [2, { "ignoreTranspilerName": false }],
+        "react/display-name": [0, { "ignoreTranspilerName": false }],
         "react/forbid-component-props": 0,
         "react/forbid-elements": [2, { "forbid": ["embed"] }],
         "react/jsx-boolean-value": [2, "always"],
@@ -226,7 +228,6 @@
         "react/jsx-no-target-blank": 2,
         "react/jsx-no-undef": 2,
         "react/jsx-pascal-case": 2,
-        "react/jsx-space-before-closing": [2, "never"],
         "react/jsx-tag-spacing": [2, { "closingSlash": "never", "beforeSelfClosing": "never", "afterOpening": "never" }],
         "react/jsx-uses-react": 2,
         "react/jsx-uses-vars": 2,
@@ -250,7 +251,7 @@
         "react/no-unused-prop-types": [1, {"skipShapeProps": true}],
         "react/prefer-es6-class": 2,
         "react/prefer-stateless-function": 0,
-        "react/prop-types": 2,
+        "react/prop-types": [2, { "ignore": ["match", "location", "history", "component"] }],
         "react/require-default-props": 0,
         "react/require-optimization": 1,
         "react/require-render-return": 2,

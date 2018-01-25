@@ -5,7 +5,6 @@
 import EventEmitter from 'events';
 
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-
 import Constants from 'utils/constants.jsx';
 
 const ActionTypes = Constants.ActionTypes;
@@ -16,7 +15,7 @@ const URL_DATA_CHANGE_EVENT = 'url_data_change';
 class OpenGraphStoreClass extends EventEmitter {
     constructor() {
         super();
-        this.ogDataObject = {};  // Format: {<url>: <data-object>}
+        this.ogDataObject = {}; // Format: {<url>: <data-object>}
     }
 
     emitChange() {

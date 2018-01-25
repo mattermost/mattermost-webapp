@@ -3,7 +3,6 @@
 
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-
 import {Client4} from 'mattermost-redux/client';
 
 import * as Utils from 'utils/utils.jsx';
@@ -79,7 +78,7 @@ export default class ClusterSettings extends AdminSettings {
         if (Client4.clusterId) {
             configLoadedFromCluster = (
                 <div
-                    style={{marginBottom: '10px'}}
+                    style={style.configLoadedFromCluster}
                     className='alert alert-warning'
                 >
                     <i className='fa fa-warning'/>
@@ -98,7 +97,7 @@ export default class ClusterSettings extends AdminSettings {
         if (this.state.showWarning) {
             warning = (
                 <div
-                    style={{marginBottom: '10px'}}
+                    style={style.warning}
                     className='alert alert-warning'
                 >
                     <i className='fa fa-warning'/>
@@ -270,3 +269,8 @@ export default class ClusterSettings extends AdminSettings {
         );
     }
 }
+
+const style = {
+    configLoadedFromCluster: {marginBottom: 10},
+    warning: {marginBottom: 10}
+};

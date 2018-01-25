@@ -7,9 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 import Constants from 'utils/constants.jsx';
-
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
-
 import InstalledOutgoingWebhook from 'components/integrations/components/installed_outgoing_webhook.jsx';
 
 export default class InstalledOutgoingWebhooks extends React.PureComponent {
@@ -83,12 +81,12 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
     componentDidMount() {
         if (window.mm_config.EnableOutgoingWebhooks === 'true') {
             this.props.actions.getOutgoingHooks(
-              '',
-              this.props.teamId,
-              Constants.Integrations.START_PAGE_NUM,
-              Constants.Integrations.PAGE_SIZE
+                '',
+                this.props.teamId,
+                Constants.Integrations.START_PAGE_NUM,
+                Constants.Integrations.PAGE_SIZE
             ).then(
-              () => this.setState({loading: false})
+                () => this.setState({loading: false})
             );
         }
     }
@@ -132,8 +130,8 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
                 <InstalledOutgoingWebhook
                     key={outgoingWebhook.id}
                     outgoingWebhook={outgoingWebhook}
-                    onRegenToken={() => this.regenOutgoingWebhookToken(outgoingWebhook)}
-                    onDelete={() => this.removeOutgoingHook(outgoingWebhook)}
+                    onRegenToken={this.regenOutgoingWebhookToken}
+                    onDelete={this.removeOutgoingHook}
                     creator={this.props.users[outgoingWebhook.creator_id] || {}}
                     canChange={canChange}
                     team={this.props.team}

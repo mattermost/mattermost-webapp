@@ -1,4 +1,3 @@
-
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
@@ -11,7 +10,6 @@ import PreferenceStore from 'stores/preference_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import Constants, {Preferences} from 'utils/constants.jsx';
 
 export function isFavoriteChannel(channel) {

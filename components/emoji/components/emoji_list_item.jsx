@@ -6,7 +6,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import EmojiStore from 'stores/emoji_store.jsx';
-
 import * as Utils from 'utils/utils.jsx';
 
 import DeleteEmoji from './delete_emoji_modal.jsx';

@@ -9,10 +9,8 @@ import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {updateUser, uploadProfileImage} from 'actions/user_actions.jsx';
 import ErrorStore from 'stores/error_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 import SettingPicture from 'components/setting_picture.jsx';
@@ -119,9 +117,7 @@ class UserSettingsGeneralTab extends React.Component {
         this.state = this.setupInitialState(props);
     }
 
-    submitUsername(e) {
-        e.preventDefault();
-
+    submitUsername() {
         const user = Object.assign({}, this.props.user);
         const username = this.state.username.trim().toLowerCase();
 
@@ -147,9 +143,7 @@ class UserSettingsGeneralTab extends React.Component {
         this.submitUser(user, false);
     }
 
-    submitNickname(e) {
-        e.preventDefault();
-
+    submitNickname() {
         const user = Object.assign({}, this.props.user);
         const nickname = this.state.nickname.trim();
 
@@ -165,9 +159,7 @@ class UserSettingsGeneralTab extends React.Component {
         this.submitUser(user, false);
     }
 
-    submitName(e) {
-        e.preventDefault();
-
+    submitName() {
         const user = Object.assign({}, this.props.user);
         const firstName = this.state.firstName.trim();
         const lastName = this.state.lastName.trim();
@@ -185,9 +177,7 @@ class UserSettingsGeneralTab extends React.Component {
         this.submitUser(user, false);
     }
 
-    submitEmail(e) {
-        e.preventDefault();
-
+    submitEmail() {
         const user = Object.assign({}, this.props.user);
         const email = this.state.email.trim().toLowerCase();
         const confirmEmail = this.state.confirmEmail.trim().toLowerCase();
@@ -282,9 +272,7 @@ class UserSettingsGeneralTab extends React.Component {
         );
     }
 
-    submitPosition(e) {
-        e.preventDefault();
-
+    submitPosition() {
         const user = Object.assign({}, this.props.user);
         const position = this.state.position.trim();
 
@@ -442,6 +430,7 @@ class UserSettingsGeneralTab extends React.Component {
                             </label>
                             <div className='col-sm-7'>
                                 <input
+                                    autoFocus={true}
                                     id='primaryEmail'
                                     className='form-control'
                                     type='email'
@@ -579,12 +568,9 @@ class UserSettingsGeneralTab extends React.Component {
                     inputs={inputs}
                     submit={submit}
                     saving={this.state.sectionIsSaving}
-                    server_error={this.state.serverError}
-                    client_error={this.state.emailError}
-                    updateSection={(e) => {
-                        this.updateSection('');
-                        e.preventDefault();
-                    }}
+                    serverError={this.state.serverError}
+                    clientError={this.state.emailError}
+                    updateSection={this.updateSection}
                 />
             );
         } else {
@@ -674,9 +660,8 @@ class UserSettingsGeneralTab extends React.Component {
                         />
                     }
                     describe={describe}
-                    updateSection={() => {
-                        this.updateSection('email');
-                    }}
+                    section={'email'}
+                    updateSection={this.updateSection}
                 />
             );
         }
@@ -732,6 +717,7 @@ class UserSettingsGeneralTab extends React.Component {
                         <div className='col-sm-7'>
                             <input
                                 id='firstName'
+                                autoFocus={true}
                                 className='form-control'
                                 type='text'
                                 onChange={this.updateFirstName}
@@ -803,12 +789,9 @@ class UserSettingsGeneralTab extends React.Component {
                     inputs={inputs}
                     submit={submit}
                     saving={this.state.sectionIsSaving}
-                    server_error={serverError}
-                    client_error={clientError}
-                    updateSection={(e) => {
-                        this.updateSection('');
-                        e.preventDefault();
-                    }}
+                    serverError={serverError}
+                    clientError={clientError}
+                    updateSection={this.updateSection}
                     extraInfo={extraInfo}
                 />
             );
@@ -842,9 +825,8 @@ class UserSettingsGeneralTab extends React.Component {
                 <SettingItemMin
                     title={formatMessage(holders.fullName)}
                     describe={describe}
-                    updateSection={() => {
-                        this.updateSection('name');
-                    }}
+                    section={'name'}
+                    updateSection={this.updateSection}
                 />
             );
         }
@@ -882,6 +864,7 @@ class UserSettingsGeneralTab extends React.Component {
                         <div className='col-sm-7'>
                             <input
                                 id='nickname'
+                                autoFocus={true}
                                 className='form-control'
                                 type='text'
                                 onChange={this.updateNickname}
@@ -911,12 +894,9 @@ class UserSettingsGeneralTab extends React.Component {
                     inputs={inputs}
                     submit={submit}
                     saving={this.state.sectionIsSaving}
-                    server_error={serverError}
-                    client_error={clientError}
-                    updateSection={(e) => {
-                        this.updateSection('');
-                        e.preventDefault();
-                    }}
+                    serverError={serverError}
+                    clientError={clientError}
+                    updateSection={this.updateSection}
                     extraInfo={extraInfo}
                 />
             );
@@ -945,9 +925,8 @@ class UserSettingsGeneralTab extends React.Component {
                 <SettingItemMin
                     title={formatMessage(holders.nickname)}
                     describe={describe}
-                    updateSection={() => {
-                        this.updateSection('nickname');
-                    }}
+                    section={'nickname'}
+                    updateSection={this.updateSection}
                 />
             );
         }
@@ -976,6 +955,7 @@ class UserSettingsGeneralTab extends React.Component {
                         <div className='col-sm-7'>
                             <input
                                 id='username'
+                                autoFocus={true}
                                 maxLength={Constants.MAX_USERNAME_LENGTH}
                                 className='form-control'
                                 type='text'
@@ -1014,12 +994,9 @@ class UserSettingsGeneralTab extends React.Component {
                     inputs={inputs}
                     submit={submit}
                     saving={this.state.sectionIsSaving}
-                    server_error={serverError}
-                    client_error={clientError}
-                    updateSection={(e) => {
-                        this.updateSection('');
-                        e.preventDefault();
-                    }}
+                    serverError={serverError}
+                    clientError={clientError}
+                    updateSection={this.updateSection}
                     extraInfo={extraInfo}
                 />
             );
@@ -1028,9 +1005,8 @@ class UserSettingsGeneralTab extends React.Component {
                 <SettingItemMin
                     title={formatMessage(holders.username)}
                     describe={UserStore.getCurrentUser().username}
-                    updateSection={() => {
-                        this.updateSection('username');
-                    }}
+                    section={'username'}
+                    updateSection={this.updateSection}
                 />
             );
         }
@@ -1068,6 +1044,7 @@ class UserSettingsGeneralTab extends React.Component {
                         <div className='col-sm-7'>
                             <input
                                 id='position'
+                                autoFocus={true}
                                 className='form-control'
                                 type='text'
                                 onChange={this.updatePosition}
@@ -1097,12 +1074,9 @@ class UserSettingsGeneralTab extends React.Component {
                     inputs={inputs}
                     submit={submit}
                     saving={this.state.sectionIsSaving}
-                    server_error={serverError}
-                    client_error={clientError}
-                    updateSection={(e) => {
-                        this.updateSection('');
-                        e.preventDefault();
-                    }}
+                    serverError={serverError}
+                    clientError={clientError}
+                    updateSection={this.updateSection}
                     extraInfo={extraInfo}
                 />
             );
@@ -1131,9 +1105,8 @@ class UserSettingsGeneralTab extends React.Component {
                 <SettingItemMin
                     title={formatMessage(holders.position)}
                     describe={describe}
-                    updateSection={() => {
-                        this.updateSection('position');
-                    }}
+                    section={'position'}
+                    updateSection={this.updateSection}
                 />
             );
         }
@@ -1186,9 +1159,8 @@ class UserSettingsGeneralTab extends React.Component {
                 <SettingItemMin
                     title={formatMessage(holders.profilePicture)}
                     describe={minMessage}
-                    updateSection={() => {
-                        this.updateSection('picture');
-                    }}
+                    section={'picture'}
+                    updateSection={this.updateSection}
                 />
             );
         }

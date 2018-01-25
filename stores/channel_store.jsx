@@ -4,16 +4,13 @@
 import EventEmitter from 'events';
 
 import {batchActions} from 'redux-batched-actions';
-
-import UserStore from 'stores/user_store.jsx'; // eslint-disable-line import/order
-
-import {ChannelTypes, UserTypes} from 'mattermost-redux/action_types';
+import {ChannelTypes} from 'mattermost-redux/action_types';
 import * as Selectors from 'mattermost-redux/selectors/entities/channels';
 
+import UserStore from 'stores/user_store.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
-
 import {ActionTypes, Constants} from 'utils/constants.jsx';
 import {isFromWebhook, isSystemMessage} from 'utils/post_utils.jsx';
 
@@ -23,7 +20,7 @@ const NotificationPrefs = Constants.NotificationPrefs;
 
 const CHANGE_EVENT = 'change';
 const STATS_EVENT = 'stats';
-const LAST_VIEVED_EVENT = 'last_viewed';
+const LAST_VIEWED_EVENT = 'last_viewed';
 
 class ChannelStoreClass extends EventEmitter {
     constructor(props) {
@@ -107,15 +104,15 @@ class ChannelStoreClass extends EventEmitter {
     }
 
     emitLastViewed() {
-        this.emit(LAST_VIEVED_EVENT);
+        this.emit(LAST_VIEWED_EVENT);
     }
 
     addLastViewedListener(callback) {
-        this.on(LAST_VIEVED_EVENT, callback);
+        this.on(LAST_VIEWED_EVENT, callback);
     }
 
     removeLastViewedListener(callback) {
-        this.removeListener(LAST_VIEVED_EVENT, callback);
+        this.removeListener(LAST_VIEWED_EVENT, callback);
     }
 
     findFirstBy(field, value) {
@@ -299,17 +296,10 @@ class ChannelStoreClass extends EventEmitter {
         return Selectors.getMyChannelMemberships(store.getState());
     }
 
-    saveMembersInChannel(channelId = this.getCurrentId(), members) {
+    saveMembersInChannel(channelId, members) {
         store.dispatch({
             type: ChannelTypes.RECEIVED_CHANNEL_MEMBERS,
             data: Object.values(members)
-        });
-    }
-
-    removeMemberInChannel(channelId = this.getCurrentId(), userId) {
-        store.dispatch({
-            type: UserTypes.RECEIVED_PROFILE_NOT_IN_CHANNEL,
-            data: {id: channelId, user_id: userId}
         });
     }
 
@@ -547,7 +537,7 @@ ChannelStore.dispatchToken = AppDispatcher.register((payload) => {
         ChannelStore.storeMoreChannels(action.channels);
         break;
     case ActionTypes.RECEIVED_MEMBERS_IN_CHANNEL:
-        ChannelStore.saveMembersInChannel(action.channel_id, action.channel_members);
+        ChannelStore.saveMembersInChannel(action.channel_members);
         break;
     case ActionTypes.RECEIVED_CHANNEL_STATS:
         store.dispatch({
@@ -589,5 +579,7 @@ ChannelStore.dispatchToken = AppDispatcher.register((payload) => {
         break;
     }
 });
+
+global.channelstore = ChannelStore;
 
 export default ChannelStore;

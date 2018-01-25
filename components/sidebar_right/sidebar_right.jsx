@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -11,10 +10,8 @@ import {postListScrollChange} from 'actions/global_actions.jsx';
 import PostStore from 'stores/post_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import FileUploadOverlay from 'components/file_upload_overlay.jsx';
 import RhsThread from 'components/rhs_thread';
 import SearchBox from 'components/search_bar';
@@ -123,7 +120,7 @@ export default class SidebarRight extends React.Component {
 
     onPostPinnedChange = () => {
         if (this.props.channel && this.props.isPinnedPosts) {
-            this.props.actions.getPinnedPosts();
+            this.props.actions.getPinnedPosts(this.props.channel.id);
         }
     }
 
@@ -145,9 +142,8 @@ export default class SidebarRight extends React.Component {
             expandedClass = 'sidebar--right--expanded';
         }
 
-        var currentId = this.props.currentUser.id;
         var searchForm = null;
-        if (currentId) {
+        if (this.props.currentUser) {
             searchForm = <SearchBox isFocus={this.props.searchVisible && Utils.isMobile()}/>;
         }
 

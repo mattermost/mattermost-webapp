@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/integrations/DotMenuFlag should match snapshot, flagged on RHS 1`] = `
+exports[`components/dot_menu/DotMenuFlag should match snapshot, flagged on RHS 1`] = `
 <li
   key="rhs"
   role="presentation"
@@ -19,7 +19,7 @@ exports[`components/integrations/DotMenuFlag should match snapshot, flagged on R
 </li>
 `;
 
-exports[`components/integrations/DotMenuFlag should match snapshot, on RHS_ROOT 1`] = `
+exports[`components/dot_menu/DotMenuFlag should match snapshot, on RHS_ROOT 1`] = `
 <li
   key="rhsroot"
   role="presentation"
@@ -38,7 +38,7 @@ exports[`components/integrations/DotMenuFlag should match snapshot, on RHS_ROOT 
 </li>
 `;
 
-exports[`components/integrations/DotMenuFlag should match snapshot, unflagged on Center 1`] = `
+exports[`components/dot_menu/DotMenuFlag should match snapshot, unflagged on Center 1`] = `
 <li
   key="center"
   role="presentation"

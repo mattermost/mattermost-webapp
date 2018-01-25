@@ -4,11 +4,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 import * as EmojiActions from 'actions/emoji_actions.jsx';
 import EmojiStore from 'stores/emoji_store.jsx';
-
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
 import FormError from 'components/form_error.jsx';
 import SpinnerButton from 'components/spinner_button.jsx';
@@ -118,8 +117,7 @@ export default class AddEmoji extends React.Component {
             emoji,
             this.state.image,
             () => {
-                // for some reason, browserHistory.push doesn't trigger a state change even though the url changes
-                this.context.router.push('/' + this.props.team.name + '/emoji');
+                this.props.history.push('/' + this.props.team.name + '/emoji');
             },
             (err) => {
                 this.setState({

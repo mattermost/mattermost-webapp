@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-
 import {Client4} from 'mattermost-redux/client';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 

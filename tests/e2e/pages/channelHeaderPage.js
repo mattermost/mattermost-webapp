@@ -23,7 +23,6 @@ module.exports = {
                         channelHeaderTitle: {selector: '#channelHeaderTitle'},
                         channelHeaderDescription: {selector: '#channelHeaderDescription'},
                         channelHeaderDropdownButton: {selector: '#channelHeaderDropdownButton'},
-                        channelHeaderTitle: {selector: '#channelHeaderTitle'},
                         channelHeaderDropdownIcon: {selector: '#channelHeaderDropdownIcon'},
                         channelHeaderDropdownMenu: {selector: '#channelHeaderDropdownMenu'}
                     }

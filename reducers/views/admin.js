@@ -2,6 +2,7 @@
 // See License.txt for license information.
 
 import {combineReducers} from 'redux';
+
 import {ActionTypes} from 'utils/constants.jsx';
 
 const initialState = {
@@ -16,13 +17,13 @@ function navigationBlock(state = initialState, action) {
         return {...state, blocked: action.blocked};
     case ActionTypes.DEFER_NAVIGATION:
         return {
-            ...state, 
+            ...state,
             onNavigationConfirmed: action.onNavigationConfirmed,
             showNavigationPrompt: true
         };
     case ActionTypes.CANCEL_NAVIGATION:
         return {
-            ...state, 
+            ...state,
             onNavigationConfirmed: null,
             showNavigationPrompt: false
         };

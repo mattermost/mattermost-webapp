@@ -7,12 +7,10 @@ import {FormattedDate, FormattedMessage, FormattedTime, injectIntl, intlShape} f
 
 import {cancelJob, createJob} from 'actions/job_actions.jsx';
 import ErrorStore from 'stores/error_store.jsx';
-
 import {JobStatuses} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 class JobTable extends React.PureComponent {
-
     static propTypes = {
 
         /**
@@ -27,7 +25,7 @@ class JobTable extends React.PureComponent {
 
         actions: PropTypes.shape({
 
-             /**
+            /**
              * Function to fetch jobs
              */
             getJobsByType: PropTypes.func.isRequired
@@ -75,7 +73,7 @@ class JobTable extends React.PureComponent {
     componentDidMount() {
         this.props.actions.getJobsByType(this.props.jobType).then(
             () => this.setState({loading: false})
-         );
+        );
     }
 
     componentWillUnmount() {
@@ -269,11 +267,12 @@ class JobTable extends React.PureComponent {
         );
     };
 
-    handleCancelJob = (e, job) => {
+    handleCancelJob = (e) => {
         e.preventDefault();
+        const jobId = e.currentTarget.getAttribute('data-job-id');
 
         cancelJob(
-            job.id,
+            jobId,
             () => {
                 this.reload();
             },
@@ -311,7 +310,8 @@ class JobTable extends React.PureComponent {
         if (!this.props.disabled && (job.status === JobStatuses.PENDING || job.status === JobStatuses.IN_PROGRESS)) {
             cancelButton = (
                 <span
-                    onClick={(e) => this.handleCancelJob(e, job)}
+                    data-job-id={job.id}
+                    onClick={this.handleCancelJob}
                     className='job-table__cancel-button'
                     title={Utils.localizeMessage('admin.jobTable.cancelButton', 'Cancel')}
                 >

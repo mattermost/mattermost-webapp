@@ -5,20 +5,17 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router';
-
 import {Client4} from 'mattermost-redux/client';
 import {searchProfiles, searchProfilesInCurrentTeam} from 'mattermost-redux/selectors/entities/users';
 
+import {browserHistory} from 'utils/browser_history';
 import {openDirectChannelToUser, openGroupChannelToUsers} from 'actions/channel_actions.jsx';
 import {searchUsers} from 'actions/user_actions.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
-
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 
@@ -287,6 +284,10 @@ export default class MoreDirectChannels extends React.Component {
         return user.username;
     }
 
+    handleSubmitImmediatelyOn = (value) => {
+        return value.id === this.props.currentUserId || value.delete_at;
+    }
+
     render() {
         let note;
         if (this.props.startingUsers) {
@@ -365,9 +366,7 @@ export default class MoreDirectChannels extends React.Component {
                         maxValues={MAX_SELECTABLE_VALUES}
                         numRemainingText={numRemainingText}
                         buttonSubmitText={buttonSubmitText}
-                        submitImmediatelyOn={(value) => {
-                            return value.id === this.props.currentUserId || value.delete_at;
-                        }}
+                        submitImmediatelyOn={this.handleSubmitImmediatelyOn}
                         saving={this.state.loadingChannel}
                     />
                 </Modal.Body>

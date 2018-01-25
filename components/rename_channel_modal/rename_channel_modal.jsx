@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
-import {browserHistory} from 'react-router';
 
+import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
 import {cleanUpUrlable, getShortenedURL} from 'utils/url.jsx';
 import * as Utils from 'utils/utils.jsx';

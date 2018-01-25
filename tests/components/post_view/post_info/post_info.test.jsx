@@ -2,13 +2,10 @@
 // See License.txt for license information.
 
 import React from 'react';
-
 import {shallow} from 'enzyme';
-
 import {Posts} from 'mattermost-redux/constants';
 
 import Constants from 'utils/constants.jsx';
-
 import PostInfo from 'components/post_view/post_info/post_info.jsx';
 
 describe('components/post_view/PostInfo', () => {
@@ -43,6 +40,8 @@ describe('components/post_view/PostInfo', () => {
         getPostList: jest.fn(),
         useMilitaryTime: false,
         isFlagged: false,
+        hover: false,
+        showTimeWithoutHover: false,
         actions: {
             removePost: jest.fn(),
             addReaction: jest.fn()
@@ -176,5 +175,19 @@ describe('components/post_view/PostInfo', () => {
         expect(addReaction).toBeCalledWith(post.id, emoji.name);
         expect(handleDropdownOpened).toHaveBeenCalledTimes(1);
         expect(handleDropdownOpened).toBeCalledWith(false);
+    });
+
+    test('should match snapshot, hover', () => {
+        const props = {...requiredProps, hover: true};
+
+        const wrapper = shallow(<PostInfo {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, showTimeWithoutHover', () => {
+        const props = {...requiredProps, showTimeWithoutHover: true};
+
+        const wrapper = shallow(<PostInfo {...props}/>);
+        expect(wrapper).toMatchSnapshot();
     });
 });

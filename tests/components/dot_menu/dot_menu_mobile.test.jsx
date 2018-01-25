@@ -5,7 +5,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import Constants from 'utils/constants.jsx';
-
 import DotMenu from 'components/dot_menu/dot_menu.jsx';
 
 jest.mock('utils/utils', () => {
@@ -22,7 +21,7 @@ jest.mock('utils/post_utils', () => {
     };
 });
 
-describe('components/integrations/DotMenu on mobile view', () => {
+describe('components/dot_menu/DotMenu on mobile view', () => {
     global.window.mm_license = {};
 
     beforeEach(() => {

@@ -3,8 +3,8 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {browserHistory} from 'react-router';
 
+import {browserHistory} from 'utils/browser_history';
 import AbstractIncomingWebhook from 'components/integrations/components/abstract_incoming_webhook.jsx';
 
 const HEADER = {id: 'integrations.add', defaultMessage: 'Add'};
@@ -22,6 +22,16 @@ export default class AddIncomingWebhook extends React.PureComponent {
         * The request state for createIncomingHook action. Contains status and error
         */
         createIncomingHookRequest: PropTypes.object.isRequired,
+
+        /**
+        * Whether to allow configuration of the default post username.
+        */
+        enablePostUsernameOverride: PropTypes.bool.isRequired,
+
+        /**
+        * Whether to allow configuration of the default post icon.
+        */
+        enablePostIconOverride: PropTypes.bool.isRequired,
 
         actions: PropTypes.shape({
 
@@ -60,6 +70,8 @@ export default class AddIncomingWebhook extends React.PureComponent {
                 team={this.props.team}
                 header={HEADER}
                 footer={FOOTER}
+                enablePostUsernameOverride={this.props.enablePostUsernameOverride}
+                enablePostIconOverride={this.props.enablePostIconOverride}
                 action={this.addIncomingHook}
                 serverError={this.state.serverError}
             />

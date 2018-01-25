@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/login/LoginMfa should match snapshot 1`] = `
+<form
+  onSubmit={[Function]}
+>
+  <div
+    className="signup__email-container"
+  >
+    <p>
+      <FormattedMessage
+        defaultMessage="To complete the sign in process, please enter a token from your smartphone's authenticator"
+        id="login_mfa.enterToken"
+        values={Object {}}
+      />
+    </p>
+    <div
+      className="form-group"
+    />
+    <div
+      className="form-group"
+    >
+      <input
+        autoComplete="off"
+        autoFocus={true}
+        className="form-control"
+        name="token"
+        onChange={[Function]}
+        placeholder="MFA Token"
+        spellCheck="false"
+        type="text"
+      />
+    </div>
+    <div
+      className="form-group"
+    >
+      <SaveButton
+        defaultMessage="Submit"
+        disabled={false}
+        onClick={[Function]}
+        saving={false}
+        savingMessage="Submitting..."
+      />
+    </div>
+  </div>
+</form>
+`;

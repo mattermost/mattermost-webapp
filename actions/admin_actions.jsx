@@ -86,8 +86,8 @@ export async function recycleDatabaseConnection(success, error) {
     }
 }
 
-export async function adminResetPassword(userId, password, success, error) {
-    const {data, error: err} = await UserActions.updateUserPassword(userId, '', password)(dispatch, getState);
+export async function adminResetPassword(userId, currentPassword, password, success, error) {
+    const {data, error: err} = await UserActions.updateUserPassword(userId, currentPassword, password)(dispatch, getState);
     if (data && success) {
         success(data);
     } else if (err && error) {
@@ -121,11 +121,11 @@ export function getOAuthAppInfo(clientId, success, error) {
 }
 
 export function allowOAuth2(params, success, error) {
-    const responseType = params.response_type;
-    const clientId = params.client_id;
-    const redirectUri = params.redirect_uri;
-    const state = params.state;
-    const scope = params.scope;
+    const responseType = params.get('response_type');
+    const clientId = params.get('client_id');
+    const redirectUri = params.get('redirect_uri');
+    const state = params.get('state');
+    const scope = params.get('scope');
 
     Client4.authorizeOAuthApp(responseType, clientId, redirectUri, state, scope).then(
         (data) => {

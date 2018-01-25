@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
@@ -10,12 +9,9 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import * as WebrtcActions from 'actions/webrtc_actions.jsx';
 import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
-
 import WebSocketClient from 'client/web_websocket_client.jsx';
-
 import {Constants, WebrtcActionTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import ring from 'images/ring.mp3';
 
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
@@ -303,7 +299,7 @@ export default class WebrtcNotification extends React.Component {
                     />
                     <div
                         className='webrtc-buttons webrtc-icons active'
-                        style={{marginTop: '5px'}}
+                        style={style.buttons}
                     >
                         {answerBtn}
                         {rejectBtn}
@@ -345,3 +341,7 @@ export default class WebrtcNotification extends React.Component {
         return <div/>;
     }
 }
+
+const style = {
+    buttons: {marginTop: 5}
+};

@@ -8,17 +8,19 @@ import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
-import SearchChannelProvider from '../suggestion/search_channel_provider.jsx';
-import SearchSuggestionList from '../suggestion/search_suggestion_list.jsx';
-import SearchUserProvider from '../suggestion/search_user_provider.jsx';
-import SuggestionBox from '../suggestion/suggestion_box.jsx';
+import SearchChannelProvider from 'components/suggestion/search_channel_provider.jsx';
+import SearchSuggestionList from 'components/suggestion/search_suggestion_list.jsx';
+import SearchUserProvider from 'components/suggestion/search_user_provider.jsx';
+import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
+import FlagIcon from 'components/svg/flag_icon';
+import MentionsIcon from 'components/svg/mentions_icon';
+import SearchIcon from 'components/svg/search_icon';
 
 const {KeyCodes} = Constants;
 
 export default class SearchBar extends React.Component {
     static propTypes = {
-        isSearching: PropTypes.bool,
+        isSearchingTerm: PropTypes.bool,
         searchTerms: PropTypes.string,
         isMentionSearch: PropTypes.bool,
         isFlaggedPosts: PropTypes.bool,
@@ -45,7 +47,10 @@ export default class SearchBar extends React.Component {
     componentDidMount() {
         if (Utils.isMobile()) {
             setTimeout(() => {
-                document.querySelector('.app__body .sidebar--menu').classList.remove('visible');
+                const element = document.querySelector('.app__body .sidebar--menu');
+                if (element) {
+                    element.classList.remove('visible');
+                }
             });
         }
     }
@@ -163,13 +168,9 @@ export default class SearchBar extends React.Component {
     }
 
     render() {
-        const flagIcon = Constants.FLAG_ICON_SVG;
-        const searchIcon = Constants.SEARCH_ICON_SVG;
-        const mentionsIcon = Constants.MENTIONS_ICON_SVG;
-
-        var isSearching = null;
-        if (this.props.isSearching) {
-            isSearching = <span className={'fa fa-spin fa-spinner'}/>;
+        var isSearchingTerm = null;
+        if (this.props.isSearchingTerm) {
+            isSearchingTerm = <span className={'fa fa-spin fa-spinner'}/>;
         }
 
         let helpClass = 'search-help-popover';
@@ -214,9 +215,8 @@ export default class SearchBar extends React.Component {
                         className={'channel-header__icon ' + mentionBtnClass}
                         onClick={this.searchMentions}
                     >
-                        <span
+                        <MentionsIcon
                             className='icon icon__mentions'
-                            dangerouslySetInnerHTML={{__html: mentionsIcon}}
                             aria-hidden='true'
                         />
                     </div>
@@ -239,10 +239,7 @@ export default class SearchBar extends React.Component {
                             onClick={this.getFlagged}
                             className='style--none'
                         >
-                            <span
-                                className='icon icon__flag'
-                                dangerouslySetInnerHTML={{__html: flagIcon}}
-                            />
+                            <FlagIcon className='icon icon__flag'/>
                         </button>
                     </div>
                 </OverlayTrigger>
@@ -250,7 +247,7 @@ export default class SearchBar extends React.Component {
         }
 
         let clearClass = 'sidebar__search-clear';
-        if (!this.props.isSearching && this.props.searchTerms && this.props.searchTerms.trim() !== '') {
+        if (!this.props.isSearchingTerm && this.props.searchTerms && this.props.searchTerms.trim() !== '') {
             clearClass += ' visible';
         }
 
@@ -277,13 +274,12 @@ export default class SearchBar extends React.Component {
                         role='form'
                         className={searchFormClass}
                         onSubmit={this.handleSubmit}
-                        style={{overflow: 'visible'}}
+                        style={style.searchForm}
                         autoComplete='off'
                     >
-                        <span
+                        <SearchIcon
                             id='searchIcon'
                             className='search__icon'
-                            dangerouslySetInnerHTML={{__html: searchIcon}}
                             aria-hidden='true'
                         />
                         <SuggestionBox
@@ -313,7 +309,7 @@ export default class SearchBar extends React.Component {
                                 {'×'}
                             </span>
                         </div>
-                        {isSearching}
+                        {isSearchingTerm}
                         {this.renderHintPopover(helpClass)}
                     </form>
                 </div>
@@ -337,4 +333,8 @@ SearchBar.propTypes = {
     showMentionFlagBtns: PropTypes.bool,
     isCommentsPage: PropTypes.bool,
     isFocus: PropTypes.bool
+};
+
+const style = {
+    searchForm: {overflow: 'visible'}
 };

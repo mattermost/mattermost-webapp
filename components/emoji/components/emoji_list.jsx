@@ -4,14 +4,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 import * as EmojiActions from 'actions/emoji_actions.jsx';
 import EmojiStore from 'stores/emoji_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import * as Utils from 'utils/utils.jsx';
-
 import LoadingScreen from 'components/loading_screen.jsx';
 
 import EmojiListItem from './emoji_list_item.jsx';
@@ -169,7 +167,7 @@ export default class EmojiList extends React.Component {
                             placeholder={Utils.localizeMessage('emoji_list.search', 'Search Custom Emoji')}
                             value={this.state.filter}
                             onChange={this.updateFilter}
-                            style={{flexGrow: 0, flexShrink: 0}}
+                            style={style.search}
                         />
                     </div>
                 </div>
@@ -226,3 +224,7 @@ export default class EmojiList extends React.Component {
         );
     }
 }
+
+const style = {
+    search: {flexGrow: 0, flexShrink: 0}
+};

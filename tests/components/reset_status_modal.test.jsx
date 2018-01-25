@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import React from 'react';
-
 import {shallow} from 'enzyme';
 
 import ResetStatusModal from 'components/reset_status_modal/reset_status_modal.jsx';

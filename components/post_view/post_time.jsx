@@ -3,12 +3,10 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 import TeamStore from 'stores/team_store.jsx';
-
-import Constants from 'utils/constants.jsx';
-import {getDateForUnixTicks, isMobile, updateWindowDimensions} from 'utils/utils.jsx';
+import {isMobile} from 'utils/user_agent.jsx';
 
 export default class PostTime extends React.PureComponent {
     static propTypes = {
@@ -43,30 +41,12 @@ export default class PostTime extends React.PureComponent {
         super(props);
 
         this.state = {
-            currentTeamDisplayName: TeamStore.getCurrent().name,
-            width: '',
-            height: ''
+            currentTeamDisplayName: TeamStore.getCurrent().name
         };
     }
 
-    componentDidMount() {
-        this.intervalId = setInterval(() => {
-            this.forceUpdate();
-        }, Constants.TIME_SINCE_UPDATE_INTERVAL);
-        window.addEventListener('resize', () => {
-            updateWindowDimensions(this);
-        });
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.intervalId);
-        window.removeEventListener('resize', () => {
-            updateWindowDimensions(this);
-        });
-    }
-
     renderTimeTag() {
-        const date = getDateForUnixTicks(this.props.eventTime);
+        const date = new Date(this.props.eventTime);
 
         return (
             <time

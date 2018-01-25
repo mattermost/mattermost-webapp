@@ -4,15 +4,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router';
+import {Posts} from 'mattermost-redux/constants/index';
+import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
 import {addReaction, emitEmojiPosted} from 'actions/post_actions.jsx';
 import TeamStore from 'stores/team_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import DotMenu from 'components/dot_menu';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FileAttachmentListContainer from 'components/file_attachment_list';
@@ -20,8 +19,11 @@ import FailedPostOptions from 'components/post_view/failed_post_options';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content.jsx';
 import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
 import PostMessageContainer from 'components/post_view/post_message_view';
+import PostTime from 'components/post_view/post_time.jsx';
 import ReactionListContainer from 'components/post_view/reaction_list';
 import ProfilePicture from 'components/profile_picture.jsx';
+import EmojiIcon from 'components/svg/emoji_icon';
+import MattermostLogo from 'components/svg/mattermost_logo';
 
 import UserProfile from './user_profile.jsx';
 
@@ -44,45 +46,12 @@ export default class RhsComment extends React.Component {
 
     constructor(props) {
         super(props);
-        this.removePost = this.removePost.bind(this);
-        this.reactEmojiClick = this.reactEmojiClick.bind(this);
-        this.handleDropdownOpened = this.handleDropdownOpened.bind(this);
 
         this.state = {
             currentTeamDisplayName: TeamStore.getCurrent().name,
-            width: '',
-            height: '',
             showEmojiPicker: false,
             dropdownOpened: false
         };
-    }
-
-    componentDidMount() {
-        window.addEventListener('resize', () => {
-            Utils.updateWindowDimensions(this);
-        });
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', () => {
-            Utils.updateWindowDimensions(this);
-        });
-    }
-
-    removePost() {
-        this.props.removePost(this.props.post);
-    }
-
-    createRemovePostButton() {
-        return (
-            <button
-                className='post__remove theme color--link style--none'
-                type='button'
-                onClick={this.removePost}
-            >
-                {'×'}
-            </button>
-        );
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -134,39 +103,49 @@ export default class RhsComment extends React.Component {
             return true;
         }
 
-        if (this.props.user.last_picture_update !== nextProps.user.last_picture_update) {
+        if (!Utils.areObjectsEqual(nextProps.user, this.props.user)) {
+            return true;
+        }
+
+        if ((this.state.width !== nextState.width) || this.state.height !== nextState.height) {
             return true;
         }
 
         return false;
     }
 
-    timeTag(post, timeOptions) {
-        const date = Utils.getDateForUnixTicks(post.create_at);
+    removePost = () => {
+        this.props.removePost(this.props.post);
+    };
+
+    createRemovePostButton = () => {
+        return (
+            <button
+                className='post__remove theme color--link style--none'
+                type='button'
+                onClick={this.removePost}
+            >
+                {'×'}
+            </button>
+        );
+    };
+
+    renderPostTime = (isEphemeral) => {
+        const post = this.props.post;
+
+        const isPermalink = !(isEphemeral ||
+            Posts.POST_DELETED === post.state ||
+            ReduxPostUtils.isPostPendingOrFailed(post));
 
         return (
-            <time
-                className='post__time'
-                dateTime={date.toISOString()}
-                title={date}
-            >
-                {date.toLocaleString('en', timeOptions)}
-            </time>
+            <PostTime
+                isPermalink={isPermalink}
+                eventTime={post.create_at}
+                useMilitaryTime={this.props.useMilitaryTime}
+                postId={post.id}
+            />
         );
-    }
-
-    renderTimeTag(post, timeOptions) {
-        return Utils.isMobile() ?
-            this.timeTag(post, timeOptions) :
-            (
-                <Link
-                    to={`/${this.state.currentTeamDisplayName}/pl/${post.id}`}
-                    className='post__permalink'
-                >
-                    {this.timeTag(post, timeOptions)}
-                </Link>
-            );
-    }
+    };
 
     toggleEmojiPicker = () => {
         const showEmojiPicker = !this.state.showEmojiPicker;
@@ -175,15 +154,15 @@ export default class RhsComment extends React.Component {
             showEmojiPicker,
             dropdownOpened: showEmojiPicker
         });
-    }
+    };
 
-    reactEmojiClick(emoji) {
+    reactEmojiClick = (emoji) => {
         this.setState({showEmojiPicker: false});
         const emojiName = emoji.name || emoji.aliases[0];
         addReaction(this.props.post.channel_id, this.props.post.id, emojiName);
         emitEmojiPosted(emojiName);
         this.handleDropdownOpened(false);
-    }
+    };
 
     getClassName = (post, isSystemMessage) => {
         let className = 'post post--thread';
@@ -209,17 +188,20 @@ export default class RhsComment extends React.Component {
         }
 
         return className;
-    }
+    };
 
-    handleDropdownOpened(isOpened) {
+    handleDropdownOpened = (isOpened) => {
         this.setState({
             dropdownOpened: isOpened
         });
-    }
+    };
+
+    getDotMenuRef = () => {
+        return this.refs.dotMenu;
+    };
 
     render() {
         const post = this.props.post;
-        const mattermostLogo = Constants.MATTERMOST_ICON_SVG;
 
         let idCount = -1;
         if (this.props.lastPostCount >= 0 && this.props.lastPostCount < Constants.TEST_ID_COUNT) {
@@ -325,10 +307,7 @@ export default class RhsComment extends React.Component {
             );
         } else if (isSystemMessage) {
             profilePic = (
-                <span
-                    className='icon'
-                    dangerouslySetInnerHTML={{__html: mattermostLogo}}
-                />
+                <MattermostLogo className='icon'/>
             );
         }
 
@@ -373,7 +352,7 @@ export default class RhsComment extends React.Component {
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
                         onHide={this.toggleEmojiPicker}
-                        target={() => this.refs.dotMenu}
+                        target={this.getDotMenuRef}
                         onEmojiClick={this.reactEmojiClick}
                         rightOffset={15}
                         spaceRequiredAbove={342}
@@ -384,10 +363,7 @@ export default class RhsComment extends React.Component {
                         onClick={this.toggleEmojiPicker}
                         ref={'rhs_reacticon_' + post.id}
                     >
-                        <span
-                            className='icon icon--emoji'
-                            dangerouslySetInnerHTML={{__html: Constants.EMOJI_ICON_SVG}}
-                        />
+                        <EmojiIcon className='icon icon--emoji'/>
                     </button>
                 </span>
 
@@ -435,11 +411,29 @@ export default class RhsComment extends React.Component {
             );
         }
 
-        const timeOptions = {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: !this.props.useMilitaryTime
-        };
+        const messageWrapper = (
+            <PostMessageContainer
+                post={post}
+                isRHS={true}
+                hasMention={true}
+            />
+        );
+
+        let messageWithAdditionalContent;
+        if (this.props.post.state === Posts.POST_DELETED) {
+            messageWithAdditionalContent = messageWrapper;
+        } else {
+            messageWithAdditionalContent = (
+                <PostBodyAdditionalContent
+                    post={post}
+                    previewCollapsed={this.props.previewCollapsed}
+                    previewEnabled={this.props.previewEnabled}
+                    isEmbedVisible={this.props.isEmbedVisible}
+                >
+                    {messageWrapper}
+                </PostBodyAdditionalContent>
+            );
+        }
 
         return (
             <div
@@ -455,7 +449,7 @@ export default class RhsComment extends React.Component {
                             </div>
                             {botIndicator}
                             <div className='col'>
-                                {this.renderTimeTag(post, timeOptions)}
+                                {this.renderPostTime(isEphemeral)}
                                 {pinnedBadge}
                                 <PostFlagIcon
                                     idPrefix={'rhsCommentFlag'}
@@ -471,18 +465,7 @@ export default class RhsComment extends React.Component {
                         <div className='post__body' >
                             <div className={postClass}>
                                 {failedPostOptions}
-                                <PostBodyAdditionalContent
-                                    post={post}
-                                    previewCollapsed={this.props.previewCollapsed}
-                                    previewEnabled={this.props.previewEnabled}
-                                    isEmbedVisible={this.props.isEmbedVisible}
-                                >
-                                    <PostMessageContainer
-                                        post={post}
-                                        isRHS={true}
-                                        hasMention={true}
-                                    />
-                                </PostBodyAdditionalContent>
+                                {messageWithAdditionalContent}
                             </div>
                             {fileAttachment}
                             <ReactionListContainer post={post}/>

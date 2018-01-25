@@ -9,20 +9,20 @@ import {Posts} from 'mattermost-redux/constants';
 
 import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
+import {createPost, emitEmojiPosted} from 'actions/post_actions.jsx';
 import EmojiStore from 'stores/emoji_store.jsx';
 import Constants, {StoragePrefixes} from 'utils/constants.jsx';
 import * as FileUtils from 'utils/file_utils';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-
-import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
-
 import ConfirmModal from 'components/confirm_modal.jsx';
+import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview.jsx';
 import FileUpload from 'components/file_upload.jsx';
 import MsgTyping from 'components/msg_typing.jsx';
 import PostDeletedModal from 'components/post_deleted_modal.jsx';
+import EmojiIcon from 'components/svg/emoji_icon';
 import Textbox from 'components/textbox.jsx';
 import TutorialTip from 'components/tutorial/tutorial_tip.jsx';
 
@@ -124,11 +124,6 @@ export default class CreatePost extends React.Component {
             moveHistoryIndexForward: PropTypes.func.isRequired,
 
             /**
-            *  func called for posting message
-            */
-            createPost: PropTypes.func.isRequired,
-
-            /**
             *  func called for adding a reaction
             */
             addReaction: PropTypes.func.isRequired,
@@ -151,7 +146,12 @@ export default class CreatePost extends React.Component {
             /**
             *  func called for editing posts
             */
-            setEditingPost: PropTypes.func.isRequired
+            setEditingPost: PropTypes.func.isRequired,
+
+            /**
+             *  func called for opening the last replayable post in the RHS
+             */
+            selectPostFromRightHandSideSearchByPostId: PropTypes.func.isRequired
         }).isRequired
     }
 
@@ -357,13 +357,9 @@ export default class CreatePost extends React.Component {
         post.parent_id = this.state.parentId;
 
         GlobalActions.emitUserPostedEvent(post);
-        this.props.actions.createPost(post, this.props.draft.fileInfos).then(() => GlobalActions.postListScrollChange(true)).catch((err) => {
-            if (err.id === 'api.post.create_post.root_id.app_error') {
-                // this should never actually happen since you can't reply from this textbox
-                this.showPostDeletedModal();
-            } else {
-                this.forceUpdate();
-            }
+
+        createPost(post, this.props.draft.fileInfos, () => {
+            GlobalActions.postListScrollChange(true);
             this.setState({
                 submitting: false
             });
@@ -378,6 +374,7 @@ export default class CreatePost extends React.Component {
 
         if (postId && action === '+') {
             this.props.actions.addReaction(postId, emojiName);
+            emitEmojiPosted(emojiName);
         } else if (postId && action === '-') {
             this.props.actions.removeReaction(postId, emojiName);
         }
@@ -392,7 +389,8 @@ export default class CreatePost extends React.Component {
     }
 
     postMsgKeyPress = (e) => {
-        if (!UserAgent.isMobile() && ((this.props.ctrlSend && e.ctrlKey) || !this.props.ctrlSend)) {
+        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
+        if (!UserAgent.isMobile() && ((this.props.ctrlSend && ctrlOrMetaKeyPressed) || !this.props.ctrlSend)) {
             if (e.which === KeyCodes.ENTER && !e.shiftKey && !e.altKey) {
                 e.preventDefault();
                 ReactDOM.findDOMNode(this.refs.textbox).blur();
@@ -564,50 +562,60 @@ export default class CreatePost extends React.Component {
     }
 
     handleKeyDown = (e) => {
-        const channelId = this.props.currentChannel.id;
-        if (this.props.ctrlSend && e.keyCode === KeyCodes.ENTER && e.ctrlKey === true) {
+        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
+        const messageIsEmpty = this.state.message.length === 0;
+        const draftMessageIsEmpty = this.props.draft.message.length === 0;
+        const ctrlEnterKeyCombo = this.props.ctrlSend && e.keyCode === KeyCodes.ENTER && ctrlOrMetaKeyPressed;
+        const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && e.keyCode === KeyCodes.UP;
+        const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && e.keyCode === KeyCodes.UP;
+        const ctrlKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;
+
+        if (ctrlEnterKeyCombo) {
             this.postMsgKeyPress(e);
+        } else if (upKeyOnly && messageIsEmpty) {
+            this.editLastPost(e);
+        } else if (shiftUpKeyCombo && messageIsEmpty) {
+            this.replyToLastPost(e);
+        } else if (ctrlKeyCombo && draftMessageIsEmpty && e.keyCode === KeyCodes.UP) {
+            this.loadPrevMessage(e);
+        } else if (ctrlKeyCombo && draftMessageIsEmpty && e.keyCode === KeyCodes.DOWN) {
+            this.loadNextMessage(e);
+        }
+    }
+
+    editLastPost = (e) => {
+        e.preventDefault();
+
+        const lastPost = this.props.currentUsersLatestPost;
+        if (!lastPost) {
             return;
         }
 
+        let type;
+        if (lastPost.root_id && lastPost.root_id.length > 0) {
+            type = Utils.localizeMessage('create_post.comment', Posts.MESSAGE_TYPES.COMMENT);
+        } else {
+            type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
+        }
+        this.props.actions.setEditingPost(lastPost.id, this.props.commentCountForPost, '#post_textbox', type);
+    }
+
+    replyToLastPost = (e) => {
+        e.preventDefault();
         const latestReplyablePostId = this.props.latestReplyablePostId;
-        const lastPostEl = document.getElementById(`commentIcon_${channelId}_${latestReplyablePostId}`);
-
-        if (!e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey && e.keyCode === KeyCodes.UP && this.state.message === '') {
-            e.preventDefault();
-
-            const lastPost = this.props.currentUsersLatestPost;
-            if (!lastPost) {
-                return;
-            }
-
-            let type;
-            if (lastPost.root_id && lastPost.root_id.length > 0) {
-                type = Utils.localizeMessage('create_post.comment', Posts.MESSAGE_TYPES.COMMENT);
-            } else {
-                type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
-            }
-            this.props.actions.setEditingPost(lastPost.id, this.props.commentCountForPost, '#post_textbox', type);
-        } else if (!e.ctrlKey && !e.metaKey && !e.altKey && e.shiftKey && e.keyCode === KeyCodes.UP && this.state.message === '' && lastPostEl) {
-            e.preventDefault();
-            if (document.createEvent) {
-                const evt = document.createEvent('MouseEvents');
-                evt.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-                lastPostEl.dispatchEvent(evt);
-            } else if (document.createEventObject) {
-                const evObj = document.createEventObject();
-                lastPostEl.fireEvent('onclick', evObj);
-            }
+        if (latestReplyablePostId) {
+            this.props.actions.selectPostFromRightHandSideSearchByPostId(latestReplyablePostId);
         }
+    }
 
-        if ((e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey && (e.keyCode === KeyCodes.UP || e.keyCode === KeyCodes.DOWN)) {
-            e.preventDefault();
-            if (e.keyCode === KeyCodes.UP) {
-                this.props.actions.moveHistoryIndexBack(Posts.MESSAGE_TYPES.POST).then(() => this.fillMessageFromHistory());
-            } else {
-                this.props.actions.moveHistoryIndexForward(Posts.MESSAGE_TYPES.POST).then(() => this.fillMessageFromHistory());
-            }
-        }
+    loadPrevMessage = (e) => {
+        e.preventDefault();
+        this.props.actions.moveHistoryIndexBack(Posts.MESSAGE_TYPES.POST).then(() => this.fillMessageFromHistory());
+    }
+
+    loadNextMessage = (e) => {
+        e.preventDefault();
+        this.props.actions.moveHistoryIndexForward(Posts.MESSAGE_TYPES.POST).then(() => this.fillMessageFromHistory());
     }
 
     handleBlur = () => {
@@ -734,7 +742,7 @@ export default class CreatePost extends React.Component {
         }
 
         let tutorialTip = null;
-        if (parseInt(this.props.showTutorialTip, 10) === TutorialSteps.POST_POPOVER) {
+        if (parseInt(this.props.showTutorialTip, 10) === TutorialSteps.POST_POPOVER && global.window.mm_config.EnableTutorial === 'true') {
             tutorialTip = this.createTutorialTip();
         }
 
@@ -780,10 +788,9 @@ export default class CreatePost extends React.Component {
                         rightOffset={15}
                         topOffset={-7}
                     />
-                    <span
+                    <EmojiIcon
                         id='emojiPickerButton'
                         className={'icon icon--emoji ' + (this.state.showEmojiPicker ? 'active' : '')}
-                        dangerouslySetInnerHTML={{__html: Constants.EMOJI_ICON_SVG}}
                         onClick={this.toggleEmojiPicker}
                     />
                 </span>

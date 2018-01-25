@@ -6,7 +6,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {JobTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import ConfirmModal from 'components/confirm_modal.jsx';
 
 import AdminSettings from './admin_settings.jsx';

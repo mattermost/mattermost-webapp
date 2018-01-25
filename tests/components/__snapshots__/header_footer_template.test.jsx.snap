@@ -6,11 +6,7 @@ exports[`components/HeaderFooterTemplate should match snapshot with about link 1
 >
   <div
     className="row content"
-  >
-    <div
-      className="footer-push"
-    />
-  </div>
+  />
   <div
     className="row footer"
   >
@@ -34,19 +30,23 @@ exports[`components/HeaderFooterTemplate should match snapshot with about link 1
         >
           © 2015-2017 Mattermost, Inc.
         </span>
-        <a
-          className="pull-right footer-link"
-          href="http://testaboutlink"
-          id="about_link"
-          key="about_link"
-          rel="noopener noreferrer"
-          target="_blank"
+        <span
+          className="pull-right"
         >
-          <FormattedMessage
-            id="web.footer.about"
-            values={Object {}}
-          />
-        </a>
+          <a
+            className="footer-link"
+            href="http://testaboutlink"
+            id="about_link"
+            key="about_link"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <FormattedMessage
+              id="web.footer.about"
+              values={Object {}}
+            />
+          </a>
+        </span>
       </div>
     </div>
   </div>
@@ -59,11 +59,7 @@ exports[`components/HeaderFooterTemplate should match snapshot with all links 1`
 >
   <div
     className="row content"
-  >
-    <div
-      className="footer-push"
-    />
-  </div>
+  />
   <div
     className="row footer"
   >
@@ -87,58 +83,62 @@ exports[`components/HeaderFooterTemplate should match snapshot with all links 1`
         >
           © 2015-2017 Mattermost, Inc.
         </span>
-        <a
-          className="pull-right footer-link"
-          href="http://testhelplink"
-          id="help_link"
-          key="help_link"
-          rel="noopener noreferrer"
-          target="_blank"
+        <span
+          className="pull-right"
         >
-          <FormattedMessage
-            id="web.footer.help"
-            values={Object {}}
-          />
-        </a>
-        <a
-          className="pull-right footer-link"
-          href="http://testtermsofservicelink"
-          id="terms_link"
-          key="terms_link"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <FormattedMessage
-            id="web.footer.terms"
-            values={Object {}}
-          />
-        </a>
-        <a
-          className="pull-right footer-link"
-          href="http://testprivacypolicylink"
-          id="privacy_link"
-          key="privacy_link"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <FormattedMessage
-            id="web.footer.privacy"
-            values={Object {}}
-          />
-        </a>
-        <a
-          className="pull-right footer-link"
-          href="http://testaboutlink"
-          id="about_link"
-          key="about_link"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <FormattedMessage
-            id="web.footer.about"
-            values={Object {}}
-          />
-        </a>
+          <a
+            className="footer-link"
+            href="http://testaboutlink"
+            id="about_link"
+            key="about_link"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <FormattedMessage
+              id="web.footer.about"
+              values={Object {}}
+            />
+          </a>
+          <a
+            className="footer-link"
+            href="http://testprivacypolicylink"
+            id="privacy_link"
+            key="privacy_link"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <FormattedMessage
+              id="web.footer.privacy"
+              values={Object {}}
+            />
+          </a>
+          <a
+            className="footer-link"
+            href="http://testtermsofservicelink"
+            id="terms_link"
+            key="terms_link"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <FormattedMessage
+              id="web.footer.terms"
+              values={Object {}}
+            />
+          </a>
+          <a
+            className="footer-link"
+            href="http://testhelplink"
+            id="help_link"
+            key="help_link"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <FormattedMessage
+              id="web.footer.help"
+              values={Object {}}
+            />
+          </a>
+        </span>
       </div>
     </div>
   </div>
@@ -155,9 +155,6 @@ exports[`components/HeaderFooterTemplate should match snapshot with children 1`]
     <p>
       test
     </p>
-    <div
-      className="footer-push"
-    />
   </div>
   <div
     className="row footer"
@@ -182,6 +179,9 @@ exports[`components/HeaderFooterTemplate should match snapshot with children 1`]
         >
           © 2015-2017 Mattermost, Inc.
         </span>
+        <span
+          className="pull-right"
+        />
       </div>
     </div>
   </div>
@@ -194,11 +194,7 @@ exports[`components/HeaderFooterTemplate should match snapshot with help link 1`
 >
   <div
     className="row content"
-  >
-    <div
-      className="footer-push"
-    />
-  </div>
+  />
   <div
     className="row footer"
   >
@@ -222,19 +218,23 @@ exports[`components/HeaderFooterTemplate should match snapshot with help link 1`
         >
           © 2015-2017 Mattermost, Inc.
         </span>
-        <a
-          className="pull-right footer-link"
-          href="http://testhelplink"
-          id="help_link"
-          key="help_link"
-          rel="noopener noreferrer"
-          target="_blank"
+        <span
+          className="pull-right"
         >
-          <FormattedMessage
-            id="web.footer.help"
-            values={Object {}}
-          />
-        </a>
+          <a
+            className="footer-link"
+            href="http://testhelplink"
+            id="help_link"
+            key="help_link"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <FormattedMessage
+              id="web.footer.help"
+              values={Object {}}
+            />
+          </a>
+        </span>
       </div>
     </div>
   </div>
@@ -247,11 +247,7 @@ exports[`components/HeaderFooterTemplate should match snapshot with privacy poli
 >
   <div
     className="row content"
-  >
-    <div
-      className="footer-push"
-    />
-  </div>
+  />
   <div
     className="row footer"
   >
@@ -275,19 +271,23 @@ exports[`components/HeaderFooterTemplate should match snapshot with privacy poli
         >
           © 2015-2017 Mattermost, Inc.
         </span>
-        <a
-          className="pull-right footer-link"
-          href="http://testprivacypolicylink"
-          id="privacy_link"
-          key="privacy_link"
-          rel="noopener noreferrer"
-          target="_blank"
+        <span
+          className="pull-right"
         >
-          <FormattedMessage
-            id="web.footer.privacy"
-            values={Object {}}
-          />
-        </a>
+          <a
+            className="footer-link"
+            href="http://testprivacypolicylink"
+            id="privacy_link"
+            key="privacy_link"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <FormattedMessage
+              id="web.footer.privacy"
+              values={Object {}}
+            />
+          </a>
+        </span>
       </div>
     </div>
   </div>
@@ -300,11 +300,7 @@ exports[`components/HeaderFooterTemplate should match snapshot with term of serv
 >
   <div
     className="row content"
-  >
-    <div
-      className="footer-push"
-    />
-  </div>
+  />
   <div
     className="row footer"
   >
@@ -328,19 +324,23 @@ exports[`components/HeaderFooterTemplate should match snapshot with term of serv
         >
           © 2015-2017 Mattermost, Inc.
         </span>
-        <a
-          className="pull-right footer-link"
-          href="http://testtermsofservicelink"
-          id="terms_link"
-          key="terms_link"
-          rel="noopener noreferrer"
-          target="_blank"
+        <span
+          className="pull-right"
         >
-          <FormattedMessage
-            id="web.footer.terms"
-            values={Object {}}
-          />
-        </a>
+          <a
+            className="footer-link"
+            href="http://testtermsofservicelink"
+            id="terms_link"
+            key="terms_link"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <FormattedMessage
+              id="web.footer.terms"
+              values={Object {}}
+            />
+          </a>
+        </span>
       </div>
     </div>
   </div>
@@ -353,11 +353,7 @@ exports[`components/HeaderFooterTemplate should match snapshot without children 
 >
   <div
     className="row content"
-  >
-    <div
-      className="footer-push"
-    />
-  </div>
+  />
   <div
     className="row footer"
   >
@@ -381,6 +377,9 @@ exports[`components/HeaderFooterTemplate should match snapshot without children 
         >
           © 2015-2017 Mattermost, Inc.
         </span>
+        <span
+          className="pull-right"
+        />
       </div>
     </div>
   </div>

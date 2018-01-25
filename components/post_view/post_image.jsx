@@ -22,7 +22,12 @@ export default class PostImageEmbed extends React.PureComponent {
         /**
          * The function to call if image load fails
          */
-        onLinkLoadError: PropTypes.func
+        onLinkLoadError: PropTypes.func,
+
+        /**
+         * The function to call if image is clicked
+         */
+        handleImageClick: PropTypes.func
     }
 
     constructor(props) {
@@ -86,6 +91,11 @@ export default class PostImageEmbed extends React.PureComponent {
         }
     }
 
+    onImageClick = (e) => {
+        e.preventDefault();
+        this.props.handleImageClick();
+    };
+
     render() {
         if (this.state.errored || !this.state.loaded) {
             return null;
@@ -96,7 +106,8 @@ export default class PostImageEmbed extends React.PureComponent {
                 className='post__embed-container'
             >
                 <img
-                    className='img-div'
+                    onClick={this.onImageClick}
+                    className='img-div cursor--pointer'
                     src={this.props.link}
                 />
             </div>

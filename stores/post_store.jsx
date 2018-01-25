@@ -9,9 +9,7 @@ import BrowserStore from 'stores/browser_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import store from 'stores/redux_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import {Constants} from 'utils/constants.jsx';
-
 import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
 
 const ActionTypes = Constants.ActionTypes;

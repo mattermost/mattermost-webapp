@@ -5,11 +5,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import ModalStore from 'stores/modal_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {getSiteURL} from 'utils/url.jsx';
-
 import GetLinkModal from 'components/get_link_modal.jsx';
 
 export default class GetTeamInviteLinkModal extends React.PureComponent {
@@ -24,6 +22,10 @@ export default class GetTeamInviteLinkModal extends React.PureComponent {
          * Global config object
          */
         config: PropTypes.object.isRequired
+    }
+
+    static defaultProps = {
+        currentTeam: {}
     }
 
     constructor(props) {
@@ -47,6 +49,10 @@ export default class GetTeamInviteLinkModal extends React.PureComponent {
         });
     }
 
+    onHide = () => {
+        this.handleToggle(false);
+    }
+
     render() {
         const inviteUrl = getSiteURL() + '/signup_user_complete/?id=' + this.props.currentTeam.invite_id;
 
@@ -60,7 +66,7 @@ export default class GetTeamInviteLinkModal extends React.PureComponent {
         return (
             <GetLinkModal
                 show={this.state.show}
-                onHide={() => this.handleToggle(false)}
+                onHide={this.onHide}
                 title={Utils.localizeMessage('get_team_invite_link_modal.title', 'Team Invite Link')}
                 helpText={helpText}
                 link={inviteUrl}

@@ -7,9 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {emailToLdap} from 'actions/admin_actions.jsx';
 import {checkMfa} from 'actions/user_actions.jsx';
-
 import * as Utils from 'utils/utils.jsx';
-
 import LoginMfa from 'components/login/components/login_mfa.jsx';
 
 export default class EmailToLDAP extends React.Component {
@@ -192,7 +190,7 @@ export default class EmailToLDAP extends React.Component {
                     </p>
                     <input
                         type='text'
-                        style={{display: 'none'}}
+                        style={style.usernameInput}
                         name='fakeusernameremembered'
                     />
                     <div className={passwordClass}>
@@ -269,4 +267,8 @@ EmailToLDAP.defaultProps = {
 };
 EmailToLDAP.propTypes = {
     email: PropTypes.string
+};
+
+const style = {
+    usernameInput: {display: 'none'}
 };

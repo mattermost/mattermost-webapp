@@ -6,10 +6,8 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {savePreference} from 'actions/user_actions.jsx';
-
 import {Preferences} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
-
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 
@@ -35,7 +33,7 @@ export default class EmailNotificationSetting extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.enableEmail !== this.props.enableEmail || nextProps.emailInterval !== this.props.emailInterval) {
+        if (!nextProps.saving && (nextProps.enableEmail !== this.props.enableEmail || nextProps.emailInterval !== this.props.emailInterval)) {
             this.setState({
                 enableEmail: nextProps.enableEmail,
                 emailInterval: nextProps.emailInterval
@@ -43,7 +41,9 @@ export default class EmailNotificationSetting extends React.Component {
         }
     }
 
-    handleChange = (enableEmail, emailInterval) => {
+    handleChange = (e) => {
+        const enableEmail = e.currentTarget.getAttribute('data-enable-email');
+        const emailInterval = parseInt(e.currentTarget.getAttribute('data-email-interval'), 10);
         this.setState({
             enableEmail,
             emailInterval
@@ -56,22 +56,24 @@ export default class EmailNotificationSetting extends React.Component {
             // until the rest of the notification settings are moved to preferences, we have to do this separately
             savePreference(Preferences.CATEGORY_NOTIFICATIONS, Preferences.EMAIL_INTERVAL, emailInterval.toString());
 
-            this.props.onSubmit({enableEmail});
+            this.props.onSubmit(enableEmail);
         } else {
             this.props.updateSection('');
         }
     }
 
-    handleExpand = () => {
-        this.props.updateSection('email');
-    }
+    handleUpdateSection = (section) => {
+        if (section) {
+            this.props.updateSection(section);
+        } else {
+            this.props.updateSection('');
 
-    handleCancel = (e) => {
-        this.setState({
-            enableEmail: this.props.enableEmail,
-            emailInterval: this.props.emailInterval
-        });
-        this.props.onCancel(e);
+            this.setState({
+                enableEmail: this.props.enableEmail,
+                emailInterval: this.props.emailInterval
+            });
+            this.props.onCancel();
+        }
     }
 
     render() {
@@ -95,7 +97,8 @@ export default class EmailNotificationSetting extends React.Component {
                     title={localizeMessage('user.settings.notifications.emailNotifications', 'Email notifications')}
                     inputs={inputs}
                     server_error={this.state.serverError}
-                    updateSection={this.handleCancel}
+                    section={'email'}
+                    updateSection={this.handleUpdateSection}
                 />
             );
         }
@@ -150,7 +153,8 @@ export default class EmailNotificationSetting extends React.Component {
                 <SettingItemMin
                     title={localizeMessage('user.settings.notifications.emailNotifications', 'Email notifications')}
                     describe={description}
-                    updateSection={this.handleExpand}
+                    section={'email'}
+                    updateSection={this.handleUpdateSection}
                 />
             );
         }
@@ -167,7 +171,9 @@ export default class EmailNotificationSetting extends React.Component {
                                 type='radio'
                                 name='emailNotifications'
                                 checked={this.state.emailInterval === Preferences.INTERVAL_FIFTEEN_MINUTES}
-                                onChange={() => this.handleChange('true', Preferences.INTERVAL_FIFTEEN_MINUTES)}
+                                data-enable-email={'true'}
+                                data-email-interval={Preferences.INTERVAL_FIFTEEN_MINUTES}
+                                onChange={this.handleChange}
                             />
                             <FormattedMessage
                                 id='user.settings.notifications.email.everyXMinutes'
@@ -183,7 +189,9 @@ export default class EmailNotificationSetting extends React.Component {
                                 type='radio'
                                 name='emailNotifications'
                                 checked={this.state.emailInterval === Preferences.INTERVAL_HOUR}
-                                onChange={() => this.handleChange('true', Preferences.INTERVAL_HOUR)}
+                                data-enable-email={'true'}
+                                data-email-interval={Preferences.INTERVAL_HOUR}
+                                onChange={this.handleChange}
                             />
                             <FormattedMessage
                                 id='user.settings.notifications.email.everyHour'
@@ -220,7 +228,9 @@ export default class EmailNotificationSetting extends React.Component {
                                     type='radio'
                                     name='emailNotifications'
                                     checked={this.state.emailInterval === Preferences.INTERVAL_IMMEDIATE}
-                                    onChange={() => this.handleChange('true', Preferences.INTERVAL_IMMEDIATE)}
+                                    data-enable-email={'true'}
+                                    data-email-interval={Preferences.INTERVAL_IMMEDIATE}
+                                    onChange={this.handleChange}
                                 />
                                 <FormattedMessage
                                     id='user.settings.notifications.email.immediately'
@@ -236,7 +246,9 @@ export default class EmailNotificationSetting extends React.Component {
                                     type='radio'
                                     name='emailNotifications'
                                     checked={this.state.emailInterval === Preferences.INTERVAL_NEVER}
-                                    onChange={() => this.handleChange('false', Preferences.INTERVAL_NEVER)}
+                                    data-enable-email={'false'}
+                                    data-email-interval={Preferences.INTERVAL_NEVER}
+                                    onChange={this.handleChange}
                                 />
                                 <FormattedMessage
                                     id='user.settings.notifications.email.never'
@@ -261,7 +273,7 @@ export default class EmailNotificationSetting extends React.Component {
                 submit={this.handleSubmit}
                 saving={this.props.saving}
                 server_error={this.props.serverError}
-                updateSection={this.handleCancel}
+                updateSection={this.handleUpdateSection}
             />
         );
     }

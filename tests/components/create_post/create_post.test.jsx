@@ -1,9 +1,8 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
+
 import React from 'react';
-
 import {shallow} from 'enzyme';
-
 import {Posts} from 'mattermost-redux/constants';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
@@ -11,6 +10,7 @@ import Constants, {StoragePrefixes} from 'utils/constants.jsx';
 import CreatePost from 'components/create_post/create_post.jsx';
 import * as Utils from 'utils/utils.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
+import * as PostActions from 'actions/post_actions.jsx';
 
 jest.mock('actions/global_actions.jsx', () => ({
     emitLocalUserTypingEvent: jest.fn(),
@@ -18,12 +18,22 @@ jest.mock('actions/global_actions.jsx', () => ({
     showChannelHeaderUpdateModal: jest.fn(),
     showChannelPurposeUpdateModal: jest.fn(),
     showChannelNameUpdateModal: jest.fn(),
-    toggleShortcutsModal: jest.fn()
+    toggleShortcutsModal: jest.fn(),
+    postListScrollChange: jest.fn()
 }));
 
 jest.mock('react-dom', () => ({
     findDOMNode: () => ({
         blur: jest.fn()
+    })
+}));
+
+jest.mock('actions/post_actions.jsx', () => ({
+    emitEmojiPosted: jest.fn(),
+    createPost: jest.fn(() => {
+        return new Promise((resolve) => {
+            process.nextTick(() => resolve());
+        });
     })
 }));
 
@@ -56,7 +66,6 @@ const actionsProp = {
     addMessageIntoHistory: emptyFunction,
     moveHistoryIndexBack: emptyFunction,
     moveHistoryIndexForward: emptyFunction,
-    createPost: emptyFunction,
     addReaction: emptyFunction,
     removeReaction: emptyFunction,
     clearDraftUploads: emptyFunction,
@@ -65,19 +74,19 @@ const actionsProp = {
 };
 
 function createPost({
-      currentChannel = currentChannelProp,
-      currentTeamId = currentTeamIdProp,
-      currentUserId = currentUserIdProp,
-      showTutorialTip = showTutorialTipProp,
-      currentChannelMembersCount = currentChannelMembersCountProp,
-      fullWidthTextBox = fullWidthTextBoxProp,
-      draft = draftProp,
-      recentPostIdInChannel = recentPostIdInChannelProp,
-      actions = actionsProp,
-      ctrlSend = ctrlSendProp,
-      currentUsersLatestPost = currentUsersLatestPostProp,
-      commentCountForPost = commentCountForPostProp
-    } = {}) {
+    currentChannel = currentChannelProp,
+    currentTeamId = currentTeamIdProp,
+    currentUserId = currentUserIdProp,
+    showTutorialTip = showTutorialTipProp,
+    currentChannelMembersCount = currentChannelMembersCountProp,
+    fullWidthTextBox = fullWidthTextBoxProp,
+    draft = draftProp,
+    recentPostIdInChannel = recentPostIdInChannelProp,
+    actions = actionsProp,
+    ctrlSend = ctrlSendProp,
+    currentUsersLatestPost = currentUsersLatestPostProp,
+    commentCountForPost = commentCountForPostProp
+} = {}) {
     return (
         <CreatePost
             currentChannel={currentChannel}
@@ -100,7 +109,8 @@ describe('components/create_post', () => {
     window.mm_config = {
         EnableEmojiPicker: 'true',
         EnableFileAttachments: 'true',
-        EnableConfirmNotificationsToChannel: 'true'
+        EnableConfirmNotificationsToChannel: 'true',
+        EnableTutorial: 'true'
     };
 
     it('should match snapshot, init', () => {
@@ -212,22 +222,7 @@ describe('components/create_post', () => {
     });
 
     it('onSubmit test for @all', () => {
-        const createPostAction = jest.fn(
-            () => {
-                return new Promise((resolve) => {
-                    process.nextTick(() => resolve());
-                });
-            }
-        );
-
-        const wrapper = shallow(
-            createPost({
-                actions: {
-                    ...actionsProp,
-                    createPost: createPostAction
-                }
-            })
-        );
+        const wrapper = shallow(createPost());
 
         wrapper.setState({
             message: 'test @all'
@@ -354,22 +349,7 @@ describe('components/create_post', () => {
     });
 
     it('check for postError state on handlePostError callback', () => {
-        const createPostAction = jest.fn(
-            () => {
-                return new Promise((resolve) => {
-                    process.nextTick(() => resolve());
-                });
-            }
-        );
-
-        const wrapper = shallow(
-            createPost({
-                actions: {
-                    ...actionsProp,
-                    createPost: createPostAction
-                }
-            })
-        );
+        const wrapper = shallow(createPost());
         const textBox = wrapper.find('#post_textbox');
         const form = wrapper.find('#create_post');
 
@@ -492,7 +472,8 @@ describe('components/create_post', () => {
         const setDraft = jest.fn();
         const fileInfos = {
             id: 'a',
-            extension: 'jpg'
+            extension: 'jpg',
+            name: 'trimmedFilename'
         };
         const uploadsInProgressDraft = {
             ...draftProp,
@@ -632,5 +613,18 @@ describe('components/create_post', () => {
 
         instance.hidePostDeletedModal();
         expect(wrapper.state('showPostDeletedModal')).toBe(false);
+    });
+
+    it('Should have called PostActions.createPost on sendMessage', () => {
+        const wrapper = shallow(createPost());
+        const post = {message: 'message', file_ids: []};
+        wrapper.instance().sendMessage(post);
+
+        expect(GlobalActions.emitUserPostedEvent).toHaveBeenCalledTimes(1);
+        expect(GlobalActions.emitUserPostedEvent).toHaveBeenCalledWith(post);
+
+        expect(PostActions.createPost).toHaveBeenCalledTimes(1);
+        expect(PostActions.createPost.mock.calls[0][0]).toEqual(post);
+        expect(PostActions.createPost.mock.calls[0][1]).toEqual([]);
     });
 });

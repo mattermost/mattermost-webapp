@@ -252,7 +252,7 @@ function highlightCurrentMentions(text, tokens, mentionKeys = []) {
     // look for any existing tokens which are self mentions and should be highlighted
     var newTokens = new Map();
     for (const [alias, token] of tokens) {
-        if (mentionKeys.indexOf(token.originalText) !== -1) {
+        if (mentionKeys.findIndex((key) => key.key === token.originalText) !== -1) {
             const index = tokens.size + newTokens.size;
             const newAlias = `$MM_SELFMENTION${index}`;
 
@@ -283,11 +283,16 @@ function highlightCurrentMentions(text, tokens, mentionKeys = []) {
     }
 
     for (const mention of mentionKeys) {
-        if (!mention) {
+        if (!mention || !mention.key) {
             continue;
         }
 
-        output = output.replace(new RegExp(`(^|\\W)(${escapeRegex(mention)})\\b`, 'gi'), replaceCurrentMentionWithToken);
+        let flags = 'g';
+        if (!mention.caseSensitive) {
+            flags += 'i';
+        }
+
+        output = output.replace(new RegExp(`(^|\\W)(${escapeRegex(mention.key)})\\b`, flags), replaceCurrentMentionWithToken);
     }
 
     return output;

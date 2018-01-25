@@ -4,10 +4,8 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {closeRightHandSide, updateRhsState} from 'actions/views/rhs';
-
+import {closeRightHandSide, updateRhsState, showPinnedPosts} from 'actions/views/rhs';
 import {getRhsState} from 'selectors/rhs';
-
 import {RHSStates} from 'utils/constants.jsx';
 
 import Navbar from './navbar.jsx';
@@ -24,7 +22,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             closeRightHandSide,
-            updateRhsState
+            updateRhsState,
+            showPinnedPosts
         }, dispatch)
     };
 }

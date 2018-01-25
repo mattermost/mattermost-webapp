@@ -4,13 +4,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-import {browserHistory, Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
+import {browserHistory} from 'utils/browser_history';
 import IntegrationStore from 'stores/integration_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import Constants from 'utils/constants.jsx';
-
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
 
 export default class ConfirmIntegration extends React.Component {
@@ -32,8 +31,8 @@ export default class ConfirmIntegration extends React.Component {
         const userId = UserStore.getCurrentId();
 
         this.state = {
-            type: this.props.location.query.type,
-            id: this.props.location.query.id,
+            type: (new URLSearchParams(this.props.location.search)).get('type'),
+            id: (new URLSearchParams(this.props.location.search)).get('id'),
             oauthApps: IntegrationStore.getOAuthApps(userId),
             loading: !IntegrationStore.hasReceivedOAuthApps(userId)
         };

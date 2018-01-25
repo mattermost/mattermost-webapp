@@ -8,12 +8,10 @@ import {FormattedMessage} from 'react-intl';
 import {savePreferences} from 'actions/user_actions.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
-import SettingItemMax from '../setting_item_max.jsx';
-import SettingItemMin from '../setting_item_min.jsx';
+import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMin from 'components/setting_item_min.jsx';
 
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
@@ -22,7 +20,6 @@ export default class AdvancedSettingsDisplay extends React.Component {
         super(props);
 
         this.getStateFromStores = this.getStateFromStores.bind(this);
-        this.updateSection = this.updateSection.bind(this);
         this.updateSetting = this.updateSetting.bind(this);
         this.toggleFeature = this.toggleFeature.bind(this);
 
@@ -120,7 +117,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
         this.handleSubmit(features);
     }
 
-    handleSubmit(settings) {
+    handleSubmit = (settings) => {
         const preferences = [];
         const userId = UserStore.getCurrentId();
 
@@ -139,12 +136,12 @@ export default class AdvancedSettingsDisplay extends React.Component {
         savePreferences(
             preferences,
             () => {
-                this.updateSection('');
+                this.handleUpdateSection('');
             }
         );
     }
 
-    updateSection(section) {
+    handleUpdateSection = (section) => {
         if (!section) {
             this.setState(this.getStateFromStores());
         }
@@ -223,13 +220,11 @@ export default class AdvancedSettingsDisplay extends React.Component {
                             </div>
                         </div>
                     ]}
-                    submit={() => this.handleSubmit('formatting')}
+                    setting={'formatting'}
+                    submit={this.handleSubmit}
                     saving={this.state.isSaving}
                     server_error={this.state.serverError}
-                    updateSection={(e) => {
-                        this.updateSection('');
-                        e.preventDefault();
-                    }}
+                    updateSection={this.handleUpdateSection}
                 />
             );
         }
@@ -243,7 +238,8 @@ export default class AdvancedSettingsDisplay extends React.Component {
                     />
                 }
                 describe={this.renderOnOffLabel(this.state.settings.formatting)}
-                updateSection={() => this.props.updateSection('formatting')}
+                section={'formatting'}
+                updateSection={this.handleUpdateSection}
             />
         );
     }
@@ -302,13 +298,11 @@ export default class AdvancedSettingsDisplay extends React.Component {
                                 </div>
                             </div>
                         ]}
-                        submit={() => this.handleSubmit('join_leave')}
+                        setting={'join_leave'}
+                        submit={this.handleSubmit}
                         saving={this.state.isSaving}
                         server_error={this.state.serverError}
-                        updateSection={(e) => {
-                            this.updateSection('');
-                            e.preventDefault();
-                        }}
+                        updateSection={this.handleUpdateSection}
                     />
                 );
             }
@@ -322,7 +316,8 @@ export default class AdvancedSettingsDisplay extends React.Component {
                         />
                     }
                     describe={this.renderOnOffLabel(this.state.settings.join_leave)}
-                    updateSection={() => this.props.updateSection('join_leave')}
+                    section={'join_leave'}
+                    updateSection={this.handleUpdateSection}
                 />
             );
         }
@@ -413,13 +408,11 @@ export default class AdvancedSettingsDisplay extends React.Component {
                         />
                     }
                     inputs={inputs}
-                    submit={() => this.handleSubmit('send_on_ctrl_enter')}
+                    setting={'send_on_ctrl_enter'}
+                    submit={this.handleSubmit}
                     saving={this.state.isSaving}
                     server_error={serverError}
-                    updateSection={(e) => {
-                        this.updateSection('');
-                        e.preventDefault();
-                    }}
+                    updateSection={this.handleUpdateSection}
                 />
             );
         } else {
@@ -432,7 +425,8 @@ export default class AdvancedSettingsDisplay extends React.Component {
                         />
                     }
                     describe={this.renderOnOffLabel(this.state.settings.send_on_ctrl_enter)}
-                    updateSection={() => this.props.updateSection('advancedCtrlSend')}
+                    section={'advancedCtrlSend'}
+                    updateSection={this.handleUpdateSection}
                 />
             );
         }
@@ -501,10 +495,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
                         submit={this.saveEnabledFeatures}
                         saving={this.state.isSaving}
                         server_error={serverError}
-                        updateSection={(e) => {
-                            this.updateSection('');
-                            e.preventDefault();
-                        }}
+                        updateSection={this.handleUpdateSection}
                     />
                 );
             } else {
@@ -518,7 +509,8 @@ export default class AdvancedSettingsDisplay extends React.Component {
                                 values={{count: this.state.enabledFeatures}}
                             />
                         }
-                        updateSection={() => this.props.updateSection('advancedPreviewFeatures')}
+                        section={'advancedPreviewFeatures'}
+                        updateSection={this.handleUpdateSection}
                     />
                 );
             }

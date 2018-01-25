@@ -4,15 +4,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedDate, FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-
 import {General} from 'mattermost-redux/constants';
 
 import * as AdminActions from 'actions/admin_actions.jsx';
 import AnalyticsStore from 'stores/analytics_store.jsx';
 import BrowserStore from 'stores/browser_store.jsx';
-
 import {StatTypes} from 'utils/constants.jsx';
-
 import Banner from 'components/admin_console/banner.jsx';
 import LineChart from 'components/analytics/line_chart.jsx';
 import StatisticCount from 'components/analytics/statistic_count.jsx';

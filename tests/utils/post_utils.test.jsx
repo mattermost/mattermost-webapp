@@ -137,6 +137,26 @@ describe('PostUtils.containsAtMention', function() {
                 text: '~~~\n@all\n~~~',
                 key: '@all',
                 result: false
+            },
+            {
+                text: ' /not_cmd @all',
+                key: '@all',
+                result: true
+            },
+            {
+                text: '/cmd @all',
+                key: '@all',
+                result: false
+            },
+            {
+                text: '/cmd @all test',
+                key: '@all',
+                result: false
+            },
+            {
+                text: '/cmd test @all',
+                key: '@all',
+                result: false
             }
         ]) {
             const containsAtMention = PostUtils.containsAtMention(data.text, data.key);

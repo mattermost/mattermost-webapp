@@ -5,9 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {showMentions, showFlaggedPosts, closeRightHandSide} from 'actions/views/rhs';
-
 import {getRhsState} from 'selectors/rhs';
-
 import {RHSStates} from 'utils/constants.jsx';
 
 import SidebarRightMenu from './sidebar_right_menu.jsx';

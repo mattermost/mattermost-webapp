@@ -3,9 +3,7 @@
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-
 import {deleteChannel} from 'mattermost-redux/actions/channels';
-
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import DeleteChannelModal from './delete_channel_modal.jsx';

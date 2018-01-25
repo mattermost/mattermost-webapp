@@ -3,12 +3,11 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
+import FilenameOverlay from 'components/file_attachment/filename_overlay.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import loadingGif from 'images/load.gif';
 
 export default class FilePreview extends React.PureComponent {
@@ -53,10 +52,10 @@ export default class FilePreview extends React.PureComponent {
     render() {
         const previews = [];
         const fileInfos = this.state.fileInfos.sort((a, b) => a.create_at - b.create_at);
-        fileInfos.forEach((info) => {
+        fileInfos.forEach((info, idx) => {
             const type = Utils.getFileType(info.extension);
 
-            let className = 'file-preview';
+            let className = 'file-preview post-image__column';
             let previewImage;
             if (type === 'svg') {
                 previewImage = (
@@ -74,11 +73,17 @@ export default class FilePreview extends React.PureComponent {
                     imageClassName += ' normal';
                 }
 
+                let thumbnailUrl = getFileThumbnailUrl(info.id);
+                if (Utils.isGIFImage(info.extension) && !info.has_preview_image) {
+                    thumbnailUrl = getFileUrl(info.id);
+                }
+
                 previewImage = (
                     <div
                         className={imageClassName}
                         style={{
-                            backgroundImage: `url(${getFileThumbnailUrl(info.id)})`
+                            backgroundImage: `url(${thumbnailUrl})`,
+                            backgroundSize: 'cover'
                         }}
                     />
                 );
@@ -92,13 +97,32 @@ export default class FilePreview extends React.PureComponent {
                     key={info.id}
                     className={className}
                 >
-                    {previewImage}
-                    <a
-                        className='file-preview__remove'
-                        onClick={this.handleRemove.bind(this, info.id)}
-                    >
-                        <i className='fa fa-remove'/>
-                    </a>
+                    <div className='post-image__thumbnail'>
+                        {previewImage}
+                    </div>
+                    <div className='post-image__details'>
+                        <div className='post-image__detail_wrapper'>
+                            <div className='post-image__detail'>
+                                <FilenameOverlay
+                                    fileInfo={info}
+                                    index={idx}
+                                    handleImageClick={null}
+                                    compactDisplay={false}
+                                    canDownload={false}
+                                />
+                                <span className='post-image__type'>{info.extension.toUpperCase()}</span>
+                                <span className='post-image__size'>{Utils.fileSizeToString(info.size)}</span>
+                            </div>
+                        </div>
+                        <div>
+                            <a
+                                className='file-preview__remove'
+                                onClick={this.handleRemove.bind(this, info.id)}
+                            >
+                                <i className='fa fa-remove'/>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             );
         });

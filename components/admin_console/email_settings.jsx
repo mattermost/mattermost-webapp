@@ -5,7 +5,6 @@ import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import ErrorStore from 'stores/error_store.jsx';
-
 import {ErrorBarTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 

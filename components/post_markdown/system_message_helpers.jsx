@@ -7,12 +7,10 @@ import {FormattedMessage} from 'react-intl';
 import UserStore from 'stores/user_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
-
 import {canManageMembers} from 'utils/channel_utils.jsx';
 import {Constants, PostTypes} from 'utils/constants.jsx';
 import {formatText} from 'utils/text_formatting.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import PostAddChannelMember from 'components/post_view/post_add_channel_member';
 
 function renderUsername(value, options) {
@@ -29,7 +27,7 @@ function renderJoinChannelMessage(post, options) {
     return (
         <FormattedMessage
             id='api.channel.join_channel.post_and_forget'
-            defaultMessage='{username} has joined the channel.'
+            defaultMessage='{username} joined the channel.'
             values={{username}}
         />
     );
@@ -54,7 +52,7 @@ function renderAddToChannelMessage(post, options) {
     return (
         <FormattedMessage
             id='api.channel.add_member.added'
-            defaultMessage='{addedUsername} added to the channel by {username}'
+            defaultMessage='{addedUsername} added to the channel by {username}.'
             values={{
                 username,
                 addedUsername
@@ -70,6 +68,60 @@ function renderRemoveFromChannelMessage(post, options) {
         <FormattedMessage
             id='api.channel.remove_member.removed'
             defaultMessage='{removedUsername} was removed from the channel'
+            values={{
+                removedUsername
+            }}
+        />
+    );
+}
+
+function renderJoinTeamMessage(post, options) {
+    const username = renderUsername(post.props.username, options);
+
+    return (
+        <FormattedMessage
+            id='api.team.join_team.post_and_forget'
+            defaultMessage='{username} joined the team.'
+            values={{username}}
+        />
+    );
+}
+
+function renderLeaveTeamMessage(post, options) {
+    const username = renderUsername(post.props.username, options);
+
+    return (
+        <FormattedMessage
+            id='api.team.leave.left'
+            defaultMessage='{username} left the team.'
+            values={{username}}
+        />
+    );
+}
+
+function renderAddToTeamMessage(post, options) {
+    const username = renderUsername(post.props.username, options);
+    const addedUsername = renderUsername(post.props.addedUsername, options);
+
+    return (
+        <FormattedMessage
+            id='api.team.add_member.added'
+            defaultMessage='{addedUsername} added to the team by {username}.'
+            values={{
+                username,
+                addedUsername
+            }}
+        />
+    );
+}
+
+function renderRemoveFromTeamMessage(post, options) {
+    const removedUsername = renderUsername(post.props.removedUsername, options);
+
+    return (
+        <FormattedMessage
+            id='api.team.remove_user_from_team.removed'
+            defaultMessage='{removedUsername} was removed from the team.'
             values={{
                 removedUsername
             }}
@@ -225,6 +277,10 @@ const systemMessageRenderers = {
     [PostTypes.LEAVE_CHANNEL]: renderLeaveChannelMessage,
     [PostTypes.ADD_TO_CHANNEL]: renderAddToChannelMessage,
     [PostTypes.REMOVE_FROM_CHANNEL]: renderRemoveFromChannelMessage,
+    [PostTypes.JOIN_TEAM]: renderJoinTeamMessage,
+    [PostTypes.LEAVE_TEAM]: renderLeaveTeamMessage,
+    [PostTypes.ADD_TO_TEAM]: renderAddToTeamMessage,
+    [PostTypes.REMOVE_FROM_TEAM]: renderRemoveFromTeamMessage,
     [PostTypes.HEADER_CHANGE]: renderHeaderChangeMessage,
     [PostTypes.DISPLAYNAME_CHANGE]: renderDisplayNameChangeMessage,
     [PostTypes.PURPOSE_CHANGE]: renderPurposeChangeMessage,
@@ -257,6 +313,8 @@ export function renderSystemMessage(post, options) {
         return null;
     } else if (systemMessageRenderers[post.type]) {
         return systemMessageRenderers[post.type](post, options);
+    } else if (post.type === PostTypes.EPHEMERAL_ADD_TO_CHANNEL) {
+        return renderAddToChannelMessage(post, options);
     }
 
     return null;

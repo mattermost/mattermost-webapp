@@ -2,33 +2,33 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router';
-
 import {Client4} from 'mattermost-redux/client';
 import {Posts} from 'mattermost-redux/constants';
 
+import {browserHistory} from 'utils/browser_history';
 import {searchForTerm} from 'actions/post_actions';
-
 import UserStore from 'stores/user_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import LocalizationStore from 'stores/localization_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
-
-import Constants from 'utils/constants.jsx';
+import Constants, {UserStatusesWeight} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
-
 import bing from 'images/bing.mp3';
 import icon50 from 'images/icon50x50.png';
 import iconWS from 'images/icon_WS.png';
+import {getSiteURL} from 'utils/url';
 
 export function isEmail(email) {
-    // writing a regex to match all valid email addresses is really, really hard (see http://stackoverflow.com/a/201378)
-    // so we just do a simple check and rely on a verification email to tell if it's a real address
-    return (/^.+@.+$/).test(email);
+    // writing a regex to match all valid email addresses is really, really hard. (see http://stackoverflow.com/a/201378)
+    // this regex ensures:
+    // - at least one character that is not a space, comma, or @ symbol
+    // - followed by a single @ symbol
+    // - followed by at least one character that is not a space, comma, or @ symbol
+    // this prevents <Outlook Style> outlook.style@domain.com addresses and multiple comma-separated addresses from being accepted
+    return (/^[^ ,@]+@[^ ,@]+$/).test(email);
 }
 
 export function isMac() {
@@ -138,13 +138,13 @@ export function notifyMe(title, body, channel, teamId, duration, silent) {
                         notification.onclick = () => {
                             window.focus();
                             if (channel && (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL)) {
-                                browserHistory.push(TeamStore.getCurrentTeamUrl() + '/channels/' + channel.name);
+                                browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + channel.name);
                             } else if (channel) {
-                                browserHistory.push(TeamStore.getTeamUrl(teamId) + '/channels/' + channel.name);
+                                browserHistory.push(TeamStore.getTeamRelativeUrl(teamId) + '/channels/' + channel.name);
                             } else if (teamId) {
-                                browserHistory.push(TeamStore.getTeamUrl(teamId) + '/channels/town-square');
+                                browserHistory.push(TeamStore.getTeamRelativeUrl(teamId) + `/channels/${Constants.DEFAULT_CHANNEL}`);
                             } else {
-                                browserHistory.push(TeamStore.getCurrentTeamUrl() + '/channels/town-square');
+                                browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + `/channels/${Constants.DEFAULT_CHANNEL}`);
                             }
                         };
 
@@ -398,6 +398,10 @@ export function insertHtmlEntities(text) {
     return newtext;
 }
 
+export function isGIFImage(extin) {
+    return extin.toLowerCase() === Constants.IMAGE_TYPE_GIF;
+}
+
 export function getFileType(extin) {
     var ext = extin.toLowerCase();
     if (Constants.IMAGE_TYPES.indexOf(ext) > -1) {
@@ -507,7 +511,7 @@ export function applyTheme(theme) {
     if (theme.sidebarText) {
         changeCss('.app__body .ps-container > .ps-scrollbar-y-rail > .ps-scrollbar-y', 'background:' + theme.sidebarText);
         changeCss('.app__body .ps-container:hover .ps-scrollbar-y-rail:hover, .app__body .sidebar__switcher button:hover', 'background:' + changeOpacity(theme.sidebarText, 0.15));
-        changeCss('.app__body .sidebar--left .nav-pills__container li > h4, .app__body .sidebar--left .nav-pills__container li > .sidebar-item, .app__body .sidebar--left .nav-pills__container li > .nav-more, .app__body .sidebar--right, .app__body .modal .settings-modal .nav-pills>li button', 'color:' + changeOpacity(theme.sidebarText, 0.6));
+        changeCss('.app__body .sidebar--left .nav-pills__container li > h4, .app__body .sidebar--left .nav-pills__container li .sidebar-item, .app__body .sidebar--left .nav-pills__container li > .nav-more, .app__body .sidebar--right, .app__body .modal .settings-modal .nav-pills>li button', 'color:' + changeOpacity(theme.sidebarText, 0.6));
         changeCss('@media(max-width: 768px){.app__body .modal .settings-modal .settings-table .nav>li>a, .app__body .sidebar--menu', 'color:' + changeOpacity(theme.sidebarText, 0.8));
         changeCss('.app__body .sidebar--left .add-channel-btn', 'color:' + changeOpacity(theme.sidebarText, 0.8));
         changeCss('.sidebar--left .add-channel-btn:hover, .sidebar--left .add-channel-btn:focus', 'color:' + theme.sidebarText);
@@ -524,11 +528,11 @@ export function applyTheme(theme) {
     }
 
     if (theme.sidebarUnreadText) {
-        changeCss('.sidebar--left .nav-pills__container li> .sidebar-item.unread-title', 'color:' + theme.sidebarUnreadText + '!important;');
+        changeCss('.sidebar--left .nav-pills__container li .sidebar-item.unread-title', 'color:' + theme.sidebarUnreadText + '!important;');
     }
 
     if (theme.sidebarTextHoverBg) {
-        changeCss('.sidebar--left .nav-pills__container li > .sidebar-item:hover, .sidebar--left .nav-pills__container li > .nav-more:hover, .app__body .modal .settings-modal .nav-pills>li:hover button', 'background:' + theme.sidebarTextHoverBg);
+        changeCss('.sidebar--left .nav-pills__container li .sidebar-item:hover, .sidebar--left .nav-pills__container li > .nav-more:hover, .app__body .modal .settings-modal .nav-pills>li:hover button', 'background:' + theme.sidebarTextHoverBg);
     }
 
     if (theme.sidebarTextActiveBorder) {
@@ -563,8 +567,8 @@ export function applyTheme(theme) {
         changeCss('.app__body #navbar .navbar-default .navbar-toggle .icon-bar', 'background:' + theme.sidebarHeaderTextColor);
         changeCss('.app__body .post-list__timestamp > div, .app__body .multi-teams .team-sidebar .team-wrapper .team-container a:hover .team-btn, .app__body .multi-teams .team-sidebar .team-wrapper .team-container.active .team-btn', 'border-color:' + changeOpacity(theme.sidebarHeaderTextColor, 0.5));
         changeCss('@media(max-width: 768px){.app__body .search-bar__container', 'color:' + theme.sidebarHeaderTextColor);
-        changeCss('@media(max-width: 768px){.app__body .search-bar__container .search__form', 'background:' + theme.sidebarHeaderTextColor);
         changeCss('.app__body .navbar-right__icon', 'background:' + changeOpacity(theme.sidebarHeaderTextColor, 0.2));
+        changeCss('.app__body .navbar-right__icon:hover', 'background:' + changeOpacity(theme.sidebarHeaderTextColor, 0.3));
         changeCss('.app__body .navbar-right__icon svg', 'fill:' + theme.sidebarHeaderTextColor);
         changeCss('.app__body .navbar-right__icon svg', 'stroke:' + theme.sidebarHeaderTextColor);
     }
@@ -620,7 +624,7 @@ export function applyTheme(theme) {
         changeCss('@media(max-width: 640px){.app__body .post .dropdown .dropdown-menu button', 'background:' + theme.centerChannelBg);
         changeCss('@media(min-width: 768px){.app__body .post:hover .post__header .col__reply, .app__body .post.post--hovered .post__header .col__reply', 'background:' + theme.centerChannelBg);
         changeCss('@media(max-width: 320px){.tutorial-steps__container', 'background:' + theme.centerChannelBg);
-        changeCss('.app__body .channel-header__info .channel-header__description:before, .app__body .app__content, .app__body .markdown__table, .app__body .markdown__table tbody tr, .app__body .suggestion-list__content, .app__body .modal .modal-content, .app__body .modal .modal-footer, .app__body .post.post--compact .post-image__column, .app__body .suggestion-list__divider > span, .app__body .status-wrapper .status, .app__body .alert.alert-transparent', 'background:' + theme.centerChannelBg);
+        changeCss('.app__body .channel-header__info .channel-header__description:before, .app__body .app__content, .app__body .markdown__table, .app__body .markdown__table tbody tr, .app__body .suggestion-list__content, .app__body .modal .modal-content, .app__body .modal .modal-footer, .app__body .post.post--compact .post-image__column, .app__body .suggestion-list__divider > span, .app__body .status-wrapper .status, .app__body .alert.alert-transparent, .app__body .post-image__column', 'background:' + theme.centerChannelBg);
         changeCss('#post-list .post-list-holder-by-time, .app__body .post .dropdown-menu a', 'background:' + theme.centerChannelBg);
         changeCss('#post-create', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .date-separator .separator__text, .app__body .new-separator .separator__text', 'background:' + theme.centerChannelBg);
@@ -645,6 +649,8 @@ export function applyTheme(theme) {
         changeCss('.app__body .post .dropdown .dropdown-menu button, .app__body .member-list__popover .more-modal__body, .app__body .alert.alert-transparent, .app__body .channel-header .channel-header__icon, .app__body .search-bar__container .search__form, .app__body .table > thead > tr > th, .app__body .table > tbody > tr > td', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.12));
         changeCss('.app__body .post-list__arrows, .app__body .post .flag-icon__container', 'fill:' + changeOpacity(theme.centerChannelColor, 0.3));
         changeCss('@media(min-width: 768px){.app__body .search__icon svg', 'stroke:' + changeOpacity(theme.centerChannelColor, 0.4));
+        changeCss('.app__body .post-image__details .post-image__download svg', 'stroke:' + changeOpacity(theme.centerChannelColor, 0.4));
+        changeCss('.app__body .post-image__details .post-image__download svg', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.35));
         changeCss('.app__body .channel-header__icon svg', 'fill:' + changeOpacity(theme.centerChannelColor, 0.4));
         changeCss('.app__body .modal .status .offline--icon, .app__body .channel-header__links .icon, .app__body .sidebar--right .sidebar--right__subheader .usage__icon, .app__body .more-modal__header svg, .app__body .icon--body', 'fill:' + theme.centerChannelColor);
         changeCss('@media(min-width: 768px){.app__body .post:hover .post__header .col__reply, .app__body .post.post--hovered .post__header .col__reply', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
@@ -676,7 +682,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .suggestion-list__content .command, .app__body .popover .popover__row', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.app__body .suggestion-list__divider:before, .app__body .dropdown-menu .divider, .app__body .search-help-popover .search-autocomplete__divider:before', 'background:' + theme.centerChannelColor);
         changeCss('.app__body .custom-textarea', 'color:' + theme.centerChannelColor);
-        changeCss('.app__body .post-image__column', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
+        changeCss('.app__body .post-image__column', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('.app__body .post-image__details', 'color:' + theme.centerChannelColor);
         changeCss('.app__body .post-image__column a, .app__body .post-image__column a:hover, .app__body .post-image__column a:focus', 'color:' + theme.centerChannelColor);
         changeCss('@media(min-width: 768px){.app__body .search-bar__container .search__form .search-bar, .app__body .form-control', 'color:' + theme.centerChannelColor);
@@ -729,7 +735,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .emoji-picker__category, .app__body .emoji-picker__category:focus, .app__body .emoji-picker__category:hover', 'color:' + changeOpacity(theme.centerChannelColor, 0.3));
         changeCss('.app__body .emoji-picker__category--selected, .app__body .emoji-picker__category--selected:focus, .app__body .emoji-picker__category--selected:hover', 'color:' + theme.centerChannelColor);
         changeCss('.app__body .emoji-picker__item-wrapper:hover', 'background-color:' + changeOpacity(theme.centerChannelColor, 0.8));
-        changeCss('.app__body .emojisprite:hover', 'background-color:' + changeOpacity(theme.centerChannelColor, 0.8));
+        changeCss('.app__body .emoji-picker-items__container .emoji-picker__item.selected', 'background-color:' + changeOpacity(theme.centerChannelColor, 0.8));
         changeCss('.app__body .icon__postcontent_picker:hover', 'color:' + changeOpacity(theme.centerChannelColor, 0.8));
         changeCss('.app__body .popover', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.07));
     }
@@ -753,20 +759,21 @@ export function applyTheme(theme) {
         changeCss('.app__body .post-add-reaction:hover .post-reaction, .app__body .post-reaction.post-reaction--current-user', 'border-color:' + changeOpacity(theme.linkColor, 0.4));
         changeCss('.app__body .member-list__popover .more-modal__list .more-modal__row:hover, .app__body .channel-header .channel-header__icon:hover, .app__body .channel-header .channel-header__icon.active, .app__body .search-bar__container .search__form.focused', 'border-color:' + theme.linkColor);
         changeCss('.app__body .post-reaction.post-reaction--current-user', 'color:' + theme.linkColor);
-        changeCss('.app__body .channel-header__title.open .heading, .app__body .channel-header__info .channel-header__title.open .header-dropdown__icon', 'color:' + theme.linkColor);
-        changeCss('.app__body .channel-header .dropdown-toggle:hover .heading, .app__body .channel-header .dropdown-toggle:hover .header-dropdown__icon', 'color:' + theme.linkColor);
+        changeCss('.app__body .channel-header .dropdown-toggle:hover .heading, .app__body .channel-header .dropdown-toggle:hover .header-dropdown__icon, .app__body .channel-header__title .open .heading, .app__body .channel-header__info .channel-header__title .open .header-dropdown__icon, .app__body .channel-header__title .open .heading, .app__body .channel-header__info .channel-header__title .open .heading', 'color:' + theme.linkColor);
         changeCss('.emoji-picker__container .icon--emoji.active svg', 'fill:' + theme.linkColor);
         changeCss('.sidebar--right--expanded .sidebar--right__expand', 'color:' + theme.linkColor);
     }
 
     if (theme.buttonBg) {
-        changeCss('.app__body .new-messages__button div, .app__body .btn.btn-primary, .app__body .tutorial__circles .circle.active, .app__body .post__pinned-badge', 'background:' + theme.buttonBg);
+        changeCss('.app__body .post-image__details .post-image__download svg:hover, .app__body .file-view--single .file__download:hover, .app__body .new-messages__button div, .app__body .btn.btn-primary, .app__body .tutorial__circles .circle.active, .app__body .post__pinned-badge', 'background:' + theme.buttonBg);
+        changeCss('.app__body .post-image__details .post-image__download svg:hover', 'border-color:' + theme.buttonBg);
         changeCss('.app__body .btn.btn-primary:hover, .app__body .btn.btn-primary:active, .app__body .btn.btn-primary:focus', 'background:' + changeColor(theme.buttonBg, -0.15));
     }
 
     if (theme.buttonColor) {
         changeCss('.app__body .new-messages__button div, .app__body .btn.btn-primary, .app__body .post__pinned-badge', 'color:' + theme.buttonColor);
         changeCss('.app__body .new-messages__button svg', 'fill:' + theme.buttonColor);
+        changeCss('.app__body .post-image__details .post-image__download svg:hover, .app__body .file-view--single .file__download svg', 'stroke:' + theme.buttonColor);
     }
 
     if (theme.errorTextColor) {
@@ -820,7 +827,11 @@ export function changeCss(className, classValue) {
     if (className.indexOf('@media') >= 0) {
         mediaQuery = '}';
     }
-    styleSheet.insertRule(className + '{' + classValue + '}' + mediaQuery, styleSheet.cssRules.length);
+    try {
+        styleSheet.insertRule(className + '{' + classValue + '}' + mediaQuery, styleSheet.cssRules.length);
+    } catch (e) {
+        console.error(e); // eslint-disable-line no-console
+    }
 }
 
 export function updateCodeTheme(userTheme) {
@@ -939,9 +950,15 @@ export function isMobile() {
 }
 
 export function getDirectTeammate(channelId) {
-    var userIds = ChannelStore.get(channelId).name.split('__');
-    var curUserId = UserStore.getCurrentId();
-    var teammate = {};
+    let teammate = {};
+
+    const channel = ChannelStore.get(channelId);
+    if (!channel) {
+        return teammate;
+    }
+
+    const userIds = channel.name.split('__');
+    const curUserId = UserStore.getCurrentId();
 
     if (userIds.length !== 2 || userIds.indexOf(curUserId) === -1) {
         return teammate;
@@ -1076,6 +1093,20 @@ export function displayUsernameForUser(user) {
 }
 
 /**
+ * Sort users by status then by display name, respecting the TeammateNameDisplay configuration setting
+ */
+export function sortUsersByStatusAndDisplayName(userA, userB) {
+    function sortByDisplayName(a, b) {
+        const aName = displayUsernameForUser(a);
+        const bName = displayUsernameForUser(b);
+
+        return aName.localeCompare(bName);
+    }
+
+    return UserStatusesWeight[userA.status] - UserStatusesWeight[userB.status] || sortByDisplayName(userA, userB);
+}
+
+/**
  * Gets the entire name, including username, full name, and nickname, of the user with the specified id
  */
 export function displayEntireName(userId) {
@@ -1128,7 +1159,7 @@ export function imageURLForUser(userIdOrObject) {
         if (profile) {
             return imageURLForUser(profile);
         }
-        return Client4.getUsersRoute() + '/' + userIdOrObject + '/image?_=0';
+        return Constants.TRANSPARENT_PIXEL;
     }
     return Client4.getUsersRoute() + '/' + userIdOrObject.id + '/image?_=' + (userIdOrObject.last_picture_update || 0);
 }
@@ -1429,7 +1460,10 @@ export function handleFormattedTextClick(e) {
         if (!(e.button === MIDDLE_MOUSE_BUTTON || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey)) {
             e.preventDefault();
 
-            browserHistory.push(linkAttribute.value);
+            const urlparse = document.createElement('a');
+            urlparse.href = linkAttribute.value;
+
+            browserHistory.push(urlparse.pathname);
         }
     } else if (channelMentionAttribute) {
         e.preventDefault();
@@ -1447,10 +1481,6 @@ export function isEmptyObject(object) {
     }
 
     return false;
-}
-
-export function updateWindowDimensions(component) {
-    component.setState({width: window.innerWidth, height: window.innerHeight});
 }
 
 export function removePrefixFromLocalStorage(prefix) {
@@ -1502,4 +1532,25 @@ export function getEmailInterval(isEmailEnabled) {
     }
 
     return emailInterval;
+}
+
+export function copyToClipboard(e, data) {
+    // creates a tiny temporary text area to copy text out of
+    // see https://stackoverflow.com/a/30810322/591374 for details
+    var textArea = document.createElement('textarea');
+    textArea.style.position = 'fixed';
+    textArea.style.top = 0;
+    textArea.style.left = 0;
+    textArea.style.width = '2em';
+    textArea.style.height = '2em';
+    textArea.style.padding = 0;
+    textArea.style.border = 'none';
+    textArea.style.outline = 'none';
+    textArea.style.boxShadow = 'none';
+    textArea.style.background = 'transparent';
+    textArea.value = getSiteURL() + data.link;
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textArea);
 }

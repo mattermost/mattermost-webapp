@@ -6,7 +6,7 @@
     left: 0;
     position: fixed;
     width: 220px;
-    z-index: 10;
+    z-index: 6;
 
     .error-bar--fixed & {
         height: calc(100% - 22px);
@@ -96,16 +96,6 @@
                 position: relative;
                 vertical-align: middle;
                 z-index: 5;
-            }
-
-            .icon {
-                display: none;
-                margin-right: 15px;
-
-                svg {
-                    position: relative;
-                    top: 7px;
-                }
             }
 
             &:hover {
@@ -216,7 +206,7 @@
                 white-space: nowrap;
             }
 
-            > .sidebar-item {
+            .sidebar-item {
                 @include single-transition(none);
                 border-radius: 0;
                 line-height: 1.5;
@@ -389,4 +379,30 @@
     margin-left: 10px;
     margin-top: 5px;
     width: 25px;
+}
+
+/* context menu shown when right-clicking on a channel in the LHS when using the desktop app */
+.react-contextmenu--visible {
+    background: #f0f0f0;
+    border: 1px solid #C6C6C6;
+    border-radius: 5px;
+    color: black;
+    cursor: pointer;
+    padding: 2px 0;
+    z-index: 100;
+}
+
+.react-contextmenu-item {
+    margin: 1px 0;
+    padding: 0 22px;
+
+    &:hover {
+        background: #489DFE;
+        color: $white;
+    }
+
+    &:focus,
+    span {
+        outline: none;
+    }
 }

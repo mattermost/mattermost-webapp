@@ -8,11 +8,11 @@ const centerCommands = {
         return this.waitForElementVisible('@postTextbox', Constants.DEFAULT_WAIT);
     },
     postAMessage(message) {
-        return this
-            .waitForElementVisible('@postCreateContainer', Constants.DEFAULT_WAIT)
-            .setValue('@postTextbox', message)
-            .keys(this.Keys.ENTER)
-            .waitForElementVisible('@postListContent', Constants.DEFAULT_WAIT);
+        return this.
+            waitForElementVisible('@postCreateContainer', Constants.DEFAULT_WAIT).
+            setValue('@postTextbox', message).
+            keys(this.Keys.ENTER).
+            waitForElementVisible('@postListContent', Constants.DEFAULT_WAIT);
     }
 };
 
@@ -29,7 +29,7 @@ module.exports = {
         },
         postCreate: {
             selector: '#post-create',
-            elements:{
+            elements: {
                 postTextbox: {selector: '#post_textbox'},
                 fileUploadButton: {selector: '#fileUploadButton'},
                 emojiPickerButton: {selector: '#emojiPickerButton'},

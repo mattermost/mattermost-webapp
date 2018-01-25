@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {getMe} from 'mattermost-redux/actions/users';
 
 import UserSettingsGeneralTab from './user_settings_general.jsx';

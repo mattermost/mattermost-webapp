@@ -1,14 +1,13 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {browserHistory} from 'react-router';
 import {batchActions} from 'redux-batched-actions';
-
 import {PostTypes} from 'mattermost-redux/action_types';
 import {getMyChannelMember} from 'mattermost-redux/actions/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
 import * as Selectors from 'mattermost-redux/selectors/entities/posts';
 
+import {browserHistory} from 'utils/browser_history';
 import {sendDesktopNotification} from 'actions/notification_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import * as RhsActions from 'actions/views/rhs';
@@ -17,11 +16,10 @@ import ChannelStore from 'stores/channel_store.jsx';
 import PostStore from 'stores/post_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
-
 import {getSelectedPostId} from 'selectors/rhs';
-
 import {ActionTypes, Constants} from 'utils/constants.jsx';
 import {EMOJI_PATTERN} from 'utils/emoticons.jsx';
+import * as UserAgent from 'utils/user_agent';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -121,7 +119,12 @@ export async function createPost(post, files, success) {
         }
     }
 
-    await PostActions.createPost(post, files)(dispatch, getState);
+    if (UserAgent.isIosClassic()) {
+        await PostActions.createPostImmediately(post, files)(dispatch, getState);
+    } else {
+        await PostActions.createPost(post, files)(dispatch, getState);
+    }
+
     if (post.root_id) {
         PostStore.storeCommentDraft(post.root_id, null);
     } else {
@@ -274,11 +277,38 @@ export function doPostAction(postId, actionId) {
 
 export function setEditingPost(postId = '', commentsCount = 0, refocusId = '', title = '') {
     return async (doDispatch, doGetState) => {
-        doDispatch({
-            type: ActionTypes.SET_EDITING_POST,
-            data: {postId, commentsCount, refocusId, title}
-        }, doGetState);
+        const state = doGetState();
 
-        return {data: true};
+        let canEditNow = true;
+
+        // Only show the modal if we can edit the post now, but allow it to be hidden at any time
+        if (postId && state.entities.general.license.IsLicensed === 'true') {
+            const config = state.entities.general.config;
+
+            if (config.AllowEditPost === Constants.ALLOW_EDIT_POST_NEVER) {
+                canEditNow = false;
+            } else if (config.AllowEditPost === Constants.ALLOW_EDIT_POST_TIME_LIMIT) {
+                const post = Selectors.getPost(state, postId);
+
+                if ((post.create_at + (config.PostEditTimeLimit * 1000)) < Date.now()) {
+                    canEditNow = false;
+                }
+            }
+        }
+
+        if (canEditNow) {
+            doDispatch({
+                type: ActionTypes.SHOW_EDIT_POST_MODAL,
+                data: {postId, commentsCount, refocusId, title}
+            }, doGetState);
+        }
+
+        return {data: canEditNow};
+    };
+}
+
+export function hideEditPostModal() {
+    return {
+        type: ActionTypes.HIDE_EDIT_POST_MODAL
     };
 }

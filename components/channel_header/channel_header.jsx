@@ -12,27 +12,29 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import * as WebrtcActions from 'actions/webrtc_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
-
+import TeamStore from 'stores/team_store.jsx';
+import ChannelStore from 'stores/channel_store.jsx';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
+import MessageWrapper from 'components/message_wrapper.jsx';
 import {ActionTypes, Constants, RHSStates, UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import {getSiteURL} from 'utils/url.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import ChannelInfoModal from 'components/channel_info_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
-import ChannelMembersModal from 'components/channel_members_modal.jsx';
+import ChannelMembersModal from 'components/channel_members_modal';
 import ChannelNotificationsModal from 'components/channel_notifications_modal.jsx';
 import DeleteChannelModal from 'components/delete_channel_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
-import MessageWrapper from 'components/message_wrapper.jsx';
 import PopoverListMembers from 'components/popover_list_members';
 import RenameChannelModal from 'components/rename_channel_modal';
 import NavbarSearchBox from 'components/search_bar';
 import StatusIcon from 'components/status_icon.jsx';
+import FlagIcon from 'components/svg/flag_icon';
+import MentionsIcon from 'components/svg/mentions_icon';
+import PinIcon from 'components/svg/pin_icon';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
-
 import Pluggable from 'plugins/pluggable';
 
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
@@ -197,6 +199,63 @@ export default class ChannelHeader extends React.Component {
         });
     }
 
+    handleOnMouseOver = () => {
+        if (this.refs.headerOverlay) {
+            this.refs.headerOverlay.show();
+        }
+    }
+
+    handleOnMouseOut = () => {
+        if (this.refs.headerOverlay) {
+            this.refs.headerOverlay.hide();
+        }
+    }
+
+    showMembersModal = () => {
+        this.setState({showMembersModal: true});
+    }
+
+    hideMembersModal = () => {
+        this.setState({showMembersModal: false});
+    }
+
+    showEditChannelPurposeModal = () => {
+        this.setState({showEditChannelPurposeModal: true});
+    }
+
+    hideEditChannelPurposeModal = () => {
+        this.setState({showEditChannelPurposeModal: false});
+    }
+
+    hideEditChannelHeaderModal = () => {
+        this.setState({showEditChannelHeaderModal: false});
+    }
+
+    showEditChannelHeaderModal = () => {
+        this.setState({showEditChannelHeaderModal: true});
+    }
+
+    handleWebRTCOnClick = (e) => {
+        e.preventDefault();
+        const dmUserId = this.props.dmUser.id;
+        const dmUserStatus = this.props.dmUserStatus.status;
+        const isOffline = dmUserStatus === UserStatuses.OFFLINE;
+        const isDoNotDisturb = dmUserStatus === UserStatuses.DND;
+
+        this.initWebrtc(dmUserId, !isOffline || !isDoNotDisturb);
+    }
+
+    showInviteModal = () => {
+        const {channel, currentUser, actions} = this.props;
+        const inviteModalData = {
+            modalId: ModalIdentifiers.CHANNEL_INVITE,
+            dialogType: ChannelInviteModal,
+            dialogProps: {channel, currentUser}
+        };
+
+        actions.openModal(inviteModalData);
+    }
+
     render() {
         if (Utils.isEmptyObject(this.props.channel) ||
                 Utils.isEmptyObject(this.props.channelMember) ||
@@ -206,10 +265,6 @@ export default class ChannelHeader extends React.Component {
                 <div className='channel-header'/>
             );
         }
-
-        const flagIcon = Constants.FLAG_ICON_SVG;
-        const pinIcon = Constants.PIN_ICON_SVG;
-        const mentionsIcon = Constants.MENTIONS_ICON_SVG;
 
         const channel = this.props.channel;
 
@@ -242,7 +297,7 @@ export default class ChannelHeader extends React.Component {
                 />
             </Tooltip>
         );
-
+        const textFormattingOptions = {singleline: true, mentionHighlight: false, siteURL: getSiteURL(), channelNamesMap: ChannelStore.getChannelNamesMap(), team: TeamStore.getCurrent(), atMentions: true};
         const popoverContent = (
             <Popover
                 id='header-popover'
@@ -250,11 +305,12 @@ export default class ChannelHeader extends React.Component {
                 bSize='large'
                 placement='bottom'
                 className='description'
-                onMouseOver={() => this.refs.headerOverlay.show()}
-                onMouseOut={() => this.refs.headerOverlay.hide()}
+                onMouseOver={this.handleOnMouseOver}
+                onMouseOut={this.handleOnMouseOut}
             >
                 <MessageWrapper
                     message={channel.header}
+                    options={textFormattingOptions}
                 />
             </Popover>
         );
@@ -269,7 +325,6 @@ export default class ChannelHeader extends React.Component {
 
         if (isDirect) {
             const userMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-            const dmUserId = this.props.dmUser.id;
             const dmUserStatus = this.props.dmUserStatus.status;
 
             const teammateId = Utils.getUserIdFromChannelName(channel);
@@ -338,7 +393,7 @@ export default class ChannelHeader extends React.Component {
                     <div className={'webrtc__header channel-header__icon wide text ' + circleClass}>
                         <button
                             className='style--none'
-                            onClick={() => this.initWebrtc(dmUserId, !isOffline || !isDoNotDisturb)}
+                            onClick={this.handleWebRTCOnClick}
                             disabled={isOffline || isDoNotDisturb}
                         >
                             <OverlayTrigger
@@ -479,7 +534,7 @@ export default class ChannelHeader extends React.Component {
                             className='style--none'
                             id='channelManageMembers'
                             role='menuitem'
-                            onClick={() => this.setState({showMembersModal: true})}
+                            onClick={this.showMembersModal}
                         >
                             <FormattedMessage
                                 id='channel_header.viewMembers'
@@ -548,7 +603,7 @@ export default class ChannelHeader extends React.Component {
                                 className='style--none'
                                 id='channelManageMembers'
                                 role='menuitem'
-                                onClick={() => this.setState({showMembersModal: true})}
+                                onClick={this.showMembersModal}
                             >
                                 <FormattedMessage
                                     id='channel_header.manageMembers'
@@ -567,7 +622,7 @@ export default class ChannelHeader extends React.Component {
                                 className='style--none'
                                 id='channelViewMembers'
                                 role='menuitem'
-                                onClick={() => this.setState({showMembersModal: true})}
+                                onClick={this.showMembersModal}
                             >
                                 <FormattedMessage
                                     id='channel_header.viewMembers'
@@ -616,7 +671,7 @@ export default class ChannelHeader extends React.Component {
                             className='style--none'
                             id='channelEditPurpose'
                             role='menuitem'
-                            onClick={() => this.setState({showEditChannelPurposeModal: true})}
+                            onClick={this.showEditChannelPurposeModal}
                         >
                             <FormattedMessage
                                 id='channel_header.setPurpose'
@@ -730,7 +785,7 @@ export default class ChannelHeader extends React.Component {
                         {dmHeaderTextStatus}
                         <span
                             onClick={Utils.handleFormattedTextClick}
-                            dangerouslySetInnerHTML={{__html: TextFormatting.formatText(channel.header, {singleline: true, mentionHighlight: false, siteURL: getSiteURL()})}}
+                            dangerouslySetInnerHTML={{__html: TextFormatting.formatText(channel.header, textFormattingOptions)}}
                         />
                     </div>
                 );
@@ -765,7 +820,7 @@ export default class ChannelHeader extends React.Component {
                 editMessage = (
                     <button
                         className='style--none'
-                        onClick={() => this.setState({showEditChannelHeaderModal: true})}
+                        onClick={this.showEditChannelHeaderModal}
                     >
                         <FormattedMessage
                             id='channel_header.addChannelHeader'
@@ -790,7 +845,7 @@ export default class ChannelHeader extends React.Component {
         if (this.state.showEditChannelHeaderModal) {
             editHeaderModal = (
                 <EditChannelHeaderModal
-                    onHide={() => this.setState({showEditChannelHeaderModal: false})}
+                    onHide={this.hideEditChannelHeaderModal}
                     channel={channel}
                 />
             );
@@ -836,18 +891,10 @@ export default class ChannelHeader extends React.Component {
 
         let channelMembersModal;
         if (this.state.showMembersModal) {
-            const inviteModalData = {
-                modalId: ModalIdentifiers.CHANNEL_INVITE,
-                dialogType: ChannelInviteModal,
-                dialogProps: {channel, currentUser: this.props.currentUser}
-            };
-
-            const {openModal} = this.props.actions;
-
             channelMembersModal = (
                 <ChannelMembersModal
-                    onModalDismissed={() => this.setState({showMembersModal: false})}
-                    showInviteModal={() => openModal(inviteModalData)}
+                    onModalDismissed={this.hideMembersModal}
+                    showInviteModal={this.showInviteModal}
                     channel={channel}
                 />
             );
@@ -857,7 +904,7 @@ export default class ChannelHeader extends React.Component {
         if (this.state.showEditChannelPurposeModal) {
             editPurposeModal = (
                 <EditChannelPurposeModal
-                    onModalDismissed={() => this.setState({showEditChannelPurposeModal: false})}
+                    onModalDismissed={this.hideEditChannelPurposeModal}
                     channel={channel}
                 />
             );
@@ -884,32 +931,34 @@ export default class ChannelHeader extends React.Component {
                                 id='channelHeaderTitle'
                                 className='channel-header__title dropdown'
                             >
-                                <button
-                                    id='channelHeaderDropdownButton'
-                                    className='dropdown-toggle theme style--none'
-                                    type='button'
-                                    data-toggle='dropdown'
-                                    aria-expanded='true'
-                                >
-                                    <strong
-                                        id='channelHeaderTitle'
-                                        className='heading'
+                                <h2>
+                                    <button
+                                        id='channelHeaderDropdownButton'
+                                        className='dropdown-toggle theme style--none'
+                                        type='button'
+                                        data-toggle='dropdown'
+                                        aria-expanded='true'
                                     >
-                                        {channelTitle}
-                                    </strong>
-                                    <span
-                                        id='channelHeaderDropdownIcon'
-                                        className='fa fa-angle-down header-dropdown__icon'
-                                    />
-                                </button>
-                                <ul
-                                    id='channelHeaderDropdownMenu'
-                                    className='dropdown-menu'
-                                    role='menu'
-                                    aria-labelledby='channel_header_dropdown'
-                                >
-                                    {dropdownContents}
-                                </ul>
+                                        <strong
+                                            id='channelHeaderTitle'
+                                            className='heading'
+                                        >
+                                            {channelTitle}
+                                        </strong>
+                                        <span
+                                            id='channelHeaderDropdownIcon'
+                                            className='fa fa-angle-down header-dropdown__icon'
+                                        />
+                                    </button>
+                                    <ul
+                                        id='channelHeaderDropdownMenu'
+                                        className='dropdown-menu'
+                                        role='menu'
+                                        aria-labelledby='channel_header_dropdown'
+                                    >
+                                        {dropdownContents}
+                                    </ul>
+                                </h2>
                             </div>
                             {headerTextContainer}
                         </div>
@@ -935,9 +984,8 @@ export default class ChannelHeader extends React.Component {
                                 className={'style--none ' + pinnedIconClass}
                                 onClick={this.getPinnedPosts}
                             >
-                                <span
+                                <PinIcon
                                     className='icon icon__pin'
-                                    dangerouslySetInnerHTML={{__html: pinIcon}}
                                     aria-hidden='true'
                                 />
                             </button>
@@ -961,9 +1009,8 @@ export default class ChannelHeader extends React.Component {
                                 className='channel-header__icon icon--hidden style--none'
                                 onClick={this.searchMentions}
                             >
-                                <span
+                                <MentionsIcon
                                     className='icon icon__mentions'
-                                    dangerouslySetInnerHTML={{__html: mentionsIcon}}
                                     aria-hidden='true'
                                 />
                             </button>
@@ -982,10 +1029,7 @@ export default class ChannelHeader extends React.Component {
                                 onClick={this.getFlagged}
 
                             >
-                                <span
-                                    className='icon icon__flag'
-                                    dangerouslySetInnerHTML={{__html: flagIcon}}
-                                />
+                                <FlagIcon className='icon icon__flag'/>
                             </button>
                         </OverlayTrigger>
                     </div>

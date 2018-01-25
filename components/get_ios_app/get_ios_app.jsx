@@ -3,10 +3,9 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 import {useSafeUrl} from 'utils/url';
-
 import AppStoreButton from 'images/app-store-button.png';
 import IPhone6Mockup from 'images/iphone-6-mockup.png';
 

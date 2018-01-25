@@ -2,20 +2,17 @@
 // See License.txt for license information.
 
 import {createSelector} from 'reselect';
-
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {makeGetMessageInHistoryItem, makeGetCommentCountForPost, getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
-
 import {
-  addReaction,
-  removeReaction,
-  addMessageIntoHistory,
-  moveHistoryIndexBack,
-  moveHistoryIndexForward
+    addReaction,
+    removeReaction,
+    addMessageIntoHistory,
+    moveHistoryIndexBack,
+    moveHistoryIndexForward
 } from 'mattermost-redux/actions/posts';
-
 import {Posts} from 'mattermost-redux/constants';
 
 import * as PostActions from 'actions/post_actions.jsx';
@@ -23,9 +20,7 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import * as ChannelActions from 'actions/channel_actions.jsx';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {EmojiMap} from 'stores/emoji_store.jsx';
-
 import {makeGetCommentDraft} from 'selectors/rhs';
-
 import * as Utils from 'utils/utils.jsx';
 import {Constants, StoragePrefixes} from 'utils/constants.jsx';
 
@@ -94,6 +89,7 @@ export function submitReaction(postId, action, emojiName) {
     return (dispatch) => {
         if (action === '+') {
             dispatch(addReaction(postId, emojiName));
+            PostActions.emitEmojiPosted(emojiName);
         } else if (action === '-') {
             dispatch(removeReaction(postId, emojiName));
         }

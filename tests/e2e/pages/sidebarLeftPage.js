@@ -8,10 +8,10 @@ const sidebarLeftPageCommands = {
         return this.waitForElementVisible('@sidebarLeft', Constants.DEFAULT_WAIT);
     },
     navigateToAccountSettingsModal() {
-        return this
-            .click('@sidebarHeaderDropdownButton')
-            .section.sidebarDropdownMenu
-            .click('@accountSettings');
+        return this.
+            click('@sidebarHeaderDropdownButton').
+            section.sidebarDropdownMenu.
+            click('@accountSettings');
     }
 };
 

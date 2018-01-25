@@ -3,8 +3,8 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {getTeams} from 'mattermost-redux/actions/teams';
+import {withRouter} from 'react-router-dom';
 
 import SelectTeam from './select_team.jsx';
 
@@ -22,4 +22,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelectTeam);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SelectTeam));

@@ -8,40 +8,40 @@ const tutorialCommands = {
         return this.waitForElementVisible('@appContent', Constants.DEFAULT_WAIT);
     },
     navigateToScreenOne() {
-        return this
-            .waitForElementVisible('@tutorialIntroCircle0', Constants.DEFAULT_WAIT)
-            .click('@tutorialIntroCircle0')
-            .waitForElementVisible('@tutorialIntroOne', Constants.DEFAULT_WAIT)
+        return this.
+            waitForElementVisible('@tutorialIntroCircle0', Constants.DEFAULT_WAIT).
+            click('@tutorialIntroCircle0').
+            waitForElementVisible('@tutorialIntroOne', Constants.DEFAULT_WAIT);
     },
     navigateToScreenTwo() {
-        return this
-            .waitForElementVisible('@tutorialIntroCircle1', Constants.DEFAULT_WAIT)
-            .click('@tutorialIntroCircle1')
-            .waitForElementVisible('@appDownloadLink', Constants.DEFAULT_WAIT)
-            .waitForElementVisible('@appDownloadImage', Constants.DEFAULT_WAIT)
-            .waitForElementVisible('@tutorialIntroTwo', Constants.DEFAULT_WAIT)
+        return this.
+            waitForElementVisible('@tutorialIntroCircle1', Constants.DEFAULT_WAIT).
+            click('@tutorialIntroCircle1').
+            waitForElementVisible('@appDownloadLink', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@appDownloadImage', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@tutorialIntroTwo', Constants.DEFAULT_WAIT);
     },
     navigateToScreenThree() {
-        return this
-            .waitForElementVisible('@tutorialIntroCircle2', Constants.DEFAULT_WAIT)
-            .click('@tutorialIntroCircle2')
-            .waitForElementVisible('@tutorialIntroInvite', Constants.DEFAULT_WAIT)
-            .waitForElementVisible('@supportInfo', Constants.DEFAULT_WAIT)
-            .waitForElementVisible('@tutorialIntroThree', Constants.DEFAULT_WAIT)
+        return this.
+            waitForElementVisible('@tutorialIntroCircle2', Constants.DEFAULT_WAIT).
+            click('@tutorialIntroCircle2').
+            waitForElementVisible('@tutorialIntroInvite', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@supportInfo', Constants.DEFAULT_WAIT).
+            waitForElementVisible('@tutorialIntroThree', Constants.DEFAULT_WAIT);
     },
     navigateWithNextButton() {
-        return this
-            .waitForElementVisible('@tutorialNextButton', Constants.DEFAULT_WAIT)
-            .click('@tutorialNextButton')
-            .waitForElementVisible('@tutorialNextButton', Constants.DEFAULT_WAIT)
-            .click('@tutorialNextButton')
-            .waitForElementVisible('@tutorialNextButton', Constants.DEFAULT_WAIT)
-            .click('@tutorialNextButton');
+        return this.
+            waitForElementVisible('@tutorialNextButton', Constants.DEFAULT_WAIT).
+            click('@tutorialNextButton').
+            waitForElementVisible('@tutorialNextButton', Constants.DEFAULT_WAIT).
+            click('@tutorialNextButton').
+            waitForElementVisible('@tutorialNextButton', Constants.DEFAULT_WAIT).
+            click('@tutorialNextButton');
     },
     skipTutorial() {
-        return this
-            .waitForElementVisible('@tutorialSkipLink', Constants.DEFAULT_WAIT)
-            .click('@tutorialSkipLink')
+        return this.
+            waitForElementVisible('@tutorialSkipLink', Constants.DEFAULT_WAIT).
+            click('@tutorialSkipLink');
     }
 };
 

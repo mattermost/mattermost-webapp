@@ -3,14 +3,12 @@
 
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-
 import {
-  addReaction,
-  removeReaction,
-  addMessageIntoHistory,
-  moveHistoryIndexBack
+    addReaction,
+    removeReaction,
+    addMessageIntoHistory,
+    moveHistoryIndexBack
 } from 'mattermost-redux/actions/posts';
-
 import {Posts} from 'mattermost-redux/constants';
 
 import {
@@ -24,11 +22,9 @@ import {
     makeOnEditLatestPost
 } from 'actions/views/create_comment';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
-
 import * as PostActions from 'actions/post_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as ChannelActions from 'actions/channel_actions.jsx';
-
 import {StoragePrefixes} from 'utils/constants';
 
 const mockStore = configureStore([thunk]);
@@ -56,7 +52,8 @@ jest.mock('actions/global_actions.jsx', () => ({
 
 jest.mock('actions/post_actions.jsx', () => ({
     createPost: jest.fn(),
-    setEditingPost: (...args) => ({type: 'MOCK_SET_EDITING_POST', args})
+    setEditingPost: (...args) => ({type: 'MOCK_SET_EDITING_POST', args}),
+    emitEmojiPosted: jest.fn()
 }));
 
 jest.mock('actions/storage', () => ({
@@ -231,6 +228,7 @@ describe('rhs view actions', () => {
 
             const testStore = mockStore(initialState);
             testStore.dispatch(addReaction('', ''));
+            expect(PostActions.emitEmojiPosted).toHaveBeenCalled();
 
             expect(store.getActions()).toEqual(testStore.getActions());
         });
@@ -240,6 +238,7 @@ describe('rhs view actions', () => {
 
             const testStore = mockStore(initialState);
             testStore.dispatch(removeReaction('', ''));
+            expect(PostActions.emitEmojiPosted).not.toHaveBeenCalled();
 
             expect(store.getActions()).toEqual(testStore.getActions());
         });
@@ -314,10 +313,12 @@ describe('rhs view actions', () => {
             store = mockStore({
                 ...initialState,
                 storage: {
-                    [`${StoragePrefixes.COMMENT_DRAFT}${latestPostId}`]: {
-                        message: '+:smile:',
-                        fileInfos: [],
-                        uploadsInProgress: []
+                    storage: {
+                        [`${StoragePrefixes.COMMENT_DRAFT}${latestPostId}`]: {
+                            message: '+:smile:',
+                            fileInfos: [],
+                            uploadsInProgress: []
+                        }
                     }
                 }
             });

@@ -4,10 +4,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 import * as Utils from 'utils/utils.jsx';
-
 import Banner from 'components/admin_console/banner.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
@@ -105,7 +104,9 @@ export default class PluginManagement extends React.Component {
         }
     }
 
-    handleRemove = async (pluginId) => {
+    handleRemove = async (e) => {
+        e.preventDefault();
+        const pluginId = e.currentTarget.getAttribute('data-plugin-id');
         this.setState({removing: pluginId});
 
         const {error} = await this.props.actions.removePlugin(pluginId);
@@ -116,7 +117,9 @@ export default class PluginManagement extends React.Component {
         }
     }
 
-    handleActivate = async (pluginId) => {
+    handleActivate = async (e) => {
+        e.preventDefault();
+        const pluginId = e.currentTarget.getAttribute('data-plugin-id');
         this.setState({activating: pluginId});
 
         const {error} = await this.props.actions.activatePlugin(pluginId);
@@ -127,7 +130,9 @@ export default class PluginManagement extends React.Component {
         }
     }
 
-    handleDeactivate = async (pluginId) => {
+    handleDeactivate = async (e) => {
+        e.preventDefault();
+        const pluginId = e.currentTarget.getAttribute('data-plugin-id');
         this.setState({deactivating: pluginId});
 
         const {error} = await this.props.actions.deactivatePlugin(pluginId);
@@ -144,8 +149,9 @@ export default class PluginManagement extends React.Component {
             const deactivating = this.state.deactivating === p.id;
             activateButton = (
                 <a
+                    data-plugin-id={p.id}
                     disabled={deactivating}
-                    onClick={() => this.handleDeactivate(p.id)}
+                    onClick={this.handleDeactivate}
                 >
                     {deactivating ?
                         <FormattedMessage
@@ -163,8 +169,9 @@ export default class PluginManagement extends React.Component {
             const activating = this.state.activating === p.id;
             activateButton = (
                 <a
+                    data-plugin-id={p.id}
                     disabled={activating}
-                    onClick={() => this.handleActivate(p.id)}
+                    onClick={this.handleActivate}
                 >
                     {activating ?
                         <FormattedMessage
@@ -219,8 +226,9 @@ export default class PluginManagement extends React.Component {
                 <span>
                     {' - '}
                     <a
+                        data-plugin-id={p.id}
                         disabled={this.state.removing === p.id}
-                        onClick={() => this.handleRemove(p.id)}
+                        onClick={this.handleRemove}
                     >
                         {removeButtonText}
                     </a>

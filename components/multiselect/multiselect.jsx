@@ -8,7 +8,6 @@ import ReactSelect from 'react-select';
 
 import Constants from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
-
 import SaveButton from 'components/save_button.jsx';
 
 import MultiSelectList from './multiselect_list.jsx';
@@ -128,6 +127,10 @@ export default class MultiSelect extends React.Component {
         }
     }
 
+    handleRender = () => {
+        return null;
+    }
+
     render() {
         const options = Object.assign([], this.props.options);
         const values = this.props.values;
@@ -238,8 +241,8 @@ export default class MultiSelect extends React.Component {
                             onChange={this.onChange}
                             value={this.props.values}
                             valueRenderer={this.props.valueRenderer}
-                            menuRenderer={() => null}
-                            arrowRenderer={() => null}
+                            menuRenderer={this.handleRender}
+                            arrowRenderer={this.handleRender}
                             noResultsText={null}
                             placeholder={localizeMessage('multiselect.placeholder', 'Search and add members')}
                         />

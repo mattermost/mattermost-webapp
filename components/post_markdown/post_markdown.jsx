@@ -30,7 +30,7 @@ export default class PostMarkdown extends React.PureComponent {
         /*
          * An array of words that can be used to mention a user
          */
-        mentionKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
+        mentionKeys: PropTypes.arrayOf(PropTypes.object).isRequired,
 
         /*
          * The post text to be rendered

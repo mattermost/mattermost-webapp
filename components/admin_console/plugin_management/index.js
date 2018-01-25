@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {getPlugins, removePlugin, uploadPlugin, activatePlugin, deactivatePlugin} from 'mattermost-redux/actions/admin';
 
 import PluginManagement from './plugin_management.jsx';

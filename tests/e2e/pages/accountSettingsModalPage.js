@@ -60,10 +60,9 @@ const displaySettings = {
         channelDisplayModeDesc: {selector: '#Channel_Display_ModeDesc'},
         languageTitle: {selector: '#LanguageTitle'},
         languageEdit: {selector: '#LanguageEdit'},
-        languageDesc: {selector: '#LanguageDesc'},
+        languageDesc: {selector: '#LanguageDesc'}
     }
 };
-
 
 module.exports = {
     url: `${Constants.TEST_BASE_URL}`,

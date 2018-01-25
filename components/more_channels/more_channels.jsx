@@ -6,16 +6,14 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router';
 
+import {browserHistory} from 'utils/browser_history';
 import {joinChannel, searchMoreChannels} from 'actions/channel_actions.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import {showCreateOption} from 'utils/channel_utils.jsx';
 import Constants from 'utils/constants.jsx';
-
 import SearchableChannelList from 'components/searchable_channel_list.jsx';
 
 const CHANNELS_CHUNK_SIZE = 50;

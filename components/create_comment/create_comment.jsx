@@ -2,23 +2,23 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-
-import Constants from 'utils/constants.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
-import * as Utils from 'utils/utils.jsx';
-
+import ConfirmModal from 'components/confirm_modal.jsx';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview.jsx';
 import FileUpload from 'components/file_upload.jsx';
 import MsgTyping from 'components/msg_typing.jsx';
 import PostDeletedModal from 'components/post_deleted_modal.jsx';
+import EmojiIcon from 'components/svg/emoji_icon';
 import Textbox from 'components/textbox.jsx';
+import Constants from 'utils/constants.jsx';
+import * as UserAgent from 'utils/user_agent.jsx';
+import * as Utils from 'utils/utils.jsx';
+import * as PostUtils from 'utils/post_utils.jsx';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -29,6 +29,11 @@ export default class CreateComment extends React.PureComponent {
          * The channel for which this comment is a part of
          */
         channelId: PropTypes.string.isRequired,
+
+        /**
+         * The number of channel members
+         */
+        channelMembersCount: PropTypes.number.isRequired,
 
         /**
          * The id of the parent post
@@ -54,7 +59,7 @@ export default class CreateComment extends React.PureComponent {
          */
         ctrlSend: PropTypes.bool,
 
-         /**
+        /**
          * The id of the latest post in this channel
          */
         latestPostId: PropTypes.string,
@@ -102,7 +107,12 @@ export default class CreateComment extends React.PureComponent {
         /**
          * Called to initiate editing the user's latest post
          */
-        onEditLatestPost: PropTypes.func.isRequired
+        onEditLatestPost: PropTypes.func.isRequired,
+
+        /**
+         * Reset state of createPost request
+         */
+        resetCreatePostRequest: PropTypes.func.isRequired
     }
 
     constructor(props) {
@@ -110,6 +120,7 @@ export default class CreateComment extends React.PureComponent {
 
         this.state = {
             showPostDeletedModal: false,
+            showConfirmModal: false,
             showEmojiPicker: false,
             draft: {
                 message: '',
@@ -131,12 +142,20 @@ export default class CreateComment extends React.PureComponent {
         this.focusTextbox();
     }
 
+    componentWillUnmount() {
+        this.props.resetCreatePostRequest();
+    }
+
     componentWillReceiveProps(newProps) {
         if (newProps.createPostErrorId === 'api.post.create_post.root_id.app_error' && newProps.createPostErrorId !== this.props.createPostErrorId) {
             this.showPostDeletedModal();
         }
         if (newProps.rootId !== this.props.rootId) {
             this.setState({draft: {...newProps.draft, uploadsInProgress: []}});
+        }
+
+        if (!Utils.areObjectsEqual(this.props.draft, newProps.draft)) {
+            this.setState({draft: newProps.draft});
         }
     }
 
@@ -148,6 +167,19 @@ export default class CreateComment extends React.PureComponent {
         if (prevProps.rootId !== this.props.rootId) {
             this.focusTextbox();
         }
+    }
+
+    handleNotifyAllConfirmation = (e) => {
+        this.hideNotifyAllModal();
+        this.doSubmit(e);
+    }
+
+    hideNotifyAllModal = () => {
+        this.setState({showConfirmModal: false});
+    }
+
+    showNotifyAllModal = () => {
+        this.setState({showConfirmModal: true});
     }
 
     toggleEmojiPicker = () => {
@@ -194,6 +226,19 @@ export default class CreateComment extends React.PureComponent {
 
     handleSubmit = async (e) => {
         e.preventDefault();
+
+        if ((PostUtils.containsAtMention(this.state.draft.message, '@all') || PostUtils.containsAtMention(this.state.draft.message, '@channel')) && this.props.channelMembersCount > Constants.NOTIFY_ALL_MEMBERS && window.mm_config.EnableConfirmNotificationsToChannel === 'true') {
+            this.showNotifyAllModal();
+            return;
+        }
+
+        await this.doSubmit(e);
+    }
+
+    doSubmit = async (e) => {
+        if (e) {
+            e.preventDefault();
+        }
 
         const {enableAddButton} = this.props;
         const {draft} = this.state;
@@ -407,6 +452,8 @@ export default class CreateComment extends React.PureComponent {
         this.setState({
             showPostDeletedModal: false
         });
+
+        this.props.resetCreatePostRequest();
     }
 
     handleBlur = () => {
@@ -415,6 +462,30 @@ export default class CreateComment extends React.PureComponent {
 
     render() {
         const {draft} = this.state;
+
+        const notifyAllTitle = (
+            <FormattedMessage
+                id='notify_all.title.confirm'
+                defaultMessage='Confirm sending notifications to entire channel'
+            />
+        );
+
+        const notifyAllConfirm = (
+            <FormattedMessage
+                id='notify_all.confirm'
+                defaultMessage='Confirm'
+            />
+        );
+
+        const notifyAllMessage = (
+            <FormattedMessage
+                id='notify_all.question'
+                defaultMessage='By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?'
+                values={{
+                    totalMembers: this.props.channelMembersCount - 1
+                }}
+            />
+        );
 
         let serverError = null;
         if (this.state.serverError) {
@@ -494,9 +565,8 @@ export default class CreateComment extends React.PureComponent {
                         rightOffset={15}
                         topOffset={55}
                     />
-                    <span
+                    <EmojiIcon
                         className={'icon icon--emoji emoji-rhs ' + (this.state.showEmojiPicker ? 'active' : '')}
-                        dangerouslySetInnerHTML={{__html: Constants.EMOJI_ICON_SVG}}
                         onClick={this.toggleEmojiPicker}
                     />
                 </span>
@@ -556,6 +626,14 @@ export default class CreateComment extends React.PureComponent {
                 <PostDeletedModal
                     show={this.state.showPostDeletedModal}
                     onHide={this.hidePostDeletedModal}
+                />
+                <ConfirmModal
+                    title={notifyAllTitle}
+                    message={notifyAllMessage}
+                    confirmButtonText={notifyAllConfirm}
+                    show={this.state.showConfirmModal}
+                    onConfirm={this.handleNotifyAllConfirmation}
+                    onCancel={this.hideNotifyAllModal}
                 />
             </form>
         );

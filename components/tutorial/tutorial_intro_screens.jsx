@@ -4,7 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
@@ -12,10 +11,8 @@ import {savePreference} from 'actions/user_actions.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import {Constants, Preferences} from 'utils/constants.jsx';
 import {useSafeUrl} from 'utils/url.jsx';
-
 import AppIcons from 'images/appIcons.png';
 
 const NUM_SCREENS = 3;
@@ -55,8 +52,6 @@ export default class TutorialIntroScreens extends React.Component {
             return;
         }
 
-        browserHistory.push(TeamStore.getCurrentTeamUrl() + '/channels/town-square');
-
         const step = PreferenceStore.getInt(Preferences.TUTORIAL_STEP, UserStore.getCurrentId(), 0);
 
         savePreference(
@@ -85,8 +80,6 @@ export default class TutorialIntroScreens extends React.Component {
             UserStore.getCurrentId(),
             '999'
         );
-
-        browserHistory.push(TeamStore.getCurrentTeamUrl() + '/channels/town-square');
     }
     createScreen() {
         switch (this.state.currentScreen) {
@@ -269,6 +262,13 @@ export default class TutorialIntroScreens extends React.Component {
             </div>
         );
     }
+
+    handleCircleClick = (e) => {
+        e.preventDefault();
+        const currentScreen = e.currentTarget.getAttribute('data-screen');
+        this.setState({currentScreen});
+    }
+
     createCircles() {
         const circles = [];
         for (let i = 0; i < NUM_SCREENS; i++) {
@@ -283,10 +283,8 @@ export default class TutorialIntroScreens extends React.Component {
                     href='#'
                     key={'circle' + i}
                     className={className}
-                    onClick={(e) => { //eslint-disable-line no-loop-func
-                        e.preventDefault();
-                        this.setState({currentScreen: i});
-                    }}
+                    data-screen={i}
+                    onClick={this.handleCircleClick}
                 />
             );
         }

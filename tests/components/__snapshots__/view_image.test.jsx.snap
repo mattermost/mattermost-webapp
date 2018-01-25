@@ -65,6 +65,7 @@ exports[`components/ViewImageModal should match snapshot on onModalShown and onM
           filename=""
           onGetPublicLink={[Function]}
           show={false}
+          showPublicLink={true}
           totalFiles={3}
         />
       </div>
@@ -158,6 +159,7 @@ exports[`components/ViewImageModal should match snapshot on onModalShown and onM
           filename=""
           onGetPublicLink={[Function]}
           show={false}
+          showPublicLink={true}
           totalFiles={3}
         />
       </div>
@@ -252,6 +254,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with AudioVideo
           filename=""
           onGetPublicLink={[Function]}
           show={false}
+          showPublicLink={true}
           totalFiles={1}
         />
       </div>
@@ -326,6 +329,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with AudioVideo
           filename=""
           onGetPublicLink={[Function]}
           show={false}
+          showPublicLink={true}
           totalFiles={1}
         />
       </div>
@@ -400,6 +404,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with CodePrevie
           filename=""
           onGetPublicLink={[Function]}
           show={false}
+          showPublicLink={true}
           totalFiles={1}
         />
       </div>
@@ -474,6 +479,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with FileInfoPr
           filename=""
           onGetPublicLink={[Function]}
           show={false}
+          showPublicLink={true}
           totalFiles={1}
         />
       </div>
@@ -547,80 +553,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with ImagePrevi
           filename=""
           onGetPublicLink={[Function]}
           show={false}
-          totalFiles={1}
-        />
-      </div>
-    </div>
-  </ModalBody>
-</Modal>
-`;
-
-exports[`components/ViewImageModal should match snapshot, loaded with PDFPreview 1`] = `
-<Modal
-  animation={true}
-  autoFocus={true}
-  backdrop={true}
-  bsClass="modal"
-  className="modal-image"
-  dialogClassName="modal-image"
-  dialogComponentClass={[Function]}
-  enforceFocus={true}
-  keyboard={true}
-  manager={
-    ModalManager {
-      "add": [Function],
-      "containers": Array [],
-      "data": Array [],
-      "handleContainerOverflow": true,
-      "hideSiblingNodes": true,
-      "isTopModal": [Function],
-      "modals": Array [],
-      "remove": [Function],
-    }
-  }
-  onHide={[Function]}
-  renderBackdrop={[Function]}
-  restoreFocus={true}
-  show={true}
->
-  <ModalBody
-    bsClass="modal-body"
-    componentClass="div"
-    modalClassName="modal-image__body"
-    onClick={[Function]}
-  >
-    <div
-      className="modal-image__wrapper"
-      onClick={[Function]}
-    >
-      <div
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onMouseLeave={[Function]}
-      >
-        <div
-          className="modal-close"
-          onClick={[Function]}
-        />
-        <div
-          className="modal-image__content"
-        >
-          <PDFPreview
-            fileInfo={
-              Object {
-                "extension": "pdf",
-                "id": "file_id",
-              }
-            }
-            fileUrl="/api/v4/files/file_id"
-          />
-        </div>
-        <ViewImagePopoverBar
-          fileIndex={0}
-          fileURL="/api/v4/files/file_id"
-          filename=""
-          onGetPublicLink={[Function]}
-          show={false}
+          showPublicLink={true}
           totalFiles={1}
         />
       </div>
@@ -694,6 +627,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with ViewImageP
           filename=""
           onGetPublicLink={[Function]}
           show={false}
+          showPublicLink={true}
           totalFiles={1}
         />
       </div>
@@ -767,6 +701,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with footer 1`]
           filename=""
           onGetPublicLink={[Function]}
           show={true}
+          showPublicLink={true}
           totalFiles={3}
         />
       </div>
@@ -860,6 +795,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
           filename=""
           onGetPublicLink={[Function]}
           show={false}
+          showPublicLink={true}
           totalFiles={3}
         />
       </div>
@@ -954,6 +890,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
           filename=""
           onGetPublicLink={[Function]}
           show={false}
+          showPublicLink={true}
           totalFiles={3}
         />
       </div>
@@ -1048,6 +985,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
           filename=""
           onGetPublicLink={[Function]}
           show={false}
+          showPublicLink={true}
           totalFiles={3}
         />
       </div>
@@ -1127,6 +1065,7 @@ exports[`components/ViewImageModal should match snapshot, loading 1`] = `
           className="modal-image__content"
         >
           <LoadingImagePreview
+            containerClass="view-image__loading"
             loading="Loading"
             progress={0}
           />
@@ -1137,6 +1076,7 @@ exports[`components/ViewImageModal should match snapshot, loading 1`] = `
           filename=""
           onGetPublicLink={[Function]}
           show={false}
+          showPublicLink={true}
           totalFiles={1}
         />
       </div>
@@ -1196,6 +1136,7 @@ exports[`components/ViewImageModal should match snapshot, modal not shown 1`] = 
           className="modal-image__content"
         >
           <LoadingImagePreview
+            containerClass="view-image__loading"
             loading="Loading"
             progress={0}
           />
@@ -1206,6 +1147,7 @@ exports[`components/ViewImageModal should match snapshot, modal not shown 1`] = 
           filename=""
           onGetPublicLink={[Function]}
           show={false}
+          showPublicLink={true}
           totalFiles={1}
         />
       </div>

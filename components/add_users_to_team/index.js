@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {getProfilesNotInTeam} from 'mattermost-redux/actions/users';
 
 import AddUsersToTeam from './add_users_to_team.jsx';

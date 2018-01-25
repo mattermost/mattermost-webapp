@@ -3,17 +3,13 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
 import PostStore from 'stores/post_store';
-
 import {getPinnedPosts, getFlaggedPosts} from 'actions/views/rhs';
-
 import {getRhsState, getSelectedPostId, getSelectedChannelId, getPreviousRhsState} from 'selectors/rhs';
-
 import {RHSStates} from 'utils/constants.jsx';
 
 import SidebarRight from './sidebar_right.jsx';

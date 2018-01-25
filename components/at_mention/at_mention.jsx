@@ -4,11 +4,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger} from 'react-bootstrap';
-
 import {Client4} from 'mattermost-redux/client';
 
 import Pluggable from 'plugins/pluggable';
-
 import ProfilePopover from 'components/profile_popover.jsx';
 
 import * as Utils from 'utils/utils.jsx';
@@ -87,7 +85,7 @@ export default class AtMention extends React.PureComponent {
                 <OverlayTrigger
                     ref='overlay'
                     trigger='click'
-                    placement='right'
+                    placement='left'
                     rootClose={true}
                     overlay={
                         <Pluggable>

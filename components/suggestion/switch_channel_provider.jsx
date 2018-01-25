@@ -2,17 +2,17 @@
 // See License.txt for license information.
 
 import React from 'react';
-
 import {Client4} from 'mattermost-redux/client';
 import {Preferences} from 'mattermost-redux/constants';
 import {getChannelsInCurrentTeam, getGroupChannels, getMyChannelMemberships} from 'mattermost-redux/selectors/entities/channels';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId, searchProfiles} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, searchProfiles, getUserIdsInChannels, getUser} from 'mattermost-redux/selectors/entities/users';
 
+import GlobeIcon from 'components/svg/globe_icon';
+import LockIcon from 'components/svg/lock_icon';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import store from 'stores/redux_store.jsx';
-
 import {getChannelDisplayName, sortChannelsByDisplayName} from 'utils/channel_utils.jsx';
 import {ActionTypes, Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -26,8 +26,6 @@ class SwitchChannelSuggestion extends Suggestion {
     render() {
         const {item, isSelection} = this.props;
         const channel = item.channel;
-        const globeIcon = Constants.GLOBE_ICON_SVG;
-        const lockIcon = Constants.LOCK_ICON_SVG;
 
         let className = 'mentions__name';
         if (isSelection) {
@@ -38,17 +36,11 @@ class SwitchChannelSuggestion extends Suggestion {
         let icon = null;
         if (channel.type === Constants.OPEN_CHANNEL) {
             icon = (
-                <span
-                    className='icon icon__globe icon--body'
-                    dangerouslySetInnerHTML={{__html: globeIcon}}
-                />
+                <GlobeIcon className='icon icon__globe icon--body'/>
             );
         } else if (channel.type === Constants.PRIVATE_CHANNEL) {
             icon = (
-                <span
-                    className='icon icon__lock icon--body'
-                    dangerouslySetInnerHTML={{__html: lockIcon}}
-                />
+                <LockIcon className='icon icon__lock icon--body'/>
             );
         } else if (channel.type === Constants.GM_CHANNEL) {
             displayName = getChannelDisplayName(channel);
@@ -118,6 +110,37 @@ function quickSwitchSorter(wrappedA, wrappedB) {
     return 1;
 }
 
+function makeChannelSearchFilter(channelPrefix) {
+    const channelPrefixLower = channelPrefix.toLowerCase();
+    const curState = getState();
+    const usersInChannels = getUserIdsInChannels(curState);
+    const userSearchStrings = {};
+
+    return (channel) => {
+        let searchString = channel.display_name;
+
+        if (channel.type === Constants.GM_CHANNEL || channel.type === Constants.DM_CHANNEL) {
+            const usersInChannel = usersInChannels[channel.id] || [];
+            for (const userId of usersInChannel) {
+                let userString = userSearchStrings[userId];
+
+                if (!userString) {
+                    const user = getUser(curState, userId);
+                    if (!user) {
+                        continue;
+                    }
+                    const {nickname, username} = user;
+                    userString = `${nickname}${username}${Utils.getFullName(user)}`;
+                    userSearchStrings[userId] = userString;
+                }
+                searchString += userString;
+            }
+        }
+
+        return searchString.toLowerCase().includes(channelPrefixLower);
+    };
+}
+
 export default class SwitchChannelProvider extends Provider {
     handlePretextChanged(suggestionId, channelPrefix) {
         if (channelPrefix) {
@@ -176,6 +199,7 @@ export default class SwitchChannelProvider extends Provider {
 
     formatChannelsAndDispatch(channelPrefix, suggestionId, allChannels, users, skipNotInChannel = false) {
         const channels = [];
+
         const members = getMyChannelMemberships(getState());
 
         if (this.shouldCancelDispatch(channelPrefix)) {
@@ -186,6 +210,8 @@ export default class SwitchChannelProvider extends Provider {
 
         const completedChannels = {};
 
+        const channelFilter = makeChannelSearchFilter(channelPrefix);
+
         for (const id of Object.keys(allChannels)) {
             const channel = allChannels[id];
 
@@ -193,9 +219,7 @@ export default class SwitchChannelProvider extends Provider {
                 continue;
             }
 
-            const member = members[channel.id];
-
-            if (channel.display_name.toLowerCase().indexOf(channelPrefix.toLowerCase()) !== -1) {
+            if (channelFilter(channel)) {
                 const newChannel = Object.assign({}, channel);
                 const wrappedChannel = {channel: newChannel, name: newChannel.name, deactivated: false};
                 if (newChannel.type === Constants.GM_CHANNEL) {
@@ -210,7 +234,7 @@ export default class SwitchChannelProvider extends Provider {
                             continue;
                         }
                     }
-                } else if (member) {
+                } else if (members[channel.id]) {
                     wrappedChannel.type = Constants.MENTION_CHANNELS;
                 } else {
                     wrappedChannel.type = Constants.MENTION_MORE_CHANNELS;

@@ -3,10 +3,9 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {getProfilesInChannel} from 'mattermost-redux/actions/users';
 import {getAllChannelStats} from 'mattermost-redux/selectors/entities/channels';
-import {makeGetProfilesInChannel} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, makeGetProfilesInChannel} from 'mattermost-redux/selectors/entities/users';
 
 import PopoverListMembers from './popover_list_members.jsx';
 
@@ -15,10 +14,13 @@ function makeMapStateToProps() {
 
     return function mapStateToProps(state, ownProps) {
         const stats = getAllChannelStats(state)[ownProps.channel.id] || {};
+        const members = doGetProfilesInChannel(state, ownProps.channel.id, true);
+
         return {
             ...ownProps,
             memberCount: stats.member_count,
-            members: doGetProfilesInChannel(state, ownProps.channel.id, true)
+            members,
+            currentUserId: getCurrentUserId(state)
         };
     };
 }

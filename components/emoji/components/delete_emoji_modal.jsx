@@ -1,13 +1,17 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 import PropTypes from 'prop-types';
-
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import DeleteModalTrigger from '../../delete_modal_trigger.jsx';
+import DeleteModalTrigger from 'components/delete_modal_trigger.jsx';
 
 export default class DeleteEmoji extends DeleteModalTrigger {
+
+    static propTypes = {
+        onDelete: PropTypes.func.isRequired
+    }
+
     get triggerTitle() {
         return (
             <FormattedMessage
@@ -47,7 +51,3 @@ export default class DeleteEmoji extends DeleteModalTrigger {
         );
     }
 }
-
-DeleteEmoji.propTypes = {
-    onDelete: PropTypes.func.isRequired
-};

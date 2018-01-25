@@ -2,22 +2,20 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import TeamStore from 'stores/team_store.jsx';
-
-import Constants from 'utils/constants.jsx';
 import {sortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
-
+import {Constants} from 'utils/constants.jsx';
 import AboutBuildModal from 'components/about_build_modal';
 import BlockableLink from 'components/admin_console/blockable_link';
+import MenuIcon from 'components/svg/menu_icon';
 
 export default class AdminNavbarDropdown extends React.Component {
     static propTypes = {
@@ -111,7 +109,7 @@ export default class AdminNavbarDropdown extends React.Component {
                     <li key={'team_' + team.name}>
                         <BlockableLink
                             id={'swithTo' + Utils.createSafeId(team.name)}
-                            to={'/' + team.name + '/channels/town-square'}
+                            to={'/' + team.name + `/channels/${Constants.DEFAULT_CHANNEL}`}
                         >
                             <FormattedMessage
                                 id='navbar_dropdown.switchTo'
@@ -159,10 +157,7 @@ export default class AdminNavbarDropdown extends React.Component {
                         role='button'
                         aria-expanded='false'
                     >
-                        <span
-                            className='dropdown__icon admin-navbar-dropdown__icon'
-                            dangerouslySetInnerHTML={{__html: Constants.MENU_ICON}}
-                        />
+                        <MenuIcon className='dropdown__icon admin-navbar-dropdown__icon'/>
                     </a>
                     <ul
                         className='dropdown-menu'

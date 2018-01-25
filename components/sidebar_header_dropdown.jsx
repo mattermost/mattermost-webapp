@@ -2,27 +2,25 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Dropdown} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
-
 import {Constants, WebrtcActionTypes} from 'utils/constants.jsx';
 import {useSafeUrl} from 'utils/url';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import AboutBuildModal from 'components/about_build_modal';
 import AddUsersToTeam from 'components/add_users_to_team';
 import TeamMembersModal from 'components/team_members_modal';
+import TeamSettingsModal from 'components/team_settings_modal.jsx';
 
 import SidebarHeaderDropdownButton from './sidebar_header_dropdown_button.jsx';
 
@@ -65,6 +63,7 @@ export default class SidebarHeaderDropdown extends React.Component {
             teamListings: TeamStore.getTeamListings(),
             showAboutModal: false,
             showDropdown: false,
+            showTeamSettingsModal: false,
             showTeamMembersModal: false,
             showAddUsersToTeamModal: false
         };
@@ -149,6 +148,21 @@ export default class SidebarHeaderDropdown extends React.Component {
         GlobalActions.showGetTeamInviteLinkModal();
     }
 
+    showTeamSettingsModal = (e) => {
+        e.preventDefault();
+
+        this.setState({
+            showDropdown: false,
+            showTeamSettingsModal: true
+        });
+    }
+
+    hideTeamSettingsModal = () => {
+        this.setState({
+            showTeamSettingsModal: false
+        });
+    }
+
     showTeamMembersModal(e) {
         e.preventDefault();
 
@@ -199,6 +213,10 @@ export default class SidebarHeaderDropdown extends React.Component {
                 </Link>
             </li>
         );
+    }
+
+    handleEmitUserLoggedOutEvent = () => {
+        GlobalActions.emitUserLoggedOutEvent();
     }
 
     render() {
@@ -295,9 +313,7 @@ export default class SidebarHeaderDropdown extends React.Component {
                     <button
                         className='style--none'
                         id='teamSettings'
-                        data-toggle='modal'
-                        data-target='#team_settings'
-                        onClick={this.toggleDropdown}
+                        onClick={this.showTeamSettingsModal}
                     >
                         <FormattedMessage
                             id='navbar_dropdown.teamSettings'
@@ -387,49 +403,51 @@ export default class SidebarHeaderDropdown extends React.Component {
             );
         }
 
-        const isAlreadyMember = this.state.teamMembers.reduce((result, item) => {
-            result[item.team_id] = true;
-            return result;
-        }, {});
+        if (!config.ExperimentalPrimaryTeam) {
+            const isAlreadyMember = this.state.teamMembers.reduce((result, item) => {
+                result[item.team_id] = true;
+                return result;
+            }, {});
 
-        for (const id in this.state.teamListings) {
-            if (this.state.teamListings.hasOwnProperty(id) && !isAlreadyMember[id]) {
-                moreTeams = true;
-                break;
+            for (const id in this.state.teamListings) {
+                if (this.state.teamListings.hasOwnProperty(id) && !isAlreadyMember[id]) {
+                    moreTeams = true;
+                    break;
+                }
             }
-        }
 
-        if (moreTeams) {
+            if (moreTeams) {
+                teams.push(
+                    <li key='joinTeam_li'>
+                        <Link
+                            id='joinAnotherTeam'
+                            onClick={this.handleClick}
+                            to='/select_team'
+                        >
+                            <FormattedMessage
+                                id='navbar_dropdown.join'
+                                defaultMessage='Join Another Team'
+                            />
+                        </Link>
+                    </li>
+                );
+            }
+
             teams.push(
-                <li key='joinTeam_li'>
-                    <Link
-                        id='joinAnotherTeam'
-                        onClick={this.handleClick}
-                        to='/select_team'
+                <li key='leaveTeam_li'>
+                    <button
+                        className='style--none'
+                        id='leaveTeam'
+                        onClick={GlobalActions.showLeaveTeamModal}
                     >
                         <FormattedMessage
-                            id='navbar_dropdown.join'
-                            defaultMessage='Join Another Team'
+                            id='navbar_dropdown.leave'
+                            defaultMessage='Leave Team'
                         />
-                    </Link>
+                    </button>
                 </li>
             );
         }
-
-        teams.push(
-            <li key='leaveTeam_li'>
-                <button
-                    className='style--none'
-                    id='leaveTeam'
-                    onClick={GlobalActions.showLeaveTeamModal}
-                >
-                    <FormattedMessage
-                        id='navbar_dropdown.leave'
-                        defaultMessage='Leave Team'
-                    />
-                </button>
-            </li>
-        );
 
         let helpLink = null;
         if (config.HelpLink) {
@@ -558,7 +576,7 @@ export default class SidebarHeaderDropdown extends React.Component {
                 <button
                     className='style--none'
                     id='logout'
-                    onClick={() => GlobalActions.emitUserLoggedOutEvent()}
+                    onClick={this.handleEmitUserLoggedOutEvent}
                 >
                     <FormattedMessage
                         id='navbar_dropdown.logout'
@@ -637,6 +655,10 @@ export default class SidebarHeaderDropdown extends React.Component {
                     {logoutDivider}
                     {logout}
                     {teamMembersModal}
+                    <TeamSettingsModal
+                        show={this.state.showTeamSettingsModal}
+                        onModalDismissed={this.hideTeamSettingsModal}
+                    />
                     <AboutBuildModal
                         show={this.state.showAboutModal}
                         onModalDismissed={this.aboutModalDismissed}

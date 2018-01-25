@@ -5,9 +5,7 @@ import React from 'react';
 import {Provider} from 'react-redux';
 
 import store from 'stores/redux_store.jsx';
-
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
-
 import PostMessageView from 'components/post_view/post_message_view/post_message_view.jsx';
 
 class PostTypePlugin extends React.PureComponent {
