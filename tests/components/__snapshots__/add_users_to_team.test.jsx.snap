@@ -1,0 +1,166 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/AddUsersToTeam should match snapshot 1`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  dialogClassName="more-modal more-direct-channels"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onExited={[Function]}
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  show={true}
+>
+  <ModalHeader
+    bsClass="modal-header"
+    closeButton={true}
+    closeLabel="Close"
+  >
+    <ModalTitle
+      bsClass="modal-title"
+      componentClass="h4"
+    >
+      <FormattedMessage
+        defaultMessage="Add New Members To {teamName} Team"
+        id="add_users_to_team.title"
+        values={
+          Object {
+            "teamName": <strong>
+              display_name
+            </strong>,
+          }
+        }
+      />
+    </ModalTitle>
+  </ModalHeader>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+  >
+    <MultiSelect
+      buttonSubmitText="Add"
+      handleAdd={[Function]}
+      handleDelete={[Function]}
+      handleInput={[Function]}
+      handlePageChange={[Function]}
+      handleSubmit={[Function]}
+      key="addUsersToTeamKey"
+      maxValues={20}
+      numRemainingText={
+        <FormattedMessage
+          defaultMessage="Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. "
+          id="multiselect.numPeopleRemaining"
+          values={
+            Object {
+              "num": 20,
+            }
+          }
+        />
+      }
+      optionRenderer={[Function]}
+      options={Array []}
+      perPage={50}
+      saving={false}
+      valueRenderer={[Function]}
+      values={Array []}
+    />
+  </ModalBody>
+</Modal>
+`;
+
+exports[`components/AddUsersToTeam should match when renderOption is called 1`] = `
+<div
+  className="more-modal__row clickable "
+  onClick={[Function]}
+>
+  <ProfilePicture
+    hasMention={false}
+    height="32"
+    isRHS={false}
+    src="/api/v4/users/id/image?_=12345"
+    width="32"
+  />
+  <div
+    className="more-modal__details"
+  >
+    <div
+      className="more-modal__name"
+    >
+      @undefined
+    </div>
+    <div
+      className="more-modal__description"
+    >
+      test@test.com
+    </div>
+  </div>
+  <div
+    className="more-modal__actions"
+  >
+    <div
+      className="more-modal__actions--round"
+    >
+      <i
+        className="fa fa-plus"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/AddUsersToTeam should match when renderOption is called 2`] = `
+<div
+  className="more-modal__row clickable more-modal__row--selected"
+  onClick={[Function]}
+>
+  <ProfilePicture
+    hasMention={false}
+    height="32"
+    isRHS={false}
+    src="/api/v4/users/id/image?_=12345"
+    width="32"
+  />
+  <div
+    className="more-modal__details"
+  >
+    <div
+      className="more-modal__name"
+    >
+      @undefined
+    </div>
+    <div
+      className="more-modal__description"
+    >
+      test@test.com
+    </div>
+  </div>
+  <div
+    className="more-modal__actions"
+  >
+    <div
+      className="more-modal__actions--round"
+    >
+      <i
+        className="fa fa-plus"
+      />
+    </div>
+  </div>
+</div>
+`;

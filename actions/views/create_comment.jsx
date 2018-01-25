@@ -29,8 +29,6 @@ import {makeGetCommentDraft} from 'selectors/rhs';
 import * as Utils from 'utils/utils.jsx';
 import {Constants, StoragePrefixes} from 'utils/constants.jsx';
 
-import {REACTION_PATTERN} from 'components/create_post.jsx';
-
 export function clearCommentDraftUploads() {
     return actionOnGlobalItemsWithPrefix(StoragePrefixes.COMMENT_DRAFT, (key, value) => {
         if (value) {
@@ -140,7 +138,7 @@ export function makeOnSubmit(channelId, rootId, latestPostId) {
 
         dispatch(updateCommentDraft(rootId, null));
 
-        const isReaction = REACTION_PATTERN.exec(message);
+        const isReaction = Utils.REACTION_PATTERN.exec(message);
 
         const emojis = getCustomEmojisByName(getState());
         const emojiMap = new EmojiMap(emojis);

@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router';
 
 import {Client4} from 'mattermost-redux/client';
 import {searchProfilesNotInCurrentTeam} from 'mattermost-redux/selectors/entities/users';
@@ -76,10 +75,6 @@ export default class AddUsersToTeam extends React.Component {
     }
 
     handleExit() {
-        if (this.exitToChannel) {
-            browserHistory.push(this.exitToChannel);
-        }
-
         if (this.props.onModalDismissed) {
             this.props.onModalDismissed();
         }
@@ -124,7 +119,8 @@ export default class AddUsersToTeam extends React.Component {
 
     addValue(value) {
         const values = Object.assign([], this.state.values);
-        if (values.indexOf(value) === -1) {
+        const userIds = values.map((v) => v.id);
+        if (value && value.id && userIds.indexOf(value.id) === -1) {
             values.push(value);
         }
 

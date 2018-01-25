@@ -34,7 +34,7 @@ export default class NewMessageIndicator extends React.PureComponent {
     render() {
         const unreadIcon = Constants.UNREAD_ICON_SVG;
         let className = 'new-messages__button';
-        if (this.state.visible > 0) {
+        if (this.state.visible) {
             className += ' visible';
         }
         if (!this.state.rendered) {

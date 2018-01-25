@@ -143,6 +143,8 @@ export default class SystemUsersDropdown extends React.Component {
     }
 
     renderDeactivateMemberModal = () => {
+        const user = this.props.user;
+
         const title = (
             <FormattedMessage
                 id='deactivate_member_modal.title'
@@ -153,14 +155,31 @@ export default class SystemUsersDropdown extends React.Component {
             />
         );
 
+        let warning;
+        if (user.auth_service !== '' && user.auth_service !== Constants.EMAIL_SERVICE) {
+            warning = (
+                <strong>
+                    <br/>
+                    <br/>
+                    <FormattedMessage
+                        id='deactivate_member_modal.sso_warning'
+                        defaultMessage='You must also deactivate this user in the SSO provider or they will be reactivated on next login or sync.'
+                    />
+                </strong>
+            );
+        }
+
         const message = (
-            <FormattedMessage
-                id='deactivate_member_modal.desc'
-                defaultMessage='This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system. Are you sure you want to deactivate {username}?'
-                values={{
-                    username: this.props.user.username
-                }}
-            />
+            <div>
+                <FormattedMessage
+                    id='deactivate_member_modal.desc'
+                    defaultMessage='This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system. Are you sure you want to deactivate {username}?'
+                    values={{
+                        username: user.username
+                    }}
+                />
+                {warning}
+            </div>
         );
 
         const confirmButtonClass = 'btn btn-danger';

@@ -158,6 +158,10 @@ export default class SearchBar extends React.Component {
         );
     }
 
+    getSearch = (node) => {
+        this.search = node;
+    }
+
     render() {
         const flagIcon = Constants.FLAG_ICON_SVG;
         const searchIcon = Constants.SEARCH_ICON_SVG;
@@ -284,9 +288,7 @@ export default class SearchBar extends React.Component {
                         />
                         <SuggestionBox
                             id='searchBox'
-                            ref={(search) => {
-                                this.search = search;
-                            }}
+                            ref={this.getSearch}
                             className='search-bar'
                             placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
                             value={this.props.searchTerms}

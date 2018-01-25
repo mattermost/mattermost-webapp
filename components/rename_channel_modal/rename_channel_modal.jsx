@@ -221,6 +221,10 @@ export class RenameChannelModal extends React.PureComponent {
         this.setState({displayName: e.target.value});
     }
 
+    getTextbox = (node) => {
+        this.textbox = node;
+    }
+
     render() {
         let displayNameError = null;
         let displayNameClass = 'form-group';
@@ -283,9 +287,7 @@ export class RenameChannelModal extends React.PureComponent {
                             <input
                                 onChange={this.onDisplayNameChange}
                                 type='text'
-                                ref={(e) => {
-                                    this.textbox = e;
-                                }}
+                                ref={this.getTextbox}
                                 id='display_name'
                                 className='form-control'
                                 placeholder={formatMessage(holders.displayNameHolder)}

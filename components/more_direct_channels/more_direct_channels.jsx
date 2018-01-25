@@ -322,7 +322,7 @@ export default class MoreDirectChannels extends React.Component {
         let users = this.state.users || [];
 
         if (this.state.values.length) {
-            users = this.state.users.filter((user) => user.delete_at === 0 && user.id !== this.props.currentUserId);
+            users = users.filter((user) => user.delete_at === 0 && user.id !== this.props.currentUserId);
         } else {
             const active = [];
             const inactive = [];

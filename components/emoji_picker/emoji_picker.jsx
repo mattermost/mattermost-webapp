@@ -393,14 +393,16 @@ export default class EmojiPicker extends React.Component {
         return <div className='emoji-picker__categories'>{emojiPickerCategories}</div>;
     }
 
+    getSearchInput = (node) => {
+        this.searchInput = node;
+    };
+
     emojiSearch() {
         return (
             <div className='emoji-picker__search-container'>
                 <span className='fa fa-search emoji-picker__search-icon'/>
                 <input
-                    ref={(input) => {
-                        this.searchInput = input;
-                    }}
+                    ref={this.getSearchInput}
                     className='emoji-picker__search'
                     type='text'
                     onChange={this.handleFilterChange}

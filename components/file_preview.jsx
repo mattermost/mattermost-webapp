@@ -51,7 +51,7 @@ export default class FilePreview extends React.PureComponent {
     }
 
     render() {
-        var previews = [];
+        const previews = [];
         const fileInfos = this.state.fileInfos.sort((a, b) => a.create_at - b.create_at);
         fileInfos.forEach((info) => {
             const type = Utils.getFileType(info.extension);
