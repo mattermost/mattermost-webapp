@@ -297,9 +297,7 @@ if (!DEV) {
             }
         })
     );
-    config.plugins.push(
-        new webpack.optimize.ModuleConcatenationPlugin(),
-    );
+    config.plugins.push(new webpack.optimize.ModuleConcatenationPlugin());
 }
 
 // Test mode configuration
