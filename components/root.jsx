@@ -170,6 +170,8 @@ export default class Root extends React.Component {
 
             // Get our localizaiton
             GlobalActions.loadCurrentLocale();
+
+            this.redirectIfNecessary(this.props);
             this.setState({configLoaded: true});
         };
         if (global.Intl) {
