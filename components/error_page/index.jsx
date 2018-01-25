@@ -49,7 +49,10 @@ export default class ErrorPage extends React.PureComponent {
                     <Link to='/'>
                         <FormattedMessage
                             id='error.generic.link'
-                            defaultMessage='Back to Mattermost'
+                            defaultMessage='Back to {siteName}'
+							values={{
+                                siteName: global.window.mm_config.SiteName
+                            }}
                         />
                     </Link>
                 </div>
