@@ -27,6 +27,14 @@ export default class AutosizeTextarea extends React.Component {
         this.refs.textarea.value = value;
     }
 
+    focus() {
+        this.refs.textarea.focus();
+    }
+
+    blur() {
+        this.refs.textarea.blur();
+    }
+
     componentDidUpdate() {
         this.recalculateSize();
     }
