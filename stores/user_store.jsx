@@ -444,41 +444,6 @@ class UserStoreClass extends EventEmitter {
         return store.getState().entities.users.myAudits;
     }
 
-    getCurrentMentionKeys() {
-        return this.getMentionKeys(this.getCurrentId());
-    }
-
-    getMentionKeys(id) {
-        var user = this.getProfile(id);
-
-        var keys = [];
-
-        if (!user || !user.notify_props) {
-            return keys;
-        }
-
-        if (user.notify_props.mention_keys) {
-            keys = keys.concat(user.notify_props.mention_keys.split(','));
-        }
-
-        if (user.notify_props.first_name === 'true' && user.first_name) {
-            keys.push(user.first_name);
-        }
-
-        if (user.notify_props.channel === 'true') {
-            keys.push('@channel');
-            keys.push('@all');
-            keys.push('@here');
-        }
-
-        const usernameKey = '@' + user.username;
-        if (keys.indexOf(usernameKey) === -1) {
-            keys.push(usernameKey);
-        }
-
-        return keys;
-    }
-
     setStatus(userId, status) {
         const data = [{user_id: userId, status}];
         store.dispatch({

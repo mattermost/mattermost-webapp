@@ -24,11 +24,6 @@ export default class PostMessageView extends React.PureComponent {
         enableFormatting: PropTypes.bool,
 
         /*
-         * An array of words that can be used to mention a user
-         */
-        mentionKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
-
-        /*
          * Options specific to text formatting
          */
         options: PropTypes.object,
@@ -118,7 +113,6 @@ export default class PostMessageView extends React.PureComponent {
                 return (
                     <PluginComponent
                         post={post}
-                        mentionKeys={this.props.mentionKeys}
                         compactDisplay={compactDisplay}
                         isRHS={isRHS}
                         theme={theme}
@@ -149,7 +143,6 @@ export default class PostMessageView extends React.PureComponent {
                     <PostMarkdown
                         message={message}
                         isRHS={isRHS}
-                        mentionKeys={this.props.mentionKeys}
                         options={options}
                         post={post}
                     />
