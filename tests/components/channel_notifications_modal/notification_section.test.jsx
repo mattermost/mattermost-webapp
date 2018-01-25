@@ -1,4 +1,4 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2018-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
 import React from 'react';
@@ -6,47 +6,68 @@ import {shallow} from 'enzyme';
 
 import {NotificationLevels, NotificationSections} from 'utils/constants.jsx';
 
-import ChannelMarkUnreadNotificationSection from 'components/channel_mark_unread_notification_section.jsx';
+import NotificationSection from 'components/channel_notifications_modal/components/notification_section.jsx';
 
-describe('components/ChannelMarkUnreadNotificationSection', () => {
+describe('components/channel_notifications_modal/NotificationSection', () => {
     const baseProps = {
+        section: NotificationSections.DESKTOP,
         expand: false,
+        memberNotificationLevel: NotificationLevels.ALL,
+        globalNotificationLevel: NotificationLevels.DEFAULT,
         onChange: () => {},         //eslint-disable-line no-empty-function
         onSubmit: () => {},         //eslint-disable-line no-empty-function
         onUpdateSection: () => {},  //eslint-disable-line no-empty-function
         serverError: ''
     };
 
-    test('should match snapshot, not expanded view, member notification default to all', () => {
+    test('should match snapshot, DESKTOP on collapsed view', () => {
         const wrapper = shallow(
-            <ChannelMarkUnreadNotificationSection {...baseProps}/>
+            <NotificationSection {...baseProps}/>
         );
 
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot, not expanded view, member notification to mention', () => {
-        const props = {...baseProps, notificationLevel: NotificationLevels.MENTION};
+    test('should match snapshot, DESKTOP on expanded view', () => {
+        const props = {...baseProps, expand: true};
         const wrapper = shallow(
-            <ChannelMarkUnreadNotificationSection {...props}/>
+            <NotificationSection {...props}/>
         );
 
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot, expanded view, member notification to all', () => {
-        const props = {...baseProps, expand: true, notificationLevel: NotificationLevels.ALL};
+    test('should match snapshot, PUSH on collapsed view', () => {
+        const props = {...baseProps, section: NotificationSections.PUSH};
         const wrapper = shallow(
-            <ChannelMarkUnreadNotificationSection {...props}/>
+            <NotificationSection {...props}/>
         );
 
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot, expanded view, member notification to mention', () => {
-        const props = {...baseProps, expand: true, notificationLevel: NotificationLevels.MENTION};
+    test('should match snapshot, PUSH on expanded view', () => {
+        const props = {...baseProps, section: NotificationSections.PUSH, expand: true};
         const wrapper = shallow(
-            <ChannelMarkUnreadNotificationSection {...props}/>
+            <NotificationSection {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, MARK_UNREAD on collapsed view', () => {
+        const props = {...baseProps, section: NotificationSections.MARK_UNREAD, globalNotificationLevel: null};
+        const wrapper = shallow(
+            <NotificationSection {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, MARK_UNREAD on expanded view', () => {
+        const props = {...baseProps, section: NotificationSections.MARK_UNREAD, expand: true, globalNotificationLevel: null};
+        const wrapper = shallow(
+            <NotificationSection {...props}/>
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -56,7 +77,7 @@ describe('components/ChannelMarkUnreadNotificationSection', () => {
         const onChange = jest.fn();
         const props = {...baseProps, expand: true, onChange};
         const wrapper = shallow(
-            <ChannelMarkUnreadNotificationSection {...props}/>
+            <NotificationSection {...props}/>
         );
         wrapper.instance().handleOnChange({target: {value: NotificationLevels.ALL}});
         expect(onChange).toHaveBeenCalledTimes(1);
@@ -67,18 +88,18 @@ describe('components/ChannelMarkUnreadNotificationSection', () => {
         const onUpdateSection = jest.fn();
         const props = {...baseProps, expand: true, onUpdateSection};
         const wrapper = shallow(
-            <ChannelMarkUnreadNotificationSection {...props}/>
+            <NotificationSection {...props}/>
         );
         wrapper.instance().handleExpandSection({preventDefault: jest.fn()});
         expect(onUpdateSection).toHaveBeenCalledTimes(1);
-        expect(onUpdateSection).toHaveBeenCalledWith(NotificationSections.MARK_UNREAD);
+        expect(onUpdateSection).toHaveBeenCalledWith(NotificationSections.DESKTOP);
     });
 
     test('should have called onUpdateSection when handleCollapseSection is called', () => {
         const onUpdateSection = jest.fn();
         const props = {...baseProps, expand: true, onUpdateSection};
         const wrapper = shallow(
-            <ChannelMarkUnreadNotificationSection {...props}/>
+            <NotificationSection {...props}/>
         );
         wrapper.instance().handleCollapseSection({preventDefault: jest.fn()});
         expect(onUpdateSection).toHaveBeenCalledTimes(1);
@@ -88,19 +109,9 @@ describe('components/ChannelMarkUnreadNotificationSection', () => {
     test('should match snapshot on server error', () => {
         const props = {...baseProps, serverError: 'server error occurred'};
         const wrapper = shallow(
-            <ChannelMarkUnreadNotificationSection {...props}/>
+            <NotificationSection {...props}/>
         );
 
         expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should match snapshot when getDescribe is called', () => {
-        const props = {...baseProps, expand: true};
-        const wrapper = shallow(
-            <ChannelMarkUnreadNotificationSection {...props}/>
-        );
-
-        expect(wrapper.instance().getDescribe(NotificationLevels.MENTION)).toMatchSnapshot();
-        expect(wrapper.instance().getDescribe(NotificationLevels.ALL)).toMatchSnapshot();
     });
 });

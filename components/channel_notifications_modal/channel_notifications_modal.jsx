@@ -12,24 +12,11 @@ import {updateChannelNotifyProps} from 'actions/channel_actions.jsx';
 import {NotificationLevels, NotificationSections} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import ChannelMarkUnreadNotificationSection from 'components/channel_mark_unread_notification_section.jsx';
-import ChannelDesktopNotificationSection from 'components/channel_desktop_notification_section.jsx';
-import ChannelPushNotificationSection from 'components/channel_push_notification_section.jsx';
+import NotificationSection from 'components/channel_notifications_modal/components/notification_section.jsx';
 
 export default class ChannelNotificationsModal extends React.Component {
     constructor(props) {
         super(props);
-
-        this.updateSection = this.updateSection.bind(this);
-
-        this.handleSubmitDesktopNotifyLevel = this.handleSubmitDesktopNotifyLevel.bind(this);
-        this.handleUpdateDesktopNotifyLevel = this.handleUpdateDesktopNotifyLevel.bind(this);
-
-        this.handleSubmitMarkUnreadLevel = this.handleSubmitMarkUnreadLevel.bind(this);
-        this.handleUpdateMarkUnreadLevel = this.handleUpdateMarkUnreadLevel.bind(this);
-
-        this.handleSubmitPushNotificationLevel = this.handleSubmitPushNotificationLevel.bind(this);
-        this.handleUpdatePushNotificationLevel = this.handleUpdatePushNotificationLevel.bind(this);
 
         this.state = {
             activeSection: NotificationSections.NONE,
@@ -57,14 +44,14 @@ export default class ChannelNotificationsModal extends React.Component {
         this.props.onHide();
     }
 
-    updateSection(section) {
+    updateSection = (section) => {
         if ($('.section-max').length) {
             $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
         }
         this.setState({activeSection: section});
     }
 
-    handleSubmitDesktopNotifyLevel() {
+    handleSubmitDesktopNotifyLevel = () => {
         const channelId = this.props.channel.id;
         const notifyLevel = this.state.notifyLevel;
         const currentUserId = this.props.currentUser.id;
@@ -90,7 +77,7 @@ export default class ChannelNotificationsModal extends React.Component {
         );
     }
 
-    handleUpdateDesktopNotifyLevel(notifyLevel) {
+    handleUpdateDesktopNotifyLevel = (notifyLevel) => {
         this.setState({notifyLevel});
     }
 
@@ -101,7 +88,7 @@ export default class ChannelNotificationsModal extends React.Component {
         });
     }
 
-    handleSubmitMarkUnreadLevel() {
+    handleSubmitMarkUnreadLevel = () => {
         const channelId = this.props.channel.id;
         const markUnreadLevel = this.state.unreadLevel;
 
@@ -126,7 +113,7 @@ export default class ChannelNotificationsModal extends React.Component {
         );
     }
 
-    handleUpdateMarkUnreadLevel(unreadLevel) {
+    handleUpdateMarkUnreadLevel = (unreadLevel) => {
         this.setState({unreadLevel});
     }
 
@@ -137,7 +124,7 @@ export default class ChannelNotificationsModal extends React.Component {
         });
     }
 
-    handleSubmitPushNotificationLevel() {
+    handleSubmitPushNotificationLevel = () => {
         const channelId = this.props.channel.id;
         const notifyLevel = this.state.pushLevel;
         const currentUserId = this.props.currentUser.id;
@@ -163,7 +150,7 @@ export default class ChannelNotificationsModal extends React.Component {
         );
     }
 
-    handleUpdatePushNotificationLevel(pushLevel) {
+    handleUpdatePushNotificationLevel = (pushLevel) => {
         this.setState({pushLevel});
     }
 
@@ -205,7 +192,8 @@ export default class ChannelNotificationsModal extends React.Component {
                             >
                                 <br/>
                                 <div className='divider-dark first'/>
-                                <ChannelDesktopNotificationSection
+                                <NotificationSection
+                                    section={NotificationSections.DESKTOP}
                                     expand={this.state.activeSection === NotificationSections.DESKTOP}
                                     memberNotificationLevel={this.state.notifyLevel}
                                     globalNotificationLevel={this.props.currentUser.notify_props ?
@@ -217,8 +205,10 @@ export default class ChannelNotificationsModal extends React.Component {
                                     onUpdateSection={this.handleUpdateDesktopSection}
                                     serverError={this.state.serverError}
                                 />
+                                <div className='divider-light'/>
                                 {global.mm_config.SendPushNotifications !== 'false' &&
-                                <ChannelPushNotificationSection
+                                <NotificationSection
+                                    section={NotificationSections.PUSH}
                                     expand={this.state.activeSection === NotificationSections.PUSH}
                                     memberNotificationLevel={this.state.pushLevel}
                                     globalNotificationLevel={this.props.currentUser.notify_props ?
@@ -232,9 +222,10 @@ export default class ChannelNotificationsModal extends React.Component {
                                 />
                                 }
                                 <div className='divider-light'/>
-                                <ChannelMarkUnreadNotificationSection
+                                <NotificationSection
+                                    section={NotificationSections.MARK_UNREAD}
                                     expand={this.state.activeSection === NotificationSections.MARK_UNREAD}
-                                    notificationLevel={this.state.unreadLevel}
+                                    memberNotificationLevel={this.state.unreadLevel}
                                     onChange={this.handleUpdateMarkUnreadLevel}
                                     onSubmit={this.handleSubmitMarkUnreadLevel}
                                     onUpdateSection={this.handleUpdateMarkUnreadSection}
