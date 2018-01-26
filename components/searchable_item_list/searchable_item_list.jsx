@@ -2,14 +2,15 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
-import QuickInput from 'components/quick_input';
-import UserList from 'components/user_list.jsx';
 import * as Utils from 'utils/utils.jsx';
+
+import UserList from 'components/user_list.jsx';
 
 const NEXT_BUTTON_TIMEOUT = 500;
 
@@ -179,11 +180,7 @@ export default class SearchableItemList extends React.Component {
             const pageEnd = pageStart + this.props.itemsPerPage;
             itemsToDisplay = this.props.items.slice(pageStart, pageEnd);
 
-<<<<<<< HEAD:components/searchable_user_list/searchable_user_list.jsx
-            if (pageEnd < this.props.users.length) {
-=======
-            if (itemsToDisplay.length >= this.props.itemsPerPage) {
->>>>>>> Gerneralize SearchableUserList for better re-use:components/searchable_item_list/searchable_item_list.jsx
+            if (pageEnd < this.props.items.length) {
                 nextButton = (
                     <button
                         className='btn btn-default filter-control filter-control__next'
@@ -219,7 +216,7 @@ export default class SearchableItemList extends React.Component {
         } else {
             filterRow = (
                 <div className='col-xs-12'>
-                    <QuickInput
+                    <input
                         ref='filter'
                         className='form-control filter-textbox'
                         placeholder={Utils.localizeMessage('filtered_user_list.search', 'Search users')}
