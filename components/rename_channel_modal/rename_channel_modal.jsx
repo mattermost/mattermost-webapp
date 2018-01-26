@@ -142,8 +142,6 @@ export class RenameChannelModal extends React.PureComponent {
         }
 
         const channel = Object.assign({}, this.props.channel);
-        const oldName = channel.name;
-        const oldDisplayName = channel.display_name;
         const state = {serverError: ''};
         const {formatMessage} = this.props.intl;
         const {actions: {updateChannel}, team} = this.props;
