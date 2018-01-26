@@ -23,7 +23,7 @@ exports[`comoponents/EditChannelPurposeModal clear error on next 1`] = `
     }
   }
   onEntering={[Function]}
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -121,7 +121,7 @@ exports[`comoponents/EditChannelPurposeModal match with modal error 1`] = `
     }
   }
   onEntering={[Function]}
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -229,7 +229,7 @@ exports[`comoponents/EditChannelPurposeModal match with modal error with fake id
     }
   }
   onEntering={[Function]}
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -337,7 +337,7 @@ exports[`comoponents/EditChannelPurposeModal should match for private channel 1`
     }
   }
   onEntering={[Function]}
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -435,7 +435,7 @@ exports[`comoponents/EditChannelPurposeModal should match on init 1`] = `
     }
   }
   onEntering={[Function]}
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -533,7 +533,7 @@ exports[`comoponents/EditChannelPurposeModal should match submitted 1`] = `
     }
   }
   onEntering={[Function]}
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -631,7 +631,7 @@ exports[`comoponents/EditChannelPurposeModal should match with display name 1`] 
     }
   }
   onEntering={[Function]}
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}

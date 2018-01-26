@@ -30,11 +30,11 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
       "textComponent": "span",
     }
   }
-  onCancel={[Function]}
-  onSubmit={[Function]}
+  onCancel={[MockFunction]}
+  onSubmit={[MockFunction]}
   saving={false}
   serverError=""
-  updateSection={[Function]}
+  updateSection={[MockFunction]}
 >
   <SettingItemMax
     infoPosition="bottom"
@@ -332,11 +332,11 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
       "textComponent": "span",
     }
   }
-  onCancel={[Function]}
-  onSubmit={[Function]}
+  onCancel={[MockFunction]}
+  onSubmit={[MockFunction]}
   saving={false}
   serverError=""
-  updateSection={[Function]}
+  updateSection={[MockFunction]}
 >
   <SettingItemMax
     infoPosition="bottom"
