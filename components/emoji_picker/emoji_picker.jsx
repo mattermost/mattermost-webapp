@@ -103,6 +103,7 @@ function getEmojiFilename(emoji) {
 }
 
 const EMOJIS_PER_PAGE = 200;
+const LOAD_MORE_AT_PIXELS_FROM_BOTTOM = 500;
 
 export default class EmojiPicker extends React.PureComponent {
     static propTypes = {
@@ -187,7 +188,8 @@ export default class EmojiPicker extends React.PureComponent {
             return;
         }
 
-        if (this.emojiPickerContainer.scrollHeight - nextState.divTopOffset === this.emojiPickerContainer.clientHeight) {
+        const pixelsFromBottom = this.emojiPickerContainer.scrollHeight - nextState.divTopOffset - this.emojiPickerContainer.clientHeight;
+        if (pixelsFromBottom <= LOAD_MORE_AT_PIXELS_FROM_BOTTOM) {
             this.loadMoreCustomEmojis();
         }
     }
