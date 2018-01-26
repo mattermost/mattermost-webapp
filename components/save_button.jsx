@@ -41,7 +41,7 @@ export default class SaveButton extends React.PureComponent {
 
         let className = 'save-button btn';
         if (!disabled || saving) {
-            className += ' ' + this.props.btnClass;
+            className += ' ' + btnClass;
         }
 
         if (extraClasses) {
