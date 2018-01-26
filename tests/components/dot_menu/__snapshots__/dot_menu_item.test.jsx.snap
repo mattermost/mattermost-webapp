@@ -105,7 +105,7 @@ exports[`components/dot_menu/DotMenuItem should match snapshot, on Reply 1`] = `
 >
   <button
     className="style--none"
-    onClick={[Function]}
+    onClick={[MockFunction]}
     role="menuitem"
   >
     <FormattedMessage

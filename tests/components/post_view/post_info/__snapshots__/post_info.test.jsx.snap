@@ -177,7 +177,7 @@ exports[`components/post_view/PostInfo should match snapshot, hover 1`] = `
   >
     <Connect(DotMenu)
       commentCount={0}
-      handleCommentClick={[Function]}
+      handleCommentClick={[MockFunction]}
       handleDropdownOpened={[Function]}
       idCount={-1}
       idPrefix="center"
@@ -206,7 +206,7 @@ exports[`components/post_view/PostInfo should match snapshot, hover 1`] = `
     <CommentIcon
       commentCount={0}
       extraClass="pull-right"
-      handleCommentClick={[Function]}
+      handleCommentClick={[MockFunction]}
       id="g6139tbospd18cmxroesdk3kkc_e584uzbwwpny9kengqayx5ayzw"
       idCount={-1}
       idPrefix="commentIcon"

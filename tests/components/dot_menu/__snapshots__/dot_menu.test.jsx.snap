@@ -22,7 +22,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
         role="menu"
       >
         <DotMenuItem
-          handleOnClick={[Function]}
+          handleOnClick={[MockFunction]}
           idCount={-1}
           idPrefix="centerDotMenuReply"
         />
@@ -39,8 +39,8 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
         <DotMenuItem
           actions={
             Object {
-              "pinPost": [Function],
-              "unpinPost": [Function],
+              "pinPost": [MockFunction],
+              "unpinPost": [MockFunction],
             }
           }
           idCount={-1}
@@ -91,7 +91,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
         role="menu"
       >
         <DotMenuItem
-          handleOnClick={[Function]}
+          handleOnClick={[MockFunction]}
           idCount={-1}
           idPrefix="centerDotMenuReply"
         />
@@ -108,8 +108,8 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
         <DotMenuItem
           actions={
             Object {
-              "pinPost": [Function],
-              "unpinPost": [Function],
+              "pinPost": [MockFunction],
+              "unpinPost": [MockFunction],
             }
           }
           idCount={-1}
@@ -161,8 +161,8 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 2`] = `
         <DotMenuItem
           actions={
             Object {
-              "pinPost": [Function],
-              "unpinPost": [Function],
+              "pinPost": [MockFunction],
+              "unpinPost": [MockFunction],
             }
           }
           idCount={2}
@@ -214,8 +214,8 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 3`] = `
         <DotMenuItem
           actions={
             Object {
-              "pinPost": [Function],
-              "unpinPost": [Function],
+              "pinPost": [MockFunction],
+              "unpinPost": [MockFunction],
             }
           }
           idCount={2}

@@ -82,7 +82,16 @@ exports[`components/admin_console/request_button/request_button.jsx should match
       "textComponent": "span",
     }
   }
-  requestAction={[Function]}
+  requestAction={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          [Function],
+          [Function],
+        ],
+      ],
+    }
+  }
   saveNeeded={false}
   showSuccessMessage={true}
   successMessage={
@@ -204,7 +213,20 @@ exports[`components/admin_console/request_button/request_button.jsx should match
       "textComponent": "span",
     }
   }
-  requestAction={[Function]}
+  requestAction={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          [Function],
+          [Function],
+        ],
+        Array [
+          [Function],
+          [Function],
+        ],
+      ],
+    }
+  }
   saveNeeded={false}
   showSuccessMessage={true}
   successMessage={
@@ -326,7 +348,16 @@ exports[`components/admin_console/request_button/request_button.jsx should match
       "textComponent": "span",
     }
   }
-  requestAction={[Function]}
+  requestAction={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          [Function],
+          [Function],
+        ],
+      ],
+    }
+  }
   saveNeeded={false}
   showSuccessMessage={true}
   successMessage={
@@ -444,7 +475,20 @@ exports[`components/admin_console/request_button/request_button.jsx should match
       "textComponent": "span",
     }
   }
-  requestAction={[Function]}
+  requestAction={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          [Function],
+          [Function],
+        ],
+        Array [
+          [Function],
+          [Function],
+        ],
+      ],
+    }
+  }
   saveNeeded={false}
   showSuccessMessage={false}
   successMessage={
