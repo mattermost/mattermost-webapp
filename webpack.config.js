@@ -298,7 +298,7 @@ if (!DEV) {
         })
     );
     config.plugins.push(
-        new webpack.optimize.ModuleConcatenationPlugin(),
+        new webpack.optimize.ModuleConcatenationPlugin()
     );
 }
 
