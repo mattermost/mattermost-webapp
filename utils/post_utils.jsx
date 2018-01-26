@@ -10,6 +10,7 @@ import UserStore from 'stores/user_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import AtMention from 'components/at_mention';
+import PostEmoji from 'components/post_emoji';
 import MarkdownImage from 'components/markdown_image';
 import LatexBlock from 'components/latex_block';
 
@@ -137,7 +138,8 @@ export function removeCode(text) {
 
 export function postMessageHtmlToComponent(html, isRHS) {
     const parser = new Parser();
-    const attrib = 'data-mention';
+    const mentionAttrib = 'data-mention';
+    const emojiAttrib = 'data-emoticon';
     const processNodeDefinitions = new ProcessNodeDefinitions(React);
 
     function isValidNode() {
@@ -147,9 +149,9 @@ export function postMessageHtmlToComponent(html, isRHS) {
     const processingInstructions = [
         {
             replaceChildren: true,
-            shouldProcessNode: (node) => node.attribs && node.attribs[attrib],
+            shouldProcessNode: (node) => node.attribs && node.attribs[mentionAttrib],
             processNode: (node) => {
-                const mentionName = node.attribs[attrib];
+                const mentionName = node.attribs[mentionAttrib];
                 const callAtMention = (
                     <AtMention
                         mentionName={mentionName}
@@ -158,6 +160,19 @@ export function postMessageHtmlToComponent(html, isRHS) {
                     />
                 );
                 return callAtMention;
+            }
+        },
+        {
+            replaceChildren: true,
+            shouldProcessNode: (node) => node.attribs && node.attribs[emojiAttrib],
+            processNode: (node) => {
+                const emojiName = node.attribs[emojiAttrib];
+                const callPostEmoji = (
+                    <PostEmoji
+                        name={emojiName}
+                    />
+                );
+                return callPostEmoji;
             }
         },
         {
