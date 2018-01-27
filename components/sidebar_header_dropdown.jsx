@@ -241,7 +241,7 @@ export default class SidebarHeaderDropdown extends React.Component {
             inviteLink = (
                 <TeamPermissionGate
                     teamId={this.props.teamId}
-                    perms={Permissions.ADD_USER_TO_TEAM}
+                    perms={Permissions.INVITE_USER}
                 >
                     <li>
                         <button
@@ -282,7 +282,7 @@ export default class SidebarHeaderDropdown extends React.Component {
                 teamLink = (
                     <TeamPermissionGate
                         teamId={this.props.teamId}
-                        perms={Permissions.ADD_USER_TO_TEAM}
+                        perms={Permissions.INVITE_USER}
                     >
                         <li>
                             <button
@@ -330,7 +330,7 @@ export default class SidebarHeaderDropdown extends React.Component {
                 >
                     <TeamPermissionGate
                         teamId={this.props.teamId}
-                        perms={Permissions.ADD_USER_TO_TEAM}
+                        perms={Permissions.MANAGE_TEAM}
                     >
                         <FormattedMessage
                             id='navbar_dropdown.manageMembers'
@@ -339,7 +339,7 @@ export default class SidebarHeaderDropdown extends React.Component {
                     </TeamPermissionGate>
                     <TeamPermissionGate
                         teamId={this.props.teamId}
-                        perms={Permissions.ADD_USER_TO_TEAM}
+                        perms={Permissions.MANAGE_TEAM}
                         invert={true}
                     >
                         <FormattedMessage

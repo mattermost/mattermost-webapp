@@ -213,7 +213,7 @@ export function createDefaultIntroMessage(channel, centeredIntro) {
     const teamInviteLink = (
         <TeamPermissionGate
             teamId={channel.team_id}
-            perms={Permissions.ADD_USER_TO_TEAM}
+            perms={Permissions.INVITE_USER}
         >
             <span
                 className='intro-links color--link cursor--pointer'

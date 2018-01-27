@@ -189,7 +189,7 @@ export default class SidebarRightMenu extends React.Component {
             inviteLink = (
                 <TeamPermissionGate
                     teamId={this.props.teamId}
-                    perms={Permissions.ADD_USER_TO_TEAM}
+                    perms={Permissions.INVITE_USER}
                 >
                     <li>
                         <a
@@ -231,7 +231,7 @@ export default class SidebarRightMenu extends React.Component {
                 teamLink = (
                     <TeamPermissionGate
                         teamId={this.props.teamId}
-                        perms={Permissions.ADD_USER_TO_TEAM}
+                        perms={Permissions.INVITE_USER}
                     >
                         <li>
                             <a
@@ -277,7 +277,7 @@ export default class SidebarRightMenu extends React.Component {
             }
 
             createTeam = (
-                <SystemPermissionGate perms={Permissions.MANAGE_OAUTH + ' ' + Permissions.CREATE_TEAM}>
+                <SystemPermissionGate perms={Permissions.CREATE_TEAM}>
                     <li key='newTeam_li'>
                         <Link
                             id='createTeam'
