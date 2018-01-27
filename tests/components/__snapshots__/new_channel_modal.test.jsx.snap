@@ -24,7 +24,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
         "remove": [Function],
       }
     }
-    onHide={[Function]}
+    onHide={[MockFunction]}
     renderBackdrop={[Function]}
     restoreFocus={true}
     show={false}
@@ -64,7 +64,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
             />
             <button
               className="style--none color--link"
-              onClick={[Function]}
+              onClick={[MockFunction]}
             >
               <FormattedMessage
                 defaultMessage="Create a private channel"
@@ -224,7 +224,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
       >
         <button
           className="btn btn-default"
-          onClick={[Function]}
+          onClick={[MockFunction]}
           type="button"
         >
           <FormattedMessage
@@ -275,7 +275,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
         "remove": [Function],
       }
     }
-    onHide={[Function]}
+    onHide={[MockFunction]}
     renderBackdrop={[Function]}
     restoreFocus={true}
     show={true}
@@ -315,7 +315,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
             />
             <button
               className="style--none color--link"
-              onClick={[Function]}
+              onClick={[MockFunction]}
             >
               <FormattedMessage
                 defaultMessage="Create a private channel"
@@ -475,7 +475,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
       >
         <button
           className="btn btn-default"
-          onClick={[Function]}
+          onClick={[MockFunction]}
           type="button"
         >
           <FormattedMessage
@@ -526,7 +526,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
         "remove": [Function],
       }
     }
-    onHide={[Function]}
+    onHide={[MockFunction]}
     renderBackdrop={[Function]}
     restoreFocus={true}
     show={true}
@@ -566,7 +566,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
             />
             <button
               className="style--none color--link"
-              onClick={[Function]}
+              onClick={[MockFunction]}
             >
               <FormattedMessage
                 defaultMessage="Create a private channel"
@@ -735,7 +735,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
       >
         <button
           className="btn btn-default"
-          onClick={[Function]}
+          onClick={[MockFunction]}
           type="button"
         >
           <FormattedMessage
@@ -786,7 +786,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
         "remove": [Function],
       }
     }
-    onHide={[Function]}
+    onHide={[MockFunction]}
     renderBackdrop={[Function]}
     restoreFocus={true}
     show={true}
@@ -826,7 +826,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
             />
             <button
               className="style--none color--link"
-              onClick={[Function]}
+              onClick={[MockFunction]}
             >
               <FormattedMessage
                 defaultMessage="Create a private channel"
@@ -999,7 +999,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
       >
         <button
           className="btn btn-default"
-          onClick={[Function]}
+          onClick={[MockFunction]}
           type="button"
         >
           <FormattedMessage
@@ -1050,7 +1050,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
         "remove": [Function],
       }
     }
-    onHide={[Function]}
+    onHide={[MockFunction]}
     renderBackdrop={[Function]}
     restoreFocus={true}
     show={true}
@@ -1090,7 +1090,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
             />
             <button
               className="style--none color--link"
-              onClick={[Function]}
+              onClick={[MockFunction]}
             >
               <FormattedMessage
                 defaultMessage="Create a public channel"
@@ -1250,7 +1250,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
       >
         <button
           className="btn btn-default"
-          onClick={[Function]}
+          onClick={[MockFunction]}
           type="button"
         >
           <FormattedMessage

@@ -48,7 +48,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
             className="emoji-picker__container"
           >
             <EmojiPickerOverlay
-              container={[Function]}
+              container={[MockFunction]}
               onEmojiClick={[Function]}
               onHide={[Function]}
               rightOffset={15}
@@ -168,7 +168,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
             className="emoji-picker__container"
           >
             <EmojiPickerOverlay
-              container={[Function]}
+              container={[MockFunction]}
               onEmojiClick={[Function]}
               onHide={[Function]}
               rightOffset={15}
@@ -288,7 +288,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
             className="emoji-picker__container"
           >
             <EmojiPickerOverlay
-              container={[Function]}
+              container={[MockFunction]}
               onEmojiClick={[Function]}
               onHide={[Function]}
               rightOffset={15}

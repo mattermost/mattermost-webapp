@@ -24,8 +24,8 @@ exports[`components/dot_menu/DotMenu on mobile view should match snapshot 1`] = 
         <DotMenuFlag
           actions={
             Object {
-              "flagPost": [Function],
-              "unflagPost": [Function],
+              "flagPost": [MockFunction],
+              "unflagPost": [MockFunction],
             }
           }
           idCount={-1}
