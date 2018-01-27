@@ -35,7 +35,11 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot 1`] = `
       className="form-horizontal"
     >
       <Connect(SystemPermissionGate)
-        perms="manage_oauth"
+        perms={
+          Array [
+            "manage_oauth",
+          ]
+        }
       >
         <div
           className="form-group"
@@ -351,7 +355,11 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
       className="form-horizontal"
     >
       <Connect(SystemPermissionGate)
-        perms="manage_oauth"
+        perms={
+          Array [
+            "manage_oauth",
+          ]
+        }
       >
         <div
           className="form-group"

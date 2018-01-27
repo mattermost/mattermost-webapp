@@ -189,7 +189,7 @@ export default class SidebarRightMenu extends React.Component {
             inviteLink = (
                 <TeamPermissionGate
                     teamId={this.props.teamId}
-                    perms={Permissions.INVITE_USER}
+                    perms={[Permissions.INVITE_USER]}
                 >
                     <li>
                         <a
@@ -209,7 +209,7 @@ export default class SidebarRightMenu extends React.Component {
             addUserToTeamLink = (
                 <TeamPermissionGate
                     teamId={this.props.teamId}
-                    perms={Permissions.ADD_USER_TO_TEAM}
+                    perms={[Permissions.ADD_USER_TO_TEAM]}
                 >
                     <li>
                         <a
@@ -231,7 +231,7 @@ export default class SidebarRightMenu extends React.Component {
                 teamLink = (
                     <TeamPermissionGate
                         teamId={this.props.teamId}
-                        perms={Permissions.INVITE_USER}
+                        perms={[Permissions.INVITE_USER]}
                     >
                         <li>
                             <a
@@ -277,7 +277,7 @@ export default class SidebarRightMenu extends React.Component {
             }
 
             createTeam = (
-                <SystemPermissionGate perms={Permissions.CREATE_TEAM}>
+                <SystemPermissionGate perms={[Permissions.CREATE_TEAM]}>
                     <li key='newTeam_li'>
                         <Link
                             id='createTeam'
@@ -330,7 +330,7 @@ export default class SidebarRightMenu extends React.Component {
         const teamSettingsLink = (
             <TeamPermissionGate
                 teamId={this.props.teamId}
-                perms={Permissions.MANAGE_TEAM}
+                perms={[Permissions.MANAGE_TEAM]}
             >
                 <li>
                     <a
@@ -349,7 +349,7 @@ export default class SidebarRightMenu extends React.Component {
         manageLink = (
             <TeamPermissionGate
                 teamId={this.props.teamId}
-                perms={Permissions.MANAGE_TEAM}
+                perms={[Permissions.MANAGE_TEAM]}
             >
                 <li>
                     <ToggleModalButton
@@ -367,7 +367,7 @@ export default class SidebarRightMenu extends React.Component {
 
         if (!Utils.isMobile()) {
             consoleLink = (
-                <SystemPermissionGate perms={Permissions.MANAGE_SYSTEM}>
+                <SystemPermissionGate perms={[Permissions.MANAGE_SYSTEM]}>
                     <li>
                         <Link
                             to={'/admin_console'}

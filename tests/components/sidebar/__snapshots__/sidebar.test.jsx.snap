@@ -67,7 +67,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms="create_public_channel"
+            perms={
+              Array [
+                "create_public_channel",
+              ]
+            }
             teamId="team_id"
           >
             <OverlayTrigger
@@ -146,7 +150,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms="create_private_channel"
+            perms={
+              Array [
+                "create_private_channel",
+              ]
+            }
             teamId="team_id"
           >
             <OverlayTrigger
@@ -407,7 +415,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms="create_public_channel"
+            perms={
+              Array [
+                "create_public_channel",
+              ]
+            }
             teamId="team_id"
           >
             <OverlayTrigger
@@ -486,7 +498,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms="create_private_channel"
+            perms={
+              Array [
+                "create_private_channel",
+              ]
+            }
             teamId="team_id"
           >
             <OverlayTrigger
@@ -1372,7 +1388,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms="create_public_channel"
+            perms={
+              Array [
+                "create_public_channel",
+              ]
+            }
             teamId="team_id"
           >
             <OverlayTrigger
@@ -1451,7 +1471,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms="create_private_channel"
+            perms={
+              Array [
+                "create_private_channel",
+              ]
+            }
             teamId="team_id"
           >
             <OverlayTrigger
@@ -1680,7 +1704,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms="create_public_channel"
+            perms={
+              Array [
+                "create_public_channel",
+              ]
+            }
             teamId="team_id"
           >
             <OverlayTrigger
@@ -1759,7 +1787,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms="create_private_channel"
+            perms={
+              Array [
+                "create_private_channel",
+              ]
+            }
             teamId="team_id"
           >
             <OverlayTrigger
@@ -1984,7 +2016,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms="create_public_channel"
+            perms={
+              Array [
+                "create_public_channel",
+              ]
+            }
             teamId="team_id"
           >
             <OverlayTrigger
@@ -2063,7 +2099,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms="create_private_channel"
+            perms={
+              Array [
+                "create_private_channel",
+              ]
+            }
             teamId="team_id"
           >
             <OverlayTrigger
@@ -2288,7 +2328,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms="create_public_channel"
+            perms={
+              Array [
+                "create_public_channel",
+              ]
+            }
             teamId="team_id"
           >
             <OverlayTrigger
@@ -2367,7 +2411,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms="create_private_channel"
+            perms={
+              Array [
+                "create_private_channel",
+              ]
+            }
             teamId="team_id"
           >
             <OverlayTrigger
@@ -2592,7 +2640,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms="create_public_channel"
+            perms={
+              Array [
+                "create_public_channel",
+              ]
+            }
             teamId="team_id"
           >
             <OverlayTrigger
@@ -2671,7 +2723,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms="create_private_channel"
+            perms={
+              Array [
+                "create_private_channel",
+              ]
+            }
             teamId="team_id"
           >
             <OverlayTrigger

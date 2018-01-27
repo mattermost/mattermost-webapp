@@ -53,7 +53,7 @@ export default class Integrations extends React.Component {
             options.push(
                 <TeamPermissionGate
                     teamId={this.props.team.id}
-                    perms={Permissions.MANAGE_WEBHOOKS}
+                    perms={[Permissions.MANAGE_WEBHOOKS]}
                     key='incomingWebhookPerm'
                 >
                     <IntegrationOption
@@ -81,7 +81,7 @@ export default class Integrations extends React.Component {
             options.push(
                 <TeamPermissionGate
                     teamId={this.props.team.id}
-                    perms={Permissions.MANAGE_WEBHOOKS}
+                    perms={[Permissions.MANAGE_WEBHOOKS]}
                     key='outgoingWebhookPerm'
                 >
                     <IntegrationOption
@@ -109,7 +109,7 @@ export default class Integrations extends React.Component {
             options.push(
                 <TeamPermissionGate
                     teamId={this.props.team.id}
-                    perms={Permissions.MANAGE_SLASH_COMMANDS}
+                    perms={[Permissions.MANAGE_SLASH_COMMANDS]}
                     key='commandPerm'
                 >
                     <IntegrationOption
@@ -136,7 +136,7 @@ export default class Integrations extends React.Component {
         if (config.EnableOAuthServiceProvider === 'true') {
             options.push(
                 <SystemPermissionGate
-                    perms={Permissions.MANAGE_OAUTH}
+                    perms={[Permissions.MANAGE_OAUTH]}
                     key='oauth2AppsPerm'
                 >
                     <IntegrationOption

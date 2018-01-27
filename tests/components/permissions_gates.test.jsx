@@ -48,7 +48,7 @@ describe('components/permissions_gates', () => {
         test('should match snapshot when user have permission', () => {
             const wrapper = mount(
                 <Provider store={store}>
-                    <SystemPermissionGate perms={'test_system_perm'}>
+                    <SystemPermissionGate perms={['test_system_perm']}>
                         <p>{'Valid perm (shown)'}</p>
                     </SystemPermissionGate>
                 </Provider>
@@ -59,7 +59,7 @@ describe('components/permissions_gates', () => {
         test('should match snapshot when user have at least on of the permissions', () => {
             const wrapper = mount(
                 <Provider store={store}>
-                    <SystemPermissionGate perms={'test_system_perm not_existing_perm'}>
+                    <SystemPermissionGate perms={['test_system_perm', 'not_existing_perm']}>
                         <p>{'Valid perm (shown)'}</p>
                     </SystemPermissionGate>
                 </Provider>
@@ -71,7 +71,7 @@ describe('components/permissions_gates', () => {
             const wrapper = mount(
                 <Provider store={store}>
                     <SystemPermissionGate
-                        perms={'test_system_perm'}
+                        perms={['test_system_perm']}
                         invert={true}
                     >
                         <p>{'Valid perm but inverted (not shown)'}</p>
@@ -85,7 +85,7 @@ describe('components/permissions_gates', () => {
             const wrapper = mount(
                 <Provider store={store}>
                     <SystemPermissionGate
-                        perms={'invalid_perm'}
+                        perms={['invalid_perm']}
                         invert={true}
                     >
                         <p>{'Invalid perm but inverted (shown)'}</p>
@@ -98,7 +98,7 @@ describe('components/permissions_gates', () => {
         test('should match snapshot when user haven\'t permission', () => {
             const wrapper = mount(
                 <Provider store={store}>
-                    <SystemPermissionGate perms={'invalid_perm'}>
+                    <SystemPermissionGate perms={['invalid_perm']}>
                         <p>{'Invalid perm (not shown)'}</p>
                     </SystemPermissionGate>
                 </Provider>
@@ -114,7 +114,7 @@ describe('components/permissions_gates', () => {
                 <Provider store={store}>
                     <TeamPermissionGate
                         teamId={'team_id'}
-                        perms={'test_team_perm'}
+                        perms={['test_team_perm']}
                     >
                         <p>{'Valid perm (shown)'}</p>
                     </TeamPermissionGate>
@@ -128,7 +128,7 @@ describe('components/permissions_gates', () => {
                 <Provider store={store}>
                     <TeamPermissionGate
                         teamId={'team_id'}
-                        perms={'test_team_perm not_existing_perm'}
+                        perms={['test_team_perm', 'not_existing_perm']}
                     >
                         <p>{'Valid perm (shown)'}</p>
                     </TeamPermissionGate>
@@ -142,7 +142,7 @@ describe('components/permissions_gates', () => {
                 <Provider store={store}>
                     <TeamPermissionGate
                         teamId={'team_id'}
-                        perms={'test_team_perm'}
+                        perms={['test_team_perm']}
                         invert={true}
                     >
                         <p>{'Valid perm but inverted (not shown)'}</p>
@@ -157,7 +157,7 @@ describe('components/permissions_gates', () => {
                 <Provider store={store}>
                     <TeamPermissionGate
                         teamId={'team_id'}
-                        perms={'invalid_perm'}
+                        perms={['invalid_perm']}
                         invert={true}
                     >
                         <p>{'Invalid perm but inverted (shown)'}</p>
@@ -172,7 +172,7 @@ describe('components/permissions_gates', () => {
                 <Provider store={store}>
                     <TeamPermissionGate
                         teamId={'team_id'}
-                        perms={'invalid_perm'}
+                        perms={['invalid_perm']}
                     >
                         <p>{'Invalid perm (not shown)'}</p>
                     </TeamPermissionGate>
@@ -186,7 +186,7 @@ describe('components/permissions_gates', () => {
                 <Provider store={store}>
                     <TeamPermissionGate
                         teamId={'invalid_id'}
-                        perms={'test_team_perm'}
+                        perms={['test_team_perm']}
                     >
                         <p>{'Valid perm invalid team (not shown)'}</p>
                     </TeamPermissionGate>
@@ -200,7 +200,7 @@ describe('components/permissions_gates', () => {
                 <Provider store={store}>
                     <TeamPermissionGate
                         teamId={'team_id'}
-                        perms={'test_system_perm'}
+                        perms={['test_system_perm']}
                     >
                         <p>{'Valid perm (shown)'}</p>
                     </TeamPermissionGate>
@@ -218,7 +218,7 @@ describe('components/permissions_gates', () => {
                     <ChannelPermissionGate
                         channelId={'channel_id'}
                         teamId={'team_id'}
-                        perms={'test_channel_perm'}
+                        perms={['test_channel_perm']}
                     >
                         <p>{'Valid perm (shown)'}</p>
                     </ChannelPermissionGate>
@@ -232,7 +232,7 @@ describe('components/permissions_gates', () => {
                 <Provider store={store}>
                     <TeamPermissionGate
                         teamId={'team_id'}
-                        perms={'test_team_perm not_existing_perm'}
+                        perms={['test_team_perm', 'not_existing_perm']}
                     >
                         <p>{'Valid perm (shown)'}</p>
                     </TeamPermissionGate>
@@ -247,7 +247,7 @@ describe('components/permissions_gates', () => {
                     <ChannelPermissionGate
                         channelId={'channel_id'}
                         teamId={'team_id'}
-                        perms={'test_channel_perm'}
+                        perms={['test_channel_perm']}
                         invert={true}
                     >
                         <p>{'Valid perm but inverted (not shown)'}</p>
@@ -263,7 +263,7 @@ describe('components/permissions_gates', () => {
                     <ChannelPermissionGate
                         channelId={'channel_id'}
                         teamId={'team_id'}
-                        perms={'invalid_perm'}
+                        perms={['invalid_perm']}
                         invert={true}
                     >
                         <p>{'Invalid perm but inverted (shown)'}</p>
@@ -279,7 +279,7 @@ describe('components/permissions_gates', () => {
                     <ChannelPermissionGate
                         channelId={'channel_id'}
                         teamId={'team_id'}
-                        perms={'invalid_perm'}
+                        perms={['invalid_perm']}
                     >
                         <p>{'Invalid perm (not shown)'}</p>
                     </ChannelPermissionGate>
@@ -294,7 +294,7 @@ describe('components/permissions_gates', () => {
                     <ChannelPermissionGate
                         channelId={'invalid_id'}
                         teamId={'team_id'}
-                        perms={'test_channel_perm'}
+                        perms={['test_channel_perm']}
                     >
                         <p>{'Valid perm invalid channel (not shown)'}</p>
                     </ChannelPermissionGate>
@@ -309,7 +309,7 @@ describe('components/permissions_gates', () => {
                     <ChannelPermissionGate
                         channelId={'channel_id'}
                         teamId={'team_id'}
-                        perms={'test_team_perm'}
+                        perms={['test_team_perm']}
                     >
                         <p>{'Valid perm (shown)'}</p>
                     </ChannelPermissionGate>
@@ -324,7 +324,7 @@ describe('components/permissions_gates', () => {
                     <ChannelPermissionGate
                         channelId={'channel_id'}
                         teamId={'team_id'}
-                        perms={'test_system_perm'}
+                        perms={['test_system_perm']}
                     >
                         <p>{'Valid perm (shown)'}</p>
                     </ChannelPermissionGate>

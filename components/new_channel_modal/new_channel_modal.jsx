@@ -197,7 +197,7 @@ export default class NewChannelModal extends React.PureComponent {
                     />
                     <TeamPermissionGate
                         teamId={this.props.currentTeamId}
-                        perms={Permissions.CREATE_PUBLIC_CHANNEL}
+                        perms={[Permissions.CREATE_PUBLIC_CHANNEL]}
                     >
                         {createPublicChannelLink}
                     </TeamPermissionGate>
@@ -214,7 +214,7 @@ export default class NewChannelModal extends React.PureComponent {
                     />
                     <TeamPermissionGate
                         teamId={this.props.currentTeamId}
-                        perms={Permissions.CREATE_PRIVATE_CHANNEL}
+                        perms={[Permissions.CREATE_PRIVATE_CHANNEL]}
                     >
                         {createPrivateChannelLink}
                     </TeamPermissionGate>

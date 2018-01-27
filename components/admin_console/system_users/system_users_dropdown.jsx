@@ -477,7 +477,7 @@ export default class SystemUsersDropdown extends React.Component {
         let revokeSessions;
         if (showRevokeSessions) {
             revokeSessions = (
-                <SystemPermissionGate perms={Permissions.REVOKE_USER_ACCESS_TOKEN}>
+                <SystemPermissionGate perms={[Permissions.REVOKE_USER_ACCESS_TOKEN]}>
                     <li role='presentation'>
                         <a
                             id='revokeSessions'

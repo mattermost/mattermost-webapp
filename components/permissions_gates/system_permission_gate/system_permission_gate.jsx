@@ -4,7 +4,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export default class SystemPermissionGate extends React.PureComponent {
+export default class SystemPermissionGate extends React.Component {
+    shouldComponentUpdate(nextProps) {
+        return this.props.invert !== nextProps.invert ||
+               this.props.hasPerm !== nextProps.hasPerm;
+    }
+
     static defaultProps = {
         invert: false
     }
@@ -12,9 +17,9 @@ export default class SystemPermissionGate extends React.PureComponent {
     static propTypes = {
 
         /**
-         * Permissions enough to pass the gate (space separated)
+         * Permissions enough to pass the gate (binary OR)
          */
-        perms: PropTypes.string.isRequired,
+        perms: PropTypes.arrayOf(PropTypes.string).isRequired,
 
         /**
          * Has permission

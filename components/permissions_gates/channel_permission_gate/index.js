@@ -12,7 +12,7 @@ function mapStateToProps(state, ownProps) {
         return {hasPerm: false};
     }
 
-    for (const perm of ownProps.perms.split(' ')) {
+    for (const perm of ownProps.perms) {
         if (haveIChannelPerm(state, {channel: ownProps.channelId, team: ownProps.teamId, perm})) {
             return {hasPerm: true};
         }

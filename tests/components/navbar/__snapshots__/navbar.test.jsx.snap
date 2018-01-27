@@ -193,7 +193,11 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
                 >
                   <Connect(ChannelPermissionGate)
                     channelId="channel_id"
-                    perms="manage_private_channel_members"
+                    perms={
+                      Array [
+                        "manage_private_channel_members",
+                      ]
+                    }
                     teamId="team_id"
                   >
                     <FormattedMessage
@@ -205,7 +209,11 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
                   <Connect(ChannelPermissionGate)
                     channelId="channel_id"
                     invert={true}
-                    perms="manage_private_channel_members"
+                    perms={
+                      Array [
+                        "manage_private_channel_members",
+                      ]
+                    }
                     teamId="team_id"
                   >
                     <FormattedMessage
@@ -218,7 +226,11 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
               </li>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms="manage_private_channel_properties"
+                perms={
+                  Array [
+                    "manage_private_channel_properties",
+                  ]
+                }
                 teamId="team_id"
               >
                 <li
@@ -239,7 +251,11 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms="manage_private_channel_properties"
+                perms={
+                  Array [
+                    "manage_private_channel_properties",
+                  ]
+                }
                 teamId="team_id"
               >
                 <li
@@ -260,7 +276,11 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms="manage_private_channel_properties"
+                perms={
+                  Array [
+                    "manage_private_channel_properties",
+                  ]
+                }
                 teamId="team_id"
               >
                 <li
@@ -281,7 +301,11 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms="delete_private_channel"
+                perms={
+                  Array [
+                    "delete_private_channel",
+                  ]
+                }
                 teamId="team_id"
               >
                 <li
@@ -588,7 +612,11 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
                 >
                   <Connect(ChannelPermissionGate)
                     channelId="channel_id"
-                    perms="manage_public_channel_members"
+                    perms={
+                      Array [
+                        "manage_public_channel_members",
+                      ]
+                    }
                     teamId="team_id"
                   >
                     <FormattedMessage
@@ -600,7 +628,11 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
                   <Connect(ChannelPermissionGate)
                     channelId="channel_id"
                     invert={true}
-                    perms="manage_public_channel_members"
+                    perms={
+                      Array [
+                        "manage_public_channel_members",
+                      ]
+                    }
                     teamId="team_id"
                   >
                     <FormattedMessage
@@ -613,7 +645,11 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
               </li>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms="manage_public_channel_properties"
+                perms={
+                  Array [
+                    "manage_public_channel_properties",
+                  ]
+                }
                 teamId="team_id"
               >
                 <li
@@ -634,7 +670,11 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms="manage_public_channel_properties"
+                perms={
+                  Array [
+                    "manage_public_channel_properties",
+                  ]
+                }
                 teamId="team_id"
               >
                 <li
@@ -655,7 +695,11 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms="manage_public_channel_properties"
+                perms={
+                  Array [
+                    "manage_public_channel_properties",
+                  ]
+                }
                 teamId="team_id"
               >
                 <li
@@ -676,7 +720,11 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms="delete_public_channel"
+                perms={
+                  Array [
+                    "delete_public_channel",
+                  ]
+                }
                 teamId="team_id"
               >
                 <li
@@ -1169,7 +1217,11 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
                 >
                   <Connect(ChannelPermissionGate)
                     channelId="channel_id"
-                    perms="manage_public_channel_members"
+                    perms={
+                      Array [
+                        "manage_public_channel_members",
+                      ]
+                    }
                     teamId="team_id"
                   >
                     <FormattedMessage
@@ -1181,7 +1233,11 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
                   <Connect(ChannelPermissionGate)
                     channelId="channel_id"
                     invert={true}
-                    perms="manage_public_channel_members"
+                    perms={
+                      Array [
+                        "manage_public_channel_members",
+                      ]
+                    }
                     teamId="team_id"
                   >
                     <FormattedMessage
@@ -1194,7 +1250,11 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
               </li>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms="manage_public_channel_properties"
+                perms={
+                  Array [
+                    "manage_public_channel_properties",
+                  ]
+                }
                 teamId="team_id"
               >
                 <li
@@ -1215,7 +1275,11 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms="manage_public_channel_properties"
+                perms={
+                  Array [
+                    "manage_public_channel_properties",
+                  ]
+                }
                 teamId="team_id"
               >
                 <li
@@ -1236,7 +1300,11 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms="manage_public_channel_properties"
+                perms={
+                  Array [
+                    "manage_public_channel_properties",
+                  ]
+                }
                 teamId="team_id"
               >
                 <li
@@ -1257,7 +1325,11 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms="delete_public_channel"
+                perms={
+                  Array [
+                    "delete_public_channel",
+                  ]
+                }
                 teamId="team_id"
               >
                 <li
@@ -1566,7 +1638,11 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
                 >
                   <Connect(ChannelPermissionGate)
                     channelId="channel_id"
-                    perms="manage_public_channel_members"
+                    perms={
+                      Array [
+                        "manage_public_channel_members",
+                      ]
+                    }
                     teamId="team_id"
                   >
                     <FormattedMessage
@@ -1578,7 +1654,11 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
                   <Connect(ChannelPermissionGate)
                     channelId="channel_id"
                     invert={true}
-                    perms="manage_public_channel_members"
+                    perms={
+                      Array [
+                        "manage_public_channel_members",
+                      ]
+                    }
                     teamId="team_id"
                   >
                     <FormattedMessage
@@ -1591,7 +1671,11 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
               </li>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms="manage_public_channel_properties"
+                perms={
+                  Array [
+                    "manage_public_channel_properties",
+                  ]
+                }
                 teamId="team_id"
               >
                 <li
@@ -1612,7 +1696,11 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms="manage_public_channel_properties"
+                perms={
+                  Array [
+                    "manage_public_channel_properties",
+                  ]
+                }
                 teamId="team_id"
               >
                 <li
@@ -1633,7 +1721,11 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms="manage_public_channel_properties"
+                perms={
+                  Array [
+                    "manage_public_channel_properties",
+                  ]
+                }
                 teamId="team_id"
               >
                 <li
@@ -1654,7 +1746,11 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms="delete_public_channel"
+                perms={
+                  Array [
+                    "delete_public_channel",
+                  ]
+                }
                 teamId="team_id"
               >
                 <li

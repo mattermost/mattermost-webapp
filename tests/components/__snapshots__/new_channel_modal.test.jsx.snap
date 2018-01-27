@@ -63,7 +63,11 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
               values={Object {}}
             />
             <Connect(TeamPermissionGate)
-              perms="create_private_channel"
+              perms={
+                Array [
+                  "create_private_channel",
+                ]
+              }
               teamId="test_team_id"
             >
               <button
@@ -319,7 +323,11 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
               values={Object {}}
             />
             <Connect(TeamPermissionGate)
-              perms="create_private_channel"
+              perms={
+                Array [
+                  "create_private_channel",
+                ]
+              }
               teamId="test_team_id"
             >
               <button
@@ -575,7 +583,11 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
               values={Object {}}
             />
             <Connect(TeamPermissionGate)
-              perms="create_private_channel"
+              perms={
+                Array [
+                  "create_private_channel",
+                ]
+              }
               teamId="test_team_id"
             >
               <button
@@ -840,7 +852,11 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
               values={Object {}}
             />
             <Connect(TeamPermissionGate)
-              perms="create_private_channel"
+              perms={
+                Array [
+                  "create_private_channel",
+                ]
+              }
               teamId="test_team_id"
             >
               <button
@@ -1109,7 +1125,11 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
               values={Object {}}
             />
             <Connect(TeamPermissionGate)
-              perms="create_public_channel"
+              perms={
+                Array [
+                  "create_public_channel",
+                ]
+              }
               teamId="test_team_id"
             >
               <button

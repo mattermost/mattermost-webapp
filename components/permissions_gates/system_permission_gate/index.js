@@ -8,7 +8,7 @@ import {haveISystemPerm} from 'mattermost-redux/selectors/entities/roles';
 import SystemPermissionGate from './system_permission_gate.jsx';
 
 function mapStateToProps(state, ownProps) {
-    for (const perm of ownProps.perms.split(' ')) {
+    for (const perm of ownProps.perms) {
         if (haveISystemPerm(state, {perm})) {
             return {hasPerm: true};
         }
