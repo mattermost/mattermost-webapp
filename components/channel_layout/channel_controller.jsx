@@ -29,7 +29,7 @@ import ModalController from 'components/modal_controller';
 import TeamSidebar from 'components/team_sidebar';
 import Sidebar from 'components/sidebar';
 import * as Utils from 'utils/utils';
-import CenterChannel from './center_channel';
+import CenterChannel from 'components/channel_layout/center_channel';
 
 export default class ChannelController extends React.PureComponent {
     static propTypes = {

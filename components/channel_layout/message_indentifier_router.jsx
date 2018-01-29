@@ -145,20 +145,21 @@ const handleError = (history, team) => {
     }
 };
 
-export default class NeedsTeam extends React.Component {
+export default class MessageIdentifierRouter extends React.Component {
     constructor(props) {
         super(props);
-
         onChannelByIdentifierEnter(props);
     }
-
+    shouldComponentUpdate(nextProps) {
+        return this.props.match.params.identifier !== nextProps.match.params.identifier ||
+            this.props.match.params.team !== nextProps.match.params.team;
+    }
     componentWillReceiveProps(nextProps) {
         if (this.props.match.params.identifier !== nextProps.match.params.identifier) {
             onChannelByIdentifierEnter(nextProps);
         }
     }
-
     render() {
         return <ChannelView/>;
     }
-};
+}

@@ -16,7 +16,7 @@ import Navbar from 'components/navbar/navbar';
 
 export default class CenterChannel extends React.PureComponent {
     static propTypes = {
-        params: PropTypes.object,
+        params: PropTypes.object
     };
 
     toLastChannel = () => {
