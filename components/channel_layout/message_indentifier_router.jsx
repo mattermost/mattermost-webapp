@@ -30,7 +30,7 @@ const directChannelToUser = (profile, team) => {
         }
     );
 };
-const redirectBasedOnUserId = (userId) => {
+const redirectBasedOnUserId = (userId, team) => {
     const teammate = UserStore.getProfile(userId);
     if (teammate) {
         history.push(`/${team}/messages/@${teammate.username}`);
@@ -126,11 +126,10 @@ const onChannelByIdentifierEnter = (props) => {
                 }
             );
         }
-    }
-    else if (identifierIsUserId) {
-        redirectBasedOnUserId(identifier);
+    } else if (identifierIsUserId) {
+        redirectBasedOnUserId(identifier, team);
     } else if (identifierIsChannelId) {
-        redirectBasedOnUserId(Utils.getUserIdFromChannelId(identifier));
+        redirectBasedOnUserId(Utils.getUserIdFromChannelId(identifier), team);
     } else if (identifierIsGMGeneratedId) {
         handleGmGeneratedIdentifier(identifier, team);
     } else {
@@ -144,7 +143,7 @@ const handleError = (history, team) => {
     } else {
         history.push('/');
     }
-}
+};
 
 export default class NeedsTeam extends React.Component {
     constructor(props) {
@@ -162,4 +161,4 @@ export default class NeedsTeam extends React.Component {
     render() {
         return <ChannelView/>;
     }
-}
+};
