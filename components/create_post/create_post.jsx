@@ -370,7 +370,7 @@ export default class CreatePost extends React.Component {
         const channelId = this.props.currentChannel.id;
         const action = isReaction[1];
         const emojiName = isReaction[2];
-        const postId = this.props.recentPostIdInChannel;
+        const postId = this.props.latestReplyablePostId;
 
         if (postId && action === '+') {
             this.props.actions.addReaction(postId, emojiName);
