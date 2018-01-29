@@ -27,95 +27,102 @@ const getState = store.getState;
 * - A username that starts with an @ sign
 * - An email containing an @ sign
 **/
-function onChannelByIdentifierEnter(props) {
+
+const redirectBasedOnUserId = (userId) => {
+    const teammate = UserStore.getProfile(userId);
+    if (teammate) {
+        history.push(`/${team}/messages/@${teammate.username}`);
+    } else {
+        getUser(userId)(dispatch, getState).then(
+            ({data: profile}) => {
+                if (profile) {
+                    history.push(`/${team}/messages/@${profile.username}`);
+                } else if (profile == null) {
+                    handleError(history, team);
+                }
+            }
+        );
+    }
+};
+const handleGmGeneratedIdentifier = (identifier, team) => {
+    const channel = ChannelStore.getByName(identifier);
+    if (channel) {
+        loadNewGMIfNeeded(channel.id);
+        GlobalActions.emitChannelClickEvent(channel);
+    } else {
+        joinChannel(UserStore.getCurrentId(), TeamStore.getCurrentId(), null, identifier)(dispatch, getState).then(
+            (result) => {
+                if (result.data) {
+                    GlobalActions.emitChannelClickEvent(result.data.channel);
+                } else if (result.error) {
+                    handleError(history, team);
+                }
+            }
+        );
+    }
+};
+const handleReceivedProfile = (profile) => {
+    AppDispatcher.handleServerAction({
+        type: ActionTypes.RECEIVED_PROFILE,
+        profile
+    });
+    directChannelToUser(profile, team);
+};
+const onChannelByIdentifierEnter = (props) => {
     const identifier = props.match.params.identifier;
     const history = props.history;
     const team = props.match.params.team;
-    if (identifier.indexOf('@') === -1) {
-        // DM user_id or id1_id2 identifier
-        if (identifier.length === 26 || identifier.length === 54) {
-            const userId = (identifier.length === 26) ? identifier : Utils.getUserIdFromChannelId(identifier);
-            const teammate = UserStore.getProfile(userId);
-            if (teammate) {
-                history.push(`/${team}/messages/@${teammate.username}`);
-            } else {
-                getUser(userId)(dispatch, getState).then(
-                    ({data: profile}) => {
-                        if (profile) {
-                            history.push(`/${team}/messages/@${profile.username}`);
-                        } else if (profile == null) {
-                            handleError(history, team);
-                        }
-                    }
-                );
-            }
 
-        // GM generated_id identifier
-        } else if (identifier.length === 40) {
-            const channel = ChannelStore.getByName(identifier);
-            if (channel) {
-                loadNewGMIfNeeded(channel.id);
-                GlobalActions.emitChannelClickEvent(channel);
-            } else {
-                joinChannel(UserStore.getCurrentId(), TeamStore.getCurrentId(), null, identifier)(dispatch, getState).then(
-                    (result) => {
-                        if (result.data) {
-                            GlobalActions.emitChannelClickEvent(result.data.channel);
-                        } else if (result.error) {
-                            handleError(history, team);
-                        }
-                    }
-                );
-            }
+    const isUsername = identifier.indexOf('@') === 0;
+    const isEmailAddress = identifier.indexOf('@') > 0;
+    const identifierIsUserId = !isUsername && !isEmailAddress && identifier.length === 26;
+    const identifierIsChannelId = !isUsername && !isEmailAddress && identifier.length === 54;
+    const identifierIsGMGeneratedId = !isUsername && !isEmailAddress && identifier.length === 40;
+
+    const error = () => {
+        handleError(history, team);
+    };
+
+    if (identifierIsUserId) {
+        redirectBasedOnUserId(identifier);
+    } else if (identifierIsChannelId) {
+        redirectBasedOnUserId(Utils.getUserIdFromChannelId(identifier));
+    } else if (identifierIsGMGeneratedId) {
+        handleGmGeneratedIdentifier(identifier, team);
+    } else if (isUsername) {
+        const username = identifier.slice(1, identifier.length);
+        const teammate = UserStore.getProfileByUsername(username);
+        if (teammate) {
+            directChannelToUser(teammate, team);
         } else {
-            handleError(history, team);
+            getUserByUsername(username)(dispatch, getState).then(
+                ({data, error: err}) => {
+                    if (data) {
+                        handleReceivedProfile(data);
+                    } else if (err) {
+                        error();
+                    }
+                }
+            );
+        }
+    } else if (isEmailAddress) {
+        const email = identifier;
+        const teammate = UserStore.getProfileByEmail(email);
+        if (teammate) {
+            directChannelToUser(teammate, team);
+        } else {
+            getUserByEmail(email)(dispatch, getState).then(
+                ({data, error: err}) => {
+                    if (data) {
+                        handleReceivedProfile(data);
+                    } else if (err) {
+                        error();
+                    }
+                }
+            );
         }
     } else {
-        function success(profile) {
-            AppDispatcher.handleServerAction({
-                type: ActionTypes.RECEIVED_PROFILE,
-                profile
-            });
-            directChannelToUser(profile, team);
-        }
-
-        function error() {
-            handleError(history, team);
-        }
-
-        if (identifier.indexOf('@') === 0) { // @username identifier
-            const username = identifier.slice(1, identifier.length);
-            const teammate = UserStore.getProfileByUsername(username);
-            if (teammate) {
-                directChannelToUser(teammate, team);
-            } else {
-                getUserByUsername(username)(dispatch, getState).then(
-                    ({data, error: err}) => {
-                        if (data && success) {
-                            success(data);
-                        } else if (err && error) {
-                            error({id: err.server_error_id, ...err});
-                        }
-                    }
-                );
-            }
-        } else if (identifier.indexOf('@') > 0) { // email identifier
-            const email = identifier;
-            const teammate = UserStore.getProfileByEmail(email);
-            if (teammate) {
-                directChannelToUser(teammate, team);
-            } else {
-                getUserByEmail(email)(dispatch, getState).then(
-                    ({data, error: err}) => {
-                        if (data && success) {
-                            success(data);
-                        } else if (err && error) {
-                            error({id: err.server_error_id, ...err});
-                        }
-                    }
-                );
-            }
-        }
+        error();
     }
 }
 
@@ -131,7 +138,7 @@ function directChannelToUser(profile, team) {
     );
 }
 
-function handleError(history, team) {
+const handleError = (history, team) => {
     if (team) {
         history.push(`/${team}/channels/${Constants.DEFAULT_CHANNEL}`);
     } else {
