@@ -428,6 +428,13 @@ export const NotificationLevels = {
     NONE: 'none'
 };
 
+export const NotificationSections = {
+    MARK_UNREAD: 'markUnread',
+    DESKTOP: 'desktop',
+    PUSH: 'push',
+    NONE: ''
+};
+
 export const RHSStates = {
     MENTION: 'mention',
     SEARCH: 'search',

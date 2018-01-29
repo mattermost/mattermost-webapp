@@ -5,7 +5,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Posts} from 'mattermost-redux/constants';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import Constants, {StoragePrefixes} from 'utils/constants.jsx';
 import CreatePost from 'components/create_post/create_post.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -43,6 +42,7 @@ const currentUserIdProp = 'zaktnt8bpbgu8mb6ez9k64r7sa';
 const showTutorialTipProp = '999';
 const fullWidthTextBoxProp = true;
 const recentPostIdInChannelProp = 'a';
+const latestReplyablePostIdProp = 'a';
 
 const currentChannelProp = {
     id: 'owsyt8n43jfxjpzh9np93mx1wa',
@@ -82,6 +82,7 @@ function createPost({
     fullWidthTextBox = fullWidthTextBoxProp,
     draft = draftProp,
     recentPostIdInChannel = recentPostIdInChannelProp,
+    latestReplyablePostId = latestReplyablePostIdProp,
     actions = actionsProp,
     ctrlSend = ctrlSendProp,
     currentUsersLatestPost = currentUsersLatestPostProp,
@@ -97,6 +98,7 @@ function createPost({
             currentChannelMembersCount={currentChannelMembersCount}
             draft={draft}
             recentPostIdInChannel={recentPostIdInChannel}
+            latestReplyablePostId={latestReplyablePostId}
             ctrlSend={ctrlSend}
             currentUsersLatestPost={currentUsersLatestPost}
             commentCountForPost={commentCountForPost}
@@ -367,13 +369,13 @@ describe('components/create_post', () => {
     });
 
     it('check for handleFileUploadChange callbak for focus', () => {
-        const wrapper = mountWithIntl(createPost());
+        const wrapper = shallow(createPost());
         const instance = wrapper.instance();
-        const ref = wrapper.ref('textbox');
+        instance.focusTextbox = jest.fn();
 
-        ref.focus = jest.fn();
         instance.handleFileUploadChange();
-        expect(ref.focus).toBeCalled();
+        expect(instance.focusTextbox).toBeCalled();
+        expect(instance.focusTextbox).toBeCalledWith(true);
     });
 
     it('check for handleFileUploadStart callbak', () => {
@@ -483,7 +485,7 @@ describe('components/create_post', () => {
             ]
         };
 
-        const wrapper = mountWithIntl(
+        const wrapper = shallow(
             createPost({
                 actions: {
                     ...actionsProp,
@@ -497,14 +499,11 @@ describe('components/create_post', () => {
         );
 
         const instance = wrapper.instance();
-        const ref = wrapper.find('FilePreview');
-        const cancelUpload = jest.fn();
-        ref.getWrappedInstance = () => ({
-            cancelUpload
-        });
-
+        instance.handleFileUploadChange = jest.fn();
         instance.removePreview('a');
+        expect(setDraft).toHaveBeenCalledTimes(1);
         expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draftProp);
+        expect(instance.handleFileUploadChange).toHaveBeenCalledTimes(1);
     });
 
     it('Should call Shortcut modal on FORWARD_SLASH+cntrl/meta', () => {
