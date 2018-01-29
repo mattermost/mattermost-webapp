@@ -541,14 +541,13 @@ export default class CreateComment extends React.PureComponent {
         const fileUpload = (
             <FileUpload
                 ref='fileUpload'
-                getFileCount={this.getFileCount}
+                fileCount={this.getFileCount()}
                 getTarget={this.getFileUploadTarget}
                 onFileUploadChange={this.handleFileUploadChange}
                 onUploadStart={this.handleUploadStart}
                 onFileUpload={this.handleFileUploadComplete}
                 onUploadError={this.handleUploadError}
                 postType='comment'
-                channelId={this.props.channelId}
             />
         );
 

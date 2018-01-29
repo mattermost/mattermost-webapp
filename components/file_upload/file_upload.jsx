@@ -10,9 +10,19 @@ import 'jquery-dragster/jquery.dragster.js';
 
 import Constants from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
-import * as FileUtils from 'utils/file_utils';
-import * as UserAgent from 'utils/user_agent.jsx';
-import * as Utils from 'utils/utils.jsx';
+import {canUploadFiles} from 'utils/file_utils';
+import {
+    isIosChrome,
+    isMobileApp
+} from 'utils/user_agent.jsx';
+import {
+    clearFileInput,
+    cmdOrCtrlPressed,
+    generateId,
+    isFileTransfer,
+    localizeMessage,
+    sortFilesByName
+} from 'utils/utils.jsx';
 
 import AttachmentIcon from 'components/svg/attachment_icon';
 
@@ -35,10 +45,15 @@ const holders = defineMessages({
     }
 });
 
-const OverlayTimeout = 500;
+const OVERLAY_TIMEOUT = 500;
 
 class FileUpload extends React.PureComponent {
     static propTypes = {
+
+        /**
+         * Current channel's ID
+         */
+        currentChannelId: PropTypes.string.isRequired,
 
         /**
          * react-intl helper object
@@ -46,14 +61,9 @@ class FileUpload extends React.PureComponent {
         intl: intlShape.isRequired,
 
         /**
-         * Function to be called when upload fails
+         * Number of files to attach
          */
-        onUploadError: PropTypes.func,
-
-        /**
-         * Function to get number of file to be uploaded
-         */
-        getFileCount: PropTypes.func,
+        fileCount: PropTypes.number.isRequired,
 
         /**
          * Function to get file upload targeted input
@@ -71,29 +81,24 @@ class FileUpload extends React.PureComponent {
         onFileUpload: PropTypes.func,
 
         /**
-         * Function to be called when file upload starts
-         */
-        onUploadStart: PropTypes.func,
-
-        /**
          * Function to be called when file upload input's change event is fired
          */
         onFileUploadChange: PropTypes.func,
 
         /**
-         * Channel's ID which the file will be uploaded to
+         * Function to be called when upload fails
          */
-        channelId: PropTypes.string,
+        onUploadError: PropTypes.func,
+
+        /**
+         * Function to be called when file upload starts
+         */
+        onUploadStart: PropTypes.func,
 
         /**
          * Type of the object which the uploaded file is attached to
          */
         postType: PropTypes.string,
-
-        /**
-         * Current channel's ID
-         */
-        currentChannelId: PropTypes.string.isRequired,
 
         /**
          * Function to be called to upload file
@@ -108,29 +113,57 @@ class FileUpload extends React.PureComponent {
         };
     }
 
-    fileUploadSuccess = (channelId, data) => {
-        this.props.onFileUpload(data.file_infos, data.client_ids, channelId);
-
-        const requests = Object.assign({}, this.state.requests);
-        for (var j = 0; j < data.client_ids.length; j++) {
-            Reflect.deleteProperty(requests, data.client_ids[j]);
+    componentDidMount() {
+        if (this.props.postType === 'post') {
+            this.registerDragEvents('.row.main', '.center-file-overlay');
+        } else if (this.props.postType === 'comment') {
+            this.registerDragEvents('.post-right__container', '.right-file-overlay');
         }
-        this.setState({requests});
+
+        document.addEventListener('paste', this.pasteUpload);
+        document.addEventListener('keydown', this.keyUpload);
     }
 
-    fileUploadFail = (clientId, channelId, err) => {
-        this.props.onUploadError(err, clientId, channelId);
+    componentWillUnmount() {
+        let target;
+        if (this.props.postType === 'post') {
+            target = $('.row.main');
+        } else {
+            target = $('.post-right__container');
+        }
+
+        document.removeEventListener('paste', this.pasteUpload);
+        document.removeEventListener('keydown', this.keyUpload);
+
+        // jquery-dragster doesn't provide a function to unregister itself so do it manually
+        target.off('dragenter dragleave dragover drop dragster:enter dragster:leave dragster:over dragster:drop');
+    }
+
+    fileUploadSuccess = (data) => {
+        if (data) {
+            this.props.onFileUpload(data.file_infos, data.client_ids, this.props.currentChannelId);
+
+            const requests = Object.assign({}, this.state.requests);
+            for (var j = 0; j < data.client_ids.length; j++) {
+                Reflect.deleteProperty(requests, data.client_ids[j]);
+            }
+            this.setState({requests});
+        }
+    }
+
+    fileUploadFail = (err, clientId) => {
+        this.props.onUploadError(err, clientId, this.props.currentChannelId);
     }
 
     uploadFiles = (files) => {
-        const sortedFiles = Utils.sortFilesByName(files);
+        const sortedFiles = sortFilesByName(files);
 
         // clear any existing errors
         this.props.onUploadError(null);
 
-        const channelId = this.props.channelId || this.props.currentChannelId;
+        const {currentChannelId} = this.props;
 
-        const uploadsRemaining = Constants.MAX_UPLOAD_FILES - this.props.getFileCount(channelId);
+        const uploadsRemaining = Constants.MAX_UPLOAD_FILES - this.props.fileCount;
         let numUploads = 0;
 
         // keep track of how many files have been too large
@@ -144,15 +177,15 @@ class FileUpload extends React.PureComponent {
             }
 
             // generate a unique id that can be used by other components to refer back to this upload
-            const clientId = Utils.generateId();
+            const clientId = generateId();
 
             const request = this.props.uploadFile(
                 sortedFiles[i],
                 sortedFiles[i].name,
-                channelId,
+                currentChannelId,
                 clientId,
-                this.fileUploadSuccess.bind(this, channelId),
-                this.fileUploadFail.bind(this, clientId, channelId)
+                (data) => this.fileUploadSuccess(data),
+                (e) => this.fileUploadFail(e, clientId)
             );
 
             const requests = this.state.requests;
@@ -163,7 +196,7 @@ class FileUpload extends React.PureComponent {
             numUploads += 1;
         }
 
-        this.props.onUploadStart(clientIds, channelId);
+        this.props.onUploadStart(clientIds, currentChannelId);
 
         const {formatMessage} = this.props.intl;
         if (sortedFiles.length > uploadsRemaining) {
@@ -181,15 +214,15 @@ class FileUpload extends React.PureComponent {
         if (e.target.files.length > 0) {
             this.uploadFiles(e.target.files);
 
-            Utils.clearFileInput(e.target);
+            clearFileInput(e.target);
         }
 
         this.props.onFileUploadChange();
     }
 
     handleDrop = (e) => {
-        if (!FileUtils.canUploadFiles()) {
-            this.props.onUploadError(Utils.localizeMessage('file_upload.disabled', 'File attachments are disabled.'));
+        if (!canUploadFiles()) {
+            this.props.onUploadError(localizeMessage('file_upload.disabled', 'File attachments are disabled.'));
             return;
         }
 
@@ -200,17 +233,6 @@ class FileUpload extends React.PureComponent {
         if (typeof files !== 'string' && files.length) {
             this.uploadFiles(files);
         }
-    }
-
-    componentDidMount() {
-        if (this.props.postType === 'post') {
-            this.registerDragEvents('.row.main', '.center-file-overlay');
-        } else if (this.props.postType === 'comment') {
-            this.registerDragEvents('.post-right__container', '.right-file-overlay');
-        }
-
-        document.addEventListener('paste', this.pasteUpload);
-        document.addEventListener('keydown', this.keyUpload);
     }
 
     registerDragEvents = (containerSelector, overlaySelector) => {
@@ -225,26 +247,26 @@ class FileUpload extends React.PureComponent {
         });
 
         let dragsterActions = {};
-        if (FileUtils.canUploadFiles()) {
+        if (canUploadFiles()) {
             dragsterActions = {
                 enter(dragsterEvent, e) {
                     var files = e.originalEvent.dataTransfer;
 
-                    if (Utils.isFileTransfer(files)) {
+                    if (isFileTransfer(files)) {
                         $(overlaySelector).removeClass('hidden');
                     }
                 },
                 leave(dragsterEvent, e) {
                     var files = e.originalEvent.dataTransfer;
 
-                    if (Utils.isFileTransfer(files) && !overlay.hasClass('hidden')) {
+                    if (isFileTransfer(files) && !overlay.hasClass('hidden')) {
                         overlay.addClass('hidden');
                     }
 
                     dragTimeout.cancel();
                 },
                 over() {
-                    dragTimeout.fireAfter(OverlayTimeout);
+                    dragTimeout.fireAfter(OVERLAY_TIMEOUT);
                 },
                 drop(dragsterEvent, e) {
                     if (!overlay.hasClass('hidden')) {
@@ -267,21 +289,6 @@ class FileUpload extends React.PureComponent {
         $(containerSelector).dragster(dragsterActions);
 
         this.props.onFileUploadChange();
-    }
-
-    componentWillUnmount() {
-        let target;
-        if (this.props.postType === 'post') {
-            target = $('.row.main');
-        } else {
-            target = $('.post-right__container');
-        }
-
-        document.removeEventListener('paste', this.pasteUpload);
-        document.removeEventListener('keydown', this.keyUpload);
-
-        // jquery-dragster doesn't provide a function to unregister itself so do it manually
-        target.off('dragenter dragleave dragover drop dragster:enter dragster:leave dragster:over dragster:drop');
     }
 
     pasteUpload = (e) => {
@@ -312,18 +319,18 @@ class FileUpload extends React.PureComponent {
         // This looks redundant, but must be done this way due to
         // setState being an asynchronous call
         if (items && items.length > 0) {
-            if (!FileUtils.canUploadFiles()) {
-                this.props.onUploadError(Utils.localizeMessage('file_upload.disabled', 'File attachments are disabled.'));
+            if (!canUploadFiles()) {
+                this.props.onUploadError(localizeMessage('file_upload.disabled', 'File attachments are disabled.'));
                 return;
             }
 
-            var numToUpload = Math.min(Constants.MAX_UPLOAD_FILES - this.props.getFileCount(this.props.currentChannelId), items.length);
+            var numToUpload = Math.min(this.state.uploadsRemaining, items.length);
 
             if (items.length > numToUpload) {
                 this.props.onUploadError(formatMessage(holders.limited, {count: Constants.MAX_UPLOAD_FILES}));
             }
 
-            const channelId = this.props.channelId || this.props.currentChannelId;
+            const {currentChannelId} = this.props;
 
             for (var i = 0; i < items.length && i < numToUpload; i++) {
                 var file = items[i].getAsFile();
@@ -332,21 +339,14 @@ class FileUpload extends React.PureComponent {
                 }
 
                 // generate a unique id that can be used by other components to refer back to this file upload
-                const clientId = Utils.generateId();
+                const clientId = generateId();
 
                 var d = new Date();
-                var hour;
-                if (d.getHours() < 10) {
-                    hour = '0' + d.getHours();
-                } else {
-                    hour = String(d.getHours());
-                }
-                var min;
-                if (d.getMinutes() < 10) {
-                    min = '0' + d.getMinutes();
-                } else {
-                    min = String(d.getMinutes());
-                }
+                let hour = d.getHours();
+                hour = hour < 10 ? `0${hour}` : `${hour}`;
+
+                let minute = d.getMinutes();
+                minute = minute < 10 ? `0${minute}` : `${minute}`;
 
                 var ext = '';
                 if (file.name) {
@@ -357,22 +357,22 @@ class FileUpload extends React.PureComponent {
                     ext = '.' + items[i].type.split('/')[1].toLowerCase();
                 }
 
-                const name = formatMessage(holders.pasted) + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + hour + '-' + min + ext;
+                const name = formatMessage(holders.pasted) + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + hour + '-' + minute + ext;
 
                 const request = this.props.uploadFile(
                     file,
                     name,
-                    channelId,
+                    currentChannelId,
                     clientId,
-                    this.fileUploadSuccess.bind(this, channelId),
-                    this.fileUploadFail.bind(this, clientId, channelId)
+                    (data) => this.fileUploadSuccess(data),
+                    (err) => this.fileUploadFail(err, clientId)
                 );
 
                 const requests = this.state.requests;
                 requests[clientId] = request;
                 this.setState({requests});
 
-                this.props.onUploadStart([clientId], channelId);
+                this.props.onUploadStart([clientId], currentChannelId);
             }
 
             if (numToUpload > 0) {
@@ -382,16 +382,17 @@ class FileUpload extends React.PureComponent {
     }
 
     keyUpload = (e) => {
-        if (Utils.cmdOrCtrlPressed(e) && e.keyCode === Constants.KeyCodes.U) {
+        if (cmdOrCtrlPressed(e) && e.keyCode === Constants.KeyCodes.U) {
             e.preventDefault();
 
-            if (!FileUtils.canUploadFiles()) {
-                this.props.onUploadError(Utils.localizeMessage('file_upload.disabled', 'File attachments are disabled.'));
+            if (!canUploadFiles()) {
+                this.props.onUploadError(localizeMessage('file_upload.disabled', 'File attachments are disabled.'));
                 return;
             }
 
-            if ((this.props.postType === 'post' && document.activeElement.id === 'post_textbox') ||
-                (this.props.postType === 'comment' && document.activeElement.id === 'reply_textbox')) {
+            const postTextbox = this.props.postType === 'post' && document.activeElement.id === 'post_textbox-textarea';
+            const commentTextbox = this.props.postType === 'comment' && document.activeElement.id === 'reply_textbox-textarea';
+            if (postTextbox || commentTextbox) {
                 $(this.refs.fileInput).focus().trigger('click');
             }
         }
@@ -412,32 +413,33 @@ class FileUpload extends React.PureComponent {
     handleMaxUploadReached = (e) => {
         e.preventDefault();
 
-        const {formatMessage} = this.props.intl;
+        const {onUploadError, intl: {formatMessage}} = this.props;
 
-        this.props.onUploadError(formatMessage(holders.limited, {count: Constants.MAX_UPLOAD_FILES}));
-
-        return false;
+        onUploadError(formatMessage(holders.limited, {count: Constants.MAX_UPLOAD_FILES}));
     }
 
     render() {
         let multiple = true;
-        if (UserAgent.isMobileApp()) {
+        if (isMobileApp()) {
             // iOS WebViews don't upload videos properly in multiple mode
             multiple = false;
         }
 
         let accept = '';
-        if (UserAgent.isIosChrome()) {
+        if (isIosChrome()) {
             // iOS Chrome can't upload videos at all
             accept = 'image/*';
         }
 
-        const channelId = this.props.channelId || this.props.currentChannelId;
-        const uploadsRemaining = Constants.MAX_UPLOAD_FILES - this.props.getFileCount(channelId);
+        const uploadsRemaining = Constants.MAX_UPLOAD_FILES - this.props.fileCount;
+        const onClick = uploadsRemaining > 0 ? this.props.onClick : this.handleMaxUploadReached;
 
-        let fileDiv;
-        if (FileUtils.canUploadFiles()) {
-            fileDiv = (
+        return (
+            <span
+                ref='input'
+                className={uploadsRemaining <= 0 ? ' btn-file__disabled' : ''}
+            >
+                {canUploadFiles() &&
                 <div
                     id='fileUploadButton'
                     className='icon icon--attachment'
@@ -447,20 +449,12 @@ class FileUpload extends React.PureComponent {
                         ref='fileInput'
                         type='file'
                         onChange={this.handleChange}
-                        onClick={uploadsRemaining > 0 ? this.props.onClick : this.handleMaxUploadReached}
+                        onClick={onClick}
                         multiple={multiple}
                         accept={accept}
                     />
                 </div>
-            );
-        }
-
-        return (
-            <span
-                ref='input'
-                className={uploadsRemaining <= 0 ? ' btn-file__disabled' : ''}
-            >
-                {fileDiv}
+                }
             </span>
         );
     }
