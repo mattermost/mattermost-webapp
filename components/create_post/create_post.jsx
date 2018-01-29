@@ -19,7 +19,7 @@ import * as Utils from 'utils/utils.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview.jsx';
-import FileUpload from 'components/file_upload.jsx';
+import FileUpload from 'components/file_upload';
 import MsgTyping from 'components/msg_typing.jsx';
 import PostDeletedModal from 'components/post_deleted_modal.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
@@ -535,11 +535,7 @@ export default class CreatePost extends React.Component {
         }
     }
 
-    getFileCount = (channelId) => {
-        if (channelId === this.props.currentChannel.id) {
-            return this.props.draft.fileInfos.length + this.props.draft.uploadsInProgress.length;
-        }
-
+    getFileCount = () => {
         const draft = this.props.draft;
         return draft.fileInfos.length + draft.uploadsInProgress.length;
     }
@@ -684,7 +680,15 @@ export default class CreatePost extends React.Component {
     }
 
     render() {
-        const members = this.props.currentChannelMembersCount - 1;
+        const {
+            currentChannel,
+            currentChannelMembersCount,
+            draft,
+            fullWidthTextBox,
+            getChannelView,
+            showTutorialTip
+        } = this.props;
+        const members = currentChannelMembersCount - 1;
 
         const notifyAllTitle = (
             <FormattedMessage
@@ -726,12 +730,12 @@ export default class CreatePost extends React.Component {
         }
 
         let preview = null;
-        if (this.props.draft.fileInfos.length > 0 || this.props.draft.uploadsInProgress.length > 0) {
+        if (draft.fileInfos.length > 0 || draft.uploadsInProgress.length > 0) {
             preview = (
                 <FilePreview
-                    fileInfos={this.props.draft.fileInfos}
+                    fileInfos={draft.fileInfos}
                     onRemove={this.removePreview}
-                    uploadsInProgress={this.props.draft.uploadsInProgress}
+                    uploadsInProgress={draft.uploadsInProgress}
                 />
             );
         }
@@ -742,12 +746,12 @@ export default class CreatePost extends React.Component {
         }
 
         let tutorialTip = null;
-        if (parseInt(this.props.showTutorialTip, 10) === TutorialSteps.POST_POPOVER && global.window.mm_config.EnableTutorial === 'true') {
+        if (parseInt(showTutorialTip, 10) === TutorialSteps.POST_POPOVER && global.window.mm_config.EnableTutorial === 'true') {
             tutorialTip = this.createTutorialTip();
         }
 
         let centerClass = '';
-        if (!this.props.fullWidthTextBox) {
+        if (!fullWidthTextBox) {
             centerClass = 'center';
         }
 
@@ -764,14 +768,13 @@ export default class CreatePost extends React.Component {
         const fileUpload = (
             <FileUpload
                 ref='fileUpload'
-                getFileCount={this.getFileCount}
+                fileCount={this.getFileCount()}
                 getTarget={this.getFileUploadTarget}
                 onFileUploadChange={this.handleFileUploadChange}
                 onUploadStart={this.handleUploadStart}
                 onFileUpload={this.handleFileUploadComplete}
                 onUploadError={this.handleUploadError}
                 postType='post'
-                channelId=''
             />
         );
 
@@ -781,7 +784,7 @@ export default class CreatePost extends React.Component {
                 <span className='emoji-picker__container'>
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
-                        container={this.props.getChannelView}
+                        container={getChannelView}
                         target={this.getCreatePostControls}
                         onHide={this.hideEmojiPicker}
                         onEmojiClick={this.handleEmojiClick}
@@ -817,7 +820,7 @@ export default class CreatePost extends React.Component {
                                 onBlur={this.handleBlur}
                                 emojiEnabled={window.mm_config.EnableEmojiPicker === 'true'}
                                 createMessage={Utils.localizeMessage('create_post.write', 'Write a message...')}
-                                channelId={this.props.currentChannel.id}
+                                channelId={currentChannel.id}
                                 popoverMentionKeyClick={true}
                                 id='post_textbox'
                                 ref='textbox'
@@ -843,7 +846,7 @@ export default class CreatePost extends React.Component {
                         className={postFooterClassName}
                     >
                         <MsgTyping
-                            channelId={this.props.currentChannel.id}
+                            channelId={currentChannel.id}
                             parentId=''
                         />
                         {postError}

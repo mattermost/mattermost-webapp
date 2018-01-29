@@ -34,9 +34,8 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
         <span
           className="post-body__actions"
         >
-          <InjectIntl(FileUpload)
-            channelId="g6139tbospd18cmxroesdk3kkc"
-            getFileCount={[Function]}
+          <Connect(InjectIntl(FileUpload))
+            fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}
             onFileUploadChange={[Function]}
@@ -154,9 +153,8 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
         <span
           className="post-body__actions"
         >
-          <InjectIntl(FileUpload)
-            channelId="g6139tbospd18cmxroesdk3kkc"
-            getFileCount={[Function]}
+          <Connect(InjectIntl(FileUpload))
+            fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}
             onFileUploadChange={[Function]}
@@ -274,9 +272,8 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
         <span
           className="post-body__actions"
         >
-          <InjectIntl(FileUpload)
-            channelId="g6139tbospd18cmxroesdk3kkc"
-            getFileCount={[Function]}
+          <Connect(InjectIntl(FileUpload))
+            fileCount={4}
             getTarget={[Function]}
             onFileUpload={[Function]}
             onFileUploadChange={[Function]}
