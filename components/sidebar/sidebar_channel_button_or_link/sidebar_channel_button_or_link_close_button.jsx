@@ -13,7 +13,7 @@ type Props = {
     channelId: string,
     channelType: string,
     teammateId?: string,
-    badge?: bool
+    badge?: boolean
 }
 
 export default class SidebarChannelButtonOrLinkCloseButton extends React.PureComponent<Props> {

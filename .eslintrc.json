@@ -1,5 +1,8 @@
 {
-    "extends": "eslint:recommended",
+    "extends": [
+        "eslint:recommended",
+        "plugin:flowtype/recommended"
+    ],
     "parserOptions": {
         "ecmaVersion": 8,
         "sourceType": "module",
@@ -13,7 +16,8 @@
     "parser": "babel-eslint",
     "plugins": [
         "react",
-        "import"
+        "import",
+        "flowtype"
     ],
     "env": {
         "browser": true,
