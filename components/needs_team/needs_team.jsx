@@ -46,9 +46,8 @@ import WebrtcSidebar from 'components/webrtc/components/webrtc_sidebar.jsx';
 import ModalController from 'components/modal_controller';
 import TeamSidebar from 'components/team_sidebar';
 import Sidebar from 'components/sidebar';
-import ChannelView from 'components/channel_view';
 import PermalinkView from 'components/permalink_view';
-import MessageIdentifierRouter from 'components/message_indentifier_router';
+import MessageIdentifierRouter from 'components/message_identifier_router';
 import {makeAsyncComponent} from 'components/async_load';
 import loadBackstageController from 'bundle-loader?lazy!components/backstage/backstage_controller';
 
@@ -267,15 +266,11 @@ export default class NeedsTeam extends React.Component {
                                     <div className='row main'>
                                         <Switch>
                                             <Route
-                                                path={`${this.props.match.url}/channels/:channel`}
-                                                component={ChannelView}
-                                            />
-                                            <Route
                                                 path={`${this.props.match.url}/pl/:postid`}
                                                 component={PermalinkView}
                                             />
                                             <Route
-                                                path={'/:team/messages/:identifier'}
+                                                path={'/:team/:path(channels|messages)/:identifier'}
                                                 component={MessageIdentifierRouter}
                                             />
                                             <Redirect to={this.toLastChannel()}/>
