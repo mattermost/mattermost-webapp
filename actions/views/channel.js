@@ -12,3 +12,12 @@ export function checkAndSetMobileView() {
         });
     };
 }
+
+export function keepChanneIdAsUnread(channelId) {
+    return (dispatch) => {
+        dispatch({
+            type: ActionTypes.KEEP_CHANNEL_AS_UNREAD,
+            data: channelId
+        });
+    };
+}

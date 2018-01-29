@@ -12,7 +12,7 @@ import {
     getCurrentChannel,
     getMyChannelMemberships,
     getUnreads,
-    getUnreadChannelIds,
+    getSortedUnreadChannelIds,
     getSortedDirectChannelIds,
     getSortedFavoriteChannelIds,
     getSortedPublicChannelIds,
@@ -43,11 +43,13 @@ function mapStateToProps(state) {
         true
     );
 
+    const keepChannelIdAsUnread = state.views.channel.keepChannelIdAsUnread;
+
     if (showUnreadSection) {
-        publicChannelIds = getSortedPublicChannelIds(state);
-        privateChannelIds = getSortedPrivateChannelIds(state);
-        favoriteChannelIds = getSortedFavoriteChannelIds(state);
-        directAndGroupChannelIds = getSortedDirectChannelIds(state);
+        publicChannelIds = getSortedPublicChannelIds(state, keepChannelIdAsUnread);
+        privateChannelIds = getSortedPrivateChannelIds(state, keepChannelIdAsUnread);
+        favoriteChannelIds = getSortedFavoriteChannelIds(state, keepChannelIdAsUnread);
+        directAndGroupChannelIds = getSortedDirectChannelIds(state, keepChannelIdAsUnread);
     } else {
         publicChannelIds = getSortedPublicChannelWithUnreadsIds(state);
         privateChannelIds = getSortedPrivateChannelWithUnreadsIds(state);
@@ -62,7 +64,7 @@ function mapStateToProps(state) {
         privateChannelIds,
         favoriteChannelIds,
         directAndGroupChannelIds,
-        unreadChannelIds: getUnreadChannelIds(state),
+        unreadChannelIds: getSortedUnreadChannelIds(state, keepChannelIdAsUnread),
         currentChannel,
         currentTeammate,
         currentTeam: getCurrentTeam(state),

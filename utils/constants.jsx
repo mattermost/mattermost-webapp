@@ -236,7 +236,9 @@ export const ActionTypes = keyMirror({
     MODAL_OPEN: null,
     MODAL_CLOSE: null,
 
-    POPOVER_MENTION_KEY_CLICK: null
+    POPOVER_MENTION_KEY_CLICK: null,
+
+    KEEP_CHANNEL_AS_UNREAD: null
 });
 
 export const WebrtcActionTypes = keyMirror({
