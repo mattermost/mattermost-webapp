@@ -20,7 +20,7 @@ function mapStateToProps(state, ownProps) {
         imageUrl = EmojiStore.getEmojiImageUrl(emoji);
     } else {
         displayTextOnly = state.entities.emojis.nonExistentEmoji.has(ownProps.name) ||
-            getConfig(state).EnableCustomEmojis !== 'true';
+            getConfig(state).EnableCustomEmoji !== 'true';
     }
 
     return {
