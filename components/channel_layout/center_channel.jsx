@@ -7,7 +7,7 @@ import {Route, Switch, Redirect} from 'react-router-dom';
 
 import ChannelView from 'components/channel_view';
 import PermalinkView from 'components/permalink_view';
-import MessageIdentifierRouter from 'components/message_indentifier_router';
+import MessageIdentifierRouter from 'components/channel_layout/message_indentifier_router';
 import ChannelStore from 'stores/channel_store';
 import TeamStore from 'stores/team_store';
 import BrowserStore from 'stores/browser_store';

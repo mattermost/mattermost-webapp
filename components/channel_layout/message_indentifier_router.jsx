@@ -5,7 +5,7 @@ import React from 'react';
 import {joinChannel} from 'mattermost-redux/actions/channels';
 import {getUser, getUserByUsername, getUserByEmail} from 'mattermost-redux/actions/users';
 
-import ChannelView from 'components/channel_view';
+import ChannelView from 'components/channel_view/index';
 import {loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import UserStore from 'stores/user_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
