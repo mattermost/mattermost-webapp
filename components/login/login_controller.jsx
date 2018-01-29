@@ -17,6 +17,7 @@ import TeamStore from 'stores/team_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {messageHtmlToComponent} from 'utils/post_utils.jsx';
 import logoImage from 'images/logo.png';
 import AnnouncementBar from 'components/announcement_bar';
 import FormError from 'components/form_error.jsx';
@@ -249,13 +250,16 @@ export default class LoginController extends React.Component {
                 global.window.mm_license.CustomBrand === 'true' &&
                 global.window.mm_config.EnableCustomBrand === 'true') {
             const text = global.window.mm_config.CustomBrandText || '';
+            const formattedText = TextFormatting.formatText(text);
 
             return (
                 <div>
                     <img
                         src={Client4.getBrandImageUrl(0)}
                     />
-                    <p dangerouslySetInnerHTML={{__html: TextFormatting.formatText(text)}}/>
+                    <p>
+                        {messageHtmlToComponent(formattedText, false, {mentions: false})}
+                    </p>
                 </div>
             );
         }
