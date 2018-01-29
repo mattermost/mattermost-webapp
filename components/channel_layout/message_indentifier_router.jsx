@@ -19,15 +19,17 @@ import store from 'stores/redux_store.jsx';
 const dispatch = store.dispatch;
 const getState = store.getState;
 
-/**
-* identifier may either be:
-* - A DM user_id length 26 chars
-* - A DM channel_id (id1_id2) length 54 chars
-* - A GM generated_id length 40 chars
-* - A username that starts with an @ sign
-* - An email containing an @ sign
-**/
-
+const directChannelToUser = (profile, team) => {
+    openDirectChannelToUser(
+        profile.id,
+        (channel) => {
+            GlobalActions.emitChannelClickEvent(channel);
+        },
+        () => {
+            handleError(history, team);
+        }
+    );
+};
 const redirectBasedOnUserId = (userId) => {
     const teammate = UserStore.getProfile(userId);
     if (teammate) {
@@ -61,35 +63,38 @@ const handleGmGeneratedIdentifier = (identifier, team) => {
         );
     }
 };
-const handleReceivedProfile = (profile) => {
+const handleReceivedProfile = (profile, team) => {
     AppDispatcher.handleServerAction({
         type: ActionTypes.RECEIVED_PROFILE,
         profile
     });
     directChannelToUser(profile, team);
 };
+
 const onChannelByIdentifierEnter = (props) => {
     const identifier = props.match.params.identifier;
     const history = props.history;
     const team = props.match.params.team;
 
-    const isUsername = identifier.indexOf('@') === 0;
-    const isEmailAddress = identifier.indexOf('@') > 0;
-    const identifierIsUserId = !isUsername && !isEmailAddress && identifier.length === 26;
-    const identifierIsChannelId = !isUsername && !isEmailAddress && identifier.length === 54;
-    const identifierIsGMGeneratedId = !isUsername && !isEmailAddress && identifier.length === 40;
-
     const error = () => {
         handleError(history, team);
     };
 
-    if (identifierIsUserId) {
-        redirectBasedOnUserId(identifier);
-    } else if (identifierIsChannelId) {
-        redirectBasedOnUserId(Utils.getUserIdFromChannelId(identifier));
-    } else if (identifierIsGMGeneratedId) {
-        handleGmGeneratedIdentifier(identifier, team);
-    } else if (isUsername) {
+    /**
+     * identifier may either be:
+     * - A DM user_id length 26 chars
+     * - A DM channel_id (id1_id2) length 54 chars
+     * - A GM generated_id length 40 chars
+     * - A username that starts with an @ sign
+     * - An email containing an @ sign
+     **/
+    const identifierIsUsername = identifier.indexOf('@') === 0;
+    const identifierIsEmailAddress = identifier.indexOf('@') > 0;
+    const identifierIsUserId = identifier.length === 26;
+    const identifierIsChannelId = identifier.length === 54;
+    const identifierIsGMGeneratedId = identifier.length === 40;
+
+    if (identifierIsUsername) {
         const username = identifier.slice(1, identifier.length);
         const teammate = UserStore.getProfileByUsername(username);
         if (teammate) {
@@ -98,14 +103,14 @@ const onChannelByIdentifierEnter = (props) => {
             getUserByUsername(username)(dispatch, getState).then(
                 ({data, error: err}) => {
                     if (data) {
-                        handleReceivedProfile(data);
+                        handleReceivedProfile(data, team);
                     } else if (err) {
                         error();
                     }
                 }
             );
         }
-    } else if (isEmailAddress) {
+    } else if (identifierIsEmailAddress) {
         const email = identifier;
         const teammate = UserStore.getProfileByEmail(email);
         if (teammate) {
@@ -114,29 +119,24 @@ const onChannelByIdentifierEnter = (props) => {
             getUserByEmail(email)(dispatch, getState).then(
                 ({data, error: err}) => {
                     if (data) {
-                        handleReceivedProfile(data);
+                        handleReceivedProfile(data, team);
                     } else if (err) {
                         error();
                     }
                 }
             );
         }
+    }
+    else if (identifierIsUserId) {
+        redirectBasedOnUserId(identifier);
+    } else if (identifierIsChannelId) {
+        redirectBasedOnUserId(Utils.getUserIdFromChannelId(identifier));
+    } else if (identifierIsGMGeneratedId) {
+        handleGmGeneratedIdentifier(identifier, team);
     } else {
         error();
     }
-}
-
-function directChannelToUser(profile, team) {
-    openDirectChannelToUser(
-        profile.id,
-        (channel) => {
-            GlobalActions.emitChannelClickEvent(channel);
-        },
-        () => {
-            handleError(history, team);
-        }
-    );
-}
+};
 
 const handleError = (history, team) => {
     if (team) {
