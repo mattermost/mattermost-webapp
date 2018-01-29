@@ -13,6 +13,7 @@ export default class Confirm extends React.Component {
     constructor(props) {
         super(props);
 
+        this.submit = this.submit.bind(this);
         this.onKeyPress = this.onKeyPress.bind(this);
     }
 
