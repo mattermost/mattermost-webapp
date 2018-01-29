@@ -63,6 +63,7 @@ export default class ChannelController extends React.PureComponent {
             <div className='channel-view'>
                 <AnnouncementBar/>
                 <WebrtcNotification/>
+
                 <div className='container-fluid'>
                     <SidebarRight/>
                     <SidebarRightMenu teamType={teamType}/>
@@ -73,7 +74,6 @@ export default class ChannelController extends React.PureComponent {
                         id='inner-wrap-webrtc'
                         key='inner-wrap'
                         className='inner-wrap channel__wrap'
-                        style={{border: '10px solid red'}}
                     >
                         <div className='row header'>
                             <div id='navbar'>
@@ -117,6 +117,6 @@ export default class ChannelController extends React.PureComponent {
                     <ModalController/>
                 </div>
             </div>
-        )
+        );
     }
 }
