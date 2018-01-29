@@ -206,9 +206,7 @@ export default class NeedsTeam extends React.Component {
                 <Route
                     render={() => (
                         <ChannelController
-                            teamId={this.props.match.params.team}
                             teamType={this.state.team ? this.state.team.type : ''}
-                            matchUrl={this.props.match.url}
                         />
                     )}
                 />
