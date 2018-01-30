@@ -214,8 +214,10 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
           >
             <hr />
             <SaveButton
+              btnClass="btn-primary"
               defaultMessage="Save"
               disabled={false}
+              extraClasses=""
               onClick={[Function]}
               saving={false}
               savingMessage="Saving"
@@ -630,8 +632,10 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
           >
             <hr />
             <SaveButton
+              btnClass="btn-primary"
               defaultMessage="Save"
               disabled={false}
+              extraClasses=""
               onClick={[Function]}
               saving={false}
               savingMessage="Saving"
