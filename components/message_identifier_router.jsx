@@ -199,7 +199,7 @@ function handleError(match, history) {
     history.push(team ? `/${team}/channels/${Constants.DEFAULT_CHANNEL}` : '/');
 }
 
-export default class NeedsTeam extends React.Component {
+export default class NeedsTeam extends React.PureComponent {
     constructor(props) {
         super(props);
 
