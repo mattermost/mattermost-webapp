@@ -198,8 +198,6 @@ export default class Root extends React.Component {
                 this.props.history.push(`/${primaryTeam.name}/channels/${Constants.DEFAULT_CHANNEL}`);
             } else if (UserStore.getCurrentUser()) {
                 GlobalActions.redirectUserToDefaultTeam();
-            } else {
-                this.props.history.push('/login' + window.location.search);
             }
         }
     }
