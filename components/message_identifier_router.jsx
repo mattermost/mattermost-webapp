@@ -10,7 +10,6 @@ import UserStore from 'stores/user_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import {Constants} from 'utils/constants.jsx';
-import {loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import {openDirectChannelToUser} from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -22,28 +21,28 @@ const LengthOfId = 26;
 const LengthOfGroupId = 40;
 const LengthOfUserIdPair = 54;
 
-async function onChannelByIdentifierEnter({match, history}) {
+function onChannelByIdentifierEnter({match, history}) {
     const {path, identifier} = match.params;
 
     if (path === 'channels') {
         if (identifier.length === LengthOfId) {
-            await goToChannelByChannelId(match, history);
+            goToChannelByChannelId(match, history);
         } else if (identifier.length === LengthOfGroupId) {
-            history.replace(match.url.replace('/channels/', '/messages/'));
+            goToGroupChannelByGroupId(match, history);
         } else if (identifier.length === LengthOfUserIdPair) {
-            await goToDirectChannelByUserIds(match, history);
+            goToDirectChannelByUserIds(match, history);
         } else {
-            await goToChannelByChannelName(match, history);
+            goToChannelByChannelName(match, history);
         }
     } else if (path === 'messages') {
         if (identifier.length === LengthOfId) {
-            await goToDirectChannelByUserId(match, history);
+            goToDirectChannelByUserId(match, history);
         } else if (identifier.length === LengthOfGroupId) {
-            await goToGroupChannelByGroupId(match, history);
+            goToGroupChannelByGroupId(match, history);
         } else if (identifier.indexOf('@') === 0) {
-            await goToDirectChannelByUsername(match, history);
+            goToDirectChannelByUsername(match, history);
         } else if (identifier.indexOf('@') > 0) {
-            await goToDirectChannelByEmail(match, history);
+            goToDirectChannelByEmail(match, history);
         } else {
             handleError(match, history);
         }
@@ -112,7 +111,7 @@ async function goToDirectChannelByUsername(match, history) {
         user = data;
     }
 
-    await openDirectChannelToUser(
+    openDirectChannelToUser(
         user.id,
         (channel) => {
             doChannelChange(channel);
@@ -176,6 +175,8 @@ async function goToGroupChannelByGroupId(match, history) {
     const {identifier} = match.params;
     const groupId = identifier.toLowerCase();
 
+    history.replace(match.url.replace('/channels/', '/messages/'));
+
     let channel = ChannelStore.getByName(groupId);
     if (!channel) {
         const {data, error} = await joinChannel(UserStore.getCurrentId(), TeamStore.getCurrentId(), null, groupId)(dispatch, getState);
@@ -186,7 +187,6 @@ async function goToGroupChannelByGroupId(match, history) {
         channel = data.channel;
     }
 
-    loadNewGMIfNeeded(channel.id);
     doChannelChange(channel);
 }
 
