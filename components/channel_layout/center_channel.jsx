@@ -12,7 +12,7 @@ import ChannelStore from 'stores/channel_store';
 import TeamStore from 'stores/team_store';
 import BrowserStore from 'stores/browser_store';
 import Constants from 'utils/constants';
-import Navbar from 'components/navbar/navbar';
+import Navbar from 'components/navbar';
 
 export default class CenterChannel extends React.PureComponent {
     static propTypes = {
