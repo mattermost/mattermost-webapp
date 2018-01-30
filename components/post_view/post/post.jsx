@@ -281,7 +281,7 @@ export default class Post extends React.PureComponent {
         return (
             <div
                 ref={this.getRef}
-                onMouseEnter={this.setHover}
+                onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}
             >
                 <div
