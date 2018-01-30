@@ -8926,9 +8926,9 @@ webpack@3.10.0:
     webpack-sources "^1.0.1"
     yargs "^8.0.2"
 
-webrtc-adapter@6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/webrtc-adapter/-/webrtc-adapter-6.1.0.tgz#238ad8c510558798d4dd8978aaf80e2675bbc1ea"
+webrtc-adapter@6.0.4:
+  version "6.0.4"
+  resolved "https://registry.yarnpkg.com/webrtc-adapter/-/webrtc-adapter-6.0.4.tgz#fb0b77a742952bd26fe9d8264c872d72c2e8b982"
   dependencies:
     rtcpeerconnection-shim "^1.1.13"
     sdp "^2.3.0"
