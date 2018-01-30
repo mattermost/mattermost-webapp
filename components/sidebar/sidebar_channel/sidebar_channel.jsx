@@ -175,7 +175,7 @@ export default class SidebarChannel extends React.PureComponent {
 
     handleSelectChannel = () => {
         const {actions, channelId} = this.props;
-        actions.keepChanneIdAsUnread(this.isChannelUnread() ? channelId : '');
+        actions.keepChanneIdAsUnread(this.isChannelUnread() ? channelId : null, this.props.unreadMentions > 0);
     };
 
     isChannelUnread = () => {
