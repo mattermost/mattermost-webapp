@@ -10,13 +10,6 @@ import Constants from 'utils/constants.jsx';
 const KeyCodes = Constants.KeyCodes;
 
 export default class Confirm extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.submit = this.submit.bind(this);
-        this.onKeyPress = this.onKeyPress.bind(this);
-    }
-
     componentDidMount() {
         document.body.addEventListener('keydown', this.onKeyPress);
     }
@@ -25,14 +18,14 @@ export default class Confirm extends React.Component {
         document.body.removeEventListener('keydown', this.onKeyPress);
     }
 
-    submit(e) {
+    submit = (e) => {
         e.preventDefault();
         loadMe().then(() => {
             this.props.history.push('/');
         });
     }
 
-    onKeyPress(e) {
+    onKeyPress = (e) => {
         if (e.which === KeyCodes.ENTER) {
             this.submit(e);
         }
