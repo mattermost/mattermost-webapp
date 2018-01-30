@@ -245,6 +245,7 @@ export default class Sidebar extends React.PureComponent {
             if (channel.type === Constants.DM_CHANNEL) {
                 if (this.props.currentTeammate != null) {
                     currentChannelName = this.props.currentTeammate.display_name;
+                    window.history.replaceState(null, null, `/${this.props.currentTeam.name}/messages/@${currentChannelName}`);
                 }
             }
 
