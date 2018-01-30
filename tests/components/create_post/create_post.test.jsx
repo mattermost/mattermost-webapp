@@ -9,7 +9,6 @@ import Constants, {StoragePrefixes} from 'utils/constants.jsx';
 import CreatePost from 'components/create_post/create_post.jsx';
 import * as Utils from 'utils/utils.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
-import * as PostActions from 'actions/post_actions.jsx';
 
 jest.mock('actions/global_actions.jsx', () => ({
     emitLocalUserTypingEvent: jest.fn(),
@@ -69,6 +68,7 @@ const actionsProp = {
     addReaction: emptyFunction,
     removeReaction: emptyFunction,
     clearDraftUploads: emptyFunction,
+    onSubmitPost: emptyFunction,
     setDraft: emptyFunction,
     setEditingPost: emptyFunction
 };
@@ -614,16 +614,19 @@ describe('components/create_post', () => {
         expect(wrapper.state('showPostDeletedModal')).toBe(false);
     });
 
-    it('Should have called PostActions.createPost on sendMessage', () => {
-        const wrapper = shallow(createPost());
+    it('Should have called actions.onSubmitPost on sendMessage', () => {
+        const onSubmitPost = jest.fn();
+        const wrapper = shallow(createPost({
+            actions: {
+                ...actionsProp,
+                onSubmitPost
+            }
+        }));
         const post = {message: 'message', file_ids: []};
         wrapper.instance().sendMessage(post);
 
-        expect(GlobalActions.emitUserPostedEvent).toHaveBeenCalledTimes(1);
-        expect(GlobalActions.emitUserPostedEvent).toHaveBeenCalledWith(post);
-
-        expect(PostActions.createPost).toHaveBeenCalledTimes(1);
-        expect(PostActions.createPost.mock.calls[0][0]).toEqual(post);
-        expect(PostActions.createPost.mock.calls[0][1]).toEqual([]);
+        expect(onSubmitPost).toHaveBeenCalledTimes(1);
+        expect(onSubmitPost.mock.calls[0][0]).toEqual(post);
+        expect(onSubmitPost.mock.calls[0][1]).toEqual([]);
     });
 });
