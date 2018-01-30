@@ -486,7 +486,9 @@ export async function redirectUserToDefaultTeam() {
 
         if (myTeams.length > 0) {
             myTeams = filterAndSortTeamsByDisplayName(myTeams);
-            teamId = myTeams[0].id;
+            if (myTeams && myTeams[0]) {
+                teamId = myTeams[0].id;
+            }
         }
     }
 

@@ -158,6 +158,10 @@ function handleEvent(msg) {
         handleUpdateTeamEvent(msg);
         break;
 
+    case SocketEvents.DELETE_TEAM:
+        handleDeleteTeamEvent(msg);
+        break;
+
     case SocketEvents.ADDED_TO_TEAM:
         handleTeamAddedEvent(msg);
         break;
@@ -348,6 +352,11 @@ function handleLeaveTeamEvent(msg) {
 
 function handleUpdateTeamEvent(msg) {
     TeamStore.updateTeam(msg.data.team);
+}
+
+function handleDeleteTeamEvent(msg) {
+    TeamStore.deleteTeam(msg.data.team);
+    browserHistory.push(`${TeamStore.getCurrentTeamRelativeUrl()}/channels/${Constants.DEFAULT_CHANNEL}`);
 }
 
 function handleUpdateMemberRoleEvent(msg) {
