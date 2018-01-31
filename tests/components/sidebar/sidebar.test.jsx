@@ -65,6 +65,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             EnableXToLeaveChannelsFromLHS: 'false',
             SiteName: 'Test site'
         },
+        showUnreadSection: false,
         publicChannelIds: ['c1', 'c2'],
         privateChannelIds: ['c3', 'c4'],
         favoriteChannelIds: [],
@@ -129,6 +130,19 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
                 {...{
                     ...defaultProps,
                     favoriteChannelIds: ['c1', 'c3', 'c5']
+                }}
+            />
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, on sidebar show with unreads', () => {
+        const wrapper = shallow(
+            <Sidebar
+                {...{
+                    ...defaultProps,
+                    unreadChannelIds: ['c3', 'c5'],
+                    showUnreadSection: true
                 }}
             />
         );
@@ -375,7 +389,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         wrapper.setProps({currentChannel: {type: Constants.DM_CHANNEL}, currentTeammate: {display_name: 'teammate'}});
         instance.updateTitle();
         expect(document.title).toBe('teammate - Test team display name');
-        wrapper.setProps({unreads: {mentions: 3, messageCount: 4}});
+        wrapper.setProps({unreads: {mentionCount: 3, messageCount: 4}});
         instance.updateTitle();
         expect(document.title).toBe('(3) * teammate - Test team display name');
     });

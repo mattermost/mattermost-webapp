@@ -5,53 +5,81 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {savePreferences} from 'actions/user_actions.jsx';
-import PreferenceStore from 'stores/preference_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 import Constants from 'utils/constants.jsx';
+
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 
-export default class SidebarSettingsDisplay extends React.Component {
+export default class UserSettingsSidebar extends React.Component {
+    static propTypes = {
+        actions: PropTypes.shape({
+
+            /*
+             * Function to save the user's preferences
+             */
+            savePreferences: PropTypes.func.isRequired
+        }).isRequired,
+
+        /**
+         * Current user object
+         */
+        user: PropTypes.object,
+
+        /**
+         * The preferences for closing the unused direct messages channels
+         */
+        closeUnusedDirectMessages: PropTypes.string.isRequired,
+
+        /**
+         * The preferences to show the unread channels section in the sidebar
+         */
+        displayUnreadSection: PropTypes.string.isRequired,
+
+        /**
+         * Display the close unused direct messages channels options
+         */
+        showUnusedOption: PropTypes.bool.isRequired,
+
+        /**
+         * Display the unread channels sections options
+         */
+        showUnreadOption: PropTypes.bool.isRequired,
+        updateSection: PropTypes.func,
+        updateTab: PropTypes.func,
+        activeSection: PropTypes.string,
+        closeModal: PropTypes.func.isRequired,
+        collapseModal: PropTypes.func.isRequired
+    };
+
     constructor(props) {
         super(props);
-
-        this.getStateFromStores = this.getStateFromStores.bind(this);
-        this.updateSection = this.updateSection.bind(this);
-        this.updateSetting = this.updateSetting.bind(this);
-
-        this.renderAutoCloseDMSection = this.renderAutoCloseDMSection.bind(this);
 
         this.state = this.getStateFromStores();
     }
 
-    getStateFromStores() {
-        const settings = {
-            close_unused_direct_messages: PreferenceStore.get(
-                Constants.Preferences.CATEGORY_SIDEBAR_SETTINGS,
-                'close_unused_direct_messages',
-                'after_seven_days'
-            )
-        };
-
+    getStateFromStores = () => {
+        const {closeUnusedDirectMessages, displayUnreadSection} = this.props;
         return {
-            settings,
+            settings: {
+                close_unused_direct_messages: closeUnusedDirectMessages,
+                show_unread_section: displayUnreadSection
+            },
             isSaving: false
         };
-    }
+    };
 
-    updateSetting(setting, value) {
+    updateSetting = (setting, value) => {
         const settings = this.state.settings;
         settings[setting] = value;
         this.setState(settings);
-    }
+    };
 
     handleSubmit = (setting) => {
+        const {actions, user} = this.props;
         const preferences = [];
-        const userId = UserStore.getCurrentId();
 
         preferences.push({
-            user_id: userId,
+            user_id: user.id,
             category: Constants.Preferences.CATEGORY_SIDEBAR_SETTINGS,
             name: setting,
             value: this.state.settings[setting]
@@ -59,23 +87,20 @@ export default class SidebarSettingsDisplay extends React.Component {
 
         this.setState({isSaving: true});
 
-        savePreferences(
-            preferences,
-            () => {
-                this.updateSection('');
-            }
-        );
-    }
+        actions.savePreferences(user.id, preferences).then(() => {
+            this.updateSection('');
+        });
+    };
 
-    updateSection(section) {
+    updateSection = (section) => {
         if (!section) {
             this.setState(this.getStateFromStores());
         }
         this.setState({isSaving: false});
         this.props.updateSection(section);
-    }
+    };
 
-    renderAutoCloseDMLabel(value) {
+    renderAutoCloseDMLabel = (value) => {
         if (value === 'after_seven_days') {
             return (
                 <FormattedMessage
@@ -91,9 +116,9 @@ export default class SidebarSettingsDisplay extends React.Component {
                 defaultMessage='Never'
             />
         );
-    }
+    };
 
-    renderAutoCloseDMSection() {
+    renderAutoCloseDMSection = () => {
         if (this.props.activeSection === 'autoCloseDM') {
             return (
                 <SettingItemMax
@@ -168,10 +193,107 @@ export default class SidebarSettingsDisplay extends React.Component {
                 updateSection={this.updateSection}
             />
         );
-    }
+    };
+
+    renderUnreadLabel = (value) => {
+        if (value === 'true') {
+            return (
+                <FormattedMessage
+                    id='user.settings.sidebar.showUnreadSection'
+                    defaultMessage='At the top of the channel sidebar'
+                />
+            );
+        }
+
+        return (
+            <FormattedMessage
+                id='user.settings.sidebar.never'
+                defaultMessage='Never'
+            />
+        );
+    };
+
+    renderUnreadSection = () => {
+        if (this.props.activeSection === 'unreadChannels') {
+            return (
+                <SettingItemMax
+                    title={
+                        <FormattedMessage
+                            id='user.settings.sidebar.unreadSectionTitle'
+                            defaultMessage='Group unread channels'
+                        />
+                    }
+                    inputs={[
+                        <div key='unreadSectionSetting'>
+                            <div className='radio'>
+                                <label>
+                                    <input
+                                        id='unreadSectionEnabled'
+                                        type='radio'
+                                        name='unreadChannels'
+                                        checked={this.state.settings.show_unread_section === 'true'}
+                                        onChange={this.updateSetting.bind(this, 'show_unread_section', 'true')}
+                                    />
+                                    <FormattedMessage
+                                        id='user.settings.sidebar.showUnreadSection'
+                                        defaultMessage='At the top of the channel sidebar'
+                                    />
+                                </label>
+                                <br/>
+                            </div>
+                            <div className='radio'>
+                                <label>
+                                    <input
+                                        id='unreadSectionNever'
+                                        type='radio'
+                                        name='unreadChannels'
+                                        checked={this.state.settings.show_unread_section === 'false'}
+                                        onChange={this.updateSetting.bind(this, 'show_unread_section', 'false')}
+                                    />
+                                    <FormattedMessage
+                                        id='user.settings.sidebar.never'
+                                        defaultMessage='Never'
+                                    />
+                                </label>
+                                <br/>
+                            </div>
+                            <div>
+                                <br/>
+                                <FormattedMessage
+                                    id='user.settings.sidebar.unreadSectionDesc'
+                                    defaultMessage='Unread channels will be sorted at the top of the channel sidebar until read.'
+                                />
+                            </div>
+                        </div>
+                    ]}
+                    setting={'show_unread_section'}
+                    submit={this.handleSubmit}
+                    saving={this.state.isSaving}
+                    server_error={this.state.serverError}
+                    updateSection={this.updateSection}
+                />
+            );
+        }
+
+        return (
+            <SettingItemMin
+                title={
+                    <FormattedMessage
+                        id='user.settings.sidebar.unreadSectionTitle'
+                        defaultMessage='Group unread channels'
+                    />
+                }
+                describe={this.renderUnreadLabel(this.state.settings.show_unread_section)}
+                section={'unreadChannels'}
+                updateSection={this.updateSection}
+            />
+        );
+    };
 
     render() {
-        const autoCloseDMSection = this.renderAutoCloseDMSection();
+        const {showUnusedOption, showUnreadOption} = this.props;
+        const autoCloseDMSection = showUnusedOption ? this.renderAutoCloseDMSection() : null;
+        const unreadSection = showUnreadOption ? this.renderUnreadSection() : null;
 
         return (
             <div>
@@ -210,6 +332,8 @@ export default class SidebarSettingsDisplay extends React.Component {
                         />
                     </h3>
                     <div className='divider-dark first'/>
+                    {unreadSection}
+                    {showUnreadOption && <div className='divider-light'/>}
                     {autoCloseDMSection}
                     <div className='divider-dark'/>
                 </div>
@@ -217,12 +341,3 @@ export default class SidebarSettingsDisplay extends React.Component {
         );
     }
 }
-
-SidebarSettingsDisplay.propTypes = {
-    user: PropTypes.object,
-    updateSection: PropTypes.func,
-    updateTab: PropTypes.func,
-    activeSection: PropTypes.string,
-    closeModal: PropTypes.func.isRequired,
-    collapseModal: PropTypes.func.isRequired
-};
