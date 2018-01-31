@@ -375,21 +375,22 @@ function handleUserRemovedEvent(msg) {
     if (UserStore.getCurrentId() === msg.broadcast.user_id) {
         loadChannelsForCurrentUser();
 
-        if (msg.data.remover_id !== msg.broadcast.user_id &&
-                msg.data.channel_id === ChannelStore.getCurrentId() &&
-                $('#removed_from_channel').length > 0) {
-            var sentState = {};
-            sentState.channelName = ChannelStore.getCurrent().display_name;
-            sentState.remover = UserStore.getProfile(msg.data.remover_id).username;
+        if (msg.data.channel_id === ChannelStore.getCurrentId()) {
+            if (msg.data.remover_id !== msg.broadcast.user_id &&
+                    $('#removed_from_channel').length > 0) {
+                var sentState = {};
+                sentState.channelName = ChannelStore.getCurrent().display_name;
+                sentState.remover = UserStore.getProfile(msg.data.remover_id).username;
 
-            BrowserStore.setItem('channel-removed-state', sentState);
-            $('#removed_from_channel').modal('show');
+                BrowserStore.setItem('channel-removed-state', sentState);
+                $('#removed_from_channel').modal('show');
+            }
+
+            GlobalActions.emitCloseRightHandSide();
+
+            const townsquare = ChannelStore.getByName(Constants.DEFAULT_CHANNEL);
+            browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + townsquare.name);
         }
-
-        GlobalActions.emitCloseRightHandSide();
-
-        const townsquare = ChannelStore.getByName(Constants.DEFAULT_CHANNEL);
-        browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + townsquare.name);
 
         dispatch({
             type: ChannelTypes.LEAVE_CHANNEL,
