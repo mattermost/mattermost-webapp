@@ -542,6 +542,8 @@ export default class PostList extends React.PureComponent {
                     />
                 </div>
             );
+        } else if (this.state.isDoingInitialLoad) {
+            topRow = <LoadingScreen style={{height: '0px'}}/>;
         } else {
             topRow = (
                 <button
