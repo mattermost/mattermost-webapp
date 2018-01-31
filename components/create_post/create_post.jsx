@@ -324,7 +324,9 @@ export default class CreatePost extends React.Component {
     handleSubmit = (e) => {
         const updateChannel = this.props.currentChannel;
 
-        if ((PostUtils.containsAtMention(this.state.message, '@all') || PostUtils.containsAtMention(this.state.message, '@channel')) && this.props.currentChannelMembersCount > Constants.NOTIFY_ALL_MEMBERS && window.mm_config.EnableConfirmNotificationsToChannel === 'true') {
+        if (window.mm_config.EnableConfirmNotificationsToChannel === 'true' &&
+            this.props.currentChannelMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
+            PostUtils.containsAtChannel(this.state.message)) {
             this.showNotifyAllModal();
             return;
         }

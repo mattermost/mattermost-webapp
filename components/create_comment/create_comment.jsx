@@ -227,7 +227,9 @@ export default class CreateComment extends React.PureComponent {
     handleSubmit = async (e) => {
         e.preventDefault();
 
-        if ((PostUtils.containsAtMention(this.state.draft.message, '@all') || PostUtils.containsAtMention(this.state.draft.message, '@channel')) && this.props.channelMembersCount > Constants.NOTIFY_ALL_MEMBERS && window.mm_config.EnableConfirmNotificationsToChannel === 'true') {
+        if (window.mm_config.EnableConfirmNotificationsToChannel === 'true' &&
+            this.props.channelMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
+            PostUtils.containsAtChannel(this.state.draft.message)) {
             this.showNotifyAllModal();
             return;
         }

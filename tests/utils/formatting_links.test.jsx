@@ -3,7 +3,7 @@
 
 import assert from 'assert';
 
-import * as Markdown from 'utils/markdown.jsx';
+import * as Markdown from 'utils/markdown';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 
 describe('Markdown.Links', function() {
