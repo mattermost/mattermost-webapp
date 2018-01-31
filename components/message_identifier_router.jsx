@@ -17,27 +17,27 @@ import store from 'stores/redux_store.jsx';
 const dispatch = store.dispatch;
 const getState = store.getState;
 
-const LengthOfId = 26;
-const LengthOfGroupId = 40;
-const LengthOfUserIdPair = 54;
+const LENGTH_OF_ID = 26;
+const LENGTH_OF_GROUP_ID = 40;
+const LENGTH_OF_USER_ID_PAIR = 54;
 
 function onChannelByIdentifierEnter({match, history}) {
     const {path, identifier} = match.params;
 
     if (path === 'channels') {
-        if (identifier.length === LengthOfId) {
+        if (identifier.length === LENGTH_OF_ID) {
             goToChannelByChannelId(match, history);
-        } else if (identifier.length === LengthOfGroupId) {
+        } else if (identifier.length === LENGTH_OF_GROUP_ID) {
             goToGroupChannelByGroupId(match, history);
-        } else if (identifier.length === LengthOfUserIdPair) {
+        } else if (identifier.length === LENGTH_OF_USER_ID_PAIR) {
             goToDirectChannelByUserIds(match, history);
         } else {
             goToChannelByChannelName(match, history);
         }
     } else if (path === 'messages') {
-        if (identifier.length === LengthOfId) {
+        if (identifier.length === LENGTH_OF_ID) {
             goToDirectChannelByUserId(match, history);
-        } else if (identifier.length === LengthOfGroupId) {
+        } else if (identifier.length === LENGTH_OF_GROUP_ID) {
             goToGroupChannelByGroupId(match, history);
         } else if (identifier.indexOf('@') === 0) {
             goToDirectChannelByUsername(match, history);
