@@ -22,3 +22,12 @@ export function canDownloadFiles() {
 
     return true;
 }
+
+export function trimFilename(filename) {
+    let trimmedFilename = filename;
+    if (filename.length > 35) {
+        trimmedFilename = filename.substring(0, Math.min(35, filename.length)) + '...';
+    }
+
+    return trimmedFilename;
+}

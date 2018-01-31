@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/file_attachment/FileThumbnail should match snapshot, normal size image 1`] = `
+<div
+  className="post-image normal"
+  style={
+    Object {
+      "backgroundImage": "url(/api/v4/files/thumbnail_id/thumbnail)",
+      "backgroundSize": "cover",
+    }
+  }
+/>
+`;
+
+exports[`components/file_attachment/FileThumbnail should match snapshot, pdf 1`] = `
+<div
+  className="file-icon pdf"
+/>
+`;
+
+exports[`components/file_attachment/FileThumbnail should match snapshot, small size image 1`] = `
+<div
+  className="post-image small"
+  style={
+    Object {
+      "backgroundImage": "url(/api/v4/files/thumbnail_id/thumbnail)",
+      "backgroundSize": "cover",
+    }
+  }
+/>
+`;
+
+exports[`components/file_attachment/FileThumbnail should match snapshot, svg 1`] = `
+<img
+  className="post-image normal"
+  src="/api/v4/files/thumbnail_id"
+/>
+`;
