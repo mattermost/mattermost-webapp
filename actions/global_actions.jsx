@@ -53,7 +53,7 @@ export function emitChannelClickEvent(channel) {
             viewChannel(chan.id, oldChannelId)(dispatch, getState);
 
             // Mark previous and next channel as read
-            markChannelAsRead(chan.id, oldChannelId)(dispatch, getState);
+            dispatch(markChannelAsRead(chan.id, oldChannelId));
             reloadIfServerVersionChanged();
         });
 

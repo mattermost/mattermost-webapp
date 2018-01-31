@@ -551,7 +551,7 @@ ChannelStore.dispatchToken = AppDispatcher.register((payload) => {
 
     case ActionTypes.RECEIVED_POST: {
         const {post, websocketMessageProps: data} = action;
-        const {dispatch, getState} = store;
+        const {dispatch} = store;
         if (shouldIgnorePost(post)) {
             return;
         }
@@ -564,10 +564,10 @@ ChannelStore.dispatchToken = AppDispatcher.register((payload) => {
         }
 
         if (markAsRead) {
-            markChannelAsRead(post.channel_id, null, false)(dispatch, getState);
-            markChannelAsViewed(post.channel_id)(dispatch, getState);
+            dispatch(markChannelAsRead(post.channel_id, null, false));
+            dispatch(markChannelAsViewed(post.channel_id));
         } else {
-            markChannelAsUnread(data.team_id, post.channel_id, data.mentions)(dispatch, getState);
+            dispatch(markChannelAsUnread(data.team_id, post.channel_id, data.mentions));
         }
         break;
     }
