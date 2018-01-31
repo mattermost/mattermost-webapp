@@ -2,32 +2,94 @@
 // See License.txt for license information.
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+
+import {RequestStatus} from 'mattermost-redux/constants';
 
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {rolesFromMapping, mappingValueFromRoles} from 'utils/policy_roles_adapter';
 
-import AdminSettings from './admin_settings.jsx';
-import BooleanSetting from './boolean_setting.jsx';
-import DropdownSetting from './dropdown_setting.jsx';
-import SettingsGroup from './settings_group.jsx';
-import TextSetting from './text_setting.jsx';
+import LoadingScreen from 'components/loading_screen.jsx';
+
+import AdminSettings from '../admin_settings.jsx';
+import BooleanSetting from '../boolean_setting.jsx';
+import DropdownSetting from '../dropdown_setting.jsx';
+import SettingsGroup from '../settings_group.jsx';
+import TextSetting from '../text_setting.jsx';
 
 const RESTRICT_DIRECT_MESSAGE_ANY = 'any';
 const RESTRICT_DIRECT_MESSAGE_TEAM = 'team';
 
 export default class UsersAndTeamsSettings extends AdminSettings {
+    static propTypes = {
+        actions: PropTypes.shape({
+            loadRolesIfNeeded: PropTypes.func.isRequired,
+            editRole: PropTypes.func.isRequired
+        }).isRequired
+    };
+
     constructor(props) {
         super(props);
 
         this.getConfigFromState = this.getConfigFromState.bind(this);
 
         this.renderSettings = this.renderSettings.bind(this);
+
+        this.state = {
+            ...this.state, // Brings the state in from the parent class.
+            enableTeamCreation: null,
+            loaded: false
+        };
+    }
+
+    componentWillMount() {
+        this.props.actions.loadRolesIfNeeded(['system_user']).then(() => {
+            this.loadPoliciesIntoState(this.props);
+        });
+    }
+
+    handleSubmit = async (e) => {
+        e.preventDefault();
+
+        // Purposely converting enableTeamCreation value from boolean to string 'true' or 'false'
+        // so that it can be used as a key in the policy roles adapter mapping.
+        const updatedRoles = rolesFromMapping({enableTeamCreation: this.state.enableTeamCreation.toString()}, this.props.roles);
+
+        let success = true;
+
+        await Promise.all(Object.values(updatedRoles).map(async (item) => {
+            try {
+                await this.props.actions.editRole(item);
+            } catch (err) {
+                success = false;
+                this.setState({
+                    saving: false,
+                    serverError: err.message
+                });
+            }
+        }));
+
+        if (success) {
+            this.doSubmit();
+        }
+    };
+
+    loadPoliciesIntoState(props) {
+        if (props.rolesRequest.status === RequestStatus.SUCCESS) {
+            const {roles} = props;
+
+            // Purposely parsing boolean from string 'true' or 'false'
+            // because the string comes from the policy roles adapter mapping.
+            const enableTeamCreation = (mappingValueFromRoles('enableTeamCreation', roles) === 'true');
+
+            this.setState({enableTeamCreation, loaded: true});
+        }
     }
 
     getConfigFromState(config) {
         config.TeamSettings.EnableUserCreation = this.state.enableUserCreation;
-        config.TeamSettings.EnableTeamCreation = this.state.enableTeamCreation;
         config.TeamSettings.MaxUsersPerTeam = this.parseIntNonZero(this.state.maxUsersPerTeam, Constants.DEFAULT_MAX_USERS_PER_TEAM);
         config.TeamSettings.RestrictCreationToDomains = this.state.restrictCreationToDomains;
         config.TeamSettings.RestrictDirectMessage = this.state.restrictDirectMessage;
@@ -35,14 +97,12 @@ export default class UsersAndTeamsSettings extends AdminSettings {
         config.TeamSettings.MaxChannelsPerTeam = this.parseIntNonZero(this.state.maxChannelsPerTeam, Constants.DEFAULT_MAX_CHANNELS_PER_TEAM);
         config.TeamSettings.MaxNotificationsPerChannel = this.parseIntNonZero(this.state.maxNotificationsPerChannel, Constants.DEFAULT_MAX_NOTIFICATIONS_PER_CHANNEL);
         config.TeamSettings.EnableConfirmNotificationsToChannel = this.state.enableConfirmNotificationsToChannel;
-
         return config;
     }
 
     getStateFromConfig(config) {
         return {
             enableUserCreation: config.TeamSettings.EnableUserCreation,
-            enableTeamCreation: config.TeamSettings.EnableTeamCreation,
             maxUsersPerTeam: config.TeamSettings.MaxUsersPerTeam,
             restrictCreationToDomains: config.TeamSettings.RestrictCreationToDomains,
             restrictDirectMessage: config.TeamSettings.RestrictDirectMessage,
@@ -63,6 +123,9 @@ export default class UsersAndTeamsSettings extends AdminSettings {
     }
 
     renderSettings() {
+        if (!this.state.loaded) {
+            return <LoadingScreen/>;
+        }
         return (
             <SettingsGroup>
                 <BooleanSetting
