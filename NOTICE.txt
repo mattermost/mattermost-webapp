@@ -2029,7 +2029,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 ## react-contextmenu
 
-This project includes ContextMenu implemented in React with accessibility support. 
+This project includes ContextMenu implemented in React with accessibility support, built by Vivek Kumar Bansal. 
 
 * HOMEPAGE:
   * https://github.com/vkbansal/react-contextmenu
