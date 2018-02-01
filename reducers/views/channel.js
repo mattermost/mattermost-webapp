@@ -83,10 +83,20 @@ function mobileView(state = false, action) {
     }
 }
 
+function keepChannelIdAsUnread(state = null, action) {
+    switch (action.type) {
+    case ActionTypes.KEEP_CHANNEL_AS_UNREAD:
+        return action.data;
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     postVisibility,
     lastChannelViewTime,
     loadingPosts,
     focusedPostId,
-    mobileView
+    mobileView,
+    keepChannelIdAsUnread
 });

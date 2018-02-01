@@ -185,7 +185,7 @@ describe('TextFormatting.Hashtags', function() {
 
         assert.equal(
             TextFormatting.formatText('#:mattermost:').trim(),
-            '<p>#<span alt=":mattermost:" class="emoticon" title=":mattermost:" style="background-image:url(/static/emoji/mattermost.png)"></span></p>'
+            '<p>#<span data-emoticon="mattermost">:mattermost:</span></p>'
         );
 
         assert.equal(

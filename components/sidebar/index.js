@@ -2,6 +2,8 @@
 // See License.txt for license information.
 
 import {connect} from 'react-redux';
+
+import {Preferences} from 'mattermost-redux/constants/index';
 import {
     getSortedPublicChannelWithUnreadsIds,
     getSortedPrivateChannelWithUnreadsIds,
@@ -10,9 +12,14 @@ import {
     getCurrentChannel,
     getMyChannelMemberships,
     getUnreads,
-    getUnreadChannelIds
+    getSortedUnreadChannelIds,
+    getSortedDirectChannelIds,
+    getSortedFavoriteChannelIds,
+    getSortedPublicChannelIds,
+    getSortedPrivateChannelIds
 } from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getBool as getBoolPreference} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeam, isCurrentUserCurrentTeamAdmin} from 'mattermost-redux/selectors/entities/teams';
 
@@ -24,14 +31,40 @@ function mapStateToProps(state) {
     const config = getConfig(state);
     const currentChannel = getCurrentChannel(state);
     const currentTeammate = currentChannel && currentChannel.teammate_id && getCurrentChannel(state, currentChannel.teammate_id);
+    let publicChannelIds;
+    let privateChannelIds;
+    let favoriteChannelIds;
+    let directAndGroupChannelIds;
+
+    const showUnreadSection = config.ExperimentalGroupUnreadChannels === 'true' && getBoolPreference(
+        state,
+        Preferences.CATEGORY_SIDEBAR_SETTINGS,
+        'show_unread_section',
+        true
+    );
+
+    const keepChannelIdAsUnread = state.views.channel.keepChannelIdAsUnread;
+
+    if (showUnreadSection) {
+        publicChannelIds = getSortedPublicChannelIds(state, keepChannelIdAsUnread);
+        privateChannelIds = getSortedPrivateChannelIds(state, keepChannelIdAsUnread);
+        favoriteChannelIds = getSortedFavoriteChannelIds(state, keepChannelIdAsUnread);
+        directAndGroupChannelIds = getSortedDirectChannelIds(state, keepChannelIdAsUnread);
+    } else {
+        publicChannelIds = getSortedPublicChannelWithUnreadsIds(state);
+        privateChannelIds = getSortedPrivateChannelWithUnreadsIds(state);
+        favoriteChannelIds = getSortedFavoriteChannelWithUnreadsIds(state);
+        directAndGroupChannelIds = getSortedDirectChannelWithUnreadsIds(state);
+    }
 
     return {
         config,
-        publicChannelIds: getSortedPublicChannelWithUnreadsIds(state),
-        privateChannelIds: getSortedPrivateChannelWithUnreadsIds(state),
-        favoriteChannelIds: getSortedFavoriteChannelWithUnreadsIds(state),
-        directAndGroupChannelIds: getSortedDirectChannelWithUnreadsIds(state),
-        unreadChannelIds: getUnreadChannelIds(state),
+        showUnreadSection,
+        publicChannelIds,
+        privateChannelIds,
+        favoriteChannelIds,
+        directAndGroupChannelIds,
+        unreadChannelIds: getSortedUnreadChannelIds(state, keepChannelIdAsUnread),
         currentChannel,
         currentTeammate,
         currentTeam: getCurrentTeam(state),

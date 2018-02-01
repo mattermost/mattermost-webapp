@@ -9,7 +9,7 @@ import {Posts} from 'mattermost-redux/constants';
 
 import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
-import {createPost, emitEmojiPosted} from 'actions/post_actions.jsx';
+import {emitEmojiPosted} from 'actions/post_actions.jsx';
 import EmojiStore from 'stores/emoji_store.jsx';
 import Constants, {StoragePrefixes} from 'utils/constants.jsx';
 import * as FileUtils from 'utils/file_utils';
@@ -127,6 +127,11 @@ export default class CreatePost extends React.Component {
             *  func called for adding a reaction
             */
             addReaction: PropTypes.func.isRequired,
+
+            /**
+            *  func called for posting message
+            */
+            onSubmitPost: PropTypes.func.isRequired,
 
             /**
             *  func called for removing a reaction
@@ -347,22 +352,26 @@ export default class CreatePost extends React.Component {
     }
 
     sendMessage = (post) => {
-        post.channel_id = this.props.currentChannel.id;
+        const {
+            actions,
+            currentChannel,
+            currentUserId,
+            draft
+        } = this.props;
+
+        post.channel_id = currentChannel.id;
 
         const time = Utils.getTimestamp();
-        const userId = this.props.currentUserId;
+        const userId = currentUserId;
         post.pending_post_id = `${userId}:${time}`;
         post.user_id = userId;
         post.create_at = time;
         post.parent_id = this.state.parentId;
 
-        GlobalActions.emitUserPostedEvent(post);
+        actions.onSubmitPost(post, draft.fileInfos);
 
-        createPost(post, this.props.draft.fileInfos, () => {
-            GlobalActions.postListScrollChange(true);
-            this.setState({
-                submitting: false
-            });
+        this.setState({
+            submitting: false
         });
     }
 

@@ -7,9 +7,6 @@ import React from 'react';
 import {Route, Switch} from 'react-router-dom';
 import iNoBounce from 'inobounce';
 
-import {getMyTeamUnreads} from 'mattermost-redux/actions/teams';
-import {fetchMyChannelsAndMembers} from 'mattermost-redux/actions/channels';
-
 import {loadStatusesForChannelAndSidebar, startPeriodicStatusUpdates, stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
 import {startPeriodicSync, stopPeriodicSync, reconnect} from 'actions/websocket_actions.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
@@ -24,31 +21,29 @@ import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import {checkIfMFARequired} from 'utils/route';
 import {makeAsyncComponent} from 'components/async_load';
 import loadBackstageController from 'bundle-loader?lazy!components/backstage/backstage_controller';
+import ChannelController from 'components/channel_layout/channel_controller';
 
 const BackstageController = makeAsyncComponent(loadBackstageController);
 
-import store from 'stores/redux_store.jsx';
-import ChannelController from '../channel_layout/channel_controller';
-
-const dispatch = store.dispatch;
-const getState = store.getState;
-
-const UNREAD_CHECK_TIME_MILLISECONDS = 10000;
 
 let wakeUpInterval;
 let lastTime = (new Date()).getTime();
 const WAKEUP_CHECK_INTERVAL = 30000; // 30 seconds
 const WAKEUP_THRESHOLD = 60000; // 60 seconds
+const UNREAD_CHECK_TIME_MILLISECONDS = 10000;
 
 export default class NeedsTeam extends React.Component {
     static propTypes = {
         params: PropTypes.object,
         actions: PropTypes.shape({
+            fetchMyChannelsAndMembers: PropTypes.func.isRequired,
+            getMyTeamUnreads: PropTypes.func.isRequired,
             viewChannel: PropTypes.func.isRequired,
+            markChannelAsRead: PropTypes.func.isRequired,
             getMyChannelMembers: PropTypes.func.isRequired
         }).isRequired,
         theme: PropTypes.object.isRequired
-    }
+    };
 
     constructor(params) {
         super(params);
@@ -102,7 +97,7 @@ export default class NeedsTeam extends React.Component {
         // If current team is set, then this is not first load
         // The first load action pulls team unreads
         if (TeamStore.getCurrentId()) {
-            getMyTeamUnreads()(dispatch, getState);
+            this.props.actions.getMyTeamUnreads();
         }
 
         TeamStore.saveMyTeam(team);
@@ -110,7 +105,7 @@ export default class NeedsTeam extends React.Component {
         TeamStore.emitChange();
         GlobalActions.emitCloseRightHandSide();
 
-        fetchMyChannelsAndMembers(team.id)(dispatch, getState).then(
+        this.props.actions.fetchMyChannelsAndMembers(team.id).then(
             () => {
                 this.setState({
                     finishedFetchingChannels: true
@@ -141,7 +136,7 @@ export default class NeedsTeam extends React.Component {
         // Set up tracking for whether the window is active
         window.isActive = true;
         $(window).on('focus', async () => {
-            ChannelStore.resetCounts([ChannelStore.getCurrentId()]);
+            this.props.actions.markChannelAsRead(ChannelStore.getCurrentId());
             ChannelStore.emitChange();
             window.isActive = true;
 
