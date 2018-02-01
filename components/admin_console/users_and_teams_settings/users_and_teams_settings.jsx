@@ -24,6 +24,8 @@ const RESTRICT_DIRECT_MESSAGE_TEAM = 'team';
 
 export default class UsersAndTeamsSettings extends AdminSettings {
     static propTypes = {
+        roles: PropTypes.object.isRequired,
+        rolesRequest: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             loadRolesIfNeeded: PropTypes.func.isRequired,
             editRole: PropTypes.func.isRequired
@@ -32,10 +34,6 @@ export default class UsersAndTeamsSettings extends AdminSettings {
 
     constructor(props) {
         super(props);
-
-        this.getConfigFromState = this.getConfigFromState.bind(this);
-
-        this.renderSettings = this.renderSettings.bind(this);
 
         this.state = {
             ...this.state, // Brings the state in from the parent class.
@@ -88,7 +86,7 @@ export default class UsersAndTeamsSettings extends AdminSettings {
         }
     }
 
-    getConfigFromState(config) {
+    getConfigFromState = (config) => {
         config.TeamSettings.EnableUserCreation = this.state.enableUserCreation;
         config.TeamSettings.MaxUsersPerTeam = this.parseIntNonZero(this.state.maxUsersPerTeam, Constants.DEFAULT_MAX_USERS_PER_TEAM);
         config.TeamSettings.RestrictCreationToDomains = this.state.restrictCreationToDomains;
@@ -98,7 +96,7 @@ export default class UsersAndTeamsSettings extends AdminSettings {
         config.TeamSettings.MaxNotificationsPerChannel = this.parseIntNonZero(this.state.maxNotificationsPerChannel, Constants.DEFAULT_MAX_NOTIFICATIONS_PER_CHANNEL);
         config.TeamSettings.EnableConfirmNotificationsToChannel = this.state.enableConfirmNotificationsToChannel;
         return config;
-    }
+    };
 
     getStateFromConfig(config) {
         return {
@@ -122,7 +120,7 @@ export default class UsersAndTeamsSettings extends AdminSettings {
         );
     }
 
-    renderSettings() {
+    renderSettings = () => {
         if (!this.state.loaded) {
             return <LoadingScreen/>;
         }
@@ -296,5 +294,5 @@ export default class UsersAndTeamsSettings extends AdminSettings {
                 />
             </SettingsGroup>
         );
-    }
+    };
 }
