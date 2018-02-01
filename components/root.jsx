@@ -10,8 +10,10 @@ import {IntlProvider} from 'react-intl';
 import FastClick from 'fastclick';
 import {Route, Switch, Redirect} from 'react-router-dom';
 import {getClientConfig, getLicenseConfig, setUrl} from 'mattermost-redux/actions/general';
+import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
 import {Client4} from 'mattermost-redux/client';
 
+import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
 import {trackLoadTime} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import BrowserStore from 'stores/browser_store.jsx';
@@ -87,6 +89,7 @@ export default class Root extends React.Component {
 
         // Redux
         setUrl(window.location.origin);
+        setSystemEmojis(EmojiIndicesByAlias);
 
         // Force logout of all tabs if one tab is logged out
         $(window).bind('storage', (e) => {
