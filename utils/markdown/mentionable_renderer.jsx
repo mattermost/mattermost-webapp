@@ -47,11 +47,11 @@ export default class MentionableRenderer extends marked.Renderer {
     }
 
     strong(text) {
-        return text;
+        return ' ' + text + ' ';
     }
 
     em(text) {
-        return text;
+        return ' ' + text + ' ';
     }
 
     codespan() {
@@ -64,15 +64,15 @@ export default class MentionableRenderer extends marked.Renderer {
     }
 
     del(text) {
-        return text;
+        return ' ' + text + ' ';
     }
 
     link(href, title, text) {
-        return text;
+        return ' ' + text + ' ';
     }
 
     image(href, title, text) {
-        return text;
+        return ' ' + text + ' ';
     }
 
     text(text) {

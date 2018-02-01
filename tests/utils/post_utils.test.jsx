@@ -1,6 +1,8 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import assert from 'assert';
+
 import * as PostUtils from 'utils/post_utils.jsx';
 
 describe('PostUtils.containsAtChannel', function() {
@@ -141,11 +143,31 @@ describe('PostUtils.containsAtChannel', function() {
             {
                 text: '@all/@channel',
                 result: true
+            },
+            {
+                text: '@cha*nnel*',
+                result: false
+            },
+            {
+                text: '@cha**nnel**',
+                result: false
+            },
+            {
+                text: '*@cha*nnel',
+                result: false
+            },
+            {
+                text: '[@chan](https://google.com)nel',
+                result: false
+            },
+            {
+                text: '@cha![](https://myimage)nnel',
+                result: false
             }
         ]) {
             const containsAtChannel = PostUtils.containsAtChannel(data.text);
 
-            expect(containsAtChannel).toEqual(data.result);
+            assert.equal(containsAtChannel, data.result, data.text);
         }
     });
 });
