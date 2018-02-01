@@ -88,9 +88,7 @@ export function canEditPost(post, editDisableAction) {
     }
 
     if (canEdit && global.window.mm_license.IsLicensed === 'true') {
-        if (global.window.mm_config.AllowEditPost === Constants.ALLOW_EDIT_POST_NEVER) {
-            canEdit = false;
-        } else if (global.window.mm_config.AllowEditPost === Constants.ALLOW_EDIT_POST_TIME_LIMIT) {
+        if (global.window.mm_config.PostEditTimeLimit !== -1) {
             const timeLeft = (post.create_at + (global.window.mm_config.PostEditTimeLimit * 1000)) - Utils.getTimestamp();
             if (timeLeft > 0) {
                 editDisableAction.fireAfter(timeLeft + 1000);
