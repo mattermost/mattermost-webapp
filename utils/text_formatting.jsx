@@ -24,7 +24,7 @@ const cjkPattern = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-
 // - mentionHighlight - Specifies whether or not to highlight mentions of the current user. Defaults to true.
 // - mentionKeys - A list of mention keys for the current user to highlight.
 // - singleline - Specifies whether or not to remove newlines. Defaults to false.
-// - emoticons - Enables emoticon parsing. Defaults to true.
+// - emoticons - Enables emoticon parsing with a data-emoticon attribute. Defaults to true.
 // - markdown - Enables markdown parsing. Defaults to true.
 // - siteURL - The origin of this Mattermost instance. If provided, links to channels and posts will be replaced with internal
 //     links that can be handled by a special click handler.
@@ -77,7 +77,7 @@ export function doFormatText(text, options) {
     output = autolinkHashtags(output, tokens);
 
     if (!('emoticons' in options) || options.emoticon) {
-        output = Emoticons.handleEmoticons(output, tokens, options.emojis || EmojiStore.getEmojis());
+        output = Emoticons.handleEmoticons(output, tokens);
     }
 
     if (options.searchPatterns) {
@@ -252,7 +252,7 @@ function highlightCurrentMentions(text, tokens, mentionKeys = []) {
     // look for any existing tokens which are self mentions and should be highlighted
     var newTokens = new Map();
     for (const [alias, token] of tokens) {
-        if (mentionKeys.indexOf(token.originalText) !== -1) {
+        if (mentionKeys.findIndex((key) => key.key === token.originalText) !== -1) {
             const index = tokens.size + newTokens.size;
             const newAlias = `$MM_SELFMENTION${index}`;
 
@@ -283,11 +283,16 @@ function highlightCurrentMentions(text, tokens, mentionKeys = []) {
     }
 
     for (const mention of mentionKeys) {
-        if (!mention) {
+        if (!mention || !mention.key) {
             continue;
         }
 
-        output = output.replace(new RegExp(`(^|\\W)(${escapeRegex(mention)})\\b`, 'gi'), replaceCurrentMentionWithToken);
+        let flags = 'g';
+        if (!mention.caseSensitive) {
+            flags += 'i';
+        }
+
+        output = output.replace(new RegExp(`(^|\\W)(${escapeRegex(mention.key)})\\b`, flags), replaceCurrentMentionWithToken);
     }
 
     return output;

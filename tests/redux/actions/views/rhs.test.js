@@ -32,7 +32,7 @@ const currentTeamId = '321';
 const currentUserId = 'user123';
 
 const UserSelectors = require('mattermost-redux/selectors/entities/users');
-UserSelectors.getCurrentUserMentionKeys = jest.fn(() => ['@here', '@mattermost', '@channel', '@all']);
+UserSelectors.getCurrentUserMentionKeys = jest.fn(() => [{key: '@here'}, {key: '@mattermost'}, {key: '@channel'}, {key: '@all'}]);
 
 jest.mock('mattermost-redux/actions/posts', () => ({
     getPostThread: (...args) => ({type: 'MOCK_GET_POST_THREAD', args}),

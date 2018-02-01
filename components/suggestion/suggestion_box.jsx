@@ -5,10 +5,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
+import QuickInput from 'components/quick_input.jsx';
 import SuggestionStore from 'stores/suggestion_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-import AutosizeTextarea from 'components/autosize_textarea.jsx';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -19,11 +19,6 @@ export default class SuggestionBox extends React.Component {
          * The list component to render, usually SuggestionList
          */
         listComponent: PropTypes.func.isRequired,
-
-        /**
-         * The HTML input box type
-         */
-        type: PropTypes.oneOf(['input', 'textarea', 'search']).isRequired,
 
         /**
          * The value of in the input
@@ -97,7 +92,6 @@ export default class SuggestionBox extends React.Component {
     }
 
     static defaultProps = {
-        type: 'input',
         listStyle: 'top',
         renderDividers: false,
         completeOnTab: true,
@@ -154,17 +148,22 @@ export default class SuggestionBox extends React.Component {
     }
 
     getTextbox() {
-        if (this.props.type === 'textarea' && this.refs.textbox) {
-            const node = this.refs.textbox.getDOMNode();
-            return node;
+        const input = this.refs.input.getInput();
+
+        if (input.getDOMNode) {
+            return input.getDOMNode();
         }
 
-        return this.refs.textbox;
+        return input;
     }
 
     recalculateSize() {
-        if (this.props.type === 'textarea') {
-            this.refs.textbox.recalculateSize();
+        // Pretty hacky way to force an AutosizeTextarea to recalculate its height if that's what
+        // we're rendering as the input
+        const input = this.refs.input.getInput();
+
+        if (input.recalculateSize) {
+            input.recalculateSize();
         }
     }
 
@@ -236,7 +235,7 @@ export default class SuggestionBox extends React.Component {
         let insertText = '@' + mentionKey;
 
         // if the current text does not end with a whitespace, then insert a space
-        if (this.refs.textbox.value && (/[^\s]$/).test(this.refs.textbox.value)) {
+        if (this.props.value && (/[^\s]$/).test(this.props.value)) {
             insertText = ' ' + insertText;
         }
 
@@ -271,12 +270,12 @@ export default class SuggestionBox extends React.Component {
             newValue = prefix + term + ' ' + suffix;
         }
 
-        this.refs.textbox.value = newValue;
+        textbox.value = newValue;
 
         if (this.props.onChange) {
             // fake an input event to send back to parent components
             const e = {
-                target: this.refs.textbox
+                target: textbox
             };
 
             // don't call handleChange or we'll get into an event loop
@@ -305,7 +304,7 @@ export default class SuggestionBox extends React.Component {
             }
         }
 
-        this.getTextbox().focus();
+        this.refs.input.focus();
 
         for (const provider of this.props.providers) {
             if (provider.handleCompleteWord) {
@@ -358,12 +357,11 @@ export default class SuggestionBox extends React.Component {
     }
 
     blur() {
-        this.refs.textbox.blur();
+        this.refs.input.blur();
     }
 
     render() {
         const {
-            type,
             listComponent,
             listStyle,
             renderDividers,
@@ -380,52 +378,23 @@ export default class SuggestionBox extends React.Component {
         Reflect.deleteProperty(props, 'requiredCharacters');
         Reflect.deleteProperty(props, 'openOnFocus');
 
-        const childProps = {
-            ref: 'textbox',
-            onBlur: this.handleBlur,
-            onFocus: this.handleFocus,
-            onInput: this.handleChange,
-            onChange() { /* this is only here to suppress warnings about onChange not being implemented for read-write inputs */ },
-            onCompositionStart: this.handleCompositionStart,
-            onCompositionUpdate: this.handleCompositionUpdate,
-            onCompositionEnd: this.handleCompositionEnd,
-            onKeyDown: this.handleKeyDown
-        };
-
-        let textbox = null;
-        if (type === 'input') {
-            textbox = (
-                <input
-                    type='text'
-                    autoComplete='off'
-                    {...props}
-                    {...childProps}
-                />
-            );
-        } else if (type === 'search') {
-            textbox = (
-                <input
-                    type='search'
-                    autoComplete='off'
-                    {...props}
-                    {...childProps}
-                />
-            );
-        } else if (type === 'textarea') {
-            textbox = (
-                <AutosizeTextarea
-                    {...props}
-                    {...childProps}
-                />
-            );
-        }
-
         // This needs to be upper case so React doesn't think it's an html tag
         const SuggestionListComponent = listComponent;
 
         return (
-            <div ref='container'>
-                {textbox}
+            <div>
+                <QuickInput
+                    ref='input'
+                    autoComplete='off'
+                    {...props}
+                    onBlur={this.handleBlur}
+                    onFocus={this.handleFocus}
+                    onInput={this.handleChange}
+                    onCompositionStart={this.handleCompositionStart}
+                    onCompositionUpdate={this.handleCompositionUpdate}
+                    onCompositionEnd={this.handleCompositionEnd}
+                    onKeyDown={this.handleKeyDown}
+                />
                 {this.props.value.length >= this.props.requiredCharacters &&
                     <SuggestionListComponent
                         suggestionId={this.suggestionId}

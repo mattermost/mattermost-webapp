@@ -9,7 +9,7 @@ import {Posts} from 'mattermost-redux/constants';
 
 import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
-import {createPost, emitEmojiPosted} from 'actions/post_actions.jsx';
+import {emitEmojiPosted} from 'actions/post_actions.jsx';
 import EmojiStore from 'stores/emoji_store.jsx';
 import Constants, {StoragePrefixes} from 'utils/constants.jsx';
 import * as FileUtils from 'utils/file_utils';
@@ -19,7 +19,7 @@ import * as Utils from 'utils/utils.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview.jsx';
-import FileUpload from 'components/file_upload.jsx';
+import FileUpload from 'components/file_upload';
 import MsgTyping from 'components/msg_typing.jsx';
 import PostDeletedModal from 'components/post_deleted_modal.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
@@ -127,6 +127,11 @@ export default class CreatePost extends React.Component {
             *  func called for adding a reaction
             */
             addReaction: PropTypes.func.isRequired,
+
+            /**
+            *  func called for posting message
+            */
+            onSubmitPost: PropTypes.func.isRequired,
 
             /**
             *  func called for removing a reaction
@@ -347,22 +352,26 @@ export default class CreatePost extends React.Component {
     }
 
     sendMessage = (post) => {
-        post.channel_id = this.props.currentChannel.id;
+        const {
+            actions,
+            currentChannel,
+            currentUserId,
+            draft
+        } = this.props;
+
+        post.channel_id = currentChannel.id;
 
         const time = Utils.getTimestamp();
-        const userId = this.props.currentUserId;
+        const userId = currentUserId;
         post.pending_post_id = `${userId}:${time}`;
         post.user_id = userId;
         post.create_at = time;
         post.parent_id = this.state.parentId;
 
-        GlobalActions.emitUserPostedEvent(post);
+        actions.onSubmitPost(post, draft.fileInfos);
 
-        createPost(post, this.props.draft.fileInfos, () => {
-            GlobalActions.postListScrollChange(true);
-            this.setState({
-                submitting: false
-            });
+        this.setState({
+            submitting: false
         });
     }
 
@@ -370,7 +379,7 @@ export default class CreatePost extends React.Component {
         const channelId = this.props.currentChannel.id;
         const action = isReaction[1];
         const emojiName = isReaction[2];
-        const postId = this.props.recentPostIdInChannel;
+        const postId = this.props.latestReplyablePostId;
 
         if (postId && action === '+') {
             this.props.actions.addReaction(postId, emojiName);
@@ -535,11 +544,7 @@ export default class CreatePost extends React.Component {
         }
     }
 
-    getFileCount = (channelId) => {
-        if (channelId === this.props.currentChannel.id) {
-            return this.props.draft.fileInfos.length + this.props.draft.uploadsInProgress.length;
-        }
-
+    getFileCount = () => {
         const draft = this.props.draft;
         return draft.fileInfos.length + draft.uploadsInProgress.length;
     }
@@ -684,7 +689,15 @@ export default class CreatePost extends React.Component {
     }
 
     render() {
-        const members = this.props.currentChannelMembersCount - 1;
+        const {
+            currentChannel,
+            currentChannelMembersCount,
+            draft,
+            fullWidthTextBox,
+            getChannelView,
+            showTutorialTip
+        } = this.props;
+        const members = currentChannelMembersCount - 1;
 
         const notifyAllTitle = (
             <FormattedMessage
@@ -726,12 +739,12 @@ export default class CreatePost extends React.Component {
         }
 
         let preview = null;
-        if (this.props.draft.fileInfos.length > 0 || this.props.draft.uploadsInProgress.length > 0) {
+        if (draft.fileInfos.length > 0 || draft.uploadsInProgress.length > 0) {
             preview = (
                 <FilePreview
-                    fileInfos={this.props.draft.fileInfos}
+                    fileInfos={draft.fileInfos}
                     onRemove={this.removePreview}
-                    uploadsInProgress={this.props.draft.uploadsInProgress}
+                    uploadsInProgress={draft.uploadsInProgress}
                 />
             );
         }
@@ -742,12 +755,12 @@ export default class CreatePost extends React.Component {
         }
 
         let tutorialTip = null;
-        if (parseInt(this.props.showTutorialTip, 10) === TutorialSteps.POST_POPOVER && global.window.mm_config.EnableTutorial === 'true') {
+        if (parseInt(showTutorialTip, 10) === TutorialSteps.POST_POPOVER && global.window.mm_config.EnableTutorial === 'true') {
             tutorialTip = this.createTutorialTip();
         }
 
         let centerClass = '';
-        if (!this.props.fullWidthTextBox) {
+        if (!fullWidthTextBox) {
             centerClass = 'center';
         }
 
@@ -764,14 +777,13 @@ export default class CreatePost extends React.Component {
         const fileUpload = (
             <FileUpload
                 ref='fileUpload'
-                getFileCount={this.getFileCount}
+                fileCount={this.getFileCount()}
                 getTarget={this.getFileUploadTarget}
                 onFileUploadChange={this.handleFileUploadChange}
                 onUploadStart={this.handleUploadStart}
                 onFileUpload={this.handleFileUploadComplete}
                 onUploadError={this.handleUploadError}
                 postType='post'
-                channelId=''
             />
         );
 
@@ -781,7 +793,7 @@ export default class CreatePost extends React.Component {
                 <span className='emoji-picker__container'>
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
-                        container={this.props.getChannelView}
+                        container={getChannelView}
                         target={this.getCreatePostControls}
                         onHide={this.hideEmojiPicker}
                         onEmojiClick={this.handleEmojiClick}
@@ -817,7 +829,7 @@ export default class CreatePost extends React.Component {
                                 onBlur={this.handleBlur}
                                 emojiEnabled={window.mm_config.EnableEmojiPicker === 'true'}
                                 createMessage={Utils.localizeMessage('create_post.write', 'Write a message...')}
-                                channelId={this.props.currentChannel.id}
+                                channelId={currentChannel.id}
                                 popoverMentionKeyClick={true}
                                 id='post_textbox'
                                 ref='textbox'
@@ -843,7 +855,7 @@ export default class CreatePost extends React.Component {
                         className={postFooterClassName}
                     >
                         <MsgTyping
-                            channelId={this.props.currentChannel.id}
+                            channelId={currentChannel.id}
                             parentId=''
                         />
                         {postError}

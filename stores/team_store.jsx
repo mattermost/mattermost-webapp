@@ -10,7 +10,6 @@ import ChannelStore from 'stores/channel_store.jsx';
 import store from 'stores/redux_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import Constants from 'utils/constants.jsx';
-import {isFromWebhook, isSystemMessage} from 'utils/post_utils.jsx';
 import {getSiteURL} from 'utils/url.jsx';
 import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
 
@@ -371,23 +370,6 @@ class TeamStoreClass extends EventEmitter {
         }
     }
 
-    subtractUnread(teamId, msgs, mentions) {
-        let member = this.getMyTeamMembers().filter((m) => m.team_id === teamId)[0];
-        if (member) {
-            const msgCount = member.msg_count - msgs;
-            const mentionCount = member.mention_count - mentions;
-
-            member = Object.assign({}, member);
-            member.msg_count = (msgCount > 0) ? msgCount : 0;
-            member.mention_count = (mentionCount > 0) ? mentionCount : 0;
-
-            store.dispatch({
-                type: TeamTypes.RECEIVED_MY_TEAM_MEMBER,
-                data: member
-            });
-        }
-    }
-
     incrementMessages(id, channelId) {
         const channelMember = ChannelStore.getMyMember(channelId);
         if (channelMember && channelMember.notify_props && channelMember.notify_props.mark_unread === NotificationPrefs.MENTION) {
@@ -457,21 +439,6 @@ TeamStore.dispatchToken = AppDispatcher.register((payload) => {
         break;
     case ActionTypes.RECEIVED_TEAM_STATS:
         TeamStore.saveStats(action.team_id, action.stats);
-        break;
-    case ActionTypes.RECEIVED_POST:
-        if (Constants.IGNORE_POST_TYPES.indexOf(action.post.type) !== -1) {
-            return;
-        }
-
-        if (action.post.user_id === UserStore.getCurrentId() && !isSystemMessage(action.post) && !isFromWebhook(action.post)) {
-            return;
-        }
-
-        var id = action.websocketMessageProps ? action.websocketMessageProps.team_id : null;
-        if (id && TeamStore.getCurrentId() !== id) {
-            TeamStore.incrementMessages(id, action.post.channel_id);
-            TeamStore.incrementMentionsIfNeeded(id, action.websocketMessageProps);
-        }
         break;
     default:
     }

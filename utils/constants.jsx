@@ -101,7 +101,6 @@ export const ActionTypes = keyMirror({
     RECEIVED_FOCUSED_POST: null,
     RECEIVED_POST: null,
     RECEIVED_EDIT_POST: null,
-    SET_EDITING_POST: null,
     EDIT_POST: null,
     SELECT_POST: null,
     RECEIVED_POST_SELECTED: null,
@@ -214,6 +213,8 @@ export const ActionTypes = keyMirror({
     TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL: null,
     TOGGLE_CHANNEL_NAME_UPDATE_MODAL: null,
     TOGGLE_LEAVE_PRIVATE_CHANNEL_MODAL: null,
+    SHOW_EDIT_POST_MODAL: null,
+    HIDE_EDIT_POST_MODAL: null,
 
     SUGGESTION_PRETEXT_CHANGED: null,
     SUGGESTION_RECEIVED_SUGGESTIONS: null,
@@ -235,7 +236,9 @@ export const ActionTypes = keyMirror({
     MODAL_OPEN: null,
     MODAL_CLOSE: null,
 
-    POPOVER_MENTION_KEY_CLICK: null
+    POPOVER_MENTION_KEY_CLICK: null,
+
+    KEEP_CHANNEL_AS_UNREAD: null
 });
 
 export const WebrtcActionTypes = keyMirror({
@@ -425,6 +428,13 @@ export const NotificationLevels = {
     ALL: 'all',
     MENTION: 'mention',
     NONE: 'none'
+};
+
+export const NotificationSections = {
+    MARK_UNREAD: 'markUnread',
+    DESKTOP: 'desktop',
+    PUSH: 'push',
+    NONE: ''
 };
 
 export const RHSStates = {
@@ -1032,7 +1042,7 @@ export const Constants = {
     MAX_NICKNAME_LENGTH: 22,
     MIN_PASSWORD_LENGTH: 5,
     MAX_PASSWORD_LENGTH: 64,
-    MAX_POSITION_LENGTH: 35,
+    MAX_POSITION_LENGTH: 128,
     MIN_TRIGGER_LENGTH: 1,
     MAX_TRIGGER_LENGTH: 128,
     MAX_SITENAME_LENGTH: 30,

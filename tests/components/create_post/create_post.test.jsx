@@ -5,12 +5,10 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Posts} from 'mattermost-redux/constants';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import Constants, {StoragePrefixes} from 'utils/constants.jsx';
 import CreatePost from 'components/create_post/create_post.jsx';
 import * as Utils from 'utils/utils.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
-import * as PostActions from 'actions/post_actions.jsx';
 
 jest.mock('actions/global_actions.jsx', () => ({
     emitLocalUserTypingEvent: jest.fn(),
@@ -43,6 +41,7 @@ const currentUserIdProp = 'zaktnt8bpbgu8mb6ez9k64r7sa';
 const showTutorialTipProp = '999';
 const fullWidthTextBoxProp = true;
 const recentPostIdInChannelProp = 'a';
+const latestReplyablePostIdProp = 'a';
 
 const currentChannelProp = {
     id: 'owsyt8n43jfxjpzh9np93mx1wa',
@@ -69,6 +68,7 @@ const actionsProp = {
     addReaction: emptyFunction,
     removeReaction: emptyFunction,
     clearDraftUploads: emptyFunction,
+    onSubmitPost: emptyFunction,
     setDraft: emptyFunction,
     setEditingPost: emptyFunction
 };
@@ -82,6 +82,7 @@ function createPost({
     fullWidthTextBox = fullWidthTextBoxProp,
     draft = draftProp,
     recentPostIdInChannel = recentPostIdInChannelProp,
+    latestReplyablePostId = latestReplyablePostIdProp,
     actions = actionsProp,
     ctrlSend = ctrlSendProp,
     currentUsersLatestPost = currentUsersLatestPostProp,
@@ -97,6 +98,7 @@ function createPost({
             currentChannelMembersCount={currentChannelMembersCount}
             draft={draft}
             recentPostIdInChannel={recentPostIdInChannel}
+            latestReplyablePostId={latestReplyablePostId}
             ctrlSend={ctrlSend}
             currentUsersLatestPost={currentUsersLatestPost}
             commentCountForPost={commentCountForPost}
@@ -367,13 +369,13 @@ describe('components/create_post', () => {
     });
 
     it('check for handleFileUploadChange callbak for focus', () => {
-        const wrapper = mountWithIntl(createPost());
+        const wrapper = shallow(createPost());
         const instance = wrapper.instance();
-        const ref = wrapper.ref('textbox');
+        instance.focusTextbox = jest.fn();
 
-        ref.focus = jest.fn();
         instance.handleFileUploadChange();
-        expect(ref.focus).toBeCalled();
+        expect(instance.focusTextbox).toBeCalled();
+        expect(instance.focusTextbox).toBeCalledWith(true);
     });
 
     it('check for handleFileUploadStart callbak', () => {
@@ -483,7 +485,7 @@ describe('components/create_post', () => {
             ]
         };
 
-        const wrapper = mountWithIntl(
+        const wrapper = shallow(
             createPost({
                 actions: {
                     ...actionsProp,
@@ -497,14 +499,11 @@ describe('components/create_post', () => {
         );
 
         const instance = wrapper.instance();
-        const ref = wrapper.find('FilePreview');
-        const cancelUpload = jest.fn();
-        ref.getWrappedInstance = () => ({
-            cancelUpload
-        });
-
+        instance.handleFileUploadChange = jest.fn();
         instance.removePreview('a');
+        expect(setDraft).toHaveBeenCalledTimes(1);
         expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draftProp);
+        expect(instance.handleFileUploadChange).toHaveBeenCalledTimes(1);
     });
 
     it('Should call Shortcut modal on FORWARD_SLASH+cntrl/meta', () => {
@@ -615,16 +614,19 @@ describe('components/create_post', () => {
         expect(wrapper.state('showPostDeletedModal')).toBe(false);
     });
 
-    it('Should have called PostActions.createPost on sendMessage', () => {
-        const wrapper = shallow(createPost());
+    it('Should have called actions.onSubmitPost on sendMessage', () => {
+        const onSubmitPost = jest.fn();
+        const wrapper = shallow(createPost({
+            actions: {
+                ...actionsProp,
+                onSubmitPost
+            }
+        }));
         const post = {message: 'message', file_ids: []};
         wrapper.instance().sendMessage(post);
 
-        expect(GlobalActions.emitUserPostedEvent).toHaveBeenCalledTimes(1);
-        expect(GlobalActions.emitUserPostedEvent).toHaveBeenCalledWith(post);
-
-        expect(PostActions.createPost).toHaveBeenCalledTimes(1);
-        expect(PostActions.createPost.mock.calls[0][0]).toEqual(post);
-        expect(PostActions.createPost.mock.calls[0][1]).toEqual([]);
+        expect(onSubmitPost).toHaveBeenCalledTimes(1);
+        expect(onSubmitPost.mock.calls[0][0]).toEqual(post);
+        expect(onSubmitPost.mock.calls[0][1]).toEqual([]);
     });
 });

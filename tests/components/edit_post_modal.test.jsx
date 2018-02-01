@@ -32,12 +32,13 @@ function createEditPost({ctrlSend, config, license, editingPost, actions} = {}) 
         },
         commentsCount: 3,
         refocusId: 'test',
+        show: true,
         title: 'test'
     };
     const actionsProp = actions || {
         editPost: jest.fn(),
         addMessageIntoHistory: jest.fn(),
-        setEditingPost: jest.fn()
+        hideEditPostModal: jest.fn()
     };
     return (
         <EditPostModal
@@ -50,7 +51,7 @@ function createEditPost({ctrlSend, config, license, editingPost, actions} = {}) 
     );
 }
 
-describe('comoponents/EditPostModal', () => {
+describe('components/EditPostModal', () => {
     it('should match with default config', () => {
         const wrapper = shallow(createEditPost());
         expect(wrapper).toMatchSnapshot();
@@ -75,7 +76,7 @@ describe('comoponents/EditPostModal', () => {
         const actions = {
             editPost: jest.fn(),
             addMessageIntoHistory: jest.fn(),
-            setEditingPost: jest.fn()
+            hideEditPostModal: jest.fn()
         };
         const editingPost = {
             postId: '123',
@@ -87,6 +88,7 @@ describe('comoponents/EditPostModal', () => {
             },
             commentsCount: 3,
             refocusId: 'test',
+            show: true,
             title: 'test'
         };
 
@@ -100,24 +102,27 @@ describe('comoponents/EditPostModal', () => {
         expect(actions.editPost).toBeCalled();
     });
 
-    it('should call editPost, addMessageIntoHistory and setEditingPost on save actions', () => {
+    it('should call editPost, addMessageIntoHistory and hideEditPostModal on save', async () => {
         const actions = {
             editPost: jest.fn(),
             addMessageIntoHistory: jest.fn(),
-            setEditingPost: jest.fn()
+            hideEditPostModal: jest.fn()
         };
         const wrapper = shallow(createEditPost({actions}));
 
         expect(actions.addMessageIntoHistory).not.toBeCalled();
         expect(actions.editPost).not.toBeCalled();
+
         wrapper.setState({editText: 'new message'});
-        wrapper.find('.btn-primary').simulate('click');
+        await wrapper.find('.btn-primary').simulate('click');
+
         expect(actions.addMessageIntoHistory).toBeCalledWith('new message');
         expect(actions.editPost).toBeCalledWith({
             message: 'new message',
             id: '123',
             channel_id: '5'
         });
+        expect(actions.hideEditPostModal).toBeCalled();
     });
 
     it('should show emojis on emojis click', () => {
@@ -188,7 +193,7 @@ describe('comoponents/EditPostModal', () => {
         expect(wrapper.state().editText).toBe('test :-1: ');
     });
 
-    it('should set the focus and recalcule the size of the edit box enter end', () => {
+    it('should set the focus and recalculate the size of the edit box after entering', () => {
         const wrapper = mountWithIntl(createEditPost());
         const instance = wrapper.instance();
         const ref = wrapper.ref('editbox');
@@ -201,7 +206,7 @@ describe('comoponents/EditPostModal', () => {
         expect(ref.recalculateSize).toBeCalled();
     });
 
-    it('should hide the preview on exit start', () => {
+    it('should hide the preview when exiting', () => {
         const wrapper = mountWithIntl(createEditPost());
         const instance = wrapper.instance();
         const ref = wrapper.ref('editbox');
@@ -211,82 +216,84 @@ describe('comoponents/EditPostModal', () => {
         expect(ref.hidePreview).toBeCalled();
     });
 
-    it('should hide when confirm the edition and the message is not edited', () => {
+    it('should close without saving when post text is not changed', () => {
         const actions = {
             editPost: jest.fn(),
             addMessageIntoHistory: jest.fn(),
-            setEditingPost: jest.fn()
+            hideEditPostModal: jest.fn()
         };
         const wrapper = shallow(createEditPost({actions}));
         const instance = wrapper.instance();
-        expect(wrapper.state().hiding).toBe(false);
-        wrapper.setState({editText: 'test'});
+
+        expect(actions.hideEditPostModal).not.toBeCalled();
+
         instance.handleEdit();
-        expect(wrapper.state().hiding).toBe(true);
+
         expect(actions.addMessageIntoHistory).not.toBeCalled();
         expect(actions.editPost).not.toBeCalled();
+        expect(actions.hideEditPostModal).toBeCalled();
     });
 
-    it('should hide when confirm the edition and the message is empty', () => {
+    it('should close and show delete confirmation modal when message is empty', async () => {
         const actions = {
             editPost: jest.fn(),
             addMessageIntoHistory: jest.fn(),
-            setEditingPost: jest.fn()
+            hideEditPostModal: jest.fn()
         };
         var wrapper = shallow(createEditPost({actions}));
         var instance = wrapper.instance();
-        expect(wrapper.state().hiding).toBe(false);
+
+        expect(actions.hideEditPostModal).not.toBeCalled();
+
         wrapper.setState({editText: ''});
         instance.handleEdit();
-        expect(wrapper.state().hiding).toBe(true);
 
+        expect(actions.hideEditPostModal).toBeCalled();
         expect(GlobalActions.showDeletePostModal).toHaveBeenCalled();
         expect(actions.addMessageIntoHistory).not.toBeCalled();
         expect(actions.editPost).not.toBeCalled();
 
+        actions.hideEditPostModal.mockClear();
+
         wrapper = shallow(createEditPost({actions}));
         instance = wrapper.instance();
-        expect(wrapper.state().hiding).toBe(false);
+
+        expect(actions.hideEditPostModal).not.toBeCalled();
+
         wrapper.setState({editText: '    '});
-        instance.handleEdit();
-        expect(wrapper.state().hiding).toBe(true);
+        await instance.handleEdit();
+
+        expect(actions.hideEditPostModal).toBeCalled();
         expect(GlobalActions.showDeletePostModal).toHaveBeenCalled();
         expect(actions.addMessageIntoHistory).not.toBeCalled();
         expect(actions.editPost).not.toBeCalled();
     });
 
-    it('should scroll up when editPost return data', async () => {
+    it('should scroll page after successfully editing post', async () => {
         const actions = {
             editPost: jest.fn((data) => {
                 return {data};
             }),
             addMessageIntoHistory: jest.fn(),
-            setEditingPost: jest.fn()
+            hideEditPostModal: jest.fn()
         };
         global.scrollTo = jest.fn();
         const wrapper = shallow(createEditPost({actions}));
         const instance = wrapper.instance();
-        expect(wrapper.state().hiding).toBe(false);
+
         wrapper.setState({editText: 'new text'});
         await instance.handleEdit();
+
         expect(global.scrollTo).toBeCalledWith(0, 0);
     });
 
-    it('should on change value in the textbox set the state', () => {
+    it('should update state after changing value in textbox', () => {
         const wrapper = shallow(createEditPost());
         const instance = wrapper.instance();
-        expect(wrapper.state().hiding).toBe(false);
-        wrapper.setState({editText: ''});
-        instance.handleChange({target: {value: 'test'}});
-        expect(wrapper.state().editText).toBe('test');
-    });
 
-    it('should on change value in the textbox set the state', () => {
-        const wrapper = shallow(createEditPost());
-        const instance = wrapper.instance();
-        expect(wrapper.state().hiding).toBe(false);
         wrapper.setState({editText: ''});
         instance.handleChange({target: {value: 'test'}});
+
         expect(wrapper.state().editText).toBe('test');
     });
 
@@ -294,44 +301,34 @@ describe('comoponents/EditPostModal', () => {
         const actions = {
             editPost: jest.fn((data) => data),
             addMessageIntoHistory: jest.fn(),
-            setEditingPost: jest.fn()
+            hideEditPostModal: jest.fn()
         };
         const wrapper = shallow(createEditPost({actions}));
         const instance = wrapper.instance();
-        wrapper.setState({editText: 'test', postError: 'test', errorClass: 'test', hiding: true, showEmojiPicker: true});
-        instance.handleExited();
-        expect(wrapper.state()).toEqual({editText: '', postError: '', errorClass: null, hiding: false, showEmojiPicker: false});
-        expect(actions.setEditingPost).toBeCalledWith();
-    });
 
-    it('should clear data on exit', () => {
-        const actions = {
-            editPost: jest.fn((data) => data),
-            addMessageIntoHistory: jest.fn(),
-            setEditingPost: jest.fn()
-        };
-        const wrapper = shallow(createEditPost({actions}));
-        const instance = wrapper.instance();
-        wrapper.setState({editText: 'test', postError: 'test', errorClass: 'test', hiding: true, showEmojiPicker: true});
+        wrapper.setState({editText: 'test', postError: 'test', errorClass: 'test', showEmojiPicker: true});
         instance.handleExited();
+
         jest.runAllTimers();
-        expect(wrapper.state()).toEqual({editText: '', postError: '', errorClass: null, hiding: false, showEmojiPicker: false});
-        expect(actions.setEditingPost).toBeCalledWith();
+        expect(wrapper.state()).toEqual({editText: '', postError: '', errorClass: null, showEmojiPicker: false});
     });
 
     it('should focus element on exit based on refocusId', () => {
         const actions = {
             editPost: jest.fn((data) => data),
             addMessageIntoHistory: jest.fn(),
-            setEditingPost: jest.fn()
+            hideEditPostModal: jest.fn()
         };
         const wrapper = shallow(createEditPost({actions}));
         const instance = wrapper.instance();
+
         const elem = document.createElement('INPUT');
         elem.setAttribute('id', 'test');
         elem.focus = jest.fn();
         document.body.appendChild(elem);
+
         instance.handleExited();
+
         jest.runAllTimers();
         expect(elem.focus).toBeCalled();
     });

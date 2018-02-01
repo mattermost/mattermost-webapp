@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`comoponents/EditPostModal should match with default config 1`] = `
+exports[`components/EditPostModal should match with default config 1`] = `
 <Modal
   animation={true}
   autoFocus={true}
@@ -22,7 +22,6 @@ exports[`comoponents/EditPostModal should match with default config 1`] = `
       "remove": [Function],
     }
   }
-  onEnter={[Function]}
   onEntered={[Function]}
   onExit={[Function]}
   onExited={[Function]}
@@ -129,7 +128,7 @@ exports[`comoponents/EditPostModal should match with default config 1`] = `
 </Modal>
 `;
 
-exports[`comoponents/EditPostModal should match without editingPost 1`] = `
+exports[`components/EditPostModal should match without editingPost 1`] = `
 <Modal
   animation={true}
   autoFocus={true}
@@ -151,7 +150,6 @@ exports[`comoponents/EditPostModal should match without editingPost 1`] = `
       "remove": [Function],
     }
   }
-  onEnter={[Function]}
   onEntered={[Function]}
   onExit={[Function]}
   onExited={[Function]}
@@ -257,7 +255,7 @@ exports[`comoponents/EditPostModal should match without editingPost 1`] = `
 </Modal>
 `;
 
-exports[`comoponents/EditPostModal should match without emoji picker 1`] = `
+exports[`components/EditPostModal should match without emoji picker 1`] = `
 <Modal
   animation={true}
   autoFocus={true}
@@ -279,7 +277,6 @@ exports[`comoponents/EditPostModal should match without emoji picker 1`] = `
       "remove": [Function],
     }
   }
-  onEnter={[Function]}
   onEntered={[Function]}
   onExit={[Function]}
   onExited={[Function]}
@@ -366,7 +363,7 @@ exports[`comoponents/EditPostModal should match without emoji picker 1`] = `
 </Modal>
 `;
 
-exports[`comoponents/EditPostModal should show emojis on emojis click 1`] = `
+exports[`components/EditPostModal should show emojis on emojis click 1`] = `
 <Modal
   animation={true}
   autoFocus={true}
@@ -388,7 +385,6 @@ exports[`comoponents/EditPostModal should show emojis on emojis click 1`] = `
       "remove": [Function],
     }
   }
-  onEnter={[Function]}
   onEntered={[Function]}
   onExit={[Function]}
   onExited={[Function]}
@@ -495,7 +491,7 @@ exports[`comoponents/EditPostModal should show emojis on emojis click 1`] = `
 </Modal>
 `;
 
-exports[`comoponents/EditPostModal should show errors when it is set in the state 1`] = `
+exports[`components/EditPostModal should show errors when it is set in the state 1`] = `
 <Modal
   animation={true}
   autoFocus={true}
@@ -517,7 +513,6 @@ exports[`comoponents/EditPostModal should show errors when it is set in the stat
       "remove": [Function],
     }
   }
-  onEnter={[Function]}
   onEntered={[Function]}
   onExit={[Function]}
   onExited={[Function]}

@@ -25,7 +25,7 @@ import * as Utils from 'utils/utils.jsx';
 import ChannelInfoModal from 'components/channel_info_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
-import ChannelNotificationsModal from 'components/channel_notifications_modal.jsx';
+import ChannelNotificationsModal from 'components/channel_notifications_modal/channel_notifications_modal.jsx';
 import DeleteChannelModal from 'components/delete_channel_modal';
 import NotifyCounts from 'components/notify_counts.jsx';
 import QuickSwitchModal from 'components/quick_switch_modal';

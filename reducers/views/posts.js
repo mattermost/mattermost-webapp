@@ -6,10 +6,22 @@ import {UserTypes} from 'mattermost-redux/action_types';
 
 import {ActionTypes} from 'utils/constants.jsx';
 
-function editingPost(state = '', action) {
+const defaultState = {
+    show: false
+};
+
+function editingPost(state = defaultState, action) {
     switch (action.type) {
-    case ActionTypes.SET_EDITING_POST:
-        return action.data;
+    case ActionTypes.SHOW_EDIT_POST_MODAL:
+        return {
+            ...action.data,
+            show: true
+        };
+    case ActionTypes.HIDE_EDIT_POST_MODAL:
+        return {
+            show: false
+        };
+
     case UserTypes.LOGOUT_SUCCESS:
         return '';
     default:

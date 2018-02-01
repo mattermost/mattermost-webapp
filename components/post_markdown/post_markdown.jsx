@@ -18,11 +18,6 @@ export default class PostMarkdown extends React.PureComponent {
         channelNamesMap: PropTypes.object.isRequired,
 
         /*
-         * An object mapping emoji names to emojis including both custom and system emojis
-         */
-        emojis: PropTypes.object.isRequired,
-
-        /*
          * Whether or not this text is part of the RHS
          */
         isRHS: PropTypes.bool,
@@ -30,7 +25,7 @@ export default class PostMarkdown extends React.PureComponent {
         /*
          * An array of words that can be used to mention a user
          */
-        mentionKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
+        mentionKeys: PropTypes.arrayOf(PropTypes.object).isRequired,
 
         /*
          * The post text to be rendered
@@ -66,7 +61,6 @@ export default class PostMarkdown extends React.PureComponent {
 
     render() {
         const options = Object.assign({
-            emojis: this.props.emojis,
             siteURL: this.props.siteURL,
             mentionKeys: this.props.mentionKeys,
             atMentions: true,

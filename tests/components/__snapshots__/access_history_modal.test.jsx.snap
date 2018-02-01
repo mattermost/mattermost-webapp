@@ -23,7 +23,7 @@ exports[`components/AccessHistoryModal should match snapshot when audits exist 1
       "remove": [Function],
     }
   }
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -86,7 +86,7 @@ exports[`components/AccessHistoryModal should match snapshot when no audits exis
       "remove": [Function],
     }
   }
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -114,6 +114,7 @@ exports[`components/AccessHistoryModal should match snapshot when no audits exis
   >
     <LoadingScreen
       position="relative"
+      style={Object {}}
     />
   </ModalBody>
 </Modal>

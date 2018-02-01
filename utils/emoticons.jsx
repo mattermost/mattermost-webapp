@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import EmojiStore from 'stores/emoji_store.jsx';
-
 export const emoticonPatterns = {
     slightly_smiling_face: /(^|\s)(:-?\))(?=$|\s)/g, // :)
     wink: /(^|\s)(;-?\))(?=$|\s)/g, // ;)
@@ -28,26 +26,19 @@ export const emoticonPatterns = {
 
 export const EMOJI_PATTERN = /(:([a-zA-Z0-9_-]+):)/g;
 
-export function handleEmoticons(text, tokens, emojis) {
+export function handleEmoticons(text, tokens) {
     let output = text;
 
     function replaceEmoticonWithToken(fullMatch, prefix, matchText, name) {
         const index = tokens.size;
         const alias = `$MM_EMOTICON${index}`;
 
-        if (emojis.has(name)) {
-            const path = EmojiStore.getEmojiImageUrl(emojis.get(name));
+        tokens.set(alias, {
+            value: `<span data-emoticon="${name}">${matchText}</span>`,
+            originalText: fullMatch
+        });
 
-            // we have an image path so we found a matching emoticon
-            tokens.set(alias, {
-                value: `<span alt="${matchText}" class="emoticon" title="${matchText}" style="background-image:url(${path})"></span>`,
-                originalText: fullMatch
-            });
-
-            return prefix + alias;
-        }
-
-        return fullMatch;
+        return prefix + alias;
     }
 
     // match named emoticons like :goat:

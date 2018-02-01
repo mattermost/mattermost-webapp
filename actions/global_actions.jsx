@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {createDirectChannel, getChannelAndMyMember, getChannelStats, getMyChannelMember, joinChannel, viewChannel} from 'mattermost-redux/actions/channels';
+import {createDirectChannel, getChannelAndMyMember, getChannelStats, getMyChannelMember, joinChannel, markChannelAsRead, viewChannel} from 'mattermost-redux/actions/channels';
 import {getPostThread} from 'mattermost-redux/actions/posts';
 import {removeUserFromTeam} from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
@@ -53,13 +53,9 @@ export function emitChannelClickEvent(channel) {
             viewChannel(chan.id, oldChannelId)(dispatch, getState);
 
             // Mark previous and next channel as read
-            ChannelStore.resetCounts([chan.id, oldChannelId]);
+            dispatch(markChannelAsRead(chan.id, oldChannelId));
             reloadIfServerVersionChanged();
         });
-
-        // Subtract mentions for the team
-        const {msgs, mentions} = ChannelStore.getUnreadCounts()[chan.id] || {msgs: 0, mentions: 0};
-        TeamStore.subtractUnread(chan.team_id, msgs, mentions);
 
         BrowserStore.setGlobalItem(chan.team_id, chan.id);
 
@@ -124,6 +120,10 @@ export async function emitPostFocusEvent(postId) {
     if (data) {
         const channelId = data.posts[data.order[0]].channel_id;
         const channel = ChannelStore.getChannelById(channelId);
+        if (!channel || channel.team_id !== TeamStore.getCurrentId()) {
+            browserHistory.push('/error?type=' + ErrorPageTypes.PERMALINK_NOT_FOUND);
+        }
+
         if (channel && channel.type === Constants.DM_CHANNEL) {
             loadNewDMIfNeeded(channel.id);
         } else if (channel && channel.type === Constants.GM_CHANNEL) {

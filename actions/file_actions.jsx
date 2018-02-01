@@ -38,7 +38,7 @@ export function uploadFile(file, name, channelId, clientId, successCallback, err
             dispatch(batchActions([failure, getLogErrorAction(err)]), getState);
 
             if (errorCallback) {
-                errorCallback(e, err, res);
+                errorCallback(e);
             }
         } else if (res) {
             const data = res.body.file_infos.map((fileInfo, index) => {
@@ -61,7 +61,7 @@ export function uploadFile(file, name, channelId, clientId, successCallback, err
             ]), getState);
 
             if (successCallback) {
-                successCallback(res.body, res);
+                successCallback(res.body);
             }
         }
     }

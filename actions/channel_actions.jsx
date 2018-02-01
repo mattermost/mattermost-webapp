@@ -316,7 +316,7 @@ export async function autocompleteChannels(term, success, error) {
         return;
     }
 
-    const {data, error: err} = await ChannelActions.searchChannels(teamId, term)(dispatch, getState);
+    const {data, error: err} = await ChannelActions.autocompleteChannels(teamId, term)(dispatch, getState);
     if (data && success) {
         success(data);
     } else if (err && error) {

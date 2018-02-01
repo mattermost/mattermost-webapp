@@ -316,7 +316,6 @@ export default class QuickSwitchModal extends React.PureComponent {
                     <SuggestionBox
                         ref={this.setSwitchBoxRef}
                         className='form-control focused'
-                        type='input'
                         onChange={this.onChange}
                         value={this.state.text}
                         onKeyDown={this.handleKeyDown}

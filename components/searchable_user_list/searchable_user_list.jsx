@@ -7,8 +7,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
-import * as Utils from 'utils/utils.jsx';
+import QuickInput from 'components/quick_input';
 import UserList from 'components/user_list.jsx';
+import * as Utils from 'utils/utils.jsx';
 
 const NEXT_BUTTON_TIMEOUT = 500;
 
@@ -211,7 +212,7 @@ export default class SearchableUserList extends React.Component {
         } else {
             filterRow = (
                 <div className='col-xs-12'>
-                    <input
+                    <QuickInput
                         ref='filter'
                         className='form-control filter-textbox'
                         placeholder={Utils.localizeMessage('filtered_user_list.search', 'Search users')}

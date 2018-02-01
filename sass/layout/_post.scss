@@ -901,7 +901,7 @@
             height: 26px;
             line-height: 25px;
             padding: 0 7px;
-            width: auto;
+            width: 250px;
 
             .post-image__thumbnail {
                 display: none;
@@ -919,13 +919,15 @@
                 }
 
                 svg {
-                    border: none;
-                    height: 30px;
-                    width: 30px;
+                    position: relative;
+                    top: 2px;
                 }
 
                 .icon {
                     display: block;
+                    float: left;
+                    margin-right: 5px;
+                    opacity: .6;
                 }
             }
 
