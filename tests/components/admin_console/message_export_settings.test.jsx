@@ -8,17 +8,15 @@ import MessageExportSettings from 'components/admin_console/message_export_setti
 
 describe('components/MessageExportSettings', () => {
     test('should match snapshot, disabled', () => {
-        function emptyFunction() {} //eslint-disable-line no-empty-function
-
-        var config = {
+        const config = {
             MessageExportSettings: {
                 EnableExport: false,
-                ExportFormat: "actiance",
-                DailyRunTime: "01:00",
+                ExportFormat: 'actiance',
+                DailyRunTime: '01:00',
                 ExportFromTimestamp: null,
                 BatchSize: 10000
             }
-        }
+        };
 
         const wrapper = shallow(
             <MessageExportSettings
@@ -29,17 +27,15 @@ describe('components/MessageExportSettings', () => {
     });
 
     test('should match snapshot, enabled, actiance', () => {
-        function emptyFunction() {} //eslint-disable-line no-empty-function
-
-        var config = {
+        const config = {
             MessageExportSettings: {
                 EnableExport: true,
-                ExportFormat: "actiance",
-                DailyRunTime: "01:00",
+                ExportFormat: 'actiance',
+                DailyRunTime: '01:00',
                 ExportFromTimestamp: 12345678,
                 BatchSize: 10000
             }
-        }
+        };
 
         const wrapper = shallow(
             <MessageExportSettings
@@ -50,18 +46,16 @@ describe('components/MessageExportSettings', () => {
     });
 
     test('should match snapshot, enabled, globalrelay', () => {
-        function emptyFunction() {} //eslint-disable-line no-empty-function
-
-        var config = {
+        const config = {
             MessageExportSettings: {
                 EnableExport: true,
-                ExportFormat: "globalrelay",
-                DailyRunTime: "01:00",
+                ExportFormat: 'globalrelay',
+                DailyRunTime: '01:00',
                 ExportFromTimestamp: 12345678,
                 BatchSize: 10000,
-                GlobalRelayEmailAddress: "test@mattermost.com"
+                GlobalRelayEmailAddress: 'test@mattermost.com'
             }
-        }
+        };
 
         const wrapper = shallow(
             <MessageExportSettings

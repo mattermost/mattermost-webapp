@@ -52,9 +52,9 @@ export default class MessageExportSettings extends AdminSettings {
         ];
 
         // if export format is globalrelay, user must set email address
-        var dropdownHelpText
-        var globalRelayEmail
-        if (this.state.exportFormat === "globalrelay") {
+        var dropdownHelpText;
+        var globalRelayEmail;
+        if (this.state.exportFormat === 'globalrelay') {
             globalRelayEmail = (
                 <TextSetting
                     id='globalRelayEmailAddress'
@@ -75,21 +75,21 @@ export default class MessageExportSettings extends AdminSettings {
                     disabled={!this.state.enableComplianceExport}
                     onChange={this.handleChange}
                 />
-            )
+            );
 
             dropdownHelpText = (
                 <FormattedMessage
                     id='admin.complianceExport.exportFormat.globalrelay.description'
                     defaultMessage='Format of the compliance export. Corresponds to the system that you want to import the data into. Compliance Exports will be emailed to the configured email address.'
                 />
-            )
+            );
         } else {
             dropdownHelpText = (
                 <FormattedHTMLMessage
                     id='admin.complianceExport.exportFormat.actiance.description'
                     defaultMessage='Format of the compliance export. Corresponds to the system that you want to import the data into. Compliance Export files will be written to the "exports" subdirectory of the configured <a href="/admin_console/files/storage">Local Storage Directory</a>.'
                 />
-            )
+            );
         }
 
         return (
