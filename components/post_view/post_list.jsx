@@ -126,6 +126,8 @@ export default class PostList extends React.PureComponent {
         GlobalEventEmitter.addListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.handleResize);
 
         window.addEventListener('resize', this.handleResize);
+
+        this.initialScroll();
     }
 
     componentWillUnmount() {
@@ -192,6 +194,8 @@ export default class PostList extends React.PureComponent {
             return;
         }
 
+        this.initialScroll();
+
         // Scroll to focused post on first load
         const focusedPost = this.refs[this.props.focusedPostId];
         if (focusedPost && this.props.posts) {
@@ -203,21 +207,6 @@ export default class PostList extends React.PureComponent {
             } else if (this.previousScrollHeight !== postList.scrollHeight && posts[0].id === prevPosts[0].id) {
                 postList.scrollTop = this.previousScrollTop + (postList.scrollHeight - this.previousScrollHeight);
             }
-            return;
-        }
-
-        // Scroll to new message indicator or bottom on first load
-        const messageSeparator = this.refs.newMessageSeparator;
-        if (messageSeparator && !this.hasScrolledToNewMessageSeparator) {
-            const element = ReactDOM.findDOMNode(messageSeparator);
-            element.scrollIntoView();
-            if (!this.checkBottom()) {
-                this.setUnreadsBelow(posts, this.props.currentUserId);
-            }
-            return;
-        } else if (postList && !this.hasScrolledToNewMessageSeparator) {
-            postList.scrollTop = postList.scrollHeight;
-            this.atBottom = true;
             return;
         }
 
@@ -250,6 +239,30 @@ export default class PostList extends React.PureComponent {
             if (this.previousScrollHeight !== postList.scrollHeight && posts[0].id === prevPosts[0].id) {
                 postList.scrollTop = this.previousScrollTop + (postList.scrollHeight - this.previousScrollHeight);
             }
+        }
+    }
+
+    // Scroll to new message indicator or bottom on first load
+    initialScroll = () => {
+        const postList = this.refs.postlist;
+        const posts = this.props.posts;
+        if (this.hasScrolledToNewMessageSeparator || !postList || !posts) {
+            return;
+        }
+
+        const messageSeparator = this.refs.newMessageSeparator;
+        if (messageSeparator) {
+            messageSeparator.scrollIntoView();
+            if (!this.checkBottom()) {
+                this.setUnreadsBelow(posts, this.props.currentUserId);
+            }
+        } else {
+            postList.scrollTop = postList.scrollHeight;
+            this.atBottom = true;
+        }
+
+        if (posts.length >= POSTS_PER_PAGE) {
+            this.hasScrolledToNewMessageSeparator = true;
         }
     }
 
@@ -323,6 +336,12 @@ export default class PostList extends React.PureComponent {
         } else {
             const result = await this.props.actions.getPosts(channelId, 0, POSTS_PER_PAGE);
             posts = result.data;
+
+            if (!this.checkBottom()) {
+                const postsArray = posts.order.map((id) => posts.posts[id]);
+                this.setUnreadsBelow(postsArray, this.props.currentUserId);
+            }
+
             this.hasScrolledToNewMessageSeparator = true;
         }
 
@@ -523,6 +542,8 @@ export default class PostList extends React.PureComponent {
                     />
                 </div>
             );
+        } else if (this.state.isDoingInitialLoad) {
+            topRow = <LoadingScreen style={{height: '0px'}}/>;
         } else {
             topRow = (
                 <button
