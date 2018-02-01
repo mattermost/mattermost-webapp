@@ -25,6 +25,10 @@ import UnreadChannelIndicator from '../unread_channel_indicator.jsx';
 
 import SidebarChannel from './sidebar_channel';
 
+type PropType<T, R> = T;
+// $FlowFixMe
+import type {PropType} from 'babel-plugin-react-flow-props-to-prop-types';
+
 type State = {
     newChannelModalType: string,
     showDirectChannelsModal: boolean,
@@ -69,22 +73,22 @@ type Props = {
     /**
      * Current channel object
      */
-    currentChannel?: Object,
+    currentChannel?: PropType<Channel, Object>,
 
     /**
-     * Current channel teammeat (for direct messages)
+     * Current channel teammate (for direct messages)
      */
     currentTeammate?: Object,
 
     /**
      * Current team object
      */
-    currentTeam: Object,
+    currentTeam: PropType<Team, Object>,
 
     /**
      * Current user object
      */
-    currentUser: Object,
+    currentUser: PropType<UserProfile, Object>,
 
     /**
      * Number of unread mentions/messages
@@ -125,7 +129,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
     isLeaving: {[string]: boolean};
     lastBadgesActive = false;
 
-    constructor(props: Object) {
+    constructor(props: Props) {
         super(props);
 
         this.isLeaving = new Map();
@@ -149,7 +153,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         document.addEventListener('keydown', this.navigateUnreadChannelShortcut);
     }
 
-    componentWillReceiveProps(nextProps: Object) {
+    componentWillReceiveProps(nextProps: Props) {
         if (this.props.currentTeam.id !== nextProps.currentTeam.id) {
             initTeamChangeActions(nextProps.currentTeam.id);
         }
@@ -159,7 +163,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         this.updateUnreadIndicators();
     }
 
-    componentDidUpdate(prevProps: Object) {
+    componentDidUpdate(prevProps: Props) {
         // if the active channel disappeared (which can happen when dm channels autoclose), go to town square
         if (this.props.currentChannel && prevProps.currentChannel &&
             this.props.currentTeam === prevProps.currentTeam &&
@@ -250,7 +254,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         });
     }
 
-    handleOpenMoreDirectChannelsModal = (e: Object) => {
+    handleOpenMoreDirectChannelsModal = (e: Event) => {
         e.preventDefault();
         if (this.state.showDirectChannelsModal) {
             this.hideMoreDirectChannelsModal();
@@ -370,7 +374,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         }
     }
 
-    navigateChannelShortcut = (e: Object) => {
+    navigateChannelShortcut = (e: Event) => {
         if (e.altKey && !e.shiftKey && (e.keyCode === Constants.KeyCodes.UP || e.keyCode === Constants.KeyCodes.DOWN)) {
             e.preventDefault();
 
@@ -402,7 +406,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         }
     }
 
-    navigateUnreadChannelShortcut = (e: Object) => {
+    navigateUnreadChannelShortcut = (e: Event) => {
         if (e.altKey && e.shiftKey && (e.keyCode === Constants.KeyCodes.UP || e.keyCode === Constants.KeyCodes.DOWN)) {
             e.preventDefault();
 
@@ -438,7 +442,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         }
     }
 
-    getDisplayedChannels = (props: Object = this.props) => {
+    getDisplayedChannels = (props: Props = this.props) => {
         return props.unreadChannelIds.
             concat(props.favoriteChannelIds).
             concat(props.publicChannelIds).
@@ -446,7 +450,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             concat(props.directAndGroupChannelIds);
     };
 
-    channelIdIsDisplayedForProps = (props: Object, id: string) => {
+    channelIdIsDisplayedForProps = (props: Props, id: string) => {
         const allChannels = this.getDisplayedChannels(props);
         for (let i = 0; i < allChannels.length; i++) {
             if (allChannels[i] === id) {
@@ -482,7 +486,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         this.setState({showDirectChannelsModal: false, startingUsers: null});
     }
 
-    openQuickSwitcher = (e: Object) => {
+    openQuickSwitcher = (e: Event) => {
         e.preventDefault();
         AppDispatcher.handleViewAction({
             type: ActionTypes.TOGGLE_QUICK_SWITCH_MODAL

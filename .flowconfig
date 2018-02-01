@@ -1,9 +1,10 @@
 [ignore]
-.*/dist/.*
-.*/node_modules/.*
-.*/non_npm_dependencies/.*
+<PROJECT_ROOT>/dist/.*
+<PROJECT_ROOT>/non_npm_dependencies/.*
+<PROJECT_ROOT>/node_modules/.*
 
 [include]
+./
 
 [libs]
 ./flow-typed/
