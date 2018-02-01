@@ -25,7 +25,6 @@ import ChannelController from 'components/channel_layout/channel_controller';
 
 const BackstageController = makeAsyncComponent(loadBackstageController);
 
-
 let wakeUpInterval;
 let lastTime = (new Date()).getTime();
 const WAKEUP_CHECK_INTERVAL = 30000; // 30 seconds
