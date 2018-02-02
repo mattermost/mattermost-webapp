@@ -46,7 +46,7 @@ export default class SignupController extends React.Component {
                 loading = true;
             } else if (hash && !UserStore.getCurrentUser()) {
                 usedBefore = BrowserStore.getGlobalItem(hash);
-            } else if (!inviteId && global.window.mm_config.EnableOpenServer !== 'true' && !UserStore.getNoAccounts()) {
+            } else if (!inviteId && global.window.mm_config.EnableOpenServer !== 'true' && global.window.mm_config.NoAccounts !== 'true') {
                 noOpenServerError = true;
                 serverError = (
                     <FormattedMessage
