@@ -58,6 +58,7 @@ function makeMapStateToProps() {
             channelFake: channel.fake,
             channelStringified: channel.fake && JSON.stringify(channel),
             channelTeammateId: teammate && teammate.id,
+            channelTeammateUsername: teammate && teammate.username,
             channelTeammateDeletedAt: teammate && teammate.delete_at,
             showTutorialTip: tutorialStep === Constants.TutorialSteps.CHANNEL_POPOVER && config.EnableTutorial === 'true',
             townSquareDisplayName: channelsByName[Constants.DEFAULT_CHANNEL] && channelsByName[Constants.DEFAULT_CHANNEL].display_name,

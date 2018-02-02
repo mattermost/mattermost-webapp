@@ -62,6 +62,11 @@ export default class SidebarChannel extends React.PureComponent {
         channelTeammateId: PropTypes.string,
 
         /**
+         * Teammate username (for direct messages)
+         */
+        channelTeammateUsername: PropTypes.string,
+
+        /**
          * Teammate delete at date (for direct messages)
          */
         channelTeammateDeletedAt: PropTypes.number,
@@ -243,7 +248,7 @@ export default class SidebarChannel extends React.PureComponent {
         if (this.props.channelFake) {
             link = `/${this.props.currentTeamName}/channels/${this.props.channelName}?fakechannel=${encodeURIComponent(this.props.channelStringified)}`;
         } else if (this.props.channelType === Constants.DM_CHANNEL) {
-            link = `/${this.props.currentTeamName}/messages/@${this.props.channelDisplayName}`;
+            link = `/${this.props.currentTeamName}/messages/@${this.props.channelTeammateUsername}`;
         } else if (this.props.channelType === Constants.GM_CHANNEL) {
             link = `/${this.props.currentTeamName}/messages/${this.props.channelName}`;
         } else {
