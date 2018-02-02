@@ -67,22 +67,16 @@ const MAPPING = {
     restrictPostDelete: {
         all: [
             {roleName: 'channel_user', permission: Permissions.DELETE_POST, shouldHave: true},
-            {roleName: 'channel_admin', permission: Permissions.DELETE_POST, shouldHave: false},
-            {roleName: 'channel_admin', permission: Permissions.DELETE_OTHERS_POSTS, shouldHave: false},
             {roleName: 'team_admin', permission: Permissions.DELETE_POST, shouldHave: true},
             {roleName: 'team_admin', permission: Permissions.DELETE_OTHERS_POSTS, shouldHave: true}
         ],
         team_admin: [
             {roleName: 'channel_user', permission: Permissions.DELETE_POST, shouldHave: false},
-            {roleName: 'channel_admin', permission: Permissions.DELETE_POST, shouldHave: false},
-            {roleName: 'channel_admin', permission: Permissions.DELETE_OTHERS_POSTS, shouldHave: false},
             {roleName: 'team_admin', permission: Permissions.DELETE_POST, shouldHave: true},
             {roleName: 'team_admin', permission: Permissions.DELETE_OTHERS_POSTS, shouldHave: true}
         ],
         system_admin: [
             {roleName: 'channel_user', permission: Permissions.DELETE_POST, shouldHave: false},
-            {roleName: 'channel_admin', permission: Permissions.DELETE_POST, shouldHave: false},
-            {roleName: 'channel_admin', permission: Permissions.DELETE_OTHERS_POSTS, shouldHave: false},
             {roleName: 'team_admin', permission: Permissions.DELETE_POST, shouldHave: false},
             {roleName: 'team_admin', permission: Permissions.DELETE_OTHERS_POSTS, shouldHave: false}
         ]
@@ -91,6 +85,19 @@ const MAPPING = {
     enableTeamCreation: {
         true: [{roleName: 'system_user', permission: Permissions.CREATE_TEAM, shouldHave: true}],
         false: [{roleName: 'system_user', permission: Permissions.CREATE_TEAM, shouldHave: false}]
+    },
+
+    enableOnlyAdminIntegrations: {
+        true: [
+            {roleName: 'team_user', permission: Permissions.MANAGE_WEBHOOKS, shouldHave: false},
+            {roleName: 'team_user', permission: Permissions.MANAGE_SLASH_COMMANDS, shouldHave: false},
+            {roleName: 'system_user', permission: Permissions.MANAGE_OAUTH, shouldHave: false}
+        ],
+        false: [
+            {roleName: 'team_user', permission: Permissions.MANAGE_WEBHOOKS, shouldHave: true},
+            {roleName: 'team_user', permission: Permissions.MANAGE_SLASH_COMMANDS, shouldHave: true},
+            {roleName: 'system_user', permission: Permissions.MANAGE_OAUTH, shouldHave: true}
+        ]
     }
 };
 

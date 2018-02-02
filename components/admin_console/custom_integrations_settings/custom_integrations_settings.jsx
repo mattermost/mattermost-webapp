@@ -5,9 +5,15 @@ import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
 
+import {RequestStatus} from 'mattermost-redux/constants';
+
+import {rolesFromMapping, mappingValueFromRoles} from 'utils/policy_roles_adapter';
+
 import AdminSettings from '.././admin_settings.jsx';
 import BooleanSetting from '.././boolean_setting.jsx';
 import SettingsGroup from '.././settings_group.jsx';
+
+import LoadingScreen from 'components/loading_screen.jsx';
 
 export default class WebhookSettings extends AdminSettings {
     static propTypes = {
@@ -19,15 +25,63 @@ export default class WebhookSettings extends AdminSettings {
         }).isRequired
     };
 
-    // constructor(props) {
-    //     super(props);
-    // }
+    constructor(props) {
+        super(props);
+        this.state = {
+            ...this.state, // Brings the state in from the parent class.
+            enableOnlyAdminIntegrations: null,
+            loaded: false
+        };
+    }
+
+    componentWillMount() {
+        this.props.actions.loadRolesIfNeeded(['team_user', 'system_user']).then(() => {
+            this.loadPoliciesIntoState(this.props);
+        });
+    }
+
+    handleSubmit = async (e) => {
+        e.preventDefault();
+
+        // Purposely converting enableOnlyAdminIntegrations value from boolean to string 'true' or 'false'
+        // so that it can be used as a key in the policy roles adapter mapping.
+        const updatedRoles = rolesFromMapping({enableOnlyAdminIntegrations: this.state.enableOnlyAdminIntegrations.toString()}, this.props.roles);
+
+        let success = true;
+
+        await Promise.all(Object.values(updatedRoles).map(async (item) => {
+            try {
+                await this.props.actions.editRole(item);
+            } catch (err) {
+                success = false;
+                this.setState({
+                    saving: false,
+                    serverError: err.message
+                });
+            }
+        }));
+
+        if (success) {
+            this.doSubmit();
+        }
+    };
+
+    loadPoliciesIntoState(props) {
+        if (props.rolesRequest.status === RequestStatus.SUCCESS) {
+            const {roles} = props;
+
+            // Purposely parsing boolean from string 'true' or 'false'
+            // because the string comes from the policy roles adapter mapping.
+            const enableOnlyAdminIntegrations = (mappingValueFromRoles('enableOnlyAdminIntegrations', roles) === 'true');
+
+            this.setState({enableOnlyAdminIntegrations, loaded: true});
+        }
+    }
 
     getConfigFromState = (config) => {
         config.ServiceSettings.EnableIncomingWebhooks = this.state.enableIncomingWebhooks;
         config.ServiceSettings.EnableOutgoingWebhooks = this.state.enableOutgoingWebhooks;
         config.ServiceSettings.EnableCommands = this.state.enableCommands;
-        config.ServiceSettings.EnableOnlyAdminIntegrations = this.state.enableOnlyAdminIntegrations;
         config.ServiceSettings.EnablePostUsernameOverride = this.state.enablePostUsernameOverride;
         config.ServiceSettings.EnablePostIconOverride = this.state.enablePostIconOverride;
         config.ServiceSettings.EnableOAuthServiceProvider = this.state.enableOAuthServiceProvider;
@@ -41,7 +95,6 @@ export default class WebhookSettings extends AdminSettings {
             enableIncomingWebhooks: config.ServiceSettings.EnableIncomingWebhooks,
             enableOutgoingWebhooks: config.ServiceSettings.EnableOutgoingWebhooks,
             enableCommands: config.ServiceSettings.EnableCommands,
-            enableOnlyAdminIntegrations: config.ServiceSettings.EnableOnlyAdminIntegrations,
             enablePostUsernameOverride: config.ServiceSettings.EnablePostUsernameOverride,
             enablePostIconOverride: config.ServiceSettings.EnablePostIconOverride,
             enableOAuthServiceProvider: config.ServiceSettings.EnableOAuthServiceProvider,
@@ -59,6 +112,9 @@ export default class WebhookSettings extends AdminSettings {
     }
 
     renderSettings = () => {
+        if (!this.state.loaded) {
+            return <LoadingScreen/>;
+        }
         return (
             <SettingsGroup>
                 <BooleanSetting
