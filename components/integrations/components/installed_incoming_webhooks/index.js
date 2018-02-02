@@ -15,7 +15,7 @@ import InstalledIncomingWebhooks from './installed_incoming_webhooks.jsx';
 
 function mapStateToProps(state, ownProps) {
     const teamId = getCurrentTeamId(state);
-    const canChange = haveITeamPerm(state, {team: teamId, perm: Permissions.MANAGE_OTHERS_WEBHOOKS});
+    const canManageOthersWebhooks = haveITeamPerm(state, {team: teamId, perm: Permissions.MANAGE_OTHERS_WEBHOOKS});
     const incomingHooks = getIncomingHooks(state);
     const incomingWebhooks = Object.keys(incomingHooks).
         map((key) => incomingHooks[key]).
@@ -27,7 +27,7 @@ function mapStateToProps(state, ownProps) {
         channels: getAllChannels(state),
         users: getUsers(state),
         teamId,
-        canChange
+        canManageOthersWebhooks
     };
 }
 

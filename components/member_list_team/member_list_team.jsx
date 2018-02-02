@@ -19,7 +19,7 @@ const USERS_PER_PAGE = 50;
 export default class MemberListTeam extends React.Component {
     static propTypes = {
         teamId: PropTypes.string.isRequired,
-        canManageMembers: PropTypes.bool,
+        canManageTeamMembers: PropTypes.bool,
         actions: PropTypes.shape({
             getTeamStats: PropTypes.func.isRequired
         }).isRequired
@@ -121,7 +121,7 @@ export default class MemberListTeam extends React.Component {
 
     render() {
         let teamMembersDropdown = null;
-        if (this.props.canManageMembers) {
+        if (this.props.canManageTeamMembers) {
             teamMembersDropdown = [TeamMembersDropdown];
         }
 

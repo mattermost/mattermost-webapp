@@ -10,10 +10,10 @@ import {Permissions} from 'mattermost-redux/constants';
 import InstalledCommands from './installed_commands.jsx';
 
 function mapStateToProps(state, ownProps) {
-    const canChange = haveITeamPerm(state, {team: ownProps.team.id, perm: Permissions.MANAGE_OTHERS_SLASH_COMMANDS});
+    const canManageOthersSlashCommands = haveITeamPerm(state, {team: ownProps.team.id, perm: Permissions.MANAGE_OTHERS_SLASH_COMMANDS});
 
     return {
-        canChange
+        canManageOthersSlashCommands
     };
 }
 
