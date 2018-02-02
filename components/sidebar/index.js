@@ -10,7 +10,6 @@ import {
     getSortedFavoriteChannelWithUnreadsIds,
     getSortedDirectChannelWithUnreadsIds,
     getCurrentChannel,
-    getMyChannelMemberships,
     getUnreads,
     getSortedUnreadChannelIds,
     getSortedDirectChannelIds,
@@ -69,7 +68,6 @@ function mapStateToProps(state) {
         currentTeammate,
         currentTeam: getCurrentTeam(state),
         currentUser: getCurrentUser(state),
-        memberships: getMyChannelMemberships(state),
         unreads: getUnreads(state),
         isSystemAdmin: isCurrentUserSystemAdmin(state),
         isTeamAdmin: isCurrentUserCurrentTeamAdmin(state)
