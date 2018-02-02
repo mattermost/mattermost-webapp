@@ -140,7 +140,7 @@ class ProfilePopover extends React.Component {
 
         openDirectChannelToUser(
             user.id,
-            (channel) => {
+            () => {
                 if (Utils.isMobile()) {
                     GlobalActions.emitCloseRightHandSide();
                 }
@@ -148,7 +148,7 @@ class ProfilePopover extends React.Component {
                 if (this.props.hide) {
                     this.props.hide();
                 }
-                browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + channel.name);
+                browserHistory.push(`${TeamStore.getCurrentTeamRelativeUrl()}/messages/${user.username}`);
             }
         );
     }

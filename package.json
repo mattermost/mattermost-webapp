@@ -139,7 +139,8 @@
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|react-router)"
     ],
-    "setupTestFrameworkScriptFile": "<rootDir>/tests/setup.js"
+    "setupTestFrameworkScriptFile": "<rootDir>/tests/setup.js",
+    "testURL": "http://localhost:8065"
   },
   "scripts": {
     "check": "eslint --ignore-pattern node_modules --ignore-pattern non_npm_dependencies --ignore-pattern dist --ext .js --ext .jsx . --quiet",

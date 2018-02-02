@@ -184,6 +184,13 @@ export default class Sidebar extends React.PureComponent {
 
         this.updateTitle();
 
+        if (this.props.currentChannel.type === Constants.DM_CHANNEL &&
+            this.props.currentTeammate && prevProps.currentTeammate &&
+            this.props.currentTeammate.display_name !== prevProps.currentTeammate.display_name
+        ) {
+            window.history.replaceState(null, null, `/${this.props.currentTeam.name}/messages/@${this.props.currentTeammate.display_name}`);
+        }
+
         this.setBadgesActiveAndFavicon();
         this.setFirstAndLastUnreadChannels();
     }

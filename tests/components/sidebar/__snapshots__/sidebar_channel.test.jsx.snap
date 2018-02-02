@@ -12,7 +12,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     channelType="D"
     displayName="Channel display name"
     handleClose={[Function]}
-    link="/current-team/channels/channel-name"
+    link="/current-team/messages/@Channel display name"
     membersCount={8}
     onSelectChannel={[Function]}
     rowClass="sidebar-item has-close"
@@ -35,7 +35,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     channelType="D"
     displayName="Channel display name"
     handleClose={[Function]}
-    link="/current-team/channels/channel-name"
+    link="/current-team/messages/@Channel display name"
     membersCount={8}
     onSelectChannel={[Function]}
     rowClass="sidebar-item has-close"
@@ -85,7 +85,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     channelType="D"
     displayName="Channel display name"
     handleClose={[Function]}
-    link="/current-team/channels/channel-name"
+    link="/current-team/messages/@Channel display name"
     membersCount={8}
     onSelectChannel={[Function]}
     rowClass="sidebar-item unread-title has-badge"
@@ -108,7 +108,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     channelType="D"
     displayName="Channel display name"
     handleClose={[Function]}
-    link="/current-team/channels/channel-name"
+    link="/current-team/messages/@Channel display name"
     membersCount={8}
     onSelectChannel={[Function]}
     rowClass="sidebar-item unread-title has-close"
@@ -256,7 +256,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
       />
     }
     handleClose={[Function]}
-    link="/current-team/channels/channel-name"
+    link="/current-team/messages/@Channel display name"
     membersCount={8}
     onSelectChannel={[Function]}
     rowClass="sidebar-item has-close"
