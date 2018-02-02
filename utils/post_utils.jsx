@@ -136,18 +136,26 @@ export function removeCode(text) {
     return text.replace(codeBlockPattern, '').replace(inlineCodePattern, ' ');
 }
 
-export function postMessageHtmlToComponent(html, isRHS) {
+/*
+ * Converts HTML to React components using html-to-react.
+ * The following options can be specified:
+ * - mentions - If specified, mentions are replaced with the AtMention component. Defaults to true.
+ * - emoji - If specified, emoji text is replaced with the PostEmoji component. Defaults to true.
+ * - images - If specified, markdown images are replaced with the PostMarkdown component. Defaults to true.
+ * - latex - If specified, latex is replaced with the LatexBlock component. Defaults to true.
+ */
+export function messageHtmlToComponent(html, isRHS, options = {}) {
     const parser = new Parser();
-    const mentionAttrib = 'data-mention';
-    const emojiAttrib = 'data-emoticon';
     const processNodeDefinitions = new ProcessNodeDefinitions(React);
 
     function isValidNode() {
         return true;
     }
 
-    const processingInstructions = [
-        {
+    const processingInstructions = [];
+    if (!('mentions' in options) || options.mentions) {
+        const mentionAttrib = 'data-mention';
+        processingInstructions.push({
             replaceChildren: true,
             shouldProcessNode: (node) => node.attribs && node.attribs[mentionAttrib],
             processNode: (node) => {
@@ -161,8 +169,12 @@ export function postMessageHtmlToComponent(html, isRHS) {
                 );
                 return callAtMention;
             }
-        },
-        {
+        });
+    }
+
+    if (!('emoji' in options) || options.emoji) {
+        const emojiAttrib = 'data-emoticon';
+        processingInstructions.push({
             replaceChildren: true,
             shouldProcessNode: (node) => node.attribs && node.attribs[emojiAttrib],
             processNode: (node) => {
@@ -174,8 +186,11 @@ export function postMessageHtmlToComponent(html, isRHS) {
                 );
                 return callPostEmoji;
             }
-        },
-        {
+        });
+    }
+
+    if (!('images' in options) || options.images) {
+        processingInstructions.push({
             shouldProcessNode: (node) => node.type === 'tag' && node.name === 'img',
             processNode: (node) => {
                 const {
@@ -190,19 +205,24 @@ export function postMessageHtmlToComponent(html, isRHS) {
                 );
                 return callMarkdownImage;
             }
-        },
-        {
+        });
+    }
+
+    if (!('latex' in options) || options.latex) {
+        processingInstructions.push({
             shouldProcessNode: (node) => node.attribs && node.attribs['data-latex'],
             processNode: (node) => {
                 return (
                     <LatexBlock content={node.attribs['data-latex']}/>
                 );
             }
-        },
-        {
-            shouldProcessNode: () => true,
-            processNode: processNodeDefinitions.processDefaultNode
-        }
-    ];
+        });
+    }
+
+    processingInstructions.push({
+        shouldProcessNode: () => true,
+        processNode: processNodeDefinitions.processDefaultNode
+    });
+
     return parser.parseWithInstructions(html, isValidNode, processingInstructions);
 }

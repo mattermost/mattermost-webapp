@@ -21,14 +21,16 @@ export default class CenterChannel extends React.PureComponent {
 
     toLastChannel = () => {
         let channelName = Constants.DEFAULT_CHANNEL;
-        const team = TeamStore.getByName(this.props.params.match.params.team);
-        const channelId = BrowserStore.getGlobalItem(team.id);
-        const channel = ChannelStore.getChannelById(channelId);
-        if (channel) {
-            channelName = channel.name;
+        const team = TeamStore.getByName(this.props.match.params.team);
+        if (team) {
+            const channelId = BrowserStore.getGlobalItem(team.id);
+            const channel = ChannelStore.getChannelById(channelId);
+            if (channel) {
+                channelName = channel.name;
+            }
         }
-        return `${this.props.params.match.url}/channels/${channelName}`;
-    };
+        return `${this.props.match.url}/channels/${channelName}`;
+    }
 
     render() {
         const url = this.props.params.match.url;
