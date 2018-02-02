@@ -24,6 +24,11 @@ export default class EmojiList extends React.Component {
          */
         emojiIds: PropTypes.arrayOf(PropTypes.string).isRequired,
 
+        /**
+         * Function to scroll list to top.
+         */
+        scrollToTop: PropTypes.func.isRequired,
+
         actions: PropTypes.shape({
 
             /**
@@ -73,6 +78,8 @@ export default class EmojiList extends React.Component {
             if (data && data.length < EMOJI_PER_PAGE) {
                 this.setState({missingPages: false});
             }
+
+            this.props.scrollToTop();
         });
     }
 
@@ -82,6 +89,7 @@ export default class EmojiList extends React.Component {
         }
 
         this.setState({page: this.state.page - 1, nextLoading: false});
+        this.props.scrollToTop();
     }
 
     onSearchChange = (e) => {

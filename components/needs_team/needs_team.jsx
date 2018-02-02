@@ -47,7 +47,7 @@ import ChannelView from 'components/channel_view';
 import PermalinkView from 'components/permalink_view';
 import MessageIdentifierRouter from 'components/message_indentifier_router';
 import {makeAsyncComponent} from 'components/async_load';
-import loadBackstageController from 'bundle-loader?lazy!components/backstage/backstage_controller';
+import loadBackstageController from 'bundle-loader?lazy!components/backstage';
 
 const BackstageController = makeAsyncComponent(loadBackstageController);
 
