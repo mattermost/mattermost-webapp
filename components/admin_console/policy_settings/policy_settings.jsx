@@ -25,6 +25,8 @@ import LoadingScreen from 'components/loading_screen.jsx';
 
 export default class PolicySettings extends AdminSettings {
     static propTypes = {
+        roles: PropTypes.object.isRequired,
+        rolesRequest: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             loadRolesIfNeeded: PropTypes.func.isRequired,
             editRole: PropTypes.func.isRequired
@@ -33,10 +35,6 @@ export default class PolicySettings extends AdminSettings {
 
     constructor(props) {
         super(props);
-
-        this.getConfigFromState = this.getConfigFromState.bind(this);
-
-        this.renderSettings = this.renderSettings.bind(this);
 
         this.roleBasedPolicies = {
             allowEditPost: '',
@@ -114,7 +112,7 @@ export default class PolicySettings extends AdminSettings {
         }
     };
 
-    getConfigFromState(config) {
+    getConfigFromState = (config) => {
         config.ServiceSettings.PostEditTimeLimit = this.state.postEditTimeLimit ? this.parseIntNonZero(this.state.postEditTimeLimit, Constants.UNSET_POST_EDIT_TIME_LIMIT) : Constants.UNSET_POST_EDIT_TIME_LIMIT;
         config.AnnouncementSettings.EnableBanner = this.state.enableBanner;
         config.AnnouncementSettings.BannerText = this.state.bannerText;
@@ -122,7 +120,7 @@ export default class PolicySettings extends AdminSettings {
         config.AnnouncementSettings.BannerTextColor = this.state.bannerTextColor;
         config.AnnouncementSettings.AllowBannerDismissal = this.state.allowBannerDismissal;
         return config;
-    }
+    };
 
     getStateFromConfig(config) {
         return {
@@ -144,7 +142,7 @@ export default class PolicySettings extends AdminSettings {
         );
     }
 
-    renderSettings() {
+    renderSettings = () => {
         if (!this.state.loaded) {
             return <LoadingScreen/>;
         }
@@ -479,5 +477,5 @@ export default class PolicySettings extends AdminSettings {
                 />
             </SettingsGroup>
         );
-    }
+    };
 }
