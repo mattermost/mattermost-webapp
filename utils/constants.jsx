@@ -426,6 +426,20 @@ export const ErrorBarTypes = {
     WEBSOCKET_PORT_ERROR: 'channel_loader.socketError'
 };
 
+export const FileTypes = {
+    IMAGE: 'image',
+    AUDIO: 'audio',
+    VIDEO: 'video',
+    SPREADSHEET: 'spreadsheet',
+    CODE: 'code',
+    WORD: 'word',
+    PRESENTATION: 'presentation',
+    PDF: 'pdf',
+    PATCH: 'patch',
+    SVG: 'svg',
+    OTHER: 'other'
+};
+
 export const NotificationLevels = {
     DEFAULT: 'default',
     ALL: 'all',
@@ -465,6 +479,7 @@ export const Constants = {
     PostTypes,
     ErrorPageTypes,
     ErrorBarTypes,
+    FileTypes,
 
     MAX_POST_VISIBILITY: 1000000,
 

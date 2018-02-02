@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
-import Constants from 'utils/constants.jsx';
+import Constants, {FileTypes} from 'utils/constants.jsx';
 import * as FileUtils from 'utils/file_utils';
 import * as Utils from 'utils/utils.jsx';
 
@@ -40,7 +40,7 @@ export default class FileAttachment extends React.PureComponent {
         super(props);
 
         this.state = {
-            loaded: Utils.getFileType(props.fileInfo.extension) !== 'image'
+            loaded: Utils.getFileType(props.fileInfo.extension) !== FileTypes.IMAGE
         };
     }
 
@@ -53,7 +53,7 @@ export default class FileAttachment extends React.PureComponent {
             const extension = nextProps.fileInfo.extension;
 
             this.setState({
-                loaded: Utils.getFileType(extension) !== 'image' && extension !== 'svg'
+                loaded: Utils.getFileType(extension) !== FileTypes.IMAGE && extension !== FileTypes.SVG
             });
         }
     }
@@ -68,11 +68,11 @@ export default class FileAttachment extends React.PureComponent {
         const fileInfo = this.props.fileInfo;
         const fileType = Utils.getFileType(fileInfo.extension);
 
-        if (fileType === 'image') {
+        if (fileType === FileTypes.IMAGE) {
             const thumbnailUrl = getFileThumbnailUrl(fileInfo.id);
 
             Utils.loadImage(thumbnailUrl, this.handleImageLoaded);
-        } else if (fileInfo.extension === 'svg') {
+        } else if (fileInfo.extension === FileTypes.SVG) {
             Utils.loadImage(getFileUrl(fileInfo.id), this.handleImageLoaded);
         }
     }
@@ -97,7 +97,7 @@ export default class FileAttachment extends React.PureComponent {
         if (this.state.loaded) {
             const type = Utils.getFileType(fileInfo.extension);
 
-            if (type === 'image') {
+            if (type === FileTypes.IMAGE) {
                 let className = 'post-image';
 
                 if (fileInfo.width < Constants.THUMBNAIL_WIDTH && fileInfo.height < Constants.THUMBNAIL_HEIGHT) {
@@ -120,7 +120,7 @@ export default class FileAttachment extends React.PureComponent {
                         }}
                     />
                 );
-            } else if (fileInfo.extension === 'svg') {
+            } else if (fileInfo.extension === FileTypes.SVG) {
                 thumbnail = (
                     <img
                         className='post-image normal'

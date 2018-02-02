@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Constants from 'utils/constants.jsx';
+import Constants, {FileTypes} from 'utils/constants.jsx';
 import {getFileType} from 'utils/utils';
 
 import FileAttachment from 'components/file_attachment.jsx';
@@ -73,7 +73,7 @@ export default class FileAttachmentList extends React.Component {
         if (fileInfos && fileInfos.length === 1 && compactDisplay === false) {
             const fileType = getFileType(fileInfos[0].extension);
 
-            if (fileType === 'image' || fileType === 'svg') {
+            if (fileType === FileTypes.IMAGE || fileType === FileTypes.SVG) {
                 return (
                     <SingleImageView
                         fileInfo={fileInfos[0]}
