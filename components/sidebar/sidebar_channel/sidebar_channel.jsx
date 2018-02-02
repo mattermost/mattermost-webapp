@@ -216,9 +216,11 @@ export default class SidebarChannel extends React.PureComponent {
                 rowClass += ' has-badge';
 
                 badge = true;
-            } else if (closeHandler) {
-                rowClass += ' has-close';
             }
+        }
+
+        if (closeHandler && !badge) {
+            rowClass += ' has-close';
         }
 
         let tutorialTip = null;
