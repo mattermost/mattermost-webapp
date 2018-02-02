@@ -49,6 +49,7 @@
     "reselect": "3.0.1",
     "superagent": "3.8.2",
     "twemoji": "2.5.0",
+    "url-search-params-polyfill": "2.0.2",
     "webrtc-adapter": "6.0.4",
     "whatwg-fetch": "2.0.3",
     "xregexp": "4.0.0"

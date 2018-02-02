@@ -129,7 +129,7 @@ var MYSTATS = {
 };
 
 var config = {
-    entry: ['babel-polyfill', 'whatwg-fetch', './root.jsx', 'root.html'],
+    entry: ['babel-polyfill', 'whatwg-fetch', 'url-search-params-polyfill', './root.jsx', 'root.html'],
     output: {
         path: path.join(__dirname, 'dist'),
         publicPath: '/static/',
