@@ -238,7 +238,9 @@ export const ActionTypes = keyMirror({
 
     POPOVER_MENTION_KEY_CLICK: null,
 
-    KEEP_CHANNEL_AS_UNREAD: null
+    KEEP_CHANNEL_AS_UNREAD: null,
+
+    INCREMENT_EMOJI_PICKER_PAGE: null
 });
 
 export const WebrtcActionTypes = keyMirror({

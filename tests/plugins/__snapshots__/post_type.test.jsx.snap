@@ -212,7 +212,7 @@ exports[`plugins/PostMessageView should match snapshot with no extended post typ
                 "type": "testtype",
               }
             }
-            siteURL="null"
+            siteURL="http://localhost:8065"
           >
             <span>
               <p

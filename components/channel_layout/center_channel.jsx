@@ -7,7 +7,7 @@ import {Route, Switch, Redirect} from 'react-router-dom';
 
 import ChannelView from 'components/channel_view';
 import PermalinkView from 'components/permalink_view';
-import MessageIdentifierRouter from 'components/channel_layout/message_indentifier_router';
+import ChannelIdentifierRouter from './channel_identifier_router';
 import ChannelStore from 'stores/channel_store';
 import TeamStore from 'stores/team_store';
 import BrowserStore from 'stores/browser_store';
@@ -55,7 +55,7 @@ export default class CenterChannel extends React.PureComponent {
                         />
                         <Route
                             path={'/:team/messages/:identifier'}
-                            component={MessageIdentifierRouter}
+                            component={ChannelIdentifierRouter}
                         />
                         <Redirect to={this.toLastChannel()}/>
                     </Switch>
