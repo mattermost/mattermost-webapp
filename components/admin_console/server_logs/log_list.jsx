@@ -31,7 +31,10 @@ export default class Logs extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.refs.logPanel.focus();
+        // Scroll Down to get the latest logs
+        var node = this.refs.logPanel;
+        node.scrollTop = node.scrollHeight;
+        node.focus();
     }
 
     componentDidUpdate() {
