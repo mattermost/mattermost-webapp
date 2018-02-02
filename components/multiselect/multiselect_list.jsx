@@ -116,7 +116,7 @@ export default class MultiSelectList extends React.Component {
 
     render() {
         const options = this.props.options;
-        if (this.props.loadingChannels) {
+        if (this.props.loading) {
             return (
                 <div>
                     <LoadingScreen
@@ -177,5 +177,5 @@ MultiSelectList.propTypes = {
     onPageChange: PropTypes.func,
     onAdd: PropTypes.func,
     onSelect: PropTypes.func,
-    loadingChannels: PropTypes.bool
+    loading: PropTypes.bool
 };

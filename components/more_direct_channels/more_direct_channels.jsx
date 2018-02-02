@@ -65,8 +65,8 @@ export default class MoreDirectChannels extends React.Component {
             values,
             show: true,
             search: false,
-            savingChannel: false,
-            loadingChannels: true
+            saving: false,
+            loadingUsers: true
         };
     }
 
@@ -74,15 +74,7 @@ export default class MoreDirectChannels extends React.Component {
         UserStore.addChangeListener(this.onChange);
         UserStore.addInTeamChangeListener(this.onChange);
         UserStore.addStatusesChangeListener(this.onChange);
-        if (this.listType === 'any') {
-            this.props.actions.getProfiles(0, USERS_PER_PAGE * 2, false).then(() => {
-                this.toggleChannelLoadingState();
-            });
-        } else {
-            this.props.actions.getProfilesInTeam(TeamStore.getCurrentId(), 0, USERS_PER_PAGE * 2).then(() => {
-                this.toggleChannelLoadingState();
-            });
-        }
+        this.getUserProfiles();
     }
 
     componentWillUnmount() {
@@ -95,9 +87,9 @@ export default class MoreDirectChannels extends React.Component {
         this.setState({show: false});
     }
 
-    toggleChannelLoadingState = (forceFlag) => {
+    setUsersLoadingState = (loadingState) => {
         this.setState({
-            loadingChannels: typeof forceFlag === 'undefined' ? !this.state.loadingChannels : forceFlag
+            loadingUsers: loadingState
         });
     }
 
@@ -112,7 +104,7 @@ export default class MoreDirectChannels extends React.Component {
     }
 
     handleSubmit(values = this.state.values) {
-        if (this.state.savingChannel) {
+        if (this.state.saving) {
             return;
         }
 
@@ -121,19 +113,19 @@ export default class MoreDirectChannels extends React.Component {
             return;
         }
 
-        this.setState({savingChannel: true});
+        this.setState({saving: true});
 
         const success = (channel) => {
             // Due to how react-overlays Modal handles focus, we delay pushing
             // the new channel information until the modal is fully exited.
             // The channel information will be pushed in `handleExit`
             this.exitToChannel = TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + channel.name;
-            this.setState({savingChannel: false});
+            this.setState({saving: false});
             this.handleHide();
         };
 
         const error = () => {
-            this.setState({savingChannel: false});
+            this.setState({saving: false});
         };
 
         if (userIds.length === 1) {
@@ -180,17 +172,23 @@ export default class MoreDirectChannels extends React.Component {
         });
     }
 
+    getUserProfiles(page) {
+        const pageNum = page ? page + 1 : 0;
+        if (this.listType === 'any') {
+            this.props.actions.getProfiles(pageNum, USERS_PER_PAGE * 2).then(() => {
+                this.setUsersLoadingState(false);
+            });
+        } else {
+            this.props.actions.getProfilesInTeam(TeamStore.getCurrentId(), pageNum, USERS_PER_PAGE * 2).then(() => {
+                this.setUsersLoadingState(false);
+            });
+        }
+    }
+
     handlePageChange(page, prevPage) {
         if (page > prevPage) {
-            if (this.listType === 'any') {
-                this.props.actions.getProfiles(page + 1, USERS_PER_PAGE).then(() => {
-                    this.toggleChannelLoadingState(false);
-                });
-            } else {
-                this.props.actions.getProfilesInTeam(page + 1, USERS_PER_PAGE).then(() => {
-                    this.toggleChannelLoadingState(false);
-                });
-            }
+            this.setUsersLoadingState(true);
+            this.getUserProfiles(page);
         }
     }
 
@@ -219,7 +217,10 @@ export default class MoreDirectChannels extends React.Component {
 
         this.searchTimeoutId = setTimeout(
             () => {
-                searchUsers(term, teamId, {}, this.resetPaging);
+                this.setUsersLoadingState(true);
+                searchUsers(term, teamId, {}, this.resetPaging).then(() => {
+                    this.setUsersLoadingState(false);
+                });
             },
             Constants.SEARCH_TIMEOUT_MILLISECONDS
         );
@@ -382,8 +383,8 @@ export default class MoreDirectChannels extends React.Component {
                         numRemainingText={numRemainingText}
                         buttonSubmitText={buttonSubmitText}
                         submitImmediatelyOn={this.handleSubmitImmediatelyOn}
-                        saving={this.state.savingChannel}
-                        loadingChannels={this.state.loadingChannels}
+                        saving={this.state.saving}
+                        loading={this.state.loadingUsers}
                     />
                 </Modal.Body>
             </Modal>
