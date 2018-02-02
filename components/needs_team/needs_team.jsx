@@ -47,7 +47,7 @@ import ModalController from 'components/modal_controller';
 import TeamSidebar from 'components/team_sidebar';
 import Sidebar from 'components/sidebar';
 import PermalinkView from 'components/permalink_view';
-import MessageIdentifierRouter from 'components/message_identifier_router';
+import ChannelIdentifierRouter from 'components/channel_identifier_router.jsx';
 import {makeAsyncComponent} from 'components/async_load';
 import loadBackstageController from 'bundle-loader?lazy!components/backstage/backstage_controller';
 
@@ -271,7 +271,7 @@ export default class NeedsTeam extends React.Component {
                                             />
                                             <Route
                                                 path={'/:team/:path(channels|messages)/:identifier'}
-                                                component={MessageIdentifierRouter}
+                                                component={ChannelIdentifierRouter}
                                             />
                                             <Redirect to={this.toLastChannel()}/>
                                         </Switch>
