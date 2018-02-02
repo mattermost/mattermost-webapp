@@ -18,10 +18,7 @@ class ModalStoreClass extends EventEmitter {
     addModalListener = (action, callback) => {
         this.on(action, callback);
     }
-    getEvents = () => {
-        console.log(1)
-        this.eventNames();
-    }
+
     removeModalListener = (action, callback) => {
         this.removeListener(action, callback);
     }
