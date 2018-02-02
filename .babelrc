@@ -6,7 +6,7 @@
     "flow"
   ],
   "plugins": [
-    "react-flow-props-to-prop-types",
+    "flow-react-proptypes",
     "transform-es2015-modules-commonjs",
     "dynamic-import-node"
   ]

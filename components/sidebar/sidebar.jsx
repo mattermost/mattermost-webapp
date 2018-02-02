@@ -2,7 +2,9 @@
 // See License.txt for license information.
 // @flow
 
-declare type PropType<T, R> = T;
+import type {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+import type {UserProfile} from 'mattermost-redux/types/users';
+import type {Team} from 'mattermost-redux/types/teams';
 
 import $ from 'jquery';
 import React from 'react';
@@ -71,7 +73,7 @@ type Props = {
     /**
      * Current channel object
      */
-    currentChannel?: PropType<Channel, Object>,
+    currentChannel?: Channel,
 
     /**
      * Current channel teammate (for direct messages)
@@ -81,12 +83,12 @@ type Props = {
     /**
      * Current team object
      */
-    currentTeam: PropType<Team, Object>,
+    currentTeam: Team,
 
     /**
      * Current user object
      */
-    currentUser: PropType<UserProfile, Object>,
+    currentUser: UserProfile,
 
     /**
      * Number of unread mentions/messages

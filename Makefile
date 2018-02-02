@@ -1,7 +1,6 @@
 .PHONY: build test run clean stop check-style run-unit emojis help flow
 
 BUILD_SERVER_DIR = ../mattermost-server
-REDUX_LIB_DIR = ../mattermost-redux
 EMOJI_TOOLS_DIR = ./build/emoji
 
 check-style: .yarninstall ## Checks JS file for ESLint confirmity
@@ -17,8 +16,6 @@ test: .yarninstall ## Runs tests
 flow: .flowinstall ## Runs flow types checking
 	@echo Running flow type checking
 
-	rm -rf flow-typed/mattermost-redux
-	cp -r $(REDUX_LIB_DIR)/flow/ flow-typed/mattermost-redux
 	yarn run flow
 
 .flowinstall: .yarninstall

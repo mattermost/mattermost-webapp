@@ -1,7 +1,7 @@
 [ignore]
 <PROJECT_ROOT>/dist/.*
 <PROJECT_ROOT>/non_npm_dependencies/.*
-<PROJECT_ROOT>/node_modules/.*
+<PROJECT_ROOT>/node_modules/[^m].*
 
 [include]
 ./

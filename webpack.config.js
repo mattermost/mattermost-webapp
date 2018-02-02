@@ -152,7 +152,7 @@ var config = {
                                 'stage-0',
                                 'flow'
                             ],
-                            plugins: ['react-flow-props-to-prop-types', 'transform-runtime'],
+                            plugins: ['flow-react-proptypes', 'transform-runtime'],
                             cacheDirectory: true
                         }
                     }
