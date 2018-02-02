@@ -7,8 +7,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const extractCSS = new ExtractTextPlugin('[name].[contentHash].css');
 const extractSCSS = new ExtractTextPlugin('[name].[contentHash].css');
+const WebpackNotifierPlugin = require('webpack-notifier');
 
 const NPM_TARGET = process.env.npm_lifecycle_event; //eslint-disable-line no-process-env
+const WEBPACK_NOTIFY = process.env.WEBPACK_NOTIFY; //eslint-disable-line no-process-env
 
 var DEV = false;
 var FULLMAP = false;
@@ -325,6 +327,10 @@ if (TEST) {
             {from: 'images/warning.png', to: 'images'}
         ])
     );
+}
+
+if (WEBPACK_NOTIFY) {
+    config.plugins.push(new WebpackNotifierPlugin({alwaysNotify: true, excludeWarnings: true}));
 }
 
 module.exports = config;
