@@ -6,7 +6,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {localizeMessage} from 'utils/utils.jsx';
-
 import SaveButton from 'components/save_button.jsx';
 
 export default class LoginMfa extends React.PureComponent {

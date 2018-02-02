@@ -8,7 +8,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {UserStatuses} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
-
 import BootstrapSpan from 'components/bootstrap_span.jsx';
 import StatusIcon from 'components/status_icon.jsx';
 
@@ -21,6 +20,12 @@ export default class StatusDropdown extends React.Component {
         actions: PropTypes.shape({
             setStatus: PropTypes.func.isRequired
         }).isRequired
+    }
+
+    static defaultProps = {
+        userId: '',
+        profilePicture: '',
+        status: UserStatuses.OFFLINE
     }
 
     state = {

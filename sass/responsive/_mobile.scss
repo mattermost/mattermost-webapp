@@ -378,7 +378,6 @@
 
             .col__reply {
                 top: -6px;
-                width: 65px;
                 z-index: auto;
             }
 
@@ -510,11 +509,6 @@
                 width: 32px;
             }
         }
-    }
-
-    .post-image__column {
-        height: 95px;
-        width: 200px;
     }
 
     .form-control {
@@ -1028,8 +1022,7 @@
     }
 
     .footer,
-    .footer-pane,
-    .footer-push {
+    .footer-pane, {
         height: 187px;
     }
 
@@ -1049,6 +1042,7 @@
     .search-bar__container {
         @include flex(0 0 50px);
         background: $primary-color;
+        color: $white;
         padding: 0;
 
         .search-form__container {
@@ -1059,6 +1053,7 @@
         .search__form {
             @include single-transition(all, .2s, linear);
             @include translateX(0);
+            background: $white;
             border: none;
             margin-top: 9px;
             width: 100%;

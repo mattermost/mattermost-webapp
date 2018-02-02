@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {getMissingFilesForPost} from 'mattermost-redux/actions/files';
 import {makeGetFilesForPost} from 'mattermost-redux/selectors/entities/files';
 

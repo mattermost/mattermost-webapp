@@ -1,13 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {browserHistory} from 'react-router';
-
-import {createDirectChannel, getChannelAndMyMember, getChannelStats, getMyChannelMember, joinChannel, viewChannel} from 'mattermost-redux/actions/channels';
+import {createDirectChannel, getChannelAndMyMember, getChannelStats, getMyChannelMember, joinChannel, markChannelAsRead, viewChannel} from 'mattermost-redux/actions/channels';
 import {getPostThread} from 'mattermost-redux/actions/posts';
 import {removeUserFromTeam} from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
 
+import {browserHistory} from 'utils/browser_history';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
 import {handleNewPost} from 'actions/post_actions.jsx';
 import {stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
@@ -21,14 +20,12 @@ import ErrorStore from 'stores/error_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import WebSocketClient from 'client/web_websocket_client.jsx';
 
-import {ActionTypes, Constants, ErrorPageTypes} from 'utils/constants.jsx';
+import {ActionTypes, Constants, ErrorPageTypes, PostTypes} from 'utils/constants.jsx';
 import EventTypes from 'utils/event_types.jsx';
 import {sortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import en from 'i18n/en.json';
 import * as I18n from 'i18n/i18n.jsx';
 
@@ -56,13 +53,9 @@ export function emitChannelClickEvent(channel) {
             viewChannel(chan.id, oldChannelId)(dispatch, getState);
 
             // Mark previous and next channel as read
-            ChannelStore.resetCounts([chan.id, oldChannelId]);
+            dispatch(markChannelAsRead(chan.id, oldChannelId));
             reloadIfServerVersionChanged();
         });
-
-        // Subtract mentions for the team
-        const {msgs, mentions} = ChannelStore.getUnreadCounts()[chan.id] || {msgs: 0, mentions: 0};
-        TeamStore.subtractUnread(chan.team_id, msgs, mentions);
 
         BrowserStore.setGlobalItem(chan.team_id, chan.id);
 
@@ -104,8 +97,7 @@ export async function doFocusPost(channelId, postId, data) {
 
     dispatch({
         type: ActionTypes.RECEIVED_FOCUSED_POST,
-        data: postId,
-        channelId
+        data: postId
     });
 
     const member = getState().entities.channels.myMembers[channelId];
@@ -121,24 +113,24 @@ export function emitCloseRightHandSide() {
     dispatch(closeRightHandSide());
 }
 
-export async function emitPostFocusEvent(postId, onSuccess) {
+export async function emitPostFocusEvent(postId) {
     loadChannelsForCurrentUser();
     const {data} = await getPostThread(postId)(dispatch, getState);
 
     if (data) {
         const channelId = data.posts[data.order[0]].channel_id;
         const channel = ChannelStore.getChannelById(channelId);
+        if (!channel || channel.team_id !== TeamStore.getCurrentId()) {
+            browserHistory.push('/error?type=' + ErrorPageTypes.PERMALINK_NOT_FOUND);
+        }
+
         if (channel && channel.type === Constants.DM_CHANNEL) {
             loadNewDMIfNeeded(channel.id);
         } else if (channel && channel.type === Constants.GM_CHANNEL) {
             loadNewGMIfNeeded(channel.id);
         }
 
-        doFocusPost(channelId, postId, data).then(() => {
-            if (onSuccess) {
-                onSuccess();
-            }
-        });
+        await doFocusPost(channelId, postId, data);
     } else {
         browserHistory.push('/error?type=' + ErrorPageTypes.PERMALINK_NOT_FOUND);
     }
@@ -330,12 +322,33 @@ export function sendEphemeralPost(message, channelId, parentId) {
         user_id: '0',
         channel_id: channelId || ChannelStore.getCurrentId(),
         message,
-        type: Constants.PostTypes.EPHEMERAL,
+        type: PostTypes.EPHEMERAL,
         create_at: timestamp,
         update_at: timestamp,
         root_id: parentId,
         parent_id: parentId,
         props: {}
+    };
+
+    handleNewPost(post);
+}
+
+export function sendAddToChannelEphemeralPost(user, addedUsername, channelId, postRootId = '') {
+    const timestamp = Utils.getTimestamp();
+    const post = {
+        id: Utils.generateId(),
+        user_id: user.id,
+        channel_id: channelId || ChannelStore.getCurrentId(),
+        message: '',
+        type: PostTypes.EPHEMERAL_ADD_TO_CHANNEL,
+        create_at: timestamp,
+        update_at: timestamp,
+        root_id: postRootId,
+        parent_id: postRootId,
+        props: {
+            username: user.username,
+            addedUsername
+        }
     };
 
     handleNewPost(post);
@@ -439,7 +452,7 @@ export function clientLogout(redirectTo = '/') {
     stopPeriodicStatusUpdates();
     WebsocketActions.close();
     document.cookie = 'MMUSERID=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    window.location.href = redirectTo;
+    browserHistory.push(redirectTo);
 }
 
 export function toggleSideBarRightMenuAction() {
@@ -486,7 +499,7 @@ export async function redirectUserToDefaultTeam() {
         const channelId = BrowserStore.getGlobalItem(teamId);
         const channel = ChannelStore.getChannelById(channelId);
         if (channel) {
-            redirect(teams[teamId].name, channel);
+            redirect(teams[teamId].name, channel.name);
         } else if (channelId) {
             const {data} = await getChannelAndMyMember(channelId)(dispatch, getState);
             if (data) {

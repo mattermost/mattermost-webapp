@@ -3,8 +3,8 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
-import {browserHistory} from 'react-router';
 
+import {browserHistory} from 'utils/browser_history';
 import EditOAuthApp from 'components/integrations/components/edit_oauth_app/edit_oauth_app.jsx';
 
 describe('components/integrations/EditOAuthApp', () => {

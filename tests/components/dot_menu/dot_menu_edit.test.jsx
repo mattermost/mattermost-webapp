@@ -5,7 +5,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import Constants from 'utils/constants.jsx';
-
 import DotMenuEdit from 'components/dot_menu/dot_menu_edit.jsx';
 
 describe('components/dot_menu/DotMenuEdit', () => {

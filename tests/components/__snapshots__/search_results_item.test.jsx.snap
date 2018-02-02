@@ -4,23 +4,9 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
 <div
   className="search-item__container"
 >
-  <div
-    className="date-separator"
-  >
-    <hr
-      className="separator__hr"
-    />
-    <div
-      className="separator__text"
-    >
-      <FormattedDate
-        day="numeric"
-        month="long"
-        value={1502715365009}
-        year="numeric"
-      />
-    </div>
-  </div>
+  <DateSeparator
+    date={2017-12-14T18:15:28.290Z}
+  />
   <div
     className="post post--thread post--compact"
   >
@@ -89,18 +75,12 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
           <div
             className="col"
           >
-            <time
-              className="search-item-time"
-              dateTime="2017-12-14T18:15:28.290Z"
-              title={2017-12-14T18:15:28.290Z}
-            >
-              <FormattedDate
-                hour="2-digit"
-                hour12={false}
-                minute="2-digit"
-                value={1502715365009}
-              />
-            </time>
+            <PostTime
+              eventTime={1502715365009}
+              isPermalink={true}
+              postId="id"
+              useMilitaryTime={true}
+            />
             <span
               className="post__pinned-badge"
             >
@@ -173,13 +153,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
           <div
             className=" post--edited"
           >
-            <Connect(PostMessageView)
-              options={
-                Object {
-                  "mentionHighlight": false,
-                  "searchTerm": "test",
-                }
-              }
+            <PostBodyAdditionalContent
               post={
                 Object {
                   "channel_id": "channel_id",
@@ -199,7 +173,37 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
                   "user_id": "user_id",
                 }
               }
-            />
+              previewCollapsed=""
+              previewEnabled={false}
+            >
+              <Connect(PostMessageView)
+                options={
+                  Object {
+                    "mentionHighlight": false,
+                    "searchTerm": "test",
+                  }
+                }
+                post={
+                  Object {
+                    "channel_id": "channel_id",
+                    "create_at": 1502715365009,
+                    "delete_at": 0,
+                    "edit_at": 1502715372443,
+                    "id": "id",
+                    "is_pinned": true,
+                    "message": "post message",
+                    "original_id": "",
+                    "parent_id": "",
+                    "pending_post_id": "",
+                    "props": Object {},
+                    "root_id": "",
+                    "type": "",
+                    "update_at": 1502715372443,
+                    "user_id": "user_id",
+                  }
+                }
+              />
+            </PostBodyAdditionalContent>
           </div>
         </div>
       </div>
@@ -212,23 +216,9 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
 <div
   className="search-item__container"
 >
-  <div
-    className="date-separator"
-  >
-    <hr
-      className="separator__hr"
-    />
-    <div
-      className="separator__text"
-    >
-      <FormattedDate
-        day="numeric"
-        month="long"
-        value={1502715365009}
-        year="numeric"
-      />
-    </div>
-  </div>
+  <DateSeparator
+    date={2017-12-14T18:15:28.290Z}
+  />
   <div
     className="post post--thread post--compact"
   >
@@ -287,6 +277,12 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
           <div
             className="col"
           >
+            <PostTime
+              eventTime={1502715365009}
+              isPermalink={true}
+              postId="id"
+              useMilitaryTime={true}
+            />
             <PostFlagIcon
               idCount={-1}
               idPrefix="searchPostFlag"
@@ -350,13 +346,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
           <div
             className=" post--edited"
           >
-            <Connect(PostMessageView)
-              options={
-                Object {
-                  "mentionHighlight": false,
-                  "searchTerm": "test",
-                }
-              }
+            <PostBodyAdditionalContent
               post={
                 Object {
                   "channel_id": "channel_id",
@@ -376,7 +366,37 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
                   "user_id": "user_id",
                 }
               }
-            />
+              previewCollapsed=""
+              previewEnabled={false}
+            >
+              <Connect(PostMessageView)
+                options={
+                  Object {
+                    "mentionHighlight": false,
+                    "searchTerm": "test",
+                  }
+                }
+                post={
+                  Object {
+                    "channel_id": "channel_id",
+                    "create_at": 1502715365009,
+                    "delete_at": 0,
+                    "edit_at": 1502715372443,
+                    "id": "id",
+                    "is_pinned": false,
+                    "message": "post message",
+                    "original_id": "",
+                    "parent_id": "",
+                    "pending_post_id": "",
+                    "props": Object {},
+                    "root_id": "",
+                    "type": "",
+                    "update_at": 1502715372443,
+                    "user_id": "user_id",
+                  }
+                }
+              />
+            </PostBodyAdditionalContent>
           </div>
         </div>
       </div>
@@ -389,23 +409,9 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
 <div
   className="search-item__container"
 >
-  <div
-    className="date-separator"
-  >
-    <hr
-      className="separator__hr"
-    />
-    <div
-      className="separator__text"
-    >
-      <FormattedDate
-        day="numeric"
-        month="long"
-        value={1502715365009}
-        year="numeric"
-      />
-    </div>
-  </div>
+  <DateSeparator
+    date={2017-12-14T18:15:28.290Z}
+  />
   <div
     className="post post--thread post--compact"
   >
@@ -469,18 +475,12 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
           <div
             className="col"
           >
-            <time
-              className="search-item-time"
-              dateTime="2017-12-14T18:15:28.290Z"
-              title={2017-12-14T18:15:28.290Z}
-            >
-              <FormattedDate
-                hour="2-digit"
-                hour12={false}
-                minute="2-digit"
-                value={1502715365009}
-              />
-            </time>
+            <PostTime
+              eventTime={1502715365009}
+              isPermalink={true}
+              postId="id"
+              useMilitaryTime={true}
+            />
           </div>
         </div>
         <div

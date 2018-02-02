@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import {combineReducers} from 'redux';
-
 import {ChannelTypes, PostTypes} from 'mattermost-redux/action_types';
 
 import {ActionTypes, Constants} from 'utils/constants.jsx';
@@ -84,10 +83,20 @@ function mobileView(state = false, action) {
     }
 }
 
+function keepChannelIdAsUnread(state = null, action) {
+    switch (action.type) {
+    case ActionTypes.KEEP_CHANNEL_AS_UNREAD:
+        return action.data;
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     postVisibility,
     lastChannelViewTime,
     loadingPosts,
     focusedPostId,
-    mobileView
+    mobileView,
+    keepChannelIdAsUnread
 });

@@ -4,15 +4,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-
 import PreferenceStore from 'stores/preference_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
-
 import {
     Constants,
     Preferences,
@@ -22,12 +20,12 @@ import {
 import {useSafeUrl} from 'utils/url.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import AboutBuildModal from 'components/about_build_modal';
 import AddUsersToTeam from 'components/add_users_to_team';
 import LeaveTeamIcon from 'components/svg/leave_team_icon';
 import TeamMembersModal from 'components/team_members_modal';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
+import TeamSettingsModal from 'components/team_settings_modal.jsx';
 import {createMenuTip} from 'components/tutorial/tutorial_tip.jsx';
 
 export default class SidebarRightMenu extends React.Component {
@@ -48,7 +46,8 @@ export default class SidebarRightMenu extends React.Component {
         this.state = {
             ...this.getStateFromStores(),
             showAboutModal: false,
-            showAddUsersToTeamModal: false
+            showAddUsersToTeamModal: false,
+            showTeamSettingsModal: false
         };
     }
 
@@ -90,6 +89,19 @@ export default class SidebarRightMenu extends React.Component {
         this.setState({
             showAddUsersToTeamModal: false
         });
+    }
+
+    showTeamSettingsModal = (e) => {
+        e.preventDefault();
+
+        this.setState({
+            showTeamSettingsModal: true,
+            showDropdown: false
+        });
+    }
+
+    hideTeamSettingsModal = () => {
+        this.setState({showTeamSettingsModal: false});
     }
 
     getFlagged = (e) => {
@@ -319,8 +331,7 @@ export default class SidebarRightMenu extends React.Component {
                 <li>
                     <a
                         href='#'
-                        data-toggle='modal'
-                        data-target='#team_settings'
+                        onClick={this.showTeamSettingsModal}
                     >
                         <i className='icon fa fa-globe'/>
                         <FormattedMessage
@@ -555,6 +566,10 @@ export default class SidebarRightMenu extends React.Component {
                 <AboutBuildModal
                     show={this.state.showAboutModal}
                     onModalDismissed={this.aboutModalDismissed}
+                />
+                <TeamSettingsModal
+                    show={this.state.showTeamSettingsModal}
+                    onModalDismissed={this.hideTeamSettingsModal}
                 />
                 {addUsersToTeamModal}
             </div>

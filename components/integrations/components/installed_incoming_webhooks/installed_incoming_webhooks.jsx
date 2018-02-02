@@ -7,7 +7,6 @@ import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
 import InstalledIncomingWebhook from 'components/integrations/components/installed_incoming_webhook.jsx';
 

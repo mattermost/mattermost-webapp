@@ -4,7 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-
 import {searchProfiles, searchProfilesInTeam} from 'mattermost-redux/selectors/entities/users';
 
 import {getStandardAnalytics} from 'actions/admin_actions.jsx';
@@ -14,7 +13,6 @@ import AnalyticsStore from 'stores/analytics_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import {Constants, StatTypes, UserSearchOptions} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 

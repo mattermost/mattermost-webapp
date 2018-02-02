@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import request from 'superagent';
-
 import * as IntegrationActions from 'mattermost-redux/actions/integrations';
 import {getProfilesByIds} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
@@ -11,7 +10,6 @@ import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import {ActionTypes} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 
@@ -228,16 +226,14 @@ export function getSuggestedCommands(command, suggestionId, component) {
             // pull out the suggested commands from the returned data
             const terms = matches.map((suggestion) => suggestion.suggestion);
 
-            if (terms.length > 0) {
-                AppDispatcher.handleServerAction({
-                    type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
-                    id: suggestionId,
-                    matchedPretext: command,
-                    terms,
-                    items: matches,
-                    component
-                });
-            }
+            AppDispatcher.handleServerAction({
+                type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
+                id: suggestionId,
+                matchedPretext: command,
+                terms,
+                items: matches,
+                component
+            });
         }
     ).catch(
         () => {} //eslint-disable-line no-empty-function

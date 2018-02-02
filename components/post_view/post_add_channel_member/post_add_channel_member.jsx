@@ -4,18 +4,22 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router';
 
+import {browserHistory} from 'utils/browser_history';
 import store from 'stores/redux_store.jsx';
-
+import {sendAddToChannelEphemeralPost} from 'actions/global_actions.jsx';
 import {Constants} from 'utils/constants.jsx';
-
 import AtMention from 'components/at_mention';
 
 const getState = store.getState;
 
 export default class PostAddChannelMember extends React.PureComponent {
     static propTypes = {
+
+        /*
+        * Current user
+        */
+        currentUser: PropTypes.object.isRequired,
 
         /*
         * Current team
@@ -62,12 +66,13 @@ export default class PostAddChannelMember extends React.PureComponent {
     }
 
     handleAddChannelMember = () => {
-        const {team, channel, postId, userIds} = this.props;
+        const {currentUser, team, channel, postId, userIds, usernames} = this.props;
         const post = this.props.actions.getPost(getState(), postId) || {};
 
         if (post.channel_id === channel.id) {
-            userIds.forEach((userId) => {
-                this.props.actions.addChannelMember(channel.id, userId, post.root_id);
+            userIds.forEach((userId, index) => {
+                this.props.actions.addChannelMember(channel.id, userId);
+                sendAddToChannelEphemeralPost(currentUser, usernames[index], channel.id, post.root_id);
             });
 
             this.props.actions.removePost(post);

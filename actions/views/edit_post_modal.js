@@ -4,7 +4,6 @@
 import * as PostActions from 'mattermost-redux/actions/posts';
 
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-
 import {ActionTypes} from 'utils/constants.jsx';
 
 export function editPost(post) {

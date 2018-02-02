@@ -2,13 +2,11 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import Constants from 'utils/constants.jsx';
 import * as SyntaxHighlighting from 'utils/syntax_highlighting.jsx';
-
 import loadingGif from 'images/load.gif';
 
 import FileInfoPreview from './file_info_preview.jsx';

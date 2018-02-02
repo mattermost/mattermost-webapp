@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger, Popover} from 'react-bootstrap';
@@ -115,12 +114,10 @@ class CustomThemeChooser extends React.Component {
         super(props);
         this.selectTheme = this.selectTheme.bind(this);
 
-        const copyTheme = Object.assign({}, this.props.theme);
-        delete copyTheme.type;
-        delete copyTheme.image;
+        const copyTheme = this.setCopyTheme(this.props.theme);
 
         this.state = {
-            copyTheme: JSON.stringify(copyTheme)
+            copyTheme
         };
     }
 
@@ -147,7 +144,21 @@ class CustomThemeChooser extends React.Component {
             }
 
             updateTheme(newTheme);
+
+            const copyTheme = this.setCopyTheme(newTheme);
+
+            this.setState({
+                copyTheme
+            });
         }
+    }
+
+    setCopyTheme(theme) {
+        const copyTheme = Object.assign({}, theme);
+        delete copyTheme.type;
+        delete copyTheme.image;
+
+        return JSON.stringify(copyTheme);
     }
 
     pasteBoxChange = (e) => {

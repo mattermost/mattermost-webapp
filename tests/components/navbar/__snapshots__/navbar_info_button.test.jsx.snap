@@ -33,7 +33,7 @@ exports[`components/navbar/NavbarInfoButton should match snapshot, with channel 
       "textComponent": "span",
     }
   }
-  showEditChannelHeaderModal={[Function]}
+  showEditChannelHeaderModal={[MockFunction]}
 >
   <OverlayTrigger
     className="description"
@@ -148,7 +148,7 @@ exports[`components/navbar/NavbarInfoButton should match snapshot, without chann
       "textComponent": "span",
     }
   }
-  showEditChannelHeaderModal={[Function]}
+  showEditChannelHeaderModal={[MockFunction]}
 >
   <OverlayTrigger
     className="description"

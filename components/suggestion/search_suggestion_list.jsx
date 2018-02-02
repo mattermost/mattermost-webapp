@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import React from 'react';
 import {Popover} from 'react-bootstrap';
 import ReactDOM from 'react-dom';

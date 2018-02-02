@@ -72,17 +72,4 @@ describe('component/PDFPreview', () => {
         expect(wrapper.state('pdf')).toEqual(pdf);
         expect(wrapper.state('numPages')).toEqual(MAX_PDF_PAGES);
     });
-
-    test('should pass supports', () => {
-        const testFileInfos = [
-            {fileInfo: null, output: false},
-            {fileInfo: {}, output: false},
-            {fileInfo: {extension: 'other'}, output: false},
-            {fileInfo: {extension: 'pdf'}, output: true}
-        ];
-
-        testFileInfos.forEach((testFileInfo) => {
-            expect(PDFPreview.supports(testFileInfo.fileInfo)).toEqual(testFileInfo.output);
-        });
-    });
 });

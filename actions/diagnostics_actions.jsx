@@ -3,6 +3,15 @@
 
 import UserStore from 'stores/user_store.jsx';
 
+const SUPPORTS_CLEAR_MARKS = isSupported([performance.clearMarks]);
+const SUPPORTS_MARK = isSupported([performance.mark]);
+const SUPPORTS_MEASURE_METHODS = isSupported([
+    performance.measure,
+    performance.getEntries,
+    performance.getEntriesByName,
+    performance.clearMeasures
+]);
+
 export function trackEvent(category, event, props) {
     if (global.window && global.window.analytics) {
         const properties = Object.assign({category, type: event, user_actual_id: UserStore.getCurrentId()}, props);
@@ -30,14 +39,14 @@ export function trackEvent(category, event, props) {
  *
  */
 export function clearMarks(names) {
-    if (!global.mm_config.EnableDeveloper === 'true') {
+    if (!isDevMode() || !SUPPORTS_CLEAR_MARKS) {
         return;
     }
     names.forEach((name) => performance.clearMarks(name));
 }
 
 export function mark(name) {
-    if (!global.mm_config.EnableDeveloper === 'true') {
+    if (!isDevMode() || !SUPPORTS_MARK) {
         return;
     }
     performance.mark(name);
@@ -57,7 +66,7 @@ export function mark(name) {
  *
  */
 export function measure(name1, name2) {
-    if (!global.mm_config.EnableDeveloper === 'true') {
+    if (!isDevMode() || !SUPPORTS_MEASURE_METHODS) {
         return [-1, ''];
     }
 
@@ -77,7 +86,37 @@ export function measure(name1, name2) {
     return [lastDuration, measurementName];
 }
 
+export function trackLoadTime() {
+    if (!isSupported([performance.timing.loadEventEnd, performance.timing.navigationStart])) {
+        return;
+    }
+
+    // Must be wrapped in setTimeout because loadEventEnd property is 0
+    // until onload is complete, also time added because analytics
+    // code isn't loaded until a subsequent window event has fired.
+    const tenSeconds = 10000;
+    setTimeout(() => {
+        const {loadEventEnd, navigationStart} = window.performance.timing;
+        const pageLoadTime = loadEventEnd - navigationStart;
+        trackEvent('performance', 'page_load', {duration: pageLoadTime});
+    }, tenSeconds);
+}
+
 function mostRecentDurationByEntryName(entryName) {
     const entriesWithName = performance.getEntriesByName(entryName);
     return entriesWithName.map((item) => item.duration)[entriesWithName.length - 1];
+}
+
+function isSupported(checks) {
+    for (let i = 0, len = checks.length; i < len; i++) {
+        const item = checks[i];
+        if (typeof item === 'undefined') {
+            return false;
+        }
+    }
+    return true;
+}
+
+function isDevMode() {
+    return global.mm_config.EnableDeveloper === 'true';
 }

@@ -4,8 +4,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router';
 
+import {browserHistory} from 'utils/browser_history';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import AbstractOutgoingWebhook from 'components/integrations/components/abstract_outgoing_webhook.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';

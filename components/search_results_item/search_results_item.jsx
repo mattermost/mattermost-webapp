@@ -3,8 +3,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedDate, FormattedMessage} from 'react-intl';
-import {browserHistory, Link} from 'react-router';
+import {FormattedMessage} from 'react-intl';
+import {Posts} from 'mattermost-redux/constants/index';
+import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
 import PostMessageContainer from 'components/post_view/post_message_view';
 import FileAttachmentListContainer from 'components/file_attachment_list';
@@ -12,7 +13,11 @@ import CommentIcon from 'components/common/comment_icon.jsx';
 import DotMenu from 'components/dot_menu';
 import ProfilePicture from 'components/profile_picture.jsx';
 import UserProfile from 'components/user_profile.jsx';
+import DateSeparator from 'components/post_view/date_separator.jsx';
+import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content.jsx';
 import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
+import PostTime from 'components/post_view/post_time.jsx';
+import {browserHistory} from 'utils/browser_history';
 
 import Constants from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
@@ -113,30 +118,16 @@ export default class SearchResultsItem extends React.PureComponent {
         };
     }
 
-    componentDidMount() {
-        window.addEventListener('resize', this.setDimensions);
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.setDimensions);
-    }
-
-    setDimensions = () => {
-        this.setState({
-            ...Utils.getWindowDimensions()
-        });
-    }
-
-    shrinkSidebar() {
+    shrinkSidebar = () => {
         setTimeout(() => {
             this.props.shrink();
         });
-    }
+    };
 
     handleFocusRHSClick = (e) => {
         e.preventDefault();
         this.props.onSelect(this.props.post);
-    }
+    };
 
     handleJumpClick = () => {
         if (Utils.isMobile()) {
@@ -145,46 +136,29 @@ export default class SearchResultsItem extends React.PureComponent {
 
         this.shrinkSidebar();
         browserHistory.push(`/${this.props.currentTeamName}/pl/${this.props.post.id}`);
-    }
+    };
 
     handleDropdownOpened = (isOpened) => {
         this.setState({
             dropdownOpened: isOpened
         });
-    }
+    };
 
-    timeTag(post) {
-        const date = Utils.getDateForUnixTicks(post.create_at);
+    renderPostTime = () => {
+        const post = this.props.post;
+
+        const isPermalink = !(Posts.POST_DELETED === post.state ||
+            ReduxPostUtils.isPostPendingOrFailed(post));
 
         return (
-            <time
-                className='search-item-time'
-                dateTime={date.toISOString()}
-                title={date}
-            >
-                <FormattedDate
-                    value={post.create_at}
-                    hour12={!this.props.useMilitaryTime}
-                    hour='2-digit'
-                    minute='2-digit'
-                />
-            </time>
+            <PostTime
+                isPermalink={isPermalink}
+                eventTime={post.create_at}
+                useMilitaryTime={this.props.useMilitaryTime}
+                postId={post.id}
+            />
         );
-    }
-
-    renderTimeTag(post) {
-        return Utils.isMobile() ?
-            this.timeTag(post) :
-            (
-                <Link
-                    to={`/${this.props.currentTeamName}/pl/${post.id}`}
-                    target='_blank'
-                    className='post__permalink'
-                >
-                    {this.timeTag(post)}
-                </Link>
-            );
-    }
+    };
 
     getClassName = () => {
         let className = 'post post--thread';
@@ -198,7 +172,7 @@ export default class SearchResultsItem extends React.PureComponent {
         }
 
         return className;
-    }
+    };
 
     render() {
         let channelName = null;
@@ -314,13 +288,15 @@ export default class SearchResultsItem extends React.PureComponent {
             );
 
             message = (
-                <PostMessageContainer
-                    post={post}
-                    options={{
-                        searchTerm: this.props.term,
-                        mentionHighlight: this.props.isMentionSearch
-                    }}
-                />
+                <PostBodyAdditionalContent post={post}>
+                    <PostMessageContainer
+                        post={post}
+                        options={{
+                            searchTerm: this.props.term,
+                            mentionHighlight: this.props.isMentionSearch
+                        }}
+                    />
+                </PostBodyAdditionalContent>
             );
         }
 
@@ -336,19 +312,11 @@ export default class SearchResultsItem extends React.PureComponent {
             );
         }
 
+        const currentPostDay = Utils.getDateForUnixTicks(post.create_at);
+
         return (
             <div className='search-item__container'>
-                <div className='date-separator'>
-                    <hr className='separator__hr'/>
-                    <div className='separator__text'>
-                        <FormattedDate
-                            value={post.create_at}
-                            day='numeric'
-                            month='long'
-                            year='numeric'
-                        />
-                    </div>
-                </div>
+                <DateSeparator date={currentPostDay}/>
                 <div className={this.getClassName()}>
                     <div className='search-channel__name'>{channelName}</div>
                     <div className='post__content'>
@@ -368,7 +336,7 @@ export default class SearchResultsItem extends React.PureComponent {
                                 </div>
                                 {botIndicator}
                                 <div className='col'>
-                                    {this.renderTimeTag(post)}
+                                    {this.renderPostTime()}
                                     {pinnedBadge}
                                     {flagContent}
                                 </div>

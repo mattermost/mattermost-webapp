@@ -2,13 +2,11 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
-
 import AdminSidebarCategory from 'components/admin_console/admin_sidebar_category.jsx';
 import AdminSidebarHeader from 'components/admin_console/admin_sidebar_header.jsx';
 import AdminSidebarSection from 'components/admin_console/admin_sidebar_section.jsx';

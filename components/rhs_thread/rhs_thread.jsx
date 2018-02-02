@@ -3,7 +3,6 @@
 
 import $ from 'jquery';
 import {FormattedMessage} from 'react-intl';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
@@ -11,11 +10,10 @@ import Scrollbars from 'react-custom-scrollbars';
 import PreferenceStore from 'stores/preference_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
 import * as Utils from 'utils/utils.jsx';
-
+import * as UserAgent from 'utils/user_agent.jsx';
 import CreateComment from 'components/create_comment';
 import DateSeparator from 'components/post_view/date_separator.jsx';
 import FloatingTimestamp from 'components/post_view/floating_timestamp.jsx';
@@ -196,6 +194,10 @@ export default class RhsThread extends React.Component {
             windowWidth: Utils.windowWidth(),
             windowHeight: Utils.windowHeight()
         });
+
+        if (UserAgent.isMobile() && document.activeElement.id === 'reply_textbox') {
+            this.scrollToBottom();
+        }
     }
 
     onPreferenceChange = () => {
@@ -438,9 +440,7 @@ export default class RhsThread extends React.Component {
                     onScroll={this.handleScroll}
                 >
                     <div className='post-right__scroll'>
-                        <DateSeparator
-                            date={rootPostDay}
-                        />
+                        <DateSeparator date={rootPostDay}/>
                         <RootPost
                             ref={selected.id}
                             post={selected}

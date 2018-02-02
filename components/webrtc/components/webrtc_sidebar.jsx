@@ -2,14 +2,11 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import React from 'react';
 
 import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
-
 import * as Utils from 'utils/utils.jsx';
-
 import WebrtcController from '../webrtc_controller.jsx';
 
 export default class SidebarRight extends React.Component {

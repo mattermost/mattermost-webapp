@@ -7,7 +7,6 @@ import {shallow} from 'enzyme';
 import * as Utils from 'utils/utils';
 import Constants from 'utils/constants';
 import * as actions from 'actions/channel_actions';
-
 import NewChannelFlow, {
     SHOW_NEW_CHANNEL,
     SHOW_EDIT_URL,

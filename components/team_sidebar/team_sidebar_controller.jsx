@@ -2,14 +2,12 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import {sortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -145,7 +143,7 @@ export default class TeamSidebar extends React.Component {
                 );
             });
 
-        if (moreTeams) {
+        if (moreTeams && !global.mm_config.ExperimentalPrimaryTeam) {
             teams.push(
                 <TeamButton
                     btnClass='team-btn__add'
@@ -161,7 +159,7 @@ export default class TeamSidebar extends React.Component {
                     content={<i className='fa fa-plus'/>}
                 />
             );
-        } else if (global.window.mm_config.EnableTeamCreation === 'true' || isSystemAdmin) {
+        } else if (global.mm_config.EnableTeamCreation === 'true' || isSystemAdmin) {
             teams.push(
                 <TeamButton
                     btnClass='team-btn__add'

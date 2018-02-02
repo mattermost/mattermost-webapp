@@ -35,7 +35,7 @@ export default class EmojiPickerOverlay extends React.PureComponent {
     }
 
     componentWillUpdate(nextProps) {
-        if (nextProps.show && !this.props.show && nextProps.target) {
+        if (nextProps.show && !this.props.show) {
             const targetBounds = nextProps.target().getBoundingClientRect();
 
             let placement;

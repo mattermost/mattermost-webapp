@@ -5,10 +5,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import BrowserStore from 'stores/browser_store.jsx';
-
 import * as Utils from 'utils/utils.jsx';
 import {StoragePrefixes} from 'utils/constants.jsx';
-
 import YoutubeVideo from 'components/youtube_video';
 import ViewImageModal from 'components/view_image';
 

@@ -3,14 +3,11 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
 import FilenameOverlay from 'components/file_attachment/filename_overlay.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import loadingGif from 'images/load.gif';
 
 export default class FilePreview extends React.PureComponent {
@@ -104,13 +101,19 @@ export default class FilePreview extends React.PureComponent {
                         {previewImage}
                     </div>
                     <div className='post-image__details'>
-                        <FilenameOverlay
-                            fileInfo={info}
-                            index={idx}
-                            handleImageClick={null}
-                            compactDisplay={false}
-                            canDownload={false}
-                        />
+                        <div className='post-image__detail_wrapper'>
+                            <div className='post-image__detail'>
+                                <FilenameOverlay
+                                    fileInfo={info}
+                                    index={idx}
+                                    handleImageClick={null}
+                                    compactDisplay={false}
+                                    canDownload={false}
+                                />
+                                <span className='post-image__type'>{info.extension.toUpperCase()}</span>
+                                <span className='post-image__size'>{Utils.fileSizeToString(info.size)}</span>
+                            </div>
+                        </div>
                         <div>
                             <a
                                 className='file-preview__remove'
@@ -118,8 +121,6 @@ export default class FilePreview extends React.PureComponent {
                             >
                                 <i className='fa fa-remove'/>
                             </a>
-                            <span className='post-image__type'>{info.extension.toUpperCase()}</span>
-                            <span className='post-image__size'>{Utils.fileSizeToString(info.size)}</span>
                         </div>
                     </div>
                 </div>

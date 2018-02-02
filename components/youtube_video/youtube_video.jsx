@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {getYoutubeVideoInfo} from 'actions/integration_actions.jsx';
-
 import * as Utils from 'utils/utils.jsx';
 
 const ytRegex = /(?:http|https):\/\/(?:www\.|m\.)?(?:(?:youtube\.com\/(?:(?:v\/)|(?:(?:watch|embed\/watch)(?:\/|.*v=))|(?:embed\/)|(?:user\/[^/]+\/u\/[0-9]\/)))|(?:youtu\.be\/))([^#&?]*)/;

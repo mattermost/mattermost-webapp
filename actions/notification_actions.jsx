@@ -4,7 +4,6 @@
 import ChannelStore from 'stores/channel_store.jsx';
 import NotificationStore from 'stores/notification_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import Constants, {NotificationLevels, UserStatuses} from 'utils/constants.jsx';
 import {isSystemMessage} from 'utils/post_utils.jsx';
 import {isMacApp, isMobileApp, isWindowsApp} from 'utils/user_agent.jsx';

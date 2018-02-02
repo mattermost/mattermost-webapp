@@ -4,7 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-
 import PDFJS from 'pdfjs-dist';
 
 import loadingGif from 'images/load.gif';
@@ -12,6 +11,7 @@ import loadingGif from 'images/load.gif';
 import FileInfoPreview from './file_info_preview.jsx';
 
 const MAX_PDF_PAGES = 5;
+PDFJS.disableWorker = true;
 
 export default class PDFPreview extends React.PureComponent {
     static propTypes = {
@@ -120,10 +120,6 @@ export default class PDFPreview extends React.PureComponent {
         if (page.pageIndex === 0) {
             this.setState({success: true, loading: false});
         }
-    }
-
-    static supports(fileInfo) {
-        return Boolean(fileInfo && fileInfo.extension && fileInfo.extension === 'pdf');
     }
 
     render() {

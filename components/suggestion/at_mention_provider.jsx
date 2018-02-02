@@ -3,13 +3,11 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-
 import XRegExp from 'xregexp';
 
 import {autocompleteUsersInChannel} from 'actions/user_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import {ActionTypes, Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 

@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import React from 'react';
-
 import {shallow} from 'enzyme';
 
 import CreateComment from 'components/create_comment/create_comment.jsx';
@@ -486,5 +485,39 @@ describe('components/CreateComment', () => {
             expect.objectContaining({uploadsInProgress: [4, 6]})
         );
         expect(wrapper.state().draft.uploadsInProgress).toEqual([4, 6]);
+    });
+
+    test('should match draft state on componentWillReceiveProps with new draft', () => {
+        const draft = {
+            message: 'Test message',
+            uploadsInProgress: [],
+            fileInfos: [{}, {}, {}]
+        };
+
+        const wrapper = shallow(
+            <CreateComment {...baseProps}/>
+        );
+        expect(wrapper.state('draft')).toEqual(draft);
+
+        const newDraft = {...draft, message: 'Test message edited'};
+        wrapper.setProps({draft: newDraft});
+        expect(wrapper.state('draft')).toEqual(newDraft);
+    });
+
+    test('should match draft state on componentWillReceiveProps with new rootId', () => {
+        const draft = {
+            message: 'Test message',
+            uploadsInProgress: [4, 5, 6],
+            fileInfos: [{id: 1}, {id: 2}, {id: 3}]
+        };
+
+        const wrapper = shallow(
+            <CreateComment {...baseProps}/>
+        );
+        wrapper.setState({draft});
+        expect(wrapper.state('draft')).toEqual(draft);
+
+        wrapper.setProps({rootId: 'new_root_id'});
+        expect(wrapper.state('draft')).toEqual({...draft, uploadsInProgress: [], fileInfos: [{}, {}, {}]});
     });
 });

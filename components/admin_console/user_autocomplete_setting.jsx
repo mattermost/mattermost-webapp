@@ -3,15 +3,12 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-
 import {Client4} from 'mattermost-redux/client';
 
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import {autocompleteUsersInTeam} from 'actions/user_actions.jsx';
-
 import {ActionTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import Setting from 'components/admin_console/setting.jsx';
 import Provider from 'components/suggestion/provider.jsx';
 import Suggestion from 'components/suggestion/suggestion.jsx';
@@ -140,7 +137,6 @@ export default class UserAutocompleteSetting extends React.Component {
                         listStyle='bottom'
                         providers={this.userSuggestionProviders}
                         disabled={this.props.disabled}
-                        type='input'
                         requiredCharacters={0}
                         openOnFocus={true}
                     />

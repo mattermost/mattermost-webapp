@@ -9,7 +9,6 @@ import * as Selectors from 'mattermost-redux/selectors/entities/users';
 import ChannelStore from 'stores/channel_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 
 const UserStatuses = Constants.UserStatuses;
@@ -443,41 +442,6 @@ class UserStoreClass extends EventEmitter {
 
     getAudits() {
         return store.getState().entities.users.myAudits;
-    }
-
-    getCurrentMentionKeys() {
-        return this.getMentionKeys(this.getCurrentId());
-    }
-
-    getMentionKeys(id) {
-        var user = this.getProfile(id);
-
-        var keys = [];
-
-        if (!user || !user.notify_props) {
-            return keys;
-        }
-
-        if (user.notify_props.mention_keys) {
-            keys = keys.concat(user.notify_props.mention_keys.split(','));
-        }
-
-        if (user.notify_props.first_name === 'true' && user.first_name) {
-            keys.push(user.first_name);
-        }
-
-        if (user.notify_props.channel === 'true') {
-            keys.push('@channel');
-            keys.push('@all');
-            keys.push('@here');
-        }
-
-        const usernameKey = '@' + user.username;
-        if (keys.indexOf(usernameKey) === -1) {
-            keys.push(usernameKey);
-        }
-
-        return keys;
     }
 
     setStatus(userId, status) {

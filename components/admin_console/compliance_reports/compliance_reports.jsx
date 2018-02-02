@@ -4,13 +4,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
-
 import {Client4} from 'mattermost-redux/client';
 
 import UserStore from 'stores/user_store.jsx';
-
 import * as Utils from 'utils/utils.jsx';
-
 import LoadingScreen from 'components/loading_screen.jsx';
 
 export default class ComplianceReports extends React.PureComponent {

@@ -3,14 +3,12 @@
 
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-
 import {
     addReaction,
     removeReaction,
     addMessageIntoHistory,
     moveHistoryIndexBack
 } from 'mattermost-redux/actions/posts';
-
 import {Posts} from 'mattermost-redux/constants';
 
 import {
@@ -24,11 +22,9 @@ import {
     makeOnEditLatestPost
 } from 'actions/views/create_comment';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
-
 import * as PostActions from 'actions/post_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as ChannelActions from 'actions/channel_actions.jsx';
-
 import {StoragePrefixes} from 'utils/constants';
 
 const mockStore = configureStore([thunk]);

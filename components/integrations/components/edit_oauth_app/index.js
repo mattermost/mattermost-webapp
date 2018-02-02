@@ -9,7 +9,7 @@ import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/user
 import EditOAuthApp from './edit_oauth_app.jsx';
 
 function mapStateToProps(state, ownProps) {
-    const oauthAppId = ownProps.location.query.id;
+    const oauthAppId = (new URLSearchParams(ownProps.location.search)).get('id');
 
     return {
         ...ownProps,

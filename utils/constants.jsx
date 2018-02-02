@@ -5,15 +5,15 @@
 
 import keyMirror from 'key-mirror';
 
-import audioIcon from 'images/icons/audio.png';
-import codeIcon from 'images/icons/code.png';
-import excelIcon from 'images/icons/excel.png';
-import genericIcon from 'images/icons/generic.png';
+import audioIcon from 'images/icons/audio.svg';
+import codeIcon from 'images/icons/code.svg';
+import excelIcon from 'images/icons/excel.svg';
+import genericIcon from 'images/icons/generic.svg';
 import patchIcon from 'images/icons/patch.png';
-import pdfIcon from 'images/icons/pdf.png';
-import pptIcon from 'images/icons/ppt.png';
-import videoIcon from 'images/icons/video.png';
-import wordIcon from 'images/icons/word.png';
+import pdfIcon from 'images/icons/pdf.svg';
+import pptIcon from 'images/icons/ppt.svg';
+import videoIcon from 'images/icons/video.svg';
+import wordIcon from 'images/icons/word.svg';
 import logoImage from 'images/logo_compact.png';
 import githubIcon from 'images/themes/code_themes/github.png';
 import monokaiIcon from 'images/themes/code_themes/monokai.png';
@@ -25,9 +25,15 @@ import defaultThemeImage from 'images/themes/organization.png';
 import windows10ThemeImage from 'images/themes/windows_dark.png';
 import logoWebhook from 'images/webhook_icon.jpg';
 
-import githubCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/github.css'; // eslint-disable-line import/order
-import monokaiCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/monokai.css'; // eslint-disable-line import/order
-import solarizedDarkCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-dark.css'; // eslint-disable-line import/order
+import githubCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/github.css';
+
+ // eslint-disable-line import/order
+import monokaiCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/monokai.css';
+
+ // eslint-disable-line import/order
+import solarizedDarkCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-dark.css';
+
+ // eslint-disable-line import/order
 import solarizedLightCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-light.css'; // eslint-disable-line import/order
 
 export const PluginSettings = {
@@ -95,7 +101,6 @@ export const ActionTypes = keyMirror({
     RECEIVED_FOCUSED_POST: null,
     RECEIVED_POST: null,
     RECEIVED_EDIT_POST: null,
-    SET_EDITING_POST: null,
     EDIT_POST: null,
     SELECT_POST: null,
     RECEIVED_POST_SELECTED: null,
@@ -208,6 +213,8 @@ export const ActionTypes = keyMirror({
     TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL: null,
     TOGGLE_CHANNEL_NAME_UPDATE_MODAL: null,
     TOGGLE_LEAVE_PRIVATE_CHANNEL_MODAL: null,
+    SHOW_EDIT_POST_MODAL: null,
+    HIDE_EDIT_POST_MODAL: null,
 
     SUGGESTION_PRETEXT_CHANGED: null,
     SUGGESTION_RECEIVED_SUGGESTIONS: null,
@@ -229,7 +236,9 @@ export const ActionTypes = keyMirror({
     MODAL_OPEN: null,
     MODAL_CLOSE: null,
 
-    POPOVER_MENTION_KEY_CLICK: null
+    POPOVER_MENTION_KEY_CLICK: null,
+
+    KEEP_CHANNEL_AS_UNREAD: null
 });
 
 export const WebrtcActionTypes = keyMirror({
@@ -322,18 +331,20 @@ export const PostTypes = {
     JOIN_LEAVE: 'system_join_leave',
     JOIN_CHANNEL: 'system_join_channel',
     LEAVE_CHANNEL: 'system_leave_channel',
-    JOIN_TEAM: 'system_join_team',
-    LEAVE_TEAM: 'system_leave_team',
     ADD_TO_CHANNEL: 'system_add_to_channel',
-    ADD_TO_TEAM: 'system_add_to_team',
     REMOVE_FROM_CHANNEL: 'system_remove_from_channel',
     ADD_REMOVE: 'system_add_remove',
+    JOIN_TEAM: 'system_join_team',
+    LEAVE_TEAM: 'system_leave_team',
+    ADD_TO_TEAM: 'system_add_to_team',
+    REMOVE_FROM_TEAM: 'system_remove_from_team',
     HEADER_CHANGE: 'system_header_change',
     DISPLAYNAME_CHANGE: 'system_displayname_change',
     PURPOSE_CHANGE: 'system_purpose_change',
     CHANNEL_DELETED: 'system_channel_deleted',
     FAKE_PARENT_DELETED: 'system_fake_parent_deleted',
     EPHEMERAL: 'system_ephemeral',
+    EPHEMERAL_ADD_TO_CHANNEL: 'system_ephemeral_add_to_channel',
     REMOVE_LINK_PREVIEW: 'remove_link_preview'
 };
 
@@ -419,11 +430,24 @@ export const NotificationLevels = {
     NONE: 'none'
 };
 
+export const NotificationSections = {
+    MARK_UNREAD: 'markUnread',
+    DESKTOP: 'desktop',
+    PUSH: 'push',
+    NONE: ''
+};
+
 export const RHSStates = {
     MENTION: 'mention',
     SEARCH: 'search',
     FLAG: 'flag',
     PIN: 'pin'
+};
+
+export const UploadStatuses = {
+    LOADING: 'loading',
+    COMPLETE: 'complete',
+    DEFAULT: ''
 };
 
 export const Constants = {
@@ -1018,7 +1042,7 @@ export const Constants = {
     MAX_NICKNAME_LENGTH: 22,
     MIN_PASSWORD_LENGTH: 5,
     MAX_PASSWORD_LENGTH: 64,
-    MAX_POSITION_LENGTH: 35,
+    MAX_POSITION_LENGTH: 128,
     MIN_TRIGGER_LENGTH: 1,
     MAX_TRIGGER_LENGTH: 128,
     MAX_SITENAME_LENGTH: 30,

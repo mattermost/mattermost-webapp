@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -10,7 +9,6 @@ import {defineMessages, FormattedHTMLMessage, FormattedMessage, injectIntl, intl
 
 import {removeLicenseFile, uploadLicenseFile} from 'actions/admin_actions.jsx';
 import ErrorStore from 'stores/error_store.jsx';
-
 import * as Utils from 'utils/utils.jsx';
 
 const holders = defineMessages({

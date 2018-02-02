@@ -9,10 +9,8 @@ import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {updateUser, uploadProfileImage} from 'actions/user_actions.jsx';
 import ErrorStore from 'stores/error_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 import SettingPicture from 'components/setting_picture.jsx';
@@ -432,6 +430,7 @@ class UserSettingsGeneralTab extends React.Component {
                             </label>
                             <div className='col-sm-7'>
                                 <input
+                                    autoFocus={true}
                                     id='primaryEmail'
                                     className='form-control'
                                     type='email'
@@ -718,6 +717,7 @@ class UserSettingsGeneralTab extends React.Component {
                         <div className='col-sm-7'>
                             <input
                                 id='firstName'
+                                autoFocus={true}
                                 className='form-control'
                                 type='text'
                                 onChange={this.updateFirstName}
@@ -864,6 +864,7 @@ class UserSettingsGeneralTab extends React.Component {
                         <div className='col-sm-7'>
                             <input
                                 id='nickname'
+                                autoFocus={true}
                                 className='form-control'
                                 type='text'
                                 onChange={this.updateNickname}
@@ -954,6 +955,7 @@ class UserSettingsGeneralTab extends React.Component {
                         <div className='col-sm-7'>
                             <input
                                 id='username'
+                                autoFocus={true}
                                 maxLength={Constants.MAX_USERNAME_LENGTH}
                                 className='form-control'
                                 type='text'
@@ -1042,6 +1044,7 @@ class UserSettingsGeneralTab extends React.Component {
                         <div className='col-sm-7'>
                             <input
                                 id='position'
+                                autoFocus={true}
                                 className='form-control'
                                 type='text'
                                 onChange={this.updatePosition}

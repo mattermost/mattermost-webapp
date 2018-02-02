@@ -2,16 +2,13 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {updateTeam} from 'actions/team_actions.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 
@@ -292,7 +289,6 @@ class GeneralTab extends React.Component {
                     inputs={inputs}
                     submit={this.handleOpenInviteSubmit}
                     serverError={serverError}
-                    section={'open_invite'}
                     updateSection={this.handleUpdateSection}
                 />
             );
@@ -309,6 +305,7 @@ class GeneralTab extends React.Component {
                     title={Utils.localizeMessage('general_tab.openInviteTitle', 'Allow any user with an account on this server to join this team')}
                     describe={describe}
                     updateSection={this.handleUpdateSection}
+                    section={'open_invite'}
                 />
             );
         }
@@ -325,6 +322,7 @@ class GeneralTab extends React.Component {
                         <div className='col-sm-12'>
                             <input
                                 id='teamInviteId'
+                                autoFocus={true}
                                 className='form-control'
                                 type='text'
                                 onChange={this.updateInviteId}
@@ -371,7 +369,6 @@ class GeneralTab extends React.Component {
                     submit={this.handleInviteIdSubmit}
                     serverError={serverError}
                     clientError={clientError}
-                    section={'invite_id'}
                     updateSection={this.handleUpdateSection}
                 />
             );
@@ -381,6 +378,7 @@ class GeneralTab extends React.Component {
                     title={Utils.localizeMessage('general_tab.codeTitle', 'Invite Code')}
                     describe={Utils.localizeMessage('general_tab.codeDesc', "Click 'Edit' to regenerate Invite Code.")}
                     updateSection={this.handleUpdateSection}
+                    section={'invite_id'}
                 />
             );
         }
@@ -409,6 +407,7 @@ class GeneralTab extends React.Component {
                     <div className='col-sm-7'>
                         <input
                             id='teamName'
+                            autoFocus={true}
                             className='form-control'
                             type='text'
                             maxLength={Constants.MAX_TEAMNAME_LENGTH.toString()}
@@ -428,7 +427,6 @@ class GeneralTab extends React.Component {
                     submit={this.handleNameSubmit}
                     serverError={serverError}
                     clientError={clientError}
-                    section={'name'}
                     updateSection={this.handleUpdateSection}
                     extraInfo={nameExtraInfo}
                 />
@@ -441,6 +439,7 @@ class GeneralTab extends React.Component {
                     title={Utils.localizeMessage('general_tab.teamName', 'Team Name')}
                     describe={describe}
                     updateSection={this.handleUpdateSection}
+                    section={'name'}
                 />
             );
         }
@@ -469,6 +468,7 @@ class GeneralTab extends React.Component {
                     <div className='col-sm-7'>
                         <input
                             id='teamDescription'
+                            autoFocus={true}
                             className='form-control'
                             type='text'
                             maxLength={Constants.MAX_TEAMDESCRIPTION_LENGTH.toString()}
@@ -488,7 +488,6 @@ class GeneralTab extends React.Component {
                     submit={this.handleDescriptionSubmit}
                     serverError={serverError}
                     clientError={clientError}
-                    section={'description'}
                     updateSection={this.handleUpdateSection}
                     extraInfo={descriptionExtraInfo}
                 />
@@ -505,12 +504,12 @@ class GeneralTab extends React.Component {
                     />
                 );
             }
-
             descriptionSection = (
                 <SettingItemMin
                     title={Utils.localizeMessage('general_tab.teamDescription', 'Team Description')}
                     describe={describemsg}
                     updateSection={this.handleUpdateSection}
+                    section={'description'}
                 />
             );
         }
@@ -524,17 +523,19 @@ class GeneralTab extends React.Component {
                         className='close'
                         data-dismiss='modal'
                         aria-label='Close'
+                        onClick={this.props.closeModal}
                     >
-                        <span aria-hidden='true'>
-                            {'×'}
-                        </span>
+                        <span aria-hidden='true'>{'×'}</span>
                     </button>
                     <h4
                         className='modal-title'
                         ref='title'
                     >
                         <div className='modal-back'>
-                            <i className='fa fa-angle-left'/>
+                            <i
+                                className='fa fa-angle-left'
+                                onClick={this.props.collapseModal}
+                            />
                         </div>
                         <FormattedMessage
                             id='general_tab.title'
@@ -570,7 +571,9 @@ class GeneralTab extends React.Component {
 GeneralTab.propTypes = {
     updateSection: PropTypes.func.isRequired,
     team: PropTypes.object.isRequired,
-    activeSection: PropTypes.string.isRequired
+    activeSection: PropTypes.string.isRequired,
+    closeModal: PropTypes.func.isRequired,
+    collapseModal: PropTypes.func.isRequired
 };
 
 export default GeneralTab;

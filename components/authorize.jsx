@@ -6,9 +6,7 @@ import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import {allowOAuth2, getOAuthAppInfo} from 'actions/admin_actions.jsx';
-
 import icon50 from 'images/icon50x50.png';
-
 import FormError from 'components/form_error.jsx';
 
 export default class Authorize extends React.Component {
@@ -29,7 +27,7 @@ export default class Authorize extends React.Component {
     }
 
     componentWillMount() {
-        const clientId = this.props.location.query.client_id;
+        const clientId = (new URLSearchParams(this.props.location.search)).get('client_id');
         if (!(/^[a-z0-9]+$/.test(clientId))) {
             return;
         }
@@ -51,7 +49,7 @@ export default class Authorize extends React.Component {
     }
 
     handleAllow() {
-        const params = this.props.location.query;
+        const params = new URLSearchParams(this.props.location.search);
 
         allowOAuth2(params,
             (data) => {
@@ -66,7 +64,7 @@ export default class Authorize extends React.Component {
     }
 
     handleDeny() {
-        const redirectUri = this.props.location.query.redirect_uri;
+        const redirectUri = (new URLSearchParams(this.props.location.search)).get('redirect_uri');
         if (redirectUri.startsWith('https://') || redirectUri.startsWith('http://')) {
             window.location.replace(redirectUri + '?error=access_denied');
             return;

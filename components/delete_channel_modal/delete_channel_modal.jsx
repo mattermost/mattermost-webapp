@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router';
 
+import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
 
 export default class DeleteChannelModal extends React.PureComponent {

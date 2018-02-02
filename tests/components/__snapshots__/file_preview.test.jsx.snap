@@ -24,21 +24,39 @@ exports[`component/FilePreview should match snapshot 1`] = `
     <div
       className="post-image__details"
     >
-      <FilenameOverlay
-        canDownload={false}
-        compactDisplay={false}
-        fileInfo={
-          Object {
-            "create_at": "1",
-            "extension": "jpg",
-            "height": 100,
-            "id": "file_id_1",
-            "width": 100,
-          }
-        }
-        handleImageClick={null}
-        index={0}
-      />
+      <div
+        className="post-image__detail_wrapper"
+      >
+        <div
+          className="post-image__detail"
+        >
+          <FilenameOverlay
+            canDownload={false}
+            compactDisplay={false}
+            fileInfo={
+              Object {
+                "create_at": "1",
+                "extension": "jpg",
+                "height": 100,
+                "id": "file_id_1",
+                "width": 100,
+              }
+            }
+            handleImageClick={null}
+            index={0}
+          />
+          <span
+            className="post-image__type"
+          >
+            JPG
+          </span>
+          <span
+            className="post-image__size"
+          >
+            undefinedB
+          </span>
+        </div>
+      </div>
       <div>
         <a
           className="file-preview__remove"
@@ -48,16 +66,6 @@ exports[`component/FilePreview should match snapshot 1`] = `
             className="fa fa-remove"
           />
         </a>
-        <span
-          className="post-image__type"
-        >
-          JPG
-        </span>
-        <span
-          className="post-image__size"
-        >
-          undefinedB
-        </span>
       </div>
     </div>
   </div>
@@ -106,21 +114,39 @@ exports[`component/FilePreview should match snapshot when props are changed 1`] 
     <div
       className="post-image__details"
     >
-      <FilenameOverlay
-        canDownload={false}
-        compactDisplay={false}
-        fileInfo={
-          Object {
-            "create_at": "1",
-            "extension": "jpg",
-            "height": 100,
-            "id": "file_id_1",
-            "width": 100,
-          }
-        }
-        handleImageClick={null}
-        index={0}
-      />
+      <div
+        className="post-image__detail_wrapper"
+      >
+        <div
+          className="post-image__detail"
+        >
+          <FilenameOverlay
+            canDownload={false}
+            compactDisplay={false}
+            fileInfo={
+              Object {
+                "create_at": "1",
+                "extension": "jpg",
+                "height": 100,
+                "id": "file_id_1",
+                "width": 100,
+              }
+            }
+            handleImageClick={null}
+            index={0}
+          />
+          <span
+            className="post-image__type"
+          >
+            JPG
+          </span>
+          <span
+            className="post-image__size"
+          >
+            undefinedB
+          </span>
+        </div>
+      </div>
       <div>
         <a
           className="file-preview__remove"
@@ -130,16 +156,6 @@ exports[`component/FilePreview should match snapshot when props are changed 1`] 
             className="fa fa-remove"
           />
         </a>
-        <span
-          className="post-image__type"
-        >
-          JPG
-        </span>
-        <span
-          className="post-image__size"
-        >
-          undefinedB
-        </span>
       </div>
     </div>
   </div>
@@ -188,21 +204,39 @@ exports[`component/FilePreview should match snapshot when props are changed 2`] 
     <div
       className="post-image__details"
     >
-      <FilenameOverlay
-        canDownload={false}
-        compactDisplay={false}
-        fileInfo={
-          Object {
-            "create_at": "1",
-            "extension": "jpg",
-            "height": 100,
-            "id": "file_id_1",
-            "width": 100,
-          }
-        }
-        handleImageClick={null}
-        index={0}
-      />
+      <div
+        className="post-image__detail_wrapper"
+      >
+        <div
+          className="post-image__detail"
+        >
+          <FilenameOverlay
+            canDownload={false}
+            compactDisplay={false}
+            fileInfo={
+              Object {
+                "create_at": "1",
+                "extension": "jpg",
+                "height": 100,
+                "id": "file_id_1",
+                "width": 100,
+              }
+            }
+            handleImageClick={null}
+            index={0}
+          />
+          <span
+            className="post-image__type"
+          >
+            JPG
+          </span>
+          <span
+            className="post-image__size"
+          >
+            undefinedB
+          </span>
+        </div>
+      </div>
       <div>
         <a
           className="file-preview__remove"
@@ -212,16 +246,6 @@ exports[`component/FilePreview should match snapshot when props are changed 2`] 
             className="fa fa-remove"
           />
         </a>
-        <span
-          className="post-image__type"
-        >
-          JPG
-        </span>
-        <span
-          className="post-image__size"
-        >
-          undefinedB
-        </span>
       </div>
     </div>
   </div>
@@ -245,21 +269,39 @@ exports[`component/FilePreview should match snapshot when props are changed 2`] 
     <div
       className="post-image__details"
     >
-      <FilenameOverlay
-        canDownload={false}
-        compactDisplay={false}
-        fileInfo={
-          Object {
-            "create_at": "2",
-            "extension": "jpg",
-            "height": 100,
-            "id": "file_id_2",
-            "width": 100,
-          }
-        }
-        handleImageClick={null}
-        index={1}
-      />
+      <div
+        className="post-image__detail_wrapper"
+      >
+        <div
+          className="post-image__detail"
+        >
+          <FilenameOverlay
+            canDownload={false}
+            compactDisplay={false}
+            fileInfo={
+              Object {
+                "create_at": "2",
+                "extension": "jpg",
+                "height": 100,
+                "id": "file_id_2",
+                "width": 100,
+              }
+            }
+            handleImageClick={null}
+            index={1}
+          />
+          <span
+            className="post-image__type"
+          >
+            JPG
+          </span>
+          <span
+            className="post-image__size"
+          >
+            undefinedB
+          </span>
+        </div>
+      </div>
       <div>
         <a
           className="file-preview__remove"
@@ -269,16 +311,6 @@ exports[`component/FilePreview should match snapshot when props are changed 2`] 
             className="fa fa-remove"
           />
         </a>
-        <span
-          className="post-image__type"
-        >
-          JPG
-        </span>
-        <span
-          className="post-image__size"
-        >
-          undefinedB
-        </span>
       </div>
     </div>
   </div>

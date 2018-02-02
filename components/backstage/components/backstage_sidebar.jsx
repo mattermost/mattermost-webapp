@@ -6,7 +6,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import TeamStore from 'stores/team_store.jsx';
-
 import * as Utils from 'utils/utils.jsx';
 
 import BackstageCategory from './backstage_category.jsx';

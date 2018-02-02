@@ -4,19 +4,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-import {browserHistory, Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
+import {browserHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {getInviteInfo} from 'actions/team_actions.jsx';
 import {createUserWithInvite, loadMe, loginById} from 'actions/user_actions.jsx';
 import BrowserStore from 'stores/browser_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import logoImage from 'images/logo.png';
-
 import BackButton from 'components/common/back_button.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
@@ -44,9 +42,9 @@ export default class SignupEmail extends React.Component {
     }
 
     getInviteInfo() {
-        let data = this.props.location.query.d;
-        let hash = this.props.location.query.h;
-        const inviteId = this.props.location.query.id;
+        let data = (new URLSearchParams(this.props.location.search)).get('d');
+        let hash = (new URLSearchParams(this.props.location.search)).get('h');
+        const inviteId = (new URLSearchParams(this.props.location.search)).get('id');
         let email = '';
         let teamDisplayName = '';
         let teamName = '';
@@ -124,9 +122,9 @@ export default class SignupEmail extends React.Component {
 
                 loadMe().then(
                     () => {
-                        const query = this.props.location.query;
-                        if (query.redirect_to) {
-                            browserHistory.push(query.redirect_to);
+                        const redirectTo = (new URLSearchParams(this.props.location.search)).get('redirect_to');
+                        if (redirectTo) {
+                            browserHistory.push(redirectTo);
                         } else {
                             GlobalActions.redirectUserToDefaultTeam();
                         }

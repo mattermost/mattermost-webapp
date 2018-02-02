@@ -81,8 +81,7 @@ exports[`components/integrations/InstalledCommand should call onDelete function 
     </button>
      - 
     <Link
-      onlyActiveOnIndex={false}
-      style={Object {}}
+      replace={false}
       to="/team_name/integrations/commands/edit?id=r5tpgt4iepf45jt768jz84djic"
     >
       <FormattedMessage
@@ -181,8 +180,7 @@ exports[`components/integrations/InstalledCommand should call onRegenToken funct
     </button>
      - 
     <Link
-      onlyActiveOnIndex={false}
-      style={Object {}}
+      replace={false}
       to="/team_name/integrations/commands/edit?id=r5tpgt4iepf45jt768jz84djic"
     >
       <FormattedMessage

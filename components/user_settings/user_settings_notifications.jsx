@@ -7,10 +7,8 @@ import {FormattedMessage} from 'react-intl';
 
 import {updateUserNotifyProps} from 'actions/user_actions.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import Constants, {NotificationLevels} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 
@@ -622,6 +620,7 @@ export default class NotificationsTab extends React.Component {
                     </div>
                     <input
                         id='notificationTriggerCustomText'
+                        autoFocus={this.state.customKeysChecked}
                         ref='custommentions'
                         className='form-control mentions-input'
                         type='text'

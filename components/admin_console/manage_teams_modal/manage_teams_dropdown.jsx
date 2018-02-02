@@ -7,7 +7,6 @@ import {Dropdown, MenuItem} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {removeUserFromTeam, updateTeamMemberRoles} from 'actions/team_actions.jsx';
-
 import * as Utils from 'utils/utils.jsx';
 
 export default class ManageTeamsDropdown extends React.Component {

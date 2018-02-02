@@ -5,9 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {savePreference} from 'actions/user_actions.jsx';
-
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-
 import EmailNotificationSetting from 'components/user_settings/email_notification_setting.jsx';
 
 jest.mock('actions/user_actions.jsx', () => ({

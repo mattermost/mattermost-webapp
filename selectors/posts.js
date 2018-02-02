@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import {createSelector} from 'reselect';
-
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
 export const getEditingPost = createSelector(

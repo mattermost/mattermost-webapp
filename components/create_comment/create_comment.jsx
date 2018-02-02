@@ -2,22 +2,19 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-
 import ConfirmModal from 'components/confirm_modal.jsx';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview.jsx';
-import FileUpload from 'components/file_upload.jsx';
+import FileUpload from 'components/file_upload';
 import MsgTyping from 'components/msg_typing.jsx';
 import PostDeletedModal from 'components/post_deleted_modal.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
 import Textbox from 'components/textbox.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -155,6 +152,10 @@ export default class CreateComment extends React.PureComponent {
         }
         if (newProps.rootId !== this.props.rootId) {
             this.setState({draft: {...newProps.draft, uploadsInProgress: []}});
+        }
+
+        if (!Utils.areObjectsEqual(this.props.draft, newProps.draft)) {
+            this.setState({draft: newProps.draft});
         }
     }
 
@@ -540,14 +541,13 @@ export default class CreateComment extends React.PureComponent {
         const fileUpload = (
             <FileUpload
                 ref='fileUpload'
-                getFileCount={this.getFileCount}
+                fileCount={this.getFileCount()}
                 getTarget={this.getFileUploadTarget}
                 onFileUploadChange={this.handleFileUploadChange}
                 onUploadStart={this.handleUploadStart}
                 onFileUpload={this.handleFileUploadComplete}
                 onUploadError={this.handleUploadError}
                 postType='comment'
-                channelId={this.props.channelId}
             />
         );
 

@@ -4,13 +4,12 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
-import {browserHistory} from 'react-router';
 
+import {browserHistory} from 'utils/browser_history';
 import {Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
-
 import SidebarChannelButtonOrLink from '../sidebar_channel_button_or_link/sidebar_channel_button_or_link.jsx';
 import SidebarTutorialTip from '../sidebar_tutorial_tip.jsx';
 
@@ -118,6 +117,7 @@ export default class SidebarChannel extends React.PureComponent {
         membersCount: PropTypes.number.isRequired,
 
         actions: PropTypes.shape({
+            keepChanneIdAsUnread: PropTypes.func.isRequired,
             savePreferences: PropTypes.func.isRequired,
             leaveChannel: PropTypes.func.isRequired
         }).isRequired
@@ -173,7 +173,26 @@ export default class SidebarChannel extends React.PureComponent {
         }
     }
 
+    handleSelectChannel = () => {
+        const {actions, channelId} = this.props;
+        actions.keepChanneIdAsUnread(this.isChannelUnread() ? channelId : null, this.props.unreadMentions > 0);
+    };
+
+    isChannelUnread = () => {
+        const {membership, unreadMsgs, unreadMentions} = this.props;
+
+        if (membership) {
+            const msgCount = unreadMsgs + unreadMentions;
+            return msgCount > 0 || membership.mention_count > 0;
+        }
+
+        return false;
+    };
+
     render = () => {
+        if (!this.props.channelDisplayName || !this.props.channelType) {
+            return (<div/>);
+        }
         let closeHandler = null;
         if (this.props.channelType === Constants.DM_CHANNEL || this.props.channelType === Constants.GM_CHANNEL) {
             closeHandler = this.handleLeaveDirectChannel;
@@ -192,13 +211,7 @@ export default class SidebarChannel extends React.PureComponent {
 
         let rowClass = 'sidebar-item';
 
-        var unread = false;
-        if (this.props.membership) {
-            const msgCount = this.props.unreadMsgs + this.props.unreadMentions;
-            unread = msgCount > 0 || this.props.membership.mention_count > 0;
-        }
-
-        if (unread) {
+        if (this.isChannelUnread()) {
             rowClass += ' unread-title';
         }
 
@@ -267,6 +280,7 @@ export default class SidebarChannel extends React.PureComponent {
                     membersCount={this.props.membersCount}
                     teammateId={this.props.channelTeammateId}
                     teammateDeletedAt={this.props.channelTeammateDeletedAt}
+                    onSelectChannel={this.handleSelectChannel}
                 />
                 {tutorialTip}
             </li>

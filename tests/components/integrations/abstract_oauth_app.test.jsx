@@ -5,8 +5,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {shallow} from 'enzyme';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-
 import AbstractOAuthApp from 'components/integrations/components/abstract_oauth_app.jsx';
 
 describe('components/integrations/AbstractOAuthApp', () => {
@@ -87,22 +85,6 @@ describe('components/integrations/AbstractOAuthApp', () => {
         }});
 
         expect(action).toBeCalled();
-    });
-
-    test('should have correct state when imageLoaded is called', () => {
-        const props = {...baseProps, action};
-        const wrapper = mountWithIntl(
-            <AbstractOAuthApp {...props}/>
-        );
-
-        wrapper.setState({has_icon: false});
-        const iconURL = 'https://test.com/other_icon';
-        const ref = wrapper.ref('icon_url');
-        ref.value = iconURL;
-        wrapper.instance().imageLoaded();
-
-        expect(wrapper.state('has_icon')).toEqual(true);
-        expect(wrapper.state('icon_url')).toEqual(iconURL);
     });
 
     test('should have correct state when updateName is called', () => {

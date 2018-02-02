@@ -202,12 +202,6 @@ exports[`plugins/PostMessageView should match snapshot with no extended post typ
           <PostMarkdown
             channelNamesMap={Object {}}
             dispatch={[Function]}
-            emojis={
-              EmojiMap {
-                "customEmojis": Map {},
-                "customEmojisArray": Array [],
-              }
-            }
             isRHS={false}
             mentionKeys={Array []}
             message="this is some text"

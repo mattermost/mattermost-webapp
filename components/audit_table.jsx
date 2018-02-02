@@ -7,7 +7,6 @@ import {defineMessages, FormattedDate, FormattedMessage, FormattedTime, injectIn
 
 import ChannelStore from 'stores/channel_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import * as Utils from 'utils/utils.jsx';
 
 const holders = defineMessages({

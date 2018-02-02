@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {getProfilesInChannel} from 'mattermost-redux/actions/users';
 import {getAllChannelStats} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId, makeGetProfilesInChannel} from 'mattermost-redux/selectors/entities/users';

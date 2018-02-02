@@ -9,10 +9,8 @@ import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {checkIfTeamExists, createTeam} from 'actions/team_actions.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as URL from 'utils/url.jsx';
-
 import logoImage from 'images/logo.png';
 
 export default class TeamUrl extends React.Component {
@@ -111,7 +109,8 @@ export default class TeamUrl extends React.Component {
                 }
 
                 createTeam(teamSignup.team,
-                    () => {
+                    (rteam) => {
+                        this.props.history.push('/' + rteam.name + '/channels/town-square');
                         trackEvent('signup', 'signup_team_03_complete');
                     },
                     (err) => {

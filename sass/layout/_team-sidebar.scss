@@ -5,13 +5,14 @@
         position: fixed;
         text-align: center;
         width: 65px;
-        z-index: 5;
+        z-index: 99;
 
         .team-wrapper {
             -webkit-overflow-scrolling: touch;
             background-color: alpha-color($black, .2);
             height: 100%;
-            overflow: auto;
+            overflow-x: inherit;
+            overflow-y: auto;
             padding-top: 15px;
 
             .team-container {

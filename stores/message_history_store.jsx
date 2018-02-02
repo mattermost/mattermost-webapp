@@ -5,7 +5,6 @@ import {PostTypes} from 'mattermost-redux/action_types';
 import * as Selectors from 'mattermost-redux/selectors/entities/posts';
 
 import Constants from 'utils/constants.jsx';
-
 import store from 'stores/redux_store.jsx';
 
 class MessageHistoryStoreClass {

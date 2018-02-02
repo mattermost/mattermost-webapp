@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
 

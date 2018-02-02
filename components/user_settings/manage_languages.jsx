@@ -7,9 +7,7 @@ import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {updateUser} from 'actions/user_actions.jsx';
-
 import * as I18n from 'i18n/i18n.jsx';
-
 import SettingItemMax from 'components/setting_item_max.jsx';
 
 export default class ManageLanguage extends React.Component {
@@ -29,11 +27,9 @@ export default class ManageLanguage extends React.Component {
         this.setState({locale: e.target.value});
     }
 
-    changeLanguage(e) {
-        e.preventDefault();
-
+    changeLanguage() {
         if (this.props.user.locale === this.state.locale) {
-            this.props.updateSection(e);
+            this.props.updateSection('');
         } else {
             this.submitUser({
                 ...this.props.user,

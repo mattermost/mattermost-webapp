@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 export default class IntegrationOption extends React.Component {
     static get propTypes() {

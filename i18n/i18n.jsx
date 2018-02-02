@@ -3,18 +3,32 @@
 
 /* eslint-disable import/order */
 const de = require('!!file-loader?name=i18n/[name].[hash].[ext]!./de.json');
+
 const es = require('!!file-loader?name=i18n/[name].[hash].[ext]!./es.json');
+
 const fr = require('!!file-loader?name=i18n/[name].[hash].[ext]!./fr.json');
+
 const it = require('!!file-loader?name=i18n/[name].[hash].[ext]!./it.json');
+
 const ja = require('!!file-loader?name=i18n/[name].[hash].[ext]!./ja.json');
+
 const ko = require('!!file-loader?name=i18n/[name].[hash].[ext]!./ko.json');
+
 const nl = require('!!file-loader?name=i18n/[name].[hash].[ext]!./nl.json');
+
 const pl = require('!!file-loader?name=i18n/[name].[hash].[ext]!./pl.json');
-const pt_BR = require('!!file-loader?name=i18n/[name].[hash].[ext]!./pt-BR.json'); //eslint-disable-line camelcase
+
+const ptBR = require('!!file-loader?name=i18n/[name].[hash].[ext]!./pt-BR.json');
+
+ //eslint-disable-line camelcase
 const tr = require('!!file-loader?name=i18n/[name].[hash].[ext]!./tr.json');
+
 const ru = require('!!file-loader?name=i18n/[name].[hash].[ext]!./ru.json');
-const zh_TW = require('!!file-loader?name=i18n/[name].[hash].[ext]!./zh-TW.json'); //eslint-disable-line camelcase
-const zh_CN = require('!!file-loader?name=i18n/[name].[hash].[ext]!./zh-CN.json'); //eslint-disable-line camelcase
+
+const zhTW = require('!!file-loader?name=i18n/[name].[hash].[ext]!./zh-TW.json');
+
+ //eslint-disable-line camelcase
+const zhCN = require('!!file-loader?name=i18n/[name].[hash].[ext]!./zh-CN.json'); //eslint-disable-line camelcase
 
 import {addLocaleData} from 'react-intl';
 import deLocaleData from 'react-intl/locale-data/de';
@@ -91,7 +105,7 @@ const languages = {
         value: 'pt-BR',
         name: 'Português (Brasil)',
         order: 7,
-        url: pt_BR
+        url: ptBR
     },
     tr: {
         value: 'tr',
@@ -109,13 +123,13 @@ const languages = {
         value: 'zh-TW',
         name: '中文 (繁體)',
         order: 12,
-        url: zh_TW
+        url: zhTW
     },
     'zh-CN': {
         value: 'zh-CN',
         name: '中文 (简体)',
         order: 11,
-        url: zh_CN
+        url: zhCN
     }
 };
 
