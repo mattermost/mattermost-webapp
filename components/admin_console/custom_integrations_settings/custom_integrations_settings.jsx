@@ -3,21 +3,27 @@
 
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import PropTypes from 'prop-types';
 
-import AdminSettings from './admin_settings.jsx';
-import BooleanSetting from './boolean_setting.jsx';
-import SettingsGroup from './settings_group.jsx';
+import AdminSettings from '.././admin_settings.jsx';
+import BooleanSetting from '.././boolean_setting.jsx';
+import SettingsGroup from '.././settings_group.jsx';
 
 export default class WebhookSettings extends AdminSettings {
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        roles: PropTypes.object.isRequired,
+        rolesRequest: PropTypes.object.isRequired,
+        actions: PropTypes.shape({
+            loadRolesIfNeeded: PropTypes.func.isRequired,
+            editRole: PropTypes.func.isRequired
+        }).isRequired
+    };
 
-        this.getConfigFromState = this.getConfigFromState.bind(this);
+    // constructor(props) {
+    //     super(props);
+    // }
 
-        this.renderSettings = this.renderSettings.bind(this);
-    }
-
-    getConfigFromState(config) {
+    getConfigFromState = (config) => {
         config.ServiceSettings.EnableIncomingWebhooks = this.state.enableIncomingWebhooks;
         config.ServiceSettings.EnableOutgoingWebhooks = this.state.enableOutgoingWebhooks;
         config.ServiceSettings.EnableCommands = this.state.enableCommands;
@@ -28,7 +34,7 @@ export default class WebhookSettings extends AdminSettings {
         config.ServiceSettings.EnableUserAccessTokens = this.state.enableUserAccessTokens;
 
         return config;
-    }
+    };
 
     getStateFromConfig(config) {
         return {
@@ -52,7 +58,7 @@ export default class WebhookSettings extends AdminSettings {
         );
     }
 
-    renderSettings() {
+    renderSettings = () => {
         return (
             <SettingsGroup>
                 <BooleanSetting
@@ -193,5 +199,5 @@ export default class WebhookSettings extends AdminSettings {
                 />
             </SettingsGroup>
         );
-    }
+    };
 }

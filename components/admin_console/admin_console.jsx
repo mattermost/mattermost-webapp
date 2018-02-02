@@ -17,7 +17,7 @@ import ConfigurationSettings from 'components/admin_console/configuration_settin
 import ConnectionSettings from 'components/admin_console/connection_settings.jsx';
 import CustomBrandSettings from 'components/admin_console/custom_brand_settings.jsx';
 import CustomEmojiSettings from 'components/admin_console/custom_emoji_settings.jsx';
-import CustomIntegrationsSettings from 'components/admin_console/custom_integrations_settings.jsx';
+import CustomIntegrationsSettings from 'components/admin_console/custom_integrations_settings';
 import DataRetentionSettings from 'components/admin_console/data_retention_settings.jsx';
 import DatabaseSettings from 'components/admin_console/database_settings.jsx';
 import DeveloperSettings from 'components/admin_console/developer_settings.jsx';
