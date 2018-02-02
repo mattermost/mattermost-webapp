@@ -5568,7 +5568,7 @@ math-expression-evaluator@^1.2.14:
 
 mattermost-redux@mattermost/mattermost-redux:
   version "1.1.0"
-  resolved "https://codeload.github.com/mattermost/mattermost-redux/tar.gz/ed1d042770aa5fe805949da62a508f607452a746"
+  resolved "https://codeload.github.com/mattermost/mattermost-redux/tar.gz/bc7d2ba0972a0380b1f9d593be58692df2001c31"
   dependencies:
     deep-equal "1.0.1"
     form-data "2.3.1"
