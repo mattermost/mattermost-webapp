@@ -2,6 +2,8 @@
 // See License.txt for license information.
 // @flow
 
+declare type PropType<T, R> = T;
+
 import $ from 'jquery';
 import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
@@ -24,10 +26,6 @@ import SidebarHeader from '../sidebar_header.jsx';
 import UnreadChannelIndicator from '../unread_channel_indicator.jsx';
 
 import SidebarChannel from './sidebar_channel';
-
-type PropType<T, R> = T;
-// $FlowFixMe
-import type {PropType} from 'babel-plugin-react-flow-props-to-prop-types';
 
 type State = {
     newChannelModalType: string,
@@ -341,19 +339,19 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         const unreadMargin = 15;
 
         if (this.firstUnreadChannel) {
-            const firstUnreadElement = $(ReactDOM.findDOMNode(this.refs[this.firstUnreadChannel]));
+            const firstUnreadElement = this.getRef(this.firstUnreadChannel);
             const fistUnreadPosition = firstUnreadElement ? firstUnreadElement.position() : null;
 
-            if (fistUnreadPosition && fistUnreadPosition.top + firstUnreadElement.height() < unreadMargin) {
+            if (fistUnreadPosition && firstUnreadElement && fistUnreadPosition.top + firstUnreadElement.height() < unreadMargin) {
                 showTopUnread = true;
             }
         }
 
         if (this.lastUnreadChannel) {
-            const lastUnreadElement = $(ReactDOM.findDOMNode(this.refs[this.lastUnreadChannel]));
+            const lastUnreadElement = this.getRef(this.lastUnreadChannel);
             const lastUnreadPosition = lastUnreadElement ? lastUnreadElement.position() : null;
 
-            if (lastUnreadPosition && lastUnreadPosition.top > container.height() - unreadMargin) {
+            if (container && lastUnreadPosition && lastUnreadElement && lastUnreadPosition.top > container.height() - unreadMargin) {
                 showBottomUnread = true;
             }
         }
