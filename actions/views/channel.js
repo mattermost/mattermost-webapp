@@ -12,19 +12,3 @@ export function checkAndSetMobileView() {
         });
     };
 }
-
-export function keepChannelIdAsUnread(channelId, hadMentions) {
-    return {
-        type: ActionTypes.KEEP_CHANNEL_AS_UNREAD,
-        data: {
-            id: channelId,
-            hadMentions
-        }
-    };
-}
-
-export function clearKeepChannelIdAsUnread() {
-    return {
-        type: ActionTypes.CLEAR_KEEP_CHANNEL_AS_UNREAD
-    };
-}

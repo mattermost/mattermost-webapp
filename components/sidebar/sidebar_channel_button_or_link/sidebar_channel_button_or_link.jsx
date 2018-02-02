@@ -29,12 +29,10 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         membersCount: PropTypes.number.isRequired,
         unreadMentions: PropTypes.number,
         teammateId: PropTypes.string,
-        teammateDeletedAt: PropTypes.number,
-        onSelectChannel: PropTypes.func.isRequired
+        teammateDeletedAt: PropTypes.number
     }
 
     trackChannelSelectedEvent = () => {
-        this.props.onSelectChannel();
         mark('SidebarChannelLink#click');
         trackEvent('ui', 'ui_channel_selected');
     }

@@ -122,8 +122,6 @@ export default class SidebarChannel extends React.PureComponent {
         membersCount: PropTypes.number.isRequired,
 
         actions: PropTypes.shape({
-            clearKeepChannelIdAsUnread: PropTypes.func.isRequired,
-            keepChannelIdAsUnread: PropTypes.func.isRequired,
             savePreferences: PropTypes.func.isRequired,
             leaveChannel: PropTypes.func.isRequired
         }).isRequired
@@ -178,14 +176,6 @@ export default class SidebarChannel extends React.PureComponent {
             browserHistory.push(`/${this.props.currentTeamName}/channels/${Constants.DEFAULT_CHANNEL}`);
         }
     }
-
-    handleSelectChannel = () => {
-        if (this.showChannelAsUnread()) {
-            this.props.actions.keepChannelIdAsUnread(this.props.channelId, this.props.unreadMentions > 0);
-        } else {
-            this.props.actions.clearKeepChannelIdAsUnread(null, false);
-        }
-    };
 
     showChannelAsUnread = () => {
         return this.props.unreadMentions > 0 || (this.props.unreadMsgs > 0 && this.props.showUnreadForMsgs);
@@ -284,7 +274,6 @@ export default class SidebarChannel extends React.PureComponent {
                     membersCount={this.props.membersCount}
                     teammateId={this.props.channelTeammateId}
                     teammateDeletedAt={this.props.channelTeammateDeletedAt}
-                    onSelectChannel={this.handleSelectChannel}
                 />
                 {tutorialTip}
             </li>
