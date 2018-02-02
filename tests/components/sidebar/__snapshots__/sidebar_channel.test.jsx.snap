@@ -15,7 +15,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     link="/current-team/messages/@Channel display name"
     membersCount={8}
     onSelectChannel={[Function]}
-    rowClass="sidebar-item"
+    rowClass="sidebar-item has-close"
     teammateDeletedAt={1}
     teammateId="teammate-id"
     unreadMentions={0}
@@ -38,7 +38,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     link="/current-team/messages/@Channel display name"
     membersCount={8}
     onSelectChannel={[Function]}
-    rowClass="sidebar-item"
+    rowClass="sidebar-item has-close"
     teammateDeletedAt={1}
     teammateId="teammate-id"
     unreadMentions={0}
@@ -111,7 +111,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     link="/current-team/messages/@Channel display name"
     membersCount={8}
     onSelectChannel={[Function]}
-    rowClass="sidebar-item"
+    rowClass="sidebar-item has-close"
     teammateDeletedAt={1}
     teammateId="teammate-id"
     unreadMentions={0}
@@ -180,7 +180,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     link="/current-team/channels/channel-name?fakechannel=%7B%22display_name%22%3A%22Channel%20display%20name%22%2C%22name%22%3A%22channel-name%22%2C%22type%22%3A%22D%22%2C%22id%22%3A%22test-channel-id%22%2C%22status%22%3A%22test%22%2C%22fake%22%3Atrue%7D"
     membersCount={8}
     onSelectChannel={[Function]}
-    rowClass="sidebar-item"
+    rowClass="sidebar-item has-close"
     teammateDeletedAt={1}
     teammateId="teammate-id"
     unreadMentions={0}
@@ -226,7 +226,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     link="/current-team/channels/channel-name"
     membersCount={8}
     onSelectChannel={[Function]}
-    rowClass="sidebar-item"
+    rowClass="sidebar-item has-close"
     teammateDeletedAt={1}
     teammateId="teammate-id"
     unreadMentions={0}
@@ -259,7 +259,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     link="/current-team/messages/@Channel display name"
     membersCount={8}
     onSelectChannel={[Function]}
-    rowClass="sidebar-item"
+    rowClass="sidebar-item has-close"
     teammateDeletedAt={1}
     teammateId="myself"
     unreadMentions={0}
@@ -305,7 +305,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     link="/current-team/channels/channel-name"
     membersCount={8}
     onSelectChannel={[Function]}
-    rowClass="sidebar-item"
+    rowClass="sidebar-item has-close"
     teammateDeletedAt={1}
     teammateId="teammate-id"
     unreadMentions={0}
@@ -351,7 +351,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     link="/current-team/channels/channel-name"
     membersCount={8}
     onSelectChannel={[Function]}
-    rowClass="sidebar-item"
+    rowClass="sidebar-item has-close"
     teammateDeletedAt={1}
     teammateId="teammate-id"
     unreadMentions={0}
