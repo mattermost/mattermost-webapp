@@ -793,7 +793,9 @@ export default class ChannelHeader extends React.Component {
                     >
                         {dmHeaderIconStatus}
                         {dmHeaderTextStatus}
-                        <span>{messageHtmlToComponent(formattedText, false, {mentions: false})}</span>
+                        <span onClick={Utils.handleFormattedTextClick}>
+                            {messageHtmlToComponent(formattedText, false, {mentions: false})}
+                        </span>
                     </div>
                 );
             } else {
