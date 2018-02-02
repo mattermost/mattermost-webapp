@@ -99,26 +99,26 @@ export default class FilenameOverlay extends React.PureComponent {
             );
         } else if (canDownload) {
             filenameOverlay = (
-                <OverlayTrigger
-                    trigger={['hover', 'focus']}
-                    delayShow={1000}
-                    placement='top'
-                    overlay={
-                        <Tooltip id='file-name__tooltip'>
-                            {localizeMessage('file_attachment.download', 'Download') + ' "' + fileName + '"'}
-                        </Tooltip>
-                    }
+                <a
+                    href={fileUrl}
+                    download={fileName}
+                    className={iconClass || 'post-image__name'}
+                    target='_blank'
+                    rel='noopener noreferrer'
                 >
-                    <a
-                        href={fileUrl}
-                        download={fileName}
-                        className={iconClass || 'post-image__name'}
-                        target='_blank'
-                        rel='noopener noreferrer'
+                    <OverlayTrigger
+                        trigger={['hover', 'focus']}
+                        delayShow={1000}
+                        placement='top'
+                        overlay={
+                            <Tooltip id='file-name__tooltip'>
+                                {localizeMessage('file_attachment.download', 'Download')}
+                            </Tooltip>
+                        }
                     >
                         {children || trimmedFilename}
-                    </a>
-                </OverlayTrigger>
+                    </OverlayTrigger>
+                </a>
             );
         } else {
             filenameOverlay = (
