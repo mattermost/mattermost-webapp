@@ -1,6 +1,8 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import crypto from 'crypto';
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -24,10 +26,24 @@ export default class ErrorPage extends React.PureComponent {
 
     render() {
         const params = new URLSearchParams(this.props.location.search);
+        const signature = params.get('s');
+
+        var trustParams = false;
+        if (signature) {
+            params.delete('s');
+
+            const key = window.mm_config.AsymmetricSigningPublicKey;
+            const keyPEM = '-----BEGIN PUBLIC KEY-----\n' + key + '\n-----END PUBLIC KEY-----';
+
+            const verify = crypto.createVerify('sha256');
+            verify.update('/error?' + params.toString());
+            trustParams = verify.verify(keyPEM, signature, 'base64');
+        }
+
         const type = params.get('type');
-        const title = params.get('title');
-        const message = params.get('message');
-        const service = params.get('service');
+        const title = (trustParams && params.get('title')) || '';
+        const message = (trustParams && params.get('message')) || '';
+        const service = (trustParams && params.get('service')) || '';
 
         return (
             <div className='container-fluid'>
