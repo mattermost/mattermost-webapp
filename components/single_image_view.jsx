@@ -9,7 +9,6 @@ import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 import {
     fileSizeToString,
     getFileType,
-    loadImage,
     localizeMessage
 } from 'utils/utils';
 import {canDownloadFiles} from 'utils/file_utils';
@@ -17,6 +16,9 @@ import {canDownloadFiles} from 'utils/file_utils';
 import DownloadIcon from 'components/svg/download_icon';
 import LoadingImagePreview from 'components/loading_image_preview';
 import ViewImageModal from 'components/view_image.jsx';
+
+const PREVIEW_IMAGE_MAX_WIDTH = 1024;
+const PREVIEW_IMAGE_MAX_HEIGHT = 350;
 
 export default class SingleImageView extends React.PureComponent {
     static propTypes = {
@@ -36,45 +38,53 @@ export default class SingleImageView extends React.PureComponent {
 
         this.state = {
             loaded: false,
-            progress: 0,
-            showPreviewModal: false
+            showPreviewModal: false,
+            viewPortWidth: 0
         };
+
+        this.imageLoaded = null;
     }
 
     componentDidMount() {
-        this.loadImage();
+        window.addEventListener('resize', this.handleResize);
+        this.setViewPortWidth();
+        this.loadImage(this.props.fileInfo);
     }
 
-    loadImage = () => {
-        const {fileInfo} = this.props;
-        const fileType = getFileType(fileInfo.extension);
+    componentWillReceiveProps(nextProps) {
+        window.removeEventListener('resize', this.handleResize);
+        this.loadImage(nextProps.fileInfo);
+    }
 
-        if (fileType === 'image') {
-            let previewUrl;
-            if (fileInfo.has_image_preview) {
-                previewUrl = getFilePreviewUrl(fileInfo.id);
-            } else {
-                // some images (eg animated gifs) just show the file itself and not a preview
-                previewUrl = getFileUrl(fileInfo.id);
-            }
+    handleResize = () => {
+        this.setViewPortWidth();
+    }
 
-            loadImage(
-                previewUrl,
-                this.handleImageLoaded,
-                this.handleImageProgress
-            );
-        } else {
-            // there's nothing to load for non-image files
-            this.handleImageLoaded();
+    setViewPortRef = (node) => {
+        this.viewPort = node;
+    }
+
+    setViewPortWidth = () => {
+        if (this.viewPort && this.viewPort.getBoundingClientRect) {
+            const rect = this.viewPort.getBoundingClientRect();
+            this.setState({viewPortWidth: rect.width});
         }
     }
 
-    handleImageLoaded = () => {
-        this.setState({loaded: true});
-    }
+    loadImage = (fileInfo) => {
+        const {has_preview_image: hasPreviewImage, id} = fileInfo;
+        const fileURL = getFileUrl(id);
+        const previewURL = hasPreviewImage ? getFilePreviewUrl(id) : fileURL;
 
-    handleImageProgress = (progress) => {
-        this.setState({progress});
+        const loaderImage = new Image();
+        loaderImage.src = previewURL;
+        loaderImage.onload = () => {
+            if (this.imageLoaded) {
+                this.imageLoaded.src = previewURL;
+            }
+
+            this.setState({loaded: true});
+        };
     }
 
     handleImageClick = (e) => {
@@ -86,19 +96,91 @@ export default class SingleImageView extends React.PureComponent {
         this.setState({showPreviewModal: false});
     }
 
-    render() {
-        let content = null;
-        let loadingClass = '';
-        if (this.state.loaded) {
-            const {fileInfo} = this.props;
-            const fileUrl = getFileUrl(fileInfo.id);
-            const {has_preview_image: hasPreviewImage, id} = fileInfo;
-            const previewUrl = hasPreviewImage ? getFilePreviewUrl(id) : fileUrl;
+    setImageLoadedRef = (node) => {
+        this.imageLoaded = node;
+    }
 
-            const canDownload = canDownloadFiles();
-            let downloadButton = null;
+    setFileImageRef = (node) => {
+        this.fileImage = node;
+    }
+
+    computeImageDimension() {
+        const {fileInfo} = this.props;
+        const {viewPortWidth} = this.state;
+
+        let previewWidth = fileInfo.width;
+        let previewHeight = fileInfo.height;
+
+        if (previewWidth > viewPortWidth) {
+            const origRatio = fileInfo.height / fileInfo.width;
+            previewWidth = Math.floor(Math.min(PREVIEW_IMAGE_MAX_WIDTH, fileInfo.width, viewPortWidth));
+            previewHeight = Math.floor(previewWidth * origRatio);
+        }
+
+        if (previewHeight > PREVIEW_IMAGE_MAX_HEIGHT) {
+            const heightRatio = PREVIEW_IMAGE_MAX_HEIGHT / previewHeight;
+            previewHeight = PREVIEW_IMAGE_MAX_HEIGHT;
+            previewWidth = Math.floor(previewWidth * heightRatio);
+        }
+
+        return {previewWidth, previewHeight};
+    }
+
+    render() {
+        const {fileInfo} = this.props;
+        const {loaded} = this.state;
+
+        const {
+            previewWidth,
+            previewHeight
+        } = this.computeImageDimension();
+
+        const fileHeader = (
+            <div className='file-details'>
+                <span
+                    className='file-details__name'
+                    onClick={this.handleImageClick}
+                >
+                    {fileInfo.name.toUpperCase()}
+                </span>
+                <span className='file-details__extension'>
+                    {`${fileInfo.extension.toUpperCase()}  ${fileSizeToString(fileInfo.size)}`}
+                </span>
+            </div>
+        );
+
+        const fileUrl = getFileUrl(fileInfo.id);
+        const canDownload = canDownloadFiles();
+        const fileType = getFileType(fileInfo.extension);
+        let svgClass = '';
+        if (fileType === 'svg') {
+            svgClass = 'post-image normal';
+        }
+
+        const loading = localizeMessage('view_image.loading', 'Loading');
+
+        let viewImageModal;
+        let downloadIcon;
+        let loadingImagePreview;
+
+        let fadeInClass = '';
+        let imageLoadedDimension = {width: previewWidth, height: previewHeight};
+        let imageContainerDimension = {width: previewWidth, height: previewHeight};
+        if (loaded) {
+            viewImageModal = (
+                <ViewImageModal
+                    show={this.state.showPreviewModal}
+                    onModalDismissed={this.showPreviewModal}
+                    fileInfos={[fileInfo]}
+                />
+            );
+
+            fadeInClass = 'image-fade-in';
+            imageLoadedDimension = {cursor: 'pointer'};
+            imageContainerDimension = {};
+
             if (canDownload) {
-                downloadButton = (
+                downloadIcon = (
                     <a
                         href={fileUrl}
                         download={fileInfo.name}
@@ -110,61 +192,44 @@ export default class SingleImageView extends React.PureComponent {
                     </a>
                 );
             }
-
-            const fileType = getFileType(fileInfo.extension);
-            let svgClass;
-            if (fileType === 'svg') {
-                svgClass = 'post-image normal';
-            }
-
-            content = (
-                <div>
-                    <div className='file-details'>
-                        <span
-                            className='file-details__name'
-                            onClick={this.handleImageClick}
-                        >
-                            {fileInfo.name.toUpperCase()}
-                        </span>
-                        <span className='file-details__extension'>
-                            {`${fileInfo.extension.toUpperCase()}  ${fileSizeToString(fileInfo.size)}`}
-                        </span>
-                    </div>
-                    <div className='file__image'>
-                        <img
-                            src={previewUrl}
-                            style={{cursor: 'pointer'}}
-                            className={svgClass}
-                            onClick={this.handleImageClick}
-                        />
-                        {downloadButton}
-                    </div>
-                    <ViewImageModal
-                        show={this.state.showPreviewModal}
-                        onModalDismissed={this.showPreviewModal}
-                        fileInfos={[fileInfo]}
-                    />
-                </div>
-            );
         } else {
-            loadingClass = 'loading';
-
-            // display a progress indicator when the preview for an image is still loading
-            const loading = localizeMessage('view_image.loading', 'Loading');
-            const progress = Math.floor(this.state.progress);
-
-            content = (
+            loadingImagePreview = (
                 <LoadingImagePreview
                     loading={loading}
-                    progress={progress}
                     containerClass={'file__image-loading'}
                 />
             );
         }
 
         return (
-            <div className={`${'file-view--single'} ${loadingClass}`}>
-                {content}
+            <div
+                ref='singleImageView'
+                className={`${'file-view--single'}`}
+            >
+                <div
+                    ref={this.setViewPortRef}
+                    className='file__image'
+                >
+                    {fileHeader}
+                    <div
+                        style={imageContainerDimension}
+                        className='image-container'
+                    >
+                        <div className={`image-loaded ${fadeInClass}`}>
+                            <img
+                                ref={this.setImageLoadedRef}
+                                style={imageLoadedDimension}
+                                className={svgClass}
+                                onClick={this.handleImageClick}
+                            />
+                            {downloadIcon}
+                        </div>
+                        <div className='image-preload'>
+                            {loadingImagePreview}
+                        </div>
+                    </div>
+                    {viewImageModal}
+                </div>
             </div>
         );
     }
