@@ -4,7 +4,7 @@
 import {combineReducers} from 'redux';
 import {ChannelTypes, PostTypes, UserTypes} from 'mattermost-redux/action_types';
 
-import {ActionTypes, Constants} from 'utils/constants.jsx';
+import {ActionTypes, Constants, NotificationLevels} from 'utils/constants.jsx';
 
 function postVisibility(state = {}, action) {
     switch (action.type) {
@@ -38,7 +38,7 @@ function postVisibility(state = {}, action) {
 
 function lastChannelViewTime(state = {}, action) {
     switch (action.type) {
-    case ChannelTypes.SELECT_CHANNEL: {
+    case ActionTypes.SELECT_CHANNEL_WITH_MEMBER: {
         if (action.member) {
             const nextState = {...state};
             nextState[action.data] = action.member.last_viewed_at;
@@ -46,6 +46,7 @@ function lastChannelViewTime(state = {}, action) {
         }
         return state;
     }
+
     default:
         return state;
     }
@@ -85,10 +86,27 @@ function mobileView(state = false, action) {
 
 function keepChannelIdAsUnread(state = null, action) {
     switch (action.type) {
-    case ActionTypes.KEEP_CHANNEL_AS_UNREAD:
-        return action.data;
-    case ActionTypes.CLEAR_KEEP_CHANNEL_AS_UNREAD:
+    case ActionTypes.SELECT_CHANNEL_WITH_MEMBER: {
+        const member = action.member;
+        const channel = action.channel;
+
+        if (!member || !channel) {
+            return state;
+        }
+
+        const msgCount = channel.total_msg_count - member.msg_count;
+        const showChannelAsUnread = member.mentionCount > 0 ||
+            (member.notify_props.mark_unread !== NotificationLevels.MENTION && msgCount > 0);
+
+        if (showChannelAsUnread) {
+            return {
+                id: member.channel_id,
+                hadMentions: member.mentionCount > 0
+            };
+        }
+
         return null;
+    }
 
     case UserTypes.LOGOUT_SUCCESS:
         return null;
