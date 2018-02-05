@@ -11,6 +11,7 @@ import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import Constants, {Preferences} from 'utils/constants.jsx';
+import * as Utils from 'utils/utils.jsx';
 
 export function isFavoriteChannel(channel) {
     return PreferenceStore.getBool(Preferences.CATEGORY_FAVORITE_CHANNEL, channel.id);
@@ -213,4 +214,18 @@ function isGroupChannelVisible(channel) {
     }
 
     return getGroupOrDirectChannelVisibility(store.getState(), channel.id);
+}
+
+export function findNextUnreadChannelId(curChannelId, allChannelIds, unreadChannelIds, direction) {
+    const curIndex = allChannelIds.indexOf(curChannelId);
+
+    for (let i = 1; i < allChannelIds.length; i++) {
+        const index = Utils.mod(curIndex + (i * direction), allChannelIds.length);
+
+        if (unreadChannelIds.includes(allChannelIds[index])) {
+            return index;
+        }
+    }
+
+    return -1;
 }
