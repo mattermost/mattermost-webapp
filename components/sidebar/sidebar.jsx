@@ -375,32 +375,35 @@ export default class Sidebar extends React.PureComponent {
             }
 
             this.isSwitchingChannel = true;
+
             const allChannelIds = this.getDisplayedChannels();
             const curChannelId = this.props.currentChannel.id;
-            let curIndex = -1;
-            for (let i = 0; i < allChannelIds.length; i++) {
-                if (allChannelIds[i] === curChannelId) {
-                    curIndex = i;
-                }
-            }
-            let nextIndex = curIndex;
-            let count = 0;
+
+            const curIndex = allChannelIds.indexOf(curChannelId);
+
             let increment = 0;
             if (e.keyCode === Constants.KeyCodes.UP) {
                 increment = -1;
             } else {
                 increment = 1;
             }
-            while (count < allChannelIds.length && !this.props.unreadChannelIds.includes(allChannelIds[nextIndex])) {
-                nextIndex += increment;
-                count++;
-                nextIndex = Utils.mod(nextIndex, allChannelIds.length);
+
+            let nextIndex = -1;
+            for (let i = 1; i < allChannelIds.length; i++) {
+                const index = Utils.mod(curIndex + (i * increment), allChannelIds.length);
+
+                if (this.props.unreadChannelIds.includes(allChannelIds[index])) {
+                    nextIndex = index;
+                    break;
+                }
             }
-            if (this.props.unreadChannelIds.includes(allChannelIds[nextIndex])) {
+
+            if (nextIndex !== -1) {
                 const nextChannel = allChannelIds[nextIndex];
                 this.props.actions.goToChannelById(nextChannel);
                 this.updateScrollbarOnChannelChange(nextChannel);
             }
+
             this.isSwitchingChannel = false;
         }
     }
