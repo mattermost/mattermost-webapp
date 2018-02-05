@@ -78,7 +78,7 @@ export default class TutorialIntroScreens extends React.Component {
         savePreference(
             Preferences.TUTORIAL_STEP,
             UserStore.getCurrentId(),
-            '999'
+            Constants.TutorialSteps.FINISHED.toString(),
         );
     }
     createScreen() {

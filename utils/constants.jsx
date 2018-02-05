@@ -327,7 +327,8 @@ export const TutorialSteps = {
     INTRO_SCREENS: 0,
     POST_POPOVER: 1,
     CHANNEL_POPOVER: 2,
-    MENU_POPOVER: 3
+    MENU_POPOVER: 3,
+    FINISHED: 999
 };
 
 export const PostTypes = {

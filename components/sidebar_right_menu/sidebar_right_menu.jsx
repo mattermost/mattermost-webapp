@@ -13,8 +13,6 @@ import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 import {
     Constants,
-    Preferences,
-    TutorialSteps,
     WebrtcActionTypes
 } from 'utils/constants.jsx';
 import {useSafeUrl} from 'utils/url.jsx';
@@ -33,6 +31,7 @@ export default class SidebarRightMenu extends React.Component {
         teamType: PropTypes.string,
         teamDisplayName: PropTypes.string,
         isMentionSearch: PropTypes.bool,
+        showTutorialTip: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             showMentions: PropTypes.func,
             showFlaggedPosts: PropTypes.func,
@@ -111,13 +110,10 @@ export default class SidebarRightMenu extends React.Component {
     }
 
     getStateFromStores = () => {
-        const tutorialStep = PreferenceStore.getInt(Preferences.TUTORIAL_STEP, UserStore.getCurrentId(), 999);
-
         return {
             currentUser: UserStore.getCurrentUser(),
             teamMembers: TeamStore.getMyTeamMembers(),
-            teamListings: TeamStore.getTeamListings(),
-            showTutorialTip: tutorialStep === TutorialSteps.MENU_POPOVER && Utils.isMobile() && global.window.mm_config.EnableTutorial === 'true'
+            teamListings: TeamStore.getTeamListings()
         };
     }
 
@@ -422,7 +418,7 @@ export default class SidebarRightMenu extends React.Component {
         }
 
         let tutorialTip = null;
-        if (this.state.showTutorialTip) {
+        if (this.props.showTutorialTip) {
             tutorialTip = createMenuTip((e) => e.preventDefault(), true);
             this.closeLeftSidebar();
             this.openRightSidebar();
