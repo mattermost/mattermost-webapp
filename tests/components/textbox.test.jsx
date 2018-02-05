@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import * as Utils from 'utils/utils.jsx';
+import TestHelper from 'tests/helpers/client-test-helper';
 
 import Textbox from 'components/textbox.jsx';
 
@@ -46,7 +46,7 @@ describe('components/TextBox', () => {
             />
         );
 
-        wrapper.find('#someid').value = Utils.generateRandomString(4001);
+        wrapper.find('#someid').value = TestHelper.randomString(4001);
         expect(gotError).toEqual(true);
 
         expect(wrapper).toMatchSnapshot();
