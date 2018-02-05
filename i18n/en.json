@@ -1436,6 +1436,7 @@
   "create_comment.commentTitle": "Comment",
   "create_comment.file": "File uploading",
   "create_comment.files": "Files uploading",
+  "create_post.read_only": "This channel is read-only. Only members with permission can post here.",
   "create_post.comment": "Comment",
   "create_post.deactivated": "You are viewing an archived channel with a deactivated user.",
   "create_post.error_message": "Your message is too long. Character count: {length}/{limit}",
