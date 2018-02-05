@@ -6,6 +6,7 @@ import React from 'react';
 
 import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
+import {FileTypes} from 'utils/constants.jsx';
 import {
     fileSizeToString,
     getFileType,
@@ -153,7 +154,7 @@ export default class SingleImageView extends React.PureComponent {
         const canDownload = canDownloadFiles();
         const fileType = getFileType(fileInfo.extension);
         let svgClass = '';
-        if (fileType === 'svg') {
+        if (fileType === FileTypes.SVG) {
             svgClass = 'post-image normal';
         }
 
