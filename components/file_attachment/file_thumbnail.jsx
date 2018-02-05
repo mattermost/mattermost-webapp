@@ -6,7 +6,7 @@ import React from 'react';
 
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
-import Constants from 'utils/constants.jsx';
+import Constants, {FileTypes} from 'utils/constants.jsx';
 import {
     getFileType,
     getIconClassName,
@@ -28,7 +28,7 @@ export default class FileThumbnail extends React.PureComponent {
         const type = getFileType(fileInfo.extension);
 
         let thumbnail;
-        if (type === 'image') {
+        if (type === FileTypes.IMAGE) {
             let className = 'post-image';
 
             if (fileInfo.width < Constants.THUMBNAIL_WIDTH && fileInfo.height < Constants.THUMBNAIL_HEIGHT) {
@@ -51,7 +51,7 @@ export default class FileThumbnail extends React.PureComponent {
                     }}
                 />
             );
-        } else if (fileInfo.extension === 'svg') {
+        } else if (fileInfo.extension === FileTypes.SVG) {
             thumbnail = (
                 <img
                     className='post-image normal'
