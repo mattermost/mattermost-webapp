@@ -23,7 +23,6 @@ exports[`components/delete_channel_modal should match snapshot for delete_channe
   }
   onExited={[Function]}
   onHide={[Function]}
-  onKeyDown={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   show={true}

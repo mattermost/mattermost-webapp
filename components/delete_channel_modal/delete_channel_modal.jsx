@@ -100,6 +100,7 @@ export default class DeleteChannelModal extends React.PureComponent {
                         className='btn btn-danger'
                         data-dismiss='modal'
                         onClick={this.handleDelete}
+                        autoFocus={true}
                     >
                         <FormattedMessage
                             id='delete_channel.del'
