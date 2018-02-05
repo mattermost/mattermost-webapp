@@ -72,9 +72,9 @@ export default class SidebarChannel extends React.PureComponent {
         channelTeammateDeletedAt: PropTypes.number,
 
         /**
-         * User's channel membership
+         * Whether or not to mark the channel as unread when it has unread messages and no mentions
          */
-        membership: PropTypes.object,
+        showUnreadForMsgs: PropTypes.bool.isRequired,
 
         /**
          * Number of unread messages
@@ -122,7 +122,8 @@ export default class SidebarChannel extends React.PureComponent {
         membersCount: PropTypes.number.isRequired,
 
         actions: PropTypes.shape({
-            keepChanneIdAsUnread: PropTypes.func.isRequired,
+            clearKeepChannelIdAsUnread: PropTypes.func.isRequired,
+            keepChannelIdAsUnread: PropTypes.func.isRequired,
             savePreferences: PropTypes.func.isRequired,
             leaveChannel: PropTypes.func.isRequired
         }).isRequired
@@ -179,25 +180,22 @@ export default class SidebarChannel extends React.PureComponent {
     }
 
     handleSelectChannel = () => {
-        const {actions, channelId} = this.props;
-        actions.keepChanneIdAsUnread(this.isChannelUnread() ? channelId : null, this.props.unreadMentions > 0);
+        if (this.showChannelAsUnread()) {
+            this.props.actions.keepChannelIdAsUnread(this.props.channelId, this.props.unreadMentions > 0);
+        } else {
+            this.props.actions.clearKeepChannelIdAsUnread(null, false);
+        }
     };
 
-    isChannelUnread = () => {
-        const {membership, unreadMsgs, unreadMentions} = this.props;
-
-        if (membership) {
-            const msgCount = unreadMsgs + unreadMentions;
-            return msgCount > 0 || membership.mention_count > 0;
-        }
-
-        return false;
+    showChannelAsUnread = () => {
+        return this.props.unreadMentions > 0 || (this.props.unreadMsgs > 0 && this.props.showUnreadForMsgs);
     };
 
     render = () => {
         if (!this.props.channelDisplayName || !this.props.channelType) {
-            return (<div/>);
+            return null;
         }
+
         let closeHandler = null;
         if (this.props.channelType === Constants.DM_CHANNEL || this.props.channelType === Constants.GM_CHANNEL) {
             closeHandler = this.handleLeaveDirectChannel;
@@ -215,18 +213,15 @@ export default class SidebarChannel extends React.PureComponent {
         }
 
         let rowClass = 'sidebar-item';
-
-        if (this.isChannelUnread()) {
+        let badge = false;
+        if (this.showChannelAsUnread()) {
             rowClass += ' unread-title';
-        }
 
-        var badge = false;
-        if (this.props.membership && this.props.unreadMentions) {
-            badge = true;
-        }
+            if (this.props.unreadMentions > 0) {
+                rowClass += ' has-badge';
 
-        if (this.props.unreadMentions > 0) {
-            rowClass += ' has-badge';
+                badge = true;
+            }
         }
 
         if (closeHandler && !badge) {

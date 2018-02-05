@@ -79,11 +79,6 @@ export default class Sidebar extends React.PureComponent {
         currentUser: PropTypes.object.isRequired,
 
         /**
-         * User channels memerships
-         */
-        memberships: PropTypes.object.isRequired,
-
-        /**
          * Number of unread mentions/messages
          */
         unreads: PropTypes.object.isRequired,
@@ -412,10 +407,10 @@ export default class Sidebar extends React.PureComponent {
 
     getDisplayedChannels = (props = this.props) => {
         return props.unreadChannelIds.
-        concat(props.favoriteChannelIds).
-        concat(props.publicChannelIds).
-        concat(props.privateChannelIds).
-        concat(props.directAndGroupChannelIds);
+            concat(props.favoriteChannelIds).
+            concat(props.publicChannelIds).
+            concat(props.privateChannelIds).
+            concat(props.directAndGroupChannelIds);
     };
 
     channelIdIsDisplayedForProps = (props, id) => {
@@ -467,7 +462,6 @@ export default class Sidebar extends React.PureComponent {
                 key={channelId}
                 ref={channelId}
                 channelId={channelId}
-                membership={this.props.memberships[channelId]}
                 active={channelId === this.props.currentChannel.id}
                 currentTeamName={this.props.currentTeam.name}
                 currentUserId={this.props.currentUser.id}

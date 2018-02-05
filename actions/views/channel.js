@@ -13,19 +13,18 @@ export function checkAndSetMobileView() {
     };
 }
 
-export function keepChanneIdAsUnread(channelId, hadMentions = false) {
-    return (dispatch) => {
-        let data = null;
-        if (channelId) {
-            data = {
-                id: channelId,
-                hadMentions
-            };
+export function keepChannelIdAsUnread(channelId, hadMentions) {
+    return {
+        type: ActionTypes.KEEP_CHANNEL_AS_UNREAD,
+        data: {
+            id: channelId,
+            hadMentions
         }
+    };
+}
 
-        dispatch({
-            type: ActionTypes.KEEP_CHANNEL_AS_UNREAD,
-            data
-        });
+export function clearKeepChannelIdAsUnread() {
+    return {
+        type: ActionTypes.CLEAR_KEEP_CHANNEL_AS_UNREAD
     };
 }
