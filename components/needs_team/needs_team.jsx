@@ -46,7 +46,7 @@ import Sidebar from 'components/sidebar';
 import PermalinkView from 'components/permalink_view';
 import ChannelIdentifierRouter from 'components/channel_identifier_router.jsx';
 import {makeAsyncComponent} from 'components/async_load';
-import loadBackstageController from 'bundle-loader?lazy!components/backstage/backstage_controller';
+import loadBackstageController from 'bundle-loader?lazy!components/backstage';
 
 const BackstageController = makeAsyncComponent(loadBackstageController);
 
