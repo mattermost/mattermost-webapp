@@ -377,26 +377,20 @@ export default class Sidebar extends React.PureComponent {
             this.isSwitchingChannel = true;
 
             const allChannelIds = this.getDisplayedChannels();
-            const curChannelId = this.props.currentChannel.id;
 
-            const curIndex = allChannelIds.indexOf(curChannelId);
-
-            let increment = 0;
+            let direction = 0;
             if (e.keyCode === Constants.KeyCodes.UP) {
-                increment = -1;
+                direction = -1;
             } else {
-                increment = 1;
+                direction = 1;
             }
 
-            let nextIndex = -1;
-            for (let i = 1; i < allChannelIds.length; i++) {
-                const index = Utils.mod(curIndex + (i * increment), allChannelIds.length);
-
-                if (this.props.unreadChannelIds.includes(allChannelIds[index])) {
-                    nextIndex = index;
-                    break;
-                }
-            }
+            const nextIndex = ChannelUtils.findNextUnreadChannelId(
+                this.props.currentChannel.id,
+                allChannelIds,
+                this.props.unreadChannelIds,
+                direction
+            );
 
             if (nextIndex !== -1) {
                 const nextChannel = allChannelIds[nextIndex];
