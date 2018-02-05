@@ -2,9 +2,9 @@
 // See License.txt for license information.
 
 import React from 'react';
-import {mount, shallow} from 'enzyme';
+import {shallow} from 'enzyme';
 
-import * as Utils from 'utils/utils.jsx'
+import * as Utils from 'utils/utils.jsx';
 
 import Textbox from 'components/textbox.jsx';
 
