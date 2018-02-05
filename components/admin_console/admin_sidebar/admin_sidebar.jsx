@@ -402,6 +402,15 @@ export default class AdminSidebar extends React.Component {
                                 }
                             />
                             <AdminSidebarSection
+                                name='user_access_tokens'
+                                title={
+                                    <FormattedMessage
+                                        id='admin.sidebar.user_access_tokens'
+                                        defaultMessage='Personal Access Tokens'
+                                    />
+                                 }
+                            />
+                            <AdminSidebarSection
                                 name='logs'
                                 title={
                                     <FormattedMessage

@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/admin_console/UserAccessTokensList should match snapshot with base props 1`] = `
+<div>
+  list
+</div>
+`;

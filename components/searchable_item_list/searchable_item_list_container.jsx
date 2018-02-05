@@ -4,12 +4,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import SearchableUserList from './searchable_user_list.jsx';
+import SearchableItemList from './searchable_item_list.jsx';
 
-export default class SearchableUserListContainer extends React.Component {
+export default class SearchableItemListContainer extends React.Component {
     static propTypes = {
-        users: PropTypes.arrayOf(PropTypes.object),
-        usersPerPage: PropTypes.number,
+        items: PropTypes.arrayOf(PropTypes.object),
+        itemsPerPage: PropTypes.number,
         total: PropTypes.number,
         extraInfo: PropTypes.object,
         nextPage: PropTypes.func.isRequired,
@@ -59,7 +59,7 @@ export default class SearchableUserListContainer extends React.Component {
 
     render() {
         return (
-            <SearchableUserList
+            <SearchableItemList
                 {...this.props}
                 nextPage={this.nextPage}
                 previousPage={this.previousPage}
