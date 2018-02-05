@@ -14,6 +14,8 @@ export function bindActionToRedux(action, ...args) {
     };
 }
 
-window.store = store;
+if (process.env.NODE_ENV !== 'production') { //eslint-disable-line no-process-env
+    window.store = store;
+}
 
 export default store;
