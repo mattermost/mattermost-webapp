@@ -37,7 +37,6 @@ export async function createTeam(team, onSuccess, onError) {
 export async function updateTeam(team, onSuccess, onError) {
     const {data: rteam, error: err} = await TeamActions.updateTeam(team)(dispatch, getState);
     if (rteam && onSuccess) {
-        browserHistory.push('/' + rteam.name + `/channels/${Constants.DEFAULT_CHANNEL}`);
         onSuccess(rteam);
     } else if (err && onError) {
         onError({id: err.server_error_id, ...err});
