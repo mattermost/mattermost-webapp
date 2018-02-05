@@ -6,11 +6,7 @@ import {getPrefix} from 'utils/storage_utils';
 export const getGlobalItem = (state, name, defaultValue) => {
     const storage = state && state.storage && state.storage.storage;
 
-    if (storage && typeof storage[name] !== 'undefined' && storage[name] !== null) {
-        return storage[name];
-    }
-
-    return defaultValue;
+    return getItemFromStorage(storage, name, defaultValue);
 };
 
 export const makeGetItem = (name, defaultValue) => {
@@ -27,7 +23,11 @@ export const makeGetGlobalItem = (name, defaultValue) => {
 
 export const getItemFromStorage = (storage, name, defaultValue) => {
     if (storage && typeof storage[name] !== 'undefined' && storage[name] !== null) {
-        return storage[name];
+        const data = storage[name];
+        if (typeof data.timestamp !== 'undefined') {
+            return data.value;
+        }
+        return data;
     }
 
     return defaultValue;

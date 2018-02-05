@@ -7,6 +7,8 @@ import storageReducer from 'reducers/storage';
 import {StorageTypes} from 'utils/constants';
 
 describe('Reducers.Storage', () => {
+    const now = new Date();
+
     it('Storage.SET_ITEM', async () => {
         const nextState = storageReducer(
             {
@@ -18,13 +20,14 @@ describe('Reducers.Storage', () => {
                     name: 'key',
                     prefix: 'user_id_',
                     value: 'value',
+                    timestamp: now,
                 },
             }
         );
         assert.deepEqual(
             nextState.storage,
             {
-                user_id_key: 'value',
+                user_id_key: {value: 'value', timestamp: now},
             }
         );
     });
@@ -39,13 +42,14 @@ describe('Reducers.Storage', () => {
                 data: {
                     name: 'key',
                     value: 'value',
+                    timestamp: now,
                 },
             }
         );
         assert.deepEqual(
             nextState.storage,
             {
-                key: 'value',
+                key: {value: 'value', timestamp: now},
             }
         );
     });
