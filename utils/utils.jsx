@@ -1554,3 +1554,13 @@ export function copyToClipboard(e, data) {
     document.execCommand('copy');
     document.body.removeChild(textArea);
 }
+
+export function generateRandomString(length) {
+    var text = '';
+    var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+    for (var i = 0; i < length; i++)
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}
