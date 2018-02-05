@@ -1141,9 +1141,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ---
 
-## react-router
+## react-router-dom
 
-This product contains a modified portion of 'react-router',  a complete routing library for React by Ryan Florence and Michael Jackson.
+This product contains a modified portion of 'react-router-dom',  a complete routing library for React by Ryan Florence and Michael Jackson.
 
 * HOMEPAGE:
   * https://github.com/reactjs/react-router
