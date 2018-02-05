@@ -14,7 +14,7 @@ import ChannelStore from 'stores/channel_store.jsx';
 import LocalizationStore from 'stores/localization_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
-import Constants, {UserStatusesWeight} from 'utils/constants.jsx';
+import Constants, {UserStatusesWeight, FileTypes} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import bing from 'images/bing.mp3';
 import icon50 from 'images/icon50x50.png';
@@ -405,46 +405,46 @@ export function isGIFImage(extin) {
 export function getFileType(extin) {
     var ext = extin.toLowerCase();
     if (Constants.IMAGE_TYPES.indexOf(ext) > -1) {
-        return 'image';
+        return FileTypes.IMAGE;
     }
 
     if (Constants.AUDIO_TYPES.indexOf(ext) > -1) {
-        return 'audio';
+        return FileTypes.AUDIO;
     }
 
     if (Constants.VIDEO_TYPES.indexOf(ext) > -1) {
-        return 'video';
+        return FileTypes.VIDEO;
     }
 
     if (Constants.SPREADSHEET_TYPES.indexOf(ext) > -1) {
-        return 'spreadsheet';
+        return FileTypes.SPREADSHEET;
     }
 
     if (Constants.CODE_TYPES.indexOf(ext) > -1) {
-        return 'code';
+        return FileTypes.CODE;
     }
 
     if (Constants.WORD_TYPES.indexOf(ext) > -1) {
-        return 'word';
+        return FileTypes.WORD;
     }
 
     if (Constants.PRESENTATION_TYPES.indexOf(ext) > -1) {
-        return 'presentation';
+        return FileTypes.PRESENTATION;
     }
 
     if (Constants.PDF_TYPES.indexOf(ext) > -1) {
-        return 'pdf';
+        return FileTypes.PDF;
     }
 
     if (Constants.PATCH_TYPES.indexOf(ext) > -1) {
-        return 'patch';
+        return FileTypes.PATCH;
     }
 
     if (Constants.SVG_TYPES.indexOf(ext) > -1) {
-        return 'svg';
+        return FileTypes.SVG;
     }
 
-    return 'other';
+    return FileTypes.OTHER;
 }
 
 export function getFileIconPath(fileInfo) {

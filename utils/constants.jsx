@@ -27,13 +27,13 @@ import logoWebhook from 'images/webhook_icon.jpg';
 
 import githubCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/github.css';
 
- // eslint-disable-line import/order
+// eslint-disable-line import/order
 import monokaiCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/monokai.css';
 
- // eslint-disable-line import/order
+// eslint-disable-line import/order
 import solarizedDarkCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-dark.css';
 
- // eslint-disable-line import/order
+// eslint-disable-line import/order
 import solarizedLightCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-light.css'; // eslint-disable-line import/order
 
 export const PluginSettings = {
@@ -239,6 +239,7 @@ export const ActionTypes = keyMirror({
     POPOVER_MENTION_KEY_CLICK: null,
 
     KEEP_CHANNEL_AS_UNREAD: null,
+    CLEAR_KEEP_CHANNEL_AS_UNREAD: null,
 
     INCREMENT_EMOJI_PICKER_PAGE: null
 });
@@ -425,6 +426,20 @@ export const ErrorBarTypes = {
     WEBSOCKET_PORT_ERROR: 'channel_loader.socketError'
 };
 
+export const FileTypes = {
+    IMAGE: 'image',
+    AUDIO: 'audio',
+    VIDEO: 'video',
+    SPREADSHEET: 'spreadsheet',
+    CODE: 'code',
+    WORD: 'word',
+    PRESENTATION: 'presentation',
+    PDF: 'pdf',
+    PATCH: 'patch',
+    SVG: 'svg',
+    OTHER: 'other'
+};
+
 export const NotificationLevels = {
     DEFAULT: 'default',
     ALL: 'all',
@@ -464,6 +479,7 @@ export const Constants = {
     PostTypes,
     ErrorPageTypes,
     ErrorBarTypes,
+    FileTypes,
 
     MAX_POST_VISIBILITY: 1000000,
 

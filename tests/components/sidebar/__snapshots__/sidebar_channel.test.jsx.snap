@@ -111,7 +111,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     link="/current-team/messages/@undefined"
     membersCount={8}
     onSelectChannel={[Function]}
-    rowClass="sidebar-item unread-title has-close"
+    rowClass="sidebar-item has-close"
     teammateDeletedAt={1}
     teammateId="teammate-id"
     unreadMentions={0}

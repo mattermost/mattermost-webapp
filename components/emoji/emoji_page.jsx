@@ -26,7 +26,12 @@ export default class EmojiPage extends React.Component {
         /**
          * Title of the app or site.
          */
-        siteName: PropTypes.string
+        siteName: PropTypes.string,
+
+        /**
+         * Function to scroll list to top.
+         */
+        scrollToTop: PropTypes.func.isRequired
     }
 
     static defaultProps = {
@@ -73,7 +78,7 @@ export default class EmojiPage extends React.Component {
                             />
                         </button>
                     </Link>
-                    <EmojiList/>
+                    <EmojiList scrollToTop={this.props.scrollToTop}/>
                 </div>
             </div>
         );
