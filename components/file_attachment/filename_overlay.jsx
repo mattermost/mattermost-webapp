@@ -46,17 +46,7 @@ export default class FilenameOverlay extends React.PureComponent {
         /**
          * Optional class like for icon
          */
-        iconClass: PropTypes.string,
-
-        /**
-         * File name
-         */
-        filename: PropTypes.string,
-
-        /**
-         * File URL
-         */
-        fileURL: PropTypes.string
+        iconClass: PropTypes.string
     };
 
     onAttachmentClick = (e) => {
