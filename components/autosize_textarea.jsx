@@ -118,7 +118,7 @@ export default class AutosizeTextarea extends React.Component {
                         placeholder={placeholder}
                         rows='1'
                         {...otherProps}
-                        value={value || defaultValue}
+                        value={value || defaultValue || placeholder}
                     />
                 </div>
             </div>
