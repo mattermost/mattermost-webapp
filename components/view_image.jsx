@@ -7,7 +7,7 @@ import {Modal} from 'react-bootstrap';
 import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions';
-import Constants from 'utils/constants';
+import Constants, {FileTypes} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import AudioVideoPreview from 'components/audio_video_preview';
 import CodePreview from 'components/code_preview';
@@ -136,7 +136,7 @@ export default class ViewImageModal extends React.PureComponent {
         const fileInfo = this.props.fileInfos[index];
         const fileType = Utils.getFileType(fileInfo.extension);
 
-        if (fileType === 'image') {
+        if (fileType === FileTypes.IMAGE) {
             let previewUrl;
             if (fileInfo.has_image_preview) {
                 previewUrl = getFilePreviewUrl(fileInfo.id);
@@ -206,16 +206,16 @@ export default class ViewImageModal extends React.PureComponent {
         if (this.state.loaded[this.state.imageIndex]) {
             const fileType = Utils.getFileType(fileInfo.extension);
 
-            if (fileType === 'image' || fileType === 'svg') {
+            if (fileType === FileTypes.IMAGE || fileType === FileTypes.SVG) {
                 content = <ImagePreview fileInfo={fileInfo}/>;
-            } else if (fileType === 'video' || fileType === 'audio') {
+            } else if (fileType === FileTypes.VIDEO || fileType === FileTypes.AUDIO) {
                 content = (
                     <AudioVideoPreview
                         fileInfo={fileInfo}
                         fileUrl={fileUrl}
                     />
                 );
-            } else if (fileInfo && fileInfo.extension && fileInfo.extension === 'pdf') {
+            } else if (fileInfo && fileInfo.extension && fileInfo.extension === FileTypes.PDF) {
                 content = (
                     <AsyncComponent
                         doLoad={loadPDFPreview}

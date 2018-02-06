@@ -9,7 +9,7 @@ import EmojiStore from 'stores/emoji_store.jsx';
 
 import Constants from './constants.jsx';
 import * as Emoticons from './emoticons.jsx';
-import * as Markdown from './markdown.jsx';
+import * as Markdown from './markdown';
 
 const punctuation = XRegExp.cache('[^\\pL\\d]');
 

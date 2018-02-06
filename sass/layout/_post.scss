@@ -37,7 +37,6 @@
 
     .help__text {
         bottom: -23px;
-        cursor: pointer;
         font-size: 13px;
         position: absolute;
         right: 0;
@@ -389,7 +388,7 @@
 .post-create__container {
     @include flex(0 0 auto);
     width: 100%;
-    z-index: 5;
+    z-index: 7;
 
     label {
         font-weight: normal;
@@ -1009,6 +1008,10 @@
         white-space: pre-wrap;
         width: 100%;
         word-break: break-word;
+
+        &:last-child {
+            display: inline;
+        }
     }
 
     .post__header--info {

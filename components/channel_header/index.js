@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {favoriteChannel, leaveChannel, unfavoriteChannel} from 'mattermost-redux/actions/channels';
+import {getCustomEmojisInText} from 'mattermost-redux/actions/emojis';
 import {General, Preferences} from 'mattermost-redux/constants';
 import {getChannel, getMyChannelMember} from 'mattermost-redux/selectors/entities/channels';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
@@ -56,7 +57,8 @@ function mapDispatchToProps(dispatch) {
             showPinnedPosts,
             showMentions,
             closeRightHandSide,
-            openModal
+            openModal,
+            getCustomEmojisInText
         }, dispatch)
     };
 }

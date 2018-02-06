@@ -323,8 +323,8 @@ class FileUpload extends React.PureComponent {
                 this.props.onUploadError(localizeMessage('file_upload.disabled', 'File attachments are disabled.'));
                 return;
             }
-
-            var numToUpload = Math.min(this.state.uploadsRemaining, items.length);
+            const uploadsRemaining = Constants.MAX_UPLOAD_FILES - this.props.fileCount;
+            var numToUpload = Math.min(uploadsRemaining, items.length);
 
             if (items.length > numToUpload) {
                 this.props.onUploadError(formatMessage(holders.limited, {count: Constants.MAX_UPLOAD_FILES}));

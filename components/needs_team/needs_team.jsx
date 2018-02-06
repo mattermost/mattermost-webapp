@@ -43,11 +43,10 @@ import WebrtcSidebar from 'components/webrtc/components/webrtc_sidebar.jsx';
 import ModalController from 'components/modal_controller';
 import TeamSidebar from 'components/team_sidebar';
 import Sidebar from 'components/sidebar';
-import ChannelView from 'components/channel_view';
 import PermalinkView from 'components/permalink_view';
-import MessageIdentifierRouter from 'components/message_indentifier_router';
+import ChannelIdentifierRouter from 'components/channel_identifier_router.jsx';
 import {makeAsyncComponent} from 'components/async_load';
-import loadBackstageController from 'bundle-loader?lazy!components/backstage/backstage_controller';
+import loadBackstageController from 'bundle-loader?lazy!components/backstage';
 
 const BackstageController = makeAsyncComponent(loadBackstageController);
 
@@ -211,11 +210,12 @@ export default class NeedsTeam extends React.Component {
     toLastChannel = () => {
         let channelName = Constants.DEFAULT_CHANNEL;
         const team = TeamStore.getByName(this.props.match.params.team);
-        const channelId = BrowserStore.getGlobalItem(team.id);
-        const channel = ChannelStore.getChannelById(channelId);
-
-        if (channel) {
-            channelName = channel.name;
+        if (team) {
+            const channelId = BrowserStore.getGlobalItem(team.id);
+            const channel = ChannelStore.getChannelById(channelId);
+            if (channel) {
+                channelName = channel.name;
+            }
         }
         return `${this.props.match.url}/channels/${channelName}`;
     }
@@ -261,16 +261,12 @@ export default class NeedsTeam extends React.Component {
                                     <div className='row main'>
                                         <Switch>
                                             <Route
-                                                path={`${this.props.match.url}/channels/:channel`}
-                                                component={ChannelView}
-                                            />
-                                            <Route
                                                 path={`${this.props.match.url}/pl/:postid`}
                                                 component={PermalinkView}
                                             />
                                             <Route
-                                                path={'/:team/messages/:identifier'}
-                                                component={MessageIdentifierRouter}
+                                                path={'/:team/:path(channels|messages)/:identifier'}
+                                                component={ChannelIdentifierRouter}
                                             />
                                             <Redirect to={this.toLastChannel()}/>
                                         </Switch>

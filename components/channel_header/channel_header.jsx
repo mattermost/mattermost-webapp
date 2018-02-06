@@ -20,6 +20,7 @@ import {ActionTypes, Constants, RHSStates, UserStatuses, ModalIdentifiers} from 
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import {getSiteURL} from 'utils/url.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {messageHtmlToComponent} from 'utils/post_utils.jsx';
 import ChannelInfoModal from 'components/channel_info_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
@@ -62,7 +63,8 @@ export default class ChannelHeader extends React.Component {
             showPinnedPosts: PropTypes.func.isRequired,
             showMentions: PropTypes.func.isRequired,
             closeRightHandSide: PropTypes.func.isRequired,
-            openModal: PropTypes.func.isRequired
+            openModal: PropTypes.func.isRequired,
+            getCustomEmojisInText: PropTypes.func.isRequired
         }).isRequired
     }
 
@@ -85,6 +87,7 @@ export default class ChannelHeader extends React.Component {
     }
 
     componentDidMount() {
+        this.props.actions.getCustomEmojisInText(this.props.channel.header);
         WebrtcStore.addChangedListener(this.onWebrtcChange);
         WebrtcStore.addBusyListener(this.onBusy);
         document.addEventListener('keydown', this.handleShortcut);
@@ -94,6 +97,12 @@ export default class ChannelHeader extends React.Component {
         WebrtcStore.removeChangedListener(this.onWebrtcChange);
         WebrtcStore.removeBusyListener(this.onBusy);
         document.removeEventListener('keydown', this.handleShortcut);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.channel.id !== nextProps.channel.id) {
+            this.props.actions.getCustomEmojisInText(nextProps.channel.header);
+        }
     }
 
     onWebrtcChange = () => {
@@ -775,6 +784,7 @@ export default class ChannelHeader extends React.Component {
         let headerTextContainer;
         if (channel.header) {
             let headerTextElement;
+            const formattedText = TextFormatting.formatText(channel.header, textFormattingOptions);
             if (this.props.enableFormatting) {
                 headerTextElement = (
                     <div
@@ -783,10 +793,9 @@ export default class ChannelHeader extends React.Component {
                     >
                         {dmHeaderIconStatus}
                         {dmHeaderTextStatus}
-                        <span
-                            onClick={Utils.handleFormattedTextClick}
-                            dangerouslySetInnerHTML={{__html: TextFormatting.formatText(channel.header, textFormattingOptions)}}
-                        />
+                        <span onClick={Utils.handleFormattedTextClick}>
+                            {messageHtmlToComponent(formattedText, false, {mentions: false})}
+                        </span>
                     </div>
                 );
             } else {

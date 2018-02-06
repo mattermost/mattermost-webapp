@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import EmojiStore from 'stores/emoji_store.jsx';
 import {getEmojiMap} from 'selectors/emojis';
@@ -20,7 +21,8 @@ function mapStateToProps(state, ownProps) {
         imageUrl = EmojiStore.getEmojiImageUrl(emoji);
     } else {
         displayTextOnly = state.entities.emojis.nonExistentEmoji.has(ownProps.name) ||
-            getConfig(state).EnableCustomEmoji !== 'true';
+            getConfig(state).EnableCustomEmoji !== 'true' ||
+            getCurrentUserId(state) === '';
     }
 
     return {

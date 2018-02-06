@@ -12,22 +12,18 @@ class ModalStoreClass extends EventEmitter {
     constructor() {
         super();
 
-        this.addModalListener = this.addModalListener.bind(this);
-        this.removeModalListener = this.removeModalListener.bind(this);
-
-        this.handleEventPayload = this.handleEventPayload.bind(this);
         this.dispatchToken = AppDispatcher.register(this.handleEventPayload);
     }
 
-    addModalListener(action, callback) {
+    addModalListener = (action, callback) => {
         this.on(action, callback);
     }
 
-    removeModalListener(action, callback) {
+    removeModalListener = (action, callback) => {
         this.removeListener(action, callback);
     }
 
-    handleEventPayload(payload) {
+    handleEventPayload = (payload) => {
         // toggle event handlers should accept a boolean show/hide value and can accept a map of arguments
         const {type, value, ...args} = payload.action; //eslint-disable-line no-use-before-define
 

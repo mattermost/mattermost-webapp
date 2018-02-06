@@ -105,11 +105,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c1"
-        membership={
-          Object {
-            "name": "Public test 1 membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -117,11 +112,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c2"
-        membership={
-          Object {
-            "name": "Public test 2 membership",
-          }
-        }
       />
       <li>
         <button
@@ -189,11 +179,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c3"
-        membership={
-          Object {
-            "name": "Private test 1 membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -201,11 +186,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c4"
-        membership={
-          Object {
-            "name": "Private test 2 membership",
-          }
-        }
       />
     </ul>
     <ul
@@ -261,11 +241,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c5"
-        membership={
-          Object {
-            "name": "Direct message test membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -273,11 +248,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c6"
-        membership={
-          Object {
-            "name": "Group message test membership",
-          }
-        }
       />
       <li
         key="more"
@@ -396,11 +366,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c1"
-        membership={
-          Object {
-            "name": "Public test 1 membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -408,11 +373,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c3"
-        membership={
-          Object {
-            "name": "Private test 1 membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -420,11 +380,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c5"
-        membership={
-          Object {
-            "name": "Direct message test membership",
-          }
-        }
       />
     </ul>
     <ul
@@ -479,11 +434,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c1"
-        membership={
-          Object {
-            "name": "Public test 1 membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -491,11 +441,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c2"
-        membership={
-          Object {
-            "name": "Public test 2 membership",
-          }
-        }
       />
       <li>
         <button
@@ -563,11 +508,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c3"
-        membership={
-          Object {
-            "name": "Private test 1 membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -575,11 +515,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c4"
-        membership={
-          Object {
-            "name": "Private test 2 membership",
-          }
-        }
       />
     </ul>
     <ul
@@ -635,11 +570,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c5"
-        membership={
-          Object {
-            "name": "Direct message test membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -647,11 +577,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c6"
-        membership={
-          Object {
-            "name": "Group message test membership",
-          }
-        }
       />
       <li
         key="more"
@@ -770,11 +695,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c3"
-        membership={
-          Object {
-            "name": "Private test 1 membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -782,11 +702,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c5"
-        membership={
-          Object {
-            "name": "Direct message test membership",
-          }
-        }
       />
     </ul>
     <ul
@@ -841,11 +756,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c1"
-        membership={
-          Object {
-            "name": "Public test 1 membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -853,11 +763,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c2"
-        membership={
-          Object {
-            "name": "Public test 2 membership",
-          }
-        }
       />
       <li>
         <button
@@ -925,11 +830,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c3"
-        membership={
-          Object {
-            "name": "Private test 1 membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -937,11 +837,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c4"
-        membership={
-          Object {
-            "name": "Private test 2 membership",
-          }
-        }
       />
     </ul>
     <ul
@@ -997,11 +892,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c5"
-        membership={
-          Object {
-            "name": "Direct message test membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -1009,11 +899,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c6"
-        membership={
-          Object {
-            "name": "Group message test membership",
-          }
-        }
       />
       <li
         key="more"
@@ -1132,11 +1017,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c1"
-        membership={
-          Object {
-            "name": "Public test 1 membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -1144,11 +1024,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c2"
-        membership={
-          Object {
-            "name": "Public test 2 membership",
-          }
-        }
       />
       <li>
         <button
@@ -1184,11 +1059,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c3"
-        membership={
-          Object {
-            "name": "Private test 1 membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -1196,11 +1066,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c4"
-        membership={
-          Object {
-            "name": "Private test 2 membership",
-          }
-        }
       />
     </ul>
     <ul
@@ -1256,11 +1121,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c5"
-        membership={
-          Object {
-            "name": "Direct message test membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -1268,11 +1128,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c6"
-        membership={
-          Object {
-            "name": "Group message test membership",
-          }
-        }
       />
       <li
         key="more"
@@ -1431,11 +1286,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c1"
-        membership={
-          Object {
-            "name": "Public test 1 membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -1443,11 +1293,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c2"
-        membership={
-          Object {
-            "name": "Public test 2 membership",
-          }
-        }
       />
       <li>
         <button
@@ -1515,11 +1360,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c3"
-        membership={
-          Object {
-            "name": "Private test 1 membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -1527,11 +1367,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c4"
-        membership={
-          Object {
-            "name": "Private test 2 membership",
-          }
-        }
       />
     </ul>
     <ul
@@ -1587,11 +1422,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c5"
-        membership={
-          Object {
-            "name": "Direct message test membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -1599,11 +1429,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c6"
-        membership={
-          Object {
-            "name": "Group message test membership",
-          }
-        }
       />
       <li
         key="more"
@@ -1754,11 +1579,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c1"
-        membership={
-          Object {
-            "name": "Public test 1 membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -1766,11 +1586,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c2"
-        membership={
-          Object {
-            "name": "Public test 2 membership",
-          }
-        }
       />
       <li>
         <button
@@ -1838,11 +1653,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c3"
-        membership={
-          Object {
-            "name": "Private test 1 membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -1850,11 +1660,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c4"
-        membership={
-          Object {
-            "name": "Private test 2 membership",
-          }
-        }
       />
     </ul>
     <ul
@@ -1910,11 +1715,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c5"
-        membership={
-          Object {
-            "name": "Direct message test membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -1922,11 +1722,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c6"
-        membership={
-          Object {
-            "name": "Group message test membership",
-          }
-        }
       />
       <li
         key="more"
@@ -2081,11 +1876,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c1"
-        membership={
-          Object {
-            "name": "Public test 1 membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -2093,11 +1883,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c2"
-        membership={
-          Object {
-            "name": "Public test 2 membership",
-          }
-        }
       />
       <li>
         <button
@@ -2165,11 +1950,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c3"
-        membership={
-          Object {
-            "name": "Private test 1 membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -2177,11 +1957,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c4"
-        membership={
-          Object {
-            "name": "Private test 2 membership",
-          }
-        }
       />
     </ul>
     <ul
@@ -2237,11 +2012,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c5"
-        membership={
-          Object {
-            "name": "Direct message test membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -2249,11 +2019,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c6"
-        membership={
-          Object {
-            "name": "Group message test membership",
-          }
-        }
       />
       <li
         key="more"
@@ -2404,11 +2169,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c1"
-        membership={
-          Object {
-            "name": "Public test 1 membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -2416,11 +2176,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c2"
-        membership={
-          Object {
-            "name": "Public test 2 membership",
-          }
-        }
       />
       <li>
         <button
@@ -2488,11 +2243,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c3"
-        membership={
-          Object {
-            "name": "Private test 1 membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -2500,11 +2250,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c4"
-        membership={
-          Object {
-            "name": "Private test 2 membership",
-          }
-        }
       />
     </ul>
     <ul
@@ -2560,11 +2305,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c5"
-        membership={
-          Object {
-            "name": "Direct message test membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -2572,11 +2312,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c6"
-        membership={
-          Object {
-            "name": "Group message test membership",
-          }
-        }
       />
       <li
         key="more"
@@ -2727,11 +2462,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c1"
-        membership={
-          Object {
-            "name": "Public test 1 membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -2739,11 +2469,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c2"
-        membership={
-          Object {
-            "name": "Public test 2 membership",
-          }
-        }
       />
       <li>
         <button
@@ -2811,11 +2536,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c3"
-        membership={
-          Object {
-            "name": "Private test 1 membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -2823,11 +2543,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c4"
-        membership={
-          Object {
-            "name": "Private test 2 membership",
-          }
-        }
       />
     </ul>
     <ul
@@ -2883,11 +2598,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c5"
-        membership={
-          Object {
-            "name": "Direct message test membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -2895,11 +2605,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c6"
-        membership={
-          Object {
-            "name": "Group message test membership",
-          }
-        }
       />
       <li
         key="more"
@@ -3050,11 +2755,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c1"
-        membership={
-          Object {
-            "name": "Public test 1 membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -3062,11 +2762,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c2"
-        membership={
-          Object {
-            "name": "Public test 2 membership",
-          }
-        }
       />
       <li>
         <button
@@ -3134,11 +2829,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c3"
-        membership={
-          Object {
-            "name": "Private test 1 membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -3146,11 +2836,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c4"
-        membership={
-          Object {
-            "name": "Private test 2 membership",
-          }
-        }
       />
     </ul>
     <ul
@@ -3206,11 +2891,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c5"
-        membership={
-          Object {
-            "name": "Direct message test membership",
-          }
-        }
       />
       <Connect(SidebarChannel)
         active={false}
@@ -3218,11 +2898,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         currentTeamName="test-team"
         currentUserId="my-user-id"
         key="c6"
-        membership={
-          Object {
-            "name": "Group message test membership",
-          }
-        }
       />
       <li
         key="more"

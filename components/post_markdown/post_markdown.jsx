@@ -76,6 +76,6 @@ export default class PostMarkdown extends React.PureComponent {
         }
 
         const htmlFormattedText = TextFormatting.formatText(this.props.message, options);
-        return <span>{PostUtils.postMessageHtmlToComponent(htmlFormattedText, this.props.isRHS)}</span>;
+        return <span>{PostUtils.messageHtmlToComponent(htmlFormattedText, this.props.isRHS)}</span>;
     }
 }
