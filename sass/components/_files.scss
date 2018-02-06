@@ -180,16 +180,10 @@
             display: inline-block;
             position: relative;
 
-            &:hover {
-                .file__download {
-                    @include opacity(1);
-                }
-            }
-
             img {
                 @include border-radius(4px);
-                min-height: 75px;
-                min-width: 75px;
+                min-height: 50px;
+                min-width: 50px;
             }
         }
           
@@ -207,24 +201,6 @@
     .file-details__name:hover {
         cursor: pointer;
         text-decoration: underline;
-    }
-
-    .file-details__extension {
-        display: block;
-        font-size: 12px;
-        margin-bottom: 5px;
-    }
-
-    .file__download {
-        @include single-transition(all, .25s);
-        @include border-radius(50%);
-        @include opacity(0);
-        background: rgba($black, .5);
-        bottom: 20px;
-        height: 40px;
-        position: absolute;
-        right: 20px;
-        width: 40px;
     }
 }
 

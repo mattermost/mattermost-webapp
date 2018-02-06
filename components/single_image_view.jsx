@@ -8,13 +8,10 @@ import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
 import {FileTypes} from 'utils/constants.jsx';
 import {
-    fileSizeToString,
     getFileType,
     localizeMessage
 } from 'utils/utils';
-import {canDownloadFiles} from 'utils/file_utils';
 
-import DownloadIcon from 'components/svg/download_icon';
 import LoadingImagePreview from 'components/loading_image_preview';
 import ViewImageModal from 'components/view_image.jsx';
 
@@ -142,16 +139,11 @@ export default class SingleImageView extends React.PureComponent {
                     className='file-details__name'
                     onClick={this.handleImageClick}
                 >
-                    {fileInfo.name.toUpperCase()}
-                </span>
-                <span className='file-details__extension'>
-                    {`${fileInfo.extension.toUpperCase()}  ${fileSizeToString(fileInfo.size)}`}
+                    {fileInfo.name}
                 </span>
             </div>
         );
 
-        const fileUrl = getFileUrl(fileInfo.id);
-        const canDownload = canDownloadFiles();
         const fileType = getFileType(fileInfo.extension);
         let svgClass = '';
         if (fileType === FileTypes.SVG) {
@@ -161,7 +153,6 @@ export default class SingleImageView extends React.PureComponent {
         const loading = localizeMessage('view_image.loading', 'Loading');
 
         let viewImageModal;
-        let downloadIcon;
         let loadingImagePreview;
 
         let fadeInClass = '';
@@ -179,20 +170,6 @@ export default class SingleImageView extends React.PureComponent {
             fadeInClass = 'image-fade-in';
             imageLoadedDimension = {cursor: 'pointer'};
             imageContainerDimension = {};
-
-            if (canDownload) {
-                downloadIcon = (
-                    <a
-                        href={fileUrl}
-                        download={fileInfo.name}
-                        className='file__download'
-                        target='_blank'
-                        rel='noopener noreferrer'
-                    >
-                        <DownloadIcon/>
-                    </a>
-                );
-            }
         } else {
             loadingImagePreview = (
                 <LoadingImagePreview
@@ -223,7 +200,6 @@ export default class SingleImageView extends React.PureComponent {
                                 className={svgClass}
                                 onClick={this.handleImageClick}
                             />
-                            {downloadIcon}
                         </div>
                         <div className='image-preload'>
                             {loadingImagePreview}
