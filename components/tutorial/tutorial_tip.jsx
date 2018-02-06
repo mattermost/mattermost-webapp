@@ -22,23 +22,18 @@ export default class TutorialTip extends React.Component {
     constructor(props) {
         super(props);
 
-        this.handleNext = this.handleNext.bind(this);
-        this.show = this.show.bind(this);
-        this.hide = this.hide.bind(this);
-        this.skipTutorial = this.skipTutorial.bind(this);
-
         this.state = {currentScreen: 0, show: false};
     }
 
-    show() {
+    show = () => {
         this.setState({show: true});
     }
 
-    hide() {
+    hide = () => {
         this.setState({show: false});
     }
 
-    handleNext() {
+    handleNext = () => {
         if (this.state.currentScreen < this.props.screens.length - 1) {
             this.setState({currentScreen: this.state.currentScreen + 1});
             return;
@@ -80,7 +75,7 @@ export default class TutorialTip extends React.Component {
         }
     }
 
-    skipTutorial(e) {
+    skipTutorial = (e) => {
         e.preventDefault();
 
         if (this.props.diagnosticsTag) {
