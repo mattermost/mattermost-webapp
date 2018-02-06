@@ -198,8 +198,9 @@ export default class NeedsTeam extends React.Component {
                     component={BackstageController}
                 />
                 <Route
-                    render={() => (
+                    render={(renderProps) => (
                         <ChannelController
+                            pathName={renderProps.location.pathname}
                             teamType={this.state.team ? this.state.team.type : ''}
                         />
                     )}

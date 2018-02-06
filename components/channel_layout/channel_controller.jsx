@@ -31,10 +31,14 @@ import Sidebar from 'components/sidebar';
 import * as Utils from 'utils/utils';
 import CenterChannel from 'components/channel_layout/center_channel';
 
-export default class ChannelController extends React.PureComponent {
+export default class ChannelController extends React.Component {
     static propTypes = {
+        pathName: PropTypes.string.isRequired,
         teamType: PropTypes.string.isRequired
     };
+    shouldComponentUpdate(nextProps) {
+        return this.props.teamType !== nextProps.teamType || this.props.pathName !== nextProps.pathName;
+    }
 
     render() {
         return (
