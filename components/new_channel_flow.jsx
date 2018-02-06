@@ -129,11 +129,16 @@ export default class NewChannelFlow extends React.Component {
 
     typeSwitched = (e) => {
         e.preventDefault();
+
+        let channelType = Constants.PRIVATE_CHANNEL;
         if (this.state.channelType === Constants.PRIVATE_CHANNEL) {
-            this.setState({channelType: Constants.OPEN_CHANNEL});
-        } else {
-            this.setState({channelType: Constants.PRIVATE_CHANNEL});
+            channelType = Constants.OPEN_CHANNEL;
         }
+
+        this.setState({
+            channelType,
+            serverError: ''
+        });
     };
 
     urlChangeRequested = (e) => {

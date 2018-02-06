@@ -20,7 +20,7 @@ import * as Utils from 'utils/utils.jsx';
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import {checkIfMFARequired} from 'utils/route';
 import {makeAsyncComponent} from 'components/async_load';
-import loadBackstageController from 'bundle-loader?lazy!components/backstage/backstage_controller';
+import loadBackstageController from 'bundle-loader?lazy!components/backstage';
 import ChannelController from 'components/channel_layout/channel_controller';
 
 const BackstageController = makeAsyncComponent(loadBackstageController);

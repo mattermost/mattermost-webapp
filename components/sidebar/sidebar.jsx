@@ -79,11 +79,6 @@ export default class Sidebar extends React.PureComponent {
         currentUser: PropTypes.object.isRequired,
 
         /**
-         * User channels memerships
-         */
-        memberships: PropTypes.object.isRequired,
-
-        /**
          * Number of unread mentions/messages
          */
         unreads: PropTypes.object.isRequired,
@@ -380,42 +375,39 @@ export default class Sidebar extends React.PureComponent {
             }
 
             this.isSwitchingChannel = true;
+
             const allChannelIds = this.getDisplayedChannels();
-            const curChannelId = this.props.currentChannel.id;
-            let curIndex = -1;
-            for (let i = 0; i < allChannelIds.length; i++) {
-                if (allChannelIds[i] === curChannelId) {
-                    curIndex = i;
-                }
-            }
-            let nextIndex = curIndex;
-            let count = 0;
-            let increment = 0;
+
+            let direction = 0;
             if (e.keyCode === Constants.KeyCodes.UP) {
-                increment = -1;
+                direction = -1;
             } else {
-                increment = 1;
+                direction = 1;
             }
-            while (count < allChannelIds.length && !this.props.unreadChannelIds.includes(allChannelIds[nextIndex])) {
-                nextIndex += increment;
-                count++;
-                nextIndex = Utils.mod(nextIndex, allChannelIds.length);
-            }
-            if (this.props.unreadChannelIds.includes(allChannelIds[nextIndex])) {
+
+            const nextIndex = ChannelUtils.findNextUnreadChannelId(
+                this.props.currentChannel.id,
+                allChannelIds,
+                this.props.unreadChannelIds,
+                direction
+            );
+
+            if (nextIndex !== -1) {
                 const nextChannel = allChannelIds[nextIndex];
                 this.props.actions.goToChannelById(nextChannel);
                 this.updateScrollbarOnChannelChange(nextChannel);
             }
+
             this.isSwitchingChannel = false;
         }
     }
 
     getDisplayedChannels = (props = this.props) => {
         return props.unreadChannelIds.
-        concat(props.favoriteChannelIds).
-        concat(props.publicChannelIds).
-        concat(props.privateChannelIds).
-        concat(props.directAndGroupChannelIds);
+            concat(props.favoriteChannelIds).
+            concat(props.publicChannelIds).
+            concat(props.privateChannelIds).
+            concat(props.directAndGroupChannelIds);
     };
 
     channelIdIsDisplayedForProps = (props, id) => {
@@ -467,7 +459,6 @@ export default class Sidebar extends React.PureComponent {
                 key={channelId}
                 ref={channelId}
                 channelId={channelId}
-                membership={this.props.memberships[channelId]}
                 active={channelId === this.props.currentChannel.id}
                 currentTeamName={this.props.currentTeam.name}
                 currentUserId={this.props.currentUser.id}

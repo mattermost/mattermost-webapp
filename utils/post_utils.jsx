@@ -4,15 +4,19 @@
 import React from 'react';
 import {Parser, ProcessNodeDefinitions} from 'html-to-react';
 
+import AtMention from 'components/at_mention';
+import LatexBlock from 'components/latex_block';
+import MarkdownImage from 'components/markdown_image';
+import PostEmoji from 'components/post_emoji';
+
 import ChannelStore from 'stores/channel_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
+
 import Constants from 'utils/constants.jsx';
+import {formatWithRenderer} from 'utils/markdown';
+import MentionableRenderer from 'utils/markdown/mentionable_renderer';
 import * as Utils from 'utils/utils.jsx';
-import AtMention from 'components/at_mention';
-import PostEmoji from 'components/post_emoji';
-import MarkdownImage from 'components/markdown_image';
-import LatexBlock from 'components/latex_block';
 
 export function isSystemMessage(post) {
     return Boolean(post.type && (post.type.lastIndexOf(Constants.SYSTEM_MESSAGE_PREFIX) === 0));
@@ -117,23 +121,15 @@ export function shouldShowDotMenu(post) {
     return false;
 }
 
-export function containsAtMention(text, key) {
-    if (!text || !key) {
+export function containsAtChannel(text) {
+    // Don't warn for slash commands
+    if (!text || text.startsWith('/')) {
         return false;
     }
 
-    // This doesn't work for at mentions containing periods or hyphens
-    return !text.startsWith('/') && new RegExp(`\\B${key}\\b`, 'i').test(removeCode(text));
-}
+    const mentionableText = formatWithRenderer(text, new MentionableRenderer());
 
-// Returns a given text string with all Markdown code replaced with whitespace.
-export function removeCode(text) {
-    // These patterns should match the ones in app/notification.go, except JavaScript doesn't
-    // support \z for the end of the text in multiline mode, so we use $(?![\r\n])
-    const codeBlockPattern = /^[^\S\n]*[`~]{3}.*$[\s\S]+?(^[^\S\n]*[`~]{3}$|$(?![\r\n]))/mg;
-    const inlineCodePattern = /`+(?:.+?|.*?(.*?\S.*?\n)*.*?)`+/mg;
-
-    return text.replace(codeBlockPattern, '').replace(inlineCodePattern, ' ');
+    return (/\B@(all|channel)\b/i).test(mentionableText);
 }
 
 /*

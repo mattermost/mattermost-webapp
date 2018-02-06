@@ -7,7 +7,7 @@ import * as SyntaxHighlighting from 'utils/syntax_highlighting.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import {isUrlSafe} from 'utils/url.jsx';
 
-class MattermostMarkdownRenderer extends marked.Renderer {
+export default class Renderer extends marked.Renderer {
     constructor(options, formattingOptions = {}) {
         super(options);
 
@@ -221,18 +221,6 @@ class MattermostMarkdownRenderer extends marked.Renderer {
     text(txt) {
         return TextFormatting.doFormatText(txt, this.formattingOptions);
     }
-}
-
-export function format(text, options = {}) {
-    const markdownOptions = {
-        renderer: new MattermostMarkdownRenderer(null, options),
-        sanitize: true,
-        gfm: true,
-        tables: true,
-        mangle: false
-    };
-
-    return marked(text, markdownOptions);
 }
 
 // Marked helper functions that should probably just be exported

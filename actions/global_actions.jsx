@@ -44,7 +44,6 @@ export function emitChannelClickEvent(channel) {
         }
     }
     function switchToChannel(chan) {
-        const channelMember = ChannelStore.getMyMember(chan.id);
         const getMyChannelMemberPromise = getMyChannelMember(chan.id)(dispatch, getState);
         const oldChannelId = ChannelStore.getCurrentId();
 
@@ -63,12 +62,8 @@ export function emitChannelClickEvent(channel) {
 
         AppDispatcher.handleViewAction({
             type: ActionTypes.CLICK_CHANNEL,
-            name: chan.name,
             id: chan.id,
-            team_id: chan.team_id,
-            total_msg_count: chan.total_msg_count,
-            channelMember,
-            prev: oldChannelId
+            team_id: chan.team_id
         });
     }
 

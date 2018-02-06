@@ -91,8 +91,15 @@ describe('components/NewChannelFlow', () => {
             <NewChannelFlow {...baseProps}/>
         );
 
+        wrapper.setState({channelType: Constants.OPEN_CHANNEL, serverError: 'server error'});
         wrapper.instance().typeSwitched({preventDefault: jest.fn()});
         expect(wrapper.state('channelType')).toEqual(Constants.PRIVATE_CHANNEL);
+        expect(wrapper.state('serverError')).toEqual('');
+
+        wrapper.setState({channelType: Constants.PRIVATE_CHANNEL, serverError: 'server error'});
+        wrapper.instance().typeSwitched({preventDefault: jest.fn()});
+        expect(wrapper.state('channelType')).toEqual(Constants.OPEN_CHANNEL);
+        expect(wrapper.state('serverError')).toEqual('');
     });
 
     test('should match state when typeSwitched is called, with state switched from PRIVATE_CHANNEL', () => {

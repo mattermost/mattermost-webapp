@@ -163,11 +163,15 @@ class ChannelStoreClass extends EventEmitter {
     }
 
     setCurrentId(id) {
-        store.dispatch({
+        store.dispatch(batchActions([{
             type: ChannelTypes.SELECT_CHANNEL,
+            data: id
+        }, {
+            type: ActionTypes.SELECT_CHANNEL_WITH_MEMBER,
             data: id,
+            channel: this.getChannelById(id),
             member: this.getMyMember(id)
-        });
+        }]));
     }
 
     resetCounts(ids) {
