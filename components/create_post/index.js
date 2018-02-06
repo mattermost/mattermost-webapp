@@ -6,7 +6,6 @@ import {bindActionCreators} from 'redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannel, getCurrentChannelStats} from 'mattermost-redux/selectors/entities/channels';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {get, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {
@@ -31,7 +30,7 @@ import {createPost, setEditingPost} from 'actions/post_actions.jsx';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {makeGetGlobalItem} from 'selectors/storage';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
-import {Constants,Preferences, StoragePrefixes, TutorialSteps} from 'utils/constants.jsx';
+import {Constants, Preferences, StoragePrefixes, TutorialSteps} from 'utils/constants.jsx';
 
 import CreatePost from './create_post.jsx';
 
