@@ -80,6 +80,11 @@ export default class AutosizeTextarea extends React.Component {
             value,
             defaultValue,
             placeholder,
+
+            // TODO: The provided `id` is sometimes hard-coded and used to interface with the
+            // component, e.g. `post_textbox`, so it can't be changed. This would ideally be
+            // abstracted to avoid passing in an `id` prop at all, but we intentionally maintain
+            // the old behaviour to address ABC-213.
             id,
             ...otherProps
         } = props;
@@ -96,7 +101,7 @@ export default class AutosizeTextarea extends React.Component {
             <div>
                 <textarea
                     ref='textarea'
-                    id={id + '-textarea'}
+                    id={id}
                     {...heightProps}
                     {...otherProps}
                     placeholder={placeholder}
