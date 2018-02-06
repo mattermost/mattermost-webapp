@@ -37,15 +37,11 @@ export default class CenterChannel extends React.PureComponent {
                 <div className='row main'>
                     <Switch>
                         <Route
-                            path={`${url}/channels/:channel`}
-                            component={ChannelView}
-                        />
-                        <Route
                             path={`${url}/pl/:postid`}
                             component={PermalinkView}
                         />
                         <Route
-                            path={'/:team/messages/:identifier'}
+                            path={'/:team/:path(channels|messages)/:identifier'}
                             component={ChannelIdentifierRouter}
                         />
                         <Redirect to={lastChannelPath}/>
