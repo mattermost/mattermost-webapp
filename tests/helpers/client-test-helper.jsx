@@ -104,6 +104,17 @@ class TestHelperClass {
         return post;
     }
 
+    randomString = (length) => {
+        var text = '';
+        var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+        for (var i = 0; i < length; i++) {
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+        }
+
+        return text;
+    }
+
     initBasic = (done, callback, connectWS) => {
         this.basicc = this.createClient();
 

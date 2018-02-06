@@ -48,7 +48,8 @@ export default class ChannelInviteModal extends React.Component {
             values: [],
             show: true,
             statusChange: false,
-            saving: false
+            saving: false,
+            loadingUsers: true
         };
     }
 
@@ -67,7 +68,9 @@ export default class ChannelInviteModal extends React.Component {
         UserStore.addNotInChannelChangeListener(this.onChange);
         UserStore.addStatusesChangeListener(this.onStatusChange);
 
-        this.props.actions.getProfilesNotInChannel(TeamStore.getCurrentId(), this.props.channel.id, 0);
+        this.props.actions.getProfilesNotInChannel(TeamStore.getCurrentId(), this.props.channel.id, 0).then(() => {
+            this.setUsersLoadingState(false);
+        });
         this.props.actions.getTeamStats(TeamStore.getCurrentId());
     }
 
@@ -124,9 +127,18 @@ export default class ChannelInviteModal extends React.Component {
         this.setState({values});
     }
 
+    setUsersLoadingState = (loadingState) => {
+        this.setState({
+            loadingUsers: loadingState
+        });
+    }
+
     handlePageChange = (page, prevPage) => {
         if (page > prevPage) {
-            this.props.actions.getProfilesNotInChannel(TeamStore.getCurrentId(), this.props.channel.id, page + 1, USERS_PER_PAGE);
+            this.setUsersLoadingState(true);
+            this.props.actions.getProfilesNotInChannel(TeamStore.getCurrentId(), this.props.channel.id, page + 1, USERS_PER_PAGE).then(() => {
+                this.setUsersLoadingState(false);
+            });
         }
     }
 
@@ -169,7 +181,10 @@ export default class ChannelInviteModal extends React.Component {
 
         this.searchTimeoutId = setTimeout(
             () => {
-                searchUsers(term, TeamStore.getCurrentId(), {not_in_channel_id: this.props.channel.id});
+                this.setUsersLoadingState(true);
+                searchUsers(term, TeamStore.getCurrentId(), {not_in_channel_id: this.props.channel.id}).then(() => {
+                    this.setUsersLoadingState(false);
+                });
             },
             Constants.SEARCH_TIMEOUT_MILLISECONDS
         );

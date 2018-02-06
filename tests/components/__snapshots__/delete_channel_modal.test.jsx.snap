@@ -23,7 +23,6 @@ exports[`components/delete_channel_modal should match snapshot for delete_channe
   }
   onExited={[Function]}
   onHide={[Function]}
-  onKeyDown={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   show={true}
@@ -77,6 +76,7 @@ exports[`components/delete_channel_modal should match snapshot for delete_channe
       />
     </button>
     <button
+      autoFocus={true}
       className="btn btn-danger"
       data-dismiss="modal"
       onClick={[Function]}

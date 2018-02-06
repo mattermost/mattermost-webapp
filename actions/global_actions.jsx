@@ -115,7 +115,7 @@ export async function emitPostFocusEvent(postId) {
     if (data) {
         const channelId = data.posts[data.order[0]].channel_id;
         const channel = ChannelStore.getChannelById(channelId);
-        if (!channel || channel.team_id !== TeamStore.getCurrentId()) {
+        if (!channel) {
             browserHistory.push('/error?type=' + ErrorPageTypes.PERMALINK_NOT_FOUND);
         }
 

@@ -26,7 +26,6 @@ import EmojiIcon from 'components/svg/emoji_icon';
 import Textbox from 'components/textbox.jsx';
 import TutorialTip from 'components/tutorial/tutorial_tip.jsx';
 
-const TutorialSteps = Constants.TutorialSteps;
 const KeyCodes = Constants.KeyCodes;
 
 export default class CreatePost extends React.Component {
@@ -70,7 +69,7 @@ export default class CreatePost extends React.Component {
         /**
         *  Data used for deciding if tutorial tip is to be shown
         */
-        showTutorialTip: PropTypes.string,
+        showTutorialTip: PropTypes.bool.isRequired,
 
         /**
         *  Data used populating message state when triggered by shortcuts
@@ -757,7 +756,7 @@ export default class CreatePost extends React.Component {
         }
 
         let tutorialTip = null;
-        if (parseInt(showTutorialTip, 10) === TutorialSteps.POST_POPOVER && global.window.mm_config.EnableTutorial === 'true') {
+        if (showTutorialTip) {
             tutorialTip = this.createTutorialTip();
         }
 

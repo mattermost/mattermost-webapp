@@ -78,7 +78,7 @@ export default class TutorialIntroScreens extends React.Component {
         savePreference(
             Preferences.TUTORIAL_STEP,
             UserStore.getCurrentId(),
-            '999'
+            Constants.TutorialSteps.FINISHED.toString(),
         );
     }
     createScreen() {
@@ -263,10 +263,9 @@ export default class TutorialIntroScreens extends React.Component {
         );
     }
 
-    handleCircleClick = (e) => {
+    handleCircleClick = (e, screen) => {
         e.preventDefault();
-        const currentScreen = e.currentTarget.getAttribute('data-screen');
-        this.setState({currentScreen});
+        this.setState({currentScreen: screen});
     }
 
     createCircles() {
@@ -284,7 +283,7 @@ export default class TutorialIntroScreens extends React.Component {
                     key={'circle' + i}
                     className={className}
                     data-screen={i}
-                    onClick={this.handleCircleClick}
+                    onClick={(e) => this.handleCircleClick(e, i)}
                 />
             );
         }

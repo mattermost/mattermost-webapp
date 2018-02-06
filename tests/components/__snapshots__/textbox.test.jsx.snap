@@ -1,0 +1,251 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/TextBox should match snapshot with required props 1`] = `
+<div
+  className="textarea-wrapper"
+>
+  <SuggestionBox
+    className="form-control custom-textarea"
+    completeOnTab={true}
+    id="someid"
+    inputComponent={[Function]}
+    isRHS={false}
+    listComponent={[Function]}
+    listStyle="top"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onHeightChange={[Function]}
+    onKeyDown={[Function]}
+    onKeyPress={[Function]}
+    openOnFocus={false}
+    placeholder="placeholder text"
+    popoverMentionKeyClick={false}
+    providers={
+      Array [
+        AtMentionProvider {
+          "channelId": undefined,
+          "disableDispatches": false,
+          "latestComplete": true,
+          "latestPrefix": "",
+        },
+        ChannelMentionProvider {
+          "disableDispatches": false,
+          "lastCompletedWord": "",
+          "lastPrefixWithNoResults": "",
+          "latestComplete": true,
+          "latestPrefix": "",
+        },
+        EmoticonProvider {},
+      ]
+    }
+    renderDividers={true}
+    requiredCharacters={1}
+    spellCheck="true"
+    style={
+      Object {
+        "visibility": "visible",
+      }
+    }
+    value="some test text"
+  />
+  <div
+    className="help__text "
+  >
+    <div
+      className="help__format-text"
+      id="helpText"
+      style={
+        Object {
+          "opacity": "0.45",
+          "visibility": "visible",
+        }
+      }
+    >
+      <b>
+        <FormattedMessage
+          defaultMessage="**bold**"
+          id="textbox.bold"
+          values={Object {}}
+        />
+      </b>
+      <i>
+        <FormattedMessage
+          defaultMessage="_italic_"
+          id="textbox.italic"
+          values={Object {}}
+        />
+      </i>
+      <span>
+        ~~
+        <strike>
+          <FormattedMessage
+            defaultMessage="strike"
+            id="textbox.strike"
+            values={Object {}}
+          />
+        </strike>
+        ~~ 
+      </span>
+      <span>
+        <FormattedMessage
+          defaultMessage="\`inline code\`"
+          id="textbox.inlinecode"
+          values={Object {}}
+        />
+      </span>
+      <span>
+        <FormattedMessage
+          defaultMessage="\`\`\`preformatted\`\`\`"
+          id="textbox.preformatted"
+          values={Object {}}
+        />
+      </span>
+      <span>
+        <FormattedMessage
+          defaultMessage=">quote"
+          id="textbox.quote"
+          values={Object {}}
+        />
+      </span>
+    </div>
+    <a
+      className="textbox-help-link"
+      href="/help/messaging"
+      id="helpTextLink"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <FormattedMessage
+        defaultMessage="Help"
+        id="textbox.help"
+        values={Object {}}
+      />
+    </a>
+  </div>
+</div>
+`;
+
+exports[`components/TextBox should throw error when value is too long 1`] = `
+<div
+  className="textarea-wrapper"
+>
+  <SuggestionBox
+    className="form-control custom-textarea"
+    completeOnTab={true}
+    id="someid"
+    inputComponent={[Function]}
+    isRHS={false}
+    listComponent={[Function]}
+    listStyle="top"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onHeightChange={[Function]}
+    onKeyDown={[Function]}
+    onKeyPress={[Function]}
+    openOnFocus={false}
+    placeholder="placeholder text"
+    popoverMentionKeyClick={false}
+    providers={
+      Array [
+        AtMentionProvider {
+          "channelId": undefined,
+          "disableDispatches": false,
+          "latestComplete": true,
+          "latestPrefix": "",
+        },
+        ChannelMentionProvider {
+          "disableDispatches": false,
+          "lastCompletedWord": "",
+          "lastPrefixWithNoResults": "",
+          "latestComplete": true,
+          "latestPrefix": "",
+        },
+        EmoticonProvider {},
+      ]
+    }
+    renderDividers={true}
+    requiredCharacters={1}
+    spellCheck="true"
+    style={
+      Object {
+        "visibility": "visible",
+      }
+    }
+    value="some test text"
+  />
+  <div
+    className="help__text "
+  >
+    <div
+      className="help__format-text"
+      id="helpText"
+      style={
+        Object {
+          "opacity": "0.45",
+          "visibility": "visible",
+        }
+      }
+    >
+      <b>
+        <FormattedMessage
+          defaultMessage="**bold**"
+          id="textbox.bold"
+          values={Object {}}
+        />
+      </b>
+      <i>
+        <FormattedMessage
+          defaultMessage="_italic_"
+          id="textbox.italic"
+          values={Object {}}
+        />
+      </i>
+      <span>
+        ~~
+        <strike>
+          <FormattedMessage
+            defaultMessage="strike"
+            id="textbox.strike"
+            values={Object {}}
+          />
+        </strike>
+        ~~ 
+      </span>
+      <span>
+        <FormattedMessage
+          defaultMessage="\`inline code\`"
+          id="textbox.inlinecode"
+          values={Object {}}
+        />
+      </span>
+      <span>
+        <FormattedMessage
+          defaultMessage="\`\`\`preformatted\`\`\`"
+          id="textbox.preformatted"
+          values={Object {}}
+        />
+      </span>
+      <span>
+        <FormattedMessage
+          defaultMessage=">quote"
+          id="textbox.quote"
+          values={Object {}}
+        />
+      </span>
+    </div>
+    <a
+      className="textbox-help-link"
+      href="/help/messaging"
+      id="helpTextLink"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <FormattedMessage
+        defaultMessage="Help"
+        id="textbox.help"
+        values={Object {}}
+      />
+    </a>
+  </div>
+</div>
+`;

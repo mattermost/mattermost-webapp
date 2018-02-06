@@ -23,7 +23,9 @@ function makeMapStateToProps() {
 
         const config = getConfig(state);
         const channel = getChannel(state, {id: channelId}) || {};
-        const tutorialStep = getPreference(state, Constants.Preferences.TUTORIAL_STEP, ownProps.currentUserId, 999);
+
+        const enableTutorial = config.EnableTutorial === 'true';
+        const tutorialStep = parseInt(getPreference(state, Constants.Preferences.TUTORIAL_STEP, ownProps.currentUserId, Constants.TutorialSteps.FINISHED), 10);
         const channelsByName = getChannelsNameMapInCurrentTeam(state);
         const memberIds = getUserIdsInChannels(state);
 
@@ -69,7 +71,7 @@ function makeMapStateToProps() {
             channelTeammateId: teammate && teammate.id,
             channelTeammateUsername: teammate && teammate.username,
             channelTeammateDeletedAt: teammate && teammate.delete_at,
-            showTutorialTip: tutorialStep === Constants.TutorialSteps.CHANNEL_POPOVER && config.EnableTutorial === 'true',
+            showTutorialTip: enableTutorial && tutorialStep === Constants.TutorialSteps.CHANNEL_POPOVER,
             townSquareDisplayName: channelsByName[Constants.DEFAULT_CHANNEL] && channelsByName[Constants.DEFAULT_CHANNEL].display_name,
             offTopicDisplayName: channelsByName[Constants.OFFTOPIC_CHANNEL] && channelsByName[Constants.OFFTOPIC_CHANNEL].display_name,
             showUnreadForMsgs,
