@@ -528,7 +528,7 @@ export function applyTheme(theme) {
     }
 
     if (theme.sidebarUnreadText) {
-        changeCss('.sidebar--left .nav-pills__container li .sidebar-item.unread-title', 'color:' + theme.sidebarUnreadText + '!important;');
+        changeCss('.sidebar--left .nav-pills__container li .sidebar-item.unread-title', 'color:' + theme.sidebarUnreadText);
     }
 
     if (theme.sidebarTextHoverBg) {
