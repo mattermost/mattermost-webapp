@@ -3,7 +3,7 @@
 
 import {getPrefix} from 'utils/storage_utils';
 
-function getGlobalItem(state, name, defaultValue) {
+export const getGlobalItem = (state, name, defaultValue) => {
     const storage = state && state.storage && state.storage.storage;
 
     if (storage && typeof storage[name] !== 'undefined' && storage[name] !== null) {
