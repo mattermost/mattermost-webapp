@@ -5,12 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Route, Switch, Redirect} from 'react-router-dom';
 
-import ChannelView from 'components/channel_view';
 import PermalinkView from 'components/permalink_view';
-import ChannelStore from 'stores/channel_store';
-import TeamStore from 'stores/team_store';
-import BrowserStore from 'stores/browser_store';
-import Constants from 'utils/constants';
 import Navbar from 'components/navbar';
 import ChannelIdentifierRouter from 'components/channel_layout/channel_identifier_router';
 
