@@ -172,13 +172,14 @@
             cursor: 'pointer';
             display: inline-block;
             left: 0;
+            max-height: 360px;
+            max-width: 100%;
             opacity: 0;
             overflow: hidden;
             position: absolute;
             position: relative;
             right: 0;
             top: 0;
-            width: 100%;
             z-index: 2;
 
             &:hover {
@@ -186,8 +187,9 @@
             }
 
             img {
+                @include single-transition(all, .1s, linear);
                 @include border-radius(4px);
-                max-width: inherit;
+                max-width: initial;
                 min-height: 50px;
                 min-width: 50px;
             }
@@ -217,7 +219,6 @@
 
 .post-image__column {
     @include border-radius(4px);
-    @include single-transition(all, .1s, linear);
     align-items: center;
     border: 1px solid alpha-color($black, .1);
     display: flex;
@@ -230,10 +231,6 @@
 
     .post__content & {
         cursor: pointer;
-
-        &:hover {
-            @include box-shadow(0 2px 5px 0 rgba($black, 0.1), 0 2px 10px 0 rgba($black, 0.1));
-        }
     }
 
     &--placeholder {
