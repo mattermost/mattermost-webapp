@@ -138,6 +138,9 @@ export default class Textbox extends React.Component {
 
         textbox.focus();
         Utils.placeCaretAtEnd(textbox);
+
+        // reset character count warning
+        this.checkMessageLength(textbox.value);
     }
 
     blur = () => {
