@@ -48,7 +48,7 @@ export default class BackstageController extends React.Component {
         /**
          * Current team.
          */
-        team: PropTypes.object,
+        team: PropTypes.object
     }
 
     scrollToTop = () => {

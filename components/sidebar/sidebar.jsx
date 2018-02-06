@@ -13,7 +13,7 @@ import {browserHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {initTeamChangeActions} from 'actions/views/lhs.js';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-
+import * as ChannelUtils from 'utils/channel_utils.jsx';
 import {ActionTypes, Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import favicon from 'images/favicon/favicon-16x16.png';

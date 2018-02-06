@@ -4,13 +4,13 @@
 import React from 'react';
 import {Parser, ProcessNodeDefinitions} from 'html-to-react';
 
+import {haveIChannelPerm} from 'mattermost-redux/selectors/entities/roles';
+import {Permissions} from 'mattermost-redux/constants';
+
 import AtMention from 'components/at_mention';
 import LatexBlock from 'components/latex_block';
 import MarkdownImage from 'components/markdown_image';
 import PostEmoji from 'components/post_emoji';
-
-import {haveIChannelPerm} from 'mattermost-redux/selectors/entities/roles';
-import {Permissions} from 'mattermost-redux/constants';
 
 import UserStore from 'stores/user_store.jsx';
 import store from 'stores/redux_store.jsx';

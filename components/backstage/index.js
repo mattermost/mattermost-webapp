@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentTeam, getCurrentTeamMembership} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import BackstageController from './backstage_controller.jsx';
 
