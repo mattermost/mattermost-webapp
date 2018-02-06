@@ -228,31 +228,6 @@ class TeamStoreClass extends EventEmitter {
         }
     }
 
-    deleteTeam(team) {
-        const teamMembers = this.getMyTeamMembers();
-        const currentUserId = UserStore.getCurrentId();
-        const currentTeamId = this.getCurrentId();
-        const teamMember = teamMembers.find((m) => m.user_id === currentUserId && m.team_id === currentTeamId);
-
-        if (teamMember) {
-            const teams = Object.assign({}, this.getAll(), this.getTeamListings());
-            for (let i = 0; i < teamMembers.length; i++) {
-                const memberTeamId = teamMembers[i].team_id;
-                if (
-                    teams &&
-                    teams[memberTeamId] &&
-                    teams[memberTeamId].delete_at === 0 &&
-                    team.id !== memberTeamId
-                ) {
-                    this.setCurrentId(memberTeamId);
-                    break;
-                }
-            }
-        }
-
-        this.updateTeam(team);
-    }
-
     saveMyTeam(team) {
         this.saveTeam(team);
         this.setCurrentId(team.id);

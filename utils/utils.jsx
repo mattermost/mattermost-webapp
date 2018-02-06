@@ -59,10 +59,12 @@ export function cmdOrCtrlPressed(e, allowAlt = false) {
 }
 
 export function isInRole(roles, inRole) {
-    var parts = roles.split(' ');
-    for (var i = 0; i < parts.length; i++) {
-        if (parts[i] === inRole) {
-            return true;
+    if (roles) {
+        var parts = roles.split(' ');
+        for (var i = 0; i < parts.length; i++) {
+            if (parts[i] === inRole) {
+                return true;
+            }
         }
     }
 
