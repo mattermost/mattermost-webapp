@@ -468,6 +468,12 @@ export const UploadStatuses = {
     DEFAULT: ''
 };
 
+export const GroupUnreadChannels = {
+    DISABLED: 'disabled',
+    DEFAULT_ON: 'default_on',
+    DEFAULT_OFF: 'default_off'
+};
+
 export const Constants = {
     PluginSettings,
     Preferences,
