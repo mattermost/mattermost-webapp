@@ -41,7 +41,6 @@ export default class DeleteChannelModal extends React.PureComponent {
         super(props);
 
         this.handleDelete = this.handleDelete.bind(this);
-        this.handleKeyDown = this.handleKeyDown.bind(this);
         this.onHide = this.onHide.bind(this);
         this.state = {show: true};
     }
@@ -59,19 +58,12 @@ export default class DeleteChannelModal extends React.PureComponent {
         this.setState({show: false});
     }
 
-    handleKeyDown(e) {
-        if (e.keyCode === Constants.KeyCodes.ENTER) {
-            this.handleDelete();
-        }
-    }
-
     render() {
         return (
             <Modal
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}
-                onKeyDown={this.handleKeyDown}
             >
                 <Modal.Header closeButton={true}>
                     <h4 className='modal-title'>
@@ -108,6 +100,7 @@ export default class DeleteChannelModal extends React.PureComponent {
                         className='btn btn-danger'
                         data-dismiss='modal'
                         onClick={this.handleDelete}
+                        autoFocus={true}
                     >
                         <FormattedMessage
                             id='delete_channel.del'

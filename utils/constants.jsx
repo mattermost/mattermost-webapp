@@ -238,8 +238,7 @@ export const ActionTypes = keyMirror({
 
     POPOVER_MENTION_KEY_CLICK: null,
 
-    KEEP_CHANNEL_AS_UNREAD: null,
-    CLEAR_KEEP_CHANNEL_AS_UNREAD: null,
+    SELECT_CHANNEL_WITH_MEMBER: null,
 
     INCREMENT_EMOJI_PICKER_PAGE: null
 });

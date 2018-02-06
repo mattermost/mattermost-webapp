@@ -11,8 +11,6 @@ import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {leaveChannel} from 'mattermost-redux/actions/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import {clearKeepChannelIdAsUnread, keepChannelIdAsUnread} from 'actions/views/channel';
-
 import {Constants, NotificationLevels} from 'utils/constants.jsx';
 
 import SidebarChannel from './sidebar_channel.jsx';
@@ -85,8 +83,6 @@ function makeMapStateToProps() {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            clearKeepChannelIdAsUnread,
-            keepChannelIdAsUnread,
             savePreferences,
             leaveChannel
         }, dispatch)
