@@ -6,10 +6,9 @@ import {connect} from 'react-redux';
 // import {createSelector} from 'reselect';
 
 import CenterChannel from './center_channel';
-import {withRouter} from 'react-router-dom';
 
 function mapStateToProps(state) {
     return {};
 }
 
-export default withRouter(connect(mapStateToProps)(CenterChannel));
+export default connect(mapStateToProps)(CenterChannel);
