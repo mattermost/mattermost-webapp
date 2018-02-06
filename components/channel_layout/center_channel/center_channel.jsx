@@ -16,23 +16,12 @@ import ChannelIdentifierRouter from 'components/channel_layout/channel_identifie
 
 export default class CenterChannel extends React.PureComponent {
     static propTypes = {
-        params: PropTypes.object
+        params: PropTypes.object,
+        lastChannelPath: PropTypes.string.isRequired
     };
 
-    toLastChannel = () => {
-        let channelName = Constants.DEFAULT_CHANNEL;
-        const team = TeamStore.getByName(this.props.params.match.params.team);
-        if (team) {
-            const channelId = BrowserStore.getGlobalItem(team.id);
-            const channel = ChannelStore.getChannelById(channelId);
-            if (channel) {
-                channelName = channel.name;
-            }
-        }
-        return `${this.props.params.match.url}/channels/${channelName}`;
-    }
-
     render() {
+        const {lastChannelPath} = this.props;
         const url = this.props.params.match.url;
         return (
             <div
@@ -59,7 +48,7 @@ export default class CenterChannel extends React.PureComponent {
                             path={'/:team/messages/:identifier'}
                             component={ChannelIdentifierRouter}
                         />
-                        <Redirect to={this.toLastChannel()}/>
+                        <Redirect to={lastChannelPath}/>
                     </Switch>
                 </div>
             </div>
