@@ -1,6 +1,7 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent';
 
 export function canUploadFiles() {
@@ -21,4 +22,13 @@ export function canDownloadFiles() {
     }
 
     return true;
+}
+
+export function trimFilename(filename) {
+    let trimmedFilename = filename;
+    if (filename.length > Constants.MAX_FILENAME_LENGTH) {
+        trimmedFilename = filename.substring(0, Math.min(Constants.MAX_FILENAME_LENGTH, filename.length)) + '...';
+    }
+
+    return trimmedFilename;
 }

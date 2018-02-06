@@ -540,6 +540,7 @@ export const Constants = {
     },
     MAX_DISPLAY_FILES: 5,
     MAX_UPLOAD_FILES: 5,
+    MAX_FILENAME_LENGTH: 35,
     THUMBNAIL_WIDTH: 128,
     THUMBNAIL_HEIGHT: 100,
     PROFILE_WIDTH: 128,
