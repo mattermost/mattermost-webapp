@@ -11,7 +11,6 @@ import {browserHistory} from 'utils/browser_history';
 import ChannelStore from 'stores/channel_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
-import {Constants} from 'utils/constants.jsx';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
