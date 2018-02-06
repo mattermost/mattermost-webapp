@@ -21,7 +21,7 @@ import * as ChannelUtils from 'utils/channel_utils.jsx';
 import {Constants, Preferences, StoragePrefixes} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {isUrlSafe} from 'utils/url.jsx';
+import {isUrlSafe, getSiteURL} from 'utils/url.jsx';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -127,8 +127,10 @@ export function executeCommand(message, args, success, error) {
             }
 
             if (hasGotoLocation) {
-                if (data.goto_location.startsWith('/') || data.goto_location.includes(window.location.hostname)) {
+                if (data.goto_location.startsWith('/')) {
                     browserHistory.push(data.goto_location);
+                } else if (data.goto_location.startsWith(getSiteURL())) {
+                    browserHistory.push(data.goto_location.substr(getSiteURL().length));
                 } else {
                     window.open(data.goto_location);
                 }
