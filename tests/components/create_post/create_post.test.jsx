@@ -38,7 +38,7 @@ jest.mock('actions/post_actions.jsx', () => ({
 const KeyCodes = Constants.KeyCodes;
 const currentTeamIdProp = 'r7rws4y7ppgszym3pdd5kaibfa';
 const currentUserIdProp = 'zaktnt8bpbgu8mb6ez9k64r7sa';
-const showTutorialTipProp = '999';
+const showTutorialTipProp = false;
 const fullWidthTextBoxProp = true;
 const recentPostIdInChannelProp = 'a';
 const latestReplyablePostIdProp = 'a';
@@ -599,7 +599,7 @@ describe('components/create_post', () => {
 
     it('Show tutorial', () => {
         const wrapper = shallow(createPost({
-            showTutorialTip: '1'
+            showTutorialTip: true
         }));
         expect(wrapper.find('TutorialTip').length).toBe(1);
     });
