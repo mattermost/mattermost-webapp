@@ -3,10 +3,14 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getAllChannelStats} from 'mattermost-redux/selectors/entities/channels';
 import {resetCreatePostRequest, resetHistoryIndex} from 'mattermost-redux/actions/posts';
 import {Preferences, Posts} from 'mattermost-redux/constants';
+
+import {Constants} from 'utils/constants.jsx';
 
 import {
     clearCommentDraftUploads,
@@ -29,12 +33,15 @@ function mapStateToProps(state, ownProps) {
     const enableAddButton = draft.message.trim().length !== 0 || draft.fileInfos.length !== 0;
     const channelMembersCount = getAllChannelStats(state)[ownProps.channelId] ? getAllChannelStats(state)[ownProps.channelId].member_count : 1;
 
+    const channel = state.entities.channels.channels[ownProps.channelId] || {};
+
     return {
         draft,
         enableAddButton,
         channelMembersCount,
         ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
-        createPostErrorId: err.server_error_id
+        createPostErrorId: err.server_error_id,
+        readOnlyChannel: !isCurrentUserSystemAdmin(state) && getConfig(state).ExperimentalTownSquareIsReadOnly === 'true' && channel.name === Constants.DEFAULT_CHANNEL
     };
 }
 

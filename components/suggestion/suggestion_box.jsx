@@ -88,7 +88,12 @@ export default class SuggestionBox extends React.Component {
         /**
          * If true, the suggestion box is opened on focus, default to false
          */
-        openOnFocus: PropTypes.bool
+        openOnFocus: PropTypes.bool,
+
+        /**
+         * If true, the suggestion box is disabled
+         */
+        disabled: PropTypes.bool
     }
 
     static defaultProps = {

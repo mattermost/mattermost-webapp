@@ -105,6 +105,11 @@ export default class CreatePost extends React.Component {
         */
         currentUsersLatestPost: PropTypes.object,
 
+        /**
+        *  Set if the channel is read only.
+        */
+        readOnlyChannel: PropTypes.bool,
+
         actions: PropTypes.shape({
 
             /**
@@ -696,7 +701,8 @@ export default class CreatePost extends React.Component {
             draft,
             fullWidthTextBox,
             getChannelView,
-            showTutorialTip
+            showTutorialTip,
+            readOnlyChannel
         } = this.props;
         const members = currentChannelMembersCount - 1;
 
@@ -740,7 +746,7 @@ export default class CreatePost extends React.Component {
         }
 
         let preview = null;
-        if (draft.fileInfos.length > 0 || draft.uploadsInProgress.length > 0) {
+        if (!readOnlyChannel && (draft.fileInfos.length > 0 || draft.uploadsInProgress.length > 0)) {
             preview = (
                 <FilePreview
                     fileInfos={draft.fileInfos}
@@ -775,21 +781,24 @@ export default class CreatePost extends React.Component {
             attachmentsDisabled = ' post-create--attachment-disabled';
         }
 
-        const fileUpload = (
-            <FileUpload
-                ref='fileUpload'
-                fileCount={this.getFileCount()}
-                getTarget={this.getFileUploadTarget}
-                onFileUploadChange={this.handleFileUploadChange}
-                onUploadStart={this.handleUploadStart}
-                onFileUpload={this.handleFileUploadComplete}
-                onUploadError={this.handleUploadError}
-                postType='post'
-            />
-        );
+        let fileUpload;
+        if (!readOnlyChannel) {
+            fileUpload = (
+                <FileUpload
+                    ref='fileUpload'
+                    fileCount={this.getFileCount()}
+                    getTarget={this.getFileUploadTarget}
+                    onFileUploadChange={this.handleFileUploadChange}
+                    onUploadStart={this.handleUploadStart}
+                    onFileUpload={this.handleFileUploadComplete}
+                    onUploadError={this.handleUploadError}
+                    postType='post'
+                />
+            );
+        }
 
         let emojiPicker = null;
-        if (window.mm_config.EnableEmojiPicker === 'true') {
+        if (window.mm_config.EnableEmojiPicker === 'true' && !readOnlyChannel) {
             emojiPicker = (
                 <span className='emoji-picker__container'>
                     <EmojiPickerOverlay
@@ -810,6 +819,13 @@ export default class CreatePost extends React.Component {
             );
         }
 
+        let createMessage;
+        if (readOnlyChannel) {
+            createMessage = Utils.localizeMessage('create_post.read_only', 'This channel is read-only. Only members with permission can post here.');
+        } else {
+            createMessage = Utils.localizeMessage('create_post.write', 'Write a message...');
+        }
+
         return (
             <form
                 id='create_post'
@@ -826,14 +842,15 @@ export default class CreatePost extends React.Component {
                                 onKeyPress={this.postMsgKeyPress}
                                 onKeyDown={this.handleKeyDown}
                                 handlePostError={this.handlePostError}
-                                value={this.state.message}
+                                value={readOnlyChannel ? '' : this.state.message}
                                 onBlur={this.handleBlur}
                                 emojiEnabled={window.mm_config.EnableEmojiPicker === 'true'}
-                                createMessage={Utils.localizeMessage('create_post.write', 'Write a message...')}
+                                createMessage={createMessage}
                                 channelId={currentChannel.id}
                                 popoverMentionKeyClick={true}
                                 id='post_textbox'
                                 ref='textbox'
+                                disabled={readOnlyChannel}
                             />
                             <span
                                 ref='createPostControls'

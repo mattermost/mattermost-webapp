@@ -46,7 +46,8 @@ describe('components/CreateComment', () => {
         onMoveHistoryIndexBack: jest.fn(),
         onMoveHistoryIndexForward: jest.fn(),
         onEditLatestPost: jest.fn(),
-        resetCreatePostRequest: jest.fn()
+        resetCreatePostRequest: jest.fn(),
+        readOnlyChannel: false
     };
 
     test('should match snapshot, empty comment', () => {
@@ -519,5 +520,14 @@ describe('components/CreateComment', () => {
 
         wrapper.setProps({rootId: 'new_root_id'});
         expect(wrapper.state('draft')).toEqual({...draft, uploadsInProgress: [], fileInfos: [{}, {}, {}]});
+    });
+
+    test('should match snapshot read only channel', () => {
+        const props = {...baseProps, readOnlyChannel: true};
+        const wrapper = shallow(
+            <CreateComment {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
     });
 });
