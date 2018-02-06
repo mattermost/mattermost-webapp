@@ -11,24 +11,24 @@ export const getGlobalItem = (state, name, defaultValue) => {
     }
 
     return defaultValue;
-}
+};
 
-export function makeGetItem(name, defaultValue) {
+export const makeGetItem = (name, defaultValue) => {
     return (state) => {
         return getGlobalItem(state, getPrefix(state) + name, defaultValue);
     };
-}
+};
 
-export function makeGetGlobalItem(name, defaultValue) {
+export const makeGetGlobalItem = (name, defaultValue) => {
     return (state) => {
         return getGlobalItem(state, name, defaultValue);
     };
-}
+};
 
-export function getItemFromStorage(storage, name, defaultValue) {
+export const getItemFromStorage = (storage, name, defaultValue) => {
     if (storage && typeof storage[name] !== 'undefined' && storage[name] !== null) {
         return storage[name];
     }
 
     return defaultValue;
-}
+};
