@@ -86,7 +86,8 @@ function createPost({
     actions = actionsProp,
     ctrlSend = ctrlSendProp,
     currentUsersLatestPost = currentUsersLatestPostProp,
-    commentCountForPost = commentCountForPostProp
+    commentCountForPost = commentCountForPostProp,
+    readOnlyChannel = false
 } = {}) {
     return (
         <CreatePost
@@ -103,6 +104,7 @@ function createPost({
             currentUsersLatestPost={currentUsersLatestPost}
             commentCountForPost={commentCountForPost}
             actions={actions}
+            readOnlyChannel={readOnlyChannel}
         />
     );
 }
@@ -628,5 +630,10 @@ describe('components/create_post', () => {
         expect(onSubmitPost).toHaveBeenCalledTimes(1);
         expect(onSubmitPost.mock.calls[0][0]).toEqual(post);
         expect(onSubmitPost.mock.calls[0][1]).toEqual([]);
+    });
+
+    it('should match snapshot for read only channel', () => {
+        const wrapper = shallow(createPost({readOnlyChannel: true}));
+        expect(wrapper).toMatchSnapshot();
     });
 });

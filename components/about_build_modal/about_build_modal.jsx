@@ -163,7 +163,7 @@ export default class AboutBuildModal extends React.PureComponent {
                                         id='about.version'
                                         defaultMessage='Version:'
                                     />
-                                    <span id='versionString'>{version}</span>
+                                    <span id='versionString'>{'\u00a0' + version}</span>
                                 </div>
                                 <div>
                                     <FormattedMessage

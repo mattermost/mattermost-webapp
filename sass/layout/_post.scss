@@ -422,6 +422,10 @@
         &.textbox-preview-area {
             overflow-y: auto;
         }
+
+        @include input-placeholder {
+            color: inherit;
+        }
     }
 
     .emoji-picker {
@@ -1332,10 +1336,6 @@
 
         p + p {
             margin: 0.5em 0 0;
-        }
-
-        img {
-            max-height: 350px;
         }
 
         ul,

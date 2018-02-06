@@ -7,7 +7,8 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {getFileUrl} from 'mattermost-redux/utils/file_utils';
 
 import AttachmentIcon from 'components/svg/attachment_icon';
-import * as Utils from 'utils/utils.jsx';
+import {trimFilename} from 'utils/file_utils';
+import {localizeMessage} from 'utils/utils.jsx';
 
 export default class FilenameOverlay extends React.PureComponent {
     static propTypes = {
@@ -35,7 +36,17 @@ export default class FilenameOverlay extends React.PureComponent {
         /*
          * If it should display link to download on file name
          */
-        canDownload: PropTypes.bool
+        canDownload: PropTypes.bool,
+
+        /**
+         * Optional children like download icon
+         */
+        children: PropTypes.element,
+
+        /**
+         * Optional class like for icon
+         */
+        iconClass: PropTypes.string
     };
 
     onAttachmentClick = (e) => {
@@ -44,19 +55,20 @@ export default class FilenameOverlay extends React.PureComponent {
     }
 
     render() {
-        const fileInfo = this.props.fileInfo;
+        const {
+            canDownload,
+            children,
+            compactDisplay,
+            fileInfo,
+            iconClass
+        } = this.props;
+
         const fileName = fileInfo.name;
+        const trimmedFilename = trimFilename(fileName);
         const fileUrl = getFileUrl(fileInfo.id);
 
-        let trimmedFilename;
-        if (fileName.length > 35) {
-            trimmedFilename = fileName.substring(0, Math.min(35, fileName.length)) + '...';
-        } else {
-            trimmedFilename = fileName;
-        }
-
         let filenameOverlay;
-        if (this.props.compactDisplay) {
+        if (compactDisplay) {
             filenameOverlay = (
                 <OverlayTrigger
                     trigger={['hover', 'focus']}
@@ -75,24 +87,28 @@ export default class FilenameOverlay extends React.PureComponent {
                     </a>
                 </OverlayTrigger>
             );
-        } else if (this.props.canDownload) {
+        } else if (canDownload) {
             filenameOverlay = (
-                <OverlayTrigger
-                    trigger={['hover', 'focus']}
-                    delayShow={1000}
-                    placement='top'
-                    overlay={<Tooltip id='file-name__tooltip'>{Utils.localizeMessage('file_attachment.download', 'Download') + ' "' + fileName + '"'}</Tooltip>}
+                <a
+                    href={fileUrl}
+                    download={fileName}
+                    className={iconClass || 'post-image__name'}
+                    target='_blank'
+                    rel='noopener noreferrer'
                 >
-                    <a
-                        href={fileUrl}
-                        download={fileName}
-                        className='post-image__name'
-                        target='_blank'
-                        rel='noopener noreferrer'
+                    <OverlayTrigger
+                        trigger={['hover', 'focus']}
+                        delayShow={1000}
+                        placement='top'
+                        overlay={
+                            <Tooltip id='file-name__tooltip'>
+                                {localizeMessage('file_attachment.download', 'Download')}
+                            </Tooltip>
+                        }
                     >
-                        {trimmedFilename}
-                    </a>
-                </OverlayTrigger>
+                        {children || trimmedFilename}
+                    </OverlayTrigger>
+                </a>
             );
         } else {
             filenameOverlay = (

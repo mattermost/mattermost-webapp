@@ -8,7 +8,8 @@ import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 
 import * as TeamActions from 'actions/team_actions.jsx';
-import {sortTeamsByDisplayName} from 'utils/team_utils.jsx';
+
+import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
@@ -57,7 +58,7 @@ export default class ManageTeamsModal extends React.Component {
     loadTeamsAndTeamMembers = (user = this.props.user) => {
         TeamActions.getTeamsForUser(user.id, (teams) => {
             this.setState({
-                teams: teams.sort(sortTeamsByDisplayName)
+                teams: filterAndSortTeamsByDisplayName(teams)
             });
         });
 
