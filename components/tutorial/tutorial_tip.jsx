@@ -99,10 +99,9 @@ export default class TutorialTip extends React.Component {
         );
     }
 
-    handleCircleClick = (e) => {
+    handleCircleClick = (e, screen) => {
         e.preventDefault();
-        const currentScreen = e.currentTarget.getAttribute('data-screen');
-        this.setState({currentScreen});
+        this.setState({currentScreen: screen});
     }
 
     getTarget = () => {
@@ -136,7 +135,7 @@ export default class TutorialTip extends React.Component {
                         key={'dotactive' + i}
                         className={className}
                         data-screen={i}
-                        onClick={this.handleCircleClick}
+                        onClick={(e) => this.handleCircleClick(e, i)}
                     />
                 );
             }
