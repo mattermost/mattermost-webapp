@@ -316,7 +316,7 @@ export default class AdminSidebar extends React.Component {
         if (window.mm_license.IsLicensed === 'true' && window.mm_license.DataRetention === 'true') {
             dataRetentionSettings = (
                 <AdminSidebarSection
-                    name='dataretention'
+                    name='data_retention'
                     title={
                         <FormattedMessage
                             id='admin.sidebar.data_retention'

@@ -386,7 +386,7 @@ export default class AdminConsole extends React.Component {
                             render={(props) => (
                                 <Switch>
                                     <SCRoute
-                                        path={`${props.match.url}/dataretention`}
+                                        path={`${props.match.url}/data_retention`}
                                         component={DataRetentionSettings}
                                         extraProps={extraProps}
                                     />
@@ -395,7 +395,7 @@ export default class AdminConsole extends React.Component {
                                         component={MessageExportSettings}
                                         extraProps={extraProps}
                                     />
-                                    <Redirect to={`${props.match.url}/dataretention`}/>
+                                    <Redirect to={`${props.match.url}/data_retention`}/>
                                 </Switch>
                         )}
                         />
