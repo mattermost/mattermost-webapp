@@ -211,7 +211,7 @@
   "admin.complianceExport.exportJobStartTime.example": "E.g.: \"02:00\"",
   "admin.complianceExport.exportJobStartTime.title": "Compliance Export time:",
   "admin.complianceExport.globalRelayEmailAddress.title": "GlobalRelay Email Address:",
-  "admin.complianceExport.globalRelayEmailAddress.description": "The email address that your GlobalRelay instance monitors for incoming Compliance Exports",
+  "admin.complianceExport.globalRelayEmailAddress.description": "The email address that your GlobalRelay server monitors for incoming Compliance Exports.",
   "admin.complianceExport.globalRelayEmailAddress.example": "E.g.: \"globalrelay@mattermost.com\"",
   "admin.complianceExport.title": "Compliance Export (Beta)",
   "admin.compliance_reports.desc": "Job Name:",
