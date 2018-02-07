@@ -7,6 +7,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getAllChannelStats} from 'mattermost-redux/selectors/entities/channels';
+import {makeGetMessageInHistoryItem} from 'mattermost-redux/selectors/entities/posts';
 import {resetCreatePostRequest, resetHistoryIndex} from 'mattermost-redux/actions/posts';
 import {Preferences, Posts} from 'mattermost-redux/constants';
 
@@ -32,11 +33,13 @@ function mapStateToProps(state, ownProps) {
 
     const enableAddButton = draft.message.trim().length !== 0 || draft.fileInfos.length !== 0;
     const channelMembersCount = getAllChannelStats(state)[ownProps.channelId] ? getAllChannelStats(state)[ownProps.channelId].member_count : 1;
+    const messageInHistory = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.COMMENT)(state);
 
     const channel = state.entities.channels.channels[ownProps.channelId] || {};
 
     return {
         draft,
+        messageInHistory,
         enableAddButton,
         channelMembersCount,
         ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),

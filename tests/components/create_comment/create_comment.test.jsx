@@ -488,7 +488,7 @@ describe('components/CreateComment', () => {
         expect(wrapper.state().draft.uploadsInProgress).toEqual([4, 6]);
     });
 
-    test('should match draft state on componentWillReceiveProps with new draft', () => {
+    test('should match draft state on componentWillReceiveProps with change in messageInHistory', () => {
         const draft = {
             message: 'Test message',
             uploadsInProgress: [],
@@ -501,7 +501,7 @@ describe('components/CreateComment', () => {
         expect(wrapper.state('draft')).toEqual(draft);
 
         const newDraft = {...draft, message: 'Test message edited'};
-        wrapper.setProps({draft: newDraft});
+        wrapper.setProps({draft: newDraft, messageInHistory: 'Test message edited'});
         expect(wrapper.state('draft')).toEqual(newDraft);
     });
 

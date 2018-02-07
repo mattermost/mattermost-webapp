@@ -41,6 +41,11 @@ export default class CreateComment extends React.PureComponent {
         rootId: PropTypes.string.isRequired,
 
         /**
+         * The current history message selected
+         */
+        messageInHistory: PropTypes.string,
+
+        /**
          * The current draft of the comment
          */
         draft: PropTypes.shape({
@@ -159,7 +164,7 @@ export default class CreateComment extends React.PureComponent {
             this.setState({draft: {...newProps.draft, uploadsInProgress: []}});
         }
 
-        if (!Utils.areObjectsEqual(this.props.draft, newProps.draft)) {
+        if (this.props.messageInHistory !== newProps.messageInHistory) {
             this.setState({draft: newProps.draft});
         }
     }
