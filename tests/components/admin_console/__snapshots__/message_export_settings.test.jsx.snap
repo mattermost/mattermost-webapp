@@ -472,7 +472,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
         disabled={false}
         helpText={
           <FormattedHTMLMessage
-            defaultMessage="The email address that your GlobalRelay instance monitors for incoming Compliance Exports"
+            defaultMessage="The email address that your GlobalRelay server monitors for incoming Compliance Exports."
             id="admin.complianceExport.globalRelayEmailAddress.description"
             values={Object {}}
           />
