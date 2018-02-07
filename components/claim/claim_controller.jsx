@@ -13,15 +13,11 @@ import LDAPToEmail from 'components/claim/components/ldap_to_email';
 import EmailToLDAP from 'components/claim/components/email_to_ldap';
 
 export default class ClaimController extends React.Component {
-    componentWillMount() {
-        this.setState({
-            email: (new URLSearchParams(this.props.location.search)).get('email'),
-            newType: (new URLSearchParams(this.props.location.search)).get('new_type'),
-            currentType: (new URLSearchParams(this.props.location.search)).get('old_type')
-        });
-    }
-
     render() {
+        const email = (new URLSearchParams(this.props.location.search)).get('email');
+        const newType = (new URLSearchParams(this.props.location.search)).get('new_type');
+        const currentType = (new URLSearchParams(this.props.location.search)).get('old_type');
+
         return (
             <div>
                 <BackButton/>
@@ -37,8 +33,9 @@ export default class ClaimController extends React.Component {
                                     path={`${this.props.match.url}/oauth_to_email`}
                                     render={(props) => (
                                         <OAuthToEmail
-                                            {...this.state}
                                             {...props}
+                                            currentType={currentType}
+                                            email={email}
                                             siteName={this.props.siteName}
                                         />
                                 )}
@@ -47,8 +44,9 @@ export default class ClaimController extends React.Component {
                                     path={`${this.props.match.url}/email_to_oauth`}
                                     render={(props) => (
                                         <EmailToOAuth
-                                            {...this.state}
                                             {...props}
+                                            newType={newType}
+                                            email={email}
                                             siteName={this.props.siteName}
                                         />
                                 )}
@@ -57,9 +55,9 @@ export default class ClaimController extends React.Component {
                                     path={`${this.props.match.url}/ldap_to_email`}
                                     render={(props) => (
                                         <LDAPToEmail
-                                            {...this.state}
                                             {...props}
                                             siteName={this.props.siteName}
+                                            email={email}
                                         />
                                 )}
                                 />
@@ -67,8 +65,8 @@ export default class ClaimController extends React.Component {
                                     path={`${this.props.match.url}/email_to_ldap`}
                                     render={(props) => (
                                         <EmailToLDAP
-                                            {...this.state}
                                             {...props}
+                                            email={email}
                                             siteName={this.props.siteName}
                                             ldapLoginFieldName={this.props.ldapLoginFieldName}
                                         />
