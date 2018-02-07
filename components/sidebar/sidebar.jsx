@@ -2,7 +2,7 @@
 // See License.txt for license information.
 // @flow
 
-import type {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+import type {Channel} from 'mattermost-redux/types/channels';
 import type {UserProfile} from 'mattermost-redux/types/users';
 import type {Team} from 'mattermost-redux/types/teams';
 
@@ -202,7 +202,8 @@ export default class Sidebar extends React.PureComponent<Props, State> {
 
         this.updateTitle();
 
-        if (this.props.currentChannel.type === Constants.DM_CHANNEL &&
+        if (this.props.currentChannel &&
+            this.props.currentChannel.type === Constants.DM_CHANNEL &&
             this.props.currentTeammate && prevProps.currentTeammate &&
             this.props.currentTeammate.display_name !== prevProps.currentTeammate.display_name
         ) {
@@ -426,7 +427,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             }
 
             const nextIndex = ChannelUtils.findNextUnreadChannelId(
-                this.props.currentChannel.id,
+                this.props.currentChannel && this.props.currentChannel.id,
                 allChannelIds,
                 this.props.unreadChannelIds,
                 direction

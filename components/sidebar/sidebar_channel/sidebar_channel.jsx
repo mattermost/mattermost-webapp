@@ -242,7 +242,7 @@ export default class SidebarChannel extends React.PureComponent<Props> {
         let link = '';
         if (this.props.channelFake && this.props.channelStringified) {
             link = `/${this.props.currentTeamName}/channels/${this.props.channelName}?fakechannel=${encodeURIComponent(this.props.channelStringified)}`;
-        } else if (this.props.channelType === Constants.DM_CHANNEL) {
+        } else if (this.props.channelType === Constants.DM_CHANNEL && this.props.channelTeammateUsername) {
             link = `/${this.props.currentTeamName}/messages/@${this.props.channelTeammateUsername}`;
         } else if (this.props.channelType === Constants.GM_CHANNEL) {
             link = `/${this.props.currentTeamName}/messages/${this.props.channelName}`;
