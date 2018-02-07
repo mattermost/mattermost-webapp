@@ -7,17 +7,12 @@ import {Route, Switch} from 'react-router-dom';
 
 import logoImage from 'images/logo.png';
 import BackButton from 'components/common/back_button.jsx';
-import OauthToEmail from 'components/claim/components/oauth_to_email';
-import EmailToOauth from 'components/claim/components/email_to_oauth';
-import LdapToEmail from 'components/claim/components/ldap_to_email';
-import EmailToLdap from 'components/claim/components/email_to_ldap';
+import OAuthToEmail from 'components/claim/components/oauth_to_email';
+import EmailToOAuth from 'components/claim/components/email_to_oauth';
+import LDAPToEmail from 'components/claim/components/ldap_to_email';
+import EmailToLDAP from 'components/claim/components/email_to_ldap';
 
 export default class ClaimController extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {};
-    }
     componentWillMount() {
         this.setState({
             email: (new URLSearchParams(this.props.location.search)).get('email'),
@@ -25,6 +20,7 @@ export default class ClaimController extends React.Component {
             currentType: (new URLSearchParams(this.props.location.search)).get('old_type')
         });
     }
+
     render() {
         return (
             <div>
@@ -40,36 +36,41 @@ export default class ClaimController extends React.Component {
                                 <Route
                                     path={`${this.props.match.url}/oauth_to_email`}
                                     render={(props) => (
-                                        <OauthToEmail
+                                        <OAuthToEmail
                                             {...this.state}
                                             {...props}
+                                            siteName={this.props.siteName}
                                         />
                                 )}
                                 />
                                 <Route
                                     path={`${this.props.match.url}/email_to_oauth`}
                                     render={(props) => (
-                                        <EmailToOauth
+                                        <EmailToOAuth
                                             {...this.state}
                                             {...props}
+                                            siteName={this.props.siteName}
                                         />
                                 )}
                                 />
                                 <Route
                                     path={`${this.props.match.url}/ldap_to_email`}
                                     render={(props) => (
-                                        <LdapToEmail
+                                        <LDAPToEmail
                                             {...this.state}
                                             {...props}
+                                            siteName={this.props.siteName}
                                         />
                                 )}
                                 />
                                 <Route
                                     path={`${this.props.match.url}/email_to_ldap`}
                                     render={(props) => (
-                                        <EmailToLdap
+                                        <EmailToLDAP
                                             {...this.state}
                                             {...props}
+                                            siteName={this.props.siteName}
+                                            ldapLoginFieldName={this.props.ldapLoginFieldName}
                                         />
                                 )}
                                 />
@@ -82,9 +83,8 @@ export default class ClaimController extends React.Component {
     }
 }
 
-ClaimController.defaultProps = {
-};
 ClaimController.propTypes = {
     location: PropTypes.object.isRequired,
-    children: PropTypes.node
+    siteName: PropTypes.string,
+    ldapLoginFieldName: PropTypes.string
 };

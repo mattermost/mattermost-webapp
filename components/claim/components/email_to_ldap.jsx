@@ -139,18 +139,13 @@ export default class EmailToLDAP extends React.Component {
         }
 
         let loginPlaceholder;
-        if (global.window.mm_config.LdapLoginFieldName) {
-            loginPlaceholder = global.window.mm_config.LdapLoginFieldName;
+        if (this.props.ldapLoginFieldName) {
+            loginPlaceholder = this.props.ldapLoginFieldName;
         } else {
             loginPlaceholder = Utils.localizeMessage('claim.email_to_ldap.ldapId', 'AD/LDAP ID');
         }
 
-        let passwordPlaceholder;
-        if (global.window.mm_config.LdapPasswordFieldName) {
-            passwordPlaceholder = global.window.mm_config.LdapPasswordFieldName;
-        } else {
-            passwordPlaceholder = Utils.localizeMessage('claim.email_to_ldap.ldapPwd', 'AD/LDAP Password');
-        }
+        const passwordPlaceholder = Utils.localizeMessage('claim.email_to_ldap.ldapPwd', 'AD/LDAP Password');
 
         let content;
         if (this.state.showMfa) {
@@ -184,7 +179,7 @@ export default class EmailToLDAP extends React.Component {
                             id='claim.email_to_ldap.enterPwd'
                             defaultMessage='Enter the password for your {site} email account'
                             values={{
-                                site: global.window.mm_config.SiteName
+                                site: this.props.siteName
                             }}
                         />
                     </p>
@@ -263,10 +258,10 @@ export default class EmailToLDAP extends React.Component {
     }
 }
 
-EmailToLDAP.defaultProps = {
-};
 EmailToLDAP.propTypes = {
-    email: PropTypes.string
+    email: PropTypes.string,
+    siteName: PropTypes.string,
+    ldapLoginFieldName: PropTypes.string
 };
 
 const style = {
