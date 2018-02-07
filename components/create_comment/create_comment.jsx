@@ -41,6 +41,11 @@ export default class CreateComment extends React.PureComponent {
         rootId: PropTypes.string.isRequired,
 
         /**
+         * The current history message selected
+         */
+        messageInHistory: PropTypes.string,
+
+        /**
          * The current draft of the comment
          */
         draft: PropTypes.shape({
@@ -112,7 +117,12 @@ export default class CreateComment extends React.PureComponent {
         /**
          * Reset state of createPost request
          */
-        resetCreatePostRequest: PropTypes.func.isRequired
+        resetCreatePostRequest: PropTypes.func.isRequired,
+
+        /**
+         * Set if channel is read only
+         */
+        readOnlyChannel: PropTypes.bool
     }
 
     constructor(props) {
@@ -154,7 +164,7 @@ export default class CreateComment extends React.PureComponent {
             this.setState({draft: {...newProps.draft, uploadsInProgress: []}});
         }
 
-        if (!Utils.areObjectsEqual(this.props.draft, newProps.draft)) {
+        if (this.props.messageInHistory !== newProps.messageInHistory) {
             this.setState({draft: newProps.draft});
         }
     }
@@ -464,6 +474,7 @@ export default class CreateComment extends React.PureComponent {
 
     render() {
         const {draft} = this.state;
+        const {readOnlyChannel} = this.props;
 
         const notifyAllTitle = (
             <FormattedMessage
@@ -505,7 +516,7 @@ export default class CreateComment extends React.PureComponent {
         }
 
         let preview = null;
-        if (draft.fileInfos.length > 0 || draft.uploadsInProgress.length > 0) {
+        if (!readOnlyChannel && (draft.fileInfos.length > 0 || draft.uploadsInProgress.length > 0)) {
             preview = (
                 <FilePreview
                     fileInfos={draft.fileInfos}
@@ -540,21 +551,24 @@ export default class CreateComment extends React.PureComponent {
             addButtonClass += ' disabled';
         }
 
-        const fileUpload = (
-            <FileUpload
-                ref='fileUpload'
-                fileCount={this.getFileCount()}
-                getTarget={this.getFileUploadTarget}
-                onFileUploadChange={this.handleFileUploadChange}
-                onUploadStart={this.handleUploadStart}
-                onFileUpload={this.handleFileUploadComplete}
-                onUploadError={this.handleUploadError}
-                postType='comment'
-            />
-        );
+        let fileUpload;
+        if (!readOnlyChannel) {
+            fileUpload = (
+                <FileUpload
+                    ref='fileUpload'
+                    fileCount={this.getFileCount()}
+                    getTarget={this.getFileUploadTarget}
+                    onFileUploadChange={this.handleFileUploadChange}
+                    onUploadStart={this.handleUploadStart}
+                    onFileUpload={this.handleFileUploadComplete}
+                    onUploadError={this.handleUploadError}
+                    postType='comment'
+                />
+            );
+        }
 
         let emojiPicker = null;
-        if (window.mm_config.EnableEmojiPicker === 'true') {
+        if (window.mm_config.EnableEmojiPicker === 'true' && !readOnlyChannel) {
             emojiPicker = (
                 <span className='emoji-picker__container'>
                     <EmojiPickerOverlay
@@ -574,6 +588,13 @@ export default class CreateComment extends React.PureComponent {
             );
         }
 
+        let createMessage;
+        if (readOnlyChannel) {
+            createMessage = Utils.localizeMessage('create_post.read_only', 'This channel is read-only. Only members with permission can post here.');
+        } else {
+            createMessage = Utils.localizeMessage('create_comment.addComment', 'Add a comment...');
+        }
+
         return (
             <form onSubmit={this.handleSubmit}>
                 <div className='post-create'>
@@ -587,9 +608,9 @@ export default class CreateComment extends React.PureComponent {
                                 onKeyPress={this.commentMsgKeyPress}
                                 onKeyDown={this.handleKeyDown}
                                 handlePostError={this.handlePostError}
-                                value={draft.message}
+                                value={readOnlyChannel ? '' : draft.message}
                                 onBlur={this.handleBlur}
-                                createMessage={Utils.localizeMessage('create_comment.addComment', 'Add a comment...')}
+                                createMessage={createMessage}
                                 emojiEnabled={window.mm_config.EnableEmojiPicker === 'true'}
                                 initialText=''
                                 channelId={this.props.channelId}
@@ -597,6 +618,7 @@ export default class CreateComment extends React.PureComponent {
                                 popoverMentionKeyClick={true}
                                 id='reply_textbox'
                                 ref='textbox'
+                                disabled={readOnlyChannel}
                             />
                             <span
                                 ref='createCommentControls'

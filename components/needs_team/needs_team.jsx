@@ -210,13 +210,15 @@ export default class NeedsTeam extends React.Component {
     toLastChannel = () => {
         let channelName = Constants.DEFAULT_CHANNEL;
         const team = TeamStore.getByName(this.props.match.params.team);
-        if (team) {
+
+        if (team && team.id) {
             const channelId = BrowserStore.getGlobalItem(team.id);
             const channel = ChannelStore.getChannelById(channelId);
             if (channel) {
                 channelName = channel.name;
             }
         }
+
         return `${this.props.match.url}/channels/${channelName}`;
     }
 

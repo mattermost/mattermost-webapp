@@ -24,7 +24,7 @@ import WebSocketClient from 'client/web_websocket_client.jsx';
 
 import {ActionTypes, Constants, ErrorPageTypes, PostTypes} from 'utils/constants.jsx';
 import EventTypes from 'utils/event_types.jsx';
-import {sortTeamsByDisplayName} from 'utils/team_utils.jsx';
+import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import en from 'i18n/en.json';
 import * as I18n from 'i18n/i18n.jsx';
@@ -115,7 +115,7 @@ export async function emitPostFocusEvent(postId) {
     if (data) {
         const channelId = data.posts[data.order[0]].channel_id;
         const channel = ChannelStore.getChannelById(channelId);
-        if (!channel || channel.team_id !== TeamStore.getCurrentId()) {
+        if (!channel) {
             browserHistory.push('/error?type=' + ErrorPageTypes.PERMALINK_NOT_FOUND);
         }
 
@@ -485,8 +485,10 @@ export async function redirectUserToDefaultTeam() {
         }
 
         if (myTeams.length > 0) {
-            myTeams = myTeams.sort(sortTeamsByDisplayName);
-            teamId = myTeams[0].id;
+            myTeams = filterAndSortTeamsByDisplayName(myTeams);
+            if (myTeams && myTeams[0]) {
+                teamId = myTeams[0].id;
+            }
         }
     }
 

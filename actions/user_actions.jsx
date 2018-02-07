@@ -13,7 +13,7 @@ import * as Selectors from 'mattermost-redux/selectors/entities/users';
 
 import {browserHistory} from 'utils/browser_history';
 import {getChannelMembersForUserIds} from 'actions/channel_actions.jsx';
-import {clientLogout, loadCurrentLocale} from 'actions/global_actions.jsx';
+import {loadCurrentLocale} from 'actions/global_actions.jsx';
 import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
@@ -69,9 +69,6 @@ export async function switchFromLdapToEmail(email, password, token, ldapPassword
     const {data, error: err} = await UserActions.switchLdapToEmail(ldapPassword, email, password, token)(dispatch, getState);
 
     if (data) {
-        if (data.follow_link) {
-            clientLogout(data.follow_link);
-        }
         if (success) {
             success(data);
         }
