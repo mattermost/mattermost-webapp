@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
+// @flow
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import PropTypes from 'prop-types';
 
 import {browserHistory} from 'utils/browser_history';
 import {Constants} from 'utils/constants.jsx';
@@ -13,127 +13,135 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import SidebarChannelButtonOrLink from '../sidebar_channel_button_or_link/sidebar_channel_button_or_link.jsx';
 import SidebarTutorialTip from '../sidebar_tutorial_tip.jsx';
 
-export default class SidebarChannel extends React.PureComponent {
-    static propTypes = {
+type Props = {
 
-        /**
-         * Global config object
-         */
-        config: PropTypes.object.isRequired,
+    /**
+     * Global config object
+     */
+    config: Object,
 
-        /**
-         * Channel id
-         */
-        channelId: PropTypes.string.isRequired,
+    /**
+     * Channel id
+     */
+    channelId: string,
 
-        /**
-         * Channel name
-         */
-        channelName: PropTypes.string.isRequired,
+    /**
+     * Channel name
+     */
+    channelName: string,
 
-        /**
-         * Channel display name
-         */
-        channelDisplayName: PropTypes.string.isRequired,
+    /**
+     * Channel display name
+     */
+    channelDisplayName: string,
 
-        /**
-         * Channel type
-         */
-        channelType: PropTypes.string.isRequired,
+    /**
+     * Channel type
+     */
+    channelType: string,
 
-        /**
-         * Channel status
-         */
-        channelStatus: PropTypes.string,
+    /**
+     * Channel status
+     */
+    channelStatus?: string,
 
-        /**
-         * Channel is fake
-         */
-        channelFake: PropTypes.bool,
+    /**
+     * Channel is fake
+     */
+    channelFake?: boolean,
 
-        /**
-         * Serialized channel information (for fake channels)
-         */
-        channelStringified: PropTypes.string,
+    /**
+     * Serialized channel information (for fake channels)
+     */
+    channelStringified?: string,
 
-        /**
-         * Teammate id (for direct messages)
-         */
-        channelTeammateId: PropTypes.string,
+    /**
+     * Teammate id (for direct messages)
+     */
+    channelTeammateId?: string,
 
-        /**
-         * Teammate username (for direct messages)
-         */
-        channelTeammateUsername: PropTypes.string,
+    /**
+     * Teammate delete at date (for direct messages)
+     */
+    channelTeammateDeletedAt?: number,
 
-        /**
-         * Teammate delete at date (for direct messages)
-         */
-        channelTeammateDeletedAt: PropTypes.number,
+    /**
+     * Teammate username (for direct messages)
+     */
+    channelTeammateUsername?: string,
 
-        /**
-         * Whether or not to mark the channel as unread when it has unread messages and no mentions
-         */
-        showUnreadForMsgs: PropTypes.bool.isRequired,
+    /**
+     * Whether or not to mark the channel as unread when it has unread messages and no mentions
+     */
+    showUnreadForMsgs: boolean,
 
-        /**
-         * Number of unread messages
-         */
-        unreadMsgs: PropTypes.number.isRequired,
+    /**
+     * Number of unread messages
+     */
+    unreadMsgs: number,
 
-        /**
-         * Number of unread mentions
-         */
-        unreadMentions: PropTypes.number.isRequired,
+    /**
+     * Number of unread mentions
+     */
+    unreadMentions: number,
 
-        /**
-         * Set if the channel is the current active channel
-         */
-        active: PropTypes.bool.isRequired,
+    /**
+     * Set if the channel is the current active channel
+     */
+    active: boolean,
 
-        /**
-         * Current team name
-         */
-        currentTeamName: PropTypes.string.isRequired,
+    /**
+     * Current team name
+     */
+    currentTeamName: string,
 
-        /**
-         * Current user id
-         */
-        currentUserId: PropTypes.string.isRequired,
+    /**
+     * Current user id
+     */
+    currentUserId: string,
 
-        /**
-         * Set if the tutorial must be shown
-         */
-        showTutorialTip: PropTypes.bool.isRequired,
+    /**
+     * Set if the tutorial must be shown
+     */
+    showTutorialTip: boolean,
 
-        /**
-         * TownSquare (default channel) display name
-         */
-        townSquareDisplayName: PropTypes.string,
+    /**
+     * TownSquare (default channel) display name
+     */
+    townSquareDisplayName?: string,
 
-        /**
-         * OffTopic (default channel) display name
-         */
-        offTopicDisplayName: PropTypes.string,
+    /**
+     * OffTopic (default channel) display name
+     */
+    offTopicDisplayName?: string,
 
-        /**
-         * Number of members
-         */
-        membersCount: PropTypes.number.isRequired,
+    /**
+     * Number of members
+     */
+    membersCount: number,
 
-        actions: PropTypes.shape({
-            savePreferences: PropTypes.func.isRequired,
-            leaveChannel: PropTypes.func.isRequired
-        }).isRequired
+    actions: {
+        savePreferences: (string, Array<Object>) => Promise<void>,
+        leaveChannel: (string) => Promise<void>
     }
+}
+
+export default class SidebarChannel extends React.PureComponent<Props> {
+    props: Props;
 
     isLeaving = false;
 
     openLeftSidebar = () => {
         if (Utils.isMobile()) {
             setTimeout(() => {
-                document.querySelector('.app__body .inner-wrap').classList.add('move--right');
-                document.querySelector('.app__body .sidebar--left').classList.add('move--right');
+                let element = document.querySelector('.app__body .inner-wrap');
+                if (element) {
+                    element.classList.add('move--right');
+                }
+                element = document.querySelector('.app__body .sidebar--left');
+                if (element) {
+                    element.classList.add('move--right');
+                }
             });
         }
     }
@@ -186,7 +194,7 @@ export default class SidebarChannel extends React.PureComponent {
             return (<div/>);
         }
 
-        let closeHandler = null;
+        let closeHandler;
         if (!this.showChannelAsUnread()) {
             if (this.props.channelType === Constants.DM_CHANNEL || this.props.channelType === Constants.GM_CHANNEL) {
                 closeHandler = this.handleLeaveDirectChannel;
@@ -232,9 +240,9 @@ export default class SidebarChannel extends React.PureComponent {
         }
 
         let link = '';
-        if (this.props.channelFake) {
+        if (this.props.channelFake && this.props.channelStringified) {
             link = `/${this.props.currentTeamName}/channels/${this.props.channelName}?fakechannel=${encodeURIComponent(this.props.channelStringified)}`;
-        } else if (this.props.channelType === Constants.DM_CHANNEL) {
+        } else if (this.props.channelType === Constants.DM_CHANNEL && this.props.channelTeammateUsername) {
             link = `/${this.props.currentTeamName}/messages/@${this.props.channelTeammateUsername}`;
         } else if (this.props.channelType === Constants.GM_CHANNEL) {
             link = `/${this.props.currentTeamName}/messages/${this.props.channelName}`;

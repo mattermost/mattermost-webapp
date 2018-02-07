@@ -1,0 +1,21 @@
+[ignore]
+<PROJECT_ROOT>/dist/.*
+<PROJECT_ROOT>/non_npm_dependencies/.*
+<PROJECT_ROOT>/node_modules/[^m].*
+
+[include]
+./
+
+[libs]
+./flow-typed/
+
+[lints]
+
+[options]
+module.name_mapper='.*\.\(mp3\|svg\|png\|jpg\|gif\)$' -> '<PROJECT_ROOT>/flow/stub/url-loader.js'
+module.system.node.resolve_dirname=node_modules
+module.system.node.resolve_dirname=non_npm_dependencies
+module.system.node.resolve_dirname=.
+suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe
+
+[strict]
