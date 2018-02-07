@@ -6,8 +6,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {makeUserChannelAdmin, makeUserChannelMember, removeUserFromChannel} from 'actions/channel_actions.jsx';
-import ChannelStore from 'stores/channel_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import {canManageMembers} from 'utils/channel_utils.jsx';
 import {Constants} from 'utils/constants.jsx';
@@ -15,6 +13,7 @@ import * as Utils from 'utils/utils.jsx';
 
 export default class ChannelMembersDropdown extends React.Component {
     static propTypes = {
+        canChangeMemberRoles: PropTypes.bool.isRequired,
         channel: PropTypes.object.isRequired,
         user: PropTypes.object.isRequired,
         teamMember: PropTypes.object.isRequired,
@@ -87,22 +86,9 @@ export default class ChannelMembersDropdown extends React.Component {
         );
     }
 
-    // Checks if the current user has the power to change the roles of this member.
-    canChangeMemberRoles() {
-        if (UserStore.isSystemAdminForCurrentUser()) {
-            return true;
-        } else if (TeamStore.isTeamAdminForCurrentTeam()) {
-            return true;
-        } else if (ChannelStore.isChannelAdminForCurrentChannel()) {
-            return true;
-        }
-
-        return false;
-    }
-
     // Checks if the current user has the power to remove this member from the channel.
     canRemoveMember() {
-        return canManageMembers(this.props.channel, ChannelStore.isChannelAdminForCurrentChannel(), TeamStore.isTeamAdminForCurrentTeam(), UserStore.isSystemAdminForCurrentUser());
+        return canManageMembers(this.props.channel);
     }
 
     render() {
@@ -122,7 +108,7 @@ export default class ChannelMembersDropdown extends React.Component {
             return null;
         }
 
-        if (this.canChangeMemberRoles()) {
+        if (this.props.canChangeMemberRoles) {
             let role = (
                 <FormattedMessage
                     id='channel_members_dropdown.channel_member'

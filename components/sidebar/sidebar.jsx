@@ -7,6 +7,7 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 import {PropTypes} from 'prop-types';
+import Permissions from 'mattermost-redux/constants/permissions';
 
 import {browserHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
@@ -19,6 +20,8 @@ import favicon from 'images/favicon/favicon-16x16.png';
 import redFavicon from 'images/favicon/redfavicon-16x16.png';
 import MoreChannels from 'components/more_channels';
 import MoreDirectChannels from 'components/more_direct_channels';
+import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
+
 import NewChannelFlow from '../new_channel_flow.jsx';
 import SidebarHeader from '../sidebar_header.jsx';
 import UnreadChannelIndicator from '../unread_channel_indicator.jsx';
@@ -82,16 +85,6 @@ export default class Sidebar extends React.PureComponent {
          * Number of unread mentions/messages
          */
         unreads: PropTypes.object.isRequired,
-
-        /**
-        * Set if the current user is a system admin
-        */
-        isSystemAdmin: PropTypes.bool.isRequired,
-
-        /**
-        * Set if the current user is a team admin
-        */
-        isTeamAdmin: PropTypes.bool.isRequired,
 
         /**
          * Flag to display the Unread channels section
@@ -557,7 +550,7 @@ export default class Sidebar extends React.PureComponent {
             />
         );
 
-        let createPublicChannelIcon = (
+        const createPublicChannelIcon = (
             <OverlayTrigger
                 trigger={['hover', 'focus']}
                 delayShow={500}
@@ -574,7 +567,7 @@ export default class Sidebar extends React.PureComponent {
             </OverlayTrigger>
         );
 
-        let createPrivateChannelIcon = (
+        const createPrivateChannelIcon = (
             <OverlayTrigger
                 trigger={['hover', 'focus']}
                 delayShow={500}
@@ -591,10 +584,6 @@ export default class Sidebar extends React.PureComponent {
             </OverlayTrigger>
         );
 
-        if (!ChannelUtils.showCreateOption(Constants.OPEN_CHANNEL, this.props.isTeamAdmin, this.props.isSystemAdmin)) {
-            createPublicChannelIcon = null;
-        }
-
         const createDirectMessageIcon = (
             <OverlayTrigger
                 className='hidden-xs'
@@ -610,10 +599,6 @@ export default class Sidebar extends React.PureComponent {
                 </button>
             </OverlayTrigger>
         );
-
-        if (!ChannelUtils.showCreateOption(Constants.PRIVATE_CHANNEL, this.props.isTeamAdmin, this.props.isSystemAdmin)) {
-            createPrivateChannelIcon = null;
-        }
 
         let moreDirectChannelsModal;
         if (this.state.showDirectChannelsModal) {
@@ -669,6 +654,7 @@ export default class Sidebar extends React.PureComponent {
                 {moreChannelsModal}
 
                 <SidebarHeader
+                    teamId={this.props.currentTeam.id}
                     teamDisplayName={this.props.currentTeam.display_name}
                     teamDescription={this.props.currentTeam.description}
                     teamName={this.props.currentTeam.name}
@@ -726,7 +712,12 @@ export default class Sidebar extends React.PureComponent {
                                     id='sidebar.channels'
                                     defaultMessage='PUBLIC CHANNELS'
                                 />
-                                {createPublicChannelIcon}
+                                <TeamPermissionGate
+                                    teamId={this.props.currentTeam.id}
+                                    perms={[Permissions.CREATE_PUBLIC_CHANNEL]}
+                                >
+                                    {createPublicChannelIcon}
+                                </TeamPermissionGate>
                             </h4>
                         </li>
                         {publicChannelItems}
@@ -751,7 +742,12 @@ export default class Sidebar extends React.PureComponent {
                                     id='sidebar.pg'
                                     defaultMessage='PRIVATE CHANNELS'
                                 />
-                                {createPrivateChannelIcon}
+                                <TeamPermissionGate
+                                    teamId={this.props.currentTeam.id}
+                                    perms={[Permissions.CREATE_PRIVATE_CHANNEL]}
+                                >
+                                    {createPrivateChannelIcon}
+                                </TeamPermissionGate>
                             </h4>
                         </li>
                         {privateChannelItems}

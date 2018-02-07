@@ -22,11 +22,6 @@ export default class EditOAuthApp extends React.PureComponent {
         team: PropTypes.object.isRequired,
 
         /**
-        * Set if the current user is a system admin
-        */
-        isSystemAdmin: PropTypes.bool,
-
-        /**
         * The id of the OAuthApp to edit
         */
         oauthAppId: PropTypes.string.isRequired,
@@ -153,7 +148,6 @@ export default class EditOAuthApp extends React.PureComponent {
         return (
             <AbstractOAuthApp
                 team={this.props.team}
-                isSystemAdmin={this.props.isSystemAdmin}
                 header={HEADER}
                 footer={FOOTER}
                 renderExtra={this.renderExtra()}

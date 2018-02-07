@@ -48,12 +48,7 @@ export default class BackstageController extends React.Component {
         /**
          * Current team.
          */
-        team: PropTypes.object,
-
-        /**
-         * Set to indicate user is system admin or a team admin for current team.
-         */
-        isAdmin: PropTypes.bool
+        team: PropTypes.object
     }
 
     scrollToTop = () => {
@@ -73,7 +68,6 @@ export default class BackstageController extends React.Component {
         const extraProps = {
             team: this.props.team,
             user: this.props.user,
-            isAdmin: this.props.isAdmin,
             scrollToTop: this.scrollToTop
         };
         return (

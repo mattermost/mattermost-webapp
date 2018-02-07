@@ -33,7 +33,6 @@ describe('components/integrations/AbstractOAuthApp', () => {
     );
     const baseProps = {
         team,
-        isSystemAdmin: false,
         header,
         footer,
         renderExtra: 'renderExtra',
@@ -45,14 +44,6 @@ describe('components/integrations/AbstractOAuthApp', () => {
     test('should match snapshot', () => {
         const wrapper = shallow(
             <AbstractOAuthApp {...baseProps}/>
-        );
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should match snapshot, for system admin', () => {
-        const props = {...baseProps, isSystemAdmin: true};
-        const wrapper = shallow(
-            <AbstractOAuthApp {...props}/>
         );
         expect(wrapper).toMatchSnapshot();
     });

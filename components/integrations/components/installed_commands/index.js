@@ -4,12 +4,16 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {deleteCommand, regenCommandToken} from 'mattermost-redux/actions/integrations';
+import {haveITeamPerm} from 'mattermost-redux/selectors/entities/roles';
+import {Permissions} from 'mattermost-redux/constants';
 
 import InstalledCommands from './installed_commands.jsx';
 
 function mapStateToProps(state, ownProps) {
+    const canManageOthersSlashCommands = haveITeamPerm(state, {team: ownProps.team.id, perm: Permissions.MANAGE_OTHERS_SLASH_COMMANDS});
+
     return {
-        ...ownProps
+        canManageOthersSlashCommands
     };
 }
 

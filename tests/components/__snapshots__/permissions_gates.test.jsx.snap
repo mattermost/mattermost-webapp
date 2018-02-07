@@ -1,0 +1,785 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/permissions_gates ChannelPermissionGate should match snapshot when the channel doesn't exists 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(ChannelPermissionGate)
+    channelId="invalid_id"
+    perms={
+      Array [
+        "test_channel_perm",
+      ]
+    }
+    teamId="team_id"
+  >
+    <ChannelPermissionGate
+      channelId="invalid_id"
+      dispatch={[Function]}
+      hasPerm={false}
+      invert={false}
+      perms={
+        Array [
+          "test_channel_perm",
+        ]
+      }
+      teamId="team_id"
+    />
+  </Connect(ChannelPermissionGate)>
+</Provider>
+`;
+
+exports[`components/permissions_gates ChannelPermissionGate should match snapshot when user have at least on of the permissions 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(TeamPermissionGate)
+    perms={
+      Array [
+        "test_team_perm",
+        "not_existing_perm",
+      ]
+    }
+    teamId="team_id"
+  >
+    <TeamPermissionGate
+      dispatch={[Function]}
+      hasPerm={true}
+      invert={false}
+      perms={
+        Array [
+          "test_team_perm",
+          "not_existing_perm",
+        ]
+      }
+      teamId="team_id"
+    >
+      <p>
+        Valid perm (shown)
+      </p>
+    </TeamPermissionGate>
+  </Connect(TeamPermissionGate)>
+</Provider>
+`;
+
+exports[`components/permissions_gates ChannelPermissionGate should match snapshot when user have permission 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(ChannelPermissionGate)
+    channelId="channel_id"
+    perms={
+      Array [
+        "test_channel_perm",
+      ]
+    }
+    teamId="team_id"
+  >
+    <ChannelPermissionGate
+      channelId="channel_id"
+      dispatch={[Function]}
+      hasPerm={true}
+      invert={false}
+      perms={
+        Array [
+          "test_channel_perm",
+        ]
+      }
+      teamId="team_id"
+    >
+      <p>
+        Valid perm (shown)
+      </p>
+    </ChannelPermissionGate>
+  </Connect(ChannelPermissionGate)>
+</Provider>
+`;
+
+exports[`components/permissions_gates ChannelPermissionGate should match snapshot when user have permission and use invert 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(ChannelPermissionGate)
+    channelId="channel_id"
+    invert={true}
+    perms={
+      Array [
+        "test_channel_perm",
+      ]
+    }
+    teamId="team_id"
+  >
+    <ChannelPermissionGate
+      channelId="channel_id"
+      dispatch={[Function]}
+      hasPerm={true}
+      invert={true}
+      perms={
+        Array [
+          "test_channel_perm",
+        ]
+      }
+      teamId="team_id"
+    />
+  </Connect(ChannelPermissionGate)>
+</Provider>
+`;
+
+exports[`components/permissions_gates ChannelPermissionGate should match snapshot when user have permission system wide 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(ChannelPermissionGate)
+    channelId="channel_id"
+    perms={
+      Array [
+        "test_system_perm",
+      ]
+    }
+    teamId="team_id"
+  >
+    <ChannelPermissionGate
+      channelId="channel_id"
+      dispatch={[Function]}
+      hasPerm={true}
+      invert={false}
+      perms={
+        Array [
+          "test_system_perm",
+        ]
+      }
+      teamId="team_id"
+    >
+      <p>
+        Valid perm (shown)
+      </p>
+    </ChannelPermissionGate>
+  </Connect(ChannelPermissionGate)>
+</Provider>
+`;
+
+exports[`components/permissions_gates ChannelPermissionGate should match snapshot when user have permission team wide 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(ChannelPermissionGate)
+    channelId="channel_id"
+    perms={
+      Array [
+        "test_team_perm",
+      ]
+    }
+    teamId="team_id"
+  >
+    <ChannelPermissionGate
+      channelId="channel_id"
+      dispatch={[Function]}
+      hasPerm={true}
+      invert={false}
+      perms={
+        Array [
+          "test_team_perm",
+        ]
+      }
+      teamId="team_id"
+    >
+      <p>
+        Valid perm (shown)
+      </p>
+    </ChannelPermissionGate>
+  </Connect(ChannelPermissionGate)>
+</Provider>
+`;
+
+exports[`components/permissions_gates ChannelPermissionGate should match snapshot when user haven't permission 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(ChannelPermissionGate)
+    channelId="channel_id"
+    perms={
+      Array [
+        "invalid_perm",
+      ]
+    }
+    teamId="team_id"
+  >
+    <ChannelPermissionGate
+      channelId="channel_id"
+      dispatch={[Function]}
+      hasPerm={false}
+      invert={false}
+      perms={
+        Array [
+          "invalid_perm",
+        ]
+      }
+      teamId="team_id"
+    />
+  </Connect(ChannelPermissionGate)>
+</Provider>
+`;
+
+exports[`components/permissions_gates ChannelPermissionGate should match snapshot when user not have permission and use invert 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(ChannelPermissionGate)
+    channelId="channel_id"
+    invert={true}
+    perms={
+      Array [
+        "invalid_perm",
+      ]
+    }
+    teamId="team_id"
+  >
+    <ChannelPermissionGate
+      channelId="channel_id"
+      dispatch={[Function]}
+      hasPerm={false}
+      invert={true}
+      perms={
+        Array [
+          "invalid_perm",
+        ]
+      }
+      teamId="team_id"
+    >
+      <p>
+        Invalid perm but inverted (shown)
+      </p>
+    </ChannelPermissionGate>
+  </Connect(ChannelPermissionGate)>
+</Provider>
+`;
+
+exports[`components/permissions_gates SystemPermissionGate should match snapshot when user have at least on of the permissions 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(SystemPermissionGate)
+    perms={
+      Array [
+        "test_system_perm",
+        "not_existing_perm",
+      ]
+    }
+  >
+    <SystemPermissionGate
+      dispatch={[Function]}
+      hasPerm={true}
+      invert={false}
+      perms={
+        Array [
+          "test_system_perm",
+          "not_existing_perm",
+        ]
+      }
+    >
+      <p>
+        Valid perm (shown)
+      </p>
+    </SystemPermissionGate>
+  </Connect(SystemPermissionGate)>
+</Provider>
+`;
+
+exports[`components/permissions_gates SystemPermissionGate should match snapshot when user have permission 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(SystemPermissionGate)
+    perms={
+      Array [
+        "test_system_perm",
+      ]
+    }
+  >
+    <SystemPermissionGate
+      dispatch={[Function]}
+      hasPerm={true}
+      invert={false}
+      perms={
+        Array [
+          "test_system_perm",
+        ]
+      }
+    >
+      <p>
+        Valid perm (shown)
+      </p>
+    </SystemPermissionGate>
+  </Connect(SystemPermissionGate)>
+</Provider>
+`;
+
+exports[`components/permissions_gates SystemPermissionGate should match snapshot when user have permission and use invert 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(SystemPermissionGate)
+    invert={true}
+    perms={
+      Array [
+        "test_system_perm",
+      ]
+    }
+  >
+    <SystemPermissionGate
+      dispatch={[Function]}
+      hasPerm={true}
+      invert={true}
+      perms={
+        Array [
+          "test_system_perm",
+        ]
+      }
+    />
+  </Connect(SystemPermissionGate)>
+</Provider>
+`;
+
+exports[`components/permissions_gates SystemPermissionGate should match snapshot when user haven't permission 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(SystemPermissionGate)
+    perms={
+      Array [
+        "invalid_perm",
+      ]
+    }
+  >
+    <SystemPermissionGate
+      dispatch={[Function]}
+      hasPerm={false}
+      invert={false}
+      perms={
+        Array [
+          "invalid_perm",
+        ]
+      }
+    />
+  </Connect(SystemPermissionGate)>
+</Provider>
+`;
+
+exports[`components/permissions_gates SystemPermissionGate should match snapshot when user not have permission and use invert 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(SystemPermissionGate)
+    invert={true}
+    perms={
+      Array [
+        "invalid_perm",
+      ]
+    }
+  >
+    <SystemPermissionGate
+      dispatch={[Function]}
+      hasPerm={false}
+      invert={true}
+      perms={
+        Array [
+          "invalid_perm",
+        ]
+      }
+    >
+      <p>
+        Invalid perm but inverted (shown)
+      </p>
+    </SystemPermissionGate>
+  </Connect(SystemPermissionGate)>
+</Provider>
+`;
+
+exports[`components/permissions_gates TeamPermissionGate should match snapshot when the team doesn't exists 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(TeamPermissionGate)
+    perms={
+      Array [
+        "test_team_perm",
+      ]
+    }
+    teamId="invalid_id"
+  >
+    <TeamPermissionGate
+      dispatch={[Function]}
+      hasPerm={false}
+      invert={false}
+      perms={
+        Array [
+          "test_team_perm",
+        ]
+      }
+      teamId="invalid_id"
+    />
+  </Connect(TeamPermissionGate)>
+</Provider>
+`;
+
+exports[`components/permissions_gates TeamPermissionGate should match snapshot when user have at least on of the permissions 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(TeamPermissionGate)
+    perms={
+      Array [
+        "test_team_perm",
+        "not_existing_perm",
+      ]
+    }
+    teamId="team_id"
+  >
+    <TeamPermissionGate
+      dispatch={[Function]}
+      hasPerm={true}
+      invert={false}
+      perms={
+        Array [
+          "test_team_perm",
+          "not_existing_perm",
+        ]
+      }
+      teamId="team_id"
+    >
+      <p>
+        Valid perm (shown)
+      </p>
+    </TeamPermissionGate>
+  </Connect(TeamPermissionGate)>
+</Provider>
+`;
+
+exports[`components/permissions_gates TeamPermissionGate should match snapshot when user have permission 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(TeamPermissionGate)
+    perms={
+      Array [
+        "test_team_perm",
+      ]
+    }
+    teamId="team_id"
+  >
+    <TeamPermissionGate
+      dispatch={[Function]}
+      hasPerm={true}
+      invert={false}
+      perms={
+        Array [
+          "test_team_perm",
+        ]
+      }
+      teamId="team_id"
+    >
+      <p>
+        Valid perm (shown)
+      </p>
+    </TeamPermissionGate>
+  </Connect(TeamPermissionGate)>
+</Provider>
+`;
+
+exports[`components/permissions_gates TeamPermissionGate should match snapshot when user have permission and use invert 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(TeamPermissionGate)
+    invert={true}
+    perms={
+      Array [
+        "test_team_perm",
+      ]
+    }
+    teamId="team_id"
+  >
+    <TeamPermissionGate
+      dispatch={[Function]}
+      hasPerm={true}
+      invert={true}
+      perms={
+        Array [
+          "test_team_perm",
+        ]
+      }
+      teamId="team_id"
+    />
+  </Connect(TeamPermissionGate)>
+</Provider>
+`;
+
+exports[`components/permissions_gates TeamPermissionGate should match snapshot when user have permission system wide 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(TeamPermissionGate)
+    perms={
+      Array [
+        "test_system_perm",
+      ]
+    }
+    teamId="team_id"
+  >
+    <TeamPermissionGate
+      dispatch={[Function]}
+      hasPerm={true}
+      invert={false}
+      perms={
+        Array [
+          "test_system_perm",
+        ]
+      }
+      teamId="team_id"
+    >
+      <p>
+        Valid perm (shown)
+      </p>
+    </TeamPermissionGate>
+  </Connect(TeamPermissionGate)>
+</Provider>
+`;
+
+exports[`components/permissions_gates TeamPermissionGate should match snapshot when user haven't permission 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(TeamPermissionGate)
+    perms={
+      Array [
+        "invalid_perm",
+      ]
+    }
+    teamId="team_id"
+  >
+    <TeamPermissionGate
+      dispatch={[Function]}
+      hasPerm={false}
+      invert={false}
+      perms={
+        Array [
+          "invalid_perm",
+        ]
+      }
+      teamId="team_id"
+    />
+  </Connect(TeamPermissionGate)>
+</Provider>
+`;
+
+exports[`components/permissions_gates TeamPermissionGate should match snapshot when user not have permission and use invert 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(TeamPermissionGate)
+    invert={true}
+    perms={
+      Array [
+        "invalid_perm",
+      ]
+    }
+    teamId="team_id"
+  >
+    <TeamPermissionGate
+      dispatch={[Function]}
+      hasPerm={false}
+      invert={true}
+      perms={
+        Array [
+          "invalid_perm",
+        ]
+      }
+      teamId="team_id"
+    >
+      <p>
+        Invalid perm but inverted (shown)
+      </p>
+    </TeamPermissionGate>
+  </Connect(TeamPermissionGate)>
+</Provider>
+`;

@@ -4,12 +4,21 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getChannelStats} from 'mattermost-redux/actions/channels';
+import {haveIChannelPerm} from 'mattermost-redux/selectors/entities/roles';
 
 import ChannelMembersDropdown from './channel_members_dropdown.jsx';
 
 function mapStateToProps(state, ownProps) {
+    const canChangeMemberRoles = haveIChannelPerm(
+        state,
+        {
+            channel: ownProps.channel.id,
+            team: ownProps.channel.team_id,
+            perm: Permissions.MANAGE_CHANNEL_ROLES
+        }
+    );
     return {
-        ...ownProps
+        canChangeMemberRoles
     };
 }
 

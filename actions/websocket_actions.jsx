@@ -3,7 +3,7 @@
 
 import $ from 'jquery';
 import {batchActions} from 'redux-batched-actions';
-import {ChannelTypes, EmojiTypes, PostTypes, TeamTypes, UserTypes} from 'mattermost-redux/action_types';
+import {ChannelTypes, EmojiTypes, PostTypes, TeamTypes, UserTypes, RoleTypes} from 'mattermost-redux/action_types';
 import {getChannelAndMyMember, getChannelStats, viewChannel} from 'mattermost-redux/actions/channels';
 import {setServerVersion} from 'mattermost-redux/actions/general';
 import {getPosts, getProfilesAndStatusesForPosts} from 'mattermost-redux/actions/posts';
@@ -174,8 +174,20 @@ function handleEvent(msg) {
         handleUserUpdatedEvent(msg);
         break;
 
+    case SocketEvents.ROLE_ADDED:
+        handleRoleAddedEvent(msg, dispatch, getState);
+        break;
+
+    case SocketEvents.ROLE_REMOVED:
+        handleRoleRemovedEvent(msg, dispatch, getState);
+        break;
+
     case SocketEvents.MEMBERROLE_UPDATED:
         handleUpdateMemberRoleEvent(msg);
+        break;
+
+    case SocketEvents.ROLE_UPDATED:
+        handleRoleUpdatedEvent(msg, dispatch, getState);
         break;
 
     case SocketEvents.CHANNEL_CREATED:
@@ -419,6 +431,33 @@ function handleUserUpdatedEvent(msg) {
     } else {
         UserStore.saveProfile(user);
     }
+}
+
+function handleRoleAddedEvent(msg) {
+    const role = JSON.parse(msg.data.role);
+
+    dispatch({
+        type: RoleTypes.RECEIVED_ROLE,
+        data: role
+    });
+}
+
+function handleRoleRemovedEvent(msg) {
+    const role = JSON.parse(msg.data.role);
+
+    dispatch({
+        type: RoleTypes.ROLE_DELETED,
+        data: role
+    });
+}
+
+function handleRoleUpdatedEvent(msg) {
+    const role = JSON.parse(msg.data.role);
+
+    dispatch({
+        type: RoleTypes.RECEIVED_ROLE,
+        data: role
+    });
 }
 
 function handleChannelCreatedEvent(msg) {

@@ -23,9 +23,9 @@ export default class InstalledOAuthApps extends React.PureComponent {
         oauthApps: PropTypes.object,
 
         /**
-        * Set if user is admin
+        * Set if user can manage oath
         */
-        isSystemAdmin: PropTypes.bool,
+        canManageOauth: PropTypes.bool,
 
         /**
         * The request state for regenOAuthAppSecret action. Contains status and error
@@ -101,8 +101,7 @@ export default class InstalledOAuthApps extends React.PureComponent {
         });
 
         const config = global.mm_config;
-        const integrationsEnabled = (config.EnableOAuthServiceProvider === 'true' &&
-            (this.props.isSystemAdmin || config.EnableOnlyAdminIntegrations !== 'true'));
+        const integrationsEnabled = (config.EnableOAuthServiceProvider === 'true' && this.props.canManageOauth);
         let props;
         if (integrationsEnabled) {
             props = {

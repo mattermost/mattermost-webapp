@@ -62,16 +62,25 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
               id="channel_modal.publicChannel2"
               values={Object {}}
             />
-            <button
-              className="style--none color--link"
-              onClick={[MockFunction]}
+            <Connect(TeamPermissionGate)
+              perms={
+                Array [
+                  "create_private_channel",
+                ]
+              }
+              teamId="test_team_id"
             >
-              <FormattedMessage
-                defaultMessage="Create a private channel"
-                id="channel_modal.privateGroup2"
-                values={Object {}}
-              />
-            </button>
+              <button
+                className="style--none color--link"
+                onClick={[MockFunction]}
+              >
+                <FormattedMessage
+                  defaultMessage="Create a private channel"
+                  id="channel_modal.privateGroup2"
+                  values={Object {}}
+                />
+              </button>
+            </Connect(TeamPermissionGate)>
           </div>
         </div>
         <div
@@ -313,16 +322,25 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
               id="channel_modal.publicChannel2"
               values={Object {}}
             />
-            <button
-              className="style--none color--link"
-              onClick={[MockFunction]}
+            <Connect(TeamPermissionGate)
+              perms={
+                Array [
+                  "create_private_channel",
+                ]
+              }
+              teamId="test_team_id"
             >
-              <FormattedMessage
-                defaultMessage="Create a private channel"
-                id="channel_modal.privateGroup2"
-                values={Object {}}
-              />
-            </button>
+              <button
+                className="style--none color--link"
+                onClick={[MockFunction]}
+              >
+                <FormattedMessage
+                  defaultMessage="Create a private channel"
+                  id="channel_modal.privateGroup2"
+                  values={Object {}}
+                />
+              </button>
+            </Connect(TeamPermissionGate)>
           </div>
         </div>
         <div
@@ -564,16 +582,25 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
               id="channel_modal.publicChannel2"
               values={Object {}}
             />
-            <button
-              className="style--none color--link"
-              onClick={[MockFunction]}
+            <Connect(TeamPermissionGate)
+              perms={
+                Array [
+                  "create_private_channel",
+                ]
+              }
+              teamId="test_team_id"
             >
-              <FormattedMessage
-                defaultMessage="Create a private channel"
-                id="channel_modal.privateGroup2"
-                values={Object {}}
-              />
-            </button>
+              <button
+                className="style--none color--link"
+                onClick={[MockFunction]}
+              >
+                <FormattedMessage
+                  defaultMessage="Create a private channel"
+                  id="channel_modal.privateGroup2"
+                  values={Object {}}
+                />
+              </button>
+            </Connect(TeamPermissionGate)>
           </div>
         </div>
         <div
@@ -824,16 +851,25 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
               id="channel_modal.publicChannel2"
               values={Object {}}
             />
-            <button
-              className="style--none color--link"
-              onClick={[MockFunction]}
+            <Connect(TeamPermissionGate)
+              perms={
+                Array [
+                  "create_private_channel",
+                ]
+              }
+              teamId="test_team_id"
             >
-              <FormattedMessage
-                defaultMessage="Create a private channel"
-                id="channel_modal.privateGroup2"
-                values={Object {}}
-              />
-            </button>
+              <button
+                className="style--none color--link"
+                onClick={[MockFunction]}
+              >
+                <FormattedMessage
+                  defaultMessage="Create a private channel"
+                  id="channel_modal.privateGroup2"
+                  values={Object {}}
+                />
+              </button>
+            </Connect(TeamPermissionGate)>
           </div>
         </div>
         <div
@@ -1088,16 +1124,25 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
               id="channel_modal.privateGroup1"
               values={Object {}}
             />
-            <button
-              className="style--none color--link"
-              onClick={[MockFunction]}
+            <Connect(TeamPermissionGate)
+              perms={
+                Array [
+                  "create_public_channel",
+                ]
+              }
+              teamId="test_team_id"
             >
-              <FormattedMessage
-                defaultMessage="Create a public channel"
-                id="channel_modal.publicChannel1"
-                values={Object {}}
-              />
-            </button>
+              <button
+                className="style--none color--link"
+                onClick={[MockFunction]}
+              >
+                <FormattedMessage
+                  defaultMessage="Create a public channel"
+                  id="channel_modal.publicChannel1"
+                  values={Object {}}
+                />
+              </button>
+            </Connect(TeamPermissionGate)>
           </div>
         </div>
         <div

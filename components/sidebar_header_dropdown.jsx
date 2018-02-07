@@ -8,10 +8,10 @@ import {Dropdown} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
+import {Permissions} from 'mattermost-redux/constants';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 import {Constants, WebrtcActionTypes} from 'utils/constants.jsx';
 import {useSafeUrl} from 'utils/url';
@@ -22,10 +22,14 @@ import AddUsersToTeam from 'components/add_users_to_team';
 import TeamMembersModal from 'components/team_members_modal';
 import TeamSettingsModal from 'components/team_settings_modal.jsx';
 
+import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
+import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
+
 import SidebarHeaderDropdownButton from './sidebar_header_dropdown_button.jsx';
 
 export default class SidebarHeaderDropdown extends React.Component {
     static propTypes = {
+        teamId: PropTypes.string,
         teamType: PropTypes.string,
         teamDisplayName: PropTypes.string,
         teamName: PropTypes.string,
@@ -225,10 +229,7 @@ export default class SidebarHeaderDropdown extends React.Component {
         let teamLink = '';
         let inviteLink = '';
         let addMemberToTeam = '';
-        let manageLink = '';
         let sysAdminLink = '';
-        let isAdmin = false;
-        let isSystemAdmin = false;
         let teamSettings = null;
         let integrationsLink = null;
 
@@ -237,78 +238,74 @@ export default class SidebarHeaderDropdown extends React.Component {
         }
 
         if (currentUser != null) {
-            isAdmin = TeamStore.isTeamAdminForCurrentTeam() || UserStore.isSystemAdminForCurrentUser();
-            isSystemAdmin = UserStore.isSystemAdminForCurrentUser();
-
             inviteLink = (
-                <li>
-                    <button
-                        className='style--none'
-                        id='sendEmailInvite'
-                        onClick={this.showInviteMemberModal}
-                    >
-                        <FormattedMessage
-                            id='navbar_dropdown.inviteMember'
-                            defaultMessage='Send Email Invite'
-                        />
-                    </button>
-                </li>
+                <TeamPermissionGate
+                    teamId={this.props.teamId}
+                    perms={[Permissions.INVITE_USER]}
+                >
+                    <li>
+                        <button
+                            className='style--none'
+                            id='sendEmailInvite'
+                            onClick={this.showInviteMemberModal}
+                        >
+                            <FormattedMessage
+                                id='navbar_dropdown.inviteMember'
+                                defaultMessage='Send Email Invite'
+                            />
+                        </button>
+                    </li>
+                </TeamPermissionGate>
             );
 
             addMemberToTeam = (
-                <li>
-                    <button
-                        className='style--none'
-                        id='addUsersToTeam'
-                        onClick={this.showAddUsersToTeamModal}
-                    >
-                        <FormattedMessage
-                            id='navbar_dropdown.addMemberToTeam'
-                            defaultMessage='Add Members to Team'
-                        />
-                    </button>
-                </li>
+                <TeamPermissionGate
+                    teamId={this.props.teamId}
+                    perms={[Permissions.ADD_USER_TO_TEAM]}
+                >
+                    <li>
+                        <button
+                            className='style--none'
+                            id='addUsersToTeam'
+                            onClick={this.showAddUsersToTeamModal}
+                        >
+                            <FormattedMessage
+                                id='navbar_dropdown.addMemberToTeam'
+                                defaultMessage='Add Members to Team'
+                            />
+                        </button>
+                    </li>
+                </TeamPermissionGate>
             );
 
             if (this.props.teamType === Constants.OPEN_TEAM && config.EnableUserCreation === 'true') {
                 teamLink = (
-                    <li>
-                        <button
-                            className='style--none'
-                            id='getTeamInviteLink'
-                            onClick={this.showGetTeamInviteLinkModal}
-                        >
-                            <FormattedMessage
-                                id='navbar_dropdown.teamLink'
-                                defaultMessage='Get Team Invite Link'
-                            />
-                        </button>
-                    </li>
+                    <TeamPermissionGate
+                        teamId={this.props.teamId}
+                        perms={[Permissions.INVITE_USER]}
+                    >
+                        <li>
+                            <button
+                                className='style--none'
+                                id='getTeamInviteLink'
+                                onClick={this.showGetTeamInviteLinkModal}
+                            >
+                                <FormattedMessage
+                                    id='navbar_dropdown.teamLink'
+                                    defaultMessage='Get Team Invite Link'
+                                />
+                            </button>
+                        </li>
+                    </TeamPermissionGate>
                 );
-            }
-
-            if (global.window.mm_license.IsLicensed === 'true') {
-                if (config.RestrictTeamInvite === Constants.PERMISSIONS_SYSTEM_ADMIN && !isSystemAdmin) {
-                    teamLink = null;
-                    inviteLink = null;
-                    addMemberToTeam = null;
-                } else if (config.RestrictTeamInvite === Constants.PERMISSIONS_TEAM_ADMIN && !isAdmin) {
-                    teamLink = null;
-                    inviteLink = null;
-                    addMemberToTeam = null;
-                }
             }
         }
 
-        let membersName = (
-            <FormattedMessage
-                id='navbar_dropdown.manageMembers'
-                defaultMessage='Manage Members'
-            />
-        );
-
-        if (isAdmin) {
-            teamSettings = (
+        teamSettings = (
+            <TeamPermissionGate
+                teamId={this.props.teamId}
+                perms={[Permissions.MANAGE_TEAM]}
+            >
                 <li>
                     <button
                         className='style--none'
@@ -321,24 +318,35 @@ export default class SidebarHeaderDropdown extends React.Component {
                         />
                     </button>
                 </li>
-            );
-        } else {
-            membersName = (
-                <FormattedMessage
-                    id='navbar_dropdown.viewMembers'
-                    defaultMessage='View Members'
-                />
-            );
-        }
+            </TeamPermissionGate>
+        );
 
-        manageLink = (
+        const manageLink = (
             <li>
                 <button
                     id='manageMembers'
                     className='style--none'
                     onClick={this.showTeamMembersModal}
                 >
-                    {membersName}
+                    <TeamPermissionGate
+                        teamId={this.props.teamId}
+                        perms={[Permissions.MANAGE_TEAM]}
+                    >
+                        <FormattedMessage
+                            id='navbar_dropdown.manageMembers'
+                            defaultMessage='Manage Members'
+                        />
+                    </TeamPermissionGate>
+                    <TeamPermissionGate
+                        teamId={this.props.teamId}
+                        perms={[Permissions.MANAGE_TEAM]}
+                        invert={true}
+                    >
+                        <FormattedMessage
+                            id='navbar_dropdown.viewMembers'
+                            defaultMessage='View Members'
+                        />
+                    </TeamPermissionGate>
                 </button>
             </li>
         );
@@ -347,26 +355,29 @@ export default class SidebarHeaderDropdown extends React.Component {
             config.EnableIncomingWebhooks === 'true' ||
             config.EnableOutgoingWebhooks === 'true' ||
             config.EnableCommands === 'true' ||
-            (config.EnableOAuthServiceProvider === 'true' && (isSystemAdmin || config.EnableOnlyAdminIntegrations !== 'true'));
-        if (integrationsEnabled && (isAdmin || config.EnableOnlyAdminIntegrations !== 'true')) {
+            config.EnableOAuthServiceProvider === 'true';
+
+        if (integrationsEnabled) {
             integrationsLink = (
-                <li>
-                    <Link
-                        id='Integrations'
-                        to={'/' + this.props.teamName + '/integrations'}
-                        onClick={this.handleClick}
-                    >
-                        <FormattedMessage
-                            id='navbar_dropdown.integrations'
-                            defaultMessage='Integrations'
-                        />
-                    </Link>
-                </li>
+                <SystemPermissionGate perms={[Permissions.MANAGE_SLASH_COMMANDS, Permissions.MANAGE_OAUTH, Permissions.MANAGE_WEBHOOKS]}>
+                    <li>
+                        <Link
+                            id='Integrations'
+                            to={'/' + this.props.teamName + '/integrations'}
+                            onClick={this.handleClick}
+                        >
+                            <FormattedMessage
+                                id='navbar_dropdown.integrations'
+                                defaultMessage='Integrations'
+                            />
+                        </Link>
+                    </li>
+                </SystemPermissionGate>
             );
         }
 
-        if (isSystemAdmin) {
-            sysAdminLink = (
+        sysAdminLink = (
+            <SystemPermissionGate perms={[Permissions.MANAGE_SYSTEM]}>
                 <li>
                     <Link
                         id='systemConsole'
@@ -379,14 +390,17 @@ export default class SidebarHeaderDropdown extends React.Component {
                         />
                     </Link>
                 </li>
-            );
-        }
+            </SystemPermissionGate>
+        );
 
         const teams = [];
         let moreTeams = false;
 
-        if (config.EnableTeamCreation === 'true' || UserStore.isSystemAdminForCurrentUser()) {
-            teams.push(
+        teams.push(
+            <SystemPermissionGate
+                perms={[Permissions.CREATE_TEAM]}
+                key='newTeam_perm'
+            >
                 <li key='newTeam_li'>
                     <Link
                         id='createTeam'
@@ -400,8 +414,8 @@ export default class SidebarHeaderDropdown extends React.Component {
                         />
                     </Link>
                 </li>
-            );
-        }
+            </SystemPermissionGate>
+        );
 
         if (!config.ExperimentalPrimaryTeam) {
             const isAlreadyMember = this.state.teamMembers.reduce((result, item) => {
@@ -512,7 +526,6 @@ export default class SidebarHeaderDropdown extends React.Component {
                 <TeamMembersModal
                     onLoad={this.toggleDropdown}
                     onHide={this.hideTeamMembersModal}
-                    isAdmin={isAdmin}
                 />
             );
         }

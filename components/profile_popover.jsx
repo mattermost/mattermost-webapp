@@ -292,7 +292,7 @@ class ProfilePopover extends React.Component {
         }
 
         const email = this.props.user.email;
-        if (global.window.mm_config.ShowEmailAddress === 'true' || UserStore.isSystemAdminForCurrentUser() || this.props.user === UserStore.getCurrentUser()) {
+        if (email) {
             dataContent.push(
                 <div
                     data-toggle='tooltip'

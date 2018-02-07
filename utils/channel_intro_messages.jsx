@@ -4,6 +4,8 @@
 import React from 'react';
 import {FormattedDate, FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
+import {Permissions} from 'mattermost-redux/constants';
+
 import * as GlobalActions from 'actions/global_actions.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
@@ -14,8 +16,9 @@ import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import ProfilePicture from 'components/profile_picture.jsx';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
 import UserProfile from 'components/user_profile.jsx';
+import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
+import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
-import {showManagementOptions} from './channel_utils.jsx';
 import * as Utils from './utils.jsx';
 
 export function createChannelIntroMessage(channel, fullWidthIntro) {
@@ -174,15 +177,19 @@ export function createOffTopicIntroMessage(channel, centeredIntro) {
         />
     );
 
-    let setHeaderButton = createSetHeaderButton(channel);
-    if (!showManagementOption(channel)) {
-        setHeaderButton = null;
-    }
+    const teamId = TeamStore.getCurrentId();
+    const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
+    const setHeaderButton = (
+        <ChannelPermissionGate
+            teamId={teamId}
+            channelId={channel.id}
+            perms={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
+        >
+            {createSetHeaderButton(channel)}
+        </ChannelPermissionGate>
+    );
 
-    let channelInviteButton = createInviteChannelMemberButton(channel, uiType);
-    if (channel.type === Constants.PRIVATE_CHANNEL && !isCurrentUserPermitted(global.window.mm_config.RestrictPrivateChannelManageMembers)) {
-        channelInviteButton = null;
-    }
+    const channelInviteButton = createInviteChannelMemberButton(channel, uiType);
 
     return (
         <div
@@ -203,9 +210,11 @@ export function createOffTopicIntroMessage(channel, centeredIntro) {
 }
 
 export function createDefaultIntroMessage(channel, centeredIntro) {
-    let teamInviteLink = null;
-    if (isCurrentUserPermitted(global.window.mm_config.RestrictTeamInvite)) {
-        teamInviteLink = (
+    const teamInviteLink = (
+        <TeamPermissionGate
+            teamId={channel.team_id}
+            perms={[Permissions.INVITE_USER]}
+        >
             <span
                 className='intro-links color--link cursor--pointer'
                 onClick={GlobalActions.showGetTeamInviteLinkModal}
@@ -216,13 +225,20 @@ export function createDefaultIntroMessage(channel, centeredIntro) {
                     defaultMessage='Invite others to this team'
                 />
             </span>
-        );
-    }
+        </TeamPermissionGate>
+    );
 
-    let setHeaderButton = createSetHeaderButton(channel);
-    if (!showManagementOption(channel)) {
-        setHeaderButton = null;
-    }
+    const teamId = TeamStore.getCurrentId();
+    const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
+    const setHeaderButton = (
+        <ChannelPermissionGate
+            teamId={teamId}
+            channelId={channel.id}
+            perms={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
+        >
+            {createSetHeaderButton(channel)}
+        </ChannelPermissionGate>
+    );
 
     return (
         <div
@@ -332,15 +348,19 @@ export function createStandardIntroMessage(channel, centeredIntro) {
         );
     }
 
-    let setHeaderButton = createSetHeaderButton(channel);
-    if (!showManagementOption(channel)) {
-        setHeaderButton = null;
-    }
+    const teamId = TeamStore.getCurrentId();
+    const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
+    const setHeaderButton = (
+        <ChannelPermissionGate
+            teamId={teamId}
+            channelId={channel.id}
+            perms={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
+        >
+            {createSetHeaderButton(channel)}
+        </ChannelPermissionGate>
+    );
 
-    let channelInviteButton = createInviteChannelMemberButton(channel, uiType);
-    if (channel.type === Constants.PRIVATE_CHANNEL && !isCurrentUserPermitted(global.window.mm_config.RestrictPrivateChannelManageMembers)) {
-        channelInviteButton = null;
-    }
+    const channelInviteButton = createInviteChannelMemberButton(channel, uiType);
 
     return (
         <div
@@ -369,21 +389,28 @@ export function createStandardIntroMessage(channel, centeredIntro) {
 }
 
 function createInviteChannelMemberButton(channel, uiType) {
+    const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     return (
-        <ToggleModalButton
-            className='intro-links color--link'
-            dialogType={ChannelInviteModal}
-            dialogProps={{channel}}
+        <ChannelPermissionGate
+            channelId={channel.id}
+            teamId={channel.team_id}
+            perms={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
         >
-            <i className='fa fa-user-plus'/>
-            <FormattedMessage
-                id='intro_messages.invite'
-                defaultMessage='Invite others to this {type}'
-                values={{
-                    type: (uiType)
-                }}
-            />
-        </ToggleModalButton>
+            <ToggleModalButton
+                className='intro-links color--link'
+                dialogType={ChannelInviteModal}
+                dialogProps={{channel}}
+            >
+                <i className='fa fa-user-plus'/>
+                <FormattedMessage
+                    id='intro_messages.invite'
+                    defaultMessage='Invite others to this {type}'
+                    values={{
+                        type: (uiType)
+                    }}
+                />
+            </ToggleModalButton>
+        </ChannelPermissionGate>
     );
 }
 
@@ -401,36 +428,4 @@ function createSetHeaderButton(channel) {
             />
         </ToggleModalButton>
     );
-}
-
-function showManagementOption(channel) {
-    const isChannelAdmin = ChannelStore.isChannelAdminForCurrentChannel();
-    const isTeamAdmin = TeamStore.isTeamAdminForCurrentTeam();
-    const isSystemAdmin = UserStore.isSystemAdminForCurrentUser();
-
-    if (!showManagementOptions(channel, isChannelAdmin, isTeamAdmin, isSystemAdmin)) {
-        return false;
-    }
-
-    return true;
-}
-
-function isCurrentUserPermitted(permission) {
-    if (global.window.mm_license.IsLicensed !== 'true') {
-        return true;
-    }
-
-    const isChannelAdmin = ChannelStore.isChannelAdminForCurrentChannel();
-    const isTeamAdmin = TeamStore.isTeamAdminForCurrentTeam();
-    const isSystemAdmin = UserStore.isSystemAdminForCurrentUser();
-
-    if (
-        (permission === Constants.PERMISSIONS_SYSTEM_ADMIN && !isSystemAdmin) ||
-        (permission === Constants.PERMISSIONS_TEAM_ADMIN && !(isTeamAdmin || isSystemAdmin)) ||
-        (permission === Constants.PERMISSIONS_CHANNEL_ADMIN && !(isChannelAdmin || isTeamAdmin || isSystemAdmin))
-    ) {
-        return false;
-    }
-
-    return true;
 }

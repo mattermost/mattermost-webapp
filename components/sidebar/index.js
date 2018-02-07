@@ -19,8 +19,8 @@ import {
 } from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getBool as getBoolPreference} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentTeam, isCurrentUserCurrentTeamAdmin} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {goToChannelById} from 'actions/channel_actions.jsx';
 
@@ -68,9 +68,7 @@ function mapStateToProps(state) {
         currentTeammate,
         currentTeam: getCurrentTeam(state),
         currentUser: getCurrentUser(state),
-        unreads: getUnreads(state),
-        isSystemAdmin: isCurrentUserSystemAdmin(state),
-        isTeamAdmin: isCurrentUserCurrentTeamAdmin(state)
+        unreads: getUnreads(state)
     };
 }
 

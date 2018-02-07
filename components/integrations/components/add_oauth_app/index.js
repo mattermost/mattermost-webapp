@@ -4,15 +4,12 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {addOAuthApp} from 'mattermost-redux/actions/integrations';
-import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import AddOAuthApp from './add_oauth_app.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
-        ...ownProps,
-        addOAuthAppRequest: state.requests.integrations.addOAuthApp,
-        isSystemAdmin: isCurrentUserSystemAdmin(state)
+        addOAuthAppRequest: state.requests.integrations.addOAuthApp
     };
 }
 

@@ -6,16 +6,18 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
+import {Permissions} from 'mattermost-redux/constants';
+
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
 import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
-import * as Utils from 'utils/utils.jsx';
+
 import logoImage from 'images/logo.png';
 import AnnouncementBar from 'components/announcement_bar';
 import BackButton from 'components/common/back_button.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
+import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 
 import SelectTeamItem from './components/select_team_item.jsx';
 
@@ -86,8 +88,6 @@ export default class SelectTeam extends React.Component {
     }
 
     render() {
-        const isSystemAdmin = Utils.isSystemAdmin(UserStore.getCurrentUser().roles);
-
         let openContent;
 
         if (!this.state.loaded || this.state.loadingTeamId) {
@@ -123,25 +123,25 @@ export default class SelectTeam extends React.Component {
                 }
             }
 
-            if (openTeamContents.length === 0 && (global.window.mm_config.EnableTeamCreation === 'true' || isSystemAdmin)) {
+            if (openTeamContents.length === 0) {
                 openTeamContents = (
                     <div className='signup-team-dir-err'>
                         <div>
-                            <FormattedMessage
-                                id='signup_team.no_open_teams_canCreate'
-                                defaultMessage='No teams are available to join. Please create a new team or ask your administrator for an invite.'
-                            />
-                        </div>
-                    </div>
-                );
-            } else if (openTeamContents.length === 0) {
-                openTeamContents = (
-                    <div className='signup-team-dir-err'>
-                        <div>
-                            <FormattedMessage
-                                id='signup_team.no_open_teams'
-                                defaultMessage='No teams are available to join. Please ask your administrator for an invite.'
-                            />
+                            <SystemPermissionGate perms={[Permissions.CREATE_TEAM]}>
+                                <FormattedMessage
+                                    id='signup_team.no_open_teams_canCreate'
+                                    defaultMessage='No teams are available to join. Please create a new team or ask your administrator for an invite.'
+                                />
+                            </SystemPermissionGate>
+                            <SystemPermissionGate
+                                perms={[Permissions.CREATE_TEAM]}
+                                invert={true}
+                            >
+                                <FormattedMessage
+                                    id='signup_team.no_open_teams'
+                                    defaultMessage='No teams are available to join. Please ask your administrator for an invite.'
+                                />
+                            </SystemPermissionGate>
                         </div>
                     </div>
                 );
@@ -166,19 +166,8 @@ export default class SelectTeam extends React.Component {
             );
         }
 
-        let teamHelp = null;
-        if (isSystemAdmin && (global.window.mm_config.EnableTeamCreation === 'false')) {
-            teamHelp = (
-                <FormattedMessage
-                    id='login.createTeamAdminOnly'
-                    defaultMessage='This option is only available for System Administrators, and does not show up for other users.'
-                />
-            );
-        }
-
-        let teamSignUp;
-        if (isSystemAdmin || global.window.mm_config.EnableTeamCreation === 'true') {
-            teamSignUp = (
+        const teamSignUp = (
+            <SystemPermissionGate perms={[Permissions.CREATE_TEAM]}>
                 <div className='margin--extra'>
                     <Link
                         to='/create_team'
@@ -189,27 +178,26 @@ export default class SelectTeam extends React.Component {
                             defaultMessage='Create a new team'
                         />
                     </Link>
-                    <div>
-                        {teamHelp}
-                    </div>
                 </div>
-            );
-        }
+            </SystemPermissionGate>
+        );
 
         let adminConsoleLink;
-        if (isSystemAdmin && !UserAgent.isMobileApp()) {
+        if (!UserAgent.isMobileApp()) {
             adminConsoleLink = (
-                <div className='margin--extra hidden-xs'>
-                    <Link
-                        to='/admin_console'
-                        className='signup-team-login'
-                    >
-                        <FormattedMessage
-                            id='signup_team_system_console'
-                            defaultMessage='Go to System Console'
-                        />
-                    </Link>
-                </div>
+                <SystemPermissionGate perms={[Permissions.MANAGE_SYSTEM]}>
+                    <div className='margin--extra hidden-xs'>
+                        <Link
+                            to='/admin_console'
+                            className='signup-team-login'
+                        >
+                            <FormattedMessage
+                                id='signup_team_system_console'
+                                defaultMessage='Go to System Console'
+                            />
+                        </Link>
+                    </div>
+                </SystemPermissionGate>
             );
         }
 

@@ -26,7 +26,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
         /**
         *  Data used for checking modification privileges
         */
-        isAdmin: PropTypes.bool,
+        canManageOtherWebhooks: PropTypes.bool,
 
         /**
         * Data used in passing down as props for showing webhook details
@@ -106,7 +106,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
 
     render() {
         const incomingWebhooks = this.props.incomingWebhooks.sort(this.incomingWebhookCompare).map((incomingWebhook) => {
-            const canChange = this.props.isAdmin || this.props.user.id === incomingWebhook.user_id;
+            const canChange = this.props.canManageOtherWebhooks || this.props.user.id === incomingWebhook.user_id;
             const channel = this.props.channels[incomingWebhook.channel_id];
             return (
                 <InstalledIncomingWebhook

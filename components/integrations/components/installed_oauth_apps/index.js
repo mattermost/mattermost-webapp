@@ -5,15 +5,15 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as Actions from 'mattermost-redux/actions/integrations';
 import {getOAuthApps} from 'mattermost-redux/selectors/entities/integrations';
-import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import {haveISystemPerm} from 'mattermost-redux/selectors/entities/roles';
+import {Permissions} from 'mattermost-redux/constants';
 
 import InstalledOAuthApps from './installed_oauth_apps.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
-        ...ownProps,
+        canManageOauth: haveISystemPerm(state, {perm: Permissions.MANAGE_OAUTH}),
         oauthApps: getOAuthApps(state),
-        isSystemAdmin: isCurrentUserSystemAdmin(state),
         regenOAuthAppSecretRequest: state.requests.integrations.updateOAuthApp
     };
 }

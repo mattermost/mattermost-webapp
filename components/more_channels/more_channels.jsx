@@ -6,15 +6,15 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+import Permissions from 'mattermost-redux/constants/permissions';
 
 import {browserHistory} from 'utils/browser_history';
 import {joinChannel, searchMoreChannels} from 'actions/channel_actions.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
-import {showCreateOption} from 'utils/channel_utils.jsx';
-import Constants from 'utils/constants.jsx';
+
 import SearchableChannelList from 'components/searchable_channel_list.jsx';
+import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
 const CHANNELS_CHUNK_SIZE = 50;
 const CHANNELS_PER_PAGE = 50;
@@ -139,36 +139,38 @@ export default class MoreChannels extends React.Component {
             serverError = <div className='form-group has-error'><label className='control-label'>{this.state.serverError}</label></div>;
         }
 
-        let createNewChannelButton = (
-            <button
-                id='createNewChannel'
-                type='button'
-                className='btn btn-primary channel-create-btn'
-                onClick={this.props.handleNewChannel}
+        const createNewChannelButton = (
+            <TeamPermissionGate
+                teamId={TeamStore.getCurrentId()}
+                perms={[Permissions.CREATE_PUBLIC_CHANNEL]}
             >
-                <FormattedMessage
-                    id='more_channels.create'
-                    defaultMessage='Create New Channel'
-                />
-            </button>
+                <button
+                    id='createNewChannel'
+                    type='button'
+                    className='btn btn-primary channel-create-btn'
+                    onClick={this.props.handleNewChannel}
+                >
+                    <FormattedMessage
+                        id='more_channels.create'
+                        defaultMessage='Create New Channel'
+                    />
+                </button>
+            </TeamPermissionGate>
         );
 
-        let createChannelHelpText = (
-            <p className='secondary-message'>
-                <FormattedMessage
-                    id='more_channels.createClick'
-                    defaultMessage="Click 'Create New Channel' to make a new one"
-                />
-            </p>
+        const createChannelHelpText = (
+            <TeamPermissionGate
+                teamId={TeamStore.getCurrentId()}
+                perms={[Permissions.CREATE_PUBLIC_CHANNEL]}
+            >
+                <p className='secondary-message'>
+                    <FormattedMessage
+                        id='more_channels.createClick'
+                        defaultMessage="Click 'Create New Channel' to make a new one"
+                    />
+                </p>
+            </TeamPermissionGate>
         );
-
-        const isTeamAdmin = TeamStore.isTeamAdminForCurrentTeam();
-        const isSystemAdmin = UserStore.isSystemAdminForCurrentUser();
-
-        if (!showCreateOption(Constants.OPEN_CHANNEL, isTeamAdmin, isSystemAdmin)) {
-            createNewChannelButton = null;
-            createChannelHelpText = null;
-        }
 
         return (
             <Modal
