@@ -103,36 +103,30 @@ export default class SingleImageView extends React.PureComponent {
         this.fileImage = node;
     }
 
-    computeImageDimension() {
+    computeImageHeight = () => {
         const {fileInfo} = this.props;
         const {viewPortWidth} = this.state;
 
-        let previewWidth = fileInfo.width;
         let previewHeight = fileInfo.height;
 
-        if (previewWidth > viewPortWidth) {
+        if (viewPortWidth && fileInfo.width > viewPortWidth) {
             const origRatio = fileInfo.height / fileInfo.width;
-            previewWidth = Math.floor(Math.min(PREVIEW_IMAGE_MAX_WIDTH, fileInfo.width, viewPortWidth));
-            previewHeight = Math.floor(previewWidth * origRatio);
+            previewHeight = Math.floor(fileInfo.width * origRatio);
         }
 
         if (previewHeight > PREVIEW_IMAGE_MAX_HEIGHT) {
             const heightRatio = PREVIEW_IMAGE_MAX_HEIGHT / previewHeight;
             previewHeight = PREVIEW_IMAGE_MAX_HEIGHT;
-            previewWidth = Math.floor(previewWidth * heightRatio);
         }
 
-        return {previewWidth, previewHeight};
+        return previewHeight;
     }
 
     render() {
         const {fileInfo} = this.props;
         const {loaded} = this.state;
 
-        const {
-            previewWidth,
-            previewHeight
-        } = this.computeImageDimension();
+        const previewHeight = this.computeImageHeight();
 
         let minPreviewClass = '';
         if (
@@ -169,8 +163,8 @@ export default class SingleImageView extends React.PureComponent {
         let loadingImagePreview;
 
         let fadeInClass = '';
-        let imageLoadedDimension = {width: previewWidth, height: previewHeight};
-        let imageContainerDimension = {width: previewWidth, height: previewHeight};
+        let imageStyle = {height: previewHeight};
+        const imageContainerStyle = {height: previewHeight};
         if (loaded) {
             viewImageModal = (
                 <ViewImageModal
@@ -181,8 +175,7 @@ export default class SingleImageView extends React.PureComponent {
             );
 
             fadeInClass = 'image-fade-in';
-            imageLoadedDimension = {cursor: 'pointer'};
-            imageContainerDimension = {};
+            imageStyle = {cursor: 'pointer'};
         } else {
             loadingImagePreview = (
                 <LoadingImagePreview
@@ -203,13 +196,15 @@ export default class SingleImageView extends React.PureComponent {
                 >
                     {fileHeader}
                     <div
-                        style={imageContainerDimension}
                         className='image-container'
                     >
-                        <div className={`image-loaded ${fadeInClass}`}>
+                        <div
+                            className={`image-loaded ${fadeInClass}`}
+                            style={imageContainerStyle}
+                        >
                             <img
                                 ref={this.setImageLoadedRef}
-                                style={imageLoadedDimension}
+                                style={imageStyle}
                                 className={`${minPreviewClass} ${svgClass}`}
                                 onClick={this.handleImageClick}
                             />
