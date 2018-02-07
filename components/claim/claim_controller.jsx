@@ -47,7 +47,7 @@ export default class ClaimController extends React.Component {
                                 )}
                                 />
                                 <Route
-                                    path={`${this.props.match.url}/email_to_oath`}
+                                    path={`${this.props.match.url}/email_to_oauth`}
                                     render={(props) => (
                                         <EmailToOauth
                                             {...this.state}
