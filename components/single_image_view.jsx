@@ -12,10 +12,11 @@ import {
     localizeMessage
 } from 'utils/utils';
 
+import {postListScrollChange} from 'actions/global_actions.jsx';
+
 import LoadingImagePreview from 'components/loading_image_preview';
 import ViewImageModal from 'components/view_image.jsx';
 
-const PREVIEW_IMAGE_MAX_WIDTH = 1024;
 const PREVIEW_IMAGE_MAX_HEIGHT = 350;
 const PREVIEW_IMAGE_MIN_DIMENSION = 50;
 
@@ -48,6 +49,9 @@ export default class SingleImageView extends React.PureComponent {
         window.addEventListener('resize', this.handleResize);
         this.setViewPortWidth();
         this.loadImage(this.props.fileInfo);
+
+        // Timeout used to delay execution until after current render cycle
+        setTimeout(postListScrollChange, 0);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -115,7 +119,6 @@ export default class SingleImageView extends React.PureComponent {
         }
 
         if (previewHeight > PREVIEW_IMAGE_MAX_HEIGHT) {
-            const heightRatio = PREVIEW_IMAGE_MAX_HEIGHT / previewHeight;
             previewHeight = PREVIEW_IMAGE_MAX_HEIGHT;
         }
 
