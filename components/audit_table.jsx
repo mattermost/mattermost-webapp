@@ -442,6 +442,8 @@ export function formatAuditInfo(audit, formatMessage) {
                 auditDesc = formatMessage(holders.attemptedLogin);
             } else if (userInfo[0] === 'success') {
                 auditDesc = formatMessage(holders.successfullLogin);
+            } else if (userInfo[0] === 'authenticated') {
+                // empty
             } else if (userInfo[0]) {
                 auditDesc = formatMessage(holders.failedLogin);
             }
