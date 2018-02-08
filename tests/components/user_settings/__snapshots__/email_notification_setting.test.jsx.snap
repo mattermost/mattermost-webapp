@@ -1,10 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/user_settings/EmailNotificationSetting should match snapshot 1`] = `
+exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot 1`] = `
 <EmailNotificationSetting
   activeSection="email"
   emailInterval={0}
   enableEmail={false}
+  enableEmailBatching={false}
   intl={
     Object {
       "defaultFormats": Object {},
@@ -33,7 +34,9 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
   onCancel={[MockFunction]}
   onSubmit={[MockFunction]}
   saving={false}
+  sendEmailNotifications={true}
   serverError=""
+  siteName="Mattermost"
   updateSection={[MockFunction]}
 >
   <SettingItemMax
@@ -255,7 +258,7 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
 </EmailNotificationSetting>
 `;
 
-exports[`components/user_settings/EmailNotificationSetting should match snapshot, active section != email and SendEmailNotifications !== true 1`] = `
+exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot, active section != email and SendEmailNotifications !== true 1`] = `
 <SettingItemMin
   describe={
     <FormattedMessage
@@ -271,7 +274,7 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
 />
 `;
 
-exports[`components/user_settings/EmailNotificationSetting should match snapshot, active section != email and SendEmailNotifications = true 1`] = `
+exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot, active section != email and SendEmailNotifications = true 1`] = `
 <SettingItemMin
   describe={
     <FormattedMessage
@@ -287,7 +290,7 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
 />
 `;
 
-exports[`components/user_settings/EmailNotificationSetting should match snapshot, active section != email, SendEmailNotifications = true and enableEmail = true 1`] = `
+exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot, active section != email, SendEmailNotifications = true and enableEmail = true 1`] = `
 <SettingItemMin
   describe={
     <FormattedMessage
@@ -307,11 +310,12 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
 />
 `;
 
-exports[`components/user_settings/EmailNotificationSetting should match snapshot, enabled email batching 1`] = `
+exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot, enabled email batching 1`] = `
 <EmailNotificationSetting
   activeSection="email"
   emailInterval={0}
   enableEmail={false}
+  enableEmailBatching={true}
   intl={
     Object {
       "defaultFormats": Object {},
@@ -340,7 +344,9 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
   onCancel={[MockFunction]}
   onSubmit={[MockFunction]}
   saving={false}
+  sendEmailNotifications={true}
   serverError=""
+  siteName="Mattermost"
   updateSection={[MockFunction]}
 >
   <SettingItemMax
@@ -676,7 +682,7 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
 </EmailNotificationSetting>
 `;
 
-exports[`components/user_settings/EmailNotificationSetting should match snapshot, not send email notifications 1`] = `
+exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot, not send email notifications 1`] = `
 <SettingItemMax
   infoPosition="bottom"
   inputs={
@@ -699,7 +705,7 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
 />
 `;
 
-exports[`components/user_settings/EmailNotificationSetting should match snapshot, on serverError 1`] = `
+exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot, on serverError 1`] = `
 <SettingItemMax
   infoPosition="bottom"
   inputs={

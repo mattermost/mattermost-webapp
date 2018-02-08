@@ -15,7 +15,7 @@ import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 
 import ManageLanguages from './manage_languages.jsx';
-import ThemeSetting from './user_settings_theme.jsx';
+import ThemeSetting from './user_settings_theme';
 
 const Preferences = Constants.Preferences;
 
@@ -324,10 +324,9 @@ export default class UserSettingsDisplay extends React.Component {
             }
         });
 
-        const isEnableLinkPreviews = global.window.mm_config.EnableLinkPreviews === 'true';
         let linkPreviewSection = null;
 
-        if (isEnableLinkPreviews) {
+        if (this.props.enableLinkPreviews) {
             linkPreviewSection = this.createSection({
                 section: 'linkpreview',
                 display: 'linkPreviewDisplay',
@@ -456,7 +455,7 @@ export default class UserSettingsDisplay extends React.Component {
         let userLocale = this.props.user.locale;
         if (this.props.activeSection === 'languages') {
             if (!I18n.isLanguageAvailable(userLocale)) {
-                userLocale = global.window.mm_config.DefaultClientLocale;
+                userLocale = this.props.defaultClientLocale;
             }
             languagesSection = (
                 <div>
@@ -473,7 +472,7 @@ export default class UserSettingsDisplay extends React.Component {
             if (I18n.isLanguageAvailable(userLocale)) {
                 locale = I18n.getLanguageInfo(userLocale).name;
             } else {
-                locale = I18n.getLanguageInfo(global.window.mm_config.DefaultClientLocale).name;
+                locale = I18n.getLanguageInfo(this.props.defaultClientLocale).name;
             }
 
             languagesSection = (
@@ -501,7 +500,7 @@ export default class UserSettingsDisplay extends React.Component {
         }
 
         let themeSection;
-        if (global.mm_config.EnableThemeSelection !== 'false') {
+        if (this.props.enableThemeSelection) {
             themeSection = (
                 <div>
                     <ThemeSetting
@@ -509,6 +508,7 @@ export default class UserSettingsDisplay extends React.Component {
                         updateSection={this.updateSection}
                         setRequireConfirm={this.props.setRequireConfirm}
                         setEnforceFocus={this.props.setEnforceFocus}
+                        allowCustomThemes={this.props.allowCustomThemes}
                     />
                     <div className='divider-dark'/>
                 </div>
@@ -576,5 +576,9 @@ UserSettingsDisplay.propTypes = {
     closeModal: PropTypes.func.isRequired,
     collapseModal: PropTypes.func.isRequired,
     setRequireConfirm: PropTypes.func.isRequired,
-    setEnforceFocus: PropTypes.func.isRequired
+    setEnforceFocus: PropTypes.func.isRequired,
+    allowCustomThemes: PropTypes.bool,
+    enableLinkPreviews: PropTypes.bool,
+    defaultClientLocale: PropTypes.string,
+    enableThemeSelection: PropTypes.bool
 };

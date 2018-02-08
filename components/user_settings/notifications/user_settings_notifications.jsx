@@ -255,7 +255,7 @@ export default class NotificationsTab extends React.Component {
             let extraInfo = null;
             let submit = null;
 
-            if (global.window.mm_config.SendPushNotifications === 'true') {
+            if (this.props.sendPushNotifications) {
                 const pushActivityRadio = [false, false, false];
                 if (this.state.pushActivity === NotificationLevels.ALL) {
                     pushActivityRadio[0] = true;
@@ -471,14 +471,7 @@ export default class NotificationsTab extends React.Component {
                     defaultMessage='Never'
                 />
             );
-        } else if (global.window.mm_config.SendPushNotifications === 'false') {
-            describe = (
-                <FormattedMessage
-                    id='user.settings.push_notification.disabled'
-                    defaultMessage='Disabled by System Administrator'
-                />
-            );
-        } else {
+        } else if (this.props.sendPushNotifications) {
             if (this.state.pushStatus === Constants.UserStatuses.AWAY) { //eslint-disable-line no-lonely-if
                 describe = (
                     <FormattedMessage
@@ -501,6 +494,13 @@ export default class NotificationsTab extends React.Component {
                     />
                 );
             }
+        } else {
+            describe = (
+                <FormattedMessage
+                    id='user.settings.push_notification.disabled'
+                    defaultMessage='Disabled by System Administrator'
+                />
+            );
         }
 
         return (
@@ -882,6 +882,9 @@ export default class NotificationsTab extends React.Component {
                         saving={this.state.isSaving}
                         serverError={this.state.serverError}
                         focused={this.props.prevActiveSection === prevSections.email}
+                        sendEmailNotifications={this.props.sendEmailNotifications}
+                        enableEmailBatching={this.props.enableEmailBatching}
+                        siteName={this.props.siteName}
                     />
                     <div className='divider-light'/>
                     {pushNotificationSection}
@@ -897,12 +900,6 @@ export default class NotificationsTab extends React.Component {
     }
 }
 
-NotificationsTab.defaultProps = {
-    user: null,
-    activeSection: '',
-    prevActiveSection: '',
-    activeTab: ''
-};
 NotificationsTab.propTypes = {
     user: PropTypes.object,
     updateSection: PropTypes.func,
@@ -911,5 +908,16 @@ NotificationsTab.propTypes = {
     prevActiveSection: PropTypes.string,
     activeTab: PropTypes.string,
     closeModal: PropTypes.func.isRequired,
-    collapseModal: PropTypes.func.isRequired
+    collapseModal: PropTypes.func.isRequired,
+    sendEmailNotifications: PropTypes.bool,
+    enableEmailBatching: PropTypes.bool,
+    siteName: PropTypes.string,
+    sendPushNotifications: PropTypes.bool
+};
+
+NotificationsTab.defaultProps = {
+    user: null,
+    activeSection: '',
+    prevActiveSection: '',
+    activeTab: ''
 };

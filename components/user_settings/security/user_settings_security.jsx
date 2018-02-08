@@ -51,6 +51,42 @@ export default class SecurityTab extends React.Component {
          */
         canUseAccessTokens: PropTypes.bool,
 
+        // Whether or not this instance of Mattermost is licensed.
+        isLicensed: PropTypes.bool,
+
+        // Whether or not this instance of Mattermost is licensed to use multi-factor authentication.
+        mfaLicensed: PropTypes.bool,
+
+        // Whether or not OAuth applications are enabled.
+        enableOAuthServiceProvider: PropTypes.bool,
+
+        // Whether or not multi-factor authentication is enabled.
+        enableMultifactorAuthentication: PropTypes.bool,
+
+        // Whether or not multi-factor authentication is enforced.
+        enforceMultifactorAuthentication: PropTypes.bool,
+
+        // Whether or not sign-up with email is enabled.
+        enableSignUpWithEmail: PropTypes.bool,
+
+        // Whether or not sign-up with GitLab is enabled.
+        enableSignUpWithGitLab: PropTypes.bool,
+
+        // Whether or not sign-up with Google is enabled.
+        enableSignUpWithGoogle: PropTypes.bool,
+
+        // Whether or not sign-up with LDAP is enabled.
+        enableLdap: PropTypes.bool,
+
+        // Whether or not sign-up with SAML is enabled.
+        enableSaml: PropTypes.bool,
+
+        // Whether or not sign-up with Office 365 is enabled.
+        enableSignUpWithOffice365: PropTypes.bool,
+
+        // Whether or not the experimental authentication transfer is enabled.
+        experimentalEnableAuthenticationTransfer: PropTypes.bool,
+
         actions: PropTypes.shape({
             getMe: PropTypes.func.isRequired,
 
@@ -107,7 +143,7 @@ export default class SecurityTab extends React.Component {
     }
 
     componentDidMount() {
-        if (global.mm_config.EnableOAuthServiceProvider === 'true') {
+        if (this.props.enableOAuthServiceProvider) {
             getAuthorizedApps(
                 (authorizedApps) => {
                     this.setState({authorizedApps, serverError: null}); //eslint-disable-line react/no-did-mount-set-state
@@ -183,9 +219,9 @@ export default class SecurityTab extends React.Component {
     removeMfa = () => {
         deactivateMfa(
             () => {
-                if (global.window.mm_license.MFA === 'true' &&
-                        global.window.mm_config.EnableMultifactorAuthentication === 'true' &&
-                        global.window.mm_config.EnforceMultifactorAuthentication === 'true') {
+                if (this.props.mfaLicensed &&
+                        this.props.enableMultifactorAuthentication &&
+                        this.props.enforceMultifactorAuthentication) {
                     window.location.href = '/mfa/setup';
                     return;
                 }
@@ -279,7 +315,7 @@ export default class SecurityTab extends React.Component {
                 let mfaRemoveHelp;
                 let mfaButtonText;
 
-                if (global.window.mm_config.EnforceMultifactorAuthentication === 'true') {
+                if (this.props.enforceMultifactorAuthentication) {
                     mfaRemoveHelp = (
                         <FormattedMessage
                             id='user.settings.mfa.requiredHelp'
@@ -652,7 +688,7 @@ export default class SecurityTab extends React.Component {
             let samlOption;
 
             if (user.auth_service === '') {
-                if (global.window.mm_config.EnableSignUpWithGitLab === 'true') {
+                if (this.props.enableSignUpWithGitLab) {
                     gitlabOption = (
                         <div className='padding-bottom x2'>
                             <Link
@@ -669,7 +705,7 @@ export default class SecurityTab extends React.Component {
                     );
                 }
 
-                if (global.window.mm_config.EnableSignUpWithGoogle === 'true') {
+                if (this.props.enableSignUpWithGoogle) {
                     googleOption = (
                         <div className='padding-bottom x2'>
                             <Link
@@ -686,7 +722,7 @@ export default class SecurityTab extends React.Component {
                     );
                 }
 
-                if (global.window.mm_config.EnableSignUpWithOffice365 === 'true') {
+                if (this.props.enableSignUpWithOffice365) {
                     office365Option = (
                         <div className='padding-bottom x2'>
                             <Link
@@ -703,7 +739,7 @@ export default class SecurityTab extends React.Component {
                     );
                 }
 
-                if (global.window.mm_config.EnableLdap === 'true') {
+                if (this.props.enableLdap) {
                     ldapOption = (
                         <div className='padding-bottom x2'>
                             <Link
@@ -720,7 +756,7 @@ export default class SecurityTab extends React.Component {
                     );
                 }
 
-                if (global.window.mm_config.EnableSaml === 'true') {
+                if (this.props.enableSaml) {
                     samlOption = (
                         <div className='padding-bottom x2'>
                             <Link
@@ -736,7 +772,7 @@ export default class SecurityTab extends React.Component {
                         </div>
                     );
                 }
-            } else if (global.window.mm_config.EnableSignUpWithEmail === 'true') {
+            } else if (this.props.enableSignUpWithEmail) {
                 let link;
                 if (user.auth_service === Constants.LDAP_SERVICE) {
                     link = '/claim/ldap_to_email?email=' + encodeURIComponent(user.email);
@@ -1408,32 +1444,32 @@ export default class SecurityTab extends React.Component {
 
     render() {
         const user = this.props.user;
-        const config = window.mm_config;
 
         const passwordSection = this.createPasswordSection();
 
         let numMethods = 0;
-        numMethods = config.EnableSignUpWithGitLab === 'true' ? numMethods + 1 : numMethods;
-        numMethods = config.EnableSignUpWithGoogle === 'true' ? numMethods + 1 : numMethods;
-        numMethods = config.EnableLdap === 'true' ? numMethods + 1 : numMethods;
-        numMethods = config.EnableSaml === 'true' ? numMethods + 1 : numMethods;
+        numMethods = this.props.enableSignUpWithGitLab ? numMethods + 1 : numMethods;
+        numMethods = this.props.enableSignUpWithGoogle ? numMethods + 1 : numMethods;
+        numMethods = this.props.enableSignUpWithOffice365 ? numMethods + 1 : numMethods;
+        numMethods = this.props.enableLdap ? numMethods + 1 : numMethods;
+        numMethods = this.props.enableSaml ? numMethods + 1 : numMethods;
 
         // If there are other sign-in methods and either email is enabled or the user's account is email, then allow switching
         let signInSection;
-        if ((config.EnableSignUpWithEmail === 'true' || user.auth_service === '') &&
-            numMethods > 0 && config.ExperimentalEnableAuthenticationTransfer === 'true') {
+        if ((this.props.enableSignUpWithEmail || user.auth_service === '') &&
+            numMethods > 0 && this.props.experimentalEnableAuthenticationTransfer) {
             signInSection = this.createSignInSection();
         }
 
         let mfaSection;
-        if (config.EnableMultifactorAuthentication === 'true' &&
-                global.window.mm_license.IsLicensed === 'true' &&
+        if (this.props.enableMultifactorAuthentication &&
+                this.props.isLicensed &&
                 (user.auth_service === '' || user.auth_service === Constants.LDAP_SERVICE)) {
             mfaSection = this.createMfaSection();
         }
 
         let oauthSection;
-        if (config.EnableOAuthServiceProvider === 'true') {
+        if (this.props.enableOAuthServiceProvider) {
             oauthSection = this.createOAuthAppsSection();
         }
 

@@ -6,15 +6,16 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import PropTypes from 'prop-types';
 
 import ModalStore from 'stores/modal_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import Constants, {GroupUnreadChannels} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-import ConfirmModal from '../confirm_modal.jsx';
+import ConfirmModal from '../../confirm_modal.jsx';
 import {AsyncComponent} from 'components/async_load';
-import loadUserSettings from 'bundle-loader?lazy!./user_settings.jsx';
-import loadSettingsSidebar from 'bundle-loader?lazy!../settings_sidebar.jsx';
+import loadUserSettings from 'bundle-loader?lazy!../user_settings.jsx';
+import loadSettingsSidebar from 'bundle-loader?lazy!../../settings_sidebar.jsx';
 
 const holders = defineMessages({
     general: {
@@ -233,8 +234,8 @@ class UserSettingsModal extends React.Component {
         tabs.push({name: 'security', uiName: formatMessage(holders.security), icon: 'icon fa fa-lock'});
         tabs.push({name: 'notifications', uiName: formatMessage(holders.notifications), icon: 'icon fa fa-exclamation-circle'});
         tabs.push({name: 'display', uiName: formatMessage(holders.display), icon: 'icon fa fa-eye'});
-        if (global.mm_config.CloseUnusedDirectMessages === 'true' ||
-            global.mm_config.ExperimentalGroupUnreadChannels !== GroupUnreadChannels.DISABLED) {
+        if (this.props.closeUnusedDirectMessages ||
+            this.props.experimentalGroupUnreadChannels !== GroupUnreadChannels.DISABLED) {
             tabs.push({name: 'sidebar', uiName: formatMessage(holders.sidebar), icon: 'icon fa fa-columns'});
         }
         tabs.push({name: 'advanced', uiName: formatMessage(holders.advanced), icon: 'icon fa fa-list-alt'});
@@ -304,7 +305,9 @@ class UserSettingsModal extends React.Component {
 }
 
 UserSettingsModal.propTypes = {
-    intl: intlShape.isRequired
+    intl: intlShape.isRequired,
+    closeUnusedDirectMessages: PropTypes.bool,
+    experimentalGroupUnreadChannels: PropTypes.string
 };
 
 export default injectIntl(UserSettingsModal);
