@@ -1086,7 +1086,7 @@ export const Constants = {
     ALLOW_EDIT_POST_ALWAYS: 'always',
     ALLOW_EDIT_POST_NEVER: 'never',
     ALLOW_EDIT_POST_TIME_LIMIT: 'time_limit',
-    DEFAULT_POST_EDIT_TIME_LIMIT: 300,
+    UNSET_POST_EDIT_TIME_LIMIT: -1,
     MENTION_CHANNELS: 'mention.channels',
     MENTION_MORE_CHANNELS: 'mention.morechannels',
     MENTION_MEMBERS: 'mention.members',
