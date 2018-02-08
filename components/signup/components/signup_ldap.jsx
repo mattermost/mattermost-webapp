@@ -99,10 +99,10 @@ export default class SignupLdap extends React.Component {
     finishSignup() {
         loadMe().then(
             () => {
-                const query = (new URLSearchParams(this.props.location.search)).get('');
+                const redirectTo = (new URLSearchParams(this.props.location.search)).get('redirect_to');
                 GlobalActions.loadDefaultLocale();
-                if (query.redirect_to) {
-                    browserHistory.push(query.redirect_to);
+                if (redirectTo) {
+                    browserHistory.push(redirectTo);
                 } else {
                     GlobalActions.redirectUserToDefaultTeam();
                 }
