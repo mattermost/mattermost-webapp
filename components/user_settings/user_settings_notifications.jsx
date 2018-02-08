@@ -110,24 +110,10 @@ export default class NotificationsTab extends React.Component {
     constructor(props) {
         super(props);
 
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleCancel = this.handleCancel.bind(this);
-        this.updateSection = this.updateSection.bind(this);
-        this.setStateValue = this.setStateValue.bind(this);
-        this.onListenerChange = this.onListenerChange.bind(this);
-        this.handleEmailRadio = this.handleEmailRadio.bind(this);
-        this.updateUsernameKey = this.updateUsernameKey.bind(this);
-        this.updateFirstNameKey = this.updateFirstNameKey.bind(this);
-        this.updateChannelKey = this.updateChannelKey.bind(this);
-        this.updateCustomMentionKeys = this.updateCustomMentionKeys.bind(this);
-        this.updateState = this.updateState.bind(this);
-        this.onCustomChange = this.onCustomChange.bind(this);
-        this.createPushNotificationSection = this.createPushNotificationSection.bind(this);
-
         this.state = getNotificationsStateFromStores();
     }
 
-    handleSubmit(enableEmail = this.state.enableEmail) {
+    handleSubmit = (enableEmail = this.state.enableEmail) => {
         const data = {};
         data.user_id = this.props.user.id;
         data.email = enableEmail;
@@ -165,7 +151,7 @@ export default class NotificationsTab extends React.Component {
         );
     }
 
-    handleCancel(e) {
+    handleCancel = (e) => {
         if (e) {
             e.preventDefault();
         }
@@ -181,18 +167,18 @@ export default class NotificationsTab extends React.Component {
         }
     };
 
-    setStateValue(key, value) {
+    setStateValue = (key, value) => {
         const data = {};
         data[key] = value;
         this.setState(data);
     }
 
-    updateSection(section) {
+    updateSection = (section) => {
         this.updateState();
         this.props.updateSection(section);
     }
 
-    updateState() {
+    updateState = () => {
         const newState = getNotificationsStateFromStores();
         if (!Utils.areObjectsEqual(newState, this.state)) {
             this.setState(newState);
@@ -209,7 +195,7 @@ export default class NotificationsTab extends React.Component {
         UserStore.removeChangeListener(this.onListenerChange);
     }
 
-    onListenerChange() {
+    onListenerChange = () => {
         this.updateState();
     }
 
@@ -228,24 +214,24 @@ export default class NotificationsTab extends React.Component {
         this.refs.wrapper.focus();
     }
 
-    handleEmailRadio(enableEmail) {
+    handleEmailRadio = (enableEmail) => {
         this.setState({enableEmail});
         this.refs.wrapper.focus();
     }
 
-    updateUsernameKey(val) {
+    updateUsernameKey = (val) => {
         this.setState({usernameKey: val});
     }
 
-    updateFirstNameKey(val) {
+    updateFirstNameKey = (val) => {
         this.setState({firstNameKey: val});
     }
 
-    updateChannelKey(val) {
+    updateChannelKey = (val) => {
         this.setState({channelKey: val});
     }
 
-    updateCustomMentionKeys() {
+    updateCustomMentionKeys = () => {
         const checked = this.refs.customcheck.checked;
 
         if (checked) {
@@ -258,12 +244,12 @@ export default class NotificationsTab extends React.Component {
         }
     }
 
-    onCustomChange() {
+    onCustomChange = () => {
         this.refs.customcheck.checked = true;
         this.updateCustomMentionKeys();
     }
 
-    createPushNotificationSection() {
+    createPushNotificationSection = () => {
         if (this.props.activeSection === 'push') {
             const inputs = [];
             let extraInfo = null;

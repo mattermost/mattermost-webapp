@@ -19,14 +19,6 @@ export default class AdvancedSettingsDisplay extends React.Component {
     constructor(props) {
         super(props);
 
-        this.getStateFromStores = this.getStateFromStores.bind(this);
-        this.updateSetting = this.updateSetting.bind(this);
-        this.toggleFeature = this.toggleFeature.bind(this);
-
-        this.saveEnabledFeatures = this.saveEnabledFeatures.bind(this);
-        this.renderFormattingSection = this.renderFormattingSection.bind(this);
-        this.renderJoinLeaveSection = this.renderJoinLeaveSection.bind(this);
-
         this.state = this.getStateFromStores();
 
         this.prevSections = {
@@ -37,7 +29,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
         };
     }
 
-    getStateFromStores() {
+    getStateFromStores = () => {
         let preReleaseFeaturesKeys = Object.keys(PreReleaseFeatures);
         const advancedSettings = PreferenceStore.getCategory(Constants.Preferences.CATEGORY_ADVANCED_SETTINGS);
         const settings = {
@@ -93,13 +85,13 @@ export default class AdvancedSettingsDisplay extends React.Component {
         };
     }
 
-    updateSetting(setting, value) {
+    updateSetting = (setting, value) => {
         const settings = this.state.settings;
         settings[setting] = value;
         this.setState(settings);
     }
 
-    toggleFeature(feature, checked) {
+    toggleFeature = (feature, checked) => {
         const settings = this.state.settings;
         settings[Constants.FeatureTogglePrefix + feature] = String(checked);
 
@@ -113,7 +105,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
         this.setState({settings, enabledFeatures});
     }
 
-    saveEnabledFeatures() {
+    saveEnabledFeatures = () => {
         const features = [];
         Object.keys(this.state.settings).forEach((setting) => {
             if (setting.lastIndexOf(Constants.FeatureTogglePrefix) === 0) {
@@ -174,7 +166,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
         );
     }
 
-    renderFormattingSection() {
+    renderFormattingSection = () => {
         if (this.props.activeSection === 'formatting') {
             return (
                 <SettingItemMax
@@ -252,7 +244,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
         );
     }
 
-    renderJoinLeaveSection() {
+    renderJoinLeaveSection = () => {
         if (window.mm_config.BuildEnterpriseReady === 'true' && window.mm_license && window.mm_license.IsLicensed === 'true') {
             if (this.props.activeSection === 'join_leave') {
                 return (

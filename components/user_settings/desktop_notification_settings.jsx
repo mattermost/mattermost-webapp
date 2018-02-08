@@ -11,15 +11,6 @@ import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 
 export default class DesktopNotificationSettings extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.buildMaximizedSetting = this.buildMaximizedSetting.bind(this);
-        this.buildMinimizedSetting = this.buildMinimizedSetting.bind(this);
-
-        this.state = {};
-    }
-
     handleMinUpdateSection = (section) => {
         this.props.updateSection(section);
 
@@ -36,7 +27,7 @@ export default class DesktopNotificationSettings extends React.Component {
         this.props.setParentState(key, value);
     }
 
-    buildMaximizedSetting() {
+    buildMaximizedSetting = () => {
         const inputs = [];
         let extraInfo = null;
 
@@ -334,7 +325,7 @@ export default class DesktopNotificationSettings extends React.Component {
         );
     }
 
-    buildMinimizedSetting() {
+    buildMinimizedSetting = () => {
         let describe = '';
         if (this.props.activity === NotificationLevels.MENTION) {
             if (Utils.hasSoundOptions() && this.props.sound !== 'false') {

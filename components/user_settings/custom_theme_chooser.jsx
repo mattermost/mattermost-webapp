@@ -112,8 +112,6 @@ const messages = defineMessages({
 class CustomThemeChooser extends React.Component {
     constructor(props) {
         super(props);
-        this.selectTheme = this.selectTheme.bind(this);
-
         const copyTheme = this.setCopyTheme(this.props.theme);
 
         this.state = {
@@ -193,7 +191,7 @@ class CustomThemeChooser extends React.Component {
         e.stopPropagation();
     }
 
-    selectTheme() {
+    selectTheme = () => {
         const textarea = this.refs.textarea;
         textarea.focus();
         textarea.setSelectionRange(0, this.state.copyTheme.length);
