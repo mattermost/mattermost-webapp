@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {browserHistory} from 'utils/browser_history';
-import EditOutgoingWebhook from 'components/integrations/components/edit_outgoing_webhook/edit_outgoing_webhook.jsx';
+import EditOutgoingWebhook from 'components/integrations/edit_outgoing_webhook/edit_outgoing_webhook.jsx';
 
 describe('components/integrations/EditOutgoingWebhook', () => {
     const team = {
@@ -39,18 +39,9 @@ describe('components/integrations/EditOutgoingWebhook', () => {
         actions: {
             updateOutgoingHook: jest.fn(),
             getOutgoingHook: jest.fn()
-        }
+        },
+        enableOutgoingWebhooks: true
     };
-
-    window.mm_config = {};
-
-    beforeEach(() => {
-        window.mm_config.EnableOutgoingWebhooks = 'true';
-    });
-
-    beforeEach(() => {
-        window.mm_config = {};
-    });
 
     test('should match snapshot', () => {
         const props = {...baseProps, hook};
@@ -68,8 +59,7 @@ describe('components/integrations/EditOutgoingWebhook', () => {
     });
 
     test('should match snapshot when EnableOutgoingWebhooks is false', () => {
-        global.window.mm_config.EnableOutgoingWebhooks = 'false';
-        const props = {...baseProps, hook};
+        const props = {...baseProps, enableOutgoingWebhooks: false, hook};
         const wrapper = shallow(
             <EditOutgoingWebhook {...props}/>
         );

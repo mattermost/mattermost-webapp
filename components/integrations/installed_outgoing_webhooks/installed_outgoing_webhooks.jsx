@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import * as Utils from 'utils/utils.jsx';
 import Constants from 'utils/constants.jsx';
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
-import InstalledOutgoingWebhook from 'components/integrations/components/installed_outgoing_webhook.jsx';
+import InstalledOutgoingWebhook from 'components/integrations/installed_outgoing_webhook.jsx';
 
 export default class InstalledOutgoingWebhooks extends React.PureComponent {
     static propTypes = {
@@ -64,8 +64,12 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
             * The function to call for regeneration of webhook token
             */
             regenOutgoingHookToken: PropTypes.func
-        })
+        }),
 
+        /**
+        * Whether or not outgoing webhooks are enabled.
+        */
+        enableOutgoingWebhooks: PropTypes.bool
     }
 
     constructor(props) {
@@ -79,7 +83,7 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
     }
 
     componentDidMount() {
-        if (window.mm_config.EnableOutgoingWebhooks === 'true') {
+        if (this.props.enableOutgoingWebhooks) {
             this.props.actions.getOutgoingHooks(
                 '',
                 this.props.teamId,

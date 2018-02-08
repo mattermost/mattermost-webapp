@@ -48,7 +48,17 @@ export default class InstalledOAuthApps extends React.PureComponent {
             * The function to call when Delete link is clicked
             */
             deleteOAuthApp: PropTypes.func.isRequired
-        }).isRequired
+        }).isRequired,
+
+        /**
+        * Whether or not OAuth applications are enabled.
+        */
+        enableOAuthServiceProvider: PropTypes.bool,
+
+        /**
+        * Whether or not integration configuration is restricted to admins.
+        */
+        enableOnlyAdminIntegrations: PropTypes.bool
     }
 
     constructor(props) {
@@ -59,7 +69,7 @@ export default class InstalledOAuthApps extends React.PureComponent {
     }
 
     componentDidMount() {
-        if (window.mm_config.EnableOAuthServiceProvider === 'true') {
+        if (this.props.enableOAuthServiceProvider) {
             this.props.actions.getOAuthApps().then(
                 () => this.setState({loading: false})
             );
@@ -100,9 +110,8 @@ export default class InstalledOAuthApps extends React.PureComponent {
             );
         });
 
-        const config = global.mm_config;
-        const integrationsEnabled = (config.EnableOAuthServiceProvider === 'true' &&
-            (this.props.isSystemAdmin || config.EnableOnlyAdminIntegrations !== 'true'));
+        const integrationsEnabled = (this.props.enableOAuthServiceProvider &&
+            (this.props.isSystemAdmin || !this.props.enableOnlyAdminIntegrations));
         let props;
         if (integrationsEnabled) {
             props = {

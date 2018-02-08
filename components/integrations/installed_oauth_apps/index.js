@@ -10,11 +10,17 @@ import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/user
 import InstalledOAuthApps from './installed_oauth_apps.jsx';
 
 function mapStateToProps(state, ownProps) {
+    const config = state.entities.general.config;
+    const enableOAuthServiceProvider = config.EnableOAuthServiceProvider === 'true';
+    const enableOnlyAdminIntegrations = config.EnableOnlyAdminIntegrations === 'true';
+
     return {
         ...ownProps,
         oauthApps: getOAuthApps(state),
         isSystemAdmin: isCurrentUserSystemAdmin(state),
-        regenOAuthAppSecretRequest: state.requests.integrations.updateOAuthApp
+        regenOAuthAppSecretRequest: state.requests.integrations.updateOAuthApp,
+        enableOAuthServiceProvider,
+        enableOnlyAdminIntegrations
     };
 }
 

@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
 import ConfirmModal from 'components/confirm_modal.jsx';
-import AbstractOutgoingWebhook from 'components/integrations/components/abstract_outgoing_webhook.jsx';
+import AbstractOutgoingWebhook from 'components/integrations/abstract_outgoing_webhook.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
 const HEADER = {id: 'integrations.edit', defaultMessage: 'Edit'};
@@ -47,7 +47,12 @@ export default class EditOutgoingWebhook extends React.PureComponent {
              * The function to call to get an outgoing webhook
              */
             getOutgoingHook: PropTypes.func.isRequired
-        }).isRequired
+        }).isRequired,
+
+        /**
+        * Whether or not outgoing webhooks are enabled.
+        */
+        enableOutgoingWebhooks: PropTypes.bool
     }
 
     constructor(props) {
@@ -60,7 +65,7 @@ export default class EditOutgoingWebhook extends React.PureComponent {
     }
 
     componentDidMount() {
-        if (window.mm_config.EnableOutgoingWebhooks === 'true') {
+        if (this.props.enableOutgoingWebhooks) {
             this.props.actions.getOutgoingHook(this.props.hookId);
         }
     }

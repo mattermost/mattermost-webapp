@@ -1,19 +1,19 @@
-// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
 import LoadingScreen from 'components/loading_screen.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
-import AbstractOAuthApp from '../abstract_oauth_app.jsx';
+import AbstractCommand from '../abstract_command.jsx';
 
 const HEADER = {id: 'integrations.edit', defaultMessage: 'Edit'};
-const FOOTER = {id: 'update_incoming_webhook.update', defaultMessage: 'Update'};
+const FOOTER = {id: 'edit_command.save', defaultMessage: 'Update'};
 
-export default class EditOAuthApp extends React.PureComponent {
+export default class EditCommand extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -22,67 +22,69 @@ export default class EditOAuthApp extends React.PureComponent {
         team: PropTypes.object.isRequired,
 
         /**
-        * Set if the current user is a system admin
+        * The id of the command to edit
         */
-        isSystemAdmin: PropTypes.bool,
+        commandId: PropTypes.string.isRequired,
 
         /**
-        * The id of the OAuthApp to edit
+        * Installed slash commands to display
         */
-        oauthAppId: PropTypes.string.isRequired,
-
-        /**
-        * The OAuthApp data
-        */
-        oauthApp: PropTypes.object,
+        commands: PropTypes.object,
 
         actions: PropTypes.shape({
 
             /**
-            * The function to call to get OAuthApp
+            * The function to call to fetch team commands
             */
-            getOAuthApp: PropTypes.func.isRequired,
+            getCustomTeamCommands: PropTypes.func.isRequired,
 
             /**
-            * The function to call to edit OAuthApp
+            * The function to call to edit command
             */
-            editOAuthApp: PropTypes.func.isRequired
-        }).isRequired
+            editCommand: PropTypes.func.isRequired
+        }).isRequired,
+
+        /**
+        * Whether or not commands are enabled.
+        */
+        enableCommands: PropTypes.bool
     }
 
     constructor(props) {
         super(props);
 
         this.state = {
+            originalCommand: null,
             showConfirmModal: false,
             serverError: ''
         };
     }
 
     componentDidMount() {
-        if (window.mm_config.EnableOAuthServiceProvider === 'true') {
-            this.props.actions.getOAuthApp(this.props.oauthAppId);
+        if (this.props.enableCommands) {
+            this.props.actions.getCustomTeamCommands(this.props.team.id).then(
+                () => {
+                    this.setState({
+                        originalCommand: Object.values(this.props.commands).filter((command) => command.id === this.props.commandId)[0]
+                    });
+                }
+            );
         }
     }
 
-    editOAuthApp = async (app) => {
-        this.newApp = app;
+    editCommand = async (command) => {
+        this.newCommand = command;
 
-        if (this.props.oauthApp.id) {
-            app.id = this.props.oauthApp.id;
+        if (this.state.originalCommand.id) {
+            command.id = this.state.originalCommand.id;
         }
 
-        if (this.props.oauthApp.token) {
-            app.token = this.props.oauthApp.token;
-        }
-
-        const callbackUrlsSame = (this.props.oauthApp.callback_urls.length === app.callback_urls.length) &&
-            this.props.oauthApp.callback_urls.every((v, i) => v === app.callback_urls[i]);
-
-        if (callbackUrlsSame === false) {
+        if (this.state.originalCommand.url !== this.newCommand.url ||
+            this.state.originalCommand.trigger !== this.newCommand.trigger ||
+            this.state.originalCommand.method !== this.newCommand.method) {
             this.handleConfirmModal();
         } else {
-            await this.submitOAuthApp();
+            await this.submitCommand();
         }
     }
 
@@ -94,13 +96,13 @@ export default class EditOAuthApp extends React.PureComponent {
         this.setState({showConfirmModal: false});
     }
 
-    submitOAuthApp = async () => {
+    submitCommand = async () => {
         this.setState({serverError: ''});
 
-        const {data, error} = await this.props.actions.editOAuthApp(this.newApp);
+        const {data, error} = await this.props.actions.editCommand(this.newCommand);
 
         if (data) {
-            browserHistory.push(`/${this.props.team.name}/integrations/oauth2-apps`);
+            browserHistory.push(`/${this.props.team.name}/integrations/commands`);
             return;
         }
 
@@ -121,15 +123,15 @@ export default class EditOAuthApp extends React.PureComponent {
 
         const confirmTitle = (
             <FormattedMessage
-                id='update_oauth_app.confirm'
-                defaultMessage='Edit OAuth 2.0 application'
+                id='update_command.confirm'
+                defaultMessage='Edit Slash Command'
             />
         );
 
         const confirmMessage = (
             <FormattedMessage
-                id='update_oauth_app.question'
-                defaultMessage='Your changes may break the existing OAuth 2.0 application. Are you sure you would like to update it?'
+                id='update_command.question'
+                defaultMessage='Your changes may break the existing slash command. Are you sure you would like to update it?'
             />
         );
 
@@ -139,27 +141,26 @@ export default class EditOAuthApp extends React.PureComponent {
                 message={confirmMessage}
                 confirmButtonText={confirmButton}
                 show={this.state.showConfirmModal}
-                onConfirm={this.submitOAuthApp}
+                onConfirm={this.submitCommand}
                 onCancel={this.confirmModalDismissed}
             />
         );
     }
 
     render() {
-        if (!this.props.oauthApp) {
+        if (!this.state.originalCommand) {
             return <LoadingScreen/>;
         }
 
         return (
-            <AbstractOAuthApp
+            <AbstractCommand
                 team={this.props.team}
-                isSystemAdmin={this.props.isSystemAdmin}
                 header={HEADER}
                 footer={FOOTER}
                 renderExtra={this.renderExtra()}
-                action={this.editOAuthApp}
+                action={this.editCommand}
                 serverError={this.state.serverError}
-                initialApp={this.props.oauthApp}
+                initialCommand={this.state.originalCommand}
             />
         );
     }

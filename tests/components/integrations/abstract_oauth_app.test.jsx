@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {shallow} from 'enzyme';
 
-import AbstractOAuthApp from 'components/integrations/components/abstract_oauth_app.jsx';
+import AbstractOAuthApp from 'components/integrations/abstract_oauth_app.jsx';
 
 describe('components/integrations/AbstractOAuthApp', () => {
     const team = {name: 'test'};

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {browserHistory} from 'utils/browser_history';
-import AbstractIncomingWebhook from 'components/integrations/components/abstract_incoming_webhook.jsx';
+import AbstractIncomingWebhook from 'components/integrations/abstract_incoming_webhook.jsx';
 
 const HEADER = {id: 'integrations.add', defaultMessage: 'Add'};
 const FOOTER = {id: 'add_incoming_webhook.save', defaultMessage: 'Save'};
