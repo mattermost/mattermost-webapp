@@ -18,8 +18,6 @@ export default class UserSettings extends React.Component {
     constructor(props) {
         super(props);
 
-        this.onListenerChange = this.onListenerChange.bind(this);
-
         this.state = {user: UserStore.getCurrentUser()};
     }
 
@@ -31,7 +29,7 @@ export default class UserSettings extends React.Component {
         UserStore.removeChangeListener(this.onListenerChange);
     }
 
-    onListenerChange() {
+    onListenerChange = () => {
         var user = UserStore.getCurrentUser();
         if (!utils.areObjectsEqual(this.state.user, user)) {
             this.setState({user});

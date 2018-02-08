@@ -33,11 +33,6 @@ export default class UserSettingsDisplay extends React.Component {
     constructor(props) {
         super(props);
 
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleClockRadio = this.handleClockRadio.bind(this);
-        this.updateSection = this.updateSection.bind(this);
-        this.updateState = this.updateState.bind(this);
-
         this.state = {
             ...getDisplayStateFromStores(),
             isSaving: false
@@ -53,7 +48,7 @@ export default class UserSettingsDisplay extends React.Component {
         };
     }
 
-    handleSubmit() {
+    handleSubmit = () => {
         const userId = UserStore.getCurrentId();
 
         const timePreference = {
@@ -104,7 +99,7 @@ export default class UserSettingsDisplay extends React.Component {
         );
     }
 
-    handleClockRadio(militaryTime) {
+    handleClockRadio = (militaryTime) => {
         this.setState({militaryTime});
     }
 
@@ -128,12 +123,12 @@ export default class UserSettingsDisplay extends React.Component {
         this.setState({...display});
     }
 
-    updateSection(section) {
+    updateSection = (section) => {
         this.updateState();
         this.props.updateSection(section);
     }
 
-    updateState() {
+    updateState = () => {
         const newState = getDisplayStateFromStores();
         if (!Utils.areObjectsEqual(newState, this.state)) {
             this.setState(newState);

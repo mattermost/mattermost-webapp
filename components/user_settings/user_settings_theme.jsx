@@ -24,12 +24,6 @@ export default class ThemeSetting extends React.Component {
     constructor(props) {
         super(props);
 
-        this.onChange = this.onChange.bind(this);
-        this.submitTheme = this.submitTheme.bind(this);
-        this.updateTheme = this.updateTheme.bind(this);
-        this.resetFields = this.resetFields.bind(this);
-        this.handleImportModal = this.handleImportModal.bind(this);
-
         this.state = {
             ...this.getStateFromStores(),
             isSaving: false
@@ -94,7 +88,7 @@ export default class ThemeSetting extends React.Component {
         };
     }
 
-    onChange() {
+    onChange = () => {
         const newState = this.getStateFromStores();
 
         if (!Utils.areObjectsEqual(this.state, newState)) {
@@ -108,7 +102,7 @@ export default class ThemeSetting extends React.Component {
         $('.ps-container.modal-body').scrollTop(0);
     }
 
-    submitTheme() {
+    submitTheme = () => {
         const teamId = this.state.applyToAllTeams ? '' : this.state.teamId;
 
         this.setState({isSaving: true});
@@ -126,7 +120,7 @@ export default class ThemeSetting extends React.Component {
         );
     }
 
-    updateTheme(theme) {
+    updateTheme = (theme) => {
         let themeChanged = this.state.theme.length === theme.length;
         if (!themeChanged) {
             for (const field in theme) {
@@ -149,7 +143,7 @@ export default class ThemeSetting extends React.Component {
         this.setState({type});
     }
 
-    resetFields() {
+    resetFields = () => {
         const state = this.getStateFromStores();
         state.serverError = null;
         this.setState(state);
@@ -160,7 +154,7 @@ export default class ThemeSetting extends React.Component {
         this.props.setRequireConfirm(false);
     }
 
-    handleImportModal() {
+    handleImportModal = () => {
         AppDispatcher.handleViewAction({
             type: ActionTypes.TOGGLE_IMPORT_THEME_MODAL,
             value: true,

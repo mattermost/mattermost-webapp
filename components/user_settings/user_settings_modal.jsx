@@ -59,21 +59,6 @@ class UserSettingsModal extends React.Component {
     constructor(props) {
         super(props);
 
-        this.handleHide = this.handleHide.bind(this);
-        this.handleHidden = this.handleHidden.bind(this);
-        this.handleCollapse = this.handleCollapse.bind(this);
-        this.handleConfirm = this.handleConfirm.bind(this);
-        this.handleCancelConfirmation = this.handleCancelConfirmation.bind(this);
-        this.handleToggle = this.handleToggle.bind(this);
-        this.handleKeyDown = this.handleKeyDown.bind(this);
-
-        this.closeModal = this.closeModal.bind(this);
-        this.collapseModal = this.collapseModal.bind(this);
-
-        this.updateTab = this.updateTab.bind(this);
-        this.updateSection = this.updateSection.bind(this);
-        this.onUserChanged = this.onUserChanged.bind(this);
-
         this.state = {
             active_tab: 'general',
             active_section: '',
@@ -88,7 +73,7 @@ class UserSettingsModal extends React.Component {
         this.mounted = false;
     }
 
-    onUserChanged() {
+    onUserChanged = () => {
         if (this.mounted) {
             this.setState({currentUser: UserStore.getCurrentUser()});
         }
@@ -114,7 +99,7 @@ class UserSettingsModal extends React.Component {
         }
     }
 
-    handleKeyDown(e) {
+    handleKeyDown = (e) => {
         if (Utils.cmdOrCtrlPressed(e) && e.shiftKey && e.keyCode === Constants.KeyCodes.A) {
             this.setState({
                 show: !this.state.show
@@ -122,14 +107,14 @@ class UserSettingsModal extends React.Component {
         }
     }
 
-    handleToggle(value) {
+    handleToggle = (value) => {
         this.setState({
             show: value
         });
     }
 
     // Called when the close button is pressed on the main modal
-    handleHide() {
+    handleHide = () => {
         if (this.requireConfirm) {
             this.afterConfirm = () => this.handleHide();
             this.showConfirmModal();
@@ -143,7 +128,7 @@ class UserSettingsModal extends React.Component {
     }
 
     // called after the dialog is fully hidden and faded out
-    handleHidden() {
+    handleHidden = () => {
         this.setState({
             active_tab: 'general',
             active_section: '',
@@ -152,7 +137,7 @@ class UserSettingsModal extends React.Component {
     }
 
     // Called to hide the settings pane when on mobile
-    handleCollapse() {
+    handleCollapse = () => {
         $(ReactDOM.findDOMNode(this.refs.modalBody)).closest('.modal-dialog').removeClass('display--content');
 
         this.setState({
@@ -162,7 +147,7 @@ class UserSettingsModal extends React.Component {
         });
     }
 
-    handleConfirm() {
+    handleConfirm = () => {
         this.setState({
             showConfirmModal: false,
             enforceFocus: true
@@ -176,7 +161,7 @@ class UserSettingsModal extends React.Component {
         }
     }
 
-    handleCancelConfirmation() {
+    handleCancelConfirmation = () => {
         this.setState({
             showConfirmModal: false,
             enforceFocus: true
@@ -197,7 +182,7 @@ class UserSettingsModal extends React.Component {
     }
 
     // Called by settings tabs when their close button is pressed
-    closeModal() {
+    closeModal = () => {
         if (this.requireConfirm) {
             this.showConfirmModal(this.closeModal);
         } else {
@@ -206,7 +191,7 @@ class UserSettingsModal extends React.Component {
     }
 
     // Called by settings tabs when their back button is pressed
-    collapseModal() {
+    collapseModal = () => {
         if (this.requireConfirm) {
             this.showConfirmModal(this.collapseModal);
         } else {
@@ -214,7 +199,7 @@ class UserSettingsModal extends React.Component {
         }
     }
 
-    updateTab(tab, skipConfirm) {
+    updateTab = (tab, skipConfirm) => {
         if (!skipConfirm && this.requireConfirm) {
             this.showConfirmModal(() => this.updateTab(tab, true));
         } else {
@@ -226,7 +211,7 @@ class UserSettingsModal extends React.Component {
         }
     }
 
-    updateSection(section, skipConfirm) {
+    updateSection = (section, skipConfirm) => {
         if (!skipConfirm && this.requireConfirm) {
             this.showConfirmModal(() => this.updateSection(section, true));
         } else {

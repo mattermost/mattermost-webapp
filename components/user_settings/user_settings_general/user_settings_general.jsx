@@ -106,28 +106,10 @@ class UserSettingsGeneralTab extends React.Component {
         super(props);
         this.submitActive = false;
 
-        this.submitUsername = this.submitUsername.bind(this);
-        this.submitNickname = this.submitNickname.bind(this);
-        this.submitName = this.submitName.bind(this);
-        this.submitEmail = this.submitEmail.bind(this);
-        this.submitUser = this.submitUser.bind(this);
-        this.submitPicture = this.submitPicture.bind(this);
-        this.submitPosition = this.submitPosition.bind(this);
-
-        this.updateUsername = this.updateUsername.bind(this);
-        this.updateFirstName = this.updateFirstName.bind(this);
-        this.updateLastName = this.updateLastName.bind(this);
-        this.updateNickname = this.updateNickname.bind(this);
-        this.updateEmail = this.updateEmail.bind(this);
-        this.updateConfirmEmail = this.updateConfirmEmail.bind(this);
-        this.updatePicture = this.updatePicture.bind(this);
-        this.updateSection = this.updateSection.bind(this);
-        this.updatePosition = this.updatePosition.bind(this);
-
         this.state = this.setupInitialState(props);
     }
 
-    submitUsername() {
+    submitUsername = () => {
         const user = Object.assign({}, this.props.user);
         const username = this.state.username.trim().toLowerCase();
 
@@ -153,7 +135,7 @@ class UserSettingsGeneralTab extends React.Component {
         this.submitUser(user, false);
     }
 
-    submitNickname() {
+    submitNickname = () => {
         const user = Object.assign({}, this.props.user);
         const nickname = this.state.nickname.trim();
 
@@ -169,7 +151,7 @@ class UserSettingsGeneralTab extends React.Component {
         this.submitUser(user, false);
     }
 
-    submitName() {
+    submitName = () => {
         const user = Object.assign({}, this.props.user);
         const firstName = this.state.firstName.trim();
         const lastName = this.state.lastName.trim();
@@ -187,7 +169,7 @@ class UserSettingsGeneralTab extends React.Component {
         this.submitUser(user, false);
     }
 
-    submitEmail() {
+    submitEmail = () => {
         const user = Object.assign({}, this.props.user);
         const email = this.state.email.trim().toLowerCase();
         const confirmEmail = this.state.confirmEmail.trim().toLowerCase();
@@ -214,7 +196,7 @@ class UserSettingsGeneralTab extends React.Component {
         this.submitUser(user, true);
     }
 
-    submitUser(user, emailUpdated) {
+    submitUser = (user, emailUpdated) => {
         this.setState({sectionIsSaving: true});
 
         updateUser(
@@ -242,7 +224,7 @@ class UserSettingsGeneralTab extends React.Component {
         );
     }
 
-    submitPicture(e) {
+    submitPicture = (e) => {
         e.preventDefault();
 
         if (!this.state.pictureFile) {
@@ -282,7 +264,7 @@ class UserSettingsGeneralTab extends React.Component {
         );
     }
 
-    submitPosition() {
+    submitPosition = () => {
         const user = Object.assign({}, this.props.user);
         const position = this.state.position.trim();
 
@@ -298,35 +280,35 @@ class UserSettingsGeneralTab extends React.Component {
         this.submitUser(user, false);
     }
 
-    updateUsername(e) {
+    updateUsername = (e) => {
         this.setState({username: e.target.value});
     }
 
-    updateFirstName(e) {
+    updateFirstName = (e) => {
         this.setState({firstName: e.target.value});
     }
 
-    updateLastName(e) {
+    updateLastName = (e) => {
         this.setState({lastName: e.target.value});
     }
 
-    updateNickname(e) {
+    updateNickname = (e) => {
         this.setState({nickname: e.target.value});
     }
 
-    updatePosition(e) {
+    updatePosition = (e) => {
         this.setState({position: e.target.value});
     }
 
-    updateEmail(e) {
+    updateEmail = (e) => {
         this.setState({email: e.target.value});
     }
 
-    updateConfirmEmail(e) {
+    updateConfirmEmail = (e) => {
         this.setState({confirmEmail: e.target.value});
     }
 
-    updatePicture(e) {
+    updatePicture = (e) => {
         if (e.target.files && e.target.files[0]) {
             this.setState({pictureFile: e.target.files[0]});
 
@@ -337,7 +319,7 @@ class UserSettingsGeneralTab extends React.Component {
         }
     }
 
-    updateSection(section) {
+    updateSection = (section) => {
         const emailChangeInProgress = this.state.emailChangeInProgress;
         this.setState(Object.assign({}, this.setupInitialState(this.props), {emailChangeInProgress, clientError: '', serverError: '', emailError: '', sectionIsSaving: false}));
         this.submitActive = false;
