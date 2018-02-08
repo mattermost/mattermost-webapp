@@ -60,6 +60,7 @@ exports[`components/user_settings/UserSettingsSidebar should match snapshot 1`] 
           values={Object {}}
         />
       }
+      focused={false}
       section="unreadChannels"
       title={
         <FormattedMessage
