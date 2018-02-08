@@ -77,6 +77,7 @@ class UserSettingsModal extends React.Component {
         this.state = {
             active_tab: 'general',
             active_section: '',
+            prev_active_section: '',
             showConfirmModal: false,
             enforceFocus: true,
             currentUser: UserStore.getCurrentUser(),
@@ -145,7 +146,8 @@ class UserSettingsModal extends React.Component {
     handleHidden() {
         this.setState({
             active_tab: 'general',
-            active_section: ''
+            active_section: '',
+            prev_active_section: ''
         });
     }
 
@@ -155,7 +157,8 @@ class UserSettingsModal extends React.Component {
 
         this.setState({
             active_tab: '',
-            active_section: ''
+            active_section: '',
+            prev_active_section: ''
         });
     }
 
@@ -217,7 +220,8 @@ class UserSettingsModal extends React.Component {
         } else {
             this.setState({
                 active_tab: tab,
-                active_section: ''
+                active_section: '',
+                prev_active_section: ''
             });
         }
     }
@@ -226,7 +230,10 @@ class UserSettingsModal extends React.Component {
         if (!skipConfirm && this.requireConfirm) {
             this.showConfirmModal(() => this.updateSection(section, true));
         } else {
-            this.setState({active_section: section});
+            this.setState({
+                prev_active_section: section ? '' : this.state.active_section,
+                active_section: section
+            });
         }
     }
 
@@ -283,6 +290,7 @@ class UserSettingsModal extends React.Component {
                                 ref='userSettings'
                                 activeTab={this.state.active_tab}
                                 activeSection={this.state.active_section}
+                                prevActiveSection={this.state.prev_active_section}
                                 updateSection={this.updateSection}
                                 updateTab={this.updateTab}
                                 closeModal={this.closeModal}

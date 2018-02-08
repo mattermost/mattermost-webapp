@@ -264,6 +264,7 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
       values={Object {}}
     />
   }
+  focused={false}
   section="email"
   title="Email notifications"
   updateSection={[Function]}
@@ -279,6 +280,7 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
       values={Object {}}
     />
   }
+  focused={false}
   section="email"
   title="Email notifications"
   updateSection={[Function]}
@@ -298,6 +300,7 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
       }
     />
   }
+  focused={false}
   section="email"
   title="Email notifications"
   updateSection={[Function]}
