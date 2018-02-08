@@ -23,7 +23,7 @@ exports[`components/ActivityLogModal should match snapshot 1`] = `
       "remove": [Function],
     }
   }
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -88,7 +88,7 @@ exports[`components/ActivityLogModal should match snapshot 2`] = `
       "remove": [Function],
     }
   }
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -125,6 +125,7 @@ exports[`components/ActivityLogModal should match snapshot 2`] = `
     </p>
     <LoadingScreen
       position="relative"
+      style={Object {}}
     />
   </ModalBody>
 </Modal>
@@ -153,7 +154,7 @@ exports[`components/ActivityLogModal should match snapshot when submitRevoke is 
       "remove": [Function],
     }
   }
-  onExited={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}

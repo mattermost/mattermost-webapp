@@ -8,10 +8,8 @@ import {FormattedMessage} from 'react-intl';
 
 import {emailToOAuth} from 'actions/admin_actions.jsx';
 import {checkMfa} from 'actions/user_actions.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import LoginMfa from 'components/login/components/login_mfa.jsx';
 
 export default class EmailToOAuth extends React.Component {

@@ -7,7 +7,6 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import MenuIcon from 'components/svg/menu_icon';
-
 import Constants from 'utils/constants.jsx';
 
 export default class SidebarHeaderDropdownButton extends React.PureComponent {

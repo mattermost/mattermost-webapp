@@ -2,20 +2,18 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import TeamStore from 'stores/team_store.jsx';
 
-import {sortTeamsByDisplayName} from 'utils/team_utils.jsx';
+import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {Constants} from 'utils/constants.jsx';
-
 import AboutBuildModal from 'components/about_build_modal';
 import BlockableLink from 'components/admin_console/blockable_link';
 import MenuIcon from 'components/svg/menu_icon';
@@ -104,8 +102,7 @@ export default class AdminNavbarDropdown extends React.Component {
                 }
             }
 
-            // Sort teams alphabetically with display_name
-            teamsArray = teamsArray.sort(sortTeamsByDisplayName);
+            teamsArray = filterAndSortTeamsByDisplayName(teamsArray);
 
             for (const team of teamsArray) {
                 teams.push(

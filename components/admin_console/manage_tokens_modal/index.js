@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {getUserAccessTokensForUser} from 'mattermost-redux/actions/users';
 
 import ManageTokensModal from './manage_tokens_modal.jsx';

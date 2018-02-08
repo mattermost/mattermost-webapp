@@ -2,24 +2,21 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import AutosizeTextarea from 'components/autosize_textarea.jsx';
 import PostMarkdown from 'components/post_markdown';
-
+import AtMentionProvider from 'components/suggestion/at_mention_provider.jsx';
+import ChannelMentionProvider from 'components/suggestion/channel_mention_provider.jsx';
+import CommandProvider from 'components/suggestion/command_provider.jsx';
+import EmoticonProvider from 'components/suggestion/emoticon_provider.jsx';
+import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
+import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import ErrorStore from 'stores/error_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
-import AtMentionProvider from './suggestion/at_mention_provider.jsx';
-import ChannelMentionProvider from './suggestion/channel_mention_provider.jsx';
-import CommandProvider from './suggestion/command_provider.jsx';
-import EmoticonProvider from './suggestion/emoticon_provider.jsx';
-import SuggestionBox from './suggestion/suggestion_box.jsx';
-import SuggestionList from './suggestion/suggestion_list.jsx';
 
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
@@ -40,7 +37,8 @@ export default class Textbox extends React.Component {
         emojiEnabled: PropTypes.bool,
         isRHS: PropTypes.bool,
         popoverMentionKeyClick: PropTypes.bool,
-        characterLimit: PropTypes.number
+        characterLimit: PropTypes.number,
+        disabled: PropTypes.bool
     };
 
     static defaultProps = {
@@ -141,6 +139,9 @@ export default class Textbox extends React.Component {
 
         textbox.focus();
         Utils.placeCaretAtEnd(textbox);
+
+        // reset character count warning
+        this.checkMessageLength(textbox.value);
     }
 
     blur = () => {
@@ -304,7 +305,6 @@ export default class Textbox extends React.Component {
                     id={this.props.id}
                     ref='message'
                     className={textboxClassName}
-                    type='textarea'
                     spellCheck='true'
                     placeholder={this.props.createMessage}
                     onChange={this.handleChange}
@@ -313,6 +313,7 @@ export default class Textbox extends React.Component {
                     onBlur={this.handleBlur}
                     onHeightChange={this.handleHeightChange}
                     style={{visibility: this.state.preview ? 'hidden' : 'visible'}}
+                    inputComponent={AutosizeTextarea}
                     listComponent={SuggestionList}
                     listStyle={this.props.suggestionListStyle}
                     providers={this.suggestionProviders}
@@ -321,6 +322,7 @@ export default class Textbox extends React.Component {
                     renderDividers={true}
                     isRHS={this.props.isRHS}
                     popoverMentionKeyClick={this.props.popoverMentionKeyClick}
+                    disabled={this.props.disabled}
                 />
                 {preview}
                 <div className={'help__text ' + helpTextClass}>

@@ -7,9 +7,11 @@ import React from 'react';
 export default class AutosizeTextarea extends React.Component {
     static propTypes = {
         value: PropTypes.string,
+        defaultValue: PropTypes.string,
         placeholder: PropTypes.string,
+        onChange: PropTypes.func,
         onHeightChange: PropTypes.func
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -25,11 +27,19 @@ export default class AutosizeTextarea extends React.Component {
         this.refs.textarea.value = value;
     }
 
+    focus() {
+        this.refs.textarea.focus();
+    }
+
+    blur() {
+        this.refs.textarea.blur();
+    }
+
     componentDidUpdate() {
         this.recalculateSize();
     }
 
-    recalculateSize() {
+    recalculateSize = () => {
         const height = this.refs.reference.scrollHeight;
 
         if (height > 0 && height !== this.height) {
@@ -47,11 +57,17 @@ export default class AutosizeTextarea extends React.Component {
                 this.props.onHeightChange(height, parseInt(style.maxHeight, 10));
             }
         }
-    }
+    };
 
-    getDOMNode() {
+    getDOMNode = () => {
         return this.refs.textarea;
-    }
+    };
+
+    handleChange = (e) => {
+        if (this.props.onChange) {
+            this.props.onChange(e);
+        }
+    };
 
     render() {
         const props = {...this.props};
@@ -62,7 +78,13 @@ export default class AutosizeTextarea extends React.Component {
 
         const {
             value,
+            defaultValue,
             placeholder,
+
+            // TODO: The provided `id` is sometimes hard-coded and used to interface with the
+            // component, e.g. `post_textbox`, so it can't be changed. This would ideally be
+            // abstracted to avoid passing in an `id` prop at all, but we intentionally maintain
+            // the old behaviour to address ABC-213.
             id,
             ...otherProps
         } = props;
@@ -79,9 +101,13 @@ export default class AutosizeTextarea extends React.Component {
             <div>
                 <textarea
                     ref='textarea'
-                    id={id + '-textarea'}
+                    id={id}
                     {...heightProps}
-                    {...props}
+                    {...otherProps}
+                    placeholder={placeholder}
+                    onChange={this.handleChange}
+                    value={value}
+                    defaultValue={defaultValue}
                 />
                 <div style={style.container}>
                     <textarea
@@ -89,10 +115,10 @@ export default class AutosizeTextarea extends React.Component {
                         id={id + '-reference'}
                         style={style.reference}
                         disabled={true}
-                        value={value}
                         placeholder={placeholder}
                         rows='1'
                         {...otherProps}
+                        value={value || defaultValue || placeholder}
                     />
                 </div>
             </div>

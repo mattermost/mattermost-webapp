@@ -6,10 +6,8 @@ import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import PreferenceStore from 'stores/preference_store.jsx';
-
 import {Constants, Preferences, TutorialSteps} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import StatusDropdown from 'components/status_dropdown/index.jsx';
 import {createMenuTip} from 'components/tutorial/tutorial_tip.jsx';
 
@@ -41,7 +39,7 @@ export default class SidebarHeader extends React.Component {
         if (!this.props.currentUser) {
             return {};
         }
-        const tutorialStep = PreferenceStore.getInt(Preferences.TUTORIAL_STEP, this.props.currentUser.id, 999);
+        const tutorialStep = PreferenceStore.getInt(Preferences.TUTORIAL_STEP, this.props.currentUser.id, TutorialSteps.FINISHED);
         const showTutorialTip = tutorialStep === TutorialSteps.MENU_POPOVER && !Utils.isMobile() && global.window.mm_config.EnableTutorial === 'true';
 
         return {showTutorialTip};

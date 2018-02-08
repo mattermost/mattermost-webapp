@@ -12,7 +12,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     channelType="D"
     displayName="Channel display name"
     handleClose={[Function]}
-    link="/current-team/channels/channel-name"
+    link="/current-team/messages/@undefined"
     membersCount={8}
     rowClass="sidebar-item has-close"
     teammateDeletedAt={1}
@@ -34,7 +34,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     channelType="D"
     displayName="Channel display name"
     handleClose={[Function]}
-    link="/current-team/channels/channel-name"
+    link="/current-team/messages/@undefined"
     membersCount={8}
     rowClass="sidebar-item has-close"
     teammateDeletedAt={1}
@@ -81,8 +81,8 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     channelStatus="test"
     channelType="D"
     displayName="Channel display name"
-    handleClose={[Function]}
-    link="/current-team/channels/channel-name"
+    handleClose={null}
+    link="/current-team/messages/@undefined"
     membersCount={8}
     rowClass="sidebar-item unread-title has-badge"
     teammateDeletedAt={1}
@@ -104,9 +104,9 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     channelType="D"
     displayName="Channel display name"
     handleClose={[Function]}
-    link="/current-team/channels/channel-name"
+    link="/current-team/messages/@undefined"
     membersCount={8}
-    rowClass="sidebar-item unread-title has-close"
+    rowClass="sidebar-item has-close"
     teammateDeletedAt={1}
     teammateId="teammate-id"
     unreadMentions={0}
@@ -246,7 +246,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
       />
     }
     handleClose={[Function]}
-    link="/current-team/channels/channel-name"
+    link="/current-team/messages/@undefined"
     membersCount={8}
     rowClass="sidebar-item has-close"
     teammateDeletedAt={1}

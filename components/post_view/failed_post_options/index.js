@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {removePost} from 'mattermost-redux/actions/posts';
 
 import FailedPostOptions from './failed_post_options.jsx';

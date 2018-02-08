@@ -5,7 +5,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {ldapTest} from 'actions/admin_actions.jsx';
-
 import {JobTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 

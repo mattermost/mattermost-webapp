@@ -2,19 +2,25 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
+import {Redirect} from 'react-router';
+import {viewChannel} from 'mattermost-redux/actions/channels';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as WebSocketActions from 'actions/websocket_actions.jsx';
 import 'stores/emoji_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
+import ChannelStore from 'stores/channel_store.jsx';
+import ErrorStore from 'stores/error_store.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import LoadingScreen from 'components/loading_screen.jsx';
+import {checkIfMFARequired} from 'utils/route';
+import store from 'stores/redux_store.jsx';
+
+const dispatch = store.dispatch;
+const getState = store.getState;
 
 const BACKSPACE_CHAR = 8;
 
@@ -44,9 +50,25 @@ export default class LoggedIn extends React.Component {
         }
     }
 
+    componentWillMount() {
+        ErrorStore.clearLastError();
+    }
+
     componentDidMount() {
         // Initialize websocket
         WebSocketActions.initialize();
+
+        // Make sure the websockets close and reset version
+        $(window).on('beforeunload',
+            () => {
+                // Turn off to prevent getting stuck in a loop
+                $(window).off('beforeunload');
+                if (document.cookie.indexOf('MMUSERID=') > -1) {
+                    viewChannel('', ChannelStore.getCurrentId() || '')(dispatch, getState);
+                }
+                WebSocketActions.close();
+            }
+        );
 
         // Listen for user
         UserStore.addChangeListener(this.onUserChanged);
@@ -66,7 +88,7 @@ export default class LoggedIn extends React.Component {
 
         if (!this.state.user) {
             $('#root').attr('class', '');
-            GlobalActions.emitUserLoggedOutEvent('/login');
+            GlobalActions.emitUserLoggedOutEvent('/login?redirect_to=' + encodeURIComponent(this.props.location.pathname));
         }
 
         $('body').on('mouseenter mouseleave', '.post', function mouseOver(ev) {
@@ -129,9 +151,11 @@ export default class LoggedIn extends React.Component {
             return <LoadingScreen/>;
         }
 
-        return React.cloneElement(this.props.children, {
-            user: this.state.user
-        });
+        if (checkIfMFARequired(this.props.match.url)) {
+            return <Redirect to={'/mfa/setup'}/>;
+        }
+
+        return this.props.children;
     }
 
     onFocusListener() {

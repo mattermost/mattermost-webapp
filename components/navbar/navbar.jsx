@@ -2,15 +2,13 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
-
 import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as WebrtcActions from 'actions/webrtc_actions.jsx';
@@ -21,18 +19,14 @@ import PreferenceStore from 'stores/preference_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
-
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 import {ActionTypes, Constants, ModalIdentifiers, RHSStates, UserStatuses} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import ChannelInfoModal from 'components/channel_info_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
-import ChannelNotificationsModal from 'components/channel_notifications_modal.jsx';
-
+import ChannelNotificationsModal from 'components/channel_notifications_modal/channel_notifications_modal.jsx';
 import DeleteChannelModal from 'components/delete_channel_modal';
-
 import NotifyCounts from 'components/notify_counts.jsx';
 import QuickSwitchModal from 'components/quick_switch_modal';
 import RenameChannelModal from 'components/rename_channel_modal';
@@ -41,7 +35,6 @@ import MenuIcon from 'components/svg/menu_icon';
 import SearchIcon from 'components/svg/search_icon';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
-
 import Pluggable from 'plugins/pluggable';
 
 import NavbarInfoButton from './navbar_info_button.jsx';
@@ -88,8 +81,8 @@ export default class Navbar extends React.Component {
         ModalStore.addModalListener(ActionTypes.TOGGLE_CHANNEL_NAME_UPDATE_MODAL, this.showRenameChannelModal);
         WebrtcStore.addChangedListener(this.onChange);
         WebrtcStore.addBusyListener(this.onBusy);
-        $('.inner-wrap').click(this.hideSidebars);
         document.addEventListener('keydown', this.handleQuickSwitchKeyPress);
+        $('.inner-wrap').on('click', this.hideSidebars);
     }
 
     componentWillUnmount() {
@@ -99,12 +92,13 @@ export default class Navbar extends React.Component {
         UserStore.removeChangeListener(this.onChange);
         PreferenceStore.removeChangeListener(this.onChange);
         ModalStore.removeModalListener(ActionTypes.TOGGLE_QUICK_SWITCH_MODAL, this.toggleQuickSwitchModal);
-        ModalStore.removeModalListener(ActionTypes.TOGGLE_CHANNEL_HEADER_UPDATE_MODAL, this.hideEditChannelHeaderModal);
-        ModalStore.removeModalListener(ActionTypes.TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL, this.hideChannelPurposeModal);
-        ModalStore.removeModalListener(ActionTypes.TOGGLE_CHANNEL_NAME_UPDATE_MODAL, this.hideRenameChannelModal);
+        ModalStore.removeModalListener(ActionTypes.TOGGLE_CHANNEL_HEADER_UPDATE_MODAL, this.showEditChannelHeaderModal);
+        ModalStore.removeModalListener(ActionTypes.TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL, this.showChannelPurposeModal);
+        ModalStore.removeModalListener(ActionTypes.TOGGLE_CHANNEL_NAME_UPDATE_MODAL, this.showRenameChannelModal);
         WebrtcStore.removeChangedListener(this.onChange);
         WebrtcStore.removeBusyListener(this.onBusy);
         document.removeEventListener('keydown', this.handleQuickSwitchKeyPress);
+        $('.inner-wrap').off('click', this.hideSidebars);
     }
 
     getStateFromStores = () => {
@@ -793,10 +787,6 @@ export default class Navbar extends React.Component {
             }
         }
         return null;
-    }
-
-    hideEditChannelHeaderModal = () => {
-        this.setState({showEditChannelHeaderModal: false});
     }
 
     showChannelInviteModalButton = () => {

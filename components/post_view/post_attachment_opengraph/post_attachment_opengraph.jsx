@@ -6,7 +6,6 @@ import React from 'react';
 
 import {postListScrollChange} from 'actions/global_actions.jsx';
 import {updatePost} from 'actions/post_actions.jsx';
-
 import * as CommonUtils from 'utils/commons.jsx';
 import {PostTypes} from 'utils/constants.jsx';
 import {useSafeUrl} from 'utils/url';

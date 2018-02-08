@@ -5,9 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {showDeletePostModal, showGetPostLinkModal} from 'actions/global_actions.jsx';
-
 import Constants from 'utils/constants.jsx';
-
 import DotMenuItem from 'components/dot_menu/dot_menu_item.jsx';
 
 jest.mock('actions/global_actions.jsx', () => {

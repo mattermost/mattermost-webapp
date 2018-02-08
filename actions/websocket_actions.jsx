@@ -2,10 +2,7 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
-import {browserHistory} from 'react-router';
 import {batchActions} from 'redux-batched-actions';
-
 import {ChannelTypes, EmojiTypes, PostTypes, TeamTypes, UserTypes} from 'mattermost-redux/action_types';
 import {getChannelAndMyMember, getChannelStats, viewChannel} from 'mattermost-redux/actions/channels';
 import {setServerVersion} from 'mattermost-redux/actions/general';
@@ -14,7 +11,9 @@ import * as TeamActions from 'mattermost-redux/actions/teams';
 import {getMe} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 
+import {browserHistory} from 'utils/browser_history';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {handleNewPost} from 'actions/post_actions.jsx';
@@ -28,10 +27,8 @@ import PreferenceStore from 'stores/preference_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
-
 import {ActionTypes, Constants, ErrorBarTypes, Preferences, SocketEvents, UserStatuses} from 'utils/constants.jsx';
 import {getSiteURL} from 'utils/url.jsx';
 
@@ -160,6 +157,10 @@ function handleEvent(msg) {
 
     case SocketEvents.UPDATE_TEAM:
         handleUpdateTeamEvent(msg);
+        break;
+
+    case SocketEvents.DELETE_TEAM:
+        handleDeleteTeamEvent(msg);
         break;
 
     case SocketEvents.ADDED_TO_TEAM:
@@ -354,6 +355,60 @@ function handleUpdateTeamEvent(msg) {
     TeamStore.updateTeam(msg.data.team);
 }
 
+function handleDeleteTeamEvent(msg) {
+    const deletedTeam = JSON.parse(msg.data.team);
+    const state = store.getState();
+    const {teams} = state.entities.teams;
+    if (
+        deletedTeam &&
+        teams &&
+        teams[deletedTeam.id] &&
+        teams[deletedTeam.id].delete_at === 0
+    ) {
+        const {currentUserId} = state.entities.users;
+        const {currentTeamId, myMembers} = state.entities.teams;
+        const teamMembers = Object.values(myMembers);
+        const teamMember = teamMembers.find((m) => m.user_id === currentUserId && m.team_id === currentTeamId);
+
+        let newTeamId = '';
+        if (
+            deletedTeam &&
+            teamMember &&
+            deletedTeam.id === teamMember.team_id
+        ) {
+            const myTeams = {};
+            getMyTeams(state).forEach((t) => {
+                myTeams[t.id] = t;
+            });
+
+            for (let i = 0; i < teamMembers.length; i++) {
+                const memberTeamId = teamMembers[i].team_id;
+                if (
+                    myTeams &&
+                    myTeams[memberTeamId] &&
+                    myTeams[memberTeamId].delete_at === 0 &&
+                    deletedTeam.id !== memberTeamId
+                ) {
+                    newTeamId = memberTeamId;
+                    break;
+                }
+            }
+        }
+
+        dispatch(batchActions([
+            {type: TeamTypes.RECEIVED_TEAM_DELETED, data: {id: deletedTeam.id}},
+            {type: TeamTypes.UPDATED_TEAM, data: deletedTeam}
+        ]));
+
+        if (newTeamId) {
+            dispatch({type: TeamTypes.SELECT_TEAM, data: newTeamId});
+            browserHistory.push(`${TeamStore.getCurrentTeamUrl()}/channels/${Constants.DEFAULT_CHANNEL}`);
+        } else {
+            browserHistory.push('/');
+        }
+    }
+}
+
 function handleUpdateMemberRoleEvent(msg) {
     const member = JSON.parse(msg.data.member);
     TeamStore.updateMyRoles(member);
@@ -379,21 +434,22 @@ function handleUserRemovedEvent(msg) {
     if (UserStore.getCurrentId() === msg.broadcast.user_id) {
         loadChannelsForCurrentUser();
 
-        if (msg.data.remover_id !== msg.broadcast.user_id &&
-                msg.data.channel_id === ChannelStore.getCurrentId() &&
-                $('#removed_from_channel').length > 0) {
-            var sentState = {};
-            sentState.channelName = ChannelStore.getCurrent().display_name;
-            sentState.remover = UserStore.getProfile(msg.data.remover_id).username;
+        if (msg.data.channel_id === ChannelStore.getCurrentId()) {
+            if (msg.data.remover_id !== msg.broadcast.user_id &&
+                    $('#removed_from_channel').length > 0) {
+                var sentState = {};
+                sentState.channelName = ChannelStore.getCurrent().display_name;
+                sentState.remover = UserStore.getProfile(msg.data.remover_id).username;
 
-            BrowserStore.setItem('channel-removed-state', sentState);
-            $('#removed_from_channel').modal('show');
+                BrowserStore.setItem('channel-removed-state', sentState);
+                $('#removed_from_channel').modal('show');
+            }
+
+            GlobalActions.emitCloseRightHandSide();
+
+            const townsquare = ChannelStore.getByName(Constants.DEFAULT_CHANNEL);
+            browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + townsquare.name);
         }
-
-        GlobalActions.emitCloseRightHandSide();
-
-        const townsquare = ChannelStore.getByName(Constants.DEFAULT_CHANNEL);
-        browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + townsquare.name);
 
         dispatch({
             type: ChannelTypes.LEAVE_CHANNEL,

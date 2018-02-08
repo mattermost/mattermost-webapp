@@ -3,13 +3,12 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {getOutgoingHook, updateOutgoingHook} from 'mattermost-redux/actions/integrations';
 
 import EditOutgoingWebhook from './edit_outgoing_webhook.jsx';
 
 function mapStateToProps(state, ownProps) {
-    const hookId = ownProps.location.query.id;
+    const hookId = (new URLSearchParams(ownProps.location.search)).get('id');
 
     return {
         ...ownProps,

@@ -1,15 +1,13 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {browserHistory} from 'react-router';
-
 import * as ChannelActions from 'mattermost-redux/actions/channels';
 import {deletePreferences, savePreferences} from 'mattermost-redux/actions/preferences';
 import {Client4} from 'mattermost-redux/client';
 import {getMyChannelMemberships, getChannel} from 'mattermost-redux/selectors/entities/channels';
 
+import {browserHistory} from 'utils/browser_history';
 import {actionOnGlobalItemsWithPrefix} from 'actions/storage';
-
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as PostActions from 'actions/post_actions.jsx';
@@ -19,12 +17,11 @@ import PreferenceStore from 'stores/preference_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 import {Constants, Preferences, StoragePrefixes} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {isUrlSafe} from 'utils/url.jsx';
+import {isUrlSafe, getSiteURL} from 'utils/url.jsx';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -130,8 +127,10 @@ export function executeCommand(message, args, success, error) {
             }
 
             if (hasGotoLocation) {
-                if (data.goto_location.startsWith('/') || data.goto_location.includes(window.location.hostname)) {
+                if (data.goto_location.startsWith('/')) {
                     browserHistory.push(data.goto_location);
+                } else if (data.goto_location.startsWith(getSiteURL())) {
+                    browserHistory.push(data.goto_location.substr(getSiteURL().length));
                 } else {
                     window.open(data.goto_location);
                 }
@@ -319,7 +318,7 @@ export async function autocompleteChannels(term, success, error) {
         return;
     }
 
-    const {data, error: err} = await ChannelActions.searchChannels(teamId, term)(dispatch, getState);
+    const {data, error: err} = await ChannelActions.autocompleteChannels(teamId, term)(dispatch, getState);
     if (data && success) {
         success(data);
     } else if (err && error) {

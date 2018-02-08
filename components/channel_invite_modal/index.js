@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {getTeamStats} from 'mattermost-redux/actions/teams';
 import {getProfilesNotInChannel} from 'mattermost-redux/actions/users';
 

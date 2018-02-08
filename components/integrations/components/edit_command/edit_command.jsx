@@ -4,8 +4,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router';
 
+import {browserHistory} from 'utils/browser_history';
 import LoadingScreen from 'components/loading_screen.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import AbstractCommand from '../abstract_command.jsx';

@@ -6,8 +6,7 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot 1`] = `
 >
   <BackstageHeader>
     <Link
-      onlyActiveOnIndex={false}
-      style={Object {}}
+      replace={false}
       to="/test/integrations/oauth2-apps"
     >
       <FormattedMessage
@@ -226,8 +225,7 @@ https://test.com/callback2"
         />
         <Link
           className="btn btn-sm"
-          onlyActiveOnIndex={false}
-          style={Object {}}
+          replace={false}
           to="/test/integrations/oauth2-apps"
         >
           <FormattedMessage
@@ -261,8 +259,7 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
 >
   <BackstageHeader>
     <Link
-      onlyActiveOnIndex={false}
-      style={Object {}}
+      replace={false}
       to="/test/integrations/oauth2-apps"
     >
       <FormattedMessage
@@ -484,8 +481,7 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
         />
         <Link
           className="btn btn-sm"
-          onlyActiveOnIndex={false}
-          style={Object {}}
+          replace={false}
           to="/test/integrations/oauth2-apps"
         >
           <FormattedMessage
@@ -519,8 +515,7 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, for sys
 >
   <BackstageHeader>
     <Link
-      onlyActiveOnIndex={false}
-      style={Object {}}
+      replace={false}
       to="/test/integrations/oauth2-apps"
     >
       <FormattedMessage
@@ -798,8 +793,7 @@ https://test.com/callback2"
         />
         <Link
           className="btn btn-sm"
-          onlyActiveOnIndex={false}
-          style={Object {}}
+          replace={false}
           to="/test/integrations/oauth2-apps"
         >
           <FormattedMessage

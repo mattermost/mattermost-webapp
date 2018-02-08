@@ -6,9 +6,7 @@ import {shallow} from 'enzyme';
 import {Modal} from 'react-bootstrap';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-
 import Constants from 'utils/constants.jsx';
-
 import NewChannelModal from 'components/new_channel_modal/new_channel_modal.jsx';
 
 describe('components/NewChannelModal', () => {

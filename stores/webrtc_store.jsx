@@ -4,7 +4,6 @@
 import EventEmitter from 'events';
 
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-
 import {WebrtcActionTypes} from 'utils/constants.jsx';
 
 class WebrtcStoreClass extends EventEmitter {

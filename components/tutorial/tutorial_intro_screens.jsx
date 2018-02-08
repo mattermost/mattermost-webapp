@@ -4,7 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
@@ -12,10 +11,8 @@ import {savePreference} from 'actions/user_actions.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import {Constants, Preferences} from 'utils/constants.jsx';
 import {useSafeUrl} from 'utils/url.jsx';
-
 import AppIcons from 'images/appIcons.png';
 
 const NUM_SCREENS = 3;
@@ -55,8 +52,6 @@ export default class TutorialIntroScreens extends React.Component {
             return;
         }
 
-        browserHistory.push(TeamStore.getCurrentTeamUrl() + `/channels/${Constants.DEFAULT_CHANNEL}`);
-
         const step = PreferenceStore.getInt(Preferences.TUTORIAL_STEP, UserStore.getCurrentId(), 0);
 
         savePreference(
@@ -83,10 +78,8 @@ export default class TutorialIntroScreens extends React.Component {
         savePreference(
             Preferences.TUTORIAL_STEP,
             UserStore.getCurrentId(),
-            '999'
+            Constants.TutorialSteps.FINISHED.toString(),
         );
-
-        browserHistory.push(TeamStore.getCurrentTeamUrl() + `/channels/${Constants.DEFAULT_CHANNEL}`);
     }
     createScreen() {
         switch (this.state.currentScreen) {
@@ -270,10 +263,9 @@ export default class TutorialIntroScreens extends React.Component {
         );
     }
 
-    handleCircleClick = (e) => {
+    handleCircleClick = (e, screen) => {
         e.preventDefault();
-        const currentScreen = e.currentTarget.getAttribute('data-screen');
-        this.setState({currentScreen});
+        this.setState({currentScreen: screen});
     }
 
     createCircles() {
@@ -291,7 +283,7 @@ export default class TutorialIntroScreens extends React.Component {
                     key={'circle' + i}
                     className={className}
                     data-screen={i}
-                    onClick={this.handleCircleClick}
+                    onClick={(e) => this.handleCircleClick(e, i)}
                 />
             );
         }

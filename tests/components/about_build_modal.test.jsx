@@ -6,7 +6,6 @@ import {Modal} from 'react-bootstrap';
 import {shallow} from 'enzyme';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-
 import AboutBuildModal from 'components/about_build_modal/about_build_modal.jsx';
 
 describe('components/AboutBuildModal', () => {
@@ -50,7 +49,7 @@ describe('components/AboutBuildModal', () => {
 
     test('should match snapshot for enterprise edition', () => {
         const wrapper = shallowAboutBuildModal({config, license});
-        expect(wrapper.find('#versionString').text()).toBe(' 3.6.0\u00a0 (3.6.2)');
+        expect(wrapper.find('#versionString').text()).toBe('\u00a03.6.0 (3.6.2)');
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -76,7 +75,7 @@ describe('components/AboutBuildModal', () => {
 
         const wrapper = shallowAboutBuildModal({config: sameBuildConfig, license: {}});
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find('#versionString').text()).toBe(' 3.6.0');
+        expect(wrapper.find('#versionString').text()).toBe('\u00a03.6.0');
     });
 
     test('should show the build number if it is the different from the version number', () => {
@@ -90,7 +89,7 @@ describe('components/AboutBuildModal', () => {
 
         const wrapper = shallowAboutBuildModal({config: differentBuildConfig, license: {}});
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find('#versionString').text()).toBe(' 3.6.0\u00a0 (3.6.2)');
+        expect(wrapper.find('#versionString').text()).toBe('\u00a03.6.0 (3.6.2)');
     });
 
     test('should call onModalDismissed callback when the modal is hidden', (done) => {

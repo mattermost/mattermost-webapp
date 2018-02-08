@@ -6,10 +6,8 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {savePreference} from 'actions/user_actions.jsx';
-
 import {Preferences} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
-
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 

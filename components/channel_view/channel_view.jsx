@@ -2,14 +2,12 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import * as UserAgent from 'utils/user_agent.jsx';
 import deferComponentRender from 'components/deferComponentRender';
-
 import ChannelHeader from 'components/channel_header';
 import CreatePost from 'components/create_post';
 import FileUploadOverlay from 'components/file_upload_overlay.jsx';
@@ -38,6 +36,7 @@ export default class ChannelView extends React.PureComponent {
 
     constructor(props) {
         super(props);
+
         this.createDeferredPostView();
     }
 
@@ -62,7 +61,7 @@ export default class ChannelView extends React.PureComponent {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.channelId !== nextProps.channelId) {
+        if (this.props.match.url !== nextProps.match.url) {
             this.createDeferredPostView();
         }
     }

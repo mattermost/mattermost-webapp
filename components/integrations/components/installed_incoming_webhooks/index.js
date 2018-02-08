@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import * as Actions from 'mattermost-redux/actions/integrations';
 import {getAllChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getIncomingHooks} from 'mattermost-redux/selectors/entities/integrations';

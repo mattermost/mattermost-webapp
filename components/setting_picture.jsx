@@ -4,13 +4,10 @@
 import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
-
 import exif2css from 'exif2css';
 
 import Constants from 'utils/constants.jsx';
-
 import loadingGif from 'images/load.gif';
-
 import FormError from 'components/form_error.jsx';
 
 export default class SettingPicture extends Component {
@@ -184,7 +181,7 @@ export default class SettingPicture extends Component {
                         <li className='setting-list-item padding-top x2'>
                             <FormattedMessage
                                 id='setting_picture.help'
-                                defaultMessage='Upload a profile picture in BMP, JPG, JPEG or PNG format, at least {width}px in width and {height}px height.'
+                                defaultMessage='Upload a profile picture in BMP, JPG, JPEG or PNG format.'
                                 values={{
                                     width: Constants.PROFILE_WIDTH,
                                     height: Constants.PROFILE_WIDTH

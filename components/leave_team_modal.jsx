@@ -9,7 +9,6 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import ModalStore from 'stores/modal_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
-
 import {ActionTypes, WebrtcActionTypes} from 'utils/constants.jsx';
 
 class LeaveTeamModal extends React.Component {

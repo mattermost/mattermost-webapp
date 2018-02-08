@@ -4,7 +4,6 @@
 import React from 'react';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-
 import NavbarInfoButton from 'components/navbar/navbar_info_button.jsx';
 
 describe('components/navbar/NavbarInfoButton', () => {

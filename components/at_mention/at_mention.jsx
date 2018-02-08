@@ -4,11 +4,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger} from 'react-bootstrap';
-
 import {Client4} from 'mattermost-redux/client';
 
 import Pluggable from 'plugins/pluggable';
-
 import ProfilePopover from 'components/profile_popover.jsx';
 
 export default class AtMention extends React.PureComponent {

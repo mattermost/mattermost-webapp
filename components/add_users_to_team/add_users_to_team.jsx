@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-
 import {Client4} from 'mattermost-redux/client';
 import {searchProfilesNotInCurrentTeam} from 'mattermost-redux/selectors/entities/users';
 
@@ -14,10 +13,8 @@ import {searchUsersNotInTeam} from 'actions/user_actions.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
-
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 
@@ -52,7 +49,8 @@ export default class AddUsersToTeam extends React.Component {
             show: true,
             search: false,
             saving: false,
-            addError: null
+            addError: null,
+            loadingUsers: true
         };
     }
 
@@ -61,7 +59,9 @@ export default class AddUsersToTeam extends React.Component {
         UserStore.addNotInTeamChangeListener(this.onChange);
         UserStore.addStatusesChangeListener(this.onChange);
 
-        this.props.actions.getProfilesNotInTeam(TeamStore.getCurrentId(), 0, USERS_PER_PAGE * 2);
+        this.props.actions.getProfilesNotInTeam(TeamStore.getCurrentId(), 0, USERS_PER_PAGE * 2).then(() => {
+            this.setUsersLoadingState(false);
+        });
     }
 
     componentWillUnmount() {
@@ -127,6 +127,12 @@ export default class AddUsersToTeam extends React.Component {
         this.setState({values});
     }
 
+    setUsersLoadingState = (loadingState) => {
+        this.setState({
+            loadingUsers: loadingState
+        });
+    }
+
     onChange() {
         let users;
         if (this.term) {
@@ -149,7 +155,10 @@ export default class AddUsersToTeam extends React.Component {
 
     handlePageChange(page, prevPage) {
         if (page > prevPage) {
-            this.props.actions.getProfilesNotInTeam(TeamStore.getCurrentId(), page + 1, USERS_PER_PAGE);
+            this.setUsersLoadingState(true);
+            this.props.actions.getProfilesNotInTeam(TeamStore.getCurrentId(), page + 1, USERS_PER_PAGE).then(() => {
+                this.setUsersLoadingState(false);
+            });
         }
     }
 
@@ -164,7 +173,10 @@ export default class AddUsersToTeam extends React.Component {
 
         this.searchTimeoutId = setTimeout(
             () => {
-                searchUsersNotInTeam(term, TeamStore.getCurrentId(), {});
+                this.setUsersLoadingState(true);
+                searchUsersNotInTeam(term, TeamStore.getCurrentId(), {}).then(() => {
+                    this.setUsersLoadingState(false);
+                });
             },
             Constants.SEARCH_TIMEOUT_MILLISECONDS
         );
@@ -276,6 +288,7 @@ export default class AddUsersToTeam extends React.Component {
                         numRemainingText={numRemainingText}
                         buttonSubmitText={buttonSubmitText}
                         saving={this.state.saving}
+                        loading={this.state.loadingUsers}
                     />
                 </Modal.Body>
             </Modal>

@@ -4,12 +4,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router';
 
+import {browserHistory} from 'utils/browser_history';
 import logoImage from 'images/logo.png';
-
 import BackButton from 'components/common/back_button.jsx';
-
 import LoadingScreen from 'components/loading_screen.jsx';
 
 export default class DoVerifyEmail extends React.PureComponent {
@@ -47,10 +45,10 @@ export default class DoVerifyEmail extends React.PureComponent {
 
     verifyEmail = async () => {
         const {actions: {verifyUserEmail}} = this.props;
-        const verify = await verifyUserEmail(this.props.location.query.token);
+        const verify = await verifyUserEmail((new URLSearchParams(this.props.location.search)).get('token'));
 
         if (verify && verify.data) {
-            browserHistory.push('/login?extra=verified&email=' + encodeURIComponent(this.props.location.query.email));
+            browserHistory.push('/login?extra=verified&email=' + encodeURIComponent((new URLSearchParams(this.props.location.search)).get('email')));
         } else if (verify && verify.error) {
             const serverError = (
                 <FormattedMessage

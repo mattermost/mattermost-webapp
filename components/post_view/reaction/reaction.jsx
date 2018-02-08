@@ -7,7 +7,6 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {emitEmojiPosted} from 'actions/post_actions.jsx';
-
 import * as Utils from 'utils/utils.jsx';
 
 export default class Reaction extends React.PureComponent {

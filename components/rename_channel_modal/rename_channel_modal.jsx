@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
-import {browserHistory} from 'react-router';
 
+import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
 import {cleanUpUrlable, getShortenedURL} from 'utils/url.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -146,7 +146,7 @@ export class RenameChannelModal extends React.PureComponent {
         const oldDisplayName = channel.display_name;
         const state = {serverError: ''};
         const {formatMessage} = this.props.intl;
-        const {actions: {updateChannel}, team} = this.props;
+        const {actions: {updateChannel}} = this.props;
 
         channel.display_name = this.state.displayName.trim();
         if (!channel.display_name) {
@@ -189,19 +189,27 @@ export class RenameChannelModal extends React.PureComponent {
 
         this.setState(state);
 
-        if (state.invalid || (oldName === channel.name && oldDisplayName === channel.display_name)) {
+        if (state.invalid) {
+            return;
+        }
+        if (oldName === channel.name && oldDisplayName === channel.display_name) {
+            this.onSaveSuccess();
             return;
         }
 
         const {data, error} = await updateChannel(channel);
 
         if (data) {
-            this.handleHide();
-            this.unsetError();
-            browserHistory.push('/' + team.name + '/channels/' + this.state.channelName);
+            this.onSaveSuccess();
         } else if (error) {
             this.setError(error);
         }
+    }
+
+    onSaveSuccess = () => {
+        this.handleHide();
+        this.unsetError();
+        browserHistory.push('/' + this.props.team.name + '/channels/' + this.state.channelName);
     }
 
     handleCancel = (e) => {

@@ -4,13 +4,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router';
+import {Route, Switch, Redirect} from 'react-router-dom';
 
 import ChannelStore from 'stores/channel_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
-
 import AnnouncementBar from 'components/announcement_bar';
 import BackButton from 'components/common/back_button.jsx';
+import TeamUrl from 'components/create_team/components/team_url';
+import DisplayName from 'components/create_team/components/display_name';
 
 export default class CreateTeamController extends React.Component {
     constructor(props) {
@@ -29,13 +30,9 @@ export default class CreateTeamController extends React.Component {
         // todo fill in
     }
 
-    componentDidMount() {
-        browserHistory.push('/create_team/display_name');
-    }
-
     updateParent(state) {
         this.setState(state);
-        browserHistory.push('/create_team/' + state.wizard);
+        this.props.history.push('/create_team/' + state.wizard);
     }
 
     render() {
@@ -72,10 +69,29 @@ export default class CreateTeamController extends React.Component {
                             {description}
                         </h4>
                         <div className='signup__content'>
-                            {React.cloneElement(this.props.children, {
-                                state: this.state,
-                                updateParent: this.updateParent
-                            })}
+                            <Switch>
+                                <Route
+                                    path={`${this.props.match.url}/display_name`}
+                                    render={(props) => (
+                                        <DisplayName
+                                            state={this.state}
+                                            updateParent={this.updateParent}
+                                            {...props}
+                                        />
+                                )}
+                                />
+                                <Route
+                                    path={`${this.props.match.url}/team_url`}
+                                    render={(props) => (
+                                        <TeamUrl
+                                            state={this.state}
+                                            updateParent={this.updateParent}
+                                            {...props}
+                                        />
+                                )}
+                                />
+                                <Redirect to={`${this.props.match.url}/display_name`}/>
+                            </Switch>
                         </div>
                     </div>
                 </div>

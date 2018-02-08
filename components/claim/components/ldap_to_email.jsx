@@ -6,9 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {checkMfa, switchFromLdapToEmail} from 'actions/user_actions.jsx';
-
 import * as Utils from 'utils/utils.jsx';
-
 import LoginMfa from 'components/login/components/login_mfa.jsx';
 
 export default class LDAPToEmail extends React.Component {
@@ -90,7 +88,11 @@ export default class LDAPToEmail extends React.Component {
             password,
             token,
             ldapPassword || this.state.ldapPassword,
-            null,
+            (data) => {
+                if (data.follow_link) {
+                    window.location.href = data.follow_link;
+                }
+            },
             (err) => {
                 if (err.id.startsWith('model.user.is_valid.pwd')) {
                     this.setState({passwordError: err.message, showMfa: false});

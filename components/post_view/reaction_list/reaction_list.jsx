@@ -8,9 +8,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {postListScrollChange} from 'actions/global_actions.jsx';
 import {emitEmojiPosted} from 'actions/post_actions.jsx';
-
 import Constants from 'utils/constants.jsx';
-
 import Reaction from 'components/post_view/reaction';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 

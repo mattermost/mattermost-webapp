@@ -77,4 +77,11 @@ button {
     .fa-refresh {
         margin-right: 4px;
     }
+
+    &.btn-link {
+        &:active,
+        &:focus {
+            outline: none;
+        }
+    }
 }

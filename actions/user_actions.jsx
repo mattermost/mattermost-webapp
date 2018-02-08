@@ -1,8 +1,6 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {browserHistory} from 'react-router';
-
 import {getChannelAndMyMember} from 'mattermost-redux/actions/channels';
 import {getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
 import {deletePreferences, savePreferences as savePreferencesRedux} from 'mattermost-redux/actions/preferences';
@@ -13,15 +11,15 @@ import {Preferences as PreferencesRedux} from 'mattermost-redux/constants';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import * as Selectors from 'mattermost-redux/selectors/entities/users';
 
+import {browserHistory} from 'utils/browser_history';
 import {getChannelMembersForUserIds} from 'actions/channel_actions.jsx';
-import {clientLogout, loadCurrentLocale} from 'actions/global_actions.jsx';
+import {loadCurrentLocale} from 'actions/global_actions.jsx';
 import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import * as Utils from 'utils/utils.jsx';
 import {Constants, Preferences} from 'utils/constants.jsx';
 
@@ -71,9 +69,6 @@ export async function switchFromLdapToEmail(email, password, token, ldapPassword
     const {data, error: err} = await UserActions.switchLdapToEmail(ldapPassword, email, password, token)(dispatch, getState);
 
     if (data) {
-        if (data.follow_link) {
-            clientLogout(data.follow_link);
-        }
         if (success) {
             success(data);
         }

@@ -12,7 +12,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, cha
       className="close"
       data-dismiss="modal"
       id="closeButton"
-      onClick={[Function]}
+      onClick={[MockFunction]}
       type="button"
     >
       <span
@@ -29,7 +29,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, cha
       >
         <i
           className="fa fa-angle-left"
-          onClick={[Function]}
+          onClick={[MockFunction]}
         />
       </div>
       <FormattedMessage
@@ -257,7 +257,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, clo
       className="close"
       data-dismiss="modal"
       id="closeButton"
-      onClick={[Function]}
+      onClick={[MockFunction]}
       type="button"
     >
       <span
@@ -274,7 +274,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, clo
       >
         <i
           className="fa fa-angle-left"
-          onClick={[Function]}
+          onClick={[MockFunction]}
         />
       </div>
       <FormattedMessage
@@ -502,7 +502,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, col
       className="close"
       data-dismiss="modal"
       id="closeButton"
-      onClick={[Function]}
+      onClick={[MockFunction]}
       type="button"
     >
       <span
@@ -519,7 +519,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, col
       >
         <i
           className="fa fa-angle-left"
-          onClick={[Function]}
+          onClick={[MockFunction]}
         />
       </div>
       <FormattedMessage
@@ -747,7 +747,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lan
       className="close"
       data-dismiss="modal"
       id="closeButton"
-      onClick={[Function]}
+      onClick={[MockFunction]}
       type="button"
     >
       <span
@@ -764,7 +764,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lan
       >
         <i
           className="fa fa-angle-left"
-          onClick={[Function]}
+          onClick={[MockFunction]}
         />
       </div>
       <FormattedMessage
@@ -942,7 +942,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lin
       className="close"
       data-dismiss="modal"
       id="closeButton"
-      onClick={[Function]}
+      onClick={[MockFunction]}
       type="button"
     >
       <span
@@ -959,7 +959,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lin
       >
         <i
           className="fa fa-angle-left"
-          onClick={[Function]}
+          onClick={[MockFunction]}
         />
       </div>
       <FormattedMessage
@@ -1116,7 +1116,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lin
       className="close"
       data-dismiss="modal"
       id="closeButton"
-      onClick={[Function]}
+      onClick={[MockFunction]}
       type="button"
     >
       <span
@@ -1133,7 +1133,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lin
       >
         <i
           className="fa fa-angle-left"
-          onClick={[Function]}
+          onClick={[MockFunction]}
         />
       </div>
       <FormattedMessage
@@ -1361,7 +1361,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, mes
       className="close"
       data-dismiss="modal"
       id="closeButton"
-      onClick={[Function]}
+      onClick={[MockFunction]}
       type="button"
     >
       <span
@@ -1378,7 +1378,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, mes
       >
         <i
           className="fa fa-angle-left"
-          onClick={[Function]}
+          onClick={[MockFunction]}
         />
       </div>
       <FormattedMessage
@@ -1626,7 +1626,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, no 
       className="close"
       data-dismiss="modal"
       id="closeButton"
-      onClick={[Function]}
+      onClick={[MockFunction]}
       type="button"
     >
       <span
@@ -1643,7 +1643,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, no 
       >
         <i
           className="fa fa-angle-left"
-          onClick={[Function]}
+          onClick={[MockFunction]}
         />
       </div>
       <FormattedMessage
@@ -1824,7 +1824,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, the
       className="close"
       data-dismiss="modal"
       id="closeButton"
-      onClick={[Function]}
+      onClick={[MockFunction]}
       type="button"
     >
       <span
@@ -1841,7 +1841,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, the
       >
         <i
           className="fa fa-angle-left"
-          onClick={[Function]}
+          onClick={[MockFunction]}
         />
       </div>
       <FormattedMessage
@@ -2022,7 +2022,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, the
       className="close"
       data-dismiss="modal"
       id="closeButton"
-      onClick={[Function]}
+      onClick={[MockFunction]}
       type="button"
     >
       <span
@@ -2039,7 +2039,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, the
       >
         <i
           className="fa fa-angle-left"
-          onClick={[Function]}
+          onClick={[MockFunction]}
         />
       </div>
       <FormattedMessage
@@ -2068,8 +2068,8 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, the
     <div>
       <ThemeSetting
         selected={true}
-        setEnforceFocus={[Function]}
-        setRequireConfirm={[Function]}
+        setEnforceFocus={[MockFunction]}
+        setRequireConfirm={[MockFunction]}
         updateSection={[Function]}
       />
       <div

@@ -4,25 +4,20 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-
 import PreferenceStore from 'stores/preference_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
-
 import {
     Constants,
-    Preferences,
-    TutorialSteps,
     WebrtcActionTypes
 } from 'utils/constants.jsx';
 import {useSafeUrl} from 'utils/url.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import AboutBuildModal from 'components/about_build_modal';
 import AddUsersToTeam from 'components/add_users_to_team';
 import LeaveTeamIcon from 'components/svg/leave_team_icon';
@@ -36,6 +31,7 @@ export default class SidebarRightMenu extends React.Component {
         teamType: PropTypes.string,
         teamDisplayName: PropTypes.string,
         isMentionSearch: PropTypes.bool,
+        showTutorialTip: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             showMentions: PropTypes.func,
             showFlaggedPosts: PropTypes.func,
@@ -114,13 +110,10 @@ export default class SidebarRightMenu extends React.Component {
     }
 
     getStateFromStores = () => {
-        const tutorialStep = PreferenceStore.getInt(Preferences.TUTORIAL_STEP, UserStore.getCurrentId(), 999);
-
         return {
             currentUser: UserStore.getCurrentUser(),
             teamMembers: TeamStore.getMyTeamMembers(),
-            teamListings: TeamStore.getTeamListings(),
-            showTutorialTip: tutorialStep === TutorialSteps.MENU_POPOVER && Utils.isMobile() && global.window.mm_config.EnableTutorial === 'true'
+            teamListings: TeamStore.getTeamListings()
         };
     }
 
@@ -425,7 +418,7 @@ export default class SidebarRightMenu extends React.Component {
         }
 
         let tutorialTip = null;
-        if (this.state.showTutorialTip) {
+        if (this.props.showTutorialTip) {
             tutorialTip = createMenuTip((e) => e.preventDefault(), true);
             this.closeLeftSidebar();
             this.openRightSidebar();

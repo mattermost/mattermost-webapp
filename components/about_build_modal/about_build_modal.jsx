@@ -130,9 +130,9 @@ export default class AboutBuildModal extends React.PureComponent {
             }
         }
 
-        let version = '\u00a0' + config.Version;
+        let version = config.Version;
         if (config.BuildNumber !== config.Version) {
-            version += '\u00a0 (' + config.BuildNumber + ')';
+            version += ' (' + config.BuildNumber + ')';
         }
 
         return (
@@ -163,7 +163,7 @@ export default class AboutBuildModal extends React.PureComponent {
                                         id='about.version'
                                         defaultMessage='Version:'
                                     />
-                                    <span id='versionString'>{version}</span>
+                                    <span id='versionString'>{'\u00a0' + version}</span>
                                 </div>
                                 <div>
                                     <FormattedMessage

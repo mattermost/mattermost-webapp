@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {getPlugins} from 'mattermost-redux/actions/admin';
 
 import AdminSidebar from './admin_sidebar.jsx';

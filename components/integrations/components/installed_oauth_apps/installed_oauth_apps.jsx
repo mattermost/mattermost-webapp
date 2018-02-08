@@ -6,9 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {localizeMessage} from 'utils/utils.jsx';
-
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
-
 import InstalledOAuthApp from '../installed_oauth_app.jsx';
 
 export default class InstalledOAuthApps extends React.PureComponent {

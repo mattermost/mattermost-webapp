@@ -4,10 +4,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 import TeamInfoIcon from 'components/svg/team_info_icon';
-
 import * as Utils from 'utils/utils.jsx';
 
 export default class SelectTeamItem extends React.PureComponent {
@@ -61,6 +60,7 @@ export default class SelectTeamItem extends React.PureComponent {
             <div className='signup-team-dir'>
                 {showDescriptionTooltip}
                 <Link
+                    to={`/${this.props.team.name}/channels/town-square`}
                     id={Utils.createSafeId(this.props.team.display_name)}
                     onClick={this.handleTeamClick}
                 >

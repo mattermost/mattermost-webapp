@@ -4,7 +4,6 @@
 import {SearchTypes} from 'mattermost-redux/action_types';
 
 import rhsReducer from 'reducers/views/rhs';
-
 import {ActionTypes, RHSStates} from 'utils/constants.jsx';
 
 describe('Reducers.RHS', () => {

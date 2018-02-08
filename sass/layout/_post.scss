@@ -37,7 +37,6 @@
 
     .help__text {
         bottom: -23px;
-        cursor: pointer;
         font-size: 13px;
         position: absolute;
         right: 0;
@@ -389,7 +388,7 @@
 .post-create__container {
     @include flex(0 0 auto);
     width: 100%;
-    z-index: 5;
+    z-index: 7;
 
     label {
         font-weight: normal;
@@ -422,6 +421,10 @@
 
         &.textbox-preview-area {
             overflow-y: auto;
+        }
+
+        @include input-placeholder {
+            color: inherit;
         }
     }
 
@@ -890,7 +893,8 @@
             }
 
             .post-image__column {
-                margin: 3px 0;
+                margin: 3px 10px 3px 0;
+                padding: 0 10px 0 0;
             }
         }
 
@@ -900,7 +904,7 @@
             height: 26px;
             line-height: 25px;
             padding: 0 7px;
-            width: auto;
+            width: 250px;
 
             .post-image__thumbnail {
                 display: none;
@@ -909,29 +913,38 @@
             .post-image__details {
                 background: transparent;
                 border: none;
+                flex-direction: row-reverse;
                 padding: 0;
                 width: 100%;
 
-                svg {
-                    display: inline-block;
-                    height: 13px;
-                    margin: 5px 4px 0 0;
-                    opacity: .5;
-                    position: relative;
-                    vertical-align: top;
-                    width: 13px;
-                }
-
-                > div {
+                span {
                     display: none;
                 }
+
+                svg {
+                    position: relative;
+                    top: 2px;
+                }
+
+                .icon {
+                    display: block;
+                    float: left;
+                    margin-right: 5px;
+                    opacity: .6;
+                }
+            }
+
+            .post-image__download {
+                opacity: 1;
+                padding: 0;
+                position: relative;
+                width: auto;
             }
 
             .post-image__name {
                 @include clearfix;
                 display: block;
                 margin: 0;
-                padding-right: 10px;
                 text-overflow: ellipsis;
                 white-space: nowrap;
 
@@ -1319,10 +1332,6 @@
 
         p + p {
             margin: 0.5em 0 0;
-        }
-
-        img {
-            max-height: 400px;
         }
 
         ul,

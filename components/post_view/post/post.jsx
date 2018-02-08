@@ -3,15 +3,12 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-
 import {Posts} from 'mattermost-redux/constants';
 
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-
 import {ActionTypes} from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import PostBody from 'components/post_view/post_body';
 import PostHeader from 'components/post_view/post_header';
 import ProfilePicture from 'components/profile_picture.jsx';
@@ -284,7 +281,7 @@ export default class Post extends React.PureComponent {
         return (
             <div
                 ref={this.getRef}
-                onMouseEnter={this.setHover}
+                onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}
             >
                 <div

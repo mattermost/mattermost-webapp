@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import UserStore from 'stores/user_store.jsx';
-
 import * as utils from 'utils/utils.jsx';
 
 import AdvancedTab from './user_settings_advanced.jsx';
@@ -13,7 +12,7 @@ import DisplayTab from './user_settings_display.jsx';
 import GeneralTab from './user_settings_general';
 import NotificationsTab from './user_settings_notifications.jsx';
 import SecurityTab from './user_settings_security';
-import SidebarTab from './user_settings_sidebar.jsx';
+import SidebarTab from './user_settings_sidebar';
 
 export default class UserSettings extends React.Component {
     constructor(props) {
@@ -103,7 +102,6 @@ export default class UserSettings extends React.Component {
             return (
                 <div>
                     <SidebarTab
-                        user={this.state.user}
                         activeSection={this.props.activeSection}
                         prevActiveSection={this.props.prevActiveSection}
                         updateSection={this.props.updateSection}

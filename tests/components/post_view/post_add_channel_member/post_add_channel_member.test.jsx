@@ -4,14 +4,11 @@
 import React from 'react';
 import {Provider} from 'react-redux';
 import {shallow} from 'enzyme';
-import {browserHistory} from 'react-router';
 
+import {browserHistory} from 'utils/browser_history';
 import store from 'stores/redux_store.jsx';
-
 import {sendAddToChannelEphemeralPost} from 'actions/global_actions.jsx';
-
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
-
 import PostAddChannelMember from 'components/post_view/post_add_channel_member/post_add_channel_member.jsx';
 
 jest.mock('actions/global_actions.jsx', () => {

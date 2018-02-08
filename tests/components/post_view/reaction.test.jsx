@@ -5,7 +5,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {emitEmojiPosted} from 'actions/post_actions.jsx';
-
 import Reaction from 'components/post_view/reaction/reaction.jsx';
 
 jest.mock('actions/post_actions.jsx', () => ({

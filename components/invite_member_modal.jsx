@@ -12,7 +12,6 @@ import ChannelStore from 'stores/channel_store.jsx';
 import ModalStore from 'stores/modal_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as utils from 'utils/utils.jsx';
 

@@ -2,17 +2,13 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-
 import {Client4} from 'mattermost-redux/client';
 
 import {uploadBrandImage} from 'actions/admin_actions.jsx';
-
 import {UploadStatuses} from 'utils/constants.jsx';
-
 import FormError from 'components/form_error.jsx';
 
 import UploadButton from './upload_button.jsx';

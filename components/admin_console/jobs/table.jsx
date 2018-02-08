@@ -7,7 +7,6 @@ import {FormattedDate, FormattedMessage, FormattedTime, injectIntl, intlShape} f
 
 import {cancelJob, createJob} from 'actions/job_actions.jsx';
 import ErrorStore from 'stores/error_store.jsx';
-
 import {JobStatuses} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 

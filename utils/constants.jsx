@@ -5,15 +5,15 @@
 
 import keyMirror from 'key-mirror';
 
-import audioIcon from 'images/icons/audio.png';
-import codeIcon from 'images/icons/code.png';
-import excelIcon from 'images/icons/excel.png';
-import genericIcon from 'images/icons/generic.png';
+import audioIcon from 'images/icons/audio.svg';
+import codeIcon from 'images/icons/code.svg';
+import excelIcon from 'images/icons/excel.svg';
+import genericIcon from 'images/icons/generic.svg';
 import patchIcon from 'images/icons/patch.png';
-import pdfIcon from 'images/icons/pdf.png';
-import pptIcon from 'images/icons/ppt.png';
-import videoIcon from 'images/icons/video.png';
-import wordIcon from 'images/icons/word.png';
+import pdfIcon from 'images/icons/pdf.svg';
+import pptIcon from 'images/icons/ppt.svg';
+import videoIcon from 'images/icons/video.svg';
+import wordIcon from 'images/icons/word.svg';
 import logoImage from 'images/logo_compact.png';
 import githubIcon from 'images/themes/code_themes/github.png';
 import monokaiIcon from 'images/themes/code_themes/monokai.png';
@@ -25,9 +25,15 @@ import defaultThemeImage from 'images/themes/organization.png';
 import windows10ThemeImage from 'images/themes/windows_dark.png';
 import logoWebhook from 'images/webhook_icon.jpg';
 
-import githubCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/github.css'; // eslint-disable-line import/order
-import monokaiCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/monokai.css'; // eslint-disable-line import/order
-import solarizedDarkCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-dark.css'; // eslint-disable-line import/order
+import githubCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/github.css';
+
+// eslint-disable-line import/order
+import monokaiCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/monokai.css';
+
+// eslint-disable-line import/order
+import solarizedDarkCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-dark.css';
+
+// eslint-disable-line import/order
 import solarizedLightCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/solarized-light.css'; // eslint-disable-line import/order
 
 export const PluginSettings = {
@@ -95,7 +101,6 @@ export const ActionTypes = keyMirror({
     RECEIVED_FOCUSED_POST: null,
     RECEIVED_POST: null,
     RECEIVED_EDIT_POST: null,
-    SET_EDITING_POST: null,
     EDIT_POST: null,
     SELECT_POST: null,
     RECEIVED_POST_SELECTED: null,
@@ -208,6 +213,8 @@ export const ActionTypes = keyMirror({
     TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL: null,
     TOGGLE_CHANNEL_NAME_UPDATE_MODAL: null,
     TOGGLE_LEAVE_PRIVATE_CHANNEL_MODAL: null,
+    SHOW_EDIT_POST_MODAL: null,
+    HIDE_EDIT_POST_MODAL: null,
 
     SUGGESTION_PRETEXT_CHANGED: null,
     SUGGESTION_RECEIVED_SUGGESTIONS: null,
@@ -229,7 +236,11 @@ export const ActionTypes = keyMirror({
     MODAL_OPEN: null,
     MODAL_CLOSE: null,
 
-    POPOVER_MENTION_KEY_CLICK: null
+    POPOVER_MENTION_KEY_CLICK: null,
+
+    SELECT_CHANNEL_WITH_MEMBER: null,
+
+    INCREMENT_EMOJI_PICKER_PAGE: null
 });
 
 export const WebrtcActionTypes = keyMirror({
@@ -291,6 +302,7 @@ export const SocketEvents = {
     JOIN_TEAM: 'join_team',
     LEAVE_TEAM: 'leave_team',
     UPDATE_TEAM: 'update_team',
+    DELETE_TEAM: 'delete_team',
     USER_ADDED: 'user_added',
     USER_REMOVED: 'user_removed',
     USER_UPDATED: 'user_updated',
@@ -315,7 +327,8 @@ export const TutorialSteps = {
     INTRO_SCREENS: 0,
     POST_POPOVER: 1,
     CHANNEL_POPOVER: 2,
-    MENU_POPOVER: 3
+    MENU_POPOVER: 3,
+    FINISHED: 999
 };
 
 export const PostTypes = {
@@ -414,11 +427,32 @@ export const ErrorBarTypes = {
     WEBSOCKET_PORT_ERROR: 'channel_loader.socketError'
 };
 
+export const FileTypes = {
+    IMAGE: 'image',
+    AUDIO: 'audio',
+    VIDEO: 'video',
+    SPREADSHEET: 'spreadsheet',
+    CODE: 'code',
+    WORD: 'word',
+    PRESENTATION: 'presentation',
+    PDF: 'pdf',
+    PATCH: 'patch',
+    SVG: 'svg',
+    OTHER: 'other'
+};
+
 export const NotificationLevels = {
     DEFAULT: 'default',
     ALL: 'all',
     MENTION: 'mention',
     NONE: 'none'
+};
+
+export const NotificationSections = {
+    MARK_UNREAD: 'markUnread',
+    DESKTOP: 'desktop',
+    PUSH: 'push',
+    NONE: ''
 };
 
 export const RHSStates = {
@@ -434,6 +468,12 @@ export const UploadStatuses = {
     DEFAULT: ''
 };
 
+export const GroupUnreadChannels = {
+    DISABLED: 'disabled',
+    DEFAULT_ON: 'default_on',
+    DEFAULT_OFF: 'default_off'
+};
+
 export const Constants = {
     PluginSettings,
     Preferences,
@@ -446,6 +486,7 @@ export const Constants = {
     PostTypes,
     ErrorPageTypes,
     ErrorBarTypes,
+    FileTypes,
 
     MAX_POST_VISIBILITY: 1000000,
 
@@ -506,6 +547,7 @@ export const Constants = {
     },
     MAX_DISPLAY_FILES: 5,
     MAX_UPLOAD_FILES: 5,
+    MAX_FILENAME_LENGTH: 35,
     THUMBNAIL_WIDTH: 128,
     THUMBNAIL_HEIGHT: 100,
     PROFILE_WIDTH: 128,
@@ -1026,7 +1068,7 @@ export const Constants = {
     MAX_NICKNAME_LENGTH: 22,
     MIN_PASSWORD_LENGTH: 5,
     MAX_PASSWORD_LENGTH: 64,
-    MAX_POSITION_LENGTH: 35,
+    MAX_POSITION_LENGTH: 128,
     MIN_TRIGGER_LENGTH: 1,
     MAX_TRIGGER_LENGTH: 128,
     MAX_SITENAME_LENGTH: 30,

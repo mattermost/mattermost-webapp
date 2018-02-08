@@ -1,7 +1,5 @@
 import {connect} from 'react-redux';
-
 import {bindActionCreators} from 'redux';
-
 import {getFilePublicLink} from 'mattermost-redux/actions/files';
 import * as Selectors from 'mattermost-redux/selectors/entities/files';
 

@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import ReplyIcon from 'components/svg/reply_icon';
-
 import * as Utils from 'utils/utils.jsx';
 
 export default class CommentIcon extends React.PureComponent {

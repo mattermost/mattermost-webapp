@@ -5,7 +5,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {ErrorPageTypes} from 'utils/constants.jsx';
-
 import ErrorTitle from 'components/error_page/error_title.jsx';
 
 describe('components/error_page/ErrorTitle', () => {
