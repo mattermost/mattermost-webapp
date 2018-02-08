@@ -139,7 +139,11 @@ export default class SingleImageView extends React.PureComponent {
             previewWidth < PREVIEW_IMAGE_MIN_DIMENSION ||
             previewHeight < PREVIEW_IMAGE_MIN_DIMENSION
         ) {
-            minPreviewClass = 'min-preview';
+            minPreviewClass = 'min-preview ';
+        }
+
+        if (previewHeight > previewWidth) {
+            minPreviewClass += 'min-preview--portrait ';
         }
 
         const fileHeader = (
