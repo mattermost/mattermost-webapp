@@ -209,6 +209,12 @@ export default class AboutBuildModal extends React.PureComponent {
                                 defaultMessage='EE Build Hash:'
                             />
                             &nbsp;{config.BuildHashEnterprise}
+                            <br/>
+                            <FormattedMessage
+                                id='about.hashwebapp'
+                                defaultMessage='Webapp Build Hash:'
+                            />
+                            &nbsp;{/* global __COMMIT_HASH__ */ __COMMIT_HASH__}
                         </p>
                         <p>
                             <FormattedMessage
