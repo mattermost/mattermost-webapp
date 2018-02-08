@@ -17,6 +17,7 @@ import {postListScrollChange} from 'actions/global_actions.jsx';
 import LoadingImagePreview from 'components/loading_image_preview';
 import ViewImageModal from 'components/view_image.jsx';
 
+const PREVIEW_IMAGE_MAX_WIDTH = 1024;
 const PREVIEW_IMAGE_MAX_HEIGHT = 350;
 const PREVIEW_IMAGE_MIN_DIMENSION = 50;
 
@@ -107,29 +108,33 @@ export default class SingleImageView extends React.PureComponent {
         this.fileImage = node;
     }
 
-    computeImageHeight = () => {
+    computeImageDimensions = () => {
         const {fileInfo} = this.props;
         const {viewPortWidth} = this.state;
 
+        let previewWidth = fileInfo.width;
         let previewHeight = fileInfo.height;
 
-        if (viewPortWidth && fileInfo.width > viewPortWidth) {
+        if (viewPortWidth && previewWidth > viewPortWidth) {
             const origRatio = fileInfo.height / fileInfo.width;
-            previewHeight = Math.floor(fileInfo.width * origRatio);
+            previewWidth = Math.floor(Math.min(PREVIEW_IMAGE_MAX_WIDTH, fileInfo.width, viewPortWidth));
+            previewHeight = Math.floor(previewWidth * origRatio);
         }
 
         if (previewHeight > PREVIEW_IMAGE_MAX_HEIGHT) {
+            const heightRatio = PREVIEW_IMAGE_MAX_HEIGHT / previewHeight;
             previewHeight = PREVIEW_IMAGE_MAX_HEIGHT;
+            previewWidth = Math.floor(previewWidth * heightRatio);
         }
 
-        return previewHeight;
+        return {previewWidth, previewHeight};
     }
 
     render() {
         const {fileInfo} = this.props;
         const {loaded} = this.state;
 
-        const previewHeight = this.computeImageHeight();
+        const {previewHeight, previewWidth} = this.computeImageDimensions();
 
         let minPreviewClass = '';
         if (
