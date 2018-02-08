@@ -17,35 +17,30 @@ export default class Integrations extends React.Component {
     static get propTypes() {
         return {
             team: PropTypes.object,
-            user: PropTypes.object
+            user: PropTypes.object,
+            siteName: PropTypes.string,
+            enableIncomingWebhooks: PropTypes.bool,
+            enableOutgoingWebhooks: PropTypes.bool,
+            enableCommands: PropTypes.bool,
+            enableOAuthServiceProvider: PropTypes.bool,
+            enableOnlyAdminIntegrations: PropTypes.bool
         };
-    }
-
-    constructor(props) {
-        super(props);
-
-        this.updateTitle = this.updateTitle.bind(this);
     }
 
     componentDidMount() {
         this.updateTitle();
     }
 
-    updateTitle() {
-        let currentSiteName = '';
-        if (global.window.mm_config.SiteName != null) {
-            currentSiteName = global.window.mm_config.SiteName;
-        }
-
+    updateTitle = () => {
+        const currentSiteName = this.props.siteName || '';
         document.title = Utils.localizeMessage('admin.sidebar.integrations', 'Integrations') + ' - ' + this.props.team.display_name + ' ' + currentSiteName;
     }
 
     render() {
         const options = [];
-        const config = window.mm_config;
         const isSystemAdmin = Utils.isSystemAdmin(this.props.user.roles);
 
-        if (config.EnableIncomingWebhooks === 'true') {
+        if (this.props.enableIncomingWebhooks) {
             options.push(
                 <IntegrationOption
                     key='incomingWebhook'
@@ -67,7 +62,7 @@ export default class Integrations extends React.Component {
             );
         }
 
-        if (config.EnableOutgoingWebhooks === 'true') {
+        if (this.props.enableOutgoingWebhooks) {
             options.push(
                 <IntegrationOption
                     key='outgoingWebhook'
@@ -89,7 +84,7 @@ export default class Integrations extends React.Component {
             );
         }
 
-        if (config.EnableCommands === 'true') {
+        if (this.props.enableCommands) {
             options.push(
                 <IntegrationOption
                     key='command'
@@ -111,7 +106,7 @@ export default class Integrations extends React.Component {
             );
         }
 
-        if (config.EnableOAuthServiceProvider === 'true' && (isSystemAdmin || config.EnableOnlyAdminIntegrations !== 'true')) {
+        if (this.props.enableOAuthServiceProvider && (isSystemAdmin || !this.props.enableOnlyAdminIntegrations)) {
             options.push(
                 <IntegrationOption
                     key='oauth2Apps'

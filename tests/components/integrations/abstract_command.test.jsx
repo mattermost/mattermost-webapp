@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {FormattedMessage} from 'react-intl';
 
-import AbstractCommand from 'components/integrations/components/abstract_command.jsx';
+import AbstractCommand from 'components/integrations/abstract_command.jsx';
 
 describe('components/integrations/AbstractCommand', () => {
     const header = {id: 'Header', defaultMessage: 'Header'};

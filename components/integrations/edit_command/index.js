@@ -9,12 +9,15 @@ import {getCommands} from 'mattermost-redux/selectors/entities/integrations';
 import EditCommand from './edit_command.jsx';
 
 function mapStateToProps(state, ownProps) {
+    const config = state.entities.general.config;
     const commandId = (new URLSearchParams(ownProps.location.search)).get('id');
+    const enableCommands = config.EnableCommands === 'true';
 
     return {
         ...ownProps,
         commandId,
-        commands: getCommands(state)
+        commands: getCommands(state),
+        enableCommands
     };
 }
 

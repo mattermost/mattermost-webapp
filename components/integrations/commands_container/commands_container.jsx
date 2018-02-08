@@ -5,10 +5,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
 
-import InstalledCommands from 'components/integrations/components/installed_commands';
-import AddCommand from 'components/integrations/components/add_command';
-import EditCommand from 'components/integrations/components/edit_command';
-import ConfirmIntegration from 'components/integrations/components/confirm_integration';
+import InstalledCommands from 'components/integrations/installed_commands';
+import AddCommand from 'components/integrations/add_command';
+import EditCommand from 'components/integrations/edit_command';
+import ConfirmIntegration from 'components/integrations/confirm_integration';
 
 const CommandRoute = ({component: Component, extraProps, ...rest}) => ( //eslint-disable-line react/prop-types
     <Route
@@ -56,7 +56,12 @@ export default class CommandsContainer extends React.PureComponent {
             * The function to call to fetch team commands
             */
             getCustomTeamCommands: PropTypes.func.isRequired
-        }).isRequired
+        }).isRequired,
+
+        /**
+        * Whether or not commands are enabled.
+        */
+        enableCommands: PropTypes.bool
     }
 
     constructor(props) {
@@ -67,7 +72,7 @@ export default class CommandsContainer extends React.PureComponent {
     }
 
     componentDidMount() {
-        if (window.mm_config.EnableCommands === 'true') {
+        if (this.props.enableCommands) {
             this.props.actions.getCustomTeamCommands(this.props.team.id).then(
                 () => this.setState({loading: false})
             );

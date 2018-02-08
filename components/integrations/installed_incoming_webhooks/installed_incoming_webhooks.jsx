@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
-import InstalledIncomingWebhook from 'components/integrations/components/installed_incoming_webhook.jsx';
+import InstalledIncomingWebhook from 'components/integrations/installed_incoming_webhook.jsx';
 
 export default class InstalledIncomingWebhooks extends React.PureComponent {
     static propTypes = {
@@ -59,7 +59,12 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
             * The function to call for incomingWebhook List and for the status of api
             */
             getIncomingHooks: PropTypes.func
-        })
+        }),
+
+        /**
+        * Whether or not incoming webhooks are enabled.
+        */
+        enableIncomingWebhooks: PropTypes.bool
     }
 
     constructor(props) {
@@ -73,7 +78,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent {
     }
 
     componentDidMount() {
-        if (window.mm_config.EnableIncomingWebhooks === 'true') {
+        if (this.props.enableIncomingWebhooks) {
             this.props.actions.getIncomingHooks(
                 this.props.teamId,
                 Constants.Integrations.START_PAGE_NUM,
