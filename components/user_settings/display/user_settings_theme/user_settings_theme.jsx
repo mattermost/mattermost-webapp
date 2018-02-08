@@ -17,8 +17,8 @@ import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 
-import CustomThemeChooser from './custom_theme_chooser.jsx';
-import PremadeThemeChooser from './premade_theme_chooser.jsx';
+import CustomThemeChooser from '../custom_theme_chooser.jsx';
+import PremadeThemeChooser from '../premade_theme_chooser';
 
 export default class ThemeSetting extends React.Component {
     constructor(props) {
@@ -71,7 +71,7 @@ export default class ThemeSetting extends React.Component {
         let showAllTeamsCheckbox = false;
         let applyToAllTeams = true;
 
-        if (global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.LDAP === 'true') {
+        if (this.props.isLicensed && this.props.ldap) {
             // show the "apply to all teams" checkbox if the user is on more than one team
             showAllTeamsCheckbox = Object.keys(TeamStore.getAll()).length > 1;
 
@@ -175,11 +175,10 @@ export default class ThemeSetting extends React.Component {
         }
 
         const displayCustom = this.state.type === 'custom';
-        const allowCustomThemes = global.mm_config.AllowCustomThemes !== 'false';
 
         let custom;
         let premade;
-        if (displayCustom && allowCustomThemes) {
+        if (displayCustom && this.props.allowCustomThemes) {
             custom = (
                 <div key='customThemeChooser'>
                     <CustomThemeChooser
@@ -204,7 +203,7 @@ export default class ThemeSetting extends React.Component {
         if (this.props.selected) {
             const inputs = [];
 
-            if (allowCustomThemes) {
+            if (this.props.allowCustomThemes) {
                 inputs.push(
                     <div
                         className='radio'
@@ -230,7 +229,7 @@ export default class ThemeSetting extends React.Component {
 
             inputs.push(premade);
 
-            if (allowCustomThemes) {
+            if (this.props.allowCustomThemes) {
                 inputs.push(
                     <div
                         className='radio'
@@ -350,5 +349,8 @@ ThemeSetting.propTypes = {
     selected: PropTypes.bool.isRequired,
     updateSection: PropTypes.func.isRequired,
     setRequireConfirm: PropTypes.func.isRequired,
-    setEnforceFocus: PropTypes.func.isRequired
+    setEnforceFocus: PropTypes.func.isRequired,
+    allowCustomThemes: PropTypes.bool,
+    isLicensed: PropTypes.bool.isRequired,
+    ldap: PropTypes.bool.isRequired
 };

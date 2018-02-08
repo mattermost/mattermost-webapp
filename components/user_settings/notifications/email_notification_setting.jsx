@@ -21,7 +21,10 @@ export default class EmailNotificationSetting extends React.Component {
         onCancel: PropTypes.func.isRequired,
         serverError: PropTypes.string,
         saving: PropTypes.bool,
-        focused: PropTypes.bool
+        focused: PropTypes.bool,
+        sendEmailNotifications: PropTypes.bool,
+        enableEmailBatching: PropTypes.bool,
+        siteName: PropTypes.string
     };
 
     constructor(props) {
@@ -78,7 +81,7 @@ export default class EmailNotificationSetting extends React.Component {
     }
 
     render() {
-        if (global.window.mm_config.SendEmailNotifications !== 'true' && this.props.activeSection === 'email') {
+        if (!this.props.sendEmailNotifications && this.props.activeSection === 'email') {
             const inputs = [];
 
             inputs.push(
@@ -107,7 +110,7 @@ export default class EmailNotificationSetting extends React.Component {
         if (this.props.activeSection !== 'email') {
             let description;
 
-            if (global.window.mm_config.SendEmailNotifications !== 'true') {
+            if (!this.props.sendEmailNotifications) {
                 description = (
                     <FormattedMessage
                         id='user.settings.notifications.email.disabled'
@@ -163,7 +166,7 @@ export default class EmailNotificationSetting extends React.Component {
 
         let batchingOptions = null;
         let batchingInfo = null;
-        if (global.window.mm_config.EnableEmailBatching === 'true') {
+        if (this.props.enableEmailBatching) {
             batchingOptions = (
                 <div>
                     <div className='radio'>
@@ -264,7 +267,7 @@ export default class EmailNotificationSetting extends React.Component {
                                 id='user.settings.notifications.emailInfo'
                                 defaultMessage='Email notifications are sent for mentions and direct messages when you are offline or away from {siteName} for more than 5 minutes.'
                                 values={{
-                                    siteName: global.window.mm_config.SiteName
+                                    siteName: this.props.siteName
                                 }}
                             />
                             {' '}

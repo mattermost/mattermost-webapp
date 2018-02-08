@@ -6,15 +6,13 @@ import {shallow} from 'enzyme';
 
 import {savePreferences} from 'actions/user_actions.jsx';
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-import UserSettingsDisplay from 'components/user_settings/user_settings_display.jsx';
+import UserSettingsDisplay from 'components/user_settings/display/user_settings_display.jsx';
 
 jest.mock('actions/user_actions.jsx', () => ({
     savePreferences: jest.fn()
 }));
 
-describe('components/user_settings/UserSettingsDisplay', () => {
-    global.window.mm_config = {};
-
+describe('components/user_settings/display/UserSettingsDisplay', () => {
     const user = {
         id: 'user_id',
         username: 'username',
@@ -29,18 +27,11 @@ describe('components/user_settings/UserSettingsDisplay', () => {
         closeModal: jest.fn(),
         collapseModal: jest.fn(),
         setRequireConfirm: jest.fn(),
-        setEnforceFocus: jest.fn()
+        setEnforceFocus: jest.fn(),
+        enableLinkPreviews: true,
+        enableThemeSelection: false,
+        defaultClientLocale: 'en'
     };
-
-    afterEach(() => {
-        global.window.mm_config = {};
-    });
-
-    beforeEach(() => {
-        global.window.mm_config.EnableLinkPreviews = 'true';
-        global.window.mm_config.EnableThemeSelection = 'false';
-        global.window.mm_config.DefaultClientLocale = 'en';
-    });
 
     test('should match snapshot, no active section', () => {
         const wrapper = shallow(<UserSettingsDisplay {...requiredProps}/>);
@@ -54,15 +45,21 @@ describe('components/user_settings/UserSettingsDisplay', () => {
     });
 
     test('should match snapshot, link preview section with EnableLinkPreviews is false', () => {
-        global.window.mm_config.EnableLinkPreviews = 'false';
-        const props = {...requiredProps, activeSection: 'linkpreview'};
+        const props = {
+            ...requiredProps,
+            activeSection: 'linkpreview',
+            enableLinkPreviews: false
+        };
         const wrapper = shallow(<UserSettingsDisplay {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, link preview section with EnableLinkPreviews is true', () => {
-        global.window.mm_config.EnableLinkPreviews = 'true';
-        const props = {...requiredProps, activeSection: 'linkpreview'};
+        const props = {
+            ...requiredProps,
+            activeSection: 'linkpreview',
+            enableLinkPreviews: true
+        };
         const wrapper = shallow(<UserSettingsDisplay {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
@@ -92,15 +89,21 @@ describe('components/user_settings/UserSettingsDisplay', () => {
     });
 
     test('should match snapshot, theme section with EnableThemeSelection is false', () => {
-        global.window.mm_config.EnableThemeSelection = 'false';
-        const props = {...requiredProps, activeSection: 'theme'};
+        const props = {
+            ...requiredProps,
+            activeSection: 'theme',
+            enableThemeSelection: false
+        };
         const wrapper = shallow(<UserSettingsDisplay {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, theme section with EnableThemeSelection is true', () => {
-        global.window.mm_config.EnableThemeSelection = 'true';
-        const props = {...requiredProps, activeSection: 'theme'};
+        const props = {
+            ...requiredProps,
+            activeSection: 'theme',
+            enableThemeSelection: true
+        };
         const wrapper = shallow(<UserSettingsDisplay {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });

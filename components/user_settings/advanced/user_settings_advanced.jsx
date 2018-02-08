@@ -50,7 +50,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
             )
         };
 
-        const webrtcEnabled = global.mm_config.EnableWebrtc === 'true';
+        const webrtcEnabled = this.props.enableWebrtc;
 
         if (!webrtcEnabled) {
             preReleaseFeaturesKeys = preReleaseFeaturesKeys.filter((f) => f !== 'WEBRTC_PREVIEW');
@@ -73,7 +73,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
 
         const isSaving = false;
 
-        const previewFeaturesEnabled = global.window.mm_config.EnablePreviewFeatures === 'true';
+        const previewFeaturesEnabled = this.props.enablePreviewFeatures;
 
         return {
             preReleaseFeatures: PreReleaseFeatures,
@@ -245,7 +245,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
     }
 
     renderJoinLeaveSection = () => {
-        if (window.mm_config.BuildEnterpriseReady === 'true' && window.mm_license && window.mm_license.IsLicensed === 'true') {
+        if (this.props.buildEnterpriseReady && this.props.isLicensed) {
             if (this.props.activeSection === 'join_leave') {
                 return (
                     <SettingItemMax
@@ -580,5 +580,9 @@ AdvancedSettingsDisplay.propTypes = {
     activeSection: PropTypes.string,
     prevActiveSection: PropTypes.string,
     closeModal: PropTypes.func.isRequired,
-    collapseModal: PropTypes.func.isRequired
+    collapseModal: PropTypes.func.isRequired,
+    enableWebrtc: PropTypes.bool,
+    enablePreviewFeatures: PropTypes.bool,
+    buildEnterpriseReady: PropTypes.bool,
+    isLicensed: PropTypes.bool
 };

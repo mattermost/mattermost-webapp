@@ -99,7 +99,17 @@ class UserSettingsGeneralTab extends React.Component {
         collapseModal: PropTypes.func.isRequired,
         actions: PropTypes.shape({
             getMe: PropTypes.func.isRequired
-        }).isRequired
+        }).isRequired,
+        sendEmailNotifications: PropTypes.bool,
+        requireEmailVerification: PropTypes.bool,
+        maxFileSize: PropTypes.number,
+        ldapFirstNameAttributeSet: PropTypes.bool,
+        ldapLastNameAttributeSet: PropTypes.bool,
+        samlFirstNameAttributeSet: PropTypes.bool,
+        samlLastNameAttributeSet: PropTypes.bool,
+        ldapNicknameAttributeSet: PropTypes.bool,
+        samlNicknameAttributeSet: PropTypes.bool,
+        positionAttributeSet: PropTypes.bool
     }
 
     constructor(props) {
@@ -204,7 +214,7 @@ class UserSettingsGeneralTab extends React.Component {
             () => {
                 this.updateSection('');
                 this.props.actions.getMe();
-                const verificationEnabled = global.window.mm_config.SendEmailNotifications === 'true' && global.window.mm_config.RequireEmailVerification === 'true' && emailUpdated;
+                const verificationEnabled = this.props.sendEmailNotifications && this.props.requireEmailVerification && emailUpdated;
 
                 if (verificationEnabled) {
                     ErrorStore.storeLastError({message: this.props.intl.formatMessage(holders.checkEmail, {email: user.email})});
@@ -243,7 +253,7 @@ class UserSettingsGeneralTab extends React.Component {
         if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
             this.setState({clientError: formatMessage(holders.validImage), serverError: ''});
             return;
-        } else if (file.size > this.state.maxFileSize) {
+        } else if (file.size > this.props.maxFileSize) {
             this.setState({clientError: formatMessage(holders.imageTooLarge), serverError: ''});
             return;
         }
@@ -341,7 +351,6 @@ class UserSettingsGeneralTab extends React.Component {
             pictureFile: null,
             loadingPicture: false,
             emailChangeInProgress: false,
-            maxFileSize: global.window.mm_config.MaxFileSize,
             sectionIsSaving: false
         };
     }
@@ -350,8 +359,8 @@ class UserSettingsGeneralTab extends React.Component {
         let emailSection;
 
         if (this.props.activeSection === 'email') {
-            const emailEnabled = global.window.mm_config.SendEmailNotifications === 'true';
-            const emailVerificationEnabled = global.window.mm_config.RequireEmailVerification === 'true';
+            const emailEnabled = this.props.sendEmailNotifications;
+            const emailVerificationEnabled = this.props.requireEmailVerification;
             const inputs = [];
 
             let helpText = (
@@ -683,9 +692,9 @@ class UserSettingsGeneralTab extends React.Component {
             let submit = null;
             if (
                 (this.props.user.auth_service === 'ldap' &&
-                    (global.window.mm_config.LdapFristNameAttributeSet === 'true' || global.window.mm_config.LdapLastNameAttributeSet === 'true')) ||
+                    (this.props.ldapFirstNameAttributeSet || this.props.ldapLastNameAttributeSet)) ||
                 (this.props.user.auth_service === Constants.SAML_SERVICE &&
-                    (global.window.mm_config.SamlFirstNameAttributeSet === 'true' || global.window.mm_config.SamlLastNameAttributeSet === 'true'))
+                    (this.props.samlFirstNameAttributeSet || this.props.samlLastNameAttributeSet))
             ) {
                 extraInfo = (
                     <span>
@@ -829,7 +838,7 @@ class UserSettingsGeneralTab extends React.Component {
         if (this.props.activeSection === 'nickname') {
             let extraInfo;
             let submit = null;
-            if ((this.props.user.auth_service === 'ldap' && global.window.mm_config.LdapNicknameAttributeSet === 'true') || (this.props.user.auth_service === Constants.SAML_SERVICE && global.window.mm_config.LdapNicknameAttributeSet === 'true')) {
+            if ((this.props.user.auth_service === 'ldap' && this.props.ldapNicknameAttributeSet) || (this.props.user.auth_service === Constants.SAML_SERVICE && this.props.samlNicknameAttributeSet)) {
                 extraInfo = (
                     <span>
                         <FormattedMessage
@@ -1011,7 +1020,7 @@ class UserSettingsGeneralTab extends React.Component {
         if (this.props.activeSection === 'position') {
             let extraInfo;
             let submit = null;
-            if ((this.props.user.auth_service === 'ldap' || this.props.user.auth_service === Constants.SAML_SERVICE) && global.window.mm_config.PositionAttributeSet === 'true') {
+            if ((this.props.user.auth_service === 'ldap' || this.props.user.auth_service === Constants.SAML_SERVICE) && this.props.positionAttributeSet) {
                 extraInfo = (
                     <span>
                         <FormattedMessage

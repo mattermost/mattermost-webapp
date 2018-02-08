@@ -9,15 +9,11 @@ import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 export default class PremadeThemeChooser extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
     render() {
         const theme = this.props.theme;
 
         const premadeThemes = [];
-        const allowedThemes = global.mm_config.AllowedThemes ? global.mm_config.AllowedThemes.split(',') : [];
+        const allowedThemes = this.props.allowedThemes;
         const hasAllowedThemes = allowedThemes.length > 1 || (allowedThemes[0] && allowedThemes[0].trim().length > 0);
 
         for (const k in Constants.THEMES) {
@@ -67,5 +63,10 @@ export default class PremadeThemeChooser extends React.Component {
 
 PremadeThemeChooser.propTypes = {
     theme: PropTypes.object.isRequired,
-    updateTheme: PropTypes.func.isRequired
+    updateTheme: PropTypes.func.isRequired,
+    allowedThemes: PropTypes.arrayOf(PropTypes.string)
+};
+
+PremadeThemeChooser.defaultProps = {
+    allowedThemes: []
 };
