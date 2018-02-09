@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {Client4} from 'mattermost-redux/client';
 
 import {postListScrollChange} from 'actions/global_actions.jsx';
 
@@ -108,7 +109,7 @@ export default class PostImageEmbed extends React.PureComponent {
                 <img
                     onClick={this.onImageClick}
                     className='img-div cursor--pointer'
-                    src={this.props.link}
+                    src={Client4.getBaseRoute() + '/image?url=' + encodeURIComponent(this.props.link)}
                 />
             </div>
         );
