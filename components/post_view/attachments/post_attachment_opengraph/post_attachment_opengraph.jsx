@@ -11,6 +11,25 @@ import {PostTypes} from 'utils/constants.jsx';
 import {useSafeUrl} from 'utils/url';
 import * as Utils from 'utils/utils.jsx';
 
+import {Attachment} from 'components/post_view/attachments/attachment_styles';
+
+const AttachmentOpenGraph = Attachment.extend`
+    max-width: 800px;
+`;
+
+const LARGE_IMAGE_MIN_WIDTH = 150;
+const IMAGE_DIMENSIONS = {
+    height: 80,
+    width: 80
+};
+const TEXT_MAX_LENGTH = 300;
+const TEXT_ELLIPSIS = '...';
+const IMAGE_LOADED = {
+    LOADING: 'loading',
+    YES: 'yes',
+    ERROR: 'error'
+};
+
 export default class PostAttachmentOpenGraph extends React.PureComponent {
     static propTypes = {
 
@@ -50,39 +69,16 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {};
-        this.largeImageMinWidth = 150;
-        this.imageDimentions = { // Image dimentions in pixels.
-            height: 80,
-            width: 80
-        };
-        this.textMaxLenght = 300;
-        this.textEllipsis = '...';
         this.largeImageMinRatio = 16 / 9;
-        this.smallImageContainerLeftPadding = 15;
-
         this.imageRatio = null;
 
-        this.smallImageContainer = null;
-        this.smallImageElement = null;
-
-        this.IMAGE_LOADED = {
-            LOADING: 'loading',
-            YES: 'yes',
-            ERROR: 'error'
-        };
-
-        this.fetchData = this.fetchData.bind(this);
-        this.toggleImageVisibility = this.toggleImageVisibility.bind(this);
-        this.onImageLoad = this.onImageLoad.bind(this);
-        this.onImageError = this.onImageError.bind(this);
-        this.handleRemovePreview = this.handleRemovePreview.bind(this);
     }
 
     componentWillMount() {
         const removePreview = this.isRemovePreview(this.props.post, this.props.currentUser);
 
         this.setState({
-            imageLoaded: this.IMAGE_LOADED.LOADING,
+            imageLoaded: IMAGE_LOADED.LOADING,
             imageVisible: this.props.previewCollapsed.startsWith('false'),
             hasLargeImage: false,
             removePreview
@@ -111,7 +107,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         setTimeout(postListScrollChange, 0);
     }
 
-    fetchData(url) {
+    fetchData = (url) => {
         if (!this.props.openGraphData) {
             this.props.actions.getOpenGraphMetadata(url);
         }
@@ -121,19 +117,19 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         if (Utils.isEmptyObject(data.images)) {
             return null;
         }
-
-        const bestImage = CommonUtils.getNearestPoint(this.imageDimentions, data.images, 'width', 'height');
+        console.log(data.images);
+        const bestImage = CommonUtils.getNearestPoint(IMAGE_DIMENSIONS, data.images, 'width', 'height');
         return bestImage.secure_url || bestImage.url;
     }
 
-    toggleImageVisibility() {
+    toggleImageVisibility = () => {
         this.setState({imageVisible: !this.state.imageVisible});
     }
 
-    onImageLoad(image) {
+    onImageLoad = (image) => {
         this.imageRatio = image.target.naturalWidth / image.target.naturalHeight;
         if (
-            image.target.naturalWidth >= this.largeImageMinWidth &&
+            image.target.naturalWidth >= LARGE_IMAGE_MIN_WIDTH &&
             this.imageRatio >= this.largeImageMinRatio &&
             !this.state.hasLargeImage
         ) {
@@ -142,12 +138,12 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
             });
         }
         this.setState({
-            imageLoaded: this.IMAGE_LOADED.YES
+            imageLoaded: IMAGE_LOADED.YES
         });
     }
 
-    onImageError() {
-        this.setState({imageLoaded: this.IMAGE_LOADED.ERROR});
+    onImageError = () => {
+        this.setState({imageLoaded: IMAGE_LOADED.ERROR});
     }
 
     loadImage(src) {
@@ -171,23 +167,14 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         return null;
     }
 
-    getSmallImageContainer = (node) => {
-        this.smallImageContainer = node;
-    }
-
     wrapInSmallImageContainer(imageElement) {
         return (
             <div
                 className='attachment__image__container--openraph'
-                ref={this.getSmallImageContainer}
             >
                 {imageElement}
             </div>
         );
-    }
-
-    getSmallImageElement = (node) => {
-        this.smallImageElement = node;
     }
 
     imageTag(imageUrl, renderingForLargeImage = false) {
@@ -196,7 +183,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
             imageUrl && renderingForLargeImage === this.state.hasLargeImage &&
             (!renderingForLargeImage || (renderingForLargeImage && this.state.imageVisible))
         ) {
-            if (this.state.imageLoaded === this.IMAGE_LOADED.LOADING) {
+            if (this.state.imageLoaded === IMAGE_LOADED.LOADING) {
                 if (renderingForLargeImage) {
                     element = <img className={'attachment__image attachment__image--openraph loading large_image'}/>;
                 } else {
@@ -204,7 +191,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                         <img className={'attachment__image attachment__image--openraph loading '}/>
                     );
                 }
-            } else if (this.state.imageLoaded === this.IMAGE_LOADED.YES) {
+            } else if (this.state.imageLoaded === IMAGE_LOADED.YES) {
                 if (renderingForLargeImage) {
                     element = (
                         <img
@@ -217,25 +204,24 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                         <img
                             className={'attachment__image attachment__image--openraph'}
                             src={imageUrl}
-                            ref={this.getSmallImageElement}
                         />
                     );
                 }
-            } else if (this.state.imageLoaded === this.IMAGE_LOADED.ERROR) {
+            } else if (this.state.imageLoaded === IMAGE_LOADED.ERROR) {
                 return null;
             }
         }
         return element;
     }
 
-    truncateText(text, maxLength = this.textMaxLenght, ellipsis = this.textEllipsis) {
+    truncateText(text, maxLength = TEXT_MAX_LENGTH, ellipsis = TEXT_ELLIPSIS) {
         if (text.length > maxLength) {
             return text.substring(0, maxLength - ellipsis.length) + ellipsis;
         }
         return text;
     }
 
-    handleRemovePreview() {
+    handleRemovePreview = () => {
         const props = Object.assign({}, this.props.post.props);
         props[PostTypes.REMOVE_LINK_PREVIEW] = 'true';
 
@@ -293,7 +279,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         }
 
         return (
-            <div
+            <AttachmentOpenGraph
                 className='attachment attachment--opengraph'
                 ref='attachment'
             >
@@ -336,7 +322,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                         {this.imageTag(imageUrl, false)}
                     </div>
                 </div>
-            </div>
+            </AttachmentOpenGraph>
         );
     }
 }
