@@ -11,10 +11,11 @@ import {PostTypes} from 'utils/constants.jsx';
 import {useSafeUrl} from 'utils/url';
 import * as Utils from 'utils/utils.jsx';
 
-import {Attachment} from 'components/post_view/attachments/attachment_styles';
+import {Attachment, AttachmentContent} from 'components/post_view/attachments/attachment_styles';
 
 const AttachmentOpenGraph = Attachment.extend`
     max-width: 800px;
+    border: 10px solid red;
 `;
 
 const LARGE_IMAGE_MIN_WIDTH = 150;
@@ -244,7 +245,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
     }
 
     render() {
-        debugger;
+        // debugger;
         const data = this.props.openGraphData;
         if (this.state.removePreview) {
             return null;
@@ -283,7 +284,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                 className='attachment attachment--opengraph'
                 ref='attachment'
             >
-                <div className='attachment__content'>
+                <AttachmentContent className='attachment__content'>
                     <div
                         className={'clearfix attachment__container attachment__container--opengraph'}
                     >
@@ -321,7 +322,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                         </div>
                         {this.imageTag(imageUrl, false)}
                     </div>
-                </div>
+                </AttachmentContent>
             </AttachmentOpenGraph>
         );
     }
