@@ -15,6 +15,10 @@ import {Attachment, AttachmentContent} from 'components/post_view/attachments/at
 
 const AttachmentOpenGraph = Attachment.extend`
     max-width: 800px;
+    div {
+        padding: 10px;
+        border:1px solid yellow;
+    }
 `;
 
 const LARGE_IMAGE_MIN_WIDTH = 150;
@@ -284,15 +288,15 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                     <AttachmentContent
                         className='bs4-d-flex bs4-justify-content-around'
                     >
-                        <div style={{color:'red'}}>1</div>
-                        <div style={{color:'blue'}}>2</div>
+                        <div>1</div>
+                        <div className='bs4-ml-auto'>2</div>
                     </AttachmentContent>
                 </AttachmentOpenGraph>
-                <AttachmentOpenGraph
+                <div
                     className='attachment attachment--opengraph'
                     ref='attachment'
                 >
-                    <AttachmentContent className='attachment__content'>
+                    <div className='attachment__content'>
                         <div
                             className={'clearfix attachment__container attachment__container--opengraph'}
                         >
@@ -330,8 +334,8 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                             </div>
                             {this.imageTag(imageUrl, false)}
                         </div>
-                    </AttachmentContent>
-                </AttachmentOpenGraph>
+                    </div>
+                </div>
             </div>
         );
     }
