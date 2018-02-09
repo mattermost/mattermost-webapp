@@ -126,7 +126,7 @@ export default class PopoverListMembers extends React.Component {
 
     handleGetProfilesInChannel = (e) => {
         this.setState({popoverTarget: e.target, showPopover: !this.state.showPopover});
-        this.props.actions.getProfilesInChannel(this.props.channel.id, 0, undefined, 'status');
+        this.props.actions.getProfilesInChannel(this.props.channel.id, 0, Client4.PER_PAGE_DEFAULT, 'status');
     }
 
     getTargetPopover = () => {
