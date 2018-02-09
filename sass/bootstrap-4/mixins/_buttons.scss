@@ -34,8 +34,8 @@
   }
 
   &:not(:disabled):not(.bs4-disabled):active,
-  &:not(:disabled):not(.bs4-disabled).active,
-  .bs4-show > &.dropdown-toggle {
+  &:not(:disabled):not(.bs4-disabled).bs4-active,
+  .bs4-show > &.bs4-dropdown-toggle {
     color: color-yiq($active-background);
     background-color: $active-background;
     @if $enable-gradients {
@@ -78,8 +78,8 @@
   }
 
   &:not(:disabled):not(.bs4-disabled):active,
-  &:not(:disabled):not(.bs4-disabled).active,
-  .bs4-show > &.dropdown-toggle {
+  &:not(:disabled):not(.bs4-disabled).bs4-active,
+  .bs4-show > &.bs4-dropdown-toggle {
     color: color-yiq($active-background);
     background-color: $active-background;
     border-color: $active-border;

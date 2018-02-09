@@ -39,7 +39,7 @@
   }
 
   &:not(:disabled):not(.bs4-disabled):active,
-  &:not(:disabled):not(.bs4-disabled).active {
+  &:not(:disabled):not(.bs4-disabled).bs4-active {
     background-image: none;
     @include box-shadow($btn-active-box-shadow);
 

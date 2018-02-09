@@ -17,13 +17,13 @@
 }
 
 tr {
-  &.bs4-collapse.show {
+  &.bs4-collapse.bs4-show {
     display: table-row;
   }
 }
 
 tbody {
-  &.bs4-collapse.show {
+  &.bs4-collapse.bs4-show {
     display: table-row-group;
   }
 }

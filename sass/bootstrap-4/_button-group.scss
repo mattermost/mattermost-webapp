@@ -94,7 +94,7 @@
 
 // The clickable button for toggling the menu
 // Set the same inset shadow as the :active state
-.bs4-btn-group.show .bs4-dropdown-toggle {
+.bs4-btn-group.bs4-show .bs4-dropdown-toggle {
   @include box-shadow($btn-active-box-shadow);
 
   // Show no shadow for `.btn-link` since it has no other button styles.

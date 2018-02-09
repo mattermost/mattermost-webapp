@@ -147,16 +147,16 @@
 
 .bs4-popover-auto {
   &[x-placement^="top"] {
-    @extend .bs-popover-top;
+    @extend .bs4-popover-top;
   }
   &[x-placement^="right"] {
-    @extend .bs-popover-right;
+    @extend .bs4-popover-right;
   }
   &[x-placement^="bottom"] {
-    @extend .bs-popover-bottom;
+    @extend .bs4-popover-bottom;
   }
   &[x-placement^="left"] {
-    @extend .bs-popover-left;
+    @extend .bs4-popover-left;
   }
 }
 

@@ -25,7 +25,7 @@
 
   // Because flex properties aren't inherited, we need to redeclare these first
   // few properities so that content nested within behave properly.
-  > .container,
+  > .bs4-container,
   > .bs4-container-fluid {
     display: flex;
     flex-wrap: wrap;

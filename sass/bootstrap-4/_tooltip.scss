@@ -91,16 +91,16 @@
 
 .bs4-tooltip-auto {
   &[x-placement^="top"] {
-    @extend .bs-tooltip-top;
+    @extend .bs4-tooltip-top;
   }
   &[x-placement^="right"] {
-    @extend .bs-tooltip-right;
+    @extend .bs4-tooltip-right;
   }
   &[x-placement^="bottom"] {
-    @extend .bs-tooltip-bottom;
+    @extend .bs4-tooltip-bottom;
   }
   &[x-placement^="left"] {
-    @extend .bs-tooltip-left;
+    @extend .bs4-tooltip-left;
   }
 }
 
