@@ -46,14 +46,14 @@
     }
   }
 
-  &.bs4-active .page-link {
+  &.bs4-active .bs4-page-link {
     z-index: 1;
     color: $pagination-active-color;
     background-color: $pagination-active-bg;
     border-color: $pagination-active-border-color;
   }
 
-  &.bs4-disabled .page-link {
+  &.bs4-disabled .bs4-page-link {
     color: $pagination-disabled-color;
     pointer-events: none;
     // Opinionated: remove the "hand" cursor set previously for .page-link

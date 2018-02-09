@@ -27,7 +27,7 @@
   }
 
   // Disabled comes first so active can properly restyle
-  &.disabled,
+  &.bs4-disabled,
   &:disabled {
     opacity: $btn-disabled-opacity;
     @include box-shadow(none);
@@ -38,7 +38,7 @@
     cursor: pointer;
   }
 
-  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.bs4-disabled):active,
   &:not(:disabled):not(.bs4-disabled).active {
     background-image: none;
     @include box-shadow($btn-active-box-shadow);
@@ -50,7 +50,7 @@
 }
 
 // Future-proof disabling of clicks on `<a>` elements
-a.btn.disabled,
+a.bs4-btn.bs4-disabled,
 fieldset:disabled a.bs4-btn {
   pointer-events: none;
 }

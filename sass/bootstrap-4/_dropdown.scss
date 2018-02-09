@@ -1,5 +1,5 @@
 // The dropdown wrapper (`<div>`)
-.dropup,
+.bs4-dropup,
 .bs4-dropdown {
   position: relative;
 }
@@ -98,14 +98,14 @@
     @include gradient-bg($dropdown-link-hover-bg);
   }
 
-  &.active,
+  &.bs4-active,
   &:active {
     color: $dropdown-link-active-color;
     text-decoration: none;
     @include gradient-bg($dropdown-link-active-bg);
   }
 
-  &.disabled,
+  &.bs4-disabled,
   &:disabled {
     color: $dropdown-link-disabled-color;
     background-color: transparent;

@@ -144,7 +144,7 @@
 
     &#{$infix} {
       @include media-breakpoint-down($breakpoint) {
-        > .container,
+        > .bs4-container,
         > .bs4-container-fluid {
           padding-right: 0;
           padding-left: 0;
@@ -174,7 +174,7 @@
         }
 
         // For nesting containers, have to redeclare for alignment purposes
-        > .container,
+        > .bs4-container,
         > .bs4-container-fluid {
           flex-wrap: nowrap;
         }
@@ -229,10 +229,10 @@
       }
     }
 
-    .show > .nav-link,
-    .active > .nav-link,
-    .nav-link.show,
-    .bs4-nav-link.active {
+    .bs4-show > .bs4-nav-link,
+    .bs4-active > .bs4-nav-link,
+    .bs4-nav-link.bs4-show,
+    .bs4-nav-link.bs4-active {
       color: $navbar-light-active-color;
     }
   }
@@ -281,10 +281,10 @@
       }
     }
 
-    .show > .nav-link,
-    .active > .nav-link,
-    .nav-link.show,
-    .bs4-nav-link.active {
+    .bs4-show > .bs4-nav-link,
+    .bs4-active > .bs4-nav-link,
+    .bs4-nav-link.bs4-show,
+    .bs4-nav-link.bs4-active {
       color: $navbar-dark-active-color;
     }
   }

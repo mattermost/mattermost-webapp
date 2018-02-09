@@ -50,7 +50,7 @@
     border-radius: .2rem;
   }
 
-  .form-control,
+  .bs4-form-control,
   .bs4-custom-select {
     .bs4-was-validated &:#{$state},
     &.bs4-is-#{$state} {

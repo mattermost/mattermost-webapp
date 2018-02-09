@@ -35,14 +35,14 @@
   }
 }
 
-.bs4-bs-popover-top {
+.bs4-popover-top {
   margin-bottom: $popover-arrow-height;
 
   .bs4-arrow {
     bottom: calc((#{$popover-arrow-height} + #{$popover-border-width}) * -1);
   }
 
-  .arrow::before,
+  .bs4-arrow::before,
   .bs4-arrow::after {
     border-width: $popover-arrow-height ($popover-arrow-width / 2) 0;
   }
@@ -58,7 +58,7 @@
   }
 }
 
-.bs4-bs-popover-right {
+.bs4-popover-right {
   margin-left: $popover-arrow-height;
 
   .bs4-arrow {
@@ -68,7 +68,7 @@
     margin: $border-radius-lg 0; // make sure the arrow does not touch the popover's rounded corners
   }
 
-  .arrow::before,
+  .bs4-arrow::before,
   .bs4-arrow::after {
     border-width: ($popover-arrow-width / 2) $popover-arrow-height ($popover-arrow-width / 2) 0;
   }
@@ -84,14 +84,14 @@
   }
 }
 
-.bs4-bs-popover-bottom {
+.bs4-popover-bottom {
   margin-top: $popover-arrow-height;
 
   .bs4-arrow {
     top: calc((#{$popover-arrow-height} + #{$popover-border-width}) * -1);
   }
 
-  .arrow::before,
+  .bs4-arrow::before,
   .bs4-arrow::after {
     border-width: 0 ($popover-arrow-width / 2) $popover-arrow-height ($popover-arrow-width / 2);
   }
@@ -119,7 +119,7 @@
   }
 }
 
-.bs4-bs-popover-left {
+.bs4-popover-left {
   margin-right: $popover-arrow-height;
 
   .bs4-arrow {
@@ -129,7 +129,7 @@
     margin: $border-radius-lg 0; // make sure the arrow does not touch the popover's rounded corners
   }
 
-  .arrow::before,
+  .bs4-arrow::before,
   .bs4-arrow::after {
     border-width: ($popover-arrow-width / 2) 0 ($popover-arrow-width / 2) $popover-arrow-height;
   }
@@ -145,7 +145,7 @@
   }
 }
 
-.bs4-bs-popover-auto {
+.bs4-popover-auto {
   &[x-placement^="top"] {
     @extend .bs-popover-top;
   }

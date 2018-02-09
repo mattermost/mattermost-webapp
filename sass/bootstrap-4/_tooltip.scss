@@ -29,7 +29,7 @@
   }
 }
 
-.bs4-bs-tooltip-top {
+.bs4-tooltip-top {
   padding: $tooltip-arrow-height 0;
 
   .bs4-arrow {
@@ -43,7 +43,7 @@
   }
 }
 
-.bs4-bs-tooltip-right {
+.bs4-tooltip-right {
   padding: 0 $tooltip-arrow-height;
 
   .bs4-arrow {
@@ -59,7 +59,7 @@
   }
 }
 
-.bs4-bs-tooltip-bottom {
+.bs4-tooltip-bottom {
   padding: $tooltip-arrow-height 0;
 
   .bs4-arrow {
@@ -73,7 +73,7 @@
   }
 }
 
-.bs4-bs-tooltip-left {
+.bs4-tooltip-left {
   padding: 0 $tooltip-arrow-height;
 
   .bs4-arrow {
@@ -89,7 +89,7 @@
   }
 }
 
-.bs4-bs-tooltip-auto {
+.bs4-tooltip-auto {
   &[x-placement^="top"] {
     @extend .bs-tooltip-top;
   }

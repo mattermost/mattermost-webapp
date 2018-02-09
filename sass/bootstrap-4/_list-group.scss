@@ -63,7 +63,7 @@
     text-decoration: none;
   }
 
-  &.disabled,
+  &.bs4-disabled,
   &:disabled {
     color: $list-group-disabled-color;
     background-color: $list-group-disabled-bg;

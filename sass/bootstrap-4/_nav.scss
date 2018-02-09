@@ -51,8 +51,8 @@
     }
   }
 
-  .nav-link.active,
-  .bs4-nav-item.show .nav-link {
+  .bs4-nav-link.bs4-active,
+  .bs4-nav-item.bs4-show .bs4-nav-link {
     color: $nav-tabs-link-active-color;
     background-color: $nav-tabs-link-active-bg;
     border-color: $nav-tabs-link-active-border-color;
@@ -76,8 +76,8 @@
     @include border-radius($nav-pills-border-radius);
   }
 
-  .nav-link.active,
-  .bs4-show > .nav-link {
+  .bs4-nav-link.bs4-active,
+  .bs4-show > .bs4-nav-link {
     color: $nav-pills-link-active-color;
     background-color: $nav-pills-link-active-bg;
   }

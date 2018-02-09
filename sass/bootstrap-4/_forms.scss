@@ -125,7 +125,7 @@ select.bs4-form-control {
   border: solid transparent;
   border-width: $input-border-width 0;
 
-  &.form-control-sm,
+  &.bs4-form-control-sm,
   &.bs4-form-control-lg {
     padding-right: 0;
     padding-left: 0;
@@ -193,7 +193,7 @@ select.bs4-form-control-lg {
   margin-right: -5px;
   margin-left: -5px;
 
-  > .col,
+  > .bs4-col,
   > [class*="bs4-col-"] {
     padding-right: 5px;
     padding-left: 5px;

@@ -99,7 +99,7 @@
     @include border-radius($custom-checkbox-indicator-border-radius);
   }
 
-  .bs4-custom-control-input:checked ~ .custom-control-label {
+  .bs4-custom-control-input:checked ~ .bs4-custom-control-label {
     &::before {
       @include gradient-bg($custom-control-indicator-checked-bg);
     }
@@ -108,7 +108,7 @@
     }
   }
 
-  .bs4-custom-control-input:indeterminate ~ .custom-control-label {
+  .bs4-custom-control-input:indeterminate ~ .bs4-custom-control-label {
     &::before {
       @include gradient-bg($custom-checkbox-indicator-indeterminate-bg);
       @include box-shadow($custom-checkbox-indicator-indeterminate-box-shadow);
@@ -137,7 +137,7 @@
     border-radius: $custom-radio-indicator-border-radius;
   }
 
-  .bs4-custom-control-input:checked ~ .custom-control-label {
+  .bs4-custom-control-input:checked ~ .bs4-custom-control-label {
     &::before {
       @include gradient-bg($custom-control-indicator-checked-bg);
     }

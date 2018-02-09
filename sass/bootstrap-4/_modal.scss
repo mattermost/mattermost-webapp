@@ -41,11 +41,11 @@
   pointer-events: none;
 
   // When fading in the modal, animate it to slide down
-  .bs4-modal.fade & {
+  .bs4-modal.bs4-fade & {
     @include transition($modal-transition);
     transform: translate(0, -25%);
   }
-  .bs4-modal.show & {
+  .bs4-modal.bs4-show & {
     transform: translate(0, 0);
   }
 }

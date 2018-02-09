@@ -1,7 +1,7 @@
 // stylelint-disable selector-no-qualifying-type
 
 // Make the div behave like a button
-.btn-group,
+.bs4-btn-group,
 .bs4-btn-group-vertical {
   position: relative;
   display: inline-flex;
@@ -24,10 +24,10 @@
   }
 
   // Prevent double borders when buttons are next to each other
-  .btn + .btn,
-  .btn + .btn-group,
-  .btn-group + .btn,
-  .bs4-btn-group + .btn-group {
+  .bs4-btn + .bs4-btn,
+  .bs4-btn + .bs4-btn-group,
+  .bs4-btn-group + .bs4-btn,
+  .bs4-btn-group + .bs4-btn-group {
     margin-left: -$btn-border-width;
   }
 }
@@ -49,13 +49,13 @@
   }
 
   // Reset rounded corners
-  > .btn:not(:last-child):not(.dropdown-toggle),
-  > .bs4-btn-group:not(:last-child) > .btn {
+  > .bs4-btn:not(:last-child):not(.bs4-dropdown-toggle),
+  > .bs4-btn-group:not(:last-child) > .bs4-btn {
     @include border-right-radius(0);
   }
 
-  > .btn:not(:first-child),
-  > .bs4-btn-group:not(:first-child) > .btn {
+  > .bs4-btn:not(:first-child),
+  > .bs4-btn-group:not(:first-child) > .bs4-btn {
     @include border-left-radius(0);
   }
 }
@@ -64,8 +64,8 @@
 //
 // Remix the default button sizing classes into new ones for easier manipulation.
 
-.bs4-btn-group-sm > .btn { @extend .btn-sm; }
-.bs4-btn-group-lg > .btn { @extend .btn-lg; }
+.bs4-btn-group-sm > .bs4-btn { @extend .bs4-btn-sm; }
+.bs4-btn-group-lg > .bs4-btn { @extend .bs4-btn-lg; }
 
 
 //
@@ -81,12 +81,12 @@
   }
 }
 
-.bs4-btn-sm + .dropdown-toggle-split {
+.bs4-btn-sm + .bs4-dropdown-toggle-split {
   padding-right: $btn-padding-x-sm * .75;
   padding-left: $btn-padding-x-sm * .75;
 }
 
-.bs4-btn-lg + .dropdown-toggle-split {
+.bs4-btn-lg + .bs4-dropdown-toggle-split {
   padding-right: $btn-padding-x-lg * .75;
   padding-left: $btn-padding-x-lg * .75;
 }
@@ -94,7 +94,7 @@
 
 // The clickable button for toggling the menu
 // Set the same inset shadow as the :active state
-.bs4-btn-group.show .dropdown-toggle {
+.bs4-btn-group.show .bs4-dropdown-toggle {
   @include box-shadow($btn-active-box-shadow);
 
   // Show no shadow for `.btn-link` since it has no other button styles.
@@ -113,27 +113,27 @@
   align-items: flex-start;
   justify-content: center;
 
-  .btn,
+  .bs4-btn,
   .bs4-btn-group {
     width: 100%;
   }
 
-  > .btn + .btn,
-  > .btn + .btn-group,
-  > .btn-group + .btn,
-  > .bs4-btn-group + .btn-group {
+  > .bs4-btn + .bs4-btn,
+  > .bs4-btn + .bs4-btn-group,
+  > .bs4-btn-group + .bs4-btn,
+  > .bs4-btn-group + .bs4-btn-group {
     margin-top: -$btn-border-width;
     margin-left: 0;
   }
 
   // Reset rounded corners
-  > .btn:not(:last-child):not(.dropdown-toggle),
-  > .bs4-btn-group:not(:last-child) > .btn {
+  > .bs4-btn:not(:last-child):not(.bs4-dropdown-toggle),
+  > .bs4-btn-group:not(:last-child) > .bs4-btn {
     @include border-bottom-radius(0);
   }
 
-  > .btn:not(:first-child),
-  > .bs4-btn-group:not(:first-child) > .btn {
+  > .bs4-btn:not(:first-child),
+  > .bs4-btn-group:not(:first-child) > .bs4-btn {
     @include border-top-radius(0);
   }
 }
@@ -145,15 +145,15 @@
 // `required` attribute, we have to "hide" the inputs via `clip`. We cannot use
 // `display: none;` or `visibility: hidden;` as that also hides the popover.
 // Simply visually hiding the inputs via `opacity` would leave them clickable in
-// certain cases which is prevented by using `clip` and `pointer-events`.
+// certain cases which is prevented by using `clip` and `pointer-events`.bs4-
 // This way, we ensure a DOM element is visible to position the popover from.
 //
 // See https://github.com/twbs/bootstrap/pull/12794 and
 // https://github.com/twbs/bootstrap/pull/14559 for more information.
 
 .bs4-btn-group-toggle {
-  > .btn,
-  > .bs4-btn-group > .btn {
+  > .bs4-btn,
+  > .bs4-btn-group > .bs4-btn {
     margin-bottom: 0; // Override default `<label>` value
 
     input[type="radio"],

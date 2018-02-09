@@ -19,21 +19,21 @@
   perspective: 1000px;
 }
 
-.carousel-item.active,
-.carousel-item-next,
+.bs4-carousel-item.active,
+.bs4-carousel-item-next,
 .bs4-carousel-item-prev {
   display: block;
 }
 
-.carousel-item-next,
+.bs4-carousel-item-next,
 .bs4-carousel-item-prev {
   position: absolute;
   top: 0;
 }
 
 // CSS3 transforms when supported by the browser
-.carousel-item-next.carousel-item-left,
-.bs4-carousel-item-prev.carousel-item-right {
+.bs4-carousel-item-next.bs4-carousel-item-left,
+.bs4-carousel-item-prev.bs4-carousel-item-right {
   transform: translateX(0);
 
   @supports (transform-style: preserve-3d) {
@@ -41,8 +41,8 @@
   }
 }
 
-.carousel-item-next,
-.bs4-active.carousel-item-right {
+.bs4-carousel-item-next,
+.bs4-active.bs4-carousel-item-right {
   transform: translateX(100%);
 
   @supports (transform-style: preserve-3d) {
@@ -50,8 +50,8 @@
   }
 }
 
-.carousel-item-prev,
-.bs4-active.carousel-item-left {
+.bs4-carousel-item-prev,
+.bs4-active.bs4-carousel-item-left {
   transform: translateX(-100%);
 
   @supports (transform-style: preserve-3d) {
@@ -64,7 +64,7 @@
 // Left/right controls for nav
 //
 
-.carousel-control-prev,
+.bs4-carousel-control-prev,
 .bs4-carousel-control-next {
   position: absolute;
   top: 0;
@@ -102,7 +102,7 @@
 }
 
 // Icons for within
-.carousel-control-prev-icon,
+.bs4-carousel-control-prev-icon,
 .bs4-carousel-control-next-icon {
   display: inline-block;
   width: $carousel-control-icon-width;

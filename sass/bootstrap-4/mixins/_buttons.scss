@@ -26,15 +26,15 @@
   }
 
   // Disabled comes first so active can properly restyle
-  &.disabled,
+  &.bs4-disabled,
   &:disabled {
     color: color-yiq($background);
     background-color: $background;
     border-color: $border;
   }
 
-  &:not(:disabled):not(.disabled):active,
-  &:not(:disabled):not(.disabled).active,
+  &:not(:disabled):not(.bs4-disabled):active,
+  &:not(:disabled):not(.bs4-disabled).active,
   .bs4-show > &.dropdown-toggle {
     color: color-yiq($active-background);
     background-color: $active-background;
@@ -71,14 +71,14 @@
     box-shadow: 0 0 0 $btn-focus-width rgba($color, .5);
   }
 
-  &.disabled,
+  &.bs4-disabled,
   &:disabled {
     color: $color;
     background-color: transparent;
   }
 
-  &:not(:disabled):not(.disabled):active,
-  &:not(:disabled):not(.disabled).active,
+  &:not(:disabled):not(.bs4-disabled):active,
+  &:not(:disabled):not(.bs4-disabled).active,
   .bs4-show > &.dropdown-toggle {
     color: color-yiq($active-background);
     background-color: $active-background;
