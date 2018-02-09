@@ -12,11 +12,14 @@ import {
     localizeMessage
 } from 'utils/utils';
 
+import {postListScrollChange} from 'actions/global_actions.jsx';
+
 import LoadingImagePreview from 'components/loading_image_preview';
 import ViewImageModal from 'components/view_image.jsx';
 
 const PREVIEW_IMAGE_MAX_WIDTH = 1024;
 const PREVIEW_IMAGE_MAX_HEIGHT = 350;
+const PREVIEW_IMAGE_MIN_DIMENSION = 50;
 
 export default class SingleImageView extends React.PureComponent {
     static propTypes = {
@@ -47,6 +50,9 @@ export default class SingleImageView extends React.PureComponent {
         window.addEventListener('resize', this.handleResize);
         this.setViewPortWidth();
         this.loadImage(this.props.fileInfo);
+
+        // Timeout used to delay execution until after current render cycle
+        setTimeout(postListScrollChange, 0);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -102,14 +108,14 @@ export default class SingleImageView extends React.PureComponent {
         this.fileImage = node;
     }
 
-    computeImageDimension() {
+    computeImageDimensions = () => {
         const {fileInfo} = this.props;
         const {viewPortWidth} = this.state;
 
         let previewWidth = fileInfo.width;
         let previewHeight = fileInfo.height;
 
-        if (previewWidth > viewPortWidth) {
+        if (viewPortWidth && previewWidth > viewPortWidth) {
             const origRatio = fileInfo.height / fileInfo.width;
             previewWidth = Math.floor(Math.min(PREVIEW_IMAGE_MAX_WIDTH, fileInfo.width, viewPortWidth));
             previewHeight = Math.floor(previewWidth * origRatio);
@@ -128,10 +134,19 @@ export default class SingleImageView extends React.PureComponent {
         const {fileInfo} = this.props;
         const {loaded} = this.state;
 
-        const {
-            previewWidth,
-            previewHeight
-        } = this.computeImageDimension();
+        const {previewHeight, previewWidth} = this.computeImageDimensions();
+
+        let minPreviewClass = '';
+        if (
+            previewWidth < PREVIEW_IMAGE_MIN_DIMENSION ||
+            previewHeight < PREVIEW_IMAGE_MIN_DIMENSION
+        ) {
+            minPreviewClass = 'min-preview ';
+        }
+
+        if (previewHeight > previewWidth) {
+            minPreviewClass += 'min-preview--portrait ';
+        }
 
         const fileHeader = (
             <div className='file-details'>
@@ -156,8 +171,8 @@ export default class SingleImageView extends React.PureComponent {
         let loadingImagePreview;
 
         let fadeInClass = '';
-        let imageLoadedDimension = {width: previewWidth, height: previewHeight};
-        let imageContainerDimension = {width: previewWidth, height: previewHeight};
+        let imageStyle = {height: previewHeight};
+        const imageContainerStyle = {height: previewHeight};
         if (loaded) {
             viewImageModal = (
                 <ViewImageModal
@@ -168,8 +183,7 @@ export default class SingleImageView extends React.PureComponent {
             );
 
             fadeInClass = 'image-fade-in';
-            imageLoadedDimension = {cursor: 'pointer'};
-            imageContainerDimension = {};
+            imageStyle = {cursor: 'pointer'};
         } else {
             loadingImagePreview = (
                 <LoadingImagePreview
@@ -190,14 +204,16 @@ export default class SingleImageView extends React.PureComponent {
                 >
                     {fileHeader}
                     <div
-                        style={imageContainerDimension}
                         className='image-container'
                     >
-                        <div className={`image-loaded ${fadeInClass}`}>
+                        <div
+                            className={`image-loaded ${fadeInClass}`}
+                            style={imageContainerStyle}
+                        >
                             <img
                                 ref={this.setImageLoadedRef}
-                                style={imageLoadedDimension}
-                                className={svgClass}
+                                style={imageStyle}
+                                className={`${minPreviewClass} ${svgClass}`}
                                 onClick={this.handleImageClick}
                             />
                         </div>
