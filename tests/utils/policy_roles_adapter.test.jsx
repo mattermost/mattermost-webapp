@@ -54,6 +54,12 @@ describe('PolicyRolesAdapter', function() {
                     Permissions.DELETE_OTHERS_POSTS,
                     Permissions.EDIT_POST
                 ]
+            },
+            system_user: {
+                name: 'system_user',
+                permissions: [
+                    Permissions.CREATE_TEAM
+                ]
             }
         };
         const teamPolicies = {

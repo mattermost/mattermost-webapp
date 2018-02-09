@@ -86,6 +86,11 @@ const MAPPING = {
             {roleName: 'team_admin', permission: Permissions.DELETE_POST, shouldHave: false},
             {roleName: 'team_admin', permission: Permissions.DELETE_OTHERS_POSTS, shouldHave: false}
         ]
+    },
+
+    enableTeamCreation: {
+        true: [{roleName: 'system_user', permission: Permissions.CREATE_TEAM, shouldHave: true}],
+        false: [{roleName: 'system_user', permission: Permissions.CREATE_TEAM, shouldHave: false}]
     }
 };
 
