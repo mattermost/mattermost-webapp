@@ -13,8 +13,5 @@ export const AttachmentContent = styled.div`
     margin: 5px 0 5px 20px;
     padding: 2px 5px;
     background: ${(props) => props.theme.centerChannelBg};
-    border-color: ${(props) => {
-        console.log(props)
-        return changeOpacity(props.theme.centerChannelColor, 0.3)
-    }};
+    border-color: ${(props) => changeOpacity(props.theme.centerChannelColor, 0.3)};
 `;
