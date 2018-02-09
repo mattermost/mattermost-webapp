@@ -1,3 +1,4 @@
+const childProcess = require('child_process');
 const path = require('path');
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -252,6 +253,9 @@ var config = {
         new webpack.optimize.CommonsChunkPlugin({
             minChunks: 2,
             children: true
+        }),
+        new webpack.DefinePlugin({
+            COMMIT_HASH: JSON.stringify(childProcess.execSync('git rev-parse HEAD').toString())
         }),
         extractCSS,
         extractSCSS
