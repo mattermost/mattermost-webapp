@@ -15,7 +15,6 @@ import {browserHistory} from 'utils/browser_history';
 import {makeAsyncComponent} from 'components/async_load';
 import store from 'stores/redux_store.jsx';
 import loadRoot from 'bundle-loader?lazy!components/root.jsx';
-import StylesThemeProvider from 'components/styles_theme_provider';
 
 const Root = makeAsyncComponent(loadRoot);
 
@@ -42,16 +41,14 @@ function preRenderSetup(callwhendone) {
 
 function renderRootComponent() {
     ReactDOM.render((
-        <StylesThemeProvider>
-            <Provider store={store}>
-                <Router history={browserHistory}>
-                    <Route
-                        path='/'
-                        component={Root}
-                    />
-                </Router>
-            </Provider>
-        </StylesThemeProvider>
+        <Provider store={store}>
+            <Router history={browserHistory}>
+                <Route
+                    path='/'
+                    component={Root}
+                />
+            </Router>
+        </Provider>
     ),
     document.getElementById('root'));
 }

@@ -5,15 +5,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {ThemeProvider} from 'styled-components';
 
-const ApplyTheme = ({children}) => {
-    console.log('rerender')
-    return (
-    <ThemeProvider theme={{color: 'yellow'}}>
+const ApplyTheme = ({children, theme}) => (
+    <ThemeProvider theme={theme}>
         {children}
     </ThemeProvider>
-)};
+);
 ApplyTheme.propTypes = {
-    children: PropTypes.any
+    children: PropTypes.any,
+    theme: PropTypes.object,
 };
 
 export default ApplyTheme;
