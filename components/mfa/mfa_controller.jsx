@@ -14,9 +14,16 @@ import Confirm from 'components/mfa/components/confirm';
 
 export default class MFAController extends React.Component {
     componentDidMount() {
+        document.body.classList.add('sticky');
+        document.getElementById('root').classList.add('container-fluid');
         if (window.mm_license.MFA !== 'true' || window.mm_config.EnableMultifactorAuthentication !== 'true') {
             this.props.history.push('/');
         }
+    }
+
+    componentWillUnmount() {
+        document.body.classList.remove('sticky');
+        document.getElementById('root').classList.remove('container-fluid');
     }
 
     handleOnClick = (e) => {
@@ -46,8 +53,8 @@ export default class MFAController extends React.Component {
         }
 
         return (
-            <div className='inner-wrap sticky'>
-                <div className='content'>
+            <div className='inner-wrap'>
+                <div className='row content'>
                     <div>
                         {backButton}
                         <div className='col-sm-12'>
