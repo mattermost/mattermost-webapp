@@ -1,0 +1,46 @@
+// stylelint-disable declaration-no-important
+
+// Flex variation
+//
+// Custom styles for additional flex alignment options.
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+  @include media-breakpoint-up($breakpoint) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+    .bs4-flex#{$infix}-row            { flex-direction: row !important; }
+    .bs4-flex#{$infix}-column         { flex-direction: column !important; }
+    .bs4-flex#{$infix}-row-reverse    { flex-direction: row-reverse !important; }
+    .bs4-flex#{$infix}-column-reverse { flex-direction: column-reverse !important; }
+
+    .bs4-flex#{$infix}-wrap         { flex-wrap: wrap !important; }
+    .bs4-flex#{$infix}-nowrap       { flex-wrap: nowrap !important; }
+    .bs4-flex#{$infix}-wrap-reverse { flex-wrap: wrap-reverse !important; }
+
+    .bs4-justify-content#{$infix}-start   { justify-content: flex-start !important; }
+    .bs4-justify-content#{$infix}-end     { justify-content: flex-end !important; }
+    .bs4-justify-content#{$infix}-center  { justify-content: center !important; }
+    .bs4-justify-content#{$infix}-between { justify-content: space-between !important; }
+    .bs4-justify-content#{$infix}-around  { justify-content: space-around !important; }
+
+    .bs4-align-items#{$infix}-start    { align-items: flex-start !important; }
+    .bs4-align-items#{$infix}-end      { align-items: flex-end !important; }
+    .bs4-align-items#{$infix}-center   { align-items: center !important; }
+    .bs4-align-items#{$infix}-baseline { align-items: baseline !important; }
+    .bs4-align-items#{$infix}-stretch  { align-items: stretch !important; }
+
+    .bs4-align-content#{$infix}-start   { align-content: flex-start !important; }
+    .bs4-align-content#{$infix}-end     { align-content: flex-end !important; }
+    .bs4-align-content#{$infix}-center  { align-content: center !important; }
+    .bs4-align-content#{$infix}-between { align-content: space-between !important; }
+    .bs4-align-content#{$infix}-around  { align-content: space-around !important; }
+    .bs4-align-content#{$infix}-stretch { align-content: stretch !important; }
+
+    .bs4-align-self#{$infix}-auto     { align-self: auto !important; }
+    .bs4-align-self#{$infix}-start    { align-self: flex-start !important; }
+    .bs4-align-self#{$infix}-end      { align-self: flex-end !important; }
+    .bs4-align-self#{$infix}-center   { align-self: center !important; }
+    .bs4-align-self#{$infix}-baseline { align-self: baseline !important; }
+    .bs4-align-self#{$infix}-stretch  { align-self: stretch !important; }
+  }
+}
