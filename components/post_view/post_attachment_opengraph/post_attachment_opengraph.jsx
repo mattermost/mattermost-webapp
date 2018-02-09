@@ -49,6 +49,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
 
     constructor(props) {
         super(props);
+        this.state = {};
         this.largeImageMinWidth = 150;
         this.imageDimentions = { // Image dimentions in pixels.
             height: 80,
@@ -257,9 +258,18 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
     }
 
     render() {
+        debugger;
         const data = this.props.openGraphData;
-        if (!data || Utils.isEmptyObject(data.description) || this.state.removePreview) {
+        if (this.state.removePreview) {
             return null;
+        }
+        if (!data || Utils.isEmptyObject(data.description) || this.state.removePreview) {
+            return (
+                <div
+                    className='attachment attachment--opengraph'
+                    ref='attachment'
+                />
+            );
         }
 
         let removePreviewButton;
