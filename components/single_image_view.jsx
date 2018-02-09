@@ -17,6 +17,7 @@ import ViewImageModal from 'components/view_image.jsx';
 
 const PREVIEW_IMAGE_MAX_WIDTH = 1024;
 const PREVIEW_IMAGE_MAX_HEIGHT = 350;
+const PREVIEW_IMAGE_MIN_DIMENSION = 50;
 
 export default class SingleImageView extends React.PureComponent {
     static propTypes = {
@@ -133,6 +134,18 @@ export default class SingleImageView extends React.PureComponent {
             previewHeight
         } = this.computeImageDimension();
 
+        let minPreviewClass = '';
+        if (
+            previewWidth < PREVIEW_IMAGE_MIN_DIMENSION ||
+            previewHeight < PREVIEW_IMAGE_MIN_DIMENSION
+        ) {
+            minPreviewClass = 'min-preview ';
+        }
+
+        if (previewHeight > previewWidth) {
+            minPreviewClass += 'min-preview--portrait ';
+        }
+
         const fileHeader = (
             <div className='file-details'>
                 <span
@@ -197,7 +210,7 @@ export default class SingleImageView extends React.PureComponent {
                             <img
                                 ref={this.setImageLoadedRef}
                                 style={imageLoadedDimension}
-                                className={svgClass}
+                                className={`${minPreviewClass} ${svgClass}`}
                                 onClick={this.handleImageClick}
                             />
                         </div>
