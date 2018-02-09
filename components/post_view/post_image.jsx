@@ -102,6 +102,11 @@ export default class PostImageEmbed extends React.PureComponent {
             return null;
         }
 
+        var url = this.props.link;
+        if (global.window.mm_config.HasImageProxy === 'true') {
+            url = Client4.getBaseRoute() + '/image?url=' + encodeURIComponent(url);
+        }
+
         return (
             <div
                 className='post__embed-container'
@@ -109,7 +114,7 @@ export default class PostImageEmbed extends React.PureComponent {
                 <img
                     onClick={this.onImageClick}
                     className='img-div cursor--pointer'
-                    src={Client4.getBaseRoute() + '/image?url=' + encodeURIComponent(this.props.link)}
+                    src={url}
                 />
             </div>
         );
