@@ -5,7 +5,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {Router, Route} from 'react-router-dom';
-import {ThemeProvider} from 'styled-components';
 
 // Import our styles
 import 'bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css';
@@ -16,6 +15,7 @@ import {browserHistory} from 'utils/browser_history';
 import {makeAsyncComponent} from 'components/async_load';
 import store from 'stores/redux_store.jsx';
 import loadRoot from 'bundle-loader?lazy!components/root.jsx';
+import StylesThemeProvider from 'components/styles_theme_provider';
 
 const Root = makeAsyncComponent(loadRoot);
 
@@ -42,7 +42,7 @@ function preRenderSetup(callwhendone) {
 
 function renderRootComponent() {
     ReactDOM.render((
-        <ThemeProvider theme={{color: 'red'}}>
+        <StylesThemeProvider>
             <Provider store={store}>
                 <Router history={browserHistory}>
                     <Route
@@ -51,7 +51,7 @@ function renderRootComponent() {
                     />
                 </Router>
             </Provider>
-        </ThemeProvider>
+        </StylesThemeProvider>
     ),
     document.getElementById('root'));
 }
