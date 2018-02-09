@@ -15,7 +15,7 @@ import {Attachment, AttachmentContent} from 'components/post_view/attachments/at
 
 const AttachmentOpenGraph = Attachment.extend`
     max-width: 800px;
-    border: 10px solid red;
+    border: 10px solid ${(props) => props.theme.color};
 `;
 
 const LARGE_IMAGE_MIN_WIDTH = 150;

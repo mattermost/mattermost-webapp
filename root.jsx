@@ -5,6 +5,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {Router, Route} from 'react-router-dom';
+import {ThemeProvider} from 'styled-components';
 
 // Import our styles
 import 'bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css';
@@ -41,14 +42,16 @@ function preRenderSetup(callwhendone) {
 
 function renderRootComponent() {
     ReactDOM.render((
-        <Provider store={store}>
-            <Router history={browserHistory}>
-                <Route
-                    path='/'
-                    component={Root}
-                />
-            </Router>
-        </Provider>
+        <ThemeProvider theme={{color: 'red'}}>
+            <Provider store={store}>
+                <Router history={browserHistory}>
+                    <Route
+                        path='/'
+                        component={Root}
+                    />
+                </Router>
+            </Provider>
+        </ThemeProvider>
     ),
     document.getElementById('root'));
 }
