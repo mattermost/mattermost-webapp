@@ -1,0 +1,19 @@
+// stylelint-disable declaration-no-important
+
+@each $color, $value in $theme-colors {
+  @include bg-variant(".bs4-bg-#{$color}", $value);
+}
+
+@if $enable-gradients {
+  @each $color, $value in $theme-colors {
+    @include bg-gradient-variant(".bs4-bg-gradient-#{$color}", $value);
+  }
+}
+
+.bs4-bg-white {
+  background-color: $white !important;
+}
+
+.bs4-bg-transparent {
+  background-color: transparent !important;
+}

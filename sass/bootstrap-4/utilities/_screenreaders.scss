@@ -1,0 +1,11 @@
+//
+// Screenreaders
+//
+
+.bs4-sr-only {
+  @include sr-only();
+}
+
+.bs4-sr-only-focusable {
+  @include sr-only-focusable();
+}

@@ -1,0 +1,11 @@
+//
+// Visibility utilities
+//
+
+.bs4-visible {
+  @include invisible(visible);
+}
+
+.bs4-invisible {
+  @include invisible(hidden);
+}
