@@ -7,7 +7,7 @@ import {getOpenGraphMetadata} from 'mattermost-redux/actions/posts';
 import {getOpenGraphMetadataForUrl} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
-import PostAttachmentOpenGraph from './post_attachment_opengraph.jsx';
+import PostAttachmentOpengraphContainer from './post_attachment_opengraph_container';
 
 function mapStateToProps(state, ownProps) {
     return {
@@ -25,4 +25,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostAttachmentOpenGraph);
+export default connect(mapStateToProps, mapDispatchToProps)(PostAttachmentOpengraphContainer);

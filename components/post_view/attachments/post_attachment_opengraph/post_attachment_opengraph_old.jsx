@@ -11,16 +11,6 @@ import {PostTypes} from 'utils/constants.jsx';
 import {useSafeUrl} from 'utils/url';
 import * as Utils from 'utils/utils.jsx';
 
-import {Attachment, AttachmentContent} from 'components/post_view/attachments/attachment_styles';
-
-const AttachmentOpenGraph = Attachment.extend`
-    max-width: 800px;
-    div {
-        padding: 10px;
-        border:1px solid yellow;
-    }
-`;
-
 const LARGE_IMAGE_MIN_WIDTH = 150;
 const IMAGE_DIMENSIONS = {
     height: 80,
@@ -34,7 +24,7 @@ const IMAGE_LOADED = {
     ERROR: 'error'
 };
 
-export default class PostAttachmentOpenGraph extends React.PureComponent {
+export default class PostAttachmentOpenGraphOld extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -280,18 +270,50 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         }
 
         return (
-            <AttachmentOpenGraph>
-                <AttachmentContent
-                    className='bs4-d-flex bs4-justify-content-around'
-                >
-                    <div>
-                        {this.imageTag(imageUrl, true)}
-                    </div>
-                    <div className='bs4-ml-auto'>
+            <div
+                className='attachment attachment--opengraph'
+                ref='attachment'
+            >
+                <div className='attachment__content'>
+                    <div
+                        className={'clearfix attachment__container attachment__container--opengraph'}
+                    >
+                        <div
+                            className={'attachment__body__wrap attachment__body__wrap--opengraph'}
+                        >
+                            <span className='sitename'>{this.truncateText(data.site_name)}</span>
+                            {removePreviewButton}
+                            <h1
+                                className={'attachment__title attachment__title--opengraph' + (data.title ? '' : ' is-url')}
+                            >
+                                <a
+                                    className='attachment__title-link attachment__title-link--opengraph'
+                                    href={useSafeUrl(data.url || this.props.link)}
+                                    target='_blank'
+                                    rel='noopener noreferrer'
+                                    title={data.title || data.url || this.props.link}
+                                >
+                                    {this.truncateText(data.title || data.url || this.props.link)}
+                                </a>
+                            </h1>
+                            <div >
+                                <div
+                                    className={'attachment__body attachment__body--opengraph'}
+                                >
+                                    <div>
+                                        <div>
+                                            {this.truncateText(data.description)} &nbsp;
+                                            {this.imageToggleAnchoreTag(imageUrl)}
+                                        </div>
+                                        {this.imageTag(imageUrl, true)}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         {this.imageTag(imageUrl, false)}
                     </div>
-                </AttachmentContent>
-            </AttachmentOpenGraph>
+                </div>
+            </div>
         );
     }
 }
