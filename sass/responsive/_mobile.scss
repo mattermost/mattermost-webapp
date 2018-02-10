@@ -1201,8 +1201,10 @@
                         .btn-close {
                             @include opacity(.5);
                             display: block;
+                            font-size: 25px;
                             right: 4px;
                             text-align: center;
+                            top: 4px;
                             width: 40px;
                         }
                     }
