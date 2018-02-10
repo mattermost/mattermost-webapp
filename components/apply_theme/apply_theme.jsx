@@ -12,7 +12,7 @@ const ApplyTheme = ({children, theme}) => (
 );
 ApplyTheme.propTypes = {
     children: PropTypes.any,
-    theme: PropTypes.object,
+    theme: PropTypes.object
 };
 
 export default ApplyTheme;

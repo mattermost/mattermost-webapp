@@ -3,6 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import PostAttachmentOpenGraphOld from 'components/post_view/attachments/post_attachment_opengraph/post_attachment_opengraph_old';
 import PostAttachmentOpenGraph from 'components/post_view/attachments/post_attachment_opengraph/post_attachment_opengraph';
 

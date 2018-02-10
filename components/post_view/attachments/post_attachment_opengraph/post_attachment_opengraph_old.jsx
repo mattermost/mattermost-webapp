@@ -65,7 +65,6 @@ export default class PostAttachmentOpenGraphOld extends React.PureComponent {
         this.state = {};
         this.largeImageMinRatio = 16 / 9;
         this.imageRatio = null;
-
     }
 
     componentWillMount() {
@@ -111,7 +110,6 @@ export default class PostAttachmentOpenGraphOld extends React.PureComponent {
         if (Utils.isEmptyObject(data.images)) {
             return null;
         }
-        console.log(data.images);
         const bestImage = CommonUtils.getNearestPoint(IMAGE_DIMENSIONS, data.images, 'width', 'height');
         return bestImage.secure_url || bestImage.url;
     }
@@ -179,11 +177,10 @@ export default class PostAttachmentOpenGraphOld extends React.PureComponent {
             if (this.state.imageLoaded === IMAGE_LOADED.LOADING) {
                 if (renderingForLargeImage) {
                     return <img className={'attachment__image attachment__image--openraph loading large_image'}/>;
-                } else {
-                    return this.wrapInSmallImageContainer(
-                        <img className={'attachment__image attachment__image--openraph loading '}/>
-                    );
                 }
+                return this.wrapInSmallImageContainer(
+                    <img className={'attachment__image attachment__image--openraph loading '}/>
+                );
             } else if (this.state.imageLoaded === IMAGE_LOADED.YES) {
                 if (renderingForLargeImage) {
                     return (
@@ -192,14 +189,13 @@ export default class PostAttachmentOpenGraphOld extends React.PureComponent {
                             src={imageUrl}
                         />
                     );
-                } else {
-                    return this.wrapInSmallImageContainer(
-                        <img
-                            className={'attachment__image attachment__image--openraph'}
-                            src={imageUrl}
-                        />
-                    );
                 }
+                return this.wrapInSmallImageContainer(
+                    <img
+                        className={'attachment__image attachment__image--openraph'}
+                        src={imageUrl}
+                    />
+                );
             }
         }
         return null;
