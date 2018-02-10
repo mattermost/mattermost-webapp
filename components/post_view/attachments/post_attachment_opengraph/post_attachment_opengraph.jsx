@@ -8,18 +8,14 @@ import {postListScrollChange} from 'actions/global_actions.jsx';
 import {updatePost} from 'actions/post_actions.jsx';
 import * as CommonUtils from 'utils/commons.jsx';
 import {PostTypes} from 'utils/constants.jsx';
-import {useSafeUrl} from 'utils/url';
 import * as Utils from 'utils/utils.jsx';
 
-import {Attachment, AttachmentContent} from 'components/post_view/attachments/attachment_styles';
-
-const AttachmentOpenGraph = Attachment.extend`
-    max-width: 800px;
-    div {
-        padding: 10px;
-        border:1px solid yellow;
-    }
-`;
+import {
+    Attachment,
+    AttachmentContent,
+    ImageThumbnail, RemovePreviewButton
+} from 'components/post_view/attachments/attachment_styles';
+import {useSafeUrl} from 'utils/url';
 
 const LARGE_IMAGE_MIN_WIDTH = 150;
 const IMAGE_DIMENSIONS = {
@@ -75,7 +71,6 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         this.state = {};
         this.largeImageMinRatio = 16 / 9;
         this.imageRatio = null;
-
     }
 
     componentWillMount() {
@@ -121,7 +116,6 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         if (Utils.isEmptyObject(data.images)) {
             return null;
         }
-        console.log(data.images);
         const bestImage = CommonUtils.getNearestPoint(IMAGE_DIMENSIONS, data.images, 'width', 'height');
         return bestImage.secure_url || bestImage.url;
     }
@@ -171,16 +165,6 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         return null;
     }
 
-    wrapInSmallImageContainer(imageElement) {
-        return (
-            <div
-                className='attachment__image__container--openraph'
-            >
-                {imageElement}
-            </div>
-        );
-    }
-
     imageTag(imageUrl, renderingForLargeImage = false) {
         if (
             imageUrl && renderingForLargeImage === this.state.hasLargeImage &&
@@ -189,11 +173,10 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
             if (this.state.imageLoaded === IMAGE_LOADED.LOADING) {
                 if (renderingForLargeImage) {
                     return <img className={'attachment__image attachment__image--openraph loading large_image'}/>;
-                } else {
-                    return this.wrapInSmallImageContainer(
-                        <img className={'attachment__image attachment__image--openraph loading '}/>
-                    );
                 }
+                return (
+                    <ImageThumbnail/>
+                );
             } else if (this.state.imageLoaded === IMAGE_LOADED.YES) {
                 if (renderingForLargeImage) {
                     return (
@@ -202,14 +185,12 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                             src={imageUrl}
                         />
                     );
-                } else {
-                    return this.wrapInSmallImageContainer(
-                        <img
-                            className={'attachment__image attachment__image--openraph'}
-                            src={imageUrl}
-                        />
-                    );
                 }
+                return (
+                    <ImageThumbnail
+                        src={imageUrl}
+                    />
+                );
             }
         }
         return null;
@@ -243,6 +224,22 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
 
         return false;
     }
+    removePreviewButton() {
+        if (this.props.currentUser.id === this.props.post.user_id) {
+            return (
+                <RemovePreviewButton
+                    id='removePreviewButton'
+                    type='button'
+                    className='btn-close'
+                    aria-label='Close'
+                    onClick={this.handleRemovePreview}
+                >
+                    <span aria-hidden='true'>{'×'}</span>
+                </RemovePreviewButton>
+            );
+        }
+        return null;
+    }
 
     render() {
         // debugger;
@@ -259,20 +256,6 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
             );
         }
 
-        let removePreviewButton;
-        if (this.props.currentUser.id === this.props.post.user_id) {
-            removePreviewButton = (
-                <button
-                    id='removePreviewButton'
-                    type='button'
-                    className='btn-close'
-                    aria-label='Close'
-                    onClick={this.handleRemovePreview}
-                >
-                    <span aria-hidden='true'>{'×'}</span>
-                </button>
-            );
-        }
 
         const imageUrl = this.getBestImageUrl(data);
         if (imageUrl) {
@@ -280,18 +263,42 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         }
 
         return (
-            <AttachmentOpenGraph>
+            <Attachment>
+                {this.removePreviewButton()}
                 <AttachmentContent
                     className='bs4-d-flex bs4-justify-content-around'
                 >
                     <div>
+                        <span className='sitename'>{this.truncateText(data.site_name)}</span>
+                        <h1>
+                            <a
+                                className='attachment__title-link attachment__title-link--opengraph'
+                                href={useSafeUrl(data.url || this.props.link)}
+                                target='_blank'
+                                rel='noopener noreferrer'
+                                title={data.title || data.url || this.props.link}
+                            >
+                                {this.truncateText(data.title || data.url || this.props.link)}
+                            </a>
+                        </h1>
+                        <div
+                            className={'attachment__body attachment__body--opengraph'}
+                        >
+                            <div>
+                                <div>
+                                    {this.truncateText(data.description)} &nbsp;
+                                    {this.imageToggleAnchoreTag(imageUrl)}
+                                </div>
+                                {this.imageTag(imageUrl, true)}
+                            </div>
+                        </div>
                         {this.imageTag(imageUrl, true)}
                     </div>
                     <div className='bs4-ml-auto'>
                         {this.imageTag(imageUrl, false)}
                     </div>
                 </AttachmentContent>
-            </AttachmentOpenGraph>
+            </Attachment>
         );
     }
 }
