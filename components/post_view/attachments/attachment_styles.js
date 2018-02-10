@@ -4,22 +4,22 @@ import {changeOpacity} from 'utils/utils';
 
 export const AttachmentContainer = styled.div`
     position: relative;
-    margin: 5px 0;
+    margin: 5px 0 5px -20px;
+    padding-left: 20px;
     max-width: 800px;
-    height: 120px;
 `;
 export const AttachmentContentContainer = styled.div`
-    position: absolute;
-    height: 100%;
+    position: relative;
+    min-height: 120px;
     border-radius: 4px;
-    border-style: solid;
-    border-width: 1px;
+    border-width: ;
     padding: 10px 15px 10px 10px;
     background: ${(props) => props.theme.centerChannelBg};
-    border-color: ${(props) => changeOpacity(props.theme.centerChannelColor, 0.3)};
+    border: 1px solid ${(props) => changeOpacity(props.theme.centerChannelColor, 0.3)};
 `;
 export const AttachmentContentLeft = styled.div`
     min-width:0;
+    overflow: hidden;
 `;
 export const ImageThumbnail = styled.img`
     max-width: 80px;
@@ -43,6 +43,8 @@ export const AttachmentTitle = styled.h1`
 `;
 export const AttachmentDescription = styled.div`
     word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
 export const RemovePreviewButton = styled.button`
     opacity: 0.4;
@@ -52,7 +54,7 @@ export const RemovePreviewButton = styled.button`
     font-size: 21px;
     font-weight: 500;
     height: 20px;
-    left: -27px;
+    left: -7px;
     top: 8px;
     line-height: 20px;
     outline: none;

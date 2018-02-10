@@ -27,7 +27,7 @@ const IMAGE_DIMENSIONS = {
     height: 80,
     width: 80
 };
-const TEXT_MAX_LENGTH = 300;
+const TEXT_MAX_LENGTH = 250;
 const TEXT_ELLIPSIS = '...';
 const IMAGE_LOADED = {
     LOADING: 'loading',
@@ -252,15 +252,13 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         if (this.state.removePreview) {
             return null;
         }
-        if (!data || Utils.isEmptyObject(data.description) || this.state.removePreview) {
+        if (!data || Utils.isEmptyObject(data.description)) {
             return (
-                <div
-                    className='attachment attachment--opengraph'
-                    ref='attachment'
-                />
+                <AttachmentContainer>
+                    <AttachmentContentContainer/>
+                </AttachmentContainer>
             );
         }
-
 
         const imageUrl = this.getBestImageUrl(data);
         if (imageUrl) {
@@ -279,7 +277,6 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                         </AttachmentSiteName>
                         <AttachmentTitle>
                             <a
-                                className='attachment__title-link attachment__title-link--opengraph'
                                 href={useSafeUrl(data.url || this.props.link)}
                                 target='_blank'
                                 rel='noopener noreferrer'
@@ -289,11 +286,8 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                             </a>
                         </AttachmentTitle>
                         <AttachmentDescription>
-                            <div style={{display: 'block'}}>
-                                    {data.description}
-                            </div>
-                            {/*this.imageToggleAnchoreTag(imageUrl)*/}
-                            {/*this.imageTag(imageUrl, true)*/}
+                            {this.truncateText(data.description)}
+                            {this.imageToggleAnchoreTag(imageUrl)}
                         </AttachmentDescription>
                         {this.imageTag(imageUrl, true)}
                     </AttachmentContentLeft>
