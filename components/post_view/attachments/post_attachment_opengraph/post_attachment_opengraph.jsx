@@ -16,7 +16,7 @@ import {
     AttachmentContentLeft,
     AttachmentDescription,
     AttachmentSiteName,
-    AttachmentTitle,
+    AttachmentTitle, ImageLarge,
     ImageThumbnail,
     RemovePreviewButton
 } from 'components/post_view/attachments/attachment_styles';
@@ -177,7 +177,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         ) {
             if (this.state.imageLoaded === IMAGE_LOADED.LOADING) {
                 if (renderingForLargeImage) {
-                    return <img className={'attachment__image attachment__image--openraph loading large_image'}/>;
+                    return <ImageLarge/>;
                 }
                 return (
                     <ImageThumbnail/>
@@ -185,8 +185,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
             } else if (this.state.imageLoaded === IMAGE_LOADED.YES) {
                 if (renderingForLargeImage) {
                     return (
-                        <img
-                            className={'attachment__image attachment__image--openraph large_image'}
+                        <ImageLarge
                             src={imageUrl}
                         />
                     );

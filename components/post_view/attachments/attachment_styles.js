@@ -27,6 +27,13 @@ export const ImageThumbnail = styled.img`
     max-height: 80px;
     margin-left:10px;
 `;
+export const ImageLarge = styled.img`
+    border-radius: 3px;
+    margin-top: 10px;
+    max-height: 200px;
+    max-width: 400px;
+    width: 100%;
+`;
 export const AttachmentSiteName = styled.div`
     color: #A3A3A3;
 `;
