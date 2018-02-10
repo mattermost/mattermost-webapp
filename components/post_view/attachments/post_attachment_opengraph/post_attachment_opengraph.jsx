@@ -11,9 +11,14 @@ import {PostTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import {
-    Attachment,
-    AttachmentContent,
-    ImageThumbnail, RemovePreviewButton
+    AttachmentContainer,
+    AttachmentContentContainer,
+    AttachmentContentLeft,
+    AttachmentDescription,
+    AttachmentSiteName,
+    AttachmentTitle,
+    ImageThumbnail,
+    RemovePreviewButton
 } from 'components/post_view/attachments/attachment_styles';
 import {useSafeUrl} from 'utils/url';
 
@@ -263,14 +268,16 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         }
 
         return (
-            <Attachment>
+            <AttachmentContainer>
                 {this.removePreviewButton()}
-                <AttachmentContent
-                    className='bs4-d-flex bs4-justify-content-around'
+                <AttachmentContentContainer
+                    className='bs4-d-flex bs4-align-items-stretch'
                 >
-                    <div>
-                        <span className='sitename'>{this.truncateText(data.site_name)}</span>
-                        <h1>
+                    <AttachmentContentLeft>
+                        <AttachmentSiteName>
+                            {this.truncateText(data.site_name)}
+                        </AttachmentSiteName>
+                        <AttachmentTitle>
                             <a
                                 className='attachment__title-link attachment__title-link--opengraph'
                                 href={useSafeUrl(data.url || this.props.link)}
@@ -280,25 +287,21 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                             >
                                 {this.truncateText(data.title || data.url || this.props.link)}
                             </a>
-                        </h1>
-                        <div
-                            className={'attachment__body attachment__body--opengraph'}
-                        >
-                            <div>
-                                <div>
-                                    {this.truncateText(data.description)} &nbsp;
-                                    {this.imageToggleAnchoreTag(imageUrl)}
-                                </div>
-                                {this.imageTag(imageUrl, true)}
+                        </AttachmentTitle>
+                        <AttachmentDescription>
+                            <div style={{display: 'block'}}>
+                                    {data.description}
                             </div>
-                        </div>
+                            {/*this.imageToggleAnchoreTag(imageUrl)*/}
+                            {/*this.imageTag(imageUrl, true)*/}
+                        </AttachmentDescription>
                         {this.imageTag(imageUrl, true)}
-                    </div>
+                    </AttachmentContentLeft>
                     <div className='bs4-ml-auto'>
                         {this.imageTag(imageUrl, false)}
                     </div>
-                </AttachmentContent>
-            </Attachment>
+                </AttachmentContentContainer>
+            </AttachmentContainer>
         );
     }
 }
