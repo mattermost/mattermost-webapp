@@ -45,7 +45,7 @@ describe('components/FileUpload', () => {
         postType: 'post',
         uploadFile: emptyFunction,
         maxFileSize: MaxFileSize,
-        canUploadFiles: true,
+        canUploadFiles: true
     };
 
     test('should match snapshot', () => {
