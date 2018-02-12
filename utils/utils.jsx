@@ -404,8 +404,13 @@ export function isGIFImage(extin) {
     return extin.toLowerCase() === Constants.IMAGE_TYPE_GIF;
 }
 
-export function getFileType(extin) {
-    var ext = extin.toLowerCase();
+const removeQuerystringOrHash = (url) => {
+    return url.split(/[?#]/)[0];
+}
+
+export const getFileType = (extin) => {
+    const ext = removeQuerystringOrHash(extin.toLowerCase());
+
     if (Constants.IMAGE_TYPES.indexOf(ext) > -1) {
         return FileTypes.IMAGE;
     }
