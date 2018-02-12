@@ -149,14 +149,6 @@ export default class StorageSettings extends AdminSettings {
                 );
         }
 
-        const imageProxyTypeValues = [
-            {value: '', text: Utils.localizeMessage('admin.image.proxyTypeNone', 'None')},
-            {value: 'atmos/camo', text: 'atmos/camo'}
-        ];
-        if (this.state.imageProxyType === 'willnorris/imageproxy') {
-            imageProxyTypeValues.push({value: 'willnorris/imageproxy', text: 'willnorris/imageproxy'});
-        }
-
         return (
             <SettingsGroup>
                 <DropdownSetting
@@ -372,7 +364,10 @@ export default class StorageSettings extends AdminSettings {
                 />
                 <DropdownSetting
                     id='imageProxyType'
-                    values={imageProxyTypeValues}
+                    values={[
+                        {value: '', text: Utils.localizeMessage('admin.image.proxyTypeNone', 'None')},
+                        {value: 'atmos/camo', text: 'atmos/camo'}
+                    ]}
                     label={
                         <FormattedMessage
                             id='admin.image.proxyType'
