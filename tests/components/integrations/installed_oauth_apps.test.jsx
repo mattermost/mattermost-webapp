@@ -81,7 +81,6 @@ describe('components/integrations/InstalledOAuthApps', () => {
         expect(wrapper.find(BackstageList).props().addLink).toEqual('/test/integrations/oauth2-apps/add');
         expect(wrapper.find(BackstageList).props().addText).toEqual('Add OAuth 2.0 Application');
 
-        global.window.mm_config = {EnableOnlyAdminIntegrations: 'true'};
         wrapper.setProps({canManageOauth: false});
         expect(wrapper.find(BackstageList).props().addLink).toBeFalsy();
         expect(wrapper.find(BackstageList).props().addText).toBeFalsy();
