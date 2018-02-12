@@ -214,15 +214,13 @@ exports[`plugins/PostMessageView should match snapshot with no extended post typ
             }
             siteURL="http://localhost:8065"
           >
-            <span>
-              <p
-                key="0"
-              >
-                this is some text
-              </p>
-              
+            <p
+              key="0"
+            >
+              this is some text
+            </p>
+            
 
-            </span>
           </PostMarkdown>
         </Connect(PostMarkdown)>
       </span>

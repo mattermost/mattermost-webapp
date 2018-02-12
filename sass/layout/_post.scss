@@ -288,7 +288,7 @@
         position: absolute;
         text-align: center;
         visibility: hidden;
-        z-index: 1;
+        z-index: 3;
 
         .fa {
             font-size: 1.2em;
@@ -1012,10 +1012,6 @@
         white-space: pre-wrap;
         width: 100%;
         word-break: break-word;
-
-        &:last-child {
-            display: inline;
-        }
     }
 
     .post__header--info {

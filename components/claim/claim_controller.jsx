@@ -22,7 +22,7 @@ export default class ClaimController extends React.Component {
         this.setState({
             email: (new URLSearchParams(this.props.location.search)).get('email'),
             newType: (new URLSearchParams(this.props.location.search)).get('new_type'),
-            oldType: (new URLSearchParams(this.props.location.search)).get('old_type')
+            currentType: (new URLSearchParams(this.props.location.search)).get('old_type')
         });
     }
     render() {
@@ -47,7 +47,7 @@ export default class ClaimController extends React.Component {
                                 )}
                                 />
                                 <Route
-                                    path={`${this.props.match.url}/email_to_oath`}
+                                    path={`${this.props.match.url}/email_to_oauth`}
                                     render={(props) => (
                                         <EmailToOauth
                                             {...this.state}

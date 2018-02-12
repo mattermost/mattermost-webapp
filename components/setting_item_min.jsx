@@ -9,7 +9,8 @@ import * as Utils from 'utils/utils.jsx';
 
 export default class SettingItemMin extends React.PureComponent {
     static defaultProps = {
-        section: ''
+        section: '',
+        focused: false
     };
 
     static propTypes = {
@@ -23,6 +24,11 @@ export default class SettingItemMin extends React.PureComponent {
          * Option to disable opening the setting
          */
         disableOpen: PropTypes.bool,
+
+        /**
+         * Indicates whether the focus should be on the "Edit" button
+         */
+        focused: PropTypes.bool,
 
         /**
          * Settings or tab section
@@ -40,6 +46,22 @@ export default class SettingItemMin extends React.PureComponent {
         describe: PropTypes.node
     };
 
+    componentDidMount() {
+        if (this.props.focused && this.edit) {
+            this.edit.focus();
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.focused && this.edit) {
+            this.edit.focus();
+        }
+    }
+
+    getEdit = (node) => {
+        this.edit = node;
+    }
+
     handleUpdateSection = (e) => {
         e.preventDefault();
         this.props.updateSection(this.props.section);
@@ -56,6 +78,7 @@ export default class SettingItemMin extends React.PureComponent {
                         id={Utils.createSafeId(this.props.title) + 'Edit'}
                         className='color--link cursor--pointer style--none'
                         onClick={this.handleUpdateSection}
+                        ref={this.getEdit}
                     >
                         <i className='fa fa-pencil'/>
                         {this.props.describe}
@@ -69,6 +92,7 @@ export default class SettingItemMin extends React.PureComponent {
                         id={Utils.createSafeId(this.props.title) + 'Edit'}
                         className='color--link cursor--pointer style--none text-left'
                         onClick={this.handleUpdateSection}
+                        ref={this.getEdit}
                     >
                         <i className='fa fa-pencil'/>
                         <FormattedMessage

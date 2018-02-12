@@ -42,6 +42,15 @@ export default class UserSettingsDisplay extends React.Component {
             ...getDisplayStateFromStores(),
             isSaving: false
         };
+
+        this.prevSections = {
+            theme: 'dummySectionName', // dummy value that should never match any section name
+            clock: 'theme',
+            linkpreview: 'clock',
+            message_display: 'linkpreview',
+            channel_display_mode: 'message_display',
+            languages: 'channel_display_mode'
+        };
     }
 
     handleSubmit() {
@@ -281,6 +290,7 @@ export default class UserSettingsDisplay extends React.Component {
                 <SettingItemMin
                     title={messageTitle}
                     describe={describe}
+                    focused={this.props.prevActiveSection === this.prevSections[section]}
                     section={section}
                     updateSection={this.updateSection}
                 />
@@ -351,6 +361,9 @@ export default class UserSettingsDisplay extends React.Component {
                     message: 'When available, the first web link in a message will show a preview of the website content below the message.'
                 }
             });
+            this.prevSections.message_display = 'linkpreview';
+        } else {
+            this.prevSections.message_display = this.prevSections.linkpreview;
         }
 
         const clockSection = this.createSection({
@@ -479,6 +492,7 @@ export default class UserSettingsDisplay extends React.Component {
                         }
                         width='medium'
                         describe={locale}
+                        focused={this.props.prevActiveSection === this.prevSections.languages}
                         section={'languages'}
                         updateSection={this.updateSection}
                     />
@@ -563,6 +577,7 @@ UserSettingsDisplay.propTypes = {
     user: PropTypes.object,
     updateSection: PropTypes.func,
     activeSection: PropTypes.string,
+    prevActiveSection: PropTypes.string,
     closeModal: PropTypes.func.isRequired,
     collapseModal: PropTypes.func.isRequired,
     setRequireConfirm: PropTypes.func.isRequired,
