@@ -6,6 +6,7 @@ exports[`components/NewChannelFlow should match snapshot, with base props 1`] = 
     channelData={
       Object {
         "displayName": "",
+        "header": "",
         "name": "",
         "purpose": "",
       }
@@ -24,6 +25,7 @@ exports[`components/NewChannelFlow should match snapshot, with base props 1`] = 
     channelData={
       Object {
         "displayName": "",
+        "header": "",
         "name": "",
         "purpose": "",
       }

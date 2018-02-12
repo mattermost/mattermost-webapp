@@ -1779,8 +1779,8 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     show={false}
   />
   <Connect(MoreDirectChannels)
+    isExistingChannel={false}
     onModalDismissed={[Function]}
-    startingUsers={Array []}
   />
   <SidebarHeader
     currentUser={
