@@ -151,7 +151,7 @@ export default class LoggedIn extends React.Component {
             return <LoadingScreen/>;
         }
 
-        if (checkIfMFARequired(this.props.match.url)) {
+        if (this.props.location.pathname !== '/mfa/setup' && checkIfMFARequired(this.props.match.url)) {
             return <Redirect to={'/mfa/setup'}/>;
         }
 
