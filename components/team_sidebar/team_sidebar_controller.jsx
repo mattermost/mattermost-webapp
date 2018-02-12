@@ -136,6 +136,7 @@ export default class TeamSidebar extends React.Component {
                         displayName={team.display_name}
                         unread={team.unread}
                         mentions={team.mentions}
+                        teamIconUrl={Utils.imageURLForTeam(team)}
                     />
                 );
             });

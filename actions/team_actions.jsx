@@ -155,3 +155,12 @@ export async function getTeamMembersForUser(userId, success, error) {
         error({id: err.server_error_id, ...err});
     }
 }
+
+export async function setTeamIcon(teamId, teamIcon, success, error) {
+    const {data, error: err} = await TeamActions.setTeamIcon(teamId, teamIcon)(dispatch, getState);
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
+}
