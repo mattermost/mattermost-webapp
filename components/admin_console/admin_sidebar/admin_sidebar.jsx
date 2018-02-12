@@ -21,6 +21,8 @@ export default class AdminSidebar extends React.Component {
     static propTypes = {
         config: PropTypes.object,
         plugins: PropTypes.object,
+        buildEnterpriseReady: PropTypes.bool,
+        siteName: PropTypes.string,
         actions: PropTypes.shape({
 
             /*
@@ -32,12 +34,6 @@ export default class AdminSidebar extends React.Component {
 
     static defaultProps = {
         plugins: {}
-    }
-
-    constructor(props) {
-        super(props);
-
-        this.updateTitle = this.updateTitle.bind(this);
     }
 
     componentDidMount() {
@@ -62,13 +58,13 @@ export default class AdminSidebar extends React.Component {
         }
     }
 
-    updateTitle() {
+    updateTitle = () => {
         let currentSiteName = '';
-        if (global.window.mm_config.SiteName != null) {
-            currentSiteName = global.window.mm_config.SiteName;
+        if (this.props.siteName) {
+            currentSiteName = ' - ' + this.props.siteName;
         }
 
-        document.title = Utils.localizeMessage('sidebar_right_menu.console', 'System Console') + ' - ' + currentSiteName;
+        document.title = Utils.localizeMessage('sidebar_right_menu.console', 'System Console') + currentSiteName;
     }
 
     render() {
@@ -86,7 +82,7 @@ export default class AdminSidebar extends React.Component {
         let audits = null;
         let policy = null;
 
-        if (window.mm_config.BuildEnterpriseReady === 'true') {
+        if (this.props.buildEnterpriseReady) {
             license = (
                 <AdminSidebarSection
                     name='license'
