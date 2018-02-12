@@ -1205,7 +1205,7 @@ export function imageURLForUser(userIdOrObject) {
 export function imageURLForTeam(teamIdOrObject) {
     if (typeof teamIdOrObject == 'string') {
         const team = TeamStore.get(teamIdOrObject);
-        if(team){
+        if (team) {
             return imageURLForTeam(team);
         }
         return null;

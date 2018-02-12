@@ -212,11 +212,11 @@ class GeneralTab extends React.Component {
     handleTeamIconSubmit(e) {
         e.preventDefault();
 
-        if(!this.state.teamIconFile){
+        if (!this.state.teamIconFile) {
             return;
         }
 
-        if(!this.state.submitActive){
+        if (!this.state.submitActive) {
             return;
         }
 
@@ -277,7 +277,6 @@ class GeneralTab extends React.Component {
     }
 
     updateTeamIcon(e) {
-        
         this.setState({
             clientError: ''
         });
@@ -590,8 +589,7 @@ class GeneralTab extends React.Component {
         }
 
         let teamIconSection;
-        if(this.props.activeSection === 'team_image'){
-
+        if (this.props.activeSection === 'team_image') {
             teamIconSection = (
                 <SettingPicture
                     context='team'
@@ -610,11 +608,10 @@ class GeneralTab extends React.Component {
                     submit={this.handleTeamIconSubmit}
                 />
             );
-
         } else {
             let minMessage;
 
-            if(team.last_team_icon_update){
+            if (team.last_team_icon_update) {
                 minMessage = (
                     <FormattedMessage
                         id='general_tab.teamIconLastUpdated'
@@ -631,12 +628,12 @@ class GeneralTab extends React.Component {
                         }}
                     />
                 );
-            }else {
+            } else {
                 minMessage = Utils.isMobile() ?
-                    Utils.localizeMessage('general_tab.teamIconEditHintMobile', "Click to upload an image.") :
-                    Utils.localizeMessage('general_tab.teamIconEditHint', "Click 'Edit' to upload an image.");
+                    Utils.localizeMessage('general_tab.teamIconEditHintMobile', 'Click to upload an image.') :
+                    Utils.localizeMessage('general_tab.teamIconEditHint', 'Click \'Edit\' to upload an image.');
             }
-                        
+
             teamIconSection = (
                 <SettingItemMin
                     title={Utils.localizeMessage('general_tab.teamIcon', 'Team Icon')}
@@ -647,7 +644,6 @@ class GeneralTab extends React.Component {
             );
         }
 
-        
         return (
             <div>
                 <div className='modal-header'>

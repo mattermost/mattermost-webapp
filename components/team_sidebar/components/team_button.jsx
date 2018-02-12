@@ -55,10 +55,12 @@ export default class TeamButton extends React.Component {
         let content = this.props.content;
 
         if (!content) {
-            
-            if(teamIconUrl){
+            if (teamIconUrl) {
                 content = (
-                    <div className='team-btn__image' style={{backgroundImage: `url('${teamIconUrl}')`}}></div>
+                    <div
+                        className='team-btn__image'
+                        style={{backgroundImage: `url('${teamIconUrl}')`}}
+                    />
                 );
             } else {
                 let initials = this.props.displayName;

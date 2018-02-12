@@ -10,7 +10,7 @@ import loadingGif from 'images/load.gif';
 import FormError from 'components/form_error.jsx';
 
 export default class SettingPicture extends Component {
-    
+
     static defaultProps = {
         context: 'profile'
     };
@@ -134,7 +134,7 @@ export default class SettingPicture extends Component {
                     style={imageStyles}
                 />
             );
-        } else if(this.props.src) {
+        } else if (this.props.src) {
             img = (
                 <img
                     ref='image'
@@ -185,12 +185,7 @@ export default class SettingPicture extends Component {
                 <li className='col-xs-12 section-title'>{this.props.title}</li>
                 <li className='col-xs-offset-3 col-xs-8'>
                     <ul className='setting-list'>
-                        {
-                            img ? 
-                            <li className='setting-list-item'>
-                                {img}
-                            </li> : ''
-                        }
+                        {img ? <li className='setting-list-item'> {img} </li> : ''}
                         <li className='setting-list-item padding-top x2'>
                             <FormattedMessage
                                 id={`setting_picture.help.${context}`}
