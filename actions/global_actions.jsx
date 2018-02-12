@@ -507,12 +507,12 @@ export async function redirectUserToDefaultTeam() {
         const channel = ChannelStore.getChannelById(channelId);
         let channelName = Constants.DEFAULT_CHANNEL;
         if (channel && channel.team_id === team.id) {
-            selectChannel(channel.id)(dispatch, getState);
+            dispatch(selectChannel(channel.id));
             channelName = channel.name;
         } else if (channelId) {
             const {data} = await getChannelAndMyMember(channelId)(dispatch, getState);
             if (data) {
-                selectChannel(channelId)(dispatch, getState);
+                dispatch(selectChannel(channelId));
                 channelName = data.channel.name;
             }
         }
