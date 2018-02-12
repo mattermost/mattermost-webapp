@@ -43,6 +43,7 @@ export default class Navbar extends React.Component {
     static propTypes = {
         teamDisplayName: PropTypes.string,
         isPinnedPosts: PropTypes.bool,
+        enableWebrtc: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             closeRightHandSide: PropTypes.func,
             updateRhsState: PropTypes.func,
@@ -283,7 +284,7 @@ export default class Navbar extends React.Component {
     isWebrtcEnabled() {
         const userMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
         const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
-        return global.mm_config.EnableWebrtc === 'true' && userMedia && Utils.isFeatureEnabled(PreReleaseFeatures.WEBRTC_PREVIEW);
+        return this.props.enableWebrtc && userMedia && Utils.isFeatureEnabled(PreReleaseFeatures.WEBRTC_PREVIEW);
     }
 
     initWebrtc = () => {
