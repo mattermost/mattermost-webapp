@@ -28,7 +28,12 @@ export default class PostImageEmbed extends React.PureComponent {
         /**
          * The function to call if image is clicked
          */
-        handleImageClick: PropTypes.func
+        handleImageClick: PropTypes.func,
+
+        /**
+         * If an image proxy is enabled.
+         */
+        hasImageProxy: PropTypes.bool.isRequired
     }
 
     constructor(props) {
@@ -66,7 +71,7 @@ export default class PostImageEmbed extends React.PureComponent {
         const img = new Image();
         img.onload = this.handleLoadComplete;
         img.onerror = this.handleLoadError;
-        img.src = PostUtils.getImageSrc(src);
+        img.src = PostUtils.getImageSrc(src, this.props.hasImageProxy);
     }
 
     handleLoadComplete() {
@@ -110,7 +115,7 @@ export default class PostImageEmbed extends React.PureComponent {
                 <img
                     onClick={this.onImageClick}
                     className='img-div cursor--pointer'
-                    src={PostUtils.getImageSrc(this.props.link)}
+                    src={PostUtils.getImageSrc(this.props.link, this.props.hasImageProxy)}
                 />
             </div>
         );

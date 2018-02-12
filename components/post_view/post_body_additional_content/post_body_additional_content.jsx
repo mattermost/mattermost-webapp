@@ -11,9 +11,9 @@ import YoutubeVideo from 'components/youtube_video';
 import ViewImageModal from 'components/view_image';
 import * as PostUtils from 'utils/post_utils.jsx';
 
-import PostAttachmentList from './post_attachment_list.jsx';
-import PostAttachmentOpenGraph from './post_attachment_opengraph';
-import PostImage from './post_image.jsx';
+import PostAttachmentList from '../post_attachment_list.jsx';
+import PostAttachmentOpenGraph from '../post_attachment_opengraph';
+import PostImage from '../post_image';
 
 export default class PostBodyAdditionalContent extends React.PureComponent {
     static propTypes = {
@@ -41,7 +41,17 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         /**
          * Flag passed down to PostBodyAdditionalContent for determining if post embed is visible
          */
-        isEmbedVisible: PropTypes.bool
+        isEmbedVisible: PropTypes.bool,
+
+        /**
+         * Whether link previews are enabled in the first place.
+         */
+        enableLinkPreviews: PropTypes.bool.isRequired,
+
+        /**
+         * If an image proxy is enabled.
+         */
+        hasImageProxy: PropTypes.bool.isRequired
     }
 
     static defaultProps = {
@@ -108,7 +118,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         // if embedVisible is true, the image is rendered, during which image load error is captured
         if (!this.props.isEmbedVisible && this.isLinkImage(this.state.link)) {
             const image = new Image();
-            image.src = PostUtils.getImageSrc(this.state.link);
+            image.src = PostUtils.getImageSrc(this.state.link, this.props.hasImageProxy);
 
             image.onload = () => {
                 this.handleLinkLoaded();
@@ -203,7 +213,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         }
 
         const link = Utils.extractFirstLink(this.props.post.message);
-        if (link && global.window.mm_config.EnableLinkPreviews === 'true' && this.props.previewEnabled) {
+        if (link && this.props.enableLinkPreviews && this.props.previewEnabled) {
             return (
                 <PostAttachmentOpenGraph
                     link={link}
