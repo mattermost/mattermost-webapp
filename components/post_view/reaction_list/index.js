@@ -13,10 +13,14 @@ function makeMapStateToProps() {
     const getReactionsForPost = makeGetReactionsForPost();
 
     return function mapStateToProps(state, ownProps) {
+        const config = state.entities.general.config;
+        const enableEmojiPicker = config.EnableEmojiPicker === 'true';
+
         return {
             ...ownProps,
             reactions: getReactionsForPost(state, ownProps.post.id),
-            emojis: getCustomEmojisByName(state)
+            emojis: getCustomEmojisByName(state),
+            enableEmojiPicker
         };
     };
 }

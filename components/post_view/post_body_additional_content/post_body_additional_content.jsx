@@ -10,9 +10,9 @@ import {StoragePrefixes} from 'utils/constants.jsx';
 import YoutubeVideo from 'components/youtube_video';
 import ViewImageModal from 'components/view_image';
 
-import PostAttachmentList from './post_attachment_list.jsx';
-import PostAttachmentOpenGraph from './post_attachment_opengraph';
-import PostImage from './post_image.jsx';
+import PostAttachmentList from '../post_attachment_list.jsx';
+import PostAttachmentOpenGraph from '../post_attachment_opengraph';
+import PostImage from '../post_image';
 
 export default class PostBodyAdditionalContent extends React.PureComponent {
     static propTypes = {
@@ -40,7 +40,12 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         /**
          * Flag passed down to PostBodyAdditionalContent for determining if post embed is visible
          */
-        isEmbedVisible: PropTypes.bool
+        isEmbedVisible: PropTypes.bool,
+
+        /**
+         * Whether link previews are enabled in the first place.
+         */
+        enableLinkPreviews: PropTypes.bool.isRequired
     }
 
     static defaultProps = {
@@ -202,7 +207,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         }
 
         const link = Utils.extractFirstLink(this.props.post.message);
-        if (link && global.window.mm_config.EnableLinkPreviews === 'true' && this.props.previewEnabled) {
+        if (link && this.props.enableLinkPreviews && this.props.previewEnabled) {
             return (
                 <PostAttachmentOpenGraph
                     link={link}

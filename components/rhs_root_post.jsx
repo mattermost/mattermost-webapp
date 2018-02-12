@@ -17,7 +17,7 @@ import * as Utils from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FileAttachmentListContainer from 'components/file_attachment_list';
-import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content.jsx';
+import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
 import PostMessageContainer from 'components/post_view/post_message_view';
 import ReactionListContainer from 'components/post_view/reaction_list';

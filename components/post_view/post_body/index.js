@@ -21,6 +21,9 @@ function mapStateToProps(state, ownProps) {
         parentPostUser = parentPost ? getUser(state, parentPost.user_id) : null;
     }
 
+    const config = state.entities.general.config;
+    const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
+
     return {
         ...ownProps,
         parentPost,
@@ -28,7 +31,8 @@ function mapStateToProps(state, ownProps) {
         pluginPostTypes: state.plugins.postTypes,
         previewCollapsed,
         previewEnabled: getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, true),
-        isEmbedVisible
+        isEmbedVisible,
+        enablePostUsernameOverride
     };
 }
 

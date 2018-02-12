@@ -28,7 +28,12 @@ export default class PostImageEmbed extends React.PureComponent {
         /**
          * The function to call if image is clicked
          */
-        handleImageClick: PropTypes.func
+        handleImageClick: PropTypes.func,
+
+        /**
+         * If an image proxy is enabled.
+         */
+        hasImageProxy: PropTypes.bool.isRequired
     }
 
     constructor(props) {
@@ -103,7 +108,7 @@ export default class PostImageEmbed extends React.PureComponent {
         }
 
         var url = this.props.link;
-        if (global.window.mm_config.HasImageProxy === 'true') {
+        if (this.props.hasImageProxy) {
             url = Client4.getBaseRoute() + '/image?url=' + encodeURIComponent(url);
         }
 
