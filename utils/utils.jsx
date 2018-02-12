@@ -404,8 +404,8 @@ export function isGIFImage(extin) {
     return extin.toLowerCase() === Constants.IMAGE_TYPE_GIF;
 }
 
-const removeQuerystringOrHash = (url) => {
-    return url.split(/[?#]/)[0];
+const removeQuerystringOrHash = (extin) => {
+    return extin.split(/[?#]/)[0];
 };
 
 export const getFileType = (extin) => {
