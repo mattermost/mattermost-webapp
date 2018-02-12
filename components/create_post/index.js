@@ -31,6 +31,7 @@ import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {makeGetGlobalItem} from 'selectors/storage';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {Constants, Preferences, StoragePrefixes, TutorialSteps} from 'utils/constants.jsx';
+import {canUploadFiles} from 'utils/file_utils';
 
 import CreatePost from './create_post.jsx';
 
@@ -65,7 +66,8 @@ function mapStateToProps() {
             commentCountForPost: getCommentCountForPost(state, {post}),
             latestReplyablePostId,
             currentUsersLatestPost: getCurrentUsersLatestPost(state),
-            readOnlyChannel: !isCurrentUserSystemAdmin(state) && getConfig(state).ExperimentalTownSquareIsReadOnly === 'true' && currentChannel.name === Constants.DEFAULT_CHANNEL
+            readOnlyChannel: !isCurrentUserSystemAdmin(state) && getConfig(state).ExperimentalTownSquareIsReadOnly === 'true' && currentChannel.name === Constants.DEFAULT_CHANNEL,
+            canUploadFiles: canUploadFiles(state)
         };
     };
 }

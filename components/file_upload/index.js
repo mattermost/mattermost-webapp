@@ -6,13 +6,19 @@ import {connect} from 'react-redux';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 
 import {uploadFile} from 'actions/file_actions.jsx';
+import {canUploadFiles} from 'utils/file_utils';
 
 import FileUpload from './file_upload.jsx';
 
 function mapStateToProps(state) {
+    const config = state.entities.general.config;
+    const maxFileSize = parseInt(config.MaxFileSize, 10);
+
     return {
         currentChannelId: getCurrentChannelId(state),
-        uploadFile
+        uploadFile,
+        maxFileSize,
+        canUploadFiles: canUploadFiles(state)
     };
 }
 
