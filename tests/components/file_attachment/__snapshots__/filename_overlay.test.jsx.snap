@@ -1,0 +1,110 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/file_attachment/FilenameOverlay should match snapshot, compact display 1`] = `
+<OverlayTrigger
+  defaultOverlayShown={false}
+  delayShow={1000}
+  overlay={
+    <Tooltip
+      bsClass="tooltip"
+      id="file-name__tooltip"
+      placement="right"
+    >
+      test_filename
+    </Tooltip>
+  }
+  placement="top"
+  trigger={
+    Array [
+      "hover",
+      "focus",
+    ]
+  }
+>
+  <a
+    className="post-image__name"
+    href="#"
+    onClick={[MockFunction]}
+    rel="noopener noreferrer"
+  >
+    <AttachmentIcon
+      className="icon"
+    />
+    test_filename
+  </a>
+</OverlayTrigger>
+`;
+
+exports[`components/file_attachment/FilenameOverlay should match snapshot, standard but not downloadable 1`] = `
+<span
+  className="post-image__name"
+>
+  test_filename
+</span>
+`;
+
+exports[`components/file_attachment/FilenameOverlay should match snapshot, standard display 1`] = `
+<a
+  className="post-image__name"
+  download="test_filename"
+  href="/api/v4/files/thumbnail_id"
+  rel="noopener noreferrer"
+  target="_blank"
+>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={1000}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="file-name__tooltip"
+        placement="right"
+      >
+        Download
+      </Tooltip>
+    }
+    placement="top"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    test_filename
+  </OverlayTrigger>
+</a>
+`;
+
+exports[`components/file_attachment/FilenameOverlay should match snapshot, with Download icon as children 1`] = `
+<a
+  className="post-image__name"
+  download="test_filename"
+  href="/api/v4/files/thumbnail_id"
+  rel="noopener noreferrer"
+  target="_blank"
+>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={1000}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="file-name__tooltip"
+        placement="right"
+      >
+        Download
+      </Tooltip>
+    }
+    placement="top"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <DownloadIcon />
+  </OverlayTrigger>
+</a>
+`;
