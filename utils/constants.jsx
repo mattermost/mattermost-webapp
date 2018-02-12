@@ -302,6 +302,7 @@ export const SocketEvents = {
     JOIN_TEAM: 'join_team',
     LEAVE_TEAM: 'leave_team',
     UPDATE_TEAM: 'update_team',
+    DELETE_TEAM: 'delete_team',
     USER_ADDED: 'user_added',
     USER_REMOVED: 'user_removed',
     USER_UPDATED: 'user_updated',
@@ -329,7 +330,8 @@ export const TutorialSteps = {
     INTRO_SCREENS: 0,
     POST_POPOVER: 1,
     CHANNEL_POPOVER: 2,
-    MENU_POPOVER: 3
+    MENU_POPOVER: 3,
+    FINISHED: 999
 };
 
 export const PostTypes = {
@@ -469,6 +471,12 @@ export const UploadStatuses = {
     DEFAULT: ''
 };
 
+export const GroupUnreadChannels = {
+    DISABLED: 'disabled',
+    DEFAULT_ON: 'default_on',
+    DEFAULT_OFF: 'default_off'
+};
+
 export const Constants = {
     PluginSettings,
     Preferences,
@@ -542,6 +550,7 @@ export const Constants = {
     },
     MAX_DISPLAY_FILES: 5,
     MAX_UPLOAD_FILES: 5,
+    MAX_FILENAME_LENGTH: 35,
     THUMBNAIL_WIDTH: 128,
     THUMBNAIL_HEIGHT: 100,
     PROFILE_WIDTH: 128,

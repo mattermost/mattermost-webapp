@@ -38,7 +38,7 @@ jest.mock('actions/post_actions.jsx', () => ({
 const KeyCodes = Constants.KeyCodes;
 const currentTeamIdProp = 'r7rws4y7ppgszym3pdd5kaibfa';
 const currentUserIdProp = 'zaktnt8bpbgu8mb6ez9k64r7sa';
-const showTutorialTipProp = '999';
+const showTutorialTipProp = false;
 const fullWidthTextBoxProp = true;
 const recentPostIdInChannelProp = 'a';
 const latestReplyablePostIdProp = 'a';
@@ -86,7 +86,8 @@ function createPost({
     actions = actionsProp,
     ctrlSend = ctrlSendProp,
     currentUsersLatestPost = currentUsersLatestPostProp,
-    commentCountForPost = commentCountForPostProp
+    commentCountForPost = commentCountForPostProp,
+    readOnlyChannel = false
 } = {}) {
     return (
         <CreatePost
@@ -103,6 +104,7 @@ function createPost({
             currentUsersLatestPost={currentUsersLatestPost}
             commentCountForPost={commentCountForPost}
             actions={actions}
+            readOnlyChannel={readOnlyChannel}
         />
     );
 }
@@ -599,7 +601,7 @@ describe('components/create_post', () => {
 
     it('Show tutorial', () => {
         const wrapper = shallow(createPost({
-            showTutorialTip: '1'
+            showTutorialTip: true
         }));
         expect(wrapper.find('TutorialTip').length).toBe(1);
     });
@@ -628,5 +630,10 @@ describe('components/create_post', () => {
         expect(onSubmitPost).toHaveBeenCalledTimes(1);
         expect(onSubmitPost.mock.calls[0][0]).toEqual(post);
         expect(onSubmitPost.mock.calls[0][1]).toEqual([]);
+    });
+
+    it('should match snapshot for read only channel', () => {
+        const wrapper = shallow(createPost({readOnlyChannel: true}));
+        expect(wrapper).toMatchSnapshot();
     });
 });

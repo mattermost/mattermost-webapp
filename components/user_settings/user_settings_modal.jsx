@@ -9,7 +9,7 @@ import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-int
 
 import ModalStore from 'stores/modal_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants, {GroupUnreadChannels} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import ConfirmModal from '../confirm_modal.jsx';
 import {AsyncComponent} from 'components/async_load';
@@ -241,7 +241,8 @@ class UserSettingsModal extends React.Component {
         tabs.push({name: 'security', uiName: formatMessage(holders.security), icon: 'icon fa fa-lock'});
         tabs.push({name: 'notifications', uiName: formatMessage(holders.notifications), icon: 'icon fa fa-exclamation-circle'});
         tabs.push({name: 'display', uiName: formatMessage(holders.display), icon: 'icon fa fa-eye'});
-        if (global.mm_config.CloseUnusedDirectMessages === 'true' || global.mm_config.ExperimentalGroupUnreadChannels === 'true') {
+        if (global.mm_config.CloseUnusedDirectMessages === 'true' ||
+            global.mm_config.ExperimentalGroupUnreadChannels !== GroupUnreadChannels.DISABLED) {
             tabs.push({name: 'sidebar', uiName: formatMessage(holders.sidebar), icon: 'icon fa fa-columns'});
         }
         tabs.push({name: 'advanced', uiName: formatMessage(holders.advanced), icon: 'icon fa fa-list-alt'});

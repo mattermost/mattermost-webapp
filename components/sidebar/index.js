@@ -24,6 +24,8 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {goToChannelById} from 'actions/channel_actions.jsx';
 
+import {GroupUnreadChannels} from 'utils/constants.jsx';
+
 import Sidebar from './sidebar.jsx';
 
 function mapStateToProps(state) {
@@ -35,11 +37,11 @@ function mapStateToProps(state) {
     let favoriteChannelIds;
     let directAndGroupChannelIds;
 
-    const showUnreadSection = config.ExperimentalGroupUnreadChannels === 'true' && getBoolPreference(
+    const showUnreadSection = config.ExperimentalGroupUnreadChannels !== GroupUnreadChannels.DISABLED && getBoolPreference(
         state,
         Preferences.CATEGORY_SIDEBAR_SETTINGS,
         'show_unread_section',
-        true
+        config.ExperimentalGroupUnreadChannels === GroupUnreadChannels.DEFAULT_ON
     );
 
     const keepChannelIdAsUnread = state.views.channel.keepChannelIdAsUnread;

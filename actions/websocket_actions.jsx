@@ -11,6 +11,7 @@ import * as TeamActions from 'mattermost-redux/actions/teams';
 import {getMe} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 
 import {browserHistory} from 'utils/browser_history';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
@@ -156,6 +157,10 @@ function handleEvent(msg) {
 
     case SocketEvents.UPDATE_TEAM:
         handleUpdateTeamEvent(msg);
+        break;
+
+    case SocketEvents.DELETE_TEAM:
+        handleDeleteTeamEvent(msg);
         break;
 
     case SocketEvents.ADDED_TO_TEAM:
@@ -360,6 +365,60 @@ function handleLeaveTeamEvent(msg) {
 
 function handleUpdateTeamEvent(msg) {
     TeamStore.updateTeam(msg.data.team);
+}
+
+function handleDeleteTeamEvent(msg) {
+    const deletedTeam = JSON.parse(msg.data.team);
+    const state = store.getState();
+    const {teams} = state.entities.teams;
+    if (
+        deletedTeam &&
+        teams &&
+        teams[deletedTeam.id] &&
+        teams[deletedTeam.id].delete_at === 0
+    ) {
+        const {currentUserId} = state.entities.users;
+        const {currentTeamId, myMembers} = state.entities.teams;
+        const teamMembers = Object.values(myMembers);
+        const teamMember = teamMembers.find((m) => m.user_id === currentUserId && m.team_id === currentTeamId);
+
+        let newTeamId = '';
+        if (
+            deletedTeam &&
+            teamMember &&
+            deletedTeam.id === teamMember.team_id
+        ) {
+            const myTeams = {};
+            getMyTeams(state).forEach((t) => {
+                myTeams[t.id] = t;
+            });
+
+            for (let i = 0; i < teamMembers.length; i++) {
+                const memberTeamId = teamMembers[i].team_id;
+                if (
+                    myTeams &&
+                    myTeams[memberTeamId] &&
+                    myTeams[memberTeamId].delete_at === 0 &&
+                    deletedTeam.id !== memberTeamId
+                ) {
+                    newTeamId = memberTeamId;
+                    break;
+                }
+            }
+        }
+
+        dispatch(batchActions([
+            {type: TeamTypes.RECEIVED_TEAM_DELETED, data: {id: deletedTeam.id}},
+            {type: TeamTypes.UPDATED_TEAM, data: deletedTeam}
+        ]));
+
+        if (newTeamId) {
+            dispatch({type: TeamTypes.SELECT_TEAM, data: newTeamId});
+            browserHistory.push(`${TeamStore.getCurrentTeamUrl()}/channels/${Constants.DEFAULT_CHANNEL}`);
+        } else {
+            browserHistory.push('/');
+        }
+    }
 }
 
 function handleUpdateMemberRoleEvent(msg) {

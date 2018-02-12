@@ -16,32 +16,24 @@ import tutorialGif from 'images/tutorialTip.gif';
 import tutorialGifWhite from 'images/tutorialTipWhite.gif';
 
 const Preferences = Constants.Preferences;
+const TutorialSteps = Constants.TutorialSteps;
 
 export default class TutorialTip extends React.Component {
     constructor(props) {
         super(props);
 
-        this.handleNext = this.handleNext.bind(this);
-        this.toggle = this.toggle.bind(this);
-        this.skipTutorial = this.skipTutorial.bind(this);
-
         this.state = {currentScreen: 0, show: false};
     }
-    toggle() {
-        const show = !this.state.show;
-        this.setState({show});
 
-        if (!show && this.state.currentScreen >= this.props.screens.length - 1) {
-            const step = PreferenceStore.getInt(Preferences.TUTORIAL_STEP, UserStore.getCurrentId(), 0);
-
-            savePreference(
-                Preferences.TUTORIAL_STEP,
-                UserStore.getCurrentId(),
-                (step + 1).toString()
-            );
-        }
+    show = () => {
+        this.setState({show: true});
     }
-    handleNext() {
+
+    hide = () => {
+        this.setState({show: false});
+    }
+
+    handleNext = () => {
         if (this.state.currentScreen < this.props.screens.length - 1) {
             this.setState({currentScreen: this.state.currentScreen + 1});
             return;
@@ -64,8 +56,16 @@ export default class TutorialTip extends React.Component {
         }
 
         this.closeRightSidebar();
-        this.toggle();
+        this.hide();
+
+        const step = PreferenceStore.getInt(Preferences.TUTORIAL_STEP, UserStore.getCurrentId(), 0);
+        savePreference(
+            Preferences.TUTORIAL_STEP,
+            UserStore.getCurrentId(),
+            (step + 1).toString()
+        );
     }
+
     closeRightSidebar() {
         if (Utils.isMobile()) {
             setTimeout(() => {
@@ -74,7 +74,8 @@ export default class TutorialTip extends React.Component {
             });
         }
     }
-    skipTutorial(e) {
+
+    skipTutorial = (e) => {
         e.preventDefault();
 
         if (this.props.diagnosticsTag) {
@@ -89,14 +90,13 @@ export default class TutorialTip extends React.Component {
         savePreference(
             Preferences.TUTORIAL_STEP,
             UserStore.getCurrentId(),
-            '999'
+            TutorialSteps.FINISHED.toString()
         );
     }
 
-    handleCircleClick = (e) => {
+    handleCircleClick = (e, screen) => {
         e.preventDefault();
-        const currentScreen = e.currentTarget.getAttribute('data-screen');
-        this.setState({currentScreen});
+        this.setState({currentScreen: screen});
     }
 
     getTarget = () => {
@@ -130,7 +130,7 @@ export default class TutorialTip extends React.Component {
                         key={'dotactive' + i}
                         className={className}
                         data-screen={i}
-                        onClick={this.handleCircleClick}
+                        onClick={(e) => this.handleCircleClick(e, i)}
                     />
                 );
             }
@@ -145,13 +145,13 @@ export default class TutorialTip extends React.Component {
             <div
                 id='tipButton'
                 className={'tip-div ' + this.props.overlayClass}
-                onClick={this.toggle}
+                onClick={this.show}
             >
                 <img
                     className='tip-button'
                     src={tutorialGifImage}
                     width='35'
-                    onClick={this.toggle}
+                    onClick={this.show}
                     ref='target'
                 />
 
@@ -165,7 +165,7 @@ export default class TutorialTip extends React.Component {
                     placement={this.props.placement}
                     show={this.state.show}
                     rootClose={true}
-                    onHide={this.toggle}
+                    onHide={this.hide}
                     target={this.getTarget}
                 >
                     <div className={'tip-overlay ' + this.props.overlayClass}>

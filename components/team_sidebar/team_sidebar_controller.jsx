@@ -9,7 +9,8 @@ import Permissions from 'mattermost-redux/constants/permissions';
 
 import TeamStore from 'stores/team_store.jsx';
 
-import {sortTeamsByDisplayName} from 'utils/team_utils.jsx';
+import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
+
 import * as Utils from 'utils/utils.jsx';
 
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
@@ -128,8 +129,7 @@ export default class TeamSidebar extends React.Component {
             }
         }
 
-        const teams = myTeams.
-            sort(sortTeamsByDisplayName).
+        const teams = filterAndSortTeamsByDisplayName(myTeams).
             map((team) => {
                 return (
                     <TeamButton

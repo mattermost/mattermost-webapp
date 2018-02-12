@@ -1,7 +1,6 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {getGroupOrDirectChannelVisibility} from 'mattermost-redux/selectors/entities/channels';
 import {haveIChannelPerm} from 'mattermost-redux/selectors/entities/roles';
 import * as ChannelUtilsRedux from 'mattermost-redux/utils/channel_utils';
 
@@ -20,16 +19,6 @@ export function isFavoriteChannel(channel) {
 
 export function isFavoriteChannelId(channelId) {
     return PreferenceStore.getBool(Preferences.CATEGORY_FAVORITE_CHANNEL, channelId);
-}
-
-// TODO This should use the version from mattermost-redux
-export function isOpenChannel(channel) {
-    return channel.type === Constants.OPEN_CHANNEL;
-}
-
-// TODO This should use the version from mattermost-redux
-export function isPrivateChannel(channel) {
-    return channel.type === Constants.PRIVATE_CHANNEL;
 }
 
 export function sortChannelsByDisplayName(a, b) {
@@ -109,29 +98,6 @@ export function getCountsStateFromStores(team = TeamStore.getCurrent(), teamMemb
     });
 
     return {mentionCount, messageCount};
-}
-
-export function isChannelVisible(channel) {
-    return isOpenChannel(channel) ||
-        isPrivateChannel(channel) ||
-        isDirectChannelVisible(channel) ||
-        isGroupChannelVisible(channel);
-}
-
-function isDirectChannelVisible(channel) {
-    if (!ChannelUtilsRedux.isDirectChannel(channel)) {
-        return false;
-    }
-
-    return getGroupOrDirectChannelVisibility(store.getState(), channel.id);
-}
-
-function isGroupChannelVisible(channel) {
-    if (!ChannelUtilsRedux.isGroupChannel(channel)) {
-        return false;
-    }
-
-    return getGroupOrDirectChannelVisibility(store.getState(), channel.id);
 }
 
 export function findNextUnreadChannelId(curChannelId, allChannelIds, unreadChannelIds, direction) {

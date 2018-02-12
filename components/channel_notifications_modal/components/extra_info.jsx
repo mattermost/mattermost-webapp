@@ -8,7 +8,8 @@ import {FormattedMessage} from 'react-intl';
 import {NotificationSections} from 'utils/constants.jsx';
 
 export default function ExtraInfo({section}) {
-    if (section === NotificationSections.DESKTOP) {
+    switch (section) {
+    case NotificationSections.DESKTOP:
         return (
             <span>
                 <FormattedMessage
@@ -17,7 +18,7 @@ export default function ExtraInfo({section}) {
                 />
             </span>
         );
-    } else if (section === NotificationSections.PUSH) {
+    case NotificationSections.PUSH:
         return (
             <span>
                 <FormattedMessage
@@ -26,9 +27,18 @@ export default function ExtraInfo({section}) {
                 />
             </span>
         );
+    case NotificationSections.MARK_UNREAD:
+        return (
+            <span>
+                <FormattedMessage
+                    id='channel_notifications.unreadInfo'
+                    defaultMessage='The channel name is bolded in the sidebar when there are unread messages. Selecting "Only for mentions" will bold the channel only when you are mentioned.'
+                />
+            </span>
+        );
+    default:
+        return null;
     }
-
-    return null;
 }
 
 ExtraInfo.propTypes = {
