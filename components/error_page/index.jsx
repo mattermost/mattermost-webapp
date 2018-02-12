@@ -6,6 +6,8 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
+import {ErrorPageTypes} from 'utils/constants.jsx';
+
 import ErrorTitle from './error_title.jsx';
 import ErrorMessage from './error_message.jsx';
 
@@ -28,6 +30,28 @@ export default class ErrorPage extends React.PureComponent {
         const title = params.get('title');
         const message = params.get('message');
         const service = params.get('service');
+        const returnTo = params.get('returnTo');
+
+        let backButton;
+        if (type === ErrorPageTypes.PERMALINK_NOT_FOUND && returnTo) {
+            backButton = (
+                <Link to={returnTo}>
+                    <FormattedMessage
+                        id='error.generic.link'
+                        defaultMessage='Back to Mattermost'
+                    />
+                </Link>
+            );
+        } else {
+            backButton = (
+                <Link to='/'>
+                    <FormattedMessage
+                        id='error.generic.link'
+                        defaultMessage='Back to Mattermost'
+                    />
+                </Link>
+            );
+        }
 
         return (
             <div className='container-fluid'>
@@ -46,12 +70,7 @@ export default class ErrorPage extends React.PureComponent {
                         message={message}
                         service={service}
                     />
-                    <Link to='/'>
-                        <FormattedMessage
-                            id='error.generic.link'
-                            defaultMessage='Back to Mattermost'
-                        />
-                    </Link>
+                    {backButton}
                 </div>
             </div>
         );
