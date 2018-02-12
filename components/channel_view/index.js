@@ -3,7 +3,8 @@
 
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
-import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {get as getPreference} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {withRouter} from 'react-router-dom';
 
 import {getDirectTeammate} from 'utils/utils.jsx';
@@ -24,10 +25,14 @@ const getDeactivatedChannel = createSelector(
 function mapStateToProps(state) {
     const channelId = state.entities.channels.currentChannelId;
 
+    const config = state.entities.general.config;
+    const enableTutorial = config.EnableTutorial === 'true';
+    const tutorialStep = parseInt(getPreference(state, Preferences.TUTORIAL_STEP, getCurrentUserId(state), TutorialSteps.FINISHED), 10);
+
     return {
         channelId,
         deactivatedChannel: getDeactivatedChannel(state, channelId),
-        showTutorial: Number(get(state, Preferences.TUTORIAL_STEP, state.entities.users.currentUserId, 999)) <= TutorialSteps.INTRO_SCREENS && global.window.mm_config.EnableTutorial === 'true'
+        showTutorial: enableTutorial && tutorialStep <= TutorialSteps.INTRO_SCREENS
     };
 }
 
