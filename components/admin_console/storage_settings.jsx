@@ -149,6 +149,14 @@ export default class StorageSettings extends AdminSettings {
                 );
         }
 
+        const imageProxyTypeValues = [
+            {value: '', text: Utils.localizeMessage('admin.image.proxyTypeNone', 'None')},
+            {value: 'atmos/camo', text: 'atmos/camo'}
+        ];
+        if (this.state.imageProxyType === 'willnorris/imageproxy') {
+            imageProxyTypeValues.push({value: 'willnorris/imageproxy', text: 'willnorris/imageproxy'});
+        }
+
         return (
             <SettingsGroup>
                 <DropdownSetting
@@ -364,11 +372,7 @@ export default class StorageSettings extends AdminSettings {
                 />
                 <DropdownSetting
                     id='imageProxyType'
-                    values={[
-                        {value: '', text: Utils.localizeMessage('admin.image.proxyTypeNone', 'None')},
-                        {value: 'atmos/camo', text: 'atmos/camo'},
-                        {value: 'willnorris/imageproxy', text: 'willnorris/imageproxy'}
-                    ]}
+                    values={imageProxyTypeValues}
                     label={
                         <FormattedMessage
                             id='admin.image.proxyType'
@@ -413,7 +417,7 @@ export default class StorageSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.image.proxyOptionsDescription'
-                            defaultMessage='Additional options for basic image adjustments such as resizing, cropping, and rotation. Refer to your image proxy documentation to learn more about what options are supported.'
+                            defaultMessage='Additional options such as the URL signing key. Refer to your image proxy documentation to learn more about what options are supported.'
                         />
                     }
                     value={this.state.imageProxyOptions}
