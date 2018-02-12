@@ -12,7 +12,6 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import {emitEmojiPosted} from 'actions/post_actions.jsx';
 import EmojiStore from 'stores/emoji_store.jsx';
 import Constants, {StoragePrefixes} from 'utils/constants.jsx';
-import * as FileUtils from 'utils/file_utils';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -109,6 +108,11 @@ export default class CreatePost extends React.Component {
         *  Set if the channel is read only.
         */
         readOnlyChannel: PropTypes.bool,
+
+        /**
+         * Whether or not file upload is allowed.
+         */
+        canUploadFiles: PropTypes.bool.isRequired,
 
         actions: PropTypes.shape({
 
@@ -777,7 +781,7 @@ export default class CreatePost extends React.Component {
         }
 
         let attachmentsDisabled = '';
-        if (!FileUtils.canUploadFiles()) {
+        if (!this.props.canUploadFiles) {
             attachmentsDisabled = ' post-create--attachment-disabled';
         }
 

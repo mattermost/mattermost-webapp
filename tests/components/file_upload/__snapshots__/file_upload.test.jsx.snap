@@ -2,6 +2,7 @@
 
 exports[`components/FileUpload should match snapshot 1`] = `
 <FileUpload
+  canUploadFiles={true}
   currentChannelId="channel_id"
   fileCount={1}
   getTarget={[Function]}
@@ -30,6 +31,7 @@ exports[`components/FileUpload should match snapshot 1`] = `
       "textComponent": "span",
     }
   }
+  maxFileSize={10}
   onClick={[Function]}
   onFileUpload={[Function]}
   onFileUploadChange={[Function]}
