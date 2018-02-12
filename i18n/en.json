@@ -753,8 +753,6 @@
   "admin.plugin.version": "Version:",
   "admin.plugins.settings.enable": "Enable Plugins: ",
   "admin.plugins.settings.enableDesc": "When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality or customize the user interface of your Mattermost server. See <a href=\"https://about.mattermost.com/default-plugins\" target=\"_blank\">documentation</a> to learn more.",
-  "admin.plugins.settings.enableUploads": "Enable Plugin Uploads: ",
-  "admin.plugins.settings.enableUploadsDesc": "When true, enables plugin uploads by System Admins at <strong>Plugins > Management</strong>. If you do not plan to upload a plugin, set to false to control which plugins are installed on your server. See <a href=\"https://about.mattermost.com/default-plugin-uploads\" target=\"_blank\">documentation</a> to learn more.",
   "admin.plugins.settings.title": "Configuration",
   "admin.privacy.showEmailDescription": "When false, hides the email address of members from everyone except System Administrators.",
   "admin.privacy.showEmailTitle": "Show Email Address: ",
