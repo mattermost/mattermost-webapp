@@ -6,6 +6,7 @@ import {FormattedDate, FormattedHTMLMessage, FormattedMessage} from 'react-intl'
 import PropTypes from 'prop-types';
 
 import {Permissions} from 'mattermost-redux/constants';
+import {isCurrentChannelReadOnly} from 'mattermost-redux/selectors/entities/channels';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
@@ -21,6 +22,7 @@ import ChannelPermissionGate from 'components/permissions_gates/channel_permissi
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
 import * as Utils from 'utils/utils.jsx';
+import store from 'stores/redux_store.jsx';
 
 const CreateChannelIntroMessage = ({
     channel,
@@ -220,40 +222,48 @@ function createOffTopicIntroMessage(channel, centeredIntro) {
 }
 
 export function createDefaultIntroMessage(channel, centeredIntro) {
-    const teamInviteLink = (
-        <TeamPermissionGate
-            teamId={channel.team_id}
-            permissions={[Permissions.INVITE_USER]}
-        >
+    let teamInviteLink = null;
+    const isReadOnly = isCurrentChannelReadOnly(store.getState());
+    if (!isReadOnly) {
+        teamInviteLink = (
             <TeamPermissionGate
                 teamId={channel.team_id}
-                permissions={[Permissions.ADD_USER_TO_TEAM]}
+                permissions={[Permissions.INVITE_USER]}
             >
-                <span
-                    className='intro-links color--link cursor--pointer'
-                    onClick={GlobalActions.showGetTeamInviteLinkModal}
+                <TeamPermissionGate
+                    teamId={channel.team_id}
+                    permissions={[Permissions.ADD_USER_TO_TEAM]}
                 >
-                    <i className='fa fa-user-plus'/>
-                    <FormattedMessage
-                        id='intro_messages.inviteOthers'
-                        defaultMessage='Invite others to this team'
-                    />
-                </span>
+                    <span
+                        className='intro-links color--link cursor--pointer'
+                        onClick={GlobalActions.showGetTeamInviteLinkModal}
+                    >
+                        <i className='fa fa-user-plus'/>
+                        <FormattedMessage
+                            id='intro_messages.inviteOthers'
+                            defaultMessage='Invite others to this team'
+                        />
+                    </span>
+                </TeamPermissionGate>
             </TeamPermissionGate>
-        </TeamPermissionGate>
-    );
+        );
+    }
 
     const teamId = TeamStore.getCurrentId();
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
-    const setHeaderButton = (
-        <ChannelPermissionGate
-            teamId={teamId}
-            channelId={channel.id}
-            permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
-        >
-            {createSetHeaderButton(channel)}
-        </ChannelPermissionGate>
-    );
+
+    let setHeaderButton = null;
+    if (!isReadOnly) {
+        setHeaderButton = (
+            <ChannelPermissionGate
+                teamId={teamId}
+                channelId={channel.id}
+                permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
+            >
+                {createSetHeaderButton(channel)}
+            </ChannelPermissionGate>
+        );
+    }
 
     return (
         <div

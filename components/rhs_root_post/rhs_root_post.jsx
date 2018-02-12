@@ -44,6 +44,7 @@ export default class RhsRootPost extends React.Component {
         isEmbedVisible: PropTypes.bool,
         enableEmojiPicker: PropTypes.bool.isRequired,
         enablePostUsernameOverride: PropTypes.bool.isRequired,
+        isReadOnly: PropTypes.bool.isRequired,
     };
 
     static defaultProps = {
@@ -195,8 +196,7 @@ export default class RhsRootPost extends React.Component {
     };
 
     render() {
-        const post = this.props.post;
-        const user = this.props.user;
+        const {post, user, isReadOnly} = this.props;
         var channel = ChannelStore.get(post.channel_id);
 
         const isEphemeral = Utils.isPostEphemeral(post);
@@ -218,7 +218,7 @@ export default class RhsRootPost extends React.Component {
 
         let react;
 
-        if (!isEphemeral && !post.failed && !isSystemMessage && this.props.enableEmojiPicker) {
+        if (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && this.props.enableEmojiPicker) {
             react = (
                 <span>
                     <EmojiPickerOverlay
@@ -379,6 +379,7 @@ export default class RhsRootPost extends React.Component {
                 isFlagged={this.props.isFlagged}
                 handleDropdownOpened={this.handleDropdownOpened}
                 commentCount={this.props.commentCount}
+                isReadOnly={isReadOnly}
             />
         );
 
@@ -441,7 +442,10 @@ export default class RhsRootPost extends React.Component {
                                 </PostBodyAdditionalContent>
                             </div>
                             {fileAttachment}
-                            <ReactionListContainer post={post}/>
+                            <ReactionListContainer
+                                post={post}
+                                isReadOnly={isReadOnly}
+                            />
                         </div>
                     </div>
                 </div>

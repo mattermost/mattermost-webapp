@@ -87,6 +87,15 @@ export default class PostBody extends React.PureComponent {
          * Whether or not the post username can be overridden.
          */
         enablePostUsernameOverride: PropTypes.bool.isRequired,
+
+        /**
+         * Set not to allow edits on post
+         */
+        isReadOnly: PropTypes.bool,
+    }
+
+    static defaultProps = {
+        isReadOnly: false,
     }
 
     constructor(props) {
@@ -275,7 +284,10 @@ export default class PostBody extends React.PureComponent {
                 <div className={`post__body ${mentionHighlightClass} ${ephemeralPostClass}`}>
                     {messageWithAdditionalContent}
                     {fileAttachmentHolder}
-                    <ReactionListContainer post={post}/>
+                    <ReactionListContainer
+                        post={post}
+                        isReadOnly={this.props.isReadOnly}
+                    />
                 </div>
             </div>
         );

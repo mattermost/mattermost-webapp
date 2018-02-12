@@ -120,6 +120,11 @@ export default class SidebarChannel extends React.PureComponent {
          */
         membersCount: PropTypes.number.isRequired,
 
+        /**
+         * Flag if channel should be hidden in sidebar
+         */
+        shouldHideChannel: PropTypes.bool.isRequired,
+
         actions: PropTypes.shape({
             savePreferences: PropTypes.func.isRequired,
             leaveChannel: PropTypes.func.isRequired,
@@ -179,6 +184,9 @@ export default class SidebarChannel extends React.PureComponent {
 
         let closeHandler = null;
         if (!this.showChannelAsUnread()) {
+            if (this.props.shouldHideChannel) {
+                return '';
+            }
             if (this.props.channelType === Constants.DM_CHANNEL || this.props.channelType === Constants.GM_CHANNEL) {
                 closeHandler = this.handleLeaveDirectChannel;
             } else if (this.props.config.EnableXToLeaveChannelsFromLHS === 'true') {
