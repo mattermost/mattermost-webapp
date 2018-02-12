@@ -406,7 +406,7 @@ export function isGIFImage(extin) {
 
 const removeQuerystringOrHash = (url) => {
     return url.split(/[?#]/)[0];
-}
+};
 
 export const getFileType = (extin) => {
     const ext = removeQuerystringOrHash(extin.toLowerCase());
@@ -452,7 +452,7 @@ export const getFileType = (extin) => {
     }
 
     return FileTypes.OTHER;
-}
+};
 
 export function getFileIconPath(fileInfo) {
     const fileType = getFileType(fileInfo.extension);
