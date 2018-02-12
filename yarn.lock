@@ -5574,9 +5574,9 @@ math-expression-evaluator@^1.2.14:
   version "1.2.16"
   resolved "https://registry.yarnpkg.com/math-expression-evaluator/-/math-expression-evaluator-1.2.16.tgz#b357fa1ca9faefb8e48d10c14ef2bcb2d9f0a7c9"
 
-mattermost-redux@mattermost/mattermost-redux:
+mattermost-redux@mattermost/mattermost-redux#webapp-4.7:
   version "1.2.0"
-  resolved "https://codeload.github.com/mattermost/mattermost-redux/tar.gz/52a6c1869b61c6b2fccc549d7b3e1bedd0cbd928"
+  resolved "https://codeload.github.com/mattermost/mattermost-redux/tar.gz/9b7a6773ebdcdc6972ce693172faf64ee21c11c6"
   dependencies:
     deep-equal "1.0.1"
     form-data "2.3.1"
