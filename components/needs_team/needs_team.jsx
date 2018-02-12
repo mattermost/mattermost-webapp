@@ -110,7 +110,7 @@ export default class NeedsTeam extends React.Component {
     updateCurrentTeam(props) {
         // First check to make sure you're in the current team
         // for the current url.
-        const teamName = props.match.params.team;
+        const {team: teamName, identifier} = props.match.params;
         const team = TeamStore.getByName(teamName);
 
         if (!team) {
@@ -127,6 +127,21 @@ export default class NeedsTeam extends React.Component {
         TeamStore.saveMyTeam(team);
         BrowserStore.setGlobalItem('team', team.id);
         TeamStore.emitChange();
+
+        let channel;
+        if (identifier) {
+            const channelName = identifier.toLowerCase();
+            channel = ChannelStore.getByName(channelName);
+        }
+
+        if (!channel) {
+            const defaultChannel = ChannelStore.getByName(Constants.DEFAULT_CHANNEL);
+            if (defaultChannel && defaultChannel.id) {
+                ChannelStore.setCurrentId(defaultChannel.id);
+                ChannelStore.emitChange();
+            }
+        }
+
         GlobalActions.emitCloseRightHandSide();
 
         this.props.actions.fetchMyChannelsAndMembers(team.id).then(
