@@ -30,6 +30,14 @@
     transform-origin: 0 0;
     width: 64px;
 }
+.preload-emojis {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+}
 .emoji-category-people-1 { background-image: url('../images/emoji-sheets/people-1.png'); }
 .emoji-263a-fe0f { background-position: -0px -0px; }
 .emoji-1f601 { background-position: -64px -0px; }

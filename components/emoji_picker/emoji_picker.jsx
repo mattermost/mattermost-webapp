@@ -13,6 +13,7 @@ import EmojiPickerCategory from './components/emoji_picker_category';
 import EmojiPickerItem from './components/emoji_picker_item';
 import EmojiPickerCategorySection from './emoji_picker_category_section';
 import EmojiPickerPreview from './components/emoji_picker_preview';
+import EmojiPickerTriggerPreload from './components/emoji_picker_trigger_preload';
 
 const CATEGORY_SEARCH_RESULTS = 'searchResults';
 const EMOJI_HEIGHT = 27;
@@ -98,9 +99,8 @@ const CATEGORIES = {
     }
 };
 
-function getEmojiFilename(emoji) {
-    return emoji.filename || emoji.id;
-}
+const getEmojiFilename = (emoji) =>
+    emoji.filename || emoji.id;
 
 const EMOJIS_PER_PAGE = 200;
 const LOAD_MORE_AT_PIXELS_FROM_BOTTOM = 500;
@@ -584,6 +584,9 @@ export default class EmojiPicker extends React.PureComponent {
                 {this.emojiSearch()}
                 {this.emojiCurrentResults()}
                 <EmojiPickerPreview emoji={this.getCurrentEmojiByCursor(this.state.cursor)}/>
+                <EmojiPickerTriggerPreload
+                    allEmojis={this.state.allEmojis}
+                />
             </div>
         );
     }
