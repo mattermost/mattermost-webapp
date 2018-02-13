@@ -389,9 +389,8 @@ class FileUpload extends React.PureComponent {
                 this.props.onUploadError(localizeMessage('file_upload.disabled', 'File attachments are disabled.'));
                 return;
             }
-
-            const postTextbox = this.props.postType === 'post' && document.activeElement.id === 'post_textbox-textarea';
-            const commentTextbox = this.props.postType === 'comment' && document.activeElement.id === 'reply_textbox-textarea';
+            const postTextbox = this.props.postType === 'post' && document.activeElement.id === 'post_textbox';
+            const commentTextbox = this.props.postType === 'comment' && document.activeElement.id === 'reply_textbox';
             if (postTextbox || commentTextbox) {
                 $(this.refs.fileInput).focus().trigger('click');
             }
