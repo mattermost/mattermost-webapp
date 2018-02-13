@@ -19,7 +19,17 @@ import FormError from 'components/form_error.jsx';
 export default class SignupLdap extends React.Component {
     static get propTypes() {
         return {
-            location: PropTypes.object
+            location: PropTypes.object,
+            isLicensed: PropTypes.bool.isRequired,
+            ldapLoginFieldName: PropTypes.string,
+            enableLdap: PropTypes.bool.isRequired,
+            ldap: PropTypes.bool.isRequired,
+            siteName: PropTypes.string,
+            termsOfServiceLink: PropTypes.string,
+            privacyPolicyLink: PropTypes.string,
+            customBrand: PropTypes.bool.isRequired,
+            enableCustomBrand: PropTypes.bool.isRequired,
+            customDescriptionText: PropTypes.string.isRequired
         };
     }
 
@@ -112,8 +122,8 @@ export default class SignupLdap extends React.Component {
 
     render() {
         let ldapIdPlaceholder;
-        if (global.window.mm_config.LdapLoginFieldName) {
-            ldapIdPlaceholder = global.window.mm_config.LdapLoginFieldName;
+        if (this.props.ldapLoginFieldName) {
+            ldapIdPlaceholder = this.props.ldapLoginFieldName;
         } else {
             ldapIdPlaceholder = Utils.localizeMessage('login.ldapUsername', 'AD/LDAP Username');
         }
@@ -124,7 +134,7 @@ export default class SignupLdap extends React.Component {
         }
 
         let ldapSignup;
-        if (global.window.mm_config.EnableLdap === 'true' && global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.LDAP) {
+        if (this.props.enableLdap && this.props.isLicensed && this.props.ldap) {
             ldapSignup = (
                 <div className='inner__content'>
                     <h5>
@@ -193,9 +203,9 @@ export default class SignupLdap extends React.Component {
                         id='create_team.agreement'
                         defaultMessage="By proceeding to create your account and use {siteName}, you agree to our <a href='{TermsOfServiceLink}'>Terms of Service</a> and <a href='{PrivacyPolicyLink}'>Privacy Policy</a>. If you do not agree, you cannot use {siteName}."
                         values={{
-                            siteName: global.window.mm_config.SiteName,
-                            TermsOfServiceLink: global.window.mm_config.TermsOfServiceLink,
-                            PrivacyPolicyLink: global.window.mm_config.PrivacyPolicyLink
+                            siteName: this.props.siteName,
+                            TermsOfServiceLink: this.props.termsOfServiceLink,
+                            PrivacyPolicyLink: this.props.privacyPolicyLink
                         }}
                     />
                 </p>
@@ -203,8 +213,8 @@ export default class SignupLdap extends React.Component {
         }
 
         let description = null;
-        if (global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.CustomBrand === 'true' && global.window.mm_config.EnableCustomBrand === 'true') {
-            description = global.window.mm_config.CustomDescriptionText;
+        if (this.props.isLicensed && this.props.customBrand && this.props.enableCustomBrand) {
+            description = this.props.customDescriptionText;
         } else {
             description = (
                 <FormattedMessage
@@ -223,7 +233,7 @@ export default class SignupLdap extends React.Component {
                             className='signup-team-logo'
                             src={logoImage}
                         />
-                        <h1>{global.window.mm_config.SiteName}</h1>
+                        <h1>{this.props.siteName}</h1>
                         <h4 className='color--light'>
                             {description}
                         </h4>

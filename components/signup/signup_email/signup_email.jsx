@@ -21,7 +21,15 @@ import LoadingScreen from 'components/loading_screen.jsx';
 export default class SignupEmail extends React.Component {
     static get propTypes() {
         return {
-            location: PropTypes.object
+            location: PropTypes.object,
+            isLicensed: PropTypes.bool.isRequired,
+            enableSignUpWithEmail: PropTypes.bool.isRequired,
+            siteName: PropTypes.string,
+            termsOfServiceLink: PropTypes.string,
+            privacyPolicyLink: PropTypes.string,
+            customBrand: PropTypes.bool.isRequired,
+            enableCustomBrand: PropTypes.bool.isRequired,
+            customDescriptionText: PropTypes.string.isRequired
         };
     }
 
@@ -310,7 +318,7 @@ export default class SignupEmail extends React.Component {
                     defaultMessage="Your email address is <strong>{email}</strong>. You'll use this address to sign in to {siteName}."
                     values={{
                         email: this.state.email,
-                        siteName: global.window.mm_config.SiteName
+                        siteName: this.props.siteName
                     }}
                 />
             );
@@ -425,7 +433,7 @@ export default class SignupEmail extends React.Component {
         }
 
         let emailSignup;
-        if (global.window.mm_config.EnableSignUpWithEmail === 'true') {
+        if (this.props.enableSignUpWithEmail) {
             emailSignup = this.renderEmailSignup();
         } else {
             return null;
@@ -439,9 +447,9 @@ export default class SignupEmail extends React.Component {
                         id='create_team.agreement'
                         defaultMessage="By proceeding to create your account and use {siteName}, you agree to our <a href='{TermsOfServiceLink}'>Terms of Service</a> and <a href='{PrivacyPolicyLink}'>Privacy Policy</a>. If you do not agree, you cannot use {siteName}."
                         values={{
-                            siteName: global.window.mm_config.SiteName,
-                            TermsOfServiceLink: global.window.mm_config.TermsOfServiceLink,
-                            PrivacyPolicyLink: global.window.mm_config.PrivacyPolicyLink
+                            siteName: this.props.siteName,
+                            TermsOfServiceLink: this.props.termsOfServiceLink,
+                            PrivacyPolicyLink: this.props.privacyPolicyLink
                         }}
                     />
                 </p>
@@ -453,8 +461,8 @@ export default class SignupEmail extends React.Component {
         }
 
         let description = null;
-        if (global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.CustomBrand === 'true' && global.window.mm_config.EnableCustomBrand === 'true') {
-            description = global.window.mm_config.CustomDescriptionText;
+        if (this.props.isLicensed && this.props.customBrand && this.props.enableCustomBrand) {
+            description = this.props.customDescriptionText;
         } else {
             description = (
                 <FormattedMessage
@@ -473,7 +481,7 @@ export default class SignupEmail extends React.Component {
                             className='signup-team-logo'
                             src={logoImage}
                         />
-                        <h1>{global.window.mm_config.SiteName}</h1>
+                        <h1>{this.props.siteName}</h1>
                         <h4 className='color--light'>
                             {description}
                         </h4>
