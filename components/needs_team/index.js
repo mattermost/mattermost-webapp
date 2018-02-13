@@ -10,22 +10,18 @@ import {withRouter} from 'react-router-dom';
 
 import NeedsTeam from './needs_team.jsx';
 
-function mapStateToProps(state) {
-    return {
-        theme: getTheme(state)
-    };
-}
+const mapStateToProps = (state) => ({
+    theme: getTheme(state)
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            fetchMyChannelsAndMembers,
-            getMyTeamUnreads,
-            viewChannel,
-            markChannelAsRead,
-            getMyChannelMembers
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        fetchMyChannelsAndMembers,
+        getMyTeamUnreads,
+        viewChannel,
+        markChannelAsRead,
+        getMyChannelMembers
+    }, dispatch)
+});
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NeedsTeam));

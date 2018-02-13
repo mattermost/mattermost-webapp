@@ -8,18 +8,10 @@ import {withRouter} from 'react-router-dom';
 
 import TeamSidebar from './team_sidebar_controller.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getTeams
+    }, dispatch)
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getTeams
-        }, dispatch)
-    };
-}
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TeamSidebar));
+export default withRouter(connect(null, mapDispatchToProps)(TeamSidebar));

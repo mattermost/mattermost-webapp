@@ -17,7 +17,6 @@ function makeMapStateToProps() {
         const members = doGetProfilesInChannel(state, ownProps.channel.id, true);
 
         return {
-            ...ownProps,
             memberCount: stats.member_count,
             members,
             currentUserId: getCurrentUserId(state)
@@ -25,12 +24,10 @@ function makeMapStateToProps() {
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getProfilesInChannel
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getProfilesInChannel
+    }, dispatch)
+});
 
 export default connect(makeMapStateToProps, mapDispatchToProps)(PopoverListMembers);

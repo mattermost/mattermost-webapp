@@ -18,18 +18,15 @@ function makeMapStateToProps() {
         }
 
         return {
-            ...ownProps,
             fileInfos
         };
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getFilesForPost
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getFilesForPost
+    }, dispatch)
+});
 
 export default connect(makeMapStateToProps, mapDispatchToProps)(CommentedOnFilesMessage);

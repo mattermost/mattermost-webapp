@@ -7,18 +7,10 @@ import {getProfilesNotInTeam} from 'mattermost-redux/actions/users';
 
 import AddUsersToTeam from './add_users_to_team.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getProfilesNotInTeam
+    }, dispatch)
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getProfilesNotInTeam
-        }, dispatch)
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddUsersToTeam);
+export default connect(null, mapDispatchToProps)(AddUsersToTeam);

@@ -8,19 +8,14 @@ import {closeModal} from 'actions/views/modals';
 
 import ModalController from './modal_controller.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps,
-        modals: state.views.modals
-    };
-}
+const mapStateToProps = (state) => ({
+    modals: state.views.modals
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            closeModal
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        closeModal
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModalController);

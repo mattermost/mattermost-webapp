@@ -12,7 +12,7 @@ import {displayUsernameForUser} from 'utils/utils.jsx';
 
 import EmojiListItem from './emoji_list_item.jsx';
 
-function mapStateToProps(state, ownProps) {
+const mapStateToProps = (state, ownProps) => {
     const emoji = state.entities.emojis.customEmoji[ownProps.emojiId];
     const creator = getUser(state, emoji.creator_id) || {};
 
@@ -23,14 +23,12 @@ function mapStateToProps(state, ownProps) {
         currentUserId: getCurrentUserId(state),
         isSystemAdmin: isCurrentUserSystemAdmin(state)
     };
-}
+};
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            deleteCustomEmoji
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        deleteCustomEmoji
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(EmojiListItem);

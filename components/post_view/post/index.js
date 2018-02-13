@@ -10,7 +10,7 @@ import {Preferences} from 'utils/constants.jsx';
 
 import Post from './post.jsx';
 
-function mapStateToProps(state, ownProps) {
+const mapStateToProps = (state, ownProps) => {
     const detailedPost = ownProps.post || {};
 
     return {
@@ -28,6 +28,6 @@ function mapStateToProps(state, ownProps) {
         center: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT) === Preferences.CHANNEL_DISPLAY_MODE_CENTERED,
         compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT
     };
-}
+};
 
 export default connect(mapStateToProps)(Post);

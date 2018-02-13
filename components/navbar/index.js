@@ -10,22 +10,20 @@ import {RHSStates} from 'utils/constants.jsx';
 
 import Navbar from './navbar.jsx';
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
     const rhsState = getRhsState(state);
 
     return {
         isPinnedPosts: rhsState === RHSStates.PIN
     };
-}
+};
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            closeRightHandSide,
-            updateRhsState,
-            showPinnedPosts
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        closeRightHandSide,
+        updateRhsState,
+        showPinnedPosts
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

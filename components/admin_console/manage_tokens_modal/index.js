@@ -7,21 +7,18 @@ import {getUserAccessTokensForUser} from 'mattermost-redux/actions/users';
 
 import ManageTokensModal from './manage_tokens_modal.jsx';
 
-function mapStateToProps(state, ownProps) {
+const mapStateToProps = (state, ownProps) => {
     const userId = ownProps.user ? ownProps.user.id : '';
 
     return {
-        ...ownProps,
         userAccessTokens: state.entities.admin.userAccessTokens[userId]
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getUserAccessTokensForUser
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getUserAccessTokensForUser
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageTokensModal);

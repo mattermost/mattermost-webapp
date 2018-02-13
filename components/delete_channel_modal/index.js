@@ -8,19 +8,14 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import DeleteChannelModal from './delete_channel_modal.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps,
-        currentTeamDetails: getCurrentTeam(state)
-    };
-}
+const mapStateToProps = (state) => ({
+    currentTeamDetails: getCurrentTeam(state)
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            deleteChannel
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        deleteChannel
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(DeleteChannelModal);

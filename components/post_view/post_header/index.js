@@ -7,11 +7,8 @@ import {get} from 'mattermost-redux/selectors/entities/preferences';
 
 import PostHeader from './post_header.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps,
-        displayNameType: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, 'name_format', 'false')
-    };
-}
+const mapStateToProps = (state) => ({
+    displayNameType: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, 'name_format', 'false')
+});
 
 export default connect(mapStateToProps)(PostHeader);

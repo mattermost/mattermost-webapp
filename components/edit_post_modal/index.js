@@ -14,22 +14,18 @@ import {getEditingPost} from 'selectors/posts';
 
 import EditPostModal from './edit_post_modal.jsx';
 
-function mapStateToProps(state) {
-    return {
-        ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
-        config: getConfig(state),
-        editingPost: getEditingPost(state)
-    };
-}
+const mapStateToProps = (state) => ({
+    ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
+    config: getConfig(state),
+    editingPost: getEditingPost(state)
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            addMessageIntoHistory,
-            editPost,
-            hideEditPostModal
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        addMessageIntoHistory,
+        editPost,
+        hideEditPostModal
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditPostModal);

@@ -30,8 +30,7 @@ function makeMapStateToProps() {
         }
 
         return {
-            ...ownProps,
-            profiles,
+                profiles,
             otherUsersCount: ownProps.reactions.length - profiles.length,
             currentUserId: getCurrentUserId(state),
             reactionCount: ownProps.reactions.length,
@@ -40,14 +39,12 @@ function makeMapStateToProps() {
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            addReaction,
-            removeReaction,
-            getMissingProfilesByIds
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        addReaction,
+        removeReaction,
+        getMissingProfilesByIds
+    }, dispatch)
+});
 
 export default connect(makeMapStateToProps, mapDispatchToProps)(Reaction);

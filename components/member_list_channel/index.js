@@ -7,12 +7,10 @@ import {getChannelStats} from 'mattermost-redux/actions/channels';
 
 import MemberListChannel from './member_list_channel.jsx';
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getChannelStats
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getChannelStats
+    }, dispatch)
+});
 
 export default connect(null, mapDispatchToProps)(MemberListChannel);

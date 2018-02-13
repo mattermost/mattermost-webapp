@@ -20,7 +20,7 @@ import {getRhsState} from 'selectors/rhs';
 
 import ChannelHeader from './channel_header.jsx';
 
-function mapStateToProps(state, ownProps) {
+const mapStateToProps = (state, ownProps) => {
     const channel = getChannel(state, ownProps.channelId) || {};
     const prefs = state.entities.preferences.myPreferences;
     const user = getCurrentUser(state);
@@ -45,22 +45,20 @@ function mapStateToProps(state, ownProps) {
         enableFormatting: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'formatting', true),
         rhsState: getRhsState(state)
     };
-}
+};
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            leaveChannel,
-            favoriteChannel,
-            unfavoriteChannel,
-            showFlaggedPosts,
-            showPinnedPosts,
-            showMentions,
-            closeRightHandSide,
-            openModal,
-            getCustomEmojisInText
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        leaveChannel,
+        favoriteChannel,
+        unfavoriteChannel,
+        showFlaggedPosts,
+        showPinnedPosts,
+        showMentions,
+        closeRightHandSide,
+        openModal,
+        getCustomEmojisInText
+    }, dispatch)
+});
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ChannelHeader));

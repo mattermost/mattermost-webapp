@@ -8,20 +8,15 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import MoreDirectChannels from './more_direct_channels.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps,
-        currentUserId: getCurrentUserId(state)
-    };
-}
+const mapStateToProps = (state) => ({
+    currentUserId: getCurrentUserId(state)
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getProfiles,
-            getProfilesInTeam
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getProfiles,
+        getProfilesInTeam
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(MoreDirectChannels);

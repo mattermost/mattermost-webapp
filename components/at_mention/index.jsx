@@ -6,11 +6,9 @@ import {getCurrentUserId, getUsersByUsername} from 'mattermost-redux/selectors/e
 
 import AtMention from './at_mention.jsx';
 
-function mapStateToProps(state) {
-    return {
-        currentUserId: getCurrentUserId(state),
-        usersByUsername: getUsersByUsername(state)
-    };
-}
+const mapStateToProps = (state) => ({
+    currentUserId: getCurrentUserId(state),
+    usersByUsername: getUsersByUsername(state)
+});
 
 export default connect(mapStateToProps)(AtMention);

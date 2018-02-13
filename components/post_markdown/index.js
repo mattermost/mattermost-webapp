@@ -22,13 +22,11 @@ const getChannelNamesMap = createSelector(
     }
 );
 
-function mapStateToProps(state) {
-    return {
-        channelNamesMap: getChannelNamesMap(state),
-        mentionKeys: getCurrentUserMentionKeys(state),
-        siteURL: getSiteURL(),
-        team: getCurrentTeam(state)
-    };
-}
+const mapStateToProps = (state) => ({
+    channelNamesMap: getChannelNamesMap(state),
+    mentionKeys: getCurrentUserMentionKeys(state),
+    siteURL: getSiteURL(),
+    team: getCurrentTeam(state)
+});
 
 export default connect(mapStateToProps)(PostMarkdown);

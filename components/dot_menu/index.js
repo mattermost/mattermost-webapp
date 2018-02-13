@@ -9,20 +9,14 @@ import {pinPost, unpinPost, setEditingPost} from 'actions/post_actions.jsx';
 
 import DotMenu from './dot_menu.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return ownProps;
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        flagPost,
+        unflagPost,
+        setEditingPost,
+        pinPost,
+        unpinPost
+    }, dispatch)
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            flagPost,
-            unflagPost,
-            setEditingPost,
-            pinPost,
-            unpinPost
-        }, dispatch)
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(DotMenu);
+export default connect(null, mapDispatchToProps)(DotMenu);

@@ -20,13 +20,11 @@ const mapStateToProps = createSelector(
     (ctrlSend, requestInfo) => ({ctrlSend, ...requestInfo})
 );
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: {
-            patchChannel: bindActionCreators(patchChannel, dispatch)
-        }
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: {
+        patchChannel: bindActionCreators(patchChannel, dispatch)
+    }
+});
 
 export default connect(
     mapStateToProps,

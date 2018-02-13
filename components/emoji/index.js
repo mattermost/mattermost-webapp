@@ -7,7 +7,7 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import EmojiPage from './emoji_page.jsx';
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
     const team = getCurrentTeam(state) || {};
 
     return {
@@ -15,6 +15,6 @@ function mapStateToProps(state) {
         teamDisplayName: team.display_name,
         siteName: state.entities.general.config.SiteName
     };
-}
+};
 
 export default connect(mapStateToProps)(EmojiPage);

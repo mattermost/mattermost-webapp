@@ -5,19 +5,14 @@ import * as Selectors from 'mattermost-redux/selectors/entities/files';
 
 import GetPublicLinkModal from './get_public_link_modal.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps,
-        link: Selectors.getFilePublicLink(state).link
-    };
-}
+const mapStateToProps = (state) => ({
+    link: Selectors.getFilePublicLink(state).link
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getFilePublicLink
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getFilePublicLink
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(GetPublicLinkModal);

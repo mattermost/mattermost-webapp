@@ -9,18 +9,14 @@ import {getNavigationBlocked} from 'selectors/views/admin';
 
 import BlockableLink from './blockable_link.jsx';
 
-function mapStateToProps(state) {
-    return {
-        blocked: getNavigationBlocked(state)
-    };
-}
+const mapStateToProps = (state) => ({
+    blocked: getNavigationBlocked(state)
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            deferNavigation
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        deferNavigation
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(BlockableLink);

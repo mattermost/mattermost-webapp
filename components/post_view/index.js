@@ -40,17 +40,15 @@ function makeMapStateToProps() {
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getPosts,
-            getPostsBefore,
-            getPostsAfter,
-            getPostThread,
-            increasePostVisibility,
-            checkAndSetMobileView
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getPosts,
+        getPostsBefore,
+        getPostsAfter,
+        getPostThread,
+        increasePostVisibility,
+        checkAndSetMobileView
+    }, dispatch)
+});
 
 export default connect(makeMapStateToProps, mapDispatchToProps)(PostList);

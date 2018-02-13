@@ -12,22 +12,19 @@ import {autoResetStatus} from 'actions/user_actions.jsx';
 
 import ResetStatusModal from './reset_status_modal.jsx';
 
-function mapStateToProps(state, ownProps) {
+const mapStateToProps = (state) => {
     const {currentUserId} = state.entities.users;
     return {
-        ...ownProps,
         autoResetPref: get(state, Preferences.CATEGORY_AUTO_RESET_MANUAL_STATUS, currentUserId, '')
     };
-}
+};
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            autoResetStatus,
-            setStatus,
-            savePreferences
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        autoResetStatus,
+        setStatus,
+        savePreferences
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResetStatusModal);

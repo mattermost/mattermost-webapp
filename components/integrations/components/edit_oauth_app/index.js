@@ -8,24 +8,21 @@ import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/user
 
 import EditOAuthApp from './edit_oauth_app.jsx';
 
-function mapStateToProps(state, ownProps) {
+const mapStateToProps = (state, ownProps) => {
     const oauthAppId = (new URLSearchParams(ownProps.location.search)).get('id');
 
     return {
-        ...ownProps,
         isSystemAdmin: isCurrentUserSystemAdmin(state),
         oauthAppId,
         oauthApp: state.entities.integrations.oauthApps[oauthAppId]
     };
-}
+};
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getOAuthApp,
-            editOAuthApp
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getOAuthApp,
+        editOAuthApp
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditOAuthApp);

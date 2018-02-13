@@ -10,20 +10,18 @@ import {closeRightHandSide} from 'actions/views/rhs';
 
 import SearchResultsItem from './search_results_item.jsx';
 
-function mapStateToProps() {
+const mapStateToProps = (state, ownProps) => {
     const getCommentCountForPost = makeGetCommentCountForPost();
-    return (state, ownProps) => ({
+    return {
         currentTeamName: getCurrentTeam(state).name,
         commentCountForPost: getCommentCountForPost(state, {post: ownProps.post})
-    });
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            closeRightHandSide
-        }, dispatch)
     };
-}
+};
+
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        closeRightHandSide
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchResultsItem);

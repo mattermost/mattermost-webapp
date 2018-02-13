@@ -82,13 +82,11 @@ function makeMapStateToProps() {
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            savePreferences,
-            leaveChannel
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        savePreferences,
+        leaveChannel
+    }, dispatch)
+});
 
 export default connect(makeMapStateToProps, mapDispatchToProps, null, {withRef: true})(SidebarChannel);

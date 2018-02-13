@@ -12,25 +12,20 @@ import {getNavigationBlocked, showNavigationPrompt} from 'selectors/views/admin'
 
 import AdminConsole from './admin_console.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps,
-        config: Selectors.getConfig(state),
-        navigationBlocked: getNavigationBlocked(state),
-        showNavigationPrompt: showNavigationPrompt(state)
-    };
-}
+const mapStateToProps = (state) => ({
+    config: Selectors.getConfig(state),
+    navigationBlocked: getNavigationBlocked(state),
+    showNavigationPrompt: showNavigationPrompt(state)
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getConfig,
-            setNavigationBlocked,
-            deferNavigation,
-            cancelNavigation,
-            confirmNavigation
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getConfig,
+        setNavigationBlocked,
+        deferNavigation,
+        cancelNavigation,
+        confirmNavigation
+    }, dispatch)
+});
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AdminConsole));

@@ -9,7 +9,7 @@ import {getCurrentUser, getStatusForUserId} from 'mattermost-redux/selectors/ent
 
 import StatusDropdown from 'components/status_dropdown/status_dropdown.jsx';
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
     const currentUser = getCurrentUser(state);
 
     if (!currentUser) {
@@ -22,14 +22,12 @@ function mapStateToProps(state) {
         profilePicture: Client4.getProfilePictureUrl(userId, currentUser.last_picture_update),
         status: getStatusForUserId(state, userId)
     };
-}
+};
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            setStatus
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        setStatus
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(StatusDropdown);

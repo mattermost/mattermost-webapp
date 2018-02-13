@@ -11,7 +11,7 @@ import {Preferences, StoragePrefixes} from 'utils/constants.jsx';
 
 import PostBody from './post_body.jsx';
 
-function mapStateToProps(state, ownProps) {
+const mapStateToProps = (state, ownProps) => {
     let parentPost;
     let parentPostUser;
     const previewCollapsed = get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, Preferences.COLLAPSE_DISPLAY_DEFAULT);
@@ -22,7 +22,6 @@ function mapStateToProps(state, ownProps) {
     }
 
     return {
-        ...ownProps,
         parentPost,
         parentPostUser,
         pluginPostTypes: state.plugins.postTypes,
@@ -30,6 +29,6 @@ function mapStateToProps(state, ownProps) {
         previewEnabled: getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, true),
         isEmbedVisible
     };
-}
+};
 
 export default connect(mapStateToProps)(PostBody);

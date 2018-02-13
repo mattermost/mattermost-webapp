@@ -14,20 +14,17 @@ function makeMapStateToProps() {
 
     return function mapStateToProps(state, ownProps) {
         return {
-            ...ownProps,
             reactions: getReactionsForPost(state, ownProps.post.id),
             emojis: getCustomEmojisByName(state)
         };
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getReactionsForPost: Actions.getReactionsForPost,
-            addReaction: Actions.addReaction
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getReactionsForPost: Actions.getReactionsForPost,
+        addReaction: Actions.addReaction
+    }, dispatch)
+});
 
 export default connect(makeMapStateToProps, mapDispatchToProps)(ReactionList);

@@ -8,20 +8,15 @@ import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/user
 
 import AddOAuthApp from './add_oauth_app.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps,
-        addOAuthAppRequest: state.requests.integrations.addOAuthApp,
-        isSystemAdmin: isCurrentUserSystemAdmin(state)
-    };
-}
+const mapStateToProps = (state) => ({
+    addOAuthAppRequest: state.requests.integrations.addOAuthApp,
+    isSystemAdmin: isCurrentUserSystemAdmin(state)
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            addOAuthApp
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        addOAuthApp
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddOAuthApp);

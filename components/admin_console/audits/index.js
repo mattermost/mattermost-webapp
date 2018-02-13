@@ -8,19 +8,14 @@ import * as Selectors from 'mattermost-redux/selectors/entities/admin';
 
 import Audits from './audits.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps,
-        audits: Object.values(Selectors.getAudits(state))
-    };
-}
+const mapStateToProps = (state) => ({
+    audits: Object.values(Selectors.getAudits(state))
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getAudits
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getAudits
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Audits);

@@ -51,8 +51,7 @@ function mapStateToProps() {
         const enableTutorial = config.EnableTutorial === 'true';
         const tutorialStep = parseInt(get(state, Preferences.TUTORIAL_STEP, getCurrentUserId(state), TutorialSteps.FINISHED), 10);
         return {
-            ...ownProps,
-            currentTeamId: getCurrentTeamId(state),
+                currentTeamId: getCurrentTeamId(state),
             currentChannel,
             currentChannelMembersCount,
             currentUserId: getCurrentUserId(state),
@@ -78,21 +77,19 @@ function onSubmitPost(post, fileInfos) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            addMessageIntoHistory,
-            onSubmitPost,
-            moveHistoryIndexBack,
-            moveHistoryIndexForward,
-            addReaction,
-            removeReaction,
-            setDraft: setGlobalItem,
-            clearDraftUploads: actionOnGlobalItemsWithPrefix,
-            selectPostFromRightHandSideSearchByPostId,
-            setEditingPost
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        addMessageIntoHistory,
+        onSubmitPost,
+        moveHistoryIndexBack,
+        moveHistoryIndexForward,
+        addReaction,
+        removeReaction,
+        setDraft: setGlobalItem,
+        clearDraftUploads: actionOnGlobalItemsWithPrefix,
+        selectPostFromRightHandSideSearchByPostId,
+        setEditingPost
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePost);

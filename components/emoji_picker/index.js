@@ -11,22 +11,18 @@ import {getEmojiMap} from 'selectors/emojis';
 
 import EmojiPicker from './emoji_picker.jsx';
 
-function mapStateToProps(state) {
-    return {
-        customEmojisEnabled: state.entities.general.config.EnableCustomEmoji === 'true',
-        customEmojiPage: state.views.emoji.emojiPickerCustomPage,
-        emojiMap: getEmojiMap(state)
-    };
-}
+const mapStateToProps = (state) => ({
+    customEmojisEnabled: state.entities.general.config.EnableCustomEmoji === 'true',
+    customEmojiPage: state.views.emoji.emojiPickerCustomPage,
+    emojiMap: getEmojiMap(state)
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getCustomEmojis,
-            searchCustomEmojis,
-            incrementEmojiPickerPage
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getCustomEmojis,
+        searchCustomEmojis,
+        incrementEmojiPickerPage
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(EmojiPicker);

@@ -22,19 +22,16 @@ function makeMapStateToProps() {
         }
 
         return {
-            ...ownProps,
             fileInfos,
             fileCount
         };
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getMissingFilesForPost
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getMissingFilesForPost
+    }, dispatch)
+});
 
 export default connect(makeMapStateToProps, mapDispatchToProps)(FileAttachmentList);

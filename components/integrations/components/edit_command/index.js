@@ -8,23 +8,20 @@ import {getCommands} from 'mattermost-redux/selectors/entities/integrations';
 
 import EditCommand from './edit_command.jsx';
 
-function mapStateToProps(state, ownProps) {
+const mapStateToProps = (state, ownProps) => {
     const commandId = (new URLSearchParams(ownProps.location.search)).get('id');
 
     return {
-        ...ownProps,
         commandId,
         commands: getCommands(state)
     };
-}
+};
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getCustomTeamCommands,
-            editCommand
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getCustomTeamCommands,
+        editCommand
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditCommand);

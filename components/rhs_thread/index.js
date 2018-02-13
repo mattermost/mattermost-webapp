@@ -41,12 +41,10 @@ function makeMapStateToProps() {
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            removePost
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        removePost
+    }, dispatch)
+});
 
 export default connect(makeMapStateToProps, mapDispatchToProps)(RhsThread);

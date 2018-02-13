@@ -5,12 +5,12 @@ import {connect} from 'react-redux';
 
 import CustomPluginSettings from './custom_plugin_settings.jsx';
 
-function mapStateToProps(state, ownProps) {
+const mapStateToProps = (state, ownProps) => {
     const pluginId = ownProps.match.params.plugin_id;
 
     return {
         plugin: state.entities.admin.plugins[pluginId]
     };
-}
+};
 
 export default connect(mapStateToProps)(CustomPluginSettings);
