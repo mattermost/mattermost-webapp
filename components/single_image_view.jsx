@@ -17,9 +17,10 @@ import {postListScrollChange} from 'actions/global_actions.jsx';
 import LoadingImagePreview from 'components/loading_image_preview';
 import ViewImageModal from 'components/view_image.jsx';
 
-const PREVIEW_IMAGE_MAX_WIDTH = 1024;
-const PREVIEW_IMAGE_MAX_HEIGHT = 350;
-const PREVIEW_IMAGE_MIN_DIMENSION = 50;
+// Size in px multiply by 100
+const PREVIEW_IMAGE_MAX_WIDTH = 102400;
+const PREVIEW_IMAGE_MAX_HEIGHT = 35000;
+const PREVIEW_IMAGE_MIN_DIMENSION = 5000;
 
 export default class SingleImageView extends React.PureComponent {
     static propTypes = {
@@ -110,21 +111,21 @@ export default class SingleImageView extends React.PureComponent {
 
     computeImageDimensions = () => {
         const {fileInfo} = this.props;
-        const {viewPortWidth} = this.state;
+        const viewPortWidth = this.state.viewPortWidth * 100;
 
-        let previewWidth = fileInfo.width;
-        let previewHeight = fileInfo.height;
+        let previewWidth = fileInfo.width * 100;
+        let previewHeight = fileInfo.height * 100;
 
         if (viewPortWidth && previewWidth > viewPortWidth) {
             const origRatio = fileInfo.height / fileInfo.width;
-            previewWidth = Math.floor(Math.min(PREVIEW_IMAGE_MAX_WIDTH, fileInfo.width, viewPortWidth));
-            previewHeight = Math.floor(previewWidth * origRatio);
+            previewWidth = Math.min(PREVIEW_IMAGE_MAX_WIDTH, fileInfo.width * 100, viewPortWidth);
+            previewHeight = previewWidth * origRatio;
         }
 
         if (previewHeight > PREVIEW_IMAGE_MAX_HEIGHT) {
             const heightRatio = PREVIEW_IMAGE_MAX_HEIGHT / previewHeight;
             previewHeight = PREVIEW_IMAGE_MAX_HEIGHT;
-            previewWidth = Math.floor(previewWidth * heightRatio);
+            previewWidth *= heightRatio;
         }
 
         return {previewWidth, previewHeight};
@@ -171,8 +172,8 @@ export default class SingleImageView extends React.PureComponent {
         let loadingImagePreview;
 
         let fadeInClass = '';
-        let imageStyle = {height: previewHeight};
-        let imageContainerStyle = {height: previewHeight};
+        let imageStyle = {height: previewHeight / 100};
+        let imageContainerStyle = {height: previewHeight / 100};
         if (loaded) {
             viewImageModal = (
                 <ViewImageModal
