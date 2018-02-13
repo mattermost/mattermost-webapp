@@ -35,7 +35,7 @@ import {Constants, Preferences, StoragePrefixes, TutorialSteps} from 'utils/cons
 import CreatePost from './create_post.jsx';
 
 function mapStateToProps() {
-    return (state, ownProps) => {
+    return (state) => {
         const config = getConfig(state);
         const currentChannel = getCurrentChannel(state) || {};
         const getDraft = makeGetGlobalItem(StoragePrefixes.DRAFT + currentChannel.id, {
@@ -51,7 +51,7 @@ function mapStateToProps() {
         const enableTutorial = config.EnableTutorial === 'true';
         const tutorialStep = parseInt(get(state, Preferences.TUTORIAL_STEP, getCurrentUserId(state), TutorialSteps.FINISHED), 10);
         return {
-                currentTeamId: getCurrentTeamId(state),
+            currentTeamId: getCurrentTeamId(state),
             currentChannel,
             currentChannelMembersCount,
             currentUserId: getCurrentUserId(state),

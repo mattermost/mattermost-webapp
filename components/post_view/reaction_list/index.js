@@ -9,16 +9,16 @@ import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts
 
 import ReactionList from './reaction_list.jsx';
 
-function makeMapStateToProps() {
+const makeMapStateToProps = () => {
     const getReactionsForPost = makeGetReactionsForPost();
 
-    return function mapStateToProps(state, ownProps) {
+    return (state, ownProps) => {
         return {
             reactions: getReactionsForPost(state, ownProps.post.id),
             emojis: getCustomEmojisByName(state)
         };
     };
-}
+};
 
 const mapDispatchToProps = (dispatch) => ({
     actions: bindActionCreators({

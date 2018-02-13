@@ -7,7 +7,7 @@ import {getIncomingHook, updateIncomingHook} from 'mattermost-redux/actions/inte
 
 import EditIncomingWebhook from './edit_incoming_webhook.jsx';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
     const config = state.entities.general.config;
     const enableIncomingWebhooks = config.EnableIncomingWebhooks === 'true';
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';

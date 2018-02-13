@@ -9,10 +9,10 @@ import {getCurrentUserId, makeGetProfilesInChannel} from 'mattermost-redux/selec
 
 import PopoverListMembers from './popover_list_members.jsx';
 
-function makeMapStateToProps() {
+const makeMapStateToProps = () => {
     const doGetProfilesInChannel = makeGetProfilesInChannel();
 
-    return function mapStateToProps(state, ownProps) {
+    return (state, ownProps) => {
         const stats = getAllChannelStats(state)[ownProps.channel.id] || {};
         const members = doGetProfilesInChannel(state, ownProps.channel.id, true);
 
@@ -22,7 +22,7 @@ function makeMapStateToProps() {
             currentUserId: getCurrentUserId(state)
         };
     };
-}
+};
 
 const mapDispatchToProps = (dispatch) => ({
     actions: bindActionCreators({

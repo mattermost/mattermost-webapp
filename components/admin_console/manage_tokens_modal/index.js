@@ -13,7 +13,7 @@ const mapStateToProps = (state, ownProps) => {
     return {
         userAccessTokens: state.entities.admin.userAccessTokens[userId]
     };
-}
+};
 
 const mapDispatchToProps = (dispatch) => ({
     actions: bindActionCreators({

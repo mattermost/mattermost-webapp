@@ -19,14 +19,14 @@ import SearchResults from './search_results.jsx';
 
 const getCategory = PreferenceSelectors.makeGetCategory();
 
-function makeMapStateToProps() {
+const makeMapStateToProps = () => {
     let results;
     let posts;
     let channels;
     let flaggedPosts;
     let isFlaggedByPostId;
 
-    return function mapStateToProps(state) {
+    return (state) => {
         const newResults = getSearchResults(state);
 
         // Cache posts and channels
@@ -72,7 +72,7 @@ function makeMapStateToProps() {
             compactDisplay: PreferenceSelectors.get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT
         };
     };
-}
+};
 
 const mapDispatchToProps = {
     selectPost: selectPostFromRightHandSideSearch

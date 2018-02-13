@@ -13,11 +13,11 @@ import {getSelectedPost, makeGetPostsEmbedVisibleObj} from 'selectors/rhs.jsx';
 
 import RhsThread from './rhs_thread.jsx';
 
-function makeMapStateToProps() {
+const makeMapStateToProps = () => {
     const getPostsForThread = makeGetPostsForThread();
     const getPostsEmbedVisibleObj = makeGetPostsEmbedVisibleObj();
 
-    return function mapStateToProps(state) {
+    return (state) => {
         const selected = getSelectedPost(state);
 
         let channel = null;
@@ -39,7 +39,7 @@ function makeMapStateToProps() {
             previewEnabled: getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT)
         };
     };
-}
+};
 
 const mapDispatchToProps = (dispatch) => ({
     actions: bindActionCreators({

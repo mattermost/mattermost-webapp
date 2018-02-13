@@ -15,11 +15,11 @@ import {Preferences} from 'utils/constants.jsx';
 
 import PostList from './post_list.jsx';
 
-function makeMapStateToProps() {
+const makeMapStateToProps = () => {
     const getPostsInChannel = makeGetPostsInChannel();
     const getPostsAroundPost = makeGetPostsAroundPost();
 
-    return function mapStateToProps(state, ownProps) {
+    return (state, ownProps) => {
         let posts;
         if (ownProps.focusedPostId) {
             posts = getPostsAroundPost(state, ownProps.focusedPostId, ownProps.channelId);
@@ -38,7 +38,7 @@ function makeMapStateToProps() {
             fullWidth: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT) === Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN
         };
     };
-}
+};
 
 const mapDispatchToProps = (dispatch) => ({
     actions: bindActionCreators({
