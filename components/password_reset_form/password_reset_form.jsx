@@ -14,11 +14,10 @@ class PasswordResetForm extends React.Component {
     constructor(props) {
         super(props);
 
-        this.handlePasswordReset = this.handlePasswordReset.bind(this);
-
         this.state = {};
     }
-    handlePasswordReset(e) {
+
+    handlePasswordReset = (e) => {
         e.preventDefault();
 
         const password = ReactDOM.findDOMNode(this.refs.password).value;
@@ -52,6 +51,7 @@ class PasswordResetForm extends React.Component {
             }
         );
     }
+
     render() {
         var error = null;
         if (this.state.error) {
@@ -84,7 +84,7 @@ class PasswordResetForm extends React.Component {
                                 id='password_form.enter'
                                 defaultMessage='Enter a new password for your {siteName} account.'
                                 values={{
-                                    siteName: global.window.mm_config.SiteName
+                                    siteName: this.props.siteName
                                 }}
                             />
                         </p>
@@ -118,11 +118,9 @@ class PasswordResetForm extends React.Component {
     }
 }
 
-PasswordResetForm.defaultProps = {
-};
 PasswordResetForm.propTypes = {
-    params: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired
+    location: PropTypes.object.isRequired,
+    siteName: PropTypes.string
 };
 
 export default PasswordResetForm;
