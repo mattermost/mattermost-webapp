@@ -53,7 +53,15 @@ export default class BackstageController extends React.Component {
         /**
          * Set to indicate user is system admin or a team admin for current team.
          */
-        isAdmin: PropTypes.bool
+        isAdmin: PropTypes.bool,
+
+        siteName: PropTypes.string,
+        enableCustomEmoji: PropTypes.bool.isRequired,
+        enableIncomingWebhooks: PropTypes.bool.isRequired,
+        enableOutgoingWebhooks: PropTypes.bool.isRequired,
+        enableCommands: PropTypes.bool.isRequired,
+        enableOAuthServiceProvider: PropTypes.bool.isRequired,
+        enableOnlyAdminIntegrations: PropTypes.bool.isRequired
     }
 
     scrollToTop = () => {
@@ -79,7 +87,10 @@ export default class BackstageController extends React.Component {
         return (
             <div className='backstage'>
                 <AnnouncementBar/>
-                <BackstageNavbar team={this.props.team}/>
+                <BackstageNavbar
+                    team={this.props.team}
+                    siteName={this.props.siteName}
+                />
                 <Pluggable pluggableName='Root'/>
                 <div
                     className='backstage-body'
@@ -88,6 +99,12 @@ export default class BackstageController extends React.Component {
                     <BackstageSidebar
                         team={this.props.team}
                         user={this.props.user}
+                        enableCustomEmoji={this.props.enableCustomEmoji}
+                        enableIncomingWebhooks={this.props.enableIncomingWebhooks}
+                        enableOutgoingWebhooks={this.props.enableOutgoingWebhooks}
+                        enableCommands={this.props.enableCommands}
+                        enableOAuthServiceProvider={this.props.enableOAuthServiceProvider}
+                        enableOnlyAdminIntegrations={this.props.enableOnlyAdminIntegrations}
                     />
                     <Switch>
                         <BackstageRoute
