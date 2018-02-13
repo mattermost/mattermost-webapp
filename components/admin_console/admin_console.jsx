@@ -383,6 +383,24 @@ export default class AdminConsole extends React.Component {
                         )}
                         />
                         <Route
+                            path={`${this.props.match.url}/compliance`}
+                            render={(props) => (
+                                <Switch>
+                                    <SCRoute
+                                        path={`${props.match.url}/data_retention`}
+                                        component={DataRetentionSettings}
+                                        extraProps={extraProps}
+                                    />
+                                    <SCRoute
+                                        path={`${props.match.url}/message_export`}
+                                        component={MessageExportSettings}
+                                        extraProps={extraProps}
+                                    />
+                                    <Redirect to={`${props.match.url}/data_retention`}/>
+                                </Switch>
+                        )}
+                        />
+                        <Route
                             path={`${this.props.match.url}/advanced`}
                             render={(props) => (
                                 <Switch>
@@ -394,16 +412,6 @@ export default class AdminConsole extends React.Component {
                                     <SCRoute
                                         path={`${props.match.url}/database`}
                                         component={DatabaseSettings}
-                                        extraProps={extraProps}
-                                    />
-                                    <SCRoute
-                                        path={`${props.match.url}/dataretention`}
-                                        component={DataRetentionSettings}
-                                        extraProps={extraProps}
-                                    />
-                                    <SCRoute
-                                        path={`${props.match.url}/message_export`}
-                                        component={MessageExportSettings}
                                         extraProps={extraProps}
                                     />
                                     <SCRoute

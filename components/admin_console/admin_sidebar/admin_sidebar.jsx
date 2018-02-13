@@ -80,6 +80,7 @@ export default class AdminSidebar extends React.Component {
         let complianceSettings = null;
         let mfaSettings = null;
         let messageExportSettings = null;
+        let complianceSection = null;
 
         let license = null;
         let audits = null;
@@ -315,7 +316,7 @@ export default class AdminSidebar extends React.Component {
         if (window.mm_license.IsLicensed === 'true' && window.mm_license.DataRetention === 'true') {
             dataRetentionSettings = (
                 <AdminSidebarSection
-                    name='dataretention'
+                    name='data_retention'
                     title={
                         <FormattedMessage
                             id='admin.sidebar.data_retention'
@@ -339,6 +340,24 @@ export default class AdminSidebar extends React.Component {
                         />
                     }
                 />
+            );
+        }
+
+        if (dataRetentionSettings || messageExportSettings) {
+            complianceSection = (
+                <AdminSidebarSection
+                    name='compliance'
+                    type='text'
+                    title={
+                        <FormattedMessage
+                            id='admin.sidebar.compliance'
+                            defaultMessage='Compliance'
+                        />
+                    }
+                >
+                    {dataRetentionSettings}
+                    {messageExportSettings}
+                </AdminSidebarSection>
             );
         }
 
@@ -722,6 +741,7 @@ export default class AdminSidebar extends React.Component {
                                     }
                                 />
                             </AdminSidebarSection>
+                            {complianceSection}
                             <AdminSidebarSection
                                 name='advanced'
                                 type='text'
@@ -750,8 +770,6 @@ export default class AdminSidebar extends React.Component {
                                         />
                                     }
                                 />
-                                {dataRetentionSettings}
-                                {messageExportSettings}
                                 {elasticSearchSettings}
                                 <AdminSidebarSection
                                     name='developer'

@@ -20,7 +20,6 @@ import BrowserStore from 'stores/browser_store.jsx';
 import ErrorStore from 'stores/error_store.jsx';
 import LocalizationStore from 'stores/localization_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
 import {loadMeAndConfig} from 'actions/user_actions.jsx';
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions.jsx';
 import * as I18n from 'i18n/i18n.jsx';
@@ -195,13 +194,9 @@ export default class Root extends React.Component {
     }
 
     redirectIfNecessary(props) {
-        const experimentalPrimaryTeam = global.mm_config.ExperimentalPrimaryTeam;
-        const primaryTeam = TeamStore.getByName(experimentalPrimaryTeam);
         if (props.location.pathname === '/') {
             if (UserStore.getNoAccounts()) {
                 this.props.history.push('/signup_user_complete');
-            } else if (UserStore.getCurrentUser() && primaryTeam) {
-                this.props.history.push(`/${primaryTeam.name}/channels/${Constants.DEFAULT_CHANNEL}`);
             } else if (UserStore.getCurrentUser()) {
                 GlobalActions.redirectUserToDefaultTeam();
             }
