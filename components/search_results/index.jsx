@@ -61,6 +61,11 @@ function makeMapStateToProps() {
             }
         }
 
+        const config = state.entities.general.config;
+
+        const dataRetentionEnableMessageDeletion = config.DataRetentionEnableMessageDeletion === 'true';
+        const dataRetentionMessageRetentionDays = config.DataRetentionMessageRetentionDays;
+
         return {
             results: posts,
             channels,
@@ -69,7 +74,9 @@ function makeMapStateToProps() {
             isSearchingTerm: getIsSearchingTerm(state),
             isSearchingFlaggedPost: getIsSearchingFlaggedPost(state),
             isSearchingPinnedPost: getIsSearchingPinnedPost(state),
-            compactDisplay: PreferenceSelectors.get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT
+            compactDisplay: PreferenceSelectors.get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
+            dataRetentionEnableMessageDeletion,
+            dataRetentionMessageRetentionDays
         };
     };
 }
