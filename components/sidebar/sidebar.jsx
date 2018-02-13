@@ -19,10 +19,11 @@ import favicon from 'images/favicon/favicon-16x16.png';
 import redFavicon from 'images/favicon/redfavicon-16x16.png';
 import MoreChannels from 'components/more_channels';
 import MoreDirectChannels from 'components/more_direct_channels';
+
 import NewChannelFlow from '../new_channel_flow.jsx';
-import SidebarHeader from '../sidebar_header.jsx';
 import UnreadChannelIndicator from '../unread_channel_indicator.jsx';
 
+import SidebarHeader from './header';
 import SidebarChannel from './sidebar_channel';
 
 export default class Sidebar extends React.PureComponent {

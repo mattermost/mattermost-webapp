@@ -16,11 +16,6 @@ jest.mock('utils/utils', () => {
 });
 
 describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
-    global.window.mm_license = {IsLicensed: 'true'};
-    global.window.mm_config = {
-        RestrictPublicChannelCreation: Constants.PERMISSIONS_SYSTEM_ADMIN,
-        RestrictPrivateChannelCreation: Constants.PERMISSIONS_SYSTEM_ADMIN
-    };
     const allChannels = {
         c1: {
             id: 'c1',
