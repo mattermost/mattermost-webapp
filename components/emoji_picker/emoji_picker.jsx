@@ -132,12 +132,12 @@ export default class EmojiPicker extends React.PureComponent {
     constructor(props) {
         super(props);
 
+        this.divHeight = 0;
         this.state = {
             allEmojis: {},
             categories: CATEGORIES,
             filter: '',
             cursor: [0, 0], // categoryIndex, emojiIndex
-            divHeight: 0,
             divTopOffset: 0,
             missingPages: true,
             emojisToShow: EMOJI_TO_LOAD_PER_UPDATE
@@ -159,7 +159,7 @@ export default class EmojiPicker extends React.PureComponent {
         requestAnimationFrame(() => {
             this.searchInput.focus();
         });
-        this.updateState({divHeight: this.emojiPickerContainer.offsetHeight});
+        this.divHeight = this.emojiPickerContainer.offsetHeight;
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -532,7 +532,7 @@ export default class EmojiPicker extends React.PureComponent {
                     emojiIndex={emojiIndex}
                     containerRef={this.emojiPickerContainer}
                     containerTop={this.state.divTopOffset}
-                    containerBottom={this.state.divTopOffset + this.state.divHeight}
+                    containerBottom={this.state.divTopOffset + this.divHeight}
                 />
             );
         });
