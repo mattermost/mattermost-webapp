@@ -18,6 +18,11 @@ export default class DoVerifyEmail extends React.PureComponent {
          */
         location: PropTypes.object.isRequired,
 
+        /**
+         * Title of the app or site.
+         */
+        siteName: PropTypes.string,
+
         /*
          * Object with redux action creators
          */
@@ -87,7 +92,7 @@ export default class DoVerifyEmail extends React.PureComponent {
                             src={logoImage}
                         />
                         <div className='signup__content'>
-                            <h1>{global.window.mm_config.SiteName}</h1>
+                            <h1>{this.props.siteName}</h1>
                             <h4 className='color--light'>
                                 <FormattedMessage
                                     id='web.root.signup_info'

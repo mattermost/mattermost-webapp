@@ -7,16 +7,6 @@ import {shallow} from 'enzyme';
 import DoVerifyEmail from 'components/do_verify_email/do_verify_email.jsx';
 
 describe('components/DoVerifyEmail', () => {
-    global.window.mm_config = {};
-
-    beforeEach(() => {
-        global.window.mm_config.SiteName = 'Mattermost';
-    });
-
-    afterEach(() => {
-        global.window.mm_config = {};
-    });
-
     const requiredProps = {
         location: {
             query: {
@@ -24,6 +14,7 @@ describe('components/DoVerifyEmail', () => {
                 email: 'test@example.com'
             }
         },
+        siteName: 'Mattermost',
         actions: {verifyUserEmail: jest.fn()}
     };
 
