@@ -22,14 +22,28 @@ import AddUsersToTeam from 'components/add_users_to_team';
 import TeamMembersModal from 'components/team_members_modal';
 import TeamSettingsModal from 'components/team_settings_modal.jsx';
 
-import SidebarHeaderDropdownButton from './sidebar_header_dropdown_button.jsx';
+import SidebarHeaderDropdownButton from '../sidebar_header_dropdown_button.jsx';
 
 export default class SidebarHeaderDropdown extends React.Component {
     static propTypes = {
         teamType: PropTypes.string,
         teamDisplayName: PropTypes.string,
         teamName: PropTypes.string,
-        currentUser: PropTypes.object
+        currentUser: PropTypes.object,
+        isLicensed: PropTypes.bool.isRequired,
+        appDownloadLink: PropTypes.string,
+        enableCommands: PropTypes.bool.isRequired,
+        enableCustomEmoji: PropTypes.bool.isRequired,
+        enableIncomingWebhooks: PropTypes.bool.isRequired,
+        enableOAuthServiceProvider: PropTypes.bool.isRequired,
+        enableOnlyAdminIntegrations: PropTypes.bool.isRequired,
+        enableOutgoingWebhooks: PropTypes.bool.isRequired,
+        enableTeamCreation: PropTypes.bool.isRequired,
+        enableUserCreation: PropTypes.bool.isRequired,
+        experimentalPrimaryTeam: PropTypes.string,
+        helpLink: PropTypes.string,
+        reportAProblemLink: PropTypes.string,
+        restrictTeamInvite: PropTypes.string
     };
 
     static defaultProps = {
@@ -195,7 +209,7 @@ export default class SidebarHeaderDropdown extends React.Component {
     }
 
     renderCustomEmojiLink() {
-        if (window.mm_config.EnableCustomEmoji !== 'true' || !Utils.canCreateCustomEmoji(this.props.currentUser)) {
+        if (!this.props.enableCustomEmoji || !Utils.canCreateCustomEmoji(this.props.currentUser)) {
             return null;
         }
 
@@ -220,7 +234,6 @@ export default class SidebarHeaderDropdown extends React.Component {
     }
 
     render() {
-        const config = global.mm_config;
         const currentUser = this.props.currentUser;
         let teamLink = '';
         let inviteLink = '';
@@ -270,7 +283,7 @@ export default class SidebarHeaderDropdown extends React.Component {
                 </li>
             );
 
-            if (this.props.teamType === Constants.OPEN_TEAM && config.EnableUserCreation === 'true') {
+            if (this.props.teamType === Constants.OPEN_TEAM && this.props.enableUserCreation) {
                 teamLink = (
                     <li>
                         <button
@@ -287,12 +300,12 @@ export default class SidebarHeaderDropdown extends React.Component {
                 );
             }
 
-            if (global.window.mm_license.IsLicensed === 'true') {
-                if (config.RestrictTeamInvite === Constants.PERMISSIONS_SYSTEM_ADMIN && !isSystemAdmin) {
+            if (this.props.isLicensed) {
+                if (this.props.restrictTeamInvite === Constants.PERMISSIONS_SYSTEM_ADMIN && !isSystemAdmin) {
                     teamLink = null;
                     inviteLink = null;
                     addMemberToTeam = null;
-                } else if (config.RestrictTeamInvite === Constants.PERMISSIONS_TEAM_ADMIN && !isAdmin) {
+                } else if (this.props.restrictTeamInvite === Constants.PERMISSIONS_TEAM_ADMIN && !isAdmin) {
                     teamLink = null;
                     inviteLink = null;
                     addMemberToTeam = null;
@@ -344,11 +357,11 @@ export default class SidebarHeaderDropdown extends React.Component {
         );
 
         const integrationsEnabled =
-            config.EnableIncomingWebhooks === 'true' ||
-            config.EnableOutgoingWebhooks === 'true' ||
-            config.EnableCommands === 'true' ||
-            (config.EnableOAuthServiceProvider === 'true' && (isSystemAdmin || config.EnableOnlyAdminIntegrations !== 'true'));
-        if (integrationsEnabled && (isAdmin || config.EnableOnlyAdminIntegrations !== 'true')) {
+            this.props.enableIncomingWebhooks ||
+            this.props.enableOutgoingWebhooks ||
+            this.props.enableCommands ||
+            (this.props.enableOAuthServiceProvider && (isSystemAdmin || !this.props.enableOnlyAdminIntegrations));
+        if (integrationsEnabled && (isAdmin || !this.props.enableOnlyAdminIntegrations)) {
             integrationsLink = (
                 <li>
                     <Link
@@ -385,7 +398,7 @@ export default class SidebarHeaderDropdown extends React.Component {
         const teams = [];
         let moreTeams = false;
 
-        if (config.EnableTeamCreation === 'true' || UserStore.isSystemAdminForCurrentUser()) {
+        if (this.props.enableTeamCreation || UserStore.isSystemAdminForCurrentUser()) {
             teams.push(
                 <li key='newTeam_li'>
                     <Link
@@ -403,7 +416,7 @@ export default class SidebarHeaderDropdown extends React.Component {
             );
         }
 
-        if (!config.ExperimentalPrimaryTeam) {
+        if (!this.props.experimentalPrimaryTeam) {
             const isAlreadyMember = this.state.teamMembers.reduce((result, item) => {
                 result[item.team_id] = true;
                 return result;
@@ -450,14 +463,14 @@ export default class SidebarHeaderDropdown extends React.Component {
         }
 
         let helpLink = null;
-        if (config.HelpLink) {
+        if (this.props.helpLink) {
             helpLink = (
                 <li>
                     <Link
                         id='helpLink'
                         target='_blank'
                         rel='noopener noreferrer'
-                        to={config.HelpLink}
+                        to={this.props.helpLink}
                     >
                         <FormattedMessage
                             id='navbar_dropdown.help'
@@ -469,14 +482,14 @@ export default class SidebarHeaderDropdown extends React.Component {
         }
 
         let reportLink = null;
-        if (config.ReportAProblemLink) {
+        if (this.props.reportAProblemLink) {
             reportLink = (
                 <li>
                     <Link
                         id='reportLink'
                         target='_blank'
                         rel='noopener noreferrer'
-                        to={config.ReportAProblemLink}
+                        to={this.props.reportAProblemLink}
                     >
                         <FormattedMessage
                             id='navbar_dropdown.report'
@@ -488,14 +501,14 @@ export default class SidebarHeaderDropdown extends React.Component {
         }
 
         let nativeAppLink = null;
-        if (global.window.mm_config.AppDownloadLink && !UserAgent.isMobileApp()) {
+        if (this.props.appDownloadLink && !UserAgent.isMobileApp()) {
             nativeAppLink = (
                 <li>
                     <Link
                         id='nativeAppLink'
                         target='_blank'
                         rel='noopener noreferrer'
-                        to={useSafeUrl(global.window.mm_config.AppDownloadLink)}
+                        to={useSafeUrl(this.props.appDownloadLink)}
                     >
                         <FormattedMessage
                             id='navbar_dropdown.nativeApps'
