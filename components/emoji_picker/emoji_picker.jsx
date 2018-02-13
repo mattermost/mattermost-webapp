@@ -132,25 +132,18 @@ export default class EmojiPicker extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.handleCategoryClick = this.handleCategoryClick.bind(this);
-        this.handleFilterChange = this.handleFilterChange.bind(this);
-        this.handleItemOver = this.handleItemOver.bind(this);
-        this.handleItemClick = this.handleItemClick.bind(this);
-        this.handleKeyDown = this.handleKeyDown.bind(this);
-        this.handleScroll = this.handleScroll.bind(this);
-        this.handleScrollThrottle = throttle(this.handleScroll, EMOJI_LAZY_LOAD_SCROLL_THROTTLE, {leading: false, trailing: true});
-        this.updateCategoryOffset = this.updateCategoryOffset.bind(this);
-
-        this.divHeight = 0;
-        this.missingPages = true;
         this.state = {
             allEmojis: {},
             categories: CATEGORIES,
             filter: '',
             cursor: [0, 0], // categoryIndex, emojiIndex
+            divHeight: 0,
             divTopOffset: 0,
+            missingPages: true,
             emojisToShow: EMOJI_TO_LOAD_PER_UPDATE
         };
+
+        this.handleScrollThrottle = throttle(this.handleScroll, EMOJI_LAZY_LOAD_SCROLL_THROTTLE, {leading: false, trailing: true});
     }
 
     componentWillMount() {
@@ -166,7 +159,7 @@ export default class EmojiPicker extends React.PureComponent {
         requestAnimationFrame(() => {
             this.searchInput.focus();
         });
-        this.divHeight = this.emojiPickerContainer.offsetHeight;
+        this.updateState({divHeight: this.emojiPickerContainer.offsetHeight});
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -184,7 +177,7 @@ export default class EmojiPicker extends React.PureComponent {
             }
         }
 
-        if (!this.missingPages || !this.emojiPickerContainer) {
+        if (!this.state.missingPages || !this.emojiPickerContainer) {
             return;
         }
 
@@ -211,7 +204,7 @@ export default class EmojiPicker extends React.PureComponent {
         }
 
         if (data.length < EMOJIS_PER_PAGE) {
-            this.missingPages = false;
+            this.setState({missingPages: false});
             return;
         }
 
@@ -228,11 +221,11 @@ export default class EmojiPicker extends React.PureComponent {
         this.searchInput = input;
     };
 
-    handleCategoryClick(categoryName) {
+    handleCategoryClick = (categoryName) => {
         this.emojiPickerContainer.scrollTop = this.state.categories[categoryName].offset;
     }
 
-    handleFilterChange(e) {
+    handleFilterChange = (e) => {
         e.preventDefault();
         const filter = e.target.value.toLowerCase();
 
@@ -246,17 +239,17 @@ export default class EmojiPicker extends React.PureComponent {
         }));
     }
 
-    handleItemOver(categoryIndex, emojiIndex) {
+    handleItemOver = (categoryIndex, emojiIndex) => {
         this.setState({
             cursor: [categoryIndex, emojiIndex]
         });
     }
 
-    handleItemClick(emoji) {
+    handleItemClick = (emoji) => {
         this.props.onEmojiClick(emoji);
     }
 
-    handleKeyDown(e) {
+    handleKeyDown = (e) => {
         switch (e.key) {
         case 'ArrowRight':
             e.preventDefault();
@@ -283,7 +276,7 @@ export default class EmojiPicker extends React.PureComponent {
         }
     }
 
-    handleScroll() {
+    handleScroll = () => {
         this.setState({divTopOffset: this.emojiPickerContainer.scrollTop});
     }
 
@@ -539,13 +532,13 @@ export default class EmojiPicker extends React.PureComponent {
                     emojiIndex={emojiIndex}
                     containerRef={this.emojiPickerContainer}
                     containerTop={this.state.divTopOffset}
-                    containerBottom={this.state.divTopOffset + this.divHeight}
+                    containerBottom={this.state.divTopOffset + this.state.divHeight}
                 />
             );
         });
     };
 
-    updateCategoryOffset(categoryName, offset) {
+    updateCategoryOffset = (categoryName, offset) => {
         if (categoryName !== CATEGORY_SEARCH_RESULTS) {
             this.setState((state) => ({
                 categories: {
