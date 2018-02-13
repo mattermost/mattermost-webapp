@@ -10,15 +10,13 @@ import ChannelStore from 'stores/channel_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import AnnouncementBar from 'components/announcement_bar';
 import BackButton from 'components/common/back_button.jsx';
-import TeamUrl from 'components/create_team/components/team_url';
-import DisplayName from 'components/create_team/components/display_name';
+
+import TeamUrl from '../team_url';
+import DisplayName from '../display_name';
 
 export default class CreateTeamController extends React.Component {
     constructor(props) {
         super(props);
-
-        this.submit = this.submit.bind(this);
-        this.updateParent = this.updateParent.bind(this);
 
         const state = {};
         state.team = {};
@@ -26,19 +24,19 @@ export default class CreateTeamController extends React.Component {
         this.state = state;
     }
 
-    submit() {
+    submit = () => {
         // todo fill in
     }
 
-    updateParent(state) {
+    updateParent = (state) => {
         this.setState(state);
         this.props.history.push('/create_team/' + state.wizard);
     }
 
     render() {
         let description = null;
-        if (global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.CustomBrand === 'true' && global.window.mm_config.EnableCustomBrand === 'true') {
-            description = global.window.mm_config.CustomDescriptionText;
+        if (this.props.isLicensed && this.props.customBrand && this.props.enableCustomBrand) {
+            description = this.props.customDescriptionText;
         } else {
             description = (
                 <FormattedMessage
@@ -64,7 +62,7 @@ export default class CreateTeamController extends React.Component {
                 <BackButton url={url}/>
                 <div className='col-sm-12'>
                     <div className='signup-team__container'>
-                        <h1>{global.window.mm_config.SiteName}</h1>
+                        <h1>{this.props.siteName}</h1>
                         <h4 className='color--light'>
                             {description}
                         </h4>
@@ -101,5 +99,10 @@ export default class CreateTeamController extends React.Component {
 }
 
 CreateTeamController.propTypes = {
-    children: PropTypes.node
+    children: PropTypes.node,
+    isLicensed: PropTypes.bool.isRequired,
+    customBrand: PropTypes.bool.isRequired,
+    enableCustomBrand: PropTypes.bool.isRequired,
+    customDescriptionText: PropTypes.string,
+    siteName: PropTypes.string
 };
