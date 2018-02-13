@@ -172,7 +172,7 @@ export default class SingleImageView extends React.PureComponent {
 
         let fadeInClass = '';
         let imageStyle = {height: previewHeight};
-        const imageContainerStyle = {height: previewHeight};
+        let imageContainerStyle = {height: previewHeight};
         if (loaded) {
             viewImageModal = (
                 <ViewImageModal
@@ -184,6 +184,7 @@ export default class SingleImageView extends React.PureComponent {
 
             fadeInClass = 'image-fade-in';
             imageStyle = {cursor: 'pointer'};
+            imageContainerStyle = {};
         } else {
             loadingImagePreview = (
                 <LoadingImagePreview
