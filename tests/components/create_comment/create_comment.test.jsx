@@ -11,17 +11,6 @@ jest.mock('stores/post_store.jsx', () => ({
 }));
 
 describe('components/CreateComment', () => {
-    global.window.mm_config = {};
-
-    beforeEach(() => {
-        global.window.mm_config.EnableEmojiPicker = 'true';
-        global.window.mm_config.EnableConfirmNotificationsToChannel = 'true';
-    });
-
-    afterEach(() => {
-        global.window.mm_config = {};
-    });
-
     const channelId = 'g6139tbospd18cmxroesdk3kkc';
     const rootId = '';
     const latestPostId = '3498nv24823948v23m4nv34';
@@ -47,7 +36,9 @@ describe('components/CreateComment', () => {
         onMoveHistoryIndexForward: jest.fn(),
         onEditLatestPost: jest.fn(),
         resetCreatePostRequest: jest.fn(),
-        readOnlyChannel: false
+        readOnlyChannel: false,
+        enableEmojiPicker: true,
+        enableConfirmNotificationsToChannel: true
     };
 
     test('should match snapshot, empty comment', () => {
@@ -403,60 +394,110 @@ describe('components/CreateComment', () => {
         expect(preventDefault).toHaveBeenCalled();
     });
 
-    it('handleSubmit should show Confirm Modal for @all/@channel mentions when needed', () => {
-        let onSubmit = jest.fn();
-        let draft = {
-            message: 'Test message @all',
-            uploadsInProgress: [],
-            fileInfos: [{}, {}, {}]
-        };
+    describe('handleSubmit', () => {
+        let onSubmit;
+        let preventDefault;
 
-        const props = {...baseProps, draft, onSubmit};
+        beforeEach(() => {
+            onSubmit = jest.fn();
+            preventDefault = jest.fn();
+        });
 
-        const wrapper = shallow(
-            <CreateComment {...props}/>
-        );
+        ['channel', 'all'].forEach((mention) => {
+            describe(`should not show Confirm Modal for @${mention} mentions`, () => {
+                it('when channel member count too low', () => {
+                    const props = {
+                        ...baseProps,
+                        draft: {
+                            message: `Test message @${mention}`,
+                            uploadsInProgress: [],
+                            fileInfos: [{}, {}, {}]
+                        },
+                        onSubmit,
+                        channelMembersCount: 1,
+                        enableConfirmNotificationsToChannel: true
+                    };
 
-        let preventDefault = jest.fn();
-        wrapper.instance().handleSubmit({preventDefault});
-        expect(onSubmit).toHaveBeenCalled();
-        expect(preventDefault).toHaveBeenCalled();
-        expect(wrapper.state('showConfirmModal')).toBe(false);
+                    const wrapper = shallow(
+                        <CreateComment {...props}/>
+                    );
 
-        onSubmit = jest.fn();
-        wrapper.setProps({channelMembersCount: 8, onSubmit});
+                    wrapper.instance().handleSubmit({preventDefault});
+                    expect(onSubmit).toHaveBeenCalled();
+                    expect(preventDefault).toHaveBeenCalled();
+                    expect(wrapper.state('showConfirmModal')).toBe(false);
+                });
 
-        preventDefault = jest.fn();
-        wrapper.instance().handleSubmit({preventDefault});
-        expect(onSubmit).not.toHaveBeenCalled();
-        expect(preventDefault).toHaveBeenCalled();
-        expect(wrapper.state('showConfirmModal')).toBe(true);
+                it('when feature disabled', () => {
+                    const props = {
+                        ...baseProps,
+                        draft: {
+                            message: `Test message @${mention}`,
+                            uploadsInProgress: [],
+                            fileInfos: [{}, {}, {}]
+                        },
+                        onSubmit,
+                        channelMembersCount: 8,
+                        enableConfirmNotificationsToChannel: false
+                    };
 
-        draft = {
-            message: 'Test message @channel',
-            uploadsInProgress: [],
-            fileInfos: [{}, {}, {}]
-        };
-        wrapper.setState({showConfirmModal: false, draft});
+                    const wrapper = shallow(
+                        <CreateComment {...props}/>
+                    );
 
-        preventDefault = jest.fn();
-        wrapper.instance().handleSubmit({preventDefault});
-        expect(onSubmit).not.toHaveBeenCalled();
-        expect(preventDefault).toHaveBeenCalled();
-        expect(wrapper.state('showConfirmModal')).toBe(true);
+                    wrapper.instance().handleSubmit({preventDefault});
+                    expect(onSubmit).toHaveBeenCalled();
+                    expect(preventDefault).toHaveBeenCalled();
+                    expect(wrapper.state('showConfirmModal')).toBe(false);
+                });
 
-        draft = {
-            message: 'Test message',
-            uploadsInProgress: [],
-            fileInfos: [{}, {}, {}]
-        };
-        wrapper.setState({showConfirmModal: false, draft});
+                it('when no mention', () => {
+                    const props = {
+                        ...baseProps,
+                        draft: {
+                            message: `Test message ${mention}`,
+                            uploadsInProgress: [],
+                            fileInfos: [{}, {}, {}]
+                        },
+                        onSubmit,
+                        channelMembersCount: 8,
+                        enableConfirmNotificationsToChannel: true
+                    };
 
-        preventDefault = jest.fn();
-        wrapper.instance().handleSubmit({preventDefault});
-        expect(onSubmit).toHaveBeenCalled();
-        expect(preventDefault).toHaveBeenCalled();
-        expect(wrapper.state('showConfirmModal')).toBe(false);
+                    const wrapper = shallow(
+                        <CreateComment {...props}/>
+                    );
+
+                    wrapper.instance().handleSubmit({preventDefault});
+                    expect(onSubmit).toHaveBeenCalled();
+                    expect(preventDefault).toHaveBeenCalled();
+                    expect(wrapper.state('showConfirmModal')).toBe(false);
+                });
+            });
+
+            it(`should show Confirm Modal for @${mention} mentions when needed`, () => {
+                const props = {
+                    ...baseProps,
+                    draft: {
+                        message: `Test message @${mention}`,
+                        uploadsInProgress: [],
+                        fileInfos: [{}, {}, {}]
+                    },
+                    onSubmit,
+                    channelMembersCount: 8,
+                    enableConfirmNotificationsToChannel: true
+                };
+
+                const wrapper = shallow(
+                    <CreateComment {...props}/>
+                );
+
+                wrapper.instance().handleSubmit({preventDefault});
+                expect(onSubmit).not.toHaveBeenCalled();
+                expect(preventDefault).toHaveBeenCalled();
+                expect(wrapper.state('showConfirmModal')).toBe(true);
+            });
+        });
     });
 
     test('removePreview should remove file info and upload in progress with corresponding id', () => {
@@ -524,6 +565,15 @@ describe('components/CreateComment', () => {
 
     test('should match snapshot read only channel', () => {
         const props = {...baseProps, readOnlyChannel: true};
+        const wrapper = shallow(
+            <CreateComment {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, emoji picker disabled', () => {
+        const props = {...baseProps, enableEmojiPicker: false};
         const wrapper = shallow(
             <CreateComment {...props}/>
         );
