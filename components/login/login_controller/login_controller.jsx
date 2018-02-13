@@ -275,9 +275,9 @@ export default class LoginController extends React.Component {
                     <img
                         src={Client4.getBrandImageUrl(0)}
                     />
-                    <p>
+                    <div>
                         {messageHtmlToComponent(formattedText, false, {mentions: false})}
-                    </p>
+                    </div>
                 </div>
             );
         }
