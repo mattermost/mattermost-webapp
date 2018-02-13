@@ -894,7 +894,7 @@
 
             .post-image__column {
                 margin: 3px 10px 3px 0;
-                padding: 0 10px 0 0;
+                padding: 0 5px;
             }
         }
 
@@ -913,7 +913,6 @@
             .post-image__details {
                 background: transparent;
                 border: none;
-                flex-direction: row-reverse;
                 padding: 0;
                 width: 100%;
 
