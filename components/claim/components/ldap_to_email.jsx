@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {checkMfa, switchFromLdapToEmail} from 'actions/user_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
-import LoginMfa from 'components/login/components/login_mfa.jsx';
+import LoginMfa from 'components/login/login_mfa.jsx';
 
 export default class LDAPToEmail extends React.Component {
     constructor(props) {
