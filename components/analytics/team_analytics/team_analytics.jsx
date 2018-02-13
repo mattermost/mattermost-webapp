@@ -13,7 +13,7 @@ import {StatTypes} from 'utils/constants.jsx';
 import Banner from 'components/admin_console/banner.jsx';
 import LineChart from 'components/analytics/line_chart.jsx';
 import StatisticCount from 'components/analytics/statistic_count.jsx';
-import {formatPostsPerDayData, formatUsersWithPostsPerDayData} from 'components/analytics/system_analytics.jsx';
+import {formatPostsPerDayData, formatUsersWithPostsPerDayData} from 'components/analytics/system_analytics/format.jsx';
 import TableChart from 'components/analytics/table_chart.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
