@@ -101,7 +101,6 @@ const CATEGORIES = {
 function getEmojiFilename(emoji) {
     return emoji.filename || emoji.id;
 }
-
 const EMOJIS_PER_PAGE = 200;
 const LOAD_MORE_AT_PIXELS_FROM_BOTTOM = 500;
 
