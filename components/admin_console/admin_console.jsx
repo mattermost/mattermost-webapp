@@ -54,7 +54,7 @@ import StorageSettings from 'components/admin_console/storage_settings.jsx';
 import SystemUsers from 'components/admin_console/system_users';
 import UsersAndTeamsSettings from 'components/admin_console/users_and_teams_settings.jsx';
 import WebrtcSettings from 'components/admin_console/webrtc_settings.jsx';
-import SystemAnalytics from 'components/analytics/system_analytics.jsx';
+import SystemAnalytics from 'components/analytics/system_analytics';
 import TeamAnalytics from 'components/analytics/team_analytics';
 import DiscardChangesModal from 'components/discard_changes_modal.jsx';
 
