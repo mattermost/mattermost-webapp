@@ -12,7 +12,7 @@ import FormError from 'components/form_error.jsx';
 export default class SettingPicture extends Component {
 
     static defaultProps = {
-        context: 'profile'
+        imageContext: 'profile'
     };
 
     static propTypes = {
@@ -26,7 +26,7 @@ export default class SettingPicture extends Component {
         title: PropTypes.string,
         onFileChange: PropTypes.func,
         updateSection: PropTypes.func,
-        context: PropTypes.string
+        imageContext: PropTypes.string
     };
 
     constructor(props) {
@@ -117,7 +117,7 @@ export default class SettingPicture extends Component {
     }
 
     render() {
-        const context = this.props.context;
+        const imageContext = this.props.imageContext;
 
         let img;
 
@@ -129,8 +129,8 @@ export default class SettingPicture extends Component {
 
             img = (
                 <div
-                    className={`${context}-img-preview`}
-                    alt={`${context} image preview`}
+                    className={`${imageContext}-img-preview`}
+                    alt={`${imageContext} image preview`}
                     style={imageStyles}
                 />
             );
@@ -138,8 +138,8 @@ export default class SettingPicture extends Component {
             img = (
                 <img
                     ref='image'
-                    className={`${context}-img`}
-                    alt={`${context} image`}
+                    className={`${imageContext}-img`}
+                    alt={`${imageContext} image`}
                     src={this.props.src}
                 />
             );
@@ -188,7 +188,7 @@ export default class SettingPicture extends Component {
                         {img ? <li className='setting-list-item'> {img} </li> : ''}
                         <li className='setting-list-item padding-top x2'>
                             <FormattedMessage
-                                id={`setting_picture.help.${context}`}
+                                id={`setting_picture.help.${imageContext}`}
                                 defaultMessage='Upload a picture in BMP, JPG, JPEG or PNG format.'
                             />
                         </li>

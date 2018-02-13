@@ -54,7 +54,8 @@ class GeneralTab extends React.Component {
             serverError: '',
             clientError: '',
             teamIconFile: null,
-            loadingIcon: false
+            loadingIcon: false,
+            maxFileSize: global.window.mm_config.MaxFileSize
         };
     }
 
@@ -225,21 +226,11 @@ class GeneralTab extends React.Component {
             serverError: ''
         });
 
-        const file = this.state.teamIconFile;
-
-        if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
-            this.setState({clientError: Utils.localizeMessage('general_tab.teamIconInvalidFileType', 'Only JPG or PNG images may be used for team icons')});
-            return;
-        } else if (file.size > this.state.maxFileSize) {
-            this.setState({clientError: Utils.localizeMessage('general_tab.teamIconTooLarge', 'Only JPG or PNG images may be used for team icons')});
-            return;
-        }
-
         this.setState({loadingIcon: true});
 
         setTeamIcon(
             this.props.team.id,
-            file,
+            this.state.teamIconFile,
             () => {
                 this.setState({
                     loadingIcon: false,
@@ -277,15 +268,24 @@ class GeneralTab extends React.Component {
     }
 
     updateTeamIcon(e) {
-        this.setState({
-            clientError: ''
-        });
+        if (e && e.target && e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
 
-        if (e.target.files && e.target.files[0]) {
-            this.setState({
-                teamIconFile: e.target.files[0],
-                submitActive: true
-            });
+            if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
+                this.setState({
+                    clientError: Utils.localizeMessage('general_tab.teamIconInvalidFileType', 'Only JPG or PNG images may be used for team icons')
+                });
+            } else if (file.size > this.state.maxFileSize) {
+                this.setState({
+                    clientError: Utils.localizeMessage('general_tab.teamIconTooLarge', 'Only JPG or PNG images may be used for team icons')
+                });
+            } else {
+                this.setState({
+                    teamIconFile: e.target.files[0],
+                    clientError: '',
+                    submitActive: true
+                });
+            }
         } else {
             this.setState({
                 teamIconFile: null,
@@ -589,10 +589,10 @@ class GeneralTab extends React.Component {
         }
 
         let teamIconSection;
-        if (this.props.activeSection === 'team_image') {
+        if (this.props.activeSection === 'team_icon') {
             teamIconSection = (
                 <SettingPicture
-                    context='team'
+                    imageContext='team'
                     title={Utils.localizeMessage('general_tab.teamIcon', 'Team Icon')}
                     src={Utils.imageURLForTeam(team)}
                     file={this.state.teamIconFile}
@@ -638,7 +638,7 @@ class GeneralTab extends React.Component {
                 <SettingItemMin
                     title={Utils.localizeMessage('general_tab.teamIcon', 'Team Icon')}
                     describe={minMessage}
-                    section={'team_image'}
+                    section={'team_icon'}
                     updateSection={this.handleUpdateSection}
                 />
             );
