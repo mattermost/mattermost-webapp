@@ -81,7 +81,7 @@ export default class StorageSettings extends AdminSettings {
     renderSettings() {
         let amazonSSEComp;
         const mobileUploadDownloadSettings = [];
-        if (window.mm_license.IsLicensed === 'true' && window.mm_license.Compliance === 'true') {
+        if (this.props.license.IsLicensed === 'true' && this.props.license.Compliance === 'true') {
             mobileUploadDownloadSettings.push(
                 <BooleanSetting
                     key='enableMobileUpload'
