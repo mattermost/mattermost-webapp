@@ -43,7 +43,7 @@ import loadShouldVerifyEmail from 'bundle-loader?lazy!components/should_verify_e
 import loadDoVerifyEmail from 'bundle-loader?lazy!components/do_verify_email';
 import loadClaimController from 'bundle-loader?lazy!components/claim/claim_controller';
 import loadHelpController from 'bundle-loader?lazy!components/help/help_controller';
-import loadGetIosApp from 'bundle-loader?lazy!components/get_ios_app/get_ios_app';
+import loadGetIosApp from 'bundle-loader?lazy!components/get_ios_app';
 import loadGetAndroidApp from 'bundle-loader?lazy!components/get_android_app/get_android_app';
 import loadSelectTeam from 'bundle-loader?lazy!components/select_team';
 import loadAuthorize from 'bundle-loader?lazy!components/authorize';
