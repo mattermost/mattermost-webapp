@@ -68,7 +68,7 @@ export default class ClusterSettings extends AdminSettings {
     }
 
     renderSettings() {
-        const licenseEnabled = global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.Cluster === 'true';
+        const licenseEnabled = this.props.license.IsLicensed === 'true' && this.props.license.Cluster === 'true';
         if (!licenseEnabled) {
             return null;
         }

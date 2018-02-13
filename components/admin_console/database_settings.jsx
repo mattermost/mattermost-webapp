@@ -60,7 +60,7 @@ export default class DatabaseSettings extends AdminSettings {
         const dataSource = '**********' + this.state.dataSource.substring(this.state.dataSource.indexOf('@'));
 
         let recycleDbButton = <div/>;
-        if (global.window.mm_license.IsLicensed === 'true') {
+        if (this.props.license.IsLicensed === 'true') {
             recycleDbButton = (
                 <RequestButton
                     requestAction={recycleDatabaseConnection}
