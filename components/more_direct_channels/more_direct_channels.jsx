@@ -349,7 +349,7 @@ export default class MoreDirectChannels extends React.Component {
                         defaultMessage='You’ve reached the maximum number of people for this conversation. Consider creating a private channel instead.'
                     />
                 );
-            } else {
+            } else if (this.props.isExistingChannel) {
                 note = (
                     <FormattedMessage
                         id='more_direct_channels.new_convo_note'
