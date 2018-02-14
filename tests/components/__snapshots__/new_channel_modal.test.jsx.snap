@@ -31,9 +31,26 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
   >
     <ModalHeader
       bsClass="modal-header"
-      closeButton={true}
+      closeButton={false}
       closeLabel="Close"
     >
+      <button
+        className="close"
+        onClick={[MockFunction]}
+        tabIndex="5"
+        type="button"
+      >
+        <span
+          aria-hidden="true"
+        >
+          ×
+        </span>
+        <span
+          className="sr-only"
+        >
+          Close
+        </span>
+      </button>
       <ModalTitle
         bsClass="modal-title"
         componentClass="h4"
@@ -117,6 +134,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
               <button
                 className="color--link style--none"
                 onClick={[Function]}
+                tabIndex="7"
               >
                 <FormattedMessage
                   defaultMessage="Edit"
@@ -212,7 +230,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
               onChange={[Function]}
               placeholder="E.g.: \\"[Link Title](http://example.com)\\""
               rows="4"
-              tabIndex="2"
+              tabIndex="3"
               value=""
             />
             <p
@@ -233,7 +251,9 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
       >
         <button
           className="btn btn-default"
+          onBlur={[Function]}
           onClick={[MockFunction]}
+          tabIndex="8"
           type="button"
         >
           <FormattedMessage
@@ -245,7 +265,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
         <button
           className="btn btn-primary"
           onClick={[Function]}
-          tabIndex="3"
+          tabIndex="4"
           type="submit"
         >
           <FormattedMessage
@@ -291,9 +311,26 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
   >
     <ModalHeader
       bsClass="modal-header"
-      closeButton={true}
+      closeButton={false}
       closeLabel="Close"
     >
+      <button
+        className="close"
+        onClick={[MockFunction]}
+        tabIndex="5"
+        type="button"
+      >
+        <span
+          aria-hidden="true"
+        >
+          ×
+        </span>
+        <span
+          className="sr-only"
+        >
+          Close
+        </span>
+      </button>
       <ModalTitle
         bsClass="modal-title"
         componentClass="h4"
@@ -377,6 +414,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
               <button
                 className="color--link style--none"
                 onClick={[Function]}
+                tabIndex="7"
               >
                 <FormattedMessage
                   defaultMessage="Edit"
@@ -472,7 +510,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
               onChange={[Function]}
               placeholder="E.g.: \\"[Link Title](http://example.com)\\""
               rows="4"
-              tabIndex="2"
+              tabIndex="3"
               value=""
             />
             <p
@@ -493,7 +531,9 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
       >
         <button
           className="btn btn-default"
+          onBlur={[Function]}
           onClick={[MockFunction]}
+          tabIndex="8"
           type="button"
         >
           <FormattedMessage
@@ -505,7 +545,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
         <button
           className="btn btn-primary"
           onClick={[Function]}
-          tabIndex="3"
+          tabIndex="4"
           type="submit"
         >
           <FormattedMessage
@@ -551,9 +591,26 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
   >
     <ModalHeader
       bsClass="modal-header"
-      closeButton={true}
+      closeButton={false}
       closeLabel="Close"
     >
+      <button
+        className="close"
+        onClick={[MockFunction]}
+        tabIndex="5"
+        type="button"
+      >
+        <span
+          aria-hidden="true"
+        >
+          ×
+        </span>
+        <span
+          className="sr-only"
+        >
+          Close
+        </span>
+      </button>
       <ModalTitle
         bsClass="modal-title"
         componentClass="h4"
@@ -646,6 +703,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
               <button
                 className="color--link style--none"
                 onClick={[Function]}
+                tabIndex="7"
               >
                 <FormattedMessage
                   defaultMessage="Edit"
@@ -741,7 +799,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
               onChange={[Function]}
               placeholder="E.g.: \\"[Link Title](http://example.com)\\""
               rows="4"
-              tabIndex="2"
+              tabIndex="3"
               value=""
             />
             <p
@@ -762,7 +820,9 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
       >
         <button
           className="btn btn-default"
+          onBlur={[Function]}
           onClick={[MockFunction]}
+          tabIndex="8"
           type="button"
         >
           <FormattedMessage
@@ -774,7 +834,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
         <button
           className="btn btn-primary"
           onClick={[Function]}
-          tabIndex="3"
+          tabIndex="4"
           type="submit"
         >
           <FormattedMessage
@@ -820,9 +880,26 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
   >
     <ModalHeader
       bsClass="modal-header"
-      closeButton={true}
+      closeButton={false}
       closeLabel="Close"
     >
+      <button
+        className="close"
+        onClick={[MockFunction]}
+        tabIndex="5"
+        type="button"
+      >
+        <span
+          aria-hidden="true"
+        >
+          ×
+        </span>
+        <span
+          className="sr-only"
+        >
+          Close
+        </span>
+      </button>
       <ModalTitle
         bsClass="modal-title"
         componentClass="h4"
@@ -906,6 +983,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
               <button
                 className="color--link style--none"
                 onClick={[Function]}
+                tabIndex="7"
               >
                 <FormattedMessage
                   defaultMessage="Edit"
@@ -1001,7 +1079,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
               onChange={[Function]}
               placeholder="E.g.: \\"[Link Title](http://example.com)\\""
               rows="4"
-              tabIndex="2"
+              tabIndex="3"
               value=""
             />
             <p
@@ -1035,7 +1113,9 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
       >
         <button
           className="btn btn-default"
+          onBlur={[Function]}
           onClick={[MockFunction]}
+          tabIndex="8"
           type="button"
         >
           <FormattedMessage
@@ -1047,7 +1127,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
         <button
           className="btn btn-primary"
           onClick={[Function]}
-          tabIndex="3"
+          tabIndex="4"
           type="submit"
         >
           <FormattedMessage
@@ -1093,9 +1173,26 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
   >
     <ModalHeader
       bsClass="modal-header"
-      closeButton={true}
+      closeButton={false}
       closeLabel="Close"
     >
+      <button
+        className="close"
+        onClick={[MockFunction]}
+        tabIndex="5"
+        type="button"
+      >
+        <span
+          aria-hidden="true"
+        >
+          ×
+        </span>
+        <span
+          className="sr-only"
+        >
+          Close
+        </span>
+      </button>
       <ModalTitle
         bsClass="modal-title"
         componentClass="h4"
@@ -1179,6 +1276,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
               <button
                 className="color--link style--none"
                 onClick={[Function]}
+                tabIndex="7"
               >
                 <FormattedMessage
                   defaultMessage="Edit"
@@ -1274,7 +1372,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
               onChange={[Function]}
               placeholder="E.g.: \\"[Link Title](http://example.com)\\""
               rows="4"
-              tabIndex="2"
+              tabIndex="3"
               value="some header"
             />
             <p
@@ -1295,7 +1393,9 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
       >
         <button
           className="btn btn-default"
+          onBlur={[Function]}
           onClick={[MockFunction]}
+          tabIndex="8"
           type="button"
         >
           <FormattedMessage
@@ -1307,7 +1407,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
         <button
           className="btn btn-primary"
           onClick={[Function]}
-          tabIndex="3"
+          tabIndex="4"
           type="submit"
         >
           <FormattedMessage
