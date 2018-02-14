@@ -51,6 +51,9 @@ function mapStateToProps() {
         const currentChannelMembersCount = getCurrentChannelStats(state) ? getCurrentChannelStats(state).member_count : 1;
         const enableTutorial = config.EnableTutorial === 'true';
         const tutorialStep = parseInt(get(state, Preferences.TUTORIAL_STEP, getCurrentUserId(state), TutorialSteps.FINISHED), 10);
+        const enableEmojiPicker = config.EnableEmojiPicker === 'true';
+        const enableConfirmNotificationsToChannel = config.EnableConfirmNotificationsToChannel === 'true';
+
         return {
             ...ownProps,
             currentTeamId: getCurrentTeamId(state),
@@ -67,7 +70,9 @@ function mapStateToProps() {
             latestReplyablePostId,
             currentUsersLatestPost: getCurrentUsersLatestPost(state),
             readOnlyChannel: !isCurrentUserSystemAdmin(state) && getConfig(state).ExperimentalTownSquareIsReadOnly === 'true' && currentChannel.name === Constants.DEFAULT_CHANNEL,
-            canUploadFiles: canUploadFiles(state)
+            canUploadFiles: canUploadFiles(state),
+            enableEmojiPicker,
+            enableConfirmNotificationsToChannel
         };
     };
 }

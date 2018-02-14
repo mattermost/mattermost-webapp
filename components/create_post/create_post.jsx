@@ -114,6 +114,16 @@ export default class CreatePost extends React.Component {
          */
         canUploadFiles: PropTypes.bool.isRequired,
 
+        /**
+         * Whether to show the emoji picker.
+         */
+        enableEmojiPicker: PropTypes.bool.isRequired,
+
+        /**
+         * Whether to check with the user before notifying the whole channel.
+         */
+        enableConfirmNotificationsToChannel: PropTypes.bool.isRequired,
+
         actions: PropTypes.shape({
 
             /**
@@ -332,7 +342,7 @@ export default class CreatePost extends React.Component {
     handleSubmit = (e) => {
         const updateChannel = this.props.currentChannel;
 
-        if (window.mm_config.EnableConfirmNotificationsToChannel === 'true' &&
+        if (this.props.enableConfirmNotificationsToChannel &&
             this.props.currentChannelMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
             PostUtils.containsAtChannel(this.state.message)) {
             this.showNotifyAllModal();
@@ -802,7 +812,7 @@ export default class CreatePost extends React.Component {
         }
 
         let emojiPicker = null;
-        if (window.mm_config.EnableEmojiPicker === 'true' && !readOnlyChannel) {
+        if (this.props.enableEmojiPicker && !readOnlyChannel) {
             emojiPicker = (
                 <span className='emoji-picker__container'>
                     <EmojiPickerOverlay
@@ -848,7 +858,7 @@ export default class CreatePost extends React.Component {
                                 handlePostError={this.handlePostError}
                                 value={readOnlyChannel ? '' : this.state.message}
                                 onBlur={this.handleBlur}
-                                emojiEnabled={window.mm_config.EnableEmojiPicker === 'true'}
+                                emojiEnabled={this.props.enableEmojiPicker}
                                 createMessage={createMessage}
                                 channelId={currentChannel.id}
                                 popoverMentionKeyClick={true}
