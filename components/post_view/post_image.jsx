@@ -8,8 +8,9 @@ import {Client4} from 'mattermost-redux/client';
 import {postListScrollChange} from 'actions/global_actions.jsx';
 
 export default class PostImageEmbed extends React.PureComponent {
-    static proxyEncodeImageUrl = (url) =>
-        Client4.getBaseRoute() + '/image?url=' + encodeURIComponent(url);
+    static proxyEncodeImageUrl = (url) => {
+        return Client4.getBaseRoute() + '/image?url=' + encodeURIComponent(url);
+    }
 
     static propTypes = {
 
