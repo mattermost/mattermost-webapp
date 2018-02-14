@@ -12,7 +12,7 @@ import EditPostModal from 'components/edit_post_modal';
 import GetPostLinkModal from 'components/get_post_link_modal';
 import GetTeamInviteLinkModal from 'components/get_team_invite_link_modal';
 import GetPublicLinkModal from 'components/get_public_link_modal';
-import InviteMemberModal from 'components/invite_member_modal.jsx';
+import InviteMemberModal from 'components/invite_member_modal';
 import LeaveTeamModal from 'components/leave_team_modal.jsx';
 import LeavePrivateChannelModal from 'components/modals/leave_private_channel_modal.jsx';
 import RemovedFromChannelModal from 'components/removed_from_channel_modal.jsx';
