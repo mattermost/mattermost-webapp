@@ -36,8 +36,6 @@ export default class SidebarRight extends React.Component {
     constructor(props) {
         super(props);
 
-        this.plScrolledToBottom = true;
-
         this.state = {
             expanded: false,
             useMilitaryTime: PreferenceStore.getBool(Constants.Preferences.CATEGORY_DISPLAY_SETTINGS, Constants.Preferences.USE_MILITARY_TIME, false)
@@ -99,11 +97,11 @@ export default class SidebarRight extends React.Component {
     componentDidUpdate(prevProps) {
         const isOpen = this.props.searchVisible || this.props.postRightVisible;
         WebrtcStore.emitRhsChanged(isOpen);
-        this.doStrangeThings();
 
         const wasOpen = prevProps.searchVisible || prevProps.postRightVisible;
 
         if (isOpen && !wasOpen) {
+            this.doStrangeThings();
             setTimeout(() => postListScrollChange(), 0);
         }
     }
