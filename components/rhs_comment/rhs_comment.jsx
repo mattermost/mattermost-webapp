@@ -25,7 +25,7 @@ import ProfilePicture from 'components/profile_picture.jsx';
 import EmojiIcon from 'components/svg/emoji_icon';
 import MattermostLogo from 'components/svg/mattermost_logo';
 
-import UserProfile from './user_profile.jsx';
+import UserProfile from 'components/user_profile.jsx';
 
 export default class RhsComment extends React.Component {
     static propTypes = {
@@ -41,7 +41,9 @@ export default class RhsComment extends React.Component {
         removePost: PropTypes.func.isRequired,
         previewCollapsed: PropTypes.string.isRequired,
         previewEnabled: PropTypes.bool.isRequired,
-        isEmbedVisible: PropTypes.bool
+        isEmbedVisible: PropTypes.bool,
+        enableEmojiPicker: PropTypes.bool.isRequired,
+        enablePostUsernameOverride: PropTypes.bool.isRequired
     };
 
     constructor(props) {
@@ -229,7 +231,7 @@ export default class RhsComment extends React.Component {
 
         let visibleMessage;
         if (post.props && post.props.from_webhook) {
-            if (post.props.override_username && global.window.mm_config.EnablePostUsernameOverride === 'true') {
+            if (post.props.override_username && this.props.enablePostUsernameOverride) {
                 userProfile = (
                     <UserProfile
                         user={this.props.user}
@@ -346,7 +348,7 @@ export default class RhsComment extends React.Component {
 
         let react;
 
-        if (!isEphemeral && !post.failed && !isSystemMessage && window.mm_config.EnableEmojiPicker === 'true') {
+        if (!isEphemeral && !post.failed && !isSystemMessage && this.props.enableEmojiPicker) {
             react = (
                 <span>
                     <EmojiPickerOverlay
