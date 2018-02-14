@@ -107,17 +107,14 @@ function createPost({
             actions={actions}
             readOnlyChannel={readOnlyChannel}
             canUploadFiles={canUploadFiles}
+            enableTutorial={true}
+            enableConfirmNotificationsToChannel={true}
+            enableEmojiPicker={true}
         />
     );
 }
 
 describe('components/create_post', () => {
-    window.mm_config = {
-        EnableEmojiPicker: 'true',
-        EnableConfirmNotificationsToChannel: 'true',
-        EnableTutorial: 'true'
-    };
-
     it('should match snapshot, init', () => {
         const wrapper = shallow(createPost({}));
 
