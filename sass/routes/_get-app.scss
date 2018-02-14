@@ -1,4 +1,13 @@
 .get-app {
+    -webkit-overflow-scrolling: touch;
+    height: 100%;
+    left: 0;
+    overflow: auto;
+    padding: 20px 30px 30px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+
     hr {
         border-top: 1px solid #ddd;
     }
@@ -25,8 +34,6 @@
 }
 
 .get-android-app {
-    margin: 20px;
-
     .get-app__header {
         text-align: left;
     }
@@ -68,8 +75,6 @@
 }
 
 .get-ios-app {
-    margin: 30px;
-
     .get-app__screenshot {
         width: 180px;
     }
