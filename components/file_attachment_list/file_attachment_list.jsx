@@ -80,6 +80,10 @@ export default class FileAttachmentList extends React.Component {
                     />
                 );
             }
+        } else if (fileCount === 1) {
+            return (
+                <div style={{minHeight: '385px'}}/>
+            );
         }
 
         if (fileInfos && fileInfos.length > 0) {

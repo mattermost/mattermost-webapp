@@ -68,7 +68,7 @@ export default class MessageExportSettings extends AdminSettings {
                     helpText={
                         <FormattedHTMLMessage
                             id='admin.complianceExport.globalRelayEmailAddress.description'
-                            defaultMessage='The email address that your GlobalRelay instance monitors for incoming Compliance Exports'
+                            defaultMessage='The email address that your GlobalRelay server monitors for incoming Compliance Exports.'
                         />
                     }
                     value={this.state.globalRelayEmailAddress === null ? '' : this.state.globalRelayEmailAddress}

@@ -175,7 +175,8 @@ export default class NewChannelFlow extends React.Component {
         const channelData = {
             name: this.state.channelName,
             displayName: this.state.channelDisplayName,
-            purpose: this.state.channelPurpose
+            purpose: this.state.channelPurpose,
+            header: this.state.channelHeader
         };
 
         let showChannelModal = false;

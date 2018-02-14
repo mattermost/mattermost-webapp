@@ -93,14 +93,15 @@ export default class FileAttachment extends React.PureComponent {
 
     onAttachmentClick = (e) => {
         e.preventDefault();
-        this.props.handleImageClick(this.props.index);
+        if (this.props.handleImageClick) {
+            this.props.handleImageClick(this.props.index);
+        }
     }
 
     render() {
         const {
             compactDisplay,
-            fileInfo,
-            index
+            fileInfo
         } = this.props;
 
         const trimmedFilename = trimFilename(fileInfo.name);
@@ -137,8 +138,8 @@ export default class FileAttachment extends React.PureComponent {
                         fileInfo={fileInfo}
                         compactDisplay={compactDisplay}
                         canDownload={canDownload}
+                        handleImageClick={this.onAttachmentClick}
                         iconClass={'post-image__download'}
-                        index={index}
                     >
                         <DownloadIcon/>
                     </FilenameOverlay>

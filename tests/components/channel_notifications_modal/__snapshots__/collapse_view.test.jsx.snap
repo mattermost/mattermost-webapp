@@ -9,6 +9,7 @@ exports[`components/channel_notifications_modal/CollapseView should match snapsh
       section="desktop"
     />
   }
+  focused={false}
   section=""
   title={
     <SectionTitle
@@ -28,6 +29,7 @@ exports[`components/channel_notifications_modal/CollapseView should match snapsh
       section="markUnread"
     />
   }
+  focused={false}
   section=""
   title={
     <SectionTitle
@@ -47,6 +49,7 @@ exports[`components/channel_notifications_modal/CollapseView should match snapsh
       section="push"
     />
   }
+  focused={false}
   section=""
   title={
     <SectionTitle

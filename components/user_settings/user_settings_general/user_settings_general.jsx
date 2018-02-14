@@ -78,6 +78,15 @@ const holders = defineMessages({
     }
 });
 
+const prevSections = {
+    name: 'dummySectionName', // dummy value that should never match any section name
+    username: 'name',
+    nickname: 'username',
+    position: 'nickname',
+    email: 'position',
+    picture: 'email'
+};
+
 class UserSettingsGeneralTab extends React.Component {
     static propTypes = {
         intl: intlShape.isRequired,
@@ -85,6 +94,7 @@ class UserSettingsGeneralTab extends React.Component {
         updateSection: PropTypes.func.isRequired,
         updateTab: PropTypes.func.isRequired,
         activeSection: PropTypes.string.isRequired,
+        prevActiveSection: PropTypes.string.isRequired,
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
         actions: PropTypes.shape({
@@ -660,6 +670,7 @@ class UserSettingsGeneralTab extends React.Component {
                         />
                     }
                     describe={describe}
+                    focused={this.props.prevActiveSection === prevSections.email}
                     section={'email'}
                     updateSection={this.updateSection}
                 />
@@ -825,6 +836,7 @@ class UserSettingsGeneralTab extends React.Component {
                 <SettingItemMin
                     title={formatMessage(holders.fullName)}
                     describe={describe}
+                    focused={this.props.prevActiveSection === prevSections.name}
                     section={'name'}
                     updateSection={this.updateSection}
                 />
@@ -925,6 +937,7 @@ class UserSettingsGeneralTab extends React.Component {
                 <SettingItemMin
                     title={formatMessage(holders.nickname)}
                     describe={describe}
+                    focused={this.props.prevActiveSection === prevSections.nickname}
                     section={'nickname'}
                     updateSection={this.updateSection}
                 />
@@ -1005,6 +1018,7 @@ class UserSettingsGeneralTab extends React.Component {
                 <SettingItemMin
                     title={formatMessage(holders.username)}
                     describe={UserStore.getCurrentUser().username}
+                    focused={this.props.prevActiveSection === prevSections.username}
                     section={'username'}
                     updateSection={this.updateSection}
                 />
@@ -1105,6 +1119,7 @@ class UserSettingsGeneralTab extends React.Component {
                 <SettingItemMin
                     title={formatMessage(holders.position)}
                     describe={describe}
+                    focused={this.props.prevActiveSection === prevSections.position}
                     section={'position'}
                     updateSection={this.updateSection}
                 />
@@ -1159,6 +1174,7 @@ class UserSettingsGeneralTab extends React.Component {
                 <SettingItemMin
                     title={formatMessage(holders.profilePicture)}
                     describe={minMessage}
+                    focused={this.props.prevActiveSection === prevSections.picture}
                     section={'picture'}
                     updateSection={this.updateSection}
                 />

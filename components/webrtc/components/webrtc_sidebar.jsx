@@ -13,13 +13,9 @@ export default class SidebarRight extends React.Component {
     constructor(props) {
         super(props);
 
-        this.plScrolledToBottom = true;
-
         this.onShrink = this.onShrink.bind(this);
         this.toggleSize = this.toggleSize.bind(this);
         this.onInitializeVideoCall = this.onInitializeVideoCall.bind(this);
-
-        this.doStrangeThings = this.doStrangeThings.bind(this);
 
         this.state = {
             expanded: false,
@@ -43,7 +39,7 @@ export default class SidebarRight extends React.Component {
         return !Utils.areObjectsEqual(nextState, this.state);
     }
 
-    doStrangeThings() {
+    doStrangeThings = () => {
         // We should have a better way to do this stuff
         // Hence the function name.
         $('.app__body .inner-wrap').removeClass('move--right');

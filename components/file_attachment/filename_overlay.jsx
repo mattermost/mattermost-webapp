@@ -19,11 +19,6 @@ export default class FilenameOverlay extends React.PureComponent {
         fileInfo: PropTypes.object.isRequired,
 
         /*
-         * The index of this attachment preview in the parent FileAttachmentList
-         */
-        index: PropTypes.number.isRequired,
-
-        /*
          * Handler for when the thumbnail is clicked passed the index above
          */
         handleImageClick: PropTypes.func,
@@ -49,17 +44,13 @@ export default class FilenameOverlay extends React.PureComponent {
         iconClass: PropTypes.string
     };
 
-    onAttachmentClick = (e) => {
-        e.preventDefault();
-        this.props.handleImageClick(this.props.index);
-    }
-
     render() {
         const {
             canDownload,
             children,
             compactDisplay,
             fileInfo,
+            handleImageClick,
             iconClass
         } = this.props;
 
@@ -78,7 +69,7 @@ export default class FilenameOverlay extends React.PureComponent {
                 >
                     <a
                         href='#'
-                        onClick={this.onAttachmentClick}
+                        onClick={handleImageClick}
                         className='post-image__name'
                         rel='noopener noreferrer'
                     >

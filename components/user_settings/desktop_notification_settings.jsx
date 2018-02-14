@@ -467,6 +467,7 @@ export default class DesktopNotificationSettings extends React.Component {
             <SettingItemMin
                 title={Utils.localizeMessage('user.settings.notifications.desktop.title', 'Desktop notifications')}
                 describe={describe}
+                focused={this.props.focused}
                 section={'desktop'}
                 updateSection={this.handleMinUpdateSection}
             />
@@ -492,5 +493,6 @@ DesktopNotificationSettings.propTypes = {
     cancel: PropTypes.func,
     error: PropTypes.string,
     active: PropTypes.bool,
-    saving: PropTypes.bool
+    saving: PropTypes.bool,
+    focused: PropTypes.bool
 };

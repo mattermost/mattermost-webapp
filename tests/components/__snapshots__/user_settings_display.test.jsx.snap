@@ -64,6 +64,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, cha
             values={Object {}}
           />
         }
+        focused={false}
         section="clock"
         title={
           <FormattedMessage
@@ -87,6 +88,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, cha
             values={Object {}}
           />
         }
+        focused={false}
         section="linkpreview"
         title={
           <FormattedMessage
@@ -110,6 +112,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, cha
             values={Object {}}
           />
         }
+        focused={true}
         section="collapse"
         title={
           <FormattedMessage
@@ -133,6 +136,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, cha
             values={Object {}}
           />
         }
+        focused={false}
         section="message_display"
         title={
           <FormattedMessage
@@ -221,6 +225,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, cha
     <div>
       <SettingItemMin
         describe="English"
+        focused={false}
         section="languages"
         title={
           <FormattedMessage
@@ -375,6 +380,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, clo
             values={Object {}}
           />
         }
+        focused={false}
         section="linkpreview"
         title={
           <FormattedMessage
@@ -398,6 +404,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, clo
             values={Object {}}
           />
         }
+        focused={true}
         section="collapse"
         title={
           <FormattedMessage
@@ -421,6 +428,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, clo
             values={Object {}}
           />
         }
+        focused={false}
         section="message_display"
         title={
           <FormattedMessage
@@ -444,6 +452,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, clo
             values={Object {}}
           />
         }
+        focused={false}
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -461,6 +470,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, clo
     <div>
       <SettingItemMin
         describe="English"
+        focused={false}
         section="languages"
         title={
           <FormattedMessage
@@ -544,6 +554,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, col
             values={Object {}}
           />
         }
+        focused={false}
         section="clock"
         title={
           <FormattedMessage
@@ -567,6 +578,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, col
             values={Object {}}
           />
         }
+        focused={false}
         section="linkpreview"
         title={
           <FormattedMessage
@@ -661,6 +673,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, col
             values={Object {}}
           />
         }
+        focused={false}
         section="message_display"
         title={
           <FormattedMessage
@@ -684,6 +697,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, col
             values={Object {}}
           />
         }
+        focused={false}
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -701,6 +715,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, col
     <div>
       <SettingItemMin
         describe="English"
+        focused={false}
         section="languages"
         title={
           <FormattedMessage
@@ -784,6 +799,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lan
             values={Object {}}
           />
         }
+        focused={false}
         section="clock"
         title={
           <FormattedMessage
@@ -807,6 +823,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lan
             values={Object {}}
           />
         }
+        focused={false}
         section="linkpreview"
         title={
           <FormattedMessage
@@ -830,6 +847,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lan
             values={Object {}}
           />
         }
+        focused={true}
         section="collapse"
         title={
           <FormattedMessage
@@ -853,6 +871,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lan
             values={Object {}}
           />
         }
+        focused={false}
         section="message_display"
         title={
           <FormattedMessage
@@ -876,6 +895,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lan
             values={Object {}}
           />
         }
+        focused={false}
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -974,6 +994,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lin
             values={Object {}}
           />
         }
+        focused={false}
         section="clock"
         title={
           <FormattedMessage
@@ -997,6 +1018,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lin
             values={Object {}}
           />
         }
+        focused={true}
         section="collapse"
         title={
           <FormattedMessage
@@ -1020,6 +1042,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lin
             values={Object {}}
           />
         }
+        focused={false}
         section="message_display"
         title={
           <FormattedMessage
@@ -1043,6 +1066,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lin
             values={Object {}}
           />
         }
+        focused={false}
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -1060,6 +1084,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lin
     <div>
       <SettingItemMin
         describe="English"
+        focused={false}
         section="languages"
         title={
           <FormattedMessage
@@ -1143,6 +1168,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lin
             values={Object {}}
           />
         }
+        focused={false}
         section="clock"
         title={
           <FormattedMessage
@@ -1237,6 +1263,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lin
             values={Object {}}
           />
         }
+        focused={true}
         section="collapse"
         title={
           <FormattedMessage
@@ -1260,6 +1287,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lin
             values={Object {}}
           />
         }
+        focused={false}
         section="message_display"
         title={
           <FormattedMessage
@@ -1283,6 +1311,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lin
             values={Object {}}
           />
         }
+        focused={false}
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -1300,6 +1329,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, lin
     <div>
       <SettingItemMin
         describe="English"
+        focused={false}
         section="languages"
         title={
           <FormattedMessage
@@ -1383,6 +1413,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, mes
             values={Object {}}
           />
         }
+        focused={false}
         section="clock"
         title={
           <FormattedMessage
@@ -1406,6 +1437,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, mes
             values={Object {}}
           />
         }
+        focused={false}
         section="linkpreview"
         title={
           <FormattedMessage
@@ -1429,6 +1461,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, mes
             values={Object {}}
           />
         }
+        focused={true}
         section="collapse"
         title={
           <FormattedMessage
@@ -1543,6 +1576,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, mes
             values={Object {}}
           />
         }
+        focused={false}
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -1560,6 +1594,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, mes
     <div>
       <SettingItemMin
         describe="English"
+        focused={false}
         section="languages"
         title={
           <FormattedMessage
@@ -1643,6 +1678,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, no 
             values={Object {}}
           />
         }
+        focused={false}
         section="clock"
         title={
           <FormattedMessage
@@ -1666,6 +1702,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, no 
             values={Object {}}
           />
         }
+        focused={false}
         section="linkpreview"
         title={
           <FormattedMessage
@@ -1689,6 +1726,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, no 
             values={Object {}}
           />
         }
+        focused={true}
         section="collapse"
         title={
           <FormattedMessage
@@ -1712,6 +1750,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, no 
             values={Object {}}
           />
         }
+        focused={false}
         section="message_display"
         title={
           <FormattedMessage
@@ -1735,6 +1774,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, no 
             values={Object {}}
           />
         }
+        focused={false}
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -1752,6 +1792,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, no 
     <div>
       <SettingItemMin
         describe="English"
+        focused={false}
         section="languages"
         title={
           <FormattedMessage
@@ -1835,6 +1876,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, the
             values={Object {}}
           />
         }
+        focused={false}
         section="clock"
         title={
           <FormattedMessage
@@ -1858,6 +1900,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, the
             values={Object {}}
           />
         }
+        focused={false}
         section="linkpreview"
         title={
           <FormattedMessage
@@ -1881,6 +1924,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, the
             values={Object {}}
           />
         }
+        focused={true}
         section="collapse"
         title={
           <FormattedMessage
@@ -1904,6 +1948,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, the
             values={Object {}}
           />
         }
+        focused={false}
         section="message_display"
         title={
           <FormattedMessage
@@ -1927,6 +1972,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, the
             values={Object {}}
           />
         }
+        focused={false}
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -1944,6 +1990,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, the
     <div>
       <SettingItemMin
         describe="English"
+        focused={false}
         section="languages"
         title={
           <FormattedMessage
@@ -2038,6 +2085,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, the
             values={Object {}}
           />
         }
+        focused={false}
         section="clock"
         title={
           <FormattedMessage
@@ -2061,6 +2109,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, the
             values={Object {}}
           />
         }
+        focused={false}
         section="linkpreview"
         title={
           <FormattedMessage
@@ -2084,6 +2133,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, the
             values={Object {}}
           />
         }
+        focused={true}
         section="collapse"
         title={
           <FormattedMessage
@@ -2107,6 +2157,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, the
             values={Object {}}
           />
         }
+        focused={false}
         section="message_display"
         title={
           <FormattedMessage
@@ -2130,6 +2181,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, the
             values={Object {}}
           />
         }
+        focused={false}
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -2147,6 +2199,7 @@ exports[`components/user_settings/UserSettingsDisplay should match snapshot, the
     <div>
       <SettingItemMin
         describe="English"
+        focused={false}
         section="languages"
         title={
           <FormattedMessage

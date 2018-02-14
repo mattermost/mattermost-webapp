@@ -95,13 +95,13 @@ function keepChannelIdAsUnread(state = null, action) {
         }
 
         const msgCount = channel.total_msg_count - member.msg_count;
-        const showChannelAsUnread = member.mentionCount > 0 ||
-            (member.notify_props.mark_unread !== NotificationLevels.MENTION && msgCount > 0);
+        const hadMentions = member.mention_count > 0;
+        const hadUnreads = member.notify_props.mark_unread !== NotificationLevels.MENTION && msgCount > 0;
 
-        if (showChannelAsUnread) {
+        if (hadMentions || hadUnreads) {
             return {
                 id: member.channel_id,
-                hadMentions: member.mentionCount > 0
+                hadMentions
             };
         }
 

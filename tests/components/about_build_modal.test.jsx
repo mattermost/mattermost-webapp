@@ -101,6 +101,7 @@ describe('components/AboutBuildModal', () => {
             <AboutBuildModal
                 config={config}
                 license={license}
+                webappBuildHash='0a1b2c3d4f'
                 show={true}
                 onModalDismissed={onHide}
             />
@@ -116,6 +117,7 @@ describe('components/AboutBuildModal', () => {
         const allProps = {
             show,
             onModalDismissed,
+            webappBuildHash: '0a1b2c3d4f',
             ...props
         };
 

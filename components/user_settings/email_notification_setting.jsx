@@ -20,7 +20,8 @@ export default class EmailNotificationSetting extends React.Component {
         onSubmit: PropTypes.func.isRequired,
         onCancel: PropTypes.func.isRequired,
         serverError: PropTypes.string,
-        saving: PropTypes.bool
+        saving: PropTypes.bool,
+        focused: PropTypes.bool
     };
 
     constructor(props) {
@@ -153,6 +154,7 @@ export default class EmailNotificationSetting extends React.Component {
                 <SettingItemMin
                     title={localizeMessage('user.settings.notifications.emailNotifications', 'Email notifications')}
                     describe={description}
+                    focused={this.props.focused}
                     section={'email'}
                     updateSection={this.handleUpdateSection}
                 />

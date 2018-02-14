@@ -122,6 +122,7 @@ export default class SettingPicture extends Component {
             img = (
                 <div
                     className='profile-img-preview'
+                    alt='profile image preview'
                     style={imageStyles}
                 />
             );
@@ -130,6 +131,7 @@ export default class SettingPicture extends Component {
                 <img
                     ref='image'
                     className='profile-img rounded'
+                    alt='profile image'
                     src={this.props.src}
                 />
             );
