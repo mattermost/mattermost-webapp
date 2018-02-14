@@ -44,7 +44,6 @@ export default class PostImageEmbed extends React.PureComponent {
             loaded: false,
             errored: false
         };
-        this.imagesAreProxied = global.window.mm_config.HasImageProxy === 'true';
     }
 
     componentWillMount() {
@@ -106,7 +105,8 @@ export default class PostImageEmbed extends React.PureComponent {
             // scroll pop could be improved with a placeholder when !this.state.loaded
             return null;
         }
-        const url = this.imagesAreProxied ? this.proxyEncodeImageUrl(this.props.link) : this.props.link;
+        const imagesAreProxied = global.window.mm_config.HasImageProxy === 'true';
+        const url = imagesAreProxied ? this.proxyEncodeImageUrl(this.props.link) : this.props.link;
         return (
             <div
                 className='post__embed-container'
