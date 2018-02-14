@@ -17,10 +17,14 @@ function mapStateToProps(state, ownProps) {
         currentChannelMembers = getProfilesInCurrentChannel(state);
     }
 
+    const config = state.entities.general.config;
+    const restrictDirectMessage = config.RestrictDirectMessage;
+
     return {
         ...ownProps,
         currentChannelMembers,
-        currentUserId: getCurrentUserId(state)
+        currentUserId: getCurrentUserId(state),
+        restrictDirectMessage
     };
 }
 
