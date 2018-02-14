@@ -67,20 +67,27 @@ export default class FileAttachmentList extends React.Component {
 
     render() {
         const {fileInfos, fileCount, compactDisplay} = this.props;
-        const postFiles = [];
-        let sortedFileInfos = [];
 
-        if (fileInfos && fileInfos.length === 1 && compactDisplay === false) {
-            const fileType = getFileType(fileInfos[0].extension);
+        if (compactDisplay === false) {
+            if (fileInfos && fileInfos.length === 1) {
+                const fileType = getFileType(fileInfos[0].extension);
 
-            if (fileType === FileTypes.IMAGE || fileType === FileTypes.SVG) {
+                if (fileType === FileTypes.IMAGE || fileType === FileTypes.SVG) {
+                    return (
+                        <SingleImageView
+                            fileInfo={fileInfos[0]}
+                        />
+                    );
+                }
+            } else if (fileCount === 1) {
                 return (
-                    <SingleImageView
-                        fileInfo={fileInfos[0]}
-                    />
+                    <div style={style.minHeightPlaceholder}/>
                 );
             }
         }
+
+        const postFiles = [];
+        let sortedFileInfos = [];
 
         if (fileInfos && fileInfos.length > 0) {
             sortedFileInfos = fileInfos.sort((a, b) => a.create_at - b.create_at);
@@ -124,3 +131,7 @@ export default class FileAttachmentList extends React.Component {
         );
     }
 }
+
+const style = {
+    minHeightPlaceholder: {minHeight: '385px'}
+};

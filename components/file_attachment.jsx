@@ -93,21 +93,22 @@ export default class FileAttachment extends React.PureComponent {
 
     onAttachmentClick = (e) => {
         e.preventDefault();
-        this.props.handleImageClick(this.props.index);
+        if (this.props.handleImageClick) {
+            this.props.handleImageClick(this.props.index);
+        }
     }
 
     render() {
         const {
             compactDisplay,
-            fileInfo,
-            index
+            fileInfo
         } = this.props;
 
         const trimmedFilename = trimFilename(fileInfo.name);
-        const canDownload = canDownloadFiles();
-
-        return (
-            <div className='post-image__column'>
+        let fileThumbnail;
+        let fileDetail;
+        if (!compactDisplay) {
+            fileThumbnail = (
                 <a
                     className='post-image__thumbnail'
                     href='#'
@@ -119,30 +120,46 @@ export default class FileAttachment extends React.PureComponent {
                         <div className='post-image__load'/>
                     )}
                 </a>
-                <div className='post-image__details'>
-                    <div
-                        className='post-image__detail_wrapper'
-                        onClick={this.onAttachmentClick}
-                    >
-                        <div className='post-image__detail'>
-                            <span className={'post-image__name'}>
-                                {trimmedFilename}
-                            </span>
-                            <span className='post-image__type'>{fileInfo.extension.toUpperCase()}</span>
-                            <span className='post-image__size'>{fileSizeToString(fileInfo.size)}</span>
-                        </div>
+            );
+
+            fileDetail = (
+                <div
+                    className='post-image__detail_wrapper'
+                    onClick={this.onAttachmentClick}
+                >
+                    <div className='post-image__detail'>
+                        <span className={'post-image__name'}>
+                            {trimmedFilename}
+                        </span>
+                        <span className='post-image__type'>{fileInfo.extension.toUpperCase()}</span>
+                        <span className='post-image__size'>{fileSizeToString(fileInfo.size)}</span>
                     </div>
-                    {canDownload &&
-                    <FilenameOverlay
-                        fileInfo={fileInfo}
-                        compactDisplay={compactDisplay}
-                        canDownload={canDownload}
-                        iconClass={'post-image__download'}
-                        index={index}
-                    >
-                        <DownloadIcon/>
-                    </FilenameOverlay>
-                    }
+                </div>
+            );
+        }
+
+        const canDownload = canDownloadFiles();
+        let filenameOverlay;
+        if (canDownload) {
+            filenameOverlay = (
+                <FilenameOverlay
+                    fileInfo={fileInfo}
+                    compactDisplay={compactDisplay}
+                    canDownload={canDownload}
+                    handleImageClick={this.onAttachmentClick}
+                    iconClass={'post-image__download'}
+                >
+                    <DownloadIcon/>
+                </FilenameOverlay>
+            );
+        }
+
+        return (
+            <div className='post-image__column'>
+                {fileThumbnail}
+                <div className='post-image__details'>
+                    {fileDetail}
+                    {filenameOverlay}
                 </div>
             </div>
         );

@@ -61,8 +61,8 @@ exports[`component/FileAttachment should match snapshot, after change from file 
           "width": 600,
         }
       }
+      handleImageClick={[Function]}
       iconClass="post-image__download"
-      index={3}
     >
       <DownloadIcon />
     </FilenameOverlay>
@@ -127,8 +127,8 @@ exports[`component/FileAttachment should match snapshot, file with long name 1`]
           "size": 100,
         }
       }
+      handleImageClick={[Function]}
       iconClass="post-image__download"
-      index={3}
     >
       <DownloadIcon />
     </FilenameOverlay>
@@ -193,8 +193,8 @@ exports[`component/FileAttachment should match snapshot, regular file 1`] = `
           "size": 100,
         }
       }
+      handleImageClick={[Function]}
       iconClass="post-image__download"
-      index={3}
     >
       <DownloadIcon />
     </FilenameOverlay>
@@ -263,8 +263,8 @@ exports[`component/FileAttachment should match snapshot, regular image 1`] = `
           "width": 600,
         }
       }
+      handleImageClick={[Function]}
       iconClass="post-image__download"
-      index={3}
     >
       <DownloadIcon />
     </FilenameOverlay>
@@ -333,8 +333,8 @@ exports[`component/FileAttachment should match snapshot, small image 1`] = `
           "width": 16,
         }
       }
+      handleImageClick={[Function]}
       iconClass="post-image__download"
-      index={3}
     >
       <DownloadIcon />
     </FilenameOverlay>
@@ -403,8 +403,8 @@ exports[`component/FileAttachment should match snapshot, svg image 1`] = `
           "width": 600,
         }
       }
+      handleImageClick={[Function]}
       iconClass="post-image__download"
-      index={3}
     >
       <DownloadIcon />
     </FilenameOverlay>
@@ -462,8 +462,8 @@ exports[`component/FileAttachment should match snapshot, when file is not loaded
           "size": 100,
         }
       }
+      handleImageClick={[Function]}
       iconClass="post-image__download"
-      index={3}
     >
       <DownloadIcon />
     </FilenameOverlay>
@@ -475,49 +475,9 @@ exports[`component/FileAttachment should match snapshot, with compact display 1`
 <div
   className="post-image__column"
 >
-  <a
-    className="post-image__thumbnail"
-    href="#"
-    onClick={[Function]}
-  >
-    <FileThumbnail
-      fileInfo={
-        Object {
-          "extension": "pdf",
-          "id": 1,
-          "name": "test.pdf",
-          "size": 100,
-        }
-      }
-    />
-  </a>
   <div
     className="post-image__details"
   >
-    <div
-      className="post-image__detail_wrapper"
-      onClick={[Function]}
-    >
-      <div
-        className="post-image__detail"
-      >
-        <span
-          className="post-image__name"
-        >
-          test.pdf
-        </span>
-        <span
-          className="post-image__type"
-        >
-          PDF
-        </span>
-        <span
-          className="post-image__size"
-        >
-          100B
-        </span>
-      </div>
-    </div>
     <FilenameOverlay
       canDownload={true}
       compactDisplay={true}
@@ -529,8 +489,8 @@ exports[`component/FileAttachment should match snapshot, with compact display 1`
           "size": 100,
         }
       }
+      handleImageClick={[Function]}
       iconClass="post-image__download"
-      index={3}
     >
       <DownloadIcon />
     </FilenameOverlay>

@@ -167,12 +167,13 @@
 
         .image-loaded {
             @include single-transition(all, .1s, linear);
+            @include border-radius(4px);
             border: 1px solid transparent;
             bottom: 0;
             cursor: 'pointer';
             display: inline-block;
             left: 0;
-            max-height: 360px;
+            max-height: 350px;
             max-width: 100%;
             opacity: 0;
             overflow: hidden;
@@ -188,10 +189,18 @@
 
             img {
                 @include single-transition(all, .1s, linear);
-                @include border-radius(4px);
-                max-width: initial;
                 min-height: 50px;
                 min-width: 50px;
+
+                &.min-preview {
+                    max-height: 350px;
+                    max-width: initial;
+
+                    &.min-preview--portrait {
+                        max-height: initial;
+                        max-width: 50px;
+                    }
+                }
             }
         }
 
