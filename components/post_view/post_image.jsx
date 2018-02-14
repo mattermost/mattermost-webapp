@@ -103,7 +103,7 @@ export default class PostImageEmbed extends React.PureComponent {
 
     render() {
         if (this.state.errored || !this.state.loaded) {
-            // scroll pop could be improved with better placeholder during !this.  state.loading
+            // scroll pop could be improved with a placeholder when !this.state.loaded
             return null;
         }
         const url = this.imagesAreProxied ? this.proxyEncodeImageUrl(this.props.link) : this.props.link;
