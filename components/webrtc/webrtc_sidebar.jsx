@@ -7,7 +7,8 @@ import React from 'react';
 import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 import * as Utils from 'utils/utils.jsx';
-import WebrtcController from '../webrtc_controller.jsx';
+
+import WebrtcController from './controller';
 
 export default class SidebarRight extends React.Component {
     constructor(props) {
