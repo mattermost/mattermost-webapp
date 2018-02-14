@@ -85,19 +85,19 @@ export default class Sidebar extends React.PureComponent {
         unreads: PropTypes.object.isRequired,
 
         /**
-        * Set if the current user is a system admin
-        */
-        isSystemAdmin: PropTypes.bool.isRequired,
-
-        /**
-        * Set if the current user is a team admin
-        */
-        isTeamAdmin: PropTypes.bool.isRequired,
-
-        /**
          * Flag to display the Unread channels section
          */
         showUnreadSection: PropTypes.bool.isRequired,
+
+        /**
+         * Flag to display the option to create public channels.
+         */
+        showCreatePublicChannelOption: PropTypes.bool.isRequired,
+
+        /**
+         * Flag to display the option to create private channels.
+         */
+        showCreatePrivateChannelOption: PropTypes.bool.isRequired,
 
         actions: PropTypes.shape({
             goToChannelById: PropTypes.func.isRequired
@@ -592,7 +592,7 @@ export default class Sidebar extends React.PureComponent {
             </OverlayTrigger>
         );
 
-        if (!ChannelUtils.showCreateOption(Constants.OPEN_CHANNEL, this.props.isTeamAdmin, this.props.isSystemAdmin)) {
+        if (!this.props.showCreatePublicChannelOption) {
             createPublicChannelIcon = null;
         }
 
@@ -612,7 +612,7 @@ export default class Sidebar extends React.PureComponent {
             </OverlayTrigger>
         );
 
-        if (!ChannelUtils.showCreateOption(Constants.PRIVATE_CHANNEL, this.props.isTeamAdmin, this.props.isSystemAdmin)) {
+        if (!this.props.showCreatePrivateChannelOption) {
             createPrivateChannelIcon = null;
         }
 
