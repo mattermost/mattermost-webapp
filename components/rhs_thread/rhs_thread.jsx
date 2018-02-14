@@ -17,7 +17,7 @@ import * as UserAgent from 'utils/user_agent.jsx';
 import CreateComment from 'components/create_comment';
 import DateSeparator from 'components/post_view/date_separator.jsx';
 import FloatingTimestamp from 'components/post_view/floating_timestamp.jsx';
-import Comment from 'components/rhs_comment.jsx';
+import Comment from 'components/rhs_comment';
 import RhsHeaderPost from 'components/rhs_header_post';
 import RootPost from 'components/rhs_root_post';
 
