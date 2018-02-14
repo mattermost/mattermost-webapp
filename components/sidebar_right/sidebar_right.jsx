@@ -99,7 +99,7 @@ export default class SidebarRight extends React.Component {
         WebrtcStore.emitRhsChanged(isOpen);
 
         const wasOpen = prevProps.searchVisible || prevProps.postRightVisible;
-        if ((isOpen && !wasOpen) || (!isOpen && wasOpen)) {
+        if (isOpen !== wasOpen) {
             this.doStrangeThings();
         }
         if (isOpen && !wasOpen) {
