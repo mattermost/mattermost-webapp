@@ -193,13 +193,13 @@
                 min-width: 50px;
 
                 &.min-preview {
-                    max-height: 350px;
+                    max-height: 50px;
                     max-width: initial;
+                }
 
-                    &.min-preview--portrait {
-                        max-height: initial;
-                        max-width: 50px;
-                    }
+                &.min-preview--portrait {
+                    max-height: initial;
+                    max-width: 50px;
                 }
             }
         }
