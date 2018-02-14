@@ -28,11 +28,11 @@ export default class SelectTeam extends React.Component {
 
     constructor(props) {
         super(props);
-
-        const state = this.getStateFromStores(false);
-        state.loadingTeamId = '';
-        state.error = null;
-        this.state = state;
+        this.state = {
+            ...this.getStateFromStores(false),
+            loadingTeamId: '',
+            error: null
+        };
     }
 
     componentDidMount() {
