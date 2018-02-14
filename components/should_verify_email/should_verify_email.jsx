@@ -12,13 +12,12 @@ export default class ShouldVerifyEmail extends React.Component {
     constructor(props) {
         super(props);
 
-        this.handleResend = this.handleResend.bind(this);
-
         this.state = {
             resendStatus: 'none'
         };
     }
-    handleResend() {
+
+    handleResend = () => {
         const email = (new URLSearchParams(this.props.location.search)).get('email');
 
         this.setState({resendStatus: 'sending'});
@@ -72,7 +71,7 @@ export default class ShouldVerifyEmail extends React.Component {
                                 id='email_verify.almost'
                                 defaultMessage='{siteName}: You are almost done'
                                 values={{
-                                    siteName: global.window.mm_config.SiteName
+                                    siteName: this.props.siteName
                                 }}
                             />
                         </h3>
@@ -101,8 +100,7 @@ export default class ShouldVerifyEmail extends React.Component {
     }
 }
 
-ShouldVerifyEmail.defaultProps = {
-};
 ShouldVerifyEmail.propTypes = {
-    location: PropTypes.object.isRequired
+    location: PropTypes.object.isRequired,
+    siteName: PropTypes.string
 };
