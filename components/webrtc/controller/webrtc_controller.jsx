@@ -16,9 +16,9 @@ import {Constants, UserStatuses, WebrtcActionTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import ring from 'images/ring.mp3';
 import ConnectingScreen from 'components/loading_screen.jsx';
-import SearchBox from '../search_bar';
+import SearchBox from 'components/search_bar';
 
-import WebrtcHeader from './components/webrtc_header.jsx';
+import WebrtcHeader from '../webrtc_header.jsx';
 
 const VIDEO_WIDTH = 640;
 const VIDEO_HEIGHT = 360;
@@ -675,7 +675,7 @@ export default class WebrtcController extends React.Component {
                         });
                     }
 
-                    Janus.init({debug: global.mm_config.EnableDeveloper === 'true'});
+                    Janus.init({debug: this.props.enableDeveloper});
                     this.session = new Janus({
                         server: info.gateway_url,
                         iceServers,
@@ -1238,5 +1238,6 @@ WebrtcController.propTypes = {
     userId: PropTypes.string.isRequired,
     isCaller: PropTypes.bool.isRequired,
     expanded: PropTypes.bool.isRequired,
-    toggleSize: PropTypes.func
+    toggleSize: PropTypes.func,
+    enableDeveloper: PropTypes.bool.isRequired
 };
