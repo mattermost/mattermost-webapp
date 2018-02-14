@@ -36,8 +36,6 @@ export default class SidebarRight extends React.Component {
     constructor(props) {
         super(props);
 
-        this.plScrolledToBottom = true;
-
         this.state = {
             expanded: false,
             useMilitaryTime: PreferenceStore.getBool(Constants.Preferences.CATEGORY_DISPLAY_SETTINGS, Constants.Preferences.USE_MILITARY_TIME, false)
