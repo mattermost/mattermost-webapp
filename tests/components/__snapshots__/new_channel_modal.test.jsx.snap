@@ -90,6 +90,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
               <button
                 className="style--none color--link"
                 onClick={[MockFunction]}
+                tabIndex="6"
               >
                 <FormattedMessage
                   defaultMessage="Create a private channel"
@@ -370,6 +371,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
               <button
                 className="style--none color--link"
                 onClick={[MockFunction]}
+                tabIndex="6"
               >
                 <FormattedMessage
                   defaultMessage="Create a private channel"
@@ -650,6 +652,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
               <button
                 className="style--none color--link"
                 onClick={[MockFunction]}
+                tabIndex="6"
               >
                 <FormattedMessage
                   defaultMessage="Create a private channel"
@@ -939,6 +942,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
               <button
                 className="style--none color--link"
                 onClick={[MockFunction]}
+                tabIndex="6"
               >
                 <FormattedMessage
                   defaultMessage="Create a private channel"
