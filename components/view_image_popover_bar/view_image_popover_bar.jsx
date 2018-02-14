@@ -41,6 +41,11 @@ export default class ViewImagePopoverBar extends React.PureComponent {
         showPublicLink: PropTypes.bool,
 
         /**
+         * Set whether public links are enabled.
+         */
+        enablePublicLink: PropTypes.bool.isRequired,
+
+        /**
          * Function to call when click on "Get Public Link"
          */
         onGetPublicLink: PropTypes.func
@@ -57,7 +62,7 @@ export default class ViewImagePopoverBar extends React.PureComponent {
 
     render() {
         var publicLink = '';
-        if (global.window.mm_config.EnablePublicLink === 'true' && this.props.showPublicLink) {
+        if (this.props.enablePublicLink && this.props.showPublicLink) {
             publicLink = (
                 <div>
                     <a
