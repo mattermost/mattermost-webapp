@@ -9,8 +9,15 @@ import {withRouter} from 'react-router-dom';
 import TeamSidebar from './team_sidebar_controller.jsx';
 
 function mapStateToProps(state, ownProps) {
+    const config = state.entities.general.config;
+
+    const experimentalPrimaryTeam = config.ExperimentalPrimaryTeam;
+    const enableTeamCreation = config.EnableTeamCreation === 'true';
+
     return {
-        ...ownProps
+        ...ownProps,
+        experimentalPrimaryTeam,
+        enableTeamCreation
     };
 }
 
