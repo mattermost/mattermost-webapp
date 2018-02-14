@@ -278,7 +278,7 @@
         &.post--system {
             .post__header {
                 .col__reply {
-                    min-width: 70px;
+                    min-width: 45px;
                 }
             }
         }
@@ -377,6 +377,7 @@
             padding-right: 70px;
 
             .col__reply {
+                min-width: 45px;
                 top: -6px;
                 z-index: auto;
             }
@@ -1801,6 +1802,15 @@
 }
 
 @media screen and (max-width: 320px) {
+    .post {
+        &.post--system {
+             .post__header {
+                padding: 0;
+             }
+        }
+
+    }
+
     .multi-teams {
         .sidebar--left {
             width: 220px;
