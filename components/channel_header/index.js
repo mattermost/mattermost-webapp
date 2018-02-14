@@ -33,6 +33,9 @@ function mapStateToProps(state, ownProps) {
         dmUserStatus = {status: getStatusForUserId(state, dmUserId)};
     }
 
+    const config = state.entities.general.config;
+    const enableWebrtc = config.EnableWebrtc === 'true';
+
     return {
         channel,
         channelMember: getMyChannelMember(state, ownProps.channelId),
@@ -43,7 +46,8 @@ function mapStateToProps(state, ownProps) {
         dmUser,
         dmUserStatus,
         enableFormatting: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'formatting', true),
-        rhsState: getRhsState(state)
+        rhsState: getRhsState(state),
+        enableWebrtc
     };
 }
 
