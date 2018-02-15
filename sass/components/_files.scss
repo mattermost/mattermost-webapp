@@ -188,8 +188,6 @@
 
             img {
                 @include single-transition(all, .1s, linear);
-                min-height: 50px;
-                min-width: 50px;
 
                 &.min-preview {
                     max-height: 50px;
