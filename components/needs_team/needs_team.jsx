@@ -135,11 +135,10 @@ export default class NeedsTeam extends React.Component {
         // Set up tracking for whether the window is active
         window.isActive = true;
         $(window).on('focus', async () => {
-            this.props.actions.markChannelAsRead(ChannelStore.getCurrentId());
+            await this.props.actions.markChannelAsRead(ChannelStore.getCurrentId());
             ChannelStore.emitChange();
             window.isActive = true;
 
-            await this.props.actions.viewChannel(ChannelStore.getCurrentId());
             if (new Date().getTime() - this.blurTime > UNREAD_CHECK_TIME_MILLISECONDS) {
                 this.props.actions.getMyChannelMembers(TeamStore.getCurrentId()).then(loadProfilesForSidebar);
             }

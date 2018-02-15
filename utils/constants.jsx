@@ -207,7 +207,6 @@ export const ActionTypes = keyMirror({
     TOGGLE_GET_POST_LINK_MODAL: null,
     TOGGLE_GET_TEAM_INVITE_LINK_MODAL: null,
     TOGGLE_GET_PUBLIC_LINK_MODAL: null,
-    TOGGLE_DM_MODAL: null,
     TOGGLE_QUICK_SWITCH_MODAL: null,
     TOGGLE_CHANNEL_HEADER_UPDATE_MODAL: null,
     TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL: null,
@@ -265,6 +264,7 @@ export const ModalIdentifiers = {
     DELETE_CHANNEL: 'delete_channel',
     CHANNEL_NOTIFICATIONS: 'channel_notifications',
     CHANNEL_INVITE: 'channel_invite',
+    CREATE_DM_CHANNEL: 'create_dm_channel',
     EDIT_CHANNEL_HEADER: 'edit_channel_header'
 };
 

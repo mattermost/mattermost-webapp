@@ -99,18 +99,15 @@ export default class SidebarRight extends React.Component {
         WebrtcStore.emitRhsChanged(isOpen);
 
         const wasOpen = prevProps.searchVisible || prevProps.postRightVisible;
-
-        if (isOpen && !wasOpen) {
+        if (isOpen !== wasOpen) {
             this.doStrangeThings();
+        }
+        if (isOpen && !wasOpen) {
             setTimeout(() => postListScrollChange(), 0);
         }
     }
 
     onPreferenceChange = () => {
-        if (this.props.isFlaggedPosts) {
-            this.props.actions.getFlaggedPosts();
-        }
-
         this.setState({
             useMilitaryTime: PreferenceStore.getBool(Constants.Preferences.CATEGORY_DISPLAY_SETTINGS, Constants.Preferences.USE_MILITARY_TIME, false)
         });
