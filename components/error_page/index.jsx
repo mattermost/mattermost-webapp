@@ -46,7 +46,7 @@ export default class ErrorPage extends React.PureComponent {
         const title = (trustParams && params.get('title')) || '';
         const message = (trustParams && params.get('message')) || '';
         const service = (trustParams && params.get('service')) || '';
-        const returnTo = (trustParans && params.get('returnTo')) || '';
+        const returnTo = (trustParams && params.get('returnTo')) || '';
 
         let backButton;
         if (type === ErrorPageTypes.PERMALINK_NOT_FOUND && returnTo) {
