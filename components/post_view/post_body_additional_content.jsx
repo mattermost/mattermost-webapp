@@ -9,6 +9,7 @@ import * as Utils from 'utils/utils.jsx';
 import {StoragePrefixes} from 'utils/constants.jsx';
 import YoutubeVideo from 'components/youtube_video';
 import ViewImageModal from 'components/view_image';
+import * as PostUtils from 'utils/post_utils.jsx';
 
 import PostAttachmentList from './post_attachment_list.jsx';
 import PostAttachmentOpenGraph from './post_attachment_opengraph';
@@ -107,7 +108,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         // if embedVisible is true, the image is rendered, during which image load error is captured
         if (!this.props.isEmbedVisible && this.isLinkImage(this.state.link)) {
             const image = new Image();
-            image.src = this.state.link;
+            image.src = PostUtils.getImageSrc(this.state.link);
 
             image.onload = () => {
                 this.handleLinkLoaded();
