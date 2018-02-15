@@ -6,25 +6,47 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import {cleanUpUrlable} from 'utils/url.jsx';
 import logoImage from 'images/logo.png';
 
-export default class TeamSignupDisplayNamePage extends React.Component {
+export default class TeamSignupDisplayNamePage extends React.PureComponent {
+    static propTypes = {
+
+        /*
+         * Object containing team's display_name and name
+         */
+        state: PropTypes.object,
+
+        /*
+         * Function that updates parent component with state props
+         */
+        updateParent: PropTypes.func,
+
+        /*
+         * Object with redux action creators
+         */
+        actions: PropTypes.shape({
+
+            /*
+             * Action creator to track events
+             */
+            trackEvent: PropTypes.func.isRequired
+        }).isRequired
+    }
+
     constructor(props) {
         super(props);
-
-        this.submitNext = this.submitNext.bind(this);
 
         this.state = {};
     }
 
     componentDidMount() {
+        const {actions: {trackEvent}} = this.props;
         trackEvent('signup', 'signup_team_01_name');
     }
 
-    submitNext(e) {
+    submitNext = (e) => {
         e.preventDefault();
 
         var displayName = ReactDOM.findDOMNode(this.refs.name).value.trim();
@@ -121,8 +143,3 @@ export default class TeamSignupDisplayNamePage extends React.Component {
         );
     }
 }
-
-TeamSignupDisplayNamePage.propTypes = {
-    state: PropTypes.object,
-    updateParent: PropTypes.func
-};

@@ -7,19 +7,47 @@ import {Button, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import {checkIfTeamExists, createTeam} from 'actions/team_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as URL from 'utils/url.jsx';
 import logoImage from 'images/logo.png';
 
 export default class TeamUrl extends React.Component {
+    static propTypes = {
+
+        /*
+         * Object containing team's display_name and name
+         */
+        state: PropTypes.object,
+
+        /*
+         * Function that updates parent component with state props
+         */
+        updateParent: PropTypes.func,
+
+        /*
+         * Object with redux action creators
+         */
+        actions: PropTypes.shape({
+
+            /*
+             * Action creator to track events
+             */
+            trackEvent: PropTypes.func.isRequired,
+
+            /*
+             * Action creator to check if a team already exists
+             */
+            checkIfTeamExists: PropTypes.func.isRequired,
+
+            /*
+             * Action creator to create a new team
+             */
+            createTeam: PropTypes.func.isRequired
+        }).isRequired
+    }
+
     constructor(props) {
         super(props);
-
-        this.submitBack = this.submitBack.bind(this);
-        this.submitNext = this.submitNext.bind(this);
-        this.handleFocus = this.handleFocus.bind(this);
 
         this.state = {
             nameError: '',
@@ -28,21 +56,23 @@ export default class TeamUrl extends React.Component {
     }
 
     componentDidMount() {
+        const {actions: {trackEvent}} = this.props;
         trackEvent('signup', 'signup_team_02_url');
     }
 
-    submitBack(e) {
+    submitBack = (e) => {
         e.preventDefault();
         this.props.state.wizard = 'display_name';
         this.props.updateParent(this.props.state);
     }
 
-    submitNext(e) {
+    submitNext = (e) => {
         e.preventDefault();
 
         const name = ReactDOM.findDOMNode(this.refs.name).value.trim();
         const cleanedName = URL.cleanUpUrlable(name);
         const urlRegex = /^[a-z]+([a-z\-0-9]+|(__)?)[a-z0-9]+$/g;
+        const {actions: {checkIfTeamExists, createTeam, trackEvent}} = this.props;
 
         if (!name) {
             this.setState({nameError: (
@@ -125,7 +155,7 @@ export default class TeamUrl extends React.Component {
         );
     }
 
-    handleFocus(e) {
+    handleFocus = (e) => {
         e.preventDefault();
         e.currentTarget.select();
     }
@@ -242,8 +272,3 @@ export default class TeamUrl extends React.Component {
         );
     }
 }
-
-TeamUrl.propTypes = {
-    state: PropTypes.object,
-    updateParent: PropTypes.func
-};
