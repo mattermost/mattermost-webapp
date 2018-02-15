@@ -8,6 +8,10 @@ import {Client4} from 'mattermost-redux/client';
 import {postListScrollChange} from 'actions/global_actions.jsx';
 
 export default class PostImageEmbed extends React.PureComponent {
+    static proxyEncodeImageUrl = (url) => {
+        return Client4.getBaseRoute() + '/image?url=' + encodeURIComponent(url);
+    }
+
     static propTypes = {
 
         /**
@@ -99,14 +103,11 @@ export default class PostImageEmbed extends React.PureComponent {
 
     render() {
         if (this.state.errored || !this.state.loaded) {
+            // scroll pop could be improved with a placeholder when !this.state.loaded
             return null;
         }
-
-        var url = this.props.link;
-        if (global.window.mm_config.HasImageProxy === 'true') {
-            url = Client4.getBaseRoute() + '/image?url=' + encodeURIComponent(url);
-        }
-
+        const imagesAreProxied = global.window.mm_config.HasImageProxy === 'true';
+        const url = imagesAreProxied ? this.proxyEncodeImageUrl(this.props.link) : this.props.link;
         return (
             <div
                 className='post__embed-container'

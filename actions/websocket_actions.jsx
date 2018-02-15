@@ -6,7 +6,7 @@ import {batchActions} from 'redux-batched-actions';
 import {ChannelTypes, EmojiTypes, PostTypes, TeamTypes, UserTypes} from 'mattermost-redux/action_types';
 import {getChannelAndMyMember, getChannelStats, viewChannel} from 'mattermost-redux/actions/channels';
 import {setServerVersion} from 'mattermost-redux/actions/general';
-import {getPosts, getProfilesAndStatusesForPosts} from 'mattermost-redux/actions/posts';
+import {getPosts, getProfilesAndStatusesForPosts, getCustomEmojiForReaction} from 'mattermost-redux/actions/posts';
 import * as TeamActions from 'mattermost-redux/actions/teams';
 import {getMe} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
@@ -289,6 +289,8 @@ function handlePostEditEvent(msg) {
         channelId: post.channel_id
     });
 
+    getProfilesAndStatusesForPosts([post], dispatch, getState);
+
     // Update channel state
     if (ChannelStore.getCurrentId() === msg.broadcast.channel_id) {
         if (window.isActive) {
@@ -537,6 +539,8 @@ function handleWebrtc(msg) {
 
 function handleReactionAddedEvent(msg) {
     const reaction = JSON.parse(msg.data.reaction);
+
+    dispatch(getCustomEmojiForReaction(reaction.emoji_name));
 
     dispatch({
         type: PostTypes.RECEIVED_REACTION,
