@@ -3,15 +3,11 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Client4} from 'mattermost-redux/client';
 
 import {postListScrollChange} from 'actions/global_actions.jsx';
+import * as PostUtils from 'utils/post_utils.jsx';
 
 export default class PostImageEmbed extends React.PureComponent {
-    static proxyEncodeImageUrl = (url) => {
-        return Client4.getBaseRoute() + '/image?url=' + encodeURIComponent(url);
-    }
-
     static propTypes = {
 
         /**
@@ -70,7 +66,7 @@ export default class PostImageEmbed extends React.PureComponent {
         const img = new Image();
         img.onload = this.handleLoadComplete;
         img.onerror = this.handleLoadError;
-        img.src = src;
+        img.src = PostUtils.getImageSrc(src);
     }
 
     handleLoadComplete() {
@@ -106,8 +102,7 @@ export default class PostImageEmbed extends React.PureComponent {
             // scroll pop could be improved with a placeholder when !this.state.loaded
             return null;
         }
-        const imagesAreProxied = global.window.mm_config.HasImageProxy === 'true';
-        const url = imagesAreProxied ? this.proxyEncodeImageUrl(this.props.link) : this.props.link;
+
         return (
             <div
                 className='post__embed-container'
@@ -115,7 +110,7 @@ export default class PostImageEmbed extends React.PureComponent {
                 <img
                     onClick={this.onImageClick}
                     className='img-div cursor--pointer'
-                    src={url}
+                    src={PostUtils.getImageSrc(this.props.link)}
                 />
             </div>
         );
