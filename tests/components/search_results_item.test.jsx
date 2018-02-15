@@ -36,8 +36,6 @@ describe('components/SearchResultsItem', () => {
     let defaultProps;
 
     beforeEach(() => {
-        global.window.mm_config = {};
-
         mockFunc = jest.fn();
 
         user = {
@@ -84,6 +82,7 @@ describe('components/SearchResultsItem', () => {
             isFlagged: true,
             isBusy: false,
             status: 'hello',
+            enablePostUsernameOverride: false,
             onSelect: mockFunc,
             actions: {
                 closeRightHandSide: mockFunc
@@ -100,7 +99,6 @@ describe('components/SearchResultsItem', () => {
     });
 
     test('should match snapshot for deleted message with attachments by bot', () => {
-        global.window.mm_config.EnablePostUsernameOverride = 'true';
         const props = {
             ...defaultProps,
             post: {
@@ -109,9 +107,10 @@ describe('components/SearchResultsItem', () => {
                 state: 'deleted',
                 props: {
                     from_webhook: true,
-                    override_username: true
+                    override_username: 'overridden_username'
                 }
-            }
+            },
+            enablePostUsernameOverride: true
         };
 
         const wrapper = shallow(
