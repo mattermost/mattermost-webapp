@@ -11,8 +11,10 @@ import FastClick from 'fastclick';
 import {Route, Switch, Redirect} from 'react-router-dom';
 import {getClientConfig, getLicenseConfig, setUrl} from 'mattermost-redux/actions/general';
 import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {Client4} from 'mattermost-redux/client';
 
+import * as UserAgent from 'utils/user_agent.jsx';
 import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
 import {trackLoadTime} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
@@ -184,6 +186,18 @@ export default class Root extends React.Component {
         }
 
         loadRecentlyUsedCustomEmojis()(store.dispatch, store.getState);
+
+        const iosDownloadLink = getConfig(store.getState()).IosAppDownloadLink;
+        const androidDownloadLink = getConfig(store.getState()).AndroidAppDownloadLink;
+
+        // redirect to the mobile landing page if the user hasn't seen it before
+        if (iosDownloadLink && UserAgent.isIosWeb() && !BrowserStore.hasSeenLandingPage()) {
+            this.props.history.push('/get_ios_app');
+            BrowserStore.setLandingPageSeen(true);
+        } else if (androidDownloadLink && UserAgent.isAndroidWeb() && !BrowserStore.hasSeenLandingPage()) {
+            this.props.history.push('/get_android_app');
+            BrowserStore.setLandingPageSeen(true);
+        }
     }
 
     localizationChanged() {

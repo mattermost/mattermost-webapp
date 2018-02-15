@@ -366,8 +366,7 @@ export default class StorageSettings extends AdminSettings {
                     id='imageProxyType'
                     values={[
                         {value: '', text: Utils.localizeMessage('admin.image.proxyTypeNone', 'None')},
-                        {value: 'atmos/camo', text: 'atmos/camo'},
-                        {value: 'willnorris/imageproxy', text: 'willnorris/imageproxy'}
+                        {value: 'atmos/camo', text: 'atmos/camo'}
                     ]}
                     label={
                         <FormattedMessage
@@ -413,7 +412,7 @@ export default class StorageSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.image.proxyOptionsDescription'
-                            defaultMessage='Additional options for basic image adjustments such as resizing, cropping, and rotation. Refer to your image proxy documentation to learn more about what options are supported.'
+                            defaultMessage='Additional options such as the URL signing key. Refer to your image proxy documentation to learn more about what options are supported.'
                         />
                     }
                     value={this.state.imageProxyOptions}
