@@ -4,7 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
-import {Link} from 'react-router-dom';
 
 import TeamInfoIcon from 'components/svg/team_info_icon';
 import * as Utils from 'utils/utils.jsx';
@@ -16,7 +15,8 @@ export default class SelectTeamItem extends React.PureComponent {
         loading: PropTypes.bool.isRequired
     };
 
-    handleTeamClick = () => {
+    handleTeamClick = (e) => {
+        e.preventDefault();
         this.props.onTeamClick(this.props.team);
     }
 
@@ -59,14 +59,14 @@ export default class SelectTeamItem extends React.PureComponent {
         return (
             <div className='signup-team-dir'>
                 {showDescriptionTooltip}
-                <Link
-                    to={`/${this.props.team.name}/channels/town-square`}
+                <a
+                    href='#'
                     id={Utils.createSafeId(this.props.team.display_name)}
                     onClick={this.handleTeamClick}
                 >
                     <span className='signup-team-dir__name'>{this.props.team.display_name}</span>
                     {icon}
-                </Link>
+                </a>
             </div>
         );
     }
