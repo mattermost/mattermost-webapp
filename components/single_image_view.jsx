@@ -132,7 +132,10 @@ export default class SingleImageView extends React.PureComponent {
 
     render() {
         const {fileInfo} = this.props;
-        const {loaded} = this.state;
+        const {
+            loaded,
+            viewPortWidth
+        } = this.state;
 
         const {previewHeight, previewWidth} = this.computeImageDimensions();
         let minPreviewClass = '';
@@ -181,8 +184,11 @@ export default class SingleImageView extends React.PureComponent {
         }
 
         let imageStyle = {height};
-        const imageContainerStyle = {width};
         let imageLoadedStyle = {height};
+        let imageContainerStyle = {};
+        if (width < viewPortWidth && height === PREVIEW_IMAGE_MAX_HEIGHT) {
+            imageContainerStyle = {width};
+        }
 
         if (loaded) {
             viewImageModal = (
