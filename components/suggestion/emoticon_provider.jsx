@@ -104,6 +104,11 @@ export default class EmoticonProvider {
                 }
             } else if (name.indexOf(partialName) !== -1) {
                 // This is a custom emoji so it only has one name
+                if (EmojiStore.hasSystemEmoji(name)) {
+                    // System emojis take precedence over custom ones
+                    continue;
+                }
+
                 matched.push({name, emoji});
             }
         }

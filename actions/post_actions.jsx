@@ -16,8 +16,8 @@ import ChannelStore from 'stores/channel_store.jsx';
 import PostStore from 'stores/post_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
-import {getSelectedPostId} from 'selectors/rhs';
-import {ActionTypes, Constants} from 'utils/constants.jsx';
+import {getSelectedPostId, getRhsState} from 'selectors/rhs';
+import {ActionTypes, Constants, RHSStates} from 'utils/constants.jsx';
 import {EMOJI_PATTERN} from 'utils/emoticons.jsx';
 import * as UserAgent from 'utils/user_agent';
 
@@ -93,12 +93,24 @@ function dispatchPostActions(post, websocketMessageProps) {
     sendDesktopNotification(post, websocketMessageProps);
 }
 
-export function flagPost(postId) {
-    PostActions.flagPost(postId)(dispatch, getState);
+export async function flagPost(postId) {
+    await PostActions.flagPost(postId)(dispatch, getState);
+
+    const rhsState = getRhsState(getState());
+
+    if (rhsState === RHSStates.FLAG) {
+        dispatch(RhsActions.getFlaggedPosts());
+    }
 }
 
-export function unflagPost(postId) {
-    PostActions.unflagPost(postId)(dispatch, getState);
+export async function unflagPost(postId) {
+    await PostActions.unflagPost(postId)(dispatch, getState);
+
+    const rhsState = getRhsState(getState());
+
+    if (rhsState === RHSStates.FLAG) {
+        dispatch(RhsActions.getFlaggedPosts());
+    }
 }
 
 export function addReaction(channelId, postId, emojiName) {

@@ -1,7 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {createDirectChannel, getChannelAndMyMember, getChannelStats, getMyChannelMember, joinChannel, markChannelAsRead, viewChannel} from 'mattermost-redux/actions/channels';
+import {
+    createDirectChannel,
+    getChannelAndMyMember,
+    getChannelStats,
+    getMyChannelMember,
+    joinChannel,
+    markChannelAsRead,
+    selectChannel
+} from 'mattermost-redux/actions/channels';
 import {getPostThread} from 'mattermost-redux/actions/posts';
 import {removeUserFromTeam} from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
@@ -49,7 +57,6 @@ export function emitChannelClickEvent(channel) {
 
         getMyChannelMemberPromise.then(() => {
             getChannelStats(chan.id)(dispatch, getState);
-            viewChannel(chan.id, oldChannelId)(dispatch, getState);
 
             // Mark previous and next channel as read
             dispatch(markChannelAsRead(chan.id, oldChannelId));
@@ -492,21 +499,23 @@ export async function redirectUserToDefaultTeam() {
         }
     }
 
-    if (teams[teamId]) {
+    const team = teams[teamId];
+    if (team) {
         const channelId = BrowserStore.getGlobalItem(teamId);
         const channel = ChannelStore.getChannelById(channelId);
-        if (channel) {
-            redirect(teams[teamId].name, channel.name);
+        let channelName = Constants.DEFAULT_CHANNEL;
+        if (channel && channel.team_id === team.id) {
+            dispatch(selectChannel(channel.id));
+            channelName = channel.name;
         } else if (channelId) {
             const {data} = await getChannelAndMyMember(channelId)(dispatch, getState);
             if (data) {
-                redirect(teams[teamId].name, data.channel.name);
-            } else {
-                redirect(teams[teamId].name, Constants.DEFAULT_CHANNEL);
+                dispatch(selectChannel(channelId));
+                channelName = data.channel.name;
             }
-        } else {
-            redirect(teams[teamId].name, Constants.DEFAULT_CHANNEL);
         }
+
+        redirect(team.name, channelName);
     } else {
         browserHistory.push('/select_team');
     }

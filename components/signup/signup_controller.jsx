@@ -69,18 +69,9 @@ export default class SignupController extends React.Component {
         BrowserStore.removeGlobalItem('team');
         if (this.props.location.search) {
             const params = new URLSearchParams(this.props.location.search);
-            let hash = params.get('h');
-            if (hash == null) {
-                hash = '';
-            }
-            let data = params.get('d');
-            if (data == null) {
-                data = '';
-            }
-            let inviteId = params.get('id');
-            if (inviteId == null) {
-                inviteId = '';
-            }
+            const hash = params.get('h') || '';
+            const data = params.get('d') || '';
+            const inviteId = params.get('id') || '';
 
             const userLoggedIn = UserStore.getCurrentUser() != null;
 

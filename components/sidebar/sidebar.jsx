@@ -437,13 +437,13 @@ export default class Sidebar extends React.PureComponent {
         this.setState({newChannelModalType: ''});
     }
 
-    showMoreDirectChannelsModal = (startingUsers) => {
+    showMoreDirectChannelsModal = () => {
         trackEvent('ui', 'ui_channels_more_direct');
-        this.setState({showDirectChannelsModal: true, startingUsers});
+        this.setState({showDirectChannelsModal: true});
     }
 
     hideMoreDirectChannelsModal = () => {
-        this.setState({showDirectChannelsModal: false, startingUsers: null});
+        this.setState({showDirectChannelsModal: false});
     }
 
     openQuickSwitcher = (e) => {
@@ -620,7 +620,7 @@ export default class Sidebar extends React.PureComponent {
             moreDirectChannelsModal = (
                 <MoreDirectChannels
                     onModalDismissed={this.hideMoreDirectChannelsModal}
-                    startingUsers={this.state.startingUsers}
+                    isExistingChannel={false}
                 />
             );
         }
