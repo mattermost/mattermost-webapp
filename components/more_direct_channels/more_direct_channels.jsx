@@ -24,11 +24,42 @@ const MAX_SELECTABLE_VALUES = Constants.MAX_USERS_IN_GM - 1;
 
 export default class MoreDirectChannels extends React.Component {
     static propTypes = {
+
+        /*
+         * Current user's ID
+         */
         currentUserId: PropTypes.string.isRequired,
-        startingUsers: PropTypes.arrayOf(PropTypes.object),
+
+        /*
+         * List of current channel members of existing channel
+         */
+        currentChannelMembers: PropTypes.arrayOf(PropTypes.object),
+
+        /*
+         * Whether the modal is for existing channel or not
+         */
+        isExistingChannel: PropTypes.bool.isRequired,
+
+        /*
+         * Function to call on modal dismissed
+         */
         onModalDismissed: PropTypes.func,
+
+        /**
+         * Function to call on modal hide
+         */
+        onHide: PropTypes.func.isRequired,
+
         actions: PropTypes.shape({
+
+            /**
+             * Function to get profiles
+             */
             getProfiles: PropTypes.func.isRequired,
+
+            /**
+             * Function to get profiles in team
+             */
             getProfilesInTeam: PropTypes.func.isRequired
         }).isRequired
     }
@@ -51,9 +82,9 @@ export default class MoreDirectChannels extends React.Component {
 
         const values = [];
 
-        if (props.startingUsers) {
-            for (let i = 0; i < props.startingUsers.length; i++) {
-                const user = Object.assign({}, props.startingUsers[i]);
+        if (props.currentChannelMembers) {
+            for (let i = 0; i < props.currentChannelMembers.length; i++) {
+                const user = Object.assign({}, props.currentChannelMembers[i]);
                 user.value = user.id;
                 user.label = '@' + user.username;
                 values.push(user);
@@ -100,6 +131,10 @@ export default class MoreDirectChannels extends React.Component {
 
         if (this.props.onModalDismissed) {
             this.props.onModalDismissed();
+        }
+
+        if (this.props.onHide) {
+            this.props.onHide();
         }
     }
 
@@ -306,7 +341,7 @@ export default class MoreDirectChannels extends React.Component {
 
     render() {
         let note;
-        if (this.props.startingUsers) {
+        if (this.props.currentChannelMembers) {
             if (this.state.values && this.state.values.length >= MAX_SELECTABLE_VALUES) {
                 note = (
                     <FormattedMessage
@@ -314,7 +349,7 @@ export default class MoreDirectChannels extends React.Component {
                         defaultMessage='You’ve reached the maximum number of people for this conversation. Consider creating a private channel instead.'
                     />
                 );
-            } else {
+            } else if (this.props.isExistingChannel) {
                 note = (
                     <FormattedMessage
                         id='more_direct_channels.new_convo_note'

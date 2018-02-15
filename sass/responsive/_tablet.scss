@@ -98,7 +98,7 @@
             .attachment__image {
                 &.attachment__image--openraph {
                     max-height: 70px;
-                    max-width: 300px;
+                    max-width: 100%;
 
                     &.loading {
                         height: 70px;

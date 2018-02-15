@@ -97,6 +97,7 @@ export default class NeedsTeam extends React.Component {
 
         this.state = {
             team,
+            returnTo: '',
             finishedFetchingChannels: false
         };
     }
@@ -104,6 +105,10 @@ export default class NeedsTeam extends React.Component {
     componentWillReceiveProps(nextProps) {
         if (this.props.match.params.team !== nextProps.match.params.team) {
             this.setState({team: this.updateCurrentTeam(nextProps)});
+        }
+
+        if (this.props.location.pathname !== nextProps.location.pathname && nextProps.location.pathname.includes('/pl/')) {
+            this.setState({returnTo: this.props.location.pathname});
         }
     }
 
@@ -264,7 +269,12 @@ export default class NeedsTeam extends React.Component {
                                         <Switch>
                                             <Route
                                                 path={`${this.props.match.url}/pl/:postid`}
-                                                component={PermalinkView}
+                                                render={(props) => (
+                                                    <PermalinkView
+                                                        {...props}
+                                                        returnTo={this.state.returnTo}
+                                                    />
+                                                )}
                                             />
                                             <Route
                                                 path={'/:team/:path(channels|messages)/:identifier'}
