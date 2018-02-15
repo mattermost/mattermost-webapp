@@ -4,6 +4,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import {isInternetExplorer} from 'utils/user_agent.jsx';
+
 export default class AutosizeTextarea extends React.Component {
     static propTypes = {
         value: PropTypes.string,
@@ -97,6 +99,11 @@ export default class AutosizeTextarea extends React.Component {
             heightProps.height = this.height;
         }
 
+        let hiddenValue = value || defaultValue;
+        if (!isInternetExplorer()) {
+            hiddenValue = hiddenValue || placeholder;
+        }
+
         return (
             <div>
                 <textarea
@@ -118,7 +125,7 @@ export default class AutosizeTextarea extends React.Component {
                         placeholder={placeholder}
                         rows='1'
                         {...otherProps}
-                        value={value || defaultValue || placeholder}
+                        value={hiddenValue}
                     />
                 </div>
             </div>

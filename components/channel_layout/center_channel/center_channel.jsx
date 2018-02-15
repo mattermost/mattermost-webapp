@@ -15,6 +15,18 @@ export default class CenterChannel extends React.PureComponent {
         lastChannelPath: PropTypes.string.isRequired
     };
 
+    constructor(params) {
+        super(params);
+        this.state = {
+            returnTo: ''
+        };
+    }
+    componentWillReceiveProps(nextProps) {
+        if (this.props.location.pathname !== nextProps.location.pathname && nextProps.location.pathname.includes('/pl/')) {
+            this.setState({returnTo: this.props.location.pathname});
+        }
+    }
+
     render() {
         const {lastChannelPath} = this.props;
         const url = this.props.params.match.url;
@@ -33,7 +45,12 @@ export default class CenterChannel extends React.PureComponent {
                     <Switch>
                         <Route
                             path={`${url}/pl/:postid`}
-                            component={PermalinkView}
+                            render={(props) => (
+                                <PermalinkView
+                                    {...props}
+                                    returnTo={this.state.returnTo}
+                                />
+                            )}
                         />
                         <Route
                             path={'/:team/:path(channels|messages)/:identifier'}

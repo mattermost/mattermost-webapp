@@ -117,16 +117,13 @@ export function emitCloseRightHandSide() {
     dispatch(closeRightHandSide());
 }
 
-export async function emitPostFocusEvent(postId) {
+export async function emitPostFocusEvent(postId, returnTo = '') {
     loadChannelsForCurrentUser();
     const {data} = await getPostThread(postId)(dispatch, getState);
 
     if (data) {
         const channelId = data.posts[data.order[0]].channel_id;
         const channel = ChannelStore.getChannelById(channelId);
-        if (!channel) {
-            browserHistory.push('/error?type=' + ErrorPageTypes.PERMALINK_NOT_FOUND);
-        }
 
         if (channel && channel.type === Constants.DM_CHANNEL) {
             loadNewDMIfNeeded(channel.id);
@@ -136,7 +133,7 @@ export async function emitPostFocusEvent(postId) {
 
         await doFocusPost(channelId, postId, data);
     } else {
-        browserHistory.push('/error?type=' + ErrorPageTypes.PERMALINK_NOT_FOUND);
+        browserHistory.push(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);
     }
 }
 

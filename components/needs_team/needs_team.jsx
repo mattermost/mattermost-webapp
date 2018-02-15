@@ -186,6 +186,7 @@ export default class NeedsTeam extends React.Component {
         if (this.state.team === null || this.state.finishedFetchingChannels === false) {
             return <div/>;
         }
+        const teamType = this.state.team ? this.state.team.type : '';
 
         return (
             <Switch>
@@ -201,7 +202,7 @@ export default class NeedsTeam extends React.Component {
                     render={(renderProps) => (
                         <ChannelController
                             pathName={renderProps.location.pathname}
-                            teamType={this.state.team ? this.state.team.type : ''}
+                            teamType={teamType}
                         />
                     )}
                 />
