@@ -10,6 +10,12 @@ import DropdownSetting from './dropdown_setting.jsx';
 import JobsTable from './jobs';
 import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting.jsx';
+import RadioSetting from './radio_setting';
+
+const exportFormats = {
+    EXPORT_FORMAT_ACTIANCE: 'actiance',
+    EXPORT_FORMAT_GLOBALRELAY: 'globalrelay'
+};
 
 export default class MessageExportSettings extends AdminSettings {
     constructor(props) {
@@ -23,17 +29,37 @@ export default class MessageExportSettings extends AdminSettings {
         config.MessageExportSettings.EnableExport = this.state.enableComplianceExport;
         config.MessageExportSettings.ExportFormat = this.state.exportFormat;
         config.MessageExportSettings.DailyRunTime = this.state.exportJobStartTime;
-        config.MessageExportSettings.GlobalRelayEmailAddress = this.state.globalRelayEmailAddress;
+
+        if (this.state.exportFormat === exportFormats.EXPORT_FORMAT_GLOBALRELAY) {
+            config.MessageExportSettings.GlobalRelaySettings = {
+                CustomerType: this.state.globalRelayCustomerType,
+                SmtpUsername: this.state.globalRelaySmtpUsername,
+                SmtpPassword: this.state.globalRelaySmtpPassword,
+                EmailAddress: this.state.globalRelayEmailAddress
+
+            };
+        }
         return config;
     }
 
     getStateFromConfig(config) {
-        return {
+        const state = {
             enableComplianceExport: config.MessageExportSettings.EnableExport,
             exportFormat: config.MessageExportSettings.ExportFormat,
+<<<<<<< HEAD
             exportJobStartTime: config.MessageExportSettings.DailyRunTime,
             globalRelayEmailAddress: config.MessageExportSettings.GlobalRelayEmailAddress,
+=======
+            exportJobStartTime: config.MessageExportSettings.DailyRunTime
+>>>>>>> Added system console integration for new GlobalRelay config values
         };
+        if (config.MessageExportSettings.GlobalRelaySettings) {
+            state.globalRelayCustomerType = config.MessageExportSettings.GlobalRelaySettings.CustomerType;
+            state.globalRelaySmtpUsername = config.MessageExportSettings.GlobalRelaySettings.SmtpUsername;
+            state.globalRelaySmtpPassword = config.MessageExportSettings.GlobalRelaySettings.SmtpPassword;
+            state.globalRelayEmailAddress = config.MessageExportSettings.GlobalRelaySettings.EmailAddress;
+        }
+        return state;
     }
 
     renderTitle() {
@@ -47,21 +73,90 @@ export default class MessageExportSettings extends AdminSettings {
 
     renderSettings() {
         const exportFormatOptions = [
-            {value: 'actiance', text: Utils.localizeMessage('admin.complianceExport.exportFormat.actiance', 'Actiance XML')},
-            // {value: 'globalrelay', text: Utils.localizeMessage('admin.complianceExport.exportFormat.globalrelay', 'GlobalRelay EML')},
+            {value: exportFormats.EXPORT_FORMAT_ACTIANCE, text: Utils.localizeMessage('admin.complianceExport.exportFormat.actiance', 'Actiance XML')},
+            {value: exportFormats.EXPORT_FORMAT_GLOBALRELAY, text: Utils.localizeMessage('admin.complianceExport.exportFormat.globalrelay', 'GlobalRelay EML')}
         ];
 
-        // if export format is globalrelay, user must set email address
-        var dropdownHelpText;
-        var globalRelayEmail;
-        if (this.state.exportFormat === 'globalrelay') {
-            globalRelayEmail = (
+        // if the export format is globalrelay, the user needs to set some additional parameters
+        let globalRelaySettings;
+        let dropdownHelpText;
+        if (this.state.exportFormat === exportFormats.EXPORT_FORMAT_GLOBALRELAY) {
+            const globalRelayCustomerType = (
+                <RadioSetting
+                    id='globalRelayCustomerType'
+                    values={[
+                        {value: 'A9', text: Utils.localizeMessage('admin.complianceExport.globalRelayCustomerType.a9.description', 'A9/Type 9')},
+                        {value: 'A10', text: Utils.localizeMessage('admin.complianceExport.globalRelayCustomerType.a10.description', 'A10/Type 10')}
+                    ]}
+                    label={
+                        <FormattedMessage
+                            id='admin.complianceExport.globalRelayCustomerType.title'
+                            defaultMessage='Customer Type:'
+                        />
+                    }
+                    helpText={
+                        <FormattedMessage
+                            id='admin.complianceExport.globalRelayCustomerType.description'
+                            defaultMessage='The type of GlobalRelay customer account that your organization has.'
+                        />
+                    }
+                    value={this.state.globalRelayCustomerType}
+                    disabled={!this.state.enableComplianceExport}
+                    onChange={this.handleChange}
+                />
+            );
+
+            const globalRelaySmtpUsername = (
+                <TextSetting
+                    id='globalRelaySmtpUsername'
+                    label={
+                        <FormattedMessage
+                            id='admin.complianceExport.globalRelaySmtpUsername.title'
+                            defaultMessage='SMTP Username:'
+                        />
+                    }
+                    placeholder={Utils.localizeMessage('admin.complianceExport.globalRelaySmtpUsername.example', 'E.g.: "globalRelayUser"')}
+                    helpText={
+                        <FormattedMessage
+                            id='admin.complianceExport.globalRelaySmtpUsername.description'
+                            defaultMessage='The username that is used to authenticate against the GlobalRelay SMTP server.'
+                        />
+                    }
+                    value={this.state.globalRelaySmtpUsername === null ? '' : this.state.globalRelaySmtpUsername}
+                    disabled={!this.state.enableComplianceExport}
+                    onChange={this.handleChange}
+                />
+            );
+
+            const globalRelaySmtpPassword = (
+                <TextSetting
+                    id='globalRelaySmtpPassword'
+                    label={
+                        <FormattedMessage
+                            id='admin.complianceExport.globalRelaySmtpPassword.title'
+                            defaultMessage='SMTP Password:'
+                        />
+                    }
+                    placeholder={Utils.localizeMessage('admin.complianceExport.globalRelaySmtpPassword.example', 'E.g.: "globalRelayPassword"')}
+                    helpText={
+                        <FormattedMessage
+                            id='admin.complianceExport.globalRelaySmtpPassword.description'
+                            defaultMessage='The password that is used to authenticate against the GlobalRelay SMTP server.'
+                        />
+                    }
+                    value={this.state.globalRelaySmtpPassword === null ? '' : this.state.globalRelaySmtpPassword}
+                    disabled={!this.state.enableComplianceExport}
+                    onChange={this.handleChange}
+                />
+            );
+
+            const globalRelayEmail = (
                 <TextSetting
                     id='globalRelayEmailAddress'
                     label={
                         <FormattedMessage
                             id='admin.complianceExport.globalRelayEmailAddress.title'
-                            defaultMessage='GlobalRelay Email Address:'
+                            defaultMessage='Email Address:'
                         />
                     }
                     placeholder={Utils.localizeMessage('admin.complianceExport.globalRelayEmailAddress.example', 'E.g.: "globalrelay@mattermost.com"')}
@@ -75,6 +170,23 @@ export default class MessageExportSettings extends AdminSettings {
                     disabled={!this.state.enableComplianceExport}
                     onChange={this.handleChange}
                 />
+            );
+
+            globalRelaySettings = (
+                <SettingsGroup
+                    id={'globalRelaySettings'}
+                    header={
+                        <FormattedMessage
+                            id='admin.complianceExport.globalRelaySettings.title'
+                            defaultMessage='GlobalRelay Settings:'
+                        />
+                    }
+                >
+                    {globalRelayCustomerType}
+                    {globalRelaySmtpUsername}
+                    {globalRelaySmtpPassword}
+                    {globalRelayEmail}
+                </SettingsGroup>
             );
 
             dropdownHelpText = (
@@ -167,7 +279,7 @@ export default class MessageExportSettings extends AdminSettings {
                     onChange={this.handleChange}
                 />
 
-                {globalRelayEmail}
+                {globalRelaySettings}
 
                 <JobsTable
                     jobType={JobTypes.MESSAGE_EXPORT}
