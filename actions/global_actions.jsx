@@ -8,8 +8,7 @@ import {
     getMyChannelMember,
     joinChannel,
     markChannelAsRead,
-    selectChannel,
-    viewChannel
+    selectChannel
 } from 'mattermost-redux/actions/channels';
 import {getPostThread} from 'mattermost-redux/actions/posts';
 import {removeUserFromTeam} from 'mattermost-redux/actions/teams';
@@ -58,7 +57,6 @@ export function emitChannelClickEvent(channel) {
 
         getMyChannelMemberPromise.then(() => {
             getChannelStats(chan.id)(dispatch, getState);
-            viewChannel(chan.id, oldChannelId)(dispatch, getState);
 
             // Mark previous and next channel as read
             dispatch(markChannelAsRead(chan.id, oldChannelId));
