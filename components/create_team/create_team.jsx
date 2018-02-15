@@ -6,19 +6,33 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Route, Switch, Redirect} from 'react-router-dom';
 
-import ChannelStore from 'stores/channel_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
 import AnnouncementBar from 'components/announcement_bar';
 import BackButton from 'components/common/back_button.jsx';
+
 import TeamUrl from 'components/create_team/components/team_url';
 import DisplayName from 'components/create_team/components/display_name';
 
-export default class CreateTeamController extends React.Component {
+export default class CreateTeam extends React.PureComponent {
+    static propTypes = {
+
+        /**
+         * children components
+         */
+        children: PropTypes.node,
+
+        /**
+         * Object containing information about current team
+         */
+        currentTeam: PropTypes.object,
+
+        /**
+         * Object containing information about current channel
+         */
+        currentChannel: PropTypes.object
+    }
+
     constructor(props) {
         super(props);
-
-        this.submit = this.submit.bind(this);
-        this.updateParent = this.updateParent.bind(this);
 
         const state = {};
         state.team = {};
@@ -26,11 +40,7 @@ export default class CreateTeamController extends React.Component {
         this.state = state;
     }
 
-    submit() {
-        // todo fill in
-    }
-
-    updateParent(state) {
+    updateParent = (state) => {
         this.setState(state);
         this.props.history.push('/create_team/' + state.wizard);
     }
@@ -49,8 +59,8 @@ export default class CreateTeamController extends React.Component {
         }
 
         let url = '/select_team';
-        const team = TeamStore.getCurrent();
-        const channel = ChannelStore.getCurrent();
+        const team = this.props.currentTeam;
+        const channel = this.props.currentChannel;
         if (team) {
             url = `/${team.name}`;
             if (channel) {
@@ -99,7 +109,3 @@ export default class CreateTeamController extends React.Component {
         );
     }
 }
-
-CreateTeamController.propTypes = {
-    children: PropTypes.node
-};
