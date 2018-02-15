@@ -11,10 +11,14 @@ import {RHSStates} from 'utils/constants.jsx';
 import Navbar from './navbar.jsx';
 
 function mapStateToProps(state) {
+    const config = state.entities.general.config;
+    const enableWebrtc = config.EnableWebrtc === 'true';
+
     const rhsState = getRhsState(state);
 
     return {
-        isPinnedPosts: rhsState === RHSStates.PIN
+        isPinnedPosts: rhsState === RHSStates.PIN,
+        enableWebrtc
     };
 }
 

@@ -33,7 +33,22 @@ export default class SystemUsersList extends React.Component {
 
         teamId: PropTypes.string.isRequired,
         term: PropTypes.string.isRequired,
-        onTermChange: PropTypes.func.isRequired
+        onTermChange: PropTypes.func.isRequired,
+
+        /**
+         * Whether MFA is licensed and enabled.
+         */
+        mfaEnabled: PropTypes.bool.isRequired,
+
+        /**
+         * Whether or not user access tokens are enabled.
+         */
+        enableUserAccessTokens: PropTypes.bool.isRequired,
+
+        /**
+         * Whether or not the experimental authentication transfer is enabled.
+         */
+        experimentalEnableAuthenticationTransfer: PropTypes.bool.isRequired
     };
 
     constructor(props) {
@@ -170,10 +185,7 @@ export default class SystemUsersList extends React.Component {
             );
         }
 
-        const mfaEnabled = global.window.mm_license.IsLicensed === 'true' &&
-            global.window.mm_license.MFA === 'true' &&
-            global.window.mm_config.EnableMultifactorAuthentication === 'true';
-        if (mfaEnabled) {
+        if (this.props.mfaEnabled) {
             info.push(', ');
 
             if (user.mfa_active) {
@@ -256,6 +268,9 @@ export default class SystemUsersList extends React.Component {
                     extraInfo={extraInfo}
                     actions={[SystemUsersDropdown]}
                     actionProps={{
+                        mfaEnabled: this.props.mfaEnabled,
+                        enableUserAccessTokens: this.props.enableUserAccessTokens,
+                        experimentalEnableAuthenticationTransfer: this.props.experimentalEnableAuthenticationTransfer,
                         doPasswordReset: this.doPasswordReset,
                         doManageTeams: this.doManageTeams,
                         doManageRoles: this.doManageRoles,

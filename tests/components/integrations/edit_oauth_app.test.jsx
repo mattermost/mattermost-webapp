@@ -5,11 +5,9 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {browserHistory} from 'utils/browser_history';
-import EditOAuthApp from 'components/integrations/components/edit_oauth_app/edit_oauth_app.jsx';
+import EditOAuthApp from 'components/integrations/edit_oauth_app/edit_oauth_app.jsx';
 
 describe('components/integrations/EditOAuthApp', () => {
-    global.window.mm_config = {};
-
     const oauthApp = {
         id: 'facxd9wpzpbpfp8pad78xj75pr',
         name: 'testApp',
@@ -40,16 +38,9 @@ describe('components/integrations/EditOAuthApp', () => {
         actions: {
             getOAuthApp: jest.fn(),
             editOAuthApp: jest.fn()
-        }
+        },
+        enableOAuthServiceProvider: true
     };
-
-    beforeEach(() => {
-        global.window.mm_config.EnableOAuthServiceProvider = 'true';
-    });
-
-    afterEach(() => {
-        global.window.mm_config = {};
-    });
 
     test('should match snapshot, loading', () => {
         const wrapper = shallow(
@@ -80,8 +71,7 @@ describe('components/integrations/EditOAuthApp', () => {
     });
 
     test('should match snapshot when EnableOAuthServiceProvider is false', () => {
-        global.window.mm_config.EnableOAuthServiceProvider = 'false';
-        const props = {...baseProps, oauthApp};
+        const props = {...baseProps, oauthApp, enableOAuthServiceProvider: false};
         const wrapper = shallow(
             <EditOAuthApp {...props}/>
         );

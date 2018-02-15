@@ -45,6 +45,8 @@ import trLocaleData from 'react-intl/locale-data/tr';
 import ruLocaleData from 'react-intl/locale-data/ru';
 import zhLocaleData from 'react-intl/locale-data/zh';
 
+import store from 'stores/redux_store.jsx';
+
 // should match the values in model/config.go
 const languages = {
     de: {
@@ -133,34 +135,17 @@ const languages = {
     }
 };
 
-let availableLanguages = null;
-
-function setAvailableLanguages() {
-    let available;
-    availableLanguages = {};
-
-    if (global.window.mm_config.AvailableLocales) {
-        available = global.window.mm_config.AvailableLocales.split(',');
-    } else {
-        available = Object.keys(languages);
-    }
-
-    available.forEach((l) => {
-        if (languages[l]) {
-            availableLanguages[l] = languages[l];
-        }
-    });
-}
-
 export function getAllLanguages() {
     return languages;
 }
 
 export function getLanguages() {
-    if (!availableLanguages) {
-        setAvailableLanguages();
+    const config = store.getState().entities.general.config;
+    if (!config.AvailableLocales) {
+        return getAllLanguages();
     }
-    return availableLanguages;
+
+    return config.AvailableLocales.split(',').filter((l) => languages[l]).map((l) => languages[l]);
 }
 
 export function getLanguageInfo(locale) {

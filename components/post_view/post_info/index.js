@@ -11,11 +11,15 @@ import {Preferences} from 'utils/constants.jsx';
 import PostInfo from './post_info.jsx';
 
 function mapStateToProps(state, ownProps) {
+    const config = state.entities.general.config;
+    const enableEmojiPicker = config.EnableEmojiPicker === 'true';
+
     return {
         ...ownProps,
         useMilitaryTime: getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, false),
         isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, ownProps.post.id, null) != null,
-        isMobile: state.views.channel.mobileView
+        isMobile: state.views.channel.mobileView,
+        enableEmojiPicker
     };
 }
 

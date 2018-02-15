@@ -9,8 +9,12 @@ import * as Selectors from 'mattermost-redux/selectors/entities/admin';
 import Audits from './audits.jsx';
 
 function mapStateToProps(state, ownProps) {
+    const license = state.entities.general.license;
+    const isLicensed = license.IsLicensed === 'true';
+
     return {
         ...ownProps,
+        isLicensed,
         audits: Object.values(Selectors.getAudits(state))
     };
 }

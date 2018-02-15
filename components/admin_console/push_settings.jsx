@@ -78,7 +78,7 @@ export default class PushSettings extends AdminSettings {
         if (!config.EmailSettings.SendPushNotifications) {
             pushNotificationServerType = PUSH_NOTIFICATIONS_OFF;
         } else if (config.EmailSettings.PushNotificationServer === Constants.MHPNS &&
-            global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.MHPNS === 'true') {
+            this.props.license.IsLicensed === 'true' && this.props.license.MHPNS === 'true') {
             pushNotificationServerType = PUSH_NOTIFICATIONS_MHPNS;
             agree = true;
         } else if (config.EmailSettings.PushNotificationServer === Constants.MTPNS) {
@@ -112,7 +112,7 @@ export default class PushSettings extends AdminSettings {
     renderSettings() {
         const pushNotificationServerTypes = [];
         pushNotificationServerTypes.push({value: PUSH_NOTIFICATIONS_OFF, text: Utils.localizeMessage('admin.email.pushOff', 'Do not send push notifications')});
-        if (global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.MHPNS === 'true') {
+        if (this.props.license.IsLicensed === 'true' && this.props.license.MHPNS === 'true') {
             pushNotificationServerTypes.push({value: PUSH_NOTIFICATIONS_MHPNS, text: Utils.localizeMessage('admin.email.mhpns', 'Use encrypted, production-quality HPNS connection to iOS and Android apps')});
         }
         pushNotificationServerTypes.push({value: PUSH_NOTIFICATIONS_MTPNS, text: Utils.localizeMessage('admin.email.mtpns', 'Use iOS and Android apps on iTunes and Google Play with TPNS')});

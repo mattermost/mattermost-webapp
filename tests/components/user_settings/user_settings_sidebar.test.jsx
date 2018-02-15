@@ -6,9 +6,9 @@ import {shallow} from 'enzyme';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
-import UserSettingsSidebar from 'components/user_settings/user_settings_sidebar/user_settings_sidebar.jsx';
+import UserSettingsSidebar from 'components/user_settings/sidebar/user_settings_sidebar.jsx';
 
-describe('components/user_settings/UserSettingsSidebar', () => {
+describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
     const defaultProps = {
         closeUnusedDirectMessages: 'after_seven_days',
         displayUnreadSection: 'true',

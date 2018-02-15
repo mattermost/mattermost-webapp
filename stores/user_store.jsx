@@ -29,7 +29,6 @@ class UserStoreClass extends EventEmitter {
     constructor() {
         super();
 
-        this.noAccounts = false;
         this.entities = {};
 
         store.subscribe(() => {
@@ -458,14 +457,6 @@ class UserStoreClass extends EventEmitter {
 
     getStatus(id) {
         return this.getStatuses()[id] || UserStatuses.OFFLINE;
-    }
-
-    getNoAccounts() {
-        return global.window.mm_config.NoAccounts === 'true';
-    }
-
-    setNoAccounts(noAccounts) {
-        this.noAccounts = noAccounts;
     }
 
     isSystemAdminForCurrentUser() {

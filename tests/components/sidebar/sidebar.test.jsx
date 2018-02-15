@@ -16,11 +16,6 @@ jest.mock('utils/utils', () => {
 });
 
 describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
-    global.window.mm_license = {IsLicensed: 'true'};
-    global.window.mm_config = {
-        RestrictPublicChannelCreation: Constants.PERMISSIONS_SYSTEM_ADMIN,
-        RestrictPrivateChannelCreation: Constants.PERMISSIONS_SYSTEM_ADMIN
-    };
     const allChannels = {
         c1: {
             id: 'c1',
@@ -110,8 +105,8 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             messageCount: 0,
             mentions: 0
         },
-        isSystemAdmin: true,
-        isTeamAdmin: false,
+        showCreatePublicChannelOption: true,
+        showCreatePrivateChannelOption: true,
         actions: {
             goToChannelById: jest.fn()
         }
@@ -154,14 +149,15 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             <Sidebar
                 {...{
                     ...defaultProps,
-                    isSystemAdmin: false
+                    showCreatePublicChannelOption: false,
+                    showCreatePrivateChannelOption: false
                 }}
             />
         );
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot, when render as an empty div becuse no have a tema or a user', () => {
+    test('should match snapshot, when render as an empty div because no have a team or a user', () => {
         let wrapper = shallow(
             <Sidebar
                 {...{

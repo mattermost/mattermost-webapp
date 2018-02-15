@@ -25,10 +25,27 @@ function mapStateToProps(state) {
         isAdmin = isAdmin || isTeamAdmin(teamMember.roles);
     }
 
+    const config = state.entities.general.config;
+
+    const siteName = config.SiteName;
+    const enableCustomEmoji = config.EnableCustomEmoji === 'true';
+    const enableIncomingWebhooks = config.EnableIncomingWebhooks === 'true';
+    const enableOutgoingWebhooks = config.EnableOutgoingWebhooks === 'true';
+    const enableCommands = config.EnableCommands === 'true';
+    const enableOAuthServiceProvider = config.EnableOAuthServiceProvider === 'true';
+    const enableOnlyAdminIntegrations = config.EnableOnlyAdminIntegrations === 'true';
+
     return {
         user,
         team,
-        isAdmin
+        isAdmin,
+        siteName,
+        enableCustomEmoji,
+        enableIncomingWebhooks,
+        enableOutgoingWebhooks,
+        enableCommands,
+        enableOAuthServiceProvider,
+        enableOnlyAdminIntegrations
     };
 }
 

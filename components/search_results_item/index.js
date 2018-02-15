@@ -12,10 +12,17 @@ import SearchResultsItem from './search_results_item.jsx';
 
 function mapStateToProps() {
     const getCommentCountForPost = makeGetCommentCountForPost();
-    return (state, ownProps) => ({
-        currentTeamName: getCurrentTeam(state).name,
-        commentCountForPost: getCommentCountForPost(state, {post: ownProps.post})
-    });
+
+    return (state, ownProps) => {
+        const config = state.entities.general.config;
+        const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
+
+        return {
+            currentTeamName: getCurrentTeam(state).name,
+            commentCountForPost: getCommentCountForPost(state, {post: ownProps.post}),
+            enablePostUsernameOverride
+        };
+    };
 }
 
 function mapDispatchToProps(dispatch) {

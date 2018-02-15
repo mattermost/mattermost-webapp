@@ -7,7 +7,7 @@ import {shallow} from 'enzyme';
 import {loadMe} from 'actions/user_actions.jsx';
 import {browserHistory} from 'utils/browser_history';
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-import Confirm from 'components/mfa/components/confirm.jsx';
+import Confirm from 'components/mfa/confirm.jsx';
 import Constants from 'utils/constants.jsx';
 
 jest.mock('actions/user_actions.jsx', () => ({

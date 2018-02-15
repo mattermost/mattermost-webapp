@@ -112,7 +112,7 @@ export default class EmailSettings extends AdminSettings {
 
         let emailNotificationContentsTypeDropdown = null;
         let emailNotificationContentsHelpText = null;
-        if (window.mm_license.EmailNotificationContents === 'true') {
+        if (this.props.license.EmailNotificationContents === 'true') {
             const emailNotificationContentsTypes = [];
             emailNotificationContentsTypes.push({value: EMAIL_NOTIFICATION_CONTENTS_FULL, text: Utils.localizeMessage('admin.email.notification.contents.full', 'Send full message contents')});
             emailNotificationContentsTypes.push({value: EMAIL_NOTIFICATION_CONTENTS_GENERIC, text: Utils.localizeMessage('admin.email.notification.contents.generic', 'Send generic description with only sender name')});

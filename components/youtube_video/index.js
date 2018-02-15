@@ -7,9 +7,14 @@ import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels'
 import YoutubeVideo from './youtube_video.jsx';
 
 function mapStateToProps(state, ownProps) {
+    const config = state.entities.general.config;
+
+    const googleDeveloperKey = config.GoogleDeveloperKey;
+
     return {
         ...ownProps,
-        currentChannelId: getCurrentChannelId(state)
+        currentChannelId: getCurrentChannelId(state),
+        googleDeveloperKey
     };
 }
 

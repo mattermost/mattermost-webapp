@@ -14,7 +14,7 @@ import DotMenu from 'components/dot_menu';
 import ProfilePicture from 'components/profile_picture.jsx';
 import UserProfile from 'components/user_profile.jsx';
 import DateSeparator from 'components/post_view/date_separator.jsx';
-import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content.jsx';
+import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
 import PostTime from 'components/post_view/post_time.jsx';
 import {browserHistory} from 'utils/browser_history';
@@ -90,6 +90,11 @@ export default class SearchResultsItem extends React.PureComponent {
         *  Data used for delete in DotMenu
         */
         commentCountForPost: PropTypes.number,
+
+        /**
+         * Whether post username overrides are to be respected.
+         */
+        enablePostUsernameOverride: PropTypes.bool.isRequired,
 
         /**
         *  Function used for shrinking LHS
@@ -200,7 +205,7 @@ export default class SearchResultsItem extends React.PureComponent {
         if (post.props &&
                 post.props.from_webhook &&
                 post.props.override_username &&
-                global.window.mm_config.EnablePostUsernameOverride === 'true') {
+                this.props.enablePostUsernameOverride) {
             overrideUsername = post.props.override_username;
             disableProfilePopover = true;
         }

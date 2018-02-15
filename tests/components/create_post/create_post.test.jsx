@@ -87,7 +87,8 @@ function createPost({
     ctrlSend = ctrlSendProp,
     currentUsersLatestPost = currentUsersLatestPostProp,
     commentCountForPost = commentCountForPostProp,
-    readOnlyChannel = false
+    readOnlyChannel = false,
+    canUploadFiles = true
 } = {}) {
     return (
         <CreatePost
@@ -105,18 +106,15 @@ function createPost({
             commentCountForPost={commentCountForPost}
             actions={actions}
             readOnlyChannel={readOnlyChannel}
+            canUploadFiles={canUploadFiles}
+            enableTutorial={true}
+            enableConfirmNotificationsToChannel={true}
+            enableEmojiPicker={true}
         />
     );
 }
 
 describe('components/create_post', () => {
-    window.mm_config = {
-        EnableEmojiPicker: 'true',
-        EnableFileAttachments: 'true',
-        EnableConfirmNotificationsToChannel: 'true',
-        EnableTutorial: 'true'
-    };
-
     it('should match snapshot, init', () => {
         const wrapper = shallow(createPost({}));
 
@@ -634,6 +632,11 @@ describe('components/create_post', () => {
 
     it('should match snapshot for read only channel', () => {
         const wrapper = shallow(createPost({readOnlyChannel: true}));
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should match snapshot when file upload disabled', () => {
+        const wrapper = shallow(createPost({canUploadFiles: false}));
         expect(wrapper).toMatchSnapshot();
     });
 });

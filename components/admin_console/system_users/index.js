@@ -10,9 +10,22 @@ import {getTeamsList} from 'mattermost-redux/selectors/entities/teams';
 import SystemUsers from './system_users.jsx';
 
 function mapStateToProps(state, ownProps) {
+    const license = state.entities.general.license;
+    const config = state.entities.general.config;
+
+    const siteName = config.SiteName;
+    const mfaEnabled = (license && license.IsLicensed === 'true' && license.MFA === 'true') &&
+        config.EnableMultifactorAuthentication === 'true';
+    const enableUserAccessTokens = config.EnableUserAccessTokens === 'true';
+    const experimentalEnableAuthenticationTransfer = config.ExperimentalEnableAuthenticationTransfer === 'true';
+
     return {
+        ...ownProps,
         teams: getTeamsList(state),
-        ...ownProps
+        siteName,
+        mfaEnabled,
+        enableUserAccessTokens,
+        experimentalEnableAuthenticationTransfer
     };
 }
 

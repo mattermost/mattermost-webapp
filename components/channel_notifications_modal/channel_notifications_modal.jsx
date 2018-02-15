@@ -206,7 +206,7 @@ export default class ChannelNotificationsModal extends React.Component {
                                     serverError={this.state.serverError}
                                 />
                                 <div className='divider-light'/>
-                                {global.mm_config.SendPushNotifications !== 'false' &&
+                                {this.props.sendPushNotifications &&
                                 <NotificationSection
                                     section={NotificationSections.PUSH}
                                     expand={this.state.activeSection === NotificationSections.PUSH}
@@ -247,5 +247,6 @@ ChannelNotificationsModal.propTypes = {
     onHide: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
     channelMember: PropTypes.object.isRequired,
-    currentUser: PropTypes.object.isRequired
+    currentUser: PropTypes.object.isRequired,
+    sendPushNotifications: PropTypes.bool.isRequired
 };

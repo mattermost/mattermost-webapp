@@ -24,7 +24,7 @@ import * as Utils from 'utils/utils.jsx';
 import ChannelInfoModal from 'components/channel_info_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
-import ChannelNotificationsModal from 'components/channel_notifications_modal/channel_notifications_modal.jsx';
+import ChannelNotificationsModal from 'components/channel_notifications_modal';
 import DeleteChannelModal from 'components/delete_channel_modal';
 import MoreDirectChannels from 'components/more_direct_channels';
 import NotifyCounts from 'components/notify_counts.jsx';
@@ -43,6 +43,7 @@ export default class Navbar extends React.Component {
     static propTypes = {
         teamDisplayName: PropTypes.string,
         isPinnedPosts: PropTypes.bool,
+        enableWebrtc: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             closeRightHandSide: PropTypes.func,
             updateRhsState: PropTypes.func,
@@ -283,7 +284,7 @@ export default class Navbar extends React.Component {
     isWebrtcEnabled() {
         const userMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
         const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
-        return global.mm_config.EnableWebrtc === 'true' && userMedia && Utils.isFeatureEnabled(PreReleaseFeatures.WEBRTC_PREVIEW);
+        return this.props.enableWebrtc && userMedia && Utils.isFeatureEnabled(PreReleaseFeatures.WEBRTC_PREVIEW);
     }
 
     initWebrtc = () => {

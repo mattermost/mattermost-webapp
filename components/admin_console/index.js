@@ -16,6 +16,7 @@ function mapStateToProps(state, ownProps) {
     return {
         ...ownProps,
         config: Selectors.getConfig(state),
+        license: state.entities.general.license,
         navigationBlocked: getNavigationBlocked(state),
         showNavigationPrompt: showNavigationPrompt(state)
     };

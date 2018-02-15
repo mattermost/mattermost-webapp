@@ -7,6 +7,16 @@ import {verifyUserEmail} from 'mattermost-redux/actions/users';
 
 import DoVerifyEmail from './do_verify_email.jsx';
 
+function mapStateToProps(state, ownProps) {
+    const config = state.entities.general.config;
+    const siteName = config.SiteName;
+
+    return {
+        ...ownProps,
+        siteName
+    };
+}
+
 function mapDispatchToProps(dispatch) {
     return {
         actions: {
@@ -15,4 +25,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(DoVerifyEmail);
+export default connect(mapStateToProps, mapDispatchToProps)(DoVerifyEmail);

@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import AddCommand from 'components/integrations/components/add_command/add_command.jsx';
+import AddCommand from 'components/integrations/add_command/add_command.jsx';
 
 describe('components/integrations/AddCommand', () => {
     test('should match snapshot', () => {
