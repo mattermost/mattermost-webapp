@@ -17,7 +17,7 @@ import {GroupUnreadChannels} from 'utils/constants.jsx';
 
 import UserSettingsSidebar from './user_settings_sidebar.jsx';
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
     const config = getConfig(state);
 
     return {
@@ -37,14 +37,12 @@ function mapStateToProps(state) {
         showUnreadOption: config.ExperimentalGroupUnreadChannels !== GroupUnreadChannels.DISABLED,
         user: getCurrentUser(state)
     };
-}
+};
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            savePreferences
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        savePreferences
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserSettingsSidebar);

@@ -7,18 +7,10 @@ import {revokeUserAccessToken} from 'mattermost-redux/actions/users';
 
 import RevokeTokenButton from './revoke_token_button.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        revokeUserAccessToken
+    }, dispatch)
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            revokeUserAccessToken
-        }, dispatch)
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(RevokeTokenButton);
+export default connect(null, mapDispatchToProps)(RevokeTokenButton);

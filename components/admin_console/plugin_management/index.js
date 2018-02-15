@@ -7,23 +7,18 @@ import {getPlugins, removePlugin, uploadPlugin, activatePlugin, deactivatePlugin
 
 import PluginManagement from './plugin_management.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps,
-        plugins: state.entities.admin.plugins
-    };
-}
+const mapStateToProps = (state) => ({
+    plugins: state.entities.admin.plugins
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            uploadPlugin,
-            removePlugin,
-            getPlugins,
-            activatePlugin,
-            deactivatePlugin
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        uploadPlugin,
+        removePlugin,
+        getPlugins,
+        activatePlugin,
+        deactivatePlugin
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(PluginManagement);

@@ -8,29 +8,26 @@ import * as UserUtils from 'mattermost-redux/utils/user_utils';
 
 import SecurityTab from './user_settings_security.jsx';
 
-function mapStateToProps(state, ownProps) {
+const mapStateToProps = (state, ownProps) => {
     const tokensEnabled = state.entities.general.config.EnableUserAccessTokens === 'true';
     const userHasTokenRole = UserUtils.hasUserAccessTokenRole(ownProps.user.roles) || UserUtils.isSystemAdmin(ownProps.user.roles);
 
     return {
-        ...ownProps,
         userAccessTokens: state.entities.users.myUserAccessTokens,
         canUseAccessTokens: tokensEnabled && userHasTokenRole
     };
-}
+};
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getMe,
-            getUserAccessTokensForUser,
-            createUserAccessToken,
-            revokeUserAccessToken,
-            enableUserAccessToken,
-            disableUserAccessToken,
-            clearUserAccessTokens
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getMe,
+        getUserAccessTokensForUser,
+        createUserAccessToken,
+        revokeUserAccessToken,
+        enableUserAccessToken,
+        disableUserAccessToken,
+        clearUserAccessTokens
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SecurityTab);

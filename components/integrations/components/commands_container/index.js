@@ -9,20 +9,15 @@ import {getUsers} from 'mattermost-redux/selectors/entities/users';
 
 import CommandsContainer from './commands_container.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps,
-        commands: Object.values(getCommands(state)),
-        users: getUsers(state)
-    };
-}
+const mapStateToProps = (state) => ({
+    commands: Object.values(getCommands(state)),
+    users: getUsers(state)
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getCustomTeamCommands
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getCustomTeamCommands
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommandsContainer);

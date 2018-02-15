@@ -35,7 +35,7 @@ import {Constants, Preferences, StoragePrefixes, TutorialSteps} from 'utils/cons
 import CreatePost from './create_post.jsx';
 
 function mapStateToProps() {
-    return (state, ownProps) => {
+    return (state) => {
         const config = getConfig(state);
         const currentChannel = getCurrentChannel(state) || {};
         const getDraft = makeGetGlobalItem(StoragePrefixes.DRAFT + currentChannel.id, {
@@ -51,7 +51,6 @@ function mapStateToProps() {
         const enableTutorial = config.EnableTutorial === 'true';
         const tutorialStep = parseInt(get(state, Preferences.TUTORIAL_STEP, getCurrentUserId(state), TutorialSteps.FINISHED), 10);
         return {
-            ...ownProps,
             currentTeamId: getCurrentTeamId(state),
             currentChannel,
             currentChannelMembersCount,
@@ -78,21 +77,19 @@ function onSubmitPost(post, fileInfos) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            addMessageIntoHistory,
-            onSubmitPost,
-            moveHistoryIndexBack,
-            moveHistoryIndexForward,
-            addReaction,
-            removeReaction,
-            setDraft: setGlobalItem,
-            clearDraftUploads: actionOnGlobalItemsWithPrefix,
-            selectPostFromRightHandSideSearchByPostId,
-            setEditingPost
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        addMessageIntoHistory,
+        onSubmitPost,
+        moveHistoryIndexBack,
+        moveHistoryIndexForward,
+        addReaction,
+        removeReaction,
+        setDraft: setGlobalItem,
+        clearDraftUploads: actionOnGlobalItemsWithPrefix,
+        selectPostFromRightHandSideSearchByPostId,
+        setEditingPost
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePost);

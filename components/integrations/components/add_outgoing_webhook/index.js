@@ -7,19 +7,14 @@ import {createOutgoingHook} from 'mattermost-redux/actions/integrations';
 
 import AddOutgoingWebhook from './add_outgoing_webhook.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps,
-        createOutgoingHookRequest: state.requests.integrations.createOutgoingHook
-    };
-}
+const mapStateToProps = (state) => ({
+    createOutgoingHookRequest: state.requests.integrations.createOutgoingHook
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            createOutgoingHook
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        createOutgoingHook
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddOutgoingWebhook);

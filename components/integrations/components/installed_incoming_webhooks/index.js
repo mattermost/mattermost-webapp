@@ -11,7 +11,7 @@ import {getUsers} from 'mattermost-redux/selectors/entities/users';
 
 import InstalledIncomingWebhooks from './installed_incoming_webhooks.jsx';
 
-function mapStateToProps(state, ownProps) {
+const mapStateToProps = (state) => {
     const teamId = getCurrentTeamId(state);
     const incomingHooks = getIncomingHooks(state);
     const incomingWebhooks = Object.keys(incomingHooks).
@@ -19,21 +19,18 @@ function mapStateToProps(state, ownProps) {
         filter((incomingWebhook) => incomingWebhook.team_id === teamId);
 
     return {
-        ...ownProps,
         incomingWebhooks,
         channels: getAllChannels(state),
         users: getUsers(state),
         teamId
     };
-}
+};
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getIncomingHooks: Actions.getIncomingHooks,
-            removeIncomingHook: Actions.removeIncomingHook
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getIncomingHooks: Actions.getIncomingHooks,
+        removeIncomingHook: Actions.removeIncomingHook
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(InstalledIncomingWebhooks);

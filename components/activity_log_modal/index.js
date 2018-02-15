@@ -7,19 +7,11 @@ import {getSessions, revokeSession} from 'mattermost-redux/actions/users';
 
 import ActivityLogModal from './activity_log_modal.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getSessions,
+        revokeSession
+    }, dispatch)
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getSessions,
-            revokeSession
-        }, dispatch)
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ActivityLogModal);
+export default connect(null, mapDispatchToProps)(ActivityLogModal);

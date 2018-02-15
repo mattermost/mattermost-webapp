@@ -8,19 +8,14 @@ import * as Selectors from 'mattermost-redux/selectors/entities/admin';
 
 import Logs from './logs.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps,
-        logs: Selectors.getLogs(state)
-    };
-}
+const mapStateToProps = (state) => ({
+    logs: Selectors.getLogs(state)
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getLogs
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getLogs
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Logs);

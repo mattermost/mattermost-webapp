@@ -13,24 +13,21 @@ import TeamAnalytics from './team_analytics.jsx';
 
 const LAST_ANALYTICS_TEAM = 'last_analytics_team';
 
-function mapStateToProps(state, ownProps) {
+const mapStateToProps = (state) => {
     const teams = getTeamsList(state);
     const teamId = BrowserStore.getGlobalItem(LAST_ANALYTICS_TEAM, teams.length > 0 ? teams[0].id : '');
 
     return {
         initialTeam: state.entities.teams.teams[teamId],
-        teams,
-        ...ownProps
+        teams
     };
-}
+};
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getTeams,
-            getProfilesInTeam
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getTeams,
+        getProfilesInTeam
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(TeamAnalytics);

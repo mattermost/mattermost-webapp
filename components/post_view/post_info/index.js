@@ -10,22 +10,17 @@ import {Preferences} from 'utils/constants.jsx';
 
 import PostInfo from './post_info.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps,
-        useMilitaryTime: getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, false),
-        isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, ownProps.post.id, null) != null,
-        isMobile: state.views.channel.mobileView
-    };
-}
+const mapStateToProps = (state, ownProps) => ({
+    useMilitaryTime: getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, false),
+    isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, ownProps.post.id, null) != null,
+    isMobile: state.views.channel.mobileView
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            removePost,
-            addReaction
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        removePost,
+        addReaction
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostInfo);

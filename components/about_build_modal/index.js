@@ -6,12 +6,9 @@ import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general
 
 import AboutBuildModal from './about_build_modal.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps,
-        config: getConfig(state),
-        license: getLicense(state)
-    };
-}
+const mapStateToProps = (state) => ({
+    config: getConfig(state),
+    license: getLicense(state)
+});
 
 export default connect(mapStateToProps)(AboutBuildModal);

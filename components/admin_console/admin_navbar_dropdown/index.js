@@ -9,18 +9,14 @@ import {getNavigationBlocked} from 'selectors/views/admin';
 
 import AdminNavbarDropdown from './admin_navbar_dropdown.jsx';
 
-function mapStateToProps(state) {
-    return {
-        navigationBlocked: getNavigationBlocked(state)
-    };
-}
+const mapStateToProps = (state) => ({
+    navigationBlocked: getNavigationBlocked(state)
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            deferNavigation
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        deferNavigation
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminNavbarDropdown);

@@ -28,7 +28,7 @@ import ChannelNotificationsModal from 'components/channel_notifications_modal/ch
 import DeleteChannelModal from 'components/delete_channel_modal';
 import MoreDirectChannels from 'components/more_direct_channels';
 import NotifyCounts from 'components/notify_counts.jsx';
-import QuickSwitchModal from 'components/quick_switch_modal';
+import QuickSwitchModal from 'components/quick_switch_modal/quick_switch_modal';
 import RenameChannelModal from 'components/rename_channel_modal';
 import StatusIcon from 'components/status_icon.jsx';
 import MenuIcon from 'components/svg/menu_icon';

@@ -24,12 +24,10 @@ const mapStateToProps = createSelector(
     (teamInfo) => ({...teamInfo})
 );
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: {
-            updateChannel: bindActionCreators(UpdateChannel, dispatch)
-        }
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: {
+        updateChannel: bindActionCreators(UpdateChannel, dispatch)
+    }
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(RenameChannelModal);

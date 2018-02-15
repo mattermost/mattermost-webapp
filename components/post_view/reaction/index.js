@@ -12,10 +12,10 @@ import * as Emoji from 'utils/emoji.jsx';
 
 import Reaction from './reaction.jsx';
 
-function makeMapStateToProps() {
+const makeMapStateToProps = () => {
     const getProfilesForReactions = makeGetProfilesForReactions();
 
-    return function mapStateToProps(state, ownProps) {
+    return (state, ownProps) => {
         const profiles = getProfilesForReactions(state, ownProps.reactions);
         let emoji;
         if (Emoji.EmojiIndicesByAlias.has(ownProps.emojiName)) {
@@ -30,7 +30,6 @@ function makeMapStateToProps() {
         }
 
         return {
-            ...ownProps,
             profiles,
             otherUsersCount: ownProps.reactions.length - profiles.length,
             currentUserId: getCurrentUserId(state),
@@ -38,16 +37,14 @@ function makeMapStateToProps() {
             emojiImageUrl
         };
     };
-}
+};
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            addReaction,
-            removeReaction,
-            getMissingProfilesByIds
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        addReaction,
+        removeReaction,
+        getMissingProfilesByIds
+    }, dispatch)
+});
 
 export default connect(makeMapStateToProps, mapDispatchToProps)(Reaction);

@@ -7,18 +7,10 @@ import {getTeamStats} from 'mattermost-redux/actions/teams';
 
 import MemberListTeam from './member_list_team.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getTeamStats
+    }, dispatch)
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getTeamStats
-        }, dispatch)
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(MemberListTeam);
+export default connect(null, mapDispatchToProps)(MemberListTeam);

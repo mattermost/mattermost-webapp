@@ -7,25 +7,22 @@ import {createIncomingHook} from 'mattermost-redux/actions/integrations';
 
 import AddIncomingWebhook from './add_incoming_webhook.jsx';
 
-function mapStateToProps(state, ownProps) {
+const mapStateToProps = (state) => {
     const config = state.entities.general.config;
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
     const enablePostIconOverride = config.EnablePostIconOverride === 'true';
 
     return {
-        ...ownProps,
         createIncomingHookRequest: state.requests.integrations.createIncomingHook,
         enablePostUsernameOverride,
         enablePostIconOverride
     };
-}
+};
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            createIncomingHook
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        createIncomingHook
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddIncomingWebhook);

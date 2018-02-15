@@ -14,7 +14,7 @@ import {RHSStates} from 'utils/constants.jsx';
 
 import SidebarRight from './sidebar_right.jsx';
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
     const rhsState = getRhsState(state);
 
     const channelId = getSelectedChannelId(state);
@@ -44,15 +44,13 @@ function mapStateToProps(state) {
         isFlaggedPosts: rhsState === RHSStates.FLAG,
         isPinnedPosts: rhsState === RHSStates.PIN
     };
-}
+};
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getPinnedPosts,
-            getFlaggedPosts
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getPinnedPosts,
+        getFlaggedPosts
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SidebarRight);

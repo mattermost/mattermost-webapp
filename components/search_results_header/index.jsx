@@ -8,12 +8,10 @@ import {closeRightHandSide} from 'actions/views/rhs';
 
 import SearchResultsHeader from './search_results_header.jsx';
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            closeRightHandSide
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        closeRightHandSide
+    }, dispatch)
+});
 
 export default connect(null, mapDispatchToProps)(SearchResultsHeader);

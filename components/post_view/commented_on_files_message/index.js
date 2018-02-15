@@ -8,28 +8,25 @@ import {makeGetFilesForPost} from 'mattermost-redux/selectors/entities/files';
 
 import CommentedOnFilesMessage from './commented_on_files_message.jsx';
 
-function makeMapStateToProps() {
+const makeMapStateToProps = () => {
     const selectFileInfosForPost = makeGetFilesForPost();
 
-    return function mapStateToProps(state, ownProps) {
+    return (state, ownProps) => {
         let fileInfos;
         if (ownProps.parentPostId) {
             fileInfos = selectFileInfosForPost(state, ownProps.parentPostId);
         }
 
         return {
-            ...ownProps,
             fileInfos
         };
     };
-}
+};
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getFilesForPost
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getFilesForPost
+    }, dispatch)
+});
 
 export default connect(makeMapStateToProps, mapDispatchToProps)(CommentedOnFilesMessage);

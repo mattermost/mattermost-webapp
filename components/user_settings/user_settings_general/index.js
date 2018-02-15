@@ -7,18 +7,10 @@ import {getMe} from 'mattermost-redux/actions/users';
 
 import UserSettingsGeneralTab from './user_settings_general.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getMe
+    }, dispatch)
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getMe
-        }, dispatch)
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserSettingsGeneralTab);
+export default connect(null, mapDispatchToProps)(UserSettingsGeneralTab);

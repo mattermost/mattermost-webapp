@@ -9,22 +9,17 @@ import {getTeamsList} from 'mattermost-redux/selectors/entities/teams';
 
 import SystemUsers from './system_users.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        teams: getTeamsList(state),
-        ...ownProps
-    };
-}
+const mapStateToProps = (state) => ({
+    teams: getTeamsList(state)
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getTeams,
-            getTeamStats,
-            getUser,
-            getUserAccessToken
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getTeams,
+        getTeamStats,
+        getUser,
+        getUserAccessToken
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SystemUsers);

@@ -7,24 +7,21 @@ import {getOutgoingHook, updateOutgoingHook} from 'mattermost-redux/actions/inte
 
 import EditOutgoingWebhook from './edit_outgoing_webhook.jsx';
 
-function mapStateToProps(state, ownProps) {
+const mapStateToProps = (state, ownProps) => {
     const hookId = (new URLSearchParams(ownProps.location.search)).get('id');
 
     return {
-        ...ownProps,
         hookId,
         hook: state.entities.integrations.outgoingHooks[hookId],
         updateOutgoingHookRequest: state.requests.integrations.createOutgoingHook
     };
-}
+};
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            updateOutgoingHook,
-            getOutgoingHook
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        updateOutgoingHook,
+        getOutgoingHook
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditOutgoingWebhook);

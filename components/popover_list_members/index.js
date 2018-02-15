@@ -9,28 +9,25 @@ import {getCurrentUserId, makeGetProfilesInChannel} from 'mattermost-redux/selec
 
 import PopoverListMembers from './popover_list_members.jsx';
 
-function makeMapStateToProps() {
+const makeMapStateToProps = () => {
     const doGetProfilesInChannel = makeGetProfilesInChannel();
 
-    return function mapStateToProps(state, ownProps) {
+    return (state, ownProps) => {
         const stats = getAllChannelStats(state)[ownProps.channel.id] || {};
         const members = doGetProfilesInChannel(state, ownProps.channel.id, true);
 
         return {
-            ...ownProps,
             memberCount: stats.member_count,
             members,
             currentUserId: getCurrentUserId(state)
         };
     };
-}
+};
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getProfilesInChannel
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getProfilesInChannel
+    }, dispatch)
+});
 
 export default connect(makeMapStateToProps, mapDispatchToProps)(PopoverListMembers);

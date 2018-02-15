@@ -11,26 +11,22 @@ import {
 
 import MoreDirectChannels from './more_direct_channels.jsx';
 
-function mapStateToProps(state, ownProps) {
+const mapStateToProps = (state, ownProps) => {
     let currentChannelMembers = [];
     if (ownProps.isExistingChannel) {
         currentChannelMembers = getProfilesInCurrentChannel(state);
     }
-
     return {
-        ...ownProps,
         currentChannelMembers,
         currentUserId: getCurrentUserId(state)
     };
-}
+};
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getProfiles,
-            getProfilesInTeam
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getProfiles,
+        getProfilesInTeam
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(MoreDirectChannels);

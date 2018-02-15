@@ -21,7 +21,7 @@ const getDeactivatedChannel = createSelector(
     }
 );
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
     const channelId = state.entities.channels.currentChannelId;
 
     return {
@@ -29,6 +29,6 @@ function mapStateToProps(state) {
         deactivatedChannel: getDeactivatedChannel(state, channelId),
         showTutorial: Number(get(state, Preferences.TUTORIAL_STEP, state.entities.users.currentUserId, 999)) <= TutorialSteps.INTRO_SCREENS && global.window.mm_config.EnableTutorial === 'true'
     };
-}
+};
 
 export default withRouter(connect(mapStateToProps)(ChannelView));

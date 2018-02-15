@@ -7,18 +7,10 @@ import {removePost} from 'mattermost-redux/actions/posts';
 
 import FailedPostOptions from './failed_post_options.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        removePost
+    }, dispatch)
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            removePost
-        }, dispatch)
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(FailedPostOptions);
+export default connect(null, mapDispatchToProps)(FailedPostOptions);

@@ -24,7 +24,7 @@ import {makeGetCommentDraft} from 'selectors/rhs';
 
 import CreateComment from './create_comment.jsx';
 
-function mapStateToProps(state, ownProps) {
+const mapStateToProps = (state, ownProps) => {
     const err = state.requests.posts.createPost.error || {};
 
     const getCommentDraft = makeGetCommentDraft(ownProps.rootId);
@@ -46,7 +46,7 @@ function mapStateToProps(state, ownProps) {
         createPostErrorId: err.server_error_id,
         readOnlyChannel: !isCurrentUserSystemAdmin(state) && getConfig(state).ExperimentalTownSquareIsReadOnly === 'true' && channel.name === Constants.DEFAULT_CHANNEL
     };
-}
+};
 
 function makeOnUpdateCommentDraft(rootId) {
     return (draft) => updateCommentDraft(rootId, draft);

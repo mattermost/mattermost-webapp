@@ -7,18 +7,10 @@ import {getChannelStats} from 'mattermost-redux/actions/channels';
 
 import ChannelMembersDropdown from './channel_members_dropdown.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getChannelStats
+    }, dispatch)
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getChannelStats
-        }, dispatch)
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ChannelMembersDropdown);
+export default connect(null, mapDispatchToProps)(ChannelMembersDropdown);

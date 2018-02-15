@@ -28,7 +28,7 @@ import {GroupUnreadChannels} from 'utils/constants.jsx';
 
 import Sidebar from './sidebar.jsx';
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
     const config = getConfig(state);
     const currentChannel = getCurrentChannel(state);
     const currentTeammate = currentChannel && currentChannel.teammate_id && getCurrentChannel(state, currentChannel.teammate_id);
@@ -74,14 +74,12 @@ function mapStateToProps(state) {
         isSystemAdmin: isCurrentUserSystemAdmin(state),
         isTeamAdmin: isCurrentUserCurrentTeamAdmin(state)
     };
-}
+};
 
-function mapDispatchToProps() {
-    return {
-        actions: {
-            goToChannelById
-        }
-    };
-}
+const mapDispatchToProps = () => ({
+    actions: {
+        goToChannelById
+    }
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

@@ -48,7 +48,8 @@ export default class QuickSwitchModal extends React.PureComponent {
     }
 
     static defaultProps = {
-        initialMode: CHANNEL_MODE
+        initialMode: CHANNEL_MODE,
+        showTeamSwitcher: false
     }
 
     constructor(props) {

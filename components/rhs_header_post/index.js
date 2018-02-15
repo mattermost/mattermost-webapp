@@ -14,16 +14,14 @@ import {
 
 import RhsHeaderPost from './rhs_header_post.jsx';
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            showSearchResults,
-            showMentions,
-            showFlaggedPosts,
-            showPinnedPosts,
-            closeRightHandSide
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        showSearchResults,
+        showMentions,
+        showFlaggedPosts,
+        showPinnedPosts,
+        closeRightHandSide
+    }, dispatch)
+});
 
 export default connect(null, mapDispatchToProps)(RhsHeaderPost);

@@ -11,7 +11,7 @@ import {getEmojiMap} from 'selectors/emojis';
 
 import PostEmoji from './post_emoji.jsx';
 
-function mapStateToProps(state, ownProps) {
+const mapStateToProps = (state, ownProps) => {
     const emojiMap = getEmojiMap(state);
     const emoji = emojiMap.get(ownProps.name);
 
@@ -29,6 +29,6 @@ function mapStateToProps(state, ownProps) {
         imageUrl,
         displayTextOnly
     };
-}
+};
 
 export default connect(mapStateToProps)(PostEmoji);

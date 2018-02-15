@@ -14,7 +14,7 @@ import {isMobile} from 'utils/utils.jsx';
 
 import SidebarRightMenu from './sidebar_right_menu.jsx';
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
     const config = getConfig(state);
     const rhsState = getRhsState(state);
 
@@ -25,16 +25,14 @@ function mapStateToProps(state) {
         isMentionSearch: rhsState === RHSStates.MENTION,
         showTutorialTip: enableTutorial && isMobile() && tutorialStep === TutorialSteps.MENU_POPOVER
     };
-}
+};
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            showMentions,
-            showFlaggedPosts,
-            closeRightHandSide
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        showMentions,
+        showFlaggedPosts,
+        closeRightHandSide
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SidebarRightMenu);

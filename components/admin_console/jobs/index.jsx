@@ -8,19 +8,14 @@ import * as Selectors from 'mattermost-redux/selectors/entities/jobs';
 
 import Table from './table.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps,
-        jobs: Selectors.makeGetJobsByType(ownProps.jobType)(state)
-    };
-}
+const mapStateToProps = (state, ownProps) => ({
+    jobs: Selectors.makeGetJobsByType(ownProps.jobType)(state)
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getJobsByType
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getJobsByType
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);

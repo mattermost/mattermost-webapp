@@ -6,11 +6,8 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import AnnouncementBar from './announcement_bar.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps,
-        isLoggedIn: Boolean(getCurrentUserId(state))
-    };
-}
+const mapStateToProps = (state) => ({
+    isLoggedIn: Boolean(getCurrentUserId(state))
+});
 
 export default connect(mapStateToProps)(AnnouncementBar);

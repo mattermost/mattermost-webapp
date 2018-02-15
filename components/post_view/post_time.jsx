@@ -39,7 +39,6 @@ export default class PostTime extends React.PureComponent {
 
     constructor(props) {
         super(props);
-
         this.state = {
             currentTeamDisplayName: TeamStore.getCurrent().name
         };

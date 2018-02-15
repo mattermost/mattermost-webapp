@@ -7,12 +7,10 @@ import {verifyUserEmail} from 'mattermost-redux/actions/users';
 
 import DoVerifyEmail from './do_verify_email.jsx';
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: {
-            verifyUserEmail: bindActionCreators(verifyUserEmail, dispatch)
-        }
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: {
+        verifyUserEmail: bindActionCreators(verifyUserEmail, dispatch)
+    }
+});
 
 export default connect(null, mapDispatchToProps)(DoVerifyEmail);

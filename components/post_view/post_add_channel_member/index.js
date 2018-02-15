@@ -12,25 +12,22 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
 import PostAddChannelMember from './post_add_channel_member.jsx';
 
-function mapStateToProps(state, ownProps) {
+const mapStateToProps = (state) => {
     const currentChannelId = getCurrentChannelId(state);
 
     return {
-        ...ownProps,
         team: getCurrentTeam(state),
         channel: getChannel(state, currentChannelId),
         currentUser: getCurrentUser(state)
     };
-}
+};
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            addChannelMember,
-            getPost,
-            removePost
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        addChannelMember,
+        getPost,
+        removePost
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostAddChannelMember);

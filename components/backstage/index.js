@@ -11,7 +11,7 @@ import {isSystemAdmin, isAdmin as isTeamAdmin} from 'utils/utils.jsx';
 
 import BackstageController from './backstage_controller.jsx';
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
     const user = getCurrentUser(state);
     const team = getCurrentTeam(state);
     const teamMember = getCurrentTeamMembership(state);
@@ -30,6 +30,6 @@ function mapStateToProps(state) {
         team,
         isAdmin
     };
-}
+};
 
 export default withRouter(connect(mapStateToProps)(BackstageController));

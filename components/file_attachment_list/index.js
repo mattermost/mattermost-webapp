@@ -8,9 +8,9 @@ import {makeGetFilesForPost} from 'mattermost-redux/selectors/entities/files';
 
 import FileAttachmentList from './file_attachment_list.jsx';
 
-function makeMapStateToProps() {
+const makeMapStateToProps = () => {
     const selectFilesForPost = makeGetFilesForPost();
-    return function mapStateToProps(state, ownProps) {
+    return (state, ownProps) => {
         const postId = ownProps.post ? ownProps.post.id : '';
         const fileInfos = selectFilesForPost(state, postId);
 
@@ -22,19 +22,16 @@ function makeMapStateToProps() {
         }
 
         return {
-            ...ownProps,
             fileInfos,
             fileCount
         };
     };
-}
+};
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getMissingFilesForPost
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getMissingFilesForPost
+    }, dispatch)
+});
 
 export default connect(makeMapStateToProps, mapDispatchToProps)(FileAttachmentList);

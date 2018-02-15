@@ -5,10 +5,8 @@ import {connect} from 'react-redux';
 
 import PersistGate from './persist_gate';
 
-function mapStateToProps(state) {
-    return {
-        initialized: state.storage.initialized
-    };
-}
+const mapStateToProps = (state) => ({
+    initialized: state.storage.initialized
+});
 
 export default connect(mapStateToProps)(PersistGate);

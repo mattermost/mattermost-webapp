@@ -9,20 +9,15 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
 import PostAttachmentOpenGraph from './post_attachment_opengraph.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps,
-        openGraphData: getOpenGraphMetadataForUrl(state, ownProps.link),
-        currentUser: getCurrentUser(state)
-    };
-}
+const mapStateToProps = (state, ownProps) => ({
+    openGraphData: getOpenGraphMetadataForUrl(state, ownProps.link),
+    currentUser: getCurrentUser(state)
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getOpenGraphMetadata
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getOpenGraphMetadata
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostAttachmentOpenGraph);

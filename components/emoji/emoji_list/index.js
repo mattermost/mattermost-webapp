@@ -10,19 +10,15 @@ import {getCustomEmojis, searchCustomEmojis} from 'mattermost-redux/actions/emoj
 
 import EmojiList from './emoji_list.jsx';
 
-function mapStateToProps(state) {
-    return {
-        emojiIds: getCustomEmojiIdsSortedByName(state) || []
-    };
-}
+const mapStateToProps = (state) => ({
+    emojiIds: getCustomEmojiIdsSortedByName(state) || []
+});
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getCustomEmojis,
-            searchCustomEmojis
-        }, dispatch)
-    };
-}
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        getCustomEmojis,
+        searchCustomEmojis
+    }, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(EmojiList);
