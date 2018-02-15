@@ -66,6 +66,16 @@ class ProfilePopover extends React.Component {
          */
         hasMention: PropTypes.bool,
 
+        /**
+         * Whether or not to reveal the email address associated with the user.
+         */
+        showEmailAddress: PropTypes.bool.isRequired,
+
+        /**
+         * Whether or not WebRtc is enabled.
+         */
+        enableWebrtc: PropTypes.bool.isRequired,
+
         ...Popover.propTypes
     }
 
@@ -194,11 +204,13 @@ class ProfilePopover extends React.Component {
         delete popoverProps.isRHS;
         delete popoverProps.hasMention;
         delete popoverProps.dispatch;
+        delete popoverProps.showEmailAddress;
+        delete popoverProps.enableWebrtc;
 
         let webrtc;
         const userMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
-        const webrtcEnabled = global.mm_config.EnableWebrtc === 'true' && userMedia && Utils.isFeatureEnabled(PreReleaseFeatures.WEBRTC_PREVIEW);
+        const webrtcEnabled = this.props.enableWebrtc && userMedia && Utils.isFeatureEnabled(PreReleaseFeatures.WEBRTC_PREVIEW);
 
         if (webrtcEnabled && this.props.user.id !== this.state.currentUserId) {
             const isOnline = this.props.status !== UserStatuses.OFFLINE;
@@ -282,6 +294,7 @@ class ProfilePopover extends React.Component {
                     delayShow={Constants.WEBRTC_TIME_DELAY}
                     placement='top'
                     overlay={<Tooltip id='positionTooltip'>{position}</Tooltip>}
+                    key='user-popover-position'
                 >
                     <div
                         className='overflow--ellipsis text-nowrap padding-bottom'
@@ -293,7 +306,7 @@ class ProfilePopover extends React.Component {
         }
 
         const email = this.props.user.email;
-        if (global.window.mm_config.ShowEmailAddress === 'true' || UserStore.isSystemAdminForCurrentUser() || this.props.user === UserStore.getCurrentUser()) {
+        if (this.props.showEmailAddress || UserStore.isSystemAdminForCurrentUser() || this.props.user === UserStore.getCurrentUser()) {
             dataContent.push(
                 <div
                     data-toggle='tooltip'

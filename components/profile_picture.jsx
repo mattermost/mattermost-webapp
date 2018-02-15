@@ -7,7 +7,7 @@ import {OverlayTrigger} from 'react-bootstrap';
 
 import Pluggable from 'plugins/pluggable';
 
-import ProfilePopover from './profile_popover.jsx';
+import ProfilePopover from './profile_popover';
 import StatusIcon from './status_icon.jsx';
 
 export default class ProfilePicture extends React.PureComponent {
