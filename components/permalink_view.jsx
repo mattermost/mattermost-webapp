@@ -3,6 +3,7 @@
 
 import $ from 'jquery';
 import React from 'react';
+import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
@@ -13,6 +14,10 @@ import PostView from 'components/post_view';
 import * as GlobalActions from 'actions/global_actions.jsx';
 
 export default class PermalinkView extends React.PureComponent {
+    static propTypes = {
+        returnTo: PropTypes.string.isRequired
+    };
+
     constructor(props) {
         super(props);
 
@@ -28,7 +33,7 @@ export default class PermalinkView extends React.PureComponent {
 
     doPermalinkEvent(props) {
         const postId = props.match.params.postid;
-        GlobalActions.emitPostFocusEvent(postId);
+        GlobalActions.emitPostFocusEvent(postId, this.props.returnTo);
     }
 
     getStateFromStores(props) {

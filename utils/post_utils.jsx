@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {Parser, ProcessNodeDefinitions} from 'html-to-react';
+import {Client4} from 'mattermost-redux/client';
 
 import AtMention from 'components/at_mention';
 import LatexBlock from 'components/latex_block';
@@ -39,6 +40,13 @@ export function isComment(post) {
 
 export function isEdited(post) {
     return post.edit_at > 0;
+}
+
+export function getImageSrc(src) {
+    if (global.window.mm_config.HasImageProxy === 'true') {
+        return Client4.getBaseRoute() + '/image?url=' + encodeURIComponent(src);
+    }
+    return src;
 }
 
 export function getProfilePicSrcForPost(post, user) {
