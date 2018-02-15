@@ -108,10 +108,6 @@ export default class SidebarRight extends React.Component {
     }
 
     onPreferenceChange = () => {
-        if (this.props.isFlaggedPosts) {
-            this.props.actions.getFlaggedPosts();
-        }
-
         this.setState({
             useMilitaryTime: PreferenceStore.getBool(Constants.Preferences.CATEGORY_DISPLAY_SETTINGS, Constants.Preferences.USE_MILITARY_TIME, false)
         });
