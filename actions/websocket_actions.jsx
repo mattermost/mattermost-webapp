@@ -45,22 +45,27 @@ export function initialize() {
         return;
     }
 
-    let connUrl = getSiteURL();
+    let connUrl = '';
+    if (global.window.mm_config.WebsocketURL === '') {
+        connUrl = getSiteURL();
 
-    // replace the protocol with a websocket one
-    if (connUrl.startsWith('https:')) {
-        connUrl = connUrl.replace(/^https:/, 'wss:');
-    } else {
-        connUrl = connUrl.replace(/^http:/, 'ws:');
-    }
-
-    // append a port number if one isn't already specified
-    if (!(/:\d+$/).test(connUrl)) {
-        if (connUrl.startsWith('wss:')) {
-            connUrl += ':' + global.window.mm_config.WebsocketSecurePort;
+        // replace the protocol with a websocket one
+        if (connUrl.startsWith('https:')) {
+            connUrl = connUrl.replace(/^https:/, 'wss:');
         } else {
-            connUrl += ':' + global.window.mm_config.WebsocketPort;
+            connUrl = connUrl.replace(/^http:/, 'ws:');
         }
+
+        // append a port number if one isn't already specified
+        if (!(/:\d+$/).test(connUrl)) {
+            if (connUrl.startsWith('wss:')) {
+                connUrl += ':' + global.window.mm_config.WebsocketSecurePort;
+            } else {
+                connUrl += ':' + global.window.mm_config.WebsocketPort;
+            }
+        }
+    } else {
+        connUrl = global.window.mm_config.WebsocketURL;
     }
 
     connUrl += Client4.getUrlVersion() + '/websocket';
