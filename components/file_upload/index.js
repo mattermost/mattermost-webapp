@@ -9,9 +9,8 @@ import {uploadFile} from 'actions/file_actions.jsx';
 
 import FileUpload from './file_upload.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
-        ...ownProps,
         currentChannelId: getCurrentChannelId(state),
         uploadFile
     };

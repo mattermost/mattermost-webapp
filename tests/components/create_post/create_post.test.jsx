@@ -377,7 +377,6 @@ describe('components/create_post', () => {
 
         instance.handleFileUploadChange();
         expect(instance.focusTextbox).toBeCalled();
-        expect(instance.focusTextbox).toBeCalledWith(true);
     });
 
     it('check for handleFileUploadStart callbak', () => {
