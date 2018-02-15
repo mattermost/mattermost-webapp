@@ -6,6 +6,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import {cleanUpUrlable} from 'utils/url.jsx';
 import logoImage from 'images/logo.png';
@@ -21,18 +22,7 @@ export default class TeamSignupDisplayNamePage extends React.PureComponent {
         /*
          * Function that updates parent component with state props
          */
-        updateParent: PropTypes.func,
-
-        /*
-         * Object with redux action creators
-         */
-        actions: PropTypes.shape({
-
-            /*
-             * Action creator to track events
-             */
-            trackEvent: PropTypes.func.isRequired
-        }).isRequired
+        updateParent: PropTypes.func
     }
 
     constructor(props) {
@@ -42,7 +32,6 @@ export default class TeamSignupDisplayNamePage extends React.PureComponent {
     }
 
     componentDidMount() {
-        const {actions: {trackEvent}} = this.props;
         trackEvent('signup', 'signup_team_01_name');
     }
 
