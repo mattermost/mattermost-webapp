@@ -99,6 +99,7 @@ export default class PostImageEmbed extends React.PureComponent {
 
     render() {
         if (this.state.errored || !this.state.loaded) {
+            // scroll pop could be improved with a placeholder when !this.state.loaded
             return null;
         }
 

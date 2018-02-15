@@ -1,7 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {createDirectChannel, getChannelAndMyMember, getChannelStats, getMyChannelMember, joinChannel, markChannelAsRead, viewChannel} from 'mattermost-redux/actions/channels';
+import {
+    createDirectChannel,
+    getChannelAndMyMember,
+    getChannelStats,
+    getMyChannelMember,
+    joinChannel,
+    markChannelAsRead,
+    selectChannel,
+    viewChannel
+} from 'mattermost-redux/actions/channels';
 import {getPostThread} from 'mattermost-redux/actions/posts';
 import {removeUserFromTeam} from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
@@ -108,16 +117,13 @@ export function emitCloseRightHandSide() {
     dispatch(closeRightHandSide());
 }
 
-export async function emitPostFocusEvent(postId) {
+export async function emitPostFocusEvent(postId, returnTo = '') {
     loadChannelsForCurrentUser();
     const {data} = await getPostThread(postId)(dispatch, getState);
 
     if (data) {
         const channelId = data.posts[data.order[0]].channel_id;
         const channel = ChannelStore.getChannelById(channelId);
-        if (!channel) {
-            browserHistory.push('/error?type=' + ErrorPageTypes.PERMALINK_NOT_FOUND);
-        }
 
         if (channel && channel.type === Constants.DM_CHANNEL) {
             loadNewDMIfNeeded(channel.id);
@@ -127,7 +133,7 @@ export async function emitPostFocusEvent(postId) {
 
         await doFocusPost(channelId, postId, data);
     } else {
-        browserHistory.push('/error?type=' + ErrorPageTypes.PERMALINK_NOT_FOUND);
+        browserHistory.push(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);
     }
 }
 
@@ -492,21 +498,23 @@ export async function redirectUserToDefaultTeam() {
         }
     }
 
-    if (teams[teamId]) {
+    const team = teams[teamId];
+    if (team) {
         const channelId = BrowserStore.getGlobalItem(teamId);
         const channel = ChannelStore.getChannelById(channelId);
-        if (channel) {
-            redirect(teams[teamId].name, channel.name);
+        let channelName = Constants.DEFAULT_CHANNEL;
+        if (channel && channel.team_id === team.id) {
+            dispatch(selectChannel(channel.id));
+            channelName = channel.name;
         } else if (channelId) {
             const {data} = await getChannelAndMyMember(channelId)(dispatch, getState);
             if (data) {
-                redirect(teams[teamId].name, data.channel.name);
-            } else {
-                redirect(teams[teamId].name, Constants.DEFAULT_CHANNEL);
+                dispatch(selectChannel(channelId));
+                channelName = data.channel.name;
             }
-        } else {
-            redirect(teams[teamId].name, Constants.DEFAULT_CHANNEL);
         }
+
+        redirect(team.name, channelName);
     } else {
         browserHistory.push('/select_team');
     }

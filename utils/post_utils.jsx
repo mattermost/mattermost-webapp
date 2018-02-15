@@ -149,6 +149,10 @@ export function containsAtChannel(text) {
  * - latex - If specified, latex is replaced with the LatexBlock component. Defaults to true.
  */
 export function messageHtmlToComponent(html, isRHS, options = {}) {
+    if (!html) {
+        return null;
+    }
+
     const parser = new Parser();
     const processNodeDefinitions = new ProcessNodeDefinitions(React);
 

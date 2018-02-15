@@ -112,14 +112,16 @@ export default class SelectTeam extends React.Component {
             for (const id in this.state.teamListings) {
                 if (this.state.teamListings.hasOwnProperty(id) && !isAlreadyMember[id]) {
                     const openTeam = this.state.teamListings[id];
-                    openTeamContents.push(
-                        <SelectTeamItem
-                            key={'team_' + openTeam.name}
-                            team={openTeam}
-                            onTeamClick={this.handleTeamClick}
-                            loading={this.state.loadingTeamId === openTeam.id}
-                        />
-                    );
+                    if (openTeam && openTeam.delete_at === 0) {
+                        openTeamContents.push(
+                            <SelectTeamItem
+                                key={'team_' + openTeam.name}
+                                team={openTeam}
+                                onTeamClick={this.handleTeamClick}
+                                loading={this.state.loadingTeamId === openTeam.id}
+                            />
+                        );
+                    }
                 }
             }
 
