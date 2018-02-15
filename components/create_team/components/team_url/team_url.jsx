@@ -7,6 +7,7 @@ import {Button, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as URL from 'utils/url.jsx';
 import logoImage from 'images/logo.png';
@@ -30,11 +31,6 @@ export default class TeamUrl extends React.Component {
         actions: PropTypes.shape({
 
             /*
-             * Action creator to track events
-             */
-            trackEvent: PropTypes.func.isRequired,
-
-            /*
              * Action creator to check if a team already exists
              */
             checkIfTeamExists: PropTypes.func.isRequired,
@@ -56,7 +52,6 @@ export default class TeamUrl extends React.Component {
     }
 
     componentDidMount() {
-        const {actions: {trackEvent}} = this.props;
         trackEvent('signup', 'signup_team_02_url');
     }
 
@@ -66,13 +61,13 @@ export default class TeamUrl extends React.Component {
         this.props.updateParent(this.props.state);
     }
 
-    submitNext = (e) => {
+    submitNext = async (e) => {
         e.preventDefault();
 
         const name = ReactDOM.findDOMNode(this.refs.name).value.trim();
         const cleanedName = URL.cleanUpUrlable(name);
         const urlRegex = /^[a-z]+([a-z\-0-9]+|(__)?)[a-z0-9]+$/g;
-        const {actions: {checkIfTeamExists, createTeam, trackEvent}} = this.props;
+        const {actions: {checkIfTeamExists, createTeam}} = this.props;
 
         if (!name) {
             this.setState({nameError: (
@@ -125,34 +120,28 @@ export default class TeamUrl extends React.Component {
         teamSignup.team.type = 'O';
         teamSignup.team.name = name;
 
-        checkIfTeamExists(name,
-            (foundTeam) => {
-                if (foundTeam) {
-                    this.setState({nameError: (
-                        <FormattedMessage
-                            id='create_team.team_url.unavailable'
-                            defaultMessage='This URL is taken or unavailable. Please try another.'
-                        />)
-                    });
-                    this.setState({isLoading: false});
-                    return;
-                }
+        const {exists} = await checkIfTeamExists(name);
 
-                createTeam(teamSignup.team,
-                    (rteam) => {
-                        this.props.history.push('/' + rteam.name + '/channels/town-square');
-                        trackEvent('signup', 'signup_team_03_complete');
-                    },
-                    (err) => {
-                        this.setState({nameError: err.message});
-                        this.setState({isLoading: false});
-                    }
-                );
-            },
-            (err) => {
-                this.setState({nameError: err.message});
-            }
-        );
+        if (exists) {
+            this.setState({nameError: (
+                <FormattedMessage
+                    id='create_team.team_url.unavailable'
+                    defaultMessage='This URL is taken or unavailable. Please try another.'
+                />)
+            });
+            this.setState({isLoading: false});
+            return;
+        }
+
+        const {data, error} = await createTeam(teamSignup.team);
+
+        if (data) {
+            this.props.history.push('/' + data.name + '/channels/town-square');
+            trackEvent('signup', 'signup_team_03_complete');
+        } else if (error) {
+            this.setState({nameError: error.message});
+            this.setState({isLoading: false});
+        }
     }
 
     handleFocus = (e) => {

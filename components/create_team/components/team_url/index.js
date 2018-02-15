@@ -6,8 +6,6 @@ import {connect} from 'react-redux';
 
 import {checkIfTeamExists, createTeam} from 'mattermost-redux/actions/teams';
 
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
-
 import TeamUrl from './team_url';
 
 function mapStateToProps(state, ownProps) {
@@ -20,8 +18,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: {
             checkIfTeamExists: bindActionCreators(checkIfTeamExists, dispatch),
-            createTeam: bindActionCreators(createTeam, dispatch),
-            trackEvent: bindActionCreators(trackEvent, dispatch)
+            createTeam: bindActionCreators(createTeam, dispatch)
         }
     };
 }
