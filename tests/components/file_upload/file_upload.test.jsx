@@ -29,7 +29,6 @@ jest.mock('utils/utils', () => {
 });
 
 describe('components/FileUpload', () => {
-    global.window.mm_config = {};
     const MaxFileSize = 10;
     function emptyFunction() {} //eslint-disable-line no-empty-function
 
@@ -44,17 +43,10 @@ describe('components/FileUpload', () => {
         onUploadError: emptyFunction,
         onUploadStart: emptyFunction,
         postType: 'post',
-        uploadFile: emptyFunction
+        uploadFile: emptyFunction,
+        maxFileSize: MaxFileSize,
+        canUploadFiles: true
     };
-
-    beforeEach(() => {
-        global.window.mm_config.EnableFileAttachments = 'true';
-        global.window.mm_config.MaxFileSize = MaxFileSize;
-    });
-
-    afterEach(() => {
-        global.window.mm_config = {};
-    });
 
     test('should match snapshot', () => {
         const wrapper = shallowWithIntl(
