@@ -366,6 +366,7 @@ export default class RhsThread extends React.Component {
                     <Comment
                         ref={comPost.id}
                         post={comPost}
+                        teamId={this.props.channel.team_id}
                         lastPostCount={(reverseCount >= 0 && reverseCount < Constants.TEST_ID_COUNT) ? reverseCount : -1}
                         user={p}
                         currentUser={this.props.currentUser}
