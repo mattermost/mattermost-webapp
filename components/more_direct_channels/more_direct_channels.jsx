@@ -41,6 +41,11 @@ export default class MoreDirectChannels extends React.Component {
         isExistingChannel: PropTypes.bool.isRequired,
 
         /*
+         * The mode by which direct messages are restricted, if at all.
+         */
+        restrictDirectMessage: PropTypes.string,
+
+        /*
          * Function to call on modal dismissed
          */
         onModalDismissed: PropTypes.func,
@@ -78,7 +83,7 @@ export default class MoreDirectChannels extends React.Component {
 
         this.searchTimeoutId = 0;
         this.term = '';
-        this.listType = global.window.mm_config.RestrictDirectMessage;
+        this.listType = this.props.restrictDirectMessage;
 
         const values = [];
 

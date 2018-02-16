@@ -5,6 +5,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import {defineMessages, FormattedHTMLMessage, FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import PropTypes from 'prop-types';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {inviteMembers} from 'actions/team_actions.jsx';
@@ -15,7 +16,7 @@ import UserStore from 'stores/user_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as utils from 'utils/utils.jsx';
 
-import ConfirmModal from './confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal.jsx';
 
 const ActionTypes = Constants.ActionTypes;
 
@@ -50,16 +51,6 @@ class InviteMemberModal extends React.Component {
     constructor(props) {
         super(props);
 
-        this.teamChange = this.teamChange.bind(this);
-        this.handleToggle = this.handleToggle.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleHide = this.handleHide.bind(this);
-        this.addInviteFields = this.addInviteFields.bind(this);
-        this.clearFields = this.clearFields.bind(this);
-        this.removeInviteFields = this.removeInviteFields.bind(this);
-        this.showGetTeamInviteLinkModal = this.showGetTeamInviteLinkModal.bind(this);
-        this.handleKeyDown = this.handleKeyDown.bind(this);
-
         const team = TeamStore.getCurrent();
 
         this.state = {
@@ -69,15 +60,13 @@ class InviteMemberModal extends React.Component {
             emailErrors: {},
             firstNameErrors: {},
             lastNameErrors: {},
-            emailEnabled: global.window.mm_config.SendEmailNotifications === 'true',
-            userCreationEnabled: global.window.mm_config.EnableUserCreation === 'true',
             showConfirmModal: false,
             isSendingEmails: false,
             teamType: team ? team.type : null
         };
     }
 
-    teamChange() {
+    teamChange = () => {
         const team = TeamStore.getCurrent();
         const teamType = team ? team.type : null;
         this.setState({
@@ -95,15 +84,15 @@ class InviteMemberModal extends React.Component {
         TeamStore.removeChangeListener(this.teamChange);
     }
 
-    handleToggle(value) {
+    handleToggle = (value) => {
         this.setState({
             show: value,
             serverError: null
         });
     }
 
-    handleSubmit() {
-        if (!this.state.emailEnabled) {
+    handleSubmit = () => {
+        if (!this.props.sendEmailNotifications) {
             return;
         }
 
@@ -162,7 +151,7 @@ class InviteMemberModal extends React.Component {
         );
     }
 
-    handleHide(requireConfirm) {
+    handleHide = (requireConfirm) => {
         if (requireConfirm) {
             var notEmpty = false;
             for (var i = 0; i < this.state.inviteIds.length; i++) {
@@ -190,14 +179,14 @@ class InviteMemberModal extends React.Component {
         });
     }
 
-    addInviteFields() {
+    addInviteFields = () => {
         var count = this.state.idCount + 1;
         var inviteIds = this.state.inviteIds;
         inviteIds.push(count);
         this.setState({inviteIds, idCount: count});
     }
 
-    clearFields() {
+    clearFields = () => {
         var inviteIds = this.state.inviteIds;
 
         for (var i = 0; i < inviteIds.length; i++) {
@@ -216,7 +205,7 @@ class InviteMemberModal extends React.Component {
         });
     }
 
-    removeInviteFields(index) {
+    removeInviteFields = (index) => {
         var count = this.state.idCount;
         var inviteIds = this.state.inviteIds;
         var i = inviteIds.indexOf(index);
@@ -229,13 +218,13 @@ class InviteMemberModal extends React.Component {
         this.setState({inviteIds, idCount: count});
     }
 
-    showGetTeamInviteLinkModal() {
+    showGetTeamInviteLinkModal = () => {
         this.handleHide(false);
 
         GlobalActions.showGetTeamInviteLinkModal();
     }
 
-    handleKeyDown(e) {
+    handleKeyDown = (e) => {
         if (e.keyCode === Constants.KeyCodes.ENTER) {
             e.preventDefault();
             this.handleSubmit();
@@ -308,7 +297,7 @@ class InviteMemberModal extends React.Component {
                                     ref={'first_name' + index}
                                     placeholder={formatMessage(holders.firstname)}
                                     maxLength='64'
-                                    disabled={!this.state.emailEnabled || !this.state.userCreationEnabled}
+                                    disabled={!this.props.sendEmailNotifications || !this.props.enableUserCreation}
                                     spellCheck='false'
                                 />
                                 {firstNameError}
@@ -323,7 +312,7 @@ class InviteMemberModal extends React.Component {
                                     ref={'last_name' + index}
                                     placeholder={formatMessage(holders.lastname)}
                                     maxLength='64'
-                                    disabled={!this.state.emailEnabled || !this.state.userCreationEnabled}
+                                    disabled={!this.props.sendEmailNotifications || !this.props.enableUserCreation}
                                     spellCheck='false'
                                 />
                                 {lastNameError}
@@ -344,7 +333,7 @@ class InviteMemberModal extends React.Component {
                                 className='form-control'
                                 placeholder='email@domain.com'
                                 maxLength='64'
-                                disabled={!this.state.emailEnabled || !this.state.userCreationEnabled}
+                                disabled={!this.props.sendEmailNotifications || !this.props.enableUserCreation}
                                 spellCheck='false'
                                 autoFocus={true}
                             />
@@ -368,7 +357,7 @@ class InviteMemberModal extends React.Component {
                 defaultChannelName = ChannelStore.getByName(Constants.DEFAULT_CHANNEL).display_name;
             }
 
-            if (this.state.emailEnabled && this.state.userCreationEnabled) {
+            if (this.props.sendEmailNotifications && this.props.enableUserCreation) {
                 content = (
                     <div>
                         {serverError}
@@ -430,7 +419,7 @@ class InviteMemberModal extends React.Component {
                         {sendButtonLabel}
                     </button>
                 );
-            } else if (this.state.userCreationEnabled) {
+            } else if (this.props.enableUserCreation) {
                 var teamInviteLink = null;
                 if (currentUser && this.state.teamType === 'O') {
                     var link = (
@@ -537,7 +526,9 @@ class InviteMemberModal extends React.Component {
 }
 
 InviteMemberModal.propTypes = {
-    intl: intlShape.isRequired
+    intl: intlShape.isRequired,
+    sendEmailNotifications: PropTypes.bool.isRequired,
+    enableUserCreation: PropTypes.bool.isRequired
 };
 
 export default injectIntl(InviteMemberModal);

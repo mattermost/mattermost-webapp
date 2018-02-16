@@ -455,7 +455,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
                 isBusy={false}
                 isRHS={false}
                 overwriteImage=""
-                overwriteName={true}
+                overwriteName="overridden_username"
                 status="hello"
                 user={
                   Object {
@@ -516,7 +516,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
                   "pending_post_id": "",
                   "props": Object {
                     "from_webhook": true,
-                    "override_username": true,
+                    "override_username": "overridden_username",
                   },
                   "root_id": "",
                   "state": "deleted",

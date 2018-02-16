@@ -92,6 +92,11 @@ export default class SearchResultsItem extends React.PureComponent {
         commentCountForPost: PropTypes.number,
 
         /**
+         * Whether post username overrides are to be respected.
+         */
+        enablePostUsernameOverride: PropTypes.bool.isRequired,
+
+        /**
         *  Function used for shrinking LHS
         *  on click of jump to message in expanded mode
         */
@@ -200,7 +205,7 @@ export default class SearchResultsItem extends React.PureComponent {
         if (post.props &&
                 post.props.from_webhook &&
                 post.props.override_username &&
-                global.window.mm_config.EnablePostUsernameOverride === 'true') {
+                this.props.enablePostUsernameOverride) {
             overrideUsername = post.props.override_username;
             disableProfilePopover = true;
         }
