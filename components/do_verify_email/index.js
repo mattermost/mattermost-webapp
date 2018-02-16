@@ -4,11 +4,12 @@
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {verifyUserEmail} from 'mattermost-redux/actions/users';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import DoVerifyEmail from './do_verify_email.jsx';
 
 function mapStateToProps(state, ownProps) {
-    const config = state.entities.general.config;
+    const config = getConfig(state);
     const siteName = config.SiteName;
 
     return {
