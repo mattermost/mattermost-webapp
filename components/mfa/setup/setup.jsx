@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import PropTypes from 'prop-types';
 
 import {activateMfa, generateMfaSecret} from 'actions/user_actions.jsx';
 import UserStore from 'stores/user_store.jsx';
@@ -11,8 +12,6 @@ import * as Utils from 'utils/utils.jsx';
 export default class Setup extends React.Component {
     constructor(props) {
         super(props);
-
-        this.submit = this.submit.bind(this);
 
         this.state = {secret: '', qrCode: ''};
     }
@@ -30,7 +29,7 @@ export default class Setup extends React.Component {
         );
     }
 
-    submit(e) {
+    submit = (e) => {
         e.preventDefault();
         const code = this.refs.code.value.replace(/\s/g, '');
         if (!code || code.length === 0) {
@@ -64,14 +63,14 @@ export default class Setup extends React.Component {
         }
 
         let mfaRequired;
-        if (global.window.mm_config.EnforceMultifactorAuthentication === 'true') {
+        if (this.props.enforceMultifactorAuthentication) {
             mfaRequired = (
                 <p>
                     <FormattedHTMLMessage
                         id='mfa.setup.required'
                         defaultMessage='<strong>Multi-factor authentication is required on {siteName}.</strong>'
                         values={{
-                            siteName: global.window.mm_config.SiteName
+                            siteName: this.props.siteName
                         }}
                     />
                 </p>
@@ -147,9 +146,9 @@ export default class Setup extends React.Component {
     }
 }
 
-Setup.defaultProps = {
-};
 Setup.propTypes = {
+    siteName: PropTypes.string,
+    enforceMultifactorAuthentication: PropTypes.bool.isRequired
 };
 
 const style = {

@@ -3,23 +3,33 @@
 
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import PropTypes from 'prop-types';
 
 import * as AdminActions from 'actions/admin_actions.jsx';
 import AnalyticsStore from 'stores/analytics_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import DoughnutChart from './doughnut_chart.jsx';
-import LineChart from './line_chart.jsx';
-import StatisticCount from './statistic_count.jsx';
+import DoughnutChart from '../doughnut_chart.jsx';
+import LineChart from '../line_chart.jsx';
+import StatisticCount from '../statistic_count.jsx';
+
+import {
+    formatPostsPerDayData,
+    formatUsersWithPostsPerDayData,
+    formatChannelDoughtnutData,
+    formatPostDoughtnutData
+} from '../format.jsx';
 
 const StatTypes = Constants.StatTypes;
 
 export default class SystemAnalytics extends React.Component {
+    static propTypes = {
+        isLicensed: PropTypes.bool.isRequired
+    }
+
     constructor(props) {
         super(props);
-
-        this.onChange = this.onChange.bind(this);
 
         this.state = {stats: AnalyticsStore.getAllSystem()};
     }
@@ -31,7 +41,7 @@ export default class SystemAnalytics extends React.Component {
         AdminActions.getPostsPerDayAnalytics();
         AdminActions.getUsersPerDayAnalytics();
 
-        if (global.window.mm_license.IsLicensed === 'true') {
+        if (this.props.isLicensed) {
             AdminActions.getAdvancedAnalytics();
         }
     }
@@ -48,13 +58,13 @@ export default class SystemAnalytics extends React.Component {
         return false;
     }
 
-    onChange() {
+    onChange = () => {
         this.setState({stats: AnalyticsStore.getAllSystem()});
     }
 
     render() {
         const stats = this.state.stats;
-        const isLicensed = global.window.mm_license.IsLicensed === 'true';
+        const isLicensed = this.props.isLicensed;
         const skippedIntensiveQueries = stats[StatTypes.TOTAL_POSTS] === -1;
         const postCountsDay = formatPostsPerDayData(stats[StatTypes.POST_PER_DAY]);
         const userCountsWithPostsDay = formatUsersWithPostsPerDayData(stats[StatTypes.USERS_WITH_POSTS_PER_DAY]);
@@ -127,7 +137,7 @@ export default class SystemAnalytics extends React.Component {
         let commandCount;
         let incomingCount;
         let outgoingCount;
-        if (global.window.mm_license.IsLicensed === 'true') {
+        if (this.props.isLicensed) {
             sessionCount = (
                 <StatisticCount
                     title={
@@ -394,88 +404,4 @@ export default class SystemAnalytics extends React.Component {
             </div>
         );
     }
-}
-
-export function formatChannelDoughtnutData(totalPublic, totalPrivate) {
-    const channelTypeData = {
-        labels: [
-            Utils.localizeMessage('analytics.system.publicChannels', 'Public Channels'),
-            Utils.localizeMessage('analytics.system.privateGroups', 'Private Channels')
-        ],
-        datasets: [{
-            data: [totalPublic, totalPrivate],
-            backgroundColor: ['#46BFBD', '#FDB45C'],
-            hoverBackgroundColor: ['#5AD3D1', '#FFC870']
-        }]
-    };
-
-    return channelTypeData;
-}
-
-export function formatPostDoughtnutData(filePosts, hashtagPosts, totalPosts) {
-    const postTypeData = {
-        labels: [
-            Utils.localizeMessage('analytics.system.totalFilePosts', 'Posts with Files'),
-            Utils.localizeMessage('analytics.system.totalHashtagPosts', 'Posts with Hashtags'),
-            Utils.localizeMessage('analytics.system.textPosts', 'Posts with Text-only')
-        ],
-        datasets: [{
-            data: [filePosts, hashtagPosts, (totalPosts - filePosts - hashtagPosts)],
-            backgroundColor: ['#46BFBD', '#F7464A', '#FDB45C'],
-            hoverBackgroundColor: ['#5AD3D1', '#FF5A5E', '#FFC870']
-        }]
-    };
-
-    return postTypeData;
-}
-
-export function formatPostsPerDayData(data) {
-    var chartData = {
-        labels: [],
-        datasets: [{
-            fillColor: 'rgba(151,187,205,0.2)',
-            borderColor: 'rgba(151,187,205,1)',
-            pointBackgroundColor: 'rgba(151,187,205,1)',
-            pointBorderColor: '#fff',
-            pointHoverBackgroundColor: '#fff',
-            pointHoverBorderColor: 'rgba(151,187,205,1)',
-            data: []
-        }]
-    };
-
-    for (var index in data) {
-        if (data[index]) {
-            var row = data[index];
-            chartData.labels.push(row.name);
-            chartData.datasets[0].data.push(row.value);
-        }
-    }
-
-    return chartData;
-}
-
-export function formatUsersWithPostsPerDayData(data) {
-    var chartData = {
-        labels: [],
-        datasets: [{
-            label: '',
-            fillColor: 'rgba(151,187,205,0.2)',
-            borderColor: 'rgba(151,187,205,1)',
-            pointBackgroundColor: 'rgba(151,187,205,1)',
-            pointBorderColor: '#fff',
-            pointHoverBackgroundColor: '#fff',
-            pointHoverBorderColor: 'rgba(151,187,205,1)',
-            data: []
-        }]
-    };
-
-    for (var index in data) {
-        if (data[index]) {
-            var row = data[index];
-            chartData.labels.push(row.name);
-            chartData.datasets[0].data.push(row.value);
-        }
-    }
-
-    return chartData;
 }

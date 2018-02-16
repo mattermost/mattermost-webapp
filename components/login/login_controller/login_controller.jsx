@@ -22,12 +22,32 @@ import logoImage from 'images/logo.png';
 import AnnouncementBar from 'components/announcement_bar';
 import FormError from 'components/form_error.jsx';
 
-import LoginMfa from './components/login_mfa.jsx';
+import LoginMfa from '../login_mfa.jsx';
 
 export default class LoginController extends React.Component {
     static get propTypes() {
         return {
-            location: PropTypes.object.isRequired
+            location: PropTypes.object.isRequired,
+
+            customBrand: PropTypes.bool.isRequired,
+            isLicensed: PropTypes.bool.isRequired,
+
+            customBrandText: PropTypes.string,
+            customDescriptionText: PropTypes.string,
+            enableCustomBrand: PropTypes.bool.isRequired,
+            enableLdap: PropTypes.bool.isRequired,
+            enableOpenServer: PropTypes.bool.isRequired,
+            enableSaml: PropTypes.bool.isRequired,
+            enableSignInWithEmail: PropTypes.bool.isRequired,
+            enableSignInWithUsername: PropTypes.bool.isRequired,
+            enableSignUpWithEmail: PropTypes.bool.isRequired,
+            enableSignUpWithGitLab: PropTypes.bool.isRequired,
+            enableSignUpWithGoogle: PropTypes.bool.isRequired,
+            enableSignUpWithOffice365: PropTypes.bool.isRequired,
+            experimentalPrimaryTeam: PropTypes.string,
+            ldapLoginFieldName: PropTypes.string,
+            samlLoginButtonText: PropTypes.string,
+            siteName: PropTypes.string
         };
     }
 
@@ -47,10 +67,10 @@ export default class LoginController extends React.Component {
         }
 
         this.state = {
-            ldapEnabled: global.window.mm_license.IsLicensed === 'true' && global.window.mm_config.EnableLdap === 'true',
-            usernameSigninEnabled: global.window.mm_config.EnableSignInWithUsername === 'true',
-            emailSigninEnabled: global.window.mm_config.EnableSignInWithEmail === 'true',
-            samlEnabled: global.window.mm_license.IsLicensed === 'true' && global.window.mm_config.EnableSaml === 'true',
+            ldapEnabled: this.props.isLicensed && this.props.enableLdap,
+            usernameSigninEnabled: this.props.enableSignInWithUsername,
+            emailSigninEnabled: this.props.enableSignInWithEmail,
+            samlEnabled: this.props.isLicensed && this.props.enableSaml,
             loginId,
             password: '',
             showMfa: false,
@@ -59,7 +79,7 @@ export default class LoginController extends React.Component {
     }
 
     componentDidMount() {
-        document.title = global.window.mm_config.SiteName;
+        document.title = this.props.siteName;
         BrowserStore.removeGlobalItem('team');
         if (UserStore.getCurrentUser()) {
             GlobalActions.redirectUserToDefaultTeam();
@@ -112,7 +132,7 @@ export default class LoginController extends React.Component {
                     <FormattedMessage
                         id={msgId}
                         values={{
-                            ldapUsername: global.window.mm_config.LdapLoginFieldName || Utils.localizeMessage('login.ldapUsernameLower', 'AD/LDAP username')
+                            ldapUsername: this.props.ldapLoginFieldName || Utils.localizeMessage('login.ldapUsernameLower', 'AD/LDAP username')
                         }}
                     />
                 )
@@ -214,7 +234,7 @@ export default class LoginController extends React.Component {
     }
 
     finishSignin(team) {
-        const experimentalPrimaryTeam = global.mm_config.ExperimentalPrimaryTeam;
+        const experimentalPrimaryTeam = this.props.experimentalPrimaryTeam;
         const primaryTeam = TeamStore.getByName(experimentalPrimaryTeam);
         const query = new URLSearchParams(this.props.location.search);
         const redirectTo = query.get('redirect_to');
@@ -244,10 +264,10 @@ export default class LoginController extends React.Component {
     }
 
     createCustomLogin() {
-        if (global.window.mm_license.IsLicensed === 'true' &&
-                global.window.mm_license.CustomBrand === 'true' &&
-                global.window.mm_config.EnableCustomBrand === 'true') {
-            const text = global.window.mm_config.CustomBrandText || '';
+        if (this.props.isLicensed &&
+                this.props.customBrand &&
+                this.props.enableCustomBrand) {
+            const text = this.props.customBrandText || '';
             const formattedText = TextFormatting.formatText(text);
 
             return (
@@ -255,9 +275,9 @@ export default class LoginController extends React.Component {
                     <img
                         src={Client4.getBrandImageUrl(0)}
                     />
-                    <p>
+                    <div>
                         {messageHtmlToComponent(formattedText, false, {mentions: false})}
-                    </p>
+                    </div>
                 </div>
             );
         }
@@ -280,8 +300,8 @@ export default class LoginController extends React.Component {
         }
 
         if (ldapEnabled) {
-            if (global.window.mm_config.LdapLoginFieldName) {
-                loginPlaceholders.push(global.window.mm_config.LdapLoginFieldName);
+            if (this.props.ldapLoginFieldName) {
+                loginPlaceholders.push(this.props.ldapLoginFieldName);
             } else {
                 loginPlaceholders.push(Utils.localizeMessage('login.ldapUsername', 'AD/LDAP Username'));
             }
@@ -299,12 +319,12 @@ export default class LoginController extends React.Component {
     }
 
     checkSignUpEnabled() {
-        return global.window.mm_config.EnableSignUpWithEmail === 'true' ||
-            global.window.mm_config.EnableSignUpWithGitLab === 'true' ||
-            global.window.mm_config.EnableSignUpWithOffice365 === 'true' ||
-            global.window.mm_config.EnableSignUpWithGoogle === 'true' ||
-            global.window.mm_config.EnableLdap === 'true' ||
-            global.window.mm_config.EnableSaml === 'true';
+        return this.props.enableSignUpWithEmail ||
+            this.props.enableSignUpWithGitLab ||
+            this.props.enableSignUpWithOffice365 ||
+            this.props.enableSignUpWithGoogle ||
+            this.props.enableLdap ||
+            this.props.enableSaml;
     }
 
     createLoginOptions() {
@@ -357,9 +377,9 @@ export default class LoginController extends React.Component {
         const loginControls = [];
 
         const ldapEnabled = this.state.ldapEnabled;
-        const gitlabSigninEnabled = global.window.mm_config.EnableSignUpWithGitLab === 'true';
-        const googleSigninEnabled = global.window.mm_config.EnableSignUpWithGoogle === 'true';
-        const office365SigninEnabled = global.window.mm_config.EnableSignUpWithOffice365 === 'true';
+        const gitlabSigninEnabled = this.props.enableSignUpWithGitLab;
+        const googleSigninEnabled = this.props.enableSignUpWithGoogle;
+        const office365SigninEnabled = this.props.enableSignUpWithOffice365;
         const samlSigninEnabled = this.state.samlEnabled;
         const usernameSigninEnabled = this.state.usernameSigninEnabled;
         const emailSigninEnabled = this.state.emailSigninEnabled;
@@ -438,7 +458,7 @@ export default class LoginController extends React.Component {
             );
         }
 
-        if (global.window.mm_config.EnableOpenServer === 'true' && this.checkSignUpEnabled()) {
+        if (this.props.enableOpenServer && this.checkSignUpEnabled()) {
             loginControls.push(
                 <div
                     className='form-group'
@@ -573,7 +593,7 @@ export default class LoginController extends React.Component {
                     <span>
                         <span className='icon fa fa-lock fa--margin-top'/>
                         <span>
-                            {global.window.mm_config.SamlLoginButtonText}
+                            {this.props.samlLoginButtonText}
                         </span>
                     </span>
                 </a>
@@ -623,8 +643,8 @@ export default class LoginController extends React.Component {
         }
 
         let description = null;
-        if (global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.CustomBrand === 'true' && global.window.mm_config.EnableCustomBrand === 'true') {
-            description = global.window.mm_config.CustomDescriptionText;
+        if (this.props.isLicensed && this.props.customBrand && this.props.enableCustomBrand) {
+            description = this.props.customDescriptionText;
         } else {
             description = (
                 <FormattedMessage
@@ -647,7 +667,7 @@ export default class LoginController extends React.Component {
                             src={logoImage}
                         />
                         <div className='signup__content'>
-                            <h1>{global.window.mm_config.SiteName}</h1>
+                            <h1>{this.props.siteName}</h1>
                             <h4 className='color--light'>
                                 {description}
                             </h4>

@@ -9,14 +9,16 @@ import {Route, Switch} from 'react-router-dom';
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import logoImage from 'images/logo.png';
 import BackButton from 'components/common/back_button.jsx';
-import Setup from 'components/mfa/components/setup';
-import Confirm from 'components/mfa/components/confirm';
+
+import Setup from '../setup';
+import Confirm from '../confirm';
 
 export default class MFAController extends React.Component {
     componentDidMount() {
         document.body.classList.add('sticky');
         document.getElementById('root').classList.add('container-fluid');
-        if (window.mm_license.MFA !== 'true' || window.mm_config.EnableMultifactorAuthentication !== 'true') {
+
+        if (!this.props.mfa || !this.props.enableMultifactorAuthentication) {
             this.props.history.push('/');
         }
     }
@@ -33,7 +35,7 @@ export default class MFAController extends React.Component {
 
     render() {
         let backButton;
-        if (window.mm_config.EnforceMultifactorAuthentication === 'true') {
+        if (this.props.enforceMultifactorAuthentication) {
             backButton = (
                 <div className='signup-header'>
                     <button
@@ -102,9 +104,10 @@ export default class MFAController extends React.Component {
     }
 }
 
-MFAController.defaultProps = {
-};
 MFAController.propTypes = {
     location: PropTypes.object.isRequired,
-    children: PropTypes.node
+    children: PropTypes.node,
+    mfa: PropTypes.bool.isRequired,
+    enableMultifactorAuthentication: PropTypes.bool.isRequired,
+    enforceMultifactorAuthentication: PropTypes.bool.isRequired
 };
