@@ -12,7 +12,7 @@ import ViewImageModal from 'components/view_image';
 import * as PostUtils from 'utils/post_utils.jsx';
 
 import PostAttachmentList from './post_attachment_list.jsx';
-import PostAttachmentOpenGraph from './post_attachment_opengraph';
+import PostAttachmentOpenGraph from './attachments/post_attachment_opengraph';
 import PostImage from './post_image.jsx';
 
 export default class PostBodyAdditionalContent extends React.PureComponent {

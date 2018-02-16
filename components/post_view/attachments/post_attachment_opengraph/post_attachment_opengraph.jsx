@@ -8,8 +8,32 @@ import {postListScrollChange} from 'actions/global_actions.jsx';
 import {updatePost} from 'actions/post_actions.jsx';
 import * as CommonUtils from 'utils/commons.jsx';
 import {PostTypes} from 'utils/constants.jsx';
-import {useSafeUrl} from 'utils/url';
 import * as Utils from 'utils/utils.jsx';
+
+import {
+    AttachmentContainer,
+    AttachmentContentContainer,
+    AttachmentContentLeft,
+    AttachmentDescription,
+    AttachmentSiteName,
+    AttachmentTitle, ImageLarge,
+    ImageThumbnail,
+    RemovePreviewButton
+} from 'components/post_view/attachments/attachment_styles';
+import {useSafeUrl} from 'utils/url';
+
+const LARGE_IMAGE_MIN_WIDTH = 150;
+const IMAGE_DIMENSIONS = {
+    height: 80,
+    width: 80
+};
+const TEXT_MAX_LENGTH = 250;
+const TEXT_ELLIPSIS = '...';
+const IMAGE_LOADED = {
+    LOADING: 'loading',
+    YES: 'yes',
+    ERROR: 'error'
+};
 
 export default class PostAttachmentOpenGraph extends React.PureComponent {
     static propTypes = {
@@ -49,39 +73,16 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
 
     constructor(props) {
         super(props);
-        this.largeImageMinWidth = 150;
-        this.imageDimentions = { // Image dimentions in pixels.
-            height: 80,
-            width: 80
-        };
-        this.textMaxLenght = 300;
-        this.textEllipsis = '...';
+        this.state = {};
         this.largeImageMinRatio = 16 / 9;
-        this.smallImageContainerLeftPadding = 15;
-
         this.imageRatio = null;
-
-        this.smallImageContainer = null;
-        this.smallImageElement = null;
-
-        this.IMAGE_LOADED = {
-            LOADING: 'loading',
-            YES: 'yes',
-            ERROR: 'error'
-        };
-
-        this.fetchData = this.fetchData.bind(this);
-        this.toggleImageVisibility = this.toggleImageVisibility.bind(this);
-        this.onImageLoad = this.onImageLoad.bind(this);
-        this.onImageError = this.onImageError.bind(this);
-        this.handleRemovePreview = this.handleRemovePreview.bind(this);
     }
 
     componentWillMount() {
         const removePreview = this.isRemovePreview(this.props.post, this.props.currentUser);
 
         this.setState({
-            imageLoaded: this.IMAGE_LOADED.LOADING,
+            imageLoaded: IMAGE_LOADED.LOADING,
             imageVisible: this.props.previewCollapsed.startsWith('false'),
             hasLargeImage: false,
             removePreview
@@ -110,7 +111,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         setTimeout(postListScrollChange, 0);
     }
 
-    fetchData(url) {
+    fetchData = (url) => {
         if (!this.props.openGraphData) {
             this.props.actions.getOpenGraphMetadata(url);
         }
@@ -120,19 +121,18 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         if (Utils.isEmptyObject(data.images)) {
             return null;
         }
-
-        const bestImage = CommonUtils.getNearestPoint(this.imageDimentions, data.images, 'width', 'height');
+        const bestImage = CommonUtils.getNearestPoint(IMAGE_DIMENSIONS, data.images, 'width', 'height');
         return bestImage.secure_url || bestImage.url;
     }
 
-    toggleImageVisibility() {
+    toggleImageVisibility = () => {
         this.setState({imageVisible: !this.state.imageVisible});
     }
 
-    onImageLoad(image) {
+    onImageLoad = (image) => {
         this.imageRatio = image.target.naturalWidth / image.target.naturalHeight;
         if (
-            image.target.naturalWidth >= this.largeImageMinWidth &&
+            image.target.naturalWidth >= LARGE_IMAGE_MIN_WIDTH &&
             this.imageRatio >= this.largeImageMinRatio &&
             !this.state.hasLargeImage
         ) {
@@ -141,12 +141,12 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
             });
         }
         this.setState({
-            imageLoaded: this.IMAGE_LOADED.YES
+            imageLoaded: IMAGE_LOADED.YES
         });
     }
 
-    onImageError() {
-        this.setState({imageLoaded: this.IMAGE_LOADED.ERROR});
+    onImageError = () => {
+        this.setState({imageLoaded: IMAGE_LOADED.ERROR});
     }
 
     loadImage(src) {
@@ -170,71 +170,44 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         return null;
     }
 
-    getSmallImageContainer = (node) => {
-        this.smallImageContainer = node;
-    }
-
-    wrapInSmallImageContainer(imageElement) {
-        return (
-            <div
-                className='attachment__image__container--openraph'
-                ref={this.getSmallImageContainer}
-            >
-                {imageElement}
-            </div>
-        );
-    }
-
-    getSmallImageElement = (node) => {
-        this.smallImageElement = node;
-    }
-
     imageTag(imageUrl, renderingForLargeImage = false) {
-        var element = null;
         if (
             imageUrl && renderingForLargeImage === this.state.hasLargeImage &&
             (!renderingForLargeImage || (renderingForLargeImage && this.state.imageVisible))
         ) {
-            if (this.state.imageLoaded === this.IMAGE_LOADED.LOADING) {
+            if (this.state.imageLoaded === IMAGE_LOADED.LOADING) {
                 if (renderingForLargeImage) {
-                    element = <img className={'attachment__image attachment__image--openraph loading large_image'}/>;
-                } else {
-                    element = this.wrapInSmallImageContainer(
-                        <img className={'attachment__image attachment__image--openraph loading '}/>
-                    );
+                    return <ImageLarge/>;
                 }
-            } else if (this.state.imageLoaded === this.IMAGE_LOADED.YES) {
+                return (
+                    <ImageThumbnail/>
+                );
+            } else if (this.state.imageLoaded === IMAGE_LOADED.YES) {
                 if (renderingForLargeImage) {
-                    element = (
-                        <img
-                            className={'attachment__image attachment__image--openraph large_image'}
+                    return (
+                        <ImageLarge
                             src={imageUrl}
                         />
                     );
-                } else {
-                    element = this.wrapInSmallImageContainer(
-                        <img
-                            className={'attachment__image attachment__image--openraph'}
-                            src={imageUrl}
-                            ref={this.getSmallImageElement}
-                        />
-                    );
                 }
-            } else if (this.state.imageLoaded === this.IMAGE_LOADED.ERROR) {
-                return null;
+                return (
+                    <ImageThumbnail
+                        src={imageUrl}
+                    />
+                );
             }
         }
-        return element;
+        return null;
     }
 
-    truncateText(text, maxLength = this.textMaxLenght, ellipsis = this.textEllipsis) {
+    truncateText(text, maxLength = TEXT_MAX_LENGTH, ellipsis = TEXT_ELLIPSIS) {
         if (text.length > maxLength) {
             return text.substring(0, maxLength - ellipsis.length) + ellipsis;
         }
         return text;
     }
 
-    handleRemovePreview() {
+    handleRemovePreview = () => {
         const props = Object.assign({}, this.props.post.props);
         props[PostTypes.REMOVE_LINK_PREVIEW] = 'true';
 
@@ -255,17 +228,10 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
 
         return false;
     }
-
-    render() {
-        const data = this.props.openGraphData;
-        if (!data || Utils.isEmptyObject(data.description) || this.state.removePreview) {
-            return null;
-        }
-
-        let removePreviewButton;
+    removePreviewButton() {
         if (this.props.currentUser.id === this.props.post.user_id) {
-            removePreviewButton = (
-                <button
+            return (
+                <RemovePreviewButton
                     id='removePreviewButton'
                     type='button'
                     className='btn-close'
@@ -273,7 +239,23 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                     onClick={this.handleRemovePreview}
                 >
                     <span aria-hidden='true'>{'×'}</span>
-                </button>
+                </RemovePreviewButton>
+            );
+        }
+        return null;
+    }
+
+    render() {
+        // debugger;
+        const data = this.props.openGraphData;
+        if (this.state.removePreview) {
+            return null;
+        }
+        if (!data || Utils.isEmptyObject(data.description)) {
+            return (
+                <AttachmentContainer>
+                    <AttachmentContentContainer/>
+                </AttachmentContainer>
             );
         }
 
@@ -283,50 +265,36 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         }
 
         return (
-            <div
-                className='attachment attachment--opengraph'
-                ref='attachment'
-            >
-                <div className='attachment__content'>
-                    <div
-                        className={'clearfix attachment__container attachment__container--opengraph'}
-                    >
-                        <div
-                            className={'attachment__body__wrap attachment__body__wrap--opengraph'}
-                        >
-                            <span className='sitename'>{this.truncateText(data.site_name)}</span>
-                            {removePreviewButton}
-                            <h1
-                                className={'attachment__title attachment__title--opengraph' + (data.title ? '' : ' is-url')}
+            <AttachmentContainer>
+                {this.removePreviewButton()}
+                <AttachmentContentContainer
+                    className='bs4-d-flex bs4-align-items-stretch'
+                >
+                    <AttachmentContentLeft>
+                        <AttachmentSiteName>
+                            {this.truncateText(data.site_name)}
+                        </AttachmentSiteName>
+                        <AttachmentTitle>
+                            <a
+                                href={useSafeUrl(data.url || this.props.link)}
+                                target='_blank'
+                                rel='noopener noreferrer'
+                                title={data.title || data.url || this.props.link}
                             >
-                                <a
-                                    className='attachment__title-link attachment__title-link--opengraph'
-                                    href={useSafeUrl(data.url || this.props.link)}
-                                    target='_blank'
-                                    rel='noopener noreferrer'
-                                    title={data.title || data.url || this.props.link}
-                                >
-                                    {this.truncateText(data.title || data.url || this.props.link)}
-                                </a>
-                            </h1>
-                            <div >
-                                <div
-                                    className={'attachment__body attachment__body--opengraph'}
-                                >
-                                    <div>
-                                        <div>
-                                            {this.truncateText(data.description)} &nbsp;
-                                            {this.imageToggleAnchoreTag(imageUrl)}
-                                        </div>
-                                        {this.imageTag(imageUrl, true)}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                {this.truncateText(data.title || data.url || this.props.link)}
+                            </a>
+                        </AttachmentTitle>
+                        <AttachmentDescription>
+                            {this.truncateText(data.description)}
+                            {this.imageToggleAnchoreTag(imageUrl)}
+                        </AttachmentDescription>
+                        {this.imageTag(imageUrl, true)}
+                    </AttachmentContentLeft>
+                    <div className='bs4-ml-auto'>
                         {this.imageTag(imageUrl, false)}
                     </div>
-                </div>
-            </div>
+                </AttachmentContentContainer>
+            </AttachmentContainer>
         );
     }
 }
