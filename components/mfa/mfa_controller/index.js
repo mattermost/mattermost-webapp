@@ -2,12 +2,13 @@
 // See License.txt for license information.
 
 import {connect} from 'react-redux';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import MFAController from './mfa_controller.jsx';
 
 function mapStateToProps(state) {
-    const license = state.entities.general.license;
-    const config = state.entities.general.config;
+    const license = getLicense(state);
+    const config = getConfig(state);
 
     const mfa = license.MFA === 'true';
     const enableMultifactorAuthentication = config.EnableMultifactorAuthentication === 'true';

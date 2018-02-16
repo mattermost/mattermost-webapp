@@ -3,12 +3,13 @@
 
 import {connect} from 'react-redux';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import AnnouncementBar from './announcement_bar.jsx';
 
 function mapStateToProps(state) {
-    const license = state.entities.general.license;
-    const config = state.entities.general.config;
+    const license = getLicense(state);
+    const config = getConfig(state);
 
     const licenseId = license.Id;
     const siteURL = config.SiteURL;

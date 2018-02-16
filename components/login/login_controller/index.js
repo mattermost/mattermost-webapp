@@ -2,12 +2,13 @@
 // See License.txt for license information.
 
 import {connect} from 'react-redux';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import LoginController from './login_controller.jsx';
 
 function mapStateToProps(state) {
-    const config = state.entities.general.config;
-    const license = state.entities.general.license;
+    const config = getConfig(state);
+    const license = getLicense(state);
 
     const customBrand = license.CustomBrand === 'true';
     const isLicensed = license.IsLicensed === 'true';
