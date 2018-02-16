@@ -36,6 +36,7 @@ export default class ChannelController extends React.Component {
         pathName: PropTypes.string.isRequired,
         teamType: PropTypes.string.isRequired
     };
+
     shouldComponentUpdate(nextProps) {
         return this.props.teamType !== nextProps.teamType || this.props.pathName !== nextProps.pathName;
     }
@@ -52,15 +53,7 @@ export default class ChannelController extends React.Component {
                     <WebrtcSidebar/>
                     <Route component={TeamSidebar}/>
                     <Route component={Sidebar}/>
-
-                    <Route
-                        render={(params) => (
-                            <CenterChannel
-                                params={params}
-                            />
-                        )}
-                    />
-
+                    <Route component={CenterChannel}/>
                     <Pluggable pluggableName='Root'/>
                     <UserSettingsModal/>
                     <GetPostLinkModal/>
