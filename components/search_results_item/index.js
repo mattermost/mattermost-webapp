@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {closeRightHandSide} from 'actions/views/rhs';
 
@@ -14,7 +15,7 @@ function mapStateToProps() {
     const getCommentCountForPost = makeGetCommentCountForPost();
 
     return (state, ownProps) => {
-        const config = state.entities.general.config;
+        const config = getConfig(state);
         const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
 
         return {

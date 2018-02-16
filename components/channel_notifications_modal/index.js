@@ -2,11 +2,12 @@
 // See License.txt for license information.
 
 import {connect} from 'react-redux';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import ChannelNotificationsModal from './channel_notifications_modal.jsx';
 
 function mapStateToProps(state) {
-    const config = state.entities.general.config;
+    const config = getConfig(state);
     const sendPushNotifications = config.SendPushNotifications === 'true';
 
     return {

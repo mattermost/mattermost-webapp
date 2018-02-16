@@ -8,6 +8,7 @@ import {
     getCurrentUserId,
     getProfilesInCurrentChannel
 } from 'mattermost-redux/selectors/entities/users';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import MoreDirectChannels from './more_direct_channels.jsx';
 
@@ -17,7 +18,7 @@ function mapStateToProps(state, ownProps) {
         currentChannelMembers = getProfilesInCurrentChannel(state);
     }
 
-    const config = state.entities.general.config;
+    const config = getConfig(state);
     const restrictDirectMessage = config.RestrictDirectMessage;
 
     return {
