@@ -5,13 +5,12 @@ import {connect} from 'react-redux';
 
 import ClaimController from './claim_controller.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const config = state.entities.general.config;
     const siteName = config.SiteName;
     const ldapLoginFieldName = config.LdapLoginFieldName;
 
     return {
-        ...ownProps,
         siteName,
         ldapLoginFieldName
     };
