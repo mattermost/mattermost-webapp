@@ -56,7 +56,9 @@ export default class SearchResults extends React.PureComponent {
         isFlaggedPosts: PropTypes.bool,
         isPinnedPosts: PropTypes.bool,
         channelDisplayName: PropTypes.string.isRequired,
-        selectPost: PropTypes.func
+        selectPost: PropTypes.func,
+        dataRetentionEnableMessageDeletion: PropTypes.bool.isRequired,
+        dataRetentionMessageRetentionDays: PropTypes.string
     };
 
     constructor(props) {
@@ -169,14 +171,14 @@ export default class SearchResults extends React.PureComponent {
                 </li>
             ];
 
-            if (global.window.mm_config.DataRetentionEnableMessageDeletion === 'true') {
+            if (this.props.dataRetentionEnableMessageDeletion) {
                 tips.push(
                     <li>
                         <FormattedMessage
                             id='search_results.usage.dataRetention'
                             defaultMessage='Only messages posted in the last {days} days are returned. Contact your System Administrator for more detail.'
                             values={{
-                                days: global.window.mm_config.DataRetentionMessageRetentionDays
+                                days: this.props.dataRetentionMessageRetentionDays
                             }}
                         />
                     </li>
@@ -218,14 +220,14 @@ export default class SearchResults extends React.PureComponent {
                 </li>
             ];
 
-            if (global.window.mm_config.DataRetentionEnableMessageDeletion === 'true') {
+            if (this.props.dataRetentionEnableMessageDeletion) {
                 tips.push(
                     <li>
                         <FormattedMessage
                             id='search_results.usage.dataRetention'
                             defaultMessage='Only messages posted in the last {days} days are returned. Contact your System Administrator for more detail.'
                             values={{
-                                days: global.window.mm_config.DataRetentionMessageRetentionDays
+                                days: this.props.dataRetentionMessageRetentionDays
                             }}
                         />
                     </li>
@@ -292,14 +294,14 @@ export default class SearchResults extends React.PureComponent {
                 </li>
             ];
 
-            if (global.window.mm_config.DataRetentionEnableMessageDeletion === 'true') {
+            if (this.props.dataRetentionEnableMessageDeletion) {
                 tips.push(
                     <li>
                         <FormattedMessage
                             id='search_results.usage.dataRetention'
                             defaultMessage='Only messages posted in the last {days} days are returned. Contact your System Administrator for more detail.'
                             values={{
-                                days: global.window.mm_config.DataRetentionMessageRetentionDays
+                                days: this.props.dataRetentionMessageRetentionDays
                             }}
                         />
                     </li>

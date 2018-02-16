@@ -37,6 +37,10 @@ function mapStateToProps(state, ownProps) {
 
     const channel = state.entities.channels.channels[ownProps.channelId] || {};
 
+    const config = getConfig(state);
+    const enableConfirmNotificationsToChannel = config.EnableConfirmNotificationsToChannel === 'true';
+    const enableEmojiPicker = config.EnableEmojiPicker === 'true';
+
     return {
         draft,
         messageInHistory,
@@ -44,7 +48,9 @@ function mapStateToProps(state, ownProps) {
         channelMembersCount,
         ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
         createPostErrorId: err.server_error_id,
-        readOnlyChannel: !isCurrentUserSystemAdmin(state) && getConfig(state).ExperimentalTownSquareIsReadOnly === 'true' && channel.name === Constants.DEFAULT_CHANNEL
+        readOnlyChannel: !isCurrentUserSystemAdmin(state) && config.ExperimentalTownSquareIsReadOnly === 'true' && channel.name === Constants.DEFAULT_CHANNEL,
+        enableConfirmNotificationsToChannel,
+        enableEmojiPicker
     };
 }
 

@@ -11,7 +11,7 @@ import * as Utils from 'utils/utils.jsx';
 import StatusDropdown from 'components/status_dropdown/index.jsx';
 import {createMenuTip} from 'components/tutorial/tutorial_tip.jsx';
 
-import SidebarHeaderDropdown from './sidebar_header_dropdown.jsx';
+import SidebarHeaderDropdown from './dropdown';
 
 export default class SidebarHeader extends React.Component {
     constructor(props) {
@@ -40,7 +40,7 @@ export default class SidebarHeader extends React.Component {
             return {};
         }
         const tutorialStep = PreferenceStore.getInt(Preferences.TUTORIAL_STEP, this.props.currentUser.id, TutorialSteps.FINISHED);
-        const showTutorialTip = tutorialStep === TutorialSteps.MENU_POPOVER && !Utils.isMobile() && global.window.mm_config.EnableTutorial === 'true';
+        const showTutorialTip = tutorialStep === TutorialSteps.MENU_POPOVER && !Utils.isMobile() && this.props.enableTutorial;
 
         return {showTutorialTip};
     }
@@ -140,15 +140,17 @@ export default class SidebarHeader extends React.Component {
     }
 }
 
-SidebarHeader.defaultProps = {
-    teamDisplayName: '',
-    teamDescription: '',
-    teamType: ''
-};
 SidebarHeader.propTypes = {
     teamDisplayName: PropTypes.string,
     teamDescription: PropTypes.string,
     teamName: PropTypes.string,
     teamType: PropTypes.string,
-    currentUser: PropTypes.object
+    currentUser: PropTypes.object,
+    enableTutorial: PropTypes.bool.isRequired
+};
+
+SidebarHeader.defaultProps = {
+    teamDisplayName: '',
+    teamDescription: '',
+    teamType: ''
 };
