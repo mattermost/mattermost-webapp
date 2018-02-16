@@ -15,7 +15,6 @@ function mapStateToProps(state, ownProps) {
     const hookId = (new URLSearchParams(ownProps.location.search)).get('id');
 
     return {
-        ...ownProps,
         hookId,
         hook: state.entities.integrations.incomingHooks[hookId],
         updateIncomingHookRequest: state.requests.integrations.updateIncomingHook,

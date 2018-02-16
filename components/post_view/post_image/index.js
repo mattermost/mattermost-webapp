@@ -5,12 +5,11 @@ import {connect} from 'react-redux';
 
 import PostImage from './post_image.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const config = state.entities.general.config;
     const hasImageProxy = config.HasImageProxy === 'true';
 
     return {
-        ...ownProps,
         hasImageProxy
     };
 }

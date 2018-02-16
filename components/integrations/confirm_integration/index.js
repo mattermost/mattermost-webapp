@@ -6,9 +6,8 @@ import {getCommands} from 'mattermost-redux/selectors/entities/integrations';
 
 import ConfirmIntegration from './confirm_integration.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
-        ...ownProps,
         commands: getCommands(state)
     };
 }

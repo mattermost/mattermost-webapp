@@ -13,7 +13,6 @@ function mapStateToProps(state, ownProps) {
     const enableOutgoingWebhooks = config.EnableOutgoingWebhooks === 'true';
 
     return {
-        ...ownProps,
         hookId,
         hook: state.entities.integrations.outgoingHooks[hookId],
         updateOutgoingHookRequest: state.requests.integrations.createOutgoingHook,

@@ -9,12 +9,11 @@ import {getUsers} from 'mattermost-redux/selectors/entities/users';
 
 import CommandsContainer from './commands_container.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const config = state.entities.general.config;
     const enableCommands = config.EnableCommands === 'true';
 
     return {
-        ...ownProps,
         commands: Object.values(getCommands(state)),
         users: getUsers(state),
         enableCommands

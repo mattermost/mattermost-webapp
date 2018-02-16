@@ -14,7 +14,6 @@ function mapStateToProps(state, ownProps) {
     const enableOAuthServiceProvider = config.EnableOAuthServiceProvider === 'true';
 
     return {
-        ...ownProps,
         isSystemAdmin: isCurrentUserSystemAdmin(state),
         oauthAppId,
         oauthApp: state.entities.integrations.oauthApps[oauthAppId],

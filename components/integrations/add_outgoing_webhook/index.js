@@ -7,9 +7,8 @@ import {createOutgoingHook} from 'mattermost-redux/actions/integrations';
 
 import AddOutgoingWebhook from './add_outgoing_webhook.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
-        ...ownProps,
         createOutgoingHookRequest: state.requests.integrations.createOutgoingHook
     };
 }

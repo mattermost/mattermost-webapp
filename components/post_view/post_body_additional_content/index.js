@@ -5,13 +5,12 @@ import {connect} from 'react-redux';
 
 import PostBodyAdditionalContent from './post_body_additional_content.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const config = state.entities.general.config;
     const enableLinkPreviews = config.EnableLinkPreviews === 'true';
     const hasImageProxy = config.HasImageProxy === 'true';
 
     return {
-        ...ownProps,
         enableLinkPreviews,
         hasImageProxy
     };

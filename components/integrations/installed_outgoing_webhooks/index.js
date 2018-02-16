@@ -8,7 +8,7 @@ import {getUsers} from 'mattermost-redux/selectors/entities/users';
 
 import InstalledOutgoingWebhook from './installed_outgoing_webhooks.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const config = state.entities.general.config;
     const teamId = getCurrentTeamId(state);
     const outgoingHooks = getOutgoingHooks(state);
@@ -18,7 +18,6 @@ function mapStateToProps(state, ownProps) {
     const enableOutgoingWebhooks = config.EnableOutgoingWebhooks === 'true';
 
     return {
-        ...ownProps,
         outgoingWebhooks,
         channels: getAllChannels(state),
         users: getUsers(state),

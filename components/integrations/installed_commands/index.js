@@ -7,12 +7,6 @@ import {deleteCommand, regenCommandToken} from 'mattermost-redux/actions/integra
 
 import InstalledCommands from './installed_commands.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps
-    };
-}
-
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
@@ -22,4 +16,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(InstalledCommands);
+export default connect(null, mapDispatchToProps)(InstalledCommands);

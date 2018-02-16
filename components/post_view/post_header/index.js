@@ -7,12 +7,11 @@ import {get} from 'mattermost-redux/selectors/entities/preferences';
 
 import PostHeader from './post_header.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const config = state.entities.general.config;
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
 
     return {
-        ...ownProps,
         displayNameType: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, 'name_format', 'false'),
         enablePostUsernameOverride
     };

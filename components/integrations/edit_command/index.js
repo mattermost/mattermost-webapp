@@ -14,7 +14,6 @@ function mapStateToProps(state, ownProps) {
     const enableCommands = config.EnableCommands === 'true';
 
     return {
-        ...ownProps,
         commandId,
         commands: getCommands(state),
         enableCommands

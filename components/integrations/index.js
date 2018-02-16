@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 
 import Integrations from './integrations.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const config = state.entities.general.config;
     const siteName = config.SiteName;
     const enableIncomingWebhooks = config.EnableIncomingWebhooks === 'true';
@@ -15,7 +15,6 @@ function mapStateToProps(state, ownProps) {
     const enableOnlyAdminIntegrations = config.EnableOnlyAdminIntegrations === 'true';
 
     return {
-        ...ownProps,
         siteName,
         enableIncomingWebhooks,
         enableOutgoingWebhooks,

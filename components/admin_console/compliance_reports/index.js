@@ -8,7 +8,7 @@ import {getComplianceReports as selectComplianceReports, getConfig} from 'matter
 
 import ComplianceReports from './compliance_reports.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const license = state.entities.general.license;
     const isLicensed = license.IsLicened === 'true';
 
@@ -29,7 +29,6 @@ function mapStateToProps(state, ownProps) {
     });
 
     return {
-        ...ownProps,
         isLicensed,
         enabled,
         reports,

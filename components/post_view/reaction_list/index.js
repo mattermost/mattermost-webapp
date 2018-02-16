@@ -17,7 +17,6 @@ function makeMapStateToProps() {
         const enableEmojiPicker = config.EnableEmojiPicker === 'true';
 
         return {
-            ...ownProps,
             reactions: getReactionsForPost(state, ownProps.post.id),
             emojis: getCustomEmojisByName(state),
             enableEmojiPicker

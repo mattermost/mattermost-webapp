@@ -8,9 +8,8 @@ import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/user
 
 import AddOAuthApp from './add_oauth_app.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
-        ...ownProps,
         addOAuthAppRequest: state.requests.integrations.addOAuthApp,
         isSystemAdmin: isCurrentUserSystemAdmin(state)
     };

@@ -25,7 +25,6 @@ function mapStateToProps(state, ownProps) {
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
 
     return {
-        ...ownProps,
         parentPost,
         parentPostUser,
         pluginPostTypes: state.plugins.postTypes,

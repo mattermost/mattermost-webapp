@@ -9,7 +9,7 @@ import {getTeamsList} from 'mattermost-redux/selectors/entities/teams';
 
 import SystemUsers from './system_users.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const license = state.entities.general.license;
     const config = state.entities.general.config;
 
@@ -20,7 +20,6 @@ function mapStateToProps(state, ownProps) {
     const experimentalEnableAuthenticationTransfer = config.ExperimentalEnableAuthenticationTransfer === 'true';
 
     return {
-        ...ownProps,
         teams: getTeamsList(state),
         siteName,
         mfaEnabled,

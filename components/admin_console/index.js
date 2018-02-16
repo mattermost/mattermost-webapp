@@ -12,9 +12,8 @@ import {getNavigationBlocked, showNavigationPrompt} from 'selectors/views/admin'
 
 import AdminConsole from './admin_console.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
-        ...ownProps,
         config: Selectors.getConfig(state),
         license: state.entities.general.license,
         navigationBlocked: getNavigationBlocked(state),

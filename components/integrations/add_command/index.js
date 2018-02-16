@@ -7,12 +7,6 @@ import {addCommand} from 'mattermost-redux/actions/integrations';
 
 import AddCommand from './add_command.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps
-    };
-}
-
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
@@ -21,4 +15,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddCommand);
+export default connect(null, mapDispatchToProps)(AddCommand);
