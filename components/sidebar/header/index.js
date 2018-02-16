@@ -5,13 +5,12 @@ import {connect} from 'react-redux';
 
 import SidebarHeader from './sidebar_header.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const config = state.entities.general.config;
 
     const enableTutorial = config.EnableTutorial === 'true';
 
     return {
-        ...ownProps,
         enableTutorial
     };
 }

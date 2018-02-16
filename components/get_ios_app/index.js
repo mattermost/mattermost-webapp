@@ -5,12 +5,11 @@ import {connect} from 'react-redux';
 
 import GetIosApp from './get_ios_app.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const config = state.entities.general.config;
     const iosAppDownloadLink = config.IosAppDownloadLink;
 
     return {
-        ...ownProps,
         iosAppDownloadLink
     };
 }

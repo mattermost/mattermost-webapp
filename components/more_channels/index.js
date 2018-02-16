@@ -12,13 +12,12 @@ import {Constants} from 'utils/constants.jsx';
 
 import MoreChannels from './more_channels.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const isSystemAdmin = isCurrentUserSystemAdmin(state);
     const isTeamAdmin = isCurrentUserCurrentTeamAdmin(state);
     const showCreatePublicChannelOption = showCreateOption(state, Constants.OPEN_CHANNEL, isTeamAdmin, isSystemAdmin);
 
     return {
-        ...ownProps,
         showCreatePublicChannelOption
     };
 }

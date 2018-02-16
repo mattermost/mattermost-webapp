@@ -12,14 +12,13 @@ import {Constants} from 'utils/constants.jsx';
 
 import NewChannelModal from './new_channel_modal.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const isSystemAdmin = isCurrentUserSystemAdmin(state);
     const isTeamAdmin = isCurrentUserCurrentTeamAdmin(state);
     const showCreatePublicChannelOption = showCreateOption(state, Constants.OPEN_CHANNEL, isTeamAdmin, isSystemAdmin);
     const showCreatePrivateChannelOption = showCreateOption(state, Constants.PRIVATE_CHANNEL, isTeamAdmin, isSystemAdmin);
 
     return {
-        ...ownProps,
         ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
         showCreatePublicChannelOption,
         showCreatePrivateChannelOption

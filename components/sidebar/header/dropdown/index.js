@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 
 import SidebarHeaderDropdown from './sidebar_header_dropdown.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const config = state.entities.general.config;
     const license = state.entities.general.license;
 
@@ -26,7 +26,6 @@ function mapStateToProps(state, ownProps) {
     const restrictTeamInvite = config.RestrictTeamInvite;
 
     return {
-        ...ownProps,
         isLicensed,
         appDownloadLink,
         enableCommands,

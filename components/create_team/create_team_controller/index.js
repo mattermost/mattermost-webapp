@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 
 import CreateTeamController from './create_team_controller.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const config = state.entities.general.config;
     const license = state.entities.general.license;
 
@@ -16,7 +16,6 @@ function mapStateToProps(state, ownProps) {
     const siteName = config.SiteName;
 
     return {
-        ...ownProps,
         isLicensed,
         customBrand,
         enableCustomBrand,
