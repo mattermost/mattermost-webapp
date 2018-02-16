@@ -6,7 +6,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import AnnouncementBar from './announcement_bar.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const license = state.entities.general.license;
     const config = state.entities.general.config;
 
@@ -21,7 +21,6 @@ function mapStateToProps(state, ownProps) {
     const enableSignUpWithGitLab = config.EnableSignUpWithGitLab === 'true';
 
     return {
-        ...ownProps,
         isLoggedIn: Boolean(getCurrentUserId(state)),
         licenseId,
         siteURL,

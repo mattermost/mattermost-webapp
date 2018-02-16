@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 
 import LoginController from './login_controller.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const config = state.entities.general.config;
     const license = state.entities.general.license;
 
@@ -30,7 +30,6 @@ function mapStateToProps(state, ownProps) {
     const siteName = config.SiteName;
 
     return {
-        ...ownProps,
         customBrand,
         isLicensed,
         customBrandText,

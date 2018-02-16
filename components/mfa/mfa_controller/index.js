@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 
 import MFAController from './mfa_controller.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const license = state.entities.general.license;
     const config = state.entities.general.config;
 
@@ -14,7 +14,6 @@ function mapStateToProps(state, ownProps) {
     const enforceMultifactorAuthentication = config.EnforceMultifactorAuthentication === 'true';
 
     return {
-        ...ownProps,
         mfa,
         enableMultifactorAuthentication,
         enforceMultifactorAuthentication

@@ -5,12 +5,11 @@ import {connect} from 'react-redux';
 
 import PasswordResetForm from './password_reset_form.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const config = state.entities.general.config;
     const siteName = config.SiteName;
 
     return {
-        ...ownProps,
         siteName
     };
 }

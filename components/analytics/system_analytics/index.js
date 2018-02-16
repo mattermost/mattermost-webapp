@@ -5,12 +5,11 @@ import {connect} from 'react-redux';
 
 import SystemAnalytics from './system_analytics.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const license = state.entities.general.license;
     const isLicensed = license.IsLicensed === 'true';
 
     return {
-        ...ownProps,
         isLicensed
     };
 }
