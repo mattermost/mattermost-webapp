@@ -6,11 +6,12 @@ import {bindActionCreators} from 'redux';
 import * as Actions from 'mattermost-redux/actions/integrations';
 import {getOAuthApps} from 'mattermost-redux/selectors/entities/integrations';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import InstalledOAuthApps from './installed_oauth_apps.jsx';
 
 function mapStateToProps(state) {
-    const config = state.entities.general.config;
+    const config = getConfig(state);
     const enableOAuthServiceProvider = config.EnableOAuthServiceProvider === 'true';
     const enableOnlyAdminIntegrations = config.EnableOnlyAdminIntegrations === 'true';
 

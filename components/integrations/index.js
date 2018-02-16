@@ -2,11 +2,12 @@
 // See License.txt for license information.
 
 import {connect} from 'react-redux';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import Integrations from './integrations.jsx';
 
 function mapStateToProps(state) {
-    const config = state.entities.general.config;
+    const config = getConfig(state);
     const siteName = config.SiteName;
     const enableIncomingWebhooks = config.EnableIncomingWebhooks === 'true';
     const enableOutgoingWebhooks = config.EnableOutgoingWebhooks === 'true';

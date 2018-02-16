@@ -6,6 +6,7 @@ import {bindActionCreators} from 'redux';
 import {getConfig} from 'mattermost-redux/actions/admin';
 import * as Selectors from 'mattermost-redux/selectors/entities/admin';
 import {withRouter} from 'react-router-dom';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import {setNavigationBlocked, deferNavigation, cancelNavigation, confirmNavigation} from 'actions/admin_actions.jsx';
 import {getNavigationBlocked, showNavigationPrompt} from 'selectors/views/admin';
@@ -15,7 +16,7 @@ import AdminConsole from './admin_console.jsx';
 function mapStateToProps(state) {
     return {
         config: Selectors.getConfig(state),
-        license: state.entities.general.license,
+        license: getLicense(state),
         navigationBlocked: getNavigationBlocked(state),
         showNavigationPrompt: showNavigationPrompt(state)
     };

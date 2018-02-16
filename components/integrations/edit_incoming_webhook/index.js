@@ -4,11 +4,12 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getIncomingHook, updateIncomingHook} from 'mattermost-redux/actions/integrations';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import EditIncomingWebhook from './edit_incoming_webhook.jsx';
 
 function mapStateToProps(state, ownProps) {
-    const config = state.entities.general.config;
+    const config = getConfig(state);
     const enableIncomingWebhooks = config.EnableIncomingWebhooks === 'true';
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
     const enablePostIconOverride = config.EnablePostIconOverride === 'true';

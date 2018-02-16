@@ -6,12 +6,13 @@ import {bindActionCreators} from 'redux';
 import {getTeams, getTeamStats} from 'mattermost-redux/actions/teams';
 import {getUser, getUserAccessToken} from 'mattermost-redux/actions/users';
 import {getTeamsList} from 'mattermost-redux/selectors/entities/teams';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import SystemUsers from './system_users.jsx';
 
 function mapStateToProps(state) {
-    const license = state.entities.general.license;
-    const config = state.entities.general.config;
+    const license = getLicense(state);
+    const config = getConfig(state);
 
     const siteName = config.SiteName;
     const mfaEnabled = (license && license.IsLicensed === 'true' && license.MFA === 'true') &&

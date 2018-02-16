@@ -5,11 +5,12 @@ import {getOutgoingHooks} from 'mattermost-redux/selectors/entities/integrations
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getAllChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getUsers} from 'mattermost-redux/selectors/entities/users';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import InstalledOutgoingWebhook from './installed_outgoing_webhooks.jsx';
 
 function mapStateToProps(state) {
-    const config = state.entities.general.config;
+    const config = getConfig(state);
     const teamId = getCurrentTeamId(state);
     const outgoingHooks = getOutgoingHooks(state);
     const outgoingWebhooks = Object.keys(outgoingHooks).

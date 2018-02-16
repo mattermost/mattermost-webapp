@@ -4,11 +4,12 @@
 import {connect} from 'react-redux';
 import {Preferences} from 'mattermost-redux/constants';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import PostHeader from './post_header.jsx';
 
 function mapStateToProps(state) {
-    const config = state.entities.general.config;
+    const config = getConfig(state);
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
 
     return {

@@ -5,13 +5,14 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {addReaction, removePost} from 'mattermost-redux/actions/posts';
 import {get, getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {Preferences} from 'utils/constants.jsx';
 
 import PostInfo from './post_info.jsx';
 
 function mapStateToProps(state, ownProps) {
-    const config = state.entities.general.config;
+    const config = getConfig(state);
     const enableEmojiPicker = config.EnableEmojiPicker === 'true';
 
     return {
