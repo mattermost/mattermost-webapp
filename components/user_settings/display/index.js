@@ -6,7 +6,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import UserSettingsDisplay from './user_settings_display.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const config = getConfig(state);
 
     const allowCustomThemes = config.AllowCustomThemes === 'true';
@@ -15,7 +15,6 @@ function mapStateToProps(state, ownProps) {
     const enableThemeSelection = config.EnableThemeSelection === 'true';
 
     return {
-        ...ownProps,
         allowCustomThemes,
         enableLinkPreviews,
         defaultClientLocale,

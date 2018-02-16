@@ -6,7 +6,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import UserSettingsNotifications from './user_settings_notifications.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const config = getConfig(state);
 
     const sendEmailNotifications = config.SendEmailNotifications === 'true';
@@ -15,7 +15,6 @@ function mapStateToProps(state, ownProps) {
     const sendPushNotifications = config.SendPushNotifications === 'true';
 
     return {
-        ...ownProps,
         sendEmailNotifications,
         enableEmailBatching,
         siteName,

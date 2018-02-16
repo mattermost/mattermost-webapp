@@ -6,7 +6,7 @@ import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general
 
 import SignupLdap from './signup_ldap.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const license = getLicense(state);
     const config = getConfig(state);
 
@@ -22,7 +22,6 @@ function mapStateToProps(state, ownProps) {
     const customDescriptionText = config.CustomDescriptionText;
 
     return {
-        ...ownProps,
         isLicensed,
         ldapLoginFieldName,
         enableLdap,

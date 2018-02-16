@@ -6,7 +6,7 @@ import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general
 
 import AdvancedSettingsDisplay from './user_settings_advanced.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const config = getConfig(state);
     const license = getLicense(state);
 
@@ -16,7 +16,6 @@ function mapStateToProps(state, ownProps) {
     const isLicensed = license && license.IsLicensed === 'true';
 
     return {
-        ...ownProps,
         enableWebrtc,
         enablePreviewFeatures,
         buildEnterpriseReady,

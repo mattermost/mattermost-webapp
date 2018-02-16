@@ -8,7 +8,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import UserSettingsGeneralTab from './user_settings_general.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const config = getConfig(state);
 
     const sendEmailNotifications = config.SendEmailNotifications === 'true';
@@ -23,7 +23,6 @@ function mapStateToProps(state, ownProps) {
     const positionAttributeSet = config.PositionAttributeSet === 'true';
 
     return {
-        ...ownProps,
         sendEmailNotifications,
         requireEmailVerification,
         maxFileSize,

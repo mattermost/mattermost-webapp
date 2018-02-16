@@ -31,7 +31,6 @@ function mapStateToProps(state, ownProps) {
     const experimentalEnableAuthenticationTransfer = config.ExperimentalEnableAuthenticationTransfer === 'true';
 
     return {
-        ...ownProps,
         userAccessTokens: state.entities.users.myUserAccessTokens,
         canUseAccessTokens: tokensEnabled && userHasTokenRole,
         isLicensed,

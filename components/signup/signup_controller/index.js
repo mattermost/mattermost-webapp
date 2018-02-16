@@ -6,7 +6,7 @@ import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general
 
 import SignupController from './signup_controller.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const license = getLicense(state);
     const config = getConfig(state);
 
@@ -23,7 +23,6 @@ function mapStateToProps(state, ownProps) {
     const siteName = config.SiteName;
 
     return {
-        ...ownProps,
         isLicensed,
         enableOpenServer,
         noAccounts,

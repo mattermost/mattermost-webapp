@@ -6,7 +6,7 @@ import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general
 
 import SignupEmail from './signup_email.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const license = getLicense(state);
     const config = getConfig(state);
 
@@ -20,7 +20,6 @@ function mapStateToProps(state, ownProps) {
     const customDescriptionText = config.CustomDescriptionText;
 
     return {
-        ...ownProps,
         isLicensed,
         enableSignUpWithEmail,
         siteName,

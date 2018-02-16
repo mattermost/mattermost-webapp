@@ -6,13 +6,12 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import RhsRootPost from './rhs_root_post.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const config = getConfig(state);
     const enableEmojiPicker = config.EnableEmojiPicker === 'true';
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
 
     return {
-        ...ownProps,
         enableEmojiPicker,
         enablePostUsernameOverride
     };

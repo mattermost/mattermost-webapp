@@ -6,12 +6,11 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import ViewImagePopoverBar from './view_image_popover_bar.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const config = getConfig(state);
     const enablePublicLink = config.EnablePublicLink === 'true';
 
     return {
-        ...ownProps,
         enablePublicLink
     };
 }
