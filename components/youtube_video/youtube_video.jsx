@@ -15,7 +15,7 @@ export default class YoutubeVideo extends React.PureComponent {
         currentChannelId: PropTypes.string.isRequired,
         link: PropTypes.string.isRequired,
         show: PropTypes.bool.isRequired,
-        googleDeveloperKey: PropTypes.stringt,
+        googleDeveloperKey: PropTypes.string,
         onLinkLoaded: PropTypes.func
     }
 
