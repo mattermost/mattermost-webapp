@@ -4,9 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ColorChooser from 'components/user_settings/color_chooser.jsx';
+import ColorChooser from 'components/user_settings/display/color_chooser.jsx';
 
-describe('components/user_settings/ColorChooser', () => {
+describe('components/user_settings/display/ColorChooser', () => {
     it('should match, init', () => {
         const wrapper = shallow(
             <ColorChooser
