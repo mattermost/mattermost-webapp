@@ -5,10 +5,14 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {createComplianceReport, getComplianceReports} from 'mattermost-redux/actions/admin';
 import {getComplianceReports as selectComplianceReports, getConfig} from 'mattermost-redux/selectors/entities/admin';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import ComplianceReports from './compliance_reports.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
+    const license = getLicense(state);
+    const isLicensed = license.IsLicened === 'true';
+
     let enabled = false;
     const config = getConfig(state);
     if (config && config.ComplianceSettings) {
@@ -26,7 +30,7 @@ function mapStateToProps(state, ownProps) {
     });
 
     return {
-        ...ownProps,
+        isLicensed,
         enabled,
         reports,
         serverError

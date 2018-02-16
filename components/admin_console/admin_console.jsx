@@ -76,6 +76,11 @@ export default class AdminConsole extends React.Component {
     static propTypes = {
 
         /*
+         * Object representing the license
+         */
+        license: PropTypes.object.isRequired,
+
+        /*
          * Object representing the config file
          */
         config: PropTypes.object.isRequired,
@@ -116,7 +121,7 @@ export default class AdminConsole extends React.Component {
     }
 
     render() {
-        const {config, showNavigationPrompt} = this.props;
+        const {license, config, showNavigationPrompt} = this.props;
         const {setNavigationBlocked, cancelNavigation, confirmNavigation} = this.props.actions;
 
         if (Object.keys(config).length === 0) {
@@ -139,8 +144,8 @@ export default class AdminConsole extends React.Component {
             />
         );
 
-        // not every page in the system console will need the config, but the vast majority will
-        const extraProps = {config, setNavigationBlocked};
+        // not every page in the system console will need the license and config, but the vast majority will
+        const extraProps = {license, config, setNavigationBlocked};
         return (
             <div className='admin-console__wrapper'>
                 <AnnouncementBar/>

@@ -21,7 +21,10 @@ export default class RadioSetting extends React.Component {
         const options = [];
         for (const {value, text} of this.props.values) {
             options.push(
-                <div className='radio'>
+                <div
+                    className='radio'
+                    key={value}
+                >
                     <label>
                         <input
                             type='radio'

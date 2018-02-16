@@ -32,6 +32,26 @@ export default class SystemUsers extends React.Component {
          */
         teams: PropTypes.arrayOf(PropTypes.object).isRequired,
 
+        /**
+         * Title of the app or site.
+         */
+        siteName: PropTypes.string,
+
+        /**
+         * Whether or not MFA is licensed and enabled.
+         */
+        mfaEnabled: PropTypes.bool.isRequired,
+
+        /**
+         * Whether or not user access tokens are enabled.
+         */
+        enableUserAccessTokens: PropTypes.bool.isRequired,
+
+        /**
+         * Whether or not the experimental authentication transfer is enabled.
+         */
+        experimentalEnableAuthenticationTransfer: PropTypes.bool.isRequired,
+
         actions: PropTypes.shape({
 
             /*
@@ -268,7 +288,7 @@ export default class SystemUsers extends React.Component {
     }
 
     getUserByTokenOrId = async (id) => {
-        if (global.window.mm_config.EnableUserAccessTokens === 'true') {
+        if (this.props.enableUserAccessTokens) {
             const {data} = await this.props.actions.getUserAccessToken(id);
 
             if (data) {
@@ -340,7 +360,7 @@ export default class SystemUsers extends React.Component {
                         id='admin.system_users.title'
                         defaultMessage='{siteName} Users'
                         values={{
-                            siteName: global.mm_config.SiteName
+                            siteName: this.props.siteName
                         }}
                     />
                 </h3>
@@ -356,6 +376,9 @@ export default class SystemUsers extends React.Component {
                         teamId={this.state.teamId}
                         term={this.state.term}
                         onTermChange={this.handleTermChange}
+                        mfaEnabled={this.props.mfaEnabled}
+                        enableUserAccessTokens={this.props.enableUserAccessTokens}
+                        experimentalEnableAuthenticationTransfer={this.props.experimentalEnableAuthenticationTransfer}
                     />
                 </div>
             </div>

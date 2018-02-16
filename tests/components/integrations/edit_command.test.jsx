@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import EditCommand from 'components/integrations/components/edit_command/edit_command.jsx';
+import EditCommand from 'components/integrations/edit_command/edit_command.jsx';
 
 describe('components/integrations/EditCommand', () => {
     const getCustomTeamCommands = jest.fn(
@@ -53,18 +53,9 @@ describe('components/integrations/EditCommand', () => {
         actions: {
             getCustomTeamCommands,
             editCommand: jest.fn()
-        }
+        },
+        enableCommands: true
     };
-
-    global.window.mm_config = {};
-
-    beforeEach(() => {
-        global.window.mm_config.EnableCommands = 'true';
-    });
-
-    afterEach(() => {
-        global.window.mm_config = {};
-    });
 
     test('should match snapshot', () => {
         const wrapper = shallow(
@@ -87,12 +78,11 @@ describe('components/integrations/EditCommand', () => {
     });
 
     test('should match snapshot when EnableCommands is false', () => {
-        global.window.mm_config.EnableCommands = 'false';
         const actions = {
             getCustomTeamCommands: jest.fn(),
             editCommand: jest.fn()
         };
-        const props = {...baseProps, actions};
+        const props = {...baseProps, actions, enableCommands: false};
         const wrapper = shallow(
             <EditCommand {...props}/>
         );

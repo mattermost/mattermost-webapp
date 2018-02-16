@@ -24,7 +24,7 @@ export default class CustomBrandSettings extends AdminSettings {
 
     getConfigFromState(config) {
         config.TeamSettings.SiteName = this.state.siteName;
-        if (global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.CustomBrand === 'true') {
+        if (this.props.license.IsLicensed === 'true' && this.props.license.CustomBrand === 'true') {
             config.TeamSettings.customDescriptionText = this.state.customDescriptionText;
             config.TeamSettings.EnableCustomBrand = this.state.enableCustomBrand;
             config.TeamSettings.CustomBrandText = this.state.customBrandText;
@@ -53,7 +53,7 @@ export default class CustomBrandSettings extends AdminSettings {
 
     renderSettings() {
         const enterpriseSettings = [];
-        if (global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.CustomBrand === 'true') {
+        if (this.props.license.IsLicensed === 'true' && this.props.license.CustomBrand === 'true') {
             enterpriseSettings.push(
                 <TextSetting
                     key='customDescriptionText'

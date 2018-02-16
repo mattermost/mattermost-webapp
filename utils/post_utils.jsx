@@ -42,8 +42,8 @@ export function isEdited(post) {
     return post.edit_at > 0;
 }
 
-export function getImageSrc(src) {
-    if (global.window.mm_config.HasImageProxy === 'true') {
+export function getImageSrc(src, hasImageProxy) {
+    if (hasImageProxy) {
         return Client4.getBaseRoute() + '/image?url=' + encodeURIComponent(src);
     }
     return src;

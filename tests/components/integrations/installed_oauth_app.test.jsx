@@ -4,8 +4,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import InstalledOAuthApp from 'components/integrations/components/installed_oauth_app.jsx';
-import DeleteIntegration from 'components/integrations/components/delete_integration.jsx';
+import InstalledOAuthApp from 'components/integrations/installed_oauth_app.jsx';
+import DeleteIntegration from 'components/integrations/delete_integration.jsx';
 
 describe('components/integrations/InstalledOAuthApp', () => {
     const FAKE_SECRET = '***************';

@@ -124,7 +124,7 @@ export default class ConfigurationSettings extends AdminSettings {
         );
 
         let reloadConfigButton = <div/>;
-        if (global.window.mm_license.IsLicensed === 'true') {
+        if (this.props.license.IsLicensed === 'true') {
             reloadConfigButton = (
                 <RequestButton
                     requestAction={reloadConfig}
