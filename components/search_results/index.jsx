@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getSearchResults} from 'mattermost-redux/selectors/entities/posts';
 import * as PreferenceSelectors from 'mattermost-redux/selectors/entities/preferences';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {selectPostFromRightHandSideSearch} from 'actions/views/rhs';
 import {
@@ -61,7 +62,7 @@ function makeMapStateToProps() {
             }
         }
 
-        const config = state.entities.general.config;
+        const config = getConfig(state);
 
         const dataRetentionEnableMessageDeletion = config.DataRetentionEnableMessageDeletion === 'true';
         const dataRetentionMessageRetentionDays = config.DataRetentionMessageRetentionDays;

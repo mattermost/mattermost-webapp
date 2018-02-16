@@ -2,12 +2,13 @@
 // See License.txt for license information.
 
 import {connect} from 'react-redux';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import CreateTeamController from './create_team_controller.jsx';
 
 function mapStateToProps(state) {
-    const config = state.entities.general.config;
-    const license = state.entities.general.license;
+    const config = getConfig(state);
+    const license = getLicense(state);
 
     const isLicensed = license.IsLicensed === 'true';
     const customBrand = license.CustomBrand === 'true';

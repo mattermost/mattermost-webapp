@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 
@@ -15,7 +15,7 @@ import {isMobile} from 'utils/utils.jsx';
 import SidebarRightMenu from './sidebar_right_menu.jsx';
 
 function mapStateToProps(state) {
-    const license = state.entities.general.license;
+    const license = getLicense(state);
     const config = getConfig(state);
     const rhsState = getRhsState(state);
 
