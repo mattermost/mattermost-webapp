@@ -8,12 +8,11 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import DoVerifyEmail from './do_verify_email.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const config = getConfig(state);
     const siteName = config.SiteName;
 
     return {
-        ...ownProps,
         siteName
     };
 }

@@ -6,7 +6,7 @@ import Constants from 'utils/constants.jsx';
 
 import TutorialView from './tutorial_view.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const license = getLicense(state);
     const config = getConfig(state);
 
@@ -20,7 +20,6 @@ function mapStateToProps(state, ownProps) {
     const supportEmail = config.SupportEmail;
 
     return {
-        ...ownProps,
         townSquareDisplayName,
         appDownloadLink,
         isLicensed,
