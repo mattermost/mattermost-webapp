@@ -2,12 +2,13 @@
 // See License.txt for license information.
 
 import {connect} from 'react-redux';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import AdvancedSettingsDisplay from './user_settings_advanced.jsx';
 
 function mapStateToProps(state, ownProps) {
-    const config = state.entities.general.config;
-    const license = state.entities.general.license;
+    const config = getConfig(state);
+    const license = getLicense(state);
 
     const enableWebrtc = config.EnableWebrtc === 'true';
     const enablePreviewFeatures = config.EnablePreviewFeatures === 'true';

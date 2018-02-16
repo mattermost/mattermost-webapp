@@ -2,12 +2,13 @@
 // See License.txt for license information.
 
 import {connect} from 'react-redux';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import SignupEmail from './signup_email.jsx';
 
 function mapStateToProps(state, ownProps) {
-    const license = state.entities.general.license;
-    const config = state.entities.general.config;
+    const license = getLicense(state);
+    const config = getConfig(state);
 
     const isLicensed = license && license.IsLicensed === 'true';
     const enableSignUpWithEmail = config.EnableSignUpWithEmail === 'true';

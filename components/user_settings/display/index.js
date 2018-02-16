@@ -2,11 +2,12 @@
 // See License.txt for license information.
 
 import {connect} from 'react-redux';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import UserSettingsDisplay from './user_settings_display.jsx';
 
 function mapStateToProps(state, ownProps) {
-    const config = state.entities.general.config;
+    const config = getConfig(state);
 
     const allowCustomThemes = config.AllowCustomThemes === 'true';
     const enableLinkPreviews = config.EnableLinkPreviews === 'true';

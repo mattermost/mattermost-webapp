@@ -68,7 +68,7 @@ function mapStateToProps() {
             commentCountForPost: getCommentCountForPost(state, {post}),
             latestReplyablePostId,
             currentUsersLatestPost: getCurrentUsersLatestPost(state),
-            readOnlyChannel: !isCurrentUserSystemAdmin(state) && getConfig(state).ExperimentalTownSquareIsReadOnly === 'true' && currentChannel.name === Constants.DEFAULT_CHANNEL,
+            readOnlyChannel: !isCurrentUserSystemAdmin(state) && config.ExperimentalTownSquareIsReadOnly === 'true' && currentChannel.name === Constants.DEFAULT_CHANNEL,
             canUploadFiles: canUploadFiles(state),
             enableEmojiPicker,
             enableConfirmNotificationsToChannel

@@ -2,11 +2,12 @@
 // See License.txt for license information.
 
 import {connect} from 'react-redux';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import WebrtcController from './webrtc_controller.jsx';
 
 function mapStateToProps(state, ownProps) {
-    const config = state.entities.general.config;
+    const config = getConfig(state);
     const enableDeveloper = config.EnableDeveloper === 'true';
 
     return {
