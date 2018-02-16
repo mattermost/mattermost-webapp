@@ -69,10 +69,7 @@ export default class DeletePostModal extends React.Component {
 
     handleHide() {
         this.setState({show: false});
-
-        setTimeout(() => {
-            document.getElementById('post_textbox').focus();
-        }, 0);
+        document.getElementById('post_textbox').focus();
     }
 
     render() {
@@ -114,6 +111,7 @@ export default class DeletePostModal extends React.Component {
             <Modal
                 show={this.state.show}
                 onHide={this.handleHide}
+                enforceFocus={false}
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title>
