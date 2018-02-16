@@ -138,12 +138,7 @@ export default class LDAPToEmail extends React.Component {
             confimClass += ' has-error';
         }
 
-        let passwordPlaceholder;
-        if (global.window.mm_config.LdapPasswordFieldName) {
-            passwordPlaceholder = global.window.mm_config.LdapPasswordFieldName;
-        } else {
-            passwordPlaceholder = Utils.localizeMessage('claim.ldap_to_email.ldapPwd', 'AD/LDAP Password');
-        }
+        const passwordPlaceholder = Utils.localizeMessage('claim.ldap_to_email.ldapPwd', 'AD/LDAP Password');
 
         let content;
         if (this.state.showMfa) {
@@ -245,8 +240,6 @@ export default class LDAPToEmail extends React.Component {
     }
 }
 
-LDAPToEmail.defaultProps = {
-};
 LDAPToEmail.propTypes = {
     email: PropTypes.string
 };

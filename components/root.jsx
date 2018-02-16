@@ -41,7 +41,7 @@ import loadSignupEmail from 'bundle-loader?lazy!components/signup/components/sig
 import loadSignupLdap from 'bundle-loader?lazy!components/signup/components/signup_ldap';
 import loadShouldVerifyEmail from 'bundle-loader?lazy!components/should_verify_email';
 import loadDoVerifyEmail from 'bundle-loader?lazy!components/do_verify_email';
-import loadClaimController from 'bundle-loader?lazy!components/claim/claim_controller';
+import loadClaimController from 'bundle-loader?lazy!components/claim';
 import loadHelpController from 'bundle-loader?lazy!components/help/help_controller';
 import loadGetIosApp from 'bundle-loader?lazy!components/get_ios_app';
 import loadGetAndroidApp from 'bundle-loader?lazy!components/get_android_app/get_android_app';
@@ -209,7 +209,7 @@ export default class Root extends React.Component {
 
     redirectIfNecessary(props) {
         if (props.location.pathname === '/') {
-            if (UserStore.getNoAccounts()) {
+            if (global.mm_config.NoAccounts === 'true') {
                 this.props.history.push('/signup_user_complete');
             } else if (UserStore.getCurrentUser()) {
                 GlobalActions.redirectUserToDefaultTeam();

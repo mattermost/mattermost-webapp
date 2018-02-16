@@ -119,7 +119,7 @@ export default class EmailToOAuth extends React.Component {
                             id='claim.email_to_oauth.enterPwd'
                             defaultMessage='Enter the password for your {site} account'
                             values={{
-                                site: global.window.mm_config.SiteName
+                                site: this.props.siteName
                             }}
                         />
                     </p>
@@ -167,9 +167,8 @@ export default class EmailToOAuth extends React.Component {
     }
 }
 
-EmailToOAuth.defaultProps = {
-};
 EmailToOAuth.propTypes = {
     newType: PropTypes.string,
-    email: PropTypes.string
+    email: PropTypes.string,
+    siteName: PropTypes.string
 };
