@@ -21,7 +21,6 @@ function mapStateToProps(state, ownProps) {
     const restrictDirectMessage = config.RestrictDirectMessage;
 
     return {
-        ...ownProps,
         currentChannelMembers,
         currentUserId: getCurrentUserId(state),
         restrictDirectMessage

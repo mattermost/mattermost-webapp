@@ -5,12 +5,11 @@ import {connect} from 'react-redux';
 
 import ChannelNotificationsModal from './channel_notifications_modal.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const config = state.entities.general.config;
     const sendPushNotifications = config.SendPushNotifications === 'true';
 
     return {
-        ...ownProps,
         sendPushNotifications
     };
 }

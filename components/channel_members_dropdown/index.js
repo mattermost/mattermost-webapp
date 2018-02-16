@@ -27,7 +27,6 @@ function mapStateToProps(state, ownProps) {
     );
 
     return {
-        ...ownProps,
         isLicensed,
         canChangeMemberRoles,
         canRemoveMember

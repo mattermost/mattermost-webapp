@@ -5,14 +5,13 @@ import {connect} from 'react-redux';
 
 import InviteMemberModal from './invite_member_modal.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     const config = state.entities.general.config;
 
     const sendEmailNotifications = config.SendEmailNotifications === 'true';
     const enableUserCreation = config.EnableUserCreation === 'true';
 
     return {
-        ...ownProps,
         sendEmailNotifications,
         enableUserCreation
     };
