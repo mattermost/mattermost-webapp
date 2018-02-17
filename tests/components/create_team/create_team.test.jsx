@@ -30,12 +30,9 @@ describe('/components/create_team', () => {
         children: '',
         match: {
             url: 'http://localhost:8065/create_team'
-<<<<<<< HEAD
         },
         history: {
             push: jest.fn()
-=======
->>>>>>> aeb4ef1f0a6296bf008f7c95bdfd7dc725dbabbe
         }
     };
 
@@ -51,7 +48,6 @@ describe('/components/create_team', () => {
 
         expect(customText).toBe('Welcome to our custom branded site!');
     });
-<<<<<<< HEAD
 
     test('should run props.history.push with new state', () => {
         const wrapper = shallowWithIntl(<CreateTeam {...defaultProps}/>);
@@ -67,6 +63,4 @@ describe('/components/create_team', () => {
         expect(state.team.name).toBe('new_team');
         expect(history.push).toHaveBeenCalledWith('/create_team/display_name');
     });
-=======
->>>>>>> aeb4ef1f0a6296bf008f7c95bdfd7dc725dbabbe
 });

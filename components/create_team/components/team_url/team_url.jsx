@@ -12,7 +12,7 @@ import Constants from 'utils/constants.jsx';
 import * as URL from 'utils/url.jsx';
 import logoImage from 'images/logo.png';
 
-export default class TeamUrl extends React.Component {
+export default class TeamUrl extends React.PureComponent {
     static propTypes = {
 
         /*
