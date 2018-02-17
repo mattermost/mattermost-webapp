@@ -8,9 +8,8 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import CreateTeam from './create_team';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
-        ...ownProps,
         currentChannel: getCurrentChannel(state),
         currentTeam: getCurrentTeam(state)
     };
