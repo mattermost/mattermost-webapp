@@ -45,7 +45,7 @@ export default class MetricsSettings extends AdminSettings {
     }
 
     renderSettings() {
-        const licenseEnabled = global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.Metrics === 'true';
+        const licenseEnabled = this.props.license.IsLicensed === 'true' && this.props.license.Metrics === 'true';
         if (!licenseEnabled) {
             return null;
         }

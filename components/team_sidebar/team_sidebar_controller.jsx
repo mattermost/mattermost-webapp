@@ -19,6 +19,8 @@ import TeamButton from './components/team_button.jsx';
 
 export default class TeamSidebar extends React.Component {
     static propTypes = {
+        experimentalPrimaryTeam: PropTypes.string,
+        enableTeamCreation: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             getTeams: PropTypes.func.isRequired
         }).isRequired
@@ -27,15 +29,10 @@ export default class TeamSidebar extends React.Component {
     constructor(props) {
         super(props);
 
-        this.getStateFromStores = this.getStateFromStores.bind(this);
-        this.onChange = this.onChange.bind(this);
-        this.handleResize = this.handleResize.bind(this);
-        this.setStyles = this.setStyles.bind(this);
-
         this.state = this.getStateFromStores();
     }
 
-    getStateFromStores() {
+    getStateFromStores =() => {
         const teamMembers = TeamStore.getMyTeamMembers();
         const currentTeamId = TeamStore.getCurrentId();
 
@@ -77,18 +74,18 @@ export default class TeamSidebar extends React.Component {
         }
     }
 
-    onChange() {
+    onChange = () => {
         this.setState(this.getStateFromStores());
         this.setStyles();
     }
 
-    handleResize() {
+    handleResize = () => {
         const teamMembers = this.state.teamMembers;
         this.setState({show: teamMembers && teamMembers.length > 1});
         this.setStyles();
     }
 
-    setStyles() {
+    setStyles = () => {
         const root = document.querySelector('#root');
 
         if (this.state.show) {
@@ -145,7 +142,7 @@ export default class TeamSidebar extends React.Component {
                 );
             });
 
-        if (moreTeams && !global.mm_config.ExperimentalPrimaryTeam) {
+        if (moreTeams && !this.props.experimentalPrimaryTeam) {
             teams.push(
                 <TeamButton
                     btnClass='team-btn__add'

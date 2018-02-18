@@ -4,14 +4,27 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getProfiles, getProfilesInTeam} from 'mattermost-redux/actions/users';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {
+    getCurrentUserId,
+    getProfilesInCurrentChannel
+} from 'mattermost-redux/selectors/entities/users';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import MoreDirectChannels from './more_direct_channels.jsx';
 
 function mapStateToProps(state, ownProps) {
+    let currentChannelMembers = [];
+    if (ownProps.isExistingChannel) {
+        currentChannelMembers = getProfilesInCurrentChannel(state);
+    }
+
+    const config = getConfig(state);
+    const restrictDirectMessage = config.RestrictDirectMessage;
+
     return {
-        ...ownProps,
-        currentUserId: getCurrentUserId(state)
+        currentChannelMembers,
+        currentUserId: getCurrentUserId(state),
+        restrictDirectMessage
     };
 }
 

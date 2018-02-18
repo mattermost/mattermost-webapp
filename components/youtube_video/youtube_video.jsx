@@ -15,6 +15,7 @@ export default class YoutubeVideo extends React.PureComponent {
         currentChannelId: PropTypes.string.isRequired,
         link: PropTypes.string.isRequired,
         show: PropTypes.bool.isRequired,
+        googleDeveloperKey: PropTypes.string,
         onLinkLoaded: PropTypes.func
     }
 
@@ -97,7 +98,7 @@ export default class YoutubeVideo extends React.PureComponent {
     }
 
     componentDidMount() {
-        const key = global.window.mm_config.GoogleDeveloperKey;
+        const key = this.props.googleDeveloperKey;
         if (key) {
             getYoutubeVideoInfo(key, this.state.videoId,
                 this.handleReceivedMetadata, this.handleMetadataError);

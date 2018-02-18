@@ -32,13 +32,6 @@ export default class MoreChannels extends React.Component {
     constructor(props) {
         super(props);
 
-        this.onChange = this.onChange.bind(this);
-        this.handleJoin = this.handleJoin.bind(this);
-        this.handleHide = this.handleHide.bind(this);
-        this.handleExit = this.handleExit.bind(this);
-        this.nextPage = this.nextPage.bind(this);
-        this.search = this.search.bind(this);
-
         this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
 
         this.searchTimeoutId = 0;
@@ -60,17 +53,17 @@ export default class MoreChannels extends React.Component {
         ChannelStore.removeChangeListener(this.onChange);
     }
 
-    handleHide() {
+    handleHide = () => {
         this.setState({show: false});
     }
 
-    handleExit() {
+    handleExit = () => {
         if (this.props.onModalDismissed) {
             this.props.onModalDismissed();
         }
     }
 
-    onChange(force) {
+    onChange = (force) => {
         if (this.state.search && !force) {
             return;
         }
@@ -81,11 +74,11 @@ export default class MoreChannels extends React.Component {
         });
     }
 
-    nextPage(page) {
+    nextPage = (page) => {
         this.props.actions.getChannels(TeamStore.getCurrentId(), page + 1, CHANNELS_PER_PAGE);
     }
 
-    handleJoin(channel, done) {
+    handleJoin = (channel, done) => {
         joinChannel(
             channel,
             () => {
@@ -105,7 +98,7 @@ export default class MoreChannels extends React.Component {
         );
     }
 
-    search(term) {
+    search = (term) => {
         clearTimeout(this.searchTimeoutId);
 
         if (term === '') {

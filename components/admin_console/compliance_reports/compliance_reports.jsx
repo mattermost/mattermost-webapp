@@ -14,6 +14,11 @@ export default class ComplianceReports extends React.PureComponent {
     static propTypes = {
 
         /*
+         * Set if compliance reports are licensed
+         */
+        isLicensed: PropTypes.bool.isRequired,
+
+        /*
          * Set if compliance reports are enabled in the config
          */
         enabled: PropTypes.bool.isRequired,
@@ -51,7 +56,7 @@ export default class ComplianceReports extends React.PureComponent {
     }
 
     componentDidMount() {
-        if (global.window.mm_license.IsLicensed !== 'true' || !this.props.enabled) {
+        if (!this.props.isLicensed || !this.props.enabled) {
             return;
         }
 
@@ -115,7 +120,7 @@ export default class ComplianceReports extends React.PureComponent {
     }
 
     render() {
-        if (global.window.mm_license.IsLicensed !== 'true' || !this.props.enabled) {
+        if (!this.props.isLicensed || !this.props.enabled) {
             return <div/>;
         }
 

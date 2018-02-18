@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/user_settings/UserSettingsSidebar should match snapshot 1`] = `
+exports[`components/user_settings/sidebar/UserSettingsSidebar should match snapshot 1`] = `
 <div>
   <div
     className="modal-header"

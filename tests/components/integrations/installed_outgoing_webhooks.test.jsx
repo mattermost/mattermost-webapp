@@ -4,11 +4,12 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import InstalledOutgoingWebhooks from 'components/integrations/components/installed_outgoing_webhooks/installed_outgoing_webhooks.jsx';
+import InstalledOutgoingWebhooks from 'components/integrations/installed_outgoing_webhooks/installed_outgoing_webhooks.jsx';
 
 describe('components/integrations/InstalledOutgoingWebhooks', () => {
     let outgoingWebhooks = {};
     let mockFunc;
+    const getOutgoingHooks = () => new Promise((resolve) => resolve());
     const teamId = 'testteamid';
     beforeEach(() => {
         mockFunc = jest.fn();
@@ -51,7 +52,6 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
     });
 
     test('should match snapshot', () => {
-        global.window.mm_config = {EnableOutgoingWebhooks: true};
         function emptyFunction() {} //eslint-disable-line no-empty-function
 
         const wrapper = shallow(
@@ -73,7 +73,7 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
                 teamId={teamId}
                 actions={{
                     removeOutgoingHook: emptyFunction,
-                    getOutgoingHooks: emptyFunction,
+                    getOutgoingHooks,
                     regenOutgoingHookToken: emptyFunction
                 }}
                 user={{
@@ -90,13 +90,13 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
                         username: 'sudheerdev'
                     }
                 }}
+                enableOutgoingWebhooks={true}
             />
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should call regenOutgoingHookToken function', () => {
-        global.window.mm_config = {EnableOutgoingWebhooks: true};
         function emptyFunction() {} //eslint-disable-line no-empty-function
 
         const wrapper = shallow(
@@ -118,7 +118,7 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
                 teamId={teamId}
                 actions={{
                     removeOutgoingHook: emptyFunction,
-                    getOutgoingHooks: emptyFunction,
+                    getOutgoingHooks,
                     regenOutgoingHookToken: mockFunc
                 }}
                 user={{
@@ -135,6 +135,7 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
                         username: 'sudheerdev'
                     }
                 }}
+                enableOutgoingWebhooks={true}
             />
         );
         wrapper.instance().regenOutgoingWebhookToken(outgoingWebhooks[0]);
@@ -143,7 +144,6 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
     });
 
     test('should call removeOutgoingHook function', () => {
-        global.window.mm_config = {EnableOutgoingWebhooks: true};
         function emptyFunction() {} //eslint-disable-line no-empty-function
 
         const wrapper = shallow(
@@ -165,7 +165,7 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
                 teamId={teamId}
                 actions={{
                     removeOutgoingHook: mockFunc,
-                    getOutgoingHooks: emptyFunction,
+                    getOutgoingHooks,
                     regenOutgoingHookToken: emptyFunction
                 }}
                 user={{
@@ -182,6 +182,7 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
                         username: 'sudheerdev'
                     }
                 }}
+                enableOutgoingWebhooks={true}
             />
         );
 

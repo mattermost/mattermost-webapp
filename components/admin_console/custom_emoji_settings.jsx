@@ -24,7 +24,7 @@ export default class CustomEmojiSettings extends AdminSettings {
         config.ServiceSettings.EnableCustomEmoji = this.state.enableCustomEmoji;
         config.ServiceSettings.EnableEmojiPicker = this.state.enableEmojiPicker;
 
-        if (global.window.mm_license.IsLicensed === 'true') {
+        if (this.props.license.IsLicensed === 'true') {
             config.ServiceSettings.RestrictCustomEmojiCreation = this.state.restrictCustomEmojiCreation;
         }
 
@@ -50,7 +50,7 @@ export default class CustomEmojiSettings extends AdminSettings {
 
     renderSettings() {
         let restrictSetting = null;
-        if (global.window.mm_license.IsLicensed === 'true') {
+        if (this.props.license.IsLicensed === 'true') {
             restrictSetting = (
                 <DropdownSetting
                     id='restrictCustomEmojiCreation'

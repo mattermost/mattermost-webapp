@@ -86,6 +86,11 @@ export default class PostInfo extends React.PureComponent {
          */
         showTimeWithoutHover: PropTypes.bool.isRequired,
 
+        /**
+         * Whether to show the emoji picker.
+         */
+        enableEmojiPicker: PropTypes.bool.isRequired,
+
         actions: PropTypes.shape({
 
             /*
@@ -181,7 +186,7 @@ export default class PostInfo extends React.PureComponent {
                 );
             }
 
-            if (hover && window.mm_config.EnableEmojiPicker === 'true') {
+            if (hover && this.props.enableEmojiPicker) {
                 react = (
                     <span>
                         <EmojiPickerOverlay

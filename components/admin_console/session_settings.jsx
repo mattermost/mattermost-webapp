@@ -58,7 +58,7 @@ export default class SessionSettings extends AdminSettings {
 
     renderSettings() {
         let idleTimeout;
-        if (window.mm_license.IsLicensed === 'true' && global.window.mm_license.Compliance === 'true') {
+        if (this.props.license.IsLicensed === 'true' && this.props.license.Compliance === 'true') {
             idleTimeout = (
                 <TextSetting
                     id='sessionIdleTimeoutInMinutes'

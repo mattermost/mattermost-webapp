@@ -11,13 +11,27 @@ import ChannelIdentifierRouter from 'components/channel_layout/channel_identifie
 
 export default class CenterChannel extends React.PureComponent {
     static propTypes = {
-        params: PropTypes.object,
+        match: PropTypes.object.isRequired,
+        location: PropTypes.object.isRequired,
         lastChannelPath: PropTypes.string.isRequired
     };
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            returnTo: ''
+        };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.location.pathname !== nextProps.location.pathname && nextProps.location.pathname.includes('/pl/')) {
+            this.setState({returnTo: this.props.location.pathname});
+        }
+    }
+
     render() {
         const {lastChannelPath} = this.props;
-        const url = this.props.params.match.url;
+        const url = this.props.match.url;
         return (
             <div
                 id='inner-wrap-webrtc'
@@ -33,7 +47,12 @@ export default class CenterChannel extends React.PureComponent {
                     <Switch>
                         <Route
                             path={`${url}/pl/:postid`}
-                            component={PermalinkView}
+                            render={(props) => (
+                                <PermalinkView
+                                    {...props}
+                                    returnTo={this.state.returnTo}
+                                />
+                            )}
                         />
                         <Route
                             path={'/:team/:path(channels|messages)/:identifier'}

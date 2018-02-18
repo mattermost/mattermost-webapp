@@ -50,6 +50,11 @@ export default class NewChannelModal extends React.PureComponent {
         serverError: PropTypes.node,
 
         /**
+         * Flag to display the option to create private channels.
+         */
+        showCreatePrivateChannelOption: PropTypes.bool.isRequired,
+
+        /**
          * Function used to submit the channel
          */
         onSubmitChannel: PropTypes.func.isRequired,

@@ -19,12 +19,18 @@ export default class BackstageSidebar extends React.Component {
     static get propTypes() {
         return {
             team: PropTypes.object.isRequired,
-            user: PropTypes.object.isRequired
+            user: PropTypes.object.isRequired,
+            enableCustomEmoji: PropTypes.bool.isRequired,
+            enableIncomingWebhooks: PropTypes.bool.isRequired,
+            enableOutgoingWebhooks: PropTypes.bool.isRequired,
+            enableCommands: PropTypes.bool.isRequired,
+            enableOAuthServiceProvider: PropTypes.bool.isRequired,
+            enableOnlyAdminIntegrations: PropTypes.bool.isRequired
         };
     }
 
     renderCustomEmoji() {
-        if (window.mm_config.EnableCustomEmoji !== 'true' || !Utils.canCreateCustomEmoji(this.props.user)) {
+        if (!this.props.enableCustomEmoji || !Utils.canCreateCustomEmoji(this.props.user)) {
             return null;
         }
 
@@ -44,16 +50,15 @@ export default class BackstageSidebar extends React.Component {
     }
 
     renderIntegrations() {
-        const config = window.mm_config;
-        if (config.EnableIncomingWebhooks !== 'true' &&
-            config.EnableOutgoingWebhooks !== 'true' &&
-            config.EnableCommands !== 'true' &&
-            config.EnableOAuthServiceProvider !== 'true') {
+        if (!this.props.enableIncomingWebhooks &&
+            !this.props.enableOutgoingWebhooks &&
+            !this.props.enableCommands &&
+            !this.props.enableOAuthServiceProvider) {
             return null;
         }
 
         let incomingWebhooks = null;
-        if (config.EnableIncomingWebhooks === 'true') {
+        if (this.props.enableIncomingWebhooks) {
             incomingWebhooks = (
                 <TeamPermissionGate
                     perms={[Permissions.MANAGE_WEBHOOKS]}
@@ -74,7 +79,7 @@ export default class BackstageSidebar extends React.Component {
         }
 
         let outgoingWebhooks = null;
-        if (config.EnableOutgoingWebhooks === 'true') {
+        if (this.props.enableOutgoingWebhooks) {
             outgoingWebhooks = (
                 <TeamPermissionGate
                     perms={[Permissions.MANAGE_WEBHOOKS]}
@@ -95,7 +100,7 @@ export default class BackstageSidebar extends React.Component {
         }
 
         let commands = null;
-        if (config.EnableCommands === 'true') {
+        if (this.props.enableCommands) {
             commands = (
                 <TeamPermissionGate
                     perms={[Permissions.MANAGE_SLASH_COMMANDS]}
@@ -116,7 +121,7 @@ export default class BackstageSidebar extends React.Component {
         }
 
         let oauthApps = null;
-        if (config.EnableOAuthServiceProvider === 'true') {
+        if (this.props.enableOAuthServiceProvider) {
             oauthApps = (
                 <SystemPermissionGate perms={[Permissions.MANAGE_OAUTH]}>
                     <BackstageSection

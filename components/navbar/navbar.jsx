@@ -13,7 +13,6 @@ import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import * as ChannelActions from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as WebrtcActions from 'actions/webrtc_actions.jsx';
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import ModalStore from 'stores/modal_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
@@ -26,8 +25,9 @@ import * as Utils from 'utils/utils.jsx';
 import ChannelInfoModal from 'components/channel_info_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
-import ChannelNotificationsModal from 'components/channel_notifications_modal/channel_notifications_modal.jsx';
+import ChannelNotificationsModal from 'components/channel_notifications_modal';
 import DeleteChannelModal from 'components/delete_channel_modal';
+import MoreDirectChannels from 'components/more_direct_channels';
 import NotifyCounts from 'components/notify_counts.jsx';
 import QuickSwitchModal from 'components/quick_switch_modal';
 import RenameChannelModal from 'components/rename_channel_modal';
@@ -46,6 +46,7 @@ export default class Navbar extends React.Component {
     static propTypes = {
         teamDisplayName: PropTypes.string,
         isPinnedPosts: PropTypes.bool,
+        enableWebrtc: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             closeRightHandSide: PropTypes.func,
             updateRhsState: PropTypes.func,
@@ -254,14 +255,6 @@ export default class Navbar extends React.Component {
         });
     }
 
-    openDirectMessageModal = () => {
-        AppDispatcher.handleViewAction({
-            type: ActionTypes.TOGGLE_DM_MODAL,
-            value: true,
-            channelId: this.state.channel.id
-        });
-    }
-
     getPinnedPosts = (e) => {
         e.preventDefault();
         if (this.props.isPinnedPosts) {
@@ -294,7 +287,7 @@ export default class Navbar extends React.Component {
     isWebrtcEnabled() {
         const userMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
         const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
-        return global.mm_config.EnableWebrtc === 'true' && userMedia && Utils.isFeatureEnabled(PreReleaseFeatures.WEBRTC_PREVIEW);
+        return this.props.enableWebrtc && userMedia && Utils.isFeatureEnabled(PreReleaseFeatures.WEBRTC_PREVIEW);
     }
 
     initWebrtc = () => {
@@ -422,19 +415,19 @@ export default class Navbar extends React.Component {
                 );
 
                 addMembersOption = (
-                    <li
-                        role='presentation'
-                    >
-                        <a
+                    <li role='presentation'>
+                        <ToggleModalButtonRedux
+                            id='channelAddMembersGroup'
                             role='menuitem'
-                            href='#'
-                            onClick={this.openDirectMessageModal}
+                            modalId={ModalIdentifiers.CREATE_DM_CHANNEL}
+                            dialogType={MoreDirectChannels}
+                            dialogProps={{isExistingChannel: true}}
                         >
                             <FormattedMessage
                                 id='navbar.addMembers'
                                 defaultMessage='Add Members'
                             />
-                        </a>
+                        </ToggleModalButtonRedux>
                     </li>
                 );
             } else {

@@ -10,7 +10,6 @@ import 'jquery-dragster/jquery.dragster.js';
 
 import Constants from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
-import {canUploadFiles} from 'utils/file_utils';
 import {
     isIosChrome,
     isMobileApp
@@ -103,7 +102,17 @@ class FileUpload extends React.PureComponent {
         /**
          * Function to be called to upload file
          */
-        uploadFile: PropTypes.func.isRequired
+        uploadFile: PropTypes.func.isRequired,
+
+        /**
+         * The maximum uploaded file size.
+         */
+        maxFileSize: PropTypes.number,
+
+        /**
+         * Whether or not file upload is allowed.
+         */
+        canUploadFiles: PropTypes.bool.isRequired
     };
 
     constructor(props) {
@@ -171,7 +180,7 @@ class FileUpload extends React.PureComponent {
         const clientIds = [];
 
         for (let i = 0; i < sortedFiles.length && numUploads < uploadsRemaining; i++) {
-            if (sortedFiles[i].size > global.mm_config.MaxFileSize) {
+            if (sortedFiles[i].size > this.props.maxFileSize) {
                 tooLargeFiles.push(sortedFiles[i]);
                 continue;
             }
@@ -204,9 +213,9 @@ class FileUpload extends React.PureComponent {
         } else if (tooLargeFiles.length > 1) {
             var tooLargeFilenames = tooLargeFiles.map((file) => file.name).join(', ');
 
-            this.props.onUploadError(formatMessage(holders.filesAbove, {max: (global.mm_config.MaxFileSize / 1048576), filenames: tooLargeFilenames}));
+            this.props.onUploadError(formatMessage(holders.filesAbove, {max: (this.props.maxFileSize / 1048576), filenames: tooLargeFilenames}));
         } else if (tooLargeFiles.length > 0) {
-            this.props.onUploadError(formatMessage(holders.fileAbove, {max: (global.mm_config.MaxFileSize / 1048576), filename: tooLargeFiles[0].name}));
+            this.props.onUploadError(formatMessage(holders.fileAbove, {max: (this.props.maxFileSize / 1048576), filename: tooLargeFiles[0].name}));
         }
     }
 
@@ -221,7 +230,7 @@ class FileUpload extends React.PureComponent {
     }
 
     handleDrop = (e) => {
-        if (!canUploadFiles()) {
+        if (!this.props.canUploadFiles) {
             this.props.onUploadError(localizeMessage('file_upload.disabled', 'File attachments are disabled.'));
             return;
         }
@@ -247,7 +256,7 @@ class FileUpload extends React.PureComponent {
         });
 
         let dragsterActions = {};
-        if (canUploadFiles()) {
+        if (this.props.canUploadFiles) {
             dragsterActions = {
                 enter(dragsterEvent, e) {
                     var files = e.originalEvent.dataTransfer;
@@ -319,7 +328,7 @@ class FileUpload extends React.PureComponent {
         // This looks redundant, but must be done this way due to
         // setState being an asynchronous call
         if (items && items.length > 0) {
-            if (!canUploadFiles()) {
+            if (!this.props.canUploadFiles) {
                 this.props.onUploadError(localizeMessage('file_upload.disabled', 'File attachments are disabled.'));
                 return;
             }
@@ -385,13 +394,12 @@ class FileUpload extends React.PureComponent {
         if (cmdOrCtrlPressed(e) && e.keyCode === Constants.KeyCodes.U) {
             e.preventDefault();
 
-            if (!canUploadFiles()) {
+            if (!this.props.canUploadFiles) {
                 this.props.onUploadError(localizeMessage('file_upload.disabled', 'File attachments are disabled.'));
                 return;
             }
-
-            const postTextbox = this.props.postType === 'post' && document.activeElement.id === 'post_textbox-textarea';
-            const commentTextbox = this.props.postType === 'comment' && document.activeElement.id === 'reply_textbox-textarea';
+            const postTextbox = this.props.postType === 'post' && document.activeElement.id === 'post_textbox';
+            const commentTextbox = this.props.postType === 'comment' && document.activeElement.id === 'reply_textbox';
             if (postTextbox || commentTextbox) {
                 $(this.refs.fileInput).focus().trigger('click');
             }
@@ -439,7 +447,7 @@ class FileUpload extends React.PureComponent {
                 ref='input'
                 className={uploadsRemaining <= 0 ? ' btn-file__disabled' : ''}
             >
-                {canUploadFiles() &&
+                {this.props.canUploadFiles &&
                 <div
                     id='fileUploadButton'
                     className='icon icon--attachment'

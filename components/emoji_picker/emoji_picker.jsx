@@ -143,6 +143,7 @@ export default class EmojiPicker extends React.PureComponent {
 
         this.divHeight = 0;
         this.missingPages = true;
+        this.loadingMoreEmojis = false;
         this.state = {
             allEmojis: {},
             categories: CATEGORIES,
@@ -201,21 +202,27 @@ export default class EmojiPicker extends React.PureComponent {
     }
 
     loadMoreCustomEmojis = async () => {
-        if (!this.props.customEmojisEnabled) {
+        if (!this.props.customEmojisEnabled || this.loadingMoreEmojis) {
             return;
         }
 
+        this.loadingMoreEmojis = true;
+
         const {data} = await this.props.actions.getCustomEmojis(this.props.customEmojiPage, EMOJIS_PER_PAGE);
         if (!data) {
+            this.loadingMoreEmojis = false;
             return;
         }
 
         if (data.length < EMOJIS_PER_PAGE) {
             this.missingPages = false;
+            this.loadingMoreEmojis = false;
             return;
         }
 
-        this.props.actions.incrementEmojiPickerPage();
+        await this.props.actions.incrementEmojiPickerPage();
+
+        this.loadingMoreEmojis = false;
     }
 
     lastVisibleEmojiRef = (lastVisibleEmoji) => {

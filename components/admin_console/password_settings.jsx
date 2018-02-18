@@ -36,7 +36,7 @@ export default class PasswordSettings extends AdminSettings {
 
         // Update sample message from config settings
         this.sampleErrorMsg = null;
-        if (global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.PasswordRequirements === 'true') {
+        if (this.props.license.IsLicensed === 'true' && this.props.license.PasswordRequirements === 'true') {
             let sampleErrorMsgId = 'user.settings.security.passwordError';
             if (props.config.PasswordSettings.Lowercase) {
                 sampleErrorMsgId += 'Lowercase';
@@ -64,7 +64,7 @@ export default class PasswordSettings extends AdminSettings {
     }
 
     getConfigFromState(config) {
-        if (global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.PasswordRequirements === 'true') {
+        if (this.props.license.IsLicensed === 'true' && this.props.license.PasswordRequirements === 'true') {
             config.PasswordSettings.MinimumLength = this.parseIntNonZero(this.state.passwordMinimumLength, Constants.MIN_PASSWORD_LENGTH);
             config.PasswordSettings.Lowercase = this.refs.lowercase.checked;
             config.PasswordSettings.Uppercase = this.refs.uppercase.checked;
@@ -89,7 +89,7 @@ export default class PasswordSettings extends AdminSettings {
     }
 
     getSampleErrorMsg(minLength) {
-        if (global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.PasswordRequirements === 'true') {
+        if (this.props.license.IsLicensed === 'true' && this.props.license.PasswordRequirements === 'true') {
             if (this.props.config.PasswordSettings.MinimumLength > Constants.MAX_PASSWORD_LENGTH || this.props.config.PasswordSettings.MinimumLength < Constants.MIN_PASSWORD_LENGTH) {
                 return (
                     <FormattedMessage
@@ -147,7 +147,7 @@ export default class PasswordSettings extends AdminSettings {
 
     renderSettings() {
         let passwordSettings = null;
-        if (global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.PasswordRequirements === 'true') {
+        if (this.props.license.IsLicensed === 'true' && this.props.license.PasswordRequirements === 'true') {
             passwordSettings = (
                 <div>
                     <TextSetting

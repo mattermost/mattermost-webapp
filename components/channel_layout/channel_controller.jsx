@@ -12,7 +12,7 @@ import EditPostModal from 'components/edit_post_modal';
 import GetPostLinkModal from 'components/get_post_link_modal';
 import GetTeamInviteLinkModal from 'components/get_team_invite_link_modal';
 import GetPublicLinkModal from 'components/get_public_link_modal';
-import InviteMemberModal from 'components/invite_member_modal.jsx';
+import InviteMemberModal from 'components/invite_member_modal';
 import LeaveTeamModal from 'components/leave_team_modal.jsx';
 import LeavePrivateChannelModal from 'components/modals/leave_private_channel_modal.jsx';
 import RemovedFromChannelModal from 'components/removed_from_channel_modal.jsx';
@@ -22,9 +22,9 @@ import SidebarRight from 'components/sidebar_right';
 import SidebarRightMenu from 'components/sidebar_right_menu';
 import TeamSettingsModal from 'components/team_settings_modal.jsx';
 import ImportThemeModal from 'components/user_settings/import_theme_modal.jsx';
-import UserSettingsModal from 'components/user_settings/user_settings_modal.jsx';
-import WebrtcNotification from 'components/webrtc/components/webrtc_notification.jsx';
-import WebrtcSidebar from 'components/webrtc/components/webrtc_sidebar.jsx';
+import UserSettingsModal from 'components/user_settings/modal';
+import WebrtcNotification from 'components/webrtc/webrtc_notification.jsx';
+import WebrtcSidebar from 'components/webrtc/webrtc_sidebar.jsx';
 import ModalController from 'components/modal_controller';
 import TeamSidebar from 'components/team_sidebar';
 import Sidebar from 'components/sidebar';
@@ -36,6 +36,7 @@ export default class ChannelController extends React.Component {
         pathName: PropTypes.string.isRequired,
         teamType: PropTypes.string.isRequired
     };
+
     shouldComponentUpdate(nextProps) {
         return this.props.teamType !== nextProps.teamType || this.props.pathName !== nextProps.pathName;
     }
@@ -52,15 +53,7 @@ export default class ChannelController extends React.Component {
                     <WebrtcSidebar/>
                     <Route component={TeamSidebar}/>
                     <Route component={Sidebar}/>
-
-                    <Route
-                        render={(params) => (
-                            <CenterChannel
-                                params={params}
-                            />
-                        )}
-                    />
-
+                    <Route component={CenterChannel}/>
                     <Pluggable pluggableName='Root'/>
                     <UserSettingsModal/>
                     <GetPostLinkModal/>

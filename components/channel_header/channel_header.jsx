@@ -11,13 +11,12 @@ import 'bootstrap';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as WebrtcActions from 'actions/webrtc_actions.jsx';
-import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 
 import MessageWrapper from 'components/message_wrapper.jsx';
-import {ActionTypes, Constants, RHSStates, UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
+import {Constants, RHSStates, UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import {getSiteURL} from 'utils/url.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -25,10 +24,11 @@ import {messageHtmlToComponent} from 'utils/post_utils.jsx';
 import ChannelInfoModal from 'components/channel_info_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
-import ChannelNotificationsModal from 'components/channel_notifications_modal/channel_notifications_modal.jsx';
+import ChannelNotificationsModal from 'components/channel_notifications_modal';
 import DeleteChannelModal from 'components/delete_channel_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
+import MoreDirectChannels from 'components/more_direct_channels';
 import PopoverListMembers from 'components/popover_list_members';
 import RenameChannelModal from 'components/rename_channel_modal';
 import NavbarSearchBox from 'components/search_bar';
@@ -58,6 +58,7 @@ export default class ChannelHeader extends React.Component {
         rhsState: PropTypes.oneOf(
             Object.values(RHSStates)
         ),
+        enableWebrtc: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             leaveChannel: PropTypes.func.isRequired,
             favoriteChannel: PropTypes.func.isRequired,
@@ -203,14 +204,6 @@ export default class ChannelHeader extends React.Component {
         }
     }
 
-    openDirectMessageModal = () => {
-        AppDispatcher.handleViewAction({
-            type: ActionTypes.TOGGLE_DM_MODAL,
-            value: true,
-            channelId: this.props.channel.id
-        });
-    }
-
     handleOnMouseOver = () => {
         if (this.refs.headerOverlay) {
             this.refs.headerOverlay.show();
@@ -353,7 +346,7 @@ export default class ChannelHeader extends React.Component {
                 channelTitle = Utils.displayUsername(teammateId) + ' ';
             }
 
-            const webrtcEnabled = global.mm_config.EnableWebrtc === 'true' && userMedia && Utils.isFeatureEnabled(PreReleaseFeatures.WEBRTC_PREVIEW);
+            const webrtcEnabled = this.props.enableWebrtc && userMedia && Utils.isFeatureEnabled(PreReleaseFeatures.WEBRTC_PREVIEW);
 
             if (webrtcEnabled && this.props.currentUser.id !== teammateId) {
                 const isOffline = dmUserStatus === UserStatuses.OFFLINE;
@@ -501,17 +494,18 @@ export default class ChannelHeader extends React.Component {
                     key='add_members'
                     role='presentation'
                 >
-                    <button
-                        className='style--none'
+                    <ToggleModalButtonRedux
                         id='channelAddMembersGroup'
                         role='menuitem'
-                        onClick={this.openDirectMessageModal}
+                        modalId={ModalIdentifiers.CREATE_DM_CHANNEL}
+                        dialogType={MoreDirectChannels}
+                        dialogProps={{isExistingChannel: true}}
                     >
                         <FormattedMessage
                             id='channel_header.addMembers'
                             defaultMessage='Add Members'
                         />
-                    </button>
+                    </ToggleModalButtonRedux>
                 </li>
             );
         } else {

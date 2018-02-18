@@ -27,7 +27,6 @@ class UserStoreClass extends EventEmitter {
     constructor() {
         super();
 
-        this.noAccounts = false;
         this.entities = {};
 
         store.subscribe(() => {

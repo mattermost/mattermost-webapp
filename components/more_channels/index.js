@@ -7,12 +7,6 @@ import {getChannels} from 'mattermost-redux/actions/channels';
 
 import MoreChannels from './more_channels.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps
-    };
-}
-
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
@@ -21,4 +15,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MoreChannels);
+export default connect(null, mapDispatchToProps)(MoreChannels);

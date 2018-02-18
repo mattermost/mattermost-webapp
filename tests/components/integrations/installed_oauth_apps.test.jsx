@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import InstalledOAuthApps from 'components/integrations/components/installed_oauth_apps/installed_oauth_apps.jsx';
+import InstalledOAuthApps from 'components/integrations/installed_oauth_apps/installed_oauth_apps.jsx';
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
 
 describe('components/integrations/InstalledOAuthApps', () => {
@@ -49,18 +49,10 @@ describe('components/integrations/InstalledOAuthApps', () => {
             getOAuthApps: jest.fn(),
             regenOAuthAppSecret: jest.fn(),
             deleteOAuthApp: jest.fn()
-        }
+        },
+        enableOAuthServiceProvider: true,
+        enableOnlyAdminIntegrations: true
     };
-
-    global.window.mm_config = {};
-
-    beforeEach(() => {
-        global.window.mm_config = {EnableOAuthServiceProvider: 'true'};
-    });
-
-    afterEach(() => {
-        global.window.mm_config = {};
-    });
 
     test('should match snapshot', () => {
         const newGetOAuthApps = jest.genMockFunction().mockImplementation(

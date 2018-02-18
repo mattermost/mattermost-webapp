@@ -122,7 +122,17 @@ export default class CreateComment extends React.PureComponent {
         /**
          * Set if channel is read only
          */
-        readOnlyChannel: PropTypes.bool
+        readOnlyChannel: PropTypes.bool,
+
+        /**
+         * Set if @channel should warn in this channel.
+         */
+        enableConfirmNotificationsToChannel: PropTypes.bool.isRequired,
+
+        /**
+         * Set if the emoji picker is enabled.
+         */
+        enableEmojiPicker: PropTypes.bool.isRequired
     }
 
     constructor(props) {
@@ -237,7 +247,7 @@ export default class CreateComment extends React.PureComponent {
     handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (window.mm_config.EnableConfirmNotificationsToChannel === 'true' &&
+        if (this.props.enableConfirmNotificationsToChannel &&
             this.props.channelMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
             PostUtils.containsAtChannel(this.state.draft.message)) {
             this.showNotifyAllModal();
@@ -568,7 +578,7 @@ export default class CreateComment extends React.PureComponent {
         }
 
         let emojiPicker = null;
-        if (window.mm_config.EnableEmojiPicker === 'true' && !readOnlyChannel) {
+        if (this.props.enableEmojiPicker && !readOnlyChannel) {
             emojiPicker = (
                 <span className='emoji-picker__container'>
                     <EmojiPickerOverlay
@@ -611,7 +621,7 @@ export default class CreateComment extends React.PureComponent {
                                 value={readOnlyChannel ? '' : draft.message}
                                 onBlur={this.handleBlur}
                                 createMessage={createMessage}
-                                emojiEnabled={window.mm_config.EnableEmojiPicker === 'true'}
+                                emojiEnabled={this.props.enableEmojiPicker}
                                 initialText=''
                                 channelId={this.props.channelId}
                                 isRHS={true}

@@ -389,7 +389,7 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
     onHide={[Function]}
     show={false}
   />
-  <ChannelNotificationsModal
+  <Connect(ChannelNotificationsModal)
     channel={
       Object {
         "display_name": "display_name",
@@ -808,7 +808,7 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
     onHide={[Function]}
     show={false}
   />
-  <ChannelNotificationsModal
+  <Connect(ChannelNotificationsModal)
     channel={
       Object {
         "display_name": "display_name",
@@ -993,7 +993,7 @@ exports[`components/navbar/Navbar should match snapshot, if enabled WebRTC and D
     onHide={[Function]}
     show={false}
   />
-  <ChannelNotificationsModal
+  <Connect(ChannelNotificationsModal)
     channel={
       Object {
         "display_name": "display_name",
@@ -1413,7 +1413,7 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
     onHide={[Function]}
     show={false}
   />
-  <ChannelNotificationsModal
+  <Connect(ChannelNotificationsModal)
     channel={
       Object {
         "display_name": "display_name",
@@ -1834,7 +1834,7 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
     onHide={[Function]}
     show={false}
   />
-  <ChannelNotificationsModal
+  <Connect(ChannelNotificationsModal)
     channel={
       Object {
         "display_name": "display_name",

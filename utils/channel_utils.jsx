@@ -2,6 +2,7 @@
 // See License.txt for license information.
 
 import {haveIChannelPerm} from 'mattermost-redux/selectors/entities/roles';
+import Permissions from 'mattermost-redux/constants/permissions';
 import * as ChannelUtilsRedux from 'mattermost-redux/utils/channel_utils';
 
 import ChannelStore from 'stores/channel_store.jsx';

@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {Parser, ProcessNodeDefinitions} from 'html-to-react';
+import {Client4} from 'mattermost-redux/client';
 
 import {haveIChannelPerm} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
@@ -41,6 +42,13 @@ export function isComment(post) {
 
 export function isEdited(post) {
     return post.edit_at > 0;
+}
+
+export function getImageSrc(src, hasImageProxy) {
+    if (hasImageProxy) {
+        return Client4.getBaseRoute() + '/image?url=' + encodeURIComponent(src);
+    }
+    return src;
 }
 
 export function getProfilePicSrcForPost(post, user) {

@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import InstalledCommand from 'components/integrations/components/installed_command.jsx';
+import InstalledCommand from 'components/integrations/installed_command.jsx';
 
 describe('components/integrations/InstalledCommand', () => {
     const team = {name: 'team_name'};

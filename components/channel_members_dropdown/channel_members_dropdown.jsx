@@ -7,17 +7,18 @@ import {FormattedMessage} from 'react-intl';
 
 import {makeUserChannelAdmin, makeUserChannelMember, removeUserFromChannel} from 'actions/channel_actions.jsx';
 import UserStore from 'stores/user_store.jsx';
-import {canManageMembers} from 'utils/channel_utils.jsx';
 import {Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 export default class ChannelMembersDropdown extends React.Component {
     static propTypes = {
-        canChangeMemberRoles: PropTypes.bool.isRequired,
         channel: PropTypes.object.isRequired,
         user: PropTypes.object.isRequired,
         teamMember: PropTypes.object.isRequired,
         channelMember: PropTypes.object.isRequired,
+        isLicensed: PropTypes.bool.isRequired,
+        canChangeMemberRoles: PropTypes.bool.isRequired,
+        canRemoveMember: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             getChannelStats: PropTypes.func.isRequired
         }).isRequired
@@ -25,10 +26,6 @@ export default class ChannelMembersDropdown extends React.Component {
 
     constructor(props) {
         super(props);
-
-        this.handleRemoveFromChannel = this.handleRemoveFromChannel.bind(this);
-        this.handleMakeChannelMember = this.handleMakeChannelMember.bind(this);
-        this.handleMakeChannelAdmin = this.handleMakeChannelAdmin.bind(this);
 
         this.state = {
             serverError: null,
@@ -38,7 +35,7 @@ export default class ChannelMembersDropdown extends React.Component {
         };
     }
 
-    handleRemoveFromChannel() {
+    handleRemoveFromChannel = () => {
         if (this.state.removing) {
             return;
         }
@@ -60,7 +57,7 @@ export default class ChannelMembersDropdown extends React.Component {
         );
     }
 
-    handleMakeChannelMember() {
+    handleMakeChannelMember = () => {
         makeUserChannelMember(
             this.props.channel.id,
             this.props.user.id,
@@ -73,7 +70,7 @@ export default class ChannelMembersDropdown extends React.Component {
         );
     }
 
-    handleMakeChannelAdmin() {
+    handleMakeChannelAdmin = () => {
         makeUserChannelAdmin(
             this.props.channel.id,
             this.props.user.id,
@@ -86,13 +83,8 @@ export default class ChannelMembersDropdown extends React.Component {
         );
     }
 
-    // Checks if the current user has the power to remove this member from the channel.
-    canRemoveMember() {
-        return canManageMembers(this.props.channel);
-    }
-
     render() {
-        const supportsChannelAdmin = global.mm_license.IsLicensed === 'true';
+        const supportsChannelAdmin = this.props.isLicensed;
         const isChannelAdmin = supportsChannelAdmin && Utils.isChannelAdmin(this.props.channelMember.roles);
 
         let serverError = null;
@@ -126,7 +118,7 @@ export default class ChannelMembersDropdown extends React.Component {
             }
 
             let removeFromChannel = null;
-            if (this.canRemoveMember() && this.props.channel.name !== Constants.DEFAULT_CHANNEL) {
+            if (this.props.canRemoveMember && this.props.channel.name !== Constants.DEFAULT_CHANNEL) {
                 removeFromChannel = (
                     <li role='presentation'>
                         <a
@@ -209,7 +201,7 @@ export default class ChannelMembersDropdown extends React.Component {
             }
         }
 
-        if (this.canRemoveMember() && this.props.channel.name !== Constants.DEFAULT_CHANNEL) {
+        if (this.props.canRemoveMember && this.props.channel.name !== Constants.DEFAULT_CHANNEL) {
             return (
                 <button
                     id='removeMember'

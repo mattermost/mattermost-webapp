@@ -8,9 +8,8 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import NewChannelModal from './new_channel_modal.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
-        ...ownProps,
         ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
         currentTeamId: getCurrentTeamId(state)
     };

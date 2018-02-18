@@ -59,10 +59,9 @@ exports[`components/ViewImageModal should match snapshot on onModalShown and onM
             }
           />
         </div>
-        <ViewImagePopoverBar
+        <Connect(ViewImagePopoverBar)
           fileIndex={0}
           fileURL="/api/v4/files/file_id_1"
-          filename=""
           onGetPublicLink={[Function]}
           show={false}
           showPublicLink={true}
@@ -153,10 +152,9 @@ exports[`components/ViewImageModal should match snapshot on onModalShown and onM
             }
           />
         </div>
-        <ViewImagePopoverBar
+        <Connect(ViewImagePopoverBar)
           fileIndex={0}
           fileURL="/api/v4/files/file_id_1"
-          filename=""
           onGetPublicLink={[Function]}
           show={false}
           showPublicLink={true}
@@ -248,10 +246,9 @@ exports[`components/ViewImageModal should match snapshot, loaded with AudioVideo
             fileUrl="/api/v4/files/file_id"
           />
         </div>
-        <ViewImagePopoverBar
+        <Connect(ViewImagePopoverBar)
           fileIndex={0}
           fileURL="/api/v4/files/file_id"
-          filename=""
           onGetPublicLink={[Function]}
           show={false}
           showPublicLink={true}
@@ -323,10 +320,9 @@ exports[`components/ViewImageModal should match snapshot, loaded with AudioVideo
             fileUrl="/api/v4/files/file_id"
           />
         </div>
-        <ViewImagePopoverBar
+        <Connect(ViewImagePopoverBar)
           fileIndex={0}
           fileURL="/api/v4/files/file_id"
-          filename=""
           onGetPublicLink={[Function]}
           show={false}
           showPublicLink={true}
@@ -398,10 +394,9 @@ exports[`components/ViewImageModal should match snapshot, loaded with CodePrevie
             fileUrl="/api/v4/files/file_id"
           />
         </div>
-        <ViewImagePopoverBar
+        <Connect(ViewImagePopoverBar)
           fileIndex={0}
           fileURL="/api/v4/files/file_id"
-          filename=""
           onGetPublicLink={[Function]}
           show={false}
           showPublicLink={true}
@@ -473,10 +468,9 @@ exports[`components/ViewImageModal should match snapshot, loaded with FileInfoPr
             fileUrl="/api/v4/files/file_id"
           />
         </div>
-        <ViewImagePopoverBar
+        <Connect(ViewImagePopoverBar)
           fileIndex={0}
           fileURL="/api/v4/files/file_id"
-          filename=""
           onGetPublicLink={[Function]}
           show={false}
           showPublicLink={true}
@@ -547,10 +541,9 @@ exports[`components/ViewImageModal should match snapshot, loaded with ImagePrevi
             }
           />
         </div>
-        <ViewImagePopoverBar
+        <Connect(ViewImagePopoverBar)
           fileIndex={0}
           fileURL="/api/v4/files/file_id"
-          filename=""
           onGetPublicLink={[Function]}
           show={false}
           showPublicLink={true}
@@ -621,10 +614,9 @@ exports[`components/ViewImageModal should match snapshot, loaded with ViewImageP
             }
           />
         </div>
-        <ViewImagePopoverBar
+        <Connect(ViewImagePopoverBar)
           fileIndex={0}
           fileURL="/api/v4/files/file_id"
-          filename=""
           onGetPublicLink={[Function]}
           show={false}
           showPublicLink={true}
@@ -695,10 +687,9 @@ exports[`components/ViewImageModal should match snapshot, loaded with footer 1`]
             }
           />
         </div>
-        <ViewImagePopoverBar
+        <Connect(ViewImagePopoverBar)
           fileIndex={0}
           fileURL="/api/v4/files/file_id_1"
-          filename=""
           onGetPublicLink={[Function]}
           show={true}
           showPublicLink={true}
@@ -789,10 +780,9 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
             }
           />
         </div>
-        <ViewImagePopoverBar
+        <Connect(ViewImagePopoverBar)
           fileIndex={0}
           fileURL="/api/v4/files/file_id_1"
-          filename=""
           onGetPublicLink={[Function]}
           show={false}
           showPublicLink={true}
@@ -884,10 +874,9 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
             fileUrl="/api/v4/files/file_id_2"
           />
         </div>
-        <ViewImagePopoverBar
+        <Connect(ViewImagePopoverBar)
           fileIndex={1}
           fileURL="/api/v4/files/file_id_2"
-          filename=""
           onGetPublicLink={[Function]}
           show={false}
           showPublicLink={true}
@@ -979,10 +968,9 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
             fileUrl="/api/v4/files/file_id_2"
           />
         </div>
-        <ViewImagePopoverBar
+        <Connect(ViewImagePopoverBar)
           fileIndex={1}
           fileURL="/api/v4/files/file_id_2"
-          filename=""
           onGetPublicLink={[Function]}
           show={false}
           showPublicLink={true}
@@ -1070,10 +1058,9 @@ exports[`components/ViewImageModal should match snapshot, loading 1`] = `
             progress={0}
           />
         </div>
-        <ViewImagePopoverBar
+        <Connect(ViewImagePopoverBar)
           fileIndex={0}
           fileURL="/api/v4/files/file_id"
-          filename=""
           onGetPublicLink={[Function]}
           show={false}
           showPublicLink={true}
@@ -1141,10 +1128,9 @@ exports[`components/ViewImageModal should match snapshot, modal not shown 1`] = 
             progress={0}
           />
         </div>
-        <ViewImagePopoverBar
+        <Connect(ViewImagePopoverBar)
           fileIndex={0}
           fileURL="/api/v4/files/file_id"
-          filename=""
           onGetPublicLink={[Function]}
           show={false}
           showPublicLink={true}
