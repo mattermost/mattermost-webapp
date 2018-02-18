@@ -20,8 +20,6 @@ describe('components/NewChannelModal', () => {
         channelType: Constants.OPEN_CHANNEL,
         currentTeamId: 'test_team_id',
         channelData,
-        showCreatePublicChannelOption: true,
-        showCreatePrivateChannelOption: true,
         onSubmitChannel: jest.fn(),
         onModalDismissed: jest.fn(),
         onTypeSwitched: jest.fn(),
@@ -66,34 +64,6 @@ describe('components/NewChannelModal', () => {
 
     test('should match snapshot, on serverError', () => {
         const props = {...baseProps, serverError: 'server error'};
-        const wrapper = shallow(
-            <NewChannelModal {...props}/>
-        );
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should match snapshot, without option to create public channel', () => {
-        const props = {...baseProps, showCreatePublicChannelOption: false};
-        const wrapper = shallow(
-            <NewChannelModal {...props}/>
-        );
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should match snapshot, without option to create private channel', () => {
-        const props = {...baseProps, showCreatePrivateChannelOption: false};
-        const wrapper = shallow(
-            <NewChannelModal {...props}/>
-        );
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should match snapshot, without option to create public or private channels', () => {
-        const props = {
-            ...baseProps,
-            showCreatePublicChannelOption: false,
-            showCreatePrivateChannelOption: false
-        };
         const wrapper = shallow(
             <NewChannelModal {...props}/>
         );
