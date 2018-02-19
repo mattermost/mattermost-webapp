@@ -42,16 +42,40 @@ function channelMapping(permission) {
     };
 }
 
+function channelTeamMixedMapping(permission) {
+    return {
+        all: [
+            {roleName: 'team_user', permission, shouldHave: true}
+        ],
+        channel_admin: [
+            {roleName: 'team_user', permission, shouldHave: false},
+            {roleName: 'channel_admin', permission, shouldHave: true},
+            {roleName: 'team_admin', permission, shouldHave: true}
+        ],
+        team_admin: [
+            {roleName: 'team_user', permission, shouldHave: false},
+            {roleName: 'channel_admin', permission, shouldHave: false},
+            {roleName: 'team_admin', permission, shouldHave: true}
+        ],
+        system_admin: [
+            {roleName: 'team_user', permission, shouldHave: false},
+            {roleName: 'channel_admin', permission, shouldHave: false},
+            {roleName: 'team_admin', permission, shouldHave: false}
+        ]
+    };
+}
+
 const MAPPING = {
     restrictTeamInvite: {...teamMapping(Permissions.INVITE_USER)},
     restrictPublicChannelCreation: {...teamMapping(Permissions.CREATE_PUBLIC_CHANNEL)},
     restrictPrivateChannelCreation: {...teamMapping(Permissions.CREATE_PRIVATE_CHANNEL)},
 
-    restrictPublicChannelManagement: {...channelMapping(Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES)},
-    restrictPublicChannelDeletion: {...channelMapping(Permissions.DELETE_PUBLIC_CHANNEL)},
-    restrictPrivateChannelManagement: {...channelMapping(Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES)},
     restrictPrivateChannelManageMembers: {...channelMapping(Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS)},
-    restrictPrivateChannelDeletion: {...channelMapping(Permissions.DELETE_PRIVATE_CHANNEL)},
+
+    restrictPublicChannelManagement: {...channelTeamMixedMapping(Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES)},
+    restrictPublicChannelDeletion: {...channelTeamMixedMapping(Permissions.DELETE_PUBLIC_CHANNEL)},
+    restrictPrivateChannelManagement: {...channelTeamMixedMapping(Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES)},
+    restrictPrivateChannelDeletion: {...channelTeamMixedMapping(Permissions.DELETE_PRIVATE_CHANNEL)},
 
     allowEditPost: {
         always: [

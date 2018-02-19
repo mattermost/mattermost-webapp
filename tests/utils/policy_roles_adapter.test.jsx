@@ -16,20 +16,19 @@ describe('PolicyRolesAdapter', function() {
                 permissions: [
                     Permissions.EDIT_POST,
                     Permissions.DELETE_POST,
-                    Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES,
-                    Permissions.DELETE_PUBLIC_CHANNEL,
-                    Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES,
-                    Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
-                    Permissions.DELETE_PRIVATE_CHANNEL
+                    Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS
                 ]
             },
             team_user: {
                 name: 'team_user',
                 permissions: [
-                    Permissions.DELETE_PUBLIC_CHANNEL,
                     Permissions.INVITE_USER,
                     Permissions.CREATE_PUBLIC_CHANNEL,
-                    Permissions.CREATE_PRIVATE_CHANNEL
+                    Permissions.CREATE_PRIVATE_CHANNEL,
+                    Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES,
+                    Permissions.DELETE_PUBLIC_CHANNEL,
+                    Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES,
+                    Permissions.DELETE_PRIVATE_CHANNEL
                 ]
             },
             channel_admin: {
@@ -133,18 +132,18 @@ describe('PolicyRolesAdapter', function() {
             });
         });
 
-        describe('channelPolicies', function() {
+        describe('channelTeamMixedPolicies', function() {
             test('all', function() {
-                roles.channel_user.permissions = [];
+                roles.team_user.permissions = [];
                 const updatedRoles = rolesFromMapping({restrictPublicChannelManagement: 'all'}, roles);
                 expect(Object.values(updatedRoles).length).toEqual(1);
-                expect(updatedRoles.channel_user.permissions).toEqual(expect.arrayContaining([Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]));
+                expect(updatedRoles.team_user.permissions).toEqual(expect.arrayContaining([Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]));
             });
 
             test('channel_admin', function() {
                 const updatedRoles = rolesFromMapping({restrictPublicChannelManagement: 'channel_admin'}, roles);
                 expect(Object.values(updatedRoles).length).toEqual(3);
-                expect(updatedRoles.channel_user.permissions).not.toEqual(expect.arrayContaining([Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]));
+                expect(updatedRoles.team_user.permissions).not.toEqual(expect.arrayContaining([Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]));
                 expect(updatedRoles.channel_admin.permissions).toEqual(expect.arrayContaining([Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]));
                 expect(updatedRoles.team_admin.permissions).toEqual(expect.arrayContaining([Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]));
             });
@@ -152,7 +151,7 @@ describe('PolicyRolesAdapter', function() {
             test('team_admin', function() {
                 const updatedRoles = rolesFromMapping({restrictPublicChannelManagement: 'team_admin'}, roles);
                 expect(Object.values(updatedRoles).length).toEqual(2);
-                expect(updatedRoles.channel_user.permissions).not.toEqual(expect.arrayContaining([Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]));
+                expect(updatedRoles.team_user.permissions).not.toEqual(expect.arrayContaining([Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]));
                 expect(updatedRoles.team_admin.permissions).toEqual(expect.arrayContaining([Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]));
             });
 
@@ -160,8 +159,40 @@ describe('PolicyRolesAdapter', function() {
                 roles.team_admin.permissions.push(Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES);
                 const updatedRoles = rolesFromMapping({restrictPublicChannelManagement: 'system_admin'}, roles);
                 expect(Object.values(updatedRoles).length).toEqual(2);
-                expect(updatedRoles.channel_user.permissions).not.toEqual(expect.arrayContaining([Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]));
+                expect(updatedRoles.team_user.permissions).not.toEqual(expect.arrayContaining([Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]));
                 expect(updatedRoles.team_admin.permissions).not.toEqual(expect.arrayContaining([Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]));
+            });
+        });
+
+        describe('channelPolicies', function() {
+            test('all', function() {
+                roles.channel_user.permissions = [];
+                const updatedRoles = rolesFromMapping({restrictPrivateChannelManageMembers: 'all'}, roles);
+                expect(Object.values(updatedRoles).length).toEqual(1);
+                expect(updatedRoles.channel_user.permissions).toEqual(expect.arrayContaining([Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS]));
+            });
+
+            test('channel_admin', function() {
+                const updatedRoles = rolesFromMapping({restrictPrivateChannelManageMembers: 'channel_admin'}, roles);
+                expect(Object.values(updatedRoles).length).toEqual(3);
+                expect(updatedRoles.channel_user.permissions).not.toEqual(expect.arrayContaining([Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS]));
+                expect(updatedRoles.channel_admin.permissions).toEqual(expect.arrayContaining([Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS]));
+                expect(updatedRoles.team_admin.permissions).toEqual(expect.arrayContaining([Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS]));
+            });
+
+            test('team_admin', function() {
+                const updatedRoles = rolesFromMapping({restrictPrivateChannelManageMembers: 'team_admin'}, roles);
+                expect(Object.values(updatedRoles).length).toEqual(2);
+                expect(updatedRoles.channel_user.permissions).not.toEqual(expect.arrayContaining([Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS]));
+                expect(updatedRoles.team_admin.permissions).toEqual(expect.arrayContaining([Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS]));
+            });
+
+            test('system_admin', function() {
+                roles.team_admin.permissions.push(Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS);
+                const updatedRoles = rolesFromMapping({restrictPrivateChannelManageMembers: 'system_admin'}, roles);
+                expect(Object.values(updatedRoles).length).toEqual(2);
+                expect(updatedRoles.channel_user.permissions).not.toEqual(expect.arrayContaining([Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS]));
+                expect(updatedRoles.team_admin.permissions).not.toEqual(expect.arrayContaining([Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS]));
             });
         });
 
@@ -211,28 +242,54 @@ describe('PolicyRolesAdapter', function() {
             });
         });
 
-        describe('channel-based', function() {
-            test('returns the expected policy value for a team-based policy', function() {
-                addPermissionToRole(Permissions.DELETE_PUBLIC_CHANNEL, roles.channel_user);
+        describe('channel-team-mixed-based', function() {
+            test('returns the expected policy value for a channel/team mixed based policy', function() {
+                addPermissionToRole(Permissions.DELETE_PUBLIC_CHANNEL, roles.team_user);
                 let value = mappingValueFromRoles('restrictPublicChannelDeletion', roles);
                 expect(value).toEqual('all');
 
-                removePermissionFromRole(Permissions.DELETE_PUBLIC_CHANNEL, roles.channel_user);
+                removePermissionFromRole(Permissions.DELETE_PUBLIC_CHANNEL, roles.team_user);
                 addPermissionToRole(Permissions.DELETE_PUBLIC_CHANNEL, roles.channel_admin);
                 addPermissionToRole(Permissions.DELETE_PUBLIC_CHANNEL, roles.team_admin);
                 value = mappingValueFromRoles('restrictPublicChannelDeletion', roles);
                 expect(value).toEqual('channel_admin');
 
-                removePermissionFromRole(Permissions.DELETE_PUBLIC_CHANNEL, roles.channel_user);
+                removePermissionFromRole(Permissions.DELETE_PUBLIC_CHANNEL, roles.team_user);
                 removePermissionFromRole(Permissions.DELETE_PUBLIC_CHANNEL, roles.channel_admin);
                 addPermissionToRole(Permissions.DELETE_PUBLIC_CHANNEL, roles.team_admin);
                 value = mappingValueFromRoles('restrictPublicChannelDeletion', roles);
                 expect(value).toEqual('team_admin');
 
-                removePermissionFromRole(Permissions.DELETE_PUBLIC_CHANNEL, roles.channel_user);
+                removePermissionFromRole(Permissions.DELETE_PUBLIC_CHANNEL, roles.team_user);
                 removePermissionFromRole(Permissions.DELETE_PUBLIC_CHANNEL, roles.channel_admin);
                 removePermissionFromRole(Permissions.DELETE_PUBLIC_CHANNEL, roles.team_admin);
                 value = mappingValueFromRoles('restrictPublicChannelDeletion', roles);
+                expect(value).toEqual('system_admin');
+            });
+        });
+
+        describe('channel-based', function() {
+            test('returns the expected policy value for a channel-based policy', function() {
+                addPermissionToRole(Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS, roles.channel_user);
+                let value = mappingValueFromRoles('restrictPrivateChannelManageMembers', roles);
+                expect(value).toEqual('all');
+
+                removePermissionFromRole(Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS, roles.channel_user);
+                addPermissionToRole(Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS, roles.channel_admin);
+                addPermissionToRole(Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS, roles.team_admin);
+                value = mappingValueFromRoles('restrictPrivateChannelManageMembers', roles);
+                expect(value).toEqual('channel_admin');
+
+                removePermissionFromRole(Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS, roles.channel_user);
+                removePermissionFromRole(Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS, roles.channel_admin);
+                addPermissionToRole(Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS, roles.team_admin);
+                value = mappingValueFromRoles('restrictPrivateChannelManageMembers', roles);
+                expect(value).toEqual('team_admin');
+
+                removePermissionFromRole(Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS, roles.channel_user);
+                removePermissionFromRole(Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS, roles.channel_admin);
+                removePermissionFromRole(Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS, roles.team_admin);
+                value = mappingValueFromRoles('restrictPrivateChannelManageMembers', roles);
                 expect(value).toEqual('system_admin');
             });
         });
