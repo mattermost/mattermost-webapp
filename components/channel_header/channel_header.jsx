@@ -865,7 +865,7 @@ export default class ChannelHeader extends React.Component {
                     >
                         <button
                             className='style--none'
-                            onClick={this.showEditChannelPurposeModal}
+                            onClick={this.showEditChannelHeaderModal}
                         >
                             <FormattedMessage
                                 id='channel_header.addChannelHeader'
