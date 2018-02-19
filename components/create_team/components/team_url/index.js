@@ -17,4 +17,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapDispatchToProps)(TeamUrl);
+export default connect(null, mapDispatchToProps)(TeamUrl);

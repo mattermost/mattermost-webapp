@@ -15,20 +15,19 @@ import DisplayName from 'components/create_team/components/display_name';
 export default class CreateTeam extends React.PureComponent {
     static propTypes = {
 
-        /**
-         * children components
-         */
-        children: PropTypes.node,
-
-        /**
-         * Object containing information about current team
-         */
         currentTeam: PropTypes.object,
 
-        /**
-         * Object containing information about current channel
-         */
-        currentChannel: PropTypes.object
+        currentChannel: PropTypes.object,
+
+        isLicensed: PropTypes.bool.isRequired,
+
+        customBrand: PropTypes.bool.isRequired,
+
+        enableCustomBrand: PropTypes.bool.isRequired,
+
+        customDescriptionText: PropTypes.string,
+
+        siteName: PropTypes.string
     }
 
     constructor(props) {
@@ -47,8 +46,8 @@ export default class CreateTeam extends React.PureComponent {
 
     render() {
         let description = null;
-        if (global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.CustomBrand === 'true' && global.window.mm_config.EnableCustomBrand === 'true') {
-            description = global.window.mm_config.CustomDescriptionText;
+        if (this.props.isLicensed && this.props.customBrand && this.props.enableCustomBrand) {
+            description = this.props.customDescriptionText;
         } else {
             description = (
                 <FormattedMessage
@@ -74,7 +73,7 @@ export default class CreateTeam extends React.PureComponent {
                 <BackButton url={url}/>
                 <div className='col-sm-12'>
                     <div className='signup-team__container'>
-                        <h1>{global.window.mm_config.SiteName}</h1>
+                        <h1>{this.props.siteName}</h1>
                         <h4 className='color--light'>
                             {description}
                         </h4>

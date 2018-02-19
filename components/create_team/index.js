@@ -3,15 +3,32 @@
 
 import {connect} from 'react-redux';
 
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import CreateTeam from './create_team';
 
 function mapStateToProps(state) {
+    const config = getConfig(state);
+    const license = getLicense(state);
+    const currentChannel = getCurrentChannel(state);
+    const currentTeam = getCurrentTeam(state);
+
+    const isLicensed = license.IsLicensed === 'true';
+    const customBrand = license.CustomBrand === 'true';
+    const enableCustomBrand = config.EnableCustomBrand === 'true';
+    const customDescriptionText = config.CustomDescriptionText;
+    const siteName = config.SiteName;
+
     return {
-        currentChannel: getCurrentChannel(state),
-        currentTeam: getCurrentTeam(state)
+        currentChannel,
+        currentTeam,
+        isLicensed,
+        customBrand,
+        enableCustomBrand,
+        customDescriptionText,
+        siteName
     };
 }
 

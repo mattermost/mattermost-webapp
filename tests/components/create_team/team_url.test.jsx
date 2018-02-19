@@ -15,19 +15,6 @@ describe('/components/create_team/components/display_name', () => {
     global.window.mm_license = {};
     global.window.mm_config = {};
 
-    beforeEach(() => {
-        global.window.mm_config.SiteName = 'Mattermost';
-        global.window.mm_license.IsLicensed = 'true';
-        global.window.mm_license.CustomBrand = 'true';
-        global.window.mm_config.EnableCustomBrand = 'true';
-        global.window.mm_config.CustomDescriptionText = 'Welcome to our custom branded site!';
-    });
-
-    afterEach(() => {
-        global.window.mm_license = {};
-        global.window.mm_config = {};
-    });
-
     const defaultProps = {
         updateParent: jest.fn(),
         state: {
