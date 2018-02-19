@@ -215,16 +215,21 @@ export function createDefaultIntroMessage(channel, centeredIntro) {
             teamId={channel.team_id}
             permissions={[Permissions.INVITE_USER]}
         >
-            <span
-                className='intro-links color--link cursor--pointer'
-                onClick={GlobalActions.showGetTeamInviteLinkModal}
+            <TeamPermissionGate
+                teamId={channel.team_id}
+                permissions={[Permissions.ADD_USER_TO_TEAM]}
             >
-                <i className='fa fa-user-plus'/>
-                <FormattedMessage
-                    id='intro_messages.inviteOthers'
-                    defaultMessage='Invite others to this team'
-                />
-            </span>
+                <span
+                    className='intro-links color--link cursor--pointer'
+                    onClick={GlobalActions.showGetTeamInviteLinkModal}
+                >
+                    <i className='fa fa-user-plus'/>
+                    <FormattedMessage
+                        id='intro_messages.inviteOthers'
+                        defaultMessage='Invite others to this team'
+                    />
+                </span>
+            </TeamPermissionGate>
         </TeamPermissionGate>
     );
 

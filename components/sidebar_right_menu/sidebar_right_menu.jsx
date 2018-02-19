@@ -196,18 +196,23 @@ export default class SidebarRightMenu extends React.Component {
                     teamId={this.props.teamId}
                     permissions={[Permissions.INVITE_USER]}
                 >
-                    <li>
-                        <a
-                            href='#'
-                            onClick={GlobalActions.showInviteMemberModal}
-                        >
-                            <i className='icon fa fa-user-plus'/>
-                            <FormattedMessage
-                                id='sidebar_right_menu.inviteNew'
-                                defaultMessage='Send Email Invite'
-                            />
-                        </a>
-                    </li>
+                    <TeamPermissionGate
+                        teamId={this.props.teamId}
+                        permissions={[Permissions.ADD_USER_TO_TEAM]}
+                    >
+                        <li>
+                            <a
+                                href='#'
+                                onClick={GlobalActions.showInviteMemberModal}
+                            >
+                                <i className='icon fa fa-user-plus'/>
+                                <FormattedMessage
+                                    id='sidebar_right_menu.inviteNew'
+                                    defaultMessage='Send Email Invite'
+                                />
+                            </a>
+                        </li>
+                    </TeamPermissionGate>
                 </TeamPermissionGate>
             );
 
@@ -238,18 +243,23 @@ export default class SidebarRightMenu extends React.Component {
                         teamId={this.props.teamId}
                         permissions={[Permissions.INVITE_USER]}
                     >
-                        <li>
-                            <a
-                                href='#'
-                                onClick={GlobalActions.showGetTeamInviteLinkModal}
-                            >
-                                <i className='icon fa fa-link'/>
-                                <FormattedMessage
-                                    id='sidebar_right_menu.teamLink'
-                                    defaultMessage='Get Team Invite Link'
-                                />
-                            </a>
-                        </li>
+                        <TeamPermissionGate
+                            teamId={this.props.teamId}
+                            permissions={[Permissions.ADD_USER_TO_TEAM]}
+                        >
+                            <li>
+                                <a
+                                    href='#'
+                                    onClick={GlobalActions.showGetTeamInviteLinkModal}
+                                >
+                                    <i className='icon fa fa-link'/>
+                                    <FormattedMessage
+                                        id='sidebar_right_menu.teamLink'
+                                        defaultMessage='Get Team Invite Link'
+                                    />
+                                </a>
+                            </li>
+                        </TeamPermissionGate>
                     </TeamPermissionGate>
                 );
             }
