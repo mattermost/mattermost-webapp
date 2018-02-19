@@ -7,7 +7,7 @@ import React from 'react';
 export default class ChannelPermissionGate extends React.Component {
     shouldComponentUpdate(nextProps) {
         return this.props.invert !== nextProps.invert ||
-               this.props.hasPerm !== nextProps.hasPerm;
+               this.props.hasPermission !== nextProps.hasPermission;
     }
 
     static defaultProps = {
@@ -29,12 +29,12 @@ export default class ChannelPermissionGate extends React.Component {
         /**
          * Permissions enough to pass the gate (binary OR)
          */
-        perms: PropTypes.arrayOf(PropTypes.string).isRequired,
+        permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
 
         /**
          * Has permission
          */
-        hasPerm: PropTypes.bool.isRequired,
+        hasPermission: PropTypes.bool.isRequired,
 
         /**
          * Invert the permission (used for else)
@@ -48,10 +48,10 @@ export default class ChannelPermissionGate extends React.Component {
     };
 
     render() {
-        if (this.props.hasPerm && !this.props.invert) {
+        if (this.props.hasPermission && !this.props.invert) {
             return this.props.children;
         }
-        if (!this.props.hasPerm && this.props.invert) {
+        if (!this.props.hasPermission && this.props.invert) {
             return this.props.children;
         }
         return null;

@@ -80,7 +80,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
               values={Object {}}
             />
             <Connect(TeamPermissionGate)
-              perms={
+              permissions={
                 Array [
                   "create_private_channel",
                 ]
@@ -361,7 +361,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
               values={Object {}}
             />
             <Connect(TeamPermissionGate)
-              perms={
+              permissions={
                 Array [
                   "create_private_channel",
                 ]
@@ -642,7 +642,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
               values={Object {}}
             />
             <Connect(TeamPermissionGate)
-              perms={
+              permissions={
                 Array [
                   "create_private_channel",
                 ]
@@ -932,7 +932,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
               values={Object {}}
             />
             <Connect(TeamPermissionGate)
-              perms={
+              permissions={
                 Array [
                   "create_private_channel",
                 ]
@@ -1226,7 +1226,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
               values={Object {}}
             />
             <Connect(TeamPermissionGate)
-              perms={
+              permissions={
                 Array [
                   "create_public_channel",
                 ]

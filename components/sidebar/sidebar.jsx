@@ -714,7 +714,7 @@ export default class Sidebar extends React.PureComponent {
                                 />
                                 <TeamPermissionGate
                                     teamId={this.props.currentTeam.id}
-                                    perms={[Permissions.CREATE_PUBLIC_CHANNEL]}
+                                    permissions={[Permissions.CREATE_PUBLIC_CHANNEL]}
                                 >
                                     {createPublicChannelIcon}
                                 </TeamPermissionGate>
@@ -744,7 +744,7 @@ export default class Sidebar extends React.PureComponent {
                                 />
                                 <TeamPermissionGate
                                     teamId={this.props.currentTeam.id}
-                                    perms={[Permissions.CREATE_PRIVATE_CHANNEL]}
+                                    permissions={[Permissions.CREATE_PRIVATE_CHANNEL]}
                                 >
                                     {createPrivateChannelIcon}
                                 </TeamPermissionGate>

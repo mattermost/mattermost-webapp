@@ -4,12 +4,12 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getTeamStats} from 'mattermost-redux/actions/teams';
-import {haveITeamPerm} from 'mattermost-redux/selectors/entities/roles';
+import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 
 import MemberListTeam from './member_list_team.jsx';
 
 function mapStateToProps(state, ownProps) {
-    const canManageTeamMembers = haveITeamPerm(state, {team: ownProps.teamId, perm: Permissions.MANAGE_TEAM_MEMBERS});
+    const canManageTeamMembers = haveITeamPermission(state, {team: ownProps.teamId, permission: Permissions.MANAGE_TEAM_MEMBERS});
     return {
         canManageTeamMembers
     };

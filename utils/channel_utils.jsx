@@ -1,7 +1,7 @@
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {haveIChannelPerm} from 'mattermost-redux/selectors/entities/roles';
+import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import Permissions from 'mattermost-redux/constants/permissions';
 import * as ChannelUtilsRedux from 'mattermost-redux/utils/channel_utils';
 
@@ -54,23 +54,23 @@ export function getChannelDisplayName(channel) {
 
 export function canManageMembers(channel) {
     if (channel.type === Constants.PRIVATE_CHANNEL) {
-        return haveIChannelPerm(
+        return haveIChannelPermission(
             store.getState(),
             {
                 channelId: channel.id,
                 teamId: channel.team_id,
-                perm: Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS
+                permission: Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS
             }
         );
     }
 
     if (channel.type === Constants.OPEN_CHANNEL) {
-        return haveIChannelPerm(
+        return haveIChannelPermission(
             store.getState(),
             {
                 channelId: channel.id,
                 teamId: channel.team_id,
-                perm: Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS
+                permission: Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS
             }
         );
     }

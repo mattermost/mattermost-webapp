@@ -581,8 +581,8 @@ export default class ChannelHeader extends React.Component {
                     <ChannelPermissionGate
                         channelId={channel.id}
                         teamId={teamId}
-                        perms={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
-                        key='add_members_perm'
+                        permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
+                        key='add_members_permission'
                     >
                         <li
                             key='add_members'
@@ -608,8 +608,8 @@ export default class ChannelHeader extends React.Component {
                     <ChannelPermissionGate
                         channelId={channel.id}
                         teamId={teamId}
-                        perms={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
-                        key='manage_members_perm'
+                        permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
+                        key='manage_members_permission'
                     >
                         <li
                             key='manage_members'
@@ -634,9 +634,9 @@ export default class ChannelHeader extends React.Component {
                     <ChannelPermissionGate
                         channelId={channel.id}
                         teamId={teamId}
-                        perms={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
+                        permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
                         invert={true}
-                        key='view_members_perm'
+                        key='view_members_permission'
                     >
                         <li
                             key='view_members'
@@ -662,8 +662,8 @@ export default class ChannelHeader extends React.Component {
                 <ChannelPermissionGate
                     channelId={channel.id}
                     teamId={teamId}
-                    perms={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
-                    key='set_channel_info_perm'
+                    permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
+                    key='set_channel_info_permission'
                 >
                     <li
                         key='divider-2'
@@ -728,8 +728,8 @@ export default class ChannelHeader extends React.Component {
                 <ChannelPermissionGate
                     channelId={channel.id}
                     teamId={teamId}
-                    perms={[isPrivate ? Permissions.DELETE_PRIVATE_CHANNEL : Permissions.DELETE_PUBLIC_CHANNEL]}
-                    key='delete_channel_perm'
+                    permissions={[isPrivate ? Permissions.DELETE_PRIVATE_CHANNEL : Permissions.DELETE_PUBLIC_CHANNEL]}
+                    key='delete_channel_permission'
                 >
                     <li
                         key='delete_channel'
@@ -861,7 +861,7 @@ export default class ChannelHeader extends React.Component {
                     <ChannelPermissionGate
                         channelId={channel.id}
                         teamId={teamId}
-                        perms={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
+                        permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
                     >
                         <button
                             className='style--none'

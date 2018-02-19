@@ -3,22 +3,22 @@
 
 import {connect} from 'react-redux';
 
-import {haveIChannelPerm} from 'mattermost-redux/selectors/entities/roles';
+import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 
 import ChannelPermissionGate from './channel_permission_gate.jsx';
 
 function mapStateToProps(state, ownProps) {
     if (!ownProps.teamId || !ownProps.channelId) {
-        return {hasPerm: false};
+        return {hasPermission: false};
     }
 
-    for (const perm of ownProps.perms) {
-        if (haveIChannelPerm(state, {channel: ownProps.channelId, team: ownProps.teamId, perm})) {
-            return {hasPerm: true};
+    for (const permission of ownProps.permissions) {
+        if (haveIChannelPermission(state, {channel: ownProps.channelId, team: ownProps.teamId, permission})) {
+            return {hasPermission: true};
         }
     }
 
-    return {hasPerm: false};
+    return {hasPermission: false};
 }
 
 export default connect(mapStateToProps)(ChannelPermissionGate);

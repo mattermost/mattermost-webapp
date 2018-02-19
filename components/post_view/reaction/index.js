@@ -8,7 +8,7 @@ import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 import {getCurrentUserId, makeGetProfilesForReactions} from 'mattermost-redux/selectors/entities/users';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
-import {haveIChannelPerm} from 'mattermost-redux/selectors/entities/roles';
+import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import * as Emoji from 'utils/emoji.jsx';
@@ -33,8 +33,8 @@ function makeMapStateToProps() {
         }
         const channel = getChannel(state, {id: ownProps.post.channel_id}) || {};
         const teamId = channel.team_id;
-        const canAddReaction = haveIChannelPerm(state, {team: teamId, channel: ownProps.post.channel_id, perm: Permissions.ADD_REACTION});
-        const canRemoveReaction = haveIChannelPerm(state, {team: teamId, channel: ownProps.post.channel_id, perm: Permissions.REMOVE_REACTION});
+        const canAddReaction = haveIChannelPermission(state, {team: teamId, channel: ownProps.post.channel_id, permission: Permissions.ADD_REACTION});
+        const canRemoveReaction = haveIChannelPermission(state, {team: teamId, channel: ownProps.post.channel_id, permission: Permissions.REMOVE_REACTION});
 
         return {
             profiles,

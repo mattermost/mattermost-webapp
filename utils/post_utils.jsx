@@ -5,7 +5,7 @@ import React from 'react';
 import {Parser, ProcessNodeDefinitions} from 'html-to-react';
 import {Client4} from 'mattermost-redux/client';
 
-import {haveIChannelPerm} from 'mattermost-redux/selectors/entities/roles';
+import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
 
 import AtMention from 'components/at_mention';
@@ -78,9 +78,9 @@ export function canDeletePost(post) {
     }
 
     if (isPostOwner(post)) {
-        return haveIChannelPerm(store.getState(), {channel: post.channel_id, team: post.team_id, perm: Permissions.DELETE_POST});
+        return haveIChannelPermission(store.getState(), {channel: post.channel_id, team: post.team_id, permission: Permissions.DELETE_POST});
     }
-    return haveIChannelPerm(store.getState(), {channel: post.channel_id, team: post.team_id, perm: Permissions.DELETE_OTHERS_POSTS});
+    return haveIChannelPermission(store.getState(), {channel: post.channel_id, team: post.team_id, permission: Permissions.DELETE_OTHERS_POSTS});
 }
 
 export function canEditPost(post, editDisableAction) {
@@ -90,9 +90,9 @@ export function canEditPost(post, editDisableAction) {
 
     let canEdit = false;
     const isOwner = isPostOwner(post);
-    canEdit = haveIChannelPerm(store.getState(), {channel: post.channel_id, team: post.team_id, perm: Permissions.EDIT_POST});
+    canEdit = haveIChannelPermission(store.getState(), {channel: post.channel_id, team: post.team_id, permission: Permissions.EDIT_POST});
     if (!isOwner) {
-        canEdit = canEdit && haveIChannelPerm(store.getState(), {channel: post.channel_id, team: post.team_id, perm: Permissions.EDIT_OTHERS_POSTS});
+        canEdit = canEdit && haveIChannelPermission(store.getState(), {channel: post.channel_id, team: post.team_id, permission: Permissions.EDIT_OTHERS_POSTS});
     }
 
     if (canEdit && global.window.mm_license.IsLicensed === 'true') {

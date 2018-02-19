@@ -183,7 +183,7 @@ export function createOffTopicIntroMessage(channel, centeredIntro) {
         <ChannelPermissionGate
             teamId={teamId}
             channelId={channel.id}
-            perms={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
+            permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
         >
             {createSetHeaderButton(channel)}
         </ChannelPermissionGate>
@@ -213,7 +213,7 @@ export function createDefaultIntroMessage(channel, centeredIntro) {
     const teamInviteLink = (
         <TeamPermissionGate
             teamId={channel.team_id}
-            perms={[Permissions.INVITE_USER]}
+            permissions={[Permissions.INVITE_USER]}
         >
             <span
                 className='intro-links color--link cursor--pointer'
@@ -234,7 +234,7 @@ export function createDefaultIntroMessage(channel, centeredIntro) {
         <ChannelPermissionGate
             teamId={teamId}
             channelId={channel.id}
-            perms={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
+            permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
         >
             {createSetHeaderButton(channel)}
         </ChannelPermissionGate>
@@ -354,7 +354,7 @@ export function createStandardIntroMessage(channel, centeredIntro) {
         <ChannelPermissionGate
             teamId={teamId}
             channelId={channel.id}
-            perms={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
+            permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
         >
             {createSetHeaderButton(channel)}
         </ChannelPermissionGate>
@@ -394,7 +394,7 @@ function createInviteChannelMemberButton(channel, uiType) {
         <ChannelPermissionGate
             channelId={channel.id}
             teamId={channel.team_id}
-            perms={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
+            permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
         >
             <ToggleModalButton
                 className='intro-links color--link'

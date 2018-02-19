@@ -67,7 +67,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms={
+            permissions={
               Array [
                 "create_public_channel",
               ]
@@ -150,7 +150,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms={
+            permissions={
               Array [
                 "create_private_channel",
               ]
@@ -415,7 +415,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms={
+            permissions={
               Array [
                 "create_public_channel",
               ]
@@ -498,7 +498,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms={
+            permissions={
               Array [
                 "create_private_channel",
               ]
@@ -756,7 +756,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms={
+            permissions={
               Array [
                 "create_public_channel",
               ]
@@ -839,7 +839,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms={
+            permissions={
               Array [
                 "create_private_channel",
               ]
@@ -1076,7 +1076,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms={
+            permissions={
               Array [
                 "create_public_channel",
               ]
@@ -1159,7 +1159,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms={
+            permissions={
               Array [
                 "create_private_channel",
               ]
@@ -1388,7 +1388,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms={
+            permissions={
               Array [
                 "create_public_channel",
               ]
@@ -1471,7 +1471,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms={
+            permissions={
               Array [
                 "create_private_channel",
               ]
@@ -1704,7 +1704,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms={
+            permissions={
               Array [
                 "create_public_channel",
               ]
@@ -1787,7 +1787,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms={
+            permissions={
               Array [
                 "create_private_channel",
               ]
@@ -2016,7 +2016,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms={
+            permissions={
               Array [
                 "create_public_channel",
               ]
@@ -2099,7 +2099,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms={
+            permissions={
               Array [
                 "create_private_channel",
               ]
@@ -2328,7 +2328,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms={
+            permissions={
               Array [
                 "create_public_channel",
               ]
@@ -2411,7 +2411,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms={
+            permissions={
               Array [
                 "create_private_channel",
               ]
@@ -2640,7 +2640,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms={
+            permissions={
               Array [
                 "create_public_channel",
               ]
@@ -2723,7 +2723,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
             values={Object {}}
           />
           <Connect(TeamPermissionGate)
-            perms={
+            permissions={
               Array [
                 "create_private_channel",
               ]

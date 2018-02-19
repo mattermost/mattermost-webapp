@@ -171,7 +171,7 @@ export default class ReactionListView extends React.PureComponent {
                         <ChannelPermissionGate
                             channelId={this.props.post.channel_id}
                             teamId={this.props.teamId}
-                            perms={[Permissions.ADD_REACTION]}
+                            permissions={[Permissions.ADD_REACTION]}
                         >
                             <div
                                 className='post-reaction'
