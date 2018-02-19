@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import * as Utils from 'utils/channel_utils.jsx';
-import Constants from 'utils/constants.jsx';
 
 describe('Channel Utils', () => {
     describe('findNextUnreadChannelId', () => {
