@@ -28,7 +28,7 @@ export default class ReactionListView extends React.PureComponent {
         /*
          * The id of the team which belongs the post
          */
-        teamId: PropTypes.string.isRequired,
+        teamId: PropTypes.string,
 
         /**
          * The reactions to render
