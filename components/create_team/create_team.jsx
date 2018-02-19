@@ -15,18 +15,39 @@ import DisplayName from 'components/create_team/components/display_name';
 export default class CreateTeam extends React.PureComponent {
     static propTypes = {
 
+        /*
+         * Object containing information on the current team, used to define BackButton's url
+         */
         currentTeam: PropTypes.object,
 
+        /*
+         * Object containing information on the current selected channel, used to define BackButton's url
+         */
         currentChannel: PropTypes.object,
 
+        /*
+         * Boolean value that determines whether server has a valid Enterprise license
+         */
         isLicensed: PropTypes.bool.isRequired,
 
+        /*
+         * Boolean value that determines whether license supports custom branding
+         */
         customBrand: PropTypes.bool.isRequired,
 
+        /*
+         * Boolean value that determines whether the custom brand feature has been enabled
+         */
         enableCustomBrand: PropTypes.bool.isRequired,
 
+        /*
+         * String containing the custom branding's text
+         */
         customDescriptionText: PropTypes.string,
 
+        /*
+         * String containing the custom branding's Site Name
+         */
         siteName: PropTypes.string
     }
 

@@ -68,7 +68,7 @@ export default class TeamSignupDisplayNamePage extends React.PureComponent {
         this.props.updateParent(newState);
     }
 
-    handleFocus(e) {
+    handleFocus = (e) => {
         e.preventDefault();
         e.currentTarget.select();
     }
