@@ -12,9 +12,6 @@ jest.mock('components/common/back_button.jsx');
 jest.mock('react-router-dom');
 
 describe('/components/create_team', () => {
-    global.window.mm_license = {};
-    global.window.mm_config = {};
-
     const defaultProps = {
         currentChannel: {name: 'test-channel'},
         currentTeam: {name: 'test-team'},
@@ -49,11 +46,11 @@ describe('/components/create_team', () => {
         const wrapper = shallowWithIntl(<CreateTeam {...defaultProps}/>);
 
         const history = wrapper.instance().props.history;
-        const state = wrapper.instance().state;
-
-        expect(state.team.name).toBeUndefined();
+        const state = {team: {name: 'team_name'}, wizard: ''};
+        wrapper.setState(state);
 
         state.team.name = 'new_team';
+        state.wizard = 'display_name';
         wrapper.instance().updateParent(state);
 
         expect(state.team.name).toBe('new_team');

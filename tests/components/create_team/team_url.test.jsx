@@ -12,9 +12,6 @@ import Constants from 'utils/constants.jsx';
 jest.mock('images/logo.png', () => 'logo.png');
 
 describe('/components/create_team/components/display_name', () => {
-    global.window.mm_license = {};
-    global.window.mm_config = {};
-
     const defaultProps = {
         updateParent: jest.fn(),
         state: {
