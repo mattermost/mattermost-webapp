@@ -61,7 +61,7 @@ export default class BackstageSidebar extends React.Component {
         if (this.props.enableIncomingWebhooks) {
             incomingWebhooks = (
                 <TeamPermissionGate
-                    perms={[Permissions.MANAGE_WEBHOOKS]}
+                    permissions={[Permissions.MANAGE_WEBHOOKS]}
                     teamId={this.props.team.id}
                 >
                     <BackstageSection
@@ -82,7 +82,7 @@ export default class BackstageSidebar extends React.Component {
         if (this.props.enableOutgoingWebhooks) {
             outgoingWebhooks = (
                 <TeamPermissionGate
-                    perms={[Permissions.MANAGE_WEBHOOKS]}
+                    permissions={[Permissions.MANAGE_WEBHOOKS]}
                     teamId={this.props.team.id}
                 >
                     <BackstageSection
@@ -103,7 +103,7 @@ export default class BackstageSidebar extends React.Component {
         if (this.props.enableCommands) {
             commands = (
                 <TeamPermissionGate
-                    perms={[Permissions.MANAGE_SLASH_COMMANDS]}
+                    permissions={[Permissions.MANAGE_SLASH_COMMANDS]}
                     teamId={this.props.team.id}
                 >
                     <BackstageSection
@@ -123,7 +123,7 @@ export default class BackstageSidebar extends React.Component {
         let oauthApps = null;
         if (this.props.enableOAuthServiceProvider) {
             oauthApps = (
-                <SystemPermissionGate perms={[Permissions.MANAGE_OAUTH]}>
+                <SystemPermissionGate permissions={[Permissions.MANAGE_OAUTH]}>
                     <BackstageSection
                         name='oauth2-apps'
                         parentLink={'/' + this.props.team.name + '/integrations'}
@@ -140,7 +140,7 @@ export default class BackstageSidebar extends React.Component {
 
         return (
             <TeamPermissionGate
-                perms={[Permissions.MANAGE_WEBHOOKS, Permissions.MANAGE_SLASH_COMMANDS, Permissions.MANAGE_OAUTH]}
+                permissions={[Permissions.MANAGE_WEBHOOKS, Permissions.MANAGE_SLASH_COMMANDS, Permissions.MANAGE_OAUTH]}
                 teamId={this.props.team.id}
             >
                 <BackstageCategory

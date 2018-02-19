@@ -193,7 +193,7 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
                 >
                   <Connect(ChannelPermissionGate)
                     channelId="channel_id"
-                    perms={
+                    permissions={
                       Array [
                         "manage_private_channel_members",
                       ]
@@ -209,7 +209,7 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
                   <Connect(ChannelPermissionGate)
                     channelId="channel_id"
                     invert={true}
-                    perms={
+                    permissions={
                       Array [
                         "manage_private_channel_members",
                       ]
@@ -226,7 +226,7 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
               </li>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms={
+                permissions={
                   Array [
                     "manage_private_channel_properties",
                   ]
@@ -251,7 +251,7 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms={
+                permissions={
                   Array [
                     "manage_private_channel_properties",
                   ]
@@ -276,7 +276,7 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms={
+                permissions={
                   Array [
                     "manage_private_channel_properties",
                   ]
@@ -301,7 +301,7 @@ exports[`components/navbar/Navbar should match snapshot, for private channel 1`]
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms={
+                permissions={
                   Array [
                     "delete_private_channel",
                   ]
@@ -612,7 +612,7 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
                 >
                   <Connect(ChannelPermissionGate)
                     channelId="channel_id"
-                    perms={
+                    permissions={
                       Array [
                         "manage_public_channel_members",
                       ]
@@ -628,7 +628,7 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
                   <Connect(ChannelPermissionGate)
                     channelId="channel_id"
                     invert={true}
-                    perms={
+                    permissions={
                       Array [
                         "manage_public_channel_members",
                       ]
@@ -645,7 +645,7 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
               </li>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms={
+                permissions={
                   Array [
                     "manage_public_channel_properties",
                   ]
@@ -670,7 +670,7 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms={
+                permissions={
                   Array [
                     "manage_public_channel_properties",
                   ]
@@ -695,7 +695,7 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms={
+                permissions={
                   Array [
                     "manage_public_channel_properties",
                   ]
@@ -720,7 +720,7 @@ exports[`components/navbar/Navbar should match snapshot, if WebRTC is not enable
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms={
+                permissions={
                   Array [
                     "delete_public_channel",
                   ]
@@ -1217,7 +1217,7 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
                 >
                   <Connect(ChannelPermissionGate)
                     channelId="channel_id"
-                    perms={
+                    permissions={
                       Array [
                         "manage_public_channel_members",
                       ]
@@ -1233,7 +1233,7 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
                   <Connect(ChannelPermissionGate)
                     channelId="channel_id"
                     invert={true}
-                    perms={
+                    permissions={
                       Array [
                         "manage_public_channel_members",
                       ]
@@ -1250,7 +1250,7 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
               </li>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms={
+                permissions={
                   Array [
                     "manage_public_channel_properties",
                   ]
@@ -1275,7 +1275,7 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms={
+                permissions={
                   Array [
                     "manage_public_channel_properties",
                   ]
@@ -1300,7 +1300,7 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms={
+                permissions={
                   Array [
                     "manage_public_channel_properties",
                   ]
@@ -1325,7 +1325,7 @@ exports[`components/navbar/Navbar should match snapshot, if not licensed 1`] = `
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms={
+                permissions={
                   Array [
                     "delete_public_channel",
                   ]
@@ -1638,7 +1638,7 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
                 >
                   <Connect(ChannelPermissionGate)
                     channelId="channel_id"
-                    perms={
+                    permissions={
                       Array [
                         "manage_public_channel_members",
                       ]
@@ -1654,7 +1654,7 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
                   <Connect(ChannelPermissionGate)
                     channelId="channel_id"
                     invert={true}
-                    perms={
+                    permissions={
                       Array [
                         "manage_public_channel_members",
                       ]
@@ -1671,7 +1671,7 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
               </li>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms={
+                permissions={
                   Array [
                     "manage_public_channel_properties",
                   ]
@@ -1696,7 +1696,7 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms={
+                permissions={
                   Array [
                     "manage_public_channel_properties",
                   ]
@@ -1721,7 +1721,7 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms={
+                permissions={
                   Array [
                     "manage_public_channel_properties",
                   ]
@@ -1746,7 +1746,7 @@ exports[`components/navbar/Navbar should match snapshot, valid state 1`] = `
               </Connect(ChannelPermissionGate)>
               <Connect(ChannelPermissionGate)
                 channelId="channel_id"
-                perms={
+                permissions={
                   Array [
                     "delete_public_channel",
                   ]

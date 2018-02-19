@@ -161,7 +161,7 @@ export default class TeamSidebar extends React.Component {
         } else {
             teams.push(
                 <SystemPermissionGate
-                    perms={[Permissions.CREATE_TEAM]}
+                    permissions={[Permissions.CREATE_TEAM]}
                     key='more_teams'
                 >
                     <TeamButton

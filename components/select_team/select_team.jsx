@@ -129,14 +129,14 @@ export default class SelectTeam extends React.Component {
                 openTeamContents = (
                     <div className='signup-team-dir-err'>
                         <div>
-                            <SystemPermissionGate perms={[Permissions.CREATE_TEAM]}>
+                            <SystemPermissionGate permissions={[Permissions.CREATE_TEAM]}>
                                 <FormattedMessage
                                     id='signup_team.no_open_teams_canCreate'
                                     defaultMessage='No teams are available to join. Please create a new team or ask your administrator for an invite.'
                                 />
                             </SystemPermissionGate>
                             <SystemPermissionGate
-                                perms={[Permissions.CREATE_TEAM]}
+                                permissions={[Permissions.CREATE_TEAM]}
                                 invert={true}
                             >
                                 <FormattedMessage
@@ -169,7 +169,7 @@ export default class SelectTeam extends React.Component {
         }
 
         const teamSignUp = (
-            <SystemPermissionGate perms={[Permissions.CREATE_TEAM]}>
+            <SystemPermissionGate permissions={[Permissions.CREATE_TEAM]}>
                 <div className='margin--extra'>
                     <Link
                         to='/create_team'
@@ -187,7 +187,7 @@ export default class SelectTeam extends React.Component {
         let adminConsoleLink;
         if (!UserAgent.isMobileApp()) {
             adminConsoleLink = (
-                <SystemPermissionGate perms={[Permissions.MANAGE_SYSTEM]}>
+                <SystemPermissionGate permissions={[Permissions.MANAGE_SYSTEM]}>
                     <div className='margin--extra hidden-xs'>
                         <Link
                             to='/admin_console'

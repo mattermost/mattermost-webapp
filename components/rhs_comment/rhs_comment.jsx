@@ -366,7 +366,7 @@ export default class RhsComment extends React.Component {
                     <ChannelPermissionGate
                         channelId={post.channel_id}
                         teamId={this.props.teamId}
-                        perms={[Permissions.ADD_REACTION]}
+                        permissions={[Permissions.ADD_REACTION]}
                     >
                         <button
                             className='reacticon__container reaction color--link style--none'

@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getChannelStats} from 'mattermost-redux/actions/channels';
-import {haveIChannelPerm} from 'mattermost-redux/selectors/entities/roles';
+import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import {canManageMembers} from 'utils/channel_utils.jsx';
@@ -12,12 +12,12 @@ import {canManageMembers} from 'utils/channel_utils.jsx';
 import ChannelMembersDropdown from './channel_members_dropdown.jsx';
 
 function mapStateToProps(state, ownProps) {
-    const canChangeMemberRoles = haveIChannelPerm(
+    const canChangeMemberRoles = haveIChannelPermission(
         state,
         {
             channel: ownProps.channel.id,
             team: ownProps.channel.team_id,
-            perm: Permissions.MANAGE_CHANNEL_ROLES
+            permission: Permissions.MANAGE_CHANNEL_ROLES
         }
     );
     const license = getLicense(state);

@@ -511,7 +511,7 @@ export default class Navbar extends React.Component {
                                 <ChannelPermissionGate
                                     channelId={channel.id}
                                     teamId={teamId}
-                                    perms={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
+                                    permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
                                 >
                                     <FormattedMessage
                                         id='channel_header.manageMembers'
@@ -522,7 +522,7 @@ export default class Navbar extends React.Component {
                                     channelId={channel.id}
                                     teamId={teamId}
                                     invert={true}
-                                    perms={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
+                                    permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
                                 >
                                     <FormattedMessage
                                         id='channel_header.viewMembers'
@@ -553,7 +553,7 @@ export default class Navbar extends React.Component {
                     <ChannelPermissionGate
                         channelId={channel.id}
                         teamId={teamId}
-                        perms={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
+                        permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
                     >
                         <li role='presentation'>
                             <a
@@ -574,7 +574,7 @@ export default class Navbar extends React.Component {
                     <ChannelPermissionGate
                         channelId={channel.id}
                         teamId={teamId}
-                        perms={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
+                        permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
                     >
                         <li role='presentation'>
                             <a
@@ -595,7 +595,7 @@ export default class Navbar extends React.Component {
                     <ChannelPermissionGate
                         channelId={channel.id}
                         teamId={teamId}
-                        perms={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
+                        permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
                     >
                         <li role='presentation'>
                             <a
@@ -616,7 +616,7 @@ export default class Navbar extends React.Component {
                     <ChannelPermissionGate
                         channelId={channel.id}
                         teamId={teamId}
-                        perms={[isPrivate ? Permissions.DELETE_PRIVATE_CHANNEL : Permissions.DELETE_PUBLIC_CHANNEL]}
+                        permissions={[isPrivate ? Permissions.DELETE_PRIVATE_CHANNEL : Permissions.DELETE_PUBLIC_CHANNEL]}
                     >
                         <li role='presentation'>
                             <ToggleModalButton

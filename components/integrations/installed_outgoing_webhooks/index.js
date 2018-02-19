@@ -5,7 +5,7 @@ import {getOutgoingHooks} from 'mattermost-redux/selectors/entities/integrations
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getAllChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getUsers} from 'mattermost-redux/selectors/entities/users';
-import {haveITeamPerm} from 'mattermost-redux/selectors/entities/roles';
+import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
@@ -14,7 +14,7 @@ import InstalledOutgoingWebhook from './installed_outgoing_webhooks.jsx';
 function mapStateToProps(state) {
     const config = getConfig(state);
     const teamId = getCurrentTeamId(state);
-    const canManageOthersWebhooks = haveITeamPerm(state, {team: teamId, perm: Permissions.MANAGE_OTHERS_WEBHOOKS});
+    const canManageOthersWebhooks = haveITeamPermission(state, {team: teamId, permission: Permissions.MANAGE_OTHERS_WEBHOOKS});
     const outgoingHooks = getOutgoingHooks(state);
     const outgoingWebhooks = Object.keys(outgoingHooks).
         map((key) => outgoingHooks[key]).

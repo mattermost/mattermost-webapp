@@ -15,9 +15,9 @@ exports[`components/permissions_gates ChannelPermissionGate should match snapsho
 >
   <Connect(ChannelPermissionGate)
     channelId="invalid_id"
-    perms={
+    permissions={
       Array [
-        "test_channel_perm",
+        "test_channel_permission",
       ]
     }
     teamId="team_id"
@@ -25,11 +25,11 @@ exports[`components/permissions_gates ChannelPermissionGate should match snapsho
     <ChannelPermissionGate
       channelId="invalid_id"
       dispatch={[Function]}
-      hasPerm={false}
+      hasPermission={false}
       invert={false}
-      perms={
+      permissions={
         Array [
-          "test_channel_perm",
+          "test_channel_permission",
         ]
       }
       teamId="team_id"
@@ -52,28 +52,28 @@ exports[`components/permissions_gates ChannelPermissionGate should match snapsho
   }
 >
   <Connect(TeamPermissionGate)
-    perms={
+    permissions={
       Array [
-        "test_team_perm",
-        "not_existing_perm",
+        "test_team_permission",
+        "not_existing_permission",
       ]
     }
     teamId="team_id"
   >
     <TeamPermissionGate
       dispatch={[Function]}
-      hasPerm={true}
+      hasPermission={true}
       invert={false}
-      perms={
+      permissions={
         Array [
-          "test_team_perm",
-          "not_existing_perm",
+          "test_team_permission",
+          "not_existing_permission",
         ]
       }
       teamId="team_id"
     >
       <p>
-        Valid perm (shown)
+        Valid permission (shown)
       </p>
     </TeamPermissionGate>
   </Connect(TeamPermissionGate)>
@@ -95,9 +95,9 @@ exports[`components/permissions_gates ChannelPermissionGate should match snapsho
 >
   <Connect(ChannelPermissionGate)
     channelId="channel_id"
-    perms={
+    permissions={
       Array [
-        "test_channel_perm",
+        "test_channel_permission",
       ]
     }
     teamId="team_id"
@@ -105,17 +105,17 @@ exports[`components/permissions_gates ChannelPermissionGate should match snapsho
     <ChannelPermissionGate
       channelId="channel_id"
       dispatch={[Function]}
-      hasPerm={true}
+      hasPermission={true}
       invert={false}
-      perms={
+      permissions={
         Array [
-          "test_channel_perm",
+          "test_channel_permission",
         ]
       }
       teamId="team_id"
     >
       <p>
-        Valid perm (shown)
+        Valid permission (shown)
       </p>
     </ChannelPermissionGate>
   </Connect(ChannelPermissionGate)>
@@ -138,9 +138,9 @@ exports[`components/permissions_gates ChannelPermissionGate should match snapsho
   <Connect(ChannelPermissionGate)
     channelId="channel_id"
     invert={true}
-    perms={
+    permissions={
       Array [
-        "test_channel_perm",
+        "test_channel_permission",
       ]
     }
     teamId="team_id"
@@ -148,11 +148,11 @@ exports[`components/permissions_gates ChannelPermissionGate should match snapsho
     <ChannelPermissionGate
       channelId="channel_id"
       dispatch={[Function]}
-      hasPerm={true}
+      hasPermission={true}
       invert={true}
-      perms={
+      permissions={
         Array [
-          "test_channel_perm",
+          "test_channel_permission",
         ]
       }
       teamId="team_id"
@@ -176,9 +176,9 @@ exports[`components/permissions_gates ChannelPermissionGate should match snapsho
 >
   <Connect(ChannelPermissionGate)
     channelId="channel_id"
-    perms={
+    permissions={
       Array [
-        "test_system_perm",
+        "test_system_permission",
       ]
     }
     teamId="team_id"
@@ -186,17 +186,17 @@ exports[`components/permissions_gates ChannelPermissionGate should match snapsho
     <ChannelPermissionGate
       channelId="channel_id"
       dispatch={[Function]}
-      hasPerm={true}
+      hasPermission={true}
       invert={false}
-      perms={
+      permissions={
         Array [
-          "test_system_perm",
+          "test_system_permission",
         ]
       }
       teamId="team_id"
     >
       <p>
-        Valid perm (shown)
+        Valid permission (shown)
       </p>
     </ChannelPermissionGate>
   </Connect(ChannelPermissionGate)>
@@ -218,9 +218,9 @@ exports[`components/permissions_gates ChannelPermissionGate should match snapsho
 >
   <Connect(ChannelPermissionGate)
     channelId="channel_id"
-    perms={
+    permissions={
       Array [
-        "test_team_perm",
+        "test_team_permission",
       ]
     }
     teamId="team_id"
@@ -228,17 +228,17 @@ exports[`components/permissions_gates ChannelPermissionGate should match snapsho
     <ChannelPermissionGate
       channelId="channel_id"
       dispatch={[Function]}
-      hasPerm={true}
+      hasPermission={true}
       invert={false}
-      perms={
+      permissions={
         Array [
-          "test_team_perm",
+          "test_team_permission",
         ]
       }
       teamId="team_id"
     >
       <p>
-        Valid perm (shown)
+        Valid permission (shown)
       </p>
     </ChannelPermissionGate>
   </Connect(ChannelPermissionGate)>
@@ -260,9 +260,9 @@ exports[`components/permissions_gates ChannelPermissionGate should match snapsho
 >
   <Connect(ChannelPermissionGate)
     channelId="channel_id"
-    perms={
+    permissions={
       Array [
-        "invalid_perm",
+        "invalid_permission",
       ]
     }
     teamId="team_id"
@@ -270,11 +270,11 @@ exports[`components/permissions_gates ChannelPermissionGate should match snapsho
     <ChannelPermissionGate
       channelId="channel_id"
       dispatch={[Function]}
-      hasPerm={false}
+      hasPermission={false}
       invert={false}
-      perms={
+      permissions={
         Array [
-          "invalid_perm",
+          "invalid_permission",
         ]
       }
       teamId="team_id"
@@ -299,9 +299,9 @@ exports[`components/permissions_gates ChannelPermissionGate should match snapsho
   <Connect(ChannelPermissionGate)
     channelId="channel_id"
     invert={true}
-    perms={
+    permissions={
       Array [
-        "invalid_perm",
+        "invalid_permission",
       ]
     }
     teamId="team_id"
@@ -309,17 +309,17 @@ exports[`components/permissions_gates ChannelPermissionGate should match snapsho
     <ChannelPermissionGate
       channelId="channel_id"
       dispatch={[Function]}
-      hasPerm={false}
+      hasPermission={false}
       invert={true}
-      perms={
+      permissions={
         Array [
-          "invalid_perm",
+          "invalid_permission",
         ]
       }
       teamId="team_id"
     >
       <p>
-        Invalid perm but inverted (shown)
+        Invalid permission but inverted (shown)
       </p>
     </ChannelPermissionGate>
   </Connect(ChannelPermissionGate)>
@@ -340,26 +340,26 @@ exports[`components/permissions_gates SystemPermissionGate should match snapshot
   }
 >
   <Connect(SystemPermissionGate)
-    perms={
+    permissions={
       Array [
-        "test_system_perm",
-        "not_existing_perm",
+        "test_system_permission",
+        "not_existing_permission",
       ]
     }
   >
     <SystemPermissionGate
       dispatch={[Function]}
-      hasPerm={true}
+      hasPermission={true}
       invert={false}
-      perms={
+      permissions={
         Array [
-          "test_system_perm",
-          "not_existing_perm",
+          "test_system_permission",
+          "not_existing_permission",
         ]
       }
     >
       <p>
-        Valid perm (shown)
+        Valid permission (shown)
       </p>
     </SystemPermissionGate>
   </Connect(SystemPermissionGate)>
@@ -380,24 +380,24 @@ exports[`components/permissions_gates SystemPermissionGate should match snapshot
   }
 >
   <Connect(SystemPermissionGate)
-    perms={
+    permissions={
       Array [
-        "test_system_perm",
+        "test_system_permission",
       ]
     }
   >
     <SystemPermissionGate
       dispatch={[Function]}
-      hasPerm={true}
+      hasPermission={true}
       invert={false}
-      perms={
+      permissions={
         Array [
-          "test_system_perm",
+          "test_system_permission",
         ]
       }
     >
       <p>
-        Valid perm (shown)
+        Valid permission (shown)
       </p>
     </SystemPermissionGate>
   </Connect(SystemPermissionGate)>
@@ -419,19 +419,19 @@ exports[`components/permissions_gates SystemPermissionGate should match snapshot
 >
   <Connect(SystemPermissionGate)
     invert={true}
-    perms={
+    permissions={
       Array [
-        "test_system_perm",
+        "test_system_permission",
       ]
     }
   >
     <SystemPermissionGate
       dispatch={[Function]}
-      hasPerm={true}
+      hasPermission={true}
       invert={true}
-      perms={
+      permissions={
         Array [
-          "test_system_perm",
+          "test_system_permission",
         ]
       }
     />
@@ -453,19 +453,19 @@ exports[`components/permissions_gates SystemPermissionGate should match snapshot
   }
 >
   <Connect(SystemPermissionGate)
-    perms={
+    permissions={
       Array [
-        "invalid_perm",
+        "invalid_permission",
       ]
     }
   >
     <SystemPermissionGate
       dispatch={[Function]}
-      hasPerm={false}
+      hasPermission={false}
       invert={false}
-      perms={
+      permissions={
         Array [
-          "invalid_perm",
+          "invalid_permission",
         ]
       }
     />
@@ -488,24 +488,24 @@ exports[`components/permissions_gates SystemPermissionGate should match snapshot
 >
   <Connect(SystemPermissionGate)
     invert={true}
-    perms={
+    permissions={
       Array [
-        "invalid_perm",
+        "invalid_permission",
       ]
     }
   >
     <SystemPermissionGate
       dispatch={[Function]}
-      hasPerm={false}
+      hasPermission={false}
       invert={true}
-      perms={
+      permissions={
         Array [
-          "invalid_perm",
+          "invalid_permission",
         ]
       }
     >
       <p>
-        Invalid perm but inverted (shown)
+        Invalid permission but inverted (shown)
       </p>
     </SystemPermissionGate>
   </Connect(SystemPermissionGate)>
@@ -526,20 +526,20 @@ exports[`components/permissions_gates TeamPermissionGate should match snapshot w
   }
 >
   <Connect(TeamPermissionGate)
-    perms={
+    permissions={
       Array [
-        "test_team_perm",
+        "test_team_permission",
       ]
     }
     teamId="invalid_id"
   >
     <TeamPermissionGate
       dispatch={[Function]}
-      hasPerm={false}
+      hasPermission={false}
       invert={false}
-      perms={
+      permissions={
         Array [
-          "test_team_perm",
+          "test_team_permission",
         ]
       }
       teamId="invalid_id"
@@ -562,28 +562,28 @@ exports[`components/permissions_gates TeamPermissionGate should match snapshot w
   }
 >
   <Connect(TeamPermissionGate)
-    perms={
+    permissions={
       Array [
-        "test_team_perm",
-        "not_existing_perm",
+        "test_team_permission",
+        "not_existing_permission",
       ]
     }
     teamId="team_id"
   >
     <TeamPermissionGate
       dispatch={[Function]}
-      hasPerm={true}
+      hasPermission={true}
       invert={false}
-      perms={
+      permissions={
         Array [
-          "test_team_perm",
-          "not_existing_perm",
+          "test_team_permission",
+          "not_existing_permission",
         ]
       }
       teamId="team_id"
     >
       <p>
-        Valid perm (shown)
+        Valid permission (shown)
       </p>
     </TeamPermissionGate>
   </Connect(TeamPermissionGate)>
@@ -604,26 +604,26 @@ exports[`components/permissions_gates TeamPermissionGate should match snapshot w
   }
 >
   <Connect(TeamPermissionGate)
-    perms={
+    permissions={
       Array [
-        "test_team_perm",
+        "test_team_permission",
       ]
     }
     teamId="team_id"
   >
     <TeamPermissionGate
       dispatch={[Function]}
-      hasPerm={true}
+      hasPermission={true}
       invert={false}
-      perms={
+      permissions={
         Array [
-          "test_team_perm",
+          "test_team_permission",
         ]
       }
       teamId="team_id"
     >
       <p>
-        Valid perm (shown)
+        Valid permission (shown)
       </p>
     </TeamPermissionGate>
   </Connect(TeamPermissionGate)>
@@ -645,20 +645,20 @@ exports[`components/permissions_gates TeamPermissionGate should match snapshot w
 >
   <Connect(TeamPermissionGate)
     invert={true}
-    perms={
+    permissions={
       Array [
-        "test_team_perm",
+        "test_team_permission",
       ]
     }
     teamId="team_id"
   >
     <TeamPermissionGate
       dispatch={[Function]}
-      hasPerm={true}
+      hasPermission={true}
       invert={true}
-      perms={
+      permissions={
         Array [
-          "test_team_perm",
+          "test_team_permission",
         ]
       }
       teamId="team_id"
@@ -681,26 +681,26 @@ exports[`components/permissions_gates TeamPermissionGate should match snapshot w
   }
 >
   <Connect(TeamPermissionGate)
-    perms={
+    permissions={
       Array [
-        "test_system_perm",
+        "test_system_permission",
       ]
     }
     teamId="team_id"
   >
     <TeamPermissionGate
       dispatch={[Function]}
-      hasPerm={true}
+      hasPermission={true}
       invert={false}
-      perms={
+      permissions={
         Array [
-          "test_system_perm",
+          "test_system_permission",
         ]
       }
       teamId="team_id"
     >
       <p>
-        Valid perm (shown)
+        Valid permission (shown)
       </p>
     </TeamPermissionGate>
   </Connect(TeamPermissionGate)>
@@ -721,20 +721,20 @@ exports[`components/permissions_gates TeamPermissionGate should match snapshot w
   }
 >
   <Connect(TeamPermissionGate)
-    perms={
+    permissions={
       Array [
-        "invalid_perm",
+        "invalid_permission",
       ]
     }
     teamId="team_id"
   >
     <TeamPermissionGate
       dispatch={[Function]}
-      hasPerm={false}
+      hasPermission={false}
       invert={false}
-      perms={
+      permissions={
         Array [
-          "invalid_perm",
+          "invalid_permission",
         ]
       }
       teamId="team_id"
@@ -758,26 +758,26 @@ exports[`components/permissions_gates TeamPermissionGate should match snapshot w
 >
   <Connect(TeamPermissionGate)
     invert={true}
-    perms={
+    permissions={
       Array [
-        "invalid_perm",
+        "invalid_permission",
       ]
     }
     teamId="team_id"
   >
     <TeamPermissionGate
       dispatch={[Function]}
-      hasPerm={false}
+      hasPermission={false}
       invert={true}
-      perms={
+      permissions={
         Array [
-          "invalid_perm",
+          "invalid_permission",
         ]
       }
       teamId="team_id"
     >
       <p>
-        Invalid perm but inverted (shown)
+        Invalid permission but inverted (shown)
       </p>
     </TeamPermissionGate>
   </Connect(TeamPermissionGate)>

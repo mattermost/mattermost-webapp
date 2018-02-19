@@ -3,18 +3,18 @@
 
 import {connect} from 'react-redux';
 
-import {haveISystemPerm} from 'mattermost-redux/selectors/entities/roles';
+import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 
 import SystemPermissionGate from './system_permission_gate.jsx';
 
 function mapStateToProps(state, ownProps) {
-    for (const perm of ownProps.perms) {
-        if (haveISystemPerm(state, {perm})) {
-            return {hasPerm: true};
+    for (const permission of ownProps.permissions) {
+        if (haveISystemPermission(state, {permission})) {
+            return {hasPermission: true};
         }
     }
 
-    return {hasPerm: false};
+    return {hasPermission: false};
 }
 
 export default connect(mapStateToProps)(SystemPermissionGate);

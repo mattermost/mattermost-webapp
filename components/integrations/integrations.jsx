@@ -48,8 +48,8 @@ export default class Integrations extends React.Component {
             options.push(
                 <TeamPermissionGate
                     teamId={this.props.team.id}
-                    perms={[Permissions.MANAGE_WEBHOOKS]}
-                    key='incomingWebhookPerm'
+                    permissions={[Permissions.MANAGE_WEBHOOKS]}
+                    key='incomingWebhookPermission'
                 >
                     <IntegrationOption
                         key='incomingWebhook'
@@ -76,8 +76,8 @@ export default class Integrations extends React.Component {
             options.push(
                 <TeamPermissionGate
                     teamId={this.props.team.id}
-                    perms={[Permissions.MANAGE_WEBHOOKS]}
-                    key='outgoingWebhookPerm'
+                    permissions={[Permissions.MANAGE_WEBHOOKS]}
+                    key='outgoingWebhookPermission'
                 >
                     <IntegrationOption
                         key='outgoingWebhook'
@@ -104,8 +104,8 @@ export default class Integrations extends React.Component {
             options.push(
                 <TeamPermissionGate
                     teamId={this.props.team.id}
-                    perms={[Permissions.MANAGE_SLASH_COMMANDS]}
-                    key='commandPerm'
+                    permissions={[Permissions.MANAGE_SLASH_COMMANDS]}
+                    key='commandPermission'
                 >
                     <IntegrationOption
                         key='command'
@@ -131,8 +131,8 @@ export default class Integrations extends React.Component {
         if (this.props.enableOAuthServiceProvider) {
             options.push(
                 <SystemPermissionGate
-                    perms={[Permissions.MANAGE_OAUTH]}
-                    key='oauth2AppsPerm'
+                    permissions={[Permissions.MANAGE_OAUTH]}
+                    key='oauth2AppsPermission'
                 >
                     <IntegrationOption
                         key='oauth2Apps'

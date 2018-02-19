@@ -207,7 +207,7 @@ export default class PostInfo extends React.PureComponent {
                         <ChannelPermissionGate
                             channelId={post.channel_id}
                             teamId={this.props.teamId}
-                            perms={[Permissions.ADD_REACTION]}
+                            permissions={[Permissions.ADD_REACTION]}
                         >
                             <button
                                 className='reacticon__container color--link style--none'
