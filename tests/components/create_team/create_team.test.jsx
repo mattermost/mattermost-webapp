@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {shallowWithIntl, mountWithIntl} from 'tests/helpers/intl-test-helper';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import CreateTeam from 'components/create_team/create_team.jsx';
 
