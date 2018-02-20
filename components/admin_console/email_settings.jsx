@@ -8,11 +8,12 @@ import ErrorStore from 'stores/error_store.jsx';
 import {ErrorBarTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
+import EmailConnectionTest from 'components/admin_console/email_connection_test';
+
 import AdminSettings from './admin_settings.jsx';
 import BooleanSetting from './boolean_setting.jsx';
 import {ConnectionSecurityDropdownSettingEmail} from './connection_security_dropdown_setting.jsx';
 import DropdownSetting from './dropdown_setting.jsx';
-import EmailConnectionTest from './email_connection_test.jsx';
 import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting.jsx';
 

@@ -50,15 +50,6 @@ export async function getClusterStatus(success, error) {
     }
 }
 
-export async function testEmail(config, success, error) {
-    const {data, error: err} = await AdminActions.testEmail(config)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
 export async function ldapTest(success, error) {
     const {data, error: err} = await AdminActions.testLdap()(dispatch, getState);
     if (data && success) {
