@@ -52,7 +52,7 @@ export default class PostTime extends React.PureComponent {
         const time = this.props.useMilitaryTime ? '' : (hour >= 12 ? ' PM' : ' AM');
         let minute = date.getMinutes();
         minute = minute >= 10 ? minute : ('0' + minute);
-        
+
         return (
             <time
                 className='post__time'
