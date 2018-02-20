@@ -9,7 +9,7 @@ import React from 'react';
 import {IntlProvider} from 'react-intl';
 import FastClick from 'fastclick';
 import {Route, Switch, Redirect} from 'react-router-dom';
-import {getClientConfig, getLicenseConfig, setUrl} from 'mattermost-redux/actions/general';
+import {setUrl} from 'mattermost-redux/actions/general';
 import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {Client4} from 'mattermost-redux/client';
@@ -225,24 +225,7 @@ export default class Root extends React.Component {
     }
 
     componentDidMount() {
-        // Load config
-        if (document.cookie.indexOf('MMUSERID=') > -1) {
-            loadMeAndConfig(this.onConfigLoaded);
-        } else {
-            getClientConfig()(store.dispatch, store.getState).then(
-                ({data: config}) => {
-                    global.window.mm_config = config;
-
-                    getLicenseConfig()(store.dispatch, store.getState).then(
-                        ({data: license}) => {
-                            global.window.mm_license = license;
-                            this.onConfigLoaded();
-                        }
-                    );
-                }
-            );
-        }
-
+        loadMeAndConfig(this.onConfigLoaded);
         trackLoadTime();
     }
 
