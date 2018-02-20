@@ -63,7 +63,6 @@ export default class PostTime extends React.PureComponent {
         );
     }
 
-
     render() {
         if (isMobile() || !this.props.isPermalink) {
             return this.renderTimeTag();
