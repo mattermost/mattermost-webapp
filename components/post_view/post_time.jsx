@@ -48,13 +48,17 @@ export default class PostTime extends React.PureComponent {
     renderTimeTag() {
         const date = new Date(this.props.eventTime);
 
+        const hour = this.props.useMilitaryTime ? date.getHours() : (date.getHours() % 12 || 12);
+        let minute = date.getMinutes();
+        minute = minute >= 10 ? minute : ('0' + minute);
+
         return (
             <time
                 className='post__time'
                 dateTime={date.toISOString()}
                 title={date}
             >
-                {date.toLocaleString('en', {hour: '2-digit', minute: '2-digit', hour12: !this.props.useMilitaryTime})}
+                {hour + ':' + minute}
             </time>
         );
     }
