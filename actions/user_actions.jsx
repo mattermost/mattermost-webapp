@@ -10,6 +10,7 @@ import {Client4} from 'mattermost-redux/client';
 import {Preferences as PreferencesRedux} from 'mattermost-redux/constants';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import * as Selectors from 'mattermost-redux/selectors/entities/users';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {browserHistory} from 'utils/browser_history';
 import {getChannelMembersForUserIds} from 'actions/channel_actions.jsx';
@@ -40,7 +41,7 @@ export async function loadMeAndConfig(callback) {
     global.window.mm_config = config;
 
     if (global.window && global.window.analytics) {
-        global.window.analytics.identify(global.window.mm_config.DiagnosticId, {}, {
+        global.window.analytics.identify(config.DiagnosticId, {}, {
             context: {
                 ip: '0.0.0.0',
             },
@@ -490,7 +491,9 @@ export async function deactivateMfa(success, error) {
 }
 
 export async function checkMfa(loginId, success, error) {
-    if (global.window.mm_config.EnableMultifactorAuthentication !== 'true') {
+    const config = getConfig(getState());
+
+    if (config.EnableMultifactorAuthentication !== 'true') {
         success(false);
         return;
     }

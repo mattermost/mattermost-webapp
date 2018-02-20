@@ -13,6 +13,7 @@ import {
 import {getPostThread} from 'mattermost-redux/actions/posts';
 import {removeUserFromTeam} from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import {browserHistory} from 'utils/browser_history';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
@@ -392,7 +393,8 @@ export function loadCurrentLocale() {
 }
 
 export function loadDefaultLocale() {
-    let locale = global.window.mm_config.DefaultClientLocale;
+    const config = getConfig(getState());
+    let locale = config.DefaultClientLocale;
 
     if (!I18n.getLanguageInfo(locale)) {
         locale = 'en';
@@ -406,14 +408,16 @@ export function emitLocalUserTypingEvent(channelId, parentId) {
     const t = Date.now();
     const membersInChannel = ChannelStore.getStats(channelId).member_count;
 
-    if (global.mm_license.IsLicensed === 'true' && global.mm_config.ExperimentalTownSquareIsReadOnly === 'true') {
+    const license = getLicense(getState());
+    const config = getConfig(getState());
+    if (license.IsLicensed === 'true' && config.ExperimentalTownSquareIsReadOnly === 'true') {
         const channel = ChannelStore.getChannelById(channelId);
         if (channel && ChannelStore.isDefault(channel)) {
             return;
         }
     }
 
-    if (((t - lastTimeTypingSent) > global.window.mm_config.TimeBetweenUserTypingUpdatesMilliseconds) && membersInChannel < global.window.mm_config.MaxNotificationsPerChannel && global.window.mm_config.EnableUserTypingMessages === 'true') {
+    if (((t - lastTimeTypingSent) > config.TimeBetweenUserTypingUpdatesMilliseconds) && membersInChannel < config.MaxNotificationsPerChannel && config.EnableUserTypingMessages === 'true') {
         WebSocketClient.userTyping(channelId, parentId);
         lastTimeTypingSent = t;
     }
