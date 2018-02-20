@@ -47,12 +47,17 @@ export default class PostTime extends React.PureComponent {
 
     renderTimeTag() {
         const date = new Date(this.props.eventTime);
-
-        const hour = this.props.useMilitaryTime ? date.getHours() : (date.getHours() % 12 || 12);
-        const time = this.props.useMilitaryTime ? '' : (hour >= 12 ? ' PM' : ' AM');
+        const militaryTime = this.props.useMilitaryTime;
+        
+        const hour = militaryTime ? date.getHours() : (date.getHours() % 12 || 12);
         let minute = date.getMinutes();
         minute = minute >= 10 ? minute : ('0' + minute);
+        let time = '';
 
+        if (militaryTime) {
+            time = (hour >= 12 ? ' PM' : ' AM');
+        }
+        
         return (
             <time
                 className='post__time'
