@@ -66,7 +66,24 @@ function channelTeamMixedMapping(permission) {
 }
 
 const MAPPING = {
-    restrictTeamInvite: {...teamMapping(Permissions.INVITE_USER)},
+    restrictTeamInvite: {
+        all: [
+            {roleName: 'team_user', permission: Permissions.INVITE_USER, shouldHave: true},
+            {roleName: 'team_user', permission: Permissions.ADD_USER_TO_TEAM, shouldHave: true}
+        ],
+        team_admin: [
+            {roleName: 'team_user', permission: Permissions.INVITE_USER, shouldHave: false},
+            {roleName: 'team_user', permission: Permissions.ADD_USER_TO_TEAM, shouldHave: false},
+            {roleName: 'team_admin', permission: Permissions.INVITE_USER, shouldHave: true},
+            {roleName: 'team_admin', permission: Permissions.ADD_USER_TO_TEAM, shouldHave: true}
+        ],
+        system_admin: [
+            {roleName: 'team_user', permission: Permissions.INVITE_USER, shouldHave: false},
+            {roleName: 'team_user', permission: Permissions.ADD_USER_TO_TEAM, shouldHave: false},
+            {roleName: 'team_admin', permission: Permissions.INVITE_USER, shouldHave: false},
+            {roleName: 'team_admin', permission: Permissions.ADD_USER_TO_TEAM, shouldHave: false}
+        ]
+    },
     restrictPublicChannelCreation: {...teamMapping(Permissions.CREATE_PUBLIC_CHANNEL)},
     restrictPrivateChannelCreation: {...teamMapping(Permissions.CREATE_PRIVATE_CHANNEL)},
 

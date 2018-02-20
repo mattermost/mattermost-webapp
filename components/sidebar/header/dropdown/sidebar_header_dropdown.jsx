@@ -254,18 +254,23 @@ export default class SidebarHeaderDropdown extends React.Component {
                     teamId={this.props.teamId}
                     permissions={[Permissions.INVITE_USER]}
                 >
-                    <li>
-                        <button
-                            className='style--none'
-                            id='sendEmailInvite'
-                            onClick={this.showInviteMemberModal}
-                        >
-                            <FormattedMessage
-                                id='navbar_dropdown.inviteMember'
-                                defaultMessage='Send Email Invite'
-                            />
-                        </button>
-                    </li>
+                    <TeamPermissionGate
+                        teamId={this.props.teamId}
+                        permissions={[Permissions.ADD_USER_TO_TEAM]}
+                    >
+                        <li>
+                            <button
+                                className='style--none'
+                                id='sendEmailInvite'
+                                onClick={this.showInviteMemberModal}
+                            >
+                                <FormattedMessage
+                                    id='navbar_dropdown.inviteMember'
+                                    defaultMessage='Send Email Invite'
+                                />
+                            </button>
+                        </li>
+                    </TeamPermissionGate>
                 </TeamPermissionGate>
             );
 
@@ -295,18 +300,23 @@ export default class SidebarHeaderDropdown extends React.Component {
                         teamId={this.props.teamId}
                         permissions={[Permissions.INVITE_USER]}
                     >
-                        <li>
-                            <button
-                                className='style--none'
-                                id='getTeamInviteLink'
-                                onClick={this.showGetTeamInviteLinkModal}
-                            >
-                                <FormattedMessage
-                                    id='navbar_dropdown.teamLink'
-                                    defaultMessage='Get Team Invite Link'
-                                />
-                            </button>
-                        </li>
+                        <TeamPermissionGate
+                            teamId={this.props.teamId}
+                            permissions={[Permissions.ADD_USER_TO_TEAM]}
+                        >
+                            <li>
+                                <button
+                                    className='style--none'
+                                    id='getTeamInviteLink'
+                                    onClick={this.showGetTeamInviteLinkModal}
+                                >
+                                    <FormattedMessage
+                                        id='navbar_dropdown.teamLink'
+                                        defaultMessage='Get Team Invite Link'
+                                    />
+                                </button>
+                            </li>
+                        </TeamPermissionGate>
                     </TeamPermissionGate>
                 );
             }

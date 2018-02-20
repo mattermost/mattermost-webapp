@@ -23,6 +23,7 @@ describe('PolicyRolesAdapter', function() {
                 name: 'team_user',
                 permissions: [
                     Permissions.INVITE_USER,
+                    Permissions.ADD_USER_TO_TEAM,
                     Permissions.CREATE_PUBLIC_CHANNEL,
                     Permissions.CREATE_PRIVATE_CHANNEL,
                     Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES,
@@ -49,6 +50,7 @@ describe('PolicyRolesAdapter', function() {
                 permissions: [
                     Permissions.DELETE_PUBLIC_CHANNEL,
                     Permissions.INVITE_USER,
+                    Permissions.ADD_USER_TO_TEAM,
                     Permissions.DELETE_POST,
                     Permissions.DELETE_OTHERS_POSTS,
                     Permissions.EDIT_POST
@@ -113,22 +115,22 @@ describe('PolicyRolesAdapter', function() {
                 roles.team_user.permissions = [];
                 const updatedRoles = rolesFromMapping({restrictTeamInvite: 'all'}, roles);
                 expect(Object.values(updatedRoles).length).toEqual(1);
-                expect(updatedRoles.team_user.permissions).toEqual(expect.arrayContaining([Permissions.INVITE_USER]));
+                expect(updatedRoles.team_user.permissions).toEqual(expect.arrayContaining([Permissions.INVITE_USER, Permissions.ADD_USER_TO_TEAM]));
             });
 
             test('team_admin', function() {
                 const updatedRoles = rolesFromMapping({restrictTeamInvite: 'team_admin'}, roles);
                 expect(Object.values(updatedRoles).length).toEqual(2);
-                expect(updatedRoles.team_user.permissions).not.toEqual(expect.arrayContaining([Permissions.INVITE_USER]));
-                expect(updatedRoles.team_admin.permissions).toEqual(expect.arrayContaining([Permissions.INVITE_USER]));
+                expect(updatedRoles.team_user.permissions).not.toEqual(expect.arrayContaining([Permissions.INVITE_USER, Permissions.ADD_USER_TO_TEAM]));
+                expect(updatedRoles.team_admin.permissions).toEqual(expect.arrayContaining([Permissions.INVITE_USER, Permissions.ADD_USER_TO_TEAM]));
             });
 
             test('system_admin', function() {
                 roles.team_admin.permissions.push(Permissions.INVITE_USER);
                 const updatedRoles = rolesFromMapping({restrictTeamInvite: 'system_admin'}, roles);
                 expect(Object.values(updatedRoles).length).toEqual(2);
-                expect(updatedRoles.team_user.permissions).not.toEqual(expect.arrayContaining([Permissions.INVITE_USER]));
-                expect(updatedRoles.team_admin.permissions).not.toEqual(expect.arrayContaining([Permissions.INVITE_USER]));
+                expect(updatedRoles.team_user.permissions).not.toEqual(expect.arrayContaining([Permissions.INVITE_USER, Permissions.ADD_USER_TO_TEAM]));
+                expect(updatedRoles.team_admin.permissions).not.toEqual(expect.arrayContaining([Permissions.INVITE_USER, Permissions.ADD_USER_TO_TEAM]));
             });
         });
 
@@ -227,16 +229,21 @@ describe('PolicyRolesAdapter', function() {
         describe('team-based', function() {
             test('returns the expected policy value for a team-based policy', function() {
                 addPermissionToRole(Permissions.INVITE_USER, roles.team_user);
+                addPermissionToRole(Permissions.ADD_USER_TO_TEAM, roles.team_user);
                 let value = mappingValueFromRoles('restrictTeamInvite', roles);
                 expect(value).toEqual('all');
 
                 removePermissionFromRole(Permissions.INVITE_USER, roles.team_user);
+                removePermissionFromRole(Permissions.ADD_USER_TO_TEAM, roles.team_user);
                 addPermissionToRole(Permissions.INVITE_USER, roles.team_admin);
+                addPermissionToRole(Permissions.ADD_USER_TO_TEAM, roles.team_admin);
                 value = mappingValueFromRoles('restrictTeamInvite', roles);
                 expect(value).toEqual('team_admin');
 
                 removePermissionFromRole(Permissions.INVITE_USER, roles.team_user);
+                removePermissionFromRole(Permissions.ADD_USER_TO_TEAM, roles.team_user);
                 removePermissionFromRole(Permissions.INVITE_USER, roles.team_admin);
+                removePermissionFromRole(Permissions.ADD_USER_TO_TEAM, roles.team_admin);
                 value = mappingValueFromRoles('restrictTeamInvite', roles);
                 expect(value).toEqual('system_admin');
             });
