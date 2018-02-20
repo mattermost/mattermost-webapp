@@ -11,11 +11,22 @@ import Constants from 'utils/constants.jsx';
 import {cleanUpUrlable} from 'utils/url.jsx';
 import logoImage from 'images/logo.png';
 
-export default class TeamSignupDisplayNamePage extends React.Component {
+export default class TeamSignupDisplayNamePage extends React.PureComponent {
+    static propTypes = {
+
+        /*
+         * Object containing team's display_name and name
+         */
+        state: PropTypes.object,
+
+        /*
+         * Function that updates parent component with state props
+         */
+        updateParent: PropTypes.func
+    }
+
     constructor(props) {
         super(props);
-
-        this.submitNext = this.submitNext.bind(this);
 
         this.state = {};
     }
@@ -24,7 +35,7 @@ export default class TeamSignupDisplayNamePage extends React.Component {
         trackEvent('signup', 'signup_team_01_name');
     }
 
-    submitNext(e) {
+    submitNext = (e) => {
         e.preventDefault();
 
         var displayName = ReactDOM.findDOMNode(this.refs.name).value.trim();
@@ -50,13 +61,14 @@ export default class TeamSignupDisplayNamePage extends React.Component {
             return;
         }
 
-        this.props.state.wizard = 'team_url';
-        this.props.state.team.display_name = displayName;
-        this.props.state.team.name = cleanUpUrlable(displayName);
-        this.props.updateParent(this.props.state);
+        const newState = this.props.state;
+        newState.wizard = 'team_url';
+        newState.team.display_name = displayName;
+        newState.team.name = cleanUpUrlable(displayName);
+        this.props.updateParent(newState);
     }
 
-    handleFocus(e) {
+    handleFocus = (e) => {
         e.preventDefault();
         e.currentTarget.select();
     }
@@ -121,8 +133,3 @@ export default class TeamSignupDisplayNamePage extends React.Component {
         );
     }
 }
-
-TeamSignupDisplayNamePage.propTypes = {
-    state: PropTypes.object,
-    updateParent: PropTypes.func
-};

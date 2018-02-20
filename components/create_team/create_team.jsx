@@ -6,15 +6,51 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Route, Switch, Redirect} from 'react-router-dom';
 
-import ChannelStore from 'stores/channel_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
 import AnnouncementBar from 'components/announcement_bar';
 import BackButton from 'components/common/back_button.jsx';
 
-import TeamUrl from '../team_url';
-import DisplayName from '../display_name';
+import TeamUrl from 'components/create_team/components/team_url';
+import DisplayName from 'components/create_team/components/display_name';
 
-export default class CreateTeamController extends React.Component {
+export default class CreateTeam extends React.PureComponent {
+    static propTypes = {
+
+        /*
+         * Object containing information on the current team, used to define BackButton's url
+         */
+        currentTeam: PropTypes.object,
+
+        /*
+         * Object containing information on the current selected channel, used to define BackButton's url
+         */
+        currentChannel: PropTypes.object,
+
+        /*
+         * Boolean value that determines whether server has a valid Enterprise license
+         */
+        isLicensed: PropTypes.bool.isRequired,
+
+        /*
+         * Boolean value that determines whether license supports custom branding
+         */
+        customBrand: PropTypes.bool.isRequired,
+
+        /*
+         * Boolean value that determines whether the custom brand feature has been enabled
+         */
+        enableCustomBrand: PropTypes.bool.isRequired,
+
+        /*
+         * String containing the custom branding's text
+         */
+        customDescriptionText: PropTypes.string,
+
+        /*
+         * String containing the custom branding's Site Name
+         */
+        siteName: PropTypes.string
+    }
+
     constructor(props) {
         super(props);
 
@@ -22,10 +58,6 @@ export default class CreateTeamController extends React.Component {
         state.team = {};
         state.wizard = 'display_name';
         this.state = state;
-    }
-
-    submit = () => {
-        // todo fill in
     }
 
     updateParent = (state) => {
@@ -47,8 +79,8 @@ export default class CreateTeamController extends React.Component {
         }
 
         let url = '/select_team';
-        const team = TeamStore.getCurrent();
-        const channel = ChannelStore.getCurrent();
+        const team = this.props.currentTeam;
+        const channel = this.props.currentChannel;
         if (team) {
             url = `/${team.name}`;
             if (channel) {
@@ -97,12 +129,3 @@ export default class CreateTeamController extends React.Component {
         );
     }
 }
-
-CreateTeamController.propTypes = {
-    children: PropTypes.node,
-    isLicensed: PropTypes.bool.isRequired,
-    customBrand: PropTypes.bool.isRequired,
-    enableCustomBrand: PropTypes.bool.isRequired,
-    customDescriptionText: PropTypes.string,
-    siteName: PropTypes.string
-};

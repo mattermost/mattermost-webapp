@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`/components/create_team should match snapshot 1`] = `
+<div>
+  <Connect(AnnouncementBar) />
+  <BackButton
+    url="/test-team/channels/test-channel"
+  />
+  <div
+    className="col-sm-12"
+  >
+    <div
+      className="signup-team__container"
+    >
+      <h1>
+        Mattermost
+      </h1>
+      <h4
+        className="color--light"
+      >
+        Welcome to our custom branded site!
+      </h4>
+      <div
+        className="signup__content"
+      >
+        <Switch>
+          <Route
+            path="http://localhost:8065/create_team/display_name"
+            render={[Function]}
+          />
+          <Route
+            path="http://localhost:8065/create_team/team_url"
+            render={[Function]}
+          />
+          <Redirect
+            push={false}
+            to="http://localhost:8065/create_team/display_name"
+          />
+        </Switch>
+      </div>
+    </div>
+  </div>
+</div>
+`;
