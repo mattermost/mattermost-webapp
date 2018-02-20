@@ -25,6 +25,14 @@ function onChannelByIdentifierEnter({match, history}) {
     const {path, identifier} = match.params;
 
     if (path === 'channels') {
+        // It's hard to tell an ID apart from a channel name of the same length, so check first if
+        // the identifier matches a channel that we have
+        const channel = ChannelStore.getByName(identifier);
+        if (channel) {
+            goToChannelByChannelName(match, history);
+            return;
+        }
+
         if (identifier.length === LENGTH_OF_ID) {
             goToChannelByChannelId(match, history);
         } else if (identifier.length === LENGTH_OF_GROUP_ID) {
@@ -35,14 +43,14 @@ function onChannelByIdentifierEnter({match, history}) {
             goToChannelByChannelName(match, history);
         }
     } else if (path === 'messages') {
-        if (identifier.length === LENGTH_OF_ID) {
-            goToDirectChannelByUserId(match, history);
-        } else if (identifier.length === LENGTH_OF_GROUP_ID) {
-            goToGroupChannelByGroupId(match, history);
-        } else if (identifier.indexOf('@') === 0) {
+        if (identifier.indexOf('@') === 0) {
             goToDirectChannelByUsername(match, history);
         } else if (identifier.indexOf('@') > 0) {
             goToDirectChannelByEmail(match, history);
+        } else if (identifier.length === LENGTH_OF_ID) {
+            goToDirectChannelByUserId(match, history);
+        } else if (identifier.length === LENGTH_OF_GROUP_ID) {
+            goToGroupChannelByGroupId(match, history);
         } else {
             handleError(match, history);
         }
