@@ -8,6 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {deletePost} from 'actions/post_actions.jsx';
 import ModalStore from 'stores/modal_store.jsx';
 import Constants from 'utils/constants.jsx';
+import * as UserAgent from 'utils/user_agent.jsx';
 
 var ActionTypes = Constants.ActionTypes;
 
@@ -69,7 +70,10 @@ export default class DeletePostModal extends React.Component {
 
     handleHide() {
         this.setState({show: false});
-        document.getElementById('post_textbox').focus();
+
+        if (!UserAgent.isMobile()) {
+            document.getElementById('post_textbox').focus();
+        }
     }
 
     render() {
