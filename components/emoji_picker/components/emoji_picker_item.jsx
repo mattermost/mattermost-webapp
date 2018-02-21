@@ -74,12 +74,14 @@ export default class EmojiPickerItem extends React.Component {
                     className={itemClassName}
                     ref={this.emojiItemRef}
                 >
-                    <img
-                        src='/static/images/img_trans.gif'
-                        className={spriteClassName}
-                        onMouseOver={this.handleMouseOverThrottle}
-                        onClick={this.handleClick}
-                    />
+                    <div>
+                        <img
+                            src='/static/images/img_trans.gif'
+                            className={spriteClassName}
+                            onMouseOver={this.handleMouseOverThrottle}
+                            onClick={this.handleClick}
+                        />
+                    </div>
                 </div>
             );
         } else {
