@@ -534,7 +534,7 @@ describe('components/create_post', () => {
         const instance = wrapper.instance();
         const type = Utils.localizeMessage('create_post.comment', Posts.MESSAGE_TYPES.COMMENT);
         instance.handleKeyDown({keyCode: Constants.KeyCodes.UP, preventDefault: jest.fn()});
-        expect(setEditingPost).toHaveBeenCalledWith(currentUsersLatestPostProp.id, commentCountForPostProp, '#post_textbox', type);
+        expect(setEditingPost).toHaveBeenCalledWith(currentUsersLatestPostProp.id, commentCountForPostProp, 'post_textbox', type);
     });
 
     it('Should call edit action as post for arrow up', () => {
@@ -553,7 +553,7 @@ describe('components/create_post', () => {
 
         const type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
         instance.handleKeyDown({keyCode: Constants.KeyCodes.UP, preventDefault: jest.fn()});
-        expect(setEditingPost).toHaveBeenCalledWith(currentUsersLatestPostProp.id, commentCountForPostProp, '#post_textbox', type);
+        expect(setEditingPost).toHaveBeenCalledWith(currentUsersLatestPostProp.id, commentCountForPostProp, 'post_textbox', type);
     });
 
     it('Should call moveHistoryIndexForward as ctrlKey and down arrow', () => {

@@ -327,6 +327,7 @@ describe('components/EditPostModal', () => {
         elem.focus = jest.fn();
         document.body.appendChild(elem);
 
+        instance.handleHide();
         instance.handleExited();
 
         jest.runAllTimers();
