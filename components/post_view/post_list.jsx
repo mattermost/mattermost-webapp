@@ -125,14 +125,14 @@ export default class PostList extends React.PureComponent {
         this.props.actions.checkAndSetMobileView();
         GlobalEventEmitter.addListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.handleResize);
 
-        window.addEventListener('resize', this.handleResize);
+        window.addEventListener('resize', this.handleWindowResize);
 
         this.initialScroll();
     }
 
     componentWillUnmount() {
         GlobalEventEmitter.removeListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.handleResize);
-        window.removeEventListener('resize', this.handleResize);
+        window.removeEventListener('resize', this.handleWindowResize);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -295,6 +295,10 @@ export default class PostList extends React.PureComponent {
         }
 
         return this.refs.postlist.clientHeight + this.refs.postlist.scrollTop >= this.refs.postlist.scrollHeight - CLOSE_TO_BOTTOM_SCROLL_MARGIN;
+    }
+
+    handleWindowResize = () => {
+        this.handleResize();
     }
 
     handleResize = (forceScrollToBottom) => {
