@@ -321,7 +321,7 @@ export default class CreatePost extends React.Component {
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
 
         const fasterThanHumanWillClick = 150;
-        const forceFocus = (Date.now() - this.lastBlurAt) > fasterThanHumanWillClick;
+        const forceFocus = (Date.now() - this.lastBlurAt < fasterThanHumanWillClick);
 
         this.focusTextbox(forceFocus);
     }
