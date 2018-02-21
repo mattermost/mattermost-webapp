@@ -159,7 +159,7 @@ export default class EditPostModal extends React.PureComponent {
 
         const hasAttachment = editingPost.post.file_ids && editingPost.post.file_ids.length > 0;
         if (updatedPost.message.trim().length === 0 && !hasAttachment) {
-            this.handleHide();
+            this.handleHide(false);
             GlobalActions.showDeletePostModal(Selectors.getPost(getState(), editingPost.postId), editingPost.commentsCount);
             return;
         }
@@ -199,7 +199,8 @@ export default class EditPostModal extends React.PureComponent {
         }
     }
 
-    handleHide = () => {
+    handleHide = (doRefocus = true) => {
+        this.refocusId = doRefocus ? this.props.editingPost.refocusId : null;
         this.props.actions.hideEditPostModal();
     }
 
@@ -213,7 +214,7 @@ export default class EditPostModal extends React.PureComponent {
     }
 
     handleExited = () => {
-        const refocusId = this.props.editingPost.refocusId;
+        const refocusId = this.refocusId;
         if (refocusId) {
             setTimeout(() => {
                 const element = document.getElementById(refocusId);
@@ -223,6 +224,7 @@ export default class EditPostModal extends React.PureComponent {
             });
         }
 
+        this.refocusId = null;
         this.setState({editText: '', postError: '', errorClass: null, showEmojiPicker: false});
     }
 
