@@ -1492,7 +1492,7 @@ export function removePrefixFromLocalStorage(prefix) {
     }
 }
 
-export function getEmailInterval(isEmailEnabled) {
+export function getEmailInterval(enableEmailBatching, isEmailEnabled) {
     const {
         INTERVAL_NEVER,
         INTERVAL_IMMEDIATE,
@@ -1511,7 +1511,7 @@ export function getEmailInterval(isEmailEnabled) {
 
     let emailInterval;
 
-    if (global.mm_config.EnableEmailBatching === 'true') {
+    if (enableEmailBatching) {
         // when email batching is enabled, the default interval is 15 minutes
         emailInterval = PreferenceStore.getInt(CATEGORY_NOTIFICATIONS, EMAIL_INTERVAL, INTERVAL_FIFTEEN_MINUTES);
 

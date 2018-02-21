@@ -876,7 +876,7 @@ export default class NotificationsTab extends React.Component {
                         activeSection={this.props.activeSection}
                         updateSection={this.props.updateSection}
                         enableEmail={enableEmail}
-                        emailInterval={Utils.getEmailInterval(enableEmail)}
+                        emailInterval={Utils.getEmailInterval(this.props.enableEmailBatching, enableEmail)}
                         onSubmit={this.handleSubmit}
                         onCancel={this.handleCancel}
                         saving={this.state.isSaving}
