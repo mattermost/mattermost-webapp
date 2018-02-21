@@ -1187,17 +1187,6 @@ export function fileSizeToString(bytes) {
     return bytes + 'B';
 }
 
-// Gets the websocket port to use. Configurable on the server.
-export function getWebsocketPort(protocol) {
-    if ((/^wss:/).test(protocol)) { // wss://
-        return ':' + global.window.mm_config.WebsocketSecurePort;
-    }
-    if ((/^ws:/).test(protocol)) {
-        return ':' + global.window.mm_config.WebsocketPort;
-    }
-    return '';
-}
-
 // Generates a RFC-4122 version 4 compliant globally unique identifier.
 export function generateId() {
     // implementation taken from http://stackoverflow.com/a/2117523
