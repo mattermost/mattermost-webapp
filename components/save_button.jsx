@@ -13,7 +13,7 @@ export default class SaveButton extends React.PureComponent {
         savingMessage: PropTypes.node,
         defaultMessage: PropTypes.node,
         btnClass: PropTypes.string,
-        extraClasses: PropTypes.string
+        extraClasses: PropTypes.string,
     }
 
     static defaultProps = {
@@ -21,7 +21,7 @@ export default class SaveButton extends React.PureComponent {
         savingMessage: localizeMessage('save_button.saving', 'Saving'),
         defaultMessage: localizeMessage('save_button.save', 'Save'),
         btnClass: 'btn-primary',
-        extraClasses: ''
+        extraClasses: '',
     }
 
     render() {

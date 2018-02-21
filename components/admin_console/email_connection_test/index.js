@@ -12,7 +12,7 @@ export default connect(null, mapDispatchToProps)(EmailConnectionTestButton);
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            testEmail
-        }, dispatch)
+            testEmail,
+        }, dispatch),
     };
 }

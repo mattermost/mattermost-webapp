@@ -14,8 +14,8 @@ export default class EmailConnectionTestButton extends React.Component {
             getConfigFromState: PropTypes.func.isRequired,
             disabled: PropTypes.bool.isRequired,
             actions: PropTypes.shape({
-                testEmail: PropTypes.func.isRequired
-            }).isRequired
+                testEmail: PropTypes.func.isRequired,
+            }).isRequired,
         };
     }
 
@@ -25,7 +25,7 @@ export default class EmailConnectionTestButton extends React.Component {
         this.state = {
             testing: false,
             success: false,
-            fail: null
+            fail: null,
         };
     }
 
@@ -35,7 +35,7 @@ export default class EmailConnectionTestButton extends React.Component {
         this.setState({
             testing: true,
             success: false,
-            fail: null
+            fail: null,
         });
 
         const config = JSON.parse(JSON.stringify(this.props.config));
@@ -50,12 +50,12 @@ export default class EmailConnectionTestButton extends React.Component {
                     }
                     this.setState({
                         testing: false,
-                        fail
+                        fail,
                     });
                 } else {
                     this.setState({
                         testing: false,
-                        success: true
+                        success: true,
                     });
                 }
             }
@@ -82,7 +82,7 @@ export default class EmailConnectionTestButton extends React.Component {
                         id='admin.email.emailFail'
                         defaultMessage='Connection unsuccessful: {error}'
                         values={{
-                            error: this.state.fail
+                            error: this.state.fail,
                         }}
                     />
                 </div>

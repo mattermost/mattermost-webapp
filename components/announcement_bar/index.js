@@ -31,7 +31,7 @@ function mapStateToProps(state) {
         enableBanner,
         bannerColor,
         bannerTextColor,
-        enableSignUpWithGitLab
+        enableSignUpWithGitLab,
     };
 }
 

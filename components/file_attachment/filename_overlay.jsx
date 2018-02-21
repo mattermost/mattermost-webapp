@@ -41,7 +41,7 @@ export default class FilenameOverlay extends React.PureComponent {
         /**
          * Optional class like for icon
          */
-        iconClass: PropTypes.string
+        iconClass: PropTypes.string,
     };
 
     render() {
@@ -51,7 +51,7 @@ export default class FilenameOverlay extends React.PureComponent {
             compactDisplay,
             fileInfo,
             handleImageClick,
-            iconClass
+            iconClass,
         } = this.props;
 
         const fileName = fileInfo.name;

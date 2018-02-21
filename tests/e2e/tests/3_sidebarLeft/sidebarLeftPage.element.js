@@ -105,5 +105,5 @@ module.exports = {
             assert.visible('@statusOffline');
 
         sidebarLeftPage.click('@statusDropdown');
-    }
+    },
 };

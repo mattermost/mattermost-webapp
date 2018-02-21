@@ -14,7 +14,7 @@ export default class SidebarChannelButtonOrLinkCloseButton extends React.PureCom
         channelId: PropTypes.string.isRequired,
         channelType: PropTypes.string.isRequired,
         teammateId: PropTypes.string,
-        badge: PropTypes.bool
+        badge: PropTypes.bool,
     }
 
     overlayTriggerAttr = ['hover', 'focus']

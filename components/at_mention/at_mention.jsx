@@ -15,12 +15,12 @@ export default class AtMention extends React.PureComponent {
         hasMention: PropTypes.bool,
         isRHS: PropTypes.bool,
         mentionName: PropTypes.string.isRequired,
-        usersByUsername: PropTypes.object.isRequired
+        usersByUsername: PropTypes.object.isRequired,
     };
 
     static defaultProps = {
         isRHS: false,
-        hasMention: false
+        hasMention: false,
     }
 
     constructor(props) {
@@ -29,14 +29,14 @@ export default class AtMention extends React.PureComponent {
         this.hideProfilePopover = this.hideProfilePopover.bind(this);
 
         this.state = {
-            user: this.getUserFromMentionName(props)
+            user: this.getUserFromMentionName(props),
         };
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.mentionName !== this.props.mentionName || nextProps.usersByUsername !== this.props.usersByUsername) {
             this.setState({
-                user: this.getUserFromMentionName(nextProps)
+                user: this.getUserFromMentionName(nextProps),
             });
         }
     }

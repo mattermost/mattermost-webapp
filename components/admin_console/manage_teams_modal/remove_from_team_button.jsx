@@ -12,7 +12,7 @@ export default class RemoveFromTeamButton extends React.PureComponent {
         onError: PropTypes.func.isRequired,
         onMemberRemove: PropTypes.func.isRequired,
         team: PropTypes.object.isRequired,
-        user: PropTypes.object.isRequired
+        user: PropTypes.object.isRequired,
     };
 
     constructor(props) {

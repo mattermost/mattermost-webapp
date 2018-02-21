@@ -24,7 +24,7 @@ function mapStateToProps(state) {
         appDownloadLink,
         isLicensed,
         restrictTeamInvite,
-        supportEmail
+        supportEmail,
     };
 }
 

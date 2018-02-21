@@ -32,7 +32,7 @@ export default class MessageExportSettings extends AdminSettings {
             enableComplianceExport: config.MessageExportSettings.EnableExport,
             exportFormat: config.MessageExportSettings.ExportFormat,
             exportJobStartTime: config.MessageExportSettings.DailyRunTime,
-            globalRelayEmailAddress: config.MessageExportSettings.GlobalRelayEmailAddress
+            globalRelayEmailAddress: config.MessageExportSettings.GlobalRelayEmailAddress,
         };
     }
 
@@ -48,7 +48,7 @@ export default class MessageExportSettings extends AdminSettings {
     renderSettings() {
         const exportFormatOptions = [
             {value: 'actiance', text: Utils.localizeMessage('admin.complianceExport.exportFormat.actiance', 'Actiance XML')},
-            {value: 'globalrelay', text: Utils.localizeMessage('admin.complianceExport.exportFormat.globalrelay', 'GlobalRelay EML')}
+            {value: 'globalrelay', text: Utils.localizeMessage('admin.complianceExport.exportFormat.globalrelay', 'GlobalRelay EML')},
         ];
 
         // if export format is globalrelay, user must set email address

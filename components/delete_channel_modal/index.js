@@ -11,15 +11,15 @@ import DeleteChannelModal from './delete_channel_modal.jsx';
 function mapStateToProps(state, ownProps) {
     return {
         ...ownProps,
-        currentTeamDetails: getCurrentTeam(state)
+        currentTeamDetails: getCurrentTeam(state),
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            deleteChannel
-        }, dispatch)
+            deleteChannel,
+        }, dispatch),
     };
 }
 

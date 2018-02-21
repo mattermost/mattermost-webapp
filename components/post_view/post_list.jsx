@@ -97,8 +97,8 @@ export default class PostList extends React.PureComponent {
             /**
              * Function to check and set if app is in mobile view
              */
-            checkAndSetMobileView: PropTypes.func.isRequired
-        }).isRequired
+            checkAndSetMobileView: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -116,7 +116,7 @@ export default class PostList extends React.PureComponent {
             unViewedCount: 0,
             isDoingInitialLoad: true,
             isScrolling: false,
-            lastViewed: props.lastViewedAt
+            lastViewed: props.lastViewedAt,
         };
     }
 
@@ -280,7 +280,7 @@ export default class PostList extends React.PureComponent {
 
     handleScrollStop = () => {
         this.setState({
-            isScrolling: false
+            isScrolling: false,
         });
     }
 
@@ -378,7 +378,7 @@ export default class PostList extends React.PureComponent {
 
         if (!this.state.isScrolling) {
             this.setState({
-                isScrolling: true
+                isScrolling: true,
             });
         }
 
@@ -386,7 +386,7 @@ export default class PostList extends React.PureComponent {
             this.setState({
                 lastViewed: new Date().getTime(),
                 unViewedCount: 0,
-                isScrolling: false
+                isScrolling: false,
             });
         }
 
@@ -418,7 +418,7 @@ export default class PostList extends React.PureComponent {
 
                     if (!this.state.topPost || topPost.id !== this.state.topPost.id) {
                         this.setState({
-                            topPost
+                            topPost,
                         });
                     }
 

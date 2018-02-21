@@ -22,5 +22,5 @@ module.exports = {
 
         loginPage.navigate().
             login(testUser.email, testUser.password);
-    }
+    },
 };

@@ -19,7 +19,7 @@ export default function deferComponentRender(WrappedComponent, PreRenderComponen
             super(props, context);
 
             this.state = {
-                shouldRender: false
+                shouldRender: false,
             };
         }
 

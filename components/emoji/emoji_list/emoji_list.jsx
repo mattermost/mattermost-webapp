@@ -39,8 +39,8 @@ export default class EmojiList extends React.Component {
             /**
              * Search custom emojis.
              */
-            searchCustomEmojis: PropTypes.func.isRequired
-        }).isRequired
+            searchCustomEmojis: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -53,7 +53,7 @@ export default class EmojiList extends React.Component {
             page: 0,
             nextLoading: false,
             searchEmojis: null,
-            missingPages: true
+            missingPages: true,
         };
     }
 
@@ -303,5 +303,5 @@ export default class EmojiList extends React.Component {
 }
 
 const style = {
-    search: {flexGrow: 0, flexShrink: 0}
+    search: {flexGrow: 0, flexShrink: 0},
 };

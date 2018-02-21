@@ -21,15 +21,15 @@ function mapStateToProps(state, ownProps) {
         creatorDisplayName: displayUsernameForUser(creator),
         creatorUsername: creator.username,
         currentUserId: getCurrentUserId(state),
-        isSystemAdmin: isCurrentUserSystemAdmin(state)
+        isSystemAdmin: isCurrentUserSystemAdmin(state),
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            deleteCustomEmoji
-        }, dispatch)
+            deleteCustomEmoji,
+        }, dispatch),
     };
 }
 

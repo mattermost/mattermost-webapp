@@ -28,15 +28,15 @@ export default class AddOutgoingWebhook extends React.PureComponent {
             /**
              * The function to call to add a new outgoing webhook
              */
-            createOutgoingHook: PropTypes.func.isRequired
-        }).isRequired
+            createOutgoingHook: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
         super(props);
 
         this.state = {
-            serverError: ''
+            serverError: '',
         };
     }
 

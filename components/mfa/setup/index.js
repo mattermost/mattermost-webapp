@@ -14,7 +14,7 @@ function mapStateToProps(state) {
 
     return {
         siteName,
-        enforceMultifactorAuthentication
+        enforceMultifactorAuthentication,
     };
 }
 

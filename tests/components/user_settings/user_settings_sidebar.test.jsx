@@ -15,14 +15,14 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
         showUnusedOption: false,
         showUnreadOption: true,
         user: {
-            id: 'someuserid'
+            id: 'someuserid',
         },
         closeModal: () => () => true,
         collapseModal: () => () => true,
         updateSection: () => () => true,
         actions: {
-            savePreferences: () => true
-        }
+            savePreferences: () => true,
+        },
     };
 
     test('should match snapshot', () => {
@@ -32,7 +32,7 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
         expect(wrapper.state('isSaving')).toEqual(false);
         expect(wrapper.state('settings')).toEqual({
             close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
-            show_unread_section: defaultProps.displayUnreadSection
+            show_unread_section: defaultProps.displayUnreadSection,
         });
     });
 
@@ -57,13 +57,13 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
 
         expect(wrapper.state('settings')).toEqual({
             close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
-            show_unread_section: 'false'
+            show_unread_section: 'false',
         });
 
         wrapper.find('#unreadSectionEnabled').simulate('change');
         expect(wrapper.state('settings')).toEqual({
             close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
-            show_unread_section: 'true'
+            show_unread_section: 'true',
         });
     });
 });

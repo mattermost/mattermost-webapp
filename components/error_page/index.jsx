@@ -15,7 +15,7 @@ import ErrorMessage from './error_message.jsx';
 
 export default class ErrorPage extends React.PureComponent {
     static propTypes = {
-        location: PropTypes.object.isRequired
+        location: PropTypes.object.isRequired,
     };
 
     componentDidMount() {
@@ -65,7 +65,7 @@ export default class ErrorPage extends React.PureComponent {
                         id='error.generic.link'
                         defaultMessage='Back to {siteName}'
                         values={{
-                            siteName: global.window.mm_config.SiteName
+                            siteName: global.window.mm_config.SiteName,
                         }}
                     />
                 </Link>

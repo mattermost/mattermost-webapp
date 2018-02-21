@@ -21,11 +21,11 @@ describe('/components/create_team', () => {
         enableCustomBrand: true,
         customDescriptionText: 'Welcome to our custom branded site!',
         match: {
-            url: 'http://localhost:8065/create_team'
+            url: 'http://localhost:8065/create_team',
         },
         history: {
-            push: jest.fn()
-        }
+            push: jest.fn(),
+        },
     };
 
     test('should match snapshot', () => {

@@ -33,7 +33,7 @@ function mapStateToProps(state) {
         isLicensed,
         enabled,
         reports,
-        serverError
+        serverError,
     };
 }
 
@@ -41,8 +41,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getComplianceReports,
-            createComplianceReport
-        }, dispatch)
+            createComplianceReport,
+        }, dispatch),
     };
 }
 

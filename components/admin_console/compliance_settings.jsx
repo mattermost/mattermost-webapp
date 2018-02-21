@@ -32,7 +32,7 @@ export default class ComplianceSettings extends AdminSettings {
         return {
             enable: config.ComplianceSettings.Enable,
             directory: config.ComplianceSettings.Directory,
-            enableDaily: config.ComplianceSettings.EnableDaily
+            enableDaily: config.ComplianceSettings.EnableDaily,
         };
     }
 

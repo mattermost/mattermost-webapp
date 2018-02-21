@@ -82,7 +82,7 @@ export default class SwitchTeamProvider extends Provider {
                     matchedPretext: teamPrefix,
                     terms: teamNames,
                     items: teams,
-                    component: SwitchTeamSuggestion
+                    component: SwitchTeamSuggestion,
                 });
             }, 0);
 

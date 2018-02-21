@@ -23,7 +23,7 @@ export default class CodePreview extends React.Component {
             code: '',
             lang: '',
             loading: true,
-            success: true
+            success: true,
         };
     }
 
@@ -53,7 +53,7 @@ export default class CodePreview extends React.Component {
             type: 'GET',
             dataType: 'text',
             error: this.handleReceivedError,
-            success: this.handleReceivedCode
+            success: this.handleReceivedCode,
         });
     }
 
@@ -65,7 +65,7 @@ export default class CodePreview extends React.Component {
         this.setState({
             code,
             loading: false,
-            success: true
+            success: true,
         });
     }
 
@@ -137,5 +137,5 @@ export default class CodePreview extends React.Component {
 
 CodePreview.propTypes = {
     fileInfo: PropTypes.object.isRequired,
-    fileUrl: PropTypes.string.isRequired
+    fileUrl: PropTypes.string.isRequired,
 };

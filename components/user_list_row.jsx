@@ -17,14 +17,14 @@ export default class UserListRow extends React.Component {
         actions: PropTypes.arrayOf(PropTypes.func),
         actionProps: PropTypes.object,
         actionUserProps: PropTypes.object,
-        userCount: PropTypes.number
+        userCount: PropTypes.number,
     };
 
     static defaultProps = {
         extraInfo: [],
         actions: [],
         actionProps: {},
-        actionUserProps: {}
+        actionUserProps: {},
     };
 
     render() {
@@ -52,7 +52,7 @@ export default class UserListRow extends React.Component {
                     id='admin.user_item.emailTitle'
                     defaultMessage='<strong>Email:</strong> {email}'
                     values={{
-                        email: this.props.user.email
+                        email: this.props.user.email,
                     }}
                 />
             );

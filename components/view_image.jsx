@@ -41,13 +41,13 @@ export default class ViewImageModal extends React.PureComponent {
         /**
          * The index number of starting image
          **/
-        startIndex: PropTypes.number.isRequired
+        startIndex: PropTypes.number.isRequired,
     };
 
     static defaultProps = {
         show: false,
         fileInfos: [],
-        startIndex: 0
+        startIndex: 0,
     };
 
     constructor(props) {
@@ -58,7 +58,7 @@ export default class ViewImageModal extends React.PureComponent {
             imageHeight: '100%',
             loaded: Utils.fillArray(false, this.props.fileInfos.length),
             progress: Utils.fillArray(0, this.props.fileInfos.length),
-            showFooter: false
+            showFooter: false,
         };
     }
 
@@ -116,7 +116,7 @@ export default class ViewImageModal extends React.PureComponent {
         if (this.props.fileInfos.length !== nextProps.fileInfos.length) {
             this.setState({
                 loaded: Utils.fillArray(false, nextProps.fileInfos.length),
-                progress: Utils.fillArray(0, nextProps.fileInfos.length)
+                progress: Utils.fillArray(0, nextProps.fileInfos.length),
             });
         }
     }
@@ -161,8 +161,8 @@ export default class ViewImageModal extends React.PureComponent {
             return {
                 loaded: {
                     ...prevState.loaded,
-                    [index]: true
-                }
+                    [index]: true,
+                },
             };
         });
     }
@@ -172,8 +172,8 @@ export default class ViewImageModal extends React.PureComponent {
             return {
                 progress: {
                     ...prevState.progress,
-                    [index]: completedPercentage
-                }
+                    [index]: completedPercentage,
+                },
             };
         });
     }

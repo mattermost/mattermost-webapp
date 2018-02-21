@@ -10,7 +10,7 @@ describe('components/login/LoginMfa', () => {
     const baseProps = {
         loginId: 'logid_id',
         password: 'password',
-        submit: jest.fn()
+        submit: jest.fn(),
     };
 
     test('should match snapshot', () => {

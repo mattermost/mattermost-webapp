@@ -44,14 +44,14 @@ export default class InstalledOAuthApp extends React.PureComponent {
         /**
         * Set to filter OAuthApp
         */
-        filter: PropTypes.string
+        filter: PropTypes.string,
     }
 
     constructor(props) {
         super(props);
 
         this.state = {
-            clientSecret: FAKE_SECRET
+            clientSecret: FAKE_SECRET,
         };
     }
 
@@ -140,7 +140,7 @@ export default class InstalledOAuthApp extends React.PureComponent {
                         id='installed_integrations.callback_urls'
                         defaultMessage='Callback URLs: {urls}'
                         values={{
-                            urls: oauthApp.callback_urls.join(', ')
+                            urls: oauthApp.callback_urls.join(', '),
                         }}
                     />
                 </span>
@@ -222,7 +222,7 @@ export default class InstalledOAuthApp extends React.PureComponent {
                                 id='installed_oauth_apps.is_trusted'
                                 defaultMessage='Is Trusted: <strong>{isTrusted}</strong>'
                                 values={{
-                                    isTrusted
+                                    isTrusted,
                                 }}
                             />
                         </span>
@@ -233,7 +233,7 @@ export default class InstalledOAuthApp extends React.PureComponent {
                                 id='installed_integrations.client_id'
                                 defaultMessage='Client ID: <strong>{clientId}</strong>'
                                 values={{
-                                    clientId: oauthApp.id
+                                    clientId: oauthApp.id,
                                 }}
                             />
                         </span>
@@ -244,7 +244,7 @@ export default class InstalledOAuthApp extends React.PureComponent {
                                 id='installed_integrations.client_secret'
                                 defaultMessage='Client Secret: <strong>{clientSecret}</strong>'
                                 values={{
-                                    clientSecret: this.state.clientSecret
+                                    clientSecret: this.state.clientSecret,
                                 }}
                             />
                         </span>
@@ -257,7 +257,7 @@ export default class InstalledOAuthApp extends React.PureComponent {
                                 defaultMessage='Created by {creator} on {createAt, date, full}'
                                 values={{
                                     creator: Utils.displayUsername(oauthApp.creator_id),
-                                    createAt: oauthApp.create_at
+                                    createAt: oauthApp.create_at,
                                 }}
                             />
                         </span>

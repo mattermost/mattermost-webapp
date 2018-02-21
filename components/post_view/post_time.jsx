@@ -29,19 +29,19 @@ export default class PostTime extends React.PureComponent {
         /*
          * The post id of posting being rendered
          */
-        postId: PropTypes.string
+        postId: PropTypes.string,
     };
 
     static defaultProps = {
         eventTime: 0,
-        useMilitaryTime: false
+        useMilitaryTime: false,
     };
 
     constructor(props) {
         super(props);
 
         this.state = {
-            currentTeamDisplayName: TeamStore.getCurrent().name
+            currentTeamDisplayName: TeamStore.getCurrent().name,
         };
     }
 

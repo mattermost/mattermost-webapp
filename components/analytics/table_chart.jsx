@@ -22,9 +22,9 @@ export default class TableChart extends React.PureComponent {
             PropTypes.shape({
                 name: PropTypes.string.isRequired,
                 tip: PropTypes.string.isRequired,
-                value: PropTypes.node.isRequired
+                value: PropTypes.node.isRequired,
             })
-        ).isRequired
+        ).isRequired,
     };
 
     render() {

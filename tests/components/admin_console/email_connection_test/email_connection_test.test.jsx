@@ -13,8 +13,8 @@ describe('components/admin_console/email_connection_test/email_connection_test',
             getConfigFromState: jest.fn(),
             disabled: true,
             actions: {
-                testEmail: jest.fn(() => Promise.resolve({}))
-            }
+                testEmail: jest.fn(() => Promise.resolve({})),
+            },
         };
 
         const wrapper = shallow(
@@ -30,8 +30,8 @@ describe('components/admin_console/email_connection_test/email_connection_test',
             getConfigFromState: jest.fn(),
             disabled: false,
             actions: {
-                testEmail: jest.fn(() => Promise.resolve({}))
-            }
+                testEmail: jest.fn(() => Promise.resolve({})),
+            },
         };
 
         const wrapper = shallow(
@@ -47,8 +47,8 @@ describe('components/admin_console/email_connection_test/email_connection_test',
             getConfigFromState: jest.fn(),
             disabled: false,
             actions: {
-                testEmail: jest.fn(() => Promise.resolve({}))
-            }
+                testEmail: jest.fn(() => Promise.resolve({})),
+            },
         };
 
         const wrapper = shallow(

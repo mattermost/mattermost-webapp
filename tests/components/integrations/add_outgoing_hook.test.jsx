@@ -15,11 +15,11 @@ describe('components/integrations/AddOutgoingWebhook', () => {
             <AddOutgoingWebhook
                 team={{
                     id: teamId,
-                    name: 'test'
+                    name: 'test',
                 }}
                 createOutgoingHookRequest={{
                     status: 'not_started',
-                    error: null
+                    error: null,
                 }}
                 actions={{createOutgoingHook: emptyFunction}}
             />

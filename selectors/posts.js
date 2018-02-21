@@ -16,7 +16,7 @@ export const getEditingPost = createSelector(
     (post, editingPost) => {
         return {
             ...editingPost,
-            post
+            post,
         };
     }
 );

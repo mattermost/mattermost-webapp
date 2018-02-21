@@ -43,7 +43,7 @@ function mapStateToProps(state) {
         helpLink,
         reportAProblemLink,
         restrictTeamInvite,
-        siteName
+        siteName,
     };
 }
 
@@ -52,8 +52,8 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             showMentions,
             showFlaggedPosts,
-            closeRightHandSide
-        }, dispatch)
+            closeRightHandSide,
+        }, dispatch),
     };
 }
 

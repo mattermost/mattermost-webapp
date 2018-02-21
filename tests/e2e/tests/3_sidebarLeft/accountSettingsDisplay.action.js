@@ -156,5 +156,5 @@ module.exports = {
             click('#collapseFormatA').
             click('#saveSetting').
             assert.containsText('@collapseDesc', 'Expanded');
-    }
+    },
 };

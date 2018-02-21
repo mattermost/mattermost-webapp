@@ -21,8 +21,8 @@ export default class RhsHeaderPost extends React.Component {
             showSearchResults: PropTypes.func,
             showFlaggedPosts: PropTypes.func,
             showPinnedPosts: PropTypes.func,
-            closeRightHandSide: PropTypes.func
-        })
+            closeRightHandSide: PropTypes.func,
+        }),
     };
 
     constructor(props) {

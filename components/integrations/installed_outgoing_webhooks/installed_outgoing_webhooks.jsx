@@ -63,13 +63,13 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
             /**
             * The function to call for regeneration of webhook token
             */
-            regenOutgoingHookToken: PropTypes.func
+            regenOutgoingHookToken: PropTypes.func,
         }),
 
         /**
         * Whether or not outgoing webhooks are enabled.
         */
-        enableOutgoingWebhooks: PropTypes.bool
+        enableOutgoingWebhooks: PropTypes.bool,
     }
 
     constructor(props) {
@@ -78,7 +78,7 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
         this.outgoingWebhookCompare = this.outgoingWebhookCompare.bind(this);
 
         this.state = {
-            loading: true
+            loading: true,
         };
     }
 
@@ -193,7 +193,7 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
                                         defaultMessage='App Directory'
                                     />
                                 </a>
-                            )
+                            ),
                         }}
                     />
                 }

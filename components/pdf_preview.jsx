@@ -24,7 +24,7 @@ export default class PDFPreview extends React.PureComponent {
         /**
         *  URL of pdf file to output and compare to update props url
         */
-        fileUrl: PropTypes.string.isRequired
+        fileUrl: PropTypes.string.isRequired,
     }
 
     constructor(props) {
@@ -43,7 +43,7 @@ export default class PDFPreview extends React.PureComponent {
             pdfPagesLoaded: {},
             numPages: 0,
             loading: true,
-            success: false
+            success: false,
         };
     }
 
@@ -80,7 +80,7 @@ export default class PDFPreview extends React.PureComponent {
 
         const renderContext = {
             canvasContext: context,
-            viewport
+            viewport,
         };
 
         this.state.pdfPages[pageIndex].render(renderContext);
@@ -94,7 +94,7 @@ export default class PDFPreview extends React.PureComponent {
             pdfPagesLoaded: {},
             numPages: 0,
             loading: true,
-            success: false
+            success: false,
         });
 
         PDFJS.getDocument(props.fileUrl).then(this.onDocumentLoad);

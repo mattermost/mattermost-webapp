@@ -17,12 +17,12 @@ import TeamSettings from './team_settings.jsx';
 const holders = defineMessages({
     generalTab: {
         id: 'team_settings_modal.generalTab',
-        defaultMessage: 'General'
+        defaultMessage: 'General',
     },
     importTab: {
         id: 'team_settings_modal.importTab',
-        defaultMessage: 'Import'
-    }
+        defaultMessage: 'Import',
+    },
 });
 
 class TeamSettingsModal extends React.Component {
@@ -31,7 +31,7 @@ class TeamSettingsModal extends React.Component {
 
         this.state = {
             activeTab: 'general',
-            activeSection: ''
+            activeSection: '',
         };
     }
 
@@ -44,7 +44,7 @@ class TeamSettingsModal extends React.Component {
     updateTab = (tab) => {
         this.setState({
             activeTab: tab,
-            activeSection: ''
+            activeSection: '',
         });
 
         if (!Utils.isMobile()) {
@@ -69,7 +69,7 @@ class TeamSettingsModal extends React.Component {
 
         this.setState({
             active_tab: '',
-            active_section: ''
+            active_section: '',
         });
     }
 
@@ -127,7 +127,7 @@ class TeamSettingsModal extends React.Component {
 TeamSettingsModal.propTypes = {
     intl: intlShape.isRequired,
     show: PropTypes.bool,
-    onModalDismissed: PropTypes.func
+    onModalDismissed: PropTypes.func,
 };
 
 export default injectIntl(TeamSettingsModal);

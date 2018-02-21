@@ -20,15 +20,15 @@ function mapStateToProps(state) {
     return {
         userId,
         profilePicture: Client4.getProfilePictureUrl(userId, currentUser.last_picture_update),
-        status: getStatusForUserId(state, userId)
+        status: getStatusForUserId(state, userId),
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            setStatus
-        }, dispatch)
+            setStatus,
+        }, dispatch),
     };
 }
 

@@ -18,7 +18,7 @@ import {
     updateCommentDraft,
     makeOnMoveHistoryIndex,
     makeOnSubmit,
-    makeOnEditLatestPost
+    makeOnEditLatestPost,
 } from 'actions/views/create_comment';
 import {makeGetCommentDraft} from 'selectors/rhs';
 
@@ -50,7 +50,7 @@ function mapStateToProps(state, ownProps) {
         createPostErrorId: err.server_error_id,
         readOnlyChannel: !isCurrentUserSystemAdmin(state) && config.ExperimentalTownSquareIsReadOnly === 'true' && channel.name === Constants.DEFAULT_CHANNEL,
         enableConfirmNotificationsToChannel,
-        enableEmojiPicker
+        enableEmojiPicker,
     };
 }
 
@@ -100,7 +100,7 @@ function makeMapDispatchToProps() {
             onMoveHistoryIndexBack,
             onMoveHistoryIndexForward,
             onEditLatestPost,
-            resetCreatePostRequest
+            resetCreatePostRequest,
         }, dispatch);
     };
 }

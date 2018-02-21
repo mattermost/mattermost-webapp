@@ -14,12 +14,12 @@ import * as Utils from 'utils/utils.jsx';
 const holders = defineMessages({
     removing: {
         id: 'admin.license.removing',
-        defaultMessage: 'Removing License...'
+        defaultMessage: 'Removing License...',
     },
     uploading: {
         id: 'admin.license.uploading',
-        defaultMessage: 'Uploading License...'
-    }
+        defaultMessage: 'Uploading License...',
+    },
 });
 
 class LicenseSettings extends React.Component {
@@ -33,7 +33,7 @@ class LicenseSettings extends React.Component {
         this.state = {
             fileSelected: false,
             fileName: null,
-            serverError: null
+            serverError: null,
         };
     }
 
@@ -278,7 +278,7 @@ class LicenseSettings extends React.Component {
 LicenseSettings.propTypes = {
     license: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
-    config: PropTypes.object
+    config: PropTypes.object,
 };
 
 export default injectIntl(LicenseSettings);

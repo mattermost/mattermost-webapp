@@ -28,7 +28,7 @@ class JobTable extends React.PureComponent {
             /**
              * Function to fetch jobs
              */
-            getJobsByType: PropTypes.func.isRequired
+            getJobsByType: PropTypes.func.isRequired,
         }).isRequired,
 
         /**
@@ -54,7 +54,7 @@ class JobTable extends React.PureComponent {
         /**
          * The type of jobs to include in this table.
          */
-        jobType: PropTypes.string.isRequired
+        jobType: PropTypes.string.isRequired,
     };
 
     constructor(props) {
@@ -62,7 +62,7 @@ class JobTable extends React.PureComponent {
         this.interval = null;
 
         this.state = {
-            loading: true
+            loading: true,
         };
     }
 
@@ -190,12 +190,12 @@ class JobTable extends React.PureComponent {
                 this.props.intl.formatDate(new Date(job.last_activity_at), {
                     year: 'numeric',
                     month: 'short',
-                    day: '2-digit'
+                    day: '2-digit',
                 }) + ' - ' +
                 this.props.intl.formatTime(new Date(job.last_activity_at), {
                     hour: '2-digit',
                     minute: '2-digit',
-                    second: '2-digit'
+                    second: '2-digit',
                 });
         }
 
@@ -261,7 +261,7 @@ class JobTable extends React.PureComponent {
         this.props.actions.getJobsByType(this.props.jobType).then(
             () => {
                 this.setState({
-                    loading: false
+                    loading: false,
                 });
             }
         );
@@ -288,7 +288,7 @@ class JobTable extends React.PureComponent {
         e.preventDefault();
 
         const job = {
-            type: this.props.jobType
+            type: this.props.jobType,
         };
 
         createJob(

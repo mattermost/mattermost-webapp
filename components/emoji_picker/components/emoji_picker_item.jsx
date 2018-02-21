@@ -21,7 +21,7 @@ export default class EmojiPickerItem extends React.Component {
         emojiIndex: PropTypes.number.isRequired,
         containerRef: PropTypes.any,
         containerTop: PropTypes.number.isRequired,
-        containerBottom: PropTypes.number.isRequired
+        containerBottom: PropTypes.number.isRequired,
     };
 
     constructor(props) {

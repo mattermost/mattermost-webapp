@@ -18,7 +18,7 @@ function mapStateToProps(state) {
         allowCustomThemes,
         enableLinkPreviews,
         defaultClientLocale,
-        enableThemeSelection
+        enableThemeSelection,
     };
 }
 

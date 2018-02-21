@@ -58,7 +58,7 @@ export default class SearchResults extends React.PureComponent {
         channelDisplayName: PropTypes.string.isRequired,
         selectPost: PropTypes.func,
         dataRetentionEnableMessageDeletion: PropTypes.bool.isRequired,
-        dataRetentionMessageRetentionDays: PropTypes.string
+        dataRetentionMessageRetentionDays: PropTypes.string,
     };
 
     constructor(props) {
@@ -69,7 +69,7 @@ export default class SearchResults extends React.PureComponent {
             windowHeight: Utils.windowHeight(),
             profiles: JSON.parse(JSON.stringify(UserStore.getProfiles())),
             isBusy: WebrtcStore.isBusy(),
-            statuses: Object.assign({}, UserStore.getStatuses())
+            statuses: Object.assign({}, UserStore.getStatuses()),
         };
     }
 
@@ -99,7 +99,7 @@ export default class SearchResults extends React.PureComponent {
     handleResize = () => {
         this.setState({
             windowWidth: Utils.windowWidth(),
-            windowHeight: Utils.windowHeight()
+            windowHeight: Utils.windowHeight(),
         });
     }
 
@@ -168,7 +168,7 @@ export default class SearchResults extends React.PureComponent {
                         id='search_results.usageFlag4'
                         defaultMessage='Flags are a way to mark messages for follow up. Your flags are personal, and cannot be seen by other users.'
                     />
-                </li>
+                </li>,
             ];
 
             if (this.props.dataRetentionEnableMessageDeletion) {
@@ -178,7 +178,7 @@ export default class SearchResults extends React.PureComponent {
                             id='search_results.usage.dataRetention'
                             defaultMessage='Only messages posted in the last {days} days are returned. Contact your System Administrator for more detail.'
                             values={{
-                                days: this.props.dataRetentionMessageRetentionDays
+                                days: this.props.dataRetentionMessageRetentionDays,
                             }}
                         />
                     </li>
@@ -217,7 +217,7 @@ export default class SearchResults extends React.PureComponent {
                         id='search_results.usagePin4'
                         defaultMessage={'To pin a message: Go to the message that you want to pin and click [...] > "Pin to channel".'}
                     />
-                </li>
+                </li>,
             ];
 
             if (this.props.dataRetentionEnableMessageDeletion) {
@@ -227,7 +227,7 @@ export default class SearchResults extends React.PureComponent {
                             id='search_results.usage.dataRetention'
                             defaultMessage='Only messages posted in the last {days} days are returned. Contact your System Administrator for more detail.'
                             values={{
-                                days: this.props.dataRetentionMessageRetentionDays
+                                days: this.props.dataRetentionMessageRetentionDays,
                             }}
                         />
                     </li>
@@ -255,7 +255,7 @@ export default class SearchResults extends React.PureComponent {
                                         defaultMessage='"quotation marks"'
                                     />
                                 </b>
-                            )
+                            ),
                         }}
                     />
                 </li>,
@@ -265,10 +265,10 @@ export default class SearchResults extends React.PureComponent {
                         defaultMessage='Use {fromUser} to find posts from specific users and {inChannel} to find posts in specific channels'
                         values={{
                             fromUser: 'from:',
-                            inChannel: 'in:'
+                            inChannel: 'in:',
                         }}
                     />
-                </li>
+                </li>,
             ];
 
             ctls = (
@@ -291,7 +291,7 @@ export default class SearchResults extends React.PureComponent {
                         id='search_results.noResults.stopWordsSuggestion'
                         defaultMessage='Two letter searches and common words like "this", "a" and "is" won&#39;t appear in search results due to the excessive results returned.'
                     />
-                </li>
+                </li>,
             ];
 
             if (this.props.dataRetentionEnableMessageDeletion) {
@@ -301,7 +301,7 @@ export default class SearchResults extends React.PureComponent {
                             id='search_results.usage.dataRetention'
                             defaultMessage='Only messages posted in the last {days} days are returned. Contact your System Administrator for more detail.'
                             values={{
-                                days: this.props.dataRetentionMessageRetentionDays
+                                days: this.props.dataRetentionMessageRetentionDays,
                             }}
                         />
                     </li>

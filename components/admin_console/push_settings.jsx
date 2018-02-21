@@ -34,29 +34,29 @@ export default class PushSettings extends AdminSettings {
 
     handleAgreeChange(e) {
         this.setState({
-            agree: e.target.checked
+            agree: e.target.checked,
         });
     }
 
     handleDropdownChange(id, value) {
         if (id === 'pushNotificationServerType') {
             this.setState({
-                agree: false
+                agree: false,
             });
 
             if (value === PUSH_NOTIFICATIONS_MHPNS) {
                 this.setState({
-                    pushNotificationServer: Constants.MHPNS
+                    pushNotificationServer: Constants.MHPNS,
                 });
             } else if (value === PUSH_NOTIFICATIONS_MTPNS) {
                 this.setState({
-                    pushNotificationServer: Constants.MTPNS
+                    pushNotificationServer: Constants.MTPNS,
                 });
             } else if (value === PUSH_NOTIFICATIONS_CUSTOM &&
                 (this.state.pushNotificationServerType === PUSH_NOTIFICATIONS_MTPNS ||
                 this.state.pushNotificationServerType === PUSH_NOTIFICATIONS_MHPNS)) {
                 this.setState({
-                    pushNotificationServer: ''
+                    pushNotificationServer: '',
                 });
             }
         }
@@ -96,7 +96,7 @@ export default class PushSettings extends AdminSettings {
             pushNotificationServerType,
             pushNotificationServer,
             pushNotificationContents: config.EmailSettings.PushNotificationContents,
-            agree
+            agree,
         };
     }
 
@@ -213,7 +213,7 @@ export default class PushSettings extends AdminSettings {
                     values={[
                         {value: 'generic_no_channel', text: Utils.localizeMessage('admin.email.genericNoChannelPushNotification', '"Send generic description with only sender name')},
                         {value: 'generic', text: Utils.localizeMessage('admin.email.genericPushNotification', 'Send generic description with sender and channel names')},
-                        {value: 'full', text: Utils.localizeMessage('admin.email.fullPushNotification', 'Send full message snippet')}
+                        {value: 'full', text: Utils.localizeMessage('admin.email.fullPushNotification', 'Send full message snippet')},
                     ]}
                     label={
                         <FormattedMessage

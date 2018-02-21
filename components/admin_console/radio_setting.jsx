@@ -53,7 +53,7 @@ export default class RadioSetting extends React.Component {
 }
 
 RadioSetting.defaultProps = {
-    isDisabled: false
+    isDisabled: false,
 };
 
 RadioSetting.propTypes = {
@@ -63,5 +63,5 @@ RadioSetting.propTypes = {
     value: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
-    helpText: PropTypes.node
+    helpText: PropTypes.node,
 };

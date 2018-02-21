@@ -17,11 +17,11 @@ export default class BackstageList extends React.Component {
         emptyText: PropTypes.node,
         helpText: PropTypes.node,
         loading: PropTypes.bool.isRequired,
-        searchPlaceholder: PropTypes.string
+        searchPlaceholder: PropTypes.string,
     }
 
     static defaultProps = {
-        searchPlaceholder: Utils.localizeMessage('backstage_list.search', 'Search')
+        searchPlaceholder: Utils.localizeMessage('backstage_list.search', 'Search'),
     }
 
     constructor(props) {
@@ -30,13 +30,13 @@ export default class BackstageList extends React.Component {
         this.updateFilter = this.updateFilter.bind(this);
 
         this.state = {
-            filter: ''
+            filter: '',
         };
     }
 
     updateFilter(e) {
         this.setState({
-            filter: e.target.value
+            filter: e.target.value,
         });
     }
 
@@ -112,5 +112,5 @@ export default class BackstageList extends React.Component {
 }
 
 const style = {
-    search: {flexGrow: 0, flexShrink: 0}
+    search: {flexGrow: 0, flexShrink: 0},
 };

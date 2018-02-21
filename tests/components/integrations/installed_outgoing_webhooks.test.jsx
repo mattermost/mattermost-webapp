@@ -29,7 +29,7 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
                 trigger_when: 0,
                 trigger_words: ['build'],
                 0: 'asdf',
-                update_at: 1508329149618
+                update_at: 1508329149618,
             },
             {
                 callback_urls: ['http://adsfdasd.com'],
@@ -46,8 +46,8 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
                 trigger_when: 0,
                 trigger_words: ['test'],
                 0: 'asdf',
-                update_at: 1508329149618
-            }
+                update_at: 1508329149618,
+            },
         ];
     });
 
@@ -61,34 +61,34 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
                 canChange={true}
                 team={{
                     id: teamId,
-                    name: 'test'
+                    name: 'test',
                 }}
                 channels={{
                     mdpzfpfcxi85zkkqkzkch4b85h: {
                         id: 'mdpzfpfcxi85zkkqkzkch4b85h',
                         name: 'town-square',
-                        display_name: 'town-square'
-                    }
+                        display_name: 'town-square',
+                    },
                 }}
                 teamId={teamId}
                 actions={{
                     removeOutgoingHook: emptyFunction,
                     getOutgoingHooks,
-                    regenOutgoingHookToken: emptyFunction
+                    regenOutgoingHookToken: emptyFunction,
                 }}
                 user={{
                     first_name: 'sudheer',
                     id: 'zaktnt8bpbgu8mb6ez9k64r7sa',
                     roles: 'system_admin system_user',
-                    username: 'sudheerdev'
+                    username: 'sudheerdev',
                 }}
                 users={{
                     zaktnt8bpbgu8mb6ez9k64r7sa: {
                         first_name: 'sudheer',
                         id: 'zaktnt8bpbgu8mb6ez9k64r7sa',
                         roles: 'system_admin system_user',
-                        username: 'sudheerdev'
-                    }
+                        username: 'sudheerdev',
+                    },
                 }}
                 enableOutgoingWebhooks={true}
             />
@@ -106,34 +106,34 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
                 canChange={true}
                 team={{
                     id: teamId,
-                    name: 'test'
+                    name: 'test',
                 }}
                 channels={{
                     mdpzfpfcxi85zkkqkzkch4b85h: {
                         id: 'mdpzfpfcxi85zkkqkzkch4b85h',
                         name: 'town-square',
-                        display_name: 'town-square'
-                    }
+                        display_name: 'town-square',
+                    },
                 }}
                 teamId={teamId}
                 actions={{
                     removeOutgoingHook: emptyFunction,
                     getOutgoingHooks,
-                    regenOutgoingHookToken: mockFunc
+                    regenOutgoingHookToken: mockFunc,
                 }}
                 user={{
                     first_name: 'sudheer',
                     id: 'zaktnt8bpbgu8mb6ez9k64r7sa',
                     roles: 'system_admin system_user',
-                    username: 'sudheerdev'
+                    username: 'sudheerdev',
                 }}
                 users={{
                     zaktnt8bpbgu8mb6ez9k64r7sa: {
                         first_name: 'sudheer',
                         id: 'zaktnt8bpbgu8mb6ez9k64r7sa',
                         roles: 'system_admin system_user',
-                        username: 'sudheerdev'
-                    }
+                        username: 'sudheerdev',
+                    },
                 }}
                 enableOutgoingWebhooks={true}
             />
@@ -153,34 +153,34 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
                 canChange={true}
                 team={{
                     id: teamId,
-                    name: 'test'
+                    name: 'test',
                 }}
                 channels={{
                     mdpzfpfcxi85zkkqkzkch4b85h: {
                         id: 'mdpzfpfcxi85zkkqkzkch4b85h',
                         name: 'town-square',
-                        display_name: 'town-square'
-                    }
+                        display_name: 'town-square',
+                    },
                 }}
                 teamId={teamId}
                 actions={{
                     removeOutgoingHook: mockFunc,
                     getOutgoingHooks,
-                    regenOutgoingHookToken: emptyFunction
+                    regenOutgoingHookToken: emptyFunction,
                 }}
                 user={{
                     first_name: 'sudheer',
                     id: 'zaktnt8bpbgu8mb6ez9k64r7sa',
                     roles: 'system_admin system_user',
-                    username: 'sudheerdev'
+                    username: 'sudheerdev',
                 }}
                 users={{
                     zaktnt8bpbgu8mb6ez9k64r7sa: {
                         first_name: 'sudheer',
                         id: 'zaktnt8bpbgu8mb6ez9k64r7sa',
                         roles: 'system_admin system_user',
-                        username: 'sudheerdev'
-                    }
+                        username: 'sudheerdev',
+                    },
                 }}
                 enableOutgoingWebhooks={true}
             />

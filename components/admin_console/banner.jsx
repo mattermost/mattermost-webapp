@@ -35,5 +35,5 @@ Banner.defaultProps = {
 };
 Banner.propTypes = {
     title: PropTypes.node,
-    description: PropTypes.node.isRequired
+    description: PropTypes.node.isRequired,
 };

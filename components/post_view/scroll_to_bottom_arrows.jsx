@@ -11,7 +11,7 @@ export default class ScrollToBottomArrows extends React.PureComponent {
     static propTypes = {
         isScrolling: PropTypes.bool.isRequired,
         atBottom: PropTypes.bool.isRequired,
-        onClick: PropTypes.func.isRequired
+        onClick: PropTypes.func.isRequired,
     };
 
     render() {

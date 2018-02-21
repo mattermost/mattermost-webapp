@@ -9,12 +9,12 @@ export default class LoadingScreen extends React.Component {
     static propTypes = {
         position: PropTypes.oneOf(['absolute', 'fixed', 'relative', 'static', 'inherit']),
         style: PropTypes.object,
-        message: PropTypes.node
+        message: PropTypes.node,
     }
 
     static defaultProps = {
         position: 'relative',
-        style: {}
+        style: {},
     }
 
     constructor(props) {

@@ -22,7 +22,7 @@ export default class PersistGate extends React.PureComponent {
         /**
          * The children that will be rendered once storage has been initialized
          */
-        children: PropTypes.node.isRequired
+        children: PropTypes.node.isRequired,
     };
 
     render() {

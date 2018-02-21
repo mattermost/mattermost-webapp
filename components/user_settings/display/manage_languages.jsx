@@ -16,7 +16,7 @@ export default class ManageLanguage extends React.Component {
 
         this.state = {
             locale: props.locale,
-            isSaving: false
+            isSaving: false,
         };
     }
 
@@ -30,7 +30,7 @@ export default class ManageLanguage extends React.Component {
         } else {
             this.submitUser({
                 ...this.props.user,
-                locale: this.state.locale
+                locale: this.state.locale,
             });
         }
     }
@@ -68,7 +68,7 @@ export default class ManageLanguage extends React.Component {
             return {
                 value: locales[l].value,
                 name: locales[l].name,
-                order: locales[l].order
+                order: locales[l].order,
             };
         }).sort((a, b) => a.order - b.order);
 
@@ -135,5 +135,5 @@ export default class ManageLanguage extends React.Component {
 ManageLanguage.propTypes = {
     user: PropTypes.object.isRequired,
     locale: PropTypes.string.isRequired,
-    updateSection: PropTypes.func.isRequired
+    updateSection: PropTypes.func.isRequired,
 };

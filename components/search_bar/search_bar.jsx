@@ -29,8 +29,8 @@ export default class SearchBar extends React.Component {
             showSearchResults: PropTypes.func,
             showMentions: PropTypes.func,
             showFlaggedPosts: PropTypes.func,
-            closeRightHandSide: PropTypes.func
-        })
+            closeRightHandSide: PropTypes.func,
+        }),
     };
 
     constructor() {
@@ -38,7 +38,7 @@ export default class SearchBar extends React.Component {
 
         this.state = {
             focused: false,
-            isPristine: true
+            isPristine: true,
         };
 
         this.suggestionProviders = [new SearchChannelProvider(), new SearchUserProvider()];
@@ -95,7 +95,7 @@ export default class SearchBar extends React.Component {
     handleSearch = async (terms) => {
         if (terms.length) {
             this.setState({
-                isPristine: false
+                isPristine: false,
             });
 
             const {error} = await this.props.actions.showSearchResults();
@@ -326,15 +326,15 @@ export default class SearchBar extends React.Component {
 
 SearchBar.defaultProps = {
     showMentionFlagBtns: true,
-    isFocus: false
+    isFocus: false,
 };
 
 SearchBar.propTypes = {
     showMentionFlagBtns: PropTypes.bool,
     isCommentsPage: PropTypes.bool,
-    isFocus: PropTypes.bool
+    isFocus: PropTypes.bool,
 };
 
 const style = {
-    searchForm: {overflow: 'visible'}
+    searchForm: {overflow: 'visible'},
 };

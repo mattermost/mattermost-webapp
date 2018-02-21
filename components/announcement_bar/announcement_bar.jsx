@@ -37,7 +37,7 @@ export default class AnnouncementBar extends React.PureComponent {
         enableBanner: PropTypes.bool.isRequired,
         bannerColor: PropTypes.string,
         bannerTextColor: PropTypes.string,
-        enableSignUpWithGitLab: PropTypes.bool.isRequired
+        enableSignUpWithGitLab: PropTypes.bool.isRequired,
     }
 
     constructor(props) {
@@ -107,7 +107,7 @@ export default class AnnouncementBar extends React.PureComponent {
                 color: this.props.bannerColor,
                 textColor: this.props.bannerTextColor,
                 type: BAR_ANNOUNCEMENT_TYPE,
-                allowDismissal
+                allowDismissal,
             };
         }
 
@@ -249,7 +249,7 @@ export default class AnnouncementBar extends React.PureComponent {
                     defaultMessage='Enterprise license expires on {date}. <a href="{link}" target="_blank">Please renew</a>.'
                     values={{
                         date: displayExpiryDate(),
-                        link: renewalLink
+                        link: renewalLink,
                     }}
                 />
             );
@@ -259,7 +259,7 @@ export default class AnnouncementBar extends React.PureComponent {
                     id={ErrorBarTypes.LICENSE_EXPIRED}
                     defaultMessage='Enterprise license is expired and some features may be disabled. <a href="{link}" target="_blank">Please renew</a>.'
                     values={{
-                        link: renewalLink
+                        link: renewalLink,
                     }}
                 />
             );
@@ -312,7 +312,7 @@ export default class AnnouncementBar extends React.PureComponent {
                                     defaultMessage='the System Console'
                                 />
                             </Link>
-                        )
+                        ),
                     }}
                 />
             );

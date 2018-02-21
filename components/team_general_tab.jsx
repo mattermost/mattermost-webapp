@@ -48,7 +48,7 @@ class GeneralTab extends React.Component {
             allow_open_invite: team.allow_open_invite,
             description: team.description,
             serverError: '',
-            clientError: ''
+            clientError: '',
         };
     }
 
@@ -57,7 +57,7 @@ class GeneralTab extends React.Component {
             name: nextProps.team.display_name,
             description: nextProps.team.description,
             invite_id: nextProps.team.invite_id,
-            allow_open_invite: nextProps.team.allow_open_invite
+            allow_open_invite: nextProps.team.allow_open_invite,
         });
     }
 
@@ -108,7 +108,7 @@ class GeneralTab extends React.Component {
                     defaultMessage='Team Name must be {min} or more characters up to a maximum of {max}. You can add a longer team description.'
                     values={{
                         min: Constants.MIN_TEAMNAME_LENGTH,
-                        max: Constants.MAX_TEAMNAME_LENGTH
+                        max: Constants.MAX_TEAMNAME_LENGTH,
                     }}
                 />
             );
@@ -280,7 +280,7 @@ class GeneralTab extends React.Component {
                             defaultMessage='When allowed, a link to this team will be included on the landing page allowing anyone with an account to join this team.'
                         />
                     </div>
-                </div>
+                </div>,
             ];
 
             openInviteSection = (
@@ -355,7 +355,7 @@ class GeneralTab extends React.Component {
                                             defaultMessage='Get Team Invite Link'
                                         />
                                     </strong>
-                                )
+                                ),
                             }}
                         />
                     </div>
@@ -573,7 +573,7 @@ GeneralTab.propTypes = {
     team: PropTypes.object.isRequired,
     activeSection: PropTypes.string.isRequired,
     closeModal: PropTypes.func.isRequired,
-    collapseModal: PropTypes.func.isRequired
+    collapseModal: PropTypes.func.isRequired,
 };
 
 export default GeneralTab;

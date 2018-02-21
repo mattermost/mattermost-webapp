@@ -18,7 +18,7 @@ function mapStateToProps(state) {
         config: Selectors.getConfig(state),
         license: getLicense(state),
         navigationBlocked: getNavigationBlocked(state),
-        showNavigationPrompt: showNavigationPrompt(state)
+        showNavigationPrompt: showNavigationPrompt(state),
     };
 }
 
@@ -29,8 +29,8 @@ function mapDispatchToProps(dispatch) {
             setNavigationBlocked,
             deferNavigation,
             cancelNavigation,
-            confirmNavigation
-        }, dispatch)
+            confirmNavigation,
+        }, dispatch),
     };
 }
 

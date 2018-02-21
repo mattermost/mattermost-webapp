@@ -37,10 +37,10 @@ export default class MattermostLogo extends React.PureComponent {
 
 const style = {
     background: {
-        enableBackground: 'new 0 0 500 500'
+        enableBackground: 'new 0 0 500 500',
     },
     st0: {
         fillRule: 'evenodd',
-        clipRule: 'evenodd'
-    }
+        clipRule: 'evenodd',
+    },
 };

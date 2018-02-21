@@ -35,15 +35,15 @@ function mapStateToProps(state) {
         ),
         showUnusedOption: config.CloseUnusedDirectMessages === 'true',
         showUnreadOption: config.ExperimentalGroupUnreadChannels !== GroupUnreadChannels.DISABLED,
-        user: getCurrentUser(state)
+        user: getCurrentUser(state),
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            savePreferences
-        }, dispatch)
+            savePreferences,
+        }, dispatch),
     };
 }
 

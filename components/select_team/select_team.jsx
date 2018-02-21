@@ -22,8 +22,8 @@ import SelectTeamItem from './components/select_team_item.jsx';
 export default class SelectTeam extends React.Component {
     static propTypes = {
         actions: PropTypes.shape({
-            getTeams: PropTypes.func.isRequired
-        }).isRequired
+            getTeams: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -53,7 +53,7 @@ export default class SelectTeam extends React.Component {
             teams: TeamStore.getAll(),
             teamMembers: TeamStore.getMyTeamMembers(),
             teamListings: TeamStore.getTeamListings(),
-            loaded
+            loaded,
         };
     }
 
@@ -67,7 +67,7 @@ export default class SelectTeam extends React.Component {
             (error) => {
                 this.setState({
                     error,
-                    loadingTeamId: ''
+                    loadingTeamId: '',
                 });
             }
         );
@@ -82,7 +82,7 @@ export default class SelectTeam extends React.Component {
         e.preventDefault();
 
         this.setState({
-            error: null
+            error: null,
         });
     };
 

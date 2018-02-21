@@ -9,7 +9,7 @@ import DeleteModalTrigger from 'components/delete_modal_trigger.jsx';
 export default class DeleteEmoji extends DeleteModalTrigger {
 
     static propTypes = {
-        onDelete: PropTypes.func.isRequired
+        onDelete: PropTypes.func.isRequired,
     }
 
     get triggerTitle() {

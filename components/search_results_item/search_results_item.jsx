@@ -111,15 +111,15 @@ export default class SearchResultsItem extends React.PureComponent {
         *  Function used for closing LHS
         */
         actions: PropTypes.shape({
-            closeRightHandSide: PropTypes.func.isRequired
-        }).isRequired
+            closeRightHandSide: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     constructor(props) {
         super(props);
 
         this.state = {
-            dropdownOpened: false
+            dropdownOpened: false,
         };
     }
 
@@ -145,7 +145,7 @@ export default class SearchResultsItem extends React.PureComponent {
 
     handleDropdownOpened = (isOpened) => {
         this.setState({
-            dropdownOpened: isOpened
+            dropdownOpened: isOpened,
         });
     };
 
@@ -193,7 +193,7 @@ export default class SearchResultsItem extends React.PureComponent {
                         id='search_item.direct'
                         defaultMessage='Direct Message (with {username})'
                         values={{
-                            username: Utils.displayUsernameForUser(Utils.getDirectTeammate(channel.id))
+                            username: Utils.displayUsernameForUser(Utils.getDirectTeammate(channel.id)),
                         }}
                     />
                 );
@@ -298,7 +298,7 @@ export default class SearchResultsItem extends React.PureComponent {
                         post={post}
                         options={{
                             searchTerm: this.props.term,
-                            mentionHighlight: this.props.isMentionSearch
+                            mentionHighlight: this.props.isMentionSearch,
                         }}
                     />
                 </PostBodyAdditionalContent>

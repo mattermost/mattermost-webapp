@@ -7,7 +7,7 @@ import {shallow} from 'enzyme';
 import CreateComment from 'components/create_comment/create_comment.jsx';
 
 jest.mock('stores/post_store.jsx', () => ({
-    clearCommentDraftUploads: jest.fn()
+    clearCommentDraftUploads: jest.fn(),
 }));
 
 describe('components/CreateComment', () => {
@@ -22,7 +22,7 @@ describe('components/CreateComment', () => {
         draft: {
             message: 'Test message',
             uploadsInProgress: [{}],
-            fileInfos: [{}, {}, {}]
+            fileInfos: [{}, {}, {}],
         },
         enableAddButton: true,
         ctrlSend: false,
@@ -38,14 +38,14 @@ describe('components/CreateComment', () => {
         resetCreatePostRequest: jest.fn(),
         readOnlyChannel: false,
         enableEmojiPicker: true,
-        enableConfirmNotificationsToChannel: true
+        enableConfirmNotificationsToChannel: true,
     };
 
     test('should match snapshot, empty comment', () => {
         const draft = {
             message: '',
             uploadsInProgress: [],
-            fileInfos: []
+            fileInfos: [],
         };
         const enableAddButton = false;
         const ctrlSend = true;
@@ -64,7 +64,7 @@ describe('components/CreateComment', () => {
         const draft = {
             message: 'Test message',
             uploadsInProgress: [],
-            fileInfos: []
+            fileInfos: [],
         };
         const ctrlSend = true;
         const props = {...baseProps, ctrlSend, draft, clearCommentDraftUploads, onResetHistoryIndex};
@@ -86,7 +86,7 @@ describe('components/CreateComment', () => {
         const draft = {
             message: 'Test message',
             uploadsInProgress: [{}],
-            fileInfos: [{}, {}, {}]
+            fileInfos: [{}, {}, {}],
         };
 
         const wrapper = shallow(
@@ -123,7 +123,7 @@ describe('components/CreateComment', () => {
         const draft = {
             message: '',
             uploadsInProgress: [],
-            fileInfos: []
+            fileInfos: [],
         };
         const enableAddButton = false;
         const props = {...baseProps, draft, onUpdateCommentDraft, enableAddButton};
@@ -179,7 +179,7 @@ describe('components/CreateComment', () => {
         const draft = {
             message: 'Test message',
             uploadsInProgress: [1, 2, 3],
-            fileInfos: [{}, {}, {}]
+            fileInfos: [{}, {}, {}],
         };
         const props = {...baseProps, draft, onUpdateCommentDraft};
 
@@ -247,7 +247,7 @@ describe('components/CreateComment', () => {
         const draft = {
             message: 'Test message',
             uploadsInProgress: [1, 2, 3],
-            fileInfos: [{}, {}, {}]
+            fileInfos: [{}, {}, {}],
         };
         const props = {...baseProps, onUpdateCommentDraft, draft};
 
@@ -274,7 +274,7 @@ describe('components/CreateComment', () => {
         const draft = {
             message: 'Test message',
             uploadsInProgress: [1, 2, 3],
-            fileInfos: [{test: 1}, {test: 2}]
+            fileInfos: [{test: 1}, {test: 2}],
         };
         const props = {...baseProps, onUpdateCommentDraft, draft};
 
@@ -299,7 +299,7 @@ describe('components/CreateComment', () => {
         const draft = {
             message: 'Test message',
             uploadsInProgress: [1, 2, 3],
-            fileInfos: [{test: 1}, {test: 2}]
+            fileInfos: [{test: 1}, {test: 2}],
         };
         const props = {...baseProps, onUpdateCommentDraft, draft};
 
@@ -317,7 +317,7 @@ describe('components/CreateComment', () => {
         const draft = {
             message: 'Test message',
             uploadsInProgress: [1, 2, 3],
-            fileInfos: [{test: 1}, {test: 2}]
+            fileInfos: [{test: 1}, {test: 2}],
         };
         const props = {...baseProps, draft};
 
@@ -336,7 +336,7 @@ describe('components/CreateComment', () => {
         const draft = {
             message: 'Test message',
             uploadsInProgress: [1, 2, 3],
-            fileInfos: [{}, {}, {}]
+            fileInfos: [{}, {}, {}],
         };
         const props = {...baseProps, onUpdateCommentDraft, draft};
 
@@ -361,7 +361,7 @@ describe('components/CreateComment', () => {
         const draft = {
             message: 'Test message',
             uploadsInProgress: [1, 2, 3],
-            fileInfos: [{}, {}, {}]
+            fileInfos: [{}, {}, {}],
         };
         const props = {...baseProps, draft};
 
@@ -380,7 +380,7 @@ describe('components/CreateComment', () => {
         const draft = {
             message: 'Test message',
             uploadsInProgress: [],
-            fileInfos: [{}, {}, {}]
+            fileInfos: [{}, {}, {}],
         };
         const props = {...baseProps, draft, onSubmit};
 
@@ -411,11 +411,11 @@ describe('components/CreateComment', () => {
                         draft: {
                             message: `Test message @${mention}`,
                             uploadsInProgress: [],
-                            fileInfos: [{}, {}, {}]
+                            fileInfos: [{}, {}, {}],
                         },
                         onSubmit,
                         channelMembersCount: 1,
-                        enableConfirmNotificationsToChannel: true
+                        enableConfirmNotificationsToChannel: true,
                     };
 
                     const wrapper = shallow(
@@ -434,11 +434,11 @@ describe('components/CreateComment', () => {
                         draft: {
                             message: `Test message @${mention}`,
                             uploadsInProgress: [],
-                            fileInfos: [{}, {}, {}]
+                            fileInfos: [{}, {}, {}],
                         },
                         onSubmit,
                         channelMembersCount: 8,
-                        enableConfirmNotificationsToChannel: false
+                        enableConfirmNotificationsToChannel: false,
                     };
 
                     const wrapper = shallow(
@@ -457,11 +457,11 @@ describe('components/CreateComment', () => {
                         draft: {
                             message: `Test message ${mention}`,
                             uploadsInProgress: [],
-                            fileInfos: [{}, {}, {}]
+                            fileInfos: [{}, {}, {}],
                         },
                         onSubmit,
                         channelMembersCount: 8,
-                        enableConfirmNotificationsToChannel: true
+                        enableConfirmNotificationsToChannel: true,
                     };
 
                     const wrapper = shallow(
@@ -481,11 +481,11 @@ describe('components/CreateComment', () => {
                     draft: {
                         message: `Test message @${mention}`,
                         uploadsInProgress: [],
-                        fileInfos: [{}, {}, {}]
+                        fileInfos: [{}, {}, {}],
                     },
                     onSubmit,
                     channelMembersCount: 8,
-                    enableConfirmNotificationsToChannel: true
+                    enableConfirmNotificationsToChannel: true,
                 };
 
                 const wrapper = shallow(
@@ -505,7 +505,7 @@ describe('components/CreateComment', () => {
         const draft = {
             message: 'Test message',
             uploadsInProgress: [4, 5, 6],
-            fileInfos: [{id: 1}, {id: 2}, {id: 3}]
+            fileInfos: [{id: 1}, {id: 2}, {id: 3}],
         };
         const props = {...baseProps, draft, onUpdateCommentDraft};
 
@@ -533,7 +533,7 @@ describe('components/CreateComment', () => {
         const draft = {
             message: 'Test message',
             uploadsInProgress: [],
-            fileInfos: [{}, {}, {}]
+            fileInfos: [{}, {}, {}],
         };
 
         const wrapper = shallow(
@@ -550,7 +550,7 @@ describe('components/CreateComment', () => {
         const draft = {
             message: 'Test message',
             uploadsInProgress: [4, 5, 6],
-            fileInfos: [{id: 1}, {id: 2}, {id: 3}]
+            fileInfos: [{id: 1}, {id: 2}, {id: 3}],
         };
 
         const wrapper = shallow(

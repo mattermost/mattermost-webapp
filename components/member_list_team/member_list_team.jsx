@@ -20,8 +20,8 @@ export default class MemberListTeam extends React.Component {
     static propTypes = {
         isAdmin: PropTypes.bool,
         actions: PropTypes.shape({
-            getTeamStats: PropTypes.func.isRequired
-        }).isRequired
+            getTeamStats: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -41,7 +41,7 @@ export default class MemberListTeam extends React.Component {
             users: UserStore.getProfileListInTeam(),
             teamMembers: Object.assign([], TeamStore.getMembersInTeam()),
             total: stats.active_member_count,
-            loading: true
+            loading: true,
         };
     }
 
@@ -140,7 +140,7 @@ export default class MemberListTeam extends React.Component {
                 if (teamMembers[user.id] && user.delete_at === 0) {
                     usersToDisplay.push(user);
                     actionUserProps[user.id] = {
-                        teamMember: teamMembers[user.id]
+                        teamMember: teamMembers[user.id],
                     };
                 }
             }

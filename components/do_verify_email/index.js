@@ -13,15 +13,15 @@ function mapStateToProps(state) {
     const siteName = config.SiteName;
 
     return {
-        siteName
+        siteName,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: {
-            verifyUserEmail: bindActionCreators(verifyUserEmail, dispatch)
-        }
+            verifyUserEmail: bindActionCreators(verifyUserEmail, dispatch),
+        },
     };
 }
 

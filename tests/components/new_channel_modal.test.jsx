@@ -21,7 +21,7 @@ describe('components/NewChannelModal', () => {
         onModalDismissed: jest.fn(),
         onTypeSwitched: jest.fn(),
         onChangeURLPressed: jest.fn(),
-        onDataChanged: jest.fn()
+        onDataChanged: jest.fn(),
     };
 
     test('should match snapshot, modal not showing', () => {
@@ -87,7 +87,7 @@ describe('components/NewChannelModal', () => {
         const props = {
             ...baseProps,
             showCreatePublicChannelOption: false,
-            showCreatePrivateChannelOption: false
+            showCreatePrivateChannelOption: false,
         };
         const wrapper = shallow(
             <NewChannelModal {...props}/>

@@ -14,8 +14,8 @@ describe('components/AccessHistoryModal', () => {
     const baseProps = {
         onHide: jest.fn(),
         actions: {
-            getUserAudits: jest.fn()
-        }
+            getUserAudits: jest.fn(),
+        },
     };
 
     test('should match snapshot when no audits exist', () => {
@@ -40,7 +40,7 @@ describe('components/AccessHistoryModal', () => {
 
     test('should have called actions.getUserAudits when onShow is called', () => {
         const actions = {
-            getUserAudits: jest.fn()
+            getUserAudits: jest.fn(),
         };
         const props = {...baseProps, actions};
         const wrapper = shallow(

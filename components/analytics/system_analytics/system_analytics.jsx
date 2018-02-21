@@ -18,14 +18,14 @@ import {
     formatPostsPerDayData,
     formatUsersWithPostsPerDayData,
     formatChannelDoughtnutData,
-    formatPostDoughtnutData
+    formatPostDoughtnutData,
 } from '../format.jsx';
 
 const StatTypes = Constants.StatTypes;
 
 export default class SystemAnalytics extends React.Component {
     static propTypes = {
-        isLicensed: PropTypes.bool.isRequired
+        isLicensed: PropTypes.bool.isRequired,
     }
 
     constructor(props) {

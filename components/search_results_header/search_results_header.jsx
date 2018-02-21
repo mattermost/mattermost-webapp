@@ -17,8 +17,8 @@ export default class SearchResultsHeader extends React.Component {
         shrink: PropTypes.func,
         channelDisplayName: PropTypes.string.isRequired,
         actions: PropTypes.shape({
-            closeRightHandSide: PropTypes.func
-        })
+            closeRightHandSide: PropTypes.func,
+        }),
     };
 
     handleClose = (e) => {
@@ -89,7 +89,7 @@ export default class SearchResultsHeader extends React.Component {
                     id='search_header.title4'
                     defaultMessage='Pinned posts in {channelDisplayName}'
                     values={{
-                        channelDisplayName: this.props.channelDisplayName
+                        channelDisplayName: this.props.channelDisplayName,
                     }}
                 />
             );

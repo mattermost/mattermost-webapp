@@ -98,7 +98,7 @@ export function doFormatText(text, options) {
                 }
 
                 return EmojiStore.getEmojiImageUrl(EmojiStore.getUnicode(icon));
-            }
+            },
         });
     }
 
@@ -136,7 +136,7 @@ function autolinkEmails(text, tokens) {
 
         tokens.set(alias, {
             value: `<a class="theme" href="${url}">${linkText}</a>`,
-            originalText: linkText
+            originalText: linkText,
         });
 
         return alias;
@@ -149,7 +149,7 @@ function autolinkEmails(text, tokens) {
         phone: false,
         mention: false,
         hashtag: false,
-        replaceFn: replaceEmailWithToken
+        replaceFn: replaceEmailWithToken,
     });
 
     return autolinker.link(text);
@@ -162,7 +162,7 @@ export function autolinkAtMentions(text, tokens) {
 
         tokens.set(alias, {
             value: `<span data-mention="${username}">@${username}</span>`,
-            originalText: fullMatch
+            originalText: fullMatch,
         });
 
         return alias;
@@ -188,7 +188,7 @@ function autolinkChannelMentions(text, tokens, channelNamesMap, team) {
 
         tokens.set(alias, {
             value: `<a class="mention-link" href="${href}" data-channel-mention="${channelName}">~${displayName}</a>`,
-            originalText: mention
+            originalText: mention,
         });
         return alias;
     }
@@ -239,7 +239,7 @@ const htmlEntities = {
     '<': '&lt;',
     '>': '&gt;',
     '"': '&quot;',
-    "'": '&#039;'
+    "'": '&#039;',
 };
 
 export function escapeHtml(text) {
@@ -258,7 +258,7 @@ function highlightCurrentMentions(text, tokens, mentionKeys = []) {
 
             newTokens.set(newAlias, {
                 value: `<span class='mention--highlight'>${alias}</span>`,
-                originalText: token.originalText
+                originalText: token.originalText,
             });
             output = output.replace(alias, newAlias);
         }
@@ -276,7 +276,7 @@ function highlightCurrentMentions(text, tokens, mentionKeys = []) {
 
         tokens.set(alias, {
             value: `<span class='mention--highlight'>${mention}</span>`,
-            originalText: mention
+            originalText: mention,
         });
 
         return prefix + alias;
@@ -310,7 +310,7 @@ function autolinkHashtags(text, tokens) {
             newTokens.set(newAlias, {
                 value: `<a class='mention-link' href='#' data-hashtag='${token.originalText}'>${token.originalText}</a>`,
                 originalText: token.originalText,
-                hashtag: token.originalText.substring(1)
+                hashtag: token.originalText.substring(1),
             });
 
             output = output.replace(alias, newAlias);
@@ -335,7 +335,7 @@ function autolinkHashtags(text, tokens) {
         tokens.set(alias, {
             value: `<a class='mention-link' href='#' data-hashtag='${originalText}'>${originalText}</a>`,
             originalText,
-            hashtag: originalText.substring(1)
+            hashtag: originalText.substring(1),
         });
 
         return prefix + alias;
@@ -422,7 +422,7 @@ function convertSearchTermToRegex(term) {
 
     return {
         pattern: new RegExp(pattern, 'gi'),
-        term
+        term,
     };
 }
 
@@ -439,7 +439,7 @@ export function highlightSearchTerms(text, tokens, searchPatterns) {
 
         tokens.set(alias, {
             value: `<span class='search-highlight'>${word}</span>`,
-            originalText: word
+            originalText: word,
         });
 
         return prefix + alias;
@@ -469,7 +469,7 @@ export function highlightSearchTerms(text, tokens, searchPatterns) {
 
                 newTokens.set(newAlias, {
                     value: `<span class='search-highlight'>${alias}</span>`,
-                    originalText: token.originalText
+                    originalText: token.originalText,
                 });
 
                 output = output.replace(alias, newAlias);

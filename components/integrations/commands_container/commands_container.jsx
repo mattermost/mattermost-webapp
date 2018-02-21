@@ -55,19 +55,19 @@ export default class CommandsContainer extends React.PureComponent {
             /**
             * The function to call to fetch team commands
             */
-            getCustomTeamCommands: PropTypes.func.isRequired
+            getCustomTeamCommands: PropTypes.func.isRequired,
         }).isRequired,
 
         /**
         * Whether or not commands are enabled.
         */
-        enableCommands: PropTypes.bool
+        enableCommands: PropTypes.bool,
     }
 
     constructor(props) {
         super(props);
         this.state = {
-            loading: true
+            loading: true,
         };
     }
 
@@ -86,7 +86,7 @@ export default class CommandsContainer extends React.PureComponent {
             users: this.props.users,
             team: this.props.team,
             user: this.props.user,
-            isAdmin: this.props.isAdmin
+            isAdmin: this.props.isAdmin,
         };
         return (
             <div>

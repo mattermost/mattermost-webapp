@@ -12,7 +12,7 @@ export default class SelectTeamItem extends React.PureComponent {
     static propTypes = {
         team: PropTypes.object.isRequired,
         onTeamClick: PropTypes.func.isRequired,
-        loading: PropTypes.bool.isRequired
+        loading: PropTypes.bool.isRequired,
     };
 
     handleTeamClick = (e) => {

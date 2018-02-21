@@ -17,7 +17,7 @@ export default class QuickInput extends React.PureComponent {
         /**
          * The string value displayed in this input
          */
-        value: PropTypes.string.isRequired
+        value: PropTypes.string.isRequired,
     };
 
     componentDidUpdate(prevProps) {
@@ -54,7 +54,7 @@ export default class QuickInput extends React.PureComponent {
             {
                 ...props,
                 ref: 'input',
-                defaultValue: value // Only set the defaultValue since the real one will be updated using componentDidUpdate
+                defaultValue: value, // Only set the defaultValue since the real one will be updated using componentDidUpdate
             }
         );
     }

@@ -160,7 +160,7 @@ describe('TextFormatting.Hashtags', function() {
         );
 
         let options = {
-            atMentions: true
+            atMentions: true,
         };
         assert.equal(
             TextFormatting.formatText('#@test', options).trim(),
@@ -174,9 +174,9 @@ describe('TextFormatting.Hashtags', function() {
 
         options = {
             channelNamesMap: {
-                test: {id: '1234', name: 'test', display_name: 'Test Channel'}
+                test: {id: '1234', name: 'test', display_name: 'Test Channel'},
             },
-            team: {id: 'abcd', name: 'abcd', display_name: 'Alphabet'}
+            team: {id: 'abcd', name: 'abcd', display_name: 'Alphabet'},
         };
         assert.equal(
             TextFormatting.formatText('#~test', options).trim(),

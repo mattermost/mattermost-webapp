@@ -30,7 +30,7 @@ export default class DoughnutChart extends React.PureComponent {
         /*
          * Chart data
          */
-        data: PropTypes.object
+        data: PropTypes.object,
     };
 
     chart = null;

@@ -19,7 +19,7 @@ function mapStateToProps(state) {
 
     return {
         isPinnedPosts: rhsState === RHSStates.PIN,
-        enableWebrtc
+        enableWebrtc,
     };
 }
 
@@ -28,8 +28,8 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             closeRightHandSide,
             updateRhsState,
-            showPinnedPosts
-        }, dispatch)
+            showPinnedPosts,
+        }, dispatch),
     };
 }
 

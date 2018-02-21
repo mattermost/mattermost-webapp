@@ -18,5 +18,5 @@ module.exports = {
 
         logoutPage.navigate().
             logout();
-    }
+    },
 };
