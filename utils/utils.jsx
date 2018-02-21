@@ -58,6 +58,13 @@ export function cmdOrCtrlPressed(e, allowAlt = false) {
     return (isMac() && e.metaKey) || (!isMac() && e.ctrlKey && !e.altKey);
 }
 
+export function isKeyPressed(event, key) {
+    if (typeof event.key !== 'undefined' && event.key !== 'Unidentified' && event.key !== 'Dead') {
+        return event.key === key[0];
+    }
+    return event.keyCode === key[1];
+}
+
 export function isInRole(roles, inRole) {
     if (roles) {
         var parts = roles.split(' ');
