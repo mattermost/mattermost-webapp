@@ -221,8 +221,13 @@ export default class Sidebar extends React.PureComponent {
     }
 
     setFirstAndLastUnreadChannels() {
+        const {
+            currentChannel,
+            unreadChannelIds,
+        } = this.props;
+
         this.getDisplayedChannels().map((channelId) => {
-            if (channelId !== this.props.currentChannel.id && this.props.unreadChannelIds.includes(channelId)) {
+            if (channelId !== currentChannel.id && unreadChannelIds.includes(channelId)) {
                 if (!this.firstUnreadChannel) {
                     this.firstUnreadChannel = channelId;
                 }
@@ -404,8 +409,15 @@ export default class Sidebar extends React.PureComponent {
     }
 
     getDisplayedChannels = (props = this.props) => {
-        return props.unreadChannelIds.
-            concat(props.favoriteChannelIds).
+        if (props.showUnreadSection) {
+            return props.unreadChannelIds.
+                concat(props.favoriteChannelIds).
+                concat(props.publicChannelIds).
+                concat(props.privateChannelIds).
+                concat(props.directAndGroupChannelIds);
+        }
+
+        return props.favoriteChannelIds.
             concat(props.publicChannelIds).
             concat(props.privateChannelIds).
             concat(props.directAndGroupChannelIds);
