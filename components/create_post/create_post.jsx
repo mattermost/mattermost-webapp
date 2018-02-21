@@ -622,7 +622,10 @@ export default class CreatePost extends React.Component {
         } else {
             type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
         }
-        this.props.actions.setEditingPost(lastPost.id, this.props.commentCountForPost, '#post_textbox', type);
+        if (this.refs.textbox) {
+            this.refs.textbox.blur();
+        }
+        this.props.actions.setEditingPost(lastPost.id, this.props.commentCountForPost, 'post_textbox', type);
     }
 
     replyToLastPost = (e) => {

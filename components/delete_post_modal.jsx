@@ -16,10 +16,6 @@ export default class DeletePostModal extends React.Component {
     constructor(props) {
         super(props);
 
-        this.handleDelete = this.handleDelete.bind(this);
-        this.handleToggle = this.handleToggle.bind(this);
-        this.handleHide = this.handleHide.bind(this);
-
         this.state = {
             show: false,
             post: null,
@@ -46,7 +42,7 @@ export default class DeletePostModal extends React.Component {
         }
     }
 
-    handleDelete() {
+    handleDelete = () => {
         deletePost(
             this.state.post.channel_id,
             this.state.post,
@@ -59,7 +55,7 @@ export default class DeletePostModal extends React.Component {
         );
     }
 
-    handleToggle(value, args) {
+    handleToggle = (value, args) => {
         this.setState({
             show: value,
             post: args.post,
@@ -68,7 +64,7 @@ export default class DeletePostModal extends React.Component {
         });
     }
 
-    handleHide() {
+    handleHide = () => {
         this.setState({show: false});
 
         if (!UserAgent.isMobile()) {
