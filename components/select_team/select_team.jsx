@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
+import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
@@ -72,6 +72,11 @@ export default class SelectTeam extends React.Component {
             }
         );
     };
+
+    handleLogoutClick = (e) => {
+        e.preventDefault();
+        emitUserLoggedOutEvent('/login');
+    }
 
     clearError = (e) => {
         e.preventDefault();
@@ -237,7 +242,7 @@ export default class SelectTeam extends React.Component {
                 <div className='signup-header'>
                     <a
                         href='#'
-                        onClick={GlobalActions.emitUserLoggedOutEvent}
+                        onClick={this.handleLogoutClick}
                     >
                         <span className='fa fa-chevron-left'/>
                         <FormattedMessage id='web.header.logout'/>
