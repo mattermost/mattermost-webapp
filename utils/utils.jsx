@@ -1381,16 +1381,16 @@ export function canCreateCustomEmoji(user) {
     return true;
 }
 
-export function getPasswordConfig() {
+export function getPasswordConfig(license, config) {
     return {
-        isEnterprise: global.window.mm_config.BuildEnterpriseReady === 'true',
-        isLicensed: global.window.mm_license.IsLicensed === 'true',
-        isPasswordRequirements: global.window.mm_license.PasswordRequirements === 'true',
-        minimumLength: parseInt(global.window.mm_config.PasswordMinimumLength, 10),
-        requireLowercase: global.window.mm_config.PasswordRequireLowercase === 'true',
-        requireUppercase: global.window.mm_config.PasswordRequireUppercase === 'true',
-        requireNumber: global.window.mm_config.PasswordRequireNumber === 'true',
-        requireSymbol: global.window.mm_config.PasswordRequireSymbol === 'true',
+        isEnterprise: config.BuildEnterpriseReady === 'true',
+        isLicensed: license.IsLicensed === 'true',
+        isPasswordRequirements: license.PasswordRequirements === 'true',
+        minimumLength: parseInt(config.PasswordMinimumLength, 10),
+        requireLowercase: config.PasswordRequireLowercase === 'true',
+        requireUppercase: config.PasswordRequireUppercase === 'true',
+        requireNumber: config.PasswordRequireNumber === 'true',
+        requireSymbol: config.PasswordRequireSymbol === 'true',
     };
 }
 
