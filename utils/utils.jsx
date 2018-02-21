@@ -71,8 +71,8 @@ export function isInRole(roles, inRole) {
     return false;
 }
 
-export function isChannelAdmin(roles) {
-    if (global.mm_license.IsLicensed !== 'true') {
+export function isChannelAdmin(isLicensed, roles) {
+    if (!isLicensed) {
         return false;
     }
 
