@@ -25,16 +25,14 @@ function onChannelByIdentifierEnter({match, history}) {
     const {path, identifier} = match.params;
 
     if (path === 'channels') {
-        // It's hard to tell an ID apart from a channel name of the same length, so check first if
-        // the identifier matches a channel that we have
-        const channel = ChannelStore.getByName(identifier);
-        if (channel) {
-            goToChannelByChannelName(match, history);
-            return;
-        }
-
         if (identifier.length === LENGTH_OF_ID) {
-            goToChannelByChannelId(match, history);
+            // It's hard to tell an ID apart from a channel name of the same length, so check first if
+            // the identifier matches a channel that we have
+            if (ChannelStore.getByName(identifier)) {
+                goToChannelByChannelName(match, history);
+            } else {
+                goToChannelByChannelId(match, history);
+            }
         } else if (identifier.length === LENGTH_OF_GROUP_ID) {
             goToGroupChannelByGroupId(match, history);
         } else if (identifier.length === LENGTH_OF_USER_ID_PAIR) {
