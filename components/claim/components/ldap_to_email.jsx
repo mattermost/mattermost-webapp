@@ -20,7 +20,7 @@ export default class LDAPToEmail extends React.Component {
             passwordError: '',
             confirmError: '',
             ldapPasswordError: '',
-            serverError: ''
+            serverError: '',
         };
     }
 
@@ -31,7 +31,7 @@ export default class LDAPToEmail extends React.Component {
             passwordError: '',
             confirmError: '',
             ldapPasswordError: '',
-            serverError: ''
+            serverError: '',
         };
 
         const ldapPassword = this.refs.ldappassword.value;
@@ -51,7 +51,7 @@ export default class LDAPToEmail extends React.Component {
         const passwordErr = Utils.isValidPassword(password, Utils.getPasswordConfig());
         if (passwordErr !== '') {
             this.setState({
-                passwordError: passwordErr
+                passwordError: passwordErr,
             });
             return;
         }
@@ -160,7 +160,7 @@ export default class LDAPToEmail extends React.Component {
                             id='claim.ldap_to_email.email'
                             defaultMessage='After switching your authentication method, you will use {email} to login. Your AD/LDAP credentials will no longer allow access to Mattermost.'
                             values={{
-                                email: this.props.email
+                                email: this.props.email,
                             }}
                         />
                     </p>
@@ -169,7 +169,7 @@ export default class LDAPToEmail extends React.Component {
                             id='claim.ldap_to_email.enterLdapPwd'
                             defaultMessage='{ldapPassword}:'
                             values={{
-                                ldapPassword: passwordPlaceholder
+                                ldapPassword: passwordPlaceholder,
                             }}
                         />
                     </p>
@@ -241,5 +241,5 @@ export default class LDAPToEmail extends React.Component {
 }
 
 LDAPToEmail.propTypes = {
-    email: PropTypes.string
+    email: PropTypes.string,
 };

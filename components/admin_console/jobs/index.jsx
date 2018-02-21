@@ -11,15 +11,15 @@ import Table from './table.jsx';
 function mapStateToProps(state, ownProps) {
     return {
         ...ownProps,
-        jobs: Selectors.makeGetJobsByType(ownProps.jobType)(state)
+        jobs: Selectors.makeGetJobsByType(ownProps.jobType)(state),
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getJobsByType
-        }, dispatch)
+            getJobsByType,
+        }, dispatch),
     };
 }
 

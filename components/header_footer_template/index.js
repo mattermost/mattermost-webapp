@@ -9,7 +9,7 @@ import NotLoggedIn from './header_footer_template.jsx';
 function mapStateToProps(state, ownProps) {
     return {
         ...ownProps,
-        config: getConfig(state)
+        config: getConfig(state),
     };
 }
 

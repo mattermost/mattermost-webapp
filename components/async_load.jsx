@@ -10,14 +10,14 @@ export class AsyncComponent extends React.Component {
         /**
          * Function that loads the component asyncronously
          */
-        doLoad: PropTypes.func.isRequired
+        doLoad: PropTypes.func.isRequired,
     }
 
     constructor(props) {
         super(props);
 
         this.state = {
-            loadedModule: null
+            loadedModule: null,
         };
     }
 

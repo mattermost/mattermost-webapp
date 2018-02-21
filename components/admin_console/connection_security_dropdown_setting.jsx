@@ -105,7 +105,7 @@ export function ConnectionSecurityDropdownSettingEmail(props) {
             values={[
                 {value: '', text: Utils.localizeMessage('admin.connectionSecurityNone', 'None')},
                 {value: 'TLS', text: Utils.localizeMessage('admin.connectionSecurityTls', 'TLS (Recommended)')},
-                {value: 'STARTTLS', text: Utils.localizeMessage('admin.connectionSecurityStart')}
+                {value: 'STARTTLS', text: Utils.localizeMessage('admin.connectionSecurityStart')},
             ]}
             label={
                 <FormattedMessage
@@ -126,7 +126,7 @@ ConnectionSecurityDropdownSettingEmail.defaultProps = {
 ConnectionSecurityDropdownSettingEmail.propTypes = {
     value: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
-    disabled: PropTypes.bool.isRequired
+    disabled: PropTypes.bool.isRequired,
 };
 
 export function ConnectionSecurityDropdownSettingLdap(props) {
@@ -136,7 +136,7 @@ export function ConnectionSecurityDropdownSettingLdap(props) {
             values={[
                 {value: '', text: Utils.localizeMessage('admin.connectionSecurityNone', 'None')},
                 {value: 'TLS', text: Utils.localizeMessage('admin.connectionSecurityTls', 'TLS (Recommended)')},
-                {value: 'STARTTLS', text: Utils.localizeMessage('admin.connectionSecurityStart')}
+                {value: 'STARTTLS', text: Utils.localizeMessage('admin.connectionSecurityStart')},
             ]}
             label={
                 <FormattedMessage
@@ -157,7 +157,7 @@ ConnectionSecurityDropdownSettingLdap.defaultProps = {
 ConnectionSecurityDropdownSettingLdap.propTypes = {
     value: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
-    disabled: PropTypes.bool.isRequired
+    disabled: PropTypes.bool.isRequired,
 };
 
 export function ConnectionSecurityDropdownSettingWebserver(props) {
@@ -166,7 +166,7 @@ export function ConnectionSecurityDropdownSettingWebserver(props) {
             id='connectionSecurity'
             values={[
                 {value: '', text: Utils.localizeMessage('admin.connectionSecurityNone', 'None')},
-                {value: 'TLS', text: Utils.localizeMessage('admin.connectionSecurityTls', 'TLS (Recommended)')}
+                {value: 'TLS', text: Utils.localizeMessage('admin.connectionSecurityTls', 'TLS (Recommended)')},
             ]}
             label={
                 <FormattedMessage
@@ -187,5 +187,5 @@ ConnectionSecurityDropdownSettingWebserver.defaultProps = {
 ConnectionSecurityDropdownSettingWebserver.propTypes = {
     value: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
-    disabled: PropTypes.bool.isRequired
+    disabled: PropTypes.bool.isRequired,
 };

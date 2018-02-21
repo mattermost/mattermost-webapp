@@ -53,86 +53,86 @@ const languages = {
         value: 'de',
         name: 'Deutsch',
         order: 0,
-        url: de
+        url: de,
     },
     en: {
         value: 'en',
         name: 'English',
         order: 1,
-        url: ''
+        url: '',
     },
     es: {
         value: 'es',
         name: 'Español',
         order: 2,
-        url: es
+        url: es,
     },
     fr: {
         value: 'fr',
         name: 'Français',
         order: 3,
-        url: fr
+        url: fr,
     },
     it: {
         value: 'it',
         name: 'Italiano',
         order: 4,
-        url: it
+        url: it,
     },
     ja: {
         value: 'ja',
         name: '日本語',
         order: 13,
-        url: ja
+        url: ja,
     },
     ko: {
         value: 'ko',
         name: '한국어 (Alpha)',
         order: 10,
-        url: ko
+        url: ko,
     },
     nl: {
         value: 'nl',
         name: 'Nederlands (Alpha)',
         order: 5,
-        url: nl
+        url: nl,
     },
     pl: {
         value: 'pl',
         name: 'Polski (Alpha)',
         order: 6,
-        url: pl
+        url: pl,
     },
     'pt-BR': {
         value: 'pt-BR',
         name: 'Português (Brasil)',
         order: 7,
-        url: ptBR
+        url: ptBR,
     },
     tr: {
         value: 'tr',
         name: 'Türkçe',
         order: 8,
-        url: tr
+        url: tr,
     },
     ru: {
         value: 'ru',
         name: 'Pусский (Alpha)',
         order: 9,
-        url: ru
+        url: ru,
     },
     'zh-TW': {
         value: 'zh-TW',
         name: '中文 (繁體)',
         order: 12,
-        url: zhTW
+        url: zhTW,
     },
     'zh-CN': {
         value: 'zh-CN',
         name: '中文 (简体)',
         order: 11,
-        url: zhCN
-    }
+        url: zhCN,
+    },
 };
 
 export function getAllLanguages() {
@@ -171,7 +171,7 @@ export function safariFix(callback) {
         'intl/locale-data/jsonp/pt.js',
         'intl/locale-data/jsonp/tr.js',
         'intl/locale-data/jsonp/ru.js',
-        'intl/locale-data/jsonp/zh.js'
+        'intl/locale-data/jsonp/zh.js',
     ], (require) => {
         require('intl');
         require('intl/locale-data/jsonp/de.js');

@@ -16,7 +16,7 @@ export default class YoutubeVideo extends React.PureComponent {
         link: PropTypes.string.isRequired,
         show: PropTypes.bool.isRequired,
         googleDeveloperKey: PropTypes.string,
-        onLinkLoaded: PropTypes.func
+        onLinkLoaded: PropTypes.func,
     }
 
     constructor(props) {
@@ -34,7 +34,7 @@ export default class YoutubeVideo extends React.PureComponent {
             loaded: false,
             failed: false,
             playing: false,
-            title: ''
+            title: '',
         };
     }
 
@@ -64,7 +64,7 @@ export default class YoutubeVideo extends React.PureComponent {
 
         this.setState({
             videoId: match[1],
-            time: this.handleYoutubeTime(link)
+            time: this.handleYoutubeTime(link),
         });
     }
 
@@ -111,7 +111,7 @@ export default class YoutubeVideo extends React.PureComponent {
     loadWithoutKey() {
         this.setState({
             loaded: true,
-            thumb: 'https://i.ytimg.com/vi/' + this.state.videoId + '/hqdefault.jpg'
+            thumb: 'https://i.ytimg.com/vi/' + this.state.videoId + '/hqdefault.jpg',
         });
     }
 
@@ -119,7 +119,7 @@ export default class YoutubeVideo extends React.PureComponent {
         this.setState({
             failed: true,
             loaded: true,
-            title: Utils.localizeMessage('youtube_video.notFound', 'Video not found')
+            title: Utils.localizeMessage('youtube_video.notFound', 'Video not found'),
         });
     }
 
@@ -128,7 +128,7 @@ export default class YoutubeVideo extends React.PureComponent {
             this.setState({
                 failed: true,
                 loaded: true,
-                title: Utils.localizeMessage('youtube_video.notFound', 'Video not found')
+                title: Utils.localizeMessage('youtube_video.notFound', 'Video not found'),
             });
             return null;
         }
@@ -142,7 +142,7 @@ export default class YoutubeVideo extends React.PureComponent {
             loaded: true,
             receivedYoutubeData: true,
             title: metadata.title,
-            thumb
+            thumb,
         });
         return null;
     }

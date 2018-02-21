@@ -9,7 +9,7 @@ export function openModal(modalData) {
             type: ActionTypes.MODAL_OPEN,
             modalId: modalData.modalId,
             dialogProps: modalData.dialogProps,
-            dialogType: modalData.dialogType
+            dialogType: modalData.dialogType,
         };
 
         dispatch(action);
@@ -20,7 +20,7 @@ export function closeModal(modalId) {
     return (dispatch) => {
         const action = {
             type: ActionTypes.MODAL_CLOSE,
-            modalId
+            modalId,
         };
 
         dispatch(action);

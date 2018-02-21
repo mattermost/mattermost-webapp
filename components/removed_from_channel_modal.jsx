@@ -22,7 +22,7 @@ export default class RemovedFromChannelModal extends React.Component {
 
         this.state = {
             channelName: '',
-            remover: ''
+            remover: '',
         };
     }
 
@@ -118,7 +118,7 @@ export default class RemovedFromChannelModal extends React.Component {
                                         defaultMessage='{remover} removed you from {channel}'
                                         values={{
                                             remover,
-                                            channel: (channelName)
+                                            channel: (channelName),
                                         }}
                                     />
                                 </p>

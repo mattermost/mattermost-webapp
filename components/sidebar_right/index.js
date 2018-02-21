@@ -42,7 +42,7 @@ function mapStateToProps(state) {
         previousRhsState: getPreviousRhsState(state),
         isMentionSearch: rhsState === RHSStates.MENTION,
         isFlaggedPosts: rhsState === RHSStates.FLAG,
-        isPinnedPosts: rhsState === RHSStates.PIN
+        isPinnedPosts: rhsState === RHSStates.PIN,
     };
 }
 
@@ -50,8 +50,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getPinnedPosts,
-            getFlaggedPosts
-        }, dispatch)
+            getFlaggedPosts,
+        }, dispatch),
     };
 }
 

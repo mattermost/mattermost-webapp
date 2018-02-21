@@ -27,7 +27,7 @@ function mapStateToProps(state) {
         channelNamesMap: getChannelNamesMap(state),
         mentionKeys: getCurrentUserMentionKeys(state),
         siteURL: getSiteURL(),
-        team: getCurrentTeam(state)
+        team: getCurrentTeam(state),
     };
 }
 

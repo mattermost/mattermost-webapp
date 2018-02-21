@@ -21,7 +21,7 @@ function mapStateToProps(state, ownProps) {
         updateIncomingHookRequest: state.requests.integrations.updateIncomingHook,
         enableIncomingWebhooks,
         enablePostUsernameOverride,
-        enablePostIconOverride
+        enablePostIconOverride,
     };
 }
 
@@ -29,8 +29,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             updateIncomingHook,
-            getIncomingHook
-        }, dispatch)
+            getIncomingHook,
+        }, dispatch),
     };
 }
 

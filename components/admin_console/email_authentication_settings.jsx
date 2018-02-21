@@ -29,7 +29,7 @@ export default class EmailAuthenticationSettings extends AdminSettings {
         return {
             enableSignUpWithEmail: config.EmailSettings.EnableSignUpWithEmail,
             enableSignInWithEmail: config.EmailSettings.EnableSignInWithEmail,
-            enableSignInWithUsername: config.EmailSettings.EnableSignInWithUsername
+            enableSignInWithUsername: config.EmailSettings.EnableSignInWithUsername,
         };
     }
 

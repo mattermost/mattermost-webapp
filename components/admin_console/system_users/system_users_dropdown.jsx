@@ -61,7 +61,7 @@ export default class SystemUsersDropdown extends React.Component {
         /*
          * The function to call when an error occurs
          */
-        onError: PropTypes.func.isRequired
+        onError: PropTypes.func.isRequired,
     };
 
     constructor(props) {
@@ -72,7 +72,7 @@ export default class SystemUsersDropdown extends React.Component {
             showDeactivateMemberModal: false,
             showRevokeSessionsModal: false,
             user: null,
-            role: null
+            role: null,
         };
     }
 
@@ -113,7 +113,7 @@ export default class SystemUsersDropdown extends React.Component {
         this.setState({
             showDemoteModal: true,
             user,
-            role
+            role,
         });
     }
 
@@ -121,7 +121,7 @@ export default class SystemUsersDropdown extends React.Component {
         this.setState({
             showDemoteModal: false,
             user: null,
-            role: null
+            role: null,
         });
         this.props.onError(null);
     }
@@ -162,7 +162,7 @@ export default class SystemUsersDropdown extends React.Component {
                 id='deactivate_member_modal.title'
                 defaultMessage='Deactivate {username}'
                 values={{
-                    username: this.props.user.username
+                    username: this.props.user.username,
                 }}
             />
         );
@@ -187,7 +187,7 @@ export default class SystemUsersDropdown extends React.Component {
                     id='deactivate_member_modal.desc'
                     defaultMessage='This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system. Are you sure you want to deactivate {username}?'
                     values={{
-                        username: user.username
+                        username: user.username,
                     }}
                 />
                 {warning}
@@ -244,7 +244,7 @@ export default class SystemUsersDropdown extends React.Component {
                 id='revoke_user_sessions_modal.title'
                 defaultMessage='Revoke Sessions for {username}'
                 values={{
-                    username: this.props.user.username
+                    username: this.props.user.username,
                 }}
             />
         );
@@ -254,7 +254,7 @@ export default class SystemUsersDropdown extends React.Component {
                 id='revoke_user_sessions_modal.desc'
                 defaultMessage='This action revokes all sessions for {username}. They will be logged out from all devices. Are you sure you want to revoke all sessions for {username}?'
                 values={{
-                    username: this.props.user.username
+                    username: this.props.user.username,
                 }}
             />
         );
@@ -545,7 +545,7 @@ export default class SystemUsersDropdown extends React.Component {
                         id='admin.user_item.confirmDemotionCmd'
                         defaultMessage='platform roles system_admin {username}'
                         values={{
-                            username: me.username
+                            username: me.username,
                         }}
                     />
                 </div>

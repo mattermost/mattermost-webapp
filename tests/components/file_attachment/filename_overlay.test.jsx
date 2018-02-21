@@ -16,14 +16,14 @@ describe('components/file_attachment/FilenameOverlay', () => {
         extension: 'jpg',
         width: 100,
         height: 80,
-        has_preview_image: true
+        has_preview_image: true,
     };
 
     const baseProps = {
         fileInfo,
         handleImageClick: emptyFunction,
         compactDisplay: false,
-        canDownload: true
+        canDownload: true,
     };
 
     test('should match snapshot, standard display', () => {

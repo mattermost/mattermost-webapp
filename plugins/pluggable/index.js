@@ -10,7 +10,7 @@ function mapStateToProps(state, ownProps) {
     return {
         ...ownProps,
         components: state.plugins.components,
-        theme: getTheme(state)
+        theme: getTheme(state),
     };
 }
 

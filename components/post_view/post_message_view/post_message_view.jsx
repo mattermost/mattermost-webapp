@@ -51,13 +51,13 @@ export default class PostMessageView extends React.PureComponent {
         /*
          * Post type components from plugins
          */
-        pluginPostTypes: PropTypes.object
+        pluginPostTypes: PropTypes.object,
     };
 
     static defaultProps = {
         options: {},
         isRHS: false,
-        pluginPostTypes: {}
+        pluginPostTypes: {},
     };
 
     renderDeletedPost() {
@@ -95,7 +95,7 @@ export default class PostMessageView extends React.PureComponent {
             compactDisplay,
             isRHS,
             theme,
-            lastPostCount
+            lastPostCount,
         } = this.props;
 
         if (post.state === Posts.POST_DELETED) {

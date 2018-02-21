@@ -101,7 +101,7 @@ function keepChannelIdAsUnread(state = null, action) {
         if (hadMentions || hadUnreads) {
             return {
                 id: member.channel_id,
-                hadMentions
+                hadMentions,
             };
         }
 
@@ -121,5 +121,5 @@ export default combineReducers({
     loadingPosts,
     focusedPostId,
     mobileView,
-    keepChannelIdAsUnread
+    keepChannelIdAsUnread,
 });

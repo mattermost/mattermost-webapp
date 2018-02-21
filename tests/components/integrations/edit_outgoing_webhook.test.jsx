@@ -10,7 +10,7 @@ import EditOutgoingWebhook from 'components/integrations/edit_outgoing_webhook/e
 describe('components/integrations/EditOutgoingWebhook', () => {
     const team = {
         id: 'team_id',
-        name: 'test'
+        name: 'test',
     };
     const hook = {
         id: 'ne8miib4dtde5jmgwqsoiwxpiy',
@@ -26,11 +26,11 @@ describe('components/integrations/EditOutgoingWebhook', () => {
         callback_urls: ['https://test.com/callback', 'https://test.com/callback2'],
         display_name: 'name',
         description: 'description',
-        content_type: 'application/json'
+        content_type: 'application/json',
     };
     const updateOutgoingHookRequest = {
         status: 'not_started',
-        error: null
+        error: null,
     };
     const baseProps = {
         team,
@@ -38,9 +38,9 @@ describe('components/integrations/EditOutgoingWebhook', () => {
         updateOutgoingHookRequest,
         actions: {
             updateOutgoingHook: jest.fn(),
-            getOutgoingHook: jest.fn()
+            getOutgoingHook: jest.fn(),
         },
-        enableOutgoingWebhooks: true
+        enableOutgoingWebhooks: true,
     };
 
     test('should match snapshot', () => {
@@ -134,7 +134,7 @@ describe('components/integrations/EditOutgoingWebhook', () => {
         const newActions = {...baseProps.actions, updateOutgoingHook: jest.fn().mockReturnValue({data: ''})};
         const newUpdateOutgoingHookRequest = {
             status: 'error',
-            error: {message: 'error'}
+            error: {message: 'error'},
         };
         const props = {...baseProps, hook, updateOutgoingHookRequest: newUpdateOutgoingHookRequest, actions: newActions};
         const wrapper = shallow(

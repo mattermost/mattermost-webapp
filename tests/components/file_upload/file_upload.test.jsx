@@ -12,7 +12,7 @@ jest.mock('utils/file_utils', () => {
     const original = require.requireActual('utils/file_utils');
     return {
         ...original,
-        canDownloadFiles: jest.fn(() => true)
+        canDownloadFiles: jest.fn(() => true),
     };
 });
 
@@ -24,7 +24,7 @@ jest.mock('utils/utils', () => {
         generateId: jest.fn(() => 'generated_id_1').mockImplementationOnce(() => 'generated_id_2'),
         sortFilesByName: jest.fn((files) => {
             return files.sort((a, b) => a.name.localeCompare(b.name, 'en', {numeric: true}));
-        })
+        }),
     };
 });
 
@@ -45,7 +45,7 @@ describe('components/FileUpload', () => {
         postType: 'post',
         uploadFile: emptyFunction,
         maxFileSize: MaxFileSize,
-        canUploadFiles: true
+        canUploadFiles: true,
     };
 
     test('should match snapshot', () => {
@@ -73,7 +73,7 @@ describe('components/FileUpload', () => {
         const props = {...baseProps, onFileUpload};
         const data = {
             file_infos: 'file_infos',
-            client_ids: {id1: 'id1'}
+            client_ids: {id1: 'id1'},
         };
 
         const wrapper = shallowWithIntl(
@@ -92,7 +92,7 @@ describe('components/FileUpload', () => {
         const props = {...baseProps, onUploadError};
         const params = {
             err: 'error_message',
-            clientId: 'client_id'
+            clientId: 'client_id',
         };
 
         const wrapper = shallowWithIntl(

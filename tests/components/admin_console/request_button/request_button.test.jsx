@@ -114,7 +114,7 @@ describe('components/admin_console/request_button/request_button.jsx', () => {
                 showSuccessMessage={true}
                 successMessage={{
                     id: 'success.message',
-                    defaultMessage: 'Success Message'
+                    defaultMessage: 'Success Message',
                 }}
             />
         );
@@ -141,7 +141,7 @@ describe('components/admin_console/request_button/request_button.jsx', () => {
                 showSuccessMessage={false}
                 successMessage={{
                     id: 'success.message',
-                    defaultMessage: 'Success Message'
+                    defaultMessage: 'Success Message',
                 }}
             />
         );
@@ -154,7 +154,7 @@ describe('components/admin_console/request_button/request_button.jsx', () => {
     test('should match snapshot with request error', () => {
         const requestActionFailure = jest.fn((success, error) => error({
             message: '__message__',
-            detailed_error: '__detailed_error__'
+            detailed_error: '__detailed_error__',
         }));
 
         // Error & includeDetailedError=true
@@ -176,7 +176,7 @@ describe('components/admin_console/request_button/request_button.jsx', () => {
                 includeDetailedError={true}
                 errorMessage={{
                     id: 'error.message',
-                    defaultMessage: 'Error Message: {error}'
+                    defaultMessage: 'Error Message: {error}',
                 }}
             />
         );
@@ -202,7 +202,7 @@ describe('components/admin_console/request_button/request_button.jsx', () => {
                 }
                 errorMessage={{
                     id: 'error.message',
-                    defaultMessage: 'Error Message: {error}'
+                    defaultMessage: 'Error Message: {error}',
                 }}
             />
         );

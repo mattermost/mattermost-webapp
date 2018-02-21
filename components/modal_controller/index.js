@@ -11,15 +11,15 @@ import ModalController from './modal_controller.jsx';
 function mapStateToProps(state, ownProps) {
     return {
         ...ownProps,
-        modals: state.views.modals
+        modals: state.views.modals,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            closeModal
-        }, dispatch)
+            closeModal,
+        }, dispatch),
     };
 }
 

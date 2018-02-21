@@ -25,7 +25,7 @@ export default class PluginSettings extends AdminSettings {
 
     getStateFromConfig(config) {
         return {
-            enablePlugins: config.PluginSettings.Enable
+            enablePlugins: config.PluginSettings.Enable,
         };
     }
 

@@ -25,7 +25,7 @@ function getDisplayStateFromStores() {
         channelDisplayMode: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT),
         messageDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT),
         collapseDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, Preferences.COLLAPSE_DISPLAY_DEFAULT),
-        linkPreviewDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT)
+        linkPreviewDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT),
     };
 }
 
@@ -35,7 +35,7 @@ export default class UserSettingsDisplay extends React.Component {
 
         this.state = {
             ...getDisplayStateFromStores(),
-            isSaving: false
+            isSaving: false,
         };
 
         this.prevSections = {
@@ -44,7 +44,7 @@ export default class UserSettingsDisplay extends React.Component {
             linkpreview: 'clock',
             message_display: 'linkpreview',
             channel_display_mode: 'message_display',
-            languages: 'channel_display_mode'
+            languages: 'channel_display_mode',
         };
     }
 
@@ -55,32 +55,32 @@ export default class UserSettingsDisplay extends React.Component {
             user_id: userId,
             category: Preferences.CATEGORY_DISPLAY_SETTINGS,
             name: 'use_military_time',
-            value: this.state.militaryTime
+            value: this.state.militaryTime,
         };
 
         const channelDisplayModePreference = {
             user_id: userId,
             category: Preferences.CATEGORY_DISPLAY_SETTINGS,
             name: Preferences.CHANNEL_DISPLAY_MODE,
-            value: this.state.channelDisplayMode
+            value: this.state.channelDisplayMode,
         };
         const messageDisplayPreference = {
             user_id: userId,
             category: Preferences.CATEGORY_DISPLAY_SETTINGS,
             name: Preferences.MESSAGE_DISPLAY,
-            value: this.state.messageDisplay
+            value: this.state.messageDisplay,
         };
         const collapseDisplayPreference = {
             user_id: userId,
             category: Preferences.CATEGORY_DISPLAY_SETTINGS,
             name: Preferences.COLLAPSE_DISPLAY,
-            value: this.state.collapseDisplay
+            value: this.state.collapseDisplay,
         };
         const linkPreviewDisplayPreference = {
             user_id: userId,
             category: Preferences.CATEGORY_DISPLAY_SETTINGS,
             name: Preferences.LINK_PREVIEW_DISPLAY,
-            value: this.state.linkPreviewDisplay
+            value: this.state.linkPreviewDisplay,
         };
 
         this.setState({isSaving: true});
@@ -91,7 +91,7 @@ export default class UserSettingsDisplay extends React.Component {
                 channelDisplayModePreference,
                 messageDisplayPreference,
                 collapseDisplayPreference,
-                linkPreviewDisplayPreference
+                linkPreviewDisplayPreference,
             ],
             () => {
                 this.updateSection('');
@@ -145,7 +145,7 @@ export default class UserSettingsDisplay extends React.Component {
             title,
             firstOption,
             secondOption,
-            description
+            description,
         } = props;
 
         const firstMessage = (
@@ -255,7 +255,7 @@ export default class UserSettingsDisplay extends React.Component {
                         <br/>
                         {messageDesc}
                     </div>
-                </div>
+                </div>,
             ];
 
             return (
@@ -302,26 +302,26 @@ export default class UserSettingsDisplay extends React.Component {
             defaultDisplay: 'false',
             title: {
                 id: 'user.settings.display.collapseDisplay',
-                message: 'Default appearance of image link previews'
+                message: 'Default appearance of image link previews',
             },
             firstOption: {
                 value: 'false',
                 radionButtonText: {
                     id: 'user.settings.display.collapseOn',
-                    message: 'On'
-                }
+                    message: 'On',
+                },
             },
             secondOption: {
                 value: 'true',
                 radionButtonText: {
                     id: 'user.settings.display.collapseOff',
-                    message: 'Off'
-                }
+                    message: 'Off',
+                },
             },
             description: {
                 id: 'user.settings.display.collapseDesc',
-                message: 'Set whether previews of image links show as expanded or collapsed by default. This setting can also be controlled using the slash commands /expand and /collapse.'
-            }
+                message: 'Set whether previews of image links show as expanded or collapsed by default. This setting can also be controlled using the slash commands /expand and /collapse.',
+            },
         });
 
         let linkPreviewSection = null;
@@ -334,26 +334,26 @@ export default class UserSettingsDisplay extends React.Component {
                 defaultDisplay: 'true',
                 title: {
                     id: 'user.settings.display.linkPreviewDisplay',
-                    message: 'Website Link Previews'
+                    message: 'Website Link Previews',
                 },
                 firstOption: {
                     value: 'true',
                     radionButtonText: {
                         id: 'user.settings.display.linkPreviewOn',
-                        message: 'On'
-                    }
+                        message: 'On',
+                    },
                 },
                 secondOption: {
                     value: 'false',
                     radionButtonText: {
                         id: 'user.settings.display.linkPreviewOff',
-                        message: 'Off'
-                    }
+                        message: 'Off',
+                    },
                 },
                 description: {
                     id: 'user.settings.display.linkPreviewDesc',
-                    message: 'When available, the first web link in a message will show a preview of the website content below the message.'
-                }
+                    message: 'When available, the first web link in a message will show a preview of the website content below the message.',
+                },
             });
             this.prevSections.message_display = 'linkpreview';
         } else {
@@ -367,26 +367,26 @@ export default class UserSettingsDisplay extends React.Component {
             defaultDisplay: 'false',
             title: {
                 id: 'user.settings.display.clockDisplay',
-                message: 'Clock Display'
+                message: 'Clock Display',
             },
             firstOption: {
                 value: 'false',
                 radionButtonText: {
                     id: 'user.settings.display.normalClock',
-                    message: '12-hour clock (example: 4:00 PM)'
-                }
+                    message: '12-hour clock (example: 4:00 PM)',
+                },
             },
             secondOption: {
                 value: 'true',
                 radionButtonText: {
                     id: 'user.settings.display.militaryClock',
-                    message: '24-hour clock (example: 16:00)'
-                }
+                    message: '24-hour clock (example: 16:00)',
+                },
             },
             description: {
                 id: 'user.settings.display.preferTime',
-                message: 'Select how you prefer time displayed.'
-            }
+                message: 'Select how you prefer time displayed.',
+            },
         });
 
         const messageDisplaySection = this.createSection({
@@ -396,7 +396,7 @@ export default class UserSettingsDisplay extends React.Component {
             defaultDisplay: Preferences.MESSAGE_DISPLAY_CLEAN,
             title: {
                 id: 'user.settings.display.messageDisplayTitle',
-                message: 'Message Display'
+                message: 'Message Display',
             },
             firstOption: {
                 value: Preferences.MESSAGE_DISPLAY_CLEAN,
@@ -404,8 +404,8 @@ export default class UserSettingsDisplay extends React.Component {
                     id: 'user.settings.display.messageDisplayClean',
                     message: 'Standard',
                     moreId: 'user.settings.display.messageDisplayCleanDes',
-                    moreMessage: 'Easy to scan and read.'
-                }
+                    moreMessage: 'Easy to scan and read.',
+                },
             },
             secondOption: {
                 value: Preferences.MESSAGE_DISPLAY_COMPACT,
@@ -413,13 +413,13 @@ export default class UserSettingsDisplay extends React.Component {
                     id: 'user.settings.display.messageDisplayCompact',
                     message: 'Compact',
                     moreId: 'user.settings.display.messageDisplayCompactDes',
-                    moreMessage: 'Fit as many messages on the screen as we can.'
-                }
+                    moreMessage: 'Fit as many messages on the screen as we can.',
+                },
             },
             description: {
                 id: 'user.settings.display.messageDisplayDescription',
-                message: 'Select how messages in a channel should be displayed.'
-            }
+                message: 'Select how messages in a channel should be displayed.',
+            },
         });
 
         const channelDisplayModeSection = this.createSection({
@@ -429,26 +429,26 @@ export default class UserSettingsDisplay extends React.Component {
             defaultDisplay: Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN,
             title: {
                 id: 'user.settings.display.channelDisplayTitle',
-                message: 'Channel Display Mode'
+                message: 'Channel Display Mode',
             },
             firstOption: {
                 value: Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN,
                 radionButtonText: {
                     id: 'user.settings.display.fullScreen',
-                    message: 'Full width'
-                }
+                    message: 'Full width',
+                },
             },
             secondOption: {
                 value: Preferences.CHANNEL_DISPLAY_MODE_CENTERED,
                 radionButtonText: {
                     id: 'user.settings.display.fixedWidthCentered',
-                    message: 'Fixed width, centered'
-                }
+                    message: 'Fixed width, centered',
+                },
             },
             description: {
                 id: 'user.settings.display.channeldisplaymode',
-                message: 'Select the width of the center channel.'
-            }
+                message: 'Select the width of the center channel.',
+            },
         });
 
         let languagesSection;
@@ -580,5 +580,5 @@ UserSettingsDisplay.propTypes = {
     allowCustomThemes: PropTypes.bool,
     enableLinkPreviews: PropTypes.bool,
     defaultClientLocale: PropTypes.string,
-    enableThemeSelection: PropTypes.bool
+    enableThemeSelection: PropTypes.bool,
 };

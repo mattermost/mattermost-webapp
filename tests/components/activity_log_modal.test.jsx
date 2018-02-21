@@ -15,8 +15,8 @@ describe('components/ActivityLogModal', () => {
         onHide: jest.fn(),
         actions: {
             getSessions: jest.fn(),
-            revokeSession: jest.fn()
-        }
+            revokeSession: jest.fn(),
+        },
     };
 
     test('should match snapshot', () => {
@@ -41,7 +41,7 @@ describe('components/ActivityLogModal', () => {
         );
         const actions = {
             getSessions: jest.fn(),
-            revokeSession
+            revokeSession,
         };
 
         const props = {...baseProps, actions};
@@ -58,7 +58,7 @@ describe('components/ActivityLogModal', () => {
     test('should have called actions.getUserAudits when onShow is called', () => {
         const actions = {
             getSessions: jest.fn(),
-            revokeSession: jest.fn()
+            revokeSession: jest.fn(),
         };
         const props = {...baseProps, actions};
         const wrapper = shallow(

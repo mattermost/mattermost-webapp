@@ -21,7 +21,7 @@ function mapStateToProps(state) {
     return {
         ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
         showCreatePublicChannelOption,
-        showCreatePrivateChannelOption
+        showCreatePrivateChannelOption,
     };
 }
 

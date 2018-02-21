@@ -10,7 +10,7 @@ import ConfirmModal from './confirm_modal.jsx';
 
 export default class DeleteModalTrigger extends React.PureComponent {
     static propTypes = {
-        onDelete: PropTypes.func.isRequired
+        onDelete: PropTypes.func.isRequired,
     }
 
     constructor(props) {
@@ -20,7 +20,7 @@ export default class DeleteModalTrigger extends React.PureComponent {
         }
 
         this.state = {
-            showDeleteModal: false
+            showDeleteModal: false,
         };
     }
 
@@ -28,7 +28,7 @@ export default class DeleteModalTrigger extends React.PureComponent {
         e.preventDefault();
 
         this.setState({
-            showDeleteModal: true
+            showDeleteModal: true,
         });
     }
 
@@ -38,7 +38,7 @@ export default class DeleteModalTrigger extends React.PureComponent {
 
     handleCancel = () => {
         this.setState({
-            showDeleteModal: false
+            showDeleteModal: false,
         });
     }
 

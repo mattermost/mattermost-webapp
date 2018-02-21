@@ -69,7 +69,7 @@ export default class EmailSettings extends AdminSettings {
             enableEmailBatching: config.EmailSettings.EnableEmailBatching,
             skipServerCertificateVerification: config.EmailSettings.SkipServerCertificateVerification,
             enableSecurityFixAlert: config.ServiceSettings.EnableSecurityFixAlert,
-            emailNotificationContentsType: config.EmailSettings.EmailNotificationContentsType
+            emailNotificationContentsType: config.EmailSettings.EmailNotificationContentsType,
         };
     }
 
@@ -186,7 +186,7 @@ export default class EmailSettings extends AdminSettings {
                             id='admin.email.enableEmailBatchingDesc'
                             defaultMessage='When true, users will have email notifications for multiple direct messages and mentions combined into a single email. Batching will occur at a default interval of 15 minutes, configurable in Account Settings > Notifications.'
                         />,
-                        enableEmailBatchingDisabledText
+                        enableEmailBatchingDisabledText,
                     ]}
                     value={this.state.enableEmailBatching && !this.props.config.ClusterSettings.Enable && Boolean(this.props.config.ServiceSettings.SiteURL)}
                     onChange={this.handleChange}
@@ -301,7 +301,7 @@ export default class EmailSettings extends AdminSettings {
                             key='admin.email.enableSMTPAuthDesc'
                             id='admin.email.enableSMTPAuthDesc'
                             defaultMessage='When true, SMTP Authentication is enabled.'
-                        />
+                        />,
                     ]}
                     value={this.state.enableSMTPAuth}
                     onChange={this.handleChange}

@@ -288,10 +288,10 @@ function handlePostEditEvent(msg) {
         data: {
             order: [],
             posts: {
-                [post.id]: post
-            }
+                [post.id]: post,
+            },
         },
-        channelId: post.channel_id
+        channelId: post.channel_id,
     });
 
     getProfilesAndStatusesForPosts([post], dispatch, getState);
@@ -306,7 +306,7 @@ function handlePostEditEvent(msg) {
     // Needed for search store
     AppDispatcher.handleViewAction({
         type: Constants.ActionTypes.POST_UPDATED,
-        post
+        post,
     });
 }
 
@@ -317,7 +317,7 @@ function handlePostDeleteEvent(msg) {
     // Needed for search store
     AppDispatcher.handleViewAction({
         type: Constants.ActionTypes.POST_DELETED,
-        post
+        post,
     });
 }
 
@@ -345,12 +345,12 @@ function handleLeaveTeamEvent(msg) {
             {
                 type: UserTypes.RECEIVED_PROFILE_NOT_IN_TEAM,
                 data: {user_id: msg.data.user_id},
-                id: msg.data.team_id
+                id: msg.data.team_id,
             },
             {
                 type: TeamTypes.REMOVE_MEMBER_FROM_TEAM,
-                data: {team_id: msg.data.team_id, user_id: msg.data.user_id}
-            }
+                data: {team_id: msg.data.team_id, user_id: msg.data.user_id},
+            },
         ]));
     } else {
         UserStore.removeProfileFromTeam(msg.data.team_id, msg.data.user_id);
@@ -404,7 +404,7 @@ function handleDeleteTeamEvent(msg) {
 
         dispatch(batchActions([
             {type: TeamTypes.RECEIVED_TEAM_DELETED, data: {id: deletedTeam.id}},
-            {type: TeamTypes.UPDATED_TEAM, data: deletedTeam}
+            {type: TeamTypes.UPDATED_TEAM, data: deletedTeam},
         ]));
 
         if (newTeamId) {
@@ -460,14 +460,14 @@ function handleUserRemovedEvent(msg) {
 
         dispatch({
             type: ChannelTypes.LEAVE_CHANNEL,
-            data: {id: msg.data.channel_id, user_id: msg.broadcast.user_id}
+            data: {id: msg.data.channel_id, user_id: msg.broadcast.user_id},
         });
     } else if (ChannelStore.getCurrentId() === msg.broadcast.channel_id) {
         getChannelStats(ChannelStore.getCurrentId())(dispatch, getState);
         dispatch({
             type: UserTypes.RECEIVED_PROFILE_NOT_IN_CHANNEL,
             data: {user_id: msg.data.user_id},
-            id: msg.broadcast.channel_id
+            id: msg.broadcast.channel_id,
         });
     }
 }
@@ -549,7 +549,7 @@ function handleReactionAddedEvent(msg) {
 
     dispatch({
         type: PostTypes.RECEIVED_REACTION,
-        data: reaction
+        data: reaction,
     });
 }
 
@@ -558,7 +558,7 @@ function handleAddEmoji(msg) {
 
     dispatch({
         type: EmojiTypes.RECEIVED_CUSTOM_EMOJI,
-        data
+        data,
     });
 }
 
@@ -567,7 +567,7 @@ function handleReactionRemovedEvent(msg) {
 
     dispatch({
         type: PostTypes.REACTION_DELETED,
-        data: reaction
+        data: reaction,
     });
 }
 

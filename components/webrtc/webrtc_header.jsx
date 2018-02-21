@@ -14,7 +14,7 @@ export default function WebrtcHeader(props) {
             id='webrtc.header'
             defaultMessage='Call with {username}'
             values={{
-                username: props.username
+                username: props.username,
             }}
         />
     );
@@ -96,5 +96,5 @@ export default function WebrtcHeader(props) {
 WebrtcHeader.propTypes = {
     username: PropTypes.string.isRequired,
     onClose: PropTypes.func.isRequired,
-    toggleSize: PropTypes.func
+    toggleSize: PropTypes.func,
 };

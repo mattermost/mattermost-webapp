@@ -14,12 +14,12 @@ export default class FilePreview extends React.PureComponent {
     static propTypes = {
         onRemove: PropTypes.func.isRequired,
         fileInfos: PropTypes.arrayOf(PropTypes.object).isRequired,
-        uploadsInProgress: PropTypes.array
+        uploadsInProgress: PropTypes.array,
     };
 
     static defaultProps = {
         fileInfos: [],
-        uploadsInProgress: []
+        uploadsInProgress: [],
     };
 
     constructor(props) {
@@ -27,7 +27,7 @@ export default class FilePreview extends React.PureComponent {
 
         this.handleRemove = this.handleRemove.bind(this);
         this.state = {
-            fileInfos: [...this.props.fileInfos]
+            fileInfos: [...this.props.fileInfos],
         };
     }
 
@@ -40,7 +40,7 @@ export default class FilePreview extends React.PureComponent {
     componentWillReceiveProps(newProps) {
         if (!Utils.areObjectsEqual(this.props.fileInfos, newProps.fileInfos)) {
             this.setState({
-                fileInfos: [...newProps.fileInfos]
+                fileInfos: [...newProps.fileInfos],
             });
         }
     }
@@ -83,7 +83,7 @@ export default class FilePreview extends React.PureComponent {
                         className={imageClassName}
                         style={{
                             backgroundImage: `url(${thumbnailUrl})`,
-                            backgroundSize: 'cover'
+                            backgroundSize: 'cover',
                         }}
                     />
                 );

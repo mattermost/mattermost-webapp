@@ -15,7 +15,7 @@ const AppDispatcher = Object.assign(new Flux.Dispatcher(), {
 
         var payload = {
             source: PayloadSources.SERVER_ACTION,
-            action
+            action,
         };
         this.dispatch(payload);
     },
@@ -27,10 +27,10 @@ const AppDispatcher = Object.assign(new Flux.Dispatcher(), {
 
         var payload = {
             source: PayloadSources.VIEW_ACTION,
-            action
+            action,
         };
         this.dispatch(payload);
-    }
+    },
 });
 
 export default AppDispatcher;

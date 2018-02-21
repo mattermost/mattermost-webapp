@@ -11,17 +11,17 @@ describe('components/navbar/Navbar', () => {
         teamDisplayName: 'team_display_name',
         isPinnedPosts: true,
         actions: {
-            showEditChannelHeaderModal: jest.fn()
+            showEditChannelHeaderModal: jest.fn(),
         },
         isLicensed: true,
-        enableWebrtc: true
+        enableWebrtc: true,
     };
 
     const validState = {
         channel: {type: 'O', id: 'channel_id', display_name: 'display_name'},
         member: {id: 'member_id'},
         users: [{id: 'user_id_1'}],
-        currentUser: {id: 'current_user_id'}
+        currentUser: {id: 'current_user_id'},
     };
 
     global.window.mm_license = {};

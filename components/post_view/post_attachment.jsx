@@ -21,7 +21,7 @@ export default class PostAttachment extends React.PureComponent {
         /**
          * The attachment to render
          */
-        attachment: PropTypes.object.isRequired
+        attachment: PropTypes.object.isRequired,
     }
 
     constructor(props) {
@@ -58,7 +58,7 @@ export default class PostAttachment extends React.PureComponent {
             collapsedText,
             uncollapsedText,
             text: shouldCollapse ? collapsedText : uncollapsedText,
-            collapsed: shouldCollapse
+            collapsed: shouldCollapse,
         };
     }
 
@@ -67,7 +67,7 @@ export default class PostAttachment extends React.PureComponent {
         this.setState((prevState) => {
             return {
                 text: prevState.collapsed ? prevState.uncollapsedText : prevState.collapsedText,
-                collapsed: !prevState.collapsed
+                collapsed: !prevState.collapsed,
             };
         });
     }
@@ -364,5 +364,5 @@ export default class PostAttachment extends React.PureComponent {
 }
 
 const style = {
-    footer: {clear: 'both'}
+    footer: {clear: 'both'},
 };

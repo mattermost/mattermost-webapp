@@ -46,13 +46,13 @@ export default class EditOutgoingWebhook extends React.PureComponent {
             /**
              * The function to call to get an outgoing webhook
              */
-            getOutgoingHook: PropTypes.func.isRequired
+            getOutgoingHook: PropTypes.func.isRequired,
         }).isRequired,
 
         /**
         * Whether or not outgoing webhooks are enabled.
         */
-        enableOutgoingWebhooks: PropTypes.bool
+        enableOutgoingWebhooks: PropTypes.bool,
     }
 
     constructor(props) {
@@ -60,7 +60,7 @@ export default class EditOutgoingWebhook extends React.PureComponent {
 
         this.state = {
             showConfirmModal: false,
-            serverError: ''
+            serverError: '',
         };
     }
 

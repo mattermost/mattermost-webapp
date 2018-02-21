@@ -51,7 +51,7 @@ export default class CreateComment extends React.PureComponent {
         draft: PropTypes.shape({
             message: PropTypes.string.isRequired,
             uploadsInProgress: PropTypes.array.isRequired,
-            fileInfos: PropTypes.array.isRequired
+            fileInfos: PropTypes.array.isRequired,
         }).isRequired,
 
         /**
@@ -132,7 +132,7 @@ export default class CreateComment extends React.PureComponent {
         /**
          * Set if the emoji picker is enabled.
          */
-        enableEmojiPicker: PropTypes.bool.isRequired
+        enableEmojiPicker: PropTypes.bool.isRequired,
     }
 
     constructor(props) {
@@ -145,8 +145,8 @@ export default class CreateComment extends React.PureComponent {
             draft: {
                 message: '',
                 uploadsInProgress: [],
-                fileInfos: []
-            }
+                fileInfos: [],
+            },
         };
 
         this.lastBlurAt = 0;
@@ -234,7 +234,7 @@ export default class CreateComment extends React.PureComponent {
 
         this.setState({
             showEmojiPicker: false,
-            draft: {...draft, message: newMessage}
+            draft: {...draft, message: newMessage},
         });
 
         this.focusTextbox();
@@ -286,7 +286,7 @@ export default class CreateComment extends React.PureComponent {
 
             this.setState({
                 postError: null,
-                serverError: null
+                serverError: null,
             });
         } catch (err) {
             this.setState({serverError: err.message});
@@ -444,8 +444,8 @@ export default class CreateComment extends React.PureComponent {
         const {
             draft: {
                 fileInfos,
-                uploadsInProgress
-            }
+                uploadsInProgress,
+            },
         } = this.state;
         return fileInfos.length + uploadsInProgress.length;
     }
@@ -466,13 +466,13 @@ export default class CreateComment extends React.PureComponent {
 
     showPostDeletedModal = () => {
         this.setState({
-            showPostDeletedModal: true
+            showPostDeletedModal: true,
         });
     }
 
     hidePostDeletedModal = () => {
         this.setState({
-            showPostDeletedModal: false
+            showPostDeletedModal: false,
         });
 
         this.props.resetCreatePostRequest();
@@ -505,7 +505,7 @@ export default class CreateComment extends React.PureComponent {
                 id='notify_all.question'
                 defaultMessage='By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?'
                 values={{
-                    totalMembers: this.props.channelMembersCount - 1
+                    totalMembers: this.props.channelMembersCount - 1,
                 }}
             />
         );

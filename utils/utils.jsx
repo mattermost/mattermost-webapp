@@ -372,7 +372,7 @@ export function replaceHtmlEntities(text) {
     var tagsToReplace = {
         '&amp;': '&',
         '&lt;': '<',
-        '&gt;': '>'
+        '&gt;': '>',
     };
     var newtext = text;
     for (var tag in tagsToReplace) {
@@ -388,7 +388,7 @@ export function insertHtmlEntities(text) {
     var tagsToReplace = {
         '&': '&amp;',
         '<': '&lt;',
-        '>': '&gt;'
+        '>': '&gt;',
     };
     var newtext = text;
     for (var tag in tagsToReplace) {
@@ -1384,7 +1384,7 @@ export function getPasswordConfig() {
         requireLowercase: global.window.mm_config.PasswordRequireLowercase === 'true',
         requireUppercase: global.window.mm_config.PasswordRequireUppercase === 'true',
         requireNumber: global.window.mm_config.PasswordRequireNumber === 'true',
-        requireSymbol: global.window.mm_config.PasswordRequireSymbol === 'true'
+        requireSymbol: global.window.mm_config.PasswordRequireSymbol === 'true',
     };
 }
 
@@ -1443,7 +1443,7 @@ export function isValidPassword(password, passwordConfig) {
                 default='Your password must contain between {min} and {max} characters.'
                 values={{
                     min: minimumLength,
-                    max: Constants.MAX_PASSWORD_LENGTH
+                    max: Constants.MAX_PASSWORD_LENGTH,
                 }}
             />
         );
@@ -1510,7 +1510,7 @@ export function getEmailInterval(isEmailEnabled) {
         INTERVAL_FIFTEEN_MINUTES,
         INTERVAL_HOUR,
         CATEGORY_NOTIFICATIONS,
-        EMAIL_INTERVAL
+        EMAIL_INTERVAL,
     } = Constants.Preferences;
 
     if (!isEmailEnabled) {

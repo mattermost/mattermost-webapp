@@ -81,7 +81,7 @@ export default class TeamSettings extends React.Component {
 
 TeamSettings.defaultProps = {
     activeTab: '',
-    activeSection: ''
+    activeSection: '',
 };
 
 TeamSettings.propTypes = {
@@ -89,5 +89,5 @@ TeamSettings.propTypes = {
     activeSection: PropTypes.string.isRequired,
     updateSection: PropTypes.func.isRequired,
     closeModal: PropTypes.func.isRequired,
-    collapseModal: PropTypes.func.isRequired
+    collapseModal: PropTypes.func.isRequired,
 };

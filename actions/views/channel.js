@@ -8,7 +8,7 @@ export function checkAndSetMobileView() {
     return (dispatch) => {
         dispatch({
             type: ActionTypes.UPDATE_MOBILE_VIEW,
-            data: isMobile()
+            data: isMobile(),
         });
     };
 }

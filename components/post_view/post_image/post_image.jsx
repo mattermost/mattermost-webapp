@@ -33,7 +33,7 @@ export default class PostImageEmbed extends React.PureComponent {
         /**
          * If an image proxy is enabled.
          */
-        hasImageProxy: PropTypes.bool.isRequired
+        hasImageProxy: PropTypes.bool.isRequired,
     }
 
     constructor(props) {
@@ -44,7 +44,7 @@ export default class PostImageEmbed extends React.PureComponent {
 
         this.state = {
             loaded: false,
-            errored: false
+            errored: false,
         };
     }
 
@@ -56,7 +56,7 @@ export default class PostImageEmbed extends React.PureComponent {
         if (nextProps.link !== this.props.link) {
             this.setState({
                 loaded: false,
-                errored: false
+                errored: false,
             });
         }
     }
@@ -77,7 +77,7 @@ export default class PostImageEmbed extends React.PureComponent {
     handleLoadComplete() {
         this.setState({
             loaded: true,
-            errored: false
+            errored: false,
         });
 
         postListScrollChange();
@@ -90,7 +90,7 @@ export default class PostImageEmbed extends React.PureComponent {
     handleLoadError() {
         this.setState({
             errored: true,
-            loaded: true
+            loaded: true,
         });
         if (this.props.onLinkLoadError) {
             this.props.onLinkLoadError();

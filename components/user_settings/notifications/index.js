@@ -18,7 +18,7 @@ function mapStateToProps(state) {
         sendEmailNotifications,
         enableEmailBatching,
         siteName,
-        sendPushNotifications
+        sendPushNotifications,
     };
 }
 

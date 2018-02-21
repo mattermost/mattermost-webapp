@@ -10,7 +10,7 @@ export default class EmojiPickerCategory extends React.Component {
         icon: PropTypes.node.isRequired,
         onCategoryClick: PropTypes.func.isRequired,
         selected: PropTypes.bool.isRequired,
-        enable: PropTypes.bool.isRequired
+        enable: PropTypes.bool.isRequired,
     }
 
     constructor(props) {

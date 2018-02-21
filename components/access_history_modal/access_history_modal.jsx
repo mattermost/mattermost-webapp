@@ -16,8 +16,8 @@ export default class AccessHistoryModal extends React.Component {
     static propTypes = {
         onHide: PropTypes.func.isRequired,
         actions: PropTypes.shape({
-            getUserAudits: PropTypes.func.isRequired
-        }).isRequired
+            getUserAudits: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -36,7 +36,7 @@ export default class AccessHistoryModal extends React.Component {
 
     getStateFromStoresForAudits() {
         return {
-            audits: UserStore.getAudits()
+            audits: UserStore.getAudits(),
         };
     }
 

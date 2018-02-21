@@ -123,8 +123,8 @@ export default class SidebarChannel extends React.PureComponent {
 
         actions: PropTypes.shape({
             savePreferences: PropTypes.func.isRequired,
-            leaveChannel: PropTypes.func.isRequired
-        }).isRequired
+            leaveChannel: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     isLeaving = false;
@@ -249,7 +249,7 @@ export default class SidebarChannel extends React.PureComponent {
                     id='sidebar.directchannel.you'
                     defaultMessage='{displayname} (you)'
                     values={{
-                        displayname: this.props.channelDisplayName
+                        displayname: this.props.channelDisplayName,
                     }}
                 />
             );

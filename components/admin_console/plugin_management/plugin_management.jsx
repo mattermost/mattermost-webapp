@@ -48,8 +48,8 @@ export default class PluginManagement extends React.Component {
             /*
              * Function to get installed plugins
              */
-            deactivatePlugin: PropTypes.func.isRequired
-        }).isRequired
+            deactivatePlugin: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -59,7 +59,7 @@ export default class PluginManagement extends React.Component {
             loading: true,
             fileSelected: false,
             fileName: null,
-            serverError: null
+            serverError: null,
         };
     }
 

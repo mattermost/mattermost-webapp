@@ -11,7 +11,7 @@ function mapStateToProps(state) {
     const iosAppDownloadLink = config.IosAppDownloadLink;
 
     return {
-        iosAppDownloadLink
+        iosAppDownloadLink,
     };
 }
 

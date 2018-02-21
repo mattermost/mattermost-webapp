@@ -8,7 +8,7 @@ import ConfirmIntegration from './confirm_integration.jsx';
 
 function mapStateToProps(state) {
     return {
-        commands: getCommands(state)
+        commands: getCommands(state),
     };
 }
 

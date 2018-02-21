@@ -50,13 +50,13 @@ export default class PostMarkdown extends React.PureComponent {
         /*
          * The current team
          */
-        team: PropTypes.object.isRequired
+        team: PropTypes.object.isRequired,
 
     };
 
     static defaultProps = {
         options: {},
-        isRHS: false
+        isRHS: false,
     };
 
     render() {
@@ -65,7 +65,7 @@ export default class PostMarkdown extends React.PureComponent {
             mentionKeys: this.props.mentionKeys,
             atMentions: true,
             channelNamesMap: this.props.channelNamesMap,
-            team: this.props.team
+            team: this.props.team,
         }, this.props.options);
 
         if (this.props.post) {

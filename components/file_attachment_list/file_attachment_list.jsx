@@ -39,8 +39,8 @@ export default class FileAttachmentList extends React.Component {
             /*
              * Function to get file metadata for a post
              */
-            getMissingFilesForPost: PropTypes.func.isRequired
-        }).isRequired
+            getMissingFilesForPost: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -133,5 +133,5 @@ export default class FileAttachmentList extends React.Component {
 }
 
 const style = {
-    minHeightPlaceholder: {minHeight: '385px'}
+    minHeightPlaceholder: {minHeight: '385px'},
 };

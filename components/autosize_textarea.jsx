@@ -12,7 +12,7 @@ export default class AutosizeTextarea extends React.Component {
         defaultValue: PropTypes.string,
         placeholder: PropTypes.string,
         onChange: PropTypes.func,
-        onHeightChange: PropTypes.func
+        onHeightChange: PropTypes.func,
     };
 
     constructor(props) {
@@ -135,5 +135,5 @@ export default class AutosizeTextarea extends React.Component {
 
 const style = {
     container: {height: 0, overflow: 'hidden'},
-    reference: {height: 'auto', width: '100%'}
+    reference: {height: 'auto', width: '100%'},
 };

@@ -17,7 +17,7 @@ export default class PostDeletedModal extends React.Component {
         /**
          * Function that is called when modal is hidden
          */
-        onHide: PropTypes.func.isRequired
+        onHide: PropTypes.func.isRequired,
     };
 
     shouldComponentUpdate(nextProps) {

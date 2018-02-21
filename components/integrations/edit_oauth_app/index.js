@@ -18,7 +18,7 @@ function mapStateToProps(state, ownProps) {
         isSystemAdmin: isCurrentUserSystemAdmin(state),
         oauthAppId,
         oauthApp: state.entities.integrations.oauthApps[oauthAppId],
-        enableOAuthServiceProvider
+        enableOAuthServiceProvider,
     };
 }
 
@@ -26,8 +26,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getOAuthApp,
-            editOAuthApp
-        }, dispatch)
+            editOAuthApp,
+        }, dispatch),
     };
 }
 

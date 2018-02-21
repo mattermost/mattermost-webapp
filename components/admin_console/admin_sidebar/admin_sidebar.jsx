@@ -14,7 +14,7 @@ import AdminSidebarSection from 'components/admin_console/admin_sidebar_section.
 export default class AdminSidebar extends React.Component {
     static get contextTypes() {
         return {
-            router: PropTypes.object.isRequired
+            router: PropTypes.object.isRequired,
         };
     }
 
@@ -29,12 +29,12 @@ export default class AdminSidebar extends React.Component {
             /*
              * Function to get installed plugins
              */
-            getPlugins: PropTypes.func.isRequired
-        }).isRequired
+            getPlugins: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     static defaultProps = {
-        plugins: {}
+        plugins: {},
     }
 
     componentDidMount() {
@@ -46,7 +46,7 @@ export default class AdminSidebar extends React.Component {
 
         if (!Utils.isMobile()) {
             $('.admin-sidebar .nav-pills__container').perfectScrollbar({
-                suppressScrollX: true
+                suppressScrollX: true,
             });
         }
     }
@@ -54,7 +54,7 @@ export default class AdminSidebar extends React.Component {
     componentDidUpdate() {
         if (!Utils.isMobile()) {
             $('.admin-sidebar .nav-pills__container').perfectScrollbar({
-                suppressScrollX: true
+                suppressScrollX: true,
             });
         }
     }

@@ -16,7 +16,7 @@ describe('components/integrations/InstalledCommand', () => {
         auto_complete: true,
         auto_complete_hint: 'auto_complete_hint',
         token: 'testToken',
-        create_at: '1499722850203'
+        create_at: '1499722850203',
     };
     const creator = {username: 'username'};
 
@@ -26,7 +26,7 @@ describe('components/integrations/InstalledCommand', () => {
         onRegenToken: jest.fn(),
         onDelete: jest.fn(),
         creator,
-        canChange: false
+        canChange: false,
     };
 
     test('should match snapshot', () => {
@@ -45,7 +45,7 @@ describe('components/integrations/InstalledCommand', () => {
             trigger: 'trigger',
             auto_complete: false,
             token: 'testToken',
-            create_at: '1499722850203'
+            create_at: '1499722850203',
         };
         const props = {...requiredProps, command: minCommand};
 

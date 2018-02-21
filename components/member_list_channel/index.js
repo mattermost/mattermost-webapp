@@ -10,8 +10,8 @@ import MemberListChannel from './member_list_channel.jsx';
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getChannelStats
-        }, dispatch)
+            getChannelStats,
+        }, dispatch),
     };
 }
 

@@ -44,5 +44,5 @@ export default function FileUploadOverlay(props) {
 }
 
 FileUploadOverlay.propTypes = {
-    overlayType: PropTypes.string
+    overlayType: PropTypes.string,
 };

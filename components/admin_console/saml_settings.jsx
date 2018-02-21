@@ -78,7 +78,7 @@ export default class SamlSettings extends AdminSettings {
             nicknameAttribute: settings.NicknameAttribute,
             positionAttribute: settings.PositionAttribute,
             localeAttribute: settings.LocaleAttribute,
-            loginButtonText: settings.LoginButtonText
+            loginButtonText: settings.LoginButtonText,
         };
     }
 

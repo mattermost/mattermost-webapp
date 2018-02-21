@@ -9,7 +9,7 @@ import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 import {FileTypes} from 'utils/constants.jsx';
 import {
     getFileType,
-    localizeMessage
+    localizeMessage,
 } from 'utils/utils';
 
 import {postListScrollChange} from 'actions/global_actions.jsx';
@@ -27,11 +27,11 @@ export default class SingleImageView extends React.PureComponent {
         /**
          * FileInfo to view
          **/
-        fileInfo: PropTypes.object.isRequired
+        fileInfo: PropTypes.object.isRequired,
     };
 
     static defaultProps = {
-        fileInfo: {}
+        fileInfo: {},
     };
 
     constructor(props) {
@@ -40,7 +40,7 @@ export default class SingleImageView extends React.PureComponent {
         this.state = {
             loaded: false,
             showPreviewModal: false,
-            viewPortWidth: 0
+            viewPortWidth: 0,
         };
 
         this.imageLoaded = null;
@@ -134,7 +134,7 @@ export default class SingleImageView extends React.PureComponent {
         const {fileInfo} = this.props;
         const {
             loaded,
-            viewPortWidth
+            viewPortWidth,
         } = this.state;
 
         const {previewHeight, previewWidth} = this.computeImageDimensions();

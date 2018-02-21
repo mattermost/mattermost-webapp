@@ -137,7 +137,7 @@ export default class Root extends React.Component {
         this.state = {
             configLoaded: false,
             locale: LocalizationStore.getLocale(),
-            translations: LocalizationStore.getTranslations()
+            translations: LocalizationStore.getTranslations(),
         };
     }
 
@@ -347,5 +347,5 @@ Root.defaultProps = {
 };
 
 Root.propTypes = {
-    children: PropTypes.object
+    children: PropTypes.object,
 };

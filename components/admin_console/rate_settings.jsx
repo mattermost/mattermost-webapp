@@ -40,7 +40,7 @@ export default class RateSettings extends AdminSettings {
             memoryStoreSize: config.RateLimitSettings.MemoryStoreSize,
             varyByRemoteAddr: config.RateLimitSettings.VaryByRemoteAddr,
             varyByUser: config.RateLimitSettings.VaryByUser,
-            varyByHeader: config.RateLimitSettings.VaryByHeader
+            varyByHeader: config.RateLimitSettings.VaryByHeader,
         };
     }
 

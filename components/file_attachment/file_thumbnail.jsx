@@ -10,7 +10,7 @@ import Constants, {FileTypes} from 'utils/constants.jsx';
 import {
     getFileType,
     getIconClassName,
-    isGIFImage
+    isGIFImage,
 } from 'utils/utils.jsx';
 
 export default class FileThumbnail extends React.PureComponent {
@@ -20,7 +20,7 @@ export default class FileThumbnail extends React.PureComponent {
         /*
          * File detailed information
          */
-        fileInfo: PropTypes.object.isRequired
+        fileInfo: PropTypes.object.isRequired,
     }
 
     render() {
@@ -47,7 +47,7 @@ export default class FileThumbnail extends React.PureComponent {
                     className={className}
                     style={{
                         backgroundImage: `url(${thumbnailUrl})`,
-                        backgroundSize: 'cover'
+                        backgroundSize: 'cover',
                     }}
                 />
             );

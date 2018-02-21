@@ -7,7 +7,7 @@ import React from 'react';
 export default class BackstageHeader extends React.Component {
     static get propTypes() {
         return {
-            children: PropTypes.node
+            children: PropTypes.node,
         };
     }
 

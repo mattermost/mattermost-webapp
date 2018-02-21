@@ -26,7 +26,7 @@ export default class ThemeSetting extends React.Component {
 
         this.state = {
             ...this.getStateFromStores(),
-            isSaving: false
+            isSaving: false,
         };
 
         this.originalTheme = Object.assign({}, this.state.theme);
@@ -84,7 +84,7 @@ export default class ThemeSetting extends React.Component {
             theme,
             type: theme.type || 'premade',
             showAllTeamsCheckbox,
-            applyToAllTeams
+            applyToAllTeams,
         };
     }
 
@@ -158,7 +158,7 @@ export default class ThemeSetting extends React.Component {
         AppDispatcher.handleViewAction({
             type: ActionTypes.TOGGLE_IMPORT_THEME_MODAL,
             value: true,
-            callback: this.updateTheme
+            callback: this.updateTheme,
         });
 
         this.props.setEnforceFocus(false);
@@ -352,5 +352,5 @@ ThemeSetting.propTypes = {
     setEnforceFocus: PropTypes.func.isRequired,
     allowCustomThemes: PropTypes.bool,
     isLicensed: PropTypes.bool.isRequired,
-    ldap: PropTypes.bool.isRequired
+    ldap: PropTypes.bool.isRequired,
 };

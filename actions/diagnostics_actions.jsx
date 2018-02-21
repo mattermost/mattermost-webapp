@@ -9,7 +9,7 @@ const SUPPORTS_MEASURE_METHODS = isSupported([
     performance.measure,
     performance.getEntries,
     performance.getEntriesByName,
-    performance.clearMeasures
+    performance.clearMeasures,
 ]);
 
 export function trackEvent(category, event, props) {
@@ -17,16 +17,16 @@ export function trackEvent(category, event, props) {
         const properties = Object.assign({category, type: event, user_actual_id: UserStore.getCurrentId()}, props);
         const options = {
             context: {
-                ip: '0.0.0.0'
+                ip: '0.0.0.0',
             },
             page: {
                 path: '',
                 referrer: '',
                 search: '',
                 title: '',
-                url: ''
+                url: '',
             },
-            anonymousId: '00000000000000000000000000'
+            anonymousId: '00000000000000000000000000',
         };
         global.window.analytics.track('event', properties, options);
     }

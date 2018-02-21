@@ -11,8 +11,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             regenCommandToken,
-            deleteCommand
-        }, dispatch)
+            deleteCommand,
+        }, dispatch),
     };
 }
 

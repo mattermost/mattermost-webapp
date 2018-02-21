@@ -39,7 +39,7 @@ export default class GitLabSettings extends AdminSettings {
             gitLabUrl: config.GitLabSettings.UserApiEndpoint.replace('/api/v4/user', ''),
             userApiEndpoint: config.GitLabSettings.UserApiEndpoint,
             authEndpoint: config.GitLabSettings.AuthEndpoint,
-            tokenEndpoint: config.GitLabSettings.TokenEndpoint
+            tokenEndpoint: config.GitLabSettings.TokenEndpoint,
         };
     }
 
@@ -54,7 +54,7 @@ export default class GitLabSettings extends AdminSettings {
             gitLabUrl: value,
             userApiEndpoint: trimmedValue + '/api/v4/user',
             authEndpoint: trimmedValue + '/oauth/authorize',
-            tokenEndpoint: trimmedValue + '/oauth/token'
+            tokenEndpoint: trimmedValue + '/oauth/token',
         });
     }
 

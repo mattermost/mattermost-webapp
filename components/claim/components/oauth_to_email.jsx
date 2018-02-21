@@ -33,7 +33,7 @@ export default class OAuthToEmail extends React.Component {
         const passwordErr = Utils.isValidPassword(password, Utils.getPasswordConfig());
         if (passwordErr !== '') {
             this.setState({
-                error: passwordErr
+                error: passwordErr,
             });
             return;
         }
@@ -78,7 +78,7 @@ export default class OAuthToEmail extends React.Component {
                         id='claim.oauth_to_email.title'
                         defaultMessage='Switch {type} Account to Email'
                         values={{
-                            type: uiType
+                            type: uiType,
                         }}
                     />
                 </h3>
@@ -94,7 +94,7 @@ export default class OAuthToEmail extends React.Component {
                             id='claim.oauth_to_email.enterNewPwd'
                             defaultMessage='Enter a new password for your {site} email account'
                             values={{
-                                site: this.props.siteName
+                                site: this.props.siteName,
                             }}
                         />
                     </p>
@@ -127,7 +127,7 @@ export default class OAuthToEmail extends React.Component {
                             id='claim.oauth_to_email.switchTo'
                             defaultMessage='Switch {type} to email and password'
                             values={{
-                                type: uiType
+                                type: uiType,
                             }}
                         />
                     </button>
@@ -140,5 +140,5 @@ export default class OAuthToEmail extends React.Component {
 OAuthToEmail.propTypes = {
     currentType: PropTypes.string,
     email: PropTypes.string,
-    siteName: PropTypes.string
+    siteName: PropTypes.string,
 };

@@ -10,7 +10,7 @@ describe('components/ProfilePicture', () => {
     const baseProps = {
         src: 'http://example.com/image.png',
         status: 'away',
-        isBusy: true
+        isBusy: true,
     };
 
     test('should match snapshot, no user specified, default props', () => {
@@ -28,7 +28,7 @@ describe('components/ProfilePicture', () => {
             width: '48',
             height: '48',
             isRHS: true,
-            hasMention: true
+            hasMention: true,
         };
         const wrapper = shallow(
             <ProfilePicture {...props}/>
@@ -41,8 +41,8 @@ describe('components/ProfilePicture', () => {
         const props = {
             ...baseProps,
             user: {
-                username: 'username'
-            }
+                username: 'username',
+            },
         };
         const wrapper = shallow(
             <ProfilePicture {...props}/>
@@ -55,12 +55,12 @@ describe('components/ProfilePicture', () => {
         const props = {
             ...baseProps,
             user: {
-                username: 'username'
+                username: 'username',
             },
             width: '48',
             height: '48',
             isRHS: true,
-            hasMention: true
+            hasMention: true,
         };
         const wrapper = shallow(
             <ProfilePicture {...props}/>

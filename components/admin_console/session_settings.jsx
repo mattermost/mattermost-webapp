@@ -43,7 +43,7 @@ export default class SessionSettings extends AdminSettings {
             sessionLengthMobileInDays: config.ServiceSettings.SessionLengthMobileInDays,
             sessionLengthSSOInDays: config.ServiceSettings.SessionLengthSSOInDays,
             sessionCacheInMinutes: config.ServiceSettings.SessionCacheInMinutes,
-            sessionIdleTimeoutInMinutes: config.ServiceSettings.SessionIdleTimeoutInMinutes
+            sessionIdleTimeoutInMinutes: config.ServiceSettings.SessionIdleTimeoutInMinutes,
         };
     }
 

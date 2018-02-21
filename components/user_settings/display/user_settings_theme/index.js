@@ -14,7 +14,7 @@ function mapStateToProps(state) {
 
     return {
         isLicensed,
-        ldap
+        ldap,
     };
 }
 

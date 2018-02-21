@@ -43,15 +43,15 @@ export default class ComplianceReports extends React.PureComponent {
             /*
              * Function to save compliance reports
              */
-            createComplianceReport: PropTypes.func.isRequired
-        }).isRequired
+            createComplianceReport: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
         super(props);
 
         this.state = {
-            loadingReports: true
+            loadingReports: true,
         };
     }
 
@@ -399,5 +399,5 @@ const style = {
     redStatus: {color: 'red'},
     dataCell: {whiteSpace: 'nowrap'},
     date: {whiteSpace: 'nowrap'},
-    serverError: {marginTop: '10px'}
+    serverError: {marginTop: '10px'},
 };

@@ -46,13 +46,13 @@ export default class EditOAuthApp extends React.PureComponent {
             /**
             * The function to call to edit OAuthApp
             */
-            editOAuthApp: PropTypes.func.isRequired
+            editOAuthApp: PropTypes.func.isRequired,
         }).isRequired,
 
         /**
         * Whether or not OAuth applications are enabled.
         */
-        enableOAuthServiceProvider: PropTypes.bool
+        enableOAuthServiceProvider: PropTypes.bool,
     }
 
     constructor(props) {
@@ -60,7 +60,7 @@ export default class EditOAuthApp extends React.PureComponent {
 
         this.state = {
             showConfirmModal: false,
-            serverError: ''
+            serverError: '',
         };
     }
 

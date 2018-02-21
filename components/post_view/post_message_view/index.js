@@ -11,7 +11,7 @@ function mapStateToProps(state) {
     return {
         enableFormatting: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'formatting', true),
         pluginPostTypes: state.plugins.postTypes,
-        theme: getTheme(state)
+        theme: getTheme(state),
     };
 }
 

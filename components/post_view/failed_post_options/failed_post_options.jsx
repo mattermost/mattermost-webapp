@@ -19,8 +19,8 @@ export default class FailedPostOptions extends React.PureComponent {
             /**
              * The function to delete the post
              */
-            removePost: PropTypes.func.isRequired
-        }).isRequired
+            removePost: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {

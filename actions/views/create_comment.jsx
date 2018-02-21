@@ -11,7 +11,7 @@ import {
     removeReaction,
     addMessageIntoHistory,
     moveHistoryIndexBack,
-    moveHistoryIndexForward
+    moveHistoryIndexForward,
 } from 'mattermost-redux/actions/posts';
 import {Posts} from 'mattermost-redux/constants';
 
@@ -76,7 +76,7 @@ export function submitPost(channelId, rootId, draft) {
             parent_id: rootId,
             pending_post_id: `${userId}:${time}`,
             user_id: userId,
-            create_at: time
+            create_at: time,
         };
 
         GlobalActions.emitUserCommentedEvent(post);
@@ -106,7 +106,7 @@ export function submitCommand(channelId, rootId, draft) {
             channel_id: channelId,
             team_id: teamId,
             root_id: rootId,
-            parent_id: rootId
+            parent_id: rootId,
         };
 
         const {message} = draft;

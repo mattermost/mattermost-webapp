@@ -64,7 +64,7 @@ export default class MultiSelectSetting extends React.Component {
 }
 
 MultiSelectSetting.defaultProps = {
-    disabled: false
+    disabled: false,
 };
 
 MultiSelectSetting.propTypes = {
@@ -78,5 +78,5 @@ MultiSelectSetting.propTypes = {
     helpText: PropTypes.node,
     noResultText: PropTypes.node,
     errorText: PropTypes.node,
-    notPresent: PropTypes.node
+    notPresent: PropTypes.node,
 };

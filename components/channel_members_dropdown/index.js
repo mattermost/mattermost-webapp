@@ -30,15 +30,15 @@ function mapStateToProps(state, ownProps) {
     return {
         isLicensed,
         canChangeMemberRoles,
-        canRemoveMember
+        canRemoveMember,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getChannelStats
-        }, dispatch)
+            getChannelStats,
+        }, dispatch),
     };
 }
 

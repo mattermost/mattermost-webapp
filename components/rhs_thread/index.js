@@ -36,7 +36,7 @@ function makeMapStateToProps() {
             posts,
             previewCollapsed,
             postsEmbedVisibleObj,
-            previewEnabled: getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT)
+            previewEnabled: getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT),
         };
     };
 }
@@ -44,8 +44,8 @@ function makeMapStateToProps() {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            removePost
-        }, dispatch)
+            removePost,
+        }, dispatch),
     };
 }
 

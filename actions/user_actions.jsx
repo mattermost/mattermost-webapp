@@ -42,16 +42,16 @@ export async function loadMeAndConfig(callback) {
     if (global.window && global.window.analytics) {
         global.window.analytics.identify(global.window.mm_config.DiagnosticId, {}, {
             context: {
-                ip: '0.0.0.0'
+                ip: '0.0.0.0',
             },
             page: {
                 path: '',
                 referrer: '',
                 search: '',
                 title: '',
-                url: ''
+                url: '',
             },
-            anonymousId: '00000000000000000000000000'
+            anonymousId: '00000000000000000000000000',
         });
     }
 
@@ -61,7 +61,7 @@ export async function loadMeAndConfig(callback) {
             ({data: license}) => {
                 global.window.mm_license = license;
             }
-        )
+        ),
     ]).then(callback);
 }
 
@@ -222,7 +222,7 @@ export async function loadNewDMIfNeeded(channelId) {
             const currentUserId = UserStore.getCurrentId();
             savePreferencesRedux(currentUserId, [
                 {user_id: currentUserId, category: Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, name: userId, value: 'true'},
-                {user_id: currentUserId, category: Preferences.CATEGORY_CHANNEL_OPEN_TIME, name: channelId, value: now.toString()}
+                {user_id: currentUserId, category: Preferences.CATEGORY_CHANNEL_OPEN_TIME, name: channelId, value: now.toString()},
             ])(dispatch, getState);
             loadProfilesForDM();
         }
@@ -288,7 +288,7 @@ export async function loadProfilesForGM() {
                 user_id: UserStore.getCurrentId(),
                 category: Preferences.CATEGORY_GROUP_CHANNEL_SHOW,
                 name: channel.id,
-                value: 'true'
+                value: 'true',
             });
         }
 
@@ -328,7 +328,7 @@ export async function loadProfilesForDM() {
                 user_id: UserStore.getCurrentId(),
                 category: Preferences.CATEGORY_DIRECT_CHANNEL_SHOW,
                 name: teammateId,
-                value: 'true'
+                value: 'true',
             });
         }
 
@@ -355,7 +355,7 @@ export async function saveTheme(teamId, theme, cb) {
         user_id: currentUserId,
         category: Preferences.CATEGORY_THEME,
         name: teamId,
-        value: JSON.stringify(theme)
+        value: JSON.stringify(theme),
     }];
 
     await savePreferencesRedux(currentUserId, preference)(dispatch, getState);
@@ -381,7 +381,7 @@ function onThemeSaved(teamId, theme, onSuccess) {
         toDelete.push({
             user_id: UserStore.getCurrentId(),
             category: Preferences.CATEGORY_THEME,
-            name
+            name,
         });
     }
 

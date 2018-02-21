@@ -12,8 +12,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             checkIfTeamExists,
-            createTeam
-        }, dispatch)
+            createTeam,
+        }, dispatch),
     };
 }
 

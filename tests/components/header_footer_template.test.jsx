@@ -82,7 +82,7 @@ describe('components/HeaderFooterTemplate', () => {
                     HelpLink: 'http://testhelplink',
                     TermsOfServiceLink: 'http://testtermsofservicelink',
                     PrivacyPolicyLink: 'http://testprivacypolicylink',
-                    AboutLink: 'http://testaboutlink'
+                    AboutLink: 'http://testaboutlink',
                 }}
             />
         );

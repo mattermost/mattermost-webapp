@@ -13,7 +13,7 @@ export default class SettingItemMax extends React.PureComponent {
     static defaultProps = {
         infoPosition: 'bottom',
         saving: false,
-        section: ''
+        section: '',
     };
 
     static propTypes = {
@@ -86,7 +86,7 @@ export default class SettingItemMax extends React.PureComponent {
         /**
          * Text of cancel button
          */
-        cancelButtonText: PropTypes.node
+        cancelButtonText: PropTypes.node,
     }
 
     componentDidMount() {
