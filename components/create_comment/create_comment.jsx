@@ -293,7 +293,7 @@ export default class CreateComment extends React.PureComponent {
         }
 
         const fasterThanHumanWillClick = 150;
-        const forceFocus = (Date.now() - this.lastBlurAt < fasterThanHumanWillClick);
+        const forceFocus = (Date.now() - this.lastBlurAt) > fasterThanHumanWillClick;
         this.setState({draft: {...this.props.draft, uploadsInProgress: []}});
         this.focusTextbox(forceFocus);
     }
