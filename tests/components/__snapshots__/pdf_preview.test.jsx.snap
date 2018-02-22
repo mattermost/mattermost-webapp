@@ -1,17 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`component/PDFPreview should match snapshot, loaded with FileInfoPreview 1`] = `
-<FileInfoPreview
-  fileInfo={
-    Object {
-      "extension": "pdf",
-    }
-  }
-  fileUrl="https://pre-release.mattermost.com/api/v4/files/ips59w4w9jnfbrs3o94m1dbdie"
-/>
-`;
-
-exports[`component/PDFPreview should match snapshot, loading 1`] = `
+exports['component/PDFPreview should match snapshot, loading 1'] = `
 <div
   className="view-image__loading"
 >
@@ -20,4 +9,15 @@ exports[`component/PDFPreview should match snapshot, loading 1`] = `
     src={null}
   />
 </div>
+`;
+
+exports['component/PDFPreview should match snapshot, not successful 1'] = `
+<Connect(FileInfoPreview)
+  fileInfo={
+    Object {
+      "extension": "pdf",
+    }
+  }
+  fileUrl="https://pre-release.mattermost.com/api/v4/files/ips59w4w9jnfbrs3o94m1dbdie"
+/>
 `;
