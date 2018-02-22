@@ -20,6 +20,7 @@ function mapStateToProps(state) {
     const bannerColor = config.BannerColor;
     const bannerTextColor = config.BannerTextColor;
     const enableSignUpWithGitLab = config.EnableSignUpWithGitLab === 'true';
+    const enableAPIv3 = config.EnableAPIv3 === 'true';
 
     return {
         isLoggedIn: Boolean(getCurrentUserId(state)),
@@ -32,6 +33,7 @@ function mapStateToProps(state) {
         bannerColor,
         bannerTextColor,
         enableSignUpWithGitLab,
+        enableAPIv3,
     };
 }
 
