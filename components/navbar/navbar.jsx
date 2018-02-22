@@ -325,7 +325,8 @@ export default class Navbar extends React.Component {
     }
 
     generateWebrtcIcon() {
-        if (!this.isWebrtcEnabled()) {
+        const channel = this.state.channel || {};
+        if (!this.isWebrtcEnabled() || channel.type !== Constants.DM_CHANNEL) {
             return null;
         }
 
