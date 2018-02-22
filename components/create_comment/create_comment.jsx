@@ -354,8 +354,6 @@ export default class CreateComment extends React.PureComponent {
     }
 
     handleFileUploadChange = () => {
-        // Forcing focus to true is specifically intended to mobile app classic
-        // where keyboard is kept open on/after file upload change.
         this.focusTextbox(true);
     }
 
