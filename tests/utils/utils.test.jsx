@@ -531,3 +531,34 @@ describe('Utils.isEmail', function() {
         }
     });
 });
+
+describe('Utils.isKeyPressed', function() {
+    test('Key match is used over keyCode if it exists', function() {
+        for (const data of [
+            {
+                event: new KeyboardEvent('keydown', {key: '/', keyCode: 55}),
+                key: ['/', 191],
+                valid: true,
+            },
+            {
+                event: new KeyboardEvent('keydown', {key: 'ù', keyCode: 191}),
+                key: ['/', 191],
+                valid: false,
+            },
+        ]) {
+            expect(Utils.isKeyPressed(data.event, data.key)).toEqual(data.valid);
+        }
+    });
+
+    test('KeyCode is used for dead letter keys', function() {
+        for (const data of [
+            {
+                event: new KeyboardEvent('keydown', {key: 'Dead', keyCode: 222}),
+                key: ['Dead', 222],
+                valid: true,
+            },
+        ]) {
+            expect(Utils.isKeyPressed(data.event, data.key)).toEqual(data.valid);
+        }
+    });
+});
