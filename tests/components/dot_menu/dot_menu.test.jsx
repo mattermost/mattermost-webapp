@@ -24,16 +24,6 @@ jest.mock('utils/post_utils', () => {
 });
 
 describe('components/dot_menu/DotMenu', () => {
-    global.window.mm_license = {};
-
-    beforeEach(() => {
-        global.window.mm_license.IsLicensed = 'false';
-    });
-
-    afterEach(() => {
-        global.window.mm_license = {};
-    });
-
     const baseProps = {
         idPrefix: Constants.CENTER,
         idCount: -1,
