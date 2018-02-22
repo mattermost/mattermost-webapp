@@ -23,6 +23,7 @@ const EMOJI_CONTAINER_STYLE = {
 const EMOJI_LAZY_LOAD_BUFFER = 75;
 const EMOJI_PER_ROW = 9;
 const EMOJI_TO_LOAD_PER_UPDATE = 135;
+const SYSTEM_EMOJIS_COUNT = 1476;
 const EMOJI_LAZY_LOAD_SCROLL_THROTTLE = 100;
 
 const CATEGORIES = {
@@ -150,7 +151,7 @@ export default class EmojiPicker extends React.PureComponent {
             filter: '',
             cursor: [0, 0], // categoryIndex, emojiIndex
             divTopOffset: 0,
-            emojisToShow: EMOJI_TO_LOAD_PER_UPDATE,
+            emojisToShow: SYSTEM_EMOJIS_COUNT,
         };
     }
 
