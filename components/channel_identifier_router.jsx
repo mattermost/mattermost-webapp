@@ -25,16 +25,14 @@ function onChannelByIdentifierEnter({match, history}) {
     const {path, identifier} = match.params;
 
     if (path === 'channels') {
-        // It's hard to tell an ID apart from a channel name of the same length, so check first if
-        // the identifier matches a channel that we have
-        const channel = ChannelStore.getByName(identifier);
-        if (channel) {
-            goToChannelByChannelName(match, history);
-            return;
-        }
-
         if (identifier.length === LENGTH_OF_ID) {
-            goToChannelByChannelId(match, history);
+            // It's hard to tell an ID apart from a channel name of the same length, so check first if
+            // the identifier matches a channel that we have
+            if (ChannelStore.getByName(identifier)) {
+                goToChannelByChannelName(match, history);
+            } else {
+                goToChannelByChannelId(match, history);
+            }
         } else if (identifier.length === LENGTH_OF_GROUP_ID) {
             goToGroupChannelByGroupId(match, history);
         } else if (identifier.length === LENGTH_OF_USER_ID_PAIR) {
@@ -48,7 +46,7 @@ function onChannelByIdentifierEnter({match, history}) {
         } else if (identifier.indexOf('@') > 0) {
             goToDirectChannelByEmail(match, history);
         } else if (identifier.length === LENGTH_OF_ID) {
-            goToDirectChannelByUserId(match, history);
+            goToDirectChannelByUserId(match, history, identifier);
         } else if (identifier.length === LENGTH_OF_GROUP_ID) {
             goToGroupChannelByGroupId(match, history);
         } else {
@@ -72,8 +70,7 @@ async function goToChannelByChannelId(match, history) {
     }
 
     if (channel.type === Constants.DM_CHANNEL) {
-        const user = UserStore.get(Utils.getUserIdFromChannelId(channel.name));
-        history.replace(`/${team}/messages/@${user.name}`);
+        goToDirectChannelByUserId(match, history, Utils.getUserIdFromChannelId(channel.name));
     } else if (channel.type === Constants.GM_CHANNEL) {
         history.replace(`/${team}/messages/${channel.name}`);
     } else {
@@ -96,8 +93,7 @@ async function goToChannelByChannelName(match, history) {
     }
 
     if (channel.type === Constants.DM_CHANNEL) {
-        const user = UserStore.get(Utils.getUserIdFromChannelId(channel.name));
-        history.replace(`/${team}/messages/@${user.name}`);
+        goToDirectChannelByUserIds(match, history);
     } else if (channel.type === Constants.GM_CHANNEL) {
         history.replace(`/${team}/messages/${channel.name}`);
     } else {
@@ -128,9 +124,8 @@ async function goToDirectChannelByUsername(match, history) {
     );
 }
 
-async function goToDirectChannelByUserId(match, history) {
-    const {team, identifier} = match.params;
-    const userId = identifier.toLowerCase();
+async function goToDirectChannelByUserId(match, history, userId) {
+    const {team} = match.params;
 
     let user = UserStore.getProfile(userId);
     if (!user) {
