@@ -211,6 +211,118 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
 </form>
 `;
 
+exports[`components/CreateComment should match snapshot, emoji picker disabled 1`] = `
+<form
+  onSubmit={[Function]}
+>
+  <div
+    className="post-create"
+  >
+    <div
+      className="post-create-body comment-create-body"
+      id=""
+    >
+      <div
+        className="post-body__cell"
+      >
+        <Textbox
+          channelId="g6139tbospd18cmxroesdk3kkc"
+          characterLimit={4000}
+          createMessage="Add a comment..."
+          disabled={false}
+          emojiEnabled={false}
+          handlePostError={[Function]}
+          id="reply_textbox"
+          initialText=""
+          isRHS={true}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onKeyDown={[Function]}
+          onKeyPress={[Function]}
+          popoverMentionKeyClick={true}
+          supportsCommands={true}
+          value="Test message"
+        />
+        <span
+          className="post-body__actions"
+        >
+          <Connect(InjectIntl(FileUpload))
+            fileCount={3}
+            getTarget={[Function]}
+            onFileUpload={[Function]}
+            onFileUploadChange={[Function]}
+            onUploadError={[Function]}
+            onUploadStart={[Function]}
+            postType="comment"
+          />
+        </span>
+      </div>
+    </div>
+    <MsgTyping
+      channelId="g6139tbospd18cmxroesdk3kkc"
+      parentId=""
+    />
+    <div
+      className="post-create-footer"
+    >
+      <input
+        className="btn btn-primary comment-btn pull-right"
+        onClick={[Function]}
+        type="button"
+        value="Add Comment"
+      />
+      <FilePreview
+        fileInfos={
+          Array [
+            Object {},
+            Object {},
+            Object {},
+          ]
+        }
+        onRemove={[Function]}
+        uploadsInProgress={Array []}
+      />
+    </div>
+  </div>
+  <PostDeletedModal
+    onHide={[Function]}
+    show={false}
+  />
+  <ConfirmModal
+    confirmButtonClass="btn btn-primary"
+    confirmButtonText={
+      <FormattedMessage
+        defaultMessage="Confirm"
+        id="notify_all.confirm"
+        values={Object {}}
+      />
+    }
+    message={
+      <FormattedMessage
+        defaultMessage="By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?"
+        id="notify_all.question"
+        values={
+          Object {
+            "totalMembers": 2,
+          }
+        }
+      />
+    }
+    modalClass=""
+    onCancel={[Function]}
+    onConfirm={[Function]}
+    show={false}
+    title={
+      <FormattedMessage
+        defaultMessage="Confirm sending notifications to entire channel"
+        id="notify_all.title.confirm"
+        values={Object {}}
+      />
+    }
+  />
+</form>
+`;
+
 exports[`components/CreateComment should match snapshot, empty comment 1`] = `
 <form
   onSubmit={[Function]}

@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import AbstractIncomingWebhook from 'components/integrations/components/abstract_incoming_webhook.jsx';
+import AbstractIncomingWebhook from 'components/integrations/abstract_incoming_webhook.jsx';
 
 describe('components/integrations/AbstractIncomingWebhook', () => {
     const team = {name: 'team_name'};
@@ -14,7 +14,7 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
     const initialHook = {
         display_name: 'testIncomingWebhook',
         channel_id: '88cxd9wpzpbpfp8pad78xj75pr',
-        description: 'testing'
+        description: 'testing',
     };
     const enablePostUsernameOverride = true;
     const enablePostIconOverride = true;
@@ -35,7 +35,7 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
         initialHook,
         enablePostUsernameOverride,
         enablePostIconOverride,
-        action
+        action,
     };
 
     test('should match snapshot', () => {
@@ -66,7 +66,7 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
     test('should match snapshot, hiding post username if not enabled', () => {
         const props = {
             ...requiredProps,
-            enablePostUsernameOverride: false
+            enablePostUsernameOverride: false,
         };
         const wrapper = shallow(<AbstractIncomingWebhook {...props}/>);
         expect(wrapper).toMatchSnapshot();
@@ -75,7 +75,7 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
     test('should match snapshot, hiding post icon url if not enabled', () => {
         const props = {
             ...requiredProps,
-            enablePostIconOverride: false
+            enablePostIconOverride: false,
         };
         const wrapper = shallow(<AbstractIncomingWebhook {...props}/>);
         expect(wrapper).toMatchSnapshot();
@@ -98,7 +98,7 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
         const newChannelId = 'new_channel_id';
         const evt = {
             preventDefault: jest.fn(),
-            target: {value: newChannelId}
+            target: {value: newChannelId},
         };
 
         const wrapper = shallow(<AbstractIncomingWebhook {...requiredProps}/>);
@@ -111,7 +111,7 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
         const newDescription = 'new_description';
         const evt = {
             preventDefault: jest.fn(),
-            target: {value: newDescription}
+            target: {value: newDescription},
         };
 
         const wrapper = shallow(<AbstractIncomingWebhook {...requiredProps}/>);
@@ -124,7 +124,7 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
         const newUsername = 'new_username';
         const evt = {
             preventDefault: jest.fn(),
-            target: {value: newUsername}
+            target: {value: newUsername},
         };
 
         const wrapper = shallow(<AbstractIncomingWebhook {...requiredProps}/>);
@@ -137,7 +137,7 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
         const newIconURL = 'http://example.com/icon';
         const evt = {
             preventDefault: jest.fn(),
-            target: {value: newIconURL}
+            target: {value: newIconURL},
         };
 
         const wrapper = shallow(<AbstractIncomingWebhook {...requiredProps}/>);

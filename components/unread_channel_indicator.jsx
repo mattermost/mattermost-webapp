@@ -32,13 +32,13 @@ export default class UnreadChannelIndicator extends React.PureComponent {
         /**
          * The name of the indicator
          */
-        name: PropTypes.string
+        name: PropTypes.string,
     };
 
     static defaultProps = {
         show: false,
         extraClass: '',
-        content: ''
+        content: '',
     };
 
     render() {

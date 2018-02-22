@@ -11,15 +11,17 @@ describe('components/navbar/Navbar', () => {
         teamDisplayName: 'team_display_name',
         isPinnedPosts: true,
         actions: {
-            showEditChannelHeaderModal: jest.fn()
-        }
+            showEditChannelHeaderModal: jest.fn(),
+        },
+        isLicensed: true,
+        enableWebrtc: true,
     };
 
     const validState = {
         channel: {type: 'O', id: 'channel_id', display_name: 'display_name'},
         member: {id: 'member_id'},
         users: [{id: 'user_id_1'}],
-        currentUser: {id: 'current_user_id'}
+        currentUser: {id: 'current_user_id'},
     };
 
     global.window.mm_license = {};
@@ -55,7 +57,10 @@ describe('components/navbar/Navbar', () => {
     test('should match snapshot, if not licensed', () => {
         global.window.mm_license.IsLicensed = 'false';
         const wrapper = shallow(
-            <Navbar {...baseProps}/>
+            <Navbar
+                {...baseProps}
+                isLicensed={false}
+            />
         );
 
         wrapper.setState(validState);
@@ -65,7 +70,10 @@ describe('components/navbar/Navbar', () => {
     test('should match snapshot, if enabled WebRTC and DM channel', () => {
         global.window.mm_config.EnableWebrtc = 'true';
         const wrapper = shallow(
-            <Navbar {...baseProps}/>
+            <Navbar
+                {...baseProps}
+                enableWebrtc={true}
+            />
         );
 
         const newValidState = {...validState, channel: {type: 'D', id: 'channel_id', name: 'user_id_1__user_id_2', display_name: 'display_name'}};
@@ -76,7 +84,10 @@ describe('components/navbar/Navbar', () => {
     test('should match snapshot, if WebRTC is not enabled', () => {
         global.window.mm_config.EnableWebrtc = 'false';
         const wrapper = shallow(
-            <Navbar {...baseProps}/>
+            <Navbar
+                {...baseProps}
+                enableWebrtc={false}
+            />
         );
 
         wrapper.setState(validState);

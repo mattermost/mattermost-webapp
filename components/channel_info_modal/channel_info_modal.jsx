@@ -29,7 +29,7 @@ export default class ChannelInfoModal extends React.PureComponent {
         /**
          * Current team object
          */
-        currentTeam: PropTypes.object.isRequired
+        currentTeam: PropTypes.object.isRequired,
     };
 
     constructor(props) {
@@ -56,7 +56,7 @@ export default class ChannelInfoModal extends React.PureComponent {
                 name: notFound,
                 purpose: notFound,
                 header: notFound,
-                id: notFound
+                id: notFound,
             };
         }
 

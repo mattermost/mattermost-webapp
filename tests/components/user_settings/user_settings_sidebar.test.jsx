@@ -6,23 +6,23 @@ import {shallow} from 'enzyme';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
-import UserSettingsSidebar from 'components/user_settings/user_settings_sidebar/user_settings_sidebar.jsx';
+import UserSettingsSidebar from 'components/user_settings/sidebar/user_settings_sidebar.jsx';
 
-describe('components/user_settings/UserSettingsSidebar', () => {
+describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
     const defaultProps = {
         closeUnusedDirectMessages: 'after_seven_days',
         displayUnreadSection: 'true',
         showUnusedOption: false,
         showUnreadOption: true,
         user: {
-            id: 'someuserid'
+            id: 'someuserid',
         },
         closeModal: () => () => true,
         collapseModal: () => () => true,
         updateSection: () => () => true,
         actions: {
-            savePreferences: () => true
-        }
+            savePreferences: () => true,
+        },
     };
 
     test('should match snapshot', () => {
@@ -32,7 +32,7 @@ describe('components/user_settings/UserSettingsSidebar', () => {
         expect(wrapper.state('isSaving')).toEqual(false);
         expect(wrapper.state('settings')).toEqual({
             close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
-            show_unread_section: defaultProps.displayUnreadSection
+            show_unread_section: defaultProps.displayUnreadSection,
         });
     });
 
@@ -57,13 +57,13 @@ describe('components/user_settings/UserSettingsSidebar', () => {
 
         expect(wrapper.state('settings')).toEqual({
             close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
-            show_unread_section: 'false'
+            show_unread_section: 'false',
         });
 
         wrapper.find('#unreadSectionEnabled').simulate('change');
         expect(wrapper.state('settings')).toEqual({
             close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
-            show_unread_section: 'true'
+            show_unread_section: 'true',
         });
     });
 });

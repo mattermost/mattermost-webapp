@@ -17,14 +17,14 @@ export default class SettingsUpload extends React.Component {
         this.state = {
             clientError: this.props.clientError,
             serverError: this.props.serverError,
-            filename: ''
+            filename: '',
         };
     }
 
     componentWillReceiveProps() {
         this.setState({
             clientError: this.props.clientError,
-            serverError: this.props.serverError
+            serverError: this.props.serverError,
         });
     }
 
@@ -37,7 +37,7 @@ export default class SettingsUpload extends React.Component {
         this.setState({
             clientError: '',
             serverError: '',
-            filename
+            filename,
         });
     }
 
@@ -123,5 +123,5 @@ SettingsUpload.propTypes = {
     fileTypesAccepted: PropTypes.string.isRequired,
     clientError: PropTypes.string,
     serverError: PropTypes.string,
-    helpText: PropTypes.object
+    helpText: PropTypes.object,
 };

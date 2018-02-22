@@ -8,15 +8,15 @@ import GetPublicLinkModal from './get_public_link_modal.jsx';
 function mapStateToProps(state, ownProps) {
     return {
         ...ownProps,
-        link: Selectors.getFilePublicLink(state).link
+        link: Selectors.getFilePublicLink(state).link,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getFilePublicLink
-        }, dispatch)
+            getFilePublicLink,
+        }, dispatch),
     };
 }
 

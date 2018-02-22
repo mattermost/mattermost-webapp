@@ -21,17 +21,17 @@ export default class GetTeamInviteLinkModal extends React.PureComponent {
         /**
          * Global config object
          */
-        config: PropTypes.object.isRequired
+        config: PropTypes.object.isRequired,
     }
 
     static defaultProps = {
-        currentTeam: {}
+        currentTeam: {},
     }
 
     constructor(props) {
         super(props);
         this.state = {
-            show: false
+            show: false,
         };
     }
 
@@ -45,7 +45,7 @@ export default class GetTeamInviteLinkModal extends React.PureComponent {
 
     handleToggle = (value) => {
         this.setState({
-            show: value
+            show: value,
         });
     }
 

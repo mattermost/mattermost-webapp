@@ -143,7 +143,7 @@ TeamButton.defaultProps = {
     active: false,
     disabled: false,
     unread: false,
-    mentions: 0
+    mentions: 0,
 };
 
 TeamButton.propTypes = {
@@ -157,5 +157,5 @@ TeamButton.propTypes = {
     isMobile: PropTypes.bool,
     unread: PropTypes.bool,
     mentions: PropTypes.number,
-    placement: PropTypes.oneOf(['left', 'right', 'top', 'bottom'])
+    placement: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
 };

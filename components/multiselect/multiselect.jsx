@@ -21,7 +21,7 @@ export default class MultiSelect extends React.Component {
         this.selected = null;
 
         this.state = {
-            page: 0
+            page: 0,
         };
     }
 
@@ -144,7 +144,7 @@ export default class MultiSelect extends React.Component {
                     id='multiselect.numRemaining'
                     defaultMessage='You can add {num, number} more. '
                     values={{
-                        num: this.props.maxValues - this.props.values.length
+                        num: this.props.maxValues - this.props.values.length,
                     }}
                 />
             );
@@ -296,5 +296,5 @@ MultiSelect.propTypes = {
     buttonSubmitText: PropTypes.node,
     submitImmediatelyOn: PropTypes.func,
     saving: PropTypes.bool,
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
 };

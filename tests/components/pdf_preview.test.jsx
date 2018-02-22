@@ -12,15 +12,15 @@ jest.mock('pdfjs-dist', () => ({
         numPages: 3,
         getPage: (i) => Promise.resolve({
             pageIndex: i,
-            getContext: (s) => Promise.resolve({s})
-        })
-    })
+            getContext: (s) => Promise.resolve({s}),
+        }),
+    }),
 }));
 
 describe('component/PDFPreview', () => {
     const requiredProps = {
         fileInfo: {extension: 'pdf'},
-        fileUrl: 'https://pre-release.mattermost.com/api/v4/files/ips59w4w9jnfbrs3o94m1dbdie'
+        fileUrl: 'https://pre-release.mattermost.com/api/v4/files/ips59w4w9jnfbrs3o94m1dbdie',
     };
 
     test('should match snapshot, loading', () => {
@@ -66,7 +66,7 @@ describe('component/PDFPreview', () => {
         const MAX_PDF_PAGES = 5;
         pdf = {
             numPages: 6,
-            getPage: (i) => Promise.resolve(i)
+            getPage: (i) => Promise.resolve(i),
         };
         wrapper.instance().onDocumentLoad(pdf);
         expect(wrapper.state('pdf')).toEqual(pdf);

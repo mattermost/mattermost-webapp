@@ -12,7 +12,6 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import {emitEmojiPosted} from 'actions/post_actions.jsx';
 import EmojiStore from 'stores/emoji_store.jsx';
 import Constants, {StoragePrefixes} from 'utils/constants.jsx';
-import * as FileUtils from 'utils/file_utils';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -82,7 +81,7 @@ export default class CreatePost extends React.Component {
         draft: PropTypes.shape({
             message: PropTypes.string.isRequired,
             uploadsInProgress: PropTypes.array.isRequired,
-            fileInfos: PropTypes.array.isRequired
+            fileInfos: PropTypes.array.isRequired,
         }).isRequired,
 
         /**
@@ -109,6 +108,21 @@ export default class CreatePost extends React.Component {
         *  Set if the channel is read only.
         */
         readOnlyChannel: PropTypes.bool,
+
+        /**
+         * Whether or not file upload is allowed.
+         */
+        canUploadFiles: PropTypes.bool.isRequired,
+
+        /**
+         * Whether to show the emoji picker.
+         */
+        enableEmojiPicker: PropTypes.bool.isRequired,
+
+        /**
+         * Whether to check with the user before notifying the whole channel.
+         */
+        enableConfirmNotificationsToChannel: PropTypes.bool.isRequired,
 
         actions: PropTypes.shape({
 
@@ -160,12 +174,12 @@ export default class CreatePost extends React.Component {
             /**
              *  func called for opening the last replayable post in the RHS
              */
-            selectPostFromRightHandSideSearchByPostId: PropTypes.func.isRequired
-        }).isRequired
+            selectPostFromRightHandSideSearchByPostId: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     static defaultProps = {
-        latestReplyablePostId: ''
+        latestReplyablePostId: '',
     }
 
     constructor(props) {
@@ -176,7 +190,7 @@ export default class CreatePost extends React.Component {
             showPostDeletedModal: false,
             enableSendButton: false,
             showEmojiPicker: false,
-            showConfirmModal: false
+            showConfirmModal: false,
         };
 
         this.lastBlurAt = 0;
@@ -193,7 +207,7 @@ export default class CreatePost extends React.Component {
 
         // wait to load these since they may have changed since the component was constructed (particularly in the case of skipping the tutorial)
         this.setState({
-            enableSendButton
+            enableSendButton,
         });
     }
 
@@ -209,7 +223,7 @@ export default class CreatePost extends React.Component {
             this.setState({
                 message: draft.message,
                 submitting: false,
-                serverError: null
+                serverError: null,
             });
         }
     }
@@ -285,7 +299,7 @@ export default class CreatePost extends React.Component {
                         this.setState({
                             serverError: err.message,
                             submitting: false,
-                            message: post.message
+                            message: post.message,
                         });
                     }
                 }
@@ -301,7 +315,7 @@ export default class CreatePost extends React.Component {
             submitting: false,
             postError: null,
             serverError: null,
-            enableSendButton: false
+            enableSendButton: false,
         });
 
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
@@ -328,7 +342,7 @@ export default class CreatePost extends React.Component {
     handleSubmit = (e) => {
         const updateChannel = this.props.currentChannel;
 
-        if (window.mm_config.EnableConfirmNotificationsToChannel === 'true' &&
+        if (this.props.enableConfirmNotificationsToChannel &&
             this.props.currentChannelMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
             PostUtils.containsAtChannel(this.state.message)) {
             this.showNotifyAllModal();
@@ -362,7 +376,7 @@ export default class CreatePost extends React.Component {
             actions,
             currentChannel,
             currentUserId,
-            draft
+            draft,
         } = this.props;
 
         post.channel_id = currentChannel.id;
@@ -377,7 +391,7 @@ export default class CreatePost extends React.Component {
         actions.onSubmitPost(post, draft.fileInfos);
 
         this.setState({
-            submitting: false
+            submitting: false,
         });
     }
 
@@ -422,30 +436,30 @@ export default class CreatePost extends React.Component {
         const enableSendButton = this.handleEnableSendButton(message, this.props.draft.fileInfos);
         this.setState({
             message,
-            enableSendButton
+            enableSendButton,
         });
 
         const draft = {
             ...this.props.draft,
-            message
+            message,
         };
 
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
     }
 
     handleFileUploadChange = () => {
-        this.focusTextbox(true);
+        this.focusTextbox();
     }
 
     handleUploadStart = (clientIds, channelId) => {
         const uploadsInProgress = [
             ...this.props.draft.uploadsInProgress,
-            ...clientIds
+            ...clientIds,
         ];
 
         const draft = {
             ...this.props.draft,
-            uploadsInProgress
+            uploadsInProgress,
         };
 
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
@@ -472,7 +486,7 @@ export default class CreatePost extends React.Component {
 
         if (channelId === this.props.currentChannel.id) {
             this.setState({
-                enableSendButton: true
+                enableSendButton: true,
             });
         }
     }
@@ -492,7 +506,7 @@ export default class CreatePost extends React.Component {
                 const uploadsInProgress = draft.uploadsInProgress.filter((item, itemIndex) => index !== itemIndex);
                 const modifiedDraft = {
                     ...draft,
-                    uploadsInProgress
+                    uploadsInProgress,
                 };
                 this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, modifiedDraft);
             }
@@ -519,7 +533,7 @@ export default class CreatePost extends React.Component {
 
                 modifiedDraft = {
                     ...draft,
-                    uploadsInProgress
+                    uploadsInProgress,
                 };
 
                 // draft.uploadsInProgress.splice(index, 1);
@@ -530,7 +544,7 @@ export default class CreatePost extends React.Component {
 
             modifiedDraft = {
                 ...draft,
-                fileInfos
+                fileInfos,
             };
         }
 
@@ -567,7 +581,7 @@ export default class CreatePost extends React.Component {
         const lastMessage = this.props.messageInHistoryItem;
         if (lastMessage) {
             this.setState({
-                message: lastMessage
+                message: lastMessage,
             });
         }
     }
@@ -608,7 +622,10 @@ export default class CreatePost extends React.Component {
         } else {
             type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
         }
-        this.props.actions.setEditingPost(lastPost.id, this.props.commentCountForPost, '#post_textbox', type);
+        if (this.refs.textbox) {
+            this.refs.textbox.blur();
+        }
+        this.props.actions.setEditingPost(lastPost.id, this.props.commentCountForPost, 'post_textbox', type);
     }
 
     replyToLastPost = (e) => {
@@ -635,13 +652,13 @@ export default class CreatePost extends React.Component {
 
     showPostDeletedModal = () => {
         this.setState({
-            showPostDeletedModal: true
+            showPostDeletedModal: true,
         });
     }
 
     hidePostDeletedModal = () => {
         this.setState({
-            showPostDeletedModal: false
+            showPostDeletedModal: false,
         });
     }
 
@@ -702,7 +719,7 @@ export default class CreatePost extends React.Component {
             fullWidthTextBox,
             getChannelView,
             showTutorialTip,
-            readOnlyChannel
+            readOnlyChannel,
         } = this.props;
         const members = currentChannelMembersCount - 1;
 
@@ -725,7 +742,7 @@ export default class CreatePost extends React.Component {
                 id='notify_all.question'
                 defaultMessage='By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?'
                 values={{
-                    totalMembers: members
+                    totalMembers: members,
                 }}
             />
         );
@@ -777,7 +794,7 @@ export default class CreatePost extends React.Component {
         }
 
         let attachmentsDisabled = '';
-        if (!FileUtils.canUploadFiles()) {
+        if (!this.props.canUploadFiles) {
             attachmentsDisabled = ' post-create--attachment-disabled';
         }
 
@@ -798,7 +815,7 @@ export default class CreatePost extends React.Component {
         }
 
         let emojiPicker = null;
-        if (window.mm_config.EnableEmojiPicker === 'true' && !readOnlyChannel) {
+        if (this.props.enableEmojiPicker && !readOnlyChannel) {
             emojiPicker = (
                 <span className='emoji-picker__container'>
                     <EmojiPickerOverlay
@@ -844,7 +861,7 @@ export default class CreatePost extends React.Component {
                                 handlePostError={this.handlePostError}
                                 value={readOnlyChannel ? '' : this.state.message}
                                 onBlur={this.handleBlur}
-                                emojiEnabled={window.mm_config.EnableEmojiPicker === 'true'}
+                                emojiEnabled={this.props.enableEmojiPicker}
                                 createMessage={createMessage}
                                 channelId={currentChannel.id}
                                 popoverMentionKeyClick={true}

@@ -15,7 +15,8 @@ export default class YoutubeVideo extends React.PureComponent {
         currentChannelId: PropTypes.string.isRequired,
         link: PropTypes.string.isRequired,
         show: PropTypes.bool.isRequired,
-        onLinkLoaded: PropTypes.func
+        googleDeveloperKey: PropTypes.string,
+        onLinkLoaded: PropTypes.func,
     }
 
     constructor(props) {
@@ -33,7 +34,7 @@ export default class YoutubeVideo extends React.PureComponent {
             loaded: false,
             failed: false,
             playing: false,
-            title: ''
+            title: '',
         };
     }
 
@@ -63,7 +64,7 @@ export default class YoutubeVideo extends React.PureComponent {
 
         this.setState({
             videoId: match[1],
-            time: this.handleYoutubeTime(link)
+            time: this.handleYoutubeTime(link),
         });
     }
 
@@ -97,7 +98,7 @@ export default class YoutubeVideo extends React.PureComponent {
     }
 
     componentDidMount() {
-        const key = global.window.mm_config.GoogleDeveloperKey;
+        const key = this.props.googleDeveloperKey;
         if (key) {
             getYoutubeVideoInfo(key, this.state.videoId,
                 this.handleReceivedMetadata, this.handleMetadataError);
@@ -110,7 +111,7 @@ export default class YoutubeVideo extends React.PureComponent {
     loadWithoutKey() {
         this.setState({
             loaded: true,
-            thumb: 'https://i.ytimg.com/vi/' + this.state.videoId + '/hqdefault.jpg'
+            thumb: 'https://i.ytimg.com/vi/' + this.state.videoId + '/hqdefault.jpg',
         });
     }
 
@@ -118,7 +119,7 @@ export default class YoutubeVideo extends React.PureComponent {
         this.setState({
             failed: true,
             loaded: true,
-            title: Utils.localizeMessage('youtube_video.notFound', 'Video not found')
+            title: Utils.localizeMessage('youtube_video.notFound', 'Video not found'),
         });
     }
 
@@ -127,7 +128,7 @@ export default class YoutubeVideo extends React.PureComponent {
             this.setState({
                 failed: true,
                 loaded: true,
-                title: Utils.localizeMessage('youtube_video.notFound', 'Video not found')
+                title: Utils.localizeMessage('youtube_video.notFound', 'Video not found'),
             });
             return null;
         }
@@ -141,7 +142,7 @@ export default class YoutubeVideo extends React.PureComponent {
             loaded: true,
             receivedYoutubeData: true,
             title: metadata.title,
-            thumb
+            thumb,
         });
         return null;
     }

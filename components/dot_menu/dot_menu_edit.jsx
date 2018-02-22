@@ -57,10 +57,10 @@ DotMenuEdit.propTypes = {
         /*
          * Function set the editing post
          */
-        setEditingPost: PropTypes.func.isRequired
-    }).isRequired
+        setEditingPost: PropTypes.func.isRequired,
+    }).isRequired,
 };
 
 DotMenuEdit.defaultProps = {
-    idCount: -1
+    idCount: -1,
 };

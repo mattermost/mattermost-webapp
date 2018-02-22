@@ -48,5 +48,5 @@ export default class StatusOnlineAvatarIcon extends React.PureComponent {
 }
 
 const style = {
-    enableBackground: 'new -243 245 12 12'
+    enableBackground: 'new -243 245 12 12',
 };

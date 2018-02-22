@@ -61,7 +61,7 @@ export default function ErrorMessage({type, message, service}) {
                             id='error.oauth_missing_code'
                             defaultMessage='The service provider {service} did not provide an authorization code in the redirect URL.'
                             values={{
-                                service
+                                service,
                             }}
                         />
                     </p>
@@ -76,7 +76,7 @@ export default function ErrorMessage({type, message, service}) {
                                         messageId={'error.oauth_missing_code.google.link'}
                                         defaultMessage={'Google Apps'}
                                     />
-                                )
+                                ),
                             }}
                         />
                     </p>
@@ -91,7 +91,7 @@ export default function ErrorMessage({type, message, service}) {
                                         messageId={'error.oauth_missing_code.office365.link'}
                                         defaultMessage={'Office 365'}
                                     />
-                                )
+                                ),
                             }}
                         />
                     </p>
@@ -106,7 +106,7 @@ export default function ErrorMessage({type, message, service}) {
                                         messageId={'error.oauth_missing_code.gitlab.link'}
                                         defaultMessage={'GitLab'}
                                     />
-                                )
+                                ),
                             }}
                         />
                     </p>
@@ -121,7 +121,7 @@ export default function ErrorMessage({type, message, service}) {
                                         messageId={'error.oauth_missing_code.forum.link'}
                                         defaultMessage={'Troubleshooting forum'}
                                     />
-                                )
+                                ),
                             }}
                         />
                     </p>
@@ -174,5 +174,5 @@ ErrorMessage.propTypes = {
     /*
     * Service provider
     */
-    service: PropTypes.string
+    service: PropTypes.string,
 };

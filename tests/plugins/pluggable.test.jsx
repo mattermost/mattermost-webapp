@@ -18,7 +18,7 @@ describe('plugins/Pluggable', () => {
     beforeEach(() => {
         window.mm_config = {
             EnableWebrtc: 'true',
-            ShowEmailAddress: 'true'
+            ShowEmailAddress: 'true',
         };
     });
 

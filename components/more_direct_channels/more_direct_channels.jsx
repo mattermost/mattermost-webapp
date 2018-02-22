@@ -41,6 +41,11 @@ export default class MoreDirectChannels extends React.Component {
         isExistingChannel: PropTypes.bool.isRequired,
 
         /*
+         * The mode by which direct messages are restricted, if at all.
+         */
+        restrictDirectMessage: PropTypes.string,
+
+        /*
          * Function to call on modal dismissed
          */
         onModalDismissed: PropTypes.func,
@@ -60,8 +65,8 @@ export default class MoreDirectChannels extends React.Component {
             /**
              * Function to get profiles in team
              */
-            getProfilesInTeam: PropTypes.func.isRequired
-        }).isRequired
+            getProfilesInTeam: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -78,7 +83,7 @@ export default class MoreDirectChannels extends React.Component {
 
         this.searchTimeoutId = 0;
         this.term = '';
-        this.listType = global.window.mm_config.RestrictDirectMessage;
+        this.listType = this.props.restrictDirectMessage;
 
         const values = [];
 
@@ -97,7 +102,7 @@ export default class MoreDirectChannels extends React.Component {
             show: true,
             search: false,
             saving: false,
-            loadingUsers: true
+            loadingUsers: true,
         };
     }
 
@@ -120,7 +125,7 @@ export default class MoreDirectChannels extends React.Component {
 
     setUsersLoadingState = (loadingState) => {
         this.setState({
-            loadingUsers: loadingState
+            loadingUsers: loadingState,
         });
     }
 
@@ -203,7 +208,7 @@ export default class MoreDirectChannels extends React.Component {
         }
 
         this.setState({
-            users
+            users,
         });
     }
 
@@ -276,7 +281,7 @@ export default class MoreDirectChannels extends React.Component {
                     id='more_direct_channels.directchannel.you'
                     defaultMessage='{displayname} (you)'
                     values={{
-                        displayname: displayName
+                        displayname: displayName,
                     }}
                 />
             );
@@ -286,7 +291,7 @@ export default class MoreDirectChannels extends React.Component {
                     id='more_direct_channels.directchannel.deactivated'
                     defaultMessage='{displayname} - Deactivated'
                     values={{
-                        displayname: displayName
+                        displayname: displayName,
                     }}
                 />
             );
@@ -349,7 +354,7 @@ export default class MoreDirectChannels extends React.Component {
                         defaultMessage='You’ve reached the maximum number of people for this conversation. Consider creating a private channel instead.'
                     />
                 );
-            } else {
+            } else if (this.props.isExistingChannel) {
                 note = (
                     <FormattedMessage
                         id='more_direct_channels.new_convo_note'
@@ -366,7 +371,7 @@ export default class MoreDirectChannels extends React.Component {
                 id='multiselect.numPeopleRemaining'
                 defaultMessage='Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. '
                 values={{
-                    num: MAX_SELECTABLE_VALUES - this.state.values.length
+                    num: MAX_SELECTABLE_VALUES - this.state.values.length,
                 }}
             />
         );

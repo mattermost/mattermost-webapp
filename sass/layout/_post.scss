@@ -42,6 +42,17 @@
         right: 0;
         text-align: right;
         z-index: 3;
+
+        .modal & {
+            bottom: initial;
+            margin-top: -20px;
+            position: relative;
+            top: 30px;
+        }
+
+        a {
+            margin-left: 10px;
+        }
     }
 
     .textbox-preview-link {
@@ -54,9 +65,12 @@
     @include single-transition(all, .5s, ease, .5s);
     display: inline-block;
     font-size: .85em;
-    margin-right: 10px;
     vertical-align: bottom;
     white-space: nowrap;
+
+    .modal & {
+        white-space: normal;
+    }
 
     b,
     i,
@@ -894,7 +908,7 @@
 
             .post-image__column {
                 margin: 3px 10px 3px 0;
-                padding: 0 10px 0 0;
+                padding: 0 5px;
             }
         }
 
@@ -913,7 +927,6 @@
             .post-image__details {
                 background: transparent;
                 border: none;
-                flex-direction: row-reverse;
                 padding: 0;
                 width: 100%;
 
@@ -1150,11 +1163,6 @@
         padding: 0 50px 0 0;
         white-space: nowrap;
         width: 100%;
-
-        .post-list__content & {
-            padding-right: 80px;
-        }
-
 
         > div {
             display: inline-block;

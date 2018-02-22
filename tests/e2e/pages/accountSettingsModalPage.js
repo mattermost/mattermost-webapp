@@ -6,14 +6,14 @@ import {Constants} from '../utils';
 const acountSettingsModalPageCommands = {
     navigateToPage() {
         return this.waitForElementVisible('@accountSettingsModal', Constants.DEFAULT_WAIT);
-    }
+    },
 };
 
 const header = {selector: '#accountSettingsHeader'};
 const title = {selector: '#accountSettingsTitle'};
 const closeButton = {
     selector: '//*[@id="accountSettingsModal"]/div/div/div[1]/button',
-    locateStrategy: 'xpath'
+    locateStrategy: 'xpath',
 };
 const generalButton = {selector: '#generalButton'};
 const securityButton = {selector: '#securityButton'};
@@ -32,8 +32,8 @@ const tabList = {
         displayLi: {selector: '#displayLi'},
         displayButton,
         advancedLi: {selector: '#advancedLi'},
-        advancedButton
-    }
+        advancedButton,
+    },
 };
 
 const displaySettings = {
@@ -60,8 +60,8 @@ const displaySettings = {
         channelDisplayModeDesc: {selector: '#Channel_Display_ModeDesc'},
         languageTitle: {selector: '#LanguageTitle'},
         languageEdit: {selector: '#LanguageEdit'},
-        languageDesc: {selector: '#LanguageDesc'}
-    }
+        languageDesc: {selector: '#LanguageDesc'},
+    },
 };
 
 module.exports = {
@@ -72,7 +72,7 @@ module.exports = {
             selector: '#accountSettingsModal',
             sections: {
                 tabList,
-                displaySettings
+                displaySettings,
             },
             elements: {
                 header,
@@ -82,8 +82,8 @@ module.exports = {
                 securityButton,
                 notificationsButton,
                 displayButton,
-                advancedButton
-            }
-        }
-    }
+                advancedButton,
+            },
+        },
+    },
 };

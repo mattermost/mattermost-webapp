@@ -10,7 +10,7 @@ import * as actions from 'actions/channel_actions';
 import NewChannelFlow, {
     SHOW_NEW_CHANNEL,
     SHOW_EDIT_URL,
-    SHOW_EDIT_URL_THEN_COMPLETE
+    SHOW_EDIT_URL_THEN_COMPLETE,
 } from 'components/new_channel_flow';
 
 describe('components/NewChannelFlow', () => {
@@ -29,7 +29,7 @@ describe('components/NewChannelFlow', () => {
     const baseProps = {
         show: true,
         channelType: Constants.OPEN_CHANNEL,
-        onModalDismissed: jest.fn()
+        onModalDismissed: jest.fn(),
     };
 
     actions.createChannel = jest.fn((channel, success) => {
@@ -137,7 +137,7 @@ describe('components/NewChannelFlow', () => {
 
         wrapper.setState({
             channelDisplayName: 'example',
-            channelName: 'example'
+            channelName: 'example',
         });
         wrapper.instance().onSubmit();
         expect(actions.createChannel).toHaveBeenCalled();
@@ -171,7 +171,7 @@ describe('components/NewChannelFlow', () => {
         wrapper.instance().channelDataChanged({
             displayName: 'test',
             header: '',
-            purpose: ''
+            purpose: '',
         });
         wrapper.instance().onSubmit();
         expect(actions.createChannel).toHaveBeenCalledTimes(1);
@@ -186,7 +186,7 @@ describe('components/NewChannelFlow', () => {
         wrapper.instance().channelDataChanged({
             displayName: '',
             header: '',
-            purpose: ''
+            purpose: '',
         });
         wrapper.instance().onSubmit();
         expect(baseProps.onModalDismissed).toHaveBeenCalledTimes(0);
@@ -194,14 +194,14 @@ describe('components/NewChannelFlow', () => {
         wrapper.instance().channelDataChanged({
             displayName: 't',
             header: '',
-            purpose: ''
+            purpose: '',
         });
         wrapper.instance().onSubmit();
 
         wrapper.instance().channelDataChanged({
             displayName: 'テスト',
             header: '',
-            purpose: ''
+            purpose: '',
         });
         wrapper.instance().onSubmit();
         expect(baseProps.onModalDismissed).toHaveBeenCalledTimes(0);
@@ -215,7 +215,7 @@ describe('components/NewChannelFlow', () => {
         wrapper.instance().channelDataChanged({
             displayName: 'test',
             header: '',
-            purpose: ''
+            purpose: '',
         });
         wrapper.instance().onSubmit();
         expect(actions.createChannel).toHaveBeenCalledTimes(1);
@@ -230,7 +230,7 @@ describe('components/NewChannelFlow', () => {
         wrapper.instance().channelDataChanged({
             displayName: 'テスト',
             header: '',
-            purpose: ''
+            purpose: '',
         });
         expect(wrapper.state('channelDisplayName')).toEqual('テスト');
         expect(wrapper.state('channelName')).toEqual('');
@@ -248,7 +248,7 @@ describe('components/NewChannelFlow', () => {
         wrapper.instance().channelDataChanged({
             displayName: 'テスト',
             header: '',
-            purpose: ''
+            purpose: '',
         });
 
         wrapper.instance().onSubmit();

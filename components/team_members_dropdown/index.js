@@ -11,7 +11,7 @@ import TeamMembersDropdown from './team_members_dropdown.jsx';
 
 function mapStateToProps(state, ownProps) {
     return {
-        ...ownProps
+        ...ownProps,
     };
 }
 
@@ -20,8 +20,8 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             getUser,
             getTeamStats,
-            getChannelStats
-        }, dispatch)
+            getChannelStats,
+        }, dispatch),
     };
 }
 

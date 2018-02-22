@@ -64,7 +64,7 @@ export class EmojiMap {
                 }
 
                 return {done: true};
-            }
+            },
         };
     }
 }

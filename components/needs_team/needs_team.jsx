@@ -39,9 +39,9 @@ export default class NeedsTeam extends React.Component {
             getMyTeamUnreads: PropTypes.func.isRequired,
             viewChannel: PropTypes.func.isRequired,
             markChannelAsRead: PropTypes.func.isRequired,
-            getMyChannelMembers: PropTypes.func.isRequired
+            getMyChannelMembers: PropTypes.func.isRequired,
         }).isRequired,
-        theme: PropTypes.object.isRequired
+        theme: PropTypes.object.isRequired,
     };
 
     constructor(params) {
@@ -72,7 +72,7 @@ export default class NeedsTeam extends React.Component {
 
         this.state = {
             team,
-            finishedFetchingChannels: false
+            finishedFetchingChannels: false,
         };
     }
 
@@ -107,7 +107,7 @@ export default class NeedsTeam extends React.Component {
         this.props.actions.fetchMyChannelsAndMembers(team.id).then(
             () => {
                 this.setState({
-                    finishedFetchingChannels: true
+                    finishedFetchingChannels: true,
                 });
             }
         );
@@ -185,6 +185,7 @@ export default class NeedsTeam extends React.Component {
         if (this.state.team === null || this.state.finishedFetchingChannels === false) {
             return <div/>;
         }
+        const teamType = this.state.team ? this.state.team.type : '';
 
         return (
             <Switch>
@@ -200,7 +201,7 @@ export default class NeedsTeam extends React.Component {
                     render={(renderProps) => (
                         <ChannelController
                             pathName={renderProps.location.pathname}
-                            teamType={this.state.team ? this.state.team.type : ''}
+                            teamType={teamType}
                         />
                     )}
                 />

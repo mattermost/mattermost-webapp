@@ -9,7 +9,7 @@ function mapStateToProps(state, ownProps) {
     const pluginId = ownProps.match.params.plugin_id;
 
     return {
-        plugin: state.entities.admin.plugins[pluginId]
+        plugin: state.entities.admin.plugins[pluginId],
     };
 }
 

@@ -9,7 +9,7 @@ import ChannelInfoModal from './channel_info_modal.jsx';
 function mapStateToProps(state, ownProps) {
     return {
         ...ownProps,
-        currentTeam: getCurrentTeam(state)
+        currentTeam: getCurrentTeam(state),
     };
 }
 

@@ -12,7 +12,7 @@ function mapStateToProps(state) {
     const currentTeam = getCurrentTeam(state);
     const currentTeamURL = `${getSiteURL()}/${currentTeam.name}`;
     return {
-        currentTeamURL
+        currentTeamURL,
     };
 }
 

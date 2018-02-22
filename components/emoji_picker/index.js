@@ -15,7 +15,7 @@ function mapStateToProps(state) {
     return {
         customEmojisEnabled: state.entities.general.config.EnableCustomEmoji === 'true',
         customEmojiPage: state.views.emoji.emojiPickerCustomPage,
-        emojiMap: getEmojiMap(state)
+        emojiMap: getEmojiMap(state),
     };
 }
 
@@ -24,8 +24,8 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             getCustomEmojis,
             searchCustomEmojis,
-            incrementEmojiPickerPage
-        }, dispatch)
+            incrementEmojiPickerPage,
+        }, dispatch),
     };
 }
 

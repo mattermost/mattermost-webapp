@@ -26,12 +26,12 @@ module.exports = {
     default: {
         myGlobal() {
             return '';
-        }
+        },
     },
 
     test_env: {
         myGlobal: 'test_global',
-        beforeEach() {}
+        beforeEach() {},
     },
 
     before(cb) {
@@ -52,5 +52,5 @@ module.exports = {
 
     reporter(results, cb) {
         cb();
-    }
+    },
 };

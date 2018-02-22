@@ -8,5 +8,5 @@ import storage from './storage';
 export default {
     views,
     plugins,
-    storage
+    storage,
 };

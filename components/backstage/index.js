@@ -6,6 +6,7 @@ import {withRouter} from 'react-router-dom';
 
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeam, getCurrentTeamMembership} from 'mattermost-redux/selectors/entities/teams';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {isSystemAdmin, isAdmin as isTeamAdmin} from 'utils/utils.jsx';
 
@@ -25,10 +26,27 @@ function mapStateToProps(state) {
         isAdmin = isAdmin || isTeamAdmin(teamMember.roles);
     }
 
+    const config = getConfig(state);
+
+    const siteName = config.SiteName;
+    const enableCustomEmoji = config.EnableCustomEmoji === 'true';
+    const enableIncomingWebhooks = config.EnableIncomingWebhooks === 'true';
+    const enableOutgoingWebhooks = config.EnableOutgoingWebhooks === 'true';
+    const enableCommands = config.EnableCommands === 'true';
+    const enableOAuthServiceProvider = config.EnableOAuthServiceProvider === 'true';
+    const enableOnlyAdminIntegrations = config.EnableOnlyAdminIntegrations === 'true';
+
     return {
         user,
         team,
-        isAdmin
+        isAdmin,
+        siteName,
+        enableCustomEmoji,
+        enableIncomingWebhooks,
+        enableOutgoingWebhooks,
+        enableCommands,
+        enableOAuthServiceProvider,
+        enableOnlyAdminIntegrations,
     };
 }
 

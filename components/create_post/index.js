@@ -14,14 +14,14 @@ import {
     getMostRecentPostIdInChannel,
     getPost,
     makeGetCommentCountForPost,
-    makeGetMessageInHistoryItem
+    makeGetMessageInHistoryItem,
 } from 'mattermost-redux/selectors/entities/posts';
 import {
     addMessageIntoHistory,
     moveHistoryIndexBack,
     moveHistoryIndexForward,
     addReaction,
-    removeReaction
+    removeReaction,
 } from 'mattermost-redux/actions/posts';
 import {Posts} from 'mattermost-redux/constants';
 
@@ -31,17 +31,18 @@ import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {makeGetGlobalItem} from 'selectors/storage';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {Constants, Preferences, StoragePrefixes, TutorialSteps} from 'utils/constants.jsx';
+import {canUploadFiles} from 'utils/file_utils';
 
 import CreatePost from './create_post.jsx';
 
 function mapStateToProps() {
-    return (state, ownProps) => {
+    return (state) => {
         const config = getConfig(state);
         const currentChannel = getCurrentChannel(state) || {};
         const getDraft = makeGetGlobalItem(StoragePrefixes.DRAFT + currentChannel.id, {
             message: '',
             uploadsInProgress: [],
-            fileInfos: []
+            fileInfos: [],
         });
         const recentPostIdInChannel = getMostRecentPostIdInChannel(state, currentChannel.id);
         const post = getPost(state, recentPostIdInChannel);
@@ -50,8 +51,10 @@ function mapStateToProps() {
         const currentChannelMembersCount = getCurrentChannelStats(state) ? getCurrentChannelStats(state).member_count : 1;
         const enableTutorial = config.EnableTutorial === 'true';
         const tutorialStep = parseInt(get(state, Preferences.TUTORIAL_STEP, getCurrentUserId(state), TutorialSteps.FINISHED), 10);
+        const enableEmojiPicker = config.EnableEmojiPicker === 'true';
+        const enableConfirmNotificationsToChannel = config.EnableConfirmNotificationsToChannel === 'true';
+
         return {
-            ...ownProps,
             currentTeamId: getCurrentTeamId(state),
             currentChannel,
             currentChannelMembersCount,
@@ -65,7 +68,10 @@ function mapStateToProps() {
             commentCountForPost: getCommentCountForPost(state, {post}),
             latestReplyablePostId,
             currentUsersLatestPost: getCurrentUsersLatestPost(state),
-            readOnlyChannel: !isCurrentUserSystemAdmin(state) && getConfig(state).ExperimentalTownSquareIsReadOnly === 'true' && currentChannel.name === Constants.DEFAULT_CHANNEL
+            readOnlyChannel: !isCurrentUserSystemAdmin(state) && config.ExperimentalTownSquareIsReadOnly === 'true' && currentChannel.name === Constants.DEFAULT_CHANNEL,
+            canUploadFiles: canUploadFiles(state),
+            enableEmojiPicker,
+            enableConfirmNotificationsToChannel,
         };
     };
 }
@@ -90,8 +96,8 @@ function mapDispatchToProps(dispatch) {
             setDraft: setGlobalItem,
             clearDraftUploads: actionOnGlobalItemsWithPrefix,
             selectPostFromRightHandSideSearchByPostId,
-            setEditingPost
-        }, dispatch)
+            setEditingPost,
+        }, dispatch),
     };
 }
 

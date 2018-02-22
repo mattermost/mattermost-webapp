@@ -61,14 +61,14 @@ export default class EditPostModal extends React.PureComponent {
             /**
              * What to show in the title of the modal as "Edit {title}"
              */
-            title: PropTypes.string
+            title: PropTypes.string,
         }).isRequired,
 
         actions: PropTypes.shape({
             addMessageIntoHistory: PropTypes.func.isRequired,
             editPost: PropTypes.func.isRequired,
-            hideEditPostModal: PropTypes.func.isRequired
-        }).isRequired
+            hideEditPostModal: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -78,14 +78,14 @@ export default class EditPostModal extends React.PureComponent {
             editText: '',
             postError: '',
             errorClass: null,
-            showEmojiPicker: false
+            showEmojiPicker: false,
         };
     }
 
     componentWillUpdate(nextProps) {
         if (!this.props.editingPost.show && nextProps.editingPost.show) {
             this.setState({
-                editText: nextProps.editingPost.post.message_source || nextProps.editingPost.post.message
+                editText: nextProps.editingPost.post.message_source || nextProps.editingPost.post.message,
             });
         }
     }
@@ -140,7 +140,7 @@ export default class EditPostModal extends React.PureComponent {
         const updatedPost = {
             message: this.state.editText,
             id: editingPost.postId,
-            channel_id: editingPost.post.channel_id
+            channel_id: editingPost.post.channel_id,
         };
 
         if (this.state.postError) {
@@ -159,7 +159,7 @@ export default class EditPostModal extends React.PureComponent {
 
         const hasAttachment = editingPost.post.file_ids && editingPost.post.file_ids.length > 0;
         if (updatedPost.message.trim().length === 0 && !hasAttachment) {
-            this.handleHide();
+            this.handleHide(false);
             GlobalActions.showDeletePostModal(Selectors.getPost(getState(), editingPost.postId), editingPost.commentsCount);
             return;
         }
@@ -177,7 +177,7 @@ export default class EditPostModal extends React.PureComponent {
     handleChange = (e) => {
         const message = e.target.value;
         this.setState({
-            editText: message
+            editText: message,
         });
     }
 
@@ -199,7 +199,8 @@ export default class EditPostModal extends React.PureComponent {
         }
     }
 
-    handleHide = () => {
+    handleHide = (doRefocus = true) => {
+        this.refocusId = doRefocus ? this.props.editingPost.refocusId : null;
         this.props.actions.hideEditPostModal();
     }
 
@@ -213,7 +214,7 @@ export default class EditPostModal extends React.PureComponent {
     }
 
     handleExited = () => {
-        const refocusId = this.props.editingPost.refocusId;
+        const refocusId = this.refocusId;
         if (refocusId) {
             setTimeout(() => {
                 const element = document.getElementById(refocusId);
@@ -223,6 +224,7 @@ export default class EditPostModal extends React.PureComponent {
             });
         }
 
+        this.refocusId = null;
         this.setState({editText: '', postError: '', errorClass: null, showEmojiPicker: false});
     }
 
@@ -271,7 +273,7 @@ export default class EditPostModal extends React.PureComponent {
                             id='edit_post.edit'
                             defaultMessage='Edit {title}'
                             values={{
-                                title: this.props.editingPost.title
+                                title: this.props.editingPost.title,
                             }}
                         />
                     </Modal.Title>

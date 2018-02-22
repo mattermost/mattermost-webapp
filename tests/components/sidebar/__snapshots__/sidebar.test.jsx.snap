@@ -11,7 +11,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     onModalDismissed={[Function]}
     show={false}
   />
-  <SidebarHeader
+  <Connect(SidebarHeader)
     currentUser={
       Object {
         "id": "my-user-id",
@@ -304,7 +304,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     onModalDismissed={[Function]}
     show={false}
   />
-  <SidebarHeader
+  <Connect(SidebarHeader)
     currentUser={
       Object {
         "id": "my-user-id",
@@ -633,7 +633,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     onModalDismissed={[Function]}
     show={false}
   />
-  <SidebarHeader
+  <Connect(SidebarHeader)
     currentUser={
       Object {
         "id": "my-user-id",
@@ -955,7 +955,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     onModalDismissed={[Function]}
     show={false}
   />
-  <SidebarHeader
+  <Connect(SidebarHeader)
     currentUser={
       Object {
         "id": "my-user-id",
@@ -1173,9 +1173,9 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
 </div>
 `;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, when render as an empty div becuse no have a tema or a user 1`] = `<div />`;
+exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, when render as an empty div because no have a team or a user 1`] = `<div />`;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, when render as an empty div becuse no have a tema or a user 2`] = `<div />`;
+exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, when render as an empty div because no have a team or a user 2`] = `<div />`;
 
 exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide correctly more channels modal 1`] = `
 <div
@@ -1192,7 +1192,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     handleNewChannel={[Function]}
     onModalDismissed={[Function]}
   />
-  <SidebarHeader
+  <Connect(SidebarHeader)
     currentUser={
       Object {
         "id": "my-user-id",
@@ -1485,7 +1485,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     onModalDismissed={[Function]}
     show={false}
   />
-  <SidebarHeader
+  <Connect(SidebarHeader)
     currentUser={
       Object {
         "id": "my-user-id",
@@ -1782,7 +1782,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     isExistingChannel={false}
     onModalDismissed={[Function]}
   />
-  <SidebarHeader
+  <Connect(SidebarHeader)
     currentUser={
       Object {
         "id": "my-user-id",
@@ -2075,7 +2075,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     onModalDismissed={[Function]}
     show={false}
   />
-  <SidebarHeader
+  <Connect(SidebarHeader)
     currentUser={
       Object {
         "id": "my-user-id",
@@ -2368,7 +2368,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     onModalDismissed={[Function]}
     show={true}
   />
-  <SidebarHeader
+  <Connect(SidebarHeader)
     currentUser={
       Object {
         "id": "my-user-id",
@@ -2661,7 +2661,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     onModalDismissed={[Function]}
     show={false}
   />
-  <SidebarHeader
+  <Connect(SidebarHeader)
     currentUser={
       Object {
         "id": "my-user-id",

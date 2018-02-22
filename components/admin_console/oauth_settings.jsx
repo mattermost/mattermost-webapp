@@ -85,7 +85,7 @@ export default class OAuthSettings extends AdminSettings {
             gitLabUrl: config.GitLabSettings.UserApiEndpoint.replace('/api/v4/user', ''),
             userApiEndpoint: settings.UserApiEndpoint,
             authEndpoint: settings.AuthEndpoint,
-            tokenEndpoint: settings.TokenEndpoint
+            tokenEndpoint: settings.TokenEndpoint,
         };
     }
 
@@ -107,7 +107,7 @@ export default class OAuthSettings extends AdminSettings {
             gitLabUrl,
             userApiEndpoint: settings.UserApiEndpoint,
             authEndpoint: settings.AuthEndpoint,
-            tokenEndpoint: settings.TokenEndpoint
+            tokenEndpoint: settings.TokenEndpoint,
         });
 
         this.handleChange(id, value);
@@ -124,7 +124,7 @@ export default class OAuthSettings extends AdminSettings {
             gitLabUrl: value,
             userApiEndpoint: trimmedValue + '/api/v4/user',
             authEndpoint: trimmedValue + '/oauth/authorize',
-            tokenEndpoint: trimmedValue + '/oauth/token'
+            tokenEndpoint: trimmedValue + '/oauth/token',
         });
     }
 
@@ -418,11 +418,11 @@ export default class OAuthSettings extends AdminSettings {
         const oauthTypes = [];
         oauthTypes.push({value: 'off', text: Utils.localizeMessage('admin.oauth.off', 'Do not allow sign-in via an OAuth 2.0 provider.')});
         oauthTypes.push({value: Constants.GITLAB_SERVICE, text: Utils.localizeMessage('admin.oauth.gitlab', 'GitLab')});
-        if (global.window.mm_license.IsLicensed === 'true') {
-            if (global.window.mm_license.GoogleOAuth === 'true') {
+        if (this.props.license.IsLicensed === 'true') {
+            if (this.props.license.GoogleOAuth === 'true') {
                 oauthTypes.push({value: Constants.GOOGLE_SERVICE, text: Utils.localizeMessage('admin.oauth.google', 'Google Apps')});
             }
-            if (global.window.mm_license.Office365OAuth === 'true') {
+            if (this.props.license.Office365OAuth === 'true') {
                 oauthTypes.push({value: Constants.OFFICE365_SERVICE, text: Utils.localizeMessage('admin.oauth.office365', 'Office 365 (Beta)')});
             }
         }

@@ -17,7 +17,7 @@ export default class RemoveFileSetting extends Setting {
             removingText: PropTypes.node,
             fileName: PropTypes.string.isRequired,
             onSubmit: PropTypes.func.isRequired,
-            disabled: PropTypes.bool
+            disabled: PropTypes.bool,
         };
     }
 

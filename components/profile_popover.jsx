@@ -66,12 +66,12 @@ class ProfilePopover extends React.Component {
          */
         hasMention: PropTypes.bool,
 
-        ...Popover.propTypes
+        ...Popover.propTypes,
     }
 
     static defaultProps = {
         isRHS: false,
-        hasMention: false
+        hasMention: false,
     }
 
     constructor(props) {
@@ -83,7 +83,7 @@ class ProfilePopover extends React.Component {
         this.handleEditAccountSettings = this.handleEditAccountSettings.bind(this);
         this.state = {
             currentUserId: UserStore.getCurrentId(),
-            loadingDMChannel: -1
+            loadingDMChannel: -1,
         };
     }
     shouldComponentUpdate(nextProps) {

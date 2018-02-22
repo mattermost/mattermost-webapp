@@ -37,7 +37,7 @@ export default class ClientVersionsSettings extends AdminSettings {
             desktopLatestVersion: config.ClientRequirements.DesktopLatestVersion,
             desktopMinVersion: config.ClientRequirements.DesktopMinVersion,
             iosLatestVersion: config.ClientRequirements.IosLatestVersion,
-            iosMinVersion: config.ClientRequirements.IosMinVersion
+            iosMinVersion: config.ClientRequirements.IosMinVersion,
         };
     }
 

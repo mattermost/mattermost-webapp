@@ -25,7 +25,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.PRIVATE_CHANNEL
+                type: Constants.PRIVATE_CHANNEL,
             };
             expect(Utils.showDeleteOptionForCurrentUser(channel, false, false, true)).
                 toEqual(true);
@@ -37,7 +37,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.PRIVATE_CHANNEL
+                type: Constants.PRIVATE_CHANNEL,
             };
             expect(Utils.showDeleteOptionForCurrentUser(channel, false, false, false)).
                 toEqual(false);
@@ -49,7 +49,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.OPEN_CHANNEL
+                type: Constants.OPEN_CHANNEL,
             };
             expect(Utils.showDeleteOptionForCurrentUser(channel, false, false, true)).
                 toEqual(true);
@@ -61,7 +61,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.OPEN_CHANNEL
+                type: Constants.OPEN_CHANNEL,
             };
             expect(Utils.showDeleteOptionForCurrentUser(channel, false, false, false)).
                 toEqual(false);
@@ -73,7 +73,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.PRIVATE_CHANNEL
+                type: Constants.PRIVATE_CHANNEL,
             };
             expect(Utils.showDeleteOptionForCurrentUser(channel, false, false, true)).
                 toEqual(true);
@@ -85,7 +85,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.PRIVATE_CHANNEL
+                type: Constants.PRIVATE_CHANNEL,
             };
             expect(Utils.showDeleteOptionForCurrentUser(channel, false, false, false)).
                 toEqual(false);
@@ -97,7 +97,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.OPEN_CHANNEL
+                type: Constants.OPEN_CHANNEL,
             };
             expect(Utils.showDeleteOptionForCurrentUser(channel, false, false, true)).
                 toEqual(true);
@@ -109,7 +109,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.OPEN_CHANNEL
+                type: Constants.OPEN_CHANNEL,
             };
             expect(Utils.showDeleteOptionForCurrentUser(channel, false, false, false)).
                 toEqual(false);
@@ -121,7 +121,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.PRIVATE_CHANNEL
+                type: Constants.PRIVATE_CHANNEL,
             };
             expect(Utils.showDeleteOptionForCurrentUser(channel, false, true, false)).
                 toEqual(true);
@@ -133,7 +133,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.OPEN_CHANNEL
+                type: Constants.OPEN_CHANNEL,
             };
             expect(Utils.showDeleteOptionForCurrentUser(channel, false, true, false)).
                 toEqual(true);
@@ -145,7 +145,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.OPEN_CHANNEL
+                type: Constants.OPEN_CHANNEL,
             };
             expect(Utils.showDeleteOptionForCurrentUser(channel, true, false, false)).
                 toEqual(true);
@@ -157,7 +157,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.PRIVATE_CHANNEL
+                type: Constants.PRIVATE_CHANNEL,
             };
             expect(Utils.showDeleteOptionForCurrentUser(channel, true, false, false)).
                 toEqual(true);
@@ -169,7 +169,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.OPEN_CHANNEL
+                type: Constants.OPEN_CHANNEL,
             };
             expect(Utils.showDeleteOptionForCurrentUser(channel, false, true, false)).
                 toEqual(true);
@@ -181,7 +181,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.PRIVATE_CHANNEL
+                type: Constants.PRIVATE_CHANNEL,
             };
             expect(Utils.showDeleteOptionForCurrentUser(channel, false, true, false)).
                 toEqual(true);
@@ -193,7 +193,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.OPEN_CHANNEL
+                type: Constants.OPEN_CHANNEL,
             };
             expect(Utils.showDeleteOptionForCurrentUser(channel, false, false, true)).
                 toEqual(true);
@@ -205,7 +205,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.PRIVATE_CHANNEL
+                type: Constants.PRIVATE_CHANNEL,
             };
             expect(Utils.showDeleteOptionForCurrentUser(channel, false, false, true)).
                 toEqual(true);
@@ -217,7 +217,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.OPEN_CHANNEL
+                type: Constants.OPEN_CHANNEL,
             };
             expect(Utils.showDeleteOptionForCurrentUser(channel, false, false, false)).
                 toEqual(false);
@@ -229,7 +229,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.PRIVATE_CHANNEL
+                type: Constants.PRIVATE_CHANNEL,
             };
             expect(Utils.showDeleteOptionForCurrentUser(channel, false, false, false)).
                 toEqual(false);
@@ -241,7 +241,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.OPEN_CHANNEL
+                type: Constants.OPEN_CHANNEL,
             };
             expect(Utils.showDeleteOptionForCurrentUser(channel, false, false, false)).
                 toEqual(true);
@@ -253,7 +253,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.PRIVATE_CHANNEL
+                type: Constants.PRIVATE_CHANNEL,
             };
             expect(Utils.showDeleteOptionForCurrentUser(channel, false, false, false)).
                 toEqual(true);
@@ -273,7 +273,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.PRIVATE_CHANNEL
+                type: Constants.PRIVATE_CHANNEL,
             };
             expect(Utils.showManagementOptions(channel, false, false, true)).
                 toEqual(true);
@@ -285,7 +285,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.PRIVATE_CHANNEL
+                type: Constants.PRIVATE_CHANNEL,
             };
             expect(Utils.showManagementOptions(channel, false, false, false)).
                 toEqual(false);
@@ -297,7 +297,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.OPEN_CHANNEL
+                type: Constants.OPEN_CHANNEL,
             };
             expect(Utils.showManagementOptions(channel, false, false, true)).
                 toEqual(true);
@@ -309,7 +309,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.OPEN_CHANNEL
+                type: Constants.OPEN_CHANNEL,
             };
             expect(Utils.showManagementOptions(channel, false, false, false)).
                 toEqual(false);
@@ -321,7 +321,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.PRIVATE_CHANNEL
+                type: Constants.PRIVATE_CHANNEL,
             };
             expect(Utils.showManagementOptions(channel, false, false, true)).
                 toEqual(true);
@@ -333,7 +333,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.PRIVATE_CHANNEL
+                type: Constants.PRIVATE_CHANNEL,
             };
             expect(Utils.showManagementOptions(channel, false, false, false)).
                 toEqual(false);
@@ -345,7 +345,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.OPEN_CHANNEL
+                type: Constants.OPEN_CHANNEL,
             };
             expect(Utils.showManagementOptions(channel, false, false, true)).
                 toEqual(true);
@@ -357,7 +357,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.OPEN_CHANNEL
+                type: Constants.OPEN_CHANNEL,
             };
             expect(Utils.showManagementOptions(channel, false, false, false)).
                 toEqual(false);
@@ -369,7 +369,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.PRIVATE_CHANNEL
+                type: Constants.PRIVATE_CHANNEL,
             };
             expect(Utils.showManagementOptions(channel, false, true, false)).
                 toEqual(true);
@@ -381,7 +381,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.OPEN_CHANNEL
+                type: Constants.OPEN_CHANNEL,
             };
             expect(Utils.showManagementOptions(channel, false, true, false)).
                 toEqual(true);
@@ -393,7 +393,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.OPEN_CHANNEL
+                type: Constants.OPEN_CHANNEL,
             };
             expect(Utils.showManagementOptions(channel, true, false, false)).
                 toEqual(true);
@@ -405,7 +405,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.PRIVATE_CHANNEL
+                type: Constants.PRIVATE_CHANNEL,
             };
             expect(Utils.showManagementOptions(channel, true, false, false)).
                 toEqual(true);
@@ -417,7 +417,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.OPEN_CHANNEL
+                type: Constants.OPEN_CHANNEL,
             };
             expect(Utils.showManagementOptions(channel, false, true, false)).
                 toEqual(true);
@@ -429,7 +429,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.PRIVATE_CHANNEL
+                type: Constants.PRIVATE_CHANNEL,
             };
             expect(Utils.showManagementOptions(channel, false, true, false)).
                 toEqual(true);
@@ -441,7 +441,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.OPEN_CHANNEL
+                type: Constants.OPEN_CHANNEL,
             };
             expect(Utils.showManagementOptions(channel, false, false, true)).
                 toEqual(true);
@@ -453,7 +453,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.PRIVATE_CHANNEL
+                type: Constants.PRIVATE_CHANNEL,
             };
             expect(Utils.showManagementOptions(channel, false, false, true)).
                 toEqual(true);
@@ -465,7 +465,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.OPEN_CHANNEL
+                type: Constants.OPEN_CHANNEL,
             };
             expect(Utils.showManagementOptions(channel, false, false, false)).
                 toEqual(false);
@@ -477,7 +477,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.PRIVATE_CHANNEL
+                type: Constants.PRIVATE_CHANNEL,
             };
             expect(Utils.showManagementOptions(channel, false, false, false)).
                 toEqual(false);
@@ -489,7 +489,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.OPEN_CHANNEL
+                type: Constants.OPEN_CHANNEL,
             };
             expect(Utils.showManagementOptions(channel, false, false, false)).
                 toEqual(true);
@@ -501,7 +501,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.PRIVATE_CHANNEL
+                type: Constants.PRIVATE_CHANNEL,
             };
             expect(Utils.showManagementOptions(channel, false, false, false)).
                 toEqual(true);
@@ -510,144 +510,181 @@ describe('Channel Utils', () => {
 
     describe('showCreateOption', () => {
         test('all users can create new channels on unlicensed instances', () => {
-            global.window.mm_license = {IsLicensed: 'false'};
-            expect(Utils.showCreateOption(null, true, true)).
+            const state = {entities: {general: {
+                license: {IsLicensed: 'false'},
+            }}};
+
+            expect(Utils.showCreateOption(state, null, true, true)).
                 toEqual(true);
         });
 
         test('system admins can create new private channels, user is system admin test', () => {
-            global.window.mm_license = {IsLicensed: 'true'};
-            global.window.mm_config = {RestrictPrivateChannelCreation: Constants.PERMISSIONS_SYSTEM_ADMIN};
+            const state = {entities: {general: {
+                license: {IsLicensed: 'true'},
+                config: {RestrictPrivateChannelCreation: Constants.PERMISSIONS_SYSTEM_ADMIN},
+            }}};
 
-            expect(Utils.showCreateOption(Constants.PRIVATE_CHANNEL, false, true)).
+            expect(Utils.showCreateOption(state, Constants.PRIVATE_CHANNEL, false, true)).
                 toEqual(true);
         });
 
         test('system admins can create new private channels, user is not system admin test', () => {
-            global.window.mm_license = {IsLicensed: 'true'};
-            global.window.mm_config = {RestrictPrivateChannelCreation: Constants.PERMISSIONS_SYSTEM_ADMIN};
+            const state = {entities: {general: {
+                license: {IsLicensed: 'true'},
+                config: {RestrictPrivateChannelCreation: Constants.PERMISSIONS_SYSTEM_ADMIN},
+            }}};
 
-            expect(Utils.showCreateOption(Constants.PRIVATE_CHANNEL, false, false)).
+            expect(Utils.showCreateOption(state, Constants.PRIVATE_CHANNEL, false, false)).
                 toEqual(false);
         });
 
         test('system admins can create new public channels, user is system admin test', () => {
-            global.window.mm_license = {IsLicensed: 'true'};
-            global.window.mm_config = {RestrictPublicChannelCreation: Constants.PERMISSIONS_SYSTEM_ADMIN};
+            const state = {entities: {general: {
+                license: {IsLicensed: 'true'},
+                config: {RestrictPublicChannelCreation: Constants.PERMISSIONS_SYSTEM_ADMIN},
+            }}};
 
-            expect(Utils.showCreateOption(Constants.OPEN_CHANNEL, false, true)).
+            expect(Utils.showCreateOption(state, Constants.OPEN_CHANNEL, false, true)).
                 toEqual(true);
         });
 
         test('system admins can create new public channels, user is not system admin test', () => {
-            global.window.mm_license = {IsLicensed: 'true'};
-            global.window.mm_config = {RestrictPublicChannelCreation: Constants.PERMISSIONS_SYSTEM_ADMIN};
+            const state = {entities: {general: {
+                license: {IsLicensed: 'true'},
+                config: {RestrictPublicChannelCreation: Constants.PERMISSIONS_SYSTEM_ADMIN},
+            }}};
 
-            expect(Utils.showCreateOption(Constants.OPEN_CHANNEL, false, false)).
+            expect(Utils.showCreateOption(state, Constants.OPEN_CHANNEL, false, false)).
                 toEqual(false);
         });
 
         test('system admins or team admins can create new private channels, user is system admin test', () => {
-            global.window.mm_license = {IsLicensed: 'true'};
-            global.window.mm_config = {RestrictPrivateChannelCreation: Constants.PERMISSIONS_TEAM_ADMIN};
+            const state = {entities: {general: {
+                license: {IsLicensed: 'true'},
+                config: {RestrictPrivateChannelCreation: Constants.PERMISSIONS_TEAM_ADMIN},
+            }}};
 
-            expect(Utils.showCreateOption(Constants.PRIVATE_CHANNEL, false, true)).
+            expect(Utils.showCreateOption(state, Constants.PRIVATE_CHANNEL, false, true)).
                 toEqual(true);
         });
 
         test('system admins or team admins can create new private channels, user is not system admin or team admin test', () => {
-            global.window.mm_license = {IsLicensed: 'true'};
-            global.window.mm_config = {RestrictPrivateChannelCreation: Constants.PERMISSIONS_TEAM_ADMIN};
+            const state = {entities: {general: {
+                license: {IsLicensed: 'true'},
+                config: {RestrictPrivateChannelCreation: Constants.PERMISSIONS_TEAM_ADMIN},
+            }}};
 
-            expect(Utils.showCreateOption(Constants.PRIVATE_CHANNEL, false, false)).
+            expect(Utils.showCreateOption(state, Constants.PRIVATE_CHANNEL, false, false)).
                 toEqual(false);
         });
 
         test('system admins or team admins can create new public channels, user is system admin test', () => {
-            global.window.mm_license = {IsLicensed: 'true'};
-            global.window.mm_config = {RestrictPublicChannelCreation: Constants.PERMISSIONS_TEAM_ADMIN};
+            const state = {entities: {general: {
+                license: {IsLicensed: 'true'},
+                config: {RestrictPublicChannelCreation: Constants.PERMISSIONS_TEAM_ADMIN},
+            }}};
 
-            expect(Utils.showCreateOption(Constants.OPEN_CHANNEL, false, true)).
+            expect(Utils.showCreateOption(state, Constants.OPEN_CHANNEL, false, true)).
                 toEqual(true);
         });
 
         test('system admins or team admins can create new public channels, user is not system admin or team admin test', () => {
-            global.window.mm_license = {IsLicensed: 'true'};
-            global.window.mm_config = {RestrictPublicChannelCreation: Constants.PERMISSIONS_TEAM_ADMIN};
+            const state = {entities: {general: {
+                license: {IsLicensed: 'true'},
+                config: {RestrictPublicChannelCreation: Constants.PERMISSIONS_TEAM_ADMIN},
+            }}};
 
-            expect(Utils.showCreateOption(Constants.OPEN_CHANNEL, false, false)).
+            expect(Utils.showCreateOption(state, Constants.OPEN_CHANNEL, false, false)).
                 toEqual(false);
         });
 
         test('system admins or team admins can create new private channels, user is team admin test', () => {
-            global.window.mm_license = {IsLicensed: 'true'};
-            global.window.mm_config = {RestrictPrivateChannelCreation: Constants.PERMISSIONS_TEAM_ADMIN};
+            const state = {entities: {general: {
+                license: {IsLicensed: 'true'},
+                config: {RestrictPrivateChannelCreation: Constants.PERMISSIONS_TEAM_ADMIN},
+            }}};
 
-            expect(Utils.showCreateOption(Constants.PRIVATE_CHANNEL, true, false)).
+            expect(Utils.showCreateOption(state, Constants.PRIVATE_CHANNEL, true, false)).
                 toEqual(true);
         });
 
         test('system admins or team admins can create new public channels, user is team admin test', () => {
-            global.window.mm_license = {IsLicensed: 'true'};
-            global.window.mm_config = {RestrictPublicChannelCreation: Constants.PERMISSIONS_TEAM_ADMIN};
+            const state = {entities: {general: {
+                license: {IsLicensed: 'true'},
+                config: {RestrictPublicChannelCreation: Constants.PERMISSIONS_TEAM_ADMIN},
+            }}};
 
-            expect(Utils.showCreateOption(Constants.OPEN_CHANNEL, true, false)).
+            expect(Utils.showCreateOption(state, Constants.OPEN_CHANNEL, true, false)).
                 toEqual(true);
         });
 
         test('channel, team, and system admins can create new public channels, user is channel admin test', () => {
-            global.window.mm_license = {IsLicensed: 'true'};
-            global.window.mm_config = {RestrictPublicChannelCreation: Constants.PERMISSIONS_CHANNEL_ADMIN};
+            const state = {entities: {general: {
+                license: {IsLicensed: 'true'},
+                config: {RestrictPublicChannelCreation: Constants.PERMISSIONS_CHANNEL_ADMIN},
+            }}};
 
-            expect(Utils.showCreateOption(Constants.OPEN_CHANNEL, false, false)).
+            expect(Utils.showCreateOption(state, Constants.OPEN_CHANNEL, false, false)).
                 toEqual(true);
         });
 
         test('channel, team, and system admins can create new public channels, user is team admin test', () => {
-            global.window.mm_license = {IsLicensed: 'true'};
-            global.window.mm_config = {RestrictPublicChannelCreation: Constants.PERMISSIONS_CHANNEL_ADMIN};
+            const state = {entities: {general: {
+                license: {IsLicensed: 'true'},
+                config: {RestrictPublicChannelCreation: Constants.PERMISSIONS_CHANNEL_ADMIN},
+            }}};
 
-            expect(Utils.showCreateOption(Constants.OPEN_CHANNEL, true, false)).
+            expect(Utils.showCreateOption(state, Constants.OPEN_CHANNEL, true, false)).
                 toEqual(true);
         });
 
         test('channel, team, and system admins can create new private channels, user is channel admin test', () => {
-            global.window.mm_license = {IsLicensed: 'true'};
-            global.window.mm_config = {RestrictPrivateChannelCreation: Constants.PERMISSIONS_CHANNEL_ADMIN};
+            const state = {entities: {general: {
+                license: {IsLicensed: 'true'},
+                config: {RestrictPrivateChannelCreation: Constants.PERMISSIONS_CHANNEL_ADMIN},
+            }}};
 
-            expect(Utils.showCreateOption(Constants.PRIVATE_CHANNEL, true, false)).
+            expect(Utils.showCreateOption(state, Constants.PRIVATE_CHANNEL, true, false)).
                 toEqual(true);
         });
 
         test('channel, team, and system admins can create new public channels, user is system admin test', () => {
-            global.window.mm_license = {IsLicensed: 'true'};
-            global.window.mm_config = {RestrictPublicChannelCreation: Constants.PERMISSIONS_CHANNEL_ADMIN};
+            const state = {entities: {general: {
+                license: {IsLicensed: 'true'},
+                config: {RestrictPublicChannelCreation: Constants.PERMISSIONS_CHANNEL_ADMIN},
+            }}};
 
-            expect(Utils.showCreateOption(Constants.OPEN_CHANNEL, false, true)).
+            expect(Utils.showCreateOption(state, Constants.OPEN_CHANNEL, false, true)).
                 toEqual(true);
         });
 
         test('channel, team, and system admins can create new private channels, user is system admin test', () => {
-            global.window.mm_license = {IsLicensed: 'true'};
-            global.window.mm_config = {RestrictPrivateChannelCreation: Constants.PERMISSIONS_CHANNEL_ADMIN};
+            const state = {entities: {general: {
+                license: {IsLicensed: 'true'},
+                config: {RestrictPrivateChannelCreation: Constants.PERMISSIONS_CHANNEL_ADMIN},
+            }}};
 
-            expect(Utils.showCreateOption(Constants.PRIVATE_CHANNEL, false, true)).
+            expect(Utils.showCreateOption(state, Constants.PRIVATE_CHANNEL, false, true)).
                 toEqual(true);
         });
 
         test('any member can create new public channels, user is not admin test', () => {
-            global.window.mm_license = {IsLicensed: 'true'};
-            global.window.mm_config = {RestrictPublicChannelCreation: Constants.PERMISSIONS_ALL};
+            const state = {entities: {general: {
+                license: {IsLicensed: 'true'},
+                config: {RestrictPublicChannelCreation: Constants.PERMISSIONS_ALL},
+            }}};
 
-            expect(Utils.showCreateOption(Constants.OPEN_CHANNEL, false, false)).
+            expect(Utils.showCreateOption(state, Constants.OPEN_CHANNEL, false, false)).
                 toEqual(true);
         });
 
         test('any member can create new private channels, user is not admin test', () => {
-            global.window.mm_license = {IsLicensed: 'true'};
-            global.window.mm_config = {RestrictPrivateChannelCreation: Constants.PERMISSIONS_ALL};
+            const state = {entities: {general: {
+                license: {IsLicensed: 'true'},
+                config: {RestrictPrivateChannelCreation: Constants.PERMISSIONS_ALL},
+            }}};
 
-            expect(Utils.showCreateOption(Constants.PRIVATE_CHANNEL, false, false)).
+            expect(Utils.showCreateOption(state, Constants.PRIVATE_CHANNEL, false, false)).
                 toEqual(true);
         });
     });
@@ -665,7 +702,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.PRIVATE_CHANNEL
+                type: Constants.PRIVATE_CHANNEL,
             };
             expect(Utils.canManageMembers(channel, false, false, true)).
                 toEqual(true);
@@ -677,7 +714,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.PRIVATE_CHANNEL
+                type: Constants.PRIVATE_CHANNEL,
             };
             expect(Utils.canManageMembers(channel, false, false, false)).
                 toEqual(false);
@@ -689,7 +726,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.PRIVATE_CHANNEL
+                type: Constants.PRIVATE_CHANNEL,
             };
             expect(Utils.canManageMembers(channel, false, false, true)).
                 toEqual(true);
@@ -701,7 +738,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.PRIVATE_CHANNEL
+                type: Constants.PRIVATE_CHANNEL,
             };
             expect(Utils.canManageMembers(channel, false, false, false)).
                 toEqual(false);
@@ -713,7 +750,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.PRIVATE_CHANNEL
+                type: Constants.PRIVATE_CHANNEL,
             };
             expect(Utils.canManageMembers(channel, false, true, false)).
                 toEqual(true);
@@ -725,7 +762,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.PRIVATE_CHANNEL
+                type: Constants.PRIVATE_CHANNEL,
             };
             expect(Utils.canManageMembers(channel, true, false, false)).
                 toEqual(true);
@@ -737,7 +774,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.PRIVATE_CHANNEL
+                type: Constants.PRIVATE_CHANNEL,
             };
             expect(Utils.canManageMembers(channel, false, true, false)).
                 toEqual(true);
@@ -749,7 +786,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.PRIVATE_CHANNEL
+                type: Constants.PRIVATE_CHANNEL,
             };
             expect(Utils.canManageMembers(channel, false, false, true)).
                 toEqual(true);
@@ -761,7 +798,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.PRIVATE_CHANNEL
+                type: Constants.PRIVATE_CHANNEL,
             };
             expect(Utils.canManageMembers(channel, false, false, false)).
                 toEqual(false);
@@ -773,7 +810,7 @@ describe('Channel Utils', () => {
 
             const channel = {
                 name: 'fakeChannelName',
-                type: Constants.OPEN_CHANNEL
+                type: Constants.OPEN_CHANNEL,
             };
             expect(Utils.canManageMembers(channel, false, false, false)).
                 toEqual(true);

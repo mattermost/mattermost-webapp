@@ -372,7 +372,7 @@ export function replaceHtmlEntities(text) {
     var tagsToReplace = {
         '&amp;': '&',
         '&lt;': '<',
-        '&gt;': '>'
+        '&gt;': '>',
     };
     var newtext = text;
     for (var tag in tagsToReplace) {
@@ -388,7 +388,7 @@ export function insertHtmlEntities(text) {
     var tagsToReplace = {
         '&': '&amp;',
         '<': '&lt;',
-        '>': '&gt;'
+        '>': '&gt;',
     };
     var newtext = text;
     for (var tag in tagsToReplace) {
@@ -404,8 +404,13 @@ export function isGIFImage(extin) {
     return extin.toLowerCase() === Constants.IMAGE_TYPE_GIF;
 }
 
-export function getFileType(extin) {
-    var ext = extin.toLowerCase();
+const removeQuerystringOrHash = (extin) => {
+    return extin.split(/[?#]/)[0];
+};
+
+export const getFileType = (extin) => {
+    const ext = removeQuerystringOrHash(extin.toLowerCase());
+
     if (Constants.IMAGE_TYPES.indexOf(ext) > -1) {
         return FileTypes.IMAGE;
     }
@@ -447,7 +452,7 @@ export function getFileType(extin) {
     }
 
     return FileTypes.OTHER;
-}
+};
 
 export function getFileIconPath(fileInfo) {
     const fileType = getFileType(fileInfo.extension);
@@ -628,7 +633,7 @@ export function applyTheme(theme) {
         changeCss('@media(max-width: 320px){.tutorial-steps__container', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .channel-header__info .channel-header__description:before, .app__body .app__content, .app__body .markdown__table, .app__body .markdown__table tbody tr, .app__body .suggestion-list__content, .app__body .modal .modal-content, .app__body .modal .modal-footer, .app__body .post.post--compact .post-image__column, .app__body .suggestion-list__divider > span, .app__body .status-wrapper .status, .app__body .alert.alert-transparent, .app__body .post-image__column', 'background:' + theme.centerChannelBg);
         changeCss('#post-list .post-list-holder-by-time, .app__body .post .dropdown-menu a', 'background:' + theme.centerChannelBg);
-        changeCss('#post-create', 'background:' + theme.centerChannelBg);
+        changeCss('#post-create, .app__body .emoji-picker__preview', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .date-separator .separator__text, .app__body .new-separator .separator__text', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .post-image__details, .app__body .search-help-popover .search-autocomplete__divider span', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .sidebar--right, .app__body .dropdown-menu, .app__body .popover, .app__body .tip-overlay', 'background:' + theme.centerChannelBg);
@@ -1379,7 +1384,7 @@ export function getPasswordConfig() {
         requireLowercase: global.window.mm_config.PasswordRequireLowercase === 'true',
         requireUppercase: global.window.mm_config.PasswordRequireUppercase === 'true',
         requireNumber: global.window.mm_config.PasswordRequireNumber === 'true',
-        requireSymbol: global.window.mm_config.PasswordRequireSymbol === 'true'
+        requireSymbol: global.window.mm_config.PasswordRequireSymbol === 'true',
     };
 }
 
@@ -1438,7 +1443,7 @@ export function isValidPassword(password, passwordConfig) {
                 default='Your password must contain between {min} and {max} characters.'
                 values={{
                     min: minimumLength,
-                    max: Constants.MAX_PASSWORD_LENGTH
+                    max: Constants.MAX_PASSWORD_LENGTH,
                 }}
             />
         );
@@ -1505,7 +1510,7 @@ export function getEmailInterval(isEmailEnabled) {
         INTERVAL_FIFTEEN_MINUTES,
         INTERVAL_HOUR,
         CATEGORY_NOTIFICATIONS,
-        EMAIL_INTERVAL
+        EMAIL_INTERVAL,
     } = Constants.Preferences;
 
     if (!isEmailEnabled) {

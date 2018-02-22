@@ -11,14 +11,14 @@ export default class FormError extends React.Component {
             type: PropTypes.node,
             error: PropTypes.node,
             margin: PropTypes.bool,
-            errors: PropTypes.arrayOf(PropTypes.node)
+            errors: PropTypes.arrayOf(PropTypes.node),
         };
     }
 
     static get defaultProps() {
         return {
             error: null,
-            errors: []
+            errors: [],
         };
     }
 

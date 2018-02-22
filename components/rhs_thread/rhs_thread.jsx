@@ -17,9 +17,9 @@ import * as UserAgent from 'utils/user_agent.jsx';
 import CreateComment from 'components/create_comment';
 import DateSeparator from 'components/post_view/date_separator.jsx';
 import FloatingTimestamp from 'components/post_view/floating_timestamp.jsx';
-import Comment from 'components/rhs_comment.jsx';
+import Comment from 'components/rhs_comment';
 import RhsHeaderPost from 'components/rhs_header_post';
-import RootPost from 'components/rhs_root_post.jsx';
+import RootPost from 'components/rhs_root_post';
 
 const Preferences = Constants.Preferences;
 
@@ -62,8 +62,8 @@ export default class RhsThread extends React.Component {
         previewEnabled: PropTypes.bool.isRequired,
         postsEmbedVisibleObj: PropTypes.object,
         actions: PropTypes.shape({
-            removePost: PropTypes.func.isRequired
-        }).isRequired
+            removePost: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -84,7 +84,7 @@ export default class RhsThread extends React.Component {
             isBusy: WebrtcStore.isBusy(),
             isScrolling: false,
             topRhsPostCreateAt: 0,
-            openTime
+            openTime,
         };
     }
 
@@ -114,7 +114,7 @@ export default class RhsThread extends React.Component {
 
         if (this.props.selected.id !== nextProps.selected.id) {
             this.setState({
-                openTime: (new Date()).getTime()
+                openTime: (new Date()).getTime(),
             });
         }
     }
@@ -192,7 +192,7 @@ export default class RhsThread extends React.Component {
     handleResize = () => {
         this.setState({
             windowWidth: Utils.windowWidth(),
-            windowHeight: Utils.windowHeight()
+            windowHeight: Utils.windowHeight(),
         });
 
         if (UserAgent.isMobile() && document.activeElement.id === 'reply_textbox') {
@@ -203,7 +203,7 @@ export default class RhsThread extends React.Component {
     onPreferenceChange = () => {
         this.setState({
             compactDisplay: PreferenceStore.get(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
-            flaggedPosts: PreferenceStore.getCategory(Constants.Preferences.CATEGORY_FLAGGED_POST)
+            flaggedPosts: PreferenceStore.getCategory(Constants.Preferences.CATEGORY_FLAGGED_POST),
         });
     }
 
@@ -265,7 +265,7 @@ export default class RhsThread extends React.Component {
 
             if (topRhsPostCreateAt !== this.state.topRhsPostCreateAt) {
                 this.setState({
-                    topRhsPostCreateAt
+                    topRhsPostCreateAt,
                 });
             }
         }
@@ -276,7 +276,7 @@ export default class RhsThread extends React.Component {
 
         if (!this.state.isScrolling) {
             this.setState({
-                isScrolling: true
+                isScrolling: true,
             });
         }
 
@@ -285,7 +285,7 @@ export default class RhsThread extends React.Component {
 
     handleScrollStop = () => {
         this.setState({
-            isScrolling: false
+            isScrolling: false,
         });
     }
 

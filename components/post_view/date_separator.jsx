@@ -11,7 +11,7 @@ export default class DateSeparator extends React.PureComponent {
         /*
          * The date to display in the separator
          */
-        date: PropTypes.instanceOf(Date)
+        date: PropTypes.instanceOf(Date),
     }
 
     render() {

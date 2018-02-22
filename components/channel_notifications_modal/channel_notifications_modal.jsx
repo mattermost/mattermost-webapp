@@ -22,7 +22,7 @@ export default class ChannelNotificationsModal extends React.Component {
             activeSection: NotificationSections.NONE,
             notifyLevel: props.channelMember.notify_props.desktop,
             unreadLevel: props.channelMember.notify_props.mark_unread,
-            pushLevel: props.channelMember.notify_props.push || NotificationLevels.DEFAULT
+            pushLevel: props.channelMember.notify_props.push || NotificationLevels.DEFAULT,
         };
     }
 
@@ -31,14 +31,14 @@ export default class ChannelNotificationsModal extends React.Component {
             this.setState({
                 notifyLevel: nextProps.channelMember.notify_props.desktop,
                 unreadLevel: nextProps.channelMember.notify_props.mark_unread,
-                pushLevel: nextProps.channelMember.notify_props.push || NotificationLevels.DEFAULT
+                pushLevel: nextProps.channelMember.notify_props.push || NotificationLevels.DEFAULT,
             });
         }
     }
 
     handleOnHide = () => {
         this.setState({
-            activeSection: NotificationSections.NONE
+            activeSection: NotificationSections.NONE,
         });
 
         this.props.onHide();
@@ -64,7 +64,7 @@ export default class ChannelNotificationsModal extends React.Component {
         const options = {desktop: notifyLevel};
         const data = {
             channel_id: channelId,
-            user_id: currentUserId
+            user_id: currentUserId,
         };
 
         updateChannelNotifyProps(data, options,
@@ -84,7 +84,7 @@ export default class ChannelNotificationsModal extends React.Component {
     handleUpdateDesktopSection = (section = NotificationSections.NONE) => {
         this.updateSection(section);
         this.setState({
-            notifyLevel: this.props.channelMember.notify_props.desktop
+            notifyLevel: this.props.channelMember.notify_props.desktop,
         });
     }
 
@@ -100,7 +100,7 @@ export default class ChannelNotificationsModal extends React.Component {
         const options = {mark_unread: markUnreadLevel};
         const data = {
             channel_id: channelId,
-            user_id: this.props.currentUser.id
+            user_id: this.props.currentUser.id,
         };
 
         updateChannelNotifyProps(data, options,
@@ -120,7 +120,7 @@ export default class ChannelNotificationsModal extends React.Component {
     handleUpdateMarkUnreadSection = (section = NotificationSections.NONE) => {
         this.updateSection(section);
         this.setState({
-            unreadLevel: this.props.channelMember.notify_props.mark_unread
+            unreadLevel: this.props.channelMember.notify_props.mark_unread,
         });
     }
 
@@ -137,7 +137,7 @@ export default class ChannelNotificationsModal extends React.Component {
         const options = {push: notifyLevel};
         const data = {
             channel_id: channelId,
-            user_id: currentUserId
+            user_id: currentUserId,
         };
 
         updateChannelNotifyProps(data, options,
@@ -157,7 +157,7 @@ export default class ChannelNotificationsModal extends React.Component {
     handleUpdatePushSection = (section = NotificationSections.NONE) => {
         this.updateSection(section);
         this.setState({
-            pushLevel: this.props.channelMember.notify_props.push
+            pushLevel: this.props.channelMember.notify_props.push,
         });
     }
 
@@ -206,7 +206,7 @@ export default class ChannelNotificationsModal extends React.Component {
                                     serverError={this.state.serverError}
                                 />
                                 <div className='divider-light'/>
-                                {global.mm_config.SendPushNotifications !== 'false' &&
+                                {this.props.sendPushNotifications &&
                                 <NotificationSection
                                     section={NotificationSections.PUSH}
                                     expand={this.state.activeSection === NotificationSections.PUSH}
@@ -247,5 +247,6 @@ ChannelNotificationsModal.propTypes = {
     onHide: PropTypes.func.isRequired,
     channel: PropTypes.object.isRequired,
     channelMember: PropTypes.object.isRequired,
-    currentUser: PropTypes.object.isRequired
+    currentUser: PropTypes.object.isRequired,
+    sendPushNotifications: PropTypes.bool.isRequired,
 };

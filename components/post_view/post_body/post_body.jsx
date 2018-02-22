@@ -13,7 +13,7 @@ import DelayedAction from 'utils/delayed_action.jsx';
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import CommentedOnFilesMessage from 'components/post_view/commented_on_files_message';
 import FailedPostOptions from 'components/post_view/failed_post_options';
-import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content.jsx';
+import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostMessageView from 'components/post_view/post_message_view';
 import ReactionListContainer from 'components/post_view/reaction_list';
 import loadingGif from 'images/load.gif';
@@ -81,7 +81,12 @@ export default class PostBody extends React.PureComponent {
         /**
          * Flag passed down to PostBodyAdditionalContent for determining if post embed is visible
          */
-        isEmbedVisible: PropTypes.bool
+        isEmbedVisible: PropTypes.bool,
+
+        /**
+         * Whether or not the post username can be overridden.
+         */
+        enablePostUsernameOverride: PropTypes.bool.isRequired,
     }
 
     constructor(props) {
@@ -135,7 +140,7 @@ export default class PostBody extends React.PureComponent {
                 if (parentPost.props &&
                         parentPost.props.from_webhook &&
                         parentPost.props.override_username &&
-                        global.window.mm_config.EnablePostUsernameOverride === 'true') {
+                        this.props.enablePostUsernameOverride) {
                     username = parentPost.props.override_username;
                 }
 
@@ -173,7 +178,7 @@ export default class PostBody extends React.PureComponent {
                             defaultMessage='Commented on {name}{apostrophe} message: '
                             values={{
                                 name,
-                                apostrophe
+                                apostrophe,
                             }}
                         />
                         <a

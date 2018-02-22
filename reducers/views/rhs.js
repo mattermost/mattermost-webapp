@@ -112,5 +112,5 @@ export default combineReducers({
     searchTerms,
     isSearchingTerm,
     isSearchingFlaggedPost,
-    isSearchingPinnedPost
+    isSearchingPinnedPost,
 });

@@ -10,7 +10,7 @@ import * as Utils from 'utils/utils.jsx';
 export default class SettingItemMin extends React.PureComponent {
     static defaultProps = {
         section: '',
-        focused: false
+        focused: false,
     };
 
     static propTypes = {
@@ -43,7 +43,7 @@ export default class SettingItemMin extends React.PureComponent {
         /**
          * Settings description
          */
-        describe: PropTypes.node
+        describe: PropTypes.node,
     };
 
     componentDidMount() {

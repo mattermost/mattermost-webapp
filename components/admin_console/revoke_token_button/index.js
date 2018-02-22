@@ -9,15 +9,15 @@ import RevokeTokenButton from './revoke_token_button.jsx';
 
 function mapStateToProps(state, ownProps) {
     return {
-        ...ownProps
+        ...ownProps,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            revokeUserAccessToken
-        }, dispatch)
+            revokeUserAccessToken,
+        }, dispatch),
     };
 }
 

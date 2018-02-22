@@ -10,28 +10,18 @@ import Constants from 'utils/constants.jsx';
 import NewChannelModal from 'components/new_channel_modal/new_channel_modal.jsx';
 
 describe('components/NewChannelModal', () => {
-    global.window.mm_license = {};
-    global.window.mm_config = {};
-
-    beforeEach(() => {
-        global.window.mm_license.IsLicensed = 'false';
-    });
-
-    afterEach(() => {
-        global.window.mm_license = {};
-        global.window.mm_config = {};
-    });
-
     const channelData = {name: 'testchannel', displayName: 'testchannel', header: '', purpose: ''};
     const baseProps = {
         show: true,
         channelType: Constants.OPEN_CHANNEL,
         channelData,
+        showCreatePublicChannelOption: true,
+        showCreatePrivateChannelOption: true,
         onSubmitChannel: jest.fn(),
         onModalDismissed: jest.fn(),
         onTypeSwitched: jest.fn(),
         onChangeURLPressed: jest.fn(),
-        onDataChanged: jest.fn()
+        onDataChanged: jest.fn(),
     };
 
     test('should match snapshot, modal not showing', () => {
@@ -71,6 +61,34 @@ describe('components/NewChannelModal', () => {
 
     test('should match snapshot, on serverError', () => {
         const props = {...baseProps, serverError: 'server error'};
+        const wrapper = shallow(
+            <NewChannelModal {...props}/>
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, without option to create public channel', () => {
+        const props = {...baseProps, showCreatePublicChannelOption: false};
+        const wrapper = shallow(
+            <NewChannelModal {...props}/>
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, without option to create private channel', () => {
+        const props = {...baseProps, showCreatePrivateChannelOption: false};
+        const wrapper = shallow(
+            <NewChannelModal {...props}/>
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, without option to create public or private channels', () => {
+        const props = {
+            ...baseProps,
+            showCreatePublicChannelOption: false,
+            showCreatePrivateChannelOption: false,
+        };
         const wrapper = shallow(
             <NewChannelModal {...props}/>
         );

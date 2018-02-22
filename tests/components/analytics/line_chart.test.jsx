@@ -19,7 +19,7 @@ describe('components/analytics/line_chart.jsx', () => {
     test('should match snapshot, loaded without data', () => {
         const data = {
             datasets: [],
-            labels: []
+            labels: [],
         };
 
         const wrapper = shallow(
@@ -37,9 +37,9 @@ describe('components/analytics/line_chart.jsx', () => {
     test('should match snapshot, loaded with data', () => {
         const data = {
             datasets: [
-                {data: [1, 2, 3]}
+                {data: [1, 2, 3]},
             ],
-            labels: ['test1', 'test2', 'test3']
+            labels: ['test1', 'test2', 'test3'],
         };
 
         const wrapper = shallow(

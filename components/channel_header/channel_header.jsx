@@ -23,7 +23,7 @@ import {messageHtmlToComponent} from 'utils/post_utils.jsx';
 import ChannelInfoModal from 'components/channel_info_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
-import ChannelNotificationsModal from 'components/channel_notifications_modal/channel_notifications_modal.jsx';
+import ChannelNotificationsModal from 'components/channel_notifications_modal';
 import DeleteChannelModal from 'components/delete_channel_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
@@ -55,6 +55,7 @@ export default class ChannelHeader extends React.Component {
         rhsState: PropTypes.oneOf(
             Object.values(RHSStates)
         ),
+        enableWebrtc: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             leaveChannel: PropTypes.func.isRequired,
             favoriteChannel: PropTypes.func.isRequired,
@@ -64,13 +65,13 @@ export default class ChannelHeader extends React.Component {
             showMentions: PropTypes.func.isRequired,
             closeRightHandSide: PropTypes.func.isRequired,
             openModal: PropTypes.func.isRequired,
-            getCustomEmojisInText: PropTypes.func.isRequired
-        }).isRequired
+            getCustomEmojisInText: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     static defaultProps = {
         dmUser: {},
-        dmUserStatus: {status: UserStatuses.OFFLINE}
+        dmUserStatus: {status: UserStatuses.OFFLINE},
     }
 
     constructor(props) {
@@ -82,7 +83,7 @@ export default class ChannelHeader extends React.Component {
             showMembersModal: false,
             showRenameChannelModal: false,
             showChannelNotificationsModal: false,
-            isBusy: WebrtcStore.isBusy()
+            isBusy: WebrtcStore.isBusy(),
         };
     }
 
@@ -169,13 +170,13 @@ export default class ChannelHeader extends React.Component {
         e.preventDefault();
 
         this.setState({
-            showRenameChannelModal: true
+            showRenameChannelModal: true,
         });
     }
 
     hideRenameChannelModal = () => {
         this.setState({
-            showRenameChannelModal: false
+            showRenameChannelModal: false,
         });
     }
 
@@ -183,13 +184,13 @@ export default class ChannelHeader extends React.Component {
         e.preventDefault();
 
         this.setState({
-            showChannelNotificationsModal: true
+            showChannelNotificationsModal: true,
         });
     }
 
     hideChannelNotificationsModal = () => {
         this.setState({
-            showChannelNotificationsModal: false
+            showChannelNotificationsModal: false,
         });
     }
 
@@ -251,7 +252,7 @@ export default class ChannelHeader extends React.Component {
         const inviteModalData = {
             modalId: ModalIdentifiers.CHANNEL_INVITE,
             dialogType: ChannelInviteModal,
-            dialogProps: {channel, currentUser}
+            dialogProps: {channel, currentUser},
         };
 
         actions.openModal(inviteModalData);
@@ -335,7 +336,7 @@ export default class ChannelHeader extends React.Component {
                         id='channel_header.directchannel.you'
                         defaultMessage='{displayname} (you) '
                         values={{
-                            displayname: Utils.displayUsername(teammateId)
+                            displayname: Utils.displayUsername(teammateId),
                         }}
                     />
                 );
@@ -343,7 +344,7 @@ export default class ChannelHeader extends React.Component {
                 channelTitle = Utils.displayUsername(teammateId) + ' ';
             }
 
-            const webrtcEnabled = global.mm_config.EnableWebrtc === 'true' && userMedia && Utils.isFeatureEnabled(PreReleaseFeatures.WEBRTC_PREVIEW);
+            const webrtcEnabled = this.props.enableWebrtc && userMedia && Utils.isFeatureEnabled(PreReleaseFeatures.WEBRTC_PREVIEW);
 
             if (webrtcEnabled && this.props.currentUser.id !== teammateId) {
                 const isOffline = dmUserStatus === UserStatuses.OFFLINE;

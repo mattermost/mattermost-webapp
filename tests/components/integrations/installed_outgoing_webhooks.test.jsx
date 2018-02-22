@@ -4,11 +4,12 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import InstalledOutgoingWebhooks from 'components/integrations/components/installed_outgoing_webhooks/installed_outgoing_webhooks.jsx';
+import InstalledOutgoingWebhooks from 'components/integrations/installed_outgoing_webhooks/installed_outgoing_webhooks.jsx';
 
 describe('components/integrations/InstalledOutgoingWebhooks', () => {
     let outgoingWebhooks = {};
     let mockFunc;
+    const getOutgoingHooks = () => new Promise((resolve) => resolve());
     const teamId = 'testteamid';
     beforeEach(() => {
         mockFunc = jest.fn();
@@ -28,7 +29,7 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
                 trigger_when: 0,
                 trigger_words: ['build'],
                 0: 'asdf',
-                update_at: 1508329149618
+                update_at: 1508329149618,
             },
             {
                 callback_urls: ['http://adsfdasd.com'],
@@ -45,13 +46,12 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
                 trigger_when: 0,
                 trigger_words: ['test'],
                 0: 'asdf',
-                update_at: 1508329149618
-            }
+                update_at: 1508329149618,
+            },
         ];
     });
 
     test('should match snapshot', () => {
-        global.window.mm_config = {EnableOutgoingWebhooks: true};
         function emptyFunction() {} //eslint-disable-line no-empty-function
 
         const wrapper = shallow(
@@ -61,42 +61,42 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
                 canChange={true}
                 team={{
                     id: teamId,
-                    name: 'test'
+                    name: 'test',
                 }}
                 channels={{
                     mdpzfpfcxi85zkkqkzkch4b85h: {
                         id: 'mdpzfpfcxi85zkkqkzkch4b85h',
                         name: 'town-square',
-                        display_name: 'town-square'
-                    }
+                        display_name: 'town-square',
+                    },
                 }}
                 teamId={teamId}
                 actions={{
                     removeOutgoingHook: emptyFunction,
-                    getOutgoingHooks: emptyFunction,
-                    regenOutgoingHookToken: emptyFunction
+                    getOutgoingHooks,
+                    regenOutgoingHookToken: emptyFunction,
                 }}
                 user={{
                     first_name: 'sudheer',
                     id: 'zaktnt8bpbgu8mb6ez9k64r7sa',
                     roles: 'system_admin system_user',
-                    username: 'sudheerdev'
+                    username: 'sudheerdev',
                 }}
                 users={{
                     zaktnt8bpbgu8mb6ez9k64r7sa: {
                         first_name: 'sudheer',
                         id: 'zaktnt8bpbgu8mb6ez9k64r7sa',
                         roles: 'system_admin system_user',
-                        username: 'sudheerdev'
-                    }
+                        username: 'sudheerdev',
+                    },
                 }}
+                enableOutgoingWebhooks={true}
             />
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should call regenOutgoingHookToken function', () => {
-        global.window.mm_config = {EnableOutgoingWebhooks: true};
         function emptyFunction() {} //eslint-disable-line no-empty-function
 
         const wrapper = shallow(
@@ -106,35 +106,36 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
                 canChange={true}
                 team={{
                     id: teamId,
-                    name: 'test'
+                    name: 'test',
                 }}
                 channels={{
                     mdpzfpfcxi85zkkqkzkch4b85h: {
                         id: 'mdpzfpfcxi85zkkqkzkch4b85h',
                         name: 'town-square',
-                        display_name: 'town-square'
-                    }
+                        display_name: 'town-square',
+                    },
                 }}
                 teamId={teamId}
                 actions={{
                     removeOutgoingHook: emptyFunction,
-                    getOutgoingHooks: emptyFunction,
-                    regenOutgoingHookToken: mockFunc
+                    getOutgoingHooks,
+                    regenOutgoingHookToken: mockFunc,
                 }}
                 user={{
                     first_name: 'sudheer',
                     id: 'zaktnt8bpbgu8mb6ez9k64r7sa',
                     roles: 'system_admin system_user',
-                    username: 'sudheerdev'
+                    username: 'sudheerdev',
                 }}
                 users={{
                     zaktnt8bpbgu8mb6ez9k64r7sa: {
                         first_name: 'sudheer',
                         id: 'zaktnt8bpbgu8mb6ez9k64r7sa',
                         roles: 'system_admin system_user',
-                        username: 'sudheerdev'
-                    }
+                        username: 'sudheerdev',
+                    },
                 }}
+                enableOutgoingWebhooks={true}
             />
         );
         wrapper.instance().regenOutgoingWebhookToken(outgoingWebhooks[0]);
@@ -143,7 +144,6 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
     });
 
     test('should call removeOutgoingHook function', () => {
-        global.window.mm_config = {EnableOutgoingWebhooks: true};
         function emptyFunction() {} //eslint-disable-line no-empty-function
 
         const wrapper = shallow(
@@ -153,35 +153,36 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
                 canChange={true}
                 team={{
                     id: teamId,
-                    name: 'test'
+                    name: 'test',
                 }}
                 channels={{
                     mdpzfpfcxi85zkkqkzkch4b85h: {
                         id: 'mdpzfpfcxi85zkkqkzkch4b85h',
                         name: 'town-square',
-                        display_name: 'town-square'
-                    }
+                        display_name: 'town-square',
+                    },
                 }}
                 teamId={teamId}
                 actions={{
                     removeOutgoingHook: mockFunc,
-                    getOutgoingHooks: emptyFunction,
-                    regenOutgoingHookToken: emptyFunction
+                    getOutgoingHooks,
+                    regenOutgoingHookToken: emptyFunction,
                 }}
                 user={{
                     first_name: 'sudheer',
                     id: 'zaktnt8bpbgu8mb6ez9k64r7sa',
                     roles: 'system_admin system_user',
-                    username: 'sudheerdev'
+                    username: 'sudheerdev',
                 }}
                 users={{
                     zaktnt8bpbgu8mb6ez9k64r7sa: {
                         first_name: 'sudheer',
                         id: 'zaktnt8bpbgu8mb6ez9k64r7sa',
                         roles: 'system_admin system_user',
-                        username: 'sudheerdev'
-                    }
+                        username: 'sudheerdev',
+                    },
                 }}
+                enableOutgoingWebhooks={true}
             />
         );
 

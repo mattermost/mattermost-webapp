@@ -153,7 +153,7 @@ export default class AtMentionProvider extends Provider {
                     matchedPretext: `@${captured[1]}`,
                     terms: mentions,
                     items: users,
-                    component: AtMentionSuggestion
+                    component: AtMentionSuggestion,
                 });
             }
         );

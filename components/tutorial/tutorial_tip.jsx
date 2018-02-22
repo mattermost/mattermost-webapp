@@ -206,14 +206,14 @@ export default class TutorialTip extends React.Component {
 }
 
 TutorialTip.defaultProps = {
-    overlayClass: ''
+    overlayClass: '',
 };
 
 TutorialTip.propTypes = {
     screens: PropTypes.array.isRequired,
     placement: PropTypes.string.isRequired,
     overlayClass: PropTypes.string,
-    diagnosticsTag: PropTypes.string
+    diagnosticsTag: PropTypes.string,
 };
 
 export function createMenuTip(toggleFunc, onBottom) {

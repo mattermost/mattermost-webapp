@@ -73,7 +73,7 @@ UserList.defaultProps = {
     extraInfo: {},
     actions: [],
     actionProps: {},
-    rowComponentType: UserListRow
+    rowComponentType: UserListRow,
 };
 
 UserList.propTypes = {
@@ -84,5 +84,5 @@ UserList.propTypes = {
     actionUserProps: PropTypes.object,
 
     // the type of user list row to render
-    rowComponentType: PropTypes.func
+    rowComponentType: PropTypes.func,
 };

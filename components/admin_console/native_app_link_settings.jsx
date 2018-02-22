@@ -29,7 +29,7 @@ export default class NativeAppLinkSettings extends AdminSettings {
         return {
             appDownloadLink: config.NativeAppSettings.AppDownloadLink,
             androidAppDownloadLink: config.NativeAppSettings.AndroidAppDownloadLink,
-            iosAppDownloadLink: config.NativeAppSettings.IosAppDownloadLink
+            iosAppDownloadLink: config.NativeAppSettings.IosAppDownloadLink,
         };
     }
 

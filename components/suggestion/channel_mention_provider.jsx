@@ -117,7 +117,7 @@ export default class ChannelMentionProvider extends Provider {
             wrappedChannelIds[item.id] = true;
             wrappedChannels.push({
                 type: Constants.MENTION_CHANNELS,
-                channel: item
+                channel: item,
             });
         });
         wrappedChannels = wrappedChannels.sort((a, b) => {
@@ -130,7 +130,7 @@ export default class ChannelMentionProvider extends Provider {
 
         SuggestionStore.addSuggestions(suggestionId, [''], [{
             type: Constants.MENTION_MORE_CHANNELS,
-            loading: true
+            loading: true,
         }], ChannelMentionSuggestion, captured[2]);
 
         autocompleteChannels(
@@ -153,7 +153,7 @@ export default class ChannelMentionProvider extends Provider {
                             wrappedChannelIds[item.id] = true;
                             wrappedChannels.push({
                                 type: Constants.MENTION_CHANNELS,
-                                channel: item
+                                channel: item,
                             });
                         }
                         return;
@@ -161,7 +161,7 @@ export default class ChannelMentionProvider extends Provider {
 
                     wrappedMoreChannels.push({
                         type: Constants.MENTION_MORE_CHANNELS,
-                        channel: item
+                        channel: item,
                     });
 
                     moreChannels.push(item);
@@ -175,7 +175,7 @@ export default class ChannelMentionProvider extends Provider {
 
                 AppDispatcher.handleServerAction({
                     type: ActionTypes.RECEIVED_MORE_CHANNELS,
-                    channels: moreChannels
+                    channels: moreChannels,
                 });
 
                 AppDispatcher.handleServerAction({
@@ -184,7 +184,7 @@ export default class ChannelMentionProvider extends Provider {
                     matchedPretext: captured[2],
                     terms: mentions,
                     items: wrapped,
-                    component: ChannelMentionSuggestion
+                    component: ChannelMentionSuggestion,
                 });
             }
         );

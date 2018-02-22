@@ -13,7 +13,7 @@ import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 import {
     Constants,
-    WebrtcActionTypes
+    WebrtcActionTypes,
 } from 'utils/constants.jsx';
 import {useSafeUrl} from 'utils/url.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
@@ -32,11 +32,20 @@ export default class SidebarRightMenu extends React.Component {
         teamDisplayName: PropTypes.string,
         isMentionSearch: PropTypes.bool,
         showTutorialTip: PropTypes.bool.isRequired,
+        isLicensed: PropTypes.bool.isRequired,
+        appDownloadLink: PropTypes.string,
+        enableTeamCreation: PropTypes.bool.isRequired,
+        enableUserCreation: PropTypes.bool.isRequired,
+        experimentalPrimaryTeam: PropTypes.string,
+        helpLink: PropTypes.string,
+        reportAProblemLink: PropTypes.string,
+        restrictTeamInvite: PropTypes.string,
+        siteName: PropTypes.string,
         actions: PropTypes.shape({
             showMentions: PropTypes.func,
             showFlaggedPosts: PropTypes.func,
-            closeRightHandSide: PropTypes.func
-        })
+            closeRightHandSide: PropTypes.func,
+        }),
     };
 
     constructor(props) {
@@ -46,7 +55,7 @@ export default class SidebarRightMenu extends React.Component {
             ...this.getStateFromStores(),
             showAboutModal: false,
             showAddUsersToTeamModal: false,
-            showTeamSettingsModal: false
+            showTeamSettingsModal: false,
         };
     }
 
@@ -80,13 +89,13 @@ export default class SidebarRightMenu extends React.Component {
 
         this.setState({
             showAddUsersToTeamModal: true,
-            showDropdown: false
+            showDropdown: false,
         });
     }
 
     hideAddUsersToTeamModal = () => {
         this.setState({
-            showAddUsersToTeamModal: false
+            showAddUsersToTeamModal: false,
         });
     }
 
@@ -95,7 +104,7 @@ export default class SidebarRightMenu extends React.Component {
 
         this.setState({
             showTeamSettingsModal: true,
-            showDropdown: false
+            showDropdown: false,
         });
     }
 
@@ -113,7 +122,7 @@ export default class SidebarRightMenu extends React.Component {
         return {
             currentUser: UserStore.getCurrentUser(),
             teamMembers: TeamStore.getMyTeamMembers(),
-            teamListings: TeamStore.getTeamListings()
+            teamListings: TeamStore.getTeamListings(),
         };
     }
 
@@ -215,7 +224,7 @@ export default class SidebarRightMenu extends React.Component {
                 </li>
             );
 
-            if (this.props.teamType === Constants.OPEN_TEAM && global.mm_config.EnableUserCreation === 'true') {
+            if (this.props.teamType === Constants.OPEN_TEAM && this.props.enableUserCreation) {
                 teamLink = (
                     <li>
                         <a
@@ -232,12 +241,12 @@ export default class SidebarRightMenu extends React.Component {
                 );
             }
 
-            if (global.window.mm_license.IsLicensed === 'true') {
-                if (global.window.mm_config.RestrictTeamInvite === Constants.PERMISSIONS_SYSTEM_ADMIN && !isSystemAdmin) {
+            if (this.props.isLicensed) {
+                if (this.props.restrictTeamInvite === Constants.PERMISSIONS_SYSTEM_ADMIN && !isSystemAdmin) {
                     teamLink = null;
                     inviteLink = null;
                     addUserToTeamLink = null;
-                } else if (global.window.mm_config.RestrictTeamInvite === Constants.PERMISSIONS_TEAM_ADMIN && !isAdmin) {
+                } else if (this.props.restrictTeamInvite === Constants.PERMISSIONS_TEAM_ADMIN && !isAdmin) {
                     teamLink = null;
                     inviteLink = null;
                     addUserToTeamLink = null;
@@ -257,7 +266,7 @@ export default class SidebarRightMenu extends React.Component {
                 }
             }
 
-            if (moreTeams && !global.mm_config.ExperimentalPrimaryTeam) {
+            if (moreTeams && !this.props.experimentalPrimaryTeam) {
                 joinAnotherTeamLink = (
                     <li key='joinTeam_li'>
                         <Link to='/select_team'>
@@ -271,7 +280,7 @@ export default class SidebarRightMenu extends React.Component {
                 );
             }
 
-            if (global.window.mm_config.EnableTeamCreation === 'true' || isSystemAdmin) {
+            if (this.props.enableTeamCreation || isSystemAdmin) {
                 createTeam = (
                     <li key='newTeam_li'>
                         <Link
@@ -304,7 +313,7 @@ export default class SidebarRightMenu extends React.Component {
         );
 
         let leaveTeam = '';
-        if (!global.mm_config.ExperimentalPrimaryTeam) {
+        if (!this.props.experimentalPrimaryTeam) {
             leaveTeam = (
                 <li key='leaveTeam_li'>
                     <a
@@ -371,8 +380,8 @@ export default class SidebarRightMenu extends React.Component {
         }
 
         var siteName = '';
-        if (global.window.mm_config.SiteName != null) {
-            siteName = global.window.mm_config.SiteName;
+        if (this.props.siteName != null) {
+            siteName = this.props.siteName;
         }
         var teamDisplayName = siteName;
         if (this.props.teamDisplayName) {
@@ -380,13 +389,13 @@ export default class SidebarRightMenu extends React.Component {
         }
 
         let helpLink = null;
-        if (global.window.mm_config.HelpLink) {
+        if (this.props.helpLink) {
             helpLink = (
                 <li>
                     <Link
                         target='_blank'
                         rel='noopener noreferrer'
-                        to={global.window.mm_config.HelpLink}
+                        to={this.props.helpLink}
                     >
                         <i className='icon fa fa-question'/>
                         <FormattedMessage
@@ -399,13 +408,13 @@ export default class SidebarRightMenu extends React.Component {
         }
 
         let reportLink = null;
-        if (global.window.mm_config.ReportAProblemLink) {
+        if (this.props.reportAProblemLink) {
             reportLink = (
                 <li>
                     <Link
                         target='_blank'
                         rel='noopener noreferrer'
-                        to={global.window.mm_config.ReportAProblemLink}
+                        to={this.props.reportAProblemLink}
                     >
                         <i className='icon fa fa-phone'/>
                         <FormattedMessage
@@ -425,13 +434,13 @@ export default class SidebarRightMenu extends React.Component {
         }
 
         let nativeAppLink = null;
-        if (global.window.mm_config.AppDownloadLink && !UserAgent.isMobileApp()) {
+        if (this.props.appDownloadLink && !UserAgent.isMobileApp()) {
             nativeAppLink = (
                 <li>
                     <Link
                         target='_blank'
                         rel='noopener noreferrer'
-                        to={useSafeUrl(global.window.mm_config.AppDownloadLink)}
+                        to={useSafeUrl(this.props.appDownloadLink)}
                     >
                         <i className='icon fa fa-mobile'/>
                         <FormattedMessage

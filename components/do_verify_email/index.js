@@ -4,15 +4,25 @@
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {verifyUserEmail} from 'mattermost-redux/actions/users';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import DoVerifyEmail from './do_verify_email.jsx';
+
+function mapStateToProps(state) {
+    const config = getConfig(state);
+    const siteName = config.SiteName;
+
+    return {
+        siteName,
+    };
+}
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: {
-            verifyUserEmail: bindActionCreators(verifyUserEmail, dispatch)
-        }
+            verifyUserEmail: bindActionCreators(verifyUserEmail, dispatch),
+        },
     };
 }
 
-export default connect(null, mapDispatchToProps)(DoVerifyEmail);
+export default connect(mapStateToProps, mapDispatchToProps)(DoVerifyEmail);

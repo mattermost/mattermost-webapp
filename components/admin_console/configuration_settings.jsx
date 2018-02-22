@@ -70,7 +70,7 @@ export default class ConfigurationSettings extends AdminSettings {
             forward80To443: config.ServiceSettings.Forward80To443,
             readTimeout: config.ServiceSettings.ReadTimeout,
             writeTimeout: config.ServiceSettings.WriteTimeout,
-            enableAPIv3: config.ServiceSettings.EnableAPIv3
+            enableAPIv3: config.ServiceSettings.EnableAPIv3,
         };
     }
 
@@ -118,13 +118,13 @@ export default class ConfigurationSettings extends AdminSettings {
                                 />
                             </b>
                         </a>
-                    )
+                    ),
                 }}
             />
         );
 
         let reloadConfigButton = <div/>;
-        if (global.window.mm_license.IsLicensed === 'true') {
+        if (this.props.license.IsLicensed === 'true') {
             reloadConfigButton = (
                 <RequestButton
                     requestAction={reloadConfig}
@@ -138,7 +138,7 @@ export default class ConfigurationSettings extends AdminSettings {
                     showSuccessMessage={false}
                     errorMessage={{
                         id: 'admin.reload.reloadFail',
-                        defaultMessage: 'Reload unsuccessful: {error}'
+                        defaultMessage: 'Reload unsuccessful: {error}',
                     }}
                 />
             );
@@ -358,7 +358,7 @@ export default class ConfigurationSettings extends AdminSettings {
                     includeDetailedError={true}
                     errorMessage={{
                         id: 'admin.purge.purgeFail',
-                        defaultMessage: 'Purging unsuccessful: {error}'
+                        defaultMessage: 'Purging unsuccessful: {error}',
                     }}
                 />
             </SettingsGroup>

@@ -65,7 +65,7 @@ export default class StorageSettings extends AdminSettings {
 
             imageProxyType: config.ServiceSettings.ImageProxyType,
             imageProxyOptions: config.ServiceSettings.ImageProxyOptions,
-            imageProxyURL: config.ServiceSettings.ImageProxyURL
+            imageProxyURL: config.ServiceSettings.ImageProxyURL,
         };
     }
 
@@ -81,7 +81,7 @@ export default class StorageSettings extends AdminSettings {
     renderSettings() {
         let amazonSSEComp;
         const mobileUploadDownloadSettings = [];
-        if (window.mm_license.IsLicensed === 'true' && window.mm_license.Compliance === 'true') {
+        if (this.props.license.IsLicensed === 'true' && this.props.license.Compliance === 'true') {
             mobileUploadDownloadSettings.push(
                 <BooleanSetting
                     key='enableMobileUpload'
@@ -155,7 +155,7 @@ export default class StorageSettings extends AdminSettings {
                     id='driverName'
                     values={[
                         {value: DRIVER_LOCAL, text: Utils.localizeMessage('admin.image.storeLocal', 'Local File System')},
-                        {value: DRIVER_S3, text: Utils.localizeMessage('admin.image.storeAmazonS3', 'Amazon S3')}
+                        {value: DRIVER_S3, text: Utils.localizeMessage('admin.image.storeAmazonS3', 'Amazon S3')},
                     ]}
                     label={
                         <FormattedMessage
@@ -366,7 +366,7 @@ export default class StorageSettings extends AdminSettings {
                     id='imageProxyType'
                     values={[
                         {value: '', text: Utils.localizeMessage('admin.image.proxyTypeNone', 'None')},
-                        {value: 'atmos/camo', text: 'atmos/camo'}
+                        {value: 'atmos/camo', text: 'atmos/camo'},
                     ]}
                     label={
                         <FormattedMessage

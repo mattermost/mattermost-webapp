@@ -8,7 +8,7 @@ import QuickSwitchModal from './quick_switch_modal.jsx';
 function mapStateToProps(state, ownProps) {
     return {
         ...ownProps,
-        showTeamSwitcher: false
+        showTeamSwitcher: false,
     };
 }
 

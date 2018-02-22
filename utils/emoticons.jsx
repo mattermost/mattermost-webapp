@@ -21,7 +21,7 @@ export const emoticonPatterns = {
     heart: /(^|\s)(<3|&lt;3)(?=$|\s)/g, // <3
     broken_heart: /(^|\s)(<\/3|&lt;&#x2F;3)(?=$|\s)/g, // </3
     thumbsup: /(^|\s)(:\+1:)(?=$|\s)/g, // :+1:
-    thumbsdown: /(^|\s)(:-1:)(?=$|\s)/g // :-1:
+    thumbsdown: /(^|\s)(:-1:)(?=$|\s)/g, // :-1:
 };
 
 export const EMOJI_PATTERN = /(:([a-zA-Z0-9_-]+):)/g;
@@ -35,7 +35,7 @@ export function handleEmoticons(text, tokens) {
 
         tokens.set(alias, {
             value: `<span data-emoticon="${name}">${matchText}</span>`,
-            originalText: fullMatch
+            originalText: fullMatch,
         });
 
         return prefix + alias;

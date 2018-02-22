@@ -215,7 +215,7 @@ export function getSuggestedCommands(command, suggestionId, component) {
                         matches.push({
                             suggestion: s,
                             hint,
-                            description: cmd.auto_complete_desc
+                            description: cmd.auto_complete_desc,
                         });
                     }
                 }
@@ -232,7 +232,7 @@ export function getSuggestedCommands(command, suggestionId, component) {
                 matchedPretext: command,
                 terms,
                 items: matches,
-                component
+                component,
             });
         }
     ).catch(
