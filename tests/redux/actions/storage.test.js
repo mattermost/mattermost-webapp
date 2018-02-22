@@ -98,26 +98,33 @@ describe('Actions.Storage', () => {
     });
 
     it('rehydrate-with-timestamp', async () => {
+        const now = new Date();
         const persistor = {
             pause: jest.fn(),
             resume: jest.fn(),
         };
-        await Actions.storageRehydrate({test: JSON.stringify({value: '123', timestamp: 10})}, persistor)(store.dispatch, store.getState);
+        await Actions.storageRehydrate({test: JSON.stringify({value: '123', timestamp: now})}, persistor)(store.dispatch, store.getState);
         assert.equal(store.getState().storage.storage.test.value, '123');
-        assert.equal(store.getState().storage.storage.test.timestamp, 10);
+        assert.equal(store.getState().storage.storage.test.timestamp.valueOf(), now.valueOf());
 
-        await Actions.storageRehydrate({test: JSON.stringify({value: '456', timestamp: 8})}, persistor)(store.dispatch, store.getState);
+        const older = new Date(now);
+        older.setSeconds(now.getSeconds() - 2);
+        await Actions.storageRehydrate({test: JSON.stringify({value: '456', timestamp: older})}, persistor)(store.dispatch, store.getState);
         assert.equal(store.getState().storage.storage.test.value, '123');
-        assert.equal(store.getState().storage.storage.test.timestamp, 10);
+        assert.equal(store.getState().storage.storage.test.timestamp.valueOf(), now.valueOf());
 
-        await Actions.storageRehydrate({test: JSON.stringify({value: '456', timestamp: 12})}, persistor)(store.dispatch, store.getState);
+        const newer = new Date(now);
+        newer.setSeconds(now.getSeconds() + 2);
+        await Actions.storageRehydrate({test: JSON.stringify({value: '456', timestamp: newer})}, persistor)(store.dispatch, store.getState);
         assert.equal(store.getState().storage.storage.test.value, '456');
-        assert.equal(store.getState().storage.storage.test.timestamp, 12);
+        assert.equal(store.getState().storage.storage.test.timestamp.valueOf(), newer.valueOf());
 
-        await Actions.storageRehydrate({test2: JSON.stringify({value: '789', timestamp: 20})}, persistor)(store.dispatch, store.getState);
+        const newest = new Date(now);
+        newest.setSeconds(now.getSeconds() + 10);
+        await Actions.storageRehydrate({test2: JSON.stringify({value: '789', timestamp: newest})}, persistor)(store.dispatch, store.getState);
         assert.equal(store.getState().storage.storage.test.value, '456');
-        assert.equal(store.getState().storage.storage.test.timestamp, 12);
+        assert.equal(store.getState().storage.storage.test.timestamp.valueOf(), newer.valueOf());
         assert.equal(store.getState().storage.storage.test2.value, '789');
-        assert.equal(store.getState().storage.storage.test2.timestamp, 20);
+        assert.equal(store.getState().storage.storage.test2.timestamp.valueOf(), newest.valueOf());
     });
 });

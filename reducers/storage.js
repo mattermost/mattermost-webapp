@@ -11,17 +11,18 @@ function storage(state = {}, action) {
 
     switch (action.type) {
     case StorageTypes.SET_ITEM: {
-        const nextState = {...state};
-        if (!nextState[action.data.prefix + action.data.name] ||
-            !nextState[action.data.prefix + action.data.name].timestamp ||
-            nextState[action.data.prefix + action.data.name].timestamp < action.data.timestamp
+        if (!state[action.data.prefix + action.data.name] ||
+            !state[action.data.prefix + action.data.name].timestamp ||
+            state[action.data.prefix + action.data.name].timestamp < action.data.timestamp
         ) {
+            const nextState = {...state};
             nextState[action.data.prefix + action.data.name] = {
                 timestamp: action.data.timestamp,
                 value: action.data.value,
             };
+            return nextState;
         }
-        return nextState;
+        return state;
     }
     case StorageTypes.REMOVE_ITEM: {
         const nextState = {...state};
@@ -29,17 +30,18 @@ function storage(state = {}, action) {
         return nextState;
     }
     case StorageTypes.SET_GLOBAL_ITEM: {
-        const nextState = {...state};
-        if (!nextState[action.data.name] ||
-            !nextState[action.data.name].timestamp ||
-            nextState[action.data.name].timestamp < action.data.timestamp
+        if (!state[action.data.name] ||
+            !state[action.data.name].timestamp ||
+            state[action.data.name].timestamp < action.data.timestamp
         ) {
+            const nextState = {...state};
             nextState[action.data.name] = {
                 timestamp: action.data.timestamp,
                 value: action.data.value,
             };
+            return nextState;
         }
-        return nextState;
+        return state;
     }
     case StorageTypes.REMOVE_GLOBAL_ITEM: {
         const nextState = {...state};
@@ -59,17 +61,10 @@ function storage(state = {}, action) {
         const nextState = {...state};
         for (key in state) {
             if (key.lastIndexOf(action.data.prefix, 0) === 0) {
-                if (state[key].timestamp) {
-                    nextState[key] = {
-                        timestamp: new Date(),
-                        value: action.data.action(key, state[key].value),
-                    };
-                } else {
-                    nextState[key] = {
-                        timestamp: new Date(),
-                        value: action.data.action(key, state[key]),
-                    };
-                }
+                nextState[key] = {
+                    timestamp: new Date(),
+                    value: action.data.action(key, state[key].value),
+                };
             }
         }
         return nextState;
@@ -81,17 +76,10 @@ function storage(state = {}, action) {
         for (key in state) {
             if (key.lastIndexOf(globalPrefix + action.data.prefix, 0) === 0) {
                 var userkey = key.substring(globalPrefixLen);
-                if (state[key].timestamp) {
-                    nextState[key] = {
-                        timestamp: new Date(),
-                        value: action.data.action(userkey, state[key].value),
-                    };
-                } else {
-                    nextState[key] = {
-                        timestamp: new Date(),
-                        value: action.data.action(userkey, state[key]),
-                    };
-                }
+                nextState[key] = {
+                    timestamp: new Date(),
+                    value: action.data.action(userkey, state[key].value),
+                };
             }
         }
         return nextState;

@@ -88,18 +88,20 @@ export function storageRehydrate(incoming, persistor) {
             const storage = {};
             try {
                 const value = JSON.parse(incoming[key]);
-                if (typeof state.storage.storage[key] === 'undefined') {
+                if (value === null) {
+                    storage[key] = {value, timestamp: new Date()};
+                } else if (typeof state.storage.storage[key] === 'undefined') {
                     if (typeof value.timestamp === 'undefined') {
                         storage[key] = {value, timestamp: new Date()};
                     } else {
-                        storage[key] = value;
+                        storage[key] = {value: value.value, timestamp: new Date(value.timestamp)};
                     }
                 } else if (typeof value.timestamp === 'undefined') {
                     storage[key] = {value, timestamp: new Date()};
                 } else if (typeof state.storage.storage[key].timestamp === 'undefined') {
-                    storage[key] = value;
-                } else if (value.timestamp > state.storage.storage[key].timestamp) {
-                    storage[key] = value;
+                    storage[key] = {value: value.value, timestamp: new Date(value.timestamp)};
+                } else if (new Date(value.timestamp) > state.storage.storage[key].timestamp) {
+                    storage[key] = {value: value.value, timestamp: new Date(value.timestamp)};
                 } else {
                     return;
                 }

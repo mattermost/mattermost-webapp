@@ -22,12 +22,12 @@ export const makeGetGlobalItem = (name, defaultValue) => {
 };
 
 export const getItemFromStorage = (storage, name, defaultValue) => {
-    if (storage && typeof storage[name] !== 'undefined' && storage[name] !== null) {
-        const data = storage[name];
-        if (typeof data.timestamp !== 'undefined') {
-            return data.value;
-        }
-        return data;
+    if (storage &&
+        typeof storage[name] !== 'undefined' &&
+        storage[name] !== null &&
+        typeof storage[name].value !== 'undefined' &&
+        storage[name].value !== null) {
+        return storage[name].value;
     }
 
     return defaultValue;
