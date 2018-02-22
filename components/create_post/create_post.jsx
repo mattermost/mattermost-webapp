@@ -418,7 +418,7 @@ export default class CreatePost extends React.Component {
     }
 
     postMsgKeyPress = (e) => {
-        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
+        const ctrlOrMetaKeyPressed = Utils.cmdOrCtrlPressed(e);
         if (!UserAgent.isMobile() && ((this.props.ctrlSend && ctrlOrMetaKeyPressed) || !this.props.ctrlSend)) {
             if (e.which === KeyCodes.ENTER && !e.shiftKey && !e.altKey) {
                 e.preventDefault();
@@ -557,7 +557,7 @@ export default class CreatePost extends React.Component {
     }
 
     showShortcuts(e) {
-        if ((e.ctrlKey || e.metaKey) && e.keyCode === KeyCodes.FORWARD_SLASH) {
+        if ((Utils.cmdOrCtrlPressed(e)) && e.keyCode === KeyCodes.FORWARD_SLASH) {
             e.preventDefault();
 
             GlobalActions.toggleShortcutsModal();
@@ -587,7 +587,7 @@ export default class CreatePost extends React.Component {
     }
 
     handleKeyDown = (e) => {
-        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
+        const ctrlOrMetaKeyPressed = Utils.cmdOrCtrlPressed(e);
         const messageIsEmpty = this.state.message.length === 0;
         const draftMessageIsEmpty = this.props.draft.message.length === 0;
         const ctrlEnterKeyCombo = this.props.ctrlSend && e.keyCode === KeyCodes.ENTER && ctrlOrMetaKeyPressed;

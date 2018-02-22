@@ -1464,7 +1464,7 @@ export function handleFormattedTextClick(e) {
     } else if (linkAttribute) {
         const MIDDLE_MOUSE_BUTTON = 1;
 
-        if (!(e.button === MIDDLE_MOUSE_BUTTON || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey)) {
+        if (!(e.button === MIDDLE_MOUSE_BUTTON || e.altKey || cmdOrCtrlPressed(e) || e.shiftKey)) {
             e.preventDefault();
 
             const urlparse = document.createElement('a');
