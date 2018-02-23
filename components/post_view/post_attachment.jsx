@@ -7,6 +7,7 @@ import React from 'react';
 
 import * as PostActions from 'actions/post_actions.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
+import {messageHtmlToComponent} from 'utils/post_utils.jsx';
 import {isUrlSafe} from 'utils/url.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
@@ -175,12 +176,16 @@ export default class PostAttachment extends React.PureComponent {
                     {field.title}
                 </th>
             );
+
+            const formattedText = TextFormatting.formatText(field.value || '');
+
             bodyCols.push(
                 <td
                     className='attachment-field'
                     key={'attachment__field-' + i + '__' + nrTables}
-                    dangerouslySetInnerHTML={{__html: TextFormatting.formatText(field.value || '')}}
-                />
+                >
+                    {messageHtmlToComponent(formattedText, false)}
+                </td>
             );
             rowPos += 1;
             lastWasLong = !(field.short === true);
@@ -217,12 +222,12 @@ export default class PostAttachment extends React.PureComponent {
 
         let preText;
         if (data.pretext) {
+            const formattedText = TextFormatting.formatText(data.pretext || '');
             preTextClass = 'attachment--pretext';
             preText = (
-                <div
-                    className='attachment__thumb-pretext'
-                    dangerouslySetInnerHTML={{__html: TextFormatting.formatText(data.pretext)}}
-                />
+                <div className='attachment__thumb-pretext'>
+                    {messageHtmlToComponent(formattedText, false)}
+                </div>
             );
         }
 
@@ -292,11 +297,11 @@ export default class PostAttachment extends React.PureComponent {
 
         let text;
         if (data.text) {
+            const formattedText = TextFormatting.formatText(data.text || '');
             text = (
-                <div
-                    className='attachment__text'
-                    dangerouslySetInnerHTML={{__html: this.state.text}}
-                />
+                <div className='attachment__text'>
+                    {messageHtmlToComponent(formattedText, false)}
+                </div>
             );
         }
 

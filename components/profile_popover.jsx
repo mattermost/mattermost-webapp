@@ -148,7 +148,7 @@ class ProfilePopover extends React.Component {
                 if (this.props.hide) {
                     this.props.hide();
                 }
-                browserHistory.push(`${TeamStore.getCurrentTeamRelativeUrl()}/messages/${user.username}`);
+                browserHistory.push(`${TeamStore.getCurrentTeamRelativeUrl()}/messages/@${user.username}`);
             }
         );
     }
