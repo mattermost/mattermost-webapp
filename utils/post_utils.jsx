@@ -49,6 +49,22 @@ export function getImageSrc(src, hasImageProxy) {
     return src;
 }
 
+export function changeToMp4Src(src, hasImageProxy) {
+    if (hasImageProxy) {
+        return Client4.getBaseRoute() + '/image?url=' + encodeURIComponent(src);
+    }
+    const mp4Ext = src.substr(0, src.lastIndexOf('.gifv')) + '.mp4';
+    return mp4Ext;
+}
+
+export function changeToJPGSrc(src, hasImageProxy) {
+    if (hasImageProxy) {
+        return Client4.getBaseRoute() + '/image?url=' + encodeURIComponent(src);
+    }
+    const jpgExt = src.substr(0, src.lastIndexOf('.gifv')) + '.jpg';
+    return jpgExt;
+}
+
 export function getProfilePicSrcForPost(post, user) {
     let src = '';
     if (user && user.id === post.user_id) {
@@ -136,7 +152,6 @@ export function containsAtChannel(text) {
     }
 
     const mentionableText = formatWithRenderer(text, new MentionableRenderer());
-
     return (/\B@(all|channel)\b/i).test(mentionableText);
 }
 
