@@ -554,8 +554,77 @@ describe('Utils.isKeyPressed', function() {
         for (const data of [
             {
                 event: new KeyboardEvent('keydown', {key: 'Dead', keyCode: 222}),
-                key: ['Dead', 222],
+                key: ['', 222],
                 valid: true,
+            },
+            {
+                event: new KeyboardEvent('keydown', {key: 'Dead', keyCode: 222}),
+                key: ['not-used-field', 222],
+                valid: true,
+            },
+            {
+                event: new KeyboardEvent('keydown', {key: 'Dead', keyCode: 222}),
+                key: [null, 222],
+                valid: true,
+            },
+            {
+                event: new KeyboardEvent('keydown', {key: 'Dead', keyCode: 222}),
+                key: [null, 223],
+                valid: false,
+            },
+        ]) {
+            expect(Utils.isKeyPressed(data.event, data.key)).toEqual(data.valid);
+        }
+    });
+
+    test('KeyCode is used for unidentified keys', function() {
+        for (const data of [
+            {
+                event: new KeyboardEvent('keydown', {key: 'Unidentified', keyCode: 2220}),
+                key: ['', 2220],
+                valid: true,
+            },
+            {
+                event: new KeyboardEvent('keydown', {key: 'Dead', keyCode: 2220}),
+                key: ['not-used-field', 2220],
+                valid: true,
+            },
+            {
+                event: new KeyboardEvent('keydown', {key: 'Dead', keyCode: 2220}),
+                key: [null, 2220],
+                valid: true,
+            },
+            {
+                event: new KeyboardEvent('keydown', {key: 'Dead', keyCode: 2220}),
+                key: [null, 2221],
+                valid: false,
+            },
+        ]) {
+            expect(Utils.isKeyPressed(data.event, data.key)).toEqual(data.valid);
+        }
+    });
+
+    test('KeyCode is used for undefined keys', function() {
+        for (const data of [
+            {
+                event: {key: undefined, keyCode: 2221},
+                key: ['', 2221],
+                valid: true,
+            },
+            {
+                event: {key: undefined, keyCode: 2221},
+                key: ['not-used-field', 2221],
+                valid: true,
+            },
+            {
+                event: {key: undefined, keyCode: 2221},
+                key: [null, 2221],
+                valid: true,
+            },
+            {
+                event: {key: undefined, keyCode: 2221},
+                key: [null, 2222],
+                valid: false,
             },
         ]) {
             expect(Utils.isKeyPressed(data.event, data.key)).toEqual(data.valid);
