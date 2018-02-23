@@ -10,7 +10,7 @@ import store from 'stores/redux_store.jsx';
 describe('Utils.displayUsernameForUser', function() {
     afterEach(() => {
         store.dispatch({
-            type: GeneralTypes.CLIENT_CONFIG_RECEIVED,
+            type: GeneralTypes.CLIENT_CONFIG_RESET,
             data: {},
         });
     });
@@ -91,7 +91,7 @@ describe('Utils.displayUsernameForUser', function() {
 describe('Utils.sortUsersByStatusAndDisplayName', function() {
     afterEach(() => {
         store.dispatch({
-            type: GeneralTypes.CLIENT_CONFIG_RECEIVED,
+            type: GeneralTypes.CLIENT_CONFIG_RESET,
             data: {},
         });
     });
