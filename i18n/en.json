@@ -1321,6 +1321,7 @@
   "channel_header.recentMentions": "Recent Mentions",
   "channel_header.removeFromFavorites": "Remove from Favorites",
   "channel_header.rename": "Rename Channel",
+  "channel_header.search": "Search",
   "channel_header.setHeader": "Edit Channel Header",
   "channel_header.setPurpose": "Edit Channel Purpose",
   "channel_header.viewInfo": "View Info",

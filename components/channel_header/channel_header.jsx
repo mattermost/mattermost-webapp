@@ -30,15 +30,19 @@ import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import MoreDirectChannels from 'components/more_direct_channels';
 import PopoverListMembers from 'components/popover_list_members';
 import RenameChannelModal from 'components/rename_channel_modal';
-import NavbarSearchBox from 'components/search_bar';
+import SearchBar from 'components/search_bar';
 import StatusIcon from 'components/status_icon.jsx';
 import FlagIcon from 'components/svg/flag_icon';
 import MentionsIcon from 'components/svg/mentions_icon';
 import PinIcon from 'components/svg/pin_icon';
+import SearchIcon from 'components/svg/search_icon';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import Pluggable from 'plugins/pluggable';
 
+import HeaderIconWrapper from './components/header_icon_wrapper';
+
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
+const SEARCH_BAR_MINIMUM_WINDOW_SIZE = 1140;
 
 export default class ChannelHeader extends React.Component {
     static propTypes = {
@@ -64,6 +68,7 @@ export default class ChannelHeader extends React.Component {
             showPinnedPosts: PropTypes.func.isRequired,
             showMentions: PropTypes.func.isRequired,
             closeRightHandSide: PropTypes.func.isRequired,
+            updateRhsState: PropTypes.func.isRequired,
             openModal: PropTypes.func.isRequired,
             getCustomEmojisInText: PropTypes.func.isRequired,
         }).isRequired,
@@ -77,7 +82,9 @@ export default class ChannelHeader extends React.Component {
     constructor(props) {
         super(props);
 
+        const showSearchBar = Utils.windowWidth() > SEARCH_BAR_MINIMUM_WINDOW_SIZE;
         this.state = {
+            showSearchBar,
             showEditChannelHeaderModal: false,
             showEditChannelPurposeModal: false,
             showMembersModal: false,
@@ -92,18 +99,26 @@ export default class ChannelHeader extends React.Component {
         WebrtcStore.addChangedListener(this.onWebrtcChange);
         WebrtcStore.addBusyListener(this.onBusy);
         document.addEventListener('keydown', this.handleShortcut);
+        window.addEventListener('resize', this.handleResize);
     }
 
     componentWillUnmount() {
         WebrtcStore.removeChangedListener(this.onWebrtcChange);
         WebrtcStore.removeBusyListener(this.onBusy);
         document.removeEventListener('keydown', this.handleShortcut);
+        window.removeEventListener('resize', this.handleResize);
     }
 
     componentWillReceiveProps(nextProps) {
         if (this.props.channel.id !== nextProps.channel.id) {
             this.props.actions.getCustomEmojisInText(nextProps.channel.header);
         }
+    }
+
+    handleResize = () => {
+        const windowWidth = Utils.windowWidth();
+
+        this.setState({showSearchBar: windowWidth > SEARCH_BAR_MINIMUM_WINDOW_SIZE});
     }
 
     onWebrtcChange = () => {
@@ -155,6 +170,11 @@ export default class ChannelHeader extends React.Component {
         } else {
             this.props.actions.showFlaggedPosts();
         }
+    }
+
+    searchButtonClick = (e) => {
+        e.preventDefault();
+        this.props.actions.updateRhsState(RHSStates.SEARCH);
     }
 
     handleShortcut = (e) => {
@@ -270,35 +290,6 @@ export default class ChannelHeader extends React.Component {
 
         const channel = this.props.channel;
 
-        const recentMentionsTooltip = (
-            <Tooltip id='recentMentionsTooltip'>
-                <FormattedMessage
-                    id='channel_header.recentMentions'
-                    defaultMessage='Recent Mentions'
-                />
-            </Tooltip>
-        );
-
-        const pinnedPostTooltip = (
-            <Tooltip id='pinnedPostTooltip'>
-                <FormattedMessage
-                    id='channel_header.pinnedPosts'
-                    defaultMessage='Pinned Posts'
-                />
-            </Tooltip>
-        );
-
-        const flaggedTooltip = (
-            <Tooltip
-                id='flaggedTooltip'
-                className='text-nowrap'
-            >
-                <FormattedMessage
-                    id='channel_header.flagged'
-                    defaultMessage='Flagged Posts'
-                />
-            </Tooltip>
-        );
         const textFormattingOptions = {singleline: true, mentionHighlight: false, siteURL: getSiteURL(), channelNamesMap: ChannelStore.getChannelNamesMap(), team: TeamStore.getCurrent(), atMentions: true};
         const popoverContent = (
             <Popover
@@ -975,67 +966,57 @@ export default class ChannelHeader extends React.Component {
                     <div className='flex-child'>
                         <Pluggable pluggableName='ChannelHeaderButton'/>
                     </div>
-                    <div className='flex-child'>
-                        <OverlayTrigger
-                            trigger={['hover', 'focus']}
-                            delayShow={Constants.OVERLAY_TIME_DELAY}
-                            placement='bottom'
-                            overlay={pinnedPostTooltip}
-                        >
-                            <button
-                                id='channelHeaderPinButton'
-                                className={'style--none ' + pinnedIconClass}
-                                onClick={this.getPinnedPosts}
-                            >
-                                <PinIcon
-                                    className='icon icon__pin'
+                    <HeaderIconWrapper
+                        iconComponent={
+                            <PinIcon
+                                className='icon icon__pin'
+                                aria-hidden='true'
+                            />
+                        }
+                        buttonClass={'style--none ' + pinnedIconClass}
+                        buttonId={'channelHeaderPinButton'}
+                        onClick={this.getPinnedPosts}
+                        tooltipKey={'pinnedPosts'}
+                    />
+                    {this.state.showSearchBar ? (
+                        <div className='flex-child search-bar__container'>
+                            <SearchBar
+                                showMentionFlagBtns={false}
+                                isFocus={Utils.isMobile()}
+                            />
+                        </div>
+                    ) : (
+                        <HeaderIconWrapper
+                            iconComponent={
+                                <SearchIcon
+                                    className='icon icon__search icon--stroke'
                                     aria-hidden='true'
                                 />
-                            </button>
-                        </OverlayTrigger>
-                    </div>
-                    <div className='flex-child search-bar__container'>
-                        <NavbarSearchBox
-                            showMentionFlagBtns={false}
-                            isFocus={Utils.isMobile()}
+                            }
+                            buttonId={'channelHeaderSearchButton'}
+                            onClick={this.searchButtonClick}
+                            tooltipKey={'search'}
                         />
-                    </div>
-                    <div className='flex-child'>
-                        <OverlayTrigger
-                            trigger={['hover', 'focus']}
-                            delayShow={Constants.OVERLAY_TIME_DELAY}
-                            placement='bottom'
-                            overlay={recentMentionsTooltip}
-                        >
-                            <button
-                                id='channelHeaderMentionButton'
-                                className='channel-header__icon icon--hidden style--none'
-                                onClick={this.searchMentions}
-                            >
-                                <MentionsIcon
-                                    className='icon icon__mentions'
-                                    aria-hidden='true'
-                                />
-                            </button>
-                        </OverlayTrigger>
-                    </div>
-                    <div className='flex-child'>
-                        <OverlayTrigger
-                            trigger={['hover', 'focus']}
-                            delayShow={Constants.OVERLAY_TIME_DELAY}
-                            placement='bottom'
-                            overlay={flaggedTooltip}
-                        >
-                            <button
-                                id='channelHeaderFlagButton'
-                                className='channel-header__icon icon--hidden style--none'
-                                onClick={this.getFlagged}
-
-                            >
-                                <FlagIcon className='icon icon__flag'/>
-                            </button>
-                        </OverlayTrigger>
-                    </div>
+                    )}
+                    <HeaderIconWrapper
+                        iconComponent={
+                            <MentionsIcon
+                                className='icon icon__mentions'
+                                aria-hidden='true'
+                            />
+                        }
+                        buttonId={'channelHeaderMentionButton'}
+                        onClick={this.searchMentions}
+                        tooltipKey={'recentMentions'}
+                    />
+                    <HeaderIconWrapper
+                        iconComponent={
+                            <FlagIcon className='icon icon__flag'/>
+                        }
+                        buttonId={'channelHeaderFlagButton'}
+                        onClick={this.getFlagged}
+                        tooltipKey={'flaggedPosts'}
+                    />
                 </div>
                 {editHeaderModal}
                 {editPurposeModal}

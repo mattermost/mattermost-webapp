@@ -15,7 +15,13 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {withRouter} from 'react-router-dom';
 
-import {showFlaggedPosts, showPinnedPosts, showMentions, closeRightHandSide} from 'actions/views/rhs';
+import {
+    showFlaggedPosts,
+    showPinnedPosts,
+    showMentions,
+    closeRightHandSide,
+    updateRhsState,
+} from 'actions/views/rhs';
 import {openModal} from 'actions/views/modals';
 import {getRhsState} from 'selectors/rhs';
 
@@ -62,6 +68,7 @@ function mapDispatchToProps(dispatch) {
             showPinnedPosts,
             showMentions,
             closeRightHandSide,
+            updateRhsState,
             openModal,
             getCustomEmojisInText,
         }, dispatch),

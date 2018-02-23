@@ -3,8 +3,8 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {Popover} from 'react-bootstrap';
+import {FormattedHTMLMessage} from 'react-intl';
 
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -12,6 +12,7 @@ import SearchChannelProvider from 'components/suggestion/search_channel_provider
 import SearchSuggestionList from 'components/suggestion/search_suggestion_list.jsx';
 import SearchUserProvider from 'components/suggestion/search_user_provider.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
+import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import FlagIcon from 'components/svg/flag_icon';
 import MentionsIcon from 'components/svg/mentions_icon';
 import SearchIcon from 'components/svg/search_icon';
@@ -178,71 +179,38 @@ export default class SearchBar extends React.Component {
             helpClass += ' visible';
         }
 
-        const recentMentionsTooltip = (
-            <Tooltip id='recentMentionsTooltip'>
-                <FormattedMessage
-                    id='channel_header.recentMentions'
-                    defaultMessage='Recent Mentions'
-                />
-            </Tooltip>
-        );
-
-        const flaggedTooltip = (
-            <Tooltip
-                id='flaggedTooltip'
-                className='text-nowrap'
-            >
-                <FormattedMessage
-                    id='channel_header.flagged'
-                    defaultMessage='Flagged Posts'
-                />
-            </Tooltip>
-        );
-
         let mentionBtn;
         let flagBtn;
         if (this.props.showMentionFlagBtns) {
             var mentionBtnClass = this.props.isMentionSearch ? 'active' : '';
 
             mentionBtn = (
-                <OverlayTrigger
-                    trigger={['hover', 'focus']}
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='bottom'
-                    overlay={recentMentionsTooltip}
-                >
-                    <div
-                        className={'channel-header__icon ' + mentionBtnClass}
-                        onClick={this.searchMentions}
-                    >
+                <HeaderIconWrapper
+                    iconComponent={
                         <MentionsIcon
                             className='icon icon__mentions'
                             aria-hidden='true'
                         />
-                    </div>
-                </OverlayTrigger>
+                    }
+                    buttonClass={'channel-header__icon style--none ' + mentionBtnClass}
+                    buttonId={'channelHeaderMentionButton'}
+                    onClick={this.searchMentions}
+                    tooltipKey={'recentMentions'}
+                />
             );
 
             var flagBtnClass = this.props.isFlaggedPosts ? 'active' : '';
 
             flagBtn = (
-                <OverlayTrigger
-                    trigger={['hover', 'focus']}
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='bottom'
-                    overlay={flaggedTooltip}
-                >
-                    <div
-                        className={'channel-header__icon ' + flagBtnClass}
-                    >
-                        <button
-                            onClick={this.getFlagged}
-                            className='style--none'
-                        >
-                            <FlagIcon className='icon icon__flag'/>
-                        </button>
-                    </div>
-                </OverlayTrigger>
+                <HeaderIconWrapper
+                    iconComponent={
+                        <FlagIcon className='icon icon__flag'/>
+                    }
+                    buttonClass={'channel-header__icon style--none ' + flagBtnClass}
+                    buttonId={'channelHeaderFlagButton'}
+                    onClick={this.getFlagged}
+                    tooltipKey={'flaggedPosts'}
+                />
             );
         }
 
@@ -313,12 +281,8 @@ export default class SearchBar extends React.Component {
                         {this.renderHintPopover(helpClass)}
                     </form>
                 </div>
-                <div>
-                    {mentionBtn}
-                </div>
-                <div>
-                    {flagBtn}
-                </div>
+                {mentionBtn}
+                {flagBtn}
             </div>
         );
     }
