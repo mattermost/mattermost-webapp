@@ -1575,6 +1575,7 @@
   "error_bar.expiring": "Enterprise license expires on {date}. <a href='{link}' target='_blank'>Please renew</a>.",
   "error_bar.past_grace": "Enterprise license is expired and some features may be disabled. Please contact your System Administrator for details.",
   "error_bar.preview_mode": "Preview Mode: Email notifications have not been configured",
+  "error_bar.apiv3_enabled": "API version 3 is deprecated and scheduled for removal. <a href=\"https://api.mattermost.com/#tag/APIv3-Deprecation\" target=\"_blank\">Learn how to migrate to APIv4</a>.",
   "error_bar.site_url": "Please configure your {docsLink} in the {link}.",
   "error_bar.site_url.docsLink": "Site URL",
   "error_bar.site_url.link": "System Console",
