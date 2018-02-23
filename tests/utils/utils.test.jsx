@@ -585,17 +585,17 @@ describe('Utils.isKeyPressed', function() {
                 valid: true,
             },
             {
-                event: new KeyboardEvent('keydown', {key: 'Dead', keyCode: 2220}),
+                event: new KeyboardEvent('keydown', {key: 'Unidentified', keyCode: 2220}),
                 key: ['not-used-field', 2220],
                 valid: true,
             },
             {
-                event: new KeyboardEvent('keydown', {key: 'Dead', keyCode: 2220}),
+                event: new KeyboardEvent('keydown', {key: 'Unidentified', keyCode: 2220}),
                 key: [null, 2220],
                 valid: true,
             },
             {
-                event: new KeyboardEvent('keydown', {key: 'Dead', keyCode: 2220}),
+                event: new KeyboardEvent('keydown', {key: 'Unidentified', keyCode: 2220}),
                 key: [null, 2221],
                 valid: false,
             },
@@ -607,22 +607,22 @@ describe('Utils.isKeyPressed', function() {
     test('KeyCode is used for undefined keys', function() {
         for (const data of [
             {
-                event: {key: undefined, keyCode: 2221},
+                event: {keyCode: 2221},
                 key: ['', 2221],
                 valid: true,
             },
             {
-                event: {key: undefined, keyCode: 2221},
+                event: {keyCode: 2221},
                 key: ['not-used-field', 2221],
                 valid: true,
             },
             {
-                event: {key: undefined, keyCode: 2221},
+                event: {keyCode: 2221},
                 key: [null, 2221],
                 valid: true,
             },
             {
-                event: {key: undefined, keyCode: 2221},
+                event: {keyCode: 2221},
                 key: [null, 2222],
                 valid: false,
             },
