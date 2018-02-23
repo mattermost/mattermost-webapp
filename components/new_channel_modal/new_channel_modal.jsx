@@ -106,7 +106,7 @@ export default class NewChannelModal extends React.PureComponent {
     }
 
     onEnterKeyDown = (e) => {
-        if (this.props.ctrlSend && e.keyCode === Constants.KeyCodes.ENTER && e.ctrlKey) {
+        if (this.props.ctrlSend && e.keyCode === Constants.KeyCodes.ENTER && Utils.cmdOrCtrlPressed(e)) {
             this.handleSubmit(e);
         } else if (!this.props.ctrlSend && e.keyCode === Constants.KeyCodes.ENTER && !e.shiftKey && !e.altKey) {
             this.handleSubmit(e);

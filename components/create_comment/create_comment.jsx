@@ -300,7 +300,7 @@ export default class CreateComment extends React.PureComponent {
     }
 
     commentMsgKeyPress = (e) => {
-        if (!UserAgent.isMobile() && ((this.props.ctrlSend && e.ctrlKey) || !this.props.ctrlSend)) {
+        if (!UserAgent.isMobile() && ((this.props.ctrlSend && Utils.cmdOrCtrlPressed(e)) || !this.props.ctrlSend)) {
             if (e.which === KeyCodes.ENTER && !e.shiftKey && !e.altKey) {
                 e.preventDefault();
                 this.refs.textbox.blur();
@@ -330,7 +330,7 @@ export default class CreateComment extends React.PureComponent {
     }
 
     handleKeyDown = (e) => {
-        if (this.props.ctrlSend && e.keyCode === KeyCodes.ENTER && e.ctrlKey) {
+        if (this.props.ctrlSend && e.keyCode === KeyCodes.ENTER && Utils.cmdOrCtrlPressed(e)) {
             this.commentMsgKeyPress(e);
             return;
         }
@@ -338,12 +338,12 @@ export default class CreateComment extends React.PureComponent {
         const {draft} = this.state;
         const {message} = draft;
 
-        if (!e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey && e.keyCode === KeyCodes.UP && message === '') {
+        if (!Utils.cmdOrCtrlPressed(e) && !e.altKey && !e.shiftKey && e.keyCode === KeyCodes.UP && message === '') {
             e.preventDefault();
             this.props.onEditLatestPost();
         }
 
-        if ((e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey) {
+        if ((Utils.cmdOrCtrlPressed(e)) && !e.altKey && !e.shiftKey) {
             if (e.keyCode === Constants.KeyCodes.UP) {
                 e.preventDefault();
                 this.props.onMoveHistoryIndexBack();

@@ -104,7 +104,7 @@ export default class EditChannelPurposeModal extends React.Component {
     handleKeyDown = (e) => {
         const {ctrlSend} = this.props;
 
-        if (ctrlSend && e.keyCode === Constants.KeyCodes.ENTER && e.ctrlKey) {
+        if (ctrlSend && e.keyCode === Constants.KeyCodes.ENTER && Utils.cmdOrCtrlPressed(e)) {
             e.preventDefault();
             this.handleSave(e);
         } else if (!ctrlSend && e.keyCode === Constants.KeyCodes.ENTER && !e.shiftKey && !e.altKey) {
