@@ -49,6 +49,12 @@ export function getImageSrc(src, hasImageProxy) {
     return src;
 }
 
+export function getMp4Src(src, hasImageProxy) {
+    var mp4Ext = src.substr(0, src.lastIndexOf('.gifv')) + ".mp4";
+    
+    return mp4Ext;
+}
+
 export function getProfilePicSrcForPost(post, user) {
     let src = '';
     if (user && user.id === post.user_id) {
