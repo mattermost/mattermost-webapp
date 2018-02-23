@@ -250,7 +250,7 @@ export default class AnnouncementBar extends React.PureComponent {
             message = (
                 <FormattedHTMLMessage
                     id={ErrorBarTypes.APIV3_ENABLED}
-                    defaultMessage='Warning: API version 3 is enabled even though it is deprecated and scheduled to be removed. <a href="https://api.mattermost.com/#tag/APIv3-Deprecation" target="_blank">Learn more</a>.'
+                    defaultMessage='API version 3 is deprecated and scheduled for removal. <a href="https://api.mattermost.com/#tag/APIv3-Deprecation" target="_blank">Learn how to migrate to APIv4</a>.'
                 />
             );
         } else if (message === ErrorBarTypes.LICENSE_EXPIRING) {
