@@ -561,14 +561,17 @@ ChannelStore.dispatchToken = AppDispatcher.register((payload) => {
         }
 
         let markAsRead = false;
+        let markAsReadOnServer = false;
         if (post.user_id === UserStore.getCurrentId() && !isSystemMessage(post) && !isFromWebhook(post)) {
             markAsRead = true;
+            markAsReadOnServer = false;
         } else if (action.post.channel_id === ChannelStore.getCurrentId() && window.isActive) {
             markAsRead = true;
+            markAsReadOnServer = true;
         }
 
         if (markAsRead) {
-            dispatch(markChannelAsRead(post.channel_id, null, false));
+            dispatch(markChannelAsRead(post.channel_id, null, markAsReadOnServer));
             dispatch(markChannelAsViewed(post.channel_id));
         } else {
             dispatch(markChannelAsUnread(data.team_id, post.channel_id, data.mentions));
