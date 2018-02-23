@@ -30,6 +30,7 @@ import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import MoreDirectChannels from 'components/more_direct_channels';
 import PopoverListMembers from 'components/popover_list_members';
 import RenameChannelModal from 'components/rename_channel_modal';
+import SearchBar from 'components/search_bar';
 import StatusIcon from 'components/status_icon.jsx';
 import FlagIcon from 'components/svg/flag_icon';
 import MentionsIcon from 'components/svg/mentions_icon';
@@ -41,6 +42,7 @@ import Pluggable from 'plugins/pluggable';
 import HeaderIconWrapper from './components/header_icon_wrapper';
 
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
+const SEARCH_BAR_MINIMUM_WINDOW_SIZE = 1140;
 
 export default class ChannelHeader extends React.Component {
     static propTypes = {
@@ -80,7 +82,9 @@ export default class ChannelHeader extends React.Component {
     constructor(props) {
         super(props);
 
+        const showSearchBar = Utils.windowWidth() > SEARCH_BAR_MINIMUM_WINDOW_SIZE;
         this.state = {
+            showSearchBar,
             showEditChannelHeaderModal: false,
             showEditChannelPurposeModal: false,
             showMembersModal: false,
@@ -95,18 +99,26 @@ export default class ChannelHeader extends React.Component {
         WebrtcStore.addChangedListener(this.onWebrtcChange);
         WebrtcStore.addBusyListener(this.onBusy);
         document.addEventListener('keydown', this.handleShortcut);
+        window.addEventListener('resize', this.handleResize);
     }
 
     componentWillUnmount() {
         WebrtcStore.removeChangedListener(this.onWebrtcChange);
         WebrtcStore.removeBusyListener(this.onBusy);
         document.removeEventListener('keydown', this.handleShortcut);
+        window.removeEventListener('resize', this.handleResize);
     }
 
     componentWillReceiveProps(nextProps) {
         if (this.props.channel.id !== nextProps.channel.id) {
             this.props.actions.getCustomEmojisInText(nextProps.channel.header);
         }
+    }
+
+    handleResize = () => {
+        const windowWidth = Utils.windowWidth();
+
+        this.setState({showSearchBar: windowWidth > SEARCH_BAR_MINIMUM_WINDOW_SIZE});
     }
 
     onWebrtcChange = () => {
@@ -966,17 +978,26 @@ export default class ChannelHeader extends React.Component {
                         onClick={this.getPinnedPosts}
                         tooltipKey={'pinnedPosts'}
                     />
-                    <HeaderIconWrapper
-                        iconComponent={
-                            <SearchIcon
-                                className='icon icon__search'
-                                aria-hidden='true'
+                    {this.state.showSearchBar ? (
+                        <div className='flex-child search-bar__container'>
+                            <SearchBar
+                                showMentionFlagBtns={false}
+                                isFocus={Utils.isMobile()}
                             />
-                        }
-                        buttonId={'channelHeaderSearchButton'}
-                        onClick={this.searchButtonClick}
-                        tooltipKey={'search'}
-                    />
+                        </div>
+                    ) : (
+                        <HeaderIconWrapper
+                            iconComponent={
+                                <SearchIcon
+                                    className='icon icon__search'
+                                    aria-hidden='true'
+                                />
+                            }
+                            buttonId={'channelHeaderSearchButton'}
+                            onClick={this.searchButtonClick}
+                            tooltipKey={'search'}
+                        />
+                    )}
                     <HeaderIconWrapper
                         iconComponent={
                             <MentionsIcon
