@@ -90,12 +90,14 @@ export default class EmojiPickerItem extends React.Component {
                     className={itemClassName}
                     ref={this.emojiItemRef}
                 >
-                    <img
-                        src={EmojiStore.getEmojiImageUrl(emoji)}
-                        className={spriteClassName}
-                        onMouseOver={this.handleMouseOver}
-                        onClick={this.handleClick}
-                    />
+                    <div>
+                        <img
+                            src={EmojiStore.getEmojiImageUrl(emoji)}
+                            className={spriteClassName}
+                            onMouseOver={this.handleMouseOver}
+                            onClick={this.handleClick}
+                        />
+                    </div>
                 </div>
             );
         }
