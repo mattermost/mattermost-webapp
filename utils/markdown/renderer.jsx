@@ -3,6 +3,7 @@
 
 import marked from 'marked';
 
+import * as PostUtils from 'utils/post_utils.jsx';
 import * as SyntaxHighlighting from 'utils/syntax_highlighting.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import {isUrlSafe} from 'utils/url.jsx';
@@ -119,6 +120,7 @@ export default class Renderer extends marked.Renderer {
                 }
             }
         }
+        src = PostUtils.getImageSrc(src, this.formattingOptions.proxyImages);
         let out = '<img src="' + src + '" alt="' + text + '"';
         if (title) {
             out += ' title="' + title + '"';
