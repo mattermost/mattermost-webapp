@@ -371,7 +371,7 @@ function parseSearchTerms(searchTerm) {
         }
 
         // capture at mentions differently from the server so we can highlight them with the preceeding at sign
-        captured = (/^@\w+\b/).exec(termString);
+        captured = (/^@[a-z0-9.-_]+\b/).exec(termString);
         if (captured) {
             termString = termString.substring(captured[0].length);
 
