@@ -1,5 +1,52 @@
 @charset 'UTF-8';
 
+@media screen and (max-width: 1020px) {
+    .sidebar--right {
+        @include single-transition(all, .35s, ease);
+        @include translateX(100%);
+        z-index: 10;
+
+        &.move--left,
+        &.webrtc--show {
+            -webkit-transform: translateX(0) !important;
+            -moz-transform: translateX(0) !important;
+            -ms-transform: translateX(0) !important;
+            -o-transform: translateX(0) !important;
+            transform: translateX(0) !important;
+
+            .search-bar__container {
+                z-index: 5;
+            }
+        }
+    }
+
+    .inner-wrap {
+        &:not(.move--left) {
+            margin-right: 0 !important;
+        }
+
+        &.move--left,
+        &.webrtc--show {
+            margin-right: 0 !important;
+
+            .channel-header__links {
+                position: relative;
+                right: auto;
+                top: auto;
+            }
+        }
+
+        &.move--left,
+        &.webrtc--show,
+        &.move--right {
+            .header-list__right {
+                // hide it behind the RHS
+                z-index: -1;
+            }
+        }
+    }
+}
+
 @media screen and (max-width: 960px) {
     .textarea-wrapper {
         .textbox-preview-link,
@@ -35,25 +82,6 @@
         }
     }
 
-    .sidebar--right {
-        @include single-transition(all, .35s, ease);
-        @include translateX(100%);
-        z-index: 10;
-
-        &.move--left,
-        &.webrtc--show {
-            -webkit-transform: translateX(0) !important;
-            -moz-transform: translateX(0) !important;
-            -ms-transform: translateX(0) !important;
-            -o-transform: translateX(0) !important;
-            transform: translateX(0) !important;
-
-            .search-bar__container {
-                z-index: 5;
-            }
-        }
-    }
-
     .backstage-content {
         margin: 30px;
         max-width: 100%;
@@ -65,32 +93,6 @@
         padding: 30px 15px 0;
         position: relative;
         width: 100%;
-    }
-
-    .inner-wrap {
-        &:not(.move--left) {
-            margin-right: 0 !important;
-        }
-
-        &.move--left,
-        &.webrtc--show {
-            margin-right: 0 !important;
-
-            .channel-header__links {
-                position: relative;
-                right: auto;
-                top: auto;
-            }
-        }
-
-        &.move--left,
-        &.webrtc--show,
-        &.move--right {
-            .header-list__right {
-                // hide it behind the RHS
-                z-index: -1;
-            }
-        }
     }
 
     .post {
