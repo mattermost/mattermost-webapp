@@ -119,7 +119,7 @@ export default class NeedsTeam extends React.Component {
     }
 
     onShortcutKeyDown(e) {
-        if (e.shiftKey && Utils.cmdOrCtrlPressed(e) && e.keyCode === Constants.KeyCodes.L) {
+        if (e.shiftKey && Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.L)) {
             if (document.getElementById('sidebar-right').className.match('sidebar--right sidebar--right--expanded')) {
                 document.getElementById('reply_textbox').focus();
             } else {

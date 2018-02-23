@@ -17,6 +17,7 @@ import {
 import {
     clearFileInput,
     cmdOrCtrlPressed,
+    isKeyPressed,
     generateId,
     isFileTransfer,
     localizeMessage,
@@ -391,7 +392,7 @@ class FileUpload extends React.PureComponent {
     }
 
     keyUpload = (e) => {
-        if (cmdOrCtrlPressed(e) && e.keyCode === Constants.KeyCodes.U) {
+        if (cmdOrCtrlPressed(e) && isKeyPressed(e, Constants.KeyCodes.U)) {
             e.preventDefault();
 
             if (!this.props.canUploadFiles) {

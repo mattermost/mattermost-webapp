@@ -85,9 +85,9 @@ export default class ViewImageModal extends React.PureComponent {
     }
 
     handleKeyPress = (e) => {
-        if (e.keyCode === KeyCodes.RIGHT) {
+        if (Utils.isKeyPressed(e, KeyCodes.RIGHT)) {
             this.handleNext();
-        } else if (e.keyCode === KeyCodes.LEFT) {
+        } else if (Utils.isKeyPressed(e, KeyCodes.LEFT)) {
             this.handlePrev();
         }
     }

@@ -155,14 +155,14 @@ describe('components/ViewImageModal', () => {
 
         wrapper.setState({loaded: [true, true, true]});
 
-        let evt = {keyCode: Constants.KeyCodes.RIGHT};
+        let evt = {key: Constants.KeyCodes.RIGHT[0]};
 
         wrapper.instance().handleKeyPress(evt);
         expect(wrapper.state('imageIndex')).toBe(1);
         wrapper.instance().handleKeyPress(evt);
         expect(wrapper.state('imageIndex')).toBe(2);
 
-        evt = {keyCode: Constants.KeyCodes.LEFT};
+        evt = {key: Constants.KeyCodes.LEFT[0]};
         wrapper.instance().handleKeyPress(evt);
         expect(wrapper.state('imageIndex')).toBe(1);
         wrapper.instance().handleKeyPress(evt);

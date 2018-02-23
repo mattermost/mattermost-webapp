@@ -70,7 +70,7 @@ export default class SearchBar extends React.Component {
     }
 
     handleKeyDown = (e) => {
-        if (e.which === KeyCodes.ESCAPE) {
+        if (Utils.isKeyPressed(e, KeyCodes.ESCAPE)) {
             e.stopPropagation();
             e.preventDefault();
         }

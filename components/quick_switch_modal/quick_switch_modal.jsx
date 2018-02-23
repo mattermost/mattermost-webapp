@@ -129,7 +129,7 @@ export default class QuickSwitchModal extends React.PureComponent {
     }
 
     handleKeyDown(e) {
-        if (e.keyCode === Constants.KeyCodes.TAB) {
+        if (Utils.isKeyPressed(e, Constants.KeyCodes.TAB)) {
             e.preventDefault();
             this.switchMode();
         }

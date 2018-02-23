@@ -1089,7 +1089,7 @@ export default class SecurityTab extends React.Component {
     }
 
     saveTokenKeyPress = (e) => {
-        if (e.which === Constants.KeyCodes.ENTER) {
+        if (Utils.isKeyPressed(e, Constants.KeyCodes.ENTER)) {
             this.confirmCreateToken();
         }
     }
