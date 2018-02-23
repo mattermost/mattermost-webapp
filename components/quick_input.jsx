@@ -22,7 +22,9 @@ export default class QuickInput extends React.PureComponent {
 
     componentDidUpdate(prevProps) {
         if (prevProps.value !== this.props.value) {
-            this.refs.input.value = this.props.value;
+            requestAnimationFrame(() => {
+                this.refs.input.value = this.props.value;
+            });
         }
     }
 
