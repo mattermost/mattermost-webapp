@@ -989,7 +989,7 @@ export default class ChannelHeader extends React.Component {
                         <HeaderIconWrapper
                             iconComponent={
                                 <SearchIcon
-                                    className='icon icon__search'
+                                    className='icon icon__search icon--stroke'
                                     aria-hidden='true'
                                 />
                             }
