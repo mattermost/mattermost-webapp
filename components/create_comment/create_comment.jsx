@@ -281,6 +281,10 @@ export default class CreateComment extends React.PureComponent {
             return;
         }
 
+        const fasterThanHumanWillClick = 150;
+        const forceFocus = (Date.now() - this.lastBlurAt < fasterThanHumanWillClick);
+        this.focusTextbox(forceFocus);
+
         try {
             await this.props.onSubmit();
 
@@ -292,10 +296,7 @@ export default class CreateComment extends React.PureComponent {
             this.setState({serverError: err.message});
         }
 
-        const fasterThanHumanWillClick = 150;
-        const forceFocus = (Date.now() - this.lastBlurAt < fasterThanHumanWillClick);
         this.setState({draft: {...this.props.draft, uploadsInProgress: []}});
-        this.focusTextbox(forceFocus);
     }
 
     commentMsgKeyPress = (e) => {
