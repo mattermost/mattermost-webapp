@@ -14,6 +14,7 @@ import * as PostUtils from 'utils/post_utils.jsx';
 import PostAttachmentList from '../post_attachment_list.jsx';
 import PostAttachmentOpenGraph from '../post_attachment_opengraph';
 import PostImage from '../post_image';
+import PostMp4 from '../post_mp4'
 
 export default class PostBodyAdditionalContent extends React.PureComponent {
     static propTypes = {
@@ -140,6 +141,25 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         return false;
     }
 
+    isLinkGifv(link) {
+        const regex = /.+\/(.+\.(gifv))(?:\?.*)?$/i;
+        const match = link.match(regex);
+        if (match && match[1]) {
+            return true;
+        }
+        return false;
+    }
+
+    isLinkImage(link) {
+        const regex = /.+\/(.+\.(?:jpg|gif|bmp|png|jpeg))(?:\?.*)?$/i;
+        const match = link.match(regex);
+        if (match && match[1]) {
+            return true;
+        }
+
+        return false;
+    }
+
     isLinkToggleable() {
         const link = this.state.link;
         if (!link) {
@@ -147,6 +167,10 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         }
 
         if (YoutubeVideo.isYoutubeLink(link)) {
+            return true;
+        }
+
+        if(this.isLinkGifv(link)) {
             return true;
         }
 
@@ -188,6 +212,18 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
                     link={link}
                     show={this.props.isEmbedVisible}
                     onLinkLoaded={this.handleLinkLoaded}
+                />
+            );
+        }
+
+        if (this.isLinkGifv(link)) {
+            return (
+                <PostMp4
+                    channelId={this.props.post.channel_id}
+                    link={link}
+                    onLinkLoadError={this.handleLinkLoadError}
+                    onLinkLoaded={this.handleLinkLoaded}
+                    handleImageClick={this.handleImageClick}
                 />
             );
         }
@@ -314,7 +350,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
                 </div>
             );
         }
-
+        
         return this.props.children;
     }
 }

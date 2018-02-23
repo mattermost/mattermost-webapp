@@ -49,6 +49,16 @@ export function getImageSrc(src, hasImageProxy) {
     return src;
 }
 
+export function changeToMp4Src(src, hasImageProxy) {
+    let mp4Ext = src.substr(0, src.lastIndexOf('.gifv')) + ".mp4";
+    return mp4Ext;
+}
+
+export function changeToJPGSrc(src, hasImageProxy) {
+    let jpgExt = src.substr(0, src.lastIndexOf('.gifv')) + ".jpg";
+    return jpgExt;
+}
+
 export function getProfilePicSrcForPost(post, user) {
     let src = '';
     if (user && user.id === post.user_id) {
@@ -136,7 +146,7 @@ export function containsAtChannel(text) {
     }
 
     const mentionableText = formatWithRenderer(text, new MentionableRenderer());
-
+    console.log('render.jsx check', mentionableText);
     return (/\B@(all|channel)\b/i).test(mentionableText);
 }
 
