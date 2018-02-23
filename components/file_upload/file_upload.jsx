@@ -242,6 +242,8 @@ class FileUpload extends React.PureComponent {
         if (typeof files !== 'string' && files.length) {
             this.uploadFiles(files);
         }
+
+        this.props.onFileUploadChange();
     }
 
     registerDragEvents = (containerSelector, overlaySelector) => {
@@ -296,8 +298,6 @@ class FileUpload extends React.PureComponent {
         }
 
         $(containerSelector).dragster(dragsterActions);
-
-        this.props.onFileUploadChange();
     }
 
     pasteUpload = (e) => {

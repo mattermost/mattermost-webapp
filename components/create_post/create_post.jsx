@@ -448,7 +448,7 @@ export default class CreatePost extends React.Component {
     }
 
     handleFileUploadChange = () => {
-        this.focusTextbox();
+        this.focusTextbox(true);
     }
 
     handleUploadStart = (clientIds, channelId) => {

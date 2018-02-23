@@ -69,6 +69,7 @@ const actionsProp = {
     removeReaction: emptyFunction,
     clearDraftUploads: emptyFunction,
     onSubmitPost: emptyFunction,
+    selectPostFromRightHandSideSearchByPostId: emptyFunction,
     setDraft: emptyFunction,
     setEditingPost: emptyFunction,
 };
@@ -368,16 +369,17 @@ describe('components/create_post', () => {
         expect(wrapper.find('#postCreateFooter').hasClass('post-create-footer has-error')).toBe(true);
     });
 
-    it('check for handleFileUploadChange callbak for focus', () => {
+    it('check for handleFileUploadChange callback for focus', () => {
         const wrapper = shallow(createPost());
         const instance = wrapper.instance();
         instance.focusTextbox = jest.fn();
 
         instance.handleFileUploadChange();
         expect(instance.focusTextbox).toBeCalled();
+        expect(instance.focusTextbox).toBeCalledWith(true);
     });
 
-    it('check for handleFileUploadStart callbak', () => {
+    it('check for handleFileUploadStart callback', () => {
         const setDraft = jest.fn();
 
         const wrapper = shallow(
@@ -403,7 +405,7 @@ describe('components/create_post', () => {
         expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draft);
     });
 
-    it('check for handleFileUploadComplete callbak', () => {
+    it('check for handleFileUploadComplete callback', () => {
         const setDraft = jest.fn();
 
         const wrapper = shallow(
@@ -441,7 +443,7 @@ describe('components/create_post', () => {
         expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, expectedDraft);
     });
 
-    it('check for handleUploadError callbak', () => {
+    it('check for handleUploadError callback', () => {
         const setDraft = jest.fn();
 
         const wrapper = shallow(
@@ -627,6 +629,27 @@ describe('components/create_post', () => {
         expect(onSubmitPost).toHaveBeenCalledTimes(1);
         expect(onSubmitPost.mock.calls[0][0]).toEqual(post);
         expect(onSubmitPost.mock.calls[0][1]).toEqual([]);
+    });
+
+    it('Should have called actions.selectPostFromRightHandSideSearchByPostId on replyToLastPost', () => {
+        const selectPostFromRightHandSideSearchByPostId = jest.fn();
+        let latestReplyablePostId = '';
+        const wrapper = shallow(createPost({
+            actions: {
+                ...actionsProp,
+                selectPostFromRightHandSideSearchByPostId,
+            },
+            latestReplyablePostId,
+        }));
+
+        wrapper.instance().replyToLastPost({preventDefault: jest.fn()});
+        expect(selectPostFromRightHandSideSearchByPostId).not.toBeCalled();
+
+        latestReplyablePostId = 'latest_replyablePost_id';
+        wrapper.setProps({latestReplyablePostId});
+        wrapper.instance().replyToLastPost({preventDefault: jest.fn()});
+        expect(selectPostFromRightHandSideSearchByPostId).toHaveBeenCalledTimes(1);
+        expect(selectPostFromRightHandSideSearchByPostId.mock.calls[0][0]).toEqual(latestReplyablePostId);
     });
 
     it('should match snapshot for read only channel', () => {
