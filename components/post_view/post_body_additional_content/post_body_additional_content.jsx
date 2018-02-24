@@ -147,7 +147,6 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         if (match && match[1]) {
             return true;
         }
-
         return false;
     }
 
@@ -216,7 +215,6 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
                 />
             );
         }
-
 
         if (this.isLinkGifv(link)) {
             return (
@@ -352,7 +350,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
                 </div>
             );
         }
-
+        
         return this.props.children;
     }
 }
