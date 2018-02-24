@@ -557,8 +557,7 @@ export default class CreatePost extends React.Component {
     }
 
     showShortcuts(e) {
-        const FORWARD_SLASH_KEY = ['/', 191];
-        if (Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, FORWARD_SLASH_KEY)) {
+        if (Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH)) {
             e.preventDefault();
 
             GlobalActions.toggleShortcutsModal();
