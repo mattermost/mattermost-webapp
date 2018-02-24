@@ -51,7 +51,7 @@ export default class DropdownSetting extends React.Component {
 }
 
 DropdownSetting.defaultProps = {
-    isDisabled: false
+    isDisabled: false,
 };
 
 DropdownSetting.propTypes = {
@@ -61,5 +61,5 @@ DropdownSetting.propTypes = {
     value: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
-    helpText: PropTypes.node
+    helpText: PropTypes.node,
 };

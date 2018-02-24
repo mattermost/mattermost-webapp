@@ -13,19 +13,19 @@ import PostAddChannelMember from 'components/post_view/post_add_channel_member/p
 
 jest.mock('actions/global_actions.jsx', () => {
     return {
-        sendAddToChannelEphemeralPost: jest.fn()
+        sendAddToChannelEphemeralPost: jest.fn(),
     };
 });
 
 describe('components/post_view/PostAddChannelMember', () => {
     const team = {
         id: 'team_id',
-        name: 'team_name'
+        name: 'team_name',
     };
     const channel = {
         id: 'channel_id',
         name: 'channel_name',
-        type: 'O'
+        type: 'O',
     };
 
     const requiredProps = {
@@ -39,8 +39,8 @@ describe('components/post_view/PostAddChannelMember', () => {
         actions: {
             getPost: jest.fn(),
             removePost: jest.fn(),
-            addChannelMember: jest.fn()
-        }
+            addChannelMember: jest.fn(),
+        },
     };
 
     test('should match snapshot, public channel', () => {
@@ -52,12 +52,12 @@ describe('components/post_view/PostAddChannelMember', () => {
         const privateChannel = {
             id: 'channel_id',
             name: 'channel_name',
-            type: 'P'
+            type: 'P',
         };
 
         const props = {
             ...requiredProps,
-            channel: privateChannel
+            channel: privateChannel,
         };
 
         const wrapper = shallow(<PostAddChannelMember {...props}/>);
@@ -69,14 +69,14 @@ describe('components/post_view/PostAddChannelMember', () => {
         const post = {
             id: 'post_id_1',
             root_id: 'root_id',
-            channel_id: 'channel_id'
+            channel_id: 'channel_id',
         };
         const getPost = jest.fn();
         getPost.mockReturnValueOnce(post);
         const actions = {
             getPost,
             removePost: jest.fn(),
-            addChannelMember: jest.fn()
+            addChannelMember: jest.fn(),
         };
         const props = {...requiredProps, actions};
         const wrapper = mountWithIntl(
@@ -102,14 +102,14 @@ describe('components/post_view/PostAddChannelMember', () => {
         const usernames = ['username_1', 'username_2', 'username_3', 'username_4'];
         const post = {
             id: 'post_id_1',
-            channel_id: 'channel_id'
+            channel_id: 'channel_id',
         };
         const getPost = jest.fn();
         getPost.mockReturnValueOnce(post);
         const actions = {
             getPost,
             removePost: jest.fn(),
-            addChannelMember: jest.fn()
+            addChannelMember: jest.fn(),
         };
         const props = {...requiredProps, userIds, usernames, actions};
         const wrapper = mountWithIntl(

@@ -10,21 +10,21 @@ describe('Reducers.Storage', () => {
     it('Storage.SET_ITEM', async () => {
         const nextState = storageReducer(
             {
-                storage: {}
+                storage: {},
             },
             {
                 type: StorageTypes.SET_ITEM,
                 data: {
                     name: 'key',
                     prefix: 'user_id_',
-                    value: 'value'
-                }
+                    value: 'value',
+                },
             }
         );
         assert.deepEqual(
             nextState.storage,
             {
-                user_id_key: 'value'
+                user_id_key: 'value',
             }
         );
     });
@@ -32,20 +32,20 @@ describe('Reducers.Storage', () => {
     it('Storage.SET_GLOBAL_ITEM', async () => {
         const nextState = storageReducer(
             {
-                storage: {}
+                storage: {},
             },
             {
                 type: StorageTypes.SET_GLOBAL_ITEM,
                 data: {
                     name: 'key',
-                    value: 'value'
-                }
+                    value: 'value',
+                },
             }
         );
         assert.deepEqual(
             nextState.storage,
             {
-                key: 'value'
+                key: 'value',
             }
         );
     });
@@ -54,15 +54,15 @@ describe('Reducers.Storage', () => {
         var nextState = storageReducer(
             {
                 storage: {
-                    user_id_key: 'value'
-                }
+                    user_id_key: 'value',
+                },
             },
             {
                 type: StorageTypes.REMOVE_ITEM,
                 data: {
                     name: 'key',
-                    prefix: 'user_id_'
-                }
+                    prefix: 'user_id_',
+                },
             }
         );
         assert.deepEqual(
@@ -71,14 +71,14 @@ describe('Reducers.Storage', () => {
         );
         nextState = storageReducer(
             {
-                storage: {}
+                storage: {},
             },
             {
                 type: StorageTypes.REMOVE_ITEM,
                 data: {
                     name: 'key',
-                    prefix: 'user_id_'
-                }
+                    prefix: 'user_id_',
+                },
             }
         );
         assert.deepEqual(
@@ -91,14 +91,14 @@ describe('Reducers.Storage', () => {
         var nextState = storageReducer(
             {
                 storage: {
-                    key: 'value'
-                }
+                    key: 'value',
+                },
             },
             {
                 type: StorageTypes.REMOVE_GLOBAL_ITEM,
                 data: {
-                    name: 'key'
-                }
+                    name: 'key',
+                },
             }
         );
         assert.deepEqual(
@@ -107,13 +107,13 @@ describe('Reducers.Storage', () => {
         );
         nextState = storageReducer(
             {
-                storage: {}
+                storage: {},
             },
             {
                 type: StorageTypes.REMOVE_GLOBAL_ITEM,
                 data: {
-                    name: 'key'
-                }
+                    name: 'key',
+                },
             }
         );
         assert.deepEqual(
@@ -127,20 +127,20 @@ describe('Reducers.Storage', () => {
             {
                 storage: {
                     key: 'value',
-                    excluded: 'not-cleared'
-                }
+                    excluded: 'not-cleared',
+                },
             },
             {
                 type: StorageTypes.CLEAR,
                 data: {
-                    exclude: ['excluded']
-                }
+                    exclude: ['excluded'],
+                },
             }
         );
         assert.deepEqual(
             nextState.storage,
             {
-                excluded: 'not-cleared'
+                excluded: 'not-cleared',
             }
         );
     });
@@ -152,16 +152,16 @@ describe('Reducers.Storage', () => {
                 storage: {
                     user_id_prefix_key1: 1,
                     user_id_prefix_key2: 2,
-                    user_id_not_prefix_key: 3
-                }
+                    user_id_not_prefix_key: 3,
+                },
             },
             {
                 type: StorageTypes.ACTION_ON_ITEMS_WITH_PREFIX,
                 data: {
                     globalPrefix: 'user_id_',
                     prefix: 'prefix',
-                    action: (key, value) => touchedPairs.push([key, value])
-                }
+                    action: (key, value) => touchedPairs.push([key, value]),
+                },
             }
         );
         assert.deepEqual(
@@ -177,15 +177,15 @@ describe('Reducers.Storage', () => {
                 storage: {
                     prefix_key1: 1,
                     prefix_key2: 2,
-                    not_prefix_key: 3
-                }
+                    not_prefix_key: 3,
+                },
             },
             {
                 type: StorageTypes.ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX,
                 data: {
                     prefix: 'prefix',
-                    action: (key, value) => touchedPairs.push([key, value])
-                }
+                    action: (key, value) => touchedPairs.push([key, value]),
+                },
             }
         );
         assert.deepEqual(
@@ -197,11 +197,11 @@ describe('Reducers.Storage', () => {
     it('Storage.STORAGE_REHYDRATE', async () => {
         var nextState = storageReducer(
             {
-                storage: {}
+                storage: {},
             },
             {
                 type: StorageTypes.STORAGE_REHYDRATE,
-                data: {test: '123'}
+                data: {test: '123'},
             }
         );
         assert.deepEqual(
@@ -212,7 +212,7 @@ describe('Reducers.Storage', () => {
             nextState,
             {
                 type: StorageTypes.STORAGE_REHYDRATE,
-                data: {test: '456'}
+                data: {test: '456'},
             }
         );
         assert.deepEqual(
@@ -223,7 +223,7 @@ describe('Reducers.Storage', () => {
             nextState,
             {
                 type: StorageTypes.STORAGE_REHYDRATE,
-                data: {test2: '789'}
+                data: {test2: '789'},
             }
         );
         assert.deepEqual(

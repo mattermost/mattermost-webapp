@@ -8,29 +8,29 @@ export const Constants = {
         admin: {
             username: 'admin',
             email: 'admin@test.com',
-            password: 'passwd'
+            password: 'passwd',
         },
         test: {
             username: 'test',
             email: 'test@test.com',
-            password: 'passwd'
+            password: 'passwd',
         },
         test2: {
             username: 'test2',
             email: 'test2@test.com',
-            password: 'passwd'
+            password: 'passwd',
         },
         test3: {
             username: 'test3',
             email: 'test3@test.com',
-            password: 'passwd'
+            password: 'passwd',
         },
         test4: {
             username: 'test4',
             email: 'test4@test.com',
-            password: 'passwd'
-        }
-    }
+            password: 'passwd',
+        },
+    },
 };
 
 export const utils = {
@@ -43,7 +43,7 @@ export const utils = {
     },
     testBaseUrl() {
         return Constants.TEST_BASE_URL;
-    }
+    },
 };
 
 export default utils;

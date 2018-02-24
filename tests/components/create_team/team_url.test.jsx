@@ -16,13 +16,13 @@ describe('/components/create_team/components/display_name', () => {
         updateParent: jest.fn(),
         state: {
             team: {name: 'test-team', display_name: 'test-team'},
-            wizard: 'display_name'
+            wizard: 'display_name',
         },
         actions: {
             checkIfTeamExists: jest.fn(),
             createTeam: jest.fn(),
-            trackEvent: jest.fn()
-        }
+            trackEvent: jest.fn(),
+        },
     };
 
     const chatLengthError = (
@@ -31,7 +31,7 @@ describe('/components/create_team/components/display_name', () => {
             defaultMessage='Name must be {min} or more characters up to a maximum of {max}'
             values={{
                 min: Constants.MIN_TEAMNAME_LENGTH,
-                max: Constants.MAX_TEAMNAME_LENGTH
+                max: Constants.MAX_TEAMNAME_LENGTH,
             }}
         />
     );
@@ -45,7 +45,7 @@ describe('/components/create_team/components/display_name', () => {
         const wrapper = mountWithIntl(<TeamUrl {...defaultProps}/>);
 
         wrapper.find('a').simulate('click', {
-            preventDefault: () => jest.fn()
+            preventDefault: () => jest.fn(),
         });
 
         expect(wrapper.prop('state').wizard).toBe('display_name');
@@ -61,7 +61,7 @@ describe('/components/create_team/components/display_name', () => {
         const wrapper = mountWithIntl(<TeamUrl {...defaultProps}/>);
 
         wrapper.find('button').simulate('click', {
-            preventDefault: () => jest.fn()
+            preventDefault: () => jest.fn(),
         });
 
         expect(wrapper.prop('actions').createTeam).toHaveBeenCalled();

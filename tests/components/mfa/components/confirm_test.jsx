@@ -11,7 +11,7 @@ import Confirm from 'components/mfa/confirm.jsx';
 import Constants from 'utils/constants.jsx';
 
 jest.mock('actions/user_actions.jsx', () => ({
-    loadMe: jest.fn().mockImplementation(() => Promise.resolve())
+    loadMe: jest.fn().mockImplementation(() => Promise.resolve()),
 }));
 
 describe('components/mfa/components/Confirm', () => {
@@ -43,7 +43,7 @@ describe('components/mfa/components/Confirm', () => {
 
         const event = {
             preventDefault: jest.fn(),
-            which: Constants.KeyCodes.ENTER
+            which: Constants.KeyCodes.ENTER,
         };
         map.keydown(event);
 

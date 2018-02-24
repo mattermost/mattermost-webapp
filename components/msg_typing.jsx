@@ -16,7 +16,7 @@ class MsgTyping extends React.Component {
         this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
 
         this.state = {
-            text: ''
+            text: '',
         };
     }
 
@@ -58,7 +58,7 @@ class MsgTyping extends React.Component {
                     id='msg_typing.isTyping'
                     defaultMessage='{user} is typing...'
                     values={{
-                        user: users[0]
+                        user: users[0],
                     }}
                 />
             );
@@ -71,7 +71,7 @@ class MsgTyping extends React.Component {
                     defaultMessage='{users} and {last} are typing...'
                     values={{
                         users: (users.join(', ')),
-                        last
+                        last,
                     }}
                 />
             );
@@ -91,7 +91,7 @@ class MsgTyping extends React.Component {
 
 MsgTyping.propTypes = {
     channelId: PropTypes.string,
-    parentId: PropTypes.string
+    parentId: PropTypes.string,
 };
 
 export default MsgTyping;

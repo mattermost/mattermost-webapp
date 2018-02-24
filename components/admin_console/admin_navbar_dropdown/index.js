@@ -11,15 +11,15 @@ import AdminNavbarDropdown from './admin_navbar_dropdown.jsx';
 
 function mapStateToProps(state) {
     return {
-        navigationBlocked: getNavigationBlocked(state)
+        navigationBlocked: getNavigationBlocked(state),
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            deferNavigation
-        }, dispatch)
+            deferNavigation,
+        }, dispatch),
     };
 }
 

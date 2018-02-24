@@ -20,8 +20,8 @@ export default class ChannelMembersDropdown extends React.Component {
         canChangeMemberRoles: PropTypes.bool.isRequired,
         canRemoveMember: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
-            getChannelStats: PropTypes.func.isRequired
-        }).isRequired
+            getChannelStats: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -31,7 +31,7 @@ export default class ChannelMembersDropdown extends React.Component {
             serverError: null,
             user: null,
             role: null,
-            removing: false
+            removing: false,
         };
     }
 
@@ -51,7 +51,7 @@ export default class ChannelMembersDropdown extends React.Component {
             (err) => {
                 this.setState({
                     serverError: err.message,
-                    removing: false
+                    removing: false,
                 });
             }
         );

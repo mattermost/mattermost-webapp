@@ -27,7 +27,7 @@ function preRenderSetup(callwhendone) {
         l.message = 'msg: ' + msg + ' row: ' + line + ' col: ' + column + ' stack: ' + stack + ' url: ' + url;
 
         const req = new XMLHttpRequest();
-        req.open('POST', '/api/v3/general/log_client');
+        req.open('POST', '/api/v4/logs');
         req.setRequestHeader('Content-Type', 'application/json');
         req.send(JSON.stringify(l));
 

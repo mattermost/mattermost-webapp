@@ -9,15 +9,15 @@ import AddOutgoingWebhook from './add_outgoing_webhook.jsx';
 
 function mapStateToProps(state) {
     return {
-        createOutgoingHookRequest: state.requests.integrations.createOutgoingHook
+        createOutgoingHookRequest: state.requests.integrations.createOutgoingHook,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            createOutgoingHook
-        }, dispatch)
+            createOutgoingHook,
+        }, dispatch),
     };
 }
 

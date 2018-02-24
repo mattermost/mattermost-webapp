@@ -25,7 +25,7 @@ describe('components/post_view/PostInfo', () => {
         root_id: '',
         type: '',
         update_at: 1502715372443,
-        user_id: 'b4pfxi8sn78y8yq7phzxxfor7h'
+        user_id: 'b4pfxi8sn78y8yq7phzxxfor7h',
     };
 
     const requiredProps = {
@@ -43,8 +43,8 @@ describe('components/post_view/PostInfo', () => {
         enableEmojiPicker: false,
         actions: {
             removePost: jest.fn(),
-            addReaction: jest.fn()
-        }
+            addReaction: jest.fn(),
+        },
     };
 
     test('should match snapshot', () => {
@@ -132,7 +132,7 @@ describe('components/post_view/PostInfo', () => {
         const removePost = jest.fn();
         const actions = {
             removePost,
-            addReaction: jest.fn()
+            addReaction: jest.fn(),
         };
         const requiredPropsWithRemovePost = {...requiredProps, actions, enableEmojiPicker: true};
 
@@ -148,7 +148,7 @@ describe('components/post_view/PostInfo', () => {
         const addReaction = jest.fn();
         const actions = {
             removePost: jest.fn(),
-            addReaction
+            addReaction,
         };
 
         const handleDropdownOpened = jest.fn();

@@ -71,13 +71,13 @@ DotMenuFlag.propTypes = {
         /*
          * Function to unflag the post
          */
-        unflagPost: PropTypes.func.isRequired
+        unflagPost: PropTypes.func.isRequired,
 
-    }).isRequired
+    }).isRequired,
 };
 
 DotMenuFlag.defaultProps = {
     idCount: -1,
     postId: '',
-    isFlagged: false
+    isFlagged: false,
 };

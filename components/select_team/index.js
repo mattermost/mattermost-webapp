@@ -10,15 +10,15 @@ import SelectTeam from './select_team.jsx';
 
 function mapStateToProps(state, ownProps) {
     return {
-        ...ownProps
+        ...ownProps,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getTeams
-        }, dispatch)
+            getTeams,
+        }, dispatch),
     };
 }
 

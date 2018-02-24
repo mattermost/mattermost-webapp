@@ -29,7 +29,7 @@ export default class SignupLdap extends React.Component {
             privacyPolicyLink: PropTypes.string,
             customBrand: PropTypes.bool.isRequired,
             enableCustomBrand: PropTypes.bool.isRequired,
-            customDescriptionText: PropTypes.string.isRequired
+            customDescriptionText: PropTypes.string.isRequired,
         };
     }
 
@@ -45,7 +45,7 @@ export default class SignupLdap extends React.Component {
         this.state = ({
             ldapError: '',
             ldapId: '',
-            ldapPassword: ''
+            ldapPassword: '',
         });
     }
 
@@ -55,13 +55,13 @@ export default class SignupLdap extends React.Component {
 
     handleLdapIdChange(e) {
         this.setState({
-            ldapId: e.target.value
+            ldapId: e.target.value,
         });
     }
 
     handleLdapPasswordChange(e) {
         this.setState({
-            ldapPassword: e.target.value
+            ldapPassword: e.target.value,
         });
     }
 
@@ -77,7 +77,7 @@ export default class SignupLdap extends React.Component {
             this.handleLdapSignupSuccess,
             (err) => {
                 this.setState({
-                    ldapError: err.message
+                    ldapError: err.message,
                 });
             }
         );
@@ -205,7 +205,7 @@ export default class SignupLdap extends React.Component {
                         values={{
                             siteName: this.props.siteName,
                             TermsOfServiceLink: this.props.termsOfServiceLink,
-                            PrivacyPolicyLink: this.props.privacyPolicyLink
+                            PrivacyPolicyLink: this.props.privacyPolicyLink,
                         }}
                     />
                 </p>
@@ -252,7 +252,7 @@ export default class SignupLdap extends React.Component {
                             <Link
                                 to={{
                                     pathname: '/login',
-                                    search: this.props.location.search
+                                    search: this.props.location.search,
                                 }}
                             >
                                 <FormattedMessage

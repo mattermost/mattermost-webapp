@@ -13,7 +13,7 @@ function mapStateToProps(state) {
 
     return {
         siteName,
-        ldapLoginFieldName
+        ldapLoginFieldName,
     };
 }
 

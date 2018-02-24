@@ -90,7 +90,7 @@ export default class Post extends React.PureComponent {
         /**
          * Function to get the post list HTML element
          */
-        getPostList: PropTypes.func.isRequired
+        getPostList: PropTypes.func.isRequired,
     }
 
     constructor(props) {
@@ -99,7 +99,7 @@ export default class Post extends React.PureComponent {
         this.state = {
             dropdownOpened: false,
             hover: false,
-            sameRoot: this.hasSameRoot(props)
+            sameRoot: this.hasSameRoot(props),
         };
     }
 
@@ -118,13 +118,13 @@ export default class Post extends React.PureComponent {
         AppDispatcher.handleServerAction({
             type: ActionTypes.RECEIVED_POST_SELECTED,
             postId: Utils.getRootId(post),
-            channelId: post.channel_id
+            channelId: post.channel_id,
         });
     }
 
     handleDropdownOpened = (opened) => {
         this.setState({
-            dropdownOpened: opened
+            dropdownOpened: opened,
         });
     }
 

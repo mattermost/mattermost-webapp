@@ -22,8 +22,8 @@ export default class MemberListChannel extends React.Component {
     static propTypes = {
         channel: PropTypes.object.isRequired,
         actions: PropTypes.shape({
-            getChannelStats: PropTypes.func.isRequired
-        }).isRequired
+            getChannelStats: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -46,7 +46,7 @@ export default class MemberListChannel extends React.Component {
             total: stats.member_count,
             loading: true,
             actionUserProps: {},
-            usersToDisplay: []
+            usersToDisplay: [],
         };
     }
 
@@ -94,7 +94,7 @@ export default class MemberListChannel extends React.Component {
             const {
                 users,
                 teamMembers,
-                channelMembers
+                channelMembers,
             } = nextState;
 
             this.setUsersDisplayAndActionProps(users, teamMembers, channelMembers);
@@ -115,7 +115,7 @@ export default class MemberListChannel extends React.Component {
                 actionUserProps[user.id] = {
                     channel: this.props.channel,
                     teamMember: teamMembers[user.id],
-                    channelMember: channelMembers[user.id]
+                    channelMember: channelMembers[user.id],
                 };
             }
         }
@@ -124,7 +124,7 @@ export default class MemberListChannel extends React.Component {
 
         this.setState({
             usersToDisplay,
-            actionUserProps
+            actionUserProps,
         });
     }
 
@@ -146,7 +146,7 @@ export default class MemberListChannel extends React.Component {
         this.setState({
             users,
             teamMembers,
-            channelMembers
+            channelMembers,
         });
 
         this.setUsersDisplayAndActionProps(users, teamMembers, channelMembers);

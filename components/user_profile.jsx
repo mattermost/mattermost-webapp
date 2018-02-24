@@ -105,7 +105,7 @@ UserProfile.defaultProps = {
     overwriteImage: '',
     disablePopover: false,
     isRHS: false,
-    hasMention: false
+    hasMention: false,
 };
 UserProfile.propTypes = {
     user: PropTypes.object,
@@ -116,5 +116,5 @@ UserProfile.propTypes = {
     status: PropTypes.string,
     isBusy: PropTypes.bool,
     isRHS: PropTypes.bool,
-    hasMention: PropTypes.bool
+    hasMention: PropTypes.bool,
 };

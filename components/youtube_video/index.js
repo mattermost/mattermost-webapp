@@ -14,7 +14,7 @@ function mapStateToProps(state) {
 
     return {
         currentChannelId: getCurrentChannelId(state),
-        googleDeveloperKey
+        googleDeveloperKey,
     };
 }
 

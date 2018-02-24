@@ -13,7 +13,7 @@ function mapStateToProps(state) {
     return {
         teamName: team.name,
         teamDisplayName: team.display_name,
-        siteName: state.entities.general.config.SiteName
+        siteName: state.entities.general.config.SiteName,
     };
 }
 

@@ -9,7 +9,7 @@ export default class Settings extends PureComponent {
         inputId: PropTypes.string,
         label: PropTypes.node.isRequired,
         children: PropTypes.node.isRequired,
-        helpText: PropTypes.node
+        helpText: PropTypes.node,
     };
 
     render() {

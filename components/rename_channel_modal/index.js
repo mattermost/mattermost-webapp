@@ -18,7 +18,7 @@ const mapStateToProps = createSelector(
         const currentTeamUrl = `${getSiteURL()}/${team.name}`;
         return {
             currentTeamUrl,
-            team
+            team,
         };
     },
     (teamInfo) => ({...teamInfo})
@@ -27,8 +27,8 @@ const mapStateToProps = createSelector(
 function mapDispatchToProps(dispatch) {
     return {
         actions: {
-            updateChannel: bindActionCreators(UpdateChannel, dispatch)
-        }
+            updateChannel: bindActionCreators(UpdateChannel, dispatch),
+        },
     };
 }
 

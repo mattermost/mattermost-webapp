@@ -11,9 +11,9 @@ describe('component/AudioVideoPreview', () => {
     const requiredProps = {
         fileInfo: {
             extension: 'mov',
-            id: 'file_id'
+            id: 'file_id',
         },
-        fileUrl: '/api/v4/files/file_id'
+        fileUrl: '/api/v4/files/file_id',
     };
 
     test('should match snapshot without children', () => {

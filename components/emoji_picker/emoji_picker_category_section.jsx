@@ -9,7 +9,7 @@ export default class EmojiPickerCategorySection extends React.PureComponent {
     static propTypes = {
         categoryName: PropTypes.string.isRequired,
         children: PropTypes.any,
-        updateCategoryOffset: PropTypes.func.isRequired
+        updateCategoryOffset: PropTypes.func.isRequired,
     };
 
     componentDidMount() {

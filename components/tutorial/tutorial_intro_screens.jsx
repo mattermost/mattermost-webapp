@@ -23,7 +23,7 @@ export default class TutorialIntroScreens extends React.Component {
         appDownloadLink: PropTypes.string,
         isLicensed: PropTypes.bool.isRequired,
         restrictTeamInvite: PropTypes.string.isRequired,
-        supportEmail: PropTypes.string.isRequired
+        supportEmail: PropTypes.string.isRequired,
     };
 
     constructor(props) {
@@ -136,7 +136,7 @@ export default class TutorialIntroScreens extends React.Component {
                                     defaultMessage='PC, Mac, iOS and Android'
                                 />
                             </a>
-                        )
+                        ),
                     }}
                 />
             );
@@ -252,7 +252,7 @@ export default class TutorialIntroScreens extends React.Component {
                     id='tutorial_intro.end'
                     defaultMessage='Click "Next" to enter {channel}. This is the first channel teammates see when they sign up. Use it for posting updates everyone needs to know.'
                     values={{
-                        channel: this.props.townSquareDisplayName
+                        channel: this.props.townSquareDisplayName,
                     }}
                 />
                 {circles}

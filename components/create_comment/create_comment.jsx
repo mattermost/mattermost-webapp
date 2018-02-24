@@ -51,7 +51,7 @@ export default class CreateComment extends React.PureComponent {
         draft: PropTypes.shape({
             message: PropTypes.string.isRequired,
             uploadsInProgress: PropTypes.array.isRequired,
-            fileInfos: PropTypes.array.isRequired
+            fileInfos: PropTypes.array.isRequired,
         }).isRequired,
 
         /**
@@ -132,7 +132,7 @@ export default class CreateComment extends React.PureComponent {
         /**
          * Set if the emoji picker is enabled.
          */
-        enableEmojiPicker: PropTypes.bool.isRequired
+        enableEmojiPicker: PropTypes.bool.isRequired,
     }
 
     constructor(props) {
@@ -145,8 +145,8 @@ export default class CreateComment extends React.PureComponent {
             draft: {
                 message: '',
                 uploadsInProgress: [],
-                fileInfos: []
-            }
+                fileInfos: [],
+            },
         };
 
         this.lastBlurAt = 0;
@@ -234,7 +234,7 @@ export default class CreateComment extends React.PureComponent {
 
         this.setState({
             showEmojiPicker: false,
-            draft: {...draft, message: newMessage}
+            draft: {...draft, message: newMessage},
         });
 
         this.focusTextbox();
@@ -281,25 +281,26 @@ export default class CreateComment extends React.PureComponent {
             return;
         }
 
+        const fasterThanHumanWillClick = 150;
+        const forceFocus = (Date.now() - this.lastBlurAt < fasterThanHumanWillClick);
+        this.focusTextbox(forceFocus);
+
         try {
             await this.props.onSubmit();
 
             this.setState({
                 postError: null,
-                serverError: null
+                serverError: null,
             });
         } catch (err) {
             this.setState({serverError: err.message});
         }
 
-        const fasterThanHumanWillClick = 150;
-        const forceFocus = (Date.now() - this.lastBlurAt < fasterThanHumanWillClick);
         this.setState({draft: {...this.props.draft, uploadsInProgress: []}});
-        this.focusTextbox(forceFocus);
     }
 
     commentMsgKeyPress = (e) => {
-        if (!UserAgent.isMobile() && ((this.props.ctrlSend && e.ctrlKey) || !this.props.ctrlSend)) {
+        if (!UserAgent.isMobile() && ((this.props.ctrlSend && Utils.cmdOrCtrlPressed(e)) || !this.props.ctrlSend)) {
             if (e.which === KeyCodes.ENTER && !e.shiftKey && !e.altKey) {
                 e.preventDefault();
                 this.refs.textbox.blur();
@@ -329,7 +330,7 @@ export default class CreateComment extends React.PureComponent {
     }
 
     handleKeyDown = (e) => {
-        if (this.props.ctrlSend && e.keyCode === KeyCodes.ENTER && e.ctrlKey) {
+        if (this.props.ctrlSend && e.keyCode === KeyCodes.ENTER && Utils.cmdOrCtrlPressed(e)) {
             this.commentMsgKeyPress(e);
             return;
         }
@@ -337,12 +338,12 @@ export default class CreateComment extends React.PureComponent {
         const {draft} = this.state;
         const {message} = draft;
 
-        if (!e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey && e.keyCode === KeyCodes.UP && message === '') {
+        if (!Utils.cmdOrCtrlPressed(e) && !e.altKey && !e.shiftKey && e.keyCode === KeyCodes.UP && message === '') {
             e.preventDefault();
             this.props.onEditLatestPost();
         }
 
-        if ((e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey) {
+        if ((Utils.cmdOrCtrlPressed(e)) && !e.altKey && !e.shiftKey) {
             if (e.keyCode === Constants.KeyCodes.UP) {
                 e.preventDefault();
                 this.props.onMoveHistoryIndexBack();
@@ -354,7 +355,7 @@ export default class CreateComment extends React.PureComponent {
     }
 
     handleFileUploadChange = () => {
-        this.focusTextbox();
+        this.focusTextbox(true);
     }
 
     handleUploadStart = (clientIds) => {
@@ -444,8 +445,8 @@ export default class CreateComment extends React.PureComponent {
         const {
             draft: {
                 fileInfos,
-                uploadsInProgress
-            }
+                uploadsInProgress,
+            },
         } = this.state;
         return fileInfos.length + uploadsInProgress.length;
     }
@@ -466,13 +467,13 @@ export default class CreateComment extends React.PureComponent {
 
     showPostDeletedModal = () => {
         this.setState({
-            showPostDeletedModal: true
+            showPostDeletedModal: true,
         });
     }
 
     hidePostDeletedModal = () => {
         this.setState({
-            showPostDeletedModal: false
+            showPostDeletedModal: false,
         });
 
         this.props.resetCreatePostRequest();
@@ -505,7 +506,7 @@ export default class CreateComment extends React.PureComponent {
                 id='notify_all.question'
                 defaultMessage='By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?'
                 values={{
-                    totalMembers: this.props.channelMembersCount - 1
+                    totalMembers: this.props.channelMembersCount - 1,
                 }}
             />
         );

@@ -43,7 +43,7 @@ export default class DatabaseSettings extends AdminSettings {
             maxOpenConns: config.SqlSettings.MaxOpenConns,
             atRestEncryptKey: config.SqlSettings.AtRestEncryptKey,
             trace: config.SqlSettings.Trace,
-            queryTimeout: config.SqlSettings.QueryTimeout
+            queryTimeout: config.SqlSettings.QueryTimeout,
         };
     }
 
@@ -86,7 +86,7 @@ export default class DatabaseSettings extends AdminSettings {
                                             />
                                         </b>
                                     </a>
-                                )
+                                ),
                             }}
                         />
                     }
@@ -99,7 +99,7 @@ export default class DatabaseSettings extends AdminSettings {
                     showSuccessMessage={false}
                     errorMessage={{
                         id: 'admin.recycle.reloadFail',
-                        defaultMessage: 'Recycling unsuccessful: {error}'
+                        defaultMessage: 'Recycling unsuccessful: {error}',
                     }}
                     includeDetailedError={true}
                 />

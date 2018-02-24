@@ -15,7 +15,7 @@ const loginCommands = {
             waitForElementVisible('@signinButton', Constants.DEFAULT_WAIT).
             click('@signinButton').
             waitForElementVisible('@appContent', Constants.DEFAULT_WAIT);
-    }
+    },
 };
 
 module.exports = {
@@ -25,6 +25,6 @@ module.exports = {
         loginInput: {selector: '#loginId'},
         passwordInput: {selector: '#loginPassword'},
         signinButton: {selector: '#loginButton'},
-        appContent: {selector: '#app-content'}
-    }
+        appContent: {selector: '#app-content'},
+    },
 };

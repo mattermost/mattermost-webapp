@@ -48,7 +48,7 @@ export default class CreateTeam extends React.PureComponent {
         /*
          * String containing the custom branding's Site Name
          */
-        siteName: PropTypes.string
+        siteName: PropTypes.string,
     }
 
     constructor(props) {

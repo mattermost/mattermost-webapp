@@ -35,7 +35,7 @@ export default class LegalAndSupportSettings extends AdminSettings {
             aboutLink: config.SupportSettings.AboutLink,
             helpLink: config.SupportSettings.HelpLink,
             reportAProblemLink: config.SupportSettings.ReportAProblemLink,
-            supportEmail: config.SupportSettings.SupportEmail
+            supportEmail: config.SupportSettings.SupportEmail,
         };
     }
 

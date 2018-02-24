@@ -74,8 +74,8 @@ export function addUserToTeamFromInvite(data, hash, inviteId, success, error) {
                     ...member,
                     delete_at: 0,
                     msg_count: 0,
-                    mention_count: 0
-                }
+                    mention_count: 0,
+                },
             });
 
             if (success) {

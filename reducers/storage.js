@@ -75,5 +75,5 @@ function initialized(state = false, action) {
 
 export default combineReducers({
     storage,
-    initialized
+    initialized,
 });

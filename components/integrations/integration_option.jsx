@@ -11,7 +11,7 @@ export default class IntegrationOption extends React.Component {
             image: PropTypes.string.isRequired,
             title: PropTypes.node.isRequired,
             description: PropTypes.node.isRequired,
-            link: PropTypes.string.isRequired
+            link: PropTypes.string.isRequired,
         };
     }
 

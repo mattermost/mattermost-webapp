@@ -79,7 +79,7 @@ export default class RequestButton extends React.Component {
             /**
              * The i18n default value for the success message.
              */
-            defaultMessage: PropTypes.string.isRequired
+            defaultMessage: PropTypes.string.isRequired,
         }),
 
         /**
@@ -98,7 +98,7 @@ export default class RequestButton extends React.Component {
              * The placeholder {error} may be used to include the error message returned
              * by the server in response to the failed request.
              */
-            defaultMessage: PropTypes.string.isRequired
+            defaultMessage: PropTypes.string.isRequired,
         }),
 
         /**
@@ -111,7 +111,7 @@ export default class RequestButton extends React.Component {
         /**
          * An element to display adjacent to the request button.
          */
-        alternativeActionElement: PropTypes.element
+        alternativeActionElement: PropTypes.element,
     }
 
     static defaultProps = {
@@ -121,12 +121,12 @@ export default class RequestButton extends React.Component {
         includeDetailedError: false,
         successMessage: {
             id: 'admin.requestButton.requestSuccess',
-            defaultMessage: 'Test Successful'
+            defaultMessage: 'Test Successful',
         },
         errorMessage: {
             id: 'admin.requestButton.requestFailure',
-            defaultMessage: 'Test Failure: {error}'
-        }
+            defaultMessage: 'Test Failure: {error}',
+        },
     }
 
     constructor(props) {
@@ -137,7 +137,7 @@ export default class RequestButton extends React.Component {
         this.state = {
             busy: false,
             fail: null,
-            success: false
+            success: false,
         };
     }
 
@@ -147,7 +147,7 @@ export default class RequestButton extends React.Component {
         this.setState({
             busy: true,
             fail: null,
-            success: false
+            success: false,
         });
 
         const doRequest = () => { //eslint-disable-line func-style
@@ -155,7 +155,7 @@ export default class RequestButton extends React.Component {
                 () => {
                     this.setState({
                         busy: false,
-                        success: true
+                        success: true,
                     });
                 },
                 (err) => {
@@ -166,7 +166,7 @@ export default class RequestButton extends React.Component {
 
                     this.setState({
                         busy: false,
-                        fail: errMsg
+                        fail: errMsg,
                     });
                 }
             );
@@ -190,7 +190,7 @@ export default class RequestButton extends React.Component {
                             id={this.props.errorMessage.id}
                             defaultMessage={this.props.errorMessage.defaultMessage}
                             values={{
-                                error: this.state.fail
+                                error: this.state.fail,
                             }}
                         />
                     </div>

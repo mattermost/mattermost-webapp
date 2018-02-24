@@ -23,28 +23,28 @@ const ActionTypes = Constants.ActionTypes;
 const holders = defineMessages({
     emailError: {
         id: 'invite_member.emailError',
-        defaultMessage: 'Please enter a valid email address'
+        defaultMessage: 'Please enter a valid email address',
     },
     firstname: {
         id: 'invite_member.firstname',
-        defaultMessage: 'First name'
+        defaultMessage: 'First name',
     },
     lastname: {
         id: 'invite_member.lastname',
-        defaultMessage: 'Last name'
+        defaultMessage: 'Last name',
     },
     modalTitle: {
         id: 'invite_member.modalTitle',
-        defaultMessage: 'Discard Invitations?'
+        defaultMessage: 'Discard Invitations?',
     },
     modalMessage: {
         id: 'invite_member.modalMessage',
-        defaultMessage: 'You have unsent invitations, are you sure you want to discard them?'
+        defaultMessage: 'You have unsent invitations, are you sure you want to discard them?',
     },
     modalButton: {
         id: 'invite_member.modalButton',
-        defaultMessage: 'Yes, Discard'
-    }
+        defaultMessage: 'Yes, Discard',
+    },
 });
 
 class InviteMemberModal extends React.Component {
@@ -62,7 +62,7 @@ class InviteMemberModal extends React.Component {
             lastNameErrors: {},
             showConfirmModal: false,
             isSendingEmails: false,
-            teamType: team ? team.type : null
+            teamType: team ? team.type : null,
         };
     }
 
@@ -70,7 +70,7 @@ class InviteMemberModal extends React.Component {
         const team = TeamStore.getCurrent();
         const teamType = team ? team.type : null;
         this.setState({
-            teamType
+            teamType,
         });
     }
 
@@ -87,7 +87,7 @@ class InviteMemberModal extends React.Component {
     handleToggle = (value) => {
         this.setState({
             show: value,
-            serverError: null
+            serverError: null,
         });
     }
 
@@ -164,7 +164,7 @@ class InviteMemberModal extends React.Component {
 
             if (notEmpty) {
                 this.setState({
-                    showConfirmModal: true
+                    showConfirmModal: true,
                 });
 
                 return;
@@ -175,7 +175,7 @@ class InviteMemberModal extends React.Component {
 
         this.setState({
             show: false,
-            showConfirmModal: false
+            showConfirmModal: false,
         });
     }
 
@@ -201,7 +201,7 @@ class InviteMemberModal extends React.Component {
             idCount: 0,
             emailErrors: {},
             firstNameErrors: {},
-            lastNameErrors: {}
+            lastNameErrors: {},
         });
     }
 
@@ -378,7 +378,7 @@ class InviteMemberModal extends React.Component {
                                 id='invite_member.autoJoin'
                                 defaultMessage='People invited automatically join the <strong>{channel}</strong> channel.'
                                 values={{
-                                    channel: defaultChannelName
+                                    channel: defaultChannelName,
                                 }}
                             />
                         </span>
@@ -440,7 +440,7 @@ class InviteMemberModal extends React.Component {
                                 id='invite_member.teamInviteLink'
                                 defaultMessage='You can also invite people using the {link}.'
                                 values={{
-                                    link
+                                    link,
                                 }}
                             />
                         </p>
@@ -528,7 +528,7 @@ class InviteMemberModal extends React.Component {
 InviteMemberModal.propTypes = {
     intl: intlShape.isRequired,
     sendEmailNotifications: PropTypes.bool.isRequired,
-    enableUserCreation: PropTypes.bool.isRequired
+    enableUserCreation: PropTypes.bool.isRequired,
 };
 
 export default injectIntl(InviteMemberModal);

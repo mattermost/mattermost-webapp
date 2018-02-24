@@ -13,7 +13,7 @@ import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
 import {
     Constants,
-    WebrtcActionTypes
+    WebrtcActionTypes,
 } from 'utils/constants.jsx';
 import {useSafeUrl} from 'utils/url.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
@@ -44,8 +44,8 @@ export default class SidebarRightMenu extends React.Component {
         actions: PropTypes.shape({
             showMentions: PropTypes.func,
             showFlaggedPosts: PropTypes.func,
-            closeRightHandSide: PropTypes.func
-        })
+            closeRightHandSide: PropTypes.func,
+        }),
     };
 
     constructor(props) {
@@ -55,7 +55,7 @@ export default class SidebarRightMenu extends React.Component {
             ...this.getStateFromStores(),
             showAboutModal: false,
             showAddUsersToTeamModal: false,
-            showTeamSettingsModal: false
+            showTeamSettingsModal: false,
         };
     }
 
@@ -89,13 +89,13 @@ export default class SidebarRightMenu extends React.Component {
 
         this.setState({
             showAddUsersToTeamModal: true,
-            showDropdown: false
+            showDropdown: false,
         });
     }
 
     hideAddUsersToTeamModal = () => {
         this.setState({
-            showAddUsersToTeamModal: false
+            showAddUsersToTeamModal: false,
         });
     }
 
@@ -104,7 +104,7 @@ export default class SidebarRightMenu extends React.Component {
 
         this.setState({
             showTeamSettingsModal: true,
-            showDropdown: false
+            showDropdown: false,
         });
     }
 
@@ -122,7 +122,7 @@ export default class SidebarRightMenu extends React.Component {
         return {
             currentUser: UserStore.getCurrentUser(),
             teamMembers: TeamStore.getMyTeamMembers(),
-            teamListings: TeamStore.getTeamListings()
+            teamListings: TeamStore.getTeamListings(),
         };
     }
 

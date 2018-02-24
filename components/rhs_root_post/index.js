@@ -13,7 +13,7 @@ function mapStateToProps(state) {
 
     return {
         enableEmojiPicker,
-        enablePostUsernameOverride
+        enablePostUsernameOverride,
     };
 }
 

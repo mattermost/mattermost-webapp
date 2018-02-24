@@ -17,7 +17,7 @@ export default class PostAttachmentList extends React.PureComponent {
         /**
          * Array of attachments to render
          */
-        attachments: PropTypes.array.isRequired
+        attachments: PropTypes.array.isRequired,
     }
 
     render() {

@@ -18,12 +18,12 @@ export default class PostFlagIcon extends React.PureComponent {
         idCount: PropTypes.number,
         postId: PropTypes.string.isRequired,
         isFlagged: PropTypes.bool.isRequired,
-        isEphemeral: PropTypes.bool
+        isEphemeral: PropTypes.bool,
     };
 
     static defaultProps = {
         idCount: -1,
-        isEphemeral: false
+        isEphemeral: false,
     };
 
     handlePress = (e) => {

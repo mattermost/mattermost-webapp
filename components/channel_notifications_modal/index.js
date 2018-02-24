@@ -11,7 +11,7 @@ function mapStateToProps(state) {
     const sendPushNotifications = config.SendPushNotifications === 'true';
 
     return {
-        sendPushNotifications
+        sendPushNotifications,
     };
 }
 

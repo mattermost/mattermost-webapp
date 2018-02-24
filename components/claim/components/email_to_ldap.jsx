@@ -22,7 +22,7 @@ export default class EmailToLDAP extends React.Component {
             ldapError: '',
             ldapPasswordError: '',
             serverError: '',
-            showMfa: false
+            showMfa: false,
         };
     }
 
@@ -33,7 +33,7 @@ export default class EmailToLDAP extends React.Component {
             passwordError: '',
             ldapError: '',
             ldapPasswordError: '',
-            serverError: ''
+            serverError: '',
         };
 
         const password = this.refs.emailpassword.value;
@@ -179,7 +179,7 @@ export default class EmailToLDAP extends React.Component {
                             id='claim.email_to_ldap.enterPwd'
                             defaultMessage='Enter the password for your {site} email account'
                             values={{
-                                site: this.props.siteName
+                                site: this.props.siteName,
                             }}
                         />
                     </p>
@@ -261,9 +261,9 @@ export default class EmailToLDAP extends React.Component {
 EmailToLDAP.propTypes = {
     email: PropTypes.string,
     siteName: PropTypes.string,
-    ldapLoginFieldName: PropTypes.string
+    ldapLoginFieldName: PropTypes.string,
 };
 
 const style = {
-    usernameInput: {display: 'none'}
+    usernameInput: {display: 'none'},
 };

@@ -46,8 +46,8 @@ export default class EditChannelPurposeModal extends React.Component {
             /*
              * Action creator to patch current channel
              */
-            patchChannel: PropTypes.func.isRequired
-        }).isRequired
+            patchChannel: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -57,7 +57,7 @@ export default class EditChannelPurposeModal extends React.Component {
             purpose: props.channel.purpose || '',
             serverError: '',
             show: true,
-            submitted: false
+            submitted: false,
         };
     }
 
@@ -82,7 +82,7 @@ export default class EditChannelPurposeModal extends React.Component {
                 serverError: Utils.localizeMessage(
                     'edit_channel_purpose_modal.error',
                     'This channel purpose is too long, please enter a shorter one'
-                )
+                ),
             });
         } else {
             this.setState({serverError: err.message});
@@ -104,7 +104,7 @@ export default class EditChannelPurposeModal extends React.Component {
     handleKeyDown = (e) => {
         const {ctrlSend} = this.props;
 
-        if (ctrlSend && e.keyCode === Constants.KeyCodes.ENTER && e.ctrlKey) {
+        if (ctrlSend && e.keyCode === Constants.KeyCodes.ENTER && Utils.cmdOrCtrlPressed(e)) {
             e.preventDefault();
             this.handleSave(e);
         } else if (!ctrlSend && e.keyCode === Constants.KeyCodes.ENTER && !e.shiftKey && !e.altKey) {

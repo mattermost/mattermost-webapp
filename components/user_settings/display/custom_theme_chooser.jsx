@@ -17,96 +17,96 @@ import ColorChooser from './color_chooser.jsx';
 const messages = defineMessages({
     sidebarBg: {
         id: 'user.settings.custom_theme.sidebarBg',
-        defaultMessage: 'Sidebar BG'
+        defaultMessage: 'Sidebar BG',
     },
     sidebarText: {
         id: 'user.settings.custom_theme.sidebarText',
-        defaultMessage: 'Sidebar Text'
+        defaultMessage: 'Sidebar Text',
     },
     sidebarHeaderBg: {
         id: 'user.settings.custom_theme.sidebarHeaderBg',
-        defaultMessage: 'Sidebar Header BG'
+        defaultMessage: 'Sidebar Header BG',
     },
     sidebarHeaderTextColor: {
         id: 'user.settings.custom_theme.sidebarHeaderTextColor',
-        defaultMessage: 'Sidebar Header Text'
+        defaultMessage: 'Sidebar Header Text',
     },
     sidebarUnreadText: {
         id: 'user.settings.custom_theme.sidebarUnreadText',
-        defaultMessage: 'Sidebar Unread Text'
+        defaultMessage: 'Sidebar Unread Text',
     },
     sidebarTextHoverBg: {
         id: 'user.settings.custom_theme.sidebarTextHoverBg',
-        defaultMessage: 'Sidebar Text Hover BG'
+        defaultMessage: 'Sidebar Text Hover BG',
     },
     sidebarTextActiveBorder: {
         id: 'user.settings.custom_theme.sidebarTextActiveBorder',
-        defaultMessage: 'Sidebar Text Active Border'
+        defaultMessage: 'Sidebar Text Active Border',
     },
     sidebarTextActiveColor: {
         id: 'user.settings.custom_theme.sidebarTextActiveColor',
-        defaultMessage: 'Sidebar Text Active Color'
+        defaultMessage: 'Sidebar Text Active Color',
     },
     onlineIndicator: {
         id: 'user.settings.custom_theme.onlineIndicator',
-        defaultMessage: 'Online Indicator'
+        defaultMessage: 'Online Indicator',
     },
     awayIndicator: {
         id: 'user.settings.custom_theme.awayIndicator',
-        defaultMessage: 'Away Indicator'
+        defaultMessage: 'Away Indicator',
     },
     dndIndicator: {
         id: 'user.settings.custom_theme.dndIndicator',
-        defaultMessage: 'Do Not Disturb Indicator'
+        defaultMessage: 'Do Not Disturb Indicator',
     },
     mentionBg: {
         id: 'user.settings.custom_theme.mentionBj',
-        defaultMessage: 'Mention Jewel BG'
+        defaultMessage: 'Mention Jewel BG',
     },
     mentionColor: {
         id: 'user.settings.custom_theme.mentionColor',
-        defaultMessage: 'Mention Jewel Text'
+        defaultMessage: 'Mention Jewel Text',
     },
     centerChannelBg: {
         id: 'user.settings.custom_theme.centerChannelBg',
-        defaultMessage: 'Center Channel BG'
+        defaultMessage: 'Center Channel BG',
     },
     centerChannelColor: {
         id: 'user.settings.custom_theme.centerChannelColor',
-        defaultMessage: 'Center Channel Text'
+        defaultMessage: 'Center Channel Text',
     },
     newMessageSeparator: {
         id: 'user.settings.custom_theme.newMessageSeparator',
-        defaultMessage: 'New Message Separator'
+        defaultMessage: 'New Message Separator',
     },
     linkColor: {
         id: 'user.settings.custom_theme.linkColor',
-        defaultMessage: 'Link Color'
+        defaultMessage: 'Link Color',
     },
     buttonBg: {
         id: 'user.settings.custom_theme.buttonBg',
-        defaultMessage: 'Button BG'
+        defaultMessage: 'Button BG',
     },
     buttonColor: {
         id: 'user.settings.custom_theme.buttonColor',
-        defaultMessage: 'Button Text'
+        defaultMessage: 'Button Text',
     },
     errorTextColor: {
         id: 'user.settings.custom_theme.errorTextColor',
-        defaultMessage: 'Error Text Color'
+        defaultMessage: 'Error Text Color',
     },
     mentionHighlightBg: {
         id: 'user.settings.custom_theme.mentionHighlightBg',
-        defaultMessage: 'Mention Highlight BG'
+        defaultMessage: 'Mention Highlight BG',
     },
     mentionHighlightLink: {
         id: 'user.settings.custom_theme.mentionHighlightLink',
-        defaultMessage: 'Mention Highlight Link'
+        defaultMessage: 'Mention Highlight Link',
     },
     codeTheme: {
         id: 'user.settings.custom_theme.codeTheme',
-        defaultMessage: 'Code Theme'
-    }
+        defaultMessage: 'Code Theme',
+    },
 });
 
 class CustomThemeChooser extends React.Component {
@@ -115,7 +115,7 @@ class CustomThemeChooser extends React.Component {
         const copyTheme = this.setCopyTheme(this.props.theme);
 
         this.state = {
-            copyTheme
+            copyTheme,
         };
     }
 
@@ -133,7 +133,7 @@ class CustomThemeChooser extends React.Component {
             const newTheme = {
                 ...theme,
                 type: 'custom',
-                [settingId]: color
+                [settingId]: color,
             };
 
             // For backwards compatability
@@ -146,7 +146,7 @@ class CustomThemeChooser extends React.Component {
             const copyTheme = this.setCopyTheme(newTheme);
 
             this.setState({
-                copyTheme
+                copyTheme,
             });
         }
     }
@@ -180,7 +180,7 @@ class CustomThemeChooser extends React.Component {
         }
 
         this.setState({
-            copyTheme: JSON.stringify(theme)
+            copyTheme: JSON.stringify(theme),
         });
 
         theme.type = 'custom';
@@ -453,7 +453,7 @@ class CustomThemeChooser extends React.Component {
 CustomThemeChooser.propTypes = {
     intl: intlShape.isRequired,
     theme: PropTypes.object.isRequired,
-    updateTheme: PropTypes.func.isRequired
+    updateTheme: PropTypes.func.isRequired,
 };
 
 export default injectIntl(CustomThemeChooser);

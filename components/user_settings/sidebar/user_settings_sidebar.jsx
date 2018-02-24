@@ -17,7 +17,7 @@ export default class UserSettingsSidebar extends React.Component {
             /*
              * Function to save the user's preferences
              */
-            savePreferences: PropTypes.func.isRequired
+            savePreferences: PropTypes.func.isRequired,
         }).isRequired,
 
         /**
@@ -48,7 +48,7 @@ export default class UserSettingsSidebar extends React.Component {
         updateTab: PropTypes.func,
         activeSection: PropTypes.string,
         closeModal: PropTypes.func.isRequired,
-        collapseModal: PropTypes.func.isRequired
+        collapseModal: PropTypes.func.isRequired,
     };
 
     constructor(props) {
@@ -62,9 +62,9 @@ export default class UserSettingsSidebar extends React.Component {
         return {
             settings: {
                 close_unused_direct_messages: closeUnusedDirectMessages,
-                show_unread_section: displayUnreadSection
+                show_unread_section: displayUnreadSection,
             },
-            isSaving: false
+            isSaving: false,
         };
     };
 
@@ -82,7 +82,7 @@ export default class UserSettingsSidebar extends React.Component {
             user_id: user.id,
             category: Constants.Preferences.CATEGORY_SIDEBAR_SETTINGS,
             name: setting,
-            value: this.state.settings[setting]
+            value: this.state.settings[setting],
         });
 
         this.setState({isSaving: true});
@@ -169,7 +169,7 @@ export default class UserSettingsSidebar extends React.Component {
                                     defaultMessage='Direct Message conversations can be reopened with the “+” button in the sidebar or using the Channel Switcher (CTRL+K).'
                                 />
                             </div>
-                        </div>
+                        </div>,
                     ]}
                     setting={'close_unused_direct_messages'}
                     submit={this.handleSubmit}
@@ -264,7 +264,7 @@ export default class UserSettingsSidebar extends React.Component {
                                     defaultMessage='Unread channels will be sorted at the top of the channel sidebar until read.'
                                 />
                             </div>
-                        </div>
+                        </div>,
                     ]}
                     setting={'show_unread_section'}
                     submit={this.handleSubmit}

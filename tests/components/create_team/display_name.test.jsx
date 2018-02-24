@@ -15,11 +15,11 @@ describe('/components/create_team/components/display_name', () => {
         updateParent: jest.fn(),
         state: {
             team: {name: 'test-team', display_name: 'test-team'},
-            wizard: 'display_name'
+            wizard: 'display_name',
         },
         actions: {
-            trackEvent: jest.fn()
-        }
+            trackEvent: jest.fn(),
+        },
     };
 
     test('should match snapshot', () => {
@@ -31,7 +31,7 @@ describe('/components/create_team/components/display_name', () => {
         const wrapper = mountWithIntl(<DisplayName {...defaultProps}/>);
 
         wrapper.find('button').simulate('click', {
-            preventDefault: () => jest.fn()
+            preventDefault: () => jest.fn(),
         });
 
         expect(wrapper.prop('updateParent')).toHaveBeenCalled();
@@ -41,7 +41,7 @@ describe('/components/create_team/components/display_name', () => {
         const wrapper = mountWithIntl(<DisplayName {...defaultProps}/>);
         wrapper.find('.form-control').instance().value = '';
         wrapper.find('button').simulate('click', {
-            preventDefault: () => jest.fn()
+            preventDefault: () => jest.fn(),
         });
 
         expect(wrapper.state('nameError')).toEqual(
@@ -58,7 +58,7 @@ describe('/components/create_team/components/display_name', () => {
         input.value = 'should_trigger_an_error_because_it_exceeds_MAX_TEAMNAME_LENGTH';
 
         wrapper.find('button').simulate('click', {
-            preventDefault: () => jest.fn()
+            preventDefault: () => jest.fn(),
         });
 
         expect(wrapper.state('nameError')).toEqual(
@@ -67,7 +67,7 @@ describe('/components/create_team/components/display_name', () => {
                 defaultMessage='Name must be {min} or more characters up to a maximum of {max}. You can add a longer team description later.'
                 values={{
                     min: Constants.MIN_TEAMNAME_LENGTH,
-                    max: Constants.MAX_TEAMNAME_LENGTH
+                    max: Constants.MAX_TEAMNAME_LENGTH,
                 }}
             />
         );

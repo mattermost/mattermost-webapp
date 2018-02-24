@@ -10,7 +10,7 @@ function mapStateToProps(state, ownProps) {
     return {
         ...ownProps,
         config: getConfig(state),
-        license: getLicense(state)
+        license: getLicense(state),
     };
 }
 

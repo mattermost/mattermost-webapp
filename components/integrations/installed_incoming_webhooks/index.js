@@ -26,7 +26,7 @@ function mapStateToProps(state) {
         channels: getAllChannels(state),
         users: getUsers(state),
         teamId,
-        enableIncomingWebhooks
+        enableIncomingWebhooks,
     };
 }
 
@@ -34,8 +34,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getIncomingHooks: Actions.getIncomingHooks,
-            removeIncomingHook: Actions.removeIncomingHook
-        }, dispatch)
+            removeIncomingHook: Actions.removeIncomingHook,
+        }, dispatch),
     };
 }
 

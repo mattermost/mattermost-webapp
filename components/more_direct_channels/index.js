@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 import {getProfiles, getProfilesInTeam} from 'mattermost-redux/actions/users';
 import {
     getCurrentUserId,
-    getProfilesInCurrentChannel
+    getProfilesInCurrentChannel,
 } from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
@@ -24,7 +24,7 @@ function mapStateToProps(state, ownProps) {
     return {
         currentChannelMembers,
         currentUserId: getCurrentUserId(state),
-        restrictDirectMessage
+        restrictDirectMessage,
     };
 }
 
@@ -32,8 +32,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getProfiles,
-            getProfilesInTeam
-        }, dispatch)
+            getProfilesInTeam,
+        }, dispatch),
     };
 }
 

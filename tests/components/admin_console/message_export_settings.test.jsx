@@ -14,8 +14,8 @@ describe('components/MessageExportSettings', () => {
                 ExportFormat: 'actiance',
                 DailyRunTime: '01:00',
                 ExportFromTimestamp: null,
-                BatchSize: 10000
-            }
+                BatchSize: 10000,
+            },
         };
 
         const wrapper = shallow(
@@ -33,8 +33,8 @@ describe('components/MessageExportSettings', () => {
                 ExportFormat: 'actiance',
                 DailyRunTime: '01:00',
                 ExportFromTimestamp: 12345678,
-                BatchSize: 10000
-            }
+                BatchSize: 10000,
+            },
         };
 
         const wrapper = shallow(
@@ -53,8 +53,8 @@ describe('components/MessageExportSettings', () => {
                 DailyRunTime: '01:00',
                 ExportFromTimestamp: 12345678,
                 BatchSize: 10000,
-                GlobalRelayEmailAddress: 'test@mattermost.com'
-            }
+                GlobalRelayEmailAddress: 'test@mattermost.com',
+            },
         };
 
         const wrapper = shallow(

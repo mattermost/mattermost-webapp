@@ -44,7 +44,7 @@ describe('Utils.displayUsernameForUser', function() {
             {user: userG, result: `${userG.first_name} ${userG.last_name}`},
             {user: userH, result: userH.nickname},
             {user: userI, result: userI.nickname},
-            {user: userJ, result: userJ.first_name}
+            {user: userJ, result: userJ.first_name},
         ]) {
             expect(Utils.displayUsernameForUser(data.user)).toEqual(data.result);
         }
@@ -62,7 +62,7 @@ describe('Utils.displayUsernameForUser', function() {
             {user: userG, result: `${userG.first_name} ${userG.last_name}`},
             {user: userH, result: userH.last_name},
             {user: userI, result: userI.first_name},
-            {user: userJ, result: userJ.first_name}
+            {user: userJ, result: userJ.first_name},
         ]) {
             expect(Utils.displayUsernameForUser(data.user)).toEqual(data.result);
         }
@@ -95,16 +95,16 @@ describe('Utils.sortUsersByStatusAndDisplayName', function() {
         for (const data of [
             {
                 users: [userF, userA, userB, userC, userD, userE],
-                result: [userD, userE, userF, userB, userC, userA]
+                result: [userD, userE, userF, userB, userC, userA],
             },
             {
                 users: [userJ, userI, userH, userG, userF, userE],
-                result: [userE, userF, userJ, userH, userI, userG]
+                result: [userE, userF, userJ, userH, userI, userG],
             },
             {
                 users: [userJ, userF, userE, userD],
-                result: [userD, userE, userF, userJ]
-            }
+                result: [userD, userE, userF, userJ],
+            },
         ]) {
             const sortedUsers = data.users.sort(Utils.sortUsersByStatusAndDisplayName);
             for (let i = 0; i < sortedUsers.length; i++) {
@@ -118,16 +118,16 @@ describe('Utils.sortUsersByStatusAndDisplayName', function() {
         for (const data of [
             {
                 users: [userF, userA, userB, userC, userD, userE],
-                result: [userF, userE, userD, userB, userC, userA]
+                result: [userF, userE, userD, userB, userC, userA],
             },
             {
                 users: [userJ, userI, userH, userG, userF, userE],
-                result: [userJ, userF, userE, userH, userI, userG]
+                result: [userJ, userF, userE, userH, userI, userG],
             },
             {
                 users: [userJ, userF, userE, userD],
-                result: [userJ, userF, userE, userD]
-            }
+                result: [userJ, userF, userE, userD],
+            },
         ]) {
             const sortedUsers = data.users.sort(Utils.sortUsersByStatusAndDisplayName);
             for (let i = 0; i < sortedUsers.length; i++) {
@@ -141,16 +141,16 @@ describe('Utils.sortUsersByStatusAndDisplayName', function() {
         for (const data of [
             {
                 users: [userF, userA, userB, userC, userD, userE],
-                result: [userD, userF, userE, userB, userC, userA]
+                result: [userD, userF, userE, userB, userC, userA],
             },
             {
                 users: [userJ, userI, userH, userG, userF, userE],
-                result: [userF, userE, userJ, userH, userI, userG]
+                result: [userF, userE, userJ, userH, userI, userG],
             },
             {
                 users: [userJ, userF, userE, userD],
-                result: [userD, userF, userE, userJ]
-            }
+                result: [userD, userF, userE, userJ],
+            },
         ]) {
             const sortedUsers = data.users.sort(Utils.sortUsersByStatusAndDisplayName);
             for (let i = 0; i < sortedUsers.length; i++) {
@@ -168,82 +168,82 @@ describe('Utils.isValidPassword', function() {
                 config: { // not EE, so password just has to be min < length < max
                     isEnterprise: false,
                     isLicensed: true,
-                    isPasswordRequirements: true
+                    isPasswordRequirements: true,
                 },
-                valid: false
+                valid: false,
             },
             {
                 password: 'thistestpasswordismorethansixtyfourcharacterslongsoitstoolongtobeapassword',
                 config: { // not EE, so password just has to be min < length < max
                     isEnterprise: false,
                     isLicensed: true,
-                    isPasswordRequirements: true
+                    isPasswordRequirements: true,
                 },
-                valid: false
+                valid: false,
             },
             {
                 password: 'thisisavalidpassword',
                 config: { // not EE, so password just has to be min < length < max
                     isEnterprise: false,
                     isLicensed: true,
-                    isPasswordRequirements: true
+                    isPasswordRequirements: true,
                 },
-                valid: true
+                valid: true,
             },
             {
                 password: 'four',
                 config: { // not licensed, so password just has to be min < length < max
                     isEnterprise: true,
                     isLicensed: false,
-                    isPasswordRequirements: true
+                    isPasswordRequirements: true,
                 },
-                valid: false
+                valid: false,
             },
             {
                 password: 'thistestpasswordismorethansixtyfourcharacterslongsoitstoolongtobeapassword',
                 config: { // not licensed, so password just has to be min < length < max
                     isEnterprise: true,
                     isLicensed: false,
-                    isPasswordRequirements: true
+                    isPasswordRequirements: true,
                 },
-                valid: false
+                valid: false,
             },
             {
                 password: 'thisisavalidpassword',
                 config: { // not licensed, so password just has to be min < length < max
                     isEnterprise: true,
                     isLicensed: false,
-                    isPasswordRequirements: true
+                    isPasswordRequirements: true,
                 },
-                valid: true
+                valid: true,
             },
             {
                 password: 'four',
                 config: { // no password requirements, so password just has to be min < length < max
                     isEnterprise: true,
                     isLicensed: true,
-                    isPasswordRequirements: false
+                    isPasswordRequirements: false,
                 },
-                valid: false
+                valid: false,
             },
             {
                 password: 'thistestpasswordismorethansixtyfourcharacterslongsoitstoolongtobeapassword',
                 config: { // no password requirements, so password just has to be min < length < max
                     isEnterprise: true,
                     isLicensed: true,
-                    isPasswordRequirements: false
+                    isPasswordRequirements: false,
                 },
-                valid: false
+                valid: false,
             },
             {
                 password: 'thisisavalidpassword',
                 config: { // no password requirements, so password just has to be min < length < max
                     isEnterprise: true,
                     isLicensed: true,
-                    isPasswordRequirements: false
+                    isPasswordRequirements: false,
                 },
-                valid: true
-            }
+                valid: true,
+            },
         ]) {
             const errorMsg = Utils.isValidPassword(data.password, data.config);
             if (data.valid) {
@@ -266,9 +266,9 @@ describe('Utils.isValidPassword', function() {
                     requireLowercase: false,
                     requireUppercase: false,
                     requireNumber: false,
-                    requireSymbol: false
+                    requireSymbol: false,
                 },
-                valid: false
+                valid: false,
             },
             {
                 password: 'longenoughpassword',
@@ -280,10 +280,10 @@ describe('Utils.isValidPassword', function() {
                     requireLowercase: false,
                     requireUppercase: false,
                     requireNumber: false,
-                    requireSymbol: false
+                    requireSymbol: false,
                 },
-                valid: true
-            }
+                valid: true,
+            },
         ]) {
             const errorMsg = Utils.isValidPassword(data.password, data.config);
             if (data.valid) {
@@ -306,9 +306,9 @@ describe('Utils.isValidPassword', function() {
                     requireLowercase: true,
                     requireUppercase: false,
                     requireNumber: false,
-                    requireSymbol: false
+                    requireSymbol: false,
                 },
-                valid: false
+                valid: false,
             },
             {
                 password: 'SOMELowercase',
@@ -320,10 +320,10 @@ describe('Utils.isValidPassword', function() {
                     requireLowercase: true,
                     requireUppercase: false,
                     requireNumber: false,
-                    requireSymbol: false
+                    requireSymbol: false,
                 },
-                valid: true
-            }
+                valid: true,
+            },
         ]) {
             const errorMsg = Utils.isValidPassword(data.password, data.config);
             if (data.valid) {
@@ -346,9 +346,9 @@ describe('Utils.isValidPassword', function() {
                     requireLowercase: false,
                     requireUppercase: true,
                     requireNumber: false,
-                    requireSymbol: false
+                    requireSymbol: false,
                 },
-                valid: false
+                valid: false,
             },
             {
                 password: 'SOMEUppercase',
@@ -360,10 +360,10 @@ describe('Utils.isValidPassword', function() {
                     requireLowercase: false,
                     requireUppercase: true,
                     requireNumber: false,
-                    requireSymbol: false
+                    requireSymbol: false,
                 },
-                valid: true
-            }
+                valid: true,
+            },
         ]) {
             const errorMsg = Utils.isValidPassword(data.password, data.config);
             if (data.valid) {
@@ -386,9 +386,9 @@ describe('Utils.isValidPassword', function() {
                     requireLowercase: true,
                     requireUppercase: true,
                     requireNumber: true,
-                    requireSymbol: false
+                    requireSymbol: false,
                 },
-                valid: false
+                valid: false,
             },
             {
                 password: 'S0m3Numb3rs',
@@ -400,10 +400,10 @@ describe('Utils.isValidPassword', function() {
                     requireLowercase: true,
                     requireUppercase: true,
                     requireNumber: true,
-                    requireSymbol: false
+                    requireSymbol: false,
                 },
-                valid: true
-            }
+                valid: true,
+            },
         ]) {
             const errorMsg = Utils.isValidPassword(data.password, data.config);
             if (data.valid) {
@@ -426,9 +426,9 @@ describe('Utils.isValidPassword', function() {
                     requireLowercase: true,
                     requireUppercase: true,
                     requireNumber: true,
-                    requireSymbol: true
+                    requireSymbol: true,
                 },
-                valid: false
+                valid: false,
             },
             {
                 password: 'S0m3Symb0!s',
@@ -440,10 +440,10 @@ describe('Utils.isValidPassword', function() {
                     requireLowercase: true,
                     requireUppercase: true,
                     requireNumber: true,
-                    requireSymbol: true
+                    requireSymbol: true,
                 },
-                valid: true
-            }
+                valid: true,
+            },
         ]) {
             const errorMsg = Utils.isValidPassword(data.password, data.config);
             if (data.valid) {
@@ -460,72 +460,72 @@ describe('Utils.isEmail', function() {
         for (const data of [
             {
                 email: 'prettyandsimple@example.com',
-                valid: true
+                valid: true,
             },
             {
                 email: 'very.common@example.com',
-                valid: true
+                valid: true,
             },
             {
                 email: 'disposable.style.email.with+symbol@example.com',
-                valid: true
+                valid: true,
             },
             {
                 email: 'other.email-with-dash@example.com',
-                valid: true
+                valid: true,
             },
             {
                 email: 'fully-qualified-domain@example.com',
-                valid: true
+                valid: true,
             },
             {
                 email: 'user.name+tag+sorting@example.com',
-                valid: true
+                valid: true,
             },
             {
                 email: 'x@example.com',
-                valid: true
+                valid: true,
             },
             {
                 email: 'example-indeed@strange-example.com',
-                valid: true
+                valid: true,
             },
             {
                 email: 'admin@mailserver1',
-                valid: true
+                valid: true,
             },
             {
                 email: '#!$%&\'*+-/=?^_`{}|~@example.org',
-                valid: true
+                valid: true,
             },
             {
                 email: 'example@s.solutions',
-                valid: true
+                valid: true,
             },
             {
                 email: 'Abc.example.com',
-                valid: false
+                valid: false,
             },
             {
                 email: 'A@b@c@example.com',
-                valid: false
+                valid: false,
             },
             {
                 email: '<Jonathan Fritz> jonathan.fritz@mattermost.com',
-                valid: false
+                valid: false,
             },
             {
                 email: 'test <test@address.do>',
-                valid: false
+                valid: false,
             },
             {
                 email: 'comma@domain.com, separated@domain.com',
-                valid: false
+                valid: false,
             },
             {
                 email: 'comma@domain.com,separated@domain.com',
-                valid: false
-            }
+                valid: false,
+            },
         ]) {
             expect(Utils.isEmail(data.email)).toEqual(data.valid);
         }

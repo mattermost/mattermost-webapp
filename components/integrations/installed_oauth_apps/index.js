@@ -20,7 +20,7 @@ function mapStateToProps(state) {
         isSystemAdmin: isCurrentUserSystemAdmin(state),
         regenOAuthAppSecretRequest: state.requests.integrations.updateOAuthApp,
         enableOAuthServiceProvider,
-        enableOnlyAdminIntegrations
+        enableOnlyAdminIntegrations,
     };
 }
 
@@ -29,8 +29,8 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             getOAuthApps: Actions.getOAuthApps,
             regenOAuthAppSecret: Actions.regenOAuthAppSecret,
-            deleteOAuthApp: Actions.deleteOAuthApp
-        }, dispatch)
+            deleteOAuthApp: Actions.deleteOAuthApp,
+        }, dispatch),
     };
 }
 

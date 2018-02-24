@@ -21,7 +21,7 @@ function mapStateToProps() {
         return {
             currentTeamName: getCurrentTeam(state).name,
             commentCountForPost: getCommentCountForPost(state, {post: ownProps.post}),
-            enablePostUsernameOverride
+            enablePostUsernameOverride,
         };
     };
 }
@@ -29,8 +29,8 @@ function mapStateToProps() {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            closeRightHandSide
-        }, dispatch)
+            closeRightHandSide,
+        }, dispatch),
     };
 }
 

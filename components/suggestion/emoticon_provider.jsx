@@ -140,7 +140,7 @@ export default class EmoticonProvider {
                 matchedPretext: text,
                 terms,
                 items: matched,
-                component: EmoticonSuggestion
+                component: EmoticonSuggestion,
             });
         }, 0);
     }

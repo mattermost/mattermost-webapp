@@ -24,7 +24,7 @@ export default class CopyUrlContextMenu extends React.Component {
         /**
          * A unique id differentiating this instance of context menu from others on the page. Will be set to a random value if not provided.
          */
-        menuId: PropTypes.string.isRequired
+        menuId: PropTypes.string.isRequired,
     };
 
     render() {

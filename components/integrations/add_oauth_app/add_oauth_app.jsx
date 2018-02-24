@@ -33,15 +33,15 @@ export default class AddOAuthApp extends React.PureComponent {
             /**
             * The function to call to add new OAuthApp
             */
-            addOAuthApp: PropTypes.func.isRequired
-        }).isRequired
+            addOAuthApp: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
         super(props);
 
         this.state = {
-            serverError: ''
+            serverError: '',
         };
     }
 

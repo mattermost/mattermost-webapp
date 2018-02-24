@@ -14,19 +14,19 @@ export default class AdminSidebarCategory extends React.Component {
             sectionClass: PropTypes.string,
             parentLink: PropTypes.string,
             children: PropTypes.node,
-            action: PropTypes.node
+            action: PropTypes.node,
         };
     }
 
     static get defaultProps() {
         return {
-            parentLink: ''
+            parentLink: '',
         };
     }
 
     static get contextTypes() {
         return {
-            router: PropTypes.object.isRequired
+            router: PropTypes.object.isRequired,
         };
     }
 
@@ -69,7 +69,7 @@ export default class AdminSidebarCategory extends React.Component {
                                 }
 
                                 return React.cloneElement(child, {
-                                    parentLink: link
+                                    parentLink: link,
                                 });
                             })
                         }

@@ -18,7 +18,7 @@ export default class MessageWrapper extends React.Component {
     render() {
         if (this.props.message) {
             const options = Object.assign({}, this.props.options, {
-                siteURL: getSiteURL()
+                siteURL: getSiteURL(),
             });
 
             const formattedText = TextFormatting.formatText(this.props.message, options);
@@ -35,9 +35,9 @@ export default class MessageWrapper extends React.Component {
 }
 
 MessageWrapper.defaultProps = {
-    message: ''
+    message: '',
 };
 MessageWrapper.propTypes = {
     message: PropTypes.string,
-    options: PropTypes.object
+    options: PropTypes.object,
 };
