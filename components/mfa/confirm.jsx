@@ -27,7 +27,7 @@ export default class Confirm extends React.Component {
     }
 
     onKeyPress = (e) => {
-        if (Utils.isKeyPressed(e, Constants.KeyCodes.ENTER)) {
+        if (Utils.isKeyPressed(e, KeyCodes.ENTER)) {
             this.submit(e);
         }
     }
