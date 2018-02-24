@@ -94,6 +94,7 @@ export default function DotMenuItem(props) {
 DotMenuItem.propTypes = {
     idPrefix: PropTypes.string.isRequired,
     idCount: PropTypes.number,
+    isRHS: PropTypes.bool,
     post: PropTypes.object,
     handleOnClick: PropTypes.func,
     commentCount: PropTypes.number,
