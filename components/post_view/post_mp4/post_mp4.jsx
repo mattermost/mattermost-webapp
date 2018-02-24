@@ -49,7 +49,7 @@ export default class PostImageEmbed extends React.PureComponent {
     }
 
     componentWillMount() {
-        this.loadImg(this.props.link);
+        this.loadVideo(PostUtils.changeToMp4Src(this.props.link, this.props.hasImageProxy));
     }
 
     componentWillReceiveProps(nextProps) {
@@ -63,20 +63,16 @@ export default class PostImageEmbed extends React.PureComponent {
 
     componentDidUpdate(prevProps) {
         if (!this.state.loaded && prevProps.link !== this.props.link) {
-            this.loadImg(this.props.link);
+            this.loadVideo(PostUtils.changeToMp4Src(this.props.link, this.props.hasImageProxy));
         }
     }
 
-    loadImg(src) {
-        //This has to be changed to actually load the video
-        this.setState({
-            loaded: true,
-            errored: false
-        });
-        // const img = new Image();
-        // img.onload = this.handleLoadComplete;
-        // img.onerror = this.handleLoadError;
-        // img.src = PostUtils.getImageSrc(src, this.props.hasImageProxy);
+    loadVideo(src) {
+        let video = document.createElement('video');
+        video.onerror = this.handleLoadError;
+        video.load = this.handleLoadComplete;
+        video.src = src;
+        video.load();
     }
 
     handleLoadComplete() {
@@ -93,7 +89,6 @@ export default class PostImageEmbed extends React.PureComponent {
     }
 
     handleLoadError() {
-        debugger;
         this.setState({
             errored: true,
             loaded: true
@@ -118,10 +113,16 @@ export default class PostImageEmbed extends React.PureComponent {
                 className='post__embed-container'
             >
                 <video
+                    poster={PostUtils.changeToJPGSrc(this.props.link, this.props.hasImageProxy)}
+                    preload='auto'
+                    autoPlay='autoPlay'
+                    muted='true'
+                    loop='true'
+                    webkit-playsinline="true"
                     onClick={this.onImageClick}
                     className='img-div cursor--pointer'
                     >
-                    <source src={PostUtils.getMp4Src(this.props.link, this.props.hasImageProxy)} type="video/mp4"/>
+                    <source src={PostUtils.changeToMp4Src(this.props.link, this.props.hasImageProxy)} type="video/mp4"/>
                 </video>
             </div>
         );
