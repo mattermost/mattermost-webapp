@@ -68,7 +68,7 @@ export default class PostImageEmbed extends React.PureComponent {
     }
 
     loadVideo(src) {
-        let video = document.createElement('video');
+        const video = document.createElement('video');
         video.onerror = this.handleLoadError;
         video.load = this.handleLoadComplete;
         video.src = src;
@@ -118,11 +118,13 @@ export default class PostImageEmbed extends React.PureComponent {
                     autoPlay='autoPlay'
                     muted='true'
                     loop='true'
-                    webkit-playsinline="true"
                     onClick={this.onImageClick}
                     className='img-div cursor--pointer'
-                    >
-                    <source src={PostUtils.changeToMp4Src(this.props.link, this.props.hasImageProxy)} type="video/mp4"/>
+                >
+                    <source
+                        src={PostUtils.changeToMp4Src(this.props.link, this.props.hasImageProxy)}
+                        type='video/mp4'
+                    />
                 </video>
             </div>
         );
