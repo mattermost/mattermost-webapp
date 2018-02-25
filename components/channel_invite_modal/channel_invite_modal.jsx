@@ -29,8 +29,8 @@ export default class ChannelInviteModal extends React.Component {
         channel: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             getProfilesNotInChannel: PropTypes.func.isRequired,
-            getTeamStats: PropTypes.func.isRequired
-        }).isRequired
+            getTeamStats: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -49,7 +49,7 @@ export default class ChannelInviteModal extends React.Component {
             show: true,
             statusChange: false,
             saving: false,
-            loadingUsers: true
+            loadingUsers: true,
         };
     }
 
@@ -94,14 +94,14 @@ export default class ChannelInviteModal extends React.Component {
 
         this.setState({
             users,
-            total: teamStats.active_member_count - channelStats.member_count
+            total: teamStats.active_member_count - channelStats.member_count,
         });
     }
 
     onStatusChange = () => {
         // Initiate a render to pick up on new statuses
         this.setState({
-            statusChange: !this.state.statusChange
+            statusChange: !this.state.statusChange,
         });
     }
 
@@ -113,12 +113,12 @@ export default class ChannelInviteModal extends React.Component {
         if (err) {
             this.setState({
                 saving: false,
-                inviteError: err.message
+                inviteError: err.message,
             });
         } else {
             this.setState({
                 saving: false,
-                inviteError: null
+                inviteError: null,
             });
         }
     }
@@ -129,7 +129,7 @@ export default class ChannelInviteModal extends React.Component {
 
     setUsersLoadingState = (loadingState) => {
         this.setState({
-            loadingUsers: loadingState
+            loadingUsers: loadingState,
         });
     }
 
@@ -237,7 +237,7 @@ export default class ChannelInviteModal extends React.Component {
                 id='multiselect.numPeopleRemaining'
                 defaultMessage='Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. '
                 values={{
-                    num: MAX_SELECTABLE_VALUES - this.state.values.length
+                    num: MAX_SELECTABLE_VALUES - this.state.values.length,
                 }}
             />
         );

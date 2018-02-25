@@ -58,7 +58,7 @@ export default function GetIosApp({iosAppDownloadLink}) {
                                     defaultMessage='continue with browser'
                                 />
                             </Link>
-                        )
+                        ),
                     }}
                 />
             </span>
@@ -67,5 +67,5 @@ export default function GetIosApp({iosAppDownloadLink}) {
 }
 
 GetIosApp.propTypes = {
-    iosAppDownloadLink: PropTypes.string
+    iosAppDownloadLink: PropTypes.string,
 };

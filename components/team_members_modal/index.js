@@ -9,7 +9,7 @@ import TeamMembersModal from './team_members_modal.jsx';
 function mapStateToProps(state, ownProps) {
     return {
         ...ownProps,
-        currentTeam: getCurrentTeam(state)
+        currentTeam: getCurrentTeam(state),
     };
 }
 

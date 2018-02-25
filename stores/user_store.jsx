@@ -315,7 +315,7 @@ class UserStoreClass extends EventEmitter {
     saveProfile(profile) {
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILE,
-            data: profile
+            data: profile,
         });
     }
 
@@ -331,7 +331,7 @@ class UserStoreClass extends EventEmitter {
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILE_NOT_IN_TEAM,
             data: {user_id: userId},
-            id: teamId
+            id: teamId,
         });
     }
 
@@ -367,7 +367,7 @@ class UserStoreClass extends EventEmitter {
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILE_IN_TEAM,
             data: {user_id: userId},
-            id: teamId
+            id: teamId,
         });
     }
 
@@ -377,7 +377,7 @@ class UserStoreClass extends EventEmitter {
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILE_IN_CHANNEL,
             data: {user_id: profile.id},
-            id: channelId
+            id: channelId,
         });
     }
 
@@ -385,7 +385,7 @@ class UserStoreClass extends EventEmitter {
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILE_IN_CHANNEL,
             data: {user_id: userId},
-            id: channelId
+            id: channelId,
         });
     }
 
@@ -393,7 +393,7 @@ class UserStoreClass extends EventEmitter {
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILE_NOT_IN_CHANNEL,
             data: {user_id: userId},
-            id: channelId
+            id: channelId,
         });
     }
 
@@ -407,7 +407,7 @@ class UserStoreClass extends EventEmitter {
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILE_NOT_IN_CHANNEL,
             data: {user_id: profile.id},
-            id: channelId
+            id: channelId,
         });
     }
 
@@ -415,7 +415,7 @@ class UserStoreClass extends EventEmitter {
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILE_IN_CHANNEL,
             data: {user_id: userId},
-            id: channelId
+            id: channelId,
         });
     }
 
@@ -447,7 +447,7 @@ class UserStoreClass extends EventEmitter {
         const data = [{user_id: userId, status}];
         store.dispatch({
             type: UserTypes.RECEIVED_STATUSES,
-            data
+            data,
         });
     }
 

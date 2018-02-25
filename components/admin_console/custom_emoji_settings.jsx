@@ -35,7 +35,7 @@ export default class CustomEmojiSettings extends AdminSettings {
         return {
             enableCustomEmoji: config.ServiceSettings.EnableCustomEmoji,
             enableEmojiPicker: config.ServiceSettings.EnableEmojiPicker,
-            restrictCustomEmojiCreation: config.ServiceSettings.RestrictCustomEmojiCreation
+            restrictCustomEmojiCreation: config.ServiceSettings.RestrictCustomEmojiCreation,
         };
     }
 
@@ -57,7 +57,7 @@ export default class CustomEmojiSettings extends AdminSettings {
                     values={[
                         {value: 'all', text: Utils.localizeMessage('admin.customization.restrictCustomEmojiCreationAll', 'Allow everyone to create custom emoji')},
                         {value: 'admin', text: Utils.localizeMessage('admin.customization.restrictCustomEmojiCreationAdmin', 'Allow System and Team Admins to create custom emoji')},
-                        {value: 'system_admin', text: Utils.localizeMessage('admin.customization.restrictCustomEmojiCreationSystemAdmin', 'Only allow System Admins to create custom emoji')}
+                        {value: 'system_admin', text: Utils.localizeMessage('admin.customization.restrictCustomEmojiCreationSystemAdmin', 'Only allow System Admins to create custom emoji')},
                     ]}
                     label={
                         <FormattedMessage

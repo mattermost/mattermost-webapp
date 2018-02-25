@@ -19,7 +19,7 @@ describe('components/SettingItemMin', () => {
         submit: jest.fn(),
         saving: false,
         title: 'title',
-        width: 'full'
+        width: 'full',
     };
 
     test('should match snapshot', () => {

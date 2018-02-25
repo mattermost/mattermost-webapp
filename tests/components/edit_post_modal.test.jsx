@@ -10,7 +10,7 @@ jest.useFakeTimers();
 
 jest.mock('actions/global_actions.jsx', () => ({
     showDeletePostModal: jest.fn(),
-    emitClearSuggestions: jest.fn()
+    emitClearSuggestions: jest.fn(),
 }));
 
 function createEditPost({ctrlSend, config, license, editingPost, actions} = {}) {
@@ -18,27 +18,27 @@ function createEditPost({ctrlSend, config, license, editingPost, actions} = {}) 
     const configProp = config || {
         AllowEditPost: 'allways',
         PostEditTimeLimit: 300,
-        EnableEmojiPicker: 'true'
+        EnableEmojiPicker: 'true',
     };
     const licenseProp = license || {
-        IsLicensed: 'false'
+        IsLicensed: 'false',
     };
     const editingPostProp = editingPost || {
         postId: '123',
         post: {
             id: '123',
             message: 'test',
-            channel_id: '5'
+            channel_id: '5',
         },
         commentsCount: 3,
         refocusId: 'test',
         show: true,
-        title: 'test'
+        title: 'test',
     };
     const actionsProp = actions || {
         editPost: jest.fn(),
         addMessageIntoHistory: jest.fn(),
-        hideEditPostModal: jest.fn()
+        hideEditPostModal: jest.fn(),
     };
     return (
         <EditPostModal
@@ -61,7 +61,7 @@ describe('components/EditPostModal', () => {
         const config = {
             AllowEditPost: 'allways',
             PostEditTimeLimit: 300,
-            EnableEmojiPicker: 'false'
+            EnableEmojiPicker: 'false',
         };
         const wrapper = shallow(createEditPost({config}));
         expect(wrapper).toMatchSnapshot();
@@ -76,7 +76,7 @@ describe('components/EditPostModal', () => {
         const actions = {
             editPost: jest.fn(),
             addMessageIntoHistory: jest.fn(),
-            hideEditPostModal: jest.fn()
+            hideEditPostModal: jest.fn(),
         };
         const editingPost = {
             postId: '123',
@@ -84,12 +84,12 @@ describe('components/EditPostModal', () => {
                 id: '123',
                 message: 'test',
                 channel_id: '5',
-                file_ids: ['file_id_1']
+                file_ids: ['file_id_1'],
             },
             commentsCount: 3,
             refocusId: 'test',
             show: true,
-            title: 'test'
+            title: 'test',
         };
 
         var wrapper = shallow(createEditPost({actions, editingPost}));
@@ -106,7 +106,7 @@ describe('components/EditPostModal', () => {
         const actions = {
             editPost: jest.fn(),
             addMessageIntoHistory: jest.fn(),
-            hideEditPostModal: jest.fn()
+            hideEditPostModal: jest.fn(),
         };
         const wrapper = shallow(createEditPost({actions}));
 
@@ -120,7 +120,7 @@ describe('components/EditPostModal', () => {
         expect(actions.editPost).toBeCalledWith({
             message: 'new message',
             id: '123',
-            channel_id: '5'
+            channel_id: '5',
         });
         expect(actions.hideEditPostModal).toBeCalled();
     });
@@ -220,7 +220,7 @@ describe('components/EditPostModal', () => {
         const actions = {
             editPost: jest.fn(),
             addMessageIntoHistory: jest.fn(),
-            hideEditPostModal: jest.fn()
+            hideEditPostModal: jest.fn(),
         };
         const wrapper = shallow(createEditPost({actions}));
         const instance = wrapper.instance();
@@ -238,7 +238,7 @@ describe('components/EditPostModal', () => {
         const actions = {
             editPost: jest.fn(),
             addMessageIntoHistory: jest.fn(),
-            hideEditPostModal: jest.fn()
+            hideEditPostModal: jest.fn(),
         };
         var wrapper = shallow(createEditPost({actions}));
         var instance = wrapper.instance();
@@ -275,7 +275,7 @@ describe('components/EditPostModal', () => {
                 return {data};
             }),
             addMessageIntoHistory: jest.fn(),
-            hideEditPostModal: jest.fn()
+            hideEditPostModal: jest.fn(),
         };
         global.scrollTo = jest.fn();
         const wrapper = shallow(createEditPost({actions}));
@@ -301,7 +301,7 @@ describe('components/EditPostModal', () => {
         const actions = {
             editPost: jest.fn((data) => data),
             addMessageIntoHistory: jest.fn(),
-            hideEditPostModal: jest.fn()
+            hideEditPostModal: jest.fn(),
         };
         const wrapper = shallow(createEditPost({actions}));
         const instance = wrapper.instance();
@@ -317,7 +317,7 @@ describe('components/EditPostModal', () => {
         const actions = {
             editPost: jest.fn((data) => data),
             addMessageIntoHistory: jest.fn(),
-            hideEditPostModal: jest.fn()
+            hideEditPostModal: jest.fn(),
         };
         const wrapper = shallow(createEditPost({actions}));
         const instance = wrapper.instance();
@@ -327,6 +327,7 @@ describe('components/EditPostModal', () => {
         elem.focus = jest.fn();
         document.body.appendChild(elem);
 
+        instance.handleHide();
         instance.handleExited();
 
         jest.runAllTimers();

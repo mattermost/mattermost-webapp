@@ -25,7 +25,7 @@ const getLastChannelPath = (state, teamName) => {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-    lastChannelPath: `${ownProps.match.url}/channels/${getLastChannelPath(state, ownProps.match.params.team)}`
+    lastChannelPath: `${ownProps.match.url}/channels/${getLastChannelPath(state, ownProps.match.params.team)}`,
 });
 
 export default connect(mapStateToProps)(CenterChannel);

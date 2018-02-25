@@ -12,20 +12,20 @@ jest.useFakeTimers();
 
 jest.mock('utils/browser_history', () => ({
     browserHistory: {
-        push: jest.fn()
-    }
+        push: jest.fn(),
+    },
 }));
 
 jest.mock('utils/utils.jsx', () => ({
     displayUsernameForUser: jest.fn().mockReturnValue('Other guy'),
     getDirectTeammate: jest.fn().mockReturnValue({}),
     isMobile: jest.fn().mockReturnValueOnce(false).mockReturnValue(true),
-    getDateForUnixTicks: jest.fn().mockReturnValue(new Date('2017-12-14T18:15:28.290Z'))
+    getDateForUnixTicks: jest.fn().mockReturnValue(new Date('2017-12-14T18:15:28.290Z')),
 }));
 
 jest.mock('utils/post_utils.jsx', () => ({
     getProfilePicSrcForPost: jest.fn().mockReturnValue('Some image path'),
-    isEdited: jest.fn().mockReturnValue(true)
+    isEdited: jest.fn().mockReturnValue(true),
 }));
 
 describe('components/SearchResultsItem', () => {
@@ -41,7 +41,7 @@ describe('components/SearchResultsItem', () => {
         user = {
             id: 'user_id',
             username: 'username',
-            locale: 'en'
+            locale: 'en',
         };
 
         post = {
@@ -59,13 +59,13 @@ describe('components/SearchResultsItem', () => {
             root_id: '',
             type: '',
             update_at: 1502715372443,
-            user_id: 'user_id'
+            user_id: 'user_id',
         };
 
         channel = {
             id: 'channel_id',
             name: 'channel_name',
-            type: 'O'
+            type: 'O',
         };
 
         defaultProps = {
@@ -85,8 +85,8 @@ describe('components/SearchResultsItem', () => {
             enablePostUsernameOverride: false,
             onSelect: mockFunc,
             actions: {
-                closeRightHandSide: mockFunc
-            }
+                closeRightHandSide: mockFunc,
+            },
         };
     });
 
@@ -107,10 +107,10 @@ describe('components/SearchResultsItem', () => {
                 state: 'deleted',
                 props: {
                     from_webhook: true,
-                    override_username: 'overridden_username'
-                }
+                    override_username: 'overridden_username',
+                },
             },
-            enablePostUsernameOverride: true
+            enablePostUsernameOverride: true,
         };
 
         const wrapper = shallow(
@@ -124,12 +124,12 @@ describe('components/SearchResultsItem', () => {
             ...defaultProps,
             channel: {
                 ...channel,
-                type: 'D'
+                type: 'D',
             },
             post: {
                 ...post,
-                is_pinned: true
-            }
+                is_pinned: true,
+            },
         };
 
         const wrapper = shallow(
@@ -157,7 +157,7 @@ describe('components/SearchResultsItem', () => {
         const onSelect = jest.fn();
         const props = {
             ...defaultProps,
-            onSelect
+            onSelect,
         };
 
         const wrapper = shallow(
@@ -173,7 +173,7 @@ describe('components/SearchResultsItem', () => {
         const shrink = jest.fn();
         const props = {
             ...defaultProps,
-            shrink
+            shrink,
         };
 
         const wrapper = shallow(

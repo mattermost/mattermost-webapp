@@ -13,7 +13,7 @@ export default class Authorize extends React.Component {
     static get propTypes() {
         return {
             location: PropTypes.object.isRequired,
-            params: PropTypes.object.isRequired
+            params: PropTypes.object.isRequired,
         };
     }
 
@@ -112,7 +112,7 @@ export default class Authorize extends React.Component {
                                 id='authorize.title'
                                 defaultMessage='<strong>{appName}</strong> would like to connect to your <strong>Mattermost</strong> user account'
                                 values={{
-                                    appName: app.name
+                                    appName: app.name,
                                 }}
                             />
                         </div>
@@ -122,7 +122,7 @@ export default class Authorize extends React.Component {
                             id='authorize.app'
                             defaultMessage='The app <strong>{appName}</strong> would like the ability to access and modify your basic information.'
                             values={{
-                                appName: app.name
+                                appName: app.name,
                             }}
                         />
                     </p>
@@ -131,7 +131,7 @@ export default class Authorize extends React.Component {
                             id='authorize.access'
                             defaultMessage='Allow <strong>{appName}</strong> access?'
                             values={{
-                                appName: app.name
+                                appName: app.name,
                             }}
                         />
                     </h2>

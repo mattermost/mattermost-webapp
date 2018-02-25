@@ -15,15 +15,15 @@ function mapStateToProps(state) {
 
     return {
         isLicensed,
-        audits: Object.values(Selectors.getAudits(state))
+        audits: Object.values(Selectors.getAudits(state)),
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getAudits
-        }, dispatch)
+            getAudits,
+        }, dispatch),
     };
 }
 

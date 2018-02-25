@@ -12,7 +12,7 @@ import InfoIcon from 'components/svg/info_icon';
 export default class NavbarInfoButton extends React.PureComponent {
     static propTypes = {
         channel: PropTypes.object,
-        showEditChannelHeaderModal: PropTypes.func.isRequired
+        showEditChannelHeaderModal: PropTypes.func.isRequired,
     };
 
     showEditChannelHeaderModal = () => {
@@ -55,7 +55,7 @@ export default class NavbarInfoButton extends React.PureComponent {
                             defaultMessage='No channel header yet.{newline}{link} to add one.'
                             values={{
                                 newline: (<br/>),
-                                link
+                                link,
                             }}
                         />
                     </div>

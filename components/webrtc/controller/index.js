@@ -11,7 +11,7 @@ function mapStateToProps(state) {
     const enableDeveloper = config.EnableDeveloper === 'true';
 
     return {
-        enableDeveloper
+        enableDeveloper,
     };
 }
 

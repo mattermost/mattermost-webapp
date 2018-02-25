@@ -18,7 +18,7 @@ export default class ClusterTableContainer extends React.Component {
         this.interval = null;
 
         this.state = {
-            clusterInfos: null
+            clusterInfos: null,
         };
     }
 
@@ -26,7 +26,7 @@ export default class ClusterTableContainer extends React.Component {
         getClusterStatus(
             (data) => {
                 this.setState({
-                    clusterInfos: data
+                    clusterInfos: data,
                 });
             },
             null
@@ -52,7 +52,7 @@ export default class ClusterTableContainer extends React.Component {
         }
 
         this.setState({
-            clusterInfos: null
+            clusterInfos: null,
         });
 
         this.load();

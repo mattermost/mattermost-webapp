@@ -49,15 +49,15 @@ export default class DotMenu extends Component {
             /*
              * Function to unpin the post
              */
-            unpinPost: PropTypes.func.isRequired
-        }).isRequired
+            unpinPost: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     static defaultProps = {
         idCount: -1,
         post: {},
         commentCount: 0,
-        isFlagged: false
+        isFlagged: false,
     }
 
     constructor(props) {
@@ -67,7 +67,7 @@ export default class DotMenu extends Component {
 
         this.state = {
             canDelete: PostUtils.canDeletePost(props.post),
-            canEdit: PostUtils.canEditPost(props.post, this.editDisableAction)
+            canEdit: PostUtils.canEditPost(props.post, this.editDisableAction),
         };
     }
 
@@ -80,7 +80,7 @@ export default class DotMenu extends Component {
         if (nextProps.post !== this.props.post) {
             this.setState({
                 canDelete: PostUtils.canDeletePost(nextProps.post),
-                canEdit: PostUtils.canEditPost(nextProps.post, this.editDisableAction)
+                canEdit: PostUtils.canEditPost(nextProps.post, this.editDisableAction),
             });
         }
     }
@@ -133,7 +133,7 @@ export default class DotMenu extends Component {
                     isFlagged={this.props.isFlagged}
                     actions={{
                         flagPost: this.props.actions.flagPost,
-                        unflagPost: this.props.actions.unflagPost
+                        unflagPost: this.props.actions.unflagPost,
                     }}
                 />
             );
@@ -168,7 +168,7 @@ export default class DotMenu extends Component {
                     post={this.props.post}
                     actions={{
                         pinPost: this.props.actions.pinPost,
-                        unpinPost: this.props.actions.unpinPost
+                        unpinPost: this.props.actions.unpinPost,
                     }}
                 />
             );
@@ -196,7 +196,7 @@ export default class DotMenu extends Component {
                     type={type}
                     commentCount={type === 'Post' ? this.props.commentCount : 0}
                     actions={{
-                        setEditingPost: this.props.actions.setEditingPost
+                        setEditingPost: this.props.actions.setEditingPost,
                     }}
                 />
             );

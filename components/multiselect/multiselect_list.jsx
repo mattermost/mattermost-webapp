@@ -21,7 +21,7 @@ export default class MultiSelectList extends React.Component {
         this.toSelect = -1;
 
         this.state = {
-            selected: -1
+            selected: -1,
         };
     }
 
@@ -166,7 +166,7 @@ export default class MultiSelectList extends React.Component {
 MultiSelectList.defaultProps = {
     options: [],
     perPage: 50,
-    onAction: () => null
+    onAction: () => null,
 };
 
 MultiSelectList.propTypes = {
@@ -177,5 +177,5 @@ MultiSelectList.propTypes = {
     onPageChange: PropTypes.func,
     onAdd: PropTypes.func,
     onSelect: PropTypes.func,
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
 };

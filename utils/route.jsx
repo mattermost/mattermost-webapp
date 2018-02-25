@@ -13,18 +13,18 @@ export function createGetChildComponentsFunction(arrayOfComponents) {
 }
 
 export const notFoundParams = {
-    type: ErrorPageTypes.PAGE_NOT_FOUND
+    type: ErrorPageTypes.PAGE_NOT_FOUND,
 };
 
 const mfaPaths = [
     '/mfa/setup',
-    '/mfa/confirm'
+    '/mfa/confirm',
 ];
 
 const mfaAuthServices = [
     '',
     'email',
-    'ldap'
+    'ldap',
 ];
 
 export function checkIfMFARequired(path) {

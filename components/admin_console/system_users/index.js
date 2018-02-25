@@ -25,7 +25,7 @@ function mapStateToProps(state) {
         siteName,
         mfaEnabled,
         enableUserAccessTokens,
-        experimentalEnableAuthenticationTransfer
+        experimentalEnableAuthenticationTransfer,
     };
 }
 
@@ -35,8 +35,8 @@ function mapDispatchToProps(dispatch) {
             getTeams,
             getTeamStats,
             getUser,
-            getUserAccessToken
-        }, dispatch)
+            getUserAccessToken,
+        }, dispatch),
     };
 }
 

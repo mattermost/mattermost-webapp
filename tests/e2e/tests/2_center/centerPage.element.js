@@ -34,5 +34,5 @@ module.exports = {
             assert.visible('@helpTextLink').
             assert.hidden('@helpText').
             assert.visible('@postCreateFooter');
-    }
+    },
 };

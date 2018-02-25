@@ -12,7 +12,7 @@ export default class BackstageSection extends React.Component {
             title: PropTypes.node.isRequired,
             parentLink: PropTypes.string,
             subsection: PropTypes.bool,
-            children: PropTypes.arrayOf(PropTypes.element)
+            children: PropTypes.arrayOf(PropTypes.element),
         };
     }
 
@@ -20,13 +20,13 @@ export default class BackstageSection extends React.Component {
         return {
             parentLink: '',
             subsection: false,
-            children: []
+            children: [],
         };
     }
 
     static get contextTypes() {
         return {
-            router: PropTypes.object.isRequired
+            router: PropTypes.object.isRequired,
         };
     }
 
@@ -47,7 +47,7 @@ export default class BackstageSection extends React.Component {
                         React.Children.map(children, (child) => {
                             return React.cloneElement(child, {
                                 parentLink: link,
-                                subsection: true
+                                subsection: true,
                             });
                         })
                     }

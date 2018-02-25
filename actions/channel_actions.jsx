@@ -205,7 +205,7 @@ export async function openDirectChannelToUser(userId, success, error) {
         const currentUserId = UserStore.getCurrentId();
         savePreferences(currentUserId, [
             {user_id: currentUserId, category: Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, name: userId, value: 'true'},
-            {user_id: currentUserId, category: Preferences.CATEGORY_CHANNEL_OPEN_TIME, name: channel.id, value: now.toString()}
+            {user_id: currentUserId, category: Preferences.CATEGORY_CHANNEL_OPEN_TIME, name: channel.id, value: now.toString()},
         ])(dispatch, getState);
 
         if (success) {
@@ -248,7 +248,7 @@ export function unmarkFavorite(channelId) {
     const pref = {
         user_id: currentUserId,
         category: Preferences.CATEGORY_FAVORITE_CHANNEL,
-        name: channelId
+        name: channelId,
     };
 
     deletePreferences(currentUserId, [pref])(dispatch, getState);

@@ -10,160 +10,160 @@ describe('PostUtils.containsAtChannel', function() {
         for (const data of [
             {
                 text: '',
-                result: false
+                result: false,
             },
             {
                 text: 'all',
-                result: false
+                result: false,
             },
             {
                 text: '@allison',
-                result: false
+                result: false,
             },
             {
                 text: '@ALLISON',
-                result: false
+                result: false,
             },
             {
                 text: '@all123',
-                result: false
+                result: false,
             },
             {
                 text: '123@all',
-                result: false
+                result: false,
             },
             {
                 text: 'hey@all',
-                result: false
+                result: false,
             },
             {
                 text: 'hey@all.com',
-                result: false
+                result: false,
             },
             {
                 text: '@all',
-                result: true
+                result: true,
             },
             {
                 text: '@ALL',
-                result: true
+                result: true,
             },
             {
                 text: '@all hey',
-                result: true
+                result: true,
             },
             {
                 text: 'hey @all',
-                result: true
+                result: true,
             },
             {
                 text: 'HEY @ALL',
-                result: true
+                result: true,
             },
             {
                 text: 'hey @all!',
-                result: true
+                result: true,
             },
             {
                 text: 'hey @all:+1:',
-                result: true
+                result: true,
             },
             {
                 text: 'hey @ALL:+1:',
-                result: true
+                result: true,
             },
             {
                 text: '`@all`',
-                result: false
+                result: false,
             },
             {
                 text: '@someone `@all`',
-                result: false
+                result: false,
             },
             {
                 text: '``@all``',
-                result: false
+                result: false,
             },
             {
                 text: '```@all```',
-                result: false
+                result: false,
             },
             {
                 text: '```\n@all\n```',
-                result: false
+                result: false,
             },
             {
                 text: '```````\n@all\n```````',
-                result: false
+                result: false,
             },
             {
                 text: '```code\n@all\n```',
-                result: false
+                result: false,
             },
             {
                 text: '~~~@all~~~',
-                result: true
+                result: true,
             },
             {
                 text: '~~~\n@all\n~~~',
-                result: false
+                result: false,
             },
             {
                 text: ' /not_cmd @all',
-                result: true
+                result: true,
             },
             {
                 text: '/cmd @all',
-                result: false
+                result: false,
             },
             {
                 text: '/cmd @all test',
-                result: false
+                result: false,
             },
             {
                 text: '/cmd test @all',
-                result: false
+                result: false,
             },
             {
                 text: '@channel',
-                result: true
+                result: true,
             },
             {
                 text: '@channel.',
-                result: true
+                result: true,
             },
             {
                 text: '@channel/test',
-                result: true
+                result: true,
             },
             {
                 text: 'test/@channel',
-                result: true
+                result: true,
             },
             {
                 text: '@all/@channel',
-                result: true
+                result: true,
             },
             {
                 text: '@cha*nnel*',
-                result: false
+                result: false,
             },
             {
                 text: '@cha**nnel**',
-                result: false
+                result: false,
             },
             {
                 text: '*@cha*nnel',
-                result: false
+                result: false,
             },
             {
                 text: '[@chan](https://google.com)nel',
-                result: false
+                result: false,
             },
             {
                 text: '@cha![](https://myimage)nnel',
-                result: false
-            }
+                result: false,
+            },
         ]) {
             const containsAtChannel = PostUtils.containsAtChannel(data.text);
 

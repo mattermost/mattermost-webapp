@@ -19,7 +19,7 @@ function mapStateToProps(state, ownProps) {
         ...ownProps,
         team: getCurrentTeam(state),
         channel: getChannel(state, currentChannelId),
-        currentUser: getCurrentUser(state)
+        currentUser: getCurrentUser(state),
     };
 }
 
@@ -28,8 +28,8 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             addChannelMember,
             getPost,
-            removePost
-        }, dispatch)
+            removePost,
+        }, dispatch),
     };
 }
 

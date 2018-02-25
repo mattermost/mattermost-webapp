@@ -18,7 +18,7 @@ export default class ConfirmIntegration extends React.Component {
             team: PropTypes.object,
             location: PropTypes.object,
             commands: PropTypes.object,
-            loading: PropTypes.bool
+            loading: PropTypes.bool,
         };
     }
 
@@ -34,7 +34,7 @@ export default class ConfirmIntegration extends React.Component {
             type: (new URLSearchParams(this.props.location.search)).get('type'),
             id: (new URLSearchParams(this.props.location.search)).get('id'),
             oauthApps: IntegrationStore.getOAuthApps(userId),
-            loading: !IntegrationStore.hasReceivedOAuthApps(userId)
+            loading: !IntegrationStore.hasReceivedOAuthApps(userId),
         };
     }
 
@@ -53,7 +53,7 @@ export default class ConfirmIntegration extends React.Component {
 
         this.setState({
             oauthApps: IntegrationStore.getOAuthApps(userId),
-            loading: !IntegrationStore.hasReceivedOAuthApps(userId)
+            loading: !IntegrationStore.hasReceivedOAuthApps(userId),
         });
     }
 
@@ -93,7 +93,7 @@ export default class ConfirmIntegration extends React.Component {
                         id='add_command.token'
                         defaultMessage='<b>Token</b>: {token}'
                         values={{
-                            token: this.props.commands[this.state.id].token
+                            token: this.props.commands[this.state.id].token,
                         }}
                     />
                 </p>
@@ -119,7 +119,7 @@ export default class ConfirmIntegration extends React.Component {
                         id='add_incoming_webhook.url'
                         defaultMessage='<b>URL</b>: {url}'
                         values={{
-                            url: window.location.origin + '/hooks/' + this.state.id
+                            url: window.location.origin + '/hooks/' + this.state.id,
                         }}
                     />
                 </p>
@@ -145,7 +145,7 @@ export default class ConfirmIntegration extends React.Component {
                         id='add_outgoing_webhook.token'
                         defaultMessage='<b>Token</b>: {token}'
                         values={{
-                            token: IntegrationStore.getOutgoingWebhook(this.props.team.id, this.state.id).token
+                            token: IntegrationStore.getOutgoingWebhook(this.props.team.id, this.state.id).token,
                         }}
                     />
                 </p>
@@ -182,14 +182,14 @@ export default class ConfirmIntegration extends React.Component {
                             id='add_oauth_app.clientId'
                             defaultMessage='<b>Client ID:</b> {id}'
                             values={{
-                                id: this.state.id
+                                id: this.state.id,
                             }}
                         /> <br/>
                         <FormattedHTMLMessage
                             id='add_oauth_app.clientSecret'
                             defaultMessage='<b>Client Secret:</b> {secret}'
                             values={{
-                                secret: oauthApp.client_secret
+                                secret: oauthApp.client_secret,
                             }}
                         />
                     </p>
@@ -210,7 +210,7 @@ export default class ConfirmIntegration extends React.Component {
                             id='add_oauth_app.url'
                             defaultMessage='<b>URL(s)</b>: {url}'
                             values={{
-                                url: oauthApp.callback_urls
+                                url: oauthApp.callback_urls,
                             }}
                         />
                     </p>

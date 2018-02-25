@@ -64,5 +64,5 @@ ErrorTitle.propTypes = {
     /*
     * Error title
     */
-    title: PropTypes.string
+    title: PropTypes.string,
 };

@@ -19,8 +19,8 @@ export default class TeamSidebar extends React.Component {
         experimentalPrimaryTeam: PropTypes.string,
         enableTeamCreation: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
-            getTeams: PropTypes.func.isRequired
-        }).isRequired
+            getTeams: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -39,7 +39,7 @@ export default class TeamSidebar extends React.Component {
             teamMembers,
             currentTeamId,
             show: teamMembers && teamMembers.length > 1,
-            isMobile: Utils.isMobile()
+            isMobile: Utils.isMobile(),
         };
     }
 
@@ -111,7 +111,7 @@ export default class TeamSidebar extends React.Component {
                 const teamId = teamMember.team_id;
                 myTeams.push(Object.assign({
                     unread: teamMember.msg_count > 0,
-                    mentions: teamMember.mention_count
+                    mentions: teamMember.mention_count,
                 }, this.state.teams[teamId]));
                 isAlreadyMember[teamId] = true;
             }

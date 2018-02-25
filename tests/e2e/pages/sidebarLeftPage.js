@@ -12,7 +12,7 @@ const sidebarLeftPageCommands = {
             click('@sidebarHeaderDropdownButton').
             section.sidebarDropdownMenu.
             click('@accountSettings');
-    }
+    },
 };
 
 const sidebarHeaderDropdownButton = {selector: '#sidebarHeaderDropdownButton'};
@@ -35,23 +35,23 @@ const sidebarDropdownMenu = {
         reportLink: {selector: '#reportLink'},
         nativeAppLink: {selector: '#nativeAppLink'},
         about: {selector: '#about'},
-        logout: {selector: '#logout'}
-    }
+        logout: {selector: '#logout'},
+    },
 };
 const headerInfo = {
     selector: '#headerInfo',
     elements: {
         headerUsername: {selector: '#headerUsername'},
-        headerTeamName: {selector: '#headerTeamName'}
-    }
+        headerTeamName: {selector: '#headerTeamName'},
+    },
 };
 const editStatusMenu = {
     selector: '#editStatusMenu',
     elements: {
         statusOnline: {selector: '#statusonline'},
         statusAway: {selector: '#statusaway'},
-        statusOffline: {selector: '#statusoffline'}
-    }
+        statusOffline: {selector: '#statusoffline'},
+    },
 };
 const sidebarChannelContainer = {
     selector: '#sidebarChannelContainer',
@@ -63,8 +63,8 @@ const sidebarChannelContainer = {
         privateChannel: {selector: '#privateChannel'},
         createPrivateChannel: {selector: '#createPrivateChannel'},
         directChannel: {selector: '#directChannel'},
-        moreDirectChannel: {selector: '#moreDirectMessage'}
-    }
+        moreDirectChannel: {selector: '#moreDirectMessage'},
+    },
 };
 
 module.exports = {
@@ -80,34 +80,34 @@ module.exports = {
                         sidebarDropdownMenuContainer: {
                             selector: '#sidebarDropdownMenuContainer',
                             sections: {
-                                sidebarDropdownMenu
+                                sidebarDropdownMenu,
                             },
                             elements: {
-                                sidebarHeaderDropdownButton
-                            }
+                                sidebarHeaderDropdownButton,
+                            },
                         },
                         headerInfo,
-                        editStatusMenu
+                        editStatusMenu,
                     },
                     elements: {
-                        statusDropdown
-                    }
+                        statusDropdown,
+                    },
                 },
-                sidebarChannelContainer
+                sidebarChannelContainer,
             },
             elements: {
                 sidebarSwitcherButton: {selector: '#sidebarSwitcherButton'},
                 unreadIndicatorTop: {selector: '#unreadIndicatorTop'},
-                unreadIndicatorBottom: {selector: '#unreadIndicatorBottom'}
-            }
+                unreadIndicatorBottom: {selector: '#unreadIndicatorBottom'},
+            },
         },
         sidebarDropdownMenu,
         headerInfo,
         editStatusMenu,
-        sidebarChannelContainer
+        sidebarChannelContainer,
     },
     elements: {
         sidebarHeaderDropdownButton,
-        statusDropdown
-    }
+        statusDropdown,
+    },
 };

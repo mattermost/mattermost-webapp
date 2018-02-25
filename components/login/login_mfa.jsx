@@ -24,7 +24,7 @@ export default class LoginMfa extends React.PureComponent {
         /*
          * Function to call when submitting user credentials
          */
-        submit: PropTypes.func.isRequired
+        submit: PropTypes.func.isRequired,
     };
 
     constructor(props) {
@@ -33,7 +33,7 @@ export default class LoginMfa extends React.PureComponent {
         this.state = {
             saving: false,
             token: '',
-            serverError: ''
+            serverError: '',
         };
     }
 
@@ -43,7 +43,7 @@ export default class LoginMfa extends React.PureComponent {
 
         if (token !== this.state.token) {
             this.setState({
-                token
+                token,
             });
         }
     }

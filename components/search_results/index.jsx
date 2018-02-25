@@ -12,7 +12,7 @@ import {
     getSearchTerms,
     getIsSearchingTerm,
     getIsSearchingFlaggedPost,
-    getIsSearchingPinnedPost
+    getIsSearchingPinnedPost,
 } from 'selectors/rhs';
 import {Preferences} from 'utils/constants.jsx';
 
@@ -77,13 +77,13 @@ function makeMapStateToProps() {
             isSearchingPinnedPost: getIsSearchingPinnedPost(state),
             compactDisplay: PreferenceSelectors.get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
             dataRetentionEnableMessageDeletion,
-            dataRetentionMessageRetentionDays
+            dataRetentionMessageRetentionDays,
         };
     };
 }
 
 const mapDispatchToProps = {
-    selectPost: selectPostFromRightHandSideSearch
+    selectPost: selectPostFromRightHandSideSearch,
 };
 
 export default connect(makeMapStateToProps, mapDispatchToProps)(SearchResults);

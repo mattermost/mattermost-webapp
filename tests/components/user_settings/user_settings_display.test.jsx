@@ -9,14 +9,14 @@ import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import UserSettingsDisplay from 'components/user_settings/display/user_settings_display.jsx';
 
 jest.mock('actions/user_actions.jsx', () => ({
-    savePreferences: jest.fn()
+    savePreferences: jest.fn(),
 }));
 
 describe('components/user_settings/display/UserSettingsDisplay', () => {
     const user = {
         id: 'user_id',
         username: 'username',
-        locale: 'en'
+        locale: 'en',
     };
 
     const requiredProps = {
@@ -30,7 +30,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         setEnforceFocus: jest.fn(),
         enableLinkPreviews: true,
         enableThemeSelection: false,
-        defaultClientLocale: 'en'
+        defaultClientLocale: 'en',
     };
 
     test('should match snapshot, no active section', () => {
@@ -48,7 +48,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         const props = {
             ...requiredProps,
             activeSection: 'linkpreview',
-            enableLinkPreviews: false
+            enableLinkPreviews: false,
         };
         const wrapper = shallow(<UserSettingsDisplay {...props}/>);
         expect(wrapper).toMatchSnapshot();
@@ -58,7 +58,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         const props = {
             ...requiredProps,
             activeSection: 'linkpreview',
-            enableLinkPreviews: true
+            enableLinkPreviews: true,
         };
         const wrapper = shallow(<UserSettingsDisplay {...props}/>);
         expect(wrapper).toMatchSnapshot();
@@ -92,7 +92,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         const props = {
             ...requiredProps,
             activeSection: 'theme',
-            enableThemeSelection: false
+            enableThemeSelection: false,
         };
         const wrapper = shallow(<UserSettingsDisplay {...props}/>);
         expect(wrapper).toMatchSnapshot();
@@ -102,7 +102,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         const props = {
             ...requiredProps,
             activeSection: 'theme',
-            enableThemeSelection: true
+            enableThemeSelection: true,
         };
         const wrapper = shallow(<UserSettingsDisplay {...props}/>);
         expect(wrapper).toMatchSnapshot();

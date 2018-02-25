@@ -8,7 +8,7 @@ import SaveButton from 'components/save_button.jsx';
 
 describe('components/SaveButton', () => {
     const baseProps = {
-        saving: false
+        saving: false,
     };
 
     test('should match snapshot, on defaultMessage', () => {

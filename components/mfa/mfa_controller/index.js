@@ -17,7 +17,7 @@ function mapStateToProps(state) {
     return {
         mfa,
         enableMultifactorAuthentication,
-        enforceMultifactorAuthentication
+        enforceMultifactorAuthentication,
     };
 }
 

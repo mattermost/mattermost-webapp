@@ -20,13 +20,13 @@ export default class PostEmoji extends React.PureComponent {
         /*
          * Set to display the emoji text instead of the image.
          */
-        displayTextOnly: PropTypes.bool.isRequired
+        displayTextOnly: PropTypes.bool.isRequired,
     };
 
     static defaultProps = {
         name: '',
         imageUrl: '',
-        displayTextOnly: false
+        displayTextOnly: false,
     }
 
     render() {

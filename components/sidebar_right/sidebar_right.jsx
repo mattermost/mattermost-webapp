@@ -29,16 +29,18 @@ export default class SidebarRight extends React.Component {
         previousRhsState: PropTypes.string,
         actions: PropTypes.shape({
             getPinnedPosts: PropTypes.func,
-            getFlaggedPosts: PropTypes.func
-        })
+            getFlaggedPosts: PropTypes.func,
+        }),
     }
 
     constructor(props) {
         super(props);
 
+        this.plScrolledToBottom = true;
+
         this.state = {
             expanded: false,
-            useMilitaryTime: PreferenceStore.getBool(Constants.Preferences.CATEGORY_DISPLAY_SETTINGS, Constants.Preferences.USE_MILITARY_TIME, false)
+            useMilitaryTime: PreferenceStore.getBool(Constants.Preferences.CATEGORY_DISPLAY_SETTINGS, Constants.Preferences.USE_MILITARY_TIME, false),
         };
     }
 
@@ -63,7 +65,7 @@ export default class SidebarRight extends React.Component {
 
         if (!isOpen && willOpen) {
             this.setState({
-                expanded: false
+                expanded: false,
             });
         }
     }
@@ -97,11 +99,10 @@ export default class SidebarRight extends React.Component {
     componentDidUpdate(prevProps) {
         const isOpen = this.props.searchVisible || this.props.postRightVisible;
         WebrtcStore.emitRhsChanged(isOpen);
+        this.doStrangeThings();
 
         const wasOpen = prevProps.searchVisible || prevProps.postRightVisible;
-        if (isOpen !== wasOpen) {
-            this.doStrangeThings();
-        }
+
         if (isOpen && !wasOpen) {
             setTimeout(() => postListScrollChange(), 0);
         }
@@ -109,7 +110,7 @@ export default class SidebarRight extends React.Component {
 
     onPreferenceChange = () => {
         this.setState({
-            useMilitaryTime: PreferenceStore.getBool(Constants.Preferences.CATEGORY_DISPLAY_SETTINGS, Constants.Preferences.USE_MILITARY_TIME, false)
+            useMilitaryTime: PreferenceStore.getBool(Constants.Preferences.CATEGORY_DISPLAY_SETTINGS, Constants.Preferences.USE_MILITARY_TIME, false),
         });
     }
 
@@ -121,7 +122,7 @@ export default class SidebarRight extends React.Component {
 
     onShrink = () => {
         this.setState({
-            expanded: false
+            expanded: false,
         });
     }
 

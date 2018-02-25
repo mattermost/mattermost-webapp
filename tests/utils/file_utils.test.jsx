@@ -31,14 +31,14 @@ describe('FileUtils.canUploadFiles', function() {
                 general: {
                     license: {
                         IsLicensed: 'true',
-                        Compliance: 'true'
+                        Compliance: 'true',
                     },
                     config: {
                         EnableFileAttachments: 'false',
-                        EnableMobileFileUpload: 'true'
-                    }
-                }
-            }
+                        EnableMobileFileUpload: 'true',
+                    },
+                },
+            },
         };
         assert.equal(canUploadFiles(state), false);
     });
@@ -54,14 +54,14 @@ describe('FileUtils.canUploadFiles', function() {
                     general: {
                         license: {
                             IsLicensed: 'true',
-                            Compliance: 'true'
+                            Compliance: 'true',
                         },
                         config: {
                             EnableFileAttachments: 'true',
-                            EnableMobileFileUpload: 'false'
-                        }
-                    }
-                }
+                            EnableMobileFileUpload: 'false',
+                        },
+                    },
+                },
             };
             assert.equal(canUploadFiles(state), true);
         });
@@ -74,14 +74,14 @@ describe('FileUtils.canUploadFiles', function() {
                     general: {
                         license: {
                             IsLicensed: 'false',
-                            Compliance: 'false'
+                            Compliance: 'false',
                         },
                         config: {
                             EnableFileAttachments: 'true',
-                            EnableMobileFileUpload: 'false'
-                        }
-                    }
-                }
+                            EnableMobileFileUpload: 'false',
+                        },
+                    },
+                },
             };
             assert.equal(canUploadFiles(state), true);
         });
@@ -94,14 +94,14 @@ describe('FileUtils.canUploadFiles', function() {
                     general: {
                         license: {
                             IsLicensed: 'true',
-                            Compliance: 'true'
+                            Compliance: 'true',
                         },
                         config: {
                             EnableFileAttachments: 'true',
-                            EnableMobileFileUpload: 'true'
-                        }
-                    }
-                }
+                            EnableMobileFileUpload: 'true',
+                        },
+                    },
+                },
             };
             assert.equal(canUploadFiles(state), true);
         });
@@ -114,14 +114,14 @@ describe('FileUtils.canUploadFiles', function() {
                     general: {
                         license: {
                             IsLicensed: 'true',
-                            Compliance: 'true'
+                            Compliance: 'true',
                         },
                         config: {
                             EnableFileAttachments: 'true',
-                            EnableMobileFileUpload: 'false'
-                        }
-                    }
-                }
+                            EnableMobileFileUpload: 'false',
+                        },
+                    },
+                },
             };
             assert.equal(canUploadFiles(state), false);
         });

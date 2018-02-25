@@ -31,7 +31,7 @@ export default class MetricsSettings extends AdminSettings {
 
         return {
             enable: settings.Enable,
-            listenAddress: settings.ListenAddress
+            listenAddress: settings.ListenAddress,
         };
     }
 

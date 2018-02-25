@@ -115,5 +115,5 @@ module.exports = {
             assert.containsText('@languageDesc', 'English');
 
         sidebarLeftPage.click('@sidebarHeaderDropdownButton');
-    }
+    },
 };

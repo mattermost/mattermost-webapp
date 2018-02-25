@@ -29,5 +29,5 @@ CollapseView.propTypes = {
     onExpandSection: PropTypes.func.isRequired,
     globalNotifyLevel: PropTypes.string,
     memberNotifyLevel: PropTypes.string.isRequired,
-    section: PropTypes.string.isRequired
+    section: PropTypes.string.isRequired,
 };

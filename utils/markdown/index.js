@@ -15,7 +15,7 @@ export function formatWithRenderer(text, renderer) {
         sanitize: true,
         gfm: true,
         tables: true,
-        mangle: false
+        mangle: false,
     };
 
     return marked(text, markdownOptions);

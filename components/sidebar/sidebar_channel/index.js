@@ -77,7 +77,7 @@ function makeMapStateToProps() {
             showUnreadForMsgs,
             unreadMsgs,
             unreadMentions,
-            membersCount
+            membersCount,
         };
     };
 }
@@ -86,8 +86,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             savePreferences,
-            leaveChannel
-        }, dispatch)
+            leaveChannel,
+        }, dispatch),
     };
 }
 

@@ -43,11 +43,11 @@ export default class RhsRootPost extends React.Component {
         isBusy: PropTypes.bool,
         isEmbedVisible: PropTypes.bool,
         enableEmojiPicker: PropTypes.bool.isRequired,
-        enablePostUsernameOverride: PropTypes.bool.isRequired
+        enablePostUsernameOverride: PropTypes.bool.isRequired,
     };
 
     static defaultProps = {
-        commentCount: 0
+        commentCount: 0,
     };
 
     constructor(props) {
@@ -57,7 +57,7 @@ export default class RhsRootPost extends React.Component {
             currentTeamDisplayName: TeamStore.getCurrent().name,
             showEmojiPicker: false,
             testStateObj: true,
-            dropdownOpened: false
+            dropdownOpened: false,
         };
     }
 
@@ -147,7 +147,7 @@ export default class RhsRootPost extends React.Component {
 
         this.setState({
             showEmojiPicker,
-            dropdownOpened: showEmojiPicker
+            dropdownOpened: showEmojiPicker,
         });
     };
 
@@ -186,7 +186,7 @@ export default class RhsRootPost extends React.Component {
 
     handleDropdownOpened = (isOpened) => {
         this.setState({
-            dropdownOpened: isOpened
+            dropdownOpened: isOpened,
         });
     };
 

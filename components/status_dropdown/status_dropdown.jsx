@@ -18,18 +18,18 @@ export default class StatusDropdown extends React.Component {
         userId: PropTypes.string.isRequired,
         profilePicture: PropTypes.string,
         actions: PropTypes.shape({
-            setStatus: PropTypes.func.isRequired
-        }).isRequired
+            setStatus: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     static defaultProps = {
         userId: '',
         profilePicture: '',
-        status: UserStatuses.OFFLINE
+        status: UserStatuses.OFFLINE,
     }
 
     state = {
-        showDropdown: false
+        showDropdown: false,
     }
 
     onToggle = (showDropdown) => {
@@ -43,7 +43,7 @@ export default class StatusDropdown extends React.Component {
     setStatus = (status) => {
         this.props.actions.setStatus({
             user_id: this.props.userId,
-            status
+            status,
         });
         this.closeDropdown();
     }
@@ -120,7 +120,7 @@ export default class StatusDropdown extends React.Component {
             this.renderStatusOnlineAction(),
             this.renderStatusAwayAction(),
             this.renderStatusDndAction(),
-            this.renderStatusOfflineAction()
+            this.renderStatusOfflineAction(),
         ];
         return (
             <Dropdown

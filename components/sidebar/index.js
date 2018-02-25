@@ -15,7 +15,7 @@ import {
     getSortedDirectChannelIds,
     getSortedFavoriteChannelIds,
     getSortedPublicChannelIds,
-    getSortedPrivateChannelIds
+    getSortedPrivateChannelIds,
 } from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getBool as getBoolPreference} from 'mattermost-redux/selectors/entities/preferences';
@@ -77,15 +77,15 @@ function mapStateToProps(state) {
         currentUser: getCurrentUser(state),
         unreads: getUnreads(state),
         showCreatePublicChannelOption,
-        showCreatePrivateChannelOption
+        showCreatePrivateChannelOption,
     };
 }
 
 function mapDispatchToProps() {
     return {
         actions: {
-            goToChannelById
-        }
+            goToChannelById,
+        },
     };
 }
 

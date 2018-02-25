@@ -48,7 +48,7 @@ function mapStateToProps(state) {
         experimentalPrimaryTeam,
         ldapLoginFieldName,
         samlLoginButtonText,
-        siteName
+        siteName,
     };
 }
 

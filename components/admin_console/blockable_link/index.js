@@ -11,15 +11,15 @@ import BlockableLink from './blockable_link.jsx';
 
 function mapStateToProps(state) {
     return {
-        blocked: getNavigationBlocked(state)
+        blocked: getNavigationBlocked(state),
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            deferNavigation
-        }, dispatch)
+            deferNavigation,
+        }, dispatch),
     };
 }
 

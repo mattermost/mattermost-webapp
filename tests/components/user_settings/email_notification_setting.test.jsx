@@ -9,7 +9,7 @@ import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import EmailNotificationSetting from 'components/user_settings/notifications/email_notification_setting.jsx';
 
 jest.mock('actions/user_actions.jsx', () => ({
-    savePreference: jest.fn()
+    savePreference: jest.fn(),
 }));
 
 describe('components/user_settings/notifications/EmailNotificationSetting', () => {
@@ -24,7 +24,7 @@ describe('components/user_settings/notifications/EmailNotificationSetting', () =
         saving: false,
         sendEmailNotifications: true,
         enableEmailBatching: false,
-        siteName: 'Mattermost'
+        siteName: 'Mattermost',
     };
 
     test('should match snapshot', () => {
@@ -40,7 +40,7 @@ describe('components/user_settings/notifications/EmailNotificationSetting', () =
     test('should match snapshot, enabled email batching', () => {
         const props = {
             ...requiredProps,
-            enableEmailBatching: true
+            enableEmailBatching: true,
         };
         const wrapper = mountWithIntl(<EmailNotificationSetting {...props}/>);
 
@@ -52,7 +52,7 @@ describe('components/user_settings/notifications/EmailNotificationSetting', () =
     test('should match snapshot, not send email notifications', () => {
         const props = {
             ...requiredProps,
-            sendEmailNotifications: false
+            sendEmailNotifications: false,
         };
         const wrapper = shallow(<EmailNotificationSetting {...props}/>);
 
@@ -63,7 +63,7 @@ describe('components/user_settings/notifications/EmailNotificationSetting', () =
         const props = {
             ...requiredProps,
             sendEmailNotifications: false,
-            activeSection: ''
+            activeSection: '',
         };
         const wrapper = shallow(<EmailNotificationSetting {...props}/>);
 
@@ -74,7 +74,7 @@ describe('components/user_settings/notifications/EmailNotificationSetting', () =
         const props = {
             ...requiredProps,
             sendEmailNotifications: true,
-            activeSection: ''
+            activeSection: '',
         };
         const wrapper = shallow(<EmailNotificationSetting {...props}/>);
 
@@ -86,7 +86,7 @@ describe('components/user_settings/notifications/EmailNotificationSetting', () =
             ...requiredProps,
             sendEmailNotifications: true,
             activeSection: '',
-            enableEmail: true
+            enableEmail: true,
         };
         const wrapper = shallow(<EmailNotificationSetting {...props}/>);
 
@@ -152,7 +152,7 @@ describe('components/user_settings/notifications/EmailNotificationSetting', () =
     test('should pass componentWillReceiveProps', () => {
         const nextProps = {
             enableEmail: true,
-            emailInterval: 30
+            emailInterval: 30,
         };
         const wrapper = mountWithIntl(<EmailNotificationSetting {...requiredProps}/>);
         wrapper.setProps(nextProps);

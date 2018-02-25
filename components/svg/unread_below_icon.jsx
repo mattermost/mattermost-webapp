@@ -28,5 +28,5 @@ const style = {
     fillRule: 'evenodd',
     clipRule: 'evenodd',
     strokeLinejoin: 'round',
-    strokeMiterlimit: 1.41421
+    strokeMiterlimit: 1.41421,
 };

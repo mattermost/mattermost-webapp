@@ -51,7 +51,7 @@ export default class AbstractCommand extends React.PureComponent {
         /**
         * The async function to run when the action button is pressed
         */
-        action: PropTypes.func.isRequired
+        action: PropTypes.func.isRequired,
     }
 
     constructor(props) {
@@ -73,7 +73,7 @@ export default class AbstractCommand extends React.PureComponent {
             autocompleteHint: command.auto_complete_hint || '',
             autocompleteDescription: command.auto_complete_desc || '',
             saving: false,
-            clientError: null
+            clientError: null,
         };
     }
 
@@ -86,7 +86,7 @@ export default class AbstractCommand extends React.PureComponent {
 
         this.setState({
             saving: true,
-            clientError: ''
+            clientError: '',
         });
 
         let triggerWord = this.state.trigger.trim().toLowerCase();
@@ -103,7 +103,7 @@ export default class AbstractCommand extends React.PureComponent {
             username: this.state.username,
             icon_url: this.state.iconUrl,
             auto_complete: this.state.autocomplete,
-            team_id: this.props.team.id
+            team_id: this.props.team.id,
         };
 
         if (command.auto_complete) {
@@ -119,7 +119,7 @@ export default class AbstractCommand extends React.PureComponent {
                         id='add_command.triggerRequired'
                         defaultMessage='A trigger word is required'
                     />
-                )
+                ),
             });
 
             return;
@@ -133,7 +133,7 @@ export default class AbstractCommand extends React.PureComponent {
                         id='add_command.triggerInvalidSlash'
                         defaultMessage='A trigger word cannot begin with a /'
                     />
-                )
+                ),
             });
 
             return;
@@ -147,7 +147,7 @@ export default class AbstractCommand extends React.PureComponent {
                         id='add_command.triggerInvalidSpace'
                         defaultMessage='A trigger word must not contain spaces'
                     />
-                )
+                ),
             });
             return;
         }
@@ -162,10 +162,10 @@ export default class AbstractCommand extends React.PureComponent {
                         defaultMessage='A trigger word must contain between {min} and {max} characters'
                         values={{
                             min: Constants.MIN_TRIGGER_LENGTH,
-                            max: Constants.MAX_TRIGGER_LENGTH
+                            max: Constants.MAX_TRIGGER_LENGTH,
                         }}
                     />
-                )
+                ),
             });
 
             return;
@@ -179,7 +179,7 @@ export default class AbstractCommand extends React.PureComponent {
                         id='add_command.urlRequired'
                         defaultMessage='A request URL is required'
                     />
-                )
+                ),
             });
 
             return;
@@ -190,61 +190,61 @@ export default class AbstractCommand extends React.PureComponent {
 
     updateDisplayName = (e) => {
         this.setState({
-            displayName: e.target.value
+            displayName: e.target.value,
         });
     }
 
     updateDescription = (e) => {
         this.setState({
-            description: e.target.value
+            description: e.target.value,
         });
     }
 
     updateTrigger = (e) => {
         this.setState({
-            trigger: e.target.value
+            trigger: e.target.value,
         });
     }
 
     updateUrl = (e) => {
         this.setState({
-            url: e.target.value
+            url: e.target.value,
         });
     }
 
     updateMethod = (e) => {
         this.setState({
-            method: e.target.value
+            method: e.target.value,
         });
     }
 
     updateUsername = (e) => {
         this.setState({
-            username: e.target.value
+            username: e.target.value,
         });
     }
 
     updateIconUrl = (e) => {
         this.setState({
-            iconUrl: e.target.value
+            iconUrl: e.target.value,
         });
     }
 
     updateAutocomplete = (e) => {
         this.setState({
-            autocomplete: e.target.checked
+            autocomplete: e.target.checked,
         });
     }
 
     updateAutocompleteHint = (e) => {
         this.setState({
-            autocompleteHint: e.target.value
+            autocompleteHint: e.target.value,
         });
     }
 
     updateAutocompleteDescription = (e) => {
         this.setState({
-            autocompleteDescription: e.target.value
+            autocompleteDescription: e.target.value,
         });
     }
 
@@ -437,7 +437,7 @@ export default class AbstractCommand extends React.PureComponent {
                                                         defaultMessage='see list of built-in slash commands'
                                                     />
                                                 </a>
-                                            )
+                                            ),
                                         }}
                                     />
                                 </div>

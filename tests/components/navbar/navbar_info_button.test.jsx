@@ -10,9 +10,9 @@ describe('components/navbar/NavbarInfoButton', () => {
     const baseProps = {
         channel: {
             id: 'channel_id',
-            header: 'channel header'
+            header: 'channel header',
         },
-        showEditChannelHeaderModal: jest.fn()
+        showEditChannelHeaderModal: jest.fn(),
     };
 
     test('should match snapshot, with channel header', () => {

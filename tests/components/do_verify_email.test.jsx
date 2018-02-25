@@ -11,11 +11,11 @@ describe('components/DoVerifyEmail', () => {
         location: {
             query: {
                 token: '9f392f193973g11ggh398h39hg0ghH',
-                email: 'test@example.com'
-            }
+                email: 'test@example.com',
+            },
         },
         siteName: 'Mattermost',
-        actions: {verifyUserEmail: jest.fn()}
+        actions: {verifyUserEmail: jest.fn()},
     };
 
     test('should match snapshot', () => {

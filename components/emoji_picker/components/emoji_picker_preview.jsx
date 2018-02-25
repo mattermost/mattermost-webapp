@@ -9,7 +9,7 @@ import EmojiStore from 'stores/emoji_store.jsx';
 
 export default class EmojiPickerPreview extends React.Component {
     static propTypes = {
-        emoji: PropTypes.object
+        emoji: PropTypes.object,
     }
 
     render() {

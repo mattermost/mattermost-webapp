@@ -15,11 +15,11 @@ import SpinnerButton from 'components/spinner_button.jsx';
 export default class AddEmoji extends React.Component {
     static propTypes = {
         team: PropTypes.object,
-        user: PropTypes.object
+        user: PropTypes.object,
     };
 
     static contextTypes = {
-        router: PropTypes.object.isRequired
+        router: PropTypes.object.isRequired,
     };
 
     constructor(props) {
@@ -35,7 +35,7 @@ export default class AddEmoji extends React.Component {
             image: null,
             imageUrl: '',
             saving: false,
-            error: null
+            error: null,
         };
     }
 
@@ -48,12 +48,12 @@ export default class AddEmoji extends React.Component {
 
         this.setState({
             saving: true,
-            error: null
+            error: null,
         });
 
         const emoji = {
             creator_id: this.props.user.id,
-            name: this.state.name.trim().toLowerCase()
+            name: this.state.name.trim().toLowerCase(),
         };
 
         // trim surrounding colons if the user accidentally included them in the name
@@ -69,7 +69,7 @@ export default class AddEmoji extends React.Component {
                         id='add_emoji.nameRequired'
                         defaultMessage='A name is required for the emoji'
                     />
-                )
+                ),
             });
 
             return;
@@ -81,7 +81,7 @@ export default class AddEmoji extends React.Component {
                         id='add_emoji.nameInvalid'
                         defaultMessage="An emoji's name can only contain lowercase letters, numbers, and the symbols '-' and '_'."
                     />
-                )
+                ),
             });
 
             return;
@@ -93,7 +93,7 @@ export default class AddEmoji extends React.Component {
                         id='add_emoji.nameTaken'
                         defaultMessage='This name is already in use by a system emoji. Please choose another name.'
                     />
-                )
+                ),
             });
 
             return;
@@ -107,7 +107,7 @@ export default class AddEmoji extends React.Component {
                         id='add_emoji.imageRequired'
                         defaultMessage='An image is required for the emoji'
                     />
-                )
+                ),
             });
 
             return;
@@ -122,7 +122,7 @@ export default class AddEmoji extends React.Component {
             (err) => {
                 this.setState({
                     saving: false,
-                    error: err.message
+                    error: err.message,
                 });
             }
         );
@@ -130,7 +130,7 @@ export default class AddEmoji extends React.Component {
 
     updateName(e) {
         this.setState({
-            name: e.target.value
+            name: e.target.value,
         });
     }
 
@@ -138,7 +138,7 @@ export default class AddEmoji extends React.Component {
         if (e.target.files.length === 0) {
             this.setState({
                 image: null,
-                imageUrl: ''
+                imageUrl: '',
             });
 
             return;
@@ -150,7 +150,7 @@ export default class AddEmoji extends React.Component {
         reader.onload = () => {
             this.setState({
                 image,
-                imageUrl: reader.result
+                imageUrl: reader.result,
             });
         };
         reader.readAsDataURL(image);
@@ -189,7 +189,7 @@ export default class AddEmoji extends React.Component {
                                         className='emoticon'
                                         style={{backgroundImage: 'url(' + this.state.imageUrl + ')'}}
                                     />
-                                )
+                                ),
                             }}
                         />
                     </div>

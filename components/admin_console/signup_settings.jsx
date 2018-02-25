@@ -30,7 +30,7 @@ export default class SignupSettings extends AdminSettings {
         return {
             requireEmailVerification: config.EmailSettings.RequireEmailVerification,
             inviteSalt: config.EmailSettings.InviteSalt,
-            enableOpenServer: config.TeamSettings.EnableOpenServer
+            enableOpenServer: config.TeamSettings.EnableOpenServer,
         };
     }
 

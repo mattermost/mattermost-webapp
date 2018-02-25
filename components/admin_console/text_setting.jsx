@@ -15,22 +15,22 @@ export default class TextSetting extends React.Component {
             helpText: PropTypes.node,
             value: PropTypes.oneOfType([
                 PropTypes.string,
-                PropTypes.number
+                PropTypes.number,
             ]).isRequired,
             maxLength: PropTypes.number,
             onChange: PropTypes.func,
             disabled: PropTypes.bool,
             type: PropTypes.oneOf([
                 'input',
-                'textarea'
-            ])
+                'textarea',
+            ]),
         };
     }
 
     static get defaultProps() {
         return {
             type: 'input',
-            maxLength: null
+            maxLength: null,
         };
     }
 

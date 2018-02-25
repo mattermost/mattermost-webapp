@@ -70,7 +70,7 @@ export default class Setup extends React.Component {
                         id='mfa.setup.required'
                         defaultMessage='<strong>Multi-factor authentication is required on {siteName}.</strong>'
                         values={{
-                            siteName: this.props.siteName
+                            siteName: this.props.siteName,
                         }}
                     />
                 </p>
@@ -111,7 +111,7 @@ export default class Setup extends React.Component {
                                 id='mfa.setup.secret'
                                 defaultMessage='Secret: {secret}'
                                 values={{
-                                    secret: this.state.secret
+                                    secret: this.state.secret,
                                 }}
                             />
                         </p>
@@ -148,9 +148,9 @@ export default class Setup extends React.Component {
 
 Setup.propTypes = {
     siteName: PropTypes.string,
-    enforceMultifactorAuthentication: PropTypes.bool.isRequired
+    enforceMultifactorAuthentication: PropTypes.bool.isRequired,
 };
 
 const style = {
-    qrCode: {maxHeight: 170}
+    qrCode: {maxHeight: 170},
 };

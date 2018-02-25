@@ -16,7 +16,7 @@ describe('components/channel_notifications_modal/ExpandView', () => {
         serverError: '',
         onChange: () => {},             //eslint-disable-line no-empty-function
         onCollapseSection: () => {},    //eslint-disable-line no-empty-function
-        onSubmit: () => {}              //eslint-disable-line no-empty-function
+        onSubmit: () => {},              //eslint-disable-line no-empty-function
     };
 
     test('should match snapshot, DESKTOP on expanded view', () => {

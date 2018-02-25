@@ -7,7 +7,7 @@ import PersistGate from './persist_gate';
 
 function mapStateToProps(state) {
     return {
-        initialized: state.storage.initialized
+        initialized: state.storage.initialized,
     };
 }
 

@@ -40,7 +40,7 @@ function mapStateToProps(state) {
         experimentalPrimaryTeam,
         helpLink,
         reportAProblemLink,
-        restrictTeamInvite
+        restrictTeamInvite,
     };
 }
 

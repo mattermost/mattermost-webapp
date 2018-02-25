@@ -4,13 +4,13 @@ export function formatChannelDoughtnutData(totalPublic, totalPrivate) {
     const channelTypeData = {
         labels: [
             Utils.localizeMessage('analytics.system.publicChannels', 'Public Channels'),
-            Utils.localizeMessage('analytics.system.privateGroups', 'Private Channels')
+            Utils.localizeMessage('analytics.system.privateGroups', 'Private Channels'),
         ],
         datasets: [{
             data: [totalPublic, totalPrivate],
             backgroundColor: ['#46BFBD', '#FDB45C'],
-            hoverBackgroundColor: ['#5AD3D1', '#FFC870']
-        }]
+            hoverBackgroundColor: ['#5AD3D1', '#FFC870'],
+        }],
     };
 
     return channelTypeData;
@@ -21,13 +21,13 @@ export function formatPostDoughtnutData(filePosts, hashtagPosts, totalPosts) {
         labels: [
             Utils.localizeMessage('analytics.system.totalFilePosts', 'Posts with Files'),
             Utils.localizeMessage('analytics.system.totalHashtagPosts', 'Posts with Hashtags'),
-            Utils.localizeMessage('analytics.system.textPosts', 'Posts with Text-only')
+            Utils.localizeMessage('analytics.system.textPosts', 'Posts with Text-only'),
         ],
         datasets: [{
             data: [filePosts, hashtagPosts, (totalPosts - filePosts - hashtagPosts)],
             backgroundColor: ['#46BFBD', '#F7464A', '#FDB45C'],
-            hoverBackgroundColor: ['#5AD3D1', '#FF5A5E', '#FFC870']
-        }]
+            hoverBackgroundColor: ['#5AD3D1', '#FF5A5E', '#FFC870'],
+        }],
     };
 
     return postTypeData;
@@ -43,8 +43,8 @@ export function formatPostsPerDayData(data) {
             pointBorderColor: '#fff',
             pointHoverBackgroundColor: '#fff',
             pointHoverBorderColor: 'rgba(151,187,205,1)',
-            data: []
-        }]
+            data: [],
+        }],
     };
 
     for (var index in data) {
@@ -69,8 +69,8 @@ export function formatUsersWithPostsPerDayData(data) {
             pointBorderColor: '#fff',
             pointHoverBackgroundColor: '#fff',
             pointHoverBorderColor: 'rgba(151,187,205,1)',
-            data: []
-        }]
+            data: [],
+        }],
     };
 
     for (var index in data) {

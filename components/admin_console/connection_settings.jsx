@@ -30,7 +30,7 @@ export default class ConnectionSettings extends AdminSettings {
     getStateFromConfig(config) {
         return {
             allowCorsFrom: config.ServiceSettings.AllowCorsFrom,
-            enableInsecureOutgoingConnections: config.ServiceSettings.EnableInsecureOutgoingConnections
+            enableInsecureOutgoingConnections: config.ServiceSettings.EnableInsecureOutgoingConnections,
         };
     }
 

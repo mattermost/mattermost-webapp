@@ -27,7 +27,7 @@ describe('Actions.Storage', () => {
             store.getState().storage.storage,
             {
                 unknown_test1: 'value1',
-                unknown_test2: 'value2'
+                unknown_test2: 'value2',
             }
         );
         await Actions.removeItem('test1')(store.dispatch, store.getState);
@@ -52,7 +52,7 @@ describe('Actions.Storage', () => {
             store.getState().storage.storage,
             {
                 test1: 'value1',
-                test2: 'value2'
+                test2: 'value2',
             }
         );
         await Actions.removeGlobalItem('test1')(store.dispatch, store.getState);
@@ -106,7 +106,7 @@ describe('Actions.Storage', () => {
     it('rehydrate', async () => {
         const persistor = {
             pause: jest.fn(),
-            resume: jest.fn()
+            resume: jest.fn(),
         };
         await Actions.storageRehydrate({test: '123'})(store.dispatch, persistor);
         assert.deepEqual(

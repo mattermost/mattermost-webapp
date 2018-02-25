@@ -10,7 +10,7 @@ import ChannelInviteModal from './channel_invite_modal.jsx';
 
 function mapStateToProps(state, ownProps) {
     return {
-        ...ownProps
+        ...ownProps,
     };
 }
 
@@ -18,8 +18,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getProfilesNotInChannel,
-            getTeamStats
-        }, dispatch)
+            getTeamStats,
+        }, dispatch),
     };
 }
 

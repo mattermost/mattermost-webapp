@@ -17,7 +17,7 @@ export default class Logs extends React.PureComponent {
         page: PropTypes.number.isRequired,
         perPage: PropTypes.number.isRequired,
         nextPage: PropTypes.func.isRequired,
-        previousPage: PropTypes.func.isRequired
+        previousPage: PropTypes.func.isRequired,
     }
 
     constructor(props) {
@@ -26,7 +26,7 @@ export default class Logs extends React.PureComponent {
         this.nextPage = this.nextPage.bind(this);
         this.previousPage = this.previousPage.bind(this);
         this.state = {
-            nextDisabled: false
+            nextDisabled: false,
         };
     }
 
@@ -100,7 +100,7 @@ export default class Logs extends React.PureComponent {
         for (let i = 0; i < this.props.logs.length; i++) {
             const style = {
                 whiteSpace: 'nowrap',
-                fontFamily: 'monospace'
+                fontFamily: 'monospace',
             };
 
             if (this.props.logs[i].indexOf('[EROR]') > 0) {

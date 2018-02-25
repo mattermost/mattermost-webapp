@@ -64,9 +64,9 @@ export default class PremadeThemeChooser extends React.Component {
 PremadeThemeChooser.propTypes = {
     theme: PropTypes.object.isRequired,
     updateTheme: PropTypes.func.isRequired,
-    allowedThemes: PropTypes.arrayOf(PropTypes.string)
+    allowedThemes: PropTypes.arrayOf(PropTypes.string),
 };
 
 PremadeThemeChooser.defaultProps = {
-    allowedThemes: []
+    allowedThemes: [],
 };

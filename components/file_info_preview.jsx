@@ -18,7 +18,7 @@ export default class FileInfoPreview extends React.PureComponent {
         /**
          * String containing file URL
          */
-        fileUrl: PropTypes.string.isRequired
+        fileUrl: PropTypes.string.isRequired,
     };
 
     render() {

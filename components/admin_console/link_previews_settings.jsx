@@ -25,7 +25,7 @@ export default class LinkPreviewsSettings extends AdminSettings {
 
     getStateFromConfig(config) {
         return {
-            enableLinkPreviews: config.ServiceSettings.EnableLinkPreviews
+            enableLinkPreviews: config.ServiceSettings.EnableLinkPreviews,
         };
     }
 

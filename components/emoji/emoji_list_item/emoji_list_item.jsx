@@ -46,15 +46,15 @@ export default class EmojiListItem extends React.Component {
             /**
              * Delete a custom emoji.
              */
-            deleteCustomEmoji: PropTypes.func.isRequired
-        }).isRequired
+            deleteCustomEmoji: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     static defaultProps = {
         emoji: {},
         currentUserId: '',
         creatorDisplayName: '',
-        isSystemAdmin: false
+        isSystemAdmin: false,
     }
 
     handleDelete = () => {

@@ -3,6 +3,7 @@
 
 import marked from 'marked';
 
+import * as PostUtils from 'utils/post_utils.jsx';
 import * as SyntaxHighlighting from 'utils/syntax_highlighting.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import {isUrlSafe} from 'utils/url.jsx';
@@ -17,7 +18,6 @@ export default class Renderer extends marked.Renderer {
 
         this.formattingOptions = formattingOptions;
     }
-
     code(code, language) {
         let usedLanguage = language || '';
         usedLanguage = usedLanguage.toLowerCase();
@@ -119,18 +119,42 @@ export default class Renderer extends marked.Renderer {
                 }
             }
         }
-        let out = '<img src="' + src + '" alt="' + text + '"';
-        if (title) {
-            out += ' title="' + title + '"';
+
+        //After looking into the mark package, there appears to be no in-line level render function in marked.js
+        //to render a video. Since we just want to render gifv files like we do gifs, we can check if
+        //the URL src is a gifv, then render it in a <video> HTML5 element rather than an <img> element without
+        //having to touch the mark package. There is some DRY issues here, but I am not sure how to overcome that.
+        const regex = /.+\/(.+\.(gifv))(?:\?.*)?$/i;
+        const match = src.match(regex);
+        let out = '';
+
+        if (match) {
+            const jpgSrc = src.substr(0, src.lastIndexOf('.gifv')) + '.jpg';
+            const mp4Src = src.substr(0, src.lastIndexOf('.gifv')) + '.mp4';
+            out = '<video poster="' + jpgSrc + '" preload="auto" autoplay="autoplay" muted="muted" loop="loop"';
+
+            if (dimensions.length > 0) {
+                out += ' width="' + dimensions[0] + '"';
+            }
+            if (dimensions.length > 1) {
+                out += ' height="' + dimensions[1] + '"';
+            }
+            out += '><source src="' + mp4Src + '" type="video/mp4"></video>';
+        } else {
+            src = PostUtils.getImageSrc(src, this.formattingOptions.proxyImages);
+            out = '<img src="' + src + '" alt="' + text + '"';
+            if (title) {
+                out += ' title="' + title + '"';
+            }
+            if (dimensions.length > 0) {
+                out += ' width="' + dimensions[0] + '"';
+            }
+            if (dimensions.length > 1) {
+                out += ' height="' + dimensions[1] + '"';
+            }
+            out += ' class="markdown-inline-img"';
+            out += this.options.xhtml ? '/>' : '>';
         }
-        if (dimensions.length > 0) {
-            out += ' width="' + dimensions[0] + '"';
-        }
-        if (dimensions.length > 1) {
-            out += ' height="' + dimensions[1] + '"';
-        }
-        out += ' class="markdown-inline-img"';
-        out += this.options.xhtml ? '/>' : '>';
         return out;
     }
 
@@ -169,7 +193,7 @@ export default class Renderer extends marked.Renderer {
         // special case for team invite links, channel links, and permalinks that are inside the app
         let internalLink = false;
         if (this.formattingOptions.siteURL) {
-            const pattern = new RegExp('^' + TextFormatting.escapeRegex(this.formattingOptions.siteURL) + '\\/(?:signup_user_complete|[^\\/]+\\/(?:pl|channels))\\/');
+            const pattern = new RegExp('^' + TextFormatting.escapeRegex(this.formattingOptions.siteURL) + '\\/(?:signup_user_complete|[^\\/]+\\/(?:pl|channels|messages))\\/');
 
             internalLink = pattern.test(outHref);
         }

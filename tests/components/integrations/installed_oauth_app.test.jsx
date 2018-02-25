@@ -21,11 +21,11 @@ describe('components/integrations/InstalledOAuthApp', () => {
         icon_url: 'https://test.com/icon',
         is_trusted: true,
         update_at: 1501365458934,
-        callback_urls: ['https://test.com/callback', 'https://test.com/callback2']
+        callback_urls: ['https://test.com/callback', 'https://test.com/callback2'],
     };
     const regenOAuthAppSecretRequest = {
         status: 'not_started',
-        error: null
+        error: null,
     };
 
     const baseProps = {
@@ -34,7 +34,7 @@ describe('components/integrations/InstalledOAuthApp', () => {
         regenOAuthAppSecretRequest,
         onRegenerateSecret: jest.fn(),
         onDelete: jest.fn(),
-        filter: ''
+        filter: '',
     };
 
     test('should match snapshot', () => {

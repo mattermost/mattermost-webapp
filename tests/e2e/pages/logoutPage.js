@@ -13,7 +13,7 @@ const logoutCommands = {
             click('@mainMenuButton').
             waitForElementVisible('@logoutButton', Constants.DEFAULT_WAIT).
             click('@logoutButton');
-    }
+    },
 };
 
 module.exports = {
@@ -21,6 +21,6 @@ module.exports = {
     commands: [logoutCommands],
     elements: {
         mainMenuButton: {selector: '#sidebarHeaderDropdownButton'},
-        logoutButton: {selector: '#logout'}
-    }
+        logoutButton: {selector: '#logout'},
+    },
 };

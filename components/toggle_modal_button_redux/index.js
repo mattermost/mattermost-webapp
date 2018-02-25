@@ -11,8 +11,8 @@ import ModalToggleButtonRedux from './toggle_modal_button_redux.jsx';
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            openModal
-        }, dispatch)
+            openModal,
+        }, dispatch),
     };
 }
 
