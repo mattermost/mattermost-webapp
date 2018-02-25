@@ -14,7 +14,7 @@ import * as PostUtils from 'utils/post_utils.jsx';
 import PostAttachmentList from '../post_attachment_list.jsx';
 import PostAttachmentOpenGraph from '../post_attachment_opengraph';
 import PostImage from '../post_image';
-import PostMp4 from '../post_mp4'
+import PostMp4 from '../post_mp4';
 
 export default class PostBodyAdditionalContent extends React.PureComponent {
     static propTypes = {
@@ -131,6 +131,15 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         }
     }
 
+    isLinkGifv(link) {
+        const regex = /.+\/(.+\.(gifv))(?:\?.*)?$/i;
+        const match = link.match(regex);
+        if (match && match[1]) {
+            return true;
+        }
+        return false;
+    }
+
     isLinkImage(link) {
         const regex = /.+\/(.+\.(?:jpg|gif|bmp|png|jpeg))(?:\?.*)?$/i;
         const match = link.match(regex);
@@ -170,7 +179,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
             return true;
         }
 
-        if(this.isLinkGifv(link)) {
+        if (this.isLinkGifv(link)) {
             return true;
         }
 

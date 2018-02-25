@@ -118,18 +118,19 @@ export default class Renderer extends marked.Renderer {
                 }
             }
         }
+
         //After looking into the mark package, there appears to be no in-line level render function in marked.js
-        //to render a video. Since we just want to render gifv files like we do gifs, we can check if 
+        //to render a video. Since we just want to render gifv files like we do gifs, we can check if
         //the URL src is a gifv, then render it in a <video> HTML5 element rather than an <img> element without
-        //having to touch the mark package. There is some DRY issues here, but I am not sure how to overcome that. 
+        //having to touch the mark package. There is some DRY issues here, but I am not sure how to overcome that.
         const regex = /.+\/(.+\.(gifv))(?:\?.*)?$/i;
         const match = src.match(regex);
         let out = '';
 
-        if(match) {
-            let jpgSrc = src.substr(0, src.lastIndexOf('.gifv')) + ".jpg";
-            let mp4Src = src.substr(0, src.lastIndexOf('.gifv')) + ".mp4";
-            out = '<video poster=' + jpgSrc + ' preload="auto" autoplay="autoplay" muted="muted" loop="loop" webkit-playsinline="'
+        if (match) {
+            const jpgSrc = src.substr(0, src.lastIndexOf('.gifv')) + '.jpg';
+            const mp4Src = src.substr(0, src.lastIndexOf('.gifv')) + '.mp4';
+            out = '<video poster="' + jpgSrc + '" preload="auto" autoplay="autoplay" muted="muted" loop="loop"';
 
             if (dimensions.length > 0) {
                 out += ' width="' + dimensions[0] + '"';
@@ -137,7 +138,7 @@ export default class Renderer extends marked.Renderer {
             if (dimensions.length > 1) {
                 out += ' height="' + dimensions[1] + '"';
             }
-            out += '><source src=' + mp4Src + ' type="video/mp4"></video>'
+            out += '><source src="' + mp4Src + '" type="video/mp4"></video>';
         } else {
             out = '<img src="' + src + '" alt="' + text + '"';
             if (title) {
