@@ -5,12 +5,10 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Posts} from 'mattermost-redux/constants';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import Constants, {StoragePrefixes} from 'utils/constants.jsx';
 import CreatePost from 'components/create_post/create_post.jsx';
 import * as Utils from 'utils/utils.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
-import * as PostActions from 'actions/post_actions.jsx';
 
 jest.mock('actions/global_actions.jsx', () => ({
     emitLocalUserTypingEvent: jest.fn(),
@@ -19,13 +17,13 @@ jest.mock('actions/global_actions.jsx', () => ({
     showChannelPurposeUpdateModal: jest.fn(),
     showChannelNameUpdateModal: jest.fn(),
     toggleShortcutsModal: jest.fn(),
-    postListScrollChange: jest.fn()
+    postListScrollChange: jest.fn(),
 }));
 
 jest.mock('react-dom', () => ({
     findDOMNode: () => ({
-        blur: jest.fn()
-    })
+        blur: jest.fn(),
+    }),
 }));
 
 jest.mock('actions/post_actions.jsx', () => ({
@@ -34,25 +32,26 @@ jest.mock('actions/post_actions.jsx', () => ({
         return new Promise((resolve) => {
             process.nextTick(() => resolve());
         });
-    })
+    }),
 }));
 
 const KeyCodes = Constants.KeyCodes;
 const currentTeamIdProp = 'r7rws4y7ppgszym3pdd5kaibfa';
 const currentUserIdProp = 'zaktnt8bpbgu8mb6ez9k64r7sa';
-const showTutorialTipProp = '999';
+const showTutorialTipProp = false;
 const fullWidthTextBoxProp = true;
 const recentPostIdInChannelProp = 'a';
+const latestReplyablePostIdProp = 'a';
 
 const currentChannelProp = {
     id: 'owsyt8n43jfxjpzh9np93mx1wa',
-    type: 'O'
+    type: 'O',
 };
 const currentChannelMembersCountProp = 9;
 const draftProp = {
     message: '',
     uploadsInProgress: [],
-    fileInfos: []
+    fileInfos: [],
 };
 
 const ctrlSendProp = false;
@@ -69,8 +68,10 @@ const actionsProp = {
     addReaction: emptyFunction,
     removeReaction: emptyFunction,
     clearDraftUploads: emptyFunction,
+    onSubmitPost: emptyFunction,
+    selectPostFromRightHandSideSearchByPostId: emptyFunction,
     setDraft: emptyFunction,
-    setEditingPost: emptyFunction
+    setEditingPost: emptyFunction,
 };
 
 function createPost({
@@ -82,10 +83,13 @@ function createPost({
     fullWidthTextBox = fullWidthTextBoxProp,
     draft = draftProp,
     recentPostIdInChannel = recentPostIdInChannelProp,
+    latestReplyablePostId = latestReplyablePostIdProp,
     actions = actionsProp,
     ctrlSend = ctrlSendProp,
     currentUsersLatestPost = currentUsersLatestPostProp,
-    commentCountForPost = commentCountForPostProp
+    commentCountForPost = commentCountForPostProp,
+    readOnlyChannel = false,
+    canUploadFiles = true,
 } = {}) {
     return (
         <CreatePost
@@ -97,22 +101,21 @@ function createPost({
             currentChannelMembersCount={currentChannelMembersCount}
             draft={draft}
             recentPostIdInChannel={recentPostIdInChannel}
+            latestReplyablePostId={latestReplyablePostId}
             ctrlSend={ctrlSend}
             currentUsersLatestPost={currentUsersLatestPost}
             commentCountForPost={commentCountForPost}
             actions={actions}
+            readOnlyChannel={readOnlyChannel}
+            canUploadFiles={canUploadFiles}
+            enableTutorial={true}
+            enableConfirmNotificationsToChannel={true}
+            enableEmojiPicker={true}
         />
     );
 }
 
 describe('components/create_post', () => {
-    window.mm_config = {
-        EnableEmojiPicker: 'true',
-        EnableFileAttachments: 'true',
-        EnableConfirmNotificationsToChannel: 'true',
-        EnableTutorial: 'true'
-    };
-
     it('should match snapshot, init', () => {
         const wrapper = shallow(createPost({}));
 
@@ -130,7 +133,7 @@ describe('components/create_post', () => {
         const clearDraftUploads = jest.fn();
         const actions = {
             ...actionsProp,
-            clearDraftUploads
+            clearDraftUploads,
         };
 
         shallow(createPost({actions}));
@@ -142,7 +145,7 @@ describe('components/create_post', () => {
         const wrapper = shallow(createPost());
         const draft = {
             ...draftProp,
-            message: 'test'
+            message: 'test',
         };
 
         expect(wrapper.state('message')).toBe('');
@@ -153,8 +156,8 @@ describe('components/create_post', () => {
         wrapper.setProps({
             currentChannel: {
                 ...currentChannelProp,
-                id: 'owsyt8n43jfxjpzh9np93mx1wb'
-            }
+                id: 'owsyt8n43jfxjpzh9np93mx1wb',
+            },
         });
         expect(wrapper.state('message')).toBe('test');
     });
@@ -178,14 +181,14 @@ describe('components/create_post', () => {
         expect(wrapper.state('message')).toBe(':smile: ');
 
         wrapper.setState({
-            message: 'test'
+            message: 'test',
         });
 
         wrapper.instance().handleEmojiClick({name: 'smile'});
         expect(wrapper.state('message')).toBe('test :smile: ');
 
         wrapper.setState({
-            message: 'test '
+            message: 'test ',
         });
 
         wrapper.instance().handleEmojiClick({name: 'smile'});
@@ -196,15 +199,15 @@ describe('components/create_post', () => {
         const setDraft = jest.fn();
         const draft = {
             ...draftProp,
-            message: 'change'
+            message: 'change',
         };
 
         const wrapper = shallow(
             createPost({
                 actions: {
                     ...actionsProp,
-                    setDraft
-                }
+                    setDraft,
+                },
             })
         );
 
@@ -225,7 +228,7 @@ describe('components/create_post', () => {
         const wrapper = shallow(createPost());
 
         wrapper.setState({
-            message: 'test @all'
+            message: 'test @all',
         });
 
         const form = wrapper.find('#create_post');
@@ -235,7 +238,7 @@ describe('components/create_post', () => {
         expect(wrapper.state('showConfirmModal')).toBe(false);
 
         wrapper.setProps({
-            currentChannelMembersCount: 2
+            currentChannelMembersCount: 2,
         });
 
         form.simulate('Submit', {preventDefault: jest.fn()});
@@ -246,7 +249,7 @@ describe('components/create_post', () => {
         const wrapper = shallow(createPost());
 
         wrapper.setState({
-            message: '/header'
+            message: '/header',
         });
 
         const form = wrapper.find('#create_post');
@@ -258,7 +261,7 @@ describe('components/create_post', () => {
         const wrapper = shallow(createPost());
 
         wrapper.setState({
-            message: '/purpose'
+            message: '/purpose',
         });
 
         const form = wrapper.find('#create_post');
@@ -270,7 +273,7 @@ describe('components/create_post', () => {
         const wrapper = shallow(createPost());
 
         wrapper.setState({
-            message: '/rename'
+            message: '/rename',
         });
 
         const form = wrapper.find('#create_post');
@@ -282,7 +285,7 @@ describe('components/create_post', () => {
         const wrapper = shallow(createPost());
 
         wrapper.setState({
-            message: '/purpose'
+            message: '/purpose',
         });
 
         const form = wrapper.find('#create_post');
@@ -292,13 +295,13 @@ describe('components/create_post', () => {
 
     it('onSubmit test for "/unknown" message ', () => {
         jest.mock('actions/channel_actions.jsx', () => ({
-            executeCommand: jest.fn((message, _args, resolve) => resolve())
+            executeCommand: jest.fn((message, _args, resolve) => resolve()),
         }));
 
         const wrapper = shallow(createPost());
 
         wrapper.setState({
-            message: '/unknown'
+            message: '/unknown',
         });
 
         const form = wrapper.find('#create_post');
@@ -313,13 +316,13 @@ describe('components/create_post', () => {
             createPost({
                 actions: {
                     ...actionsProp,
-                    addReaction
-                }
+                    addReaction,
+                },
             })
         );
 
         wrapper.setState({
-            message: '+:smile:'
+            message: '+:smile:',
         });
 
         const form = wrapper.find('#create_post');
@@ -334,13 +337,13 @@ describe('components/create_post', () => {
             createPost({
                 actions: {
                     ...actionsProp,
-                    removeReaction
-                }
+                    removeReaction,
+                },
             })
         );
 
         wrapper.setState({
-            message: '-:smile:'
+            message: '-:smile:',
         });
 
         const form = wrapper.find('#create_post');
@@ -357,7 +360,7 @@ describe('components/create_post', () => {
         expect(wrapper.state('postError')).toBe(true);
 
         wrapper.setState({
-            message: 'test'
+            message: 'test',
         });
 
         form.simulate('Submit', {preventDefault: jest.fn()});
@@ -366,25 +369,25 @@ describe('components/create_post', () => {
         expect(wrapper.find('#postCreateFooter').hasClass('post-create-footer has-error')).toBe(true);
     });
 
-    it('check for handleFileUploadChange callbak for focus', () => {
-        const wrapper = mountWithIntl(createPost());
+    it('check for handleFileUploadChange callback for focus', () => {
+        const wrapper = shallow(createPost());
         const instance = wrapper.instance();
-        const ref = wrapper.ref('textbox');
+        instance.focusTextbox = jest.fn();
 
-        ref.focus = jest.fn();
         instance.handleFileUploadChange();
-        expect(ref.focus).toBeCalled();
+        expect(instance.focusTextbox).toBeCalled();
+        expect(instance.focusTextbox).toBeCalledWith(true);
     });
 
-    it('check for handleFileUploadStart callbak', () => {
+    it('check for handleFileUploadStart callback', () => {
         const setDraft = jest.fn();
 
         const wrapper = shallow(
             createPost({
                 actions: {
                     ...actionsProp,
-                    setDraft
-                }
+                    setDraft,
+                },
             })
         );
 
@@ -394,23 +397,23 @@ describe('components/create_post', () => {
             ...draftProp,
             uploadsInProgress: [
                 ...draftProp.uploadsInProgress,
-                ...clientIds
-            ]
+                ...clientIds,
+            ],
         };
 
         instance.handleUploadStart(clientIds, currentChannelProp.id);
         expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draft);
     });
 
-    it('check for handleFileUploadComplete callbak', () => {
+    it('check for handleFileUploadComplete callback', () => {
         const setDraft = jest.fn();
 
         const wrapper = shallow(
             createPost({
                 actions: {
                     ...actionsProp,
-                    setDraft
-                }
+                    setDraft,
+                },
             })
         );
 
@@ -420,35 +423,35 @@ describe('components/create_post', () => {
             ...draftProp,
             uploadsInProgress: [
                 ...draftProp.uploadsInProgress,
-                'a'
-            ]
+                'a',
+            ],
         };
 
         wrapper.setProps({draft: uploadsInProgressDraft});
         const fileInfos = {
-            id: 'a'
+            id: 'a',
         };
         const expectedDraft = {
             ...draftProp,
             fileInfos: [
                 ...draftProp.fileInfos,
-                fileInfos
-            ]
+                fileInfos,
+            ],
         };
 
         instance.handleFileUploadComplete(fileInfos, clientIds, currentChannelProp.id);
         expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, expectedDraft);
     });
 
-    it('check for handleUploadError callbak', () => {
+    it('check for handleUploadError callback', () => {
         const setDraft = jest.fn();
 
         const wrapper = shallow(
             createPost({
                 actions: {
                     ...actionsProp,
-                    setDraft
-                }
+                    setDraft,
+                },
             })
         );
 
@@ -457,8 +460,8 @@ describe('components/create_post', () => {
             ...draftProp,
             uploadsInProgress: [
                 ...draftProp.uploadsInProgress,
-                'a'
-            ]
+                'a',
+            ],
         };
 
         wrapper.setProps({draft: uploadsInProgressDraft});
@@ -473,38 +476,35 @@ describe('components/create_post', () => {
         const fileInfos = {
             id: 'a',
             extension: 'jpg',
-            name: 'trimmedFilename'
+            name: 'trimmedFilename',
         };
         const uploadsInProgressDraft = {
             ...draftProp,
             fileInfos: [
                 ...draftProp.fileInfos,
-                fileInfos
-            ]
+                fileInfos,
+            ],
         };
 
-        const wrapper = mountWithIntl(
+        const wrapper = shallow(
             createPost({
                 actions: {
                     ...actionsProp,
-                    setDraft
+                    setDraft,
                 },
                 draft: {
                     ...draftProp,
-                    ...uploadsInProgressDraft
-                }
+                    ...uploadsInProgressDraft,
+                },
             })
         );
 
         const instance = wrapper.instance();
-        const ref = wrapper.find('FilePreview');
-        const cancelUpload = jest.fn();
-        ref.getWrappedInstance = () => ({
-            cancelUpload
-        });
-
+        instance.handleFileUploadChange = jest.fn();
         instance.removePreview('a');
+        expect(setDraft).toHaveBeenCalledTimes(1);
         expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draftProp);
+        expect(instance.handleFileUploadChange).toHaveBeenCalledTimes(1);
     });
 
     it('Should call Shortcut modal on FORWARD_SLASH+cntrl/meta', () => {
@@ -518,7 +518,7 @@ describe('components/create_post', () => {
 
     it('Should just return as ctrlSend is enabled and its ctrl+enter', () => {
         const wrapper = shallow(createPost({
-            ctrlSend: true
+            ctrlSend: true,
         }));
         const instance = wrapper.instance();
         instance.handleKeyDown({ctrlKey: true, keyCode: Constants.KeyCodes.ENTER});
@@ -530,13 +530,13 @@ describe('components/create_post', () => {
         const wrapper = shallow(createPost({
             actions: {
                 ...actionsProp,
-                setEditingPost
-            }
+                setEditingPost,
+            },
         }));
         const instance = wrapper.instance();
         const type = Utils.localizeMessage('create_post.comment', Posts.MESSAGE_TYPES.COMMENT);
         instance.handleKeyDown({keyCode: Constants.KeyCodes.UP, preventDefault: jest.fn()});
-        expect(setEditingPost).toHaveBeenCalledWith(currentUsersLatestPostProp.id, commentCountForPostProp, '#post_textbox', type);
+        expect(setEditingPost).toHaveBeenCalledWith(currentUsersLatestPostProp.id, commentCountForPostProp, 'post_textbox', type);
     });
 
     it('Should call edit action as post for arrow up', () => {
@@ -544,18 +544,18 @@ describe('components/create_post', () => {
         const wrapper = shallow(createPost({
             actions: {
                 ...actionsProp,
-                setEditingPost
-            }
+                setEditingPost,
+            },
         }));
         const instance = wrapper.instance();
 
         wrapper.setProps({
-            currentUsersLatestPost: {id: 'b', channel_id: currentChannelProp.id}
+            currentUsersLatestPost: {id: 'b', channel_id: currentChannelProp.id},
         });
 
         const type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
         instance.handleKeyDown({keyCode: Constants.KeyCodes.UP, preventDefault: jest.fn()});
-        expect(setEditingPost).toHaveBeenCalledWith(currentUsersLatestPostProp.id, commentCountForPostProp, '#post_textbox', type);
+        expect(setEditingPost).toHaveBeenCalledWith(currentUsersLatestPostProp.id, commentCountForPostProp, 'post_textbox', type);
     });
 
     it('Should call moveHistoryIndexForward as ctrlKey and down arrow', () => {
@@ -569,8 +569,8 @@ describe('components/create_post', () => {
         const wrapper = shallow(createPost({
             actions: {
                 ...actionsProp,
-                moveHistoryIndexForward
-            }
+                moveHistoryIndexForward,
+            },
         }));
         const instance = wrapper.instance();
 
@@ -589,8 +589,8 @@ describe('components/create_post', () => {
         const wrapper = shallow(createPost({
             actions: {
                 ...actionsProp,
-                moveHistoryIndexBack
-            }
+                moveHistoryIndexBack,
+            },
         }));
         const instance = wrapper.instance();
 
@@ -600,7 +600,7 @@ describe('components/create_post', () => {
 
     it('Show tutorial', () => {
         const wrapper = shallow(createPost({
-            showTutorialTip: '1'
+            showTutorialTip: true,
         }));
         expect(wrapper.find('TutorialTip').length).toBe(1);
     });
@@ -615,16 +615,50 @@ describe('components/create_post', () => {
         expect(wrapper.state('showPostDeletedModal')).toBe(false);
     });
 
-    it('Should have called PostActions.createPost on sendMessage', () => {
-        const wrapper = shallow(createPost());
+    it('Should have called actions.onSubmitPost on sendMessage', () => {
+        const onSubmitPost = jest.fn();
+        const wrapper = shallow(createPost({
+            actions: {
+                ...actionsProp,
+                onSubmitPost,
+            },
+        }));
         const post = {message: 'message', file_ids: []};
         wrapper.instance().sendMessage(post);
 
-        expect(GlobalActions.emitUserPostedEvent).toHaveBeenCalledTimes(1);
-        expect(GlobalActions.emitUserPostedEvent).toHaveBeenCalledWith(post);
+        expect(onSubmitPost).toHaveBeenCalledTimes(1);
+        expect(onSubmitPost.mock.calls[0][0]).toEqual(post);
+        expect(onSubmitPost.mock.calls[0][1]).toEqual([]);
+    });
 
-        expect(PostActions.createPost).toHaveBeenCalledTimes(1);
-        expect(PostActions.createPost.mock.calls[0][0]).toEqual(post);
-        expect(PostActions.createPost.mock.calls[0][1]).toEqual([]);
+    it('Should have called actions.selectPostFromRightHandSideSearchByPostId on replyToLastPost', () => {
+        const selectPostFromRightHandSideSearchByPostId = jest.fn();
+        let latestReplyablePostId = '';
+        const wrapper = shallow(createPost({
+            actions: {
+                ...actionsProp,
+                selectPostFromRightHandSideSearchByPostId,
+            },
+            latestReplyablePostId,
+        }));
+
+        wrapper.instance().replyToLastPost({preventDefault: jest.fn()});
+        expect(selectPostFromRightHandSideSearchByPostId).not.toBeCalled();
+
+        latestReplyablePostId = 'latest_replyablePost_id';
+        wrapper.setProps({latestReplyablePostId});
+        wrapper.instance().replyToLastPost({preventDefault: jest.fn()});
+        expect(selectPostFromRightHandSideSearchByPostId).toHaveBeenCalledTimes(1);
+        expect(selectPostFromRightHandSideSearchByPostId.mock.calls[0][0]).toEqual(latestReplyablePostId);
+    });
+
+    it('should match snapshot for read only channel', () => {
+        const wrapper = shallow(createPost({readOnlyChannel: true}));
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should match snapshot when file upload disabled', () => {
+        const wrapper = shallow(createPost({canUploadFiles: false}));
+        expect(wrapper).toMatchSnapshot();
     });
 });

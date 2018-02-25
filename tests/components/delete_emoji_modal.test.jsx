@@ -1,5 +1,5 @@
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-import DeleteEmoji from 'components/emoji/components/delete_emoji_modal.jsx';
+import DeleteEmoji from 'components/emoji/delete_emoji_modal.jsx';
 
 describe('components/emoji/components/DeleteEmoji', () => {
     const instance = new DeleteEmoji();

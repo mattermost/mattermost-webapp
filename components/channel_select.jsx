@@ -16,7 +16,7 @@ export default class ChannelSelect extends React.Component {
             value: PropTypes.string,
             selectOpen: PropTypes.bool.isRequired,
             selectPrivate: PropTypes.bool.isRequired,
-            selectDm: PropTypes.bool.isRequired
+            selectDm: PropTypes.bool.isRequired,
         };
     }
 
@@ -24,7 +24,7 @@ export default class ChannelSelect extends React.Component {
         return {
             selectOpen: false,
             selectPrivate: false,
-            selectDm: false
+            selectDm: false,
         };
     }
 
@@ -35,7 +35,7 @@ export default class ChannelSelect extends React.Component {
         this.filterChannels = this.filterChannels.bind(this);
 
         this.state = {
-            channels: ChannelStore.getAll().filter(this.filterChannels).sort(sortChannelsByDisplayName)
+            channels: ChannelStore.getAll().filter(this.filterChannels).sort(sortChannelsByDisplayName),
         };
     }
 
@@ -50,7 +50,7 @@ export default class ChannelSelect extends React.Component {
     handleChannelChange() {
         this.setState({
             channels: ChannelStore.getAll().
-                filter(this.filterChannels).sort(sortChannelsByDisplayName)
+                filter(this.filterChannels).sort(sortChannelsByDisplayName),
         });
     }
 
@@ -69,7 +69,7 @@ export default class ChannelSelect extends React.Component {
                 value=''
             >
                 {Utils.localizeMessage('channel_select.placeholder', '--- Select a channel ---')}
-            </option>
+            </option>,
         ];
 
         this.state.channels.forEach((channel) => {

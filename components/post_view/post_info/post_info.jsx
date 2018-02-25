@@ -86,6 +86,11 @@ export default class PostInfo extends React.PureComponent {
          */
         showTimeWithoutHover: PropTypes.bool.isRequired,
 
+        /**
+         * Whether to show the emoji picker.
+         */
+        enableEmojiPicker: PropTypes.bool.isRequired,
+
         actions: PropTypes.shape({
 
             /*
@@ -96,8 +101,8 @@ export default class PostInfo extends React.PureComponent {
             /*
              * Function to add a reaction to the post
              */
-            addReaction: PropTypes.func.isRequired
-        }).isRequired
+            addReaction: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     constructor(props) {
@@ -105,7 +110,7 @@ export default class PostInfo extends React.PureComponent {
 
         this.state = {
             showEmojiPicker: false,
-            reactionPickerOffset: 21
+            reactionPickerOffset: 21,
         };
     }
 
@@ -181,7 +186,7 @@ export default class PostInfo extends React.PureComponent {
                 );
             }
 
-            if (hover && window.mm_config.EnableEmojiPicker === 'true') {
+            if (hover && this.props.enableEmojiPicker) {
                 react = (
                     <span>
                         <EmojiPickerOverlay

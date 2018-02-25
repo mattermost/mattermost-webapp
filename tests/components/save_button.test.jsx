@@ -8,7 +8,7 @@ import SaveButton from 'components/save_button.jsx';
 
 describe('components/SaveButton', () => {
     const baseProps = {
-        saving: false
+        saving: false,
     };
 
     test('should match snapshot, on defaultMessage', () => {
@@ -36,5 +36,14 @@ describe('components/SaveButton', () => {
 
         wrapper.setProps({savingMessage: 'Saving Config...'});
         expect(wrapper.find('button').first().text()).toBe('Saving Config...');
+    });
+
+    test('should match snapshot, extraClasses', () => {
+        const props = {...baseProps, extraClasses: 'some-class'};
+        const wrapper = shallow(
+            <SaveButton {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
     });
 });

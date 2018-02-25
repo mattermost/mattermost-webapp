@@ -38,7 +38,7 @@ export const getSelectedPost = createSelector(
             type: PostTypes.FAKE_PARENT_DELETED,
             message: localizeMessage('rhs_thread.rootPostDeletedMessage.body', 'Part of this thread has been deleted due to a data retention policy. You can no longer reply to this thread.'),
             channel_id: selectedPostChannelId,
-            user_id: currentUserId
+            user_id: currentUserId,
         };
     }
 );

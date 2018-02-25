@@ -39,7 +39,7 @@ export default class WebhookSettings extends AdminSettings {
             enablePostUsernameOverride: config.ServiceSettings.EnablePostUsernameOverride,
             enablePostIconOverride: config.ServiceSettings.EnablePostIconOverride,
             enableOAuthServiceProvider: config.ServiceSettings.EnableOAuthServiceProvider,
-            enableUserAccessTokens: config.ServiceSettings.EnableUserAccessTokens
+            enableUserAccessTokens: config.ServiceSettings.EnableUserAccessTokens,
         };
     }
 

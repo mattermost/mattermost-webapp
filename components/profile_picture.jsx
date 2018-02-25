@@ -15,7 +15,7 @@ export default class ProfilePicture extends React.PureComponent {
         width: '36',
         height: '36',
         isRHS: false,
-        hasMention: false
+        hasMention: false,
     };
 
     static propTypes = {
@@ -26,7 +26,7 @@ export default class ProfilePicture extends React.PureComponent {
         user: PropTypes.object,
         isBusy: PropTypes.bool,
         isRHS: PropTypes.bool,
-        hasMention: PropTypes.bool
+        hasMention: PropTypes.bool,
     };
 
     hideProfilePopover = () => {
@@ -58,6 +58,7 @@ export default class ProfilePicture extends React.PureComponent {
                     <span className='status-wrapper'>
                         <img
                             className='more-modal__image'
+                            alt={`${this.props.user.username || 'user'} profile image`}
                             width={this.props.width}
                             height={this.props.width}
                             src={this.props.src}
@@ -71,6 +72,7 @@ export default class ProfilePicture extends React.PureComponent {
             <span className='status-wrapper'>
                 <img
                     className='more-modal__image'
+                    alt={'user profile image'}
                     width={this.props.width}
                     height={this.props.width}
                     src={this.props.src}

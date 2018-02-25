@@ -21,14 +21,14 @@ export default class SettingPicture extends Component {
         submit: PropTypes.func,
         title: PropTypes.string,
         onFileChange: PropTypes.func,
-        updateSection: PropTypes.func
+        updateSection: PropTypes.func,
     };
 
     constructor(props) {
         super(props);
 
         this.state = {
-            image: null
+            image: null,
         };
     }
 
@@ -57,7 +57,7 @@ export default class SettingPicture extends Component {
 
                 this.setState({
                     image: this.previewBlob,
-                    orientationStyles
+                    orientationStyles,
                 });
             };
             reader.readAsArrayBuffer(file);
@@ -106,7 +106,7 @@ export default class SettingPicture extends Component {
     getOrientationStyles(orientation) {
         const {
             transform,
-            'transform-origin': transformOrigin
+            'transform-origin': transformOrigin,
         } = exif2css(orientation);
         return {transform, transformOrigin};
     }
@@ -116,12 +116,13 @@ export default class SettingPicture extends Component {
         if (this.props.file) {
             const imageStyles = {
                 backgroundImage: 'url(' + this.state.image + ')',
-                ...this.state.orientationStyles
+                ...this.state.orientationStyles,
             };
 
             img = (
                 <div
                     className='profile-img-preview'
+                    alt='profile image preview'
                     style={imageStyles}
                 />
             );
@@ -130,6 +131,7 @@ export default class SettingPicture extends Component {
                 <img
                     ref='image'
                     className='profile-img rounded'
+                    alt='profile image'
                     src={this.props.src}
                 />
             );
@@ -184,7 +186,7 @@ export default class SettingPicture extends Component {
                                 defaultMessage='Upload a profile picture in BMP, JPG, JPEG or PNG format.'
                                 values={{
                                     width: Constants.PROFILE_WIDTH,
-                                    height: Constants.PROFILE_WIDTH
+                                    height: Constants.PROFILE_WIDTH,
                                 }}
                             />
                         </li>

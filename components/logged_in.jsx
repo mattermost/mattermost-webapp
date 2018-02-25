@@ -31,7 +31,7 @@ export default class LoggedIn extends React.Component {
         this.onUserChanged = this.onUserChanged.bind(this);
 
         this.state = {
-            user: UserStore.getCurrentUser()
+            user: UserStore.getCurrentUser(),
         };
         document.getElementById('root').className += ' channel-view';
     }
@@ -45,7 +45,7 @@ export default class LoggedIn extends React.Component {
         const user = UserStore.getCurrentUser();
         if (!Utils.areObjectsEqual(this.state.user, user)) {
             this.setState({
-                user
+                user,
             });
         }
     }
@@ -151,7 +151,7 @@ export default class LoggedIn extends React.Component {
             return <LoadingScreen/>;
         }
 
-        if (checkIfMFARequired(this.props.match.url)) {
+        if (this.props.location.pathname !== '/mfa/setup' && checkIfMFARequired(this.props.match.url)) {
             return <Redirect to={'/mfa/setup'}/>;
         }
 
@@ -168,5 +168,5 @@ export default class LoggedIn extends React.Component {
 }
 
 LoggedIn.propTypes = {
-    children: PropTypes.object
+    children: PropTypes.object,
 };

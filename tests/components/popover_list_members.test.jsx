@@ -10,7 +10,7 @@ import {openDirectChannelToUser} from 'actions/channel_actions.jsx';
 import PopoverListMembers from 'components/popover_list_members/popover_list_members.jsx';
 
 jest.mock('actions/channel_actions.jsx', () => ({
-    openDirectChannelToUser: jest.fn()
+    openDirectChannelToUser: jest.fn(),
 }));
 
 describe('components/PopoverListMembers', () => {
@@ -19,15 +19,15 @@ describe('components/PopoverListMembers', () => {
         id: 'channel_id',
         name: 'channel-name',
         display_name: 'Channel Name',
-        type: Constants.DM_CHANNEl
+        type: Constants.DM_CHANNEl,
     };
     const members = [
         {id: 'member_id_1'},
-        {id: 'member_id_2'}
+        {id: 'member_id_2'},
     ];
 
     const actions = {
-        getProfilesInChannel: () => {} // eslint-disable-line no-empty-function
+        getProfilesInChannel: () => {}, // eslint-disable-line no-empty-function
     };
 
     const baseProps = {
@@ -35,7 +35,7 @@ describe('components/PopoverListMembers', () => {
         members,
         memberCount: 2,
         currentUserId: 'current_user_id',
-        actions
+        actions,
     };
 
     global.window.mm_license = {};
@@ -66,8 +66,8 @@ describe('components/PopoverListMembers', () => {
             currentTarget: {
                 getAttribute: () => {
                     return {'data-member-id': 'teammateId'};
-                }
-            }
+                },
+            },
         });
 
         expect(openDirectChannelToUser).toHaveBeenCalledTimes(1);

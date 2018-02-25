@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {FormattedMessage} from 'react-intl';
 
-import AbstractCommand from 'components/integrations/components/abstract_command.jsx';
+import AbstractCommand from 'components/integrations/abstract_command.jsx';
 
 describe('components/integrations/AbstractCommand', () => {
     const header = {id: 'Header', defaultMessage: 'Header'};
@@ -27,11 +27,11 @@ describe('components/integrations/AbstractCommand', () => {
         team_id: 'm5gix3oye3du8ghk4ko6h9cq7y',
         update_at: 1504468859001,
         url: 'https://google.com/command',
-        username: 'username'
+        username: 'username',
     };
     const team = {
         name: 'test',
-        id: command.team_id
+        id: command.team_id,
     };
     const action = jest.genMockFunction().mockImplementation(
         () => {
@@ -48,7 +48,7 @@ describe('components/integrations/AbstractCommand', () => {
         renderExtra: 'renderExtra',
         serverError: '',
         initialCommand: command,
-        action
+        action,
     };
 
     test('should match snapshot', () => {
@@ -100,7 +100,7 @@ describe('components/integrations/AbstractCommand', () => {
             saving: false,
             trigger: 'trigger',
             url: 'https://google.com/command',
-            username: 'username'
+            username: 'username',
         };
 
         expect(wrapper.instance().getStateFromCommand(command)).toEqual(expectedOutput);

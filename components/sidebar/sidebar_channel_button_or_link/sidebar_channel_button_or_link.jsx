@@ -21,7 +21,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         channelId: PropTypes.string.isRequired,
         displayName: PropTypes.oneOfType([
             PropTypes.string,
-            PropTypes.object
+            PropTypes.object,
         ]).isRequired,
         channelStatus: PropTypes.string,
         handleClose: PropTypes.func,
@@ -29,7 +29,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         membersCount: PropTypes.number.isRequired,
         unreadMentions: PropTypes.number,
         teammateId: PropTypes.string,
-        teammateDeletedAt: PropTypes.number
+        teammateDeletedAt: PropTypes.number,
     }
 
     trackChannelSelectedEvent = () => {
@@ -47,6 +47,29 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         if (this.props.badge) {
             badge = <span className='badge'>{this.props.unreadMentions}</span>;
         }
+
+        const content = (
+            <React.Fragment>
+                <SidebarChannelButtonOrLinkIcon
+                    channelId={this.props.channelId}
+                    channelStatus={this.props.channelStatus}
+                    channelType={this.props.channelType}
+                    membersCount={this.props.membersCount}
+                    teammateId={this.props.teammateId}
+                    teammateDeletedAt={this.props.teammateDeletedAt}
+                />
+                <span className='sidebar-item__name'>{this.props.displayName}</span>
+                {badge}
+                <SidebarChannelButtonOrLinkCloseButton
+                    handleClose={this.props.handleClose}
+                    channelId={this.props.channelId}
+                    channelType={this.props.channelType}
+                    teammateId={this.props.teammateId}
+                    badge={this.props.badge}
+                />
+            </React.Fragment>
+        );
+
         let element;
         if (isDesktopApp()) {
             element = (
@@ -58,23 +81,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
                         className={'btn btn-link ' + this.props.rowClass}
                         onClick={this.handleClick}
                     >
-                        <SidebarChannelButtonOrLinkIcon
-                            channelId={this.props.channelId}
-                            channelStatus={this.props.channelStatus}
-                            channelType={this.props.channelType}
-                            membersCount={this.props.membersCount}
-                            teammateId={this.props.teammateId}
-                            teammateDeletedAt={this.props.teammateDeletedAt}
-                        />
-                        <span className='sidebar-item__name'>{this.props.displayName}</span>
-                        {badge}
-                        <SidebarChannelButtonOrLinkCloseButton
-                            handleClose={this.props.handleClose}
-                            channelId={this.props.channelId}
-                            channelType={this.props.channelType}
-                            teammateId={this.props.teammateId}
-                            badge={this.props.badge}
-                        />
+                        {content}
                     </button>
                 </CopyUrlContextMenu>
             );
@@ -85,23 +92,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
                     className={this.props.rowClass}
                     onClick={this.trackChannelSelectedEvent}
                 >
-                    <SidebarChannelButtonOrLinkIcon
-                        channelId={this.props.channelId}
-                        channelStatus={this.props.channelStatus}
-                        channelType={this.props.channelType}
-                        membersCount={this.props.membersCount}
-                        teammateId={this.props.teammateId}
-                        teammateDeletedAt={this.props.teammateDeletedAt}
-                    />
-                    <span className='sidebar-item__name'>{this.props.displayName}</span>
-                    {badge}
-                    <SidebarChannelButtonOrLinkCloseButton
-                        handleClose={this.props.handleClose}
-                        channelId={this.props.channelId}
-                        channelType={this.props.channelType}
-                        teammateId={this.props.teammateId}
-                        badge={this.props.badge}
-                    />
+                    {content}
                 </Link>
             );
         }

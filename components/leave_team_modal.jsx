@@ -21,7 +21,7 @@ class LeaveTeamModal extends React.Component {
         this.handleKeyPress = this.handleKeyPress.bind(this);
 
         this.state = {
-            show: false
+            show: false,
         };
     }
 
@@ -43,13 +43,13 @@ class LeaveTeamModal extends React.Component {
 
     handleToggle(value) {
         this.setState({
-            show: value
+            show: value,
         });
     }
 
     handleSubmit(e) {
         this.setState({
-            show: false
+            show: false,
         });
 
         if (WebrtcStore.isBusy()) {
@@ -64,7 +64,7 @@ class LeaveTeamModal extends React.Component {
 
     handleHide() {
         this.setState({
-            show: false
+            show: false,
         });
     }
 
@@ -123,7 +123,7 @@ class LeaveTeamModal extends React.Component {
 }
 
 LeaveTeamModal.propTypes = {
-    intl: intlShape.isRequired
+    intl: intlShape.isRequired,
 };
 
 export default injectIntl(LeaveTeamModal);

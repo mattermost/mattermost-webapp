@@ -13,7 +13,7 @@ import SuggestionList from './suggestion_list.jsx';
 
 export default class SearchSuggestionList extends SuggestionList {
     static propTypes = {
-        ...SuggestionList.propTypes
+        ...SuggestionList.propTypes,
     };
 
     getContent() {

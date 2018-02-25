@@ -15,11 +15,11 @@ export default class ResetPasswordModal extends React.Component {
         user: PropTypes.object,
         show: PropTypes.bool.isRequired,
         onModalSubmit: PropTypes.func,
-        onModalDismissed: PropTypes.func
+        onModalDismissed: PropTypes.func,
     };
 
     static defaultProps = {
-        show: false
+        show: false,
     };
 
     constructor(props) {
@@ -30,14 +30,14 @@ export default class ResetPasswordModal extends React.Component {
 
         this.state = {
             serverErrorNewPass: null,
-            serverErrorCurrentPass: null
+            serverErrorCurrentPass: null,
         };
     }
 
     componentWillUnmount() {
         this.setState({
             serverErrorNewPass: null,
-            serverErrorCurrentPass: null
+            serverErrorCurrentPass: null,
         });
     }
 
@@ -85,7 +85,7 @@ export default class ResetPasswordModal extends React.Component {
     doCancel() {
         this.setState({
             serverErrorNewPass: null,
-            serverErrorCurrentPass: null
+            serverErrorCurrentPass: null,
         });
         this.props.onModalDismissed();
     }

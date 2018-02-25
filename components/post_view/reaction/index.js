@@ -35,7 +35,7 @@ function makeMapStateToProps() {
             otherUsersCount: ownProps.reactions.length - profiles.length,
             currentUserId: getCurrentUserId(state),
             reactionCount: ownProps.reactions.length,
-            emojiImageUrl
+            emojiImageUrl,
         };
     };
 }
@@ -45,8 +45,8 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             addReaction,
             removeReaction,
-            getMissingProfilesByIds
-        }, dispatch)
+            getMissingProfilesByIds,
+        }, dispatch),
     };
 }
 

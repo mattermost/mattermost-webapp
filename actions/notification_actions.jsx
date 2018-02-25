@@ -58,7 +58,7 @@ export function sendDesktopNotification(post, msgProps) {
         title = msgProps.channel_display_name;
         channel = {
             name: msgProps.channel_name,
-            type: msgProps.channel_type
+            type: msgProps.channel_type,
         };
     } else if (channel.type === Constants.DM_CHANNEL) {
         title = Utils.localizeMessage('notification.dm', 'Direct Message');

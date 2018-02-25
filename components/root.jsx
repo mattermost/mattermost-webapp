@@ -10,16 +10,20 @@ import {IntlProvider} from 'react-intl';
 import FastClick from 'fastclick';
 import {Route, Switch, Redirect} from 'react-router-dom';
 import {getClientConfig, getLicenseConfig, setUrl} from 'mattermost-redux/actions/general';
+import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {Client4} from 'mattermost-redux/client';
 
+import * as UserAgent from 'utils/user_agent.jsx';
+import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
 import {trackLoadTime} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import BrowserStore from 'stores/browser_store.jsx';
 import ErrorStore from 'stores/error_store.jsx';
 import LocalizationStore from 'stores/localization_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-import TeamStore from 'stores/team_store.jsx';
 import {loadMeAndConfig} from 'actions/user_actions.jsx';
+import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions.jsx';
 import * as I18n from 'i18n/i18n.jsx';
 import {initializePlugins} from 'plugins';
 import Constants, {StoragePrefixes} from 'utils/constants.jsx';
@@ -33,17 +37,17 @@ import loadLoggedIn from 'bundle-loader?lazy!components/logged_in';
 import loadPasswordResetSendLink from 'bundle-loader?lazy!components/password_reset_send_link';
 import loadPasswordResetForm from 'bundle-loader?lazy!components/password_reset_form';
 import loadSignupController from 'bundle-loader?lazy!components/signup/signup_controller';
-import loadSignupEmail from 'bundle-loader?lazy!components/signup/components/signup_email';
-import loadSignupLdap from 'bundle-loader?lazy!components/signup/components/signup_ldap';
+import loadSignupEmail from 'bundle-loader?lazy!components/signup/signup_email';
+import loadSignupLdap from 'bundle-loader?lazy!components/signup/signup_ldap';
 import loadShouldVerifyEmail from 'bundle-loader?lazy!components/should_verify_email';
 import loadDoVerifyEmail from 'bundle-loader?lazy!components/do_verify_email';
-import loadClaimController from 'bundle-loader?lazy!components/claim/claim_controller';
+import loadClaimController from 'bundle-loader?lazy!components/claim';
 import loadHelpController from 'bundle-loader?lazy!components/help/help_controller';
-import loadGetIosApp from 'bundle-loader?lazy!components/get_ios_app/get_ios_app';
-import loadGetAndroidApp from 'bundle-loader?lazy!components/get_android_app/get_android_app';
+import loadGetIosApp from 'bundle-loader?lazy!components/get_ios_app';
+import loadGetAndroidApp from 'bundle-loader?lazy!components/get_android_app';
 import loadSelectTeam from 'bundle-loader?lazy!components/select_team';
 import loadAuthorize from 'bundle-loader?lazy!components/authorize';
-import loadCreateTeam from 'bundle-loader?lazy!components/create_team/create_team_controller';
+import loadCreateTeam from 'bundle-loader?lazy!components/create_team';
 import loadMfa from 'bundle-loader?lazy!components/mfa/mfa_controller';
 import store from 'stores/redux_store.jsx';
 
@@ -87,6 +91,7 @@ export default class Root extends React.Component {
 
         // Redux
         setUrl(window.location.origin);
+        setSystemEmojis(EmojiIndicesByAlias);
 
         // Force logout of all tabs if one tab is logged out
         $(window).bind('storage', (e) => {
@@ -132,7 +137,7 @@ export default class Root extends React.Component {
         this.state = {
             configLoaded: false,
             locale: LocalizationStore.getLocale(),
-            translations: LocalizationStore.getTranslations()
+            translations: LocalizationStore.getTranslations(),
         };
     }
 
@@ -179,6 +184,20 @@ export default class Root extends React.Component {
         } else {
             I18n.safariFix(afterIntl);
         }
+
+        loadRecentlyUsedCustomEmojis()(store.dispatch, store.getState);
+
+        const iosDownloadLink = getConfig(store.getState()).IosAppDownloadLink;
+        const androidDownloadLink = getConfig(store.getState()).AndroidAppDownloadLink;
+
+        // redirect to the mobile landing page if the user hasn't seen it before
+        if (iosDownloadLink && UserAgent.isIosWeb() && !BrowserStore.hasSeenLandingPage()) {
+            this.props.history.push('/get_ios_app');
+            BrowserStore.setLandingPageSeen(true);
+        } else if (androidDownloadLink && UserAgent.isAndroidWeb() && !BrowserStore.hasSeenLandingPage()) {
+            this.props.history.push('/get_android_app');
+            BrowserStore.setLandingPageSeen(true);
+        }
     }
 
     localizationChanged() {
@@ -189,17 +208,11 @@ export default class Root extends React.Component {
     }
 
     redirectIfNecessary(props) {
-        const experimentalPrimaryTeam = global.mm_config.ExperimentalPrimaryTeam;
-        const primaryTeam = TeamStore.getByName(experimentalPrimaryTeam);
         if (props.location.pathname === '/') {
-            if (UserStore.getNoAccounts()) {
+            if (global.mm_config.NoAccounts === 'true') {
                 this.props.history.push('/signup_user_complete');
-            } else if (UserStore.getCurrentUser() && primaryTeam) {
-                this.props.history.push(`/${primaryTeam.name}/channels/${Constants.DEFAULT_CHANNEL}`);
             } else if (UserStore.getCurrentUser()) {
                 GlobalActions.redirectUserToDefaultTeam();
-            } else {
-                this.props.history.push('/login' + window.location.search);
             }
         }
     }
@@ -334,5 +347,5 @@ Root.defaultProps = {
 };
 
 Root.propTypes = {
-    children: PropTypes.object
+    children: PropTypes.object,
 };

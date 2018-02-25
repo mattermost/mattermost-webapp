@@ -30,7 +30,7 @@ export default class SearchableChannelList extends React.Component {
         this.state = {
             joiningChannel: '',
             page: 0,
-            nextDisabled: false
+            nextDisabled: false,
         };
     }
 
@@ -213,7 +213,7 @@ export default class SearchableChannelList extends React.Component {
 
 SearchableChannelList.defaultProps = {
     channels: [],
-    isSearch: false
+    isSearch: false,
 };
 
 SearchableChannelList.propTypes = {
@@ -223,5 +223,5 @@ SearchableChannelList.propTypes = {
     isSearch: PropTypes.bool,
     search: PropTypes.func.isRequired,
     handleJoin: PropTypes.func.isRequired,
-    noResultsText: PropTypes.object
+    noResultsText: PropTypes.object,
 };

@@ -32,7 +32,7 @@ export default class ComplianceSettings extends AdminSettings {
         return {
             enable: config.ComplianceSettings.Enable,
             directory: config.ComplianceSettings.Directory,
-            enableDaily: config.ComplianceSettings.EnableDaily
+            enableDaily: config.ComplianceSettings.EnableDaily,
         };
     }
 
@@ -46,7 +46,7 @@ export default class ComplianceSettings extends AdminSettings {
     }
 
     renderSettings() {
-        const licenseEnabled = global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.Compliance === 'true';
+        const licenseEnabled = this.props.license.IsLicensed === 'true' && this.props.license.Compliance === 'true';
 
         let bannerContent;
         if (!licenseEnabled) {

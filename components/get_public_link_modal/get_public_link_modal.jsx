@@ -22,19 +22,19 @@ export default class GetPublicLinkModal extends React.PureComponent {
             /**
              * An action to get public link
              */
-            getFilePublicLink: PropTypes.func.isRequired
-        }).isRequired
+            getFilePublicLink: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     static defaultProps = {
-        link: ''
+        link: '',
     }
 
     constructor(props) {
         super(props);
         this.state = {
             show: false,
-            fileId: ''
+            fileId: '',
         };
     }
 
@@ -55,13 +55,13 @@ export default class GetPublicLinkModal extends React.PureComponent {
     handleToggle = (value, args) => {
         this.setState({
             show: value,
-            fileId: args.fileId
+            fileId: args.fileId,
         });
     }
 
     onHide = () => {
         this.setState({
-            show: false
+            show: false,
         });
     }
 

@@ -8,7 +8,6 @@ import {Modal} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
-import * as ChannelUtils from 'utils/channel_utils.jsx';
 import Constants from 'utils/constants.jsx';
 import {getShortenedURL} from 'utils/url.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
@@ -38,19 +37,19 @@ export default class NewChannelModal extends React.PureComponent {
         ctrlSend: PropTypes.bool,
 
         /**
-         * Set to show options available to team admins
-         */
-        isTeamAdmin: PropTypes.bool,
-
-        /**
-         * Set to show options available to system admins
-         */
-        isSystemAdmin: PropTypes.bool,
-
-        /**
          * Server error from failed channel creation
          */
         serverError: PropTypes.node,
+
+        /**
+         * Flag to display the option to create public channels.
+         */
+        showCreatePublicChannelOption: PropTypes.bool.isRequired,
+
+        /**
+         * Flag to display the option to create private channels.
+         */
+        showCreatePrivateChannelOption: PropTypes.bool.isRequired,
 
         /**
          * Function used to submit the channel
@@ -80,21 +79,21 @@ export default class NewChannelModal extends React.PureComponent {
         /**
          * Function to call when channel data is modified
          */
-        onDataChanged: PropTypes.func.isRequired
+        onDataChanged: PropTypes.func.isRequired,
     }
 
     constructor(props) {
         super(props);
 
         this.state = {
-            displayNameError: ''
+            displayNameError: '',
         };
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.show === true && this.props.show === false) {
             this.setState({
-                displayNameError: ''
+                displayNameError: '',
             });
         }
     }
@@ -107,7 +106,7 @@ export default class NewChannelModal extends React.PureComponent {
     }
 
     onEnterKeyDown = (e) => {
-        if (this.props.ctrlSend && e.keyCode === Constants.KeyCodes.ENTER && e.ctrlKey) {
+        if (this.props.ctrlSend && e.keyCode === Constants.KeyCodes.ENTER && Utils.cmdOrCtrlPressed(e)) {
             this.handleSubmit(e);
         } else if (!this.props.ctrlSend && e.keyCode === Constants.KeyCodes.ENTER && !e.shiftKey && !e.altKey) {
             this.handleSubmit(e);
@@ -130,7 +129,7 @@ export default class NewChannelModal extends React.PureComponent {
         const newData = {
             displayName: this.refs.display_name.value,
             header: this.refs.channel_header.value,
-            purpose: this.refs.channel_purpose.value
+            purpose: this.refs.channel_purpose.value,
         };
         this.props.onDataChanged(newData);
     }
@@ -180,6 +179,7 @@ export default class NewChannelModal extends React.PureComponent {
             <button
                 className='style--none color--link'
                 onClick={this.props.onTypeSwitched}
+                tabIndex='6'
             >
                 <FormattedMessage
                     id='channel_modal.privateGroup2'
@@ -188,11 +188,11 @@ export default class NewChannelModal extends React.PureComponent {
             </button>
         );
 
-        if (!ChannelUtils.showCreateOption(Constants.OPEN_CHANNEL, this.props.isTeamAdmin, this.props.isSystemAdmin)) {
+        if (!this.props.showCreatePublicChannelOption) {
             createPublicChannelLink = null;
         }
 
-        if (!ChannelUtils.showCreateOption(Constants.PRIVATE_CHANNEL, this.props.isTeamAdmin, this.props.isSystemAdmin)) {
+        if (!this.props.showCreatePrivateChannelOption) {
             createPrivateChannelLink = null;
         }
 
@@ -235,8 +235,19 @@ export default class NewChannelModal extends React.PureComponent {
                     bsSize='large'
                     onHide={this.props.onModalDismissed}
                     onExited={this.props.onModalExited}
+                    autoFocus={true}
+                    restoreFocus={true}
                 >
-                    <Modal.Header closeButton={true}>
+                    <Modal.Header>
+                        <button
+                            type='button'
+                            className='close'
+                            onClick={this.props.onModalDismissed}
+                            tabIndex='5'
+                        >
+                            <span aria-hidden='true'>{'×'}</span>
+                            <span className='sr-only'>{'Close'}</span>
+                        </button>
                         <Modal.Title>
                             <FormattedMessage
                                 id='channel_modal.modalTitle'
@@ -279,6 +290,7 @@ export default class NewChannelModal extends React.PureComponent {
                                         <button
                                             className='color--link style--none'
                                             onClick={this.handleOnURLChange}
+                                            tabIndex='7'
                                         >
                                             <FormattedMessage
                                                 id='channel_modal.edit'
@@ -349,7 +361,7 @@ export default class NewChannelModal extends React.PureComponent {
                                         maxLength='1024'
                                         value={this.props.channelData.header}
                                         onChange={this.handleChange}
-                                        tabIndex='2'
+                                        tabIndex='3'
                                     />
                                     <p className='input__help'>
                                         <FormattedMessage
@@ -366,6 +378,8 @@ export default class NewChannelModal extends React.PureComponent {
                                 type='button'
                                 className='btn btn-default'
                                 onClick={this.props.onModalDismissed}
+                                tabIndex='8'
+                                onBlur={() => document.getElementById(`${inputPrefixId}Name`).focus()}
                             >
                                 <FormattedMessage
                                     id='channel_modal.cancel'
@@ -376,7 +390,7 @@ export default class NewChannelModal extends React.PureComponent {
                                 onClick={this.handleSubmit}
                                 type='submit'
                                 className='btn btn-primary'
-                                tabIndex='3'
+                                tabIndex='4'
                             >
                                 <FormattedMessage
                                     id='channel_modal.createNew'

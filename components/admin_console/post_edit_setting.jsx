@@ -85,7 +85,7 @@ export default class PostEditSetting extends React.Component {
 }
 
 PostEditSetting.defaultProps = {
-    isDisabled: false
+    isDisabled: false,
 };
 
 PostEditSetting.propTypes = {
@@ -96,5 +96,5 @@ PostEditSetting.propTypes = {
     timeLimitValue: PropTypes.number.isRequired,
     onChange: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
-    helpText: PropTypes.node
+    helpText: PropTypes.node,
 };

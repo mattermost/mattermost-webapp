@@ -25,8 +25,8 @@ export default class AddUsersToTeam extends React.Component {
     static propTypes = {
         onModalDismissed: PropTypes.func,
         actions: PropTypes.shape({
-            getProfilesNotInTeam: PropTypes.func.isRequired
-        }).isRequired
+            getProfilesNotInTeam: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -49,7 +49,8 @@ export default class AddUsersToTeam extends React.Component {
             show: true,
             search: false,
             saving: false,
-            addError: null
+            addError: null,
+            loadingUsers: true,
         };
     }
 
@@ -58,7 +59,9 @@ export default class AddUsersToTeam extends React.Component {
         UserStore.addNotInTeamChangeListener(this.onChange);
         UserStore.addStatusesChangeListener(this.onChange);
 
-        this.props.actions.getProfilesNotInTeam(TeamStore.getCurrentId(), 0, USERS_PER_PAGE * 2);
+        this.props.actions.getProfilesNotInTeam(TeamStore.getCurrentId(), 0, USERS_PER_PAGE * 2).then(() => {
+            this.setUsersLoadingState(false);
+        });
     }
 
     componentWillUnmount() {
@@ -85,7 +88,7 @@ export default class AddUsersToTeam extends React.Component {
 
         this.setState({
             saving: false,
-            addError
+            addError,
         });
     }
 
@@ -124,6 +127,12 @@ export default class AddUsersToTeam extends React.Component {
         this.setState({values});
     }
 
+    setUsersLoadingState = (loadingState) => {
+        this.setState({
+            loadingUsers: loadingState,
+        });
+    }
+
     onChange() {
         let users;
         if (this.term) {
@@ -140,13 +149,16 @@ export default class AddUsersToTeam extends React.Component {
         }
 
         this.setState({
-            users
+            users,
         });
     }
 
     handlePageChange(page, prevPage) {
         if (page > prevPage) {
-            this.props.actions.getProfilesNotInTeam(TeamStore.getCurrentId(), page + 1, USERS_PER_PAGE);
+            this.setUsersLoadingState(true);
+            this.props.actions.getProfilesNotInTeam(TeamStore.getCurrentId(), page + 1, USERS_PER_PAGE).then(() => {
+                this.setUsersLoadingState(false);
+            });
         }
     }
 
@@ -161,7 +173,10 @@ export default class AddUsersToTeam extends React.Component {
 
         this.searchTimeoutId = setTimeout(
             () => {
-                searchUsersNotInTeam(term, TeamStore.getCurrentId(), {});
+                this.setUsersLoadingState(true);
+                searchUsersNotInTeam(term, TeamStore.getCurrentId(), {}).then(() => {
+                    this.setUsersLoadingState(false);
+                });
             },
             Constants.SEARCH_TIMEOUT_MILLISECONDS
         );
@@ -218,7 +233,7 @@ export default class AddUsersToTeam extends React.Component {
                 id='multiselect.numPeopleRemaining'
                 defaultMessage='Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. '
                 values={{
-                    num: MAX_SELECTABLE_VALUES - this.state.values.length
+                    num: MAX_SELECTABLE_VALUES - this.state.values.length,
                 }}
             />
         );
@@ -250,7 +265,7 @@ export default class AddUsersToTeam extends React.Component {
                             values={{
                                 teamName: (
                                     <strong>{TeamStore.getCurrent().display_name}</strong>
-                                )
+                                ),
                             }}
                         />
                     </Modal.Title>
@@ -273,6 +288,7 @@ export default class AddUsersToTeam extends React.Component {
                         numRemainingText={numRemainingText}
                         buttonSubmitText={buttonSubmitText}
                         saving={this.state.saving}
+                        loading={this.state.loadingUsers}
                     />
                 </Modal.Body>
             </Modal>

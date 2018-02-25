@@ -19,7 +19,6 @@ export default class PluginSettings extends AdminSettings {
 
     getConfigFromState(config) {
         config.PluginSettings.Enable = this.state.enablePlugins;
-        config.PluginSettings.EnableUploads = this.state.enableUploads;
 
         return config;
     }
@@ -27,7 +26,6 @@ export default class PluginSettings extends AdminSettings {
     getStateFromConfig(config) {
         return {
             enablePlugins: config.PluginSettings.Enable,
-            enableUploads: config.PluginSettings.EnableUploads
         };
     }
 
@@ -59,24 +57,6 @@ export default class PluginSettings extends AdminSettings {
                     }
                     value={this.state.enablePlugins}
                     onChange={this.handleChange}
-                />
-                <BooleanSetting
-                    id='enableUploads'
-                    label={
-                        <FormattedMessage
-                            id='admin.plugins.settings.enableUploads'
-                            defaultMessage='Enable Plugin Uploads: '
-                        />
-                    }
-                    helpText={
-                        <FormattedHTMLMessage
-                            id='admin.plugins.settings.enableUploadsDesc'
-                            defaultMessage='When true, enables plugin uploads by System Admins at <strong>Plugins > Management</strong>. If you do not plan to upload a plugin, set to false to control which plugins are installed on your server. See <a href="https://about.mattermost.com/default-plugins-uploads" target="_blank">documentation</a> to learn more.'
-                        />
-                    }
-                    value={this.state.enableUploads}
-                    onChange={this.handleChange}
-                    disabled={!this.state.enablePlugins}
                 />
             </SettingsGroup>
         );

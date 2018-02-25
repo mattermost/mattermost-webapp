@@ -33,5 +33,5 @@ ImagePreview.propTypes = {
     /**
      * The file info object
      */
-    fileInfo: PropTypes.object.isRequired
+    fileInfo: PropTypes.object.isRequired,
 };

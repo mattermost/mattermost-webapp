@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/channel_notifications_modal/ExpandView should match snapshot, DESKTOP on expanded view 1`] = `
+<SettingItemMin
+  describe={
+    <Describe
+      globalNotifyLevel="default"
+      memberNotifyLevel="all"
+      section="desktop"
+    />
+  }
+  focused={false}
+  section=""
+  title={
+    <SectionTitle
+      section="desktop"
+    />
+  }
+/>
+`;
+
+exports[`components/channel_notifications_modal/ExpandView should match snapshot, MARK_UNREAD on expanded view 1`] = `
+<SettingItemMin
+  describe={
+    <Describe
+      globalNotifyLevel={null}
+      memberNotifyLevel="all"
+      section="markUnread"
+    />
+  }
+  focused={false}
+  section=""
+  title={
+    <SectionTitle
+      section="markUnread"
+    />
+  }
+/>
+`;
+
+exports[`components/channel_notifications_modal/ExpandView should match snapshot, PUSH on expanded view 1`] = `
+<SettingItemMin
+  describe={
+    <Describe
+      globalNotifyLevel="default"
+      memberNotifyLevel="all"
+      section="push"
+    />
+  }
+  focused={false}
+  section=""
+  title={
+    <SectionTitle
+      section="push"
+    />
+  }
+/>
+`;

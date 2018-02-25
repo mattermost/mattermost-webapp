@@ -64,7 +64,7 @@ exports[`components/ChannelInfoModal should match snapshot 1`] = `
       <div
         className="info__value"
       >
-        null/testteam/channels/testchannel
+        http://localhost:8065/testteam/channels/testchannel
       </div>
     </div>
     <div

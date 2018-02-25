@@ -13,7 +13,6 @@ body {
     background: $bg--gray;
     position: relative;
     width: 100%;
-    overflow: hidden;
 
     &.error-bar--fixed {
         padding-top: 22px;
@@ -42,6 +41,11 @@ body {
             }
         }
     }
+}
+
+.help-page {
+    overflow: hidden;
+    padding: 3em 0;
 }
 
 .inner-wrap {

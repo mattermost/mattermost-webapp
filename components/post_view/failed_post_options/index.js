@@ -9,15 +9,15 @@ import FailedPostOptions from './failed_post_options.jsx';
 
 function mapStateToProps(state, ownProps) {
     return {
-        ...ownProps
+        ...ownProps,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            removePost
-        }, dispatch)
+            removePost,
+        }, dispatch),
     };
 }
 

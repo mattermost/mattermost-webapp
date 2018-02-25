@@ -10,7 +10,7 @@ import MattermostLogo from 'components/svg/mattermost_logo';
 
 export default class AboutBuildModal extends React.PureComponent {
     static defaultProps = {
-        show: false
+        show: false,
     };
 
     static propTypes = {
@@ -33,7 +33,12 @@ export default class AboutBuildModal extends React.PureComponent {
         /**
          * Global license object
          */
-        license: PropTypes.object.isRequired
+        license: PropTypes.object.isRequired,
+
+        /**
+         * Webapp build hash override. By default, webpack sets this (so it must be overridden in tests).
+         */
+        webappBuildHash: PropTypes.string,
     };
 
     constructor(props) {
@@ -163,7 +168,7 @@ export default class AboutBuildModal extends React.PureComponent {
                                         id='about.version'
                                         defaultMessage='Version:'
                                     />
-                                    <span id='versionString'>{version}</span>
+                                    <span id='versionString'>{'\u00a0' + version}</span>
                                 </div>
                                 <div>
                                     <FormattedMessage
@@ -183,7 +188,7 @@ export default class AboutBuildModal extends React.PureComponent {
                                 id='about.copyright'
                                 defaultMessage='Copyright 2015 - {currentYear} Mattermost, Inc. All rights reserved'
                                 values={{
-                                    currentYear: new Date().getFullYear()
+                                    currentYear: new Date().getFullYear(),
                                 }}
                             />
                         </div>
@@ -209,6 +214,12 @@ export default class AboutBuildModal extends React.PureComponent {
                                 defaultMessage='EE Build Hash:'
                             />
                             &nbsp;{config.BuildHashEnterprise}
+                            <br/>
+                            <FormattedMessage
+                                id='about.hashwebapp'
+                                defaultMessage='Webapp Build Hash:'
+                            />
+                            &nbsp;{/* global COMMIT_HASH */ this.props.webappBuildHash || (typeof COMMIT_HASH === 'undefined' ? '' : COMMIT_HASH)}
                         </p>
                         <p>
                             <FormattedMessage

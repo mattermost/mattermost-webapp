@@ -8,11 +8,12 @@ import ErrorStore from 'stores/error_store.jsx';
 import {ErrorBarTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
+import EmailConnectionTest from 'components/admin_console/email_connection_test';
+
 import AdminSettings from './admin_settings.jsx';
 import BooleanSetting from './boolean_setting.jsx';
 import {ConnectionSecurityDropdownSettingEmail} from './connection_security_dropdown_setting.jsx';
 import DropdownSetting from './dropdown_setting.jsx';
-import EmailConnectionTest from './email_connection_test.jsx';
 import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting.jsx';
 
@@ -68,7 +69,7 @@ export default class EmailSettings extends AdminSettings {
             enableEmailBatching: config.EmailSettings.EnableEmailBatching,
             skipServerCertificateVerification: config.EmailSettings.SkipServerCertificateVerification,
             enableSecurityFixAlert: config.ServiceSettings.EnableSecurityFixAlert,
-            emailNotificationContentsType: config.EmailSettings.EmailNotificationContentsType
+            emailNotificationContentsType: config.EmailSettings.EmailNotificationContentsType,
         };
     }
 
@@ -112,7 +113,7 @@ export default class EmailSettings extends AdminSettings {
 
         let emailNotificationContentsTypeDropdown = null;
         let emailNotificationContentsHelpText = null;
-        if (window.mm_license.EmailNotificationContents === 'true') {
+        if (this.props.license.EmailNotificationContents === 'true') {
             const emailNotificationContentsTypes = [];
             emailNotificationContentsTypes.push({value: EMAIL_NOTIFICATION_CONTENTS_FULL, text: Utils.localizeMessage('admin.email.notification.contents.full', 'Send full message contents')});
             emailNotificationContentsTypes.push({value: EMAIL_NOTIFICATION_CONTENTS_GENERIC, text: Utils.localizeMessage('admin.email.notification.contents.generic', 'Send generic description with only sender name')});
@@ -185,7 +186,7 @@ export default class EmailSettings extends AdminSettings {
                             id='admin.email.enableEmailBatchingDesc'
                             defaultMessage='When true, users will have email notifications for multiple direct messages and mentions combined into a single email. Batching will occur at a default interval of 15 minutes, configurable in Account Settings > Notifications.'
                         />,
-                        enableEmailBatchingDisabledText
+                        enableEmailBatchingDisabledText,
                     ]}
                     value={this.state.enableEmailBatching && !this.props.config.ClusterSettings.Enable && Boolean(this.props.config.ServiceSettings.SiteURL)}
                     onChange={this.handleChange}
@@ -300,7 +301,7 @@ export default class EmailSettings extends AdminSettings {
                             key='admin.email.enableSMTPAuthDesc'
                             id='admin.email.enableSMTPAuthDesc'
                             defaultMessage='When true, SMTP Authentication is enabled.'
-                        />
+                        />,
                     ]}
                     value={this.state.enableSMTPAuth}
                     onChange={this.handleChange}

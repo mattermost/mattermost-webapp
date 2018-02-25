@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/user_settings/sidebar/UserSettingsSidebar should match snapshot 1`] = `
+<div>
+  <div
+    className="modal-header"
+  >
+    <button
+      aria-label="Close"
+      className="close"
+      data-dismiss="modal"
+      id="closeButton"
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
+    <h4
+      className="modal-title"
+    >
+      <div
+        className="modal-back"
+      >
+        <i
+          className="fa fa-angle-left"
+          onClick={[Function]}
+        />
+      </div>
+      <FormattedMessage
+        defaultMessage="Sidebar Settings"
+        id="user.settings.sidebar.title"
+        values={Object {}}
+      />
+    </h4>
+  </div>
+  <div
+    className="user-settings"
+  >
+    <h3
+      className="tab-header"
+    >
+      <FormattedMessage
+        defaultMessage="Sidebar Settings"
+        id="user.settings.sidebar.title"
+        values={Object {}}
+      />
+    </h3>
+    <div
+      className="divider-dark first"
+    />
+    <SettingItemMin
+      describe={
+        <FormattedMessage
+          defaultMessage="At the top of the channel sidebar"
+          id="user.settings.sidebar.showUnreadSection"
+          values={Object {}}
+        />
+      }
+      focused={false}
+      section="unreadChannels"
+      title={
+        <FormattedMessage
+          defaultMessage="Group unread channels"
+          id="user.settings.sidebar.unreadSectionTitle"
+          values={Object {}}
+        />
+      }
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-light"
+    />
+    <div
+      className="divider-dark"
+    />
+  </div>
+</div>
+`;

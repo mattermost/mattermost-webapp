@@ -11,6 +11,7 @@ import LoadingScreen from 'components/loading_screen.jsx';
 
 export default class Audits extends React.PureComponent {
     static propTypes = {
+        isLicensed: PropTypes.bool.isRequired,
 
         /*
          * Array of audits to render
@@ -22,15 +23,15 @@ export default class Audits extends React.PureComponent {
             /*
              * Function to fetch audits
              */
-            getAudits: PropTypes.func.isRequired
-        }).isRequired
+            getAudits: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
         super(props);
 
         this.state = {
-            loadingAudits: true
+            loadingAudits: true,
         };
     }
 
@@ -50,7 +51,7 @@ export default class Audits extends React.PureComponent {
     render() {
         let content = null;
 
-        if (global.window.mm_license.IsLicensed !== 'true') {
+        if (!this.props.isLicensed) {
             return <div/>;
         }
 
@@ -101,5 +102,5 @@ export default class Audits extends React.PureComponent {
 }
 
 const style = {
-    auditTable: {margin: 10}
+    auditTable: {margin: 10},
 };

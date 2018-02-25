@@ -202,12 +202,7 @@ exports[`plugins/PostMessageView should match snapshot with no extended post typ
           <PostMarkdown
             channelNamesMap={Object {}}
             dispatch={[Function]}
-            emojis={
-              EmojiMap {
-                "customEmojis": Map {},
-                "customEmojisArray": Array [],
-              }
-            }
+            hasImageProxy={false}
             isRHS={false}
             mentionKeys={Array []}
             message="this is some text"
@@ -218,17 +213,15 @@ exports[`plugins/PostMessageView should match snapshot with no extended post typ
                 "type": "testtype",
               }
             }
-            siteURL="null"
+            siteURL="http://localhost:8065"
           >
-            <span>
-              <p
-                key="0"
-              >
-                this is some text
-              </p>
-              
+            <p
+              key="0"
+            >
+              this is some text
+            </p>
+            
 
-            </span>
           </PostMarkdown>
         </Connect(PostMarkdown)>
       </span>

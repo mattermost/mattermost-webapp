@@ -3,15 +3,21 @@
 
 import React from 'react';
 import {Parser, ProcessNodeDefinitions} from 'html-to-react';
+import {Client4} from 'mattermost-redux/client';
+
+import AtMention from 'components/at_mention';
+import LatexBlock from 'components/latex_block';
+import MarkdownImage from 'components/markdown_image';
+import PostEmoji from 'components/post_emoji';
 
 import ChannelStore from 'stores/channel_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
+
 import Constants from 'utils/constants.jsx';
+import {formatWithRenderer} from 'utils/markdown';
+import MentionableRenderer from 'utils/markdown/mentionable_renderer';
 import * as Utils from 'utils/utils.jsx';
-import AtMention from 'components/at_mention';
-import MarkdownImage from 'components/markdown_image';
-import LatexBlock from 'components/latex_block';
 
 export function isSystemMessage(post) {
     return Boolean(post.type && (post.type.lastIndexOf(Constants.SYSTEM_MESSAGE_PREFIX) === 0));
@@ -34,6 +40,13 @@ export function isComment(post) {
 
 export function isEdited(post) {
     return post.edit_at > 0;
+}
+
+export function getImageSrc(src, hasImageProxy) {
+    if (hasImageProxy) {
+        return Client4.getBaseRoute() + '/image?url=' + encodeURIComponent(src);
+    }
+    return src;
 }
 
 export function getProfilePicSrcForPost(post, user) {
@@ -116,40 +129,45 @@ export function shouldShowDotMenu(post) {
     return false;
 }
 
-export function containsAtMention(text, key) {
-    if (!text || !key) {
+export function containsAtChannel(text) {
+    // Don't warn for slash commands
+    if (!text || text.startsWith('/')) {
         return false;
     }
 
-    // This doesn't work for at mentions containing periods or hyphens
-    return !text.startsWith('/') && new RegExp(`\\B${key}\\b`, 'i').test(removeCode(text));
+    const mentionableText = formatWithRenderer(text, new MentionableRenderer());
+
+    return (/\B@(all|channel)\b/i).test(mentionableText);
 }
 
-// Returns a given text string with all Markdown code replaced with whitespace.
-export function removeCode(text) {
-    // These patterns should match the ones in app/notification.go, except JavaScript doesn't
-    // support \z for the end of the text in multiline mode, so we use $(?![\r\n])
-    const codeBlockPattern = /^[^\S\n]*[`~]{3}.*$[\s\S]+?(^[^\S\n]*[`~]{3}$|$(?![\r\n]))/mg;
-    const inlineCodePattern = /`+(?:.+?|.*?(.*?\S.*?\n)*.*?)`+/mg;
+/*
+ * Converts HTML to React components using html-to-react.
+ * The following options can be specified:
+ * - mentions - If specified, mentions are replaced with the AtMention component. Defaults to true.
+ * - emoji - If specified, emoji text is replaced with the PostEmoji component. Defaults to true.
+ * - images - If specified, markdown images are replaced with the PostMarkdown component. Defaults to true.
+ * - latex - If specified, latex is replaced with the LatexBlock component. Defaults to true.
+ */
+export function messageHtmlToComponent(html, isRHS, options = {}) {
+    if (!html) {
+        return null;
+    }
 
-    return text.replace(codeBlockPattern, '').replace(inlineCodePattern, ' ');
-}
-
-export function postMessageHtmlToComponent(html, isRHS) {
     const parser = new Parser();
-    const attrib = 'data-mention';
     const processNodeDefinitions = new ProcessNodeDefinitions(React);
 
     function isValidNode() {
         return true;
     }
 
-    const processingInstructions = [
-        {
+    const processingInstructions = [];
+    if (!('mentions' in options) || options.mentions) {
+        const mentionAttrib = 'data-mention';
+        processingInstructions.push({
             replaceChildren: true,
-            shouldProcessNode: (node) => node.attribs && node.attribs[attrib],
+            shouldProcessNode: (node) => node.attribs && node.attribs[mentionAttrib],
             processNode: (node) => {
-                const mentionName = node.attribs[attrib];
+                const mentionName = node.attribs[mentionAttrib];
                 const callAtMention = (
                     <AtMention
                         mentionName={mentionName}
@@ -158,9 +176,29 @@ export function postMessageHtmlToComponent(html, isRHS) {
                     />
                 );
                 return callAtMention;
-            }
-        },
-        {
+            },
+        });
+    }
+
+    if (!('emoji' in options) || options.emoji) {
+        const emojiAttrib = 'data-emoticon';
+        processingInstructions.push({
+            replaceChildren: true,
+            shouldProcessNode: (node) => node.attribs && node.attribs[emojiAttrib],
+            processNode: (node) => {
+                const emojiName = node.attribs[emojiAttrib];
+                const callPostEmoji = (
+                    <PostEmoji
+                        name={emojiName}
+                    />
+                );
+                return callPostEmoji;
+            },
+        });
+    }
+
+    if (!('images' in options) || options.images) {
+        processingInstructions.push({
             shouldProcessNode: (node) => node.type === 'tag' && node.name === 'img',
             processNode: (node) => {
                 const {
@@ -174,20 +212,25 @@ export function postMessageHtmlToComponent(html, isRHS) {
                     />
                 );
                 return callMarkdownImage;
-            }
-        },
-        {
+            },
+        });
+    }
+
+    if (!('latex' in options) || options.latex) {
+        processingInstructions.push({
             shouldProcessNode: (node) => node.attribs && node.attribs['data-latex'],
             processNode: (node) => {
                 return (
                     <LatexBlock content={node.attribs['data-latex']}/>
                 );
-            }
-        },
-        {
-            shouldProcessNode: () => true,
-            processNode: processNodeDefinitions.processDefaultNode
-        }
-    ];
+            },
+        });
+    }
+
+    processingInstructions.push({
+        shouldProcessNode: () => true,
+        processNode: processNodeDefinitions.processDefaultNode,
+    });
+
     return parser.parseWithInstructions(html, isValidNode, processingInstructions);
 }

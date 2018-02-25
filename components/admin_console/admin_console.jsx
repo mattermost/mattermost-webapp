@@ -54,7 +54,7 @@ import StorageSettings from 'components/admin_console/storage_settings.jsx';
 import SystemUsers from 'components/admin_console/system_users';
 import UsersAndTeamsSettings from 'components/admin_console/users_and_teams_settings.jsx';
 import WebrtcSettings from 'components/admin_console/webrtc_settings.jsx';
-import SystemAnalytics from 'components/analytics/system_analytics.jsx';
+import SystemAnalytics from 'components/analytics/system_analytics';
 import TeamAnalytics from 'components/analytics/team_analytics';
 import DiscardChangesModal from 'components/discard_changes_modal.jsx';
 
@@ -74,6 +74,11 @@ const SCRoute = ({component: Component, extraProps, ...rest}) => ( //eslint-disa
 
 export default class AdminConsole extends React.Component {
     static propTypes = {
+
+        /*
+         * Object representing the license
+         */
+        license: PropTypes.object.isRequired,
 
         /*
          * Object representing the config file
@@ -106,8 +111,8 @@ export default class AdminConsole extends React.Component {
             /*
              * Function to cancel navigation away from unsaved changes
              */
-            cancelNavigation: PropTypes.func.isRequired
-        }).isRequired
+            cancelNavigation: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     componentWillMount() {
@@ -116,7 +121,7 @@ export default class AdminConsole extends React.Component {
     }
 
     render() {
-        const {config, showNavigationPrompt} = this.props;
+        const {license, config, showNavigationPrompt} = this.props;
         const {setNavigationBlocked, cancelNavigation, confirmNavigation} = this.props.actions;
 
         if (Object.keys(config).length === 0) {
@@ -139,8 +144,8 @@ export default class AdminConsole extends React.Component {
             />
         );
 
-        // not every page in the system console will need the config, but the vast majority will
-        const extraProps = {config, setNavigationBlocked};
+        // not every page in the system console will need the license and config, but the vast majority will
+        const extraProps = {license, config, setNavigationBlocked};
         return (
             <div className='admin-console__wrapper'>
                 <AnnouncementBar/>
@@ -382,6 +387,24 @@ export default class AdminConsole extends React.Component {
                         )}
                         />
                         <Route
+                            path={`${this.props.match.url}/compliance`}
+                            render={(props) => (
+                                <Switch>
+                                    <SCRoute
+                                        path={`${props.match.url}/data_retention`}
+                                        component={DataRetentionSettings}
+                                        extraProps={extraProps}
+                                    />
+                                    <SCRoute
+                                        path={`${props.match.url}/message_export`}
+                                        component={MessageExportSettings}
+                                        extraProps={extraProps}
+                                    />
+                                    <Redirect to={`${props.match.url}/data_retention`}/>
+                                </Switch>
+                        )}
+                        />
+                        <Route
                             path={`${this.props.match.url}/advanced`}
                             render={(props) => (
                                 <Switch>
@@ -393,16 +416,6 @@ export default class AdminConsole extends React.Component {
                                     <SCRoute
                                         path={`${props.match.url}/database`}
                                         component={DatabaseSettings}
-                                        extraProps={extraProps}
-                                    />
-                                    <SCRoute
-                                        path={`${props.match.url}/dataretention`}
-                                        component={DataRetentionSettings}
-                                        extraProps={extraProps}
-                                    />
-                                    <SCRoute
-                                        path={`${props.match.url}/message_export`}
-                                        component={MessageExportSettings}
                                         extraProps={extraProps}
                                     />
                                     <SCRoute

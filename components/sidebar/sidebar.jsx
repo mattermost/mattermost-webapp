@@ -19,10 +19,11 @@ import favicon from 'images/favicon/favicon-16x16.png';
 import redFavicon from 'images/favicon/redfavicon-16x16.png';
 import MoreChannels from 'components/more_channels';
 import MoreDirectChannels from 'components/more_direct_channels';
+
 import NewChannelFlow from '../new_channel_flow.jsx';
-import SidebarHeader from '../sidebar_header.jsx';
 import UnreadChannelIndicator from '../unread_channel_indicator.jsx';
 
+import SidebarHeader from './header';
 import SidebarChannel from './sidebar_channel';
 
 export default class Sidebar extends React.PureComponent {
@@ -79,32 +80,32 @@ export default class Sidebar extends React.PureComponent {
         currentUser: PropTypes.object.isRequired,
 
         /**
-         * User channels memerships
-         */
-        memberships: PropTypes.object.isRequired,
-
-        /**
          * Number of unread mentions/messages
          */
         unreads: PropTypes.object.isRequired,
 
         /**
-        * Set if the current user is a system admin
-        */
-        isSystemAdmin: PropTypes.bool.isRequired,
+         * Flag to display the Unread channels section
+         */
+        showUnreadSection: PropTypes.bool.isRequired,
 
         /**
-        * Set if the current user is a team admin
-        */
-        isTeamAdmin: PropTypes.bool.isRequired,
+         * Flag to display the option to create public channels.
+         */
+        showCreatePublicChannelOption: PropTypes.bool.isRequired,
+
+        /**
+         * Flag to display the option to create private channels.
+         */
+        showCreatePrivateChannelOption: PropTypes.bool.isRequired,
 
         actions: PropTypes.shape({
-            goToChannelById: PropTypes.func.isRequired
-        }).isRequired
-    }
+            goToChannelById: PropTypes.func.isRequired,
+        }).isRequired,
+    };
 
     static defaultProps = {
-        currentChannel: {}
+        currentChannel: {},
     }
 
     constructor(props) {
@@ -121,7 +122,7 @@ export default class Sidebar extends React.PureComponent {
         this.state = {
             newChannelModalType: '',
             showDirectChannelsModal: false,
-            showMoreChannelsModal: false
+            showMoreChannelsModal: false,
         };
     }
 
@@ -179,6 +180,13 @@ export default class Sidebar extends React.PureComponent {
 
         this.updateTitle();
 
+        if (this.props.currentChannel.type === Constants.DM_CHANNEL &&
+            this.props.currentTeammate && prevProps.currentTeammate &&
+            this.props.currentTeammate.display_name !== prevProps.currentTeammate.display_name
+        ) {
+            window.history.replaceState(null, null, `/${this.props.currentTeam.name}/messages/@${this.props.currentTeammate.display_name}`);
+        }
+
         this.setBadgesActiveAndFavicon();
         this.setFirstAndLastUnreadChannels();
     }
@@ -213,8 +221,13 @@ export default class Sidebar extends React.PureComponent {
     }
 
     setFirstAndLastUnreadChannels() {
+        const {
+            currentChannel,
+            unreadChannelIds,
+        } = this.props;
+
         this.getDisplayedChannels().map((channelId) => {
-            if (channelId !== this.props.currentChannel.id && this.props.unreadChannelIds.includes(channelId)) {
+            if (channelId !== currentChannel.id && unreadChannelIds.includes(channelId)) {
                 if (!this.firstUnreadChannel) {
                     this.firstUnreadChannel = channelId;
                 }
@@ -234,23 +247,29 @@ export default class Sidebar extends React.PureComponent {
     }
 
     updateTitle = () => {
-        const channel = this.props.currentChannel;
-        if (channel && this.props.currentTeam) {
+        const {
+            config,
+            currentChannel,
+            currentTeam,
+            currentTeammate,
+            unreads,
+        } = this.props;
+
+        if (currentChannel && currentTeam) {
             let currentSiteName = '';
-            if (this.props.config.SiteName != null) {
-                currentSiteName = this.props.config.SiteName;
+            if (config.SiteName != null) {
+                currentSiteName = config.SiteName;
             }
 
-            let currentChannelName = channel.display_name;
-            if (channel.type === Constants.DM_CHANNEL) {
-                if (this.props.currentTeammate != null) {
-                    currentChannelName = this.props.currentTeammate.display_name;
+            let currentChannelName = currentChannel.display_name;
+            if (currentChannel.type === Constants.DM_CHANNEL) {
+                if (currentTeammate != null) {
+                    currentChannelName = currentTeammate.display_name;
                 }
             }
 
-            const unread = this.props.unreads;
-            const mentionTitle = unread.mentions > 0 ? '(' + unread.mentions + ') ' : '';
-            const unreadTitle = unread.messageCount > 0 ? '* ' : '';
+            const mentionTitle = unreads.mentionCount > 0 ? '(' + unreads.mentionCount + ') ' : '';
+            const unreadTitle = unreads.messageCount > 0 ? '* ' : '';
             document.title = mentionTitle + unreadTitle + currentChannelName + ' - ' + this.props.currentTeam.display_name + ' ' + currentSiteName;
         }
     }
@@ -283,31 +302,33 @@ export default class Sidebar extends React.PureComponent {
     updateUnreadIndicators = () => {
         const container = $(ReactDOM.findDOMNode(this.refs.container));
 
-        var showTopUnread = false;
-        var showBottomUnread = false;
+        let showTopUnread = false;
+        let showBottomUnread = false;
 
         // Consider partially obscured channels as above/below
         const unreadMargin = 15;
 
         if (this.firstUnreadChannel) {
-            var firstUnreadElement = $(ReactDOM.findDOMNode(this.refs[this.firstUnreadChannel]));
+            const firstUnreadElement = $(ReactDOM.findDOMNode(this.refs[this.firstUnreadChannel]));
+            const fistUnreadPosition = firstUnreadElement ? firstUnreadElement.position() : null;
 
-            if (firstUnreadElement.position().top + firstUnreadElement.height() < unreadMargin) {
+            if (fistUnreadPosition && fistUnreadPosition.top + firstUnreadElement.height() < unreadMargin) {
                 showTopUnread = true;
             }
         }
 
         if (this.lastUnreadChannel) {
-            var lastUnreadElement = $(ReactDOM.findDOMNode(this.refs[this.lastUnreadChannel]));
+            const lastUnreadElement = $(ReactDOM.findDOMNode(this.refs[this.lastUnreadChannel]));
+            const lastUnreadPosition = lastUnreadElement ? lastUnreadElement.position() : null;
 
-            if (lastUnreadElement.position().top > container.height() - unreadMargin) {
+            if (lastUnreadPosition && lastUnreadPosition.top > container.height() - unreadMargin) {
                 showBottomUnread = true;
             }
         }
 
         this.setState({
             showTopUnread,
-            showBottomUnread
+            showBottomUnread,
         });
     }
 
@@ -360,39 +381,47 @@ export default class Sidebar extends React.PureComponent {
             }
 
             this.isSwitchingChannel = true;
+
             const allChannelIds = this.getDisplayedChannels();
-            const curChannelId = this.props.currentChannel.id;
-            let curIndex = -1;
-            for (let i = 0; i < allChannelIds.length; i++) {
-                if (allChannelIds[i] === curChannelId) {
-                    curIndex = i;
-                }
-            }
-            let nextIndex = curIndex;
-            let count = 0;
-            let increment = 0;
+
+            let direction = 0;
             if (e.keyCode === Constants.KeyCodes.UP) {
-                increment = -1;
+                direction = -1;
             } else {
-                increment = 1;
+                direction = 1;
             }
-            while (count < allChannelIds.length && !this.props.unreadChannelIds.includes(allChannelIds[nextIndex])) {
-                nextIndex += increment;
-                count++;
-                nextIndex = Utils.mod(nextIndex, allChannelIds.length);
-            }
-            if (this.props.unreadChannelIds.includes(allChannelIds[nextIndex])) {
+
+            const nextIndex = ChannelUtils.findNextUnreadChannelId(
+                this.props.currentChannel.id,
+                allChannelIds,
+                this.props.unreadChannelIds,
+                direction
+            );
+
+            if (nextIndex !== -1) {
                 const nextChannel = allChannelIds[nextIndex];
                 this.props.actions.goToChannelById(nextChannel);
                 this.updateScrollbarOnChannelChange(nextChannel);
             }
+
             this.isSwitchingChannel = false;
         }
     }
 
     getDisplayedChannels = (props = this.props) => {
-        return props.favoriteChannelIds.concat(props.publicChannelIds).concat(props.privateChannelIds).concat(props.directAndGroupChannelIds);
-    }
+        if (props.showUnreadSection) {
+            return props.unreadChannelIds.
+                concat(props.favoriteChannelIds).
+                concat(props.publicChannelIds).
+                concat(props.privateChannelIds).
+                concat(props.directAndGroupChannelIds);
+        }
+
+        return props.favoriteChannelIds.
+            concat(props.publicChannelIds).
+            concat(props.privateChannelIds).
+            concat(props.directAndGroupChannelIds);
+    };
 
     channelIdIsDisplayedForProps = (props, id) => {
         const allChannels = this.getDisplayedChannels(props);
@@ -421,19 +450,19 @@ export default class Sidebar extends React.PureComponent {
         this.setState({newChannelModalType: ''});
     }
 
-    showMoreDirectChannelsModal = (startingUsers) => {
+    showMoreDirectChannelsModal = () => {
         trackEvent('ui', 'ui_channels_more_direct');
-        this.setState({showDirectChannelsModal: true, startingUsers});
+        this.setState({showDirectChannelsModal: true});
     }
 
     hideMoreDirectChannelsModal = () => {
-        this.setState({showDirectChannelsModal: false, startingUsers: null});
+        this.setState({showDirectChannelsModal: false});
     }
 
     openQuickSwitcher = (e) => {
         e.preventDefault();
         AppDispatcher.handleViewAction({
-            type: ActionTypes.TOGGLE_QUICK_SWITCH_MODAL
+            type: ActionTypes.TOGGLE_QUICK_SWITCH_MODAL,
         });
     }
 
@@ -443,7 +472,6 @@ export default class Sidebar extends React.PureComponent {
                 key={channelId}
                 ref={channelId}
                 channelId={channelId}
-                membership={this.props.memberships[channelId]}
                 active={channelId === this.props.currentChannel.id}
                 currentTeamName={this.props.currentTeam.name}
                 currentUserId={this.props.currentUser.id}
@@ -452,6 +480,15 @@ export default class Sidebar extends React.PureComponent {
     }
 
     render() {
+        const {
+            directAndGroupChannelIds,
+            favoriteChannelIds,
+            publicChannelIds,
+            privateChannelIds,
+            unreadChannelIds,
+            showUnreadSection,
+        } = this.props;
+
         // Check if we have all info needed to render
         if (this.props.currentTeam == null || this.props.currentUser == null) {
             return (<div/>);
@@ -463,11 +500,12 @@ export default class Sidebar extends React.PureComponent {
         this.firstUnreadChannel = null;
         this.lastUnreadChannel = null;
 
-        // create elements for all 4 types of channels
-        const favoriteItems = this.props.favoriteChannelIds.map(this.createSidebarChannel);
-        const publicChannelItems = this.props.publicChannelIds.map(this.createSidebarChannel);
-        const privateChannelItems = this.props.privateChannelIds.map(this.createSidebarChannel);
-        const directMessageItems = this.props.directAndGroupChannelIds.map(this.createSidebarChannel);
+        // create elements for all 5 types of channels
+        const unreadChannelItems = showUnreadSection ? unreadChannelIds.map(this.createSidebarChannel) : [];
+        const favoriteItems = favoriteChannelIds.map(this.createSidebarChannel);
+        const publicChannelItems = publicChannelIds.map(this.createSidebarChannel);
+        const privateChannelItems = privateChannelIds.map(this.createSidebarChannel);
+        const directMessageItems = directAndGroupChannelIds.map(this.createSidebarChannel);
 
         var directMessageMore = (
             <li key='more'>
@@ -566,7 +604,7 @@ export default class Sidebar extends React.PureComponent {
             </OverlayTrigger>
         );
 
-        if (!ChannelUtils.showCreateOption(Constants.OPEN_CHANNEL, this.props.isTeamAdmin, this.props.isSystemAdmin)) {
+        if (!this.props.showCreatePublicChannelOption) {
             createPublicChannelIcon = null;
         }
 
@@ -586,7 +624,7 @@ export default class Sidebar extends React.PureComponent {
             </OverlayTrigger>
         );
 
-        if (!ChannelUtils.showCreateOption(Constants.PRIVATE_CHANNEL, this.props.isTeamAdmin, this.props.isSystemAdmin)) {
+        if (!this.props.showCreatePrivateChannelOption) {
             createPrivateChannelIcon = null;
         }
 
@@ -595,7 +633,7 @@ export default class Sidebar extends React.PureComponent {
             moreDirectChannelsModal = (
                 <MoreDirectChannels
                     onModalDismissed={this.hideMoreDirectChannelsModal}
-                    startingUsers={this.state.startingUsers}
+                    isExistingChannel={false}
                 />
             );
         }
@@ -672,6 +710,17 @@ export default class Sidebar extends React.PureComponent {
                     className='nav-pills__container'
                     onScroll={this.onScroll}
                 >
+                    {unreadChannelItems.length !== 0 && <ul className='nav nav-pills nav-stacked'>
+                        <li>
+                            <h4 id='favoriteChannel'>
+                                <FormattedMessage
+                                    id='sidebar.unreadSection'
+                                    defaultMessage='UNREADS'
+                                />
+                            </h4>
+                        </li>
+                        {unreadChannelItems}
+                    </ul>}
                     {favoriteItems.length !== 0 && <ul className='nav nav-pills nav-stacked'>
                         <li>
                             <h4 id='favoriteChannel'>

@@ -105,21 +105,21 @@ class PreferenceStore extends EventEmitter {
     setPreference(category, name, value) {
         store.dispatch({
             type: PreferenceTypes.RECEIVED_PREFERENCES,
-            data: [{category, name, value}]
+            data: [{category, name, value}],
         });
     }
 
     setPreferencesFromServer(newPreferences) {
         store.dispatch({
             type: PreferenceTypes.RECEIVED_PREFERENCES,
-            data: newPreferences
+            data: newPreferences,
         });
     }
 
     deletePreference(preference) {
         store.dispatch({
             type: PreferenceTypes.DELETED_PREFERENCES,
-            data: [preference]
+            data: [preference],
         });
     }
 

@@ -7,49 +7,60 @@ import {FormattedMessage} from 'react-intl';
 
 import LoadingScreen from 'components/loading_screen.jsx';
 
-export default class Logs extends React.PureComponent {
+import LogList from './log_list.jsx';
+
+export default class Logs extends React.Component {
     static propTypes = {
 
         /*
          * Array of logs to render
          */
         logs: PropTypes.arrayOf(PropTypes.string).isRequired,
+        nextPage: PropTypes.func,
 
         actions: PropTypes.shape({
 
             /*
              * Function to fetch logs
              */
-            getLogs: PropTypes.func.isRequired
-        }).isRequired
+            getLogs: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
         super(props);
-
         this.state = {
-            loadingLogs: true
+            loadingLogs: true,
+            page: 0,
+            perPage: 1000,
         };
     }
 
     componentDidMount() {
-        this.refs.logPanel.focus();
-
-        this.props.actions.getLogs().then(
+        this.props.actions.getLogs(this.state.page, this.state.perPage).then(
             () => this.setState({loadingLogs: false})
         );
     }
 
-    componentDidUpdate() {
-        // Scroll Down to get the latest logs
-        var node = this.refs.logPanel;
-        node.scrollTop = node.scrollHeight;
-        node.focus();
+    componentWillUpdate(nextProps, nextState) {
+        if (this.state.page !== nextState.page) {
+            this.props.actions.getLogs(nextState.page, nextState.perPage).then(
+                () => this.setState({loadingLogs: false})
+            );
+        }
+    }
+
+    nextPage = () => {
+        this.setState({page: this.state.page + 1});
+    }
+
+    previousPage = () => {
+        this.setState({page: this.state.page - 1});
     }
 
     reload = () => {
         this.setState({loadingLogs: true});
-        this.props.actions.getLogs().then(
+        this.props.actions.getLogs(this.state.page, this.state.perPage).then(
             () => this.setState({loadingLogs: false})
         );
     }
@@ -60,32 +71,19 @@ export default class Logs extends React.PureComponent {
         if (this.state.loadingLogs) {
             content = <LoadingScreen/>;
         } else {
-            content = [];
-
-            for (let i = 0; i < this.props.logs.length; i++) {
-                const style = {
-                    whiteSpace: 'nowrap',
-                    fontFamily: 'monospace'
-                };
-
-                if (this.props.logs[i].indexOf('[EROR]') > 0) {
-                    style.color = 'red';
-                }
-
-                content.push(<br key={'br_' + i}/>);
-                content.push(
-                    <span
-                        key={'log_' + i}
-                        style={style}
-                    >
-                        {this.props.logs[i]}
-                    </span>
-                );
-            }
+            content = (
+                <LogList
+                    {...this.props}
+                    nextPage={this.nextPage}
+                    previousPage={this.previousPage}
+                    page={this.state.page}
+                    perPage={this.state.perPage}
+                />
+            );
         }
 
         return (
-            <div className='panel'>
+            <div>
                 <h3 className='admin-console-header'>
                     <FormattedMessage
                         id='admin.logs.title'
@@ -110,13 +108,7 @@ export default class Logs extends React.PureComponent {
                         defaultMessage='Reload'
                     />
                 </button>
-                <div
-                    tabIndex='-1'
-                    ref='logPanel'
-                    className='log__panel'
-                >
-                    {content}
-                </div>
+                {content}
             </div>
         );
     }

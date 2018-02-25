@@ -20,7 +20,7 @@ export default class FileUploadSetting extends Setting {
             onSubmit: PropTypes.func.isRequired,
             disabled: PropTypes.bool,
             fileType: PropTypes.string.isRequired,
-            error: PropTypes.string
+            error: PropTypes.string,
         };
     }
 
@@ -32,7 +32,7 @@ export default class FileUploadSetting extends Setting {
 
         this.state = {
             fileName: null,
-            serverError: props.error
+            serverError: props.error,
         };
     }
 

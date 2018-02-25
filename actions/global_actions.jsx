@@ -1,7 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {createDirectChannel, getChannelAndMyMember, getChannelStats, getMyChannelMember, joinChannel, viewChannel} from 'mattermost-redux/actions/channels';
+import {
+    createDirectChannel,
+    getChannelAndMyMember,
+    getChannelStats,
+    getMyChannelMember,
+    joinChannel,
+    markChannelAsRead,
+    selectChannel,
+} from 'mattermost-redux/actions/channels';
 import {getPostThread} from 'mattermost-redux/actions/posts';
 import {removeUserFromTeam} from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
@@ -24,7 +32,7 @@ import WebSocketClient from 'client/web_websocket_client.jsx';
 
 import {ActionTypes, Constants, ErrorPageTypes, PostTypes} from 'utils/constants.jsx';
 import EventTypes from 'utils/event_types.jsx';
-import {sortTeamsByDisplayName} from 'utils/team_utils.jsx';
+import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import en from 'i18n/en.json';
 import * as I18n from 'i18n/i18n.jsx';
@@ -44,22 +52,16 @@ export function emitChannelClickEvent(channel) {
         }
     }
     function switchToChannel(chan) {
-        const channelMember = ChannelStore.getMyMember(chan.id);
         const getMyChannelMemberPromise = getMyChannelMember(chan.id)(dispatch, getState);
         const oldChannelId = ChannelStore.getCurrentId();
 
         getMyChannelMemberPromise.then(() => {
             getChannelStats(chan.id)(dispatch, getState);
-            viewChannel(chan.id, oldChannelId)(dispatch, getState);
 
             // Mark previous and next channel as read
-            ChannelStore.resetCounts([chan.id, oldChannelId]);
+            dispatch(markChannelAsRead(chan.id, oldChannelId));
             reloadIfServerVersionChanged();
         });
-
-        // Subtract mentions for the team
-        const {msgs, mentions} = ChannelStore.getUnreadCounts()[chan.id] || {msgs: 0, mentions: 0};
-        TeamStore.subtractUnread(chan.team_id, msgs, mentions);
 
         BrowserStore.setGlobalItem(chan.team_id, chan.id);
 
@@ -67,12 +69,8 @@ export function emitChannelClickEvent(channel) {
 
         AppDispatcher.handleViewAction({
             type: ActionTypes.CLICK_CHANNEL,
-            name: chan.name,
             id: chan.id,
             team_id: chan.team_id,
-            total_msg_count: chan.total_msg_count,
-            channelMember,
-            prev: oldChannelId
         });
     }
 
@@ -96,12 +94,12 @@ export async function doFocusPost(channelId, postId, data) {
         type: ActionTypes.RECEIVED_FOCUSED_POST,
         postId,
         channelId,
-        post_list: data
+        post_list: data,
     });
 
     dispatch({
         type: ActionTypes.RECEIVED_FOCUSED_POST,
-        data: postId
+        data: postId,
     });
 
     const member = getState().entities.channels.myMembers[channelId];
@@ -117,13 +115,14 @@ export function emitCloseRightHandSide() {
     dispatch(closeRightHandSide());
 }
 
-export async function emitPostFocusEvent(postId) {
+export async function emitPostFocusEvent(postId, returnTo = '') {
     loadChannelsForCurrentUser();
     const {data} = await getPostThread(postId)(dispatch, getState);
 
     if (data) {
         const channelId = data.posts[data.order[0]].channel_id;
         const channel = ChannelStore.getChannelById(channelId);
+
         if (channel && channel.type === Constants.DM_CHANNEL) {
             loadNewDMIfNeeded(channel.id);
         } else if (channel && channel.type === Constants.GM_CHANNEL) {
@@ -132,7 +131,7 @@ export async function emitPostFocusEvent(postId) {
 
         await doFocusPost(channelId, postId, data);
     } else {
-        browserHistory.push('/error?type=' + ErrorPageTypes.PERMALINK_NOT_FOUND);
+        browserHistory.push(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);
     }
 }
 
@@ -143,28 +142,28 @@ export function emitLeaveTeam() {
 export function emitUserPostedEvent(post) {
     AppDispatcher.handleServerAction({
         type: ActionTypes.CREATE_POST,
-        post
+        post,
     });
 }
 
 export function emitUserCommentedEvent(post) {
     AppDispatcher.handleServerAction({
         type: ActionTypes.CREATE_COMMENT,
-        post
+        post,
     });
 }
 
 export function showAccountSettingsModal() {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_ACCOUNT_SETTINGS_MODAL,
-        value: true
+        value: true,
     });
 }
 
 export function toggleShortcutsModal() {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_SHORTCUTS_MODAL,
-        value: true
+        value: true,
     });
 }
 
@@ -173,7 +172,7 @@ export function showDeletePostModal(post, commentCount = 0) {
         type: ActionTypes.TOGGLE_DELETE_POST_MODAL,
         value: true,
         post,
-        commentCount
+        commentCount,
     });
 }
 
@@ -181,7 +180,7 @@ export function showChannelHeaderUpdateModal(channel) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_CHANNEL_HEADER_UPDATE_MODAL,
         value: true,
-        channel
+        channel,
     });
 }
 
@@ -189,7 +188,7 @@ export function showChannelPurposeUpdateModal(channel) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL,
         value: true,
-        channel
+        channel,
     });
 }
 
@@ -197,7 +196,7 @@ export function showChannelNameUpdateModal(channel) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_CHANNEL_NAME_UPDATE_MODAL,
         value: true,
-        channel
+        channel,
     });
 }
 
@@ -205,7 +204,7 @@ export function showGetPostLinkModal(post) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_GET_POST_LINK_MODAL,
         value: true,
-        post
+        post,
     });
 }
 
@@ -213,35 +212,35 @@ export function showGetPublicLinkModal(fileId) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_GET_PUBLIC_LINK_MODAL,
         value: true,
-        fileId
+        fileId,
     });
 }
 
 export function showGetTeamInviteLinkModal() {
     AppDispatcher.handleViewAction({
         type: Constants.ActionTypes.TOGGLE_GET_TEAM_INVITE_LINK_MODAL,
-        value: true
+        value: true,
     });
 }
 
 export function showInviteMemberModal() {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_INVITE_MEMBER_MODAL,
-        value: true
+        value: true,
     });
 }
 
 export function showLeaveTeamModal() {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_LEAVE_TEAM_MODAL,
-        value: true
+        value: true,
     });
 }
 
 export function showLeavePrivateChannelModal(channel) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_LEAVE_PRIVATE_CHANNEL_MODAL,
-        value: channel
+        value: channel,
     });
 }
 
@@ -249,21 +248,21 @@ export function emitSuggestionPretextChanged(suggestionId, pretext) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.SUGGESTION_PRETEXT_CHANGED,
         id: suggestionId,
-        pretext
+        pretext,
     });
 }
 
 export function emitSelectNextSuggestion(suggestionId) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.SUGGESTION_SELECT_NEXT,
-        id: suggestionId
+        id: suggestionId,
     });
 }
 
 export function emitSelectPreviousSuggestion(suggestionId) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.SUGGESTION_SELECT_PREVIOUS,
-        id: suggestionId
+        id: suggestionId,
     });
 }
 
@@ -271,21 +270,21 @@ export function emitCompleteWordSuggestion(suggestionId, term = '') {
     AppDispatcher.handleViewAction({
         type: Constants.ActionTypes.SUGGESTION_COMPLETE_WORD,
         id: suggestionId,
-        term
+        term,
     });
 }
 
 export function emitClearSuggestions(suggestionId) {
     AppDispatcher.handleViewAction({
         type: Constants.ActionTypes.SUGGESTION_CLEAR_SUGGESTIONS,
-        id: suggestionId
+        id: suggestionId,
     });
 }
 
 export function emitPreferenceChangedEvent(preference) {
     AppDispatcher.handleServerAction({
         type: Constants.ActionTypes.RECEIVED_PREFERENCE,
-        preference
+        preference,
     });
 
     if (addedNewDmUser(preference)) {
@@ -296,7 +295,7 @@ export function emitPreferenceChangedEvent(preference) {
 export function emitPreferencesChangedEvent(preferences) {
     AppDispatcher.handleServerAction({
         type: Constants.ActionTypes.RECEIVED_PREFERENCES,
-        preferences
+        preferences,
     });
 
     if (preferences.findIndex(addedNewDmUser) !== -1) {
@@ -311,7 +310,7 @@ function addedNewDmUser(preference) {
 export function emitPreferencesDeletedEvent(preferences) {
     AppDispatcher.handleServerAction({
         type: Constants.ActionTypes.DELETED_PREFERENCES,
-        preferences
+        preferences,
     });
 }
 
@@ -327,7 +326,7 @@ export function sendEphemeralPost(message, channelId, parentId) {
         update_at: timestamp,
         root_id: parentId,
         parent_id: parentId,
-        props: {}
+        props: {},
     };
 
     handleNewPost(post);
@@ -347,8 +346,8 @@ export function sendAddToChannelEphemeralPost(user, addedUsername, channelId, po
         parent_id: postRootId,
         props: {
             username: user.username,
-            addedUsername
-        }
+            addedUsername,
+        },
     };
 
     handleNewPost(post);
@@ -361,7 +360,7 @@ export function newLocalizationSelected(locale) {
         AppDispatcher.handleServerAction({
             type: ActionTypes.RECEIVED_LOCALE,
             locale,
-            translations: en
+            translations: en,
         });
     } else {
         Client4.getTranslations(localeInfo.url).then(
@@ -373,7 +372,7 @@ export function newLocalizationSelected(locale) {
                 AppDispatcher.handleServerAction({
                     type: ActionTypes.RECEIVED_LOCALE,
                     locale,
-                    translations
+                    translations,
                 });
             }
         ).catch(
@@ -425,7 +424,7 @@ export function emitRemoteUserTypingEvent(channelId, userId, postParentId) {
         type: Constants.ActionTypes.USER_TYPING,
         channelId,
         userId,
-        postParentId
+        postParentId,
     });
 }
 
@@ -467,7 +466,7 @@ export function toggleSideBarRightMenuAction() {
 export function emitBrowserFocus(focus) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.BROWSER_CHANGE_FOCUS,
-        focus
+        focus,
     });
 }
 
@@ -490,26 +489,30 @@ export async function redirectUserToDefaultTeam() {
         }
 
         if (myTeams.length > 0) {
-            myTeams = myTeams.sort(sortTeamsByDisplayName);
-            teamId = myTeams[0].id;
+            myTeams = filterAndSortTeamsByDisplayName(myTeams);
+            if (myTeams && myTeams[0]) {
+                teamId = myTeams[0].id;
+            }
         }
     }
 
-    if (teams[teamId]) {
+    const team = teams[teamId];
+    if (team) {
         const channelId = BrowserStore.getGlobalItem(teamId);
         const channel = ChannelStore.getChannelById(channelId);
-        if (channel) {
-            redirect(teams[teamId].name, channel.name);
+        let channelName = Constants.DEFAULT_CHANNEL;
+        if (channel && channel.team_id === team.id) {
+            dispatch(selectChannel(channel.id));
+            channelName = channel.name;
         } else if (channelId) {
             const {data} = await getChannelAndMyMember(channelId)(dispatch, getState);
             if (data) {
-                redirect(teams[teamId].name, data.channel.name);
-            } else {
-                redirect(teams[teamId].name, Constants.DEFAULT_CHANNEL);
+                dispatch(selectChannel(channelId));
+                channelName = data.channel.name;
             }
-        } else {
-            redirect(teams[teamId].name, Constants.DEFAULT_CHANNEL);
         }
+
+        redirect(team.name, channelName);
     } else {
         browserHistory.push('/select_team');
     }
@@ -518,7 +521,7 @@ export async function redirectUserToDefaultTeam() {
 export function postListScrollChange(forceScrollToBottom = false) {
     AppDispatcher.handleViewAction({
         type: EventTypes.POST_LIST_SCROLL_CHANGE,
-        value: forceScrollToBottom
+        value: forceScrollToBottom,
     });
 }
 
@@ -526,7 +529,7 @@ export function emitPopoverMentionKeyClick(isRHS, mentionKey) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.POPOVER_MENTION_KEY_CLICK,
         isRHS,
-        mentionKey
+        mentionKey,
     });
 }
 

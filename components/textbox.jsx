@@ -37,27 +37,28 @@ export default class Textbox extends React.Component {
         emojiEnabled: PropTypes.bool,
         isRHS: PropTypes.bool,
         popoverMentionKeyClick: PropTypes.bool,
-        characterLimit: PropTypes.number
+        characterLimit: PropTypes.number,
+        disabled: PropTypes.bool,
     };
 
     static defaultProps = {
         supportsCommands: true,
         isRHS: false,
         popoverMentionKeyClick: false,
-        characterLimit: Constants.CHARACTER_LIMIT
+        characterLimit: Constants.CHARACTER_LIMIT,
     };
 
     constructor(props) {
         super(props);
 
         this.state = {
-            connection: ''
+            connection: '',
         };
 
         this.suggestionProviders = [
             new AtMentionProvider(this.props.channelId),
             new ChannelMentionProvider(),
-            new EmoticonProvider()
+            new EmoticonProvider(),
         ];
         if (props.supportsCommands) {
             this.suggestionProviders.push(new CommandProvider());
@@ -100,7 +101,7 @@ export default class Textbox extends React.Component {
                         defaultMessage='Your message is too long. Character count: {length}/{limit}'
                         values={{
                             length: message.length,
-                            limit: this.props.characterLimit
+                            limit: this.props.characterLimit,
                         }}
                     />);
                 this.props.handlePostError(errorMessage);
@@ -138,6 +139,9 @@ export default class Textbox extends React.Component {
 
         textbox.focus();
         Utils.placeCaretAtEnd(textbox);
+
+        // reset character count warning
+        this.checkMessageLength(textbox.value);
     }
 
     blur = () => {
@@ -318,6 +322,7 @@ export default class Textbox extends React.Component {
                     renderDividers={true}
                     isRHS={this.props.isRHS}
                     popoverMentionKeyClick={this.props.popoverMentionKeyClick}
+                    disabled={this.props.disabled}
                 />
                 {preview}
                 <div className={'help__text ' + helpTextClass}>

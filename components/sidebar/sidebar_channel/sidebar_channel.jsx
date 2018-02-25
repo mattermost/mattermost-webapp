@@ -62,14 +62,19 @@ export default class SidebarChannel extends React.PureComponent {
         channelTeammateId: PropTypes.string,
 
         /**
+         * Teammate username (for direct messages)
+         */
+        channelTeammateUsername: PropTypes.string,
+
+        /**
          * Teammate delete at date (for direct messages)
          */
         channelTeammateDeletedAt: PropTypes.number,
 
         /**
-         * User's channel membership
+         * Whether or not to mark the channel as unread when it has unread messages and no mentions
          */
-        membership: PropTypes.object,
+        showUnreadForMsgs: PropTypes.bool.isRequired,
 
         /**
          * Number of unread messages
@@ -118,8 +123,8 @@ export default class SidebarChannel extends React.PureComponent {
 
         actions: PropTypes.shape({
             savePreferences: PropTypes.func.isRequired,
-            leaveChannel: PropTypes.func.isRequired
-        }).isRequired
+            leaveChannel: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     isLeaving = false;
@@ -172,18 +177,25 @@ export default class SidebarChannel extends React.PureComponent {
         }
     }
 
+    showChannelAsUnread = () => {
+        return this.props.unreadMentions > 0 || (this.props.unreadMsgs > 0 && this.props.showUnreadForMsgs);
+    };
+
     render = () => {
         if (!this.props.channelDisplayName || !this.props.channelType) {
             return (<div/>);
         }
+
         let closeHandler = null;
-        if (this.props.channelType === Constants.DM_CHANNEL || this.props.channelType === Constants.GM_CHANNEL) {
-            closeHandler = this.handleLeaveDirectChannel;
-        } else if (this.props.config.EnableXToLeaveChannelsFromLHS === 'true') {
-            if (this.props.channelType === Constants.OPEN_CHANNEL && this.props.channelName !== Constants.DEFAULT_CHANNEL) {
-                closeHandler = this.handleLeavePublicChannel;
-            } else if (this.props.channelType === Constants.PRIVATE_CHANNEL) {
-                closeHandler = this.handleLeavePrivateChannel;
+        if (!this.showChannelAsUnread()) {
+            if (this.props.channelType === Constants.DM_CHANNEL || this.props.channelType === Constants.GM_CHANNEL) {
+                closeHandler = this.handleLeaveDirectChannel;
+            } else if (this.props.config.EnableXToLeaveChannelsFromLHS === 'true') {
+                if (this.props.channelType === Constants.OPEN_CHANNEL && this.props.channelName !== Constants.DEFAULT_CHANNEL) {
+                    closeHandler = this.handleLeavePublicChannel;
+                } else if (this.props.channelType === Constants.PRIVATE_CHANNEL) {
+                    closeHandler = this.handleLeavePrivateChannel;
+                }
             }
         }
 
@@ -193,24 +205,15 @@ export default class SidebarChannel extends React.PureComponent {
         }
 
         let rowClass = 'sidebar-item';
-
-        var unread = false;
-        if (this.props.membership) {
-            const msgCount = this.props.unreadMsgs + this.props.unreadMentions;
-            unread = msgCount > 0 || this.props.membership.mention_count > 0;
-        }
-
-        if (unread) {
+        let badge = false;
+        if (this.showChannelAsUnread()) {
             rowClass += ' unread-title';
-        }
 
-        var badge = false;
-        if (this.props.membership && this.props.unreadMentions) {
-            badge = true;
-        }
+            if (this.props.unreadMentions > 0) {
+                rowClass += ' has-badge';
 
-        if (this.props.unreadMentions > 0) {
-            rowClass += ' has-badge';
+                badge = true;
+            }
         }
 
         if (closeHandler && !badge) {
@@ -230,9 +233,13 @@ export default class SidebarChannel extends React.PureComponent {
 
         let link = '';
         if (this.props.channelFake) {
-            link = '/' + this.props.currentTeamName + '/channels/' + this.props.channelName + '?fakechannel=' + encodeURIComponent(this.props.channelStringified);
+            link = `/${this.props.currentTeamName}/channels/${this.props.channelName}?fakechannel=${encodeURIComponent(this.props.channelStringified)}`;
+        } else if (this.props.channelType === Constants.DM_CHANNEL) {
+            link = `/${this.props.currentTeamName}/messages/@${this.props.channelTeammateUsername}`;
+        } else if (this.props.channelType === Constants.GM_CHANNEL) {
+            link = `/${this.props.currentTeamName}/messages/${this.props.channelName}`;
         } else {
-            link = '/' + this.props.currentTeamName + '/channels/' + this.props.channelName;
+            link = `/${this.props.currentTeamName}/channels/${this.props.channelName}`;
         }
 
         let displayName = '';
@@ -242,7 +249,7 @@ export default class SidebarChannel extends React.PureComponent {
                     id='sidebar.directchannel.you'
                     defaultMessage='{displayname} (you)'
                     values={{
-                        displayname: this.props.channelDisplayName
+                        displayname: this.props.channelDisplayName,
                     }}
                 />
             );

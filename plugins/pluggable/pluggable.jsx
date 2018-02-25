@@ -27,7 +27,7 @@ export default class Pluggable extends React.PureComponent {
         /*
          * Logged in user's theme
          */
-        theme: PropTypes.object.isRequired
+        theme: PropTypes.object.isRequired,
     }
 
     render() {

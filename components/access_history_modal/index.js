@@ -9,15 +9,15 @@ import AccessHistoryModal from './access_history_modal.jsx';
 
 function mapStateToProps(state, ownProps) {
     return {
-        ...ownProps
+        ...ownProps,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getUserAudits
-        }, dispatch)
+            getUserAudits,
+        }, dispatch),
     };
 }
 

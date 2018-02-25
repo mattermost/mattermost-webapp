@@ -28,7 +28,7 @@ describe('Reducers.Modals', () => {
         );
 
         const expectedState = {
-            modalState: {}
+            modalState: {},
         };
 
         expect(nextState).toEqual(expectedState);
@@ -37,7 +37,7 @@ describe('Reducers.Modals', () => {
     test(ActionTypes.MODAL_OPEN, () => {
         const dialogType = TestModal;
         const dialogProps = {
-            test: true
+            test: true,
         };
 
         const nextState = modalsReducer(
@@ -46,18 +46,18 @@ describe('Reducers.Modals', () => {
                 type: ActionTypes.MODAL_OPEN,
                 modalId: ModalIdentifiers.DELETE_CHANNEL,
                 dialogType,
-                dialogProps
+                dialogProps,
             }
         );
 
         const expectedState = {
-            modalState: {}
+            modalState: {},
         };
 
         expectedState.modalState[ModalIdentifiers.DELETE_CHANNEL] = {
             open: true,
             dialogProps,
-            dialogType
+            dialogType,
         };
 
         expect(nextState).toEqual(expectedState);
@@ -68,16 +68,16 @@ describe('Reducers.Modals', () => {
             {},
             {
                 type: ActionTypes.MODAL_CLOSE,
-                modalId: ModalIdentifiers.DELETE_CHANNEL
+                modalId: ModalIdentifiers.DELETE_CHANNEL,
             }
         );
 
         const expectedState = {
-            modalState: {}
+            modalState: {},
         };
 
         expectedState.modalState[ModalIdentifiers.DELETE_CHANNEL] = {
-            open: false
+            open: false,
         };
 
         expect(nextState).toEqual(expectedState);

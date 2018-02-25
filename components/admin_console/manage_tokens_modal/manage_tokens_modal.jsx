@@ -39,8 +39,8 @@ export default class ManageTokensModal extends React.PureComponent {
             /**
              * Function to get a user's access tokens
              */
-            getUserAccessTokensForUser: PropTypes.func.isRequired
-        }).isRequired
+            getUserAccessTokensForUser: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     constructor(props) {
@@ -58,7 +58,7 @@ export default class ManageTokensModal extends React.PureComponent {
 
     handleError = (error) => {
         this.setState({
-            error
+            error,
         });
     }
 

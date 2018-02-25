@@ -37,12 +37,22 @@
 
     .help__text {
         bottom: -23px;
-        cursor: pointer;
         font-size: 13px;
         position: absolute;
         right: 0;
         text-align: right;
         z-index: 3;
+
+        .modal & {
+            bottom: initial;
+            margin-top: -20px;
+            position: relative;
+            top: 30px;
+        }
+
+        a {
+            margin-left: 10px;
+        }
     }
 
     .textbox-preview-link {
@@ -55,9 +65,12 @@
     @include single-transition(all, .5s, ease, .5s);
     display: inline-block;
     font-size: .85em;
-    margin-right: 10px;
     vertical-align: bottom;
     white-space: nowrap;
+
+    .modal & {
+        white-space: normal;
+    }
 
     b,
     i,
@@ -289,7 +302,7 @@
         position: absolute;
         text-align: center;
         visibility: hidden;
-        z-index: 1;
+        z-index: 3;
 
         .fa {
             font-size: 1.2em;
@@ -389,7 +402,7 @@
 .post-create__container {
     @include flex(0 0 auto);
     width: 100%;
-    z-index: 5;
+    z-index: 7;
 
     label {
         font-weight: normal;
@@ -422,6 +435,10 @@
 
         &.textbox-preview-area {
             overflow-y: auto;
+        }
+
+        @include input-placeholder {
+            color: inherit;
         }
     }
 
@@ -891,7 +908,7 @@
 
             .post-image__column {
                 margin: 3px 10px 3px 0;
-                padding: 0 10px 0 0;
+                padding: 0 5px;
             }
         }
 
@@ -901,7 +918,7 @@
             height: 26px;
             line-height: 25px;
             padding: 0 7px;
-            width: auto;
+            width: 250px;
 
             .post-image__thumbnail {
                 display: none;
@@ -910,7 +927,6 @@
             .post-image__details {
                 background: transparent;
                 border: none;
-                flex-direction: row-reverse;
                 padding: 0;
                 width: 100%;
 
@@ -919,13 +935,15 @@
                 }
 
                 svg {
-                    border: none;
-                    height: 30px;
-                    width: 30px;
+                    position: relative;
+                    top: 2px;
                 }
 
                 .icon {
                     display: block;
+                    float: left;
+                    margin-right: 5px;
+                    opacity: .6;
                 }
             }
 
@@ -1146,11 +1164,6 @@
         white-space: nowrap;
         width: 100%;
 
-        .post-list__content & {
-            padding-right: 80px;
-        }
-
-
         > div {
             display: inline-block;
             vertical-align: top;
@@ -1327,10 +1340,6 @@
 
         p + p {
             margin: 0.5em 0 0;
-        }
-
-        img {
-            max-height: 350px;
         }
 
         ul,

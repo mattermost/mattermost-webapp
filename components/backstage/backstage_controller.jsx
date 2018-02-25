@@ -2,26 +2,25 @@
 // See License.txt for license information.
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Route, Switch} from 'react-router-dom';
 
 import Pluggable from 'plugins/pluggable';
-import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
 import AnnouncementBar from 'components/announcement_bar';
-import Integrations from 'components/integrations/components/integrations.jsx';
-import Emoji from 'components/emoji/components/emoji_list';
-import AddEmoji from 'components/emoji/components/add_emoji';
-import InstalledIncomingWebhooks from 'components/integrations/components/installed_incoming_webhooks';
-import AddIncomingWehook from 'components/integrations/components/add_incoming_webhook';
-import EditIncomingWebhook from 'components/integrations/components/edit_incoming_webhook';
-import InstalledOutgoingWebhooks from 'components/integrations/components/installed_outgoing_webhooks';
-import AddOutgoingWebhook from 'components/integrations/components/add_outgoing_webhook';
-import EditOutgoingWebhook from 'components/integrations/components/edit_outgoing_webhook';
-import InstalledOauthApps from 'components/integrations/components/installed_oauth_apps';
-import AddOauthApp from 'components/integrations/components/add_oauth_app';
-import EditOauthApp from 'components/integrations/components/edit_oauth_app';
-import CommandsContainer from 'components/integrations/components/commands_container';
-import ConfirmIntegration from 'components/integrations/components/confirm_integration';
+import Integrations from 'components/integrations';
+import Emoji from 'components/emoji';
+import AddEmoji from 'components/emoji/add_emoji';
+import InstalledIncomingWebhooks from 'components/integrations/installed_incoming_webhooks';
+import AddIncomingWehook from 'components/integrations/add_incoming_webhook';
+import EditIncomingWebhook from 'components/integrations/edit_incoming_webhook';
+import InstalledOutgoingWebhooks from 'components/integrations/installed_outgoing_webhooks';
+import AddOutgoingWebhook from 'components/integrations/add_outgoing_webhook';
+import EditOutgoingWebhook from 'components/integrations/edit_outgoing_webhook';
+import InstalledOauthApps from 'components/integrations/installed_oauth_apps';
+import AddOauthApp from 'components/integrations/add_oauth_app';
+import EditOauthApp from 'components/integrations/edit_oauth_app';
+import CommandsContainer from 'components/integrations/commands_container';
+import ConfirmIntegration from 'components/integrations/confirm_integration';
 
 import BackstageSidebar from './components/backstage_sidebar.jsx';
 import BackstageNavbar from './components/backstage_navbar';
@@ -39,69 +38,73 @@ const BackstageRoute = ({component: Component, extraProps, ...rest}) => ( //esli
 );
 
 export default class BackstageController extends React.Component {
-    constructor(props) {
-        super(props);
+    static propTypes = {
 
-        this.onTeamChange = this.onTeamChange.bind(this);
-        this.onUserChange = this.onUserChange.bind(this);
+        /**
+         * Current user.
+         */
+        user: PropTypes.object,
 
-        const team = TeamStore.getCurrent();
-        const user = UserStore.getCurrentUser();
+        /**
+         * Current team.
+         */
+        team: PropTypes.object,
 
-        this.state = {
-            user,
-            team,
-            isAdmin: UserStore.isSystemAdminForCurrentUser(user) ||
-                TeamStore.isTeamAdminForCurrentTeam(team)
-        };
+        /**
+         * Set to indicate user is system admin or a team admin for current team.
+         */
+        isAdmin: PropTypes.bool,
+
+        siteName: PropTypes.string,
+        enableCustomEmoji: PropTypes.bool.isRequired,
+        enableIncomingWebhooks: PropTypes.bool.isRequired,
+        enableOutgoingWebhooks: PropTypes.bool.isRequired,
+        enableCommands: PropTypes.bool.isRequired,
+        enableOAuthServiceProvider: PropTypes.bool.isRequired,
+        enableOnlyAdminIntegrations: PropTypes.bool.isRequired,
     }
 
-    componentDidMount() {
-        TeamStore.addChangeListener(this.onTeamChange);
-        UserStore.addChangeListener(this.onUserChange);
+    scrollToTop = () => {
+        if (this.listRef) {
+            this.listRef.scrollTop = 0;
+        }
     }
 
-    componentWillUnmount() {
-        TeamStore.removeChangeListener(this.onTeamChange);
-        UserStore.removeChangeListener(this.onUserChange);
-    }
-
-    onUserChange() {
-        const user = UserStore.getCurrentUser();
-
-        this.setState({
-            user
-        });
-    }
-
-    onTeamChange() {
-        const team = TeamStore.getCurrent();
-
-        this.setState({
-            team,
-            isAdmin: UserStore.isSystemAdminForCurrentUser(this.state.user) ||
-                TeamStore.isTeamAdminForCurrentTeam(team)
-        });
+    setListRef = (ref) => {
+        this.listRef = ref;
     }
 
     render() {
-        if (this.state.team == null || this.state.user == null) {
+        if (this.props.team == null || this.props.user == null) {
             return <div/>;
         }
         const extraProps = {
-            team: this.state.team,
-            user: this.state.user,
-            isAdmin: this.state.isAdmin
+            team: this.props.team,
+            user: this.props.user,
+            isAdmin: this.props.isAdmin,
+            scrollToTop: this.scrollToTop,
         };
         return (
             <div className='backstage'>
                 <AnnouncementBar/>
-                <BackstageNavbar team={this.state.team}/>
+                <BackstageNavbar
+                    team={this.props.team}
+                    siteName={this.props.siteName}
+                />
                 <Pluggable pluggableName='Root'/>
-                <div className='backstage-body'>
+                <div
+                    className='backstage-body'
+                    ref={this.setListRef}
+                >
                     <BackstageSidebar
-                        team={this.state.team}
-                        user={this.state.user}
+                        team={this.props.team}
+                        user={this.props.user}
+                        enableCustomEmoji={this.props.enableCustomEmoji}
+                        enableIncomingWebhooks={this.props.enableIncomingWebhooks}
+                        enableOutgoingWebhooks={this.props.enableOutgoingWebhooks}
+                        enableCommands={this.props.enableCommands}
+                        enableOAuthServiceProvider={this.props.enableOAuthServiceProvider}
+                        enableOnlyAdminIntegrations={this.props.enableOnlyAdminIntegrations}
                     />
                     <Switch>
                         <BackstageRoute

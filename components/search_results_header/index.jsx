@@ -11,8 +11,8 @@ import SearchResultsHeader from './search_results_header.jsx';
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            closeRightHandSide
-        }, dispatch)
+            closeRightHandSide,
+        }, dispatch),
     };
 }
 

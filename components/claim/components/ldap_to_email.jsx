@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {checkMfa, switchFromLdapToEmail} from 'actions/user_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
-import LoginMfa from 'components/login/components/login_mfa.jsx';
+import LoginMfa from 'components/login/login_mfa.jsx';
 
 export default class LDAPToEmail extends React.Component {
     constructor(props) {
@@ -20,7 +20,7 @@ export default class LDAPToEmail extends React.Component {
             passwordError: '',
             confirmError: '',
             ldapPasswordError: '',
-            serverError: ''
+            serverError: '',
         };
     }
 
@@ -31,7 +31,7 @@ export default class LDAPToEmail extends React.Component {
             passwordError: '',
             confirmError: '',
             ldapPasswordError: '',
-            serverError: ''
+            serverError: '',
         };
 
         const ldapPassword = this.refs.ldappassword.value;
@@ -51,7 +51,7 @@ export default class LDAPToEmail extends React.Component {
         const passwordErr = Utils.isValidPassword(password, Utils.getPasswordConfig());
         if (passwordErr !== '') {
             this.setState({
-                passwordError: passwordErr
+                passwordError: passwordErr,
             });
             return;
         }
@@ -88,7 +88,11 @@ export default class LDAPToEmail extends React.Component {
             password,
             token,
             ldapPassword || this.state.ldapPassword,
-            null,
+            (data) => {
+                if (data.follow_link) {
+                    window.location.href = data.follow_link;
+                }
+            },
             (err) => {
                 if (err.id.startsWith('model.user.is_valid.pwd')) {
                     this.setState({passwordError: err.message, showMfa: false});
@@ -134,12 +138,7 @@ export default class LDAPToEmail extends React.Component {
             confimClass += ' has-error';
         }
 
-        let passwordPlaceholder;
-        if (global.window.mm_config.LdapPasswordFieldName) {
-            passwordPlaceholder = global.window.mm_config.LdapPasswordFieldName;
-        } else {
-            passwordPlaceholder = Utils.localizeMessage('claim.ldap_to_email.ldapPwd', 'AD/LDAP Password');
-        }
+        const passwordPlaceholder = Utils.localizeMessage('claim.ldap_to_email.ldapPwd', 'AD/LDAP Password');
 
         let content;
         if (this.state.showMfa) {
@@ -161,7 +160,7 @@ export default class LDAPToEmail extends React.Component {
                             id='claim.ldap_to_email.email'
                             defaultMessage='After switching your authentication method, you will use {email} to login. Your AD/LDAP credentials will no longer allow access to Mattermost.'
                             values={{
-                                email: this.props.email
+                                email: this.props.email,
                             }}
                         />
                     </p>
@@ -170,7 +169,7 @@ export default class LDAPToEmail extends React.Component {
                             id='claim.ldap_to_email.enterLdapPwd'
                             defaultMessage='{ldapPassword}:'
                             values={{
-                                ldapPassword: passwordPlaceholder
+                                ldapPassword: passwordPlaceholder,
                             }}
                         />
                     </p>
@@ -241,8 +240,6 @@ export default class LDAPToEmail extends React.Component {
     }
 }
 
-LDAPToEmail.defaultProps = {
-};
 LDAPToEmail.propTypes = {
-    email: PropTypes.string
+    email: PropTypes.string,
 };

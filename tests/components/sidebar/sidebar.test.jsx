@@ -11,60 +11,56 @@ jest.mock('utils/utils', () => {
     const original = require.requireActual('utils/utils');
     return {
         ...original,
-        cmdOrCtrlPressed: jest.fn()
+        cmdOrCtrlPressed: jest.fn(),
     };
 });
 
 describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
-    global.window.mm_license = {IsLicensed: 'true'};
-    global.window.mm_config = {
-        RestrictPublicChannelCreation: Constants.PERMISSIONS_SYSTEM_ADMIN,
-        RestrictPrivateChannelCreation: Constants.PERMISSIONS_SYSTEM_ADMIN
-    };
     const allChannels = {
         c1: {
             id: 'c1',
             display_name: 'Public test 1',
             name: 'public-test-1',
-            type: Constants.OPEN_CHANNEL
+            type: Constants.OPEN_CHANNEL,
         },
         c2: {
             id: 'c2',
             display_name: 'Public test 2',
             name: 'public-test-2',
-            type: Constants.OPEN_CHANNEL
+            type: Constants.OPEN_CHANNEL,
         },
         c3: {
             id: 'c3',
             display_name: 'Private test 1',
             name: 'private-test-1',
-            type: Constants.PRIVATE_CHANNEL
+            type: Constants.PRIVATE_CHANNEL,
         },
         c4: {
             id: 'c4',
             display_name: 'Private test 2',
             name: 'private-test-2',
-            type: Constants.PRIVATE_CHANNEL
+            type: Constants.PRIVATE_CHANNEL,
         },
         c5: {
             id: 'c5',
             display_name: 'Direct message test',
             name: 'direct-message-test',
-            type: Constants.DM_CHANNEL
+            type: Constants.DM_CHANNEL,
         },
         c6: {
             id: 'c6',
             display_name: 'Group message test',
             name: 'group-message-test',
-            type: Constants.GM_CHANNEL
-        }
+            type: Constants.GM_CHANNEL,
+        },
     };
 
     const defaultProps = {
         config: {
             EnableXToLeaveChannelsFromLHS: 'false',
-            SiteName: 'Test site'
+            SiteName: 'Test site',
         },
+        showUnreadSection: false,
         publicChannelIds: ['c1', 'c2'],
         privateChannelIds: ['c3', 'c4'],
         favoriteChannelIds: [],
@@ -74,46 +70,46 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             id: 'c1',
             display_name: 'Public test 1',
             name: 'public-test-1',
-            type: Constants.OPEN_CHANNEL
+            type: Constants.OPEN_CHANNEL,
         },
         currentTeam: {
             name: 'test-team',
             display_name: 'Test team display name',
             description: 'Test team description',
-            type: 'team-type'
+            type: 'team-type',
         },
         currentUser: {
-            id: 'my-user-id'
+            id: 'my-user-id',
         },
         memberships: {
             c1: {
-                name: 'Public test 1 membership'
+                name: 'Public test 1 membership',
             },
             c2: {
-                name: 'Public test 2 membership'
+                name: 'Public test 2 membership',
             },
             c3: {
-                name: 'Private test 1 membership'
+                name: 'Private test 1 membership',
             },
             c4: {
-                name: 'Private test 2 membership'
+                name: 'Private test 2 membership',
             },
             c5: {
-                name: 'Direct message test membership'
+                name: 'Direct message test membership',
             },
             c6: {
-                name: 'Group message test membership'
-            }
+                name: 'Group message test membership',
+            },
         },
         unreads: {
             messageCount: 0,
-            mentions: 0
+            mentions: 0,
         },
-        isSystemAdmin: true,
-        isTeamAdmin: false,
+        showCreatePublicChannelOption: true,
+        showCreatePrivateChannelOption: true,
         actions: {
-            goToChannelById: jest.fn()
-        }
+            goToChannelById: jest.fn(),
+        },
     };
 
     test('should match snapshot, on sidebar show', () => {
@@ -128,7 +124,20 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             <Sidebar
                 {...{
                     ...defaultProps,
-                    favoriteChannelIds: ['c1', 'c3', 'c5']
+                    favoriteChannelIds: ['c1', 'c3', 'c5'],
+                }}
+            />
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, on sidebar show with unreads', () => {
+        const wrapper = shallow(
+            <Sidebar
+                {...{
+                    ...defaultProps,
+                    unreadChannelIds: ['c3', 'c5'],
+                    showUnreadSection: true,
                 }}
             />
         );
@@ -140,19 +149,20 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             <Sidebar
                 {...{
                     ...defaultProps,
-                    isSystemAdmin: false
+                    showCreatePublicChannelOption: false,
+                    showCreatePrivateChannelOption: false,
                 }}
             />
         );
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot, when render as an empty div becuse no have a tema or a user', () => {
+    test('should match snapshot, when render as an empty div because no have a team or a user', () => {
         let wrapper = shallow(
             <Sidebar
                 {...{
                     ...defaultProps,
-                    currentTeam: null
+                    currentTeam: null,
                 }}
             />
         );
@@ -161,7 +171,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             <Sidebar
                 {...{
                     ...defaultProps,
-                    currentUser: null
+                    currentUser: null,
                 }}
             />
         );
@@ -173,13 +183,13 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             preventDefault: jest.fn(),
             altKey: true,
             shiftKey: false,
-            keyCode: Constants.KeyCodes.DOWN
+            keyCode: Constants.KeyCodes.DOWN,
         };
         const prevEvent = {
             preventDefault: jest.fn(),
             altKey: true,
             shiftKey: false,
-            keyCode: Constants.KeyCodes.UP
+            keyCode: Constants.KeyCodes.UP,
         };
 
         const wrapper = shallow(
@@ -259,13 +269,13 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             preventDefault: jest.fn(),
             altKey: true,
             shiftKey: true,
-            keyCode: Constants.KeyCodes.DOWN
+            keyCode: Constants.KeyCodes.DOWN,
         };
         const prevEvent = {
             preventDefault: jest.fn(),
             altKey: true,
             shiftKey: true,
-            keyCode: Constants.KeyCodes.UP
+            keyCode: Constants.KeyCodes.UP,
         };
 
         const wrapper = shallow(
@@ -332,14 +342,14 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             altKey: false,
             shiftKey: true,
             ctrlKey: true,
-            keyCode: Constants.KeyCodes.K
+            keyCode: Constants.KeyCodes.K,
         };
         const cmdShiftK = {
             preventDefault: jest.fn(),
             altKey: false,
             shiftKey: true,
             metaKey: true,
-            keyCode: Constants.KeyCodes.K
+            keyCode: Constants.KeyCodes.K,
         };
 
         const wrapper = shallow(
@@ -375,7 +385,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         wrapper.setProps({currentChannel: {type: Constants.DM_CHANNEL}, currentTeammate: {display_name: 'teammate'}});
         instance.updateTitle();
         expect(document.title).toBe('teammate - Test team display name');
-        wrapper.setProps({unreads: {mentions: 3, messageCount: 4}});
+        wrapper.setProps({unreads: {mentionCount: 3, messageCount: 4}});
         instance.updateTitle();
         expect(document.title).toBe('(3) * teammate - Test team display name');
     });

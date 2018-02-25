@@ -3,7 +3,7 @@
 
 import assert from 'assert';
 
-import * as Markdown from 'utils/markdown.jsx';
+import * as Markdown from 'utils/markdown';
 
 describe('Markdown.Imgs', function() {
     it('Inline mage', function(done) {

@@ -29,8 +29,8 @@ export default class SidebarRight extends React.Component {
         previousRhsState: PropTypes.string,
         actions: PropTypes.shape({
             getPinnedPosts: PropTypes.func,
-            getFlaggedPosts: PropTypes.func
-        })
+            getFlaggedPosts: PropTypes.func,
+        }),
     }
 
     constructor(props) {
@@ -40,7 +40,7 @@ export default class SidebarRight extends React.Component {
 
         this.state = {
             expanded: false,
-            useMilitaryTime: PreferenceStore.getBool(Constants.Preferences.CATEGORY_DISPLAY_SETTINGS, Constants.Preferences.USE_MILITARY_TIME, false)
+            useMilitaryTime: PreferenceStore.getBool(Constants.Preferences.CATEGORY_DISPLAY_SETTINGS, Constants.Preferences.USE_MILITARY_TIME, false),
         };
     }
 
@@ -65,7 +65,7 @@ export default class SidebarRight extends React.Component {
 
         if (!isOpen && willOpen) {
             this.setState({
-                expanded: false
+                expanded: false,
             });
         }
     }
@@ -109,12 +109,8 @@ export default class SidebarRight extends React.Component {
     }
 
     onPreferenceChange = () => {
-        if (this.props.isFlaggedPosts) {
-            this.props.actions.getFlaggedPosts();
-        }
-
         this.setState({
-            useMilitaryTime: PreferenceStore.getBool(Constants.Preferences.CATEGORY_DISPLAY_SETTINGS, Constants.Preferences.USE_MILITARY_TIME, false)
+            useMilitaryTime: PreferenceStore.getBool(Constants.Preferences.CATEGORY_DISPLAY_SETTINGS, Constants.Preferences.USE_MILITARY_TIME, false),
         });
     }
 
@@ -126,7 +122,7 @@ export default class SidebarRight extends React.Component {
 
     onShrink = () => {
         this.setState({
-            expanded: false
+            expanded: false,
         });
     }
 

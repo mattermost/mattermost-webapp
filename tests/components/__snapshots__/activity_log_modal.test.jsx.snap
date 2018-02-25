@@ -125,6 +125,7 @@ exports[`components/ActivityLogModal should match snapshot 2`] = `
     </p>
     <LoadingScreen
       position="relative"
+      style={Object {}}
     />
   </ModalBody>
 </Modal>

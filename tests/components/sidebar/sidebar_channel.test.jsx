@@ -9,7 +9,7 @@ import SidebarChannel from 'components/sidebar/sidebar_channel/sidebar_channel.j
 
 jest.mock('actions/diagnostics_actions.jsx', () => {
     return {
-        trackEvent: jest.fn()
+        trackEvent: jest.fn(),
     };
 });
 
@@ -18,8 +18,8 @@ jest.mock('utils/browser_history', () => {
     return {
         ...original,
         browserHistory: {
-            push: jest.fn()
-        }
+            push: jest.fn(),
+        },
     };
 });
 
@@ -27,7 +27,7 @@ jest.mock('utils/utils.jsx', () => {
     const original = require.requireActual('utils/utils.jsx');
     return {
         ...original,
-        isMobile: jest.fn(() => true)
+        isMobile: jest.fn(() => true),
     };
 });
 
@@ -35,7 +35,7 @@ jest.mock('actions/global_actions.jsx', () => {
     const original = require.requireActual('actions/global_actions.jsx');
     return {
         ...original,
-        showLeavePrivateChannelModal: jest.fn()
+        showLeavePrivateChannelModal: jest.fn(),
     };
 });
 
@@ -62,8 +62,8 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         membersCount: 8,
         actions: {
             savePreferences: jest.fn(),
-            leaveChannel: jest.fn()
-        }
+            leaveChannel: jest.fn(),
+        },
     };
 
     test('should match snapshot, on channel show', () => {
@@ -80,7 +80,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             type: Constants.DM_CHANNEL,
             id: 'test-channel-id',
             status: 'test',
-            fake: true
+            fake: true,
         };
         const wrapper = shallow(
             <SidebarChannel
@@ -92,7 +92,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
                     channelId: channel.id,
                     channelStatus: channel.status,
                     channelFake: true,
-                    channelStringified: JSON.stringify(channel)
+                    channelStringified: JSON.stringify(channel),
                 }}
             />
         );
@@ -104,7 +104,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             <SidebarChannel
                 {...{
                     ...defaultProps,
-                    active: true
+                    active: true,
                 }}
             />
         );
@@ -117,7 +117,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
                 {...{
                     ...defaultProps,
                     currentUserId: 'myself',
-                    channelTeammateId: 'myself'
+                    channelTeammateId: 'myself',
                 }}
             />
         );
@@ -133,7 +133,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
                     channelId: 'test',
                     channelName: Constants.DEFAULT_CHANNEL,
                     channelType: Constants.OPEN_CHANNEL,
-                    channelDisplayName: 'Town Square'
+                    channelDisplayName: 'Town Square',
                 }}
             />
         );
@@ -146,7 +146,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
                 {...{
                     ...defaultProps,
                     membership: {mention_count: 3},
-                    unreadMentions: 4
+                    unreadMentions: 4,
                 }}
             />
         );
@@ -159,7 +159,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
                 {...{
                     ...defaultProps,
                     membership: {mention_count: 3},
-                    unreadMentions: 0
+                    unreadMentions: 0,
                 }}
             />
         );
@@ -176,7 +176,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
                     channelType: Constants.OPEN_CHANNEL,
                     channelId: 'test-channel-id',
                     channelStatus: 'test',
-                    channelFake: false
+                    channelFake: false,
                 }}
             />
         );
@@ -193,7 +193,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
                     channelType: Constants.PRIVATE_CHANNEL,
                     channelId: 'test-channel-id',
                     channelStatus: 'test',
-                    channelFake: false
+                    channelFake: false,
                 }}
             />
         );
@@ -210,7 +210,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
                     channelType: Constants.PRIVATE_CHANNEL,
                     channelId: 'test-channel-id',
                     channelStatus: 'test',
-                    channelFake: false
+                    channelFake: false,
                 }}
             />
         );
@@ -227,7 +227,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
                     channelType: Constants.PRIVATE_CHANNEL,
                     channelId: 'test-channel-id',
                     channelStatus: 'test',
-                    channelFake: false
+                    channelFake: false,
                 }}
             />
         );
@@ -240,14 +240,14 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
                 {...{
                     ...defaultProps,
                     config: {
-                        EnableXToLeaveChannelsFromLHS: 'true'
+                        EnableXToLeaveChannelsFromLHS: 'true',
                     },
                     channelDisplayName: 'Channel display name',
                     channelName: 'channel-name',
                     channelType: Constants.OPEN_CHANNEL,
                     channelId: 'test-channel-id',
                     channelStatus: 'test',
-                    channelFake: false
+                    channelFake: false,
                 }}
             />
         );
@@ -260,14 +260,14 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
                 {...{
                     ...defaultProps,
                     config: {
-                        EnableXToLeaveChannelsFromLHS: 'true'
+                        EnableXToLeaveChannelsFromLHS: 'true',
                     },
                     channelDisplayName: 'Channel display name',
                     channelName: 'channel-name',
                     channelType: Constants.PRIVATE_CHANNEL,
                     channelId: 'test-channel-id',
                     channelStatus: 'test',
-                    channelFake: false
+                    channelFake: false,
                 }}
             />
         );
@@ -280,14 +280,14 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
                 {...{
                     ...defaultProps,
                     config: {
-                        EnableXToLeaveChannelsFromLHS: 'true'
+                        EnableXToLeaveChannelsFromLHS: 'true',
                     },
                     channelDisplayName: 'Channel display name',
                     channelName: 'channel-name',
                     channelType: Constants.PRIVATE_CHANNEL,
                     channelId: 'test-channel-id',
                     channelStatus: 'test',
-                    channelFake: false
+                    channelFake: false,
                 }}
             />
         );
@@ -300,14 +300,14 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
                 {...{
                     ...defaultProps,
                     config: {
-                        EnableXToLeaveChannelsFromLHS: 'true'
+                        EnableXToLeaveChannelsFromLHS: 'true',
                     },
                     channelDisplayName: 'Channel display name',
                     channelName: Constants.DEFAULT_CHANNEL,
                     channelType: Constants.OPEN_CHANNEL,
                     channelId: 'test-channel-id',
                     channelStatus: 'test',
-                    channelFake: false
+                    channelFake: false,
                 }}
             />
         );
@@ -326,8 +326,8 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
                     channelId: 'test-channel-id',
                     actions: {
                         savePreferences,
-                        leaveChannel: jest.fn()
-                    }
+                        leaveChannel: jest.fn(),
+                    },
                 }}
             />
         );
@@ -348,8 +348,8 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
                     channelId: 'test-channel-id',
                     actions: {
                         savePreferences,
-                        leaveChannel: jest.fn()
-                    }
+                        leaveChannel: jest.fn(),
+                    },
                 }}
             />
         );
@@ -371,9 +371,9 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
                     channelId: 'test-channel-id',
                     actions: {
                         savePreferences,
-                        leaveChannel: jest.fn()
+                        leaveChannel: jest.fn(),
                     },
-                    active: true
+                    active: true,
                 }}
             />
         );
@@ -394,9 +394,9 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
                     channelId: 'test-channel-id',
                     actions: {
                         savePreferences,
-                        leaveChannel: jest.fn()
+                        leaveChannel: jest.fn(),
                     },
-                    active: true
+                    active: true,
                 }}
             />
         );
@@ -418,8 +418,8 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
                     channelId: 'test-channel-id',
                     actions: {
                         savePreferences: jest.fn(),
-                        leaveChannel
-                    }
+                        leaveChannel,
+                    },
                 }}
             />
         );
@@ -437,7 +437,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
                 {...{
                     ...defaultProps,
                     channelId: 'test-channel-id',
-                    channelDisplayName: 'Channel display name'
+                    channelDisplayName: 'Channel display name',
                 }}
             />
         );

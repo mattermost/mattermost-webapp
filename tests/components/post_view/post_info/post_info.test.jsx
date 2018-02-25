@@ -9,8 +9,6 @@ import Constants from 'utils/constants.jsx';
 import PostInfo from 'components/post_view/post_info/post_info.jsx';
 
 describe('components/post_view/PostInfo', () => {
-    global.window.mm_config = {};
-
     const post = {
         channel_id: 'g6139tbospd18cmxroesdk3kkc',
         create_at: 1502715365009,
@@ -27,7 +25,7 @@ describe('components/post_view/PostInfo', () => {
         root_id: '',
         type: '',
         update_at: 1502715372443,
-        user_id: 'b4pfxi8sn78y8yq7phzxxfor7h'
+        user_id: 'b4pfxi8sn78y8yq7phzxxfor7h',
     };
 
     const requiredProps = {
@@ -42,19 +40,12 @@ describe('components/post_view/PostInfo', () => {
         isFlagged: false,
         hover: false,
         showTimeWithoutHover: false,
+        enableEmojiPicker: false,
         actions: {
             removePost: jest.fn(),
-            addReaction: jest.fn()
-        }
+            addReaction: jest.fn(),
+        },
     };
-
-    afterEach(() => {
-        global.window.mm_config = {};
-    });
-
-    beforeEach(() => {
-        global.window.mm_config.EnableEmojiPicker = 'false';
-    });
 
     test('should match snapshot', () => {
         const wrapper = shallow(<PostInfo {...requiredProps}/>);
@@ -107,17 +98,18 @@ describe('components/post_view/PostInfo', () => {
     });
 
     test('should match snapshot, enable emoji picker', () => {
-        global.window.mm_config.EnableEmojiPicker = 'true';
-
-        const wrapper = shallow(<PostInfo {...requiredProps}/>);
+        const wrapper = shallow(
+            <PostInfo
+                {...requiredProps}
+                enableEmojiPicker={true}
+            />
+        );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('toggleEmojiPicker, should have called props.handleDropdownOpened', () => {
-        global.window.mm_config.EnableEmojiPicker = 'true';
-
         const handleDropdownOpened = jest.fn();
-        const requiredPropsWithHandleDropdownOpened = {...requiredProps, handleDropdownOpened};
+        const requiredPropsWithHandleDropdownOpened = {...requiredProps, handleDropdownOpened, enableEmojiPicker: true};
 
         const wrapper = shallow(<PostInfo {...requiredPropsWithHandleDropdownOpened}/>);
         wrapper.instance().toggleEmojiPicker();
@@ -126,10 +118,8 @@ describe('components/post_view/PostInfo', () => {
     });
 
     test('hideEmojiPicker, should have called props.handleDropdownOpened(false)', () => {
-        global.window.mm_config.EnableEmojiPicker = 'true';
-
         const handleDropdownOpened = jest.fn();
-        const requiredPropsWithHandleDropdownOpened = {...requiredProps, handleDropdownOpened};
+        const requiredPropsWithHandleDropdownOpened = {...requiredProps, handleDropdownOpened, enableEmojiPicker: true};
 
         const wrapper = shallow(<PostInfo {...requiredPropsWithHandleDropdownOpened}/>);
         wrapper.instance().hideEmojiPicker();
@@ -139,14 +129,12 @@ describe('components/post_view/PostInfo', () => {
     });
 
     test('removePost, should have called props.actions.removePost(post)', () => {
-        global.window.mm_config.EnableEmojiPicker = 'true';
-
         const removePost = jest.fn();
         const actions = {
             removePost,
-            addReaction: jest.fn()
+            addReaction: jest.fn(),
         };
-        const requiredPropsWithRemovePost = {...requiredProps, actions};
+        const requiredPropsWithRemovePost = {...requiredProps, actions, enableEmojiPicker: true};
 
         const wrapper = shallow(<PostInfo {...requiredPropsWithRemovePost}/>);
         wrapper.instance().removePost();
@@ -156,17 +144,15 @@ describe('components/post_view/PostInfo', () => {
     });
 
     test('reactEmojiClick, should have called props.actions.addReaction()', () => {
-        global.window.mm_config.EnableEmojiPicker = 'true';
-
         const emoji = {name: 'name'};
         const addReaction = jest.fn();
         const actions = {
             removePost: jest.fn(),
-            addReaction
+            addReaction,
         };
 
         const handleDropdownOpened = jest.fn();
-        const requiredPropsWithAddReaction = {...requiredProps, actions, handleDropdownOpened};
+        const requiredPropsWithAddReaction = {...requiredProps, actions, handleDropdownOpened, enableEmojiPicker: true};
 
         const wrapper = shallow(<PostInfo {...requiredPropsWithAddReaction}/>);
         wrapper.instance().reactEmojiClick(emoji);

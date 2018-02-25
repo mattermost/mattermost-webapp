@@ -21,8 +21,8 @@ export default class TeamMembersDropdown extends React.Component {
         actions: PropTypes.shape({
             getUser: PropTypes.func.isRequired,
             getTeamStats: PropTypes.func.isRequired,
-            getChannelStats: PropTypes.func.isRequired
-        }).isRequired
+            getChannelStats: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -41,7 +41,7 @@ export default class TeamMembersDropdown extends React.Component {
             serverError: null,
             showDemoteModal: false,
             user: null,
-            role: null
+            role: null,
         };
     }
 
@@ -132,7 +132,7 @@ export default class TeamMembersDropdown extends React.Component {
             showDemoteModal: true,
             user,
             role,
-            newRole
+            newRole,
         });
     }
 
@@ -142,7 +142,7 @@ export default class TeamMembersDropdown extends React.Component {
             showDemoteModal: false,
             user: null,
             role: null,
-            newRole: null
+            newRole: null,
         });
     }
 
@@ -334,7 +334,7 @@ export default class TeamMembersDropdown extends React.Component {
                         id='team_members_dropdown.confirmDemotionCmd'
                         defaultMessage='platform roles system_admin {username}'
                         vallues={{
-                            username: me.username
+                            username: me.username,
                         }}
                     />
                     {serverError}

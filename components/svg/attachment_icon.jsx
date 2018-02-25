@@ -8,9 +8,9 @@ export default class AttachmentIcon extends React.PureComponent {
         return (
             <span {...this.props}>
                 <svg
-                    width='17px'
-                    height='16px'
-                    viewBox='0 0 17 16'
+                    width='16px'
+                    height='15px'
+                    viewBox='0 0 18 15'
                 >
                     <g
                         fill='inherit'

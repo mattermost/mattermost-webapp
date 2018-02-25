@@ -6,7 +6,7 @@ import React from 'react';
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
 import FilenameOverlay from 'components/file_attachment/filename_overlay.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants, {FileTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import loadingGif from 'images/load.gif';
 
@@ -14,12 +14,12 @@ export default class FilePreview extends React.PureComponent {
     static propTypes = {
         onRemove: PropTypes.func.isRequired,
         fileInfos: PropTypes.arrayOf(PropTypes.object).isRequired,
-        uploadsInProgress: PropTypes.array
+        uploadsInProgress: PropTypes.array,
     };
 
     static defaultProps = {
         fileInfos: [],
-        uploadsInProgress: []
+        uploadsInProgress: [],
     };
 
     constructor(props) {
@@ -27,7 +27,7 @@ export default class FilePreview extends React.PureComponent {
 
         this.handleRemove = this.handleRemove.bind(this);
         this.state = {
-            fileInfos: [...this.props.fileInfos]
+            fileInfos: [...this.props.fileInfos],
         };
     }
 
@@ -40,7 +40,7 @@ export default class FilePreview extends React.PureComponent {
     componentWillReceiveProps(newProps) {
         if (!Utils.areObjectsEqual(this.props.fileInfos, newProps.fileInfos)) {
             this.setState({
-                fileInfos: [...newProps.fileInfos]
+                fileInfos: [...newProps.fileInfos],
             });
         }
     }
@@ -57,14 +57,14 @@ export default class FilePreview extends React.PureComponent {
 
             let className = 'file-preview post-image__column';
             let previewImage;
-            if (type === 'svg') {
+            if (type === FileTypes.SVG) {
                 previewImage = (
                     <img
                         className='post-image normal'
                         src={getFileUrl(info.id)}
                     />
                 );
-            } else if (type === 'image') {
+            } else if (type === FileTypes.IMAGE) {
                 let imageClassName = 'post-image';
 
                 if (info.width < Constants.THUMBNAIL_WIDTH && info.height < Constants.THUMBNAIL_HEIGHT) {
@@ -83,7 +83,7 @@ export default class FilePreview extends React.PureComponent {
                         className={imageClassName}
                         style={{
                             backgroundImage: `url(${thumbnailUrl})`,
-                            backgroundSize: 'cover'
+                            backgroundSize: 'cover',
                         }}
                     />
                 );

@@ -39,17 +39,17 @@ describe('components/AboutBuildModal', () => {
             SQLDriverName: 'Postgres',
             BuildHash: 'abcdef1234567890',
             BuildHashEnterprise: '0123456789abcdef',
-            BuildDate: '21 January 2017'
+            BuildDate: '21 January 2017',
         };
         license = {
             IsLicensed: 'true',
-            Company: 'Mattermost Inc'
+            Company: 'Mattermost Inc',
         };
     });
 
     test('should match snapshot for enterprise edition', () => {
         const wrapper = shallowAboutBuildModal({config, license});
-        expect(wrapper.find('#versionString').text()).toBe('3.6.0 (3.6.2)');
+        expect(wrapper.find('#versionString').text()).toBe('\u00a03.6.0 (3.6.2)');
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -57,7 +57,7 @@ describe('components/AboutBuildModal', () => {
         const teamConfig = {
             ...config,
             BuildEnterpriseReady: 'false',
-            BuildHashEnterprise: ''
+            BuildHashEnterprise: '',
         };
 
         const wrapper = shallowAboutBuildModal({config: teamConfig, license: {}});
@@ -70,12 +70,12 @@ describe('components/AboutBuildModal', () => {
             BuildEnterpriseReady: 'false',
             BuildHashEnterprise: '',
             Version: '3.6.0',
-            BuildNumber: '3.6.0'
+            BuildNumber: '3.6.0',
         };
 
         const wrapper = shallowAboutBuildModal({config: sameBuildConfig, license: {}});
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find('#versionString').text()).toBe('3.6.0');
+        expect(wrapper.find('#versionString').text()).toBe('\u00a03.6.0');
     });
 
     test('should show the build number if it is the different from the version number', () => {
@@ -84,12 +84,12 @@ describe('components/AboutBuildModal', () => {
             BuildEnterpriseReady: 'false',
             BuildHashEnterprise: '',
             Version: '3.6.0',
-            BuildNumber: '3.6.2'
+            BuildNumber: '3.6.2',
         };
 
         const wrapper = shallowAboutBuildModal({config: differentBuildConfig, license: {}});
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find('#versionString').text()).toBe('3.6.0 (3.6.2)');
+        expect(wrapper.find('#versionString').text()).toBe('\u00a03.6.0 (3.6.2)');
     });
 
     test('should call onModalDismissed callback when the modal is hidden', (done) => {
@@ -101,6 +101,7 @@ describe('components/AboutBuildModal', () => {
             <AboutBuildModal
                 config={config}
                 license={license}
+                webappBuildHash='0a1b2c3d4f'
                 show={true}
                 onModalDismissed={onHide}
             />
@@ -116,7 +117,8 @@ describe('components/AboutBuildModal', () => {
         const allProps = {
             show,
             onModalDismissed,
-            ...props
+            webappBuildHash: '0a1b2c3d4f',
+            ...props,
         };
 
         return shallow(<AboutBuildModal {...allProps}/>);

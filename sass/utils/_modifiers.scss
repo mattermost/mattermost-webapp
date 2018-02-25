@@ -15,6 +15,10 @@
 .padding-bottom {
     padding-bottom: 7px;
 
+    &.x1 {
+        padding-bottom: 4px;
+    }
+
     &.x2 {
         padding-bottom: 14px;
     }

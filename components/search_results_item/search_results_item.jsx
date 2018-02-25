@@ -14,7 +14,7 @@ import DotMenu from 'components/dot_menu';
 import ProfilePicture from 'components/profile_picture.jsx';
 import UserProfile from 'components/user_profile.jsx';
 import DateSeparator from 'components/post_view/date_separator.jsx';
-import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content.jsx';
+import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostFlagIcon from 'components/post_view/post_flag_icon.jsx';
 import PostTime from 'components/post_view/post_time.jsx';
 import {browserHistory} from 'utils/browser_history';
@@ -92,6 +92,11 @@ export default class SearchResultsItem extends React.PureComponent {
         commentCountForPost: PropTypes.number,
 
         /**
+         * Whether post username overrides are to be respected.
+         */
+        enablePostUsernameOverride: PropTypes.bool.isRequired,
+
+        /**
         *  Function used for shrinking LHS
         *  on click of jump to message in expanded mode
         */
@@ -106,15 +111,15 @@ export default class SearchResultsItem extends React.PureComponent {
         *  Function used for closing LHS
         */
         actions: PropTypes.shape({
-            closeRightHandSide: PropTypes.func.isRequired
-        }).isRequired
+            closeRightHandSide: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     constructor(props) {
         super(props);
 
         this.state = {
-            dropdownOpened: false
+            dropdownOpened: false,
         };
     }
 
@@ -140,7 +145,7 @@ export default class SearchResultsItem extends React.PureComponent {
 
     handleDropdownOpened = (isOpened) => {
         this.setState({
-            dropdownOpened: isOpened
+            dropdownOpened: isOpened,
         });
     };
 
@@ -188,7 +193,7 @@ export default class SearchResultsItem extends React.PureComponent {
                         id='search_item.direct'
                         defaultMessage='Direct Message (with {username})'
                         values={{
-                            username: Utils.displayUsernameForUser(Utils.getDirectTeammate(channel.id))
+                            username: Utils.displayUsernameForUser(Utils.getDirectTeammate(channel.id)),
                         }}
                     />
                 );
@@ -200,7 +205,7 @@ export default class SearchResultsItem extends React.PureComponent {
         if (post.props &&
                 post.props.from_webhook &&
                 post.props.override_username &&
-                global.window.mm_config.EnablePostUsernameOverride === 'true') {
+                this.props.enablePostUsernameOverride) {
             overrideUsername = post.props.override_username;
             disableProfilePopover = true;
         }
@@ -293,7 +298,7 @@ export default class SearchResultsItem extends React.PureComponent {
                         post={post}
                         options={{
                             searchTerm: this.props.term,
-                            mentionHighlight: this.props.isMentionSearch
+                            mentionHighlight: this.props.isMentionSearch,
                         }}
                     />
                 </PostBodyAdditionalContent>

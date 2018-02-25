@@ -66,12 +66,12 @@ class ProfilePopover extends React.Component {
          */
         hasMention: PropTypes.bool,
 
-        ...Popover.propTypes
+        ...Popover.propTypes,
     }
 
     static defaultProps = {
         isRHS: false,
-        hasMention: false
+        hasMention: false,
     }
 
     constructor(props) {
@@ -83,7 +83,7 @@ class ProfilePopover extends React.Component {
         this.handleEditAccountSettings = this.handleEditAccountSettings.bind(this);
         this.state = {
             currentUserId: UserStore.getCurrentId(),
-            loadingDMChannel: -1
+            loadingDMChannel: -1,
         };
     }
     shouldComponentUpdate(nextProps) {
@@ -140,7 +140,7 @@ class ProfilePopover extends React.Component {
 
         openDirectChannelToUser(
             user.id,
-            (channel) => {
+            () => {
                 if (Utils.isMobile()) {
                     GlobalActions.emitCloseRightHandSide();
                 }
@@ -148,7 +148,7 @@ class ProfilePopover extends React.Component {
                 if (this.props.hide) {
                     this.props.hide();
                 }
-                browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + channel.name);
+                browserHistory.push(`${TeamStore.getCurrentTeamRelativeUrl()}/messages/@${user.username}`);
             }
         );
     }
@@ -249,6 +249,7 @@ class ProfilePopover extends React.Component {
         dataContent.push(
             <img
                 className='user-popover__image'
+                alt={`${this.props.user.username || 'user'} profile image`}
                 src={this.props.src}
                 height='128'
                 width='128'

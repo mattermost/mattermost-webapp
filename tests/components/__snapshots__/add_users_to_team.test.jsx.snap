@@ -62,6 +62,7 @@ exports[`components/AddUsersToTeam should match snapshot 1`] = `
       handlePageChange={[Function]}
       handleSubmit={[Function]}
       key="addUsersToTeamKey"
+      loading={true}
       maxValues={20}
       numRemainingText={
         <FormattedMessage

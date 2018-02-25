@@ -9,7 +9,7 @@ import GetLinkModal from 'components/get_link_modal.jsx';
 
 describe('components/GetPostLinkModal', () => {
     const requiredProps = {
-        currentTeamUrl: 'http://localhost:8065/current-team'
+        currentTeamUrl: 'http://localhost:8065/current-team',
     };
 
     test('should match snapshot with currentTeamUrl passed in', () => {

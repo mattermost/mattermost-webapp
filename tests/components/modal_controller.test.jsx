@@ -29,9 +29,9 @@ describe('components/ModalController', () => {
         const state = {
             views: {
                 modals: {
-                    modalState: {}
-                }
-            }
+                    modalState: {},
+                },
+            },
         };
 
         const store = mockStore(state);
@@ -55,11 +55,11 @@ describe('components/ModalController', () => {
                         test_modal: {
                             open: true,
                             dialogProps: {},
-                            dialogType: TestModal
-                        }
-                    }
-                }
-            }
+                            dialogType: TestModal,
+                        },
+                    },
+                },
+            },
         };
 
         const store = mockStore(state);

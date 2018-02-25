@@ -88,7 +88,7 @@ exports[`components/AboutBuildModal should hide the build number if it is the sa
             <span
               id="versionString"
             >
-              3.6.0
+               3.6.0
             </span>
           </div>
           <div>
@@ -162,6 +162,14 @@ exports[`components/AboutBuildModal should hide the build number if it is the sa
           values={Object {}}
         />
          
+        <br />
+        <FormattedMessage
+          defaultMessage="Webapp Build Hash:"
+          id="about.hashwebapp"
+          values={Object {}}
+        />
+         
+        0a1b2c3d4f
       </p>
       <p>
         <FormattedMessage
@@ -265,7 +273,7 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
             <span
               id="versionString"
             >
-              3.6.0 (3.6.2)
+               3.6.0 (3.6.2)
             </span>
           </div>
           <div>
@@ -351,6 +359,14 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
         />
          
         0123456789abcdef
+        <br />
+        <FormattedMessage
+          defaultMessage="Webapp Build Hash:"
+          id="about.hashwebapp"
+          values={Object {}}
+        />
+         
+        0a1b2c3d4f
       </p>
       <p>
         <FormattedMessage
@@ -454,7 +470,7 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
             <span
               id="versionString"
             >
-              3.6.0 (3.6.2)
+               3.6.0 (3.6.2)
             </span>
           </div>
           <div>
@@ -528,6 +544,14 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
           values={Object {}}
         />
          
+        <br />
+        <FormattedMessage
+          defaultMessage="Webapp Build Hash:"
+          id="about.hashwebapp"
+          values={Object {}}
+        />
+         
+        0a1b2c3d4f
       </p>
       <p>
         <FormattedMessage
@@ -631,7 +655,7 @@ exports[`components/AboutBuildModal should show the build number if it is the di
             <span
               id="versionString"
             >
-              3.6.0 (3.6.2)
+               3.6.0 (3.6.2)
             </span>
           </div>
           <div>
@@ -705,6 +729,14 @@ exports[`components/AboutBuildModal should show the build number if it is the di
           values={Object {}}
         />
          
+        <br />
+        <FormattedMessage
+          defaultMessage="Webapp Build Hash:"
+          id="about.hashwebapp"
+          values={Object {}}
+        />
+         
+        0a1b2c3d4f
       </p>
       <p>
         <FormattedMessage

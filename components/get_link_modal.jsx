@@ -12,17 +12,17 @@ export default class GetLinkModal extends React.PureComponent {
         onHide: PropTypes.func.isRequired,
         title: PropTypes.string.isRequired,
         helpText: PropTypes.string,
-        link: PropTypes.string.isRequired
+        link: PropTypes.string.isRequired,
     };
 
     static defaultProps = {
-        helpText: null
+        helpText: null,
     };
 
     constructor(props) {
         super(props);
         this.state = {
-            copiedLink: false
+            copiedLink: false,
         };
     }
 

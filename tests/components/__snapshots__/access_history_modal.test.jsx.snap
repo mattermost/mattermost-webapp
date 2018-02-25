@@ -114,6 +114,7 @@ exports[`components/AccessHistoryModal should match snapshot when no audits exis
   >
     <LoadingScreen
       position="relative"
+      style={Object {}}
     />
   </ModalBody>
 </Modal>

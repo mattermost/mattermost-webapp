@@ -63,7 +63,7 @@ class TestHelperClass {
 
     createWebSocketClient(token) {
         var ws = new WebSocketClient();
-        ws.initialize('http://localhost:8065/api/v3/users/websocket', token);
+        ws.initialize('http://localhost:8065/api/v4/websocket', token);
         return ws;
     }
 
@@ -102,6 +102,17 @@ class TestHelperClass {
         var post = {};
         post.message = `Unit Test ${this.generateId()}`;
         return post;
+    }
+
+    randomString = (length) => {
+        var text = '';
+        var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+        for (var i = 0; i < length; i++) {
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+        }
+
+        return text;
     }
 
     initBasic = (done, callback, connectWS) => {

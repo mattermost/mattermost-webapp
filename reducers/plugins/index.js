@@ -104,5 +104,5 @@ export default combineReducers({
 
     // object where every key is a post type and the values are components wrapped in an
     // an object that contains a plugin id
-    postTypes
+    postTypes,
 });

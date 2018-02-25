@@ -11,7 +11,6 @@ import {browserHistory} from 'utils/browser_history';
 import ChannelStore from 'stores/channel_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
-import {Constants} from 'utils/constants.jsx';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -37,7 +36,6 @@ export async function createTeam(team, onSuccess, onError) {
 export async function updateTeam(team, onSuccess, onError) {
     const {data: rteam, error: err} = await TeamActions.updateTeam(team)(dispatch, getState);
     if (rteam && onSuccess) {
-        browserHistory.push('/' + rteam.name + `/channels/${Constants.DEFAULT_CHANNEL}`);
         onSuccess(rteam);
     } else if (err && onError) {
         onError({id: err.server_error_id, ...err});
@@ -76,8 +74,8 @@ export function addUserToTeamFromInvite(data, hash, inviteId, success, error) {
                     ...member,
                     delete_at: 0,
                     msg_count: 0,
-                    mention_count: 0
-                }
+                    mention_count: 0,
+                },
             });
 
             if (success) {

@@ -21,7 +21,7 @@ import * as ChannelUtils from 'utils/channel_utils.jsx';
 import {Constants, Preferences, StoragePrefixes} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {isUrlSafe} from 'utils/url.jsx';
+import {isUrlSafe, getSiteURL} from 'utils/url.jsx';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -127,8 +127,10 @@ export function executeCommand(message, args, success, error) {
             }
 
             if (hasGotoLocation) {
-                if (data.goto_location.startsWith('/') || data.goto_location.includes(window.location.hostname)) {
+                if (data.goto_location.startsWith('/')) {
                     browserHistory.push(data.goto_location);
+                } else if (data.goto_location.startsWith(getSiteURL())) {
+                    browserHistory.push(data.goto_location.substr(getSiteURL().length));
                 } else {
                     window.open(data.goto_location);
                 }
@@ -203,7 +205,7 @@ export async function openDirectChannelToUser(userId, success, error) {
         const currentUserId = UserStore.getCurrentId();
         savePreferences(currentUserId, [
             {user_id: currentUserId, category: Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, name: userId, value: 'true'},
-            {user_id: currentUserId, category: Preferences.CATEGORY_CHANNEL_OPEN_TIME, name: channel.id, value: now.toString()}
+            {user_id: currentUserId, category: Preferences.CATEGORY_CHANNEL_OPEN_TIME, name: channel.id, value: now.toString()},
         ])(dispatch, getState);
 
         if (success) {
@@ -246,7 +248,7 @@ export function unmarkFavorite(channelId) {
     const pref = {
         user_id: currentUserId,
         category: Preferences.CATEGORY_FAVORITE_CHANNEL,
-        name: channelId
+        name: channelId,
     };
 
     deletePreferences(currentUserId, [pref])(dispatch, getState);
@@ -316,7 +318,7 @@ export async function autocompleteChannels(term, success, error) {
         return;
     }
 
-    const {data, error: err} = await ChannelActions.searchChannels(teamId, term)(dispatch, getState);
+    const {data, error: err} = await ChannelActions.autocompleteChannels(teamId, term)(dispatch, getState);
     if (data && success) {
         success(data);
     } else if (err && error) {

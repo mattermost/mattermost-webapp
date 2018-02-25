@@ -278,7 +278,7 @@
         &.post--system {
             .post__header {
                 .col__reply {
-                    min-width: 70px;
+                    min-width: 45px;
                 }
             }
         }
@@ -377,6 +377,7 @@
             padding-right: 70px;
 
             .col__reply {
+                min-width: 45px;
                 top: -6px;
                 z-index: auto;
             }
@@ -1201,8 +1202,10 @@
                         .btn-close {
                             @include opacity(.5);
                             display: block;
+                            font-size: 25px;
                             right: 4px;
                             text-align: center;
+                            top: 4px;
                             width: 40px;
                         }
                     }
@@ -1418,12 +1421,6 @@
                     width: 30px;
                 }
             }
-
-            .attachment__image {
-                &.attachment__image--openraph {
-                    max-width: 200px;
-                }
-            }
         }
     }
 }
@@ -1623,16 +1620,6 @@
             text-align: left;
         }
     }
-
-    .post {
-        .attachment {
-            .attachment__image {
-                &.attachment__image--openraph {
-                    max-width: 200px;
-                }
-            }
-        }
-    }
 }
 
 @media screen and (max-width: 550px) {
@@ -1662,16 +1649,6 @@
         left: 15px;
         top: 60px;
         width: calc(100% - 30px);
-    }
-
-    .post {
-        .attachment {
-            .attachment__image {
-                &.attachment__image--openraph {
-                    max-width: 180px;
-                }
-            }
-        }
     }
 }
 
@@ -1811,16 +1788,6 @@
     .integration__icon {
         display: none;
     }
-
-    .post {
-        .attachment {
-            .attachment__image {
-                &.attachment__image--openraph {
-                    max-width: 120px;
-                }
-            }
-        }
-    }
 }
 
 @media screen and (max-height: 640px) {
@@ -1835,6 +1802,15 @@
 }
 
 @media screen and (max-width: 320px) {
+    .post {
+        &.post--system {
+             .post__header {
+                padding: 0;
+             }
+        }
+
+    }
+
     .multi-teams {
         .sidebar--left {
             width: 220px;
@@ -1850,14 +1826,6 @@
             .col__name {
                 .user-popover {
                     max-width: 105px;
-                }
-            }
-        }
-
-        .attachment {
-            .attachment__image {
-                &.attachment__image--openraph {
-                    max-width: 80px;
                 }
             }
         }

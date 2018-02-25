@@ -108,11 +108,11 @@ DotMenuItem.propTypes = {
         /*
          * Function to unpin the post
          */
-        unpinPost: PropTypes.func
-    })
+        unpinPost: PropTypes.func,
+    }),
 };
 
 DotMenuItem.defaultProps = {
     idPrefix: '',
-    idCount: -1
+    idCount: -1,
 };

@@ -10,18 +10,18 @@ import UnreadBelowIcon from 'components/svg/unread_below_icon';
 export default class NewMessageIndicator extends React.PureComponent {
     static propTypes = {
         onClick: PropTypes.func.isRequired,
-        newMessages: PropTypes.number
+        newMessages: PropTypes.number,
     };
 
     static defaultProps = {
-        newMessages: 0
+        newMessages: 0,
     };
 
     constructor(props) {
         super(props);
         this.state = {
             visible: false,
-            rendered: false
+            rendered: false,
         };
     }
 

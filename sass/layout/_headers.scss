@@ -121,6 +121,10 @@
         .icon__flag {
             top: 3px;
         }
+
+        .icon__search {
+            top: 4px;
+        }
     }
 
     .move--left & {
@@ -239,6 +243,17 @@
         position: relative;
         text-overflow: ellipsis;
         width: calc(100% - 18px);
+
+        blockquote {
+            font-size: 14px;
+            padding: 0 0 0 23px;
+
+            &:before {
+                font-size: 16px;
+                left: 1px;
+                top: -1px;
+            }
+        }
 
         .status {
             margin-right: 3px;

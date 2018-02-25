@@ -5,11 +5,9 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {browserHistory} from 'utils/browser_history';
-import EditOAuthApp from 'components/integrations/components/edit_oauth_app/edit_oauth_app.jsx';
+import EditOAuthApp from 'components/integrations/edit_oauth_app/edit_oauth_app.jsx';
 
 describe('components/integrations/EditOAuthApp', () => {
-    global.window.mm_config = {};
-
     const oauthApp = {
         id: 'facxd9wpzpbpfp8pad78xj75pr',
         name: 'testApp',
@@ -21,15 +19,15 @@ describe('components/integrations/EditOAuthApp', () => {
         icon_url: 'https://test.com/icon',
         is_trusted: true,
         update_at: 1501365458934,
-        callback_urls: ['https://test.com/callback', 'https://test.com/callback2']
+        callback_urls: ['https://test.com/callback', 'https://test.com/callback2'],
     };
     const team = {
         id: 'dbcxd9wpzpbpfp8pad78xj12pr',
-        name: 'test'
+        name: 'test',
     };
     const editOAuthAppRequest = {
         status: 'not_started',
-        error: null
+        error: null,
     };
 
     const baseProps = {
@@ -39,17 +37,10 @@ describe('components/integrations/EditOAuthApp', () => {
         isSystemAdmin: false,
         actions: {
             getOAuthApp: jest.fn(),
-            editOAuthApp: jest.fn()
-        }
+            editOAuthApp: jest.fn(),
+        },
+        enableOAuthServiceProvider: true,
     };
-
-    beforeEach(() => {
-        global.window.mm_config.EnableOAuthServiceProvider = 'true';
-    });
-
-    afterEach(() => {
-        global.window.mm_config = {};
-    });
 
     test('should match snapshot, loading', () => {
         const wrapper = shallow(
@@ -80,8 +71,7 @@ describe('components/integrations/EditOAuthApp', () => {
     });
 
     test('should match snapshot when EnableOAuthServiceProvider is false', () => {
-        global.window.mm_config.EnableOAuthServiceProvider = 'false';
-        const props = {...baseProps, oauthApp};
+        const props = {...baseProps, oauthApp, enableOAuthServiceProvider: false};
         const wrapper = shallow(
             <EditOAuthApp {...props}/>
         );
@@ -142,7 +132,7 @@ describe('components/integrations/EditOAuthApp', () => {
                 return new Promise((resolve) => {
                     process.nextTick(() => resolve({
                         data: 'data',
-                        error: null
+                        error: null,
                     }));
                 });
             }
@@ -168,7 +158,7 @@ describe('components/integrations/EditOAuthApp', () => {
                 return new Promise((resolve) => {
                     process.nextTick(() => resolve({
                         data: null,
-                        error: {message: 'error message'}
+                        error: {message: 'error message'},
                     }));
                 });
             }

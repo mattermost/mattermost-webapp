@@ -25,8 +25,10 @@ exports[`components/SettingItemMin should match snapshot 1`] = `
       >
         <hr />
         <SaveButton
+          btnClass="btn-primary"
           defaultMessage="Save"
           disabled={false}
+          extraClasses=""
           onClick={[Function]}
           saving={false}
           savingMessage="Saving"
@@ -83,8 +85,10 @@ exports[`components/SettingItemMin should match snapshot, on clientError 1`] = `
           </label>
         </div>
         <SaveButton
+          btnClass="btn-primary"
           defaultMessage="Save"
           disabled={false}
+          extraClasses=""
           onClick={[Function]}
           saving={false}
           savingMessage="Saving"
@@ -141,8 +145,10 @@ exports[`components/SettingItemMin should match snapshot, on serverError 1`] = `
           </label>
         </div>
         <SaveButton
+          btnClass="btn-primary"
           defaultMessage="Save"
           disabled={false}
+          extraClasses=""
           onClick={[Function]}
           saving={false}
           savingMessage="Saving"

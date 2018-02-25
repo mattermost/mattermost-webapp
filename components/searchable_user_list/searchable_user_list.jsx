@@ -34,7 +34,7 @@ export default class SearchableUserList extends React.Component {
         onTermChange: PropTypes.func.isRequired,
 
         // the type of user list row to render
-        rowComponentType: PropTypes.func
+        rowComponentType: PropTypes.func,
     };
 
     static defaultProps = {
@@ -45,7 +45,7 @@ export default class SearchableUserList extends React.Component {
         actionProps: {},
         actionUserProps: {},
         showTeamToggle: false,
-        focusOnMount: false
+        focusOnMount: false,
     };
 
     constructor(props) {
@@ -62,7 +62,7 @@ export default class SearchableUserList extends React.Component {
         this.nextTimeoutId = 0;
 
         this.state = {
-            nextDisabled: false
+            nextDisabled: false,
         };
     }
 
@@ -141,7 +141,7 @@ export default class SearchableUserList extends React.Component {
                         defaultMessage='{count, number} {count, plural, one {member} other {members}} of {total, number} total'
                         values={{
                             count,
-                            total
+                            total,
                         }}
                     />
                 );
@@ -155,7 +155,7 @@ export default class SearchableUserList extends React.Component {
                         count,
                         startCount: startCount + 1,
                         endCount,
-                        total
+                        total,
                     }}
                 />
             );

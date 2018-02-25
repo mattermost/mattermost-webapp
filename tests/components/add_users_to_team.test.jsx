@@ -6,6 +6,7 @@ import {Modal} from 'react-bootstrap';
 import {shallow} from 'enzyme';
 
 import AddUsersToTeam from 'components/add_users_to_team/add_users_to_team.jsx';
+import {searchUsersNotInTeam} from 'actions/user_actions.jsx';
 
 jest.useFakeTimers();
 
@@ -16,24 +17,38 @@ jest.mock('stores/team_store.jsx', () => {
         getCurrentId: jest.fn(() => 'current_team_id'),
         getCurrent: jest.fn(() => {
             return {display_name: 'display_name'};
-        })
+        }),
     };
 });
 
 jest.mock('actions/team_actions.jsx');
-jest.mock('actions/user_actions.jsx');
+jest.mock('actions/user_actions.jsx', () => ({
+    searchUsersNotInTeam: jest.fn(() => {
+        return new Promise((resolve) => {
+            process.nextTick(() => resolve());
+        });
+    }),
+}));
 
 describe('components/AddUsersToTeam', () => {
     const baseProps = {
         onModalDismissed: jest.fn(),
         actions: {
-            getProfilesNotInTeam: jest.fn()
-        }
+            getProfilesNotInTeam: jest.fn(() => {
+                return new Promise((resolve) => {
+                    process.nextTick(() => resolve());
+                });
+            }),
+        },
     };
 
     test('should match snapshot', () => {
         const actions = {
-            getProfilesNotInTeam: jest.fn()
+            getProfilesNotInTeam: jest.fn(() => {
+                return new Promise((resolve) => {
+                    process.nextTick(() => resolve());
+                });
+            }),
         };
         const props = {...baseProps, actions};
         const wrapper = shallow(
@@ -117,7 +132,11 @@ describe('components/AddUsersToTeam', () => {
 
     test('should match state when handlePageChange is called', () => {
         const actions = {
-            getProfilesNotInTeam: jest.fn()
+            getProfilesNotInTeam: jest.fn(() => {
+                return new Promise((resolve) => {
+                    process.nextTick(() => resolve());
+                });
+            }),
         };
         const props = {...baseProps, actions};
         const wrapper = shallow(
@@ -136,7 +155,6 @@ describe('components/AddUsersToTeam', () => {
     });
 
     test('should match state when search is called', () => {
-        const {searchUsersNotInTeam} = require.requireMock('actions/user_actions.jsx');
         const wrapper = shallow(
             <AddUsersToTeam {...baseProps}/>
         );
@@ -147,6 +165,7 @@ describe('components/AddUsersToTeam', () => {
 
         const searchTerm = 'term';
         wrapper.instance().search(searchTerm);
+        expect(wrapper.state('loadingUsers')).toEqual(true);
         jest.runAllTimers();
         expect(wrapper.instance().term).toEqual(searchTerm);
         expect(searchUsersNotInTeam).toBeCalled();

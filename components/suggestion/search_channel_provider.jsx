@@ -78,7 +78,7 @@ export default class SearchChannelProvider extends Provider {
                         matchedPretext: channelPrefix,
                         terms: channelNames,
                         items: channels,
-                        component: SearchChannelSuggestion
+                        component: SearchChannelSuggestion,
                     });
                 }
             );

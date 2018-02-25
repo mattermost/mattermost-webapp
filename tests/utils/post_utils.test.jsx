@@ -1,167 +1,173 @@
+// Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
+// See License.txt for license information.
+
+import assert from 'assert';
+
 import * as PostUtils from 'utils/post_utils.jsx';
 
-describe('PostUtils.containsAtMention', function() {
+describe('PostUtils.containsAtChannel', function() {
     test('should return correct @all (same for @channel)', function() {
         for (const data of [
             {
-                text: undefined, // eslint-disable-line no-undefined
-                key: undefined, // eslint-disable-line no-undefined
-                result: false
-            },
-            {
                 text: '',
-                key: '',
-                result: false
+                result: false,
             },
             {
                 text: 'all',
-                key: '@all',
-                result: false
+                result: false,
             },
             {
                 text: '@allison',
-                key: '@all',
-                result: false
+                result: false,
             },
             {
                 text: '@ALLISON',
-                key: '@all',
-                result: false
+                result: false,
             },
             {
                 text: '@all123',
-                key: '@all',
-                result: false
+                result: false,
             },
             {
                 text: '123@all',
-                key: '@all',
-                result: false
+                result: false,
             },
             {
                 text: 'hey@all',
-                key: '@all',
-                result: false
+                result: false,
             },
             {
                 text: 'hey@all.com',
-                key: '@all',
-                result: false
+                result: false,
             },
             {
                 text: '@all',
-                key: '@all',
-                result: true
+                result: true,
             },
             {
                 text: '@ALL',
-                key: '@all',
-                result: true
+                result: true,
             },
             {
                 text: '@all hey',
-                key: '@all',
-                result: true
+                result: true,
             },
             {
                 text: 'hey @all',
-                key: '@all',
-                result: true
+                result: true,
             },
             {
                 text: 'HEY @ALL',
-                key: '@all',
-                result: true
+                result: true,
             },
             {
                 text: 'hey @all!',
-                key: '@all',
-                result: true
+                result: true,
             },
             {
                 text: 'hey @all:+1:',
-                key: '@all',
-                result: true
+                result: true,
             },
             {
                 text: 'hey @ALL:+1:',
-                key: '@all',
-                result: true
+                result: true,
             },
             {
                 text: '`@all`',
-                key: '@all',
-                result: false
+                result: false,
             },
             {
                 text: '@someone `@all`',
-                key: '@all',
-                result: false
-            },
-            {
-                text: '@someone `@all`',
-                key: '@someone',
-                result: true
+                result: false,
             },
             {
                 text: '``@all``',
-                key: '@all',
-                result: false
+                result: false,
             },
             {
                 text: '```@all```',
-                key: '@all',
-                result: false
+                result: false,
             },
             {
                 text: '```\n@all\n```',
-                key: '@all',
-                result: false
+                result: false,
             },
             {
                 text: '```````\n@all\n```````',
-                key: '@all',
-                result: false
+                result: false,
             },
             {
                 text: '```code\n@all\n```',
-                key: '@all',
-                result: false
+                result: false,
             },
             {
                 text: '~~~@all~~~',
-                key: '@all',
-                result: true
+                result: true,
             },
             {
                 text: '~~~\n@all\n~~~',
-                key: '@all',
-                result: false
+                result: false,
             },
             {
                 text: ' /not_cmd @all',
-                key: '@all',
-                result: true
+                result: true,
             },
             {
                 text: '/cmd @all',
-                key: '@all',
-                result: false
+                result: false,
             },
             {
                 text: '/cmd @all test',
-                key: '@all',
-                result: false
+                result: false,
             },
             {
                 text: '/cmd test @all',
-                key: '@all',
-                result: false
-            }
+                result: false,
+            },
+            {
+                text: '@channel',
+                result: true,
+            },
+            {
+                text: '@channel.',
+                result: true,
+            },
+            {
+                text: '@channel/test',
+                result: true,
+            },
+            {
+                text: 'test/@channel',
+                result: true,
+            },
+            {
+                text: '@all/@channel',
+                result: true,
+            },
+            {
+                text: '@cha*nnel*',
+                result: false,
+            },
+            {
+                text: '@cha**nnel**',
+                result: false,
+            },
+            {
+                text: '*@cha*nnel',
+                result: false,
+            },
+            {
+                text: '[@chan](https://google.com)nel',
+                result: false,
+            },
+            {
+                text: '@cha![](https://myimage)nnel',
+                result: false,
+            },
         ]) {
-            const containsAtMention = PostUtils.containsAtMention(data.text, data.key);
+            const containsAtChannel = PostUtils.containsAtChannel(data.text);
 
-            expect(containsAtMention).toEqual(data.result);
+            assert.equal(containsAtChannel, data.result, data.text);
         }
     });
 });

@@ -21,14 +21,18 @@ export default class MessageExportSettings extends AdminSettings {
 
     getConfigFromState(config) {
         config.MessageExportSettings.EnableExport = this.state.enableComplianceExport;
+        config.MessageExportSettings.ExportFormat = this.state.exportFormat;
         config.MessageExportSettings.DailyRunTime = this.state.exportJobStartTime;
+        config.MessageExportSettings.GlobalRelayEmailAddress = this.state.globalRelayEmailAddress;
         return config;
     }
 
     getStateFromConfig(config) {
         return {
             enableComplianceExport: config.MessageExportSettings.EnableExport,
-            exportJobStartTime: config.MessageExportSettings.DailyRunTime
+            exportFormat: config.MessageExportSettings.ExportFormat,
+            exportJobStartTime: config.MessageExportSettings.DailyRunTime,
+            globalRelayEmailAddress: config.MessageExportSettings.GlobalRelayEmailAddress,
         };
     }
 
@@ -43,16 +47,69 @@ export default class MessageExportSettings extends AdminSettings {
 
     renderSettings() {
         const exportFormatOptions = [
-            {value: 'actiance', text: Utils.localizeMessage('admin.complianceExport.exportFormat.actiance', 'Actiance XML')}
+            {value: 'actiance', text: Utils.localizeMessage('admin.complianceExport.exportFormat.actiance', 'Actiance XML')},
+            // {value: 'globalrelay', text: Utils.localizeMessage('admin.complianceExport.exportFormat.globalrelay', 'GlobalRelay EML')},
         ];
+
+        // if export format is globalrelay, user must set email address
+        var dropdownHelpText;
+        var globalRelayEmail;
+        if (this.state.exportFormat === 'globalrelay') {
+            globalRelayEmail = (
+                <TextSetting
+                    id='globalRelayEmailAddress'
+                    label={
+                        <FormattedMessage
+                            id='admin.complianceExport.globalRelayEmailAddress.title'
+                            defaultMessage='GlobalRelay Email Address:'
+                        />
+                    }
+                    placeholder={Utils.localizeMessage('admin.complianceExport.globalRelayEmailAddress.example', 'E.g.: "globalrelay@mattermost.com"')}
+                    helpText={
+                        <FormattedHTMLMessage
+                            id='admin.complianceExport.globalRelayEmailAddress.description'
+                            defaultMessage='The email address that your GlobalRelay server monitors for incoming Compliance Exports.'
+                        />
+                    }
+                    value={this.state.globalRelayEmailAddress === null ? '' : this.state.globalRelayEmailAddress}
+                    disabled={!this.state.enableComplianceExport}
+                    onChange={this.handleChange}
+                />
+            );
+
+            dropdownHelpText = (
+                <FormattedMessage
+                    id='admin.complianceExport.exportFormat.globalrelay.description'
+                    defaultMessage='Format of the compliance export. Corresponds to the system that you want to import the data into. Compliance Exports will be emailed to the configured email address.'
+                />
+            );
+        } else {
+            dropdownHelpText = (
+                <FormattedHTMLMessage
+                    id='admin.complianceExport.exportFormat.actiance.description'
+                    defaultMessage='Format of the compliance export. Corresponds to the system that you want to import the data into. Compliance Export files will be written to the "exports" subdirectory of the configured <a href="/admin_console/files/storage">Local Storage Directory</a>.'
+                />
+            );
+        }
 
         return (
             <SettingsGroup>
+                {/*
                 <div className='banner'>
                     <div className='banner__content'>
                         <FormattedHTMLMessage
                             id='admin.complianceExport.description'
-                            defaultMessage='This feature supports compliance exports to the Actiance XML format, and is currently in beta. Support for the GlobalRelay EML format and the Mattermost CSV format are scheduled for a future release, and will replace the existing <a href=\"/admin_console/general/compliance\">Compliance</a> feature. Compliance Export files will be written to the \"exports\" subdirectory of the configured <a href=\"/admin_console/files/storage\">Local Storage Directory</a>.'
+                            defaultMessage='This feature supports compliance exports to the Actiance XML and GlobalRelay EML formats, and is currently in beta. Support for the Mattermost CSV format is scheduled for a future release, and will replace the existing <a href=\"/admin_console/general/compliance\">Compliance</a> feature.'
+                        />
+                    </div>
+                </div>
+                */}
+
+                <div className='banner'>
+                    <div className='banner__content'>
+                        <FormattedHTMLMessage
+                            id='admin.complianceExport.description_without_globalrelay'
+                            defaultMessage='This feature supports compliance exports to the Actiance XML format, and is currently in beta. Support for GlobalRelay EML and the Mattermost CSV format is scheduled for a future release, and will replace the existing <a href=\"/admin_console/general/compliance\">Compliance</a> feature.'
                         />
                     </div>
                 </div>
@@ -68,7 +125,7 @@ export default class MessageExportSettings extends AdminSettings {
                     helpText={
                         <FormattedHTMLMessage
                             id='admin.service.complianceExportDesc'
-                            defaultMessage='When true, Mattermost will generate a compliance export file that contains all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See <a href=\"https://about.mattermost.com/default-compliance-export-documentation\" target=\"_blank\">the documentation</a> to learn more.'
+                            defaultMessage='When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See <a href=\"https://about.mattermost.com/default-compliance-export-documentation\" target=\"_blank\">the documentation</a> to learn more.'
                         />
                     }
                     value={this.state.enableComplianceExport}
@@ -95,26 +152,22 @@ export default class MessageExportSettings extends AdminSettings {
                     onChange={this.handleChange}
                 />
 
-                {/* dropdown value is hard-coded until we support more than one export format */}
                 <DropdownSetting
                     id='exportFormat'
                     values={exportFormatOptions}
                     label={
                         <FormattedMessage
                             id='admin.complianceExport.exportFormat.title'
-                            defaultMessage='Export File Format:'
+                            defaultMessage='Export Format:'
                         />
                     }
-                    helpText={
-                        <FormattedMessage
-                            id='admin.complianceExport.exportFormat.description'
-                            defaultMessage='File format of the compliance export. Corresponds to the system that you want to import the data into.'
-                        />
-                    }
-                    value='actiance'
+                    helpText={dropdownHelpText}
+                    value={this.state.exportFormat}
                     disabled={!this.state.enableComplianceExport}
                     onChange={this.handleChange}
                 />
+
+                {globalRelayEmail}
 
                 <JobsTable
                     jobType={JobTypes.MESSAGE_EXPORT}
