@@ -11,7 +11,7 @@ function mapStateToProps(state) {
     const hasImageProxy = config.HasImageProxy === 'true';
 
     return {
-        hasImageProxy
+        hasImageProxy,
     };
 }
 
