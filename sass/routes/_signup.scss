@@ -438,12 +438,17 @@
     margin: 0 0 20px;
 
     .signup-team-dir {
+        @include legacy-pie-clearfix;
         background: #fafafa;
         border-top: 1px solid #d5d5d5;
-        overflow: hidden;
+        position: relative;
 
         &:first-child {
             border: none;
+        }
+
+        .tooltip {
+            margin: 10px 0 0 14px;
         }
 
         .icon {

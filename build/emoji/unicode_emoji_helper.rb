@@ -1,5 +1,10 @@
 module Mattermost
   class UnicodeEmojiHelper
+    GENDER_MALE = "\u{2642}"
+    GENDER_FEMALE = "\u{2640}"
+    ZERO_WIDTH_JOINER = "\u{200D}"
+    VARIATION_SELECTOR_16 = "\u{FE0F}"
+    
     SKIN_TONE_MAP = {
       "\u{1F3FB}" => 'light skin tone',
       "\u{1F3FC}" => 'medium-light skin tone',
@@ -25,11 +30,36 @@ module Mattermost
       all_emoji_modifier_bases.include?(code_point)
     end
 
-    def emoji_modifier_sequences(emoji_modifier_base)
-      return nil unless emoji_modifier_base?(emoji_modifier_base)
-      SKIN_TONE_MAP.each_key.map do |skin_tone_modifier|
-        [emoji_modifier_base, skin_tone_modifier].join('')
+    def emoji_modifier_sequences(emoji_modifier_chars)
+      return nil unless emoji_modifier_base?(emoji_modifier_chars[0])
+
+      if emoji_modifier_chars.include?(GENDER_MALE)
+        sequences = SKIN_TONE_MAP.each_key.map do |skin_tone_modifier|
+          [emoji_modifier_chars[0],
+           skin_tone_modifier,
+           ZERO_WIDTH_JOINER,
+           GENDER_MALE,
+           VARIATION_SELECTOR_16].join('')
+        end
+      else
+        sequences = SKIN_TONE_MAP.each_key.map do |skin_tone_modifier|
+          [emoji_modifier_chars[0], skin_tone_modifier].join('')
+        end
+
+        # Add female-specific sequences and see if they exist in the system font
+        # by returning nil from the AppleEmojiExtractor
+        sequences << SKIN_TONE_MAP.each_key.map do |skin_tone_modifier|
+          [emoji_modifier_chars[0],
+           skin_tone_modifier,
+           ZERO_WIDTH_JOINER,
+           GENDER_FEMALE,
+           VARIATION_SELECTOR_16].join('')
+        end
+
+        sequences.flatten!
       end
+
+      sequences
     end
   end
 end

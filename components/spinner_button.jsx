@@ -8,7 +8,7 @@ import loadingGif from 'images/load.gif';
 
 export default class SpinnerButton extends PureComponent {
     static defaultProps = {
-        spinning: false
+        spinning: false,
     }
 
     static propTypes = {
@@ -26,7 +26,7 @@ export default class SpinnerButton extends PureComponent {
         /**
          * Callback function when button is clicked
          */
-        onClick: PropTypes.func
+        onClick: PropTypes.func,
     }
 
     render() {

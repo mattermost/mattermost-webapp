@@ -36,7 +36,7 @@ exports[`components/integrations/InstalledIncomingWebhook should match snapshot 
           id="installed_integrations.url"
           values={
             Object {
-              "url": "null/hooks/9w96t4nhbfdiij64wfqors4i1r",
+              "url": "http://localhost:8065/hooks/9w96t4nhbfdiij64wfqors4i1r",
             }
           }
         />
@@ -65,8 +65,7 @@ exports[`components/integrations/InstalledIncomingWebhook should match snapshot 
     className="item-actions"
   >
     <Link
-      onlyActiveOnIndex={false}
-      style={Object {}}
+      replace={false}
       to="/test/integrations/incoming_webhooks/edit?id=9w96t4nhbfdiij64wfqors4i1r"
     >
       <FormattedMessage

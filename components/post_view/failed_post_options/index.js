@@ -3,22 +3,21 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {removePost} from 'mattermost-redux/actions/posts';
 
 import FailedPostOptions from './failed_post_options.jsx';
 
 function mapStateToProps(state, ownProps) {
     return {
-        ...ownProps
+        ...ownProps,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            removePost
-        }, dispatch)
+            removePost,
+        }, dispatch),
     };
 }
 

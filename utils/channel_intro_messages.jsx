@@ -8,9 +8,7 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import Constants from 'utils/constants.jsx';
-
 import ChannelInviteModal from 'components/channel_invite_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import ProfilePicture from 'components/profile_picture.jsx';
@@ -82,7 +80,7 @@ export function createGMIntroMessage(channel, centeredIntro) {
                         id='intro_messages.GM'
                         defaultMessage='This is the start of your group message history with {names}.<br />Messages and files shared here are not shown to people outside this area.'
                         values={{
-                            names
+                            names,
                         }}
                     />
                 </p>
@@ -144,7 +142,7 @@ export function createDMIntroMessage(channel, centeredIntro) {
                         id='intro_messages.DM'
                         defaultMessage='This is the start of your direct message history with {teammate}.<br />Direct messages and files shared here are not shown to people outside this area.'
                         values={{
-                            teammate: teammateName
+                            teammate: teammateName,
                         }}
                     />
                 </p>
@@ -195,7 +193,7 @@ export function createOffTopicIntroMessage(channel, centeredIntro) {
                 id='intro_messages.offTopic'
                 defaultMessage='<h4 class="channel-intro__title">Beginning of {display_name}</h4><p class="channel-intro__content">This is the start of {display_name}, a channel for non-work-related conversations.<br/></p>'
                 values={{
-                    display_name: channel.display_name
+                    display_name: channel.display_name,
                 }}
             />
             {channelInviteButton}
@@ -235,7 +233,7 @@ export function createDefaultIntroMessage(channel, centeredIntro) {
                 id='intro_messages.default'
                 defaultMessage="<h4 class='channel-intro__title'>Beginning of {display_name}</h4><p class='channel-intro__content'><strong>Welcome to {display_name}!</strong><br/><br/>This is the first channel teammates see when they sign up - use it for posting updates everyone needs to know.</p>"
                 values={{
-                    display_name: channel.display_name
+                    display_name: channel.display_name,
                 }}
             />
             {teamInviteLink}
@@ -297,7 +295,7 @@ export function createStandardIntroMessage(channel, centeredIntro) {
                 values={{
                     name: (uiName),
                     type: (uiType),
-                    date
+                    date,
                 }}
             />
         );
@@ -311,7 +309,7 @@ export function createStandardIntroMessage(channel, centeredIntro) {
                         name: (uiName),
                         type: (uiType),
                         creator: (creatorName),
-                        date
+                        date,
                     }}
                 />
             </span>
@@ -327,7 +325,7 @@ export function createStandardIntroMessage(channel, centeredIntro) {
                     defaultMessage=" This {type}'s purpose is: {purpose}"
                     values={{
                         purpose: channel.purpose,
-                        type: (uiType)
+                        type: (uiType),
                     }}
                 />
             </span>
@@ -354,7 +352,7 @@ export function createStandardIntroMessage(channel, centeredIntro) {
                     id='intro_messages.beginning'
                     defaultMessage='Beginning of {name}'
                     values={{
-                        name: (uiName)
+                        name: (uiName),
                     }}
                 />
             </h4>
@@ -382,7 +380,7 @@ function createInviteChannelMemberButton(channel, uiType) {
                 id='intro_messages.invite'
                 defaultMessage='Invite others to this {type}'
                 values={{
-                    type: (uiType)
+                    type: (uiType),
                 }}
             />
         </ToggleModalButton>

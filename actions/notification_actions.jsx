@@ -4,7 +4,6 @@
 import ChannelStore from 'stores/channel_store.jsx';
 import NotificationStore from 'stores/notification_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import Constants, {NotificationLevels, UserStatuses} from 'utils/constants.jsx';
 import {isSystemMessage} from 'utils/post_utils.jsx';
 import {isMacApp, isMobileApp, isWindowsApp} from 'utils/user_agent.jsx';
@@ -59,7 +58,7 @@ export function sendDesktopNotification(post, msgProps) {
         title = msgProps.channel_display_name;
         channel = {
             name: msgProps.channel_name,
-            type: msgProps.channel_type
+            type: msgProps.channel_type,
         };
     } else if (channel.type === Constants.DM_CHANNEL) {
         title = Utils.localizeMessage('notification.dm', 'Direct Message');

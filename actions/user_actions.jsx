@@ -1,8 +1,6 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {browserHistory} from 'react-router';
-
 import {getChannelAndMyMember} from 'mattermost-redux/actions/channels';
 import {getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
 import {deletePreferences, savePreferences as savePreferencesRedux} from 'mattermost-redux/actions/preferences';
@@ -13,15 +11,15 @@ import {Preferences as PreferencesRedux} from 'mattermost-redux/constants';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import * as Selectors from 'mattermost-redux/selectors/entities/users';
 
+import {browserHistory} from 'utils/browser_history';
 import {getChannelMembersForUserIds} from 'actions/channel_actions.jsx';
-import {clientLogout, loadCurrentLocale} from 'actions/global_actions.jsx';
+import {loadCurrentLocale} from 'actions/global_actions.jsx';
 import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import * as Utils from 'utils/utils.jsx';
 import {Constants, Preferences} from 'utils/constants.jsx';
 
@@ -44,16 +42,16 @@ export async function loadMeAndConfig(callback) {
     if (global.window && global.window.analytics) {
         global.window.analytics.identify(global.window.mm_config.DiagnosticId, {}, {
             context: {
-                ip: '0.0.0.0'
+                ip: '0.0.0.0',
             },
             page: {
                 path: '',
                 referrer: '',
                 search: '',
                 title: '',
-                url: ''
+                url: '',
             },
-            anonymousId: '00000000000000000000000000'
+            anonymousId: '00000000000000000000000000',
         });
     }
 
@@ -63,7 +61,7 @@ export async function loadMeAndConfig(callback) {
             ({data: license}) => {
                 global.window.mm_license = license;
             }
-        )
+        ),
     ]).then(callback);
 }
 
@@ -71,9 +69,6 @@ export async function switchFromLdapToEmail(email, password, token, ldapPassword
     const {data, error: err} = await UserActions.switchLdapToEmail(ldapPassword, email, password, token)(dispatch, getState);
 
     if (data) {
-        if (data.follow_link) {
-            clientLogout(data.follow_link);
-        }
         if (success) {
             success(data);
         }
@@ -227,7 +222,7 @@ export async function loadNewDMIfNeeded(channelId) {
             const currentUserId = UserStore.getCurrentId();
             savePreferencesRedux(currentUserId, [
                 {user_id: currentUserId, category: Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, name: userId, value: 'true'},
-                {user_id: currentUserId, category: Preferences.CATEGORY_CHANNEL_OPEN_TIME, name: channelId, value: now.toString()}
+                {user_id: currentUserId, category: Preferences.CATEGORY_CHANNEL_OPEN_TIME, name: channelId, value: now.toString()},
             ])(dispatch, getState);
             loadProfilesForDM();
         }
@@ -293,7 +288,7 @@ export async function loadProfilesForGM() {
                 user_id: UserStore.getCurrentId(),
                 category: Preferences.CATEGORY_GROUP_CHANNEL_SHOW,
                 name: channel.id,
-                value: 'true'
+                value: 'true',
             });
         }
 
@@ -333,7 +328,7 @@ export async function loadProfilesForDM() {
                 user_id: UserStore.getCurrentId(),
                 category: Preferences.CATEGORY_DIRECT_CHANNEL_SHOW,
                 name: teammateId,
-                value: 'true'
+                value: 'true',
             });
         }
 
@@ -360,7 +355,7 @@ export async function saveTheme(teamId, theme, cb) {
         user_id: currentUserId,
         category: Preferences.CATEGORY_THEME,
         name: teamId,
-        value: JSON.stringify(theme)
+        value: JSON.stringify(theme),
     }];
 
     await savePreferencesRedux(currentUserId, preference)(dispatch, getState);
@@ -386,7 +381,7 @@ function onThemeSaved(teamId, theme, onSuccess) {
         toDelete.push({
             user_id: UserStore.getCurrentId(),
             category: Preferences.CATEGORY_THEME,
-            name
+            name,
         });
     }
 
@@ -440,7 +435,7 @@ export async function autocompleteUsers(username, success) {
     }
 }
 
-export async function updateUser(user, type, success, error) {
+export async function updateUser(user, success, error) {
     const {data, error: err} = await UserActions.updateMe(user)(dispatch, getState);
     if (data && success) {
         success(data);

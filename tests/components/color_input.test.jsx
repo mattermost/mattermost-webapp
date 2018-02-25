@@ -4,8 +4,6 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-
 import ColorInput from 'components/color_input.jsx';
 
 describe('components/ColorInput', () => {
@@ -77,15 +75,5 @@ describe('components/ColorInput', () => {
 
         expect(onChange).toHaveBeenCalledTimes(1);
         expect(onChange).toHaveBeenCalledWith(newColorData.hex);
-    });
-
-    test('should have match state when checkClick is called', () => {
-        const wrapper = mountWithIntl(
-            <ColorInput color='#ffffff'/>
-        );
-
-        wrapper.setState({isOpened: true});
-        wrapper.instance().checkClick({target: {}});
-        expect(wrapper.state('isOpened')).toEqual(false);
     });
 });

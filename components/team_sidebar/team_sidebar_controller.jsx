@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -10,30 +9,27 @@ import {FormattedMessage} from 'react-intl';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
-import {sortTeamsByDisplayName} from 'utils/team_utils.jsx';
+import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import TeamButton from './components/team_button.jsx';
 
 export default class TeamSidebar extends React.Component {
     static propTypes = {
+        experimentalPrimaryTeam: PropTypes.string,
+        enableTeamCreation: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
-            getTeams: PropTypes.func.isRequired
-        }).isRequired
+            getTeams: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
         super(props);
 
-        this.getStateFromStores = this.getStateFromStores.bind(this);
-        this.onChange = this.onChange.bind(this);
-        this.handleResize = this.handleResize.bind(this);
-        this.setStyles = this.setStyles.bind(this);
-
         this.state = this.getStateFromStores();
     }
 
-    getStateFromStores() {
+    getStateFromStores =() => {
         const teamMembers = TeamStore.getMyTeamMembers();
         const currentTeamId = TeamStore.getCurrentId();
 
@@ -43,7 +39,7 @@ export default class TeamSidebar extends React.Component {
             teamMembers,
             currentTeamId,
             show: teamMembers && teamMembers.length > 1,
-            isMobile: Utils.isMobile()
+            isMobile: Utils.isMobile(),
         };
     }
 
@@ -75,18 +71,18 @@ export default class TeamSidebar extends React.Component {
         }
     }
 
-    onChange() {
+    onChange = () => {
         this.setState(this.getStateFromStores());
         this.setStyles();
     }
 
-    handleResize() {
+    handleResize = () => {
         const teamMembers = this.state.teamMembers;
         this.setState({show: teamMembers && teamMembers.length > 1});
         this.setStyles();
     }
 
-    setStyles() {
+    setStyles = () => {
         const root = document.querySelector('#root');
 
         if (this.state.show) {
@@ -115,7 +111,7 @@ export default class TeamSidebar extends React.Component {
                 const teamId = teamMember.team_id;
                 myTeams.push(Object.assign({
                     unread: teamMember.msg_count > 0,
-                    mentions: teamMember.mention_count
+                    mentions: teamMember.mention_count,
                 }, this.state.teams[teamId]));
                 isAlreadyMember[teamId] = true;
             }
@@ -128,8 +124,7 @@ export default class TeamSidebar extends React.Component {
             }
         }
 
-        const teams = myTeams.
-            sort(sortTeamsByDisplayName).
+        const teams = filterAndSortTeamsByDisplayName(myTeams).
             map((team) => {
                 return (
                     <TeamButton
@@ -145,7 +140,7 @@ export default class TeamSidebar extends React.Component {
                 );
             });
 
-        if (moreTeams) {
+        if (moreTeams && !this.props.experimentalPrimaryTeam) {
             teams.push(
                 <TeamButton
                     btnClass='team-btn__add'
@@ -161,7 +156,7 @@ export default class TeamSidebar extends React.Component {
                     content={<i className='fa fa-plus'/>}
                 />
             );
-        } else if (global.window.mm_config.EnableTeamCreation === 'true' || isSystemAdmin) {
+        } else if (this.props.enableTeamCreation || isSystemAdmin) {
             teams.push(
                 <TeamButton
                     btnClass='team-btn__add'

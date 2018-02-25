@@ -2,20 +2,25 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
+import {Redirect} from 'react-router';
+import {viewChannel} from 'mattermost-redux/actions/channels';
 
-import {loadEmoji} from 'actions/emoji_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as WebSocketActions from 'actions/websocket_actions.jsx';
 import 'stores/emoji_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
+import ChannelStore from 'stores/channel_store.jsx';
+import ErrorStore from 'stores/error_store.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import LoadingScreen from 'components/loading_screen.jsx';
+import {checkIfMFARequired} from 'utils/route';
+import store from 'stores/redux_store.jsx';
+
+const dispatch = store.dispatch;
+const getState = store.getState;
 
 const BACKSPACE_CHAR = 8;
 
@@ -25,23 +30,10 @@ export default class LoggedIn extends React.Component {
 
         this.onUserChanged = this.onUserChanged.bind(this);
 
-        // Because current CSS requires the root tag to have specific stuff
-        $('#root').attr('class', 'channel-view');
-
-        // Device tracking setup
-        if (UserAgent.isIos()) {
-            $('body').addClass('ios');
-        } else if (UserAgent.isAndroid()) {
-            $('body').addClass('android');
-        }
-
         this.state = {
-            user: UserStore.getCurrentUser()
+            user: UserStore.getCurrentUser(),
         };
-
-        if (!this.state.user) {
-            GlobalActions.emitUserLoggedOutEvent('/login');
-        }
+        document.getElementById('root').className += ' channel-view';
     }
 
     isValidState() {
@@ -53,23 +45,52 @@ export default class LoggedIn extends React.Component {
         const user = UserStore.getCurrentUser();
         if (!Utils.areObjectsEqual(this.state.user, user)) {
             this.setState({
-                user
+                user,
             });
         }
+    }
+
+    componentWillMount() {
+        ErrorStore.clearLastError();
     }
 
     componentDidMount() {
         // Initialize websocket
         WebSocketActions.initialize();
 
+        // Make sure the websockets close and reset version
+        $(window).on('beforeunload',
+            () => {
+                // Turn off to prevent getting stuck in a loop
+                $(window).off('beforeunload');
+                if (document.cookie.indexOf('MMUSERID=') > -1) {
+                    viewChannel('', ChannelStore.getCurrentId() || '')(dispatch, getState);
+                }
+                WebSocketActions.close();
+            }
+        );
+
         // Listen for user
         UserStore.addChangeListener(this.onUserChanged);
 
-        // Listen for focussed tab/window state
+        // Listen for focused tab/window state
         window.addEventListener('focus', this.onFocusListener);
         window.addEventListener('blur', this.onBlurListener);
 
-        // ???
+        // Because current CSS requires the root tag to have specific stuff
+
+        // Device tracking setup
+        if (UserAgent.isIos()) {
+            $('body').addClass('ios');
+        } else if (UserAgent.isAndroid()) {
+            $('body').addClass('android');
+        }
+
+        if (!this.state.user) {
+            $('#root').attr('class', '');
+            GlobalActions.emitUserLoggedOutEvent('/login?redirect_to=' + encodeURIComponent(this.props.location.pathname));
+        }
+
         $('body').on('mouseenter mouseleave', '.post', function mouseOver(ev) {
             if (ev.type === 'mouseenter') {
                 $(this).parent('div').prev('.date-separator, .new-separator').addClass('hovered--after');
@@ -106,16 +127,9 @@ export default class LoggedIn extends React.Component {
                 e.preventDefault();
             }
         });
-
-        // Get custom emoji from the server
-        if (window.mm_config.EnableCustomEmoji === 'true') {
-            loadEmoji(false);
-        }
     }
 
     componentWillUnmount() {
-        $('#root').attr('class', '');
-
         WebSocketActions.close();
         UserStore.removeChangeListener(this.onUserChanged);
 
@@ -137,9 +151,11 @@ export default class LoggedIn extends React.Component {
             return <LoadingScreen/>;
         }
 
-        return React.cloneElement(this.props.children, {
-            user: this.state.user
-        });
+        if (this.props.location.pathname !== '/mfa/setup' && checkIfMFARequired(this.props.match.url)) {
+            return <Redirect to={'/mfa/setup'}/>;
+        }
+
+        return this.props.children;
     }
 
     onFocusListener() {
@@ -152,5 +168,5 @@ export default class LoggedIn extends React.Component {
 }
 
 LoggedIn.propTypes = {
-    children: PropTypes.object
+    children: PropTypes.object,
 };

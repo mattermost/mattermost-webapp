@@ -5,7 +5,6 @@ import React from 'react';
 import {RequestStatus} from 'mattermost-redux/constants';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
-
 import Constants from 'utils/constants.jsx';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal/edit_channel_header_modal.jsx';
 import Textbox from 'components/textbox';
@@ -14,14 +13,14 @@ const KeyCodes = Constants.KeyCodes;
 
 jest.mock('react-dom', () => ({
     findDOMNode: () => ({
-        blur: jest.fn()
-    })
+        blur: jest.fn(),
+    }),
 }));
 
-describe('components/edit_channel_header_modal/edit_channel_header_modal', () => {
+describe('components/EditChannelHeaderModal', () => {
     const channel = {
         id: 'fake-id',
-        header: 'Fake Channel'
+        header: 'Fake Channel',
     };
 
     function emptyFunction() {} //eslint-disable-line no-empty-function
@@ -41,7 +40,7 @@ describe('components/edit_channel_header_modal/edit_channel_header_modal', () =>
     test('edit dirrect message channel', () => {
         const dmChannel = {
             ...channel,
-            type: Constants.DM_CHANNEL
+            type: Constants.DM_CHANNEL,
         };
 
         const wrapper = shallowWithIntl(
@@ -74,7 +73,7 @@ describe('components/edit_channel_header_modal/edit_channel_header_modal', () =>
     test('error with intl message', () => {
         const serverError = {
             server_error_id: 'model.channel.is_valid.header.app_error',
-            message: 'some error'
+            message: 'some error',
         };
 
         const wrapper = shallowWithIntl(
@@ -93,7 +92,7 @@ describe('components/edit_channel_header_modal/edit_channel_header_modal', () =>
             ctrSend: false,
             requestStatus: RequestStatus.FAILURE,
             onHide: emptyFunction,
-            actions: {patchChannel: emptyFunction}
+            actions: {patchChannel: emptyFunction},
         });
 
         expect(wrapper).toMatchSnapshot();
@@ -102,7 +101,7 @@ describe('components/edit_channel_header_modal/edit_channel_header_modal', () =>
     test('error without intl message', () => {
         const serverError = {
             server_error_id: 'fake-server-errror',
-            message: 'some error'
+            message: 'some error',
         };
 
         const wrapper = shallowWithIntl(
@@ -121,7 +120,7 @@ describe('components/edit_channel_header_modal/edit_channel_header_modal', () =>
             ctrSend: false,
             requestStatus: RequestStatus.FAILURE,
             onHide: emptyFunction,
-            actions: {patchChannel: emptyFunction}
+            actions: {patchChannel: emptyFunction},
         });
 
         expect(wrapper).toMatchSnapshot();
@@ -130,7 +129,7 @@ describe('components/edit_channel_header_modal/edit_channel_header_modal', () =>
     test('hide error message on new request', () => {
         const serverError = {
             server_error_id: 'fake-server-errror',
-            message: 'some error'
+            message: 'some error',
         };
 
         const wrapper = shallowWithIntl(
@@ -149,7 +148,7 @@ describe('components/edit_channel_header_modal/edit_channel_header_modal', () =>
             ctrSend: false,
             requestStatus: RequestStatus.FAILURE,
             onHide: emptyFunction,
-            actions: {patchChannel: emptyFunction}
+            actions: {patchChannel: emptyFunction},
         });
         wrapper.setProps({
             channel,
@@ -157,7 +156,7 @@ describe('components/edit_channel_header_modal/edit_channel_header_modal', () =>
             ctrSend: false,
             requestStatus: RequestStatus.STARTED,
             onHide: emptyFunction,
-            actions: {patchChannel: emptyFunction}
+            actions: {patchChannel: emptyFunction},
         });
 
         expect(wrapper).toMatchSnapshot();
@@ -179,7 +178,7 @@ describe('components/edit_channel_header_modal/edit_channel_header_modal', () =>
             ctrSend: false,
             requestStatus: RequestStatus.SUCCESS,
             onHide: emptyFunction,
-            actions: {patchChannel: emptyFunction}
+            actions: {patchChannel: emptyFunction},
         });
 
         expect(
@@ -239,7 +238,7 @@ describe('components/edit_channel_header_modal/edit_channel_header_modal', () =>
             which: KeyCodes.ENTER,
             shiftKey: false,
             altKey: false,
-            ctrlKey: true
+            ctrlKey: true,
         });
 
         expect(patchChannel).toBeCalledWith('fake-id', {header: 'Fake Channel'});
@@ -262,7 +261,7 @@ describe('components/edit_channel_header_modal/edit_channel_header_modal', () =>
             which: KeyCodes.ENTER,
             shiftKey: false,
             altKey: false,
-            ctrlKey: false
+            ctrlKey: false,
         });
 
         expect(patchChannel).toBeCalledWith('fake-id', {header: 'Fake Channel'});
@@ -286,7 +285,7 @@ describe('components/edit_channel_header_modal/edit_channel_header_modal', () =>
             which: KeyCodes.ENTER,
             shiftKey: false,
             altKey: false,
-            ctrlKey: true
+            ctrlKey: true,
         });
 
         expect(patchChannel).toBeCalledWith('fake-id', {header: 'Fake Channel'});

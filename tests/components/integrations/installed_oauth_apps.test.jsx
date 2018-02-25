@@ -2,10 +2,9 @@
 // See License.txt for license information.
 
 import React from 'react';
-
 import {shallow} from 'enzyme';
 
-import InstalledOAuthApps from 'components/integrations/components/installed_oauth_apps/installed_oauth_apps.jsx';
+import InstalledOAuthApps from 'components/integrations/installed_oauth_apps/installed_oauth_apps.jsx';
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
 
 describe('components/integrations/InstalledOAuthApps', () => {
@@ -21,7 +20,7 @@ describe('components/integrations/InstalledOAuthApps', () => {
             icon_url: 'https://test.com/icon',
             is_trusted: false,
             update_at: 1501365458934,
-            callback_urls: ['https://test.com/callback']
+            callback_urls: ['https://test.com/callback'],
         },
         fzcxd9wpzpbpfp8pad78xj75pr: {
             id: 'fzcxd9wpzpbpfp8pad78xj75pr',
@@ -34,8 +33,8 @@ describe('components/integrations/InstalledOAuthApps', () => {
             icon_url: 'https://test2.com/icon',
             is_trusted: true,
             update_at: 1501365479988,
-            callback_urls: ['https://test2.com/callback', 'https://test2.com/callback2']
-        }
+            callback_urls: ['https://test2.com/callback', 'https://test2.com/callback2'],
+        },
     };
 
     const baseProps = {
@@ -44,24 +43,16 @@ describe('components/integrations/InstalledOAuthApps', () => {
         isSystemAdmin: true,
         regenOAuthAppSecretRequest: {
             status: 'not_started',
-            error: null
+            error: null,
         },
         actions: {
             getOAuthApps: jest.fn(),
             regenOAuthAppSecret: jest.fn(),
-            deleteOAuthApp: jest.fn()
-        }
+            deleteOAuthApp: jest.fn(),
+        },
+        enableOAuthServiceProvider: true,
+        enableOnlyAdminIntegrations: true,
     };
-
-    global.window.mm_config = {};
-
-    beforeEach(() => {
-        global.window.mm_config = {EnableOAuthServiceProvider: 'true'};
-    });
-
-    afterEach(() => {
-        global.window.mm_config = {};
-    });
 
     test('should match snapshot', () => {
         const newGetOAuthApps = jest.genMockFunction().mockImplementation(
@@ -82,7 +73,6 @@ describe('components/integrations/InstalledOAuthApps', () => {
         expect(wrapper.find(BackstageList).props().addLink).toEqual('/test/integrations/oauth2-apps/add');
         expect(wrapper.find(BackstageList).props().addText).toEqual('Add OAuth 2.0 Application');
 
-        global.window.mm_config = {EnableOnlyAdminIntegrations: 'true'};
         wrapper.setProps({isSystemAdmin: false});
         expect(wrapper.find(BackstageList).props().addLink).toBeFalsy();
         expect(wrapper.find(BackstageList).props().addText).toBeFalsy();

@@ -1,9 +1,13 @@
-const webpack = require('webpack');
+const childProcess = require('child_process');
 const path = require('path');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const nodeExternals = require('webpack-node-externals');
 
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const webpack = require('webpack');
+const nodeExternals = require('webpack-node-externals');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const extractCSS = new ExtractTextPlugin('[name].[contentHash].css');
+const extractSCSS = new ExtractTextPlugin('[name].[contentHash].css');
 
 const NPM_TARGET = process.env.npm_lifecycle_event; //eslint-disable-line no-process-env
 
@@ -22,9 +26,15 @@ if (NPM_TARGET === 'test') {
     TEST = true;
 }
 
+if (NPM_TARGET === 'stats') {
+    DEV = true;
+    TEST = false;
+    FULLMAP = true;
+}
+
 const STANDARD_EXCLUDE = [
     path.join(__dirname, 'node_modules'),
-    path.join(__dirname, 'non_npm_dependencies')
+    path.join(__dirname, 'non_npm_dependencies'),
 ];
 
 var MYSTATS = {
@@ -116,16 +126,16 @@ var MYSTATS = {
     // Filter warnings to be shown (since webpack 2.4.0),
     // can be a String, Regexp, a function getting the warning and returning a boolean
     // or an Array of a combination of the above. First match wins.
-    warningsFilter: ''
+    warningsFilter: '',
 };
 
 var config = {
-    entry: ['babel-polyfill', 'whatwg-fetch', './root.jsx', 'root.html'],
+    entry: ['babel-polyfill', 'whatwg-fetch', 'url-search-params-polyfill', './root.jsx', 'root.html'],
     output: {
         path: path.join(__dirname, 'dist'),
         publicPath: '/static/',
         filename: '[name].[hash].js',
-        chunkFilename: '[name].[chunkhash].js'
+        chunkFilename: '[name].[chunkhash].js',
     },
     module: {
         rules: [
@@ -139,70 +149,52 @@ var config = {
                             presets: [
                                 'react',
                                 ['es2015', {modules: false}],
-                                'stage-0'
+                                'stage-0',
                             ],
                             plugins: ['transform-runtime'],
-                            cacheDirectory: true
-                        }
-                    }
-                ]
+                            cacheDirectory: true,
+                        },
+                    },
+                ],
             },
             {
                 test: /\.json$/,
                 exclude: /manifest\.json$/,
                 use: [
                     {
-                        loader: 'json-loader'
-                    }
-                ]
+                        loader: 'json-loader',
+                    },
+                ],
             },
             {
                 test: /manifest\.json$/,
                 use: [
                     {
-                        loader: 'file-loader?name=files/[hash].[ext]'
-                    }
-                ]
-            },
-            {
-                test: /(node_modules|non_npm_dependencies)(\\|\/).+\.(js|jsx)$/,
-                use: [
-                    {
-                        loader: 'imports-loader',
-                        options: {
-                            $: 'jquery',
-                            jQuery: 'jquery'
-                        }
-                    }
-                ]
+                        loader: 'file-loader?name=files/[hash].[ext]',
+                    },
+                ],
             },
             {
                 test: /\.scss$/,
-                use: [
+                use: extractSCSS.extract([
                     {
-                        loader: 'style-loader'
-                    },
-                    {
-                        loader: 'css-loader'
+                        loader: 'css-loader',
                     },
                     {
                         loader: 'sass-loader',
                         options: {
-                            includePaths: ['node_modules/compass-mixins/lib']
-                        }
-                    }
-                ]
+                            includePaths: ['node_modules/compass-mixins/lib'],
+                        },
+                    },
+                ]),
             },
             {
                 test: /\.css$/,
-                use: [
+                use: extractCSS.extract([
                     {
-                        loader: 'style-loader'
+                        loader: 'css-loader',
                     },
-                    {
-                        loader: 'css-loader'
-                    }
-                ]
+                ]),
             },
             {
                 test: /\.(png|eot|tiff|svg|woff2|woff|ttf|gif|mp3|jpg)$/,
@@ -210,14 +202,14 @@ var config = {
                     {
                         loader: 'file-loader',
                         options: {
-                            name: 'files/[hash].[ext]'
-                        }
+                            name: 'files/[hash].[ext]',
+                        },
                     },
                     {
                         loader: 'image-webpack-loader',
-                        options: {}
-                    }
-                ]
+                        options: {},
+                    },
+                ],
             },
             {
                 test: /\.html$/,
@@ -225,44 +217,54 @@ var config = {
                     {
                         loader: 'html-loader',
                         options: {
-                            attrs: 'link:href'
-                        }
-                    }
-                ]
-            }
-        ]
+                            attrs: 'link:href',
+                        },
+                    },
+                ],
+            },
+        ],
     },
     resolve: {
         modules: [
             'node_modules',
             'non_npm_dependencies',
-            path.resolve(__dirname)
+            path.resolve(__dirname),
         ],
         alias: {
-            jquery: 'jquery/dist/jquery',
-            superagent: 'node_modules/superagent/lib/client'
+            jquery: 'jquery/src/jquery',
+            superagent: 'node_modules/superagent/lib/client',
         },
-        extensions: ['.js', '.jsx']
+        extensions: ['.js', '.jsx'],
     },
     performance: {
-        hints: 'warning'
+        hints: 'warning',
     },
     target: 'web',
-    stats: MYSTATS,
     plugins: [
         new webpack.ProvidePlugin({
-            'window.jQuery': 'jquery'
+            'window.jQuery': 'jquery',
+            $: 'jquery',
+            jQuery: 'jquery',
         }),
         new webpack.LoaderOptionsPlugin({
             minimize: !DEV,
-            debug: false
+            debug: false,
         }),
         new webpack.optimize.CommonsChunkPlugin({
             minChunks: 2,
-            children: true
-        })
-    ]
+            children: true,
+        }),
+        new webpack.DefinePlugin({
+            COMMIT_HASH: JSON.stringify(childProcess.execSync('git rev-parse HEAD').toString()),
+        }),
+        extractCSS,
+        extractSCSS,
+    ],
 };
+
+if (NPM_TARGET !== 'stats') {
+    config.stats = MYSTATS;
+}
 
 // Development mode configuration
 if (DEV) {
@@ -280,13 +282,13 @@ if (!DEV) {
         new webpack.optimize.UglifyJsPlugin({
             'screw-ie8': true,
             mangle: {
-                toplevel: false
+                toplevel: false,
             },
             compress: {
-                warnings: false
+                warnings: false,
             },
             comments: false,
-            sourceMap: true
+            sourceMap: true,
         })
     );
     config.plugins.push(
@@ -295,10 +297,11 @@ if (!DEV) {
     config.plugins.push(
         new webpack.DefinePlugin({
             'process.env': {
-                NODE_ENV: JSON.stringify('production')
-            }
+                NODE_ENV: JSON.stringify('production'),
+            },
         })
     );
+    config.plugins.push(new webpack.optimize.ModuleConcatenationPlugin());
 }
 
 // Test mode configuration
@@ -312,7 +315,7 @@ if (TEST) {
         new HtmlWebpackPlugin({
             filename: 'root.html',
             inject: 'head',
-            template: 'root.html'
+            template: 'root.html',
         })
     );
     config.plugins.push(
@@ -323,7 +326,7 @@ if (TEST) {
             {from: 'images/circles.png', to: 'images'},
             {from: 'images/favicon', to: 'images/favicon'},
             {from: 'images/appIcons.png', to: 'images'},
-            {from: 'images/warning.png', to: 'images'}
+            {from: 'images/warning.png', to: 'images'},
         ])
     );
 }

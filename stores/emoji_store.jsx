@@ -8,7 +8,6 @@ import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis'
 
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import store from 'stores/redux_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as Emoji from 'utils/emoji.jsx';
 
@@ -65,7 +64,7 @@ export class EmojiMap {
                 }
 
                 return {done: true};
-            }
+            },
         };
     }
 }

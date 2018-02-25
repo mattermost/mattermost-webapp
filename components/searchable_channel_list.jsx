@@ -2,18 +2,17 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
+import LoadingScreen from 'components/loading_screen';
+import QuickInput from 'components/quick_input';
 import * as UserAgent from 'utils/user_agent.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
 import loadingGif from 'images/load.gif';
-
-import LoadingScreen from './loading_screen.jsx';
 
 const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
 
@@ -31,7 +30,7 @@ export default class SearchableChannelList extends React.Component {
         this.state = {
             joiningChannel: '',
             page: 0,
-            nextDisabled: false
+            nextDisabled: false,
         };
     }
 
@@ -186,7 +185,7 @@ export default class SearchableChannelList extends React.Component {
             <div className='filtered-user-list'>
                 <div className='filter-row'>
                     <div className='col-sm-12'>
-                        <input
+                        <QuickInput
                             id='searchChannelsTextbox'
                             ref='filter'
                             className='form-control filter-textbox'
@@ -214,7 +213,7 @@ export default class SearchableChannelList extends React.Component {
 
 SearchableChannelList.defaultProps = {
     channels: [],
-    isSearch: false
+    isSearch: false,
 };
 
 SearchableChannelList.propTypes = {
@@ -224,5 +223,5 @@ SearchableChannelList.propTypes = {
     isSearch: PropTypes.bool,
     search: PropTypes.func.isRequired,
     handleJoin: PropTypes.func.isRequired,
-    noResultsText: PropTypes.object
+    noResultsText: PropTypes.object,
 };

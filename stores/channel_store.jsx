@@ -4,18 +4,16 @@
 import EventEmitter from 'events';
 
 import {batchActions} from 'redux-batched-actions';
-
-import UserStore from 'stores/user_store.jsx'; // eslint-disable-line import/order
-
-import {ChannelTypes, UserTypes} from 'mattermost-redux/action_types';
+import {ChannelTypes} from 'mattermost-redux/action_types';
+import {markChannelAsRead, markChannelAsUnread, markChannelAsViewed} from 'mattermost-redux/actions/channels';
 import * as Selectors from 'mattermost-redux/selectors/entities/channels';
+import {isFromWebhook, isSystemMessage, shouldIgnorePost} from 'mattermost-redux/utils/post_utils';
 
+import UserStore from 'stores/user_store.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
-
 import {ActionTypes, Constants} from 'utils/constants.jsx';
-import {isFromWebhook, isSystemMessage} from 'utils/post_utils.jsx';
 
 var ChannelUtils;
 var Utils;
@@ -23,7 +21,7 @@ const NotificationPrefs = Constants.NotificationPrefs;
 
 const CHANGE_EVENT = 'change';
 const STATS_EVENT = 'stats';
-const LAST_VIEVED_EVENT = 'last_viewed';
+const LAST_VIEWED_EVENT = 'last_viewed';
 
 class ChannelStoreClass extends EventEmitter {
     constructor(props) {
@@ -107,15 +105,15 @@ class ChannelStoreClass extends EventEmitter {
     }
 
     emitLastViewed() {
-        this.emit(LAST_VIEVED_EVENT);
+        this.emit(LAST_VIEWED_EVENT);
     }
 
     addLastViewedListener(callback) {
-        this.on(LAST_VIEVED_EVENT, callback);
+        this.on(LAST_VIEWED_EVENT, callback);
     }
 
     removeLastViewedListener(callback) {
-        this.removeListener(LAST_VIEVED_EVENT, callback);
+        this.removeListener(LAST_VIEWED_EVENT, callback);
     }
 
     findFirstBy(field, value) {
@@ -165,11 +163,15 @@ class ChannelStoreClass extends EventEmitter {
     }
 
     setCurrentId(id) {
-        store.dispatch({
+        store.dispatch(batchActions([{
             type: ChannelTypes.SELECT_CHANNEL,
             data: id,
-            member: this.getMyMember(id)
-        });
+        }, {
+            type: ActionTypes.SELECT_CHANNEL_WITH_MEMBER,
+            data: id,
+            channel: this.getChannelById(id),
+            member: this.getMyMember(id),
+        }]));
     }
 
     resetCounts(ids) {
@@ -186,7 +188,9 @@ class ChannelStoreClass extends EventEmitter {
             }
         });
 
-        this.storeMyChannelMembersList(membersToStore);
+        if (membersToStore.length) {
+            this.storeMyChannelMembersList(membersToStore);
+        }
     }
 
     getCurrentId() {
@@ -262,7 +266,7 @@ class ChannelStoreClass extends EventEmitter {
         store.dispatch({
             type: ChannelTypes.RECEIVED_CHANNELS,
             data: channels,
-            teamId: channels[0].team_id
+            teamId: channels[0].team_id,
         });
     }
 
@@ -277,21 +281,21 @@ class ChannelStoreClass extends EventEmitter {
     storeMyChannelMember(channelMember) {
         store.dispatch({
             type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER,
-            data: channelMember
+            data: channelMember,
         });
     }
 
     storeMyChannelMembers(channelMembers) {
         store.dispatch({
             type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBERS,
-            data: Object.values(channelMembers)
+            data: Object.values(channelMembers),
         });
     }
 
     storeMyChannelMembersList(channelMembers) {
         store.dispatch({
             type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBERS,
-            data: channelMembers
+            data: channelMembers,
         });
     }
 
@@ -299,17 +303,10 @@ class ChannelStoreClass extends EventEmitter {
         return Selectors.getMyChannelMemberships(store.getState());
     }
 
-    saveMembersInChannel(channelId = this.getCurrentId(), members) {
+    saveMembersInChannel(channelId, members) {
         store.dispatch({
             type: ChannelTypes.RECEIVED_CHANNEL_MEMBERS,
-            data: Object.values(members)
-        });
-    }
-
-    removeMemberInChannel(channelId = this.getCurrentId(), userId) {
-        store.dispatch({
-            type: UserTypes.RECEIVED_PROFILE_NOT_IN_CHANNEL,
-            data: {id: channelId, user_id: userId}
+            data: Object.values(members),
         });
     }
 
@@ -330,7 +327,7 @@ class ChannelStoreClass extends EventEmitter {
         store.dispatch({
             type: ChannelTypes.RECEIVED_CHANNELS,
             data: channels,
-            teamId
+            teamId,
         });
     }
 
@@ -472,14 +469,14 @@ class ChannelStoreClass extends EventEmitter {
         if (markRead) {
             actions.push({
                 type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER,
-                data: {...member, msg_count: channel.total_msg_count}
+                data: {...member, msg_count: channel.total_msg_count},
             });
         }
 
         actions.push(
             {
                 type: ChannelTypes.RECEIVED_CHANNEL,
-                data: channel
+                data: channel,
             }
         );
         store.dispatch(batchActions(actions));
@@ -501,7 +498,7 @@ class ChannelStoreClass extends EventEmitter {
             member.mention_count++;
             store.dispatch({
                 type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER,
-                data: member
+                data: member,
             });
         }
     }
@@ -547,36 +544,40 @@ ChannelStore.dispatchToken = AppDispatcher.register((payload) => {
         ChannelStore.storeMoreChannels(action.channels);
         break;
     case ActionTypes.RECEIVED_MEMBERS_IN_CHANNEL:
-        ChannelStore.saveMembersInChannel(action.channel_id, action.channel_members);
+        ChannelStore.saveMembersInChannel(action.channel_members);
         break;
     case ActionTypes.RECEIVED_CHANNEL_STATS:
         store.dispatch({
             type: ChannelTypes.RECEIVED_CHANNEL_STATS,
-            data: action.stats
+            data: action.stats,
         });
         break;
 
-    case ActionTypes.RECEIVED_POST:
-        if (Constants.IGNORE_POST_TYPES.indexOf(action.post.type) !== -1) {
+    case ActionTypes.RECEIVED_POST: {
+        const {post, websocketMessageProps: data} = action;
+        const {dispatch} = store;
+        if (shouldIgnorePost(post)) {
             return;
         }
 
-        if (action.post.user_id === UserStore.getCurrentId() && !isSystemMessage(action.post) && !isFromWebhook(action.post)) {
-            return;
+        let markAsRead = false;
+        let markAsReadOnServer = false;
+        if (post.user_id === UserStore.getCurrentId() && !isSystemMessage(post) && !isFromWebhook(post)) {
+            markAsRead = true;
+            markAsReadOnServer = false;
+        } else if (action.post.channel_id === ChannelStore.getCurrentId() && window.isActive) {
+            markAsRead = true;
+            markAsReadOnServer = true;
         }
 
-        var id = action.post.channel_id;
-        var teamId = action.websocketMessageProps ? action.websocketMessageProps.team_id : null;
-        var markRead = id === ChannelStore.getCurrentId() && window.isActive;
-
-        if (TeamStore.getCurrentId() === teamId || teamId === '') {
-            if (!markRead) {
-                ChannelStore.incrementMentionsIfNeeded(id, action.websocketMessageProps);
-            }
-            ChannelStore.incrementMessages(id, markRead);
+        if (markAsRead) {
+            dispatch(markChannelAsRead(post.channel_id, null, markAsReadOnServer));
+            dispatch(markChannelAsViewed(post.channel_id));
+        } else {
+            dispatch(markChannelAsUnread(data.team_id, post.channel_id, data.mentions));
         }
         break;
-
+    }
     case ActionTypes.CREATE_POST:
         ChannelStore.incrementMessages(action.post.channel_id, true);
         break;
@@ -589,5 +590,7 @@ ChannelStore.dispatchToken = AppDispatcher.register((payload) => {
         break;
     }
 });
+
+global.channelstore = ChannelStore;
 
 export default ChannelStore;

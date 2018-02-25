@@ -20,62 +20,115 @@ export default class MessageExportSettings extends AdminSettings {
     }
 
     getConfigFromState(config) {
-        config.MessageExportSettings.EnableExport = this.state.enableMessageExport;
+        config.MessageExportSettings.EnableExport = this.state.enableComplianceExport;
+        config.MessageExportSettings.ExportFormat = this.state.exportFormat;
         config.MessageExportSettings.DailyRunTime = this.state.exportJobStartTime;
-        config.MessageExportSettings.ExportFromTimestamp = parseInt(this.state.exportFromTimestamp, 10);
-        config.MessageExportSettings.FileLocation = this.state.exportLocation;
+        config.MessageExportSettings.GlobalRelayEmailAddress = this.state.globalRelayEmailAddress;
         return config;
     }
 
     getStateFromConfig(config) {
         return {
-            enableMessageExport: config.MessageExportSettings.EnableExport,
+            enableComplianceExport: config.MessageExportSettings.EnableExport,
+            exportFormat: config.MessageExportSettings.ExportFormat,
             exportJobStartTime: config.MessageExportSettings.DailyRunTime,
-            exportFromTimestamp: String(config.MessageExportSettings.ExportFromTimestamp),
-            exportLocation: config.MessageExportSettings.FileLocation
+            globalRelayEmailAddress: config.MessageExportSettings.GlobalRelayEmailAddress,
         };
     }
 
     renderTitle() {
         return (
             <FormattedMessage
-                id='admin.messageExport.title'
-                defaultMessage='Message Export (Beta)'
+                id='admin.complianceExport.title'
+                defaultMessage='Compliance Export (Beta)'
             />
         );
     }
 
     renderSettings() {
         const exportFormatOptions = [
-            {value: 'actiance', text: Utils.localizeMessage('admin.messageExport.exportFormat.actiance', 'Actiance XML')}
+            {value: 'actiance', text: Utils.localizeMessage('admin.complianceExport.exportFormat.actiance', 'Actiance XML')},
+            // {value: 'globalrelay', text: Utils.localizeMessage('admin.complianceExport.exportFormat.globalrelay', 'GlobalRelay EML')},
         ];
+
+        // if export format is globalrelay, user must set email address
+        var dropdownHelpText;
+        var globalRelayEmail;
+        if (this.state.exportFormat === 'globalrelay') {
+            globalRelayEmail = (
+                <TextSetting
+                    id='globalRelayEmailAddress'
+                    label={
+                        <FormattedMessage
+                            id='admin.complianceExport.globalRelayEmailAddress.title'
+                            defaultMessage='GlobalRelay Email Address:'
+                        />
+                    }
+                    placeholder={Utils.localizeMessage('admin.complianceExport.globalRelayEmailAddress.example', 'E.g.: "globalrelay@mattermost.com"')}
+                    helpText={
+                        <FormattedHTMLMessage
+                            id='admin.complianceExport.globalRelayEmailAddress.description'
+                            defaultMessage='The email address that your GlobalRelay server monitors for incoming Compliance Exports.'
+                        />
+                    }
+                    value={this.state.globalRelayEmailAddress === null ? '' : this.state.globalRelayEmailAddress}
+                    disabled={!this.state.enableComplianceExport}
+                    onChange={this.handleChange}
+                />
+            );
+
+            dropdownHelpText = (
+                <FormattedMessage
+                    id='admin.complianceExport.exportFormat.globalrelay.description'
+                    defaultMessage='Format of the compliance export. Corresponds to the system that you want to import the data into. Compliance Exports will be emailed to the configured email address.'
+                />
+            );
+        } else {
+            dropdownHelpText = (
+                <FormattedHTMLMessage
+                    id='admin.complianceExport.exportFormat.actiance.description'
+                    defaultMessage='Format of the compliance export. Corresponds to the system that you want to import the data into. Compliance Export files will be written to the "exports" subdirectory of the configured <a href="/admin_console/files/storage">Local Storage Directory</a>.'
+                />
+            );
+        }
 
         return (
             <SettingsGroup>
+                {/*
                 <div className='banner'>
                     <div className='banner__content'>
                         <FormattedHTMLMessage
-                            id='admin.messageExport.description'
-                            defaultMessage='Message Export dumps all posts into a file that can be imported into third-party systems. The export task is scheduled to run once per day.'
+                            id='admin.complianceExport.description'
+                            defaultMessage='This feature supports compliance exports to the Actiance XML and GlobalRelay EML formats, and is currently in beta. Support for the Mattermost CSV format is scheduled for a future release, and will replace the existing <a href=\"/admin_console/general/compliance\">Compliance</a> feature.'
+                        />
+                    </div>
+                </div>
+                */}
+
+                <div className='banner'>
+                    <div className='banner__content'>
+                        <FormattedHTMLMessage
+                            id='admin.complianceExport.description_without_globalrelay'
+                            defaultMessage='This feature supports compliance exports to the Actiance XML format, and is currently in beta. Support for GlobalRelay EML and the Mattermost CSV format is scheduled for a future release, and will replace the existing <a href=\"/admin_console/general/compliance\">Compliance</a> feature.'
                         />
                     </div>
                 </div>
 
                 <BooleanSetting
-                    id='enableMessageExport'
+                    id='enableComplianceExport'
                     label={
                         <FormattedMessage
-                            id='admin.service.messageExportTitle'
-                            defaultMessage='Enable Message Export:'
+                            id='admin.service.complianceExportTitle'
+                            defaultMessage='Enable Compliance Export:'
                         />
                     }
                     helpText={
-                        <FormattedMessage
-                            id='admin.service.messageExportDesc'
-                            defaultMessage='When true, the system will export all messages that are sent once per day.'
+                        <FormattedHTMLMessage
+                            id='admin.service.complianceExportDesc'
+                            defaultMessage='When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See <a href=\"https://about.mattermost.com/default-compliance-export-documentation\" target=\"_blank\">the documentation</a> to learn more.'
                         />
                     }
-                    value={this.state.enableMessageExport}
+                    value={this.state.enableComplianceExport}
                     onChange={this.handleChange}
                 />
 
@@ -83,96 +136,52 @@ export default class MessageExportSettings extends AdminSettings {
                     id='exportJobStartTime'
                     label={
                         <FormattedMessage
-                            id='admin.messageExport.exportJobStartTime.title'
-                            defaultMessage='Message Export Time:'
+                            id='admin.complianceExport.exportJobStartTime.title'
+                            defaultMessage='Compliance Export Time:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.messageExport.exportJobStartTime.example', 'E.g.: "02:00"')}
+                    placeholder={Utils.localizeMessage('admin.complianceExport.exportJobStartTime.example', 'E.g.: "02:00"')}
                     helpText={
-                        <FormattedMessage
-                            id='admin.messageExport.exportJobStartTime.description'
-                            defaultMessage='Set the start time of the daily scheduled message export job. Choose a time when fewer people are using your system. Must be a 24-hour time stamp in the form HH:MM.'
+                        <FormattedHTMLMessage
+                            id='admin.complianceExport.exportJobStartTime.description'
+                            defaultMessage='Set the start time of the daily scheduled compliance export job. Choose a time when fewer people are using your system. Must be a 24-hour time stamp in the form HH:MM.'
                         />
                     }
                     value={this.state.exportJobStartTime}
-                    disabled={!this.state.enableMessageExport}
+                    disabled={!this.state.enableComplianceExport}
                     onChange={this.handleChange}
                 />
 
-                <TextSetting
-                    id='exportFromTimestamp'
-                    label={
-                        <FormattedMessage
-                            id='admin.messageExport.exportFromTimestamp.title'
-                            defaultMessage='Creation Time of Oldest Post to Export:'
-                        />
-                    }
-                    placeholder={Utils.localizeMessage('admin.messageExport.exportFromTimestamp.example', 'E.g.: Tuesday October 24, 2017 @ 12pm UTC = 1508846400')}
-                    helpText={
-                        <FormattedMessage
-                            id='admin.messageExport.exportFromTimestamp.description'
-                            defaultMessage='Posts older than this will not be exported. Expressed as the number of seconds since the Unix Epoch (January 1, 1970).'
-                        />
-                    }
-                    value={this.state.exportFromTimestamp}
-                    disabled={!this.state.enableMessageExport}
-                    onChange={this.handleChange}
-                />
-
-                {/* dropdown value is hard-coded until we support more than one export format */}
                 <DropdownSetting
                     id='exportFormat'
                     values={exportFormatOptions}
                     label={
                         <FormattedMessage
-                            id='admin.messageExport.exportFormat.title'
-                            defaultMessage='Export File Format:'
+                            id='admin.complianceExport.exportFormat.title'
+                            defaultMessage='Export Format:'
                         />
                     }
-                    helpText={
-                        <FormattedMessage
-                            id='admin.messageExport.exportFormat.description'
-                            defaultMessage='The file format to write exported data in. Corresponds to the system that you want to import the data into.'
-                        />
-                    }
-                    value='actiance'
-                    disabled={!this.state.enableMessageExport}
+                    helpText={dropdownHelpText}
+                    value={this.state.exportFormat}
+                    disabled={!this.state.enableComplianceExport}
                     onChange={this.handleChange}
                 />
 
-                <TextSetting
-                    id='exportLocation'
-                    label={
-                        <FormattedMessage
-                            id='admin.messageExport.exportLocation.title'
-                            defaultMessage='Export Directory:'
-                        />
-                    }
-                    placeholder={Utils.localizeMessage('admin.messageExport.exportLocation.example', 'E.g.: /var/mattermost/exports/')}
-                    helpText={
-                        <FormattedMessage
-                            id='admin.messageExport.exportLocation.description'
-                            defaultMessage='The directory on your hard drive to write export files to. Mattermost must have write access to this directory. Do not include a filename.'
-                        />
-                    }
-                    value={this.state.exportLocation}
-                    disabled={!this.state.enableMessageExport}
-                    onChange={this.handleChange}
-                />
+                {globalRelayEmail}
 
                 <JobsTable
                     jobType={JobTypes.MESSAGE_EXPORT}
-                    disabled={!this.state.enableMessageExport}
+                    disabled={!this.state.enableComplianceExport}
                     createJobButtonText={
                         <FormattedMessage
-                            id='admin.messageExport.createJob.title'
-                            defaultMessage='Run Message Export job now'
+                            id='admin.complianceExport.createJob.title'
+                            defaultMessage='Run Compliance Export Job Now'
                         />
                     }
                     createJobHelpText={
                         <FormattedMessage
-                            id='admin.messageExport.createJob.help'
-                            defaultMessage='Initiates a Message Export job immediately.'
+                            id='admin.complianceExport.createJob.help'
+                            defaultMessage='Initiates a Compliance Export job immediately.'
                         />
                     }
                 />

@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {getPlugins, removePlugin, uploadPlugin, activatePlugin, deactivatePlugin} from 'mattermost-redux/actions/admin';
 
 import PluginManagement from './plugin_management.jsx';
@@ -11,7 +10,7 @@ import PluginManagement from './plugin_management.jsx';
 function mapStateToProps(state, ownProps) {
     return {
         ...ownProps,
-        plugins: state.entities.admin.plugins
+        plugins: state.entities.admin.plugins,
     };
 }
 
@@ -22,8 +21,8 @@ function mapDispatchToProps(dispatch) {
             removePlugin,
             getPlugins,
             activatePlugin,
-            deactivatePlugin
-        }, dispatch)
+            deactivatePlugin,
+        }, dispatch),
     };
 }
 

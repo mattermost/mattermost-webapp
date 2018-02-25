@@ -3,18 +3,32 @@
 
 /* eslint-disable import/order */
 const de = require('!!file-loader?name=i18n/[name].[hash].[ext]!./de.json');
+
 const es = require('!!file-loader?name=i18n/[name].[hash].[ext]!./es.json');
+
 const fr = require('!!file-loader?name=i18n/[name].[hash].[ext]!./fr.json');
+
 const it = require('!!file-loader?name=i18n/[name].[hash].[ext]!./it.json');
+
 const ja = require('!!file-loader?name=i18n/[name].[hash].[ext]!./ja.json');
+
 const ko = require('!!file-loader?name=i18n/[name].[hash].[ext]!./ko.json');
+
 const nl = require('!!file-loader?name=i18n/[name].[hash].[ext]!./nl.json');
+
 const pl = require('!!file-loader?name=i18n/[name].[hash].[ext]!./pl.json');
-const pt_BR = require('!!file-loader?name=i18n/[name].[hash].[ext]!./pt-BR.json'); //eslint-disable-line camelcase
+
+const ptBR = require('!!file-loader?name=i18n/[name].[hash].[ext]!./pt-BR.json');
+
+ //eslint-disable-line camelcase
 const tr = require('!!file-loader?name=i18n/[name].[hash].[ext]!./tr.json');
+
 const ru = require('!!file-loader?name=i18n/[name].[hash].[ext]!./ru.json');
-const zh_TW = require('!!file-loader?name=i18n/[name].[hash].[ext]!./zh-TW.json'); //eslint-disable-line camelcase
-const zh_CN = require('!!file-loader?name=i18n/[name].[hash].[ext]!./zh-CN.json'); //eslint-disable-line camelcase
+
+const zhTW = require('!!file-loader?name=i18n/[name].[hash].[ext]!./zh-TW.json');
+
+ //eslint-disable-line camelcase
+const zhCN = require('!!file-loader?name=i18n/[name].[hash].[ext]!./zh-CN.json'); //eslint-disable-line camelcase
 
 import {addLocaleData} from 'react-intl';
 import deLocaleData from 'react-intl/locale-data/de';
@@ -31,122 +45,107 @@ import trLocaleData from 'react-intl/locale-data/tr';
 import ruLocaleData from 'react-intl/locale-data/ru';
 import zhLocaleData from 'react-intl/locale-data/zh';
 
+import store from 'stores/redux_store.jsx';
+
 // should match the values in model/config.go
 const languages = {
     de: {
         value: 'de',
         name: 'Deutsch',
         order: 0,
-        url: de
+        url: de,
     },
     en: {
         value: 'en',
         name: 'English',
         order: 1,
-        url: ''
+        url: '',
     },
     es: {
         value: 'es',
         name: 'Español',
         order: 2,
-        url: es
+        url: es,
     },
     fr: {
         value: 'fr',
         name: 'Français',
         order: 3,
-        url: fr
+        url: fr,
     },
     it: {
         value: 'it',
         name: 'Italiano',
         order: 4,
-        url: it
+        url: it,
     },
     ja: {
         value: 'ja',
         name: '日本語',
         order: 13,
-        url: ja
+        url: ja,
     },
     ko: {
         value: 'ko',
         name: '한국어 (Alpha)',
         order: 10,
-        url: ko
+        url: ko,
     },
     nl: {
         value: 'nl',
         name: 'Nederlands (Alpha)',
         order: 5,
-        url: nl
+        url: nl,
     },
     pl: {
         value: 'pl',
         name: 'Polski (Alpha)',
         order: 6,
-        url: pl
+        url: pl,
     },
     'pt-BR': {
         value: 'pt-BR',
         name: 'Português (Brasil)',
         order: 7,
-        url: pt_BR
+        url: ptBR,
     },
     tr: {
         value: 'tr',
         name: 'Türkçe',
         order: 8,
-        url: tr
+        url: tr,
     },
     ru: {
         value: 'ru',
         name: 'Pусский (Alpha)',
         order: 9,
-        url: ru
+        url: ru,
     },
     'zh-TW': {
         value: 'zh-TW',
         name: '中文 (繁體)',
         order: 12,
-        url: zh_TW
+        url: zhTW,
     },
     'zh-CN': {
         value: 'zh-CN',
         name: '中文 (简体)',
         order: 11,
-        url: zh_CN
-    }
+        url: zhCN,
+    },
 };
-
-let availableLanguages = null;
-
-function setAvailableLanguages() {
-    let available;
-    availableLanguages = {};
-
-    if (global.window.mm_config.AvailableLocales) {
-        available = global.window.mm_config.AvailableLocales.split(',');
-    } else {
-        available = Object.keys(languages);
-    }
-
-    available.forEach((l) => {
-        if (languages[l]) {
-            availableLanguages[l] = languages[l];
-        }
-    });
-}
 
 export function getAllLanguages() {
     return languages;
 }
 
 export function getLanguages() {
-    if (!availableLanguages) {
-        setAvailableLanguages();
+    const config = store.getState().entities.general.config;
+    if (!config.AvailableLocales) {
+        return getAllLanguages();
     }
-    return availableLanguages;
+
+    return config.AvailableLocales.split(',').filter((l) => languages[l]).map((l) => languages[l]);
 }
 
 export function getLanguageInfo(locale) {
@@ -172,7 +171,7 @@ export function safariFix(callback) {
         'intl/locale-data/jsonp/pt.js',
         'intl/locale-data/jsonp/tr.js',
         'intl/locale-data/jsonp/ru.js',
-        'intl/locale-data/jsonp/zh.js'
+        'intl/locale-data/jsonp/zh.js',
     ], (require) => {
         require('intl');
         require('intl/locale-data/jsonp/de.js');

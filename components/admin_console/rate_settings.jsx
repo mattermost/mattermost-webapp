@@ -26,6 +26,7 @@ export default class RateSettings extends AdminSettings {
         config.RateLimitSettings.MaxBurst = this.parseIntNonZero(this.state.maxBurst);
         config.RateLimitSettings.MemoryStoreSize = this.parseIntNonZero(this.state.memoryStoreSize);
         config.RateLimitSettings.VaryByRemoteAddr = this.state.varyByRemoteAddr;
+        config.RateLimitSettings.VaryByUser = this.state.varyByUser;
         config.RateLimitSettings.VaryByHeader = this.state.varyByHeader;
 
         return config;
@@ -38,7 +39,8 @@ export default class RateSettings extends AdminSettings {
             maxBurst: config.RateLimitSettings.MaxBurst,
             memoryStoreSize: config.RateLimitSettings.MemoryStoreSize,
             varyByRemoteAddr: config.RateLimitSettings.VaryByRemoteAddr,
-            varyByHeader: config.RateLimitSettings.VaryByHeader
+            varyByUser: config.RateLimitSettings.VaryByUser,
+            varyByHeader: config.RateLimitSettings.VaryByHeader,
         };
     }
 
@@ -151,6 +153,24 @@ export default class RateSettings extends AdminSettings {
                         />
                     }
                     value={this.state.varyByRemoteAddr}
+                    onChange={this.handleChange}
+                    disabled={!this.state.enable}
+                />
+                <BooleanSetting
+                    id='varyByUser'
+                    label={
+                        <FormattedMessage
+                            id='admin.rate.varyByUser'
+                            defaultMessage='Vary rate limit by user: '
+                        />
+                    }
+                    helpText={
+                        <FormattedMessage
+                            id='admin.rate.varyByUserDescription'
+                            defaultMessage='When true, rate limit API access by user athentication token.'
+                        />
+                    }
+                    value={this.state.varyByUser}
                     onChange={this.handleChange}
                     disabled={!this.state.enable}
                 />

@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import React from 'react';
-
 import {shallow} from 'enzyme';
 
 import ResetStatusModal from 'components/reset_status_modal/reset_status_modal.jsx';
@@ -20,8 +19,8 @@ describe('components/ResetStatusModal', () => {
         actions: {
             autoResetStatus,
             setStatus: jest.fn(),
-            savePreferences: jest.fn()
-        }
+            savePreferences: jest.fn(),
+        },
     };
 
     test('should match snapshot', () => {
@@ -39,24 +38,24 @@ describe('components/ResetStatusModal', () => {
             actions: {
                 autoResetStatus,
                 setStatus: newSetStatus,
-                savePreferences: newSavePreferences
-            }
+                savePreferences: newSavePreferences,
+            },
         };
         const wrapper = shallow(
             <ResetStatusModal {...props}/>
         );
         const currentUserStatus = {
             status: 'away',
-            user_id: 'user_id_1'
+            user_id: 'user_id_1',
         };
         const expectedUserStatus = {
             status: 'online',
-            user_id: 'user_id_1'
+            user_id: 'user_id_1',
         };
 
         wrapper.setState({
             show: true,
-            currentUserStatus
+            currentUserStatus,
         });
         wrapper.instance().onConfirm(false);
         expect(wrapper.state('show')).toEqual(false);
@@ -66,7 +65,7 @@ describe('components/ResetStatusModal', () => {
 
         wrapper.setState({
             show: true,
-            currentUserStatus
+            currentUserStatus,
         });
         wrapper.instance().onConfirm(true);
         expect(wrapper.state('show')).toEqual(false);
@@ -86,20 +85,20 @@ describe('components/ResetStatusModal', () => {
             actions: {
                 autoResetStatus,
                 setStatus: jest.fn(),
-                savePreferences: newSavePreferences
-            }
+                savePreferences: newSavePreferences,
+            },
         };
         const wrapper = shallow(
             <ResetStatusModal {...props}/>
         );
         const currentUserStatus = {
             status: 'away',
-            user_id: 'user_id_1'
+            user_id: 'user_id_1',
         };
 
         wrapper.setState({
             show: true,
-            currentUserStatus
+            currentUserStatus,
         });
         wrapper.instance().onCancel(false);
         expect(wrapper.state('show')).toEqual(false);
@@ -107,7 +106,7 @@ describe('components/ResetStatusModal', () => {
 
         wrapper.setState({
             show: true,
-            currentUserStatus
+            currentUserStatus,
         });
         wrapper.instance().onCancel(true);
         expect(wrapper.state('show')).toEqual(false);

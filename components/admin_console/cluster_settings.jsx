@@ -3,7 +3,6 @@
 
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-
 import {Client4} from 'mattermost-redux/client';
 
 import * as Utils from 'utils/utils.jsx';
@@ -47,7 +46,7 @@ export default class ClusterSettings extends AdminSettings {
             ReadOnlyConfig: settings.ReadOnlyConfig,
             GossipPort: settings.GossipPort,
             StreamingPort: settings.StreamingPort,
-            showWarning: false
+            showWarning: false,
         };
     }
 
@@ -62,14 +61,14 @@ export default class ClusterSettings extends AdminSettings {
 
     overrideHandleChange(id, value) {
         this.setState({
-            showWarning: true
+            showWarning: true,
         });
 
         this.handleChange(id, value);
     }
 
     renderSettings() {
-        const licenseEnabled = global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.Cluster === 'true';
+        const licenseEnabled = this.props.license.IsLicensed === 'true' && this.props.license.Cluster === 'true';
         if (!licenseEnabled) {
             return null;
         }
@@ -79,7 +78,7 @@ export default class ClusterSettings extends AdminSettings {
         if (Client4.clusterId) {
             configLoadedFromCluster = (
                 <div
-                    style={{marginBottom: '10px'}}
+                    style={style.configLoadedFromCluster}
                     className='alert alert-warning'
                 >
                     <i className='fa fa-warning'/>
@@ -87,7 +86,7 @@ export default class ClusterSettings extends AdminSettings {
                         id='admin.cluster.loadedFrom'
                         defaultMessage='This configuration file was loaded from Node ID {clusterId}. Please see the Troubleshooting Guide in our <a href="http://docs.mattermost.com/deployment/cluster.html" target="_blank">documentation</a> if you are accessing the System Console through a load balancer and experiencing issues.'
                         values={{
-                            clusterId: Client4.clusterId
+                            clusterId: Client4.clusterId,
                         }}
                     />
                 </div>
@@ -98,7 +97,7 @@ export default class ClusterSettings extends AdminSettings {
         if (this.state.showWarning) {
             warning = (
                 <div
-                    style={{marginBottom: '10px'}}
+                    style={style.warning}
                     className='alert alert-warning'
                 >
                     <i className='fa fa-warning'/>
@@ -270,3 +269,8 @@ export default class ClusterSettings extends AdminSettings {
         );
     }
 }
+
+const style = {
+    configLoadedFromCluster: {marginBottom: 10},
+    warning: {marginBottom: 10},
+};

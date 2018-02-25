@@ -2,16 +2,13 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import UserStore from 'stores/user_store.jsx';
-
 import * as Utils from 'utils/utils.jsx';
-
 import AuditTable from 'components/audit_table.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
@@ -19,8 +16,8 @@ export default class AccessHistoryModal extends React.Component {
     static propTypes = {
         onHide: PropTypes.func.isRequired,
         actions: PropTypes.shape({
-            getUserAudits: PropTypes.func.isRequired
-        }).isRequired
+            getUserAudits: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -39,7 +36,7 @@ export default class AccessHistoryModal extends React.Component {
 
     getStateFromStoresForAudits() {
         return {
-            audits: UserStore.getAudits()
+            audits: UserStore.getAudits(),
         };
     }
 

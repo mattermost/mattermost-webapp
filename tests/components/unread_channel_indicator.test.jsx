@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import React from 'react';
-
 import {shallow} from 'enzyme';
 
 import UnreadChannelIndicator from 'components/unread_channel_indicator.jsx';

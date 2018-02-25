@@ -2,15 +2,14 @@
 // See License.txt for license information.
 
 import {connect} from 'react-redux';
-
-import {getUsersByUsername} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getUsersByUsername} from 'mattermost-redux/selectors/entities/users';
 
 import AtMention from './at_mention.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
-        ...ownProps,
-        usersByUsername: getUsersByUsername(state)
+        currentUserId: getCurrentUserId(state),
+        usersByUsername: getUsersByUsername(state),
     };
 }
 

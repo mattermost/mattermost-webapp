@@ -5,47 +5,27 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {savePreference} from 'actions/user_actions.jsx';
-
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-
-import EmailNotificationSetting from 'components/user_settings/email_notification_setting.jsx';
+import EmailNotificationSetting from 'components/user_settings/notifications/email_notification_setting.jsx';
 
 jest.mock('actions/user_actions.jsx', () => ({
-    savePreference: jest.fn()
+    savePreference: jest.fn(),
 }));
 
-describe('components/user_settings/EmailNotificationSetting', () => {
-    const activeSection = 'email';
-    const updateSection = jest.fn();
-    const enableEmail = false;
-    const emailInterval = 0;
-    const onSubmit = jest.fn();
-    const onCancel = jest.fn();
-    const serverError = '';
-    const saving = false;
-
+describe('components/user_settings/notifications/EmailNotificationSetting', () => {
     const requiredProps = {
-        activeSection,
-        updateSection,
-        enableEmail,
-        emailInterval,
-        onSubmit,
-        onCancel,
-        serverError,
-        saving
+        activeSection: 'email',
+        updateSection: jest.fn(),
+        enableEmail: false,
+        emailInterval: 0,
+        onSubmit: jest.fn(),
+        onCancel: jest.fn(),
+        serverError: '',
+        saving: false,
+        sendEmailNotifications: true,
+        enableEmailBatching: false,
+        siteName: 'Mattermost',
     };
-
-    global.window.mm_config = {};
-
-    afterEach(() => {
-        global.window.mm_config = {};
-    });
-
-    beforeEach(() => {
-        global.window.mm_config.SendEmailNotifications = 'true';
-        global.window.mm_config.EnableEmailBatching = 'false';
-        global.window.mm_config.SiteName = 'Mattermost';
-    });
 
     test('should match snapshot', () => {
         const wrapper = mountWithIntl(<EmailNotificationSetting {...requiredProps}/>);
@@ -58,8 +38,11 @@ describe('components/user_settings/EmailNotificationSetting', () => {
     });
 
     test('should match snapshot, enabled email batching', () => {
-        global.window.mm_config.EnableEmailBatching = 'true';
-        const wrapper = mountWithIntl(<EmailNotificationSetting {...requiredProps}/>);
+        const props = {
+            ...requiredProps,
+            enableEmailBatching: true,
+        };
+        const wrapper = mountWithIntl(<EmailNotificationSetting {...props}/>);
 
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('#emailNotificationMinutes').exists()).toBe(true);
@@ -67,35 +50,44 @@ describe('components/user_settings/EmailNotificationSetting', () => {
     });
 
     test('should match snapshot, not send email notifications', () => {
-        global.window.mm_config.SendEmailNotifications = 'false';
-        const wrapper = shallow(<EmailNotificationSetting {...requiredProps}/>);
+        const props = {
+            ...requiredProps,
+            sendEmailNotifications: false,
+        };
+        const wrapper = shallow(<EmailNotificationSetting {...props}/>);
 
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, active section != email and SendEmailNotifications !== true', () => {
-        global.window.mm_config.SendEmailNotifications = 'false';
-        const newActiveSection = '';
-        const props = {...requiredProps, activeSection: newActiveSection};
+        const props = {
+            ...requiredProps,
+            sendEmailNotifications: false,
+            activeSection: '',
+        };
         const wrapper = shallow(<EmailNotificationSetting {...props}/>);
 
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, active section != email and SendEmailNotifications = true', () => {
-        global.window.mm_config.SendEmailNotifications = 'true';
-        const newActiveSection = '';
-        const props = {...requiredProps, activeSection: newActiveSection};
+        const props = {
+            ...requiredProps,
+            sendEmailNotifications: true,
+            activeSection: '',
+        };
         const wrapper = shallow(<EmailNotificationSetting {...props}/>);
 
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, active section != email, SendEmailNotifications = true and enableEmail = true', () => {
-        global.window.mm_config.SendEmailNotifications = 'true';
-        const newActiveSection = '';
-        const newEnableEmail = true;
-        const props = {...requiredProps, activeSection: newActiveSection, enableEmail: newEnableEmail};
+        const props = {
+            ...requiredProps,
+            sendEmailNotifications: true,
+            activeSection: '',
+            enableEmail: true,
+        };
         const wrapper = shallow(<EmailNotificationSetting {...props}/>);
 
         expect(wrapper).toMatchSnapshot();
@@ -133,41 +125,34 @@ describe('components/user_settings/EmailNotificationSetting', () => {
 
         expect(newOnSubmit).toBeCalled();
         expect(newOnSubmit).toHaveBeenCalledTimes(1);
-        expect(newOnSubmit).toBeCalledWith({enableEmail: 'false'});
+        expect(newOnSubmit).toBeCalledWith('false');
 
         expect(savePreference).toHaveBeenCalledTimes(1);
         expect(savePreference).toBeCalledWith('notifications', 'email_interval', '0');
     });
 
-    test('should pass handleExpand', () => {
+    test('should pass handleUpdateSection', () => {
         const newUpdateSection = jest.fn();
-        const props = {...requiredProps, updateSection: newUpdateSection};
-        const wrapper = mountWithIntl(<EmailNotificationSetting {...props}/>);
-
-        wrapper.instance().handleExpand();
-
-        expect(newUpdateSection).toBeCalled();
-        expect(newUpdateSection).toHaveBeenCalledTimes(1);
-        expect(newUpdateSection).toBeCalledWith('email');
-    });
-
-    test('should pass handleCancel', () => {
         const newOnCancel = jest.fn();
-        const props = {...requiredProps, onCancel: newOnCancel};
-        const evt = {preventDefault: jest.fn()};
+        const props = {...requiredProps, updateSection: newUpdateSection, onCancel: newOnCancel};
         const wrapper = mountWithIntl(<EmailNotificationSetting {...props}/>);
 
-        wrapper.instance().handleCancel(evt);
+        wrapper.instance().handleUpdateSection('email');
+        expect(newUpdateSection).toBeCalledWith('email');
+        expect(newUpdateSection).toHaveBeenCalledTimes(1);
+        expect(newOnCancel).not.toBeCalled();
 
+        wrapper.instance().handleUpdateSection();
+        expect(newUpdateSection).toBeCalled();
+        expect(newUpdateSection).toHaveBeenCalledTimes(2);
+        expect(newUpdateSection).toBeCalledWith('');
         expect(newOnCancel).toBeCalled();
-        expect(newOnCancel).toHaveBeenCalledTimes(1);
-        expect(newOnCancel).toBeCalledWith(evt);
     });
 
     test('should pass componentWillReceiveProps', () => {
         const nextProps = {
             enableEmail: true,
-            emailInterval: 30
+            emailInterval: 30,
         };
         const wrapper = mountWithIntl(<EmailNotificationSetting {...requiredProps}/>);
         wrapper.setProps(nextProps);

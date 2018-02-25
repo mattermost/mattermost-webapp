@@ -2,18 +2,14 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
-
 import {General} from 'mattermost-redux/constants';
 
 import UserStore from 'stores/user_store.jsx';
-
 import * as Utils from 'utils/utils.jsx';
-
 import LoadingScreen from 'components/loading_screen.jsx';
 
 export default class ActivityLogModal extends React.Component {
@@ -21,8 +17,8 @@ export default class ActivityLogModal extends React.Component {
         onHide: PropTypes.func.isRequired,
         actions: PropTypes.shape({
             getSessions: PropTypes.func.isRequired,
-            revokeSession: PropTypes.func.isRequired
-        }).isRequired
+            revokeSession: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -44,7 +40,7 @@ export default class ActivityLogModal extends React.Component {
     getStateFromStores() {
         return {
             sessions: UserStore.getSessions(),
-            clientError: null
+            clientError: null,
         };
     }
 
@@ -129,7 +125,7 @@ export default class ActivityLogModal extends React.Component {
                     id={deviceTypeId}
                     defaultMessage={deviceTypeMessage}
                 />
-            )
+            ),
         };
     };
 
@@ -205,7 +201,7 @@ export default class ActivityLogModal extends React.Component {
                                             hour='2-digit'
                                             minute='2-digit'
                                         />
-                                    )
+                                    ),
                                 }}
                             />
                         </div>
@@ -214,7 +210,7 @@ export default class ActivityLogModal extends React.Component {
                                 id='activity_log.os'
                                 defaultMessage='OS: {os}'
                                 values={{
-                                    os: currentSession.props.os
+                                    os: currentSession.props.os,
                                 }}
                             />
                         </div>
@@ -223,7 +219,7 @@ export default class ActivityLogModal extends React.Component {
                                 id='activity_log.browser'
                                 defaultMessage='Browser: {browser}'
                                 values={{
-                                    browser: currentSession.props.browser
+                                    browser: currentSession.props.browser,
                                 }}
                             />
                         </div>
@@ -232,7 +228,7 @@ export default class ActivityLogModal extends React.Component {
                                 id='activity_log.sessionId'
                                 defaultMessage='Session ID: {id}'
                                 values={{
-                                    id: currentSession.id
+                                    id: currentSession.id,
                                 }}
                             />
                         </div>
@@ -280,7 +276,7 @@ export default class ActivityLogModal extends React.Component {
                                                 hour='2-digit'
                                                 minute='2-digit'
                                             />
-                                        )
+                                        ),
                                     }}
                                 />
                             </div>

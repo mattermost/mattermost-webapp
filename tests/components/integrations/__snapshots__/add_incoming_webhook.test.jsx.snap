@@ -3,6 +3,8 @@
 exports[`components/integrations/AddIncomingWebhook should match snapshot 1`] = `
 <AbstractIncomingWebhook
   action={[Function]}
+  enablePostIconOverride={true}
+  enablePostUsernameOverride={true}
   footer={
     Object {
       "defaultMessage": "Save",

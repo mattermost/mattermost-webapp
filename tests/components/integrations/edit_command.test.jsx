@@ -4,18 +4,17 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
-
-import EditCommand from 'components/integrations/components/edit_command/edit_command.jsx';
+import EditCommand from 'components/integrations/edit_command/edit_command.jsx';
 
 describe('components/integrations/EditCommand', () => {
-    const getCustomTeamCommands = jest.genMockFunction().mockImplementation(
+    const getCustomTeamCommands = jest.fn(
         () => {
             return new Promise((resolve) => {
                 process.nextTick(() => resolve());
             });
         }
     );
+
     const commands = {
         r5tpgt4iepf45jt768jz84djic: {
             id: 'r5tpgt4iepf45jt768jz84djic',
@@ -34,16 +33,16 @@ describe('components/integrations/EditCommand', () => {
             team_id: 'm5gix3oye3du8ghk4ko6h9cq7y',
             update_at: 1504468859001,
             url: 'https://google.com/command',
-            username: 'username'
-        }
+            username: 'username',
+        },
     };
     const team = {
         name: 'test',
-        id: 'm5gix3oye3du8ghk4ko6h9cq7y'
+        id: 'm5gix3oye3du8ghk4ko6h9cq7y',
     };
     const editCommandRequest = {
         status: 'not_started',
-        error: null
+        error: null,
     };
 
     const baseProps = {
@@ -52,29 +51,22 @@ describe('components/integrations/EditCommand', () => {
         commands,
         editCommandRequest,
         actions: {
-            getCustomTeamCommands: jest.fn(),
-            editCommand: jest.fn()
-        }
+            getCustomTeamCommands,
+            editCommand: jest.fn(),
+        },
+        enableCommands: true,
     };
 
-    global.window.mm_config = {};
-
-    beforeEach(() => {
-        global.window.mm_config.EnableCommands = 'true';
-    });
-
-    beforeEach(() => {
-        global.window.mm_config = {};
-    });
-
     test('should match snapshot', () => {
-        const props = {...baseProps, getCustomTeamCommands};
-        const wrapper = shallowWithIntl(
-            <EditCommand {...props}/>
+        const wrapper = shallow(
+            <EditCommand {...baseProps}/>
         );
 
         wrapper.setState({originalCommand: commands.r5tpgt4iepf45jt768jz84djic});
         expect(wrapper).toMatchSnapshot();
+
+        expect(baseProps.actions.getCustomTeamCommands).toHaveBeenCalled();
+        expect(baseProps.actions.getCustomTeamCommands).toHaveBeenCalledWith(team.id);
     });
 
     test('should match snapshot, loading', () => {
@@ -86,14 +78,17 @@ describe('components/integrations/EditCommand', () => {
     });
 
     test('should match snapshot when EnableCommands is false', () => {
-        global.window.mm_config.EnableCommands = 'false';
-        const props = {...baseProps, getCustomTeamCommands};
+        const actions = {
+            getCustomTeamCommands: jest.fn(),
+            editCommand: jest.fn(),
+        };
+        const props = {...baseProps, actions, enableCommands: false};
         const wrapper = shallow(
             <EditCommand {...props}/>
         );
 
         expect(wrapper).toMatchSnapshot();
-        expect(props.actions.getCustomTeamCommands).not.toHaveBeenCalledWith();
+        expect(actions.getCustomTeamCommands).not.toHaveBeenCalled();
     });
 
     test('should have match state when handleConfirmModal is called', () => {

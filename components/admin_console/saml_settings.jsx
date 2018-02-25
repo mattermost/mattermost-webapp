@@ -5,7 +5,6 @@ import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import * as AdminActions from 'actions/admin_actions.jsx';
-
 import * as Utils from 'utils/utils.jsx';
 
 import AdminSettings from './admin_settings.jsx';
@@ -56,7 +55,8 @@ export default class SamlSettings extends AdminSettings {
         const siteUrl = config.ServiceSettings.SiteURL;
         let consumerServiceUrl = settings.AssertionConsumerServiceURL;
         if (siteUrl.length > 0 && consumerServiceUrl.length === 0) {
-            consumerServiceUrl = siteUrl + '/login/sso/saml';
+            const addSlashIfNeeded = siteUrl[siteUrl.length - 1] === '/' ? '' : '/';
+            consumerServiceUrl = `${siteUrl}${addSlashIfNeeded}login/sso/saml`;
         }
 
         return {
@@ -78,7 +78,7 @@ export default class SamlSettings extends AdminSettings {
             nicknameAttribute: settings.NicknameAttribute,
             positionAttribute: settings.PositionAttribute,
             localeAttribute: settings.LocaleAttribute,
-            loginButtonText: settings.LoginButtonText
+            loginButtonText: settings.LoginButtonText,
         };
     }
 
@@ -159,7 +159,7 @@ export default class SamlSettings extends AdminSettings {
     }
 
     renderSettings() {
-        const licenseEnabled = global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.SAML === 'true';
+        const licenseEnabled = this.props.license.IsLicensed === 'true' && this.props.license.SAML === 'true';
         if (!licenseEnabled) {
             return null;
         }
@@ -209,7 +209,7 @@ export default class SamlSettings extends AdminSettings {
                     }
                     uploadingText={Utils.localizeMessage('admin.saml.uploading.certificate', 'Uploading Certificate...')}
                     disabled={!this.state.enable}
-                    fileType='.crt,.cer'
+                    fileType='.crt,.cer,.cert,.pem'
                     onSubmit={this.uploadCertificate}
                     error={this.state.idpCertificateFileError}
                 />

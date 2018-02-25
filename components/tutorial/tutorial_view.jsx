@@ -2,45 +2,24 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
-
-import ChannelStore from 'stores/channel_store.jsx';
-
-import Constants from 'utils/constants.jsx';
 
 import TutorialIntroScreens from './tutorial_intro_screens.jsx';
 
 export default class TutorialView extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.handleChannelChange = this.handleChannelChange.bind(this);
-
-        this.state = {
-            townSquare: ChannelStore.getByName(Constants.DEFAULT_CHANNEL)
-        };
-    }
     componentDidMount() {
-        ChannelStore.addChangeListener(this.handleChannelChange);
-
         if (this.props.isRoot) {
             $('body').addClass('app__body');
         }
     }
-    componentWillUnmount() {
-        ChannelStore.removeChangeListener(this.handleChannelChange);
 
+    componentWillUnmount() {
         if (this.props.isRoot) {
             $('body').removeClass('app__body');
         }
     }
-    handleChannelChange() {
-        this.setState({
-            townSquare: ChannelStore.getByName(Constants.DEFAULT_CHANNEL)
-        });
-    }
+
     render() {
         return (
             <div
@@ -48,17 +27,26 @@ export default class TutorialView extends React.Component {
                 className='app__content'
             >
                 <TutorialIntroScreens
-                    townSquare={this.state.townSquare}
+                    townSquareDisplayName={this.props.townSquareDisplayName}
+                    appDownloadLink={this.props.appDownloadLink}
+                    isLicensed={this.props.isLicensed}
+                    restrictTeamInvite={this.props.restrictTeamInvite}
+                    supportEmail={this.props.supportEmail}
                 />
             </div>
         );
     }
 }
 
-TutorialView.defaultProps = {
-    isRoot: true
+TutorialView.propTypes = {
+    isRoot: PropTypes.bool,
+    townSquareDisplayName: PropTypes.string.isRequired,
+    appDownloadLink: PropTypes.string,
+    isLicensed: PropTypes.bool.isRequired,
+    restrictTeamInvite: PropTypes.string.isRequired,
+    supportEmail: PropTypes.string.isRequired,
 };
 
-TutorialView.propTypes = {
-    isRoot: PropTypes.bool
+TutorialView.defaultProps = {
+    isRoot: true,
 };

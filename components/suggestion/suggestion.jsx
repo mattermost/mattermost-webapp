@@ -11,7 +11,7 @@ export default class Suggestion extends React.Component {
             term: PropTypes.string.isRequired,
             matchedPretext: PropTypes.string.isRequired,
             isSelection: PropTypes.bool,
-            onClick: PropTypes.func
+            onClick: PropTypes.func,
         };
     }
 

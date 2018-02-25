@@ -3,22 +3,21 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {getTeamStats} from 'mattermost-redux/actions/teams';
 
 import MemberListTeam from './member_list_team.jsx';
 
 function mapStateToProps(state, ownProps) {
     return {
-        ...ownProps
+        ...ownProps,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getTeamStats
-        }, dispatch)
+            getTeamStats,
+        }, dispatch),
     };
 }
 

@@ -2,10 +2,8 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-
 import {Client4} from 'mattermost-redux/client';
 
 import UserStore from 'stores/user_store.jsx';

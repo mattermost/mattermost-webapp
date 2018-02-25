@@ -48,6 +48,7 @@
 }
 
 .emoji-picker {
+    @include clearfix;
     @include user-select(none);
     border-radius: 3px;
     border: 1px solid;
@@ -123,6 +124,14 @@
     position: relative;
     border-top-style: solid;
     border-top-width: 1px;
+    height: 300px; // overwritten in jsx file
+    width:100%;
+
+    .emoji-picker__container {
+        position: relative;
+        width: 100%;
+        min-height: 100%;
+    }
 
     .emoji-picker__category-header {
         font-size: 12px;
@@ -144,11 +153,19 @@
     .emoji-picker-items__container {
         .emoji-picker__item {
             display: inline-block;
-            height: 21px;
-            margin: 3px;
-            padding: 1px;
+            height: 26px;
+            margin: 0;
+            padding: 2px;
             vertical-align: middle;
-            width: 21px;
+            width: 26px;
+            border-radius: 3px;
+            position: relative;
+
+            > div > img {
+                position: relative;
+                top: -21px;
+                left: -21px;
+            }
         }
 
         > span {
@@ -169,7 +186,6 @@
     .emoji-picker__item-wrapper {
         .emoji-picker__item {
             font-size: 18px;
-            margin: 3px;
             max-height: 21px;
             max-width: 21px;
             min-height: 0;
@@ -182,16 +198,17 @@
 }
 
 .emoji-picker__preview {
+    align-items: stretch;
     border-top: 1px solid;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
-    align-items: stretch;
-    vertical-align: middle;
     flex-grow: 0;
     flex-shrink: 0;
-    height: 45px;
-    padding: 3px 10px;
+    height: 50px;
+    justify-content: flex-start;
+    margin-top: -15px;
+    padding: 7px 10px 0;
+    position: relative;
     vertical-align: middle;
     width: 278px;
 
@@ -214,7 +231,6 @@
         .emoji-picker__preview-aliases {
             display: block;
             font-size: 12px;
-
             font-weight: bold;
         }
     }

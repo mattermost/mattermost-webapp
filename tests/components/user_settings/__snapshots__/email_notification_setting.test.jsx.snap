@@ -1,10 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/user_settings/EmailNotificationSetting should match snapshot 1`] = `
+exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot 1`] = `
 <EmailNotificationSetting
   activeSection="email"
   emailInterval={0}
   enableEmail={false}
+  enableEmailBatching={false}
   intl={
     Object {
       "defaultFormats": Object {},
@@ -30,11 +31,13 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
       "textComponent": "span",
     }
   }
-  onCancel={[Function]}
-  onSubmit={[Function]}
+  onCancel={[MockFunction]}
+  onSubmit={[MockFunction]}
   saving={false}
+  sendEmailNotifications={true}
   serverError=""
-  updateSection={[Function]}
+  siteName="Mattermost"
+  updateSection={[MockFunction]}
 >
   <SettingItemMax
     infoPosition="bottom"
@@ -54,6 +57,8 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
             <label>
               <input
                 checked={false}
+                data-email-interval={30}
+                data-enable-email="true"
                 id="emailNotificationImmediately"
                 name="emailNotifications"
                 onChange={[Function]}
@@ -72,6 +77,8 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
             <label>
               <input
                 checked={true}
+                data-email-interval={0}
+                data-enable-email="false"
                 id="emailNotificationNever"
                 name="emailNotifications"
                 onChange={[Function]}
@@ -101,6 +108,7 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
       ]
     }
     saving={false}
+    section=""
     server_error=""
     submit={[Function]}
     title="Email notifications"
@@ -143,6 +151,8 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
                 <label>
                   <input
                     checked={false}
+                    data-email-interval={30}
+                    data-enable-email="true"
                     id="emailNotificationImmediately"
                     name="emailNotifications"
                     onChange={[Function]}
@@ -165,6 +175,8 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
                 <label>
                   <input
                     checked={true}
+                    data-email-interval={0}
+                    data-enable-email="false"
                     id="emailNotificationNever"
                     name="emailNotifications"
                     onChange={[Function]}
@@ -205,8 +217,10 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
           >
             <hr />
             <SaveButton
+              btnClass="btn-primary"
               defaultMessage="Save"
               disabled={false}
+              extraClasses=""
               onClick={[Function]}
               saving={false}
               savingMessage="Saving"
@@ -244,7 +258,7 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
 </EmailNotificationSetting>
 `;
 
-exports[`components/user_settings/EmailNotificationSetting should match snapshot, active section != email and SendEmailNotifications !== true 1`] = `
+exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot, active section != email and SendEmailNotifications !== true 1`] = `
 <SettingItemMin
   describe={
     <FormattedMessage
@@ -253,12 +267,14 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
       values={Object {}}
     />
   }
+  focused={false}
+  section="email"
   title="Email notifications"
   updateSection={[Function]}
 />
 `;
 
-exports[`components/user_settings/EmailNotificationSetting should match snapshot, active section != email and SendEmailNotifications = true 1`] = `
+exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot, active section != email and SendEmailNotifications = true 1`] = `
 <SettingItemMin
   describe={
     <FormattedMessage
@@ -267,12 +283,14 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
       values={Object {}}
     />
   }
+  focused={false}
+  section="email"
   title="Email notifications"
   updateSection={[Function]}
 />
 `;
 
-exports[`components/user_settings/EmailNotificationSetting should match snapshot, active section != email, SendEmailNotifications = true and enableEmail = true 1`] = `
+exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot, active section != email, SendEmailNotifications = true and enableEmail = true 1`] = `
 <SettingItemMin
   describe={
     <FormattedMessage
@@ -285,16 +303,19 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
       }
     />
   }
+  focused={false}
+  section="email"
   title="Email notifications"
   updateSection={[Function]}
 />
 `;
 
-exports[`components/user_settings/EmailNotificationSetting should match snapshot, enabled email batching 1`] = `
+exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot, enabled email batching 1`] = `
 <EmailNotificationSetting
   activeSection="email"
   emailInterval={0}
   enableEmail={false}
+  enableEmailBatching={true}
   intl={
     Object {
       "defaultFormats": Object {},
@@ -320,11 +341,13 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
       "textComponent": "span",
     }
   }
-  onCancel={[Function]}
-  onSubmit={[Function]}
+  onCancel={[MockFunction]}
+  onSubmit={[MockFunction]}
   saving={false}
+  sendEmailNotifications={true}
   serverError=""
-  updateSection={[Function]}
+  siteName="Mattermost"
+  updateSection={[MockFunction]}
 >
   <SettingItemMax
     infoPosition="bottom"
@@ -344,6 +367,8 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
             <label>
               <input
                 checked={false}
+                data-email-interval={30}
+                data-enable-email="true"
                 id="emailNotificationImmediately"
                 name="emailNotifications"
                 onChange={[Function]}
@@ -363,6 +388,8 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
               <label>
                 <input
                   checked={false}
+                  data-email-interval={900}
+                  data-enable-email="true"
                   id="emailNotificationMinutes"
                   name="emailNotifications"
                   onChange={[Function]}
@@ -385,6 +412,8 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
               <label>
                 <input
                   checked={false}
+                  data-email-interval={3600}
+                  data-enable-email="true"
                   id="emailNotificationHour"
                   name="emailNotifications"
                   onChange={[Function]}
@@ -404,6 +433,8 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
             <label>
               <input
                 checked={true}
+                data-email-interval={0}
+                data-enable-email="false"
                 id="emailNotificationNever"
                 name="emailNotifications"
                 onChange={[Function]}
@@ -438,6 +469,7 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
       ]
     }
     saving={false}
+    section=""
     server_error=""
     submit={[Function]}
     title="Email notifications"
@@ -480,6 +512,8 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
                 <label>
                   <input
                     checked={false}
+                    data-email-interval={30}
+                    data-enable-email="true"
                     id="emailNotificationImmediately"
                     name="emailNotifications"
                     onChange={[Function]}
@@ -503,6 +537,8 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
                   <label>
                     <input
                       checked={false}
+                      data-email-interval={900}
+                      data-enable-email="true"
                       id="emailNotificationMinutes"
                       name="emailNotifications"
                       onChange={[Function]}
@@ -529,6 +565,8 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
                   <label>
                     <input
                       checked={false}
+                      data-email-interval={3600}
+                      data-enable-email="true"
                       id="emailNotificationHour"
                       name="emailNotifications"
                       onChange={[Function]}
@@ -552,6 +590,8 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
                 <label>
                   <input
                     checked={true}
+                    data-email-interval={0}
+                    data-enable-email="false"
                     id="emailNotificationNever"
                     name="emailNotifications"
                     onChange={[Function]}
@@ -601,8 +641,10 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
           >
             <hr />
             <SaveButton
+              btnClass="btn-primary"
               defaultMessage="Save"
               disabled={false}
+              extraClasses=""
               onClick={[Function]}
               saving={false}
               savingMessage="Saving"
@@ -640,7 +682,7 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
 </EmailNotificationSetting>
 `;
 
-exports[`components/user_settings/EmailNotificationSetting should match snapshot, not send email notifications 1`] = `
+exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot, not send email notifications 1`] = `
 <SettingItemMax
   infoPosition="bottom"
   inputs={
@@ -657,12 +699,13 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
     ]
   }
   saving={false}
+  section="email"
   title="Email notifications"
   updateSection={[Function]}
 />
 `;
 
-exports[`components/user_settings/EmailNotificationSetting should match snapshot, on serverError 1`] = `
+exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot, on serverError 1`] = `
 <SettingItemMax
   infoPosition="bottom"
   inputs={
@@ -681,6 +724,8 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
           <label>
             <input
               checked={false}
+              data-email-interval={30}
+              data-enable-email="true"
               id="emailNotificationImmediately"
               name="emailNotifications"
               onChange={[Function]}
@@ -699,6 +744,8 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
           <label>
             <input
               checked={true}
+              data-email-interval={0}
+              data-enable-email="false"
               id="emailNotificationNever"
               name="emailNotifications"
               onChange={[Function]}
@@ -728,6 +775,7 @@ exports[`components/user_settings/EmailNotificationSetting should match snapshot
     ]
   }
   saving={false}
+  section=""
   server_error="serverError"
   submit={[Function]}
   title="Email notifications"

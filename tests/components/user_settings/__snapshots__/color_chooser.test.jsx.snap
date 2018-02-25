@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/user_settings/ColorChooser should match, init 1`] = `
+exports[`components/user_settings/display/ColorChooser should match, init 1`] = `
 <div>
   <label
     className="custom-label"

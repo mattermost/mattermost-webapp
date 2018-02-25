@@ -6,6 +6,8 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import GlobeIcon from 'components/svg/globe_icon';
+import LockIcon from 'components/svg/lock_icon';
 import Constants from 'utils/constants.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import {getSiteURL} from 'utils/url.jsx';
@@ -27,7 +29,7 @@ export default class ChannelInfoModal extends React.PureComponent {
         /**
          * Current team object
          */
-        currentTeam: PropTypes.object.isRequired
+        currentTeam: PropTypes.object.isRequired,
     };
 
     constructor(props) {
@@ -45,8 +47,6 @@ export default class ChannelInfoModal extends React.PureComponent {
     render() {
         let channel = this.props.channel;
         let channelIcon;
-        const globeIcon = Constants.GLOBE_ICON_SVG;
-        const lockIcon = Constants.LOCK_ICON_SVG;
 
         if (!channel) {
             const notFound = Utils.localizeMessage('channel_info.notFound', 'No Channel Found');
@@ -56,23 +56,17 @@ export default class ChannelInfoModal extends React.PureComponent {
                 name: notFound,
                 purpose: notFound,
                 header: notFound,
-                id: notFound
+                id: notFound,
             };
         }
 
         if (channel.type === 'O') {
             channelIcon = (
-                <span
-                    className='icon icon__globe icon--body'
-                    dangerouslySetInnerHTML={{__html: globeIcon}}
-                />
+                <GlobeIcon className='icon icon__globe icon--body'/>
             );
         } else if (channel.type === 'P') {
             channelIcon = (
-                <span
-                    className='icon icon__globe icon--body'
-                    dangerouslySetInnerHTML={{__html: lockIcon}}
-                />
+                <LockIcon className='icon icon__globe icon--body'/>
             );
         }
 

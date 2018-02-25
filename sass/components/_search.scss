@@ -41,6 +41,7 @@
 }
 
 .search__form {
+    padding: 0 30px 0 40px;
     position: relative;
 
     .search-bar__container & {
@@ -61,7 +62,6 @@
         font-size: 14px;
         height: 35px;
         outline: none;
-        padding: 0 30px 0 40px;
         width: 100%;
     }
 
@@ -83,7 +83,6 @@
     @include flex(1 1 auto);
     -webkit-overflow-scrolling: touch;
     height: calc(100% - 56px);
-    overflow: auto;
     padding-top: 10px;
     position: relative;
 }

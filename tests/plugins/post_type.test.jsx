@@ -5,9 +5,7 @@ import React from 'react';
 import {Provider} from 'react-redux';
 
 import store from 'stores/redux_store.jsx';
-
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
-
 import PostMessageView from 'components/post_view/post_message_view/post_message_view.jsx';
 
 class PostTypePlugin extends React.PureComponent {
@@ -17,9 +15,9 @@ class PostTypePlugin extends React.PureComponent {
 }
 
 describe('plugins/PostMessageView', () => {
-    const post = {type: 'testtype'};
+    const post = {type: 'testtype', message: 'this is some text'};
     const pluginPostTypes = {
-        testtype: {component: PostTypePlugin}
+        testtype: {component: PostTypePlugin},
     };
 
     const requiredProps = {
@@ -29,7 +27,7 @@ describe('plugins/PostMessageView', () => {
         team: {name: 'team_name'},
         emojis: {name: 'smile'},
         theme: {id: 'theme_id'},
-        enableFormatting: true
+        enableFormatting: true,
     };
 
     test('should match snapshot with extended post type', () => {

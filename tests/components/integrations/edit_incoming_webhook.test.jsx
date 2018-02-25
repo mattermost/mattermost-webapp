@@ -3,16 +3,14 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
-import {browserHistory} from 'react-router';
 
-import EditIncomingWebhook from 'components/integrations/components/edit_incoming_webhook/edit_incoming_webhook.jsx';
+import {browserHistory} from 'utils/browser_history';
+import EditIncomingWebhook from 'components/integrations/edit_incoming_webhook/edit_incoming_webhook.jsx';
 
 describe('components/integrations/EditIncomingWebhook', () => {
-    global.window.mm_config = {};
-
     const hook = {
         id: 'id',
-        token: 'token'
+        token: 'token',
     };
 
     let updateIncomingHook = null;
@@ -24,30 +22,29 @@ describe('components/integrations/EditIncomingWebhook', () => {
         teamId: 'testteamid',
         team: {
             id: 'testteamid',
-            name: 'test'
+            name: 'test',
         },
         updateIncomingHookRequest: {
             status: 'not_started',
-            error: null
-        }
+            error: null,
+        },
+        enableIncomingWebhooks: true,
+        enablePostUsernameOverride: true,
+        enablePostIconOverride: true,
     };
 
     afterEach(() => {
-        global.window.mm_config = {};
-
         updateIncomingHook = null;
         getIncomingHook = null;
         actions = {};
     });
 
     beforeEach(() => {
-        global.window.mm_config.EnableIncomingWebhooks = 'true';
-
         updateIncomingHook = jest.fn();
         getIncomingHook = jest.fn();
         actions = {
             updateIncomingHook,
-            getIncomingHook
+            getIncomingHook,
         };
     });
 
@@ -68,9 +65,7 @@ describe('components/integrations/EditIncomingWebhook', () => {
     });
 
     test('should not call getIncomingHook', () => {
-        global.window.mm_config.EnableIncomingWebhooks = 'false';
-
-        const props = {...requiredProps, actions};
+        const props = {...requiredProps, enableIncomingWebhooks: false, actions};
         const wrapper = shallow(<EditIncomingWebhook {...props}/>);
 
         expect(wrapper).toMatchSnapshot();
@@ -82,7 +77,7 @@ describe('components/integrations/EditIncomingWebhook', () => {
         const newActions = {...actions, updateIncomingHook: newUpdateIncomingHook};
         const asyncHook = {
             id: 'id',
-            token: 'token'
+            token: 'token',
         };
         const props = {...requiredProps, actions: newActions, hook};
         const wrapper = shallow(<EditIncomingWebhook {...props}/>);
@@ -100,11 +95,11 @@ describe('components/integrations/EditIncomingWebhook', () => {
         const newActions = {...actions, updateIncomingHook: newUpdateIncomingHook};
         const asyncHook = {
             id: 'id',
-            token: 'token'
+            token: 'token',
         };
         const updateIncomingHookRequest = {
             status: 'error',
-            error: {message: 'error message'}
+            error: {message: 'error message'},
         };
         const props = {...requiredProps, actions: newActions, hook, updateIncomingHookRequest};
         const wrapper = shallow(<EditIncomingWebhook {...props}/>);
@@ -124,7 +119,7 @@ describe('components/integrations/EditIncomingWebhook', () => {
         browserHistory.push = jest.fn();
         const asyncHook = {
             id: 'id',
-            token: 'token'
+            token: 'token',
         };
         const props = {...requiredProps, actions: newActions, hook};
         const wrapper = shallow(<EditIncomingWebhook {...props}/>);

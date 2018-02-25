@@ -4,7 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
@@ -12,32 +11,28 @@ import {savePreference} from 'actions/user_actions.jsx';
 import PreferenceStore from 'stores/preference_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import {Constants, Preferences} from 'utils/constants.jsx';
 import {useSafeUrl} from 'utils/url.jsx';
-
 import AppIcons from 'images/appIcons.png';
 
 const NUM_SCREENS = 3;
 
 export default class TutorialIntroScreens extends React.Component {
-    static get propTypes() {
-        return {
-            townSquare: PropTypes.object,
-            offTopic: PropTypes.object
-        };
-    }
+    static propTypes = {
+        townSquareDisplayName: PropTypes.string.isRequired,
+        appDownloadLink: PropTypes.string,
+        isLicensed: PropTypes.bool.isRequired,
+        restrictTeamInvite: PropTypes.string.isRequired,
+        supportEmail: PropTypes.string.isRequired,
+    };
+
     constructor(props) {
         super(props);
 
-        this.handleNext = this.handleNext.bind(this);
-        this.createScreen = this.createScreen.bind(this);
-        this.createCircles = this.createCircles.bind(this);
-        this.skipTutorial = this.skipTutorial.bind(this);
-
         this.state = {currentScreen: 0};
     }
-    handleNext() {
+
+    handleNext = () => {
         switch (this.state.currentScreen) {
         case 0:
             trackEvent('tutorial', 'tutorial_screen_1_welcome_to_mattermost_next');
@@ -55,8 +50,6 @@ export default class TutorialIntroScreens extends React.Component {
             return;
         }
 
-        browserHistory.push(TeamStore.getCurrentTeamUrl() + '/channels/town-square');
-
         const step = PreferenceStore.getInt(Preferences.TUTORIAL_STEP, UserStore.getCurrentId(), 0);
 
         savePreference(
@@ -65,7 +58,8 @@ export default class TutorialIntroScreens extends React.Component {
             (step + 1).toString()
         );
     }
-    skipTutorial(e) {
+
+    skipTutorial = (e) => {
         e.preventDefault();
 
         switch (this.state.currentScreen) {
@@ -83,12 +77,10 @@ export default class TutorialIntroScreens extends React.Component {
         savePreference(
             Preferences.TUTORIAL_STEP,
             UserStore.getCurrentId(),
-            '999'
+            Constants.TutorialSteps.FINISHED.toString(),
         );
-
-        browserHistory.push(TeamStore.getCurrentTeamUrl() + '/channels/town-square');
     }
-    createScreen() {
+    createScreen = () => {
         switch (this.state.currentScreen) {
         case 0:
             return this.createScreenOne();
@@ -99,6 +91,7 @@ export default class TutorialIntroScreens extends React.Component {
         }
         return null;
     }
+
     createScreenOne() {
         const circles = this.createCircles();
 
@@ -115,15 +108,16 @@ export default class TutorialIntroScreens extends React.Component {
             </div>
         );
     }
+
     createScreenTwo() {
         const circles = this.createCircles();
 
         let appDownloadLink = null;
         let appDownloadImage = null;
-        if (global.mm_config.AppDownloadLink) {
-            const link = useSafeUrl(global.mm_config.AppDownloadLink);
+        if (this.props.appDownloadLink) {
+            const link = useSafeUrl(this.props.appDownloadLink);
 
-            // not using a FormattedHTMLMessage here since mm_config.AppDownloadLink is configurable and could be used
+            // not using a FormattedHTMLMessage here since appDownloadLink is configurable and could be used
             // to inject HTML if we're not careful
             appDownloadLink = (
                 <FormattedMessage
@@ -142,7 +136,7 @@ export default class TutorialIntroScreens extends React.Component {
                                     defaultMessage='PC, Mac, iOS and Android'
                                 />
                             </a>
-                        )
+                        ),
                     }}
                 />
             );
@@ -176,12 +170,13 @@ export default class TutorialIntroScreens extends React.Component {
             </div>
         );
     }
+
     createScreenThree() {
         const team = TeamStore.getCurrent();
         let inviteModalLink;
         let inviteText;
 
-        if (global.window.mm_license.IsLicensed !== 'true' || global.window.mm_config.RestrictTeamInvite === Constants.PERMISSIONS_ALL) {
+        if (!this.props.isLicensed || this.props.restrictTeamInvite === Constants.PERMISSIONS_ALL) {
             if (team.type === Constants.INVITE_TEAM) {
                 inviteModalLink = (
                     <button
@@ -224,7 +219,7 @@ export default class TutorialIntroScreens extends React.Component {
         const circles = this.createCircles();
 
         let supportInfo = null;
-        if (global.window.mm_config.SupportEmail) {
+        if (this.props.supportEmail) {
             supportInfo = (
                 <p id='supportInfo'>
                     <FormattedMessage
@@ -232,20 +227,15 @@ export default class TutorialIntroScreens extends React.Component {
                         defaultMessage='Need anything, just email us at '
                     />
                     <a
-                        href={'mailto:' + global.window.mm_config.SupportEmail}
+                        href={'mailto:' + this.props.supportEmail}
                         target='_blank'
                         rel='noopener noreferrer'
                     >
-                        {global.window.mm_config.SupportEmail}
+                        {this.props.supportEmail}
                     </a>
                     {'.'}
                 </p>
             );
-        }
-
-        let townSquareDisplayName = Constants.DEFAULT_CHANNEL_UI_NAME;
-        if (this.props.townSquare) {
-            townSquareDisplayName = this.props.townSquare.display_name;
         }
 
         return (
@@ -262,14 +252,20 @@ export default class TutorialIntroScreens extends React.Component {
                     id='tutorial_intro.end'
                     defaultMessage='Click "Next" to enter {channel}. This is the first channel teammates see when they sign up. Use it for posting updates everyone needs to know.'
                     values={{
-                        channel: townSquareDisplayName
+                        channel: this.props.townSquareDisplayName,
                     }}
                 />
                 {circles}
             </div>
         );
     }
-    createCircles() {
+
+    handleCircleClick = (e, screen) => {
+        e.preventDefault();
+        this.setState({currentScreen: screen});
+    }
+
+    createCircles = () => {
         const circles = [];
         for (let i = 0; i < NUM_SCREENS; i++) {
             let className = 'circle';
@@ -283,10 +279,8 @@ export default class TutorialIntroScreens extends React.Component {
                     href='#'
                     key={'circle' + i}
                     className={className}
-                    onClick={(e) => { //eslint-disable-line no-loop-func
-                        e.preventDefault();
-                        this.setState({currentScreen: i});
-                    }}
+                    data-screen={i}
+                    onClick={(e) => this.handleCircleClick(e, i)}
                 />
             );
         }
@@ -297,6 +291,7 @@ export default class TutorialIntroScreens extends React.Component {
             </div>
         );
     }
+
     render() {
         const screen = this.createScreen();
 

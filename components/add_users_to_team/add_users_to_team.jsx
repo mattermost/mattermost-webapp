@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router';
-
 import {Client4} from 'mattermost-redux/client';
 import {searchProfilesNotInCurrentTeam} from 'mattermost-redux/selectors/entities/users';
 
@@ -15,10 +13,8 @@ import {searchUsersNotInTeam} from 'actions/user_actions.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import Constants from 'utils/constants.jsx';
-import {displayEntireNameForUser} from 'utils/utils.jsx';
-
+import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 
@@ -29,8 +25,8 @@ export default class AddUsersToTeam extends React.Component {
     static propTypes = {
         onModalDismissed: PropTypes.func,
         actions: PropTypes.shape({
-            getProfilesNotInTeam: PropTypes.func.isRequired
-        }).isRequired
+            getProfilesNotInTeam: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -53,7 +49,8 @@ export default class AddUsersToTeam extends React.Component {
             show: true,
             search: false,
             saving: false,
-            addError: null
+            addError: null,
+            loadingUsers: true,
         };
     }
 
@@ -62,7 +59,9 @@ export default class AddUsersToTeam extends React.Component {
         UserStore.addNotInTeamChangeListener(this.onChange);
         UserStore.addStatusesChangeListener(this.onChange);
 
-        this.props.actions.getProfilesNotInTeam(TeamStore.getCurrentId(), 0, USERS_PER_PAGE * 2);
+        this.props.actions.getProfilesNotInTeam(TeamStore.getCurrentId(), 0, USERS_PER_PAGE * 2).then(() => {
+            this.setUsersLoadingState(false);
+        });
     }
 
     componentWillUnmount() {
@@ -76,10 +75,6 @@ export default class AddUsersToTeam extends React.Component {
     }
 
     handleExit() {
-        if (this.exitToChannel) {
-            browserHistory.push(this.exitToChannel);
-        }
-
         if (this.props.onModalDismissed) {
             this.props.onModalDismissed();
         }
@@ -93,7 +88,7 @@ export default class AddUsersToTeam extends React.Component {
 
         this.setState({
             saving: false,
-            addError
+            addError,
         });
     }
 
@@ -124,11 +119,18 @@ export default class AddUsersToTeam extends React.Component {
 
     addValue(value) {
         const values = Object.assign([], this.state.values);
-        if (values.indexOf(value) === -1) {
+        const userIds = values.map((v) => v.id);
+        if (value && value.id && userIds.indexOf(value.id) === -1) {
             values.push(value);
         }
 
         this.setState({values});
+    }
+
+    setUsersLoadingState = (loadingState) => {
+        this.setState({
+            loadingUsers: loadingState,
+        });
     }
 
     onChange() {
@@ -147,13 +149,16 @@ export default class AddUsersToTeam extends React.Component {
         }
 
         this.setState({
-            users
+            users,
         });
     }
 
     handlePageChange(page, prevPage) {
         if (page > prevPage) {
-            this.props.actions.getProfilesNotInTeam(TeamStore.getCurrentId(), page + 1, USERS_PER_PAGE);
+            this.setUsersLoadingState(true);
+            this.props.actions.getProfilesNotInTeam(TeamStore.getCurrentId(), page + 1, USERS_PER_PAGE).then(() => {
+                this.setUsersLoadingState(false);
+            });
         }
     }
 
@@ -168,7 +173,10 @@ export default class AddUsersToTeam extends React.Component {
 
         this.searchTimeoutId = setTimeout(
             () => {
-                searchUsersNotInTeam(term, TeamStore.getCurrentId(), {});
+                this.setUsersLoadingState(true);
+                searchUsersNotInTeam(term, TeamStore.getCurrentId(), {}).then(() => {
+                    this.setUsersLoadingState(false);
+                });
             },
             Constants.SEARCH_TIMEOUT_MILLISECONDS
         );
@@ -225,17 +233,12 @@ export default class AddUsersToTeam extends React.Component {
                 id='multiselect.numPeopleRemaining'
                 defaultMessage='Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. '
                 values={{
-                    num: MAX_SELECTABLE_VALUES - this.state.values.length
+                    num: MAX_SELECTABLE_VALUES - this.state.values.length,
                 }}
             />
         );
 
-        const buttonSubmitText = (
-            <FormattedMessage
-                id='multiselect.add'
-                defaultMessage='Add'
-            />
-        );
+        const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
 
         let users = [];
         if (this.state.users) {
@@ -244,7 +247,7 @@ export default class AddUsersToTeam extends React.Component {
 
         let addError = null;
         if (this.state.addError) {
-            addError = (<label className='has-error control-label'>{this.state.addError}</label>);
+            addError = (<div className='has-error col-sm-12'><label className='control-label font-weight--normal'>{this.state.addError}</label></div>);
         }
 
         return (
@@ -262,7 +265,7 @@ export default class AddUsersToTeam extends React.Component {
                             values={{
                                 teamName: (
                                     <strong>{TeamStore.getCurrent().display_name}</strong>
-                                )
+                                ),
                             }}
                         />
                     </Modal.Title>
@@ -285,6 +288,7 @@ export default class AddUsersToTeam extends React.Component {
                         numRemainingText={numRemainingText}
                         buttonSubmitText={buttonSubmitText}
                         saving={this.state.saving}
+                        loading={this.state.loadingUsers}
                     />
                 </Modal.Body>
             </Modal>

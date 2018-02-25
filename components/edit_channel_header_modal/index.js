@@ -16,20 +16,20 @@ const mapStateToProps = createSelector(
         const {channels: {updateChannel}} = requests;
         return {
             serverError: updateChannel.error,
-            requestStatus: updateChannel.status
+            requestStatus: updateChannel.status,
         };
     },
     (ctrlSend, submitInfo) => ({
         ctrlSend,
-        ...submitInfo
+        ...submitInfo,
     }),
 );
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: {
-            patchChannel: bindActionCreators(patchChannel, dispatch)
-        }
+            patchChannel: bindActionCreators(patchChannel, dispatch),
+        },
     };
 }
 

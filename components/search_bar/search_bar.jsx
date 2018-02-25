@@ -3,22 +3,25 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {Popover} from 'react-bootstrap';
+import {FormattedHTMLMessage} from 'react-intl';
 
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
-import SearchChannelProvider from '../suggestion/search_channel_provider.jsx';
-import SearchSuggestionList from '../suggestion/search_suggestion_list.jsx';
-import SearchUserProvider from '../suggestion/search_user_provider.jsx';
-import SuggestionBox from '../suggestion/suggestion_box.jsx';
+import SearchChannelProvider from 'components/suggestion/search_channel_provider.jsx';
+import SearchSuggestionList from 'components/suggestion/search_suggestion_list.jsx';
+import SearchUserProvider from 'components/suggestion/search_user_provider.jsx';
+import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
+import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
+import FlagIcon from 'components/svg/flag_icon';
+import MentionsIcon from 'components/svg/mentions_icon';
+import SearchIcon from 'components/svg/search_icon';
 
 const {KeyCodes} = Constants;
 
 export default class SearchBar extends React.Component {
     static propTypes = {
-        isSearching: PropTypes.bool,
+        isSearchingTerm: PropTypes.bool,
         searchTerms: PropTypes.string,
         isMentionSearch: PropTypes.bool,
         isFlaggedPosts: PropTypes.bool,
@@ -27,8 +30,8 @@ export default class SearchBar extends React.Component {
             showSearchResults: PropTypes.func,
             showMentions: PropTypes.func,
             showFlaggedPosts: PropTypes.func,
-            closeRightHandSide: PropTypes.func
-        })
+            closeRightHandSide: PropTypes.func,
+        }),
     };
 
     constructor() {
@@ -36,7 +39,7 @@ export default class SearchBar extends React.Component {
 
         this.state = {
             focused: false,
-            isPristine: true
+            isPristine: true,
         };
 
         this.suggestionProviders = [new SearchChannelProvider(), new SearchUserProvider()];
@@ -45,7 +48,10 @@ export default class SearchBar extends React.Component {
     componentDidMount() {
         if (Utils.isMobile()) {
             setTimeout(() => {
-                document.querySelector('.app__body .sidebar--menu').classList.remove('visible');
+                const element = document.querySelector('.app__body .sidebar--menu');
+                if (element) {
+                    element.classList.remove('visible');
+                }
             });
         }
     }
@@ -54,6 +60,9 @@ export default class SearchBar extends React.Component {
         if (Utils.isMobile()) {
             setTimeout(() => {
                 document.querySelector('.app__body .sidebar--menu').classList.add('visible');
+                document.querySelector('#sidebar-webrtc').classList.remove('webrtc--show');
+                document.querySelector('#inner-wrap-webrtc').classList.remove('webrtc--show');
+                document.querySelector('#inner-wrap-webrtc').classList.remove('move--left');
             });
         }
 
@@ -87,7 +96,7 @@ export default class SearchBar extends React.Component {
     handleSearch = async (terms) => {
         if (terms.length) {
             this.setState({
-                isPristine: false
+                isPristine: false,
             });
 
             const {error} = await this.props.actions.showSearchResults();
@@ -155,14 +164,14 @@ export default class SearchBar extends React.Component {
         );
     }
 
-    render() {
-        const flagIcon = Constants.FLAG_ICON_SVG;
-        const searchIcon = Constants.SEARCH_ICON_SVG;
-        const mentionsIcon = Constants.MENTIONS_ICON_SVG;
+    getSearch = (node) => {
+        this.search = node;
+    }
 
-        var isSearching = null;
-        if (this.props.isSearching) {
-            isSearching = <span className={'fa fa-spin fa-spinner'}/>;
+    render() {
+        var isSearchingTerm = null;
+        if (this.props.isSearchingTerm) {
+            isSearchingTerm = <span className={'fa fa-spin fa-spinner'}/>;
         }
 
         let helpClass = 'search-help-popover';
@@ -170,80 +179,43 @@ export default class SearchBar extends React.Component {
             helpClass += ' visible';
         }
 
-        const recentMentionsTooltip = (
-            <Tooltip id='recentMentionsTooltip'>
-                <FormattedMessage
-                    id='channel_header.recentMentions'
-                    defaultMessage='Recent Mentions'
-                />
-            </Tooltip>
-        );
-
-        const flaggedTooltip = (
-            <Tooltip
-                id='flaggedTooltip'
-                className='text-nowrap'
-            >
-                <FormattedMessage
-                    id='channel_header.flagged'
-                    defaultMessage='Flagged Posts'
-                />
-            </Tooltip>
-        );
-
         let mentionBtn;
         let flagBtn;
         if (this.props.showMentionFlagBtns) {
             var mentionBtnClass = this.props.isMentionSearch ? 'active' : '';
 
             mentionBtn = (
-                <OverlayTrigger
-                    trigger={['hover', 'focus']}
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='bottom'
-                    overlay={recentMentionsTooltip}
-                >
-                    <div
-                        className={'channel-header__icon ' + mentionBtnClass}
-                        onClick={this.searchMentions}
-                    >
-                        <span
+                <HeaderIconWrapper
+                    iconComponent={
+                        <MentionsIcon
                             className='icon icon__mentions'
-                            dangerouslySetInnerHTML={{__html: mentionsIcon}}
                             aria-hidden='true'
                         />
-                    </div>
-                </OverlayTrigger>
+                    }
+                    buttonClass={'channel-header__icon style--none ' + mentionBtnClass}
+                    buttonId={'channelHeaderMentionButton'}
+                    onClick={this.searchMentions}
+                    tooltipKey={'recentMentions'}
+                />
             );
 
             var flagBtnClass = this.props.isFlaggedPosts ? 'active' : '';
 
             flagBtn = (
-                <OverlayTrigger
-                    trigger={['hover', 'focus']}
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='bottom'
-                    overlay={flaggedTooltip}
-                >
-                    <div
-                        className={'channel-header__icon ' + flagBtnClass}
-                    >
-                        <button
-                            onClick={this.getFlagged}
-                            className='style--none'
-                        >
-                            <span
-                                className='icon icon__flag'
-                                dangerouslySetInnerHTML={{__html: flagIcon}}
-                            />
-                        </button>
-                    </div>
-                </OverlayTrigger>
+                <HeaderIconWrapper
+                    iconComponent={
+                        <FlagIcon className='icon icon__flag'/>
+                    }
+                    buttonClass={'channel-header__icon style--none ' + flagBtnClass}
+                    buttonId={'channelHeaderFlagButton'}
+                    onClick={this.getFlagged}
+                    tooltipKey={'flaggedPosts'}
+                />
             );
         }
 
         let clearClass = 'sidebar__search-clear';
-        if (!this.props.isSearching && this.props.searchTerms && this.props.searchTerms.trim() !== '') {
+        if (!this.props.isSearchingTerm && this.props.searchTerms && this.props.searchTerms.trim() !== '') {
             clearClass += ' visible';
         }
 
@@ -270,20 +242,17 @@ export default class SearchBar extends React.Component {
                         role='form'
                         className={searchFormClass}
                         onSubmit={this.handleSubmit}
-                        style={{overflow: 'visible'}}
+                        style={style.searchForm}
                         autoComplete='off'
                     >
-                        <span
+                        <SearchIcon
                             id='searchIcon'
                             className='search__icon'
-                            dangerouslySetInnerHTML={{__html: searchIcon}}
                             aria-hidden='true'
                         />
                         <SuggestionBox
                             id='searchBox'
-                            ref={(search) => {
-                                this.search = search;
-                            }}
+                            ref={this.getSearch}
                             className='search-bar'
                             placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
                             value={this.props.searchTerms}
@@ -308,16 +277,12 @@ export default class SearchBar extends React.Component {
                                 {'×'}
                             </span>
                         </div>
-                        {isSearching}
+                        {isSearchingTerm}
                         {this.renderHintPopover(helpClass)}
                     </form>
                 </div>
-                <div>
-                    {mentionBtn}
-                </div>
-                <div>
-                    {flagBtn}
-                </div>
+                {mentionBtn}
+                {flagBtn}
             </div>
         );
     }
@@ -325,11 +290,15 @@ export default class SearchBar extends React.Component {
 
 SearchBar.defaultProps = {
     showMentionFlagBtns: true,
-    isFocus: false
+    isFocus: false,
 };
 
 SearchBar.propTypes = {
     showMentionFlagBtns: PropTypes.bool,
     isCommentsPage: PropTypes.bool,
-    isFocus: PropTypes.bool
+    isFocus: PropTypes.bool,
+};
+
+const style = {
+    searchForm: {overflow: 'visible'},
 };

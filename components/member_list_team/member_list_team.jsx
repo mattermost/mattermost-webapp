@@ -3,17 +3,14 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-
 import {searchProfilesInCurrentTeam} from 'mattermost-redux/selectors/entities/users';
 
 import {loadProfilesAndTeamMembers, loadTeamMembersForProfilesList, searchUsers} from 'actions/user_actions.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
-
 import SearchableUserList from 'components/searchable_user_list/searchable_user_list_container.jsx';
 import TeamMembersDropdown from 'components/team_members_dropdown';
 
@@ -23,8 +20,8 @@ export default class MemberListTeam extends React.Component {
     static propTypes = {
         isAdmin: PropTypes.bool,
         actions: PropTypes.shape({
-            getTeamStats: PropTypes.func.isRequired
-        }).isRequired
+            getTeamStats: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -44,7 +41,7 @@ export default class MemberListTeam extends React.Component {
             users: UserStore.getProfileListInTeam(),
             teamMembers: Object.assign([], TeamStore.getMembersInTeam()),
             total: stats.active_member_count,
-            loading: true
+            loading: true,
         };
     }
 
@@ -143,7 +140,7 @@ export default class MemberListTeam extends React.Component {
                 if (teamMembers[user.id] && user.delete_at === 0) {
                     usersToDisplay.push(user);
                     actionUserProps[user.id] = {
-                        teamMember: teamMembers[user.id]
+                        teamMember: teamMembers[user.id],
                     };
                 }
             }

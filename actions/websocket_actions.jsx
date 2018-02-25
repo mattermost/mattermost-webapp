@@ -2,18 +2,18 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
-import {browserHistory} from 'react-router';
 import {batchActions} from 'redux-batched-actions';
-
 import {ChannelTypes, EmojiTypes, PostTypes, TeamTypes, UserTypes} from 'mattermost-redux/action_types';
 import {getChannelAndMyMember, getChannelStats, viewChannel} from 'mattermost-redux/actions/channels';
 import {setServerVersion} from 'mattermost-redux/actions/general';
-import {getPosts, getProfilesAndStatusesForPosts} from 'mattermost-redux/actions/posts';
+import {getPosts, getProfilesAndStatusesForPosts, getCustomEmojiForReaction} from 'mattermost-redux/actions/posts';
 import * as TeamActions from 'mattermost-redux/actions/teams';
+import {getMe} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 
+import {browserHistory} from 'utils/browser_history';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {handleNewPost} from 'actions/post_actions.jsx';
@@ -27,10 +27,8 @@ import PreferenceStore from 'stores/preference_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
-
 import {ActionTypes, Constants, ErrorBarTypes, Preferences, SocketEvents, UserStatuses} from 'utils/constants.jsx';
 import {getSiteURL} from 'utils/url.jsx';
 
@@ -47,22 +45,27 @@ export function initialize() {
         return;
     }
 
-    let connUrl = getSiteURL();
+    let connUrl = '';
+    if (global.window.mm_config.WebsocketURL === '') {
+        connUrl = getSiteURL();
 
-    // replace the protocol with a websocket one
-    if (connUrl.startsWith('https:')) {
-        connUrl = connUrl.replace(/^https:/, 'wss:');
-    } else {
-        connUrl = connUrl.replace(/^http:/, 'ws:');
-    }
-
-    // append a port number if one isn't already specified
-    if (!(/:\d+$/).test(connUrl)) {
-        if (connUrl.startsWith('wss:')) {
-            connUrl += ':' + global.window.mm_config.WebsocketSecurePort;
+        // replace the protocol with a websocket one
+        if (connUrl.startsWith('https:')) {
+            connUrl = connUrl.replace(/^https:/, 'wss:');
         } else {
-            connUrl += ':' + global.window.mm_config.WebsocketPort;
+            connUrl = connUrl.replace(/^http:/, 'ws:');
         }
+
+        // append a port number if one isn't already specified
+        if (!(/:\d+$/).test(connUrl)) {
+            if (connUrl.startsWith('wss:')) {
+                connUrl += ':' + global.window.mm_config.WebsocketSecurePort;
+            } else {
+                connUrl += ':' + global.window.mm_config.WebsocketPort;
+            }
+        }
+    } else {
+        connUrl = global.window.mm_config.WebsocketURL;
     }
 
     connUrl += Client4.getUrlVersion() + '/websocket';
@@ -90,11 +93,16 @@ export function reconnect(includeWebSocket = true) {
     }
 
     loadPluginsIfNecessary();
-    loadChannelsForCurrentUser();
-    getPosts(ChannelStore.getCurrentId())(dispatch, getState);
-    StatusActions.loadStatusesForChannelAndSidebar();
-    TeamActions.getMyTeamUnreads()(dispatch, getState);
 
+    const currentTeamId = getState().entities.teams.currentTeamId;
+    if (currentTeamId) {
+        loadChannelsForCurrentUser();
+        getPosts(ChannelStore.getCurrentId())(dispatch, getState);
+        StatusActions.loadStatusesForChannelAndSidebar();
+        TeamActions.getMyTeamUnreads()(dispatch, getState);
+    }
+
+    ErrorStore.setConnectionErrorCount(0);
     ErrorStore.clearLastError();
     ErrorStore.emitChange();
 }
@@ -154,6 +162,10 @@ function handleEvent(msg) {
 
     case SocketEvents.UPDATE_TEAM:
         handleUpdateTeamEvent(msg);
+        break;
+
+    case SocketEvents.DELETE_TEAM:
+        handleDeleteTeamEvent(msg);
         break;
 
     case SocketEvents.ADDED_TO_TEAM:
@@ -276,10 +288,13 @@ function handlePostEditEvent(msg) {
         data: {
             order: [],
             posts: {
-                [post.id]: post
-            }
-        }
+                [post.id]: post,
+            },
+        },
+        channelId: post.channel_id,
     });
+
+    getProfilesAndStatusesForPosts([post], dispatch, getState);
 
     // Update channel state
     if (ChannelStore.getCurrentId() === msg.broadcast.channel_id) {
@@ -291,7 +306,7 @@ function handlePostEditEvent(msg) {
     // Needed for search store
     AppDispatcher.handleViewAction({
         type: Constants.ActionTypes.POST_UPDATED,
-        post
+        post,
     });
 }
 
@@ -302,7 +317,7 @@ function handlePostDeleteEvent(msg) {
     // Needed for search store
     AppDispatcher.handleViewAction({
         type: Constants.ActionTypes.POST_DELETED,
-        post
+        post,
     });
 }
 
@@ -330,12 +345,12 @@ function handleLeaveTeamEvent(msg) {
             {
                 type: UserTypes.RECEIVED_PROFILE_NOT_IN_TEAM,
                 data: {user_id: msg.data.user_id},
-                id: msg.data.team_id
+                id: msg.data.team_id,
             },
             {
                 type: TeamTypes.REMOVE_MEMBER_FROM_TEAM,
-                data: {team_id: msg.data.team_id, user_id: msg.data.user_id}
-            }
+                data: {team_id: msg.data.team_id, user_id: msg.data.user_id},
+            },
         ]));
     } else {
         UserStore.removeProfileFromTeam(msg.data.team_id, msg.data.user_id);
@@ -345,6 +360,60 @@ function handleLeaveTeamEvent(msg) {
 
 function handleUpdateTeamEvent(msg) {
     TeamStore.updateTeam(msg.data.team);
+}
+
+function handleDeleteTeamEvent(msg) {
+    const deletedTeam = JSON.parse(msg.data.team);
+    const state = store.getState();
+    const {teams} = state.entities.teams;
+    if (
+        deletedTeam &&
+        teams &&
+        teams[deletedTeam.id] &&
+        teams[deletedTeam.id].delete_at === 0
+    ) {
+        const {currentUserId} = state.entities.users;
+        const {currentTeamId, myMembers} = state.entities.teams;
+        const teamMembers = Object.values(myMembers);
+        const teamMember = teamMembers.find((m) => m.user_id === currentUserId && m.team_id === currentTeamId);
+
+        let newTeamId = '';
+        if (
+            deletedTeam &&
+            teamMember &&
+            deletedTeam.id === teamMember.team_id
+        ) {
+            const myTeams = {};
+            getMyTeams(state).forEach((t) => {
+                myTeams[t.id] = t;
+            });
+
+            for (let i = 0; i < teamMembers.length; i++) {
+                const memberTeamId = teamMembers[i].team_id;
+                if (
+                    myTeams &&
+                    myTeams[memberTeamId] &&
+                    myTeams[memberTeamId].delete_at === 0 &&
+                    deletedTeam.id !== memberTeamId
+                ) {
+                    newTeamId = memberTeamId;
+                    break;
+                }
+            }
+        }
+
+        dispatch(batchActions([
+            {type: TeamTypes.RECEIVED_TEAM_DELETED, data: {id: deletedTeam.id}},
+            {type: TeamTypes.UPDATED_TEAM, data: deletedTeam},
+        ]));
+
+        if (newTeamId) {
+            dispatch({type: TeamTypes.SELECT_TEAM, data: newTeamId});
+            browserHistory.push(`${TeamStore.getCurrentTeamUrl()}/channels/${Constants.DEFAULT_CHANNEL}`);
+        } else {
+            browserHistory.push('/');
+        }
+    }
 }
 
 function handleUpdateMemberRoleEvent(msg) {
@@ -372,32 +441,33 @@ function handleUserRemovedEvent(msg) {
     if (UserStore.getCurrentId() === msg.broadcast.user_id) {
         loadChannelsForCurrentUser();
 
-        if (msg.data.remover_id !== msg.broadcast.user_id &&
-                msg.data.channel_id === ChannelStore.getCurrentId() &&
-                $('#removed_from_channel').length > 0) {
-            var sentState = {};
-            sentState.channelName = ChannelStore.getCurrent().display_name;
-            sentState.remover = UserStore.getProfile(msg.data.remover_id).username;
+        if (msg.data.channel_id === ChannelStore.getCurrentId()) {
+            if (msg.data.remover_id !== msg.broadcast.user_id &&
+                    $('#removed_from_channel').length > 0) {
+                var sentState = {};
+                sentState.channelName = ChannelStore.getCurrent().display_name;
+                sentState.remover = UserStore.getProfile(msg.data.remover_id).username;
 
-            BrowserStore.setItem('channel-removed-state', sentState);
-            $('#removed_from_channel').modal('show');
+                BrowserStore.setItem('channel-removed-state', sentState);
+                $('#removed_from_channel').modal('show');
+            }
+
+            GlobalActions.emitCloseRightHandSide();
+
+            const townsquare = ChannelStore.getByName(Constants.DEFAULT_CHANNEL);
+            browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + townsquare.name);
         }
-
-        GlobalActions.emitCloseRightHandSide();
-
-        const townsquare = ChannelStore.getByName('town-square');
-        browserHistory.push(TeamStore.getCurrentTeamRelativeUrl() + '/channels/' + townsquare.name);
 
         dispatch({
             type: ChannelTypes.LEAVE_CHANNEL,
-            data: {id: msg.data.channel_id, user_id: msg.broadcast.user_id}
+            data: {id: msg.data.channel_id, user_id: msg.broadcast.user_id},
         });
     } else if (ChannelStore.getCurrentId() === msg.broadcast.channel_id) {
         getChannelStats(ChannelStore.getCurrentId())(dispatch, getState);
         dispatch({
             type: UserTypes.RECEIVED_PROFILE_NOT_IN_CHANNEL,
             data: {user_id: msg.data.user_id},
-            id: msg.broadcast.channel_id
+            id: msg.broadcast.channel_id,
         });
     }
 }
@@ -407,13 +477,11 @@ function handleUserUpdatedEvent(msg) {
     const user = msg.data.user;
 
     if (currentUser.id === user.id) {
-        dispatch({
-            type: UserTypes.RECEIVED_ME,
-            data: {
-                ...currentUser,
-                last_picture_update: user.last_picture_update
-            }
-        });
+        if (user.update_at > currentUser.update_at) {
+            // Need to request me to make sure we don't override with sanitized fields from the
+            // websocket event
+            getMe()(dispatch, getState);
+        }
     } else {
         UserStore.saveProfile(user);
     }
@@ -477,9 +545,11 @@ function handleWebrtc(msg) {
 function handleReactionAddedEvent(msg) {
     const reaction = JSON.parse(msg.data.reaction);
 
+    dispatch(getCustomEmojiForReaction(reaction.emoji_name));
+
     dispatch({
         type: PostTypes.RECEIVED_REACTION,
-        data: reaction
+        data: reaction,
     });
 }
 
@@ -488,7 +558,7 @@ function handleAddEmoji(msg) {
 
     dispatch({
         type: EmojiTypes.RECEIVED_CUSTOM_EMOJI,
-        data
+        data,
     });
 }
 
@@ -497,7 +567,7 @@ function handleReactionRemovedEvent(msg) {
 
     dispatch({
         type: PostTypes.REACTION_DELETED,
-        data: reaction
+        data: reaction,
     });
 }
 

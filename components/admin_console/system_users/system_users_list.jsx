@@ -4,14 +4,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-
 import {getUser} from 'mattermost-redux/actions/users';
 
 import store from 'stores/redux_store.jsx';
-
 import {Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import ManageRolesModal from 'components/admin_console/manage_roles_modal';
 import ManageTeamsModal from 'components/admin_console/manage_teams_modal/manage_teams_modal.jsx';
 import ManageTokensModal from 'components/admin_console/manage_tokens_modal';
@@ -36,7 +33,22 @@ export default class SystemUsersList extends React.Component {
 
         teamId: PropTypes.string.isRequired,
         term: PropTypes.string.isRequired,
-        onTermChange: PropTypes.func.isRequired
+        onTermChange: PropTypes.func.isRequired,
+
+        /**
+         * Whether MFA is licensed and enabled.
+         */
+        mfaEnabled: PropTypes.bool.isRequired,
+
+        /**
+         * Whether or not user access tokens are enabled.
+         */
+        enableUserAccessTokens: PropTypes.bool.isRequired,
+
+        /**
+         * Whether or not the experimental authentication transfer is enabled.
+         */
+        experimentalEnableAuthenticationTransfer: PropTypes.bool.isRequired,
     };
 
     constructor(props) {
@@ -49,7 +61,7 @@ export default class SystemUsersList extends React.Component {
             showManageRolesModal: false,
             showManageTokensModal: false,
             showPasswordModal: false,
-            user: null
+            user: null,
         };
     }
 
@@ -80,56 +92,56 @@ export default class SystemUsersList extends React.Component {
     doManageTeams = (user) => {
         this.setState({
             showManageTeamsModal: true,
-            user
+            user,
         });
     }
 
     doManageRoles = (user) => {
         this.setState({
             showManageRolesModal: true,
-            user
+            user,
         });
     }
 
     doManageTokens = (user) => {
         this.setState({
             showManageTokensModal: true,
-            user
+            user,
         });
     }
 
     doManageTeamsDismiss = () => {
         this.setState({
             showManageTeamsModal: false,
-            user: null
+            user: null,
         });
     }
 
     doManageRolesDismiss = () => {
         this.setState({
             showManageRolesModal: false,
-            user: null
+            user: null,
         });
     }
 
     doManageTokensDismiss = () => {
         this.setState({
             showManageTokensModal: false,
-            user: null
+            user: null,
         });
     }
 
     doPasswordReset = (user) => {
         this.setState({
             showPasswordModal: true,
-            user
+            user,
         });
     }
 
     doPasswordResetDismiss = () => {
         this.setState({
             showPasswordModal: false,
-            user: null
+            user: null,
         });
     }
 
@@ -138,7 +150,7 @@ export default class SystemUsersList extends React.Component {
 
         this.setState({
             showPasswordModal: false,
-            user: null
+            user: null,
         });
     }
 
@@ -159,7 +171,7 @@ export default class SystemUsersList extends React.Component {
                     id='admin.user_item.authServiceNotEmail'
                     defaultMessage='<strong>Sign-in Method:</strong> {service}'
                     values={{
-                        service
+                        service,
                     }}
                 />
             );
@@ -173,10 +185,7 @@ export default class SystemUsersList extends React.Component {
             );
         }
 
-        const mfaEnabled = global.window.mm_license.IsLicensed === 'true' &&
-            global.window.mm_license.MFA === 'true' &&
-            global.window.mm_config.EnableMultifactorAuthentication === 'true';
-        if (mfaEnabled) {
+        if (this.props.mfaEnabled) {
             info.push(', ');
 
             if (user.mfa_active) {
@@ -210,7 +219,7 @@ export default class SystemUsersList extends React.Component {
                         defaultMessage='{count, number} {count, plural, one {user} other {users}} of {total, number} total'
                         values={{
                             count,
-                            total
+                            total,
                         }}
                     />
                 );
@@ -223,7 +232,7 @@ export default class SystemUsersList extends React.Component {
                             count,
                             startCount: startCount + 1,
                             endCount,
-                            total
+                            total,
                         }}
                     />
                 );
@@ -234,7 +243,7 @@ export default class SystemUsersList extends React.Component {
                     id='system_users_list.count'
                     defaultMessage='{count, number} {count, plural, one {user} other {users}}'
                     values={{
-                        count
+                        count,
                     }}
                 />
             );
@@ -259,10 +268,13 @@ export default class SystemUsersList extends React.Component {
                     extraInfo={extraInfo}
                     actions={[SystemUsersDropdown]}
                     actionProps={{
+                        mfaEnabled: this.props.mfaEnabled,
+                        enableUserAccessTokens: this.props.enableUserAccessTokens,
+                        experimentalEnableAuthenticationTransfer: this.props.experimentalEnableAuthenticationTransfer,
                         doPasswordReset: this.doPasswordReset,
                         doManageTeams: this.doManageTeams,
                         doManageRoles: this.doManageRoles,
-                        doManageTokens: this.doManageTokens
+                        doManageTokens: this.doManageTokens,
                     }}
                     nextPage={this.nextPage}
                     previousPage={this.previousPage}

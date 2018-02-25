@@ -5,9 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {saveConfig} from 'actions/admin_actions.jsx';
-
 import {localizeMessage} from 'utils/utils.jsx';
-
 import SaveButton from 'components/save_button.jsx';
 import FormError from 'components/form_error.jsx';
 
@@ -22,7 +20,7 @@ export default class AdminSettings extends React.Component {
         /*
          * Action for whether a save is needed
          */
-        setNavigationBlocked: PropTypes.func
+        setNavigationBlocked: PropTypes.func,
     }
 
     constructor(props) {
@@ -31,14 +29,14 @@ export default class AdminSettings extends React.Component {
         this.state = Object.assign(this.getStateFromConfig(props.config), {
             saveNeeded: false,
             saving: false,
-            serverError: null
+            serverError: null,
         });
     }
 
     handleChange = (id, value) => {
         this.setState({
             saveNeeded: true,
-            [id]: value
+            [id]: value,
         });
 
         this.props.setNavigationBlocked(true);
@@ -53,7 +51,7 @@ export default class AdminSettings extends React.Component {
     doSubmit = (callback) => {
         this.setState({
             saving: true,
-            serverError: null
+            serverError: null,
         });
 
         // clone config so that we aren't modifying data in the stores
@@ -67,7 +65,7 @@ export default class AdminSettings extends React.Component {
 
                 this.setState({
                     saveNeeded: false,
-                    saving: false
+                    saving: false,
                 });
 
                 this.props.setNavigationBlocked(false);
@@ -83,7 +81,7 @@ export default class AdminSettings extends React.Component {
             (err) => {
                 this.setState({
                     saving: false,
-                    serverError: err.message
+                    serverError: err.message,
                 });
 
                 if (callback) {

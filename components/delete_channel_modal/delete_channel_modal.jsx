@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-import {browserHistory} from 'react-router';
 
+import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
 
 export default class DeleteChannelModal extends React.PureComponent {
@@ -33,15 +33,14 @@ export default class DeleteChannelModal extends React.PureComponent {
             * Function called for deleting channel,
             */
 
-            deleteChannel: PropTypes.func.isRequired
-        })
+            deleteChannel: PropTypes.func.isRequired,
+        }),
     }
 
     constructor(props) {
         super(props);
 
         this.handleDelete = this.handleDelete.bind(this);
-        this.handleKeyDown = this.handleKeyDown.bind(this);
         this.onHide = this.onHide.bind(this);
         this.state = {show: true};
     }
@@ -59,19 +58,12 @@ export default class DeleteChannelModal extends React.PureComponent {
         this.setState({show: false});
     }
 
-    handleKeyDown(e) {
-        if (e.keyCode === Constants.KeyCodes.ENTER) {
-            this.handleDelete();
-        }
-    }
-
     render() {
         return (
             <Modal
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}
-                onKeyDown={this.handleKeyDown}
             >
                 <Modal.Header closeButton={true}>
                     <h4 className='modal-title'>
@@ -87,7 +79,7 @@ export default class DeleteChannelModal extends React.PureComponent {
                             id='delete_channel.question'
                             defaultMessage='This will delete the channel from the team and make its contents inaccessible for all users. <br /><br />Are you sure you wish to delete the <strong>{display_name}</strong> channel?'
                             values={{
-                                display_name: this.props.channel.display_name
+                                display_name: this.props.channel.display_name,
                             }}
                         />
                     </div>
@@ -108,6 +100,7 @@ export default class DeleteChannelModal extends React.PureComponent {
                         className='btn btn-danger'
                         data-dismiss='modal'
                         onClick={this.handleDelete}
+                        autoFocus={true}
                     >
                         <FormattedMessage
                             id='delete_channel.del'

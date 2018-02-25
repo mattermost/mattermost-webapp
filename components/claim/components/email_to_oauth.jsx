@@ -8,11 +8,9 @@ import {FormattedMessage} from 'react-intl';
 
 import {emailToOAuth} from 'actions/admin_actions.jsx';
 import {checkMfa} from 'actions/user_actions.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
-import LoginMfa from 'components/login/components/login_mfa.jsx';
+import LoginMfa from 'components/login/login_mfa.jsx';
 
 export default class EmailToOAuth extends React.Component {
     constructor(props) {
@@ -103,7 +101,7 @@ export default class EmailToOAuth extends React.Component {
                             id='claim.email_to_oauth.ssoType'
                             defaultMessage='Upon claiming your account, you will only be able to login with {type} SSO'
                             values={{
-                                type
+                                type,
                             }}
                         />
                     </p>
@@ -112,7 +110,7 @@ export default class EmailToOAuth extends React.Component {
                             id='claim.email_to_oauth.ssoNote'
                             defaultMessage='You must already have a valid {type} account'
                             values={{
-                                type
+                                type,
                             }}
                         />
                     </p>
@@ -121,7 +119,7 @@ export default class EmailToOAuth extends React.Component {
                             id='claim.email_to_oauth.enterPwd'
                             defaultMessage='Enter the password for your {site} account'
                             values={{
-                                site: global.window.mm_config.SiteName
+                                site: this.props.siteName,
                             }}
                         />
                     </p>
@@ -144,7 +142,7 @@ export default class EmailToOAuth extends React.Component {
                             id='claim.email_to_oauth.switchTo'
                             defaultMessage='Switch account to {uiType}'
                             values={{
-                                uiType
+                                uiType,
                             }}
                         />
                     </button>
@@ -159,7 +157,7 @@ export default class EmailToOAuth extends React.Component {
                         id='claim.email_to_oauth.title'
                         defaultMessage='Switch Email/Password Account to {uiType}'
                         values={{
-                            uiType
+                            uiType,
                         }}
                     />
                 </h3>
@@ -169,9 +167,8 @@ export default class EmailToOAuth extends React.Component {
     }
 }
 
-EmailToOAuth.defaultProps = {
-};
 EmailToOAuth.propTypes = {
     newType: PropTypes.string,
-    email: PropTypes.string
+    email: PropTypes.string,
+    siteName: PropTypes.string,
 };

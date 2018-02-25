@@ -5,10 +5,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import ModalStore from 'stores/modal_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import GetLinkModal from 'components/get_link_modal.jsx';
 
 export default class GetPostLinkModal extends React.PureComponent {
@@ -17,7 +15,7 @@ export default class GetPostLinkModal extends React.PureComponent {
         /**
          * URL of current team
          */
-        currentTeamUrl: PropTypes.string.isRequired
+        currentTeamUrl: PropTypes.string.isRequired,
     };
 
     constructor(props) {
@@ -28,7 +26,7 @@ export default class GetPostLinkModal extends React.PureComponent {
 
         this.state = {
             show: false,
-            post: {}
+            post: {},
         };
     }
 
@@ -43,13 +41,13 @@ export default class GetPostLinkModal extends React.PureComponent {
     handleToggle(value, args) {
         this.setState({
             show: value,
-            post: args.post
+            post: args.post,
         });
     }
 
     hide() {
         this.setState({
-            show: false
+            show: false,
         });
     }
 

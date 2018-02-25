@@ -80,14 +80,20 @@ module Mattermost
       assert_equal dimensions[1], 64
     end
 
-    def test_find_emoji_png_does_not_exist
-      png_bytes = @extractor.png("\u{1F931}")
-      assert_nil png_bytes
-    end
-
     def test_find_emoji_png_not_an_emoji
       png_bytes = @extractor.png("\u{0041}")
       assert_nil png_bytes
+    end
+
+    def test_person_and_woman_should_be_the_same
+      person_png_bytes = @extractor.png("\u{1F645 1F3FB}")
+      woman_png_bytes = @extractor.png("\u{1F645 1F3FB 200D 2640 FE0F}")
+      assert_equal person_png_bytes, woman_png_bytes
+    end
+
+    def test_happy_woman_raising_one_hand
+      png_bytes = @extractor.png("\u{1F64B 1F3FB 200D 2640 FE0F}")
+      refute_nil png_bytes
     end
   end
 end

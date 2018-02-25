@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Link} from 'react-router';
+import {NavLink, Route} from 'react-router-dom';
 
 export default class AdminSidebarCategory extends React.Component {
     static get propTypes() {
@@ -14,19 +14,19 @@ export default class AdminSidebarCategory extends React.Component {
             sectionClass: PropTypes.string,
             parentLink: PropTypes.string,
             children: PropTypes.node,
-            action: PropTypes.node
+            action: PropTypes.node,
         };
     }
 
     static get defaultProps() {
         return {
-            parentLink: ''
+            parentLink: '',
         };
     }
 
     static get contextTypes() {
         return {
-            router: PropTypes.object.isRequired
+            router: PropTypes.object.isRequired,
         };
     }
 
@@ -45,32 +45,37 @@ export default class AdminSidebarCategory extends React.Component {
         if (this.props.name) {
             link += '/' + name;
             title = (
-                <Link
+                <NavLink
                     to={link}
                     className='category-title'
                     activeClassName='category-title category-title--active'
                 >
                     {title}
-                </Link>
+                </NavLink>
             );
         }
 
         let clonedChildren = null;
-        if (this.props.children && this.context.router.isActive(link)) {
+        if (this.props.children) {
             clonedChildren = (
-                <ul className={'sections ' + this.props.sectionClass}>
-                    {
-                        React.Children.map(this.props.children, (child) => {
-                            if (child === null) {
-                                return null;
-                            }
+                <Route
+                    path={link}
+                    render={() => (
+                        <ul className={'sections ' + this.props.sectionClass}>
+                            {
+                            React.Children.map(this.props.children, (child) => {
+                                if (child === null) {
+                                    return null;
+                                }
 
-                            return React.cloneElement(child, {
-                                parentLink: link
-                            });
-                        })
-                    }
-                </ul>
+                                return React.cloneElement(child, {
+                                    parentLink: link,
+                                });
+                            })
+                        }
+                        </ul>
+                )}
+                />
             );
         }
 

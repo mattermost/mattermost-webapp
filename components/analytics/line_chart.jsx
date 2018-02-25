@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
-
 import Chart from 'chart.js';
 
 import * as Utils from 'utils/utils.jsx';
@@ -31,14 +30,14 @@ export default class LineChart extends React.PureComponent {
         /*
          * Chart data
          */
-        data: PropTypes.object
+        data: PropTypes.object,
     };
 
     chart = null;
     chartOptions = {
         legend: {
-            display: false
-        }
+            display: false,
+        },
     };
 
     componentDidMount() {

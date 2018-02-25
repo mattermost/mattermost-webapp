@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -15,11 +14,11 @@ export default class SuggestionList extends React.Component {
         suggestionId: PropTypes.string.isRequired,
         location: PropTypes.string,
         renderDividers: PropTypes.bool,
-        onCompleteWord: PropTypes.func.isRequired
+        onCompleteWord: PropTypes.func.isRequired,
     };
 
     static defaultProps = {
-        renderDividers: false
+        renderDividers: false,
     };
 
     constructor(props) {
@@ -44,7 +43,7 @@ export default class SuggestionList extends React.Component {
             items: suggestions.items,
             terms: suggestions.terms,
             components: suggestions.components,
-            selection: suggestions.selection
+            selection: suggestions.selection,
         };
     }
 

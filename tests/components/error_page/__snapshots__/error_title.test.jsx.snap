@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/error_page/ErrorTitle should match snapshot, local_storage type 1`] = `
+<FormattedMessage
+  defaultMessage="Cannot Load Mattermost"
+  id="error.local_storage.title"
+  values={Object {}}
+/>
+`;
+
+exports[`components/error_page/ErrorTitle should match snapshot, no type but with title 1`] = `"error title"`;
+
+exports[`components/error_page/ErrorTitle should match snapshot, no type nor title 1`] = `"Error"`;
+
+exports[`components/error_page/ErrorTitle should match snapshot, oauth_missing_code type 1`] = `
+<FormattedMessage
+  defaultMessage="Mattermost needs your help"
+  id="error.oauth_missing_code.title"
+  values={Object {}}
+/>
+`;
+
+exports[`components/error_page/ErrorTitle should match snapshot, page_not_found type 1`] = `
+<FormattedMessage
+  defaultMessage="Page Not Found"
+  id="error.not_found.title"
+  values={Object {}}
+/>
+`;
+
+exports[`components/error_page/ErrorTitle should match snapshot, permalink_not_found type 1`] = `
+<FormattedMessage
+  defaultMessage="Message Not Found"
+  id="permalink.error.title"
+  values={Object {}}
+/>
+`;

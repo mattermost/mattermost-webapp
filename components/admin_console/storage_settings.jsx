@@ -40,6 +40,9 @@ export default class StorageSettings extends AdminSettings {
         config.FileSettings.AmazonS3SSE = this.state.amazonS3SSE;
         config.FileSettings.AmazonS3Trace = this.state.amazonS3Trace;
 
+        config.ServiceSettings.ImageProxyType = this.state.imageProxyType;
+        config.ServiceSettings.ImageProxyOptions = this.state.imageProxyOptions;
+        config.ServiceSettings.ImageProxyURL = this.state.imageProxyURL;
         return config;
     }
 
@@ -58,7 +61,11 @@ export default class StorageSettings extends AdminSettings {
             amazonS3Endpoint: config.FileSettings.AmazonS3Endpoint,
             amazonS3SSL: config.FileSettings.AmazonS3SSL,
             amazonS3SSE: config.FileSettings.AmazonS3SSE,
-            amazonS3Trace: config.FileSettings.AmazonS3Trace
+            amazonS3Trace: config.FileSettings.AmazonS3Trace,
+
+            imageProxyType: config.ServiceSettings.ImageProxyType,
+            imageProxyOptions: config.ServiceSettings.ImageProxyOptions,
+            imageProxyURL: config.ServiceSettings.ImageProxyURL,
         };
     }
 
@@ -74,7 +81,7 @@ export default class StorageSettings extends AdminSettings {
     renderSettings() {
         let amazonSSEComp;
         const mobileUploadDownloadSettings = [];
-        if (window.mm_license.IsLicensed === 'true' && window.mm_license.Compliance === 'true') {
+        if (this.props.license.IsLicensed === 'true' && this.props.license.Compliance === 'true') {
             mobileUploadDownloadSettings.push(
                 <BooleanSetting
                     key='enableMobileUpload'
@@ -148,7 +155,7 @@ export default class StorageSettings extends AdminSettings {
                     id='driverName'
                     values={[
                         {value: DRIVER_LOCAL, text: Utils.localizeMessage('admin.image.storeLocal', 'Local File System')},
-                        {value: DRIVER_S3, text: Utils.localizeMessage('admin.image.storeAmazonS3', 'Amazon S3')}
+                        {value: DRIVER_S3, text: Utils.localizeMessage('admin.image.storeAmazonS3', 'Amazon S3')},
                     ]}
                     label={
                         <FormattedMessage
@@ -354,6 +361,63 @@ export default class StorageSettings extends AdminSettings {
                     value={this.state.maxFileSize}
                     onChange={this.handleChange}
                     disabled={!this.state.enableFileAttachments}
+                />
+                <DropdownSetting
+                    id='imageProxyType'
+                    values={[
+                        {value: '', text: Utils.localizeMessage('admin.image.proxyTypeNone', 'None')},
+                        {value: 'atmos/camo', text: 'atmos/camo'},
+                    ]}
+                    label={
+                        <FormattedMessage
+                            id='admin.image.proxyType'
+                            defaultMessage='Image Proxy Type:'
+                        />
+                    }
+                    helpText={
+                        <FormattedHTMLMessage
+                            id='admin.image.proxyTypeDescription'
+                            defaultMessage='Configure an image proxy to load all Markdown images through a proxy. The image proxy prevents users from making insecure image requests, provides caching for increased performance, and automates image adjustments such as resizing. See <a href="https://about.mattermost.com/default-image-proxy-documentation">documentation</a> to learn more.'
+                        />
+                    }
+                    value={this.state.imageProxyType}
+                    onChange={this.handleChange}
+                />
+                <TextSetting
+                    id='imageProxyURL'
+                    label={
+                        <FormattedMessage
+                            id='admin.image.proxyURL'
+                            defaultMessage='Image Proxy URL:'
+                        />
+                    }
+                    helpText={
+                        <FormattedMessage
+                            id='admin.image.proxyURLDescription'
+                            defaultMessage='URL of your image proxy server.'
+                        />
+                    }
+                    value={this.state.imageProxyURL}
+                    onChange={this.handleChange}
+                    disabled={!this.state.imageProxyType}
+                />
+                <TextSetting
+                    id='imageProxyOptions'
+                    label={
+                        <FormattedMessage
+                            id='admin.image.proxyOptions'
+                            defaultMessage='Image Proxy Options:'
+                        />
+                    }
+                    helpText={
+                        <FormattedMessage
+                            id='admin.image.proxyOptionsDescription'
+                            defaultMessage='Additional options such as the URL signing key. Refer to your image proxy documentation to learn more about what options are supported.'
+                        />
+                    }
+                    value={this.state.imageProxyOptions}
+                    onChange={this.handleChange}
+                    disabled={!this.state.imageProxyType}
                 />
             </SettingsGroup>
         );

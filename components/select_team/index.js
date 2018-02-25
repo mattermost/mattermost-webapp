@@ -3,23 +3,23 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {getTeams} from 'mattermost-redux/actions/teams';
+import {withRouter} from 'react-router-dom';
 
 import SelectTeam from './select_team.jsx';
 
 function mapStateToProps(state, ownProps) {
     return {
-        ...ownProps
+        ...ownProps,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getTeams
-        }, dispatch)
+            getTeams,
+        }, dispatch),
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelectTeam);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SelectTeam));

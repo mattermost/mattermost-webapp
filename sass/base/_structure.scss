@@ -3,11 +3,14 @@
 html,
 body {
     height: 100%;
+
+    &.sticky {
+        height: auto;
+    }
 }
 
 body {
     background: $bg--gray;
-    height: 100%;
     position: relative;
     width: 100%;
 
@@ -19,18 +22,30 @@ body {
 .sticky {
     background: $white;
 
-    > .container-fluid {
+    > .channel-view {
+        height: 100vh;
+        padding: 0 15px;
         overflow: auto;
     }
 
     .inner-wrap {
+        width: 100%;
+
         > .row {
             &.content {
-                margin-bottom: -89px;
-                min-height: 100%;
+                min-height: calc(100vh - 89px);
+
+                @media (max-width: 768px) {
+                    min-height: calc(100vh - 187px);
+                }
             }
         }
     }
+}
+
+.help-page {
+    overflow: hidden;
+    padding: 3em 0;
 }
 
 .inner-wrap {

@@ -9,7 +9,7 @@ import ImagePreview from 'components/image_preview';
 describe('components/ImagePreview', () => {
     test('should match snapshot, with and without preview', () => {
         const fileInfo = {
-            id: 'file_id'
+            id: 'file_id',
         };
 
         const wrapper = shallow(

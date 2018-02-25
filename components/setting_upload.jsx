@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -18,14 +17,14 @@ export default class SettingsUpload extends React.Component {
         this.state = {
             clientError: this.props.clientError,
             serverError: this.props.serverError,
-            filename: ''
+            filename: '',
         };
     }
 
     componentWillReceiveProps() {
         this.setState({
             clientError: this.props.clientError,
-            serverError: this.props.serverError
+            serverError: this.props.serverError,
         });
     }
 
@@ -38,7 +37,7 @@ export default class SettingsUpload extends React.Component {
         this.setState({
             clientError: '',
             serverError: '',
-            filename
+            filename,
         });
     }
 
@@ -124,5 +123,5 @@ SettingsUpload.propTypes = {
     fileTypesAccepted: PropTypes.string.isRequired,
     clientError: PropTypes.string,
     serverError: PropTypes.string,
-    helpText: PropTypes.object
+    helpText: PropTypes.object,
 };

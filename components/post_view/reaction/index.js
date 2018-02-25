@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {addReaction, removeReaction} from 'mattermost-redux/actions/posts';
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 import {getCurrentUserId, makeGetProfilesForReactions} from 'mattermost-redux/selectors/entities/users';
@@ -36,7 +35,7 @@ function makeMapStateToProps() {
             otherUsersCount: ownProps.reactions.length - profiles.length,
             currentUserId: getCurrentUserId(state),
             reactionCount: ownProps.reactions.length,
-            emojiImageUrl
+            emojiImageUrl,
         };
     };
 }
@@ -46,8 +45,8 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             addReaction,
             removeReaction,
-            getMissingProfilesByIds
-        }, dispatch)
+            getMissingProfilesByIds,
+        }, dispatch),
     };
 }
 

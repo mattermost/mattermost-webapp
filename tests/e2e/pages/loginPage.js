@@ -8,14 +8,14 @@ const loginCommands = {
         return this.waitForElementVisible('@loginInput', Constants.DEFAULT_WAIT);
     },
     login(email, pass) {
-        return this
-            .waitForElementVisible('@loginInput', Constants.DEFAULT_WAIT)
-            .setValue('@loginInput', email)
-            .setValue('@passwordInput', pass)
-            .waitForElementVisible('@signinButton', Constants.DEFAULT_WAIT)
-            .click('@signinButton')
-            .waitForElementVisible('@appContent', Constants.DEFAULT_WAIT);
-    }
+        return this.
+            waitForElementVisible('@loginInput', Constants.DEFAULT_WAIT).
+            setValue('@loginInput', email).
+            setValue('@passwordInput', pass).
+            waitForElementVisible('@signinButton', Constants.DEFAULT_WAIT).
+            click('@signinButton').
+            waitForElementVisible('@appContent', Constants.DEFAULT_WAIT);
+    },
 };
 
 module.exports = {
@@ -25,6 +25,6 @@ module.exports = {
         loginInput: {selector: '#loginId'},
         passwordInput: {selector: '#loginPassword'},
         signinButton: {selector: '#loginButton'},
-        appContent: {selector: '#app-content'}
-    }
+        appContent: {selector: '#app-content'},
+    },
 };

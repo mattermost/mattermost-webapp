@@ -4,17 +4,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {Posts} from 'mattermost-redux/constants';
 
-import store from 'stores/redux_store.jsx';
-
+import PostMarkdown from 'components/post_markdown';
 import * as PostUtils from 'utils/post_utils.jsx';
-import * as TextFormatting from 'utils/text_formatting.jsx';
 import * as Utils from 'utils/utils.jsx';
-
-import {Posts} from 'mattermost-redux/constants';   // eslint-disable-line import/order
-import {getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';   // eslint-disable-line import/order
-
-import {renderSystemMessage} from './system_message_helpers.jsx';
 
 export default class PostMessageView extends React.PureComponent {
     static propTypes = {
@@ -25,29 +19,9 @@ export default class PostMessageView extends React.PureComponent {
         post: PropTypes.object.isRequired,
 
         /*
-         * Object using emoji names as keys with custom emojis as the values
-         */
-        emojis: PropTypes.object.isRequired,
-
-        /*
-         * The team the post was made in
-         */
-        team: PropTypes.object.isRequired,
-
-        /*
          * Set to enable Markdown formatting
          */
         enableFormatting: PropTypes.bool,
-
-        /*
-         * An array of words that can be used to mention a user
-         */
-        mentionKeys: PropTypes.arrayOf(PropTypes.string),
-
-        /*
-         * The URL that the app is hosted on
-         */
-        siteUrl: PropTypes.string,
 
         /*
          * Options specific to text formatting
@@ -78,18 +52,12 @@ export default class PostMessageView extends React.PureComponent {
          * Post type components from plugins
          */
         pluginPostTypes: PropTypes.object,
-
-        /**
-         * The logged in user
-         */
-        currentUser: PropTypes.object.isRequired
     };
 
     static defaultProps = {
         options: {},
-        mentionKeys: [],
         isRHS: false,
-        pluginPostTypes: {}
+        pluginPostTypes: {},
     };
 
     renderDeletedPost() {
@@ -122,14 +90,12 @@ export default class PostMessageView extends React.PureComponent {
         const {
             post,
             enableFormatting,
+            options,
             pluginPostTypes,
             compactDisplay,
             isRHS,
             theme,
-            emojis,
-            siteUrl,
-            team,
-            lastPostCount
+            lastPostCount,
         } = this.props;
 
         if (post.state === Posts.POST_DELETED) {
@@ -147,29 +113,12 @@ export default class PostMessageView extends React.PureComponent {
                 return (
                     <PluginComponent
                         post={post}
-                        mentionKeys={this.props.mentionKeys}
                         compactDisplay={compactDisplay}
                         isRHS={isRHS}
                         theme={theme}
                     />
                 );
             }
-        }
-
-        const mentionKeys = [...this.props.mentionKeys, this.props.currentUser.username];
-
-        const options = Object.assign({}, this.props.options, {
-            emojis,
-            siteURL: siteUrl,
-            mentionKeys,
-            atMentions: true,
-            channelNamesMap: getChannelsNameMapInCurrentTeam(store.getState()),
-            team
-        });
-
-        const renderedSystemMessage = renderSystemMessage(post, options);
-        if (renderedSystemMessage) {
-            return <div>{renderedSystemMessage}</div>;
         }
 
         let postId = null;
@@ -183,8 +132,6 @@ export default class PostMessageView extends React.PureComponent {
             const visibleMessage = Utils.localizeMessage('post_info.message.visible.compact', ' (Only visible to you)');
             message = message.concat(visibleMessage);
         }
-        const htmlFormattedText = TextFormatting.formatText(message, options);
-        const postMessageComponent = PostUtils.postMessageHtmlToComponent(htmlFormattedText, isRHS);
 
         return (
             <div>
@@ -193,7 +140,12 @@ export default class PostMessageView extends React.PureComponent {
                     className='post-message__text'
                     onClick={Utils.handleFormattedTextClick}
                 >
-                    {postMessageComponent}
+                    <PostMarkdown
+                        message={message}
+                        isRHS={isRHS}
+                        options={options}
+                        post={post}
+                    />
                 </span>
                 {this.renderEditedIndicator()}
             </div>

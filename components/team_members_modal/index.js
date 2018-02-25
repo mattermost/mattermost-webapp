@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import {connect} from 'react-redux';
-
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import TeamMembersModal from './team_members_modal.jsx';
@@ -10,7 +9,7 @@ import TeamMembersModal from './team_members_modal.jsx';
 function mapStateToProps(state, ownProps) {
     return {
         ...ownProps,
-        currentTeam: getCurrentTeam(state)
+        currentTeam: getCurrentTeam(state),
     };
 }
 

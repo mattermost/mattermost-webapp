@@ -182,6 +182,7 @@ exports[`components/integrations/EditOAuthApp should match snapshot when EnableO
 exports[`components/integrations/EditOAuthApp should match snapshot, loading 1`] = `
 <LoadingScreen
   position="relative"
+  style={Object {}}
 />
 `;
 

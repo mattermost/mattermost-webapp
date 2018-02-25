@@ -50,15 +50,6 @@ export async function getClusterStatus(success, error) {
     }
 }
 
-export async function testEmail(config, success, error) {
-    const {data, error: err} = await AdminActions.testEmail(config)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
 export async function ldapTest(success, error) {
     const {data, error: err} = await AdminActions.testLdap()(dispatch, getState);
     if (data && success) {
@@ -86,8 +77,8 @@ export async function recycleDatabaseConnection(success, error) {
     }
 }
 
-export async function adminResetPassword(userId, password, success, error) {
-    const {data, error: err} = await UserActions.updateUserPassword(userId, '', password)(dispatch, getState);
+export async function adminResetPassword(userId, currentPassword, password, success, error) {
+    const {data, error: err} = await UserActions.updateUserPassword(userId, currentPassword, password)(dispatch, getState);
     if (data && success) {
         success(data);
     } else if (err && error) {
@@ -121,11 +112,11 @@ export function getOAuthAppInfo(clientId, success, error) {
 }
 
 export function allowOAuth2(params, success, error) {
-    const responseType = params.response_type;
-    const clientId = params.client_id;
-    const redirectUri = params.redirect_uri;
-    const state = params.state;
-    const scope = params.scope;
+    const responseType = params.get('response_type');
+    const clientId = params.get('client_id');
+    const redirectUri = params.get('redirect_uri');
+    const state = params.get('state');
+    const scope = params.get('scope');
 
     Client4.authorizeOAuthApp(responseType, clientId, redirectUri, state, scope).then(
         (data) => {
@@ -292,20 +283,20 @@ export async function elasticsearchPurgeIndexes(success, error) {
 export function setNavigationBlocked(blocked) {
     return {
         type: ActionTypes.SET_NAVIGATION_BLOCKED,
-        blocked
+        blocked,
     };
 }
 
 export function deferNavigation(onNavigationConfirmed) {
     return {
         type: ActionTypes.DEFER_NAVIGATION,
-        onNavigationConfirmed
+        onNavigationConfirmed,
     };
 }
 
 export function cancelNavigation() {
     return {
-        type: ActionTypes.CANCEL_NAVIGATION
+        type: ActionTypes.CANCEL_NAVIGATION,
     };
 }
 
@@ -319,7 +310,7 @@ export function confirmNavigation() {
         }
 
         thunkDispatch({
-            type: ActionTypes.CONFIRM_NAVIGATION
+            type: ActionTypes.CONFIRM_NAVIGATION,
         });
     };
 }

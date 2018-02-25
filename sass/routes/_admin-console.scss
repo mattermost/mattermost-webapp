@@ -76,17 +76,28 @@
         }
 
         .fa {
-            margin-right: 5px;
+            margin-right: 7px;
+
+            &.margin-left {
+                margin-left: 7px;
+                margin-right: 0;
+            }
+        }
+    }
+
+    .filter-control {
+        .fa {
+            font-size: 12px;
         }
     }
 
     .log__panel {
         background-color: white;
         border: $border-gray;
-        height: calc(100vh - 200px);
-        margin-top: 10px;
+        height: calc(100vh - 280px);
+        margin-top: 14px;
         overflow: scroll;
-        padding: 5px;
+        padding: 10px;
         width: 100%;
     }
 
@@ -139,6 +150,10 @@
                 top: 0;
                 width: 100%;
                 z-index: 5;
+
+                &[disabled] {
+                    cursor: not-allowed;
+                }
             }
         }
 
@@ -757,4 +772,14 @@
 
 .admin-setting-user__fullname {
     @include opacity(.5);
+}
+
+.password__group-addon {
+    min-width: 150px;
+    text-align: left;
+
+}
+
+.password__group-addon-space {
+    margin-bottom: 20px;
 }

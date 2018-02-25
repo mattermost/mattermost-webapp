@@ -5,12 +5,11 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import Constants from 'utils/constants.jsx';
-
 import DotMenu from 'components/dot_menu/dot_menu.jsx';
 
 jest.mock('utils/utils', () => {
     return {
-        isMobile: jest.fn(() => false)
+        isMobile: jest.fn(() => false),
     };
 });
 
@@ -18,11 +17,11 @@ jest.mock('utils/post_utils', () => {
     const original = require.requireActual('utils/post_utils');
     return {
         ...original,
-        isSystemMessage: jest.fn(() => true)
+        isSystemMessage: jest.fn(() => true),
     };
 });
 
-describe('components/integrations/DotMenu returning empty ("")', () => {
+describe('components/dot_menu/DotMenu returning empty ("")', () => {
     global.window.mm_license = {};
 
     beforeEach(() => {
@@ -42,8 +41,8 @@ describe('components/integrations/DotMenu returning empty ("")', () => {
                 unflagPost: jest.fn(),
                 setEditingPost: jest.fn(),
                 pinPost: jest.fn(),
-                unpinPost: jest.fn()
-            }
+                unpinPost: jest.fn(),
+            },
         };
 
         const wrapper = shallow(
@@ -62,8 +61,8 @@ describe('components/integrations/DotMenu returning empty ("")', () => {
                 unflagPost: jest.fn(),
                 setEditingPost: jest.fn(),
                 pinPost: jest.fn(),
-                unpinPost: jest.fn()
-            }
+                unpinPost: jest.fn(),
+            },
         };
 
         const wrapper = shallow(
@@ -82,8 +81,8 @@ describe('components/integrations/DotMenu returning empty ("")', () => {
                 unflagPost: jest.fn(),
                 setEditingPost: jest.fn(),
                 pinPost: jest.fn(),
-                unpinPost: jest.fn()
-            }
+                unpinPost: jest.fn(),
+            },
         };
 
         const wrapper = shallow(

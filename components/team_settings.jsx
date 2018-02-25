@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import TeamStore from 'stores/team_store.jsx';
-
 import * as Utils from 'utils/utils.jsx';
 
 import GeneralTab from './team_general_tab.jsx';
@@ -19,24 +18,29 @@ export default class TeamSettings extends React.Component {
 
         this.state = {team: TeamStore.getCurrent()};
     }
+
     componentDidMount() {
         TeamStore.addChangeListener(this.onChange);
     }
+
     componentWillUnmount() {
         TeamStore.removeChangeListener(this.onChange);
     }
+
     onChange() {
-        var team = TeamStore.getCurrent();
+        const team = TeamStore.getCurrent();
 
         if (!Utils.areObjectsEqual(this.state.team, team)) {
             this.setState({team});
         }
     }
+
     render() {
         if (!this.state.team) {
             return null;
         }
-        var result;
+
+        let result;
         switch (this.props.activeTab) {
         case 'general':
             result = (
@@ -45,6 +49,8 @@ export default class TeamSettings extends React.Component {
                         team={this.state.team}
                         activeSection={this.props.activeSection}
                         updateSection={this.props.updateSection}
+                        closeModal={this.props.closeModal}
+                        collapseModal={this.props.collapseModal}
                     />
                 </div>
             );
@@ -56,6 +62,8 @@ export default class TeamSettings extends React.Component {
                         team={this.state.team}
                         activeSection={this.props.activeSection}
                         updateSection={this.props.updateSection}
+                        closeModal={this.props.closeModal}
+                        collapseModal={this.props.collapseModal}
                     />
                 </div>
             );
@@ -66,17 +74,20 @@ export default class TeamSettings extends React.Component {
             );
             break;
         }
+
         return result;
     }
 }
 
 TeamSettings.defaultProps = {
     activeTab: '',
-    activeSection: ''
+    activeSection: '',
 };
 
 TeamSettings.propTypes = {
     activeTab: PropTypes.string.isRequired,
     activeSection: PropTypes.string.isRequired,
-    updateSection: PropTypes.func.isRequired
+    updateSection: PropTypes.func.isRequired,
+    closeModal: PropTypes.func.isRequired,
+    collapseModal: PropTypes.func.isRequired,
 };

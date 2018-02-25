@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/SettingItemMin should match snapshot 1`] = `
+<ul
+  className="section-min"
+  onClick={[Function]}
+>
+  <li
+    className="col-xs-12 col-sm-9 section-title"
+    id="titleTitle"
+  >
+    title
+  </li>
+  <li
+    className="col-xs-12 col-sm-3 section-edit"
+  >
+    <button
+      className="color--link cursor--pointer style--none text-left"
+      id="titleEdit"
+      onClick={[Function]}
+    >
+      <i
+        className="fa fa-pencil"
+      />
+      <FormattedMessage
+        defaultMessage="Edit"
+        id="setting_item_min.edit"
+        values={Object {}}
+      />
+    </button>
+  </li>
+  <li
+    className="col-xs-12 section-describe"
+    id="titleDesc"
+  >
+    describe
+  </li>
+</ul>
+`;
+
+exports[`components/SettingItemMin should match snapshot, on disableOpen to true 1`] = `
+<ul
+  className="section-min"
+  onClick={[Function]}
+>
+  <li
+    className="col-xs-12 col-sm-9 section-title"
+    id="titleTitle"
+  >
+    title
+  </li>
+</ul>
+`;

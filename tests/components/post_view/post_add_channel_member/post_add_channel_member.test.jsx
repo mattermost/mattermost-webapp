@@ -4,26 +4,32 @@
 import React from 'react';
 import {Provider} from 'react-redux';
 import {shallow} from 'enzyme';
-import {browserHistory} from 'react-router';
 
+import {browserHistory} from 'utils/browser_history';
 import store from 'stores/redux_store.jsx';
-
+import {sendAddToChannelEphemeralPost} from 'actions/global_actions.jsx';
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
-
 import PostAddChannelMember from 'components/post_view/post_add_channel_member/post_add_channel_member.jsx';
+
+jest.mock('actions/global_actions.jsx', () => {
+    return {
+        sendAddToChannelEphemeralPost: jest.fn(),
+    };
+});
 
 describe('components/post_view/PostAddChannelMember', () => {
     const team = {
         id: 'team_id',
-        name: 'team_name'
+        name: 'team_name',
     };
     const channel = {
         id: 'channel_id',
         name: 'channel_name',
-        type: 'O'
+        type: 'O',
     };
 
     const requiredProps = {
+        currentUser: {id: 'current_user_id', username: 'current_username'},
         team,
         channel,
         postId: 'post_id_1',
@@ -33,8 +39,8 @@ describe('components/post_view/PostAddChannelMember', () => {
         actions: {
             getPost: jest.fn(),
             removePost: jest.fn(),
-            addChannelMember: jest.fn()
-        }
+            addChannelMember: jest.fn(),
+        },
     };
 
     test('should match snapshot, public channel', () => {
@@ -46,12 +52,12 @@ describe('components/post_view/PostAddChannelMember', () => {
         const privateChannel = {
             id: 'channel_id',
             name: 'channel_name',
-            type: 'P'
+            type: 'P',
         };
 
         const props = {
             ...requiredProps,
-            channel: privateChannel
+            channel: privateChannel,
         };
 
         const wrapper = shallow(<PostAddChannelMember {...props}/>);
@@ -63,14 +69,14 @@ describe('components/post_view/PostAddChannelMember', () => {
         const post = {
             id: 'post_id_1',
             root_id: 'root_id',
-            channel_id: 'channel_id'
+            channel_id: 'channel_id',
         };
         const getPost = jest.fn();
         getPost.mockReturnValueOnce(post);
         const actions = {
             getPost,
             removePost: jest.fn(),
-            addChannelMember: jest.fn()
+            addChannelMember: jest.fn(),
         };
         const props = {...requiredProps, actions};
         const wrapper = mountWithIntl(
@@ -83,7 +89,9 @@ describe('components/post_view/PostAddChannelMember', () => {
 
         expect(actions.getPost).toHaveBeenCalledTimes(1);
         expect(actions.addChannelMember).toHaveBeenCalledTimes(1);
-        expect(actions.addChannelMember).toHaveBeenCalledWith(channel.id, requiredProps.userIds[0], post.root_id);
+        expect(actions.addChannelMember).toHaveBeenCalledWith(channel.id, requiredProps.userIds[0]);
+        expect(sendAddToChannelEphemeralPost).toHaveBeenCalledTimes(1);
+        expect(sendAddToChannelEphemeralPost).toHaveBeenCalledWith(props.currentUser, props.usernames[0], channel.id, post.root_id);
         expect(actions.removePost).toHaveBeenCalledTimes(1);
         expect(actions.removePost).toHaveBeenCalledWith(post);
         expect(browserHistory.push).toHaveBeenCalledWith(`/${team.name}/channels/${channel.name}`);
@@ -94,14 +102,14 @@ describe('components/post_view/PostAddChannelMember', () => {
         const usernames = ['username_1', 'username_2', 'username_3', 'username_4'];
         const post = {
             id: 'post_id_1',
-            channel_id: 'channel_id'
+            channel_id: 'channel_id',
         };
         const getPost = jest.fn();
         getPost.mockReturnValueOnce(post);
         const actions = {
             getPost,
             removePost: jest.fn(),
-            addChannelMember: jest.fn()
+            addChannelMember: jest.fn(),
         };
         const props = {...requiredProps, userIds, usernames, actions};
         const wrapper = mountWithIntl(

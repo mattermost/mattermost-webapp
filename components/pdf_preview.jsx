@@ -4,7 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-
 import PDFJS from 'pdfjs-dist';
 
 import loadingGif from 'images/load.gif';
@@ -12,6 +11,7 @@ import loadingGif from 'images/load.gif';
 import FileInfoPreview from './file_info_preview.jsx';
 
 const MAX_PDF_PAGES = 5;
+PDFJS.disableWorker = true;
 
 export default class PDFPreview extends React.PureComponent {
     static propTypes = {
@@ -24,7 +24,7 @@ export default class PDFPreview extends React.PureComponent {
         /**
         *  URL of pdf file to output and compare to update props url
         */
-        fileUrl: PropTypes.string.isRequired
+        fileUrl: PropTypes.string.isRequired,
     }
 
     constructor(props) {
@@ -32,6 +32,7 @@ export default class PDFPreview extends React.PureComponent {
 
         this.updateStateFromProps = this.updateStateFromProps.bind(this);
         this.onDocumentLoad = this.onDocumentLoad.bind(this);
+        this.onDocumentLoadError = this.onDocumentLoadError.bind(this);
         this.onPageLoad = this.onPageLoad.bind(this);
         this.renderPDFPage = this.renderPDFPage.bind(this);
 
@@ -43,7 +44,7 @@ export default class PDFPreview extends React.PureComponent {
             pdfPagesLoaded: {},
             numPages: 0,
             loading: true,
-            success: false
+            success: false,
         };
     }
 
@@ -80,7 +81,7 @@ export default class PDFPreview extends React.PureComponent {
 
         const renderContext = {
             canvasContext: context,
-            viewport
+            viewport,
         };
 
         this.state.pdfPages[pageIndex].render(renderContext);
@@ -94,10 +95,10 @@ export default class PDFPreview extends React.PureComponent {
             pdfPagesLoaded: {},
             numPages: 0,
             loading: true,
-            success: false
+            success: false,
         });
 
-        PDFJS.getDocument(props.fileUrl).then(this.onDocumentLoad);
+        PDFJS.getDocument(props.fileUrl).then(this.onDocumentLoad, this.onDocumentLoadError);
     }
 
     onDocumentLoad(pdf) {
@@ -106,6 +107,11 @@ export default class PDFPreview extends React.PureComponent {
         for (let i = 1; i <= pdf.numPages; i++) {
             pdf.getPage(i).then(this.onPageLoad);
         }
+    }
+
+    onDocumentLoadError(reason) {
+        console.log('Unable to load PDF preview: ' + reason); //eslint-disable-line no-console
+        this.setState({loading: false, success: false});
     }
 
     onPageLoad(page) {
@@ -120,10 +126,6 @@ export default class PDFPreview extends React.PureComponent {
         if (page.pageIndex === 0) {
             this.setState({success: true, loading: false});
         }
-    }
-
-    static supports(fileInfo) {
-        return Boolean(fileInfo && fileInfo.extension && fileInfo.extension === 'pdf');
     }
 
     render() {

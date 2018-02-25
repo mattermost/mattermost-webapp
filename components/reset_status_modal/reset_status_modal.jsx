@@ -4,11 +4,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-
 import {Preferences} from 'mattermost-redux/constants';
 
 import {toTitleCase} from 'utils/utils.jsx';
-
 import ConfirmModal from 'components/confirm_modal.jsx';
 
 export default class ResetStatusModal extends React.PureComponent {
@@ -33,8 +31,8 @@ export default class ResetStatusModal extends React.PureComponent {
             /*
              * Function to save user preferences
              */
-            savePreferences: PropTypes.func.isRequired
-        }).isRequired
+            savePreferences: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -42,7 +40,7 @@ export default class ResetStatusModal extends React.PureComponent {
 
         this.state = {
             show: false,
-            currentUserStatus: {}
+            currentUserStatus: {},
         };
     }
 
@@ -54,7 +52,7 @@ export default class ResetStatusModal extends React.PureComponent {
 
                 this.setState({
                     currentUserStatus: status, // Set in state until status refactor where we store 'manual' field in redux
-                    show: Boolean(statusIsManual && autoResetPrefNotSet)
+                    show: Boolean(statusIsManual && autoResetPrefNotSet),
                 });
             }
         );
@@ -91,7 +89,7 @@ export default class ResetStatusModal extends React.PureComponent {
                 id={userStatusId}
                 defaultMessage='Your status is set to "{status}"'
                 values={{
-                    status: toTitleCase(userStatus)
+                    status: toTitleCase(userStatus),
                 }}
             />
         );
@@ -115,7 +113,7 @@ export default class ResetStatusModal extends React.PureComponent {
                 id={manualStatusId}
                 defaultMessage='No, keep it as "{status}"'
                 values={{
-                    status: toTitleCase(userStatus)
+                    status: toTitleCase(userStatus),
                 }}
             />
         );

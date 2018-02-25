@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import BlockableLink from 'components/admin_console/blockable_link';
-
 import * as Utils from 'utils/utils.jsx';
 
 export default class AdminSidebarSection extends React.Component {
@@ -18,7 +17,6 @@ export default class AdminSidebarSection extends React.Component {
             subsection: PropTypes.bool,
             children: PropTypes.node,
             action: PropTypes.node,
-            onlyActiveOnIndex: PropTypes.bool
         };
     }
 
@@ -27,7 +25,6 @@ export default class AdminSidebarSection extends React.Component {
             parentLink: '',
             subsection: false,
             children: [],
-            onlyActiveOnIndex: true
         };
     }
 
@@ -50,7 +47,7 @@ export default class AdminSidebarSection extends React.Component {
 
                             return React.cloneElement(child, {
                                 parentLink: link,
-                                subsection: true
+                                subsection: true,
                             });
                         })
                     }
@@ -68,8 +65,6 @@ export default class AdminSidebarSection extends React.Component {
                 id={Utils.createSafeId(this.props.name)}
                 className={`${className}-title`}
                 activeClassName={`${className}-title ${className}-title--active`}
-                onlyActiveOnIndex={this.props.onlyActiveOnIndex}
-                onClick={this.handleClick}
                 to={link}
             >
                 <span className={`${className}-title__text`}>

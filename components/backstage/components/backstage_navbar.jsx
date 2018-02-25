@@ -4,12 +4,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
+
+import {Constants} from 'utils/constants.jsx';
 
 export default class BackstageNavbar extends React.Component {
     static get propTypes() {
         return {
-            team: PropTypes.object.isRequired
+            team: PropTypes.object.isRequired,
+            siteName: PropTypes.string,
         };
     }
 
@@ -22,7 +25,7 @@ export default class BackstageNavbar extends React.Component {
             <div className='backstage-navbar'>
                 <Link
                     className='backstage-navbar__back'
-                    to={`/${this.props.team.name}/channels/town-square`}
+                    to={`/${this.props.team.name}/channels/${Constants.DEFAULT_CHANNEL}`}
                 >
                     <i className='fa fa-angle-left'/>
                     <span>
@@ -30,7 +33,7 @@ export default class BackstageNavbar extends React.Component {
                             id='backstage_navbar.backToMattermost'
                             defaultMessage='Back to {siteName}'
                             values={{
-                                siteName: global.window.mm_config.SiteName
+                                siteName: this.props.siteName,
                             }}
                         />
                     </span>

@@ -5,7 +5,6 @@ import React from 'react';
 
 import {autocompleteUsersInTeam} from 'actions/user_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-
 import {ActionTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -80,7 +79,7 @@ export default class SearchUserProvider extends Provider {
                         matchedPretext: usernamePrefix,
                         terms: mentions,
                         items: users,
-                        component: SearchUserSuggestion
+                        component: SearchUserSuggestion,
                     });
                 }
             );

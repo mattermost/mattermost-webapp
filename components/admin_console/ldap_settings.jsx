@@ -5,7 +5,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {ldapTest} from 'actions/admin_actions.jsx';
-
 import {JobTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -73,7 +72,7 @@ export default class LdapSettings extends AdminSettings {
             skipCertificateVerification: config.LdapSettings.SkipCertificateVerification,
             queryTimeout: config.LdapSettings.QueryTimeout,
             maxPageSize: config.LdapSettings.MaxPageSize,
-            loginFieldName: config.LdapSettings.LoginFieldName
+            loginFieldName: config.LdapSettings.LoginFieldName,
         };
     }
 
@@ -122,14 +121,14 @@ export default class LdapSettings extends AdminSettings {
                     mattermostUsers,
                     ldapUsers,
                     deleteCount,
-                    updateCount
+                    updateCount,
                 }}
             />
         );
     }
 
     renderSettings() {
-        const licenseEnabled = global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.LDAP === 'true';
+        const licenseEnabled = this.props.license.IsLicensed === 'true' && this.props.license.LDAP === 'true';
         if (!licenseEnabled) {
             return null;
         }
@@ -531,11 +530,11 @@ export default class LdapSettings extends AdminSettings {
                     saveConfigAction={this.doSubmit}
                     errorMessage={{
                         id: 'admin.ldap.testFailure',
-                        defaultMessage: 'AD/LDAP Test Failure: {error}'
+                        defaultMessage: 'AD/LDAP Test Failure: {error}',
                     }}
                     successMessage={{
                         id: 'admin.ldap.testSuccess',
-                        defaultMessage: 'AD/LDAP Test Successful'
+                        defaultMessage: 'AD/LDAP Test Successful',
                     }}
                 />
                 <JobsTable

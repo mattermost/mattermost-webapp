@@ -3,14 +3,18 @@
 
 import {combineReducers} from 'redux';
 
-import admin from './admin'
+import admin from './admin';
 import channel from './channel';
 import rhs from './rhs';
 import posts from './posts';
+import modals from './modals';
+import emoji from './emoji';
 
 export default combineReducers({
     admin,
     channel,
     rhs,
-    posts
+    posts,
+    modals,
+    emoji,
 });

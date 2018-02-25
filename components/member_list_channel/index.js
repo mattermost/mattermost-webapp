@@ -3,23 +3,16 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {getChannelStats} from 'mattermost-redux/actions/channels';
 
 import MemberListChannel from './member_list_channel.jsx';
 
-function mapStateToProps(state, ownProps) {
-    return {
-        ...ownProps
-    };
-}
-
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getChannelStats
-        }, dispatch)
+            getChannelStats,
+        }, dispatch),
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MemberListChannel);
+export default connect(null, mapDispatchToProps)(MemberListChannel);

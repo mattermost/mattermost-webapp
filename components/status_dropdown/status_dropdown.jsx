@@ -8,24 +8,28 @@ import {FormattedMessage} from 'react-intl';
 
 import {UserStatuses} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
-
 import BootstrapSpan from 'components/bootstrap_span.jsx';
 import StatusIcon from 'components/status_icon.jsx';
 
 export default class StatusDropdown extends React.Component {
-
     static propTypes = {
         style: PropTypes.object,
         status: PropTypes.string,
         userId: PropTypes.string.isRequired,
         profilePicture: PropTypes.string,
         actions: PropTypes.shape({
-            setStatus: PropTypes.func.isRequired
-        }).isRequired
+            setStatus: PropTypes.func.isRequired,
+        }).isRequired,
+    }
+
+    static defaultProps = {
+        userId: '',
+        profilePicture: '',
+        status: UserStatuses.OFFLINE,
     }
 
     state = {
-        showDropdown: false
+        showDropdown: false,
     }
 
     onToggle = (showDropdown) => {
@@ -39,7 +43,7 @@ export default class StatusDropdown extends React.Component {
     setStatus = (status) => {
         this.props.actions.setStatus({
             user_id: this.props.userId,
-            status
+            status,
         });
         this.closeDropdown();
     }
@@ -116,7 +120,7 @@ export default class StatusDropdown extends React.Component {
             this.renderStatusOnlineAction(),
             this.renderStatusAwayAction(),
             this.renderStatusDndAction(),
-            this.renderStatusOfflineAction()
+            this.renderStatusOfflineAction(),
         ];
         return (
             <Dropdown

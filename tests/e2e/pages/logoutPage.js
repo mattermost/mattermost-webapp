@@ -8,12 +8,12 @@ const logoutCommands = {
         return this.waitForElementVisible('@mainMenuButton', Constants.DEFAULT_WAIT);
     },
     logout() {
-        return this
-            .waitForElementVisible('@mainMenuButton', Constants.DEFAULT_WAIT)
-            .click('@mainMenuButton')
-            .waitForElementVisible('@logoutButton', Constants.DEFAULT_WAIT)
-            .click('@logoutButton');
-    }
+        return this.
+            waitForElementVisible('@mainMenuButton', Constants.DEFAULT_WAIT).
+            click('@mainMenuButton').
+            waitForElementVisible('@logoutButton', Constants.DEFAULT_WAIT).
+            click('@logoutButton');
+    },
 };
 
 module.exports = {
@@ -21,6 +21,6 @@ module.exports = {
     commands: [logoutCommands],
     elements: {
         mainMenuButton: {selector: '#sidebarHeaderDropdownButton'},
-        logoutButton: {selector: '#logout'}
-    }
+        logoutButton: {selector: '#logout'},
+    },
 };

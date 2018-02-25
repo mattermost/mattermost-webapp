@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/AutosizeTextarea should match snapshot, init 1`] = `
+<div>
+  <textarea
+    onChange={[Function]}
+    rows={1}
+  />
+  <div
+    style={
+      Object {
+        "height": 0,
+        "overflow": "hidden",
+      }
+    }
+  >
+    <textarea
+      disabled={true}
+      id="undefined-reference"
+      rows="1"
+      style={
+        Object {
+          "height": "auto",
+          "width": "100%",
+        }
+      }
+    />
+  </div>
+</div>
+`;

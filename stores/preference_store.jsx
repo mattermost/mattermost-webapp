@@ -7,9 +7,7 @@ import {PreferenceTypes} from 'mattermost-redux/action_types';
 import * as Selectors from 'mattermost-redux/selectors/entities/preferences';
 
 import store from 'stores/redux_store.jsx';
-
 import Constants from 'utils/constants.jsx';
-
 import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
 
 const ActionTypes = Constants.ActionTypes;
@@ -107,21 +105,21 @@ class PreferenceStore extends EventEmitter {
     setPreference(category, name, value) {
         store.dispatch({
             type: PreferenceTypes.RECEIVED_PREFERENCES,
-            data: [{category, name, value}]
+            data: [{category, name, value}],
         });
     }
 
     setPreferencesFromServer(newPreferences) {
         store.dispatch({
             type: PreferenceTypes.RECEIVED_PREFERENCES,
-            data: newPreferences
+            data: newPreferences,
         });
     }
 
     deletePreference(preference) {
         store.dispatch({
             type: PreferenceTypes.DELETED_PREFERENCES,
-            data: [preference]
+            data: [preference],
         });
     }
 

@@ -1,14 +1,13 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import {browserHistory} from 'react-router';
 import {batchActions} from 'redux-batched-actions';
-
 import {PostTypes} from 'mattermost-redux/action_types';
 import {getMyChannelMember} from 'mattermost-redux/actions/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
 import * as Selectors from 'mattermost-redux/selectors/entities/posts';
 
+import {browserHistory} from 'utils/browser_history';
 import {sendDesktopNotification} from 'actions/notification_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import * as RhsActions from 'actions/views/rhs';
@@ -17,11 +16,10 @@ import ChannelStore from 'stores/channel_store.jsx';
 import PostStore from 'stores/post_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
-
-import {getSelectedPostId} from 'selectors/rhs';
-
-import {ActionTypes, Constants} from 'utils/constants.jsx';
+import {getSelectedPostId, getRhsState} from 'selectors/rhs';
+import {ActionTypes, Constants, RHSStates} from 'utils/constants.jsx';
 import {EMOJI_PATTERN} from 'utils/emoticons.jsx';
+import * as UserAgent from 'utils/user_agent';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -69,7 +67,7 @@ function dispatchPostActions(post, websocketMessageProps) {
         dispatch({
             type: ActionTypes.INCREASE_POST_VISIBILITY,
             data: post.channel_id,
-            amount: 1
+            amount: 1,
         });
     }
 
@@ -79,28 +77,40 @@ function dispatchPostActions(post, websocketMessageProps) {
         data: {
             order: [],
             posts: {
-                [post.id]: post
-            }
+                [post.id]: post,
+            },
         },
-        channelId: post.channel_id
+        channelId: post.channel_id,
     });
 
     // Still needed to update unreads
     AppDispatcher.handleServerAction({
         type: ActionTypes.RECEIVED_POST,
         post,
-        websocketMessageProps
+        websocketMessageProps,
     });
 
     sendDesktopNotification(post, websocketMessageProps);
 }
 
-export function flagPost(postId) {
-    PostActions.flagPost(postId)(dispatch, getState);
+export async function flagPost(postId) {
+    await PostActions.flagPost(postId)(dispatch, getState);
+
+    const rhsState = getRhsState(getState());
+
+    if (rhsState === RHSStates.FLAG) {
+        dispatch(RhsActions.getFlaggedPosts());
+    }
 }
 
-export function unflagPost(postId) {
-    PostActions.unflagPost(postId)(dispatch, getState);
+export async function unflagPost(postId) {
+    await PostActions.unflagPost(postId)(dispatch, getState);
+
+    const rhsState = getRhsState(getState());
+
+    if (rhsState === RHSStates.FLAG) {
+        dispatch(RhsActions.getFlaggedPosts());
+    }
 }
 
 export function addReaction(channelId, postId, emojiName) {
@@ -121,7 +131,12 @@ export async function createPost(post, files, success) {
         }
     }
 
-    await PostActions.createPost(post, files)(dispatch, getState);
+    if (UserAgent.isIosClassic()) {
+        await PostActions.createPostImmediately(post, files)(dispatch, getState);
+    } else {
+        await PostActions.createPost(post, files)(dispatch, getState);
+    }
+
     if (post.root_id) {
         PostStore.storeCommentDraft(post.root_id, null);
     } else {
@@ -141,7 +156,7 @@ export async function updatePost(post, success) {
         AppDispatcher.handleServerAction({
             type: ActionTypes.RECEIVED_ERROR,
             err: {id: err.server_error_id, ...err},
-            method: 'editPost'
+            method: 'editPost',
         });
     }
 }
@@ -149,7 +164,7 @@ export async function updatePost(post, success) {
 export function emitEmojiPosted(emoji) {
     AppDispatcher.handleServerAction({
         type: ActionTypes.EMOJI_POSTED,
-        alias: emoji
+        alias: emoji,
     });
 }
 
@@ -167,19 +182,19 @@ export async function deletePost(channelId, post, success) {
         dispatch({
             type: ActionTypes.SELECT_POST,
             postId: '',
-            channelId: ''
+            channelId: '',
         });
     }
 
     dispatch({
         type: PostTypes.REMOVE_POST,
-        data: post
+        data: post,
     });
 
     // Needed for search store
     AppDispatcher.handleViewAction({
         type: Constants.ActionTypes.REMOVE_POST,
-        post
+        post,
     });
 
     const {focusedPostId} = getState().views.channel;
@@ -212,13 +227,13 @@ export function increasePostVisibility(channelId, focusedPostId) {
             {
                 type: ActionTypes.LOADING_POSTS,
                 data: true,
-                channelId
+                channelId,
             },
             {
                 type: ActionTypes.INCREASE_POST_VISIBILITY,
                 data: channelId,
-                amount: POST_INCREASE_AMOUNT
-            }
+                amount: POST_INCREASE_AMOUNT,
+            },
         ]));
 
         const page = Math.floor(currentPostVisibility / POST_INCREASE_AMOUNT);
@@ -234,7 +249,7 @@ export function increasePostVisibility(channelId, focusedPostId) {
         doDispatch({
             type: ActionTypes.LOADING_POSTS,
             data: false,
-            channelId
+            channelId,
         });
 
         return posts.order.length >= POST_INCREASE_AMOUNT;
@@ -252,7 +267,7 @@ export function pinPost(postId) {
 
         AppDispatcher.handleServerAction({
             type: ActionTypes.RECEIVED_POST_PINNED,
-            postId
+            postId,
         });
     };
 }
@@ -263,7 +278,7 @@ export function unpinPost(postId) {
 
         AppDispatcher.handleServerAction({
             type: ActionTypes.RECEIVED_POST_UNPINNED,
-            postId
+            postId,
         });
     };
 }
@@ -274,11 +289,38 @@ export function doPostAction(postId, actionId) {
 
 export function setEditingPost(postId = '', commentsCount = 0, refocusId = '', title = '') {
     return async (doDispatch, doGetState) => {
-        doDispatch({
-            type: ActionTypes.SET_EDITING_POST,
-            data: {postId, commentsCount, refocusId, title}
-        }, doGetState);
+        const state = doGetState();
 
-        return {data: true};
+        let canEditNow = true;
+
+        // Only show the modal if we can edit the post now, but allow it to be hidden at any time
+        if (postId && state.entities.general.license.IsLicensed === 'true') {
+            const config = state.entities.general.config;
+
+            if (config.AllowEditPost === Constants.ALLOW_EDIT_POST_NEVER) {
+                canEditNow = false;
+            } else if (config.AllowEditPost === Constants.ALLOW_EDIT_POST_TIME_LIMIT) {
+                const post = Selectors.getPost(state, postId);
+
+                if ((post.create_at + (config.PostEditTimeLimit * 1000)) < Date.now()) {
+                    canEditNow = false;
+                }
+            }
+        }
+
+        if (canEditNow) {
+            doDispatch({
+                type: ActionTypes.SHOW_EDIT_POST_MODAL,
+                data: {postId, commentsCount, refocusId, title},
+            }, doGetState);
+        }
+
+        return {data: canEditNow};
+    };
+}
+
+export function hideEditPostModal() {
+    return {
+        type: ActionTypes.HIDE_EDIT_POST_MODAL,
     };
 }

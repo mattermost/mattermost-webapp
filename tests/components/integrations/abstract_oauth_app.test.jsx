@@ -5,9 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {shallow} from 'enzyme';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-
-import AbstractOAuthApp from 'components/integrations/components/abstract_oauth_app.jsx';
+import AbstractOAuthApp from 'components/integrations/abstract_oauth_app.jsx';
 
 describe('components/integrations/AbstractOAuthApp', () => {
     const team = {name: 'test'};
@@ -24,7 +22,7 @@ describe('components/integrations/AbstractOAuthApp', () => {
         icon_url: 'https://test.com/icon',
         is_trusted: true,
         update_at: 1501365458934,
-        callback_urls: ['https://test.com/callback', 'https://test.com/callback2']
+        callback_urls: ['https://test.com/callback', 'https://test.com/callback2'],
     };
     const action = jest.genMockFunction().mockImplementation(
         () => {
@@ -41,7 +39,7 @@ describe('components/integrations/AbstractOAuthApp', () => {
         renderExtra: 'renderExtra',
         serverError: '',
         initialApp,
-        action: jest.fn()
+        action: jest.fn(),
     };
 
     test('should match snapshot', () => {
@@ -87,22 +85,6 @@ describe('components/integrations/AbstractOAuthApp', () => {
         }});
 
         expect(action).toBeCalled();
-    });
-
-    test('should have correct state when imageLoaded is called', () => {
-        const props = {...baseProps, action};
-        const wrapper = mountWithIntl(
-            <AbstractOAuthApp {...props}/>
-        );
-
-        wrapper.setState({has_icon: false});
-        const iconURL = 'https://test.com/other_icon';
-        const ref = wrapper.ref('icon_url');
-        ref.value = iconURL;
-        wrapper.instance().imageLoaded();
-
-        expect(wrapper.state('has_icon')).toEqual(true);
-        expect(wrapper.state('icon_url')).toEqual(iconURL);
     });
 
     test('should have correct state when updateName is called', () => {

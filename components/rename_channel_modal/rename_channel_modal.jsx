@@ -4,10 +4,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal, OverlayTrigger, Tooltip} from 'react-bootstrap';
-import ReactDOM from 'react-dom';
 import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
-import {browserHistory} from 'react-router';
 
+import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
 import {cleanUpUrlable, getShortenedURL} from 'utils/url.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -15,32 +14,32 @@ import * as Utils from 'utils/utils.jsx';
 const holders = defineMessages({
     required: {
         id: 'rename_channel.required',
-        defaultMessage: 'This field is required'
+        defaultMessage: 'This field is required',
     },
     maxLength: {
         id: 'rename_channel.maxLength',
-        defaultMessage: 'This field must be less than {maxLength, number} characters'
+        defaultMessage: 'This field must be less than {maxLength, number} characters',
     },
     lowercase: {
         id: 'rename_channel.lowercase',
-        defaultMessage: 'Must be lowercase alphanumeric characters'
+        defaultMessage: 'Must be lowercase alphanumeric characters',
     },
     url: {
         id: 'rename_channel.url',
-        defaultMessage: 'URL'
+        defaultMessage: 'URL',
     },
     defaultError: {
         id: 'rename_channel.defaultError',
-        defaultMessage: ' - Cannot be changed for the default channel'
+        defaultMessage: ' - Cannot be changed for the default channel',
     },
     displayNameHolder: {
         id: 'rename_channel.displayNameHolder',
-        defaultMessage: 'Enter display name'
+        defaultMessage: 'Enter display name',
     },
     handleHolder: {
         id: 'rename_channel.handleHolder',
-        defaultMessage: 'lowercase alphanumeric characters'
-    }
+        defaultMessage: 'lowercase alphanumeric characters',
+    },
 });
 
 export class RenameChannelModal extends React.PureComponent {
@@ -84,8 +83,8 @@ export class RenameChannelModal extends React.PureComponent {
             /*
              * Action creator to update current channel
              */
-            updateChannel: PropTypes.func.isRequired
-        }).isRequired
+            updateChannel: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     constructor(props) {
@@ -97,7 +96,7 @@ export class RenameChannelModal extends React.PureComponent {
             serverError: '',
             nameError: '',
             displayNameError: '',
-            invalid: false
+            invalid: false,
         };
     }
 
@@ -105,14 +104,8 @@ export class RenameChannelModal extends React.PureComponent {
         if (!Utils.areObjectsEqual(nextProps.channel, this.props.channel)) {
             this.setState({
                 displayName: nextProps.channel.display_name,
-                channelName: nextProps.channel.name
+                channelName: nextProps.channel.name,
             });
-        }
-    }
-
-    componentDidUpdate(prevProps) {
-        if (!prevProps.show && this.props.show) {
-            this.handleShow();
         }
     }
 
@@ -124,10 +117,8 @@ export class RenameChannelModal extends React.PureComponent {
         this.setState({serverError: ''});
     }
 
-    handleShow = () => {
-        const textbox = ReactDOM.findDOMNode(this.refs.displayName);
-        textbox.focus();
-        Utils.placeCaretAtEnd(textbox);
+    handleEntering = () => {
+        Utils.placeCaretAtEnd(this.textbox);
     }
 
     handleHide = (e) => {
@@ -141,7 +132,7 @@ export class RenameChannelModal extends React.PureComponent {
             serverError: '',
             nameError: '',
             displayNameError: '',
-            invalid: false
+            invalid: false,
         });
     }
 
@@ -155,7 +146,7 @@ export class RenameChannelModal extends React.PureComponent {
         const oldDisplayName = channel.display_name;
         const state = {serverError: ''};
         const {formatMessage} = this.props.intl;
-        const {actions: {updateChannel}, team} = this.props;
+        const {actions: {updateChannel}} = this.props;
 
         channel.display_name = this.state.displayName.trim();
         if (!channel.display_name) {
@@ -170,7 +161,7 @@ export class RenameChannelModal extends React.PureComponent {
                     id='rename_channel.minLength'
                     defaultMessage='Channel name must be {minLength, number} or more characters'
                     values={{
-                        minLength: Constants.MIN_CHANNELNAME_LENGTH
+                        minLength: Constants.MIN_CHANNELNAME_LENGTH,
                     }}
                 />
             );
@@ -198,25 +189,33 @@ export class RenameChannelModal extends React.PureComponent {
 
         this.setState(state);
 
-        if (state.invalid || (oldName === channel.name && oldDisplayName === channel.display_name)) {
+        if (state.invalid) {
+            return;
+        }
+        if (oldName === channel.name && oldDisplayName === channel.display_name) {
+            this.onSaveSuccess();
             return;
         }
 
         const {data, error} = await updateChannel(channel);
 
         if (data) {
-            this.handleHide();
-            this.unsetError();
-            browserHistory.push('/' + team.name + '/channels/' + this.state.channelName);
+            this.onSaveSuccess();
         } else if (error) {
             this.setError(error);
         }
     }
 
+    onSaveSuccess = () => {
+        this.handleHide();
+        this.unsetError();
+        browserHistory.push('/' + this.props.team.name + '/channels/' + this.state.channelName);
+    }
+
     handleCancel = (e) => {
         this.setState({
             displayName: this.props.channel.display_name,
-            channelName: this.props.channel.name
+            channelName: this.props.channel.name,
         });
 
         this.handleHide(e);
@@ -228,6 +227,10 @@ export class RenameChannelModal extends React.PureComponent {
 
     onDisplayNameChange = (e) => {
         this.setState({displayName: e.target.value});
+    }
+
+    getTextbox = (node) => {
+        this.textbox = node;
     }
 
     render() {
@@ -269,6 +272,7 @@ export class RenameChannelModal extends React.PureComponent {
         return (
             <Modal
                 show={this.props.show}
+                onEntering={this.handleEntering}
                 onHide={this.handleCancel}
             >
                 <Modal.Header closeButton={true}>
@@ -291,7 +295,7 @@ export class RenameChannelModal extends React.PureComponent {
                             <input
                                 onChange={this.onDisplayNameChange}
                                 type='text'
-                                ref='displayName'
+                                ref={this.getTextbox}
                                 id='display_name'
                                 className='form-control'
                                 placeholder={formatMessage(holders.displayNameHolder)}
@@ -316,7 +320,6 @@ export class RenameChannelModal extends React.PureComponent {
                                     onChange={this.onNameChange}
                                     type='text'
                                     className={handleInputClass}
-                                    ref='channelName'
                                     id='channel_name'
                                     placeholder={formatMessage(holders.handleHolder)}
                                     value={this.state.channelName}

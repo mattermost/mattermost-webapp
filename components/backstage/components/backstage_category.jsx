@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Link} from 'react-router';
+import {Route, NavLink} from 'react-router-dom';
 
 export default class BackstageCategory extends React.Component {
     static get propTypes() {
@@ -12,20 +12,20 @@ export default class BackstageCategory extends React.Component {
             title: PropTypes.node.isRequired,
             icon: PropTypes.string.isRequired,
             parentLink: PropTypes.string,
-            children: PropTypes.arrayOf(PropTypes.element)
+            children: PropTypes.arrayOf(PropTypes.element),
         };
     }
 
     static get defaultProps() {
         return {
             parentLink: '',
-            children: []
+            children: [],
         };
     }
 
     static get contextTypes() {
         return {
-            router: PropTypes.object.isRequired
+            router: PropTypes.object.isRequired,
         };
     }
 
@@ -34,39 +34,36 @@ export default class BackstageCategory extends React.Component {
 
         const link = parentLink + '/' + name;
 
-        let clonedChildren = null;
-        if (children.length > 0 && this.context.router.isActive(link)) {
-            clonedChildren = (
-                <ul className='sections'>
-                    {
-                        React.Children.map(children, (child) => {
-                            if (!child) {
-                                return child;
-                            }
-
-                            return React.cloneElement(child, {
-                                parentLink: link
-                            });
-                        })
-                    }
-                </ul>
-            );
-        }
-
         return (
             <li className='backstage-sidebar__category'>
-                <Link
+                <NavLink
                     to={link}
                     className='category-title'
                     activeClassName='category-title--active'
-                    onlyActiveOnIndex={true}
                 >
                     <i className={'fa ' + icon}/>
                     <span className='category-title__text'>
                         {title}
                     </span>
-                </Link>
-                {clonedChildren}
+                </NavLink>
+                <Route
+                    path={link}
+                    render={() => (
+                        <ul className='sections'>
+                            {
+                            React.Children.map(children, (child) => {
+                                if (!child) {
+                                    return child;
+                                }
+
+                                return React.cloneElement(child, {
+                                    parentLink: link,
+                                });
+                            })
+                        }
+                        </ul>
+                )}
+                />
             </li>
         );
     }

@@ -6,7 +6,6 @@ import React from 'react';
 
 import {postListScrollChange} from 'actions/global_actions.jsx';
 import {updatePost} from 'actions/post_actions.jsx';
-
 import * as CommonUtils from 'utils/commons.jsx';
 import {PostTypes} from 'utils/constants.jsx';
 import {useSafeUrl} from 'utils/url';
@@ -44,8 +43,8 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
             /**
              * The function to get open graph data for a link
              */
-            getOpenGraphMetadata: PropTypes.func.isRequired
-        }).isRequired
+            getOpenGraphMetadata: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -53,7 +52,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         this.largeImageMinWidth = 150;
         this.imageDimentions = { // Image dimentions in pixels.
             height: 80,
-            width: 80
+            width: 80,
         };
         this.textMaxLenght = 300;
         this.textEllipsis = '...';
@@ -68,7 +67,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         this.IMAGE_LOADED = {
             LOADING: 'loading',
             YES: 'yes',
-            ERROR: 'error'
+            ERROR: 'error',
         };
 
         this.fetchData = this.fetchData.bind(this);
@@ -85,7 +84,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
             imageLoaded: this.IMAGE_LOADED.LOADING,
             imageVisible: this.props.previewCollapsed.startsWith('false'),
             hasLargeImage: false,
-            removePreview
+            removePreview,
         });
         this.fetchData(this.props.link);
     }
@@ -94,7 +93,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         if (!Utils.areObjectsEqual(nextProps.post, this.props.post)) {
             const removePreview = this.isRemovePreview(nextProps.post, nextProps.currentUser);
             this.setState({
-                removePreview
+                removePreview,
             });
         }
         if (nextProps.link !== this.props.link) {
@@ -102,7 +101,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         }
         if (nextProps.previewCollapsed !== this.props.previewCollapsed) {
             this.setState({
-                imageVisible: nextProps.previewCollapsed.startsWith('false')
+                imageVisible: nextProps.previewCollapsed.startsWith('false'),
             });
         }
     }
@@ -138,11 +137,11 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
             !this.state.hasLargeImage
         ) {
             this.setState({
-                hasLargeImage: true
+                hasLargeImage: true,
             });
         }
         this.setState({
-            imageLoaded: this.IMAGE_LOADED.YES
+            imageLoaded: this.IMAGE_LOADED.YES,
         });
     }
 
@@ -171,17 +170,23 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         return null;
     }
 
+    getSmallImageContainer = (node) => {
+        this.smallImageContainer = node;
+    }
+
     wrapInSmallImageContainer(imageElement) {
         return (
             <div
                 className='attachment__image__container--openraph'
-                ref={(div) => {
-                    this.smallImageContainer = div;
-                }}
+                ref={this.getSmallImageContainer}
             >
                 {imageElement}
             </div>
         );
+    }
+
+    getSmallImageElement = (node) => {
+        this.smallImageElement = node;
     }
 
     imageTag(imageUrl, renderingForLargeImage = false) {
@@ -211,9 +216,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                         <img
                             className={'attachment__image attachment__image--openraph'}
                             src={imageUrl}
-                            ref={(img) => {
-                                this.smallImageElement = img;
-                            }}
+                            ref={this.getSmallImageElement}
                         />
                     );
                 }
@@ -237,7 +240,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
 
         const patchedPost = ({
             id: this.props.post.id,
-            props
+            props,
         });
 
         updatePost(patchedPost, () => {

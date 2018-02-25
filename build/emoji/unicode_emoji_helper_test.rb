@@ -33,5 +33,19 @@ module Mattermost
       expected_modifier = UnicodeEmojiHelper::SKIN_TONE_MAP.keys.first
       assert_equal sequence_parts[1], expected_modifier
     end
+
+    def test_emoji_modifier_sequences_correctly_combine_male_emoji
+      base = "\u{1F483}"
+      expected_sequence = [base, "\u{1F3FB}", "\u{200D}", "\u{2642}", "\u{FE0F}"].join('')
+      actual_sequence = @unicode_emoji_helper.emoji_modifier_sequences([base, "\u{2642}"])[0]
+      assert_equal actual_sequence, expected_sequence
+    end
+
+    def test_emoji_modifier_sequences_correctly_combine_female_emoji
+      base = "\u{1F483}"
+      expected_sequence = [base, "\u{1F3FB}", "\u{200D}", "\u{2640}", "\u{FE0F}"].join('')
+      actual_sequence = @unicode_emoji_helper.emoji_modifier_sequences([base, "\u{2640}"])[0]
+      assert_equal actual_sequence, expected_sequence
+    end
   end
 end

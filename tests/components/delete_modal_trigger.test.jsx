@@ -2,11 +2,9 @@
 // See License.txt for license information.
 
 import React from 'react';
-
 import {shallow} from 'enzyme';
 
 import Constants from 'utils/constants.jsx';
-
 import DeleteModalTrigger from 'components/delete_modal_trigger.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 

@@ -3,16 +3,14 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import {deferNavigation} from 'actions/admin_actions.jsx';
 import {getNavigationBlocked} from 'selectors/views/admin';
 
-import * as Selectors from 'mattermost-redux/selectors/entities/admin';
-
 import BlockableLink from './blockable_link.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
-        ...ownProps,
         blocked: getNavigationBlocked(state),
     };
 }
@@ -20,8 +18,8 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            deferNavigation
-        }, dispatch)
+            deferNavigation,
+        }, dispatch),
     };
 }
 

@@ -4,7 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-
 import {searchProfiles, searchProfilesInTeam} from 'mattermost-redux/selectors/entities/users';
 
 import {getStandardAnalytics} from 'actions/admin_actions.jsx';
@@ -14,7 +13,6 @@ import AnalyticsStore from 'stores/analytics_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import {Constants, StatTypes, UserSearchOptions} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -33,6 +31,26 @@ export default class SystemUsers extends React.Component {
          * Array of team objects
          */
         teams: PropTypes.arrayOf(PropTypes.object).isRequired,
+
+        /**
+         * Title of the app or site.
+         */
+        siteName: PropTypes.string,
+
+        /**
+         * Whether or not MFA is licensed and enabled.
+         */
+        mfaEnabled: PropTypes.bool.isRequired,
+
+        /**
+         * Whether or not user access tokens are enabled.
+         */
+        enableUserAccessTokens: PropTypes.bool.isRequired,
+
+        /**
+         * Whether or not the experimental authentication transfer is enabled.
+         */
+        experimentalEnableAuthenticationTransfer: PropTypes.bool.isRequired,
 
         actions: PropTypes.shape({
 
@@ -54,8 +72,8 @@ export default class SystemUsers extends React.Component {
             /*
              * Function to get a user access token
              */
-            getUserAccessToken: PropTypes.func.isRequired
-        }).isRequired
+            getUserAccessToken: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -84,7 +102,7 @@ export default class SystemUsers extends React.Component {
             teamId: ALL_USERS,
             term: '',
             loading: true,
-            searching: false
+            searching: false,
         };
     }
 
@@ -123,15 +141,15 @@ export default class SystemUsers extends React.Component {
     updateTotalUsersFromStore(teamId = this.state.teamId) {
         if (teamId === ALL_USERS) {
             this.setState({
-                totalUsers: AnalyticsStore.getAllSystem()[StatTypes.TOTAL_USERS]
+                totalUsers: AnalyticsStore.getAllSystem()[StatTypes.TOTAL_USERS],
             });
         } else if (teamId === NO_TEAM) {
             this.setState({
-                totalUsers: 0
+                totalUsers: 0,
             });
         } else {
             this.setState({
-                totalUsers: TeamStore.getStats(teamId).total_member_count
+                totalUsers: TeamStore.getStats(teamId).total_member_count,
             });
         }
     }
@@ -208,7 +226,7 @@ export default class SystemUsers extends React.Component {
             this.updateUsersFromStore(teamId, term);
 
             this.setState({
-                loading: false
+                loading: false,
             });
 
             this.searchTimeoutId = '';
@@ -225,7 +243,7 @@ export default class SystemUsers extends React.Component {
         this.setState({loading: true});
 
         const options = {
-            [UserSearchOptions.ALLOW_INACTIVE]: true
+            [UserSearchOptions.ALLOW_INACTIVE]: true,
         };
         if (teamId === NO_TEAM) {
             options[UserSearchOptions.WITHOUT_TEAM] = true;
@@ -263,14 +281,14 @@ export default class SystemUsers extends React.Component {
         this.props.actions.getUser(id).then(
             () => {
                 this.setState({
-                    loading: false
+                    loading: false,
                 });
             }
         );
     }
 
     getUserByTokenOrId = async (id) => {
-        if (global.window.mm_config.EnableUserAccessTokens === 'true') {
+        if (this.props.enableUserAccessTokens) {
             const {data} = await this.props.actions.getUserAccessToken(id);
 
             if (data) {
@@ -342,7 +360,7 @@ export default class SystemUsers extends React.Component {
                         id='admin.system_users.title'
                         defaultMessage='{siteName} Users'
                         values={{
-                            siteName: global.mm_config.SiteName
+                            siteName: this.props.siteName,
                         }}
                     />
                 </h3>
@@ -358,6 +376,9 @@ export default class SystemUsers extends React.Component {
                         teamId={this.state.teamId}
                         term={this.state.term}
                         onTermChange={this.handleTermChange}
+                        mfaEnabled={this.props.mfaEnabled}
+                        enableUserAccessTokens={this.props.enableUserAccessTokens}
+                        experimentalEnableAuthenticationTransfer={this.props.experimentalEnableAuthenticationTransfer}
                     />
                 </div>
             </div>

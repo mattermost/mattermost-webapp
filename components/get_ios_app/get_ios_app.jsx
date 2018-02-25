@@ -3,14 +3,14 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import {useSafeUrl} from 'utils/url';
-
 import AppStoreButton from 'images/app-store-button.png';
 import IPhone6Mockup from 'images/iphone-6-mockup.png';
 
-export default function GetIosApp() {
+export default function GetIosApp({iosAppDownloadLink}) {
     return (
         <div className='get-app get-ios-app'>
             <h1 className='get-app__header'>
@@ -22,7 +22,7 @@ export default function GetIosApp() {
             <hr/>
             <a
                 className='get-ios-app__app-store-link'
-                href={useSafeUrl(global.window.mm_config.IosAppDownloadLink)}
+                href={useSafeUrl(iosAppDownloadLink)}
                 rel='noopener noreferrer'
             >
                 <img src={AppStoreButton}/>
@@ -58,10 +58,14 @@ export default function GetIosApp() {
                                     defaultMessage='continue with browser'
                                 />
                             </Link>
-                        )
+                        ),
                     }}
                 />
             </span>
         </div>
     );
 }
+
+GetIosApp.propTypes = {
+    iosAppDownloadLink: PropTypes.string,
+};

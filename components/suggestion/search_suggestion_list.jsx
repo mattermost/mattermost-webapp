@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import React from 'react';
 import {Popover} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
@@ -14,7 +13,7 @@ import SuggestionList from './suggestion_list.jsx';
 
 export default class SearchSuggestionList extends SuggestionList {
     static propTypes = {
-        ...SuggestionList.propTypes
+        ...SuggestionList.propTypes,
     };
 
     getContent() {

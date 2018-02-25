@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/admin_console/brand_image_setting/UploadButton should match snapshot 1`] = `
+<button
+  className="btn btn-primary"
+  disabled={false}
+  id="upload-button"
+  onClick={[Function]}
+>
+   
+  Upload
+</button>
+`;
+
+exports[`components/admin_console/brand_image_setting/UploadButton should match snapshot 2`] = `
+<button
+  className="btn btn-primary"
+  disabled={false}
+  id="upload-button"
+  onClick={[Function]}
+>
+  <i
+    className="fa fa-refresh icon--rotate"
+  />
+   
+  Uploading..
+</button>
+`;
+
+exports[`components/admin_console/brand_image_setting/UploadButton should match snapshot 3`] = `
+<button
+  className="btn btn-primary"
+  disabled={false}
+  id="upload-button"
+  onClick={[Function]}
+>
+  <i
+    className="fa fa-check"
+  />
+   
+  Uploaded!
+</button>
+`;
+
+exports[`components/admin_console/brand_image_setting/UploadButton should match snapshot 4`] = `
+<button
+  className="btn btn-primary"
+  disabled={true}
+  id="upload-button"
+  onClick={[Function]}
+>
+  <i
+    className="fa fa-check"
+  />
+   
+  Uploaded!
+</button>
+`;

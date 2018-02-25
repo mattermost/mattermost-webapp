@@ -8,12 +8,12 @@ const centerCommands = {
         return this.waitForElementVisible('@postTextbox', Constants.DEFAULT_WAIT);
     },
     postAMessage(message) {
-        return this
-            .waitForElementVisible('@postCreateContainer', Constants.DEFAULT_WAIT)
-            .setValue('@postTextbox', message)
-            .keys(this.Keys.ENTER)
-            .waitForElementVisible('@postListContent', Constants.DEFAULT_WAIT);
-    }
+        return this.
+            waitForElementVisible('@postCreateContainer', Constants.DEFAULT_WAIT).
+            setValue('@postTextbox', message).
+            keys(this.Keys.ENTER).
+            waitForElementVisible('@postListContent', Constants.DEFAULT_WAIT);
+    },
 };
 
 module.exports = {
@@ -24,12 +24,12 @@ module.exports = {
             selector: '#post-list',
             elements: {
                 postListContent: {selector: '#postListContent'},
-                channelIntro: {selector: '#channelIntro'}
-            }
+                channelIntro: {selector: '#channelIntro'},
+            },
         },
         postCreate: {
             selector: '#post-create',
-            elements:{
+            elements: {
                 postTextbox: {selector: '#post_textbox'},
                 fileUploadButton: {selector: '#fileUploadButton'},
                 emojiPickerButton: {selector: '#emojiPickerButton'},
@@ -37,8 +37,8 @@ module.exports = {
                 helpTextLink: {selector: '#helpTextLink'},
                 helpText: {selector: '#helpText'},
                 previewLink: {selector: '#previewLink'},
-                postCreateFooter: {selector: '#postCreateFooter'}
-            }
-        }
-    }
+                postCreateFooter: {selector: '#postCreateFooter'},
+            },
+        },
+    },
 };

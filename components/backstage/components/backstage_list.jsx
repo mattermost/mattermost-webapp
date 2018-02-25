@@ -3,10 +3,9 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 import * as Utils from 'utils/utils.jsx';
-
 import LoadingScreen from 'components/loading_screen.jsx';
 
 export default class BackstageList extends React.Component {
@@ -18,11 +17,11 @@ export default class BackstageList extends React.Component {
         emptyText: PropTypes.node,
         helpText: PropTypes.node,
         loading: PropTypes.bool.isRequired,
-        searchPlaceholder: PropTypes.string
+        searchPlaceholder: PropTypes.string,
     }
 
     static defaultProps = {
-        searchPlaceholder: Utils.localizeMessage('backstage_list.search', 'Search')
+        searchPlaceholder: Utils.localizeMessage('backstage_list.search', 'Search'),
     }
 
     constructor(props) {
@@ -31,13 +30,13 @@ export default class BackstageList extends React.Component {
         this.updateFilter = this.updateFilter.bind(this);
 
         this.state = {
-            filter: ''
+            filter: '',
         };
     }
 
     updateFilter(e) {
         this.setState({
-            filter: e.target.value
+            filter: e.target.value,
         });
     }
 
@@ -97,7 +96,7 @@ export default class BackstageList extends React.Component {
                             placeholder={this.props.searchPlaceholder}
                             value={this.state.filter}
                             onChange={this.updateFilter}
-                            style={{flexGrow: 0, flexShrink: 0}}
+                            style={style.search}
                         />
                     </div>
                 </div>
@@ -111,3 +110,7 @@ export default class BackstageList extends React.Component {
         );
     }
 }
+
+const style = {
+    search: {flexGrow: 0, flexShrink: 0},
+};

@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {getFilesForPost} from 'mattermost-redux/actions/files';
 import {makeGetFilesForPost} from 'mattermost-redux/selectors/entities/files';
 
@@ -20,7 +19,7 @@ function makeMapStateToProps() {
 
         return {
             ...ownProps,
-            fileInfos
+            fileInfos,
         };
     };
 }
@@ -28,8 +27,8 @@ function makeMapStateToProps() {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getFilesForPost
-        }, dispatch)
+            getFilesForPost,
+        }, dispatch),
     };
 }
 

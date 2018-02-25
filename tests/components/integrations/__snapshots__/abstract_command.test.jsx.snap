@@ -6,8 +6,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
 >
   <BackstageHeader>
     <Link
-      onlyActiveOnIndex={false}
-      style={Object {}}
+      replace={false}
       to="/test/integrations/commands"
     >
       <FormattedMessage
@@ -354,7 +353,6 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
       </div>
       <div
         className="form-group"
-        key="autocompleteHint"
       >
         <label
           className="control-label col-sm-4"
@@ -391,7 +389,6 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
       </div>
       <div
         className="form-group"
-        key="autocompleteDescription"
       >
         <label
           className="control-label col-sm-4"
@@ -441,8 +438,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
         />
         <Link
           className="btn btn-sm"
-          onlyActiveOnIndex={false}
-          style={Object {}}
+          replace={false}
           to="/test/integrations/commands"
         >
           <FormattedMessage
@@ -476,8 +472,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
 >
   <BackstageHeader>
     <Link
-      onlyActiveOnIndex={false}
-      style={Object {}}
+      replace={false}
       to="/test/integrations/commands"
     >
       <FormattedMessage
@@ -824,7 +819,6 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
       </div>
       <div
         className="form-group"
-        key="autocompleteHint"
       >
         <label
           className="control-label col-sm-4"
@@ -861,7 +855,6 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
       </div>
       <div
         className="form-group"
-        key="autocompleteDescription"
       >
         <label
           className="control-label col-sm-4"
@@ -915,8 +908,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
         />
         <Link
           className="btn btn-sm"
-          onlyActiveOnIndex={false}
-          style={Object {}}
+          replace={false}
           to="/test/integrations/commands"
         >
           <FormattedMessage

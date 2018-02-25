@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {flagPost, unflagPost} from 'mattermost-redux/actions/posts';
 
 import {pinPost, unpinPost, setEditingPost} from 'actions/post_actions.jsx';
@@ -21,8 +20,8 @@ function mapDispatchToProps(dispatch) {
             unflagPost,
             setEditingPost,
             pinPost,
-            unpinPost
-        }, dispatch)
+            unpinPost,
+        }, dispatch),
     };
 }
 

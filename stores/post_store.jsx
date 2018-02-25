@@ -9,10 +9,7 @@ import BrowserStore from 'stores/browser_store.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import store from 'stores/redux_store.jsx';
 import UserStore from 'stores/user_store.jsx';
-
 import {Constants} from 'utils/constants.jsx';
-import * as PostUtils from 'utils/post_utils.jsx';
-
 import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
 
 const ActionTypes = Constants.ActionTypes;
@@ -56,20 +53,6 @@ class PostStoreClass extends EventEmitter {
 
     getMostRecentPostIdInChannel(channelId) {
         return Selectors.getMostRecentPostIdInChannel(getState(), channelId);
-    }
-
-    getLatestReplyablePost(channelId) {
-        const postIds = getState().entities.posts.postsInChannel[channelId] || [];
-        const posts = getState().entities.posts.posts;
-
-        for (const postId of postIds) {
-            const post = posts[postId] || {};
-            if (post.state !== Constants.POST_DELETED && !PostUtils.isSystemMessage(post)) {
-                return post;
-            }
-        }
-
-        return null;
     }
 
     getVisiblePosts() {
@@ -126,7 +109,7 @@ class PostStoreClass extends EventEmitter {
         let draft = {
             message: '',
             uploadsInProgress: [],
-            fileInfos: []
+            fileInfos: [],
         };
 
         // Make sure that the post draft is non-null and has all the required fields
@@ -134,7 +117,7 @@ class PostStoreClass extends EventEmitter {
             draft = {
                 message: originalDraft.message || draft.message,
                 uploadsInProgress: originalDraft.uploadsInProgress || draft.uploadsInProgress,
-                fileInfos: originalDraft.fileInfos || draft.fileInfos
+                fileInfos: originalDraft.fileInfos || draft.fileInfos,
             };
         }
 

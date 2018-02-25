@@ -6,8 +6,10 @@ import React from 'react';
 import {autocompleteChannels} from 'actions/channel_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
+import SuggestionStore from 'stores/suggestion_store.jsx';
 
 import {ActionTypes, Constants} from 'utils/constants.jsx';
+import * as ChannelUtils from 'utils/channel_utils.jsx';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
@@ -82,6 +84,55 @@ export default class ChannelMentionProvider extends Provider {
 
         this.startNewRequest(suggestionId, prefix);
 
+        SuggestionStore.clearSuggestions(suggestionId);
+
+        const words = prefix.toLowerCase().split(/\s+/);
+        const wrappedChannelIds = {};
+        var wrappedChannels = [];
+        ChannelStore.getAll().forEach((item) => {
+            if (item.type !== 'O' || item.delete_at > 0) {
+                return;
+            }
+            const nameWords = item.name.toLowerCase().split(/\s+/).concat(item.display_name.toLowerCase().split(/\s+/));
+            var matched = true;
+            for (var j = 0; matched && j < words.length; j++) {
+                if (!words[j]) {
+                    continue;
+                }
+                var wordMatched = false;
+                for (var i = 0; i < nameWords.length; i++) {
+                    if (nameWords[i].startsWith(words[j])) {
+                        wordMatched = true;
+                        break;
+                    }
+                }
+                if (!wordMatched) {
+                    matched = false;
+                    break;
+                }
+            }
+            if (!matched) {
+                return;
+            }
+            wrappedChannelIds[item.id] = true;
+            wrappedChannels.push({
+                type: Constants.MENTION_CHANNELS,
+                channel: item,
+            });
+        });
+        wrappedChannels = wrappedChannels.sort((a, b) => {
+            return ChannelUtils.sortChannelsByDisplayName(a.channel, b.channel);
+        });
+        const channelMentions = wrappedChannels.map((item) => '~' + item.channel.name);
+        if (channelMentions.length > 0) {
+            SuggestionStore.addSuggestions(suggestionId, channelMentions, wrappedChannels, ChannelMentionSuggestion, captured[2]);
+        }
+
+        SuggestionStore.addSuggestions(suggestionId, [''], [{
+            type: Constants.MENTION_MORE_CHANNELS,
+            loading: true,
+        }], ChannelMentionSuggestion, captured[2]);
+
         autocompleteChannels(
             prefix,
             (channels) => {
@@ -94,32 +145,37 @@ export default class ChannelMentionProvider extends Provider {
                 }
 
                 // Wrap channels in an outer object to avoid overwriting the 'type' property.
-                const wrappedChannels = [];
                 const wrappedMoreChannels = [];
                 const moreChannels = [];
                 channels.forEach((item) => {
                     if (ChannelStore.get(item.id)) {
-                        wrappedChannels.push({
-                            type: Constants.MENTION_CHANNELS,
-                            channel: item
-                        });
+                        if (!wrappedChannelIds[item.id]) {
+                            wrappedChannelIds[item.id] = true;
+                            wrappedChannels.push({
+                                type: Constants.MENTION_CHANNELS,
+                                channel: item,
+                            });
+                        }
                         return;
                     }
 
                     wrappedMoreChannels.push({
                         type: Constants.MENTION_MORE_CHANNELS,
-                        channel: item
+                        channel: item,
                     });
 
                     moreChannels.push(item);
                 });
 
+                wrappedChannels = wrappedChannels.sort((a, b) => {
+                    return ChannelUtils.sortChannelsByDisplayName(a.channel, b.channel);
+                });
                 const wrapped = wrappedChannels.concat(wrappedMoreChannels);
                 const mentions = wrapped.map((item) => '~' + item.channel.name);
 
                 AppDispatcher.handleServerAction({
                     type: ActionTypes.RECEIVED_MORE_CHANNELS,
-                    channels: moreChannels
+                    channels: moreChannels,
                 });
 
                 AppDispatcher.handleServerAction({
@@ -128,7 +184,7 @@ export default class ChannelMentionProvider extends Provider {
                     matchedPretext: captured[2],
                     terms: mentions,
                     items: wrapped,
-                    component: ChannelMentionSuggestion
+                    component: ChannelMentionSuggestion,
                 });
             }
         );

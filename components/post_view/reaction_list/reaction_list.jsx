@@ -3,10 +3,12 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {FormattedMessage} from 'react-intl';
 
 import {postListScrollChange} from 'actions/global_actions.jsx';
 import {emitEmojiPosted} from 'actions/post_actions.jsx';
-
+import Constants from 'utils/constants.jsx';
 import Reaction from 'components/post_view/reaction';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 
@@ -30,6 +32,12 @@ export default class ReactionListView extends React.PureComponent {
          * The emojis for the different reactions
          */
         emojis: PropTypes.object.isRequired,
+
+        /**
+         * Whether to show the emoji picker.
+         */
+        enableEmojiPicker: PropTypes.bool.isRequired,
+
         actions: PropTypes.shape({
 
             /**
@@ -40,15 +48,15 @@ export default class ReactionListView extends React.PureComponent {
             /**
              * Function to add a reaction to the post
              */
-            addReaction: PropTypes.func.isRequired
-        })
+            addReaction: PropTypes.func.isRequired,
+        }),
     }
 
     constructor(props) {
         super(props);
 
         this.state = {
-            showEmojiPicker: false
+            showEmojiPicker: false,
         };
     }
 
@@ -127,7 +135,16 @@ export default class ReactionListView extends React.PureComponent {
         }
 
         let emojiPicker = null;
-        if (window.mm_config.EnableEmojiPicker === 'true') {
+        if (this.props.enableEmojiPicker) {
+            const addReactionTooltip = (
+                <Tooltip id='addReactionTooltip'>
+                    <FormattedMessage
+                        id='reaction_list.addReactionTooltip'
+                        defaultMessage='Add reaction'
+                    />
+                </Tooltip>
+            );
+
             emojiPicker = (
                 <span className='emoji-picker__container'>
                     <EmojiPickerOverlay
@@ -138,17 +155,24 @@ export default class ReactionListView extends React.PureComponent {
                         rightOffset={rightOffset}
                         topOffset={-5}
                     />
-                    <div
-                        className='post-reaction'
-                        onClick={this.toggleEmojiPicker}
+                    <OverlayTrigger
+                        trigger={['hover', 'focus']}
+                        placement='top'
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        overlay={addReactionTooltip}
                     >
-                        <span
-                            className='post-reaction__add'
-                            ref='addReactionButton'
+                        <div
+                            className='post-reaction'
+                            onClick={this.toggleEmojiPicker}
                         >
-                            {'+'}
-                        </span>
-                    </div>
+                            <span
+                                className='post-reaction__add'
+                                ref='addReactionButton'
+                            >
+                                {'+'}
+                            </span>
+                        </div>
+                    </OverlayTrigger>
                 </span>
             );
         }

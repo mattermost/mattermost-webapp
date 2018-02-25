@@ -2,16 +2,13 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import {sendPasswordResetEmail} from 'actions/user_actions.jsx';
-
 import * as Utils from 'utils/utils.jsx';
-
 import BackButton from 'components/common/back_button.jsx';
 
 class PasswordResetSendLink extends React.Component {
@@ -22,7 +19,7 @@ class PasswordResetSendLink extends React.Component {
 
         this.state = {
             error: '',
-            updateText: ''
+            updateText: '',
         };
     }
     handleSendLink(e) {
@@ -36,14 +33,14 @@ class PasswordResetSendLink extends React.Component {
                         id={'password_send.error'}
                         defaultMessage={'Please enter a valid email address.'}
                     />
-                )
+                ),
             });
             return;
         }
 
         // End of error checking clear error
         this.setState({
-            error: ''
+            error: '',
         });
 
         sendPasswordResetEmail(
@@ -57,7 +54,7 @@ class PasswordResetSendLink extends React.Component {
                                 id='password_send.link'
                                 defaultMessage='If the account exists, a password reset email will be sent to: <br/><b>{email}</b><br/><br/>'
                                 values={{
-                                    email
+                                    email,
                                 }}
                             />
                             <FormattedMessage
@@ -65,14 +62,14 @@ class PasswordResetSendLink extends React.Component {
                                 defaultMessage='Please check your inbox.'
                             />
                         </div>
-                    )
+                    ),
                 });
                 $(ReactDOM.findDOMNode(this.refs.reset_form)).hide();
             },
             (err) => {
                 this.setState({
                     error: err.message,
-                    update_text: null
+                    update_text: null,
                 });
             }
         );
@@ -144,7 +141,7 @@ class PasswordResetSendLink extends React.Component {
 PasswordResetSendLink.defaultProps = {
 };
 PasswordResetSendLink.propTypes = {
-    params: PropTypes.object.isRequired
+    params: PropTypes.object.isRequired,
 };
 
 export default PasswordResetSendLink;

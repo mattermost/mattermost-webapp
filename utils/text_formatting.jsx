@@ -9,7 +9,7 @@ import EmojiStore from 'stores/emoji_store.jsx';
 
 import Constants from './constants.jsx';
 import * as Emoticons from './emoticons.jsx';
-import * as Markdown from './markdown.jsx';
+import * as Markdown from './markdown';
 
 const punctuation = XRegExp.cache('[^\\pL\\d]');
 
@@ -24,7 +24,7 @@ const cjkPattern = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-
 // - mentionHighlight - Specifies whether or not to highlight mentions of the current user. Defaults to true.
 // - mentionKeys - A list of mention keys for the current user to highlight.
 // - singleline - Specifies whether or not to remove newlines. Defaults to false.
-// - emoticons - Enables emoticon parsing. Defaults to true.
+// - emoticons - Enables emoticon parsing with a data-emoticon attribute. Defaults to true.
 // - markdown - Enables markdown parsing. Defaults to true.
 // - siteURL - The origin of this Mattermost instance. If provided, links to channels and posts will be replaced with internal
 //     links that can be handled by a special click handler.
@@ -32,6 +32,7 @@ const cjkPattern = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-
 // - channelNamesMap - An object mapping channel display names to channels. If provided, ~channel mentions will be replaced with
 //      links to the relevant channel.
 // - team - The current team.
+// - proxyImages - If specified, images are proxied. Defaults to false.
 export function formatText(text, inputOptions) {
     if (!text || typeof text !== 'string') {
         return '';
@@ -77,7 +78,7 @@ export function doFormatText(text, options) {
     output = autolinkHashtags(output, tokens);
 
     if (!('emoticons' in options) || options.emoticon) {
-        output = Emoticons.handleEmoticons(output, tokens, options.emojis || EmojiStore.getEmojis());
+        output = Emoticons.handleEmoticons(output, tokens);
     }
 
     if (options.searchPatterns) {
@@ -98,7 +99,7 @@ export function doFormatText(text, options) {
                 }
 
                 return EmojiStore.getEmojiImageUrl(EmojiStore.getUnicode(icon));
-            }
+            },
         });
     }
 
@@ -136,7 +137,7 @@ function autolinkEmails(text, tokens) {
 
         tokens.set(alias, {
             value: `<a class="theme" href="${url}">${linkText}</a>`,
-            originalText: linkText
+            originalText: linkText,
         });
 
         return alias;
@@ -149,7 +150,7 @@ function autolinkEmails(text, tokens) {
         phone: false,
         mention: false,
         hashtag: false,
-        replaceFn: replaceEmailWithToken
+        replaceFn: replaceEmailWithToken,
     });
 
     return autolinker.link(text);
@@ -162,7 +163,7 @@ export function autolinkAtMentions(text, tokens) {
 
         tokens.set(alias, {
             value: `<span data-mention="${username}">@${username}</span>`,
-            originalText: fullMatch
+            originalText: fullMatch,
         });
 
         return alias;
@@ -188,7 +189,7 @@ function autolinkChannelMentions(text, tokens, channelNamesMap, team) {
 
         tokens.set(alias, {
             value: `<a class="mention-link" href="${href}" data-channel-mention="${channelName}">~${displayName}</a>`,
-            originalText: mention
+            originalText: mention,
         });
         return alias;
     }
@@ -239,7 +240,7 @@ const htmlEntities = {
     '<': '&lt;',
     '>': '&gt;',
     '"': '&quot;',
-    "'": '&#039;'
+    "'": '&#039;',
 };
 
 export function escapeHtml(text) {
@@ -252,13 +253,13 @@ function highlightCurrentMentions(text, tokens, mentionKeys = []) {
     // look for any existing tokens which are self mentions and should be highlighted
     var newTokens = new Map();
     for (const [alias, token] of tokens) {
-        if (mentionKeys.indexOf(token.originalText) !== -1) {
+        if (mentionKeys.findIndex((key) => key.key === token.originalText) !== -1) {
             const index = tokens.size + newTokens.size;
             const newAlias = `$MM_SELFMENTION${index}`;
 
             newTokens.set(newAlias, {
                 value: `<span class='mention--highlight'>${alias}</span>`,
-                originalText: token.originalText
+                originalText: token.originalText,
             });
             output = output.replace(alias, newAlias);
         }
@@ -276,18 +277,23 @@ function highlightCurrentMentions(text, tokens, mentionKeys = []) {
 
         tokens.set(alias, {
             value: `<span class='mention--highlight'>${mention}</span>`,
-            originalText: mention
+            originalText: mention,
         });
 
         return prefix + alias;
     }
 
     for (const mention of mentionKeys) {
-        if (!mention) {
+        if (!mention || !mention.key) {
             continue;
         }
 
-        output = output.replace(new RegExp(`(^|\\W)(${escapeRegex(mention)})\\b`, 'gi'), replaceCurrentMentionWithToken);
+        let flags = 'g';
+        if (!mention.caseSensitive) {
+            flags += 'i';
+        }
+
+        output = output.replace(new RegExp(`(^|\\W)(${escapeRegex(mention.key)})\\b`, flags), replaceCurrentMentionWithToken);
     }
 
     return output;
@@ -305,7 +311,7 @@ function autolinkHashtags(text, tokens) {
             newTokens.set(newAlias, {
                 value: `<a class='mention-link' href='#' data-hashtag='${token.originalText}'>${token.originalText}</a>`,
                 originalText: token.originalText,
-                hashtag: token.originalText.substring(1)
+                hashtag: token.originalText.substring(1),
             });
 
             output = output.replace(alias, newAlias);
@@ -330,7 +336,7 @@ function autolinkHashtags(text, tokens) {
         tokens.set(alias, {
             value: `<a class='mention-link' href='#' data-hashtag='${originalText}'>${originalText}</a>`,
             originalText,
-            hashtag: originalText.substring(1)
+            hashtag: originalText.substring(1),
         });
 
         return prefix + alias;
@@ -366,7 +372,7 @@ function parseSearchTerms(searchTerm) {
         }
 
         // capture at mentions differently from the server so we can highlight them with the preceeding at sign
-        captured = (/^@\w+\b/).exec(termString);
+        captured = (/^@[a-z0-9.-_]+\b/).exec(termString);
         if (captured) {
             termString = termString.substring(captured[0].length);
 
@@ -417,7 +423,7 @@ function convertSearchTermToRegex(term) {
 
     return {
         pattern: new RegExp(pattern, 'gi'),
-        term
+        term,
     };
 }
 
@@ -434,7 +440,7 @@ export function highlightSearchTerms(text, tokens, searchPatterns) {
 
         tokens.set(alias, {
             value: `<span class='search-highlight'>${word}</span>`,
-            originalText: word
+            originalText: word,
         });
 
         return prefix + alias;
@@ -464,7 +470,7 @@ export function highlightSearchTerms(text, tokens, searchPatterns) {
 
                 newTokens.set(newAlias, {
                     value: `<span class='search-highlight'>${alias}</span>`,
-                    originalText: token.originalText
+                    originalText: token.originalText,
                 });
 
                 output = output.replace(alias, newAlias);

@@ -117,6 +117,10 @@
             }
         }
 
+        textarea {
+            overflow-x: hidden;
+        }
+
         &.modal-image {
             .modal-backdrop {
                 &.in {
@@ -608,6 +612,7 @@
     }
 
     .more-modal__details {
+        align-self: center;
         flex-grow: 1;
         flex-shrink: 1;
         overflow: hidden;
@@ -635,6 +640,10 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+
+        &:empty {
+            display: none;
+        }
     }
 
     .more-modal__row {

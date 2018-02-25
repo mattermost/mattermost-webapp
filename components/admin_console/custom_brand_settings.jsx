@@ -9,7 +9,7 @@ import * as Utils from 'utils/utils.jsx';
 
 import AdminSettings from './admin_settings.jsx';
 import BooleanSetting from './boolean_setting.jsx';
-import BrandImageSetting from './brand_image_setting.jsx';
+import BrandImageSetting from './brand_image_setting/brand_image_setting.jsx';
 import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting.jsx';
 
@@ -24,7 +24,7 @@ export default class CustomBrandSettings extends AdminSettings {
 
     getConfigFromState(config) {
         config.TeamSettings.SiteName = this.state.siteName;
-        if (global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.CustomBrand === 'true') {
+        if (this.props.license.IsLicensed === 'true' && this.props.license.CustomBrand === 'true') {
             config.TeamSettings.customDescriptionText = this.state.customDescriptionText;
             config.TeamSettings.EnableCustomBrand = this.state.enableCustomBrand;
             config.TeamSettings.CustomBrandText = this.state.customBrandText;
@@ -38,7 +38,7 @@ export default class CustomBrandSettings extends AdminSettings {
             siteName: config.TeamSettings.SiteName,
             enableCustomBrand: config.TeamSettings.EnableCustomBrand,
             customBrandText: config.TeamSettings.CustomBrandText,
-            customDescriptionText: config.TeamSettings.CustomDescriptionText
+            customDescriptionText: config.TeamSettings.CustomDescriptionText,
         };
     }
 
@@ -53,7 +53,7 @@ export default class CustomBrandSettings extends AdminSettings {
 
     renderSettings() {
         const enterpriseSettings = [];
-        if (global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.CustomBrand === 'true') {
+        if (this.props.license.IsLicensed === 'true' && this.props.license.CustomBrand === 'true') {
             enterpriseSettings.push(
                 <TextSetting
                     key='customDescriptionText'

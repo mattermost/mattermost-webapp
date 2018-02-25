@@ -5,24 +5,22 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {showDeletePostModal, showGetPostLinkModal} from 'actions/global_actions.jsx';
-
 import Constants from 'utils/constants.jsx';
-
 import DotMenuItem from 'components/dot_menu/dot_menu_item.jsx';
 
 jest.mock('actions/global_actions.jsx', () => {
     return {
         showDeletePostModal: jest.fn(),
-        showGetPostLinkModal: jest.fn()
+        showGetPostLinkModal: jest.fn(),
     };
 });
 
-describe('components/integrations/DotMenuItem', () => {
+describe('components/dot_menu/DotMenuItem', () => {
     test('should match snapshot, on Reply', () => {
         const props = {
             idPrefix: 'idPrefixDotMenuReply',
             idCount: -1,
-            handleOnClick: jest.fn()
+            handleOnClick: jest.fn(),
         };
 
         const wrapper = shallow(
@@ -43,7 +41,7 @@ describe('components/integrations/DotMenuItem', () => {
         const props = {
             idPrefix: 'idPrefixDotMenuPermalink',
             idCount: -1,
-            post: {id: 'post_id_1'}
+            post: {id: 'post_id_1'},
         };
 
         const wrapper = shallow(
@@ -67,8 +65,8 @@ describe('components/integrations/DotMenuItem', () => {
             post: {id: 'post_id_1', is_pinned: false},
             actions: {
                 pinPost: jest.fn(),
-                unpinPost: jest.fn()
-            }
+                unpinPost: jest.fn(),
+            },
         };
 
         const wrapper = shallow(
@@ -94,8 +92,8 @@ describe('components/integrations/DotMenuItem', () => {
             post: {id: 'post_id_2', is_pinned: true},
             actions: {
                 pinPost: jest.fn(),
-                unpinPost: jest.fn()
-            }
+                unpinPost: jest.fn(),
+            },
         };
 
         const wrapper = shallow(
@@ -115,7 +113,7 @@ describe('components/integrations/DotMenuItem', () => {
             idPrefix: 'idPrefixDotMenuDelete',
             idCount: -1,
             post: {id: 'post_id_1'},
-            commentCount: 0
+            commentCount: 0,
         };
 
         const wrapper = shallow(
@@ -137,7 +135,7 @@ describe('components/integrations/DotMenuItem', () => {
             idPrefix: Constants.RHS_ROOT,
             idCount: -1,
             post: {id: 'post_id_1'},
-            commentCount: 0
+            commentCount: 0,
         };
         const wrapper = shallow(
             <DotMenuItem {...props}/>

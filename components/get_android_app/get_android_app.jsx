@@ -3,14 +3,14 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import {useSafeUrl} from 'utils/url';
-
 import MattermostIcon from 'images/favicon/android-chrome-192x192.png';
 import Nexus6Mockup from 'images/nexus-6p-mockup.png';
 
-export default function GetAndroidApp() {
+export default function GetAndroidApp({androidAppDownloadLink}) {
     return (
         <div className='get-app get-android-app'>
             <h1 className='get-app__header'>
@@ -42,7 +42,7 @@ export default function GetAndroidApp() {
             </div>
             <a
                 className='btn btn-primary get-android-app__continue'
-                href={useSafeUrl(global.window.mm_config.AndroidAppDownloadLink)}
+                href={useSafeUrl(androidAppDownloadLink)}
             >
                 <FormattedMessage
                     id='get_app.continue'
@@ -65,10 +65,14 @@ export default function GetAndroidApp() {
                                     defaultMessage='continue with browser'
                                 />
                             </Link>
-                        )
+                        ),
                     }}
                 />
             </span>
         </div>
     );
 }
+
+GetAndroidApp.propTypes = {
+    androidAppDownloadLink: PropTypes.string,
+};

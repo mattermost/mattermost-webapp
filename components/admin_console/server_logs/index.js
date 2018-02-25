@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {getLogs} from 'mattermost-redux/actions/admin';
 import * as Selectors from 'mattermost-redux/selectors/entities/admin';
 
@@ -12,15 +11,15 @@ import Logs from './logs.jsx';
 function mapStateToProps(state, ownProps) {
     return {
         ...ownProps,
-        logs: Selectors.getLogs(state)
+        logs: Selectors.getLogs(state),
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getLogs
-        }, dispatch)
+            getLogs,
+        }, dispatch),
     };
 }
 

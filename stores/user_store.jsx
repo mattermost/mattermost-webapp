@@ -9,7 +9,6 @@ import * as Selectors from 'mattermost-redux/selectors/entities/users';
 import ChannelStore from 'stores/channel_store.jsx';
 import store from 'stores/redux_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 
 const UserStatuses = Constants.UserStatuses;
@@ -30,7 +29,6 @@ class UserStoreClass extends EventEmitter {
     constructor() {
         super();
 
-        this.noAccounts = false;
         this.entities = {};
 
         store.subscribe(() => {
@@ -317,7 +315,7 @@ class UserStoreClass extends EventEmitter {
     saveProfile(profile) {
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILE,
-            data: profile
+            data: profile,
         });
     }
 
@@ -333,7 +331,7 @@ class UserStoreClass extends EventEmitter {
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILE_NOT_IN_TEAM,
             data: {user_id: userId},
-            id: teamId
+            id: teamId,
         });
     }
 
@@ -369,7 +367,7 @@ class UserStoreClass extends EventEmitter {
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILE_IN_TEAM,
             data: {user_id: userId},
-            id: teamId
+            id: teamId,
         });
     }
 
@@ -379,7 +377,7 @@ class UserStoreClass extends EventEmitter {
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILE_IN_CHANNEL,
             data: {user_id: profile.id},
-            id: channelId
+            id: channelId,
         });
     }
 
@@ -387,7 +385,7 @@ class UserStoreClass extends EventEmitter {
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILE_IN_CHANNEL,
             data: {user_id: userId},
-            id: channelId
+            id: channelId,
         });
     }
 
@@ -395,7 +393,7 @@ class UserStoreClass extends EventEmitter {
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILE_NOT_IN_CHANNEL,
             data: {user_id: userId},
-            id: channelId
+            id: channelId,
         });
     }
 
@@ -409,7 +407,7 @@ class UserStoreClass extends EventEmitter {
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILE_NOT_IN_CHANNEL,
             data: {user_id: profile.id},
-            id: channelId
+            id: channelId,
         });
     }
 
@@ -417,7 +415,7 @@ class UserStoreClass extends EventEmitter {
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILE_IN_CHANNEL,
             data: {user_id: userId},
-            id: channelId
+            id: channelId,
         });
     }
 
@@ -445,46 +443,11 @@ class UserStoreClass extends EventEmitter {
         return store.getState().entities.users.myAudits;
     }
 
-    getCurrentMentionKeys() {
-        return this.getMentionKeys(this.getCurrentId());
-    }
-
-    getMentionKeys(id) {
-        var user = this.getProfile(id);
-
-        var keys = [];
-
-        if (!user || !user.notify_props) {
-            return keys;
-        }
-
-        if (user.notify_props.mention_keys) {
-            keys = keys.concat(user.notify_props.mention_keys.split(','));
-        }
-
-        if (user.notify_props.first_name === 'true' && user.first_name) {
-            keys.push(user.first_name);
-        }
-
-        if (user.notify_props.channel === 'true') {
-            keys.push('@channel');
-            keys.push('@all');
-            keys.push('@here');
-        }
-
-        const usernameKey = '@' + user.username;
-        if (keys.indexOf(usernameKey) === -1) {
-            keys.push(usernameKey);
-        }
-
-        return keys;
-    }
-
     setStatus(userId, status) {
         const data = [{user_id: userId, status}];
         store.dispatch({
             type: UserTypes.RECEIVED_STATUSES,
-            data
+            data,
         });
     }
 
@@ -494,14 +457,6 @@ class UserStoreClass extends EventEmitter {
 
     getStatus(id) {
         return this.getStatuses()[id] || UserStatuses.OFFLINE;
-    }
-
-    getNoAccounts() {
-        return global.window.mm_config.NoAccounts === 'true';
-    }
-
-    setNoAccounts(noAccounts) {
-        this.noAccounts = noAccounts;
     }
 
     isSystemAdminForCurrentUser() {

@@ -6,7 +6,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {showDeletePostModal, showGetPostLinkModal} from 'actions/global_actions.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -109,11 +108,11 @@ DotMenuItem.propTypes = {
         /*
          * Function to unpin the post
          */
-        unpinPost: PropTypes.func
-    })
+        unpinPost: PropTypes.func,
+    }),
 };
 
 DotMenuItem.defaultProps = {
     idPrefix: '',
-    idCount: -1
+    idCount: -1,
 };

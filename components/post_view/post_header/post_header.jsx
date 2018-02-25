@@ -7,7 +7,6 @@ import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
-
 import PostInfo from 'components/post_view/post_info';
 import UserProfile from 'components/user_profile.jsx';
 
@@ -40,11 +39,6 @@ export default class PostHeader extends React.PureComponent {
         compactDisplay: PropTypes.bool,
 
         /*
-         * Set to render the post as if it was part of the previous post
-         */
-        consecutivePostByUser: PropTypes.bool,
-
-        /*
          * The method for displaying the post creator's name
          */
         displayNameType: PropTypes.string,
@@ -64,6 +58,11 @@ export default class PostHeader extends React.PureComponent {
          */
         replyCount: PropTypes.number,
 
+        /**
+         * Set to indicate that this is previous post was not a reply to the same thread
+         */
+        isFirstReply: PropTypes.bool,
+
         /*
          * Post identifiers for selenium tests
          */
@@ -72,12 +71,22 @@ export default class PostHeader extends React.PureComponent {
         /**
          * Function to get the post list HTML element
          */
-        getPostList: PropTypes.func.isRequired
-    }
+        getPostList: PropTypes.func.isRequired,
 
-    constructor(props) {
-        super(props);
-        this.state = {};
+        /**
+         * Set to mark post as being hovered over
+         */
+        hover: PropTypes.bool.isRequired,
+
+        /*
+         * Set to render the post time when not hovering
+         */
+        showTimeWithoutHover: PropTypes.bool,
+
+        /**
+         * Whether or not the post username can be overridden.
+         */
+        enablePostUsernameOverride: PropTypes.bool.isRequired,
     }
 
     render() {
@@ -97,7 +106,7 @@ export default class PostHeader extends React.PureComponent {
         let colon;
 
         if (post.props && post.props.from_webhook) {
-            if (post.props.override_username && global.window.mm_config.EnablePostUsernameOverride === 'true') {
+            if (post.props.override_username && this.props.enablePostUsernameOverride) {
                 userProfile = (
                     <UserProfile
                         user={this.props.user}
@@ -148,8 +157,10 @@ export default class PostHeader extends React.PureComponent {
                         compactDisplay={this.props.compactDisplay}
                         lastPostCount={this.props.lastPostCount}
                         replyCount={this.props.replyCount}
-                        consecutivePostByUser={this.props.consecutivePostByUser}
+                        isFirstReply={this.props.isFirstReply}
+                        showTimeWithoutHover={this.props.showTimeWithoutHover}
                         getPostList={this.props.getPostList}
+                        hover={this.props.hover}
                     />
                 </div>
             </div>

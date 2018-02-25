@@ -4,7 +4,6 @@
 import EventEmitter from 'events';
 
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
-
 import EventTypes from 'utils/event_types.jsx';
 
 class GlobalEventEmitterClass extends EventEmitter {

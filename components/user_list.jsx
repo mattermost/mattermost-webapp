@@ -6,7 +6,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants.jsx';
-
 import LoadingScreen from 'components/loading_screen.jsx';
 
 import UserListRow from './user_list_row.jsx';
@@ -74,7 +73,7 @@ UserList.defaultProps = {
     extraInfo: {},
     actions: [],
     actionProps: {},
-    rowComponentType: UserListRow
+    rowComponentType: UserListRow,
 };
 
 UserList.propTypes = {
@@ -85,5 +84,5 @@ UserList.propTypes = {
     actionUserProps: PropTypes.object,
 
     // the type of user list row to render
-    rowComponentType: PropTypes.func
+    rowComponentType: PropTypes.func,
 };

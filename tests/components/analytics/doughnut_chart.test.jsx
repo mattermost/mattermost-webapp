@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {shallow, mount} from 'enzyme';
 
 import DoughnutChart from 'components/analytics/doughnut_chart.jsx';
@@ -40,8 +39,8 @@ describe('components/analytics/doughnut_chart.jsx', () => {
         const Chart = require.requireMock('chart.js');
         const data = {
             datasets: [
-                {data: [1, 2, 3]}
-            ]
+                {data: [1, 2, 3]},
+            ],
         };
 
         const wrapper = mount(
@@ -61,9 +60,9 @@ describe('components/analytics/doughnut_chart.jsx', () => {
 
         const data = {
             datasets: [
-                {data: [1, 2, 3]}
+                {data: [1, 2, 3]},
             ],
-            labels: ['test1', 'test2', 'test3']
+            labels: ['test1', 'test2', 'test3'],
         };
 
         const wrapper = mount(
@@ -86,16 +85,16 @@ describe('components/analytics/doughnut_chart.jsx', () => {
 
         const oldData = {
             datasets: [
-                {data: [1, 2, 3]}
+                {data: [1, 2, 3]},
             ],
-            labels: ['test1', 'test2', 'test3']
+            labels: ['test1', 'test2', 'test3'],
         };
 
         const newData = {
             datasets: [
-                {data: [1, 2, 3, 4]}
+                {data: [1, 2, 3, 4]},
             ],
-            labels: ['test1', 'test2', 'test3', 'test4']
+            labels: ['test1', 'test2', 'test3', 'test4'],
         };
 
         const wrapper = mount(

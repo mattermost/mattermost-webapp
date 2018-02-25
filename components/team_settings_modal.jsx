@@ -2,68 +2,81 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import React from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
+import {Modal} from 'react-bootstrap';
 import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
+import {AsyncComponent} from 'components/async_load';
+import loadSettingsSidebar from 'bundle-loader?lazy!./settings_sidebar.jsx';
 
-import SettingsSidebar from './settings_sidebar.jsx';
 import TeamSettings from './team_settings.jsx';
 
 const holders = defineMessages({
     generalTab: {
         id: 'team_settings_modal.generalTab',
-        defaultMessage: 'General'
+        defaultMessage: 'General',
     },
     importTab: {
         id: 'team_settings_modal.importTab',
-        defaultMessage: 'Import'
-    }
+        defaultMessage: 'Import',
+    },
 });
 
 class TeamSettingsModal extends React.Component {
     constructor(props) {
         super(props);
 
-        this.updateTab = this.updateTab.bind(this);
-        this.updateSection = this.updateSection.bind(this);
-
         this.state = {
             activeTab: 'general',
-            activeSection: ''
+            activeSection: '',
         };
     }
+
     componentDidMount() {
-        const modal = $(ReactDOM.findDOMNode(this.refs.modal));
-
-        modal.on('click', '.modal-back', function handleBackClick() {
-            $(this).closest('.modal-dialog').removeClass('display--content');
-            $(this).closest('.modal-dialog').find('.settings-table .nav li.active').removeClass('active');
-        });
-        modal.on('click', '.modal-header .close', () => {
-            setTimeout(() => {
-                $('.modal-dialog.display--content').removeClass('display--content');
-            }, 500);
-        });
-
         if (!Utils.isMobile()) {
             $('.settings-modal .settings-content').perfectScrollbar();
         }
     }
-    updateTab(tab) {
-        this.setState({activeTab: tab, activeSection: ''});
+
+    updateTab = (tab) => {
+        this.setState({
+            activeTab: tab,
+            activeSection: '',
+        });
+
         if (!Utils.isMobile()) {
             $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
         }
     }
-    updateSection(section) {
+
+    updateSection = (section) => {
         if ($('.section-max').length) {
             $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
         }
+
         this.setState({activeSection: section});
     }
+
+    closeModal = () => {
+        this.props.onModalDismissed();
+    }
+
+    collapseModal = () => {
+        $(ReactDOM.findDOMNode(this.refs.modalBody)).closest('.modal-dialog').removeClass('display--content');
+
+        this.setState({
+            active_tab: '',
+            active_section: '',
+        });
+    }
+
+    handleHide = () => {
+        this.props.onModalDismissed();
+    }
+
     render() {
         const {formatMessage} = this.props.intl;
         const tabs = [];
@@ -71,64 +84,50 @@ class TeamSettingsModal extends React.Component {
         tabs.push({name: 'import', uiName: formatMessage(holders.importTab), icon: 'icon fa fa-upload'});
 
         return (
-            <div
-                className='modal fade'
-                ref='modal'
-                id='team_settings'
-                role='dialog'
-                tabIndex='-1'
-                aria-hidden='true'
+            <Modal
+                dialogClassName='settings-modal settings-modal--action'
+                show={this.props.show}
+                onHide={this.handleHide}
+                onExited={this.handleHide}
             >
-                <div className='modal-dialog settings-modal'>
-                    <div className='modal-content'>
-                        <div className='modal-header'>
-                            <button
-                                type='button'
-                                className='close'
-                                data-dismiss='modal'
-                                aria-label='Close'
-                            >
-                                <span aria-hidden='true'>
-                                    {'×'}
-                                </span>
-                            </button>
-                            <h4
-                                className='modal-title'
-                                ref='title'
-                            >
-                                <FormattedMessage
-                                    id='team_settings_modal.title'
-                                    defaultMessage='Team Settings'
-                                />
-                            </h4>
+                <Modal.Header closeButton={true}>
+                    <Modal.Title>
+                        <FormattedMessage
+                            id='team_settings_modal.title'
+                            defaultMessage='Team Settings'
+                        />
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body ref='modalBody'>
+                    <div className='settings-table'>
+                        <div className='settings-links'>
+                            <AsyncComponent
+                                doLoad={loadSettingsSidebar}
+                                tabs={tabs}
+                                activeTab={this.state.activeTab}
+                                updateTab={this.updateTab}
+                            />
                         </div>
-                        <div className='modal-body settings-modal__body'>
-                            <div className='settings-table'>
-                                <div className='settings-links'>
-                                    <SettingsSidebar
-                                        tabs={tabs}
-                                        activeTab={this.state.activeTab}
-                                        updateTab={this.updateTab}
-                                    />
-                                </div>
-                                <div className='settings-content minimize-settings'>
-                                    <TeamSettings
-                                        activeTab={this.state.activeTab}
-                                        activeSection={this.state.activeSection}
-                                        updateSection={this.updateSection}
-                                    />
-                                </div>
-                            </div>
+                        <div className='settings-content minimize-settings'>
+                            <TeamSettings
+                                activeTab={this.state.activeTab}
+                                activeSection={this.state.activeSection}
+                                updateSection={this.updateSection}
+                                closeModal={this.closeModal}
+                                collapseModal={this.collapseModal}
+                            />
                         </div>
                     </div>
-                </div>
-            </div>
+                </Modal.Body>
+            </Modal>
         );
     }
 }
 
 TeamSettingsModal.propTypes = {
-    intl: intlShape.isRequired
+    intl: intlShape.isRequired,
+    show: PropTypes.bool,
+    onModalDismissed: PropTypes.func,
 };
 
 export default injectIntl(TeamSettingsModal);

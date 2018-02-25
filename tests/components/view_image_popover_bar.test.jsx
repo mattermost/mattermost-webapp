@@ -1,39 +1,38 @@
 import React from 'react';
-
 import {shallow} from 'enzyme';
 
-import ViewImagePopoverBar from 'components/view_image_popover_bar';
+import ViewImagePopoverBar from 'components/view_image_popover_bar/view_image_popover_bar.jsx';
 
 describe('components/ViewImagePopoverBar', () => {
-    beforeEach(() => {
-        global.window.mm_config = {};
-    });
-
-    afterEach(() => {
-        global.window.mm_config = {};
-    });
-
-    test('should match snapshot', () => {
-        /* eslint func-style: "off" */
-        const makeWrapper = () => shallow(
+    test('should match snapshot with public links disabled', () => {
+        const wrapper = shallow(
             <ViewImagePopoverBar
                 show={true}
+                enablePublicLink={false}
             />
         );
 
-        expect(makeWrapper()).toMatchSnapshot();
+        expect(wrapper).toMatchSnapshot();
+    });
 
-        global.window.mm_config.EnablePublicLink = 'true';
-        expect(makeWrapper()).toMatchSnapshot();
+    test('should match snapshot with public links enabled', () => {
+        const wrapper = shallow(
+            <ViewImagePopoverBar
+                show={true}
+                enablePublicLink={true}
+            />
+        );
+
+        expect(wrapper).toMatchSnapshot();
     });
 
     test('should call publick link callback', () => {
-        global.window.mm_config.EnablePublicLink = 'true';
         const mockOnClick = jest.fn();
 
         const wrapper = shallow(
             <ViewImagePopoverBar
                 show={true}
+                enablePublicLink={true}
                 onGetPublicLink={mockOnClick}
             />
         );

@@ -3,17 +3,13 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
 import PostStore from 'stores/post_store';
-
 import {getPinnedPosts, getFlaggedPosts} from 'actions/views/rhs';
-
 import {getRhsState, getSelectedPostId, getSelectedChannelId, getPreviousRhsState} from 'selectors/rhs';
-
 import {RHSStates} from 'utils/constants.jsx';
 
 import SidebarRight from './sidebar_right.jsx';
@@ -46,7 +42,7 @@ function mapStateToProps(state) {
         previousRhsState: getPreviousRhsState(state),
         isMentionSearch: rhsState === RHSStates.MENTION,
         isFlaggedPosts: rhsState === RHSStates.FLAG,
-        isPinnedPosts: rhsState === RHSStates.PIN
+        isPinnedPosts: rhsState === RHSStates.PIN,
     };
 }
 
@@ -54,8 +50,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getPinnedPosts,
-            getFlaggedPosts
-        }, dispatch)
+            getFlaggedPosts,
+        }, dispatch),
     };
 }
 

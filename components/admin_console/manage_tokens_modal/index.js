@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {getUserAccessTokensForUser} from 'mattermost-redux/actions/users';
 
 import ManageTokensModal from './manage_tokens_modal.jsx';
@@ -13,15 +12,15 @@ function mapStateToProps(state, ownProps) {
 
     return {
         ...ownProps,
-        userAccessTokens: state.entities.admin.userAccessTokens[userId]
+        userAccessTokens: state.entities.admin.userAccessTokens[userId],
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getUserAccessTokensForUser
-        }, dispatch)
+            getUserAccessTokensForUser,
+        }, dispatch),
     };
 }
 

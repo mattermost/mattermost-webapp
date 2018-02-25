@@ -2,7 +2,6 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -15,20 +14,20 @@ import UserList from './user_list.jsx';
 const holders = defineMessages({
     member: {
         id: 'filtered_user_list.member',
-        defaultMessage: 'Member'
+        defaultMessage: 'Member',
     },
     search: {
         id: 'filtered_user_list.search',
-        defaultMessage: 'Search members'
+        defaultMessage: 'Search members',
     },
     anyTeam: {
         id: 'filtered_user_list.any_team',
-        defaultMessage: 'All Users'
+        defaultMessage: 'All Users',
     },
     teamOnly: {
         id: 'filtered_user_list.team_only',
-        defaultMessage: 'Members of this Team'
-    }
+        defaultMessage: 'Members of this Team',
+    },
 });
 
 class FilteredUserList extends React.Component {
@@ -43,7 +42,7 @@ class FilteredUserList extends React.Component {
             filter: '',
             users: this.filterUsers(props.teamMembers, props.users),
             selected: 'team',
-            teamMembers: props.teamMembers
+            teamMembers: props.teamMembers,
         };
     }
 
@@ -51,13 +50,13 @@ class FilteredUserList extends React.Component {
         // assume the user list is immutable
         if (this.props.users !== nextProps.users) {
             this.setState({
-                users: this.filterUsers(nextProps.teamMembers, nextProps.users)
+                users: this.filterUsers(nextProps.teamMembers, nextProps.users),
             });
         }
 
         if (this.props.teamMembers !== nextProps.teamMembers) {
             this.setState({
-                users: this.filterUsers(nextProps.teamMembers, nextProps.users)
+                users: this.filterUsers(nextProps.teamMembers, nextProps.users),
             });
         }
     }
@@ -99,7 +98,7 @@ class FilteredUserList extends React.Component {
 
     handleFilterChange(e) {
         this.setState({
-            filter: e.target.value
+            filter: e.target.value,
         });
     }
 
@@ -112,7 +111,7 @@ class FilteredUserList extends React.Component {
 
         this.setState({
             selected: e.target.value,
-            users
+            users,
         });
     }
 
@@ -140,7 +139,7 @@ class FilteredUserList extends React.Component {
                     id='filtered_user_list.count'
                     defaultMessage='{count, number} {count, plural, one {member} other {members}}'
                     values={{
-                        count: users.length
+                        count: users.length,
                     }}
                 />
             );
@@ -151,7 +150,7 @@ class FilteredUserList extends React.Component {
                     defaultMessage='{count, number} {count, plural, one {member} other {members}} of {total, number} total'
                     values={{
                         count: users.length,
-                        total: this.state.users.length
+                        total: this.state.users.length,
                     }}
                 />
             );
@@ -229,7 +228,7 @@ FilteredUserList.defaultProps = {
     teamMembers: [],
     actions: [],
     actionProps: {},
-    showTeamToggle: false
+    showTeamToggle: false,
 };
 
 FilteredUserList.propTypes = {
@@ -239,7 +238,7 @@ FilteredUserList.propTypes = {
     actions: PropTypes.arrayOf(PropTypes.func),
     actionProps: PropTypes.object,
     showTeamToggle: PropTypes.bool,
-    style: PropTypes.object
+    style: PropTypes.object,
 };
 
 export default injectIntl(FilteredUserList);

@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {getOpenGraphMetadata} from 'mattermost-redux/actions/posts';
 import {getOpenGraphMetadataForUrl} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
@@ -21,8 +20,8 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getOpenGraphMetadata
-        }, dispatch)
+            getOpenGraphMetadata,
+        }, dispatch),
     };
 }
 

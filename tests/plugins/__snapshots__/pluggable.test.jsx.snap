@@ -154,6 +154,7 @@ exports[`plugins/Pluggable should match snapshot with no overridden component 1`
           className="popover-content"
         >
           <img
+            alt="user profile image"
             className="user-popover__image"
             height="128"
             key="user-popover-image"

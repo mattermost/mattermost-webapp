@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {setStatus} from 'mattermost-redux/actions/users';
 import {Preferences} from 'mattermost-redux/constants';
@@ -17,7 +16,7 @@ function mapStateToProps(state, ownProps) {
     const {currentUserId} = state.entities.users;
     return {
         ...ownProps,
-        autoResetPref: get(state, Preferences.CATEGORY_AUTO_RESET_MANUAL_STATUS, currentUserId, '')
+        autoResetPref: get(state, Preferences.CATEGORY_AUTO_RESET_MANUAL_STATUS, currentUserId, ''),
     };
 }
 
@@ -26,8 +25,8 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             autoResetStatus,
             setStatus,
-            savePreferences
-        }, dispatch)
+            savePreferences,
+        }, dispatch),
     };
 }
 

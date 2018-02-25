@@ -1,6 +1,8 @@
 @charset 'UTF-8';
 
 .tooltip {
+    word-wrap: break-word;
+
     .tooltip-inner {
         font-size: 13px;
         font-weight: 500;

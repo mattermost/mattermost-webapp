@@ -6,7 +6,6 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import ModalStore from 'stores/modal_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 
 const ActionTypes = Constants.ActionTypes;
@@ -15,15 +14,11 @@ export default class ImportThemeModal extends React.Component {
     constructor(props) {
         super(props);
 
-        this.updateShow = this.updateShow.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-
         this.state = {
             value: '',
             inputError: '',
             show: false,
-            callback: null
+            callback: null,
         };
     }
 
@@ -35,14 +30,14 @@ export default class ImportThemeModal extends React.Component {
         ModalStore.removeModalListener(ActionTypes.TOGGLE_IMPORT_THEME_MODAL, this.updateShow);
     }
 
-    updateShow(show, args) {
+    updateShow = (show, args) => {
         this.setState({
             show,
-            callback: args.callback
+            callback: args.callback,
         });
     }
 
-    handleSubmit(e) {
+    handleSubmit = (e) => {
         e.preventDefault();
 
         const text = this.state.value;
@@ -54,7 +49,7 @@ export default class ImportThemeModal extends React.Component {
                         id='user.settings.import_theme.submitError'
                         defaultMessage='Invalid format, please try copying and pasting in again.'
                     />
-                )
+                ),
             });
             return;
         }
@@ -72,7 +67,7 @@ export default class ImportThemeModal extends React.Component {
         theme.sidebarHeaderTextColor = colors[5];
         theme.onlineIndicator = colors[6];
         theme.awayIndicator = '#E0B333';
-        theme.mentionBj = colors[7];
+        theme.mentionBg = colors[7];
         theme.mentionColor = '#ffffff';
         theme.centerChannelBg = '#ffffff';
         theme.centerChannelColor = '#333333';
@@ -87,7 +82,7 @@ export default class ImportThemeModal extends React.Component {
         this.state.callback(theme);
         this.setState({
             show: false,
-            callback: null
+            callback: null,
         });
     }
 
@@ -125,7 +120,7 @@ export default class ImportThemeModal extends React.Component {
         return true;
     }
 
-    handleChange(e) {
+    handleChange = (e) => {
         const value = e.target.value;
         this.setState({value});
 
@@ -138,9 +133,13 @@ export default class ImportThemeModal extends React.Component {
                         id='user.settings.import_theme.submitError'
                         defaultMessage='Invalid format, please try copying and pasting in again.'
                     />
-                )
+                ),
             });
         }
+    }
+
+    handleOnHide = () => {
+        this.setState({show: false});
     }
 
     render() {
@@ -148,7 +147,7 @@ export default class ImportThemeModal extends React.Component {
             <span>
                 <Modal
                     show={this.state.show}
-                    onHide={() => this.setState({show: false})}
+                    onHide={this.handleOnHide}
                 >
                     <Modal.Header closeButton={true}>
                         <Modal.Title>
@@ -189,7 +188,7 @@ export default class ImportThemeModal extends React.Component {
                                 id='cancelButton'
                                 type='button'
                                 className='btn btn-default'
-                                onClick={() => this.setState({show: false})}
+                                onClick={this.handleOnHide}
                             >
                                 <FormattedMessage
                                     id='user.settings.import_theme.cancel'

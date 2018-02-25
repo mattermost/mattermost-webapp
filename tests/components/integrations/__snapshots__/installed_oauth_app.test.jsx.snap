@@ -149,8 +149,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot 1`] = `
     </button>
      - 
     <Link
-      onlyActiveOnIndex={false}
-      style={Object {}}
+      replace={false}
       to="/team_name/integrations/oauth2-apps/edit?id=facxd9wpzpbpfp8pad78xj75pr"
     >
       <FormattedMessage
@@ -323,8 +322,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, on err
     </button>
      - 
     <Link
-      onlyActiveOnIndex={false}
-      style={Object {}}
+      replace={false}
       to="/team_name/integrations/oauth2-apps/edit?id=facxd9wpzpbpfp8pad78xj75pr"
     >
       <FormattedMessage
@@ -493,8 +491,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, when o
     </button>
      - 
     <Link
-      onlyActiveOnIndex={false}
-      style={Object {}}
+      replace={false}
       to="/team_name/integrations/oauth2-apps/edit?id=facxd9wpzpbpfp8pad78xj75pr"
     >
       <FormattedMessage

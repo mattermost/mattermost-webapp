@@ -6,14 +6,12 @@ import {Modal} from 'react-bootstrap';
 import {shallow} from 'enzyme';
 
 import Constants from 'utils/constants.jsx';
-
 import ViewImageModal from 'components/view_image';
 import AudioVideoPreview from 'components/audio_video_preview';
 import CodePreview from 'components/code_preview';
 import FileInfoPreview from 'components/file_info_preview';
 import ImagePreview from 'components/image_preview';
 import LoadingImagePreview from 'components/loading_image_preview';
-import PDFPreview from 'components/pdf_preview';
 import ViewImagePopoverBar from 'components/view_image_popover_bar';
 
 describe('components/ViewImageModal', () => {
@@ -22,7 +20,7 @@ describe('components/ViewImageModal', () => {
         show: true,
         fileInfos: [{id: 'file_id', extension: 'jpg'}],
         startIndex: 0,
-        onModalDismissed
+        onModalDismissed,
     };
 
     test('should match snapshot, modal not shown', () => {
@@ -73,17 +71,6 @@ describe('components/ViewImageModal', () => {
         expect(wrapper.find(AudioVideoPreview).exists()).toBe(true);
     });
 
-    test('should match snapshot, loaded with PDFPreview', () => {
-        const fileInfos = [{id: 'file_id', extension: 'pdf'}];
-        const props = {...requiredProps, fileInfos};
-        const wrapper = shallow(<ViewImageModal {...props}/>);
-
-        wrapper.setState({loaded: [true]});
-        expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find(LoadingImagePreview).exists()).toBe(false);
-        expect(wrapper.find(PDFPreview).exists()).toBe(true);
-    });
-
     test('should match snapshot, loaded with CodePreview', () => {
         const fileInfos = [{id: 'file_id', extension: 'js'}];
         const props = {...requiredProps, fileInfos};
@@ -110,7 +97,7 @@ describe('components/ViewImageModal', () => {
         const fileInfos = [
             {id: 'file_id_1', extension: 'gif'},
             {id: 'file_id_2', extension: 'wma'},
-            {id: 'file_id_3', extension: 'mp4'}
+            {id: 'file_id_3', extension: 'mp4'},
         ];
         const props = {...requiredProps, fileInfos};
         const wrapper = shallow(<ViewImageModal {...props}/>);
@@ -137,7 +124,7 @@ describe('components/ViewImageModal', () => {
         const fileInfos = [
             {id: 'file_id_1', extension: 'gif'},
             {id: 'file_id_2', extension: 'wma'},
-            {id: 'file_id_3', extension: 'mp4'}
+            {id: 'file_id_3', extension: 'mp4'},
         ];
         const props = {...requiredProps, fileInfos};
         const wrapper = shallow(<ViewImageModal {...props}/>);
@@ -161,7 +148,7 @@ describe('components/ViewImageModal', () => {
         const fileInfos = [
             {id: 'file_id_1', extension: 'gif'},
             {id: 'file_id_2', extension: 'wma'},
-            {id: 'file_id_3', extension: 'mp4'}
+            {id: 'file_id_3', extension: 'mp4'},
         ];
         const props = {...requiredProps, fileInfos};
         const wrapper = shallow(<ViewImageModal {...props}/>);
@@ -199,7 +186,7 @@ describe('components/ViewImageModal', () => {
         const wrapper = shallow(<ViewImageModal {...props}/>);
         wrapper.setState({
             loaded: [true],
-            showFooter: true
+            showFooter: true,
         });
         wrapper.instance().handleGetPublicLink();
 
@@ -210,12 +197,12 @@ describe('components/ViewImageModal', () => {
         const fileInfos = [
             {id: 'file_id_1', extension: 'gif'},
             {id: 'file_id_2', extension: 'wma'},
-            {id: 'file_id_3', extension: 'mp4'}
+            {id: 'file_id_3', extension: 'mp4'},
         ];
         const props = {...requiredProps, fileInfos};
         const wrapper = shallow(<ViewImageModal {...props}/>);
         const nextProps = {
-            startIndex: 1
+            startIndex: 1,
         };
         wrapper.setState({loaded: [true]});
 
@@ -229,7 +216,7 @@ describe('components/ViewImageModal', () => {
         const fileInfos = [
             {id: 'file_id_1', extension: 'gif'},
             {id: 'file_id_2', extension: 'wma'},
-            {id: 'file_id_3', extension: 'mp4'}
+            {id: 'file_id_3', extension: 'mp4'},
         ];
         const props = {...requiredProps, fileInfos};
         const wrapper = shallow(<ViewImageModal {...props}/>);
@@ -249,7 +236,7 @@ describe('components/ViewImageModal', () => {
         const fileInfos = [
             {id: 'file_id_1', extension: 'gif'},
             {id: 'file_id_2', extension: 'wma'},
-            {id: 'file_id_3', extension: 'mp4'}
+            {id: 'file_id_3', extension: 'mp4'},
         ];
         const props = {...requiredProps, fileInfos};
         const wrapper = shallow(<ViewImageModal {...props}/>);
@@ -269,7 +256,7 @@ describe('components/ViewImageModal', () => {
         const fileInfos = [
             {id: 'file_id_1', extension: 'gif'},
             {id: 'file_id_2', extension: 'wma'},
-            {id: 'file_id_3', extension: 'mp4'}
+            {id: 'file_id_3', extension: 'mp4'},
         ];
         const props = {...requiredProps, fileInfos};
         const wrapper = shallow(<ViewImageModal {...props}/>);
@@ -289,7 +276,7 @@ describe('components/ViewImageModal', () => {
 
     test('should pass componentWillReceiveProps', () => {
         let nextProps = {
-            show: false
+            show: false,
         };
         const wrapper = shallow(<ViewImageModal {...requiredProps}/>);
         expect(wrapper.find(Modal).prop('show')).toBe(true);
@@ -302,8 +289,8 @@ describe('components/ViewImageModal', () => {
             fileInfos: [
                 {id: 'file_id_1', extension: 'gif'},
                 {id: 'file_id_2', extension: 'wma'},
-                {id: 'file_id_3', extension: 'mp4'}
-            ]
+                {id: 'file_id_3', extension: 'mp4'},
+            ],
         };
         wrapper.setProps(nextProps);
         expect(wrapper.state('loaded').length).toBe(3);

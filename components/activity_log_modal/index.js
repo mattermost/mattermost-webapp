@@ -3,14 +3,13 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {getSessions, revokeSession} from 'mattermost-redux/actions/users';
 
 import ActivityLogModal from './activity_log_modal.jsx';
 
 function mapStateToProps(state, ownProps) {
     return {
-        ...ownProps
+        ...ownProps,
     };
 }
 
@@ -18,8 +17,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getSessions,
-            revokeSession
-        }, dispatch)
+            revokeSession,
+        }, dispatch),
     };
 }
 

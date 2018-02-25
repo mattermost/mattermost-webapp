@@ -2,19 +2,42 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import Scrollbars from 'react-custom-scrollbars';
 
+import SearchResultsHeader from 'components/search_results_header';
+import SearchResultsItem from 'components/search_results_item';
+import FlagIcon from 'components/svg/flag_icon';
 import UserStore from 'stores/user_store.jsx';
 import WebrtcStore from 'stores/webrtc_store.jsx';
-
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import SearchResultsHeader from '../search_results_header';
-import SearchResultsItem from '../search_results_item.jsx';
+export function renderView(props) {
+    return (
+        <div
+            {...props}
+            className='scrollbar--view'
+        />);
+}
+
+export function renderThumbHorizontal(props) {
+    return (
+        <div
+            {...props}
+            className='scrollbar--horizontal'
+        />);
+}
+
+export function renderThumbVertical(props) {
+    return (
+        <div
+            {...props}
+            className='scrollbar--vertical'
+        />);
+}
 
 export default class SearchResults extends React.PureComponent {
     static propTypes = {
@@ -22,7 +45,9 @@ export default class SearchResults extends React.PureComponent {
         channels: PropTypes.object,
         searchTerms: PropTypes.string,
         isFlaggedByPostId: PropTypes.object,
-        loading: PropTypes.bool,
+        isSearchingTerm: PropTypes.bool,
+        isSearchingFlaggedPost: PropTypes.bool,
+        isSearchingPinnedPost: PropTypes.bool,
         compactDisplay: PropTypes.bool,
         useMilitaryTime: PropTypes.bool.isRequired,
         toggleSize: PropTypes.func,
@@ -31,7 +56,9 @@ export default class SearchResults extends React.PureComponent {
         isFlaggedPosts: PropTypes.bool,
         isPinnedPosts: PropTypes.bool,
         channelDisplayName: PropTypes.string.isRequired,
-        selectPost: PropTypes.func
+        selectPost: PropTypes.func,
+        dataRetentionEnableMessageDeletion: PropTypes.bool.isRequired,
+        dataRetentionMessageRetentionDays: PropTypes.string,
     };
 
     constructor(props) {
@@ -42,7 +69,7 @@ export default class SearchResults extends React.PureComponent {
             windowHeight: Utils.windowHeight(),
             profiles: JSON.parse(JSON.stringify(UserStore.getProfiles())),
             isBusy: WebrtcStore.isBusy(),
-            statuses: Object.assign({}, UserStore.getStatuses())
+            statuses: Object.assign({}, UserStore.getStatuses()),
         };
     }
 
@@ -53,9 +80,6 @@ export default class SearchResults extends React.PureComponent {
 
         this.resize();
         window.addEventListener('resize', this.handleResize);
-        if (!Utils.isMobile()) {
-            $('.sidebar--right .search-items-container').perfectScrollbar();
-        }
     }
 
     componentWillUnmount() {
@@ -75,7 +99,7 @@ export default class SearchResults extends React.PureComponent {
     handleResize = () => {
         this.setState({
             windowWidth: Utils.windowWidth(),
-            windowHeight: Utils.windowHeight()
+            windowHeight: Utils.windowHeight(),
         });
     }
 
@@ -100,11 +124,14 @@ export default class SearchResults extends React.PureComponent {
         const noResults = (!results || results.length === 0);
         const searchTerms = this.props.searchTerms;
         const profiles = this.state.profiles || {};
-        const flagIcon = Constants.FLAG_ICON_SVG;
 
         let ctls = null;
 
-        if (this.props.loading) {
+        if (
+            this.props.isSearchingTerm ||
+            this.props.isSearchingFlaggedPost ||
+            this.props.isSearchingPinnedPost
+        ) {
             ctls =
             (
                 <div className='sidebar--right__subheader'>
@@ -130,10 +157,7 @@ export default class SearchResults extends React.PureComponent {
                         id='search_results.usageFlag2'
                         defaultMessage='You can add a flag to messages and comments by clicking the '
                     />
-                    <span
-                        className='usage__icon'
-                        dangerouslySetInnerHTML={{__html: flagIcon}}
-                    />
+                    <FlagIcon className='usage__icon'/>
                     <FormattedMessage
                         id='search_results.usageFlag3'
                         defaultMessage=' icon next to the timestamp.'
@@ -144,17 +168,17 @@ export default class SearchResults extends React.PureComponent {
                         id='search_results.usageFlag4'
                         defaultMessage='Flags are a way to mark messages for follow up. Your flags are personal, and cannot be seen by other users.'
                     />
-                </li>
+                </li>,
             ];
 
-            if (global.window.mm_config.DataRetentionEnableMessageDeletion === 'true') {
+            if (this.props.dataRetentionEnableMessageDeletion) {
                 tips.push(
                     <li>
                         <FormattedMessage
                             id='search_results.usage.dataRetention'
                             defaultMessage='Only messages posted in the last {days} days are returned. Contact your System Administrator for more detail.'
                             values={{
-                                days: global.window.mm_config.DataRetentionMessageRetentionDays
+                                days: this.props.dataRetentionMessageRetentionDays,
                             }}
                         />
                     </li>
@@ -193,17 +217,17 @@ export default class SearchResults extends React.PureComponent {
                         id='search_results.usagePin4'
                         defaultMessage={'To pin a message: Go to the message that you want to pin and click [...] > "Pin to channel".'}
                     />
-                </li>
+                </li>,
             ];
 
-            if (global.window.mm_config.DataRetentionEnableMessageDeletion === 'true') {
+            if (this.props.dataRetentionEnableMessageDeletion) {
                 tips.push(
                     <li>
                         <FormattedMessage
                             id='search_results.usage.dataRetention'
                             defaultMessage='Only messages posted in the last {days} days are returned. Contact your System Administrator for more detail.'
                             values={{
-                                days: global.window.mm_config.DataRetentionMessageRetentionDays
+                                days: this.props.dataRetentionMessageRetentionDays,
                             }}
                         />
                     </li>
@@ -231,7 +255,7 @@ export default class SearchResults extends React.PureComponent {
                                         defaultMessage='"quotation marks"'
                                     />
                                 </b>
-                            )
+                            ),
                         }}
                     />
                 </li>,
@@ -241,10 +265,10 @@ export default class SearchResults extends React.PureComponent {
                         defaultMessage='Use {fromUser} to find posts from specific users and {inChannel} to find posts in specific channels'
                         values={{
                             fromUser: 'from:',
-                            inChannel: 'in:'
+                            inChannel: 'in:',
                         }}
                     />
-                </li>
+                </li>,
             ];
 
             ctls = (
@@ -267,17 +291,17 @@ export default class SearchResults extends React.PureComponent {
                         id='search_results.noResults.stopWordsSuggestion'
                         defaultMessage='Two letter searches and common words like "this", "a" and "is" won&#39;t appear in search results due to the excessive results returned.'
                     />
-                </li>
+                </li>,
             ];
 
-            if (global.window.mm_config.DataRetentionEnableMessageDeletion === 'true') {
+            if (this.props.dataRetentionEnableMessageDeletion) {
                 tips.push(
                     <li>
                         <FormattedMessage
                             id='search_results.usage.dataRetention'
                             defaultMessage='Only messages posted in the last {days} days are returned. Contact your System Administrator for more detail.'
                             values={{
-                                days: global.window.mm_config.DataRetentionMessageRetentionDays
+                                days: this.props.dataRetentionMessageRetentionDays,
                             }}
                         />
                     </li>
@@ -337,7 +361,6 @@ export default class SearchResults extends React.PureComponent {
                         user={profile}
                         term={searchTerms}
                         isMentionSearch={this.props.isMentionSearch}
-                        isFlaggedSearch={this.props.isFlaggedPosts}
                         useMilitaryTime={this.props.useMilitaryTime}
                         shrink={this.props.shrink}
                         isFlagged={isFlagged}
@@ -358,14 +381,24 @@ export default class SearchResults extends React.PureComponent {
                     isFlaggedPosts={this.props.isFlaggedPosts}
                     isPinnedPosts={this.props.isPinnedPosts}
                     channelDisplayName={this.props.channelDisplayName}
-                    isLoading={this.props.loading}
+                    isLoading={this.props.isSearchingTerm}
                 />
-                <div
-                    id='search-items-container'
-                    className='search-items-container'
+                <Scrollbars
+                    autoHide={true}
+                    autoHideTimeout={500}
+                    autoHideDuration={500}
+                    renderThumbHorizontal={renderThumbHorizontal}
+                    renderThumbVertical={renderThumbVertical}
+                    renderView={renderView}
+                    onScroll={this.handleScroll}
                 >
-                    {ctls}
-                </div>
+                    <div
+                        id='search-items-container'
+                        className='search-items-container'
+                    >
+                        {ctls}
+                    </div>
+                </Scrollbars>
             </div>
         );
     }

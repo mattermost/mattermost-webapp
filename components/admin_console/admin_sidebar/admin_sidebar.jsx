@@ -2,13 +2,11 @@
 // See License.txt for license information.
 
 import $ from 'jquery';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
-
 import AdminSidebarCategory from 'components/admin_console/admin_sidebar_category.jsx';
 import AdminSidebarHeader from 'components/admin_console/admin_sidebar_header.jsx';
 import AdminSidebarSection from 'components/admin_console/admin_sidebar_section.jsx';
@@ -16,30 +14,27 @@ import AdminSidebarSection from 'components/admin_console/admin_sidebar_section.
 export default class AdminSidebar extends React.Component {
     static get contextTypes() {
         return {
-            router: PropTypes.object.isRequired
+            router: PropTypes.object.isRequired,
         };
     }
 
     static propTypes = {
+        license: PropTypes.object.isRequired,
         config: PropTypes.object,
         plugins: PropTypes.object,
+        buildEnterpriseReady: PropTypes.bool,
+        siteName: PropTypes.string,
         actions: PropTypes.shape({
 
             /*
              * Function to get installed plugins
              */
-            getPlugins: PropTypes.func.isRequired
-        }).isRequired
+            getPlugins: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     static defaultProps = {
-        plugins: {}
-    }
-
-    constructor(props) {
-        super(props);
-
-        this.updateTitle = this.updateTitle.bind(this);
+        plugins: {},
     }
 
     componentDidMount() {
@@ -51,7 +46,7 @@ export default class AdminSidebar extends React.Component {
 
         if (!Utils.isMobile()) {
             $('.admin-sidebar .nav-pills__container').perfectScrollbar({
-                suppressScrollX: true
+                suppressScrollX: true,
             });
         }
     }
@@ -59,18 +54,18 @@ export default class AdminSidebar extends React.Component {
     componentDidUpdate() {
         if (!Utils.isMobile()) {
             $('.admin-sidebar .nav-pills__container').perfectScrollbar({
-                suppressScrollX: true
+                suppressScrollX: true,
             });
         }
     }
 
-    updateTitle() {
+    updateTitle = () => {
         let currentSiteName = '';
-        if (global.window.mm_config.SiteName != null) {
-            currentSiteName = global.window.mm_config.SiteName;
+        if (this.props.siteName) {
+            currentSiteName = ' - ' + this.props.siteName;
         }
 
-        document.title = Utils.localizeMessage('sidebar_right_menu.console', 'System Console') + ' - ' + currentSiteName;
+        document.title = Utils.localizeMessage('sidebar_right_menu.console', 'System Console') + currentSiteName;
     }
 
     render() {
@@ -82,12 +77,13 @@ export default class AdminSidebar extends React.Component {
         let complianceSettings = null;
         let mfaSettings = null;
         let messageExportSettings = null;
+        let complianceSection = null;
 
         let license = null;
         let audits = null;
         let policy = null;
 
-        if (window.mm_config.BuildEnterpriseReady === 'true') {
+        if (this.props.buildEnterpriseReady) {
             license = (
                 <AdminSidebarSection
                     name='license'
@@ -101,8 +97,8 @@ export default class AdminSidebar extends React.Component {
             );
         }
 
-        if (window.mm_license.IsLicensed === 'true') {
-            if (global.window.mm_license.LDAP === 'true') {
+        if (this.props.license.IsLicensed === 'true') {
+            if (this.props.license.LDAP === 'true') {
                 ldapSettings = (
                     <AdminSidebarSection
                         name='ldap'
@@ -116,7 +112,7 @@ export default class AdminSidebar extends React.Component {
                 );
             }
 
-            if (global.window.mm_license.Cluster === 'true') {
+            if (this.props.license.Cluster === 'true') {
                 clusterSettings = (
                     <AdminSidebarSection
                         name='cluster'
@@ -130,7 +126,7 @@ export default class AdminSidebar extends React.Component {
                 );
             }
 
-            if (global.window.mm_license.Metrics === 'true') {
+            if (this.props.license.Metrics === 'true') {
                 metricsSettings = (
                     <AdminSidebarSection
                         name='metrics'
@@ -144,7 +140,7 @@ export default class AdminSidebar extends React.Component {
                 );
             }
 
-            if (global.window.mm_license.SAML === 'true') {
+            if (this.props.license.SAML === 'true') {
                 samlSettings = (
                     <AdminSidebarSection
                         name='saml'
@@ -158,7 +154,7 @@ export default class AdminSidebar extends React.Component {
                 );
             }
 
-            if (global.window.mm_license.Compliance === 'true') {
+            if (this.props.license.Compliance === 'true') {
                 complianceSettings = (
                     <AdminSidebarSection
                         name='compliance'
@@ -172,7 +168,7 @@ export default class AdminSidebar extends React.Component {
                 );
             }
 
-            if (global.window.mm_license.MFA === 'true') {
+            if (this.props.license.MFA === 'true') {
                 mfaSettings = (
                     <AdminSidebarSection
                         name='mfa'
@@ -186,14 +182,14 @@ export default class AdminSidebar extends React.Component {
                 );
             }
 
-            if (global.window.mm_license.MessageExport === 'true') {
+            if (this.props.license.MessageExport === 'true') {
                 messageExportSettings = (
                     <AdminSidebarSection
                         name='message_export'
                         title={
                             <FormattedMessage
-                                id='admin.sidebar.message_export'
-                                defaultMessage='Message Export (Beta)'
+                                id='admin.sidebar.compliance_export'
+                                defaultMessage='Compliance Export (Beta)'
                             />
                         }
                     />
@@ -237,7 +233,7 @@ export default class AdminSidebar extends React.Component {
             );
         }
 
-        if (window.mm_license.IsLicensed === 'true') {
+        if (this.props.license.IsLicensed === 'true') {
             audits = (
                 <AdminSidebarSection
                     name='audits'
@@ -253,7 +249,7 @@ export default class AdminSidebar extends React.Component {
 
         let customBranding = null;
 
-        if (window.mm_license.IsLicensed === 'true') {
+        if (this.props.license.IsLicensed === 'true') {
             customBranding = (
                 <AdminSidebarSection
                     name='custom_brand'
@@ -299,7 +295,7 @@ export default class AdminSidebar extends React.Component {
         );
 
         let elasticSearchSettings = null;
-        if (window.mm_license.IsLicensed === 'true' && window.mm_license.Elasticsearch === 'true') {
+        if (this.props.license.IsLicensed === 'true' && this.props.license.Elasticsearch === 'true') {
             elasticSearchSettings = (
                 <AdminSidebarSection
                     name='elasticsearch'
@@ -314,10 +310,10 @@ export default class AdminSidebar extends React.Component {
         }
 
         let dataRetentionSettings = null;
-        if (window.mm_license.IsLicensed === 'true' && window.mm_license.DataRetention === 'true') {
+        if (this.props.license.IsLicensed === 'true' && this.props.license.DataRetention === 'true') {
             dataRetentionSettings = (
                 <AdminSidebarSection
-                    name='dataretention'
+                    name='data_retention'
                     title={
                         <FormattedMessage
                             id='admin.sidebar.data_retention'
@@ -341,6 +337,24 @@ export default class AdminSidebar extends React.Component {
                         />
                     }
                 />
+            );
+        }
+
+        if (dataRetentionSettings || messageExportSettings) {
+            complianceSection = (
+                <AdminSidebarSection
+                    name='compliance'
+                    type='text'
+                    title={
+                        <FormattedMessage
+                            id='admin.sidebar.compliance'
+                            defaultMessage='Compliance'
+                        />
+                    }
+                >
+                    {dataRetentionSettings}
+                    {messageExportSettings}
+                </AdminSidebarSection>
             );
         }
 
@@ -650,15 +664,6 @@ export default class AdminSidebar extends React.Component {
                                         />
                                     }
                                 />
-                                <AdminSidebarSection
-                                    name='jira'
-                                    title={
-                                        <FormattedMessage
-                                            id='admin.sidebar.jira'
-                                            defaultMessage='JIRA (Beta)'
-                                        />
-                                    }
-                                />
                                 {customPlugins}
                             </AdminSidebarSection>
                             <AdminSidebarSection
@@ -733,6 +738,7 @@ export default class AdminSidebar extends React.Component {
                                     }
                                 />
                             </AdminSidebarSection>
+                            {complianceSection}
                             <AdminSidebarSection
                                 name='advanced'
                                 type='text'
@@ -761,8 +767,6 @@ export default class AdminSidebar extends React.Component {
                                         />
                                     }
                                 />
-                                {dataRetentionSettings}
-                                {messageExportSettings}
                                 {elasticSearchSettings}
                                 <AdminSidebarSection
                                     name='developer'

@@ -6,9 +6,7 @@ import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 
 import * as ChannelActions from 'actions/channel_actions.jsx';
 import ModalStore from 'stores/modal_store.jsx';
-
 import Constants from 'utils/constants.jsx';
-
 import ConfirmModal from 'components/confirm_modal.jsx';
 
 class LeavePrivateChannelModal extends React.Component {
@@ -22,7 +20,7 @@ class LeavePrivateChannelModal extends React.Component {
 
         this.state = {
             show: false,
-            channel: null
+            channel: null,
         };
         this.mounted = false;
     }
@@ -47,7 +45,7 @@ class LeavePrivateChannelModal extends React.Component {
         const channelId = this.state.channel.id;
         this.setState({
             show: false,
-            channel: null
+            channel: null,
         });
         ChannelActions.leaveChannel(channelId);
     }
@@ -55,13 +53,13 @@ class LeavePrivateChannelModal extends React.Component {
     handleToggle(value) {
         this.setState({
             channel: value,
-            show: value !== null
+            show: value !== null,
         });
     }
 
     handleHide() {
         this.setState({
-            show: false
+            show: false,
         });
     }
 
@@ -74,7 +72,7 @@ class LeavePrivateChannelModal extends React.Component {
                     id='leave_private_channel_modal.title'
                     defaultMessage='Leave Private Channel {channel}'
                     values={{
-                        channel: <b>{this.state.channel.display_name}</b>
+                        channel: <b>{this.state.channel.display_name}</b>,
                     }}
                 />
             );
@@ -84,7 +82,7 @@ class LeavePrivateChannelModal extends React.Component {
                     id='leave_private_channel_modal.message'
                     defaultMessage='Are you sure you wish to leave the private channel {channel}? You must be re-invited in order to re-join this channel in the future.'
                     values={{
-                        channel: <b>{this.state.channel.display_name}</b>
+                        channel: <b>{this.state.channel.display_name}</b>,
                     }}
                 />
             );
@@ -113,7 +111,7 @@ class LeavePrivateChannelModal extends React.Component {
 }
 
 LeavePrivateChannelModal.propTypes = {
-    intl: intlShape.isRequired
+    intl: intlShape.isRequired,
 };
 
 export default injectIntl(LeavePrivateChannelModal);

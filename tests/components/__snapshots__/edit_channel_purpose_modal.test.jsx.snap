@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`comoponents/edit_channel_purpose_modal/edit_channel_purpose_modal.jsx clear error on next 1`] = `
+exports[`comoponents/EditChannelPurposeModal clear error on next 1`] = `
 <Modal
   animation={true}
   autoFocus={true}
@@ -22,7 +22,8 @@ exports[`comoponents/edit_channel_purpose_modal/edit_channel_purpose_modal.jsx c
       "remove": [Function],
     }
   }
-  onExited={[Function]}
+  onEntering={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -97,7 +98,7 @@ exports[`comoponents/edit_channel_purpose_modal/edit_channel_purpose_modal.jsx c
 </Modal>
 `;
 
-exports[`comoponents/edit_channel_purpose_modal/edit_channel_purpose_modal.jsx match with modal error 1`] = `
+exports[`comoponents/EditChannelPurposeModal match with modal error 1`] = `
 <Modal
   animation={true}
   autoFocus={true}
@@ -119,7 +120,8 @@ exports[`comoponents/edit_channel_purpose_modal/edit_channel_purpose_modal.jsx m
       "remove": [Function],
     }
   }
-  onExited={[Function]}
+  onEntering={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -204,7 +206,7 @@ exports[`comoponents/edit_channel_purpose_modal/edit_channel_purpose_modal.jsx m
 </Modal>
 `;
 
-exports[`comoponents/edit_channel_purpose_modal/edit_channel_purpose_modal.jsx match with modal error with fake id 1`] = `
+exports[`comoponents/EditChannelPurposeModal match with modal error with fake id 1`] = `
 <Modal
   animation={true}
   autoFocus={true}
@@ -226,7 +228,8 @@ exports[`comoponents/edit_channel_purpose_modal/edit_channel_purpose_modal.jsx m
       "remove": [Function],
     }
   }
-  onExited={[Function]}
+  onEntering={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -311,7 +314,7 @@ exports[`comoponents/edit_channel_purpose_modal/edit_channel_purpose_modal.jsx m
 </Modal>
 `;
 
-exports[`comoponents/edit_channel_purpose_modal/edit_channel_purpose_modal.jsx should match for private channel 1`] = `
+exports[`comoponents/EditChannelPurposeModal should match for private channel 1`] = `
 <Modal
   animation={true}
   autoFocus={true}
@@ -333,7 +336,8 @@ exports[`comoponents/edit_channel_purpose_modal/edit_channel_purpose_modal.jsx s
       "remove": [Function],
     }
   }
-  onExited={[Function]}
+  onEntering={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -408,7 +412,7 @@ exports[`comoponents/edit_channel_purpose_modal/edit_channel_purpose_modal.jsx s
 </Modal>
 `;
 
-exports[`comoponents/edit_channel_purpose_modal/edit_channel_purpose_modal.jsx should match on init 1`] = `
+exports[`comoponents/EditChannelPurposeModal should match on init 1`] = `
 <Modal
   animation={true}
   autoFocus={true}
@@ -430,7 +434,8 @@ exports[`comoponents/edit_channel_purpose_modal/edit_channel_purpose_modal.jsx s
       "remove": [Function],
     }
   }
-  onExited={[Function]}
+  onEntering={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -505,7 +510,7 @@ exports[`comoponents/edit_channel_purpose_modal/edit_channel_purpose_modal.jsx s
 </Modal>
 `;
 
-exports[`comoponents/edit_channel_purpose_modal/edit_channel_purpose_modal.jsx should match submitted 1`] = `
+exports[`comoponents/EditChannelPurposeModal should match submitted 1`] = `
 <Modal
   animation={true}
   autoFocus={true}
@@ -527,7 +532,8 @@ exports[`comoponents/edit_channel_purpose_modal/edit_channel_purpose_modal.jsx s
       "remove": [Function],
     }
   }
-  onExited={[Function]}
+  onEntering={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -602,7 +608,7 @@ exports[`comoponents/edit_channel_purpose_modal/edit_channel_purpose_modal.jsx s
 </Modal>
 `;
 
-exports[`comoponents/edit_channel_purpose_modal/edit_channel_purpose_modal.jsx should match with display name 1`] = `
+exports[`comoponents/EditChannelPurposeModal should match with display name 1`] = `
 <Modal
   animation={true}
   autoFocus={true}
@@ -624,7 +630,8 @@ exports[`comoponents/edit_channel_purpose_modal/edit_channel_purpose_modal.jsx s
       "remove": [Function],
     }
   }
-  onExited={[Function]}
+  onEntering={[Function]}
+  onExited={[MockFunction]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}

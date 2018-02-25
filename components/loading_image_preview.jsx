@@ -6,7 +6,7 @@ import React from 'react';
 
 import loadingGif from 'images/load.gif';
 
-export default function LoadingImagePreview({loading, progress}) {
+export default function LoadingImagePreview({loading, progress, containerClass}) {
     let progressView = null;
     if (progress) {
         progressView = (
@@ -17,7 +17,7 @@ export default function LoadingImagePreview({loading, progress}) {
     }
 
     return (
-        <div className='view-image__loading'>
+        <div className={containerClass}>
             <img
                 className='loader-image'
                 src={loadingGif}
@@ -37,5 +37,14 @@ LoadingImagePreview.propTypes = {
     /**
      * The loading message to display
      */
-    loading: PropTypes.string
+    loading: PropTypes.string,
+
+    /**
+     * Loading style
+     */
+    containerClass: PropTypes.string,
+};
+
+LoadingImagePreview.defaultProps = {
+    containerClass: 'view-image__loading',
 };

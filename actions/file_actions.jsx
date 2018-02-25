@@ -2,16 +2,13 @@
 // See License.txt for license information.
 
 import {batchActions} from 'redux-batched-actions';
-
 import request from 'superagent';
-
 import {FileTypes} from 'mattermost-redux/action_types';
 import {getLogErrorAction} from 'mattermost-redux/actions/errors';
 import {forceLogoutIfNecessary} from 'mattermost-redux/actions/helpers';
 import {Client4} from 'mattermost-redux/client';
 
 import store from 'stores/redux_store.jsx';
-
 import * as Utils from 'utils/utils.jsx';
 
 export function uploadFile(file, name, channelId, clientId, successCallback, errorCallback) {
@@ -35,19 +32,19 @@ export function uploadFile(file, name, channelId, clientId, successCallback, err
                 clientIds: [clientId],
                 channelId,
                 rootId: null,
-                error: err
+                error: err,
             };
 
             dispatch(batchActions([failure, getLogErrorAction(err)]), getState);
 
             if (errorCallback) {
-                errorCallback(e, err, res);
+                errorCallback(e);
             }
         } else if (res) {
             const data = res.body.file_infos.map((fileInfo, index) => {
                 return {
                     ...fileInfo,
-                    clientId: res.body.client_ids[index]
+                    clientId: res.body.client_ids[index],
                 };
             });
 
@@ -56,15 +53,15 @@ export function uploadFile(file, name, channelId, clientId, successCallback, err
                     type: FileTypes.RECEIVED_UPLOAD_FILES,
                     data,
                     channelId,
-                    rootId: null
+                    rootId: null,
                 },
                 {
-                    type: FileTypes.UPLOAD_FILES_SUCCESS
-                }
+                    type: FileTypes.UPLOAD_FILES_SUCCESS,
+                },
             ]), getState);
 
             if (successCallback) {
-                successCallback(res.body, res);
+                successCallback(res.body);
             }
         }
     }

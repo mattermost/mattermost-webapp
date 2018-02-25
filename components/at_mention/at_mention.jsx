@@ -4,24 +4,23 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger} from 'react-bootstrap';
-
 import {Client4} from 'mattermost-redux/client';
 
 import Pluggable from 'plugins/pluggable';
-
 import ProfilePopover from 'components/profile_popover.jsx';
 
 export default class AtMention extends React.PureComponent {
     static propTypes = {
+        currentUserId: PropTypes.string.isRequired,
+        hasMention: PropTypes.bool,
+        isRHS: PropTypes.bool,
         mentionName: PropTypes.string.isRequired,
         usersByUsername: PropTypes.object.isRequired,
-        isRHS: PropTypes.bool,
-        hasMention: PropTypes.bool
     };
 
     static defaultProps = {
         isRHS: false,
-        hasMention: false
+        hasMention: false,
     }
 
     constructor(props) {
@@ -30,14 +29,14 @@ export default class AtMention extends React.PureComponent {
         this.hideProfilePopover = this.hideProfilePopover.bind(this);
 
         this.state = {
-            user: this.getUserFromMentionName(props)
+            user: this.getUserFromMentionName(props),
         };
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.mentionName !== this.props.mentionName || nextProps.usersByUsername !== this.props.usersByUsername) {
             this.setState({
-                user: this.getUserFromMentionName(nextProps)
+                user: this.getUserFromMentionName(nextProps),
             });
         }
     }
@@ -51,7 +50,7 @@ export default class AtMention extends React.PureComponent {
         let mentionName = props.mentionName;
 
         while (mentionName.length > 0) {
-            if (usersByUsername[mentionName]) {
+            if (usersByUsername.hasOwnProperty(mentionName)) {
                 return usersByUsername[mentionName];
             }
 
@@ -74,12 +73,17 @@ export default class AtMention extends React.PureComponent {
         const user = this.state.user;
         const suffix = this.props.mentionName.substring(user.username.length);
 
+        let className = 'mention-link';
+        if (user.id === this.props.currentUserId) {
+            className += ' mention--highlight';
+        }
+
         return (
             <span>
                 <OverlayTrigger
                     ref='overlay'
                     trigger='click'
-                    placement='right'
+                    placement='left'
                     rootClose={true}
                     overlay={
                         <Pluggable>
@@ -93,7 +97,7 @@ export default class AtMention extends React.PureComponent {
                         </Pluggable>
                     }
                 >
-                    <a className='mention-link'>{'@' + user.username}</a>
+                    <a className={className}>{'@' + user.username}</a>
                 </OverlayTrigger>
                 {suffix}
             </span>

@@ -13,15 +13,17 @@ describe('Selectors.Storage', () => {
                 currentUserId: 'user_id',
                 profiles: {
                     user_id: {
-                        id: 'user_id'
-                    }
-                }
-            }
+                        id: 'user_id',
+                    },
+                },
+            },
         },
         storage: {
-            'global-item': 'global-item-value',
-            user_id_item: 'item-value'
-        }
+            storage: {
+                'global-item': 'global-item-value',
+                user_id_item: 'item-value',
+            },
+        },
     };
 
     it('getPrefix', () => {

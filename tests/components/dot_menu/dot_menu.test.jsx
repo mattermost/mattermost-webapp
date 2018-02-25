@@ -5,14 +5,13 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import Constants from 'utils/constants.jsx';
-
 import DotMenu from 'components/dot_menu/dot_menu.jsx';
 
 jest.mock('utils/utils', () => {
     const original = require.requireActual('utils/utils');
     return {
         ...original,
-        isMobile: jest.fn(() => false)
+        isMobile: jest.fn(() => false),
     };
 });
 
@@ -20,11 +19,11 @@ jest.mock('utils/post_utils', () => {
     const original = require.requireActual('utils/post_utils');
     return {
         ...original,
-        isSystemMessage: jest.fn(() => false)
+        isSystemMessage: jest.fn(() => false),
     };
 });
 
-describe('components/integrations/DotMenu', () => {
+describe('components/dot_menu/DotMenu', () => {
     global.window.mm_license = {};
 
     beforeEach(() => {
@@ -47,8 +46,8 @@ describe('components/integrations/DotMenu', () => {
             unflagPost: jest.fn(),
             setEditingPost: jest.fn(),
             pinPost: jest.fn(),
-            unpinPost: jest.fn()
-        }
+            unpinPost: jest.fn(),
+        },
     };
 
     test('should match snapshot, on Center', () => {

@@ -19,7 +19,7 @@ export default class GeneratedSetting extends React.Component {
             disabledText: PropTypes.node,
             helpText: PropTypes.node.isRequired,
             regenerateText: PropTypes.node,
-            regenerateHelpText: PropTypes.node
+            regenerateHelpText: PropTypes.node,
         };
     }
 
@@ -31,7 +31,7 @@ export default class GeneratedSetting extends React.Component {
                     id='admin.regenerate'
                     defaultMessage='Regenerate'
                 />
-            )
+            ),
         };
     }
 

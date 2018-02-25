@@ -4,10 +4,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 
 import * as Utils from 'utils/utils.jsx';
-
 import Banner from 'components/admin_console/banner.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
@@ -49,8 +48,8 @@ export default class PluginManagement extends React.Component {
             /*
              * Function to get installed plugins
              */
-            deactivatePlugin: PropTypes.func.isRequired
-        }).isRequired
+            deactivatePlugin: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -60,7 +59,7 @@ export default class PluginManagement extends React.Component {
             loading: true,
             fileSelected: false,
             fileName: null,
-            serverError: null
+            serverError: null,
         };
     }
 
@@ -105,7 +104,9 @@ export default class PluginManagement extends React.Component {
         }
     }
 
-    handleRemove = async (pluginId) => {
+    handleRemove = async (e) => {
+        e.preventDefault();
+        const pluginId = e.currentTarget.getAttribute('data-plugin-id');
         this.setState({removing: pluginId});
 
         const {error} = await this.props.actions.removePlugin(pluginId);
@@ -116,7 +117,9 @@ export default class PluginManagement extends React.Component {
         }
     }
 
-    handleActivate = async (pluginId) => {
+    handleActivate = async (e) => {
+        e.preventDefault();
+        const pluginId = e.currentTarget.getAttribute('data-plugin-id');
         this.setState({activating: pluginId});
 
         const {error} = await this.props.actions.activatePlugin(pluginId);
@@ -127,7 +130,9 @@ export default class PluginManagement extends React.Component {
         }
     }
 
-    handleDeactivate = async (pluginId) => {
+    handleDeactivate = async (e) => {
+        e.preventDefault();
+        const pluginId = e.currentTarget.getAttribute('data-plugin-id');
         this.setState({deactivating: pluginId});
 
         const {error} = await this.props.actions.deactivatePlugin(pluginId);
@@ -144,8 +149,9 @@ export default class PluginManagement extends React.Component {
             const deactivating = this.state.deactivating === p.id;
             activateButton = (
                 <a
+                    data-plugin-id={p.id}
                     disabled={deactivating}
-                    onClick={() => this.handleDeactivate(p.id)}
+                    onClick={this.handleDeactivate}
                 >
                     {deactivating ?
                         <FormattedMessage
@@ -163,8 +169,9 @@ export default class PluginManagement extends React.Component {
             const activating = this.state.activating === p.id;
             activateButton = (
                 <a
+                    data-plugin-id={p.id}
                     disabled={activating}
-                    onClick={() => this.handleActivate(p.id)}
+                    onClick={this.handleActivate}
                 >
                     {activating ?
                         <FormattedMessage
@@ -197,20 +204,35 @@ export default class PluginManagement extends React.Component {
             );
         }
 
-        let removeButtonText;
-        if (this.state.removing === p.id) {
-            removeButtonText = (
-                <FormattedMessage
-                    id='admin.plugin.removing'
-                    defaultMessage='Removing...'
-                />
-            );
-        } else {
-            removeButtonText = (
-                <FormattedMessage
-                    id='admin.plugin.remove'
-                    defaultMessage='Remove'
-                />
+        let removeButton;
+        if (!p.prepackaged) {
+            let removeButtonText;
+            if (this.state.removing === p.id) {
+                removeButtonText = (
+                    <FormattedMessage
+                        id='admin.plugin.removing'
+                        defaultMessage='Removing...'
+                    />
+                );
+            } else {
+                removeButtonText = (
+                    <FormattedMessage
+                        id='admin.plugin.remove'
+                        defaultMessage='Remove'
+                    />
+                );
+            }
+            removeButton = (
+                <span>
+                    {' - '}
+                    <a
+                        data-plugin-id={p.id}
+                        disabled={this.state.removing === p.id}
+                        onClick={this.handleRemove}
+                    >
+                        {removeButtonText}
+                    </a>
+                </span>
             );
         }
 
@@ -229,27 +251,67 @@ export default class PluginManagement extends React.Component {
             );
         }
 
+        let version;
+        if (p.version) {
+            version = (
+                <span>
+                    {', '}
+                    <strong>
+                        <FormattedMessage
+                            id='admin.plugin.version'
+                            defaultMessage='Version:'
+                        />
+                    </strong>
+                    {' ' + p.version}
+                </span>
+            );
+        }
+
+        const id = (
+            <div className='padding-top'>
+                <strong>
+                    <FormattedMessage
+                        id='admin.plugin.id'
+                        defaultMessage='Id:'
+                    />
+                </strong>
+                {' ' + p.id}
+                {version}
+            </div>
+        );
+
+        let prepackagedLabel;
+        if (p.prepackaged) {
+            prepackagedLabel = (
+                <span>
+                    {' - '}
+                    <strong>
+                        <FormattedMessage
+                            id='admin.plugin.prepackaged'
+                            defaultMessage='Pre-packaged'
+                        />
+                    </strong>
+                </span>
+            );
+        }
+
         return (
             <div key={p.id}>
                 <div>
                     <strong>
                         <FormattedMessage
-                            id='admin.plugin.id'
-                            defaultMessage='ID:'
+                            id='admin.plugin.name'
+                            defaultMessage='Name:'
                         />
                     </strong>
-                    {' ' + p.id}
+                    {' ' + (p.name || '')}
+                    {prepackagedLabel}
                 </div>
                 {description}
+                {id}
                 <div className='padding-top'>
                     {activateButton}
-                    {' - '}
-                    <a
-                        disabled={this.state.removing === p.id}
-                        onClick={() => this.handleRemove(p.id)}
-                    >
-                        {removeButtonText}
-                    </a>
+                    {removeButton}
                     {settingsButton}
                 </div>
                 <hr/>
@@ -335,6 +397,23 @@ export default class PluginManagement extends React.Component {
         }
 
         const enableUploads = this.props.config.PluginSettings.EnableUploads;
+        let uploadHelpText;
+        if (enableUploads) {
+            uploadHelpText = (
+                <FormattedHTMLMessage
+                    id='admin.plugin.uploadDesc'
+                    defaultMessage='Upload a plugin for your Mattermost server. See <a href="https://about.mattermost.com/default-plugin-uploads" target="_blank">documentation</a> to learn more.'
+                />
+            );
+        } else {
+            uploadHelpText = (
+                <FormattedHTMLMessage
+                    id='admin.plugin.uploadDisabledDesc'
+                    defaultMessage='To enable plugin uploads, go to <strong>Plugins > Configuration</strong>. See <a href="https://about.mattermost.com/default-plugin-uploads" target="_blank">documentation</a> to learn more.'
+                />
+            );
+        }
+
         const uploadBtnClass = enableUploads ? 'btn btn-primary' : 'btn';
 
         return (
@@ -389,10 +468,7 @@ export default class PluginManagement extends React.Component {
                             </div>
                             {serverError}
                             <p className='help-text'>
-                                <FormattedHTMLMessage
-                                    id='admin.plugin.uploadDesc'
-                                    defaultMessage='Upload a plugin for your Mattermost server. See <a href="https://about.mattermost.com/default-plugin-uploads" target="_blank">documentation</a> to learn more.'
-                                />
+                                {uploadHelpText}
                             </p>
                         </div>
                     </div>

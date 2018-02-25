@@ -4,32 +4,24 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
-import {browserHistory, Link} from 'react-router';
 
-import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
-
-import {Constants} from 'utils/constants.jsx';
+import TeamInfoIcon from 'components/svg/team_info_icon';
 import * as Utils from 'utils/utils.jsx';
 
 export default class SelectTeamItem extends React.PureComponent {
     static propTypes = {
         team: PropTypes.object.isRequired,
         onTeamClick: PropTypes.func.isRequired,
-        loading: PropTypes.bool.isRequired
+        loading: PropTypes.bool.isRequired,
     };
 
-    handleTeamClick = () => {
-        addUserToTeamFromInvite('', '', this.props.team.invite_id,
-            () => {
-                browserHistory.push(`/${this.props.team.name}/channels/town-square`);
-            }
-        );
+    handleTeamClick = (e) => {
+        e.preventDefault();
         this.props.onTeamClick(this.props.team);
     }
 
     render() {
         let icon;
-        const infoIcon = Constants.TEAM_INFO_SVG;
         if (this.props.loading) {
             icon = (
                 <span className='fa fa-refresh fa-spin right signup-team__icon'/>
@@ -56,11 +48,10 @@ export default class SelectTeamItem extends React.PureComponent {
                     placement='top'
                     overlay={descriptionTooltip}
                     ref='descriptionOverlay'
+                    rootClose={true}
+                    container={this}
                 >
-                    <span
-                        className='icon icon--info'
-                        dangerouslySetInnerHTML={{__html: infoIcon}}
-                    />
+                    <TeamInfoIcon className='icon icon--info'/>
                 </OverlayTrigger>
             );
         }
@@ -68,13 +59,14 @@ export default class SelectTeamItem extends React.PureComponent {
         return (
             <div className='signup-team-dir'>
                 {showDescriptionTooltip}
-                <Link
+                <a
+                    href='#'
                     id={Utils.createSafeId(this.props.team.display_name)}
                     onClick={this.handleTeamClick}
                 >
                     <span className='signup-team-dir__name'>{this.props.team.display_name}</span>
                     {icon}
-                </Link>
+                </a>
             </div>
         );
     }
