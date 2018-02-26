@@ -84,17 +84,31 @@ describe('Actions.Storage', () => {
     });
 
     it('rehydrate', async () => {
+        const RealDate = Date;
+        const now = new Date(1487076708000);
+        global.Date = class extends RealDate {
+            constructor() {
+                super();
+                return new RealDate(now);
+            }
+        };
+
         const persistor = {
             pause: jest.fn(),
             resume: jest.fn(),
         };
         await Actions.storageRehydrate({test: '123'}, persistor)(store.dispatch, store.getState);
         assert.equal(store.getState().storage.storage.test.value, '123');
+        assert.equal(store.getState().storage.storage.test.timestamp.valueOf(), now.valueOf());
         await Actions.storageRehydrate({test: '456'}, persistor)(store.dispatch, store.getState);
         assert.equal(store.getState().storage.storage.test.value, '456');
+        assert.equal(store.getState().storage.storage.test.timestamp.valueOf(), now.valueOf());
         await Actions.storageRehydrate({test2: '789'}, persistor)(store.dispatch, store.getState);
         assert.equal(store.getState().storage.storage.test.value, '456');
+        assert.equal(store.getState().storage.storage.test.timestamp.valueOf(), now.valueOf());
         assert.equal(store.getState().storage.storage.test2.value, '789');
+        assert.equal(store.getState().storage.storage.test2.timestamp.valueOf(), now.valueOf());
+        global.Date = RealDate;
     });
 
     it('rehydrate-with-timestamp', async () => {
