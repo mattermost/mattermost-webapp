@@ -583,6 +583,7 @@ export const Constants = {
     POST_DELETED: 'deleted',
     POST_UPDATED: 'updated',
     SYSTEM_MESSAGE_PREFIX: 'system_',
+    AUTO_RESPONSE: 'system_auto_response',
     SYSTEM_MESSAGE_PROFILE_IMAGE: logoImage,
     RESERVED_TEAM_NAMES: [
         'signup',
@@ -1081,6 +1082,7 @@ export const Constants = {
     MHPNS: 'https://push.mattermost.com',
     MTPNS: 'http://push-test.mattermost.com',
     BOT_NAME: 'BOT',
+    AUTO_RESPONSE_NAME: 'AUTO RESPONDER',
     MAX_PREV_MSGS: 100,
     POST_COLLAPSE_TIMEOUT: 1000 * 60 * 5, // five minutes
     PERMISSIONS_ALL: 'all',

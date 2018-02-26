@@ -23,6 +23,10 @@ export function isSystemMessage(post) {
     return Boolean(post.type && (post.type.lastIndexOf(Constants.SYSTEM_MESSAGE_PREFIX) === 0));
 }
 
+export function fromAutoResponder(post) {
+    return Boolean(post.type && (post.type === Constants.AUTO_RESPONSE));
+}
+
 export function isFromWebhook(post) {
     return post.props && post.props.from_webhook === 'true';
 }
@@ -55,6 +59,10 @@ export function getProfilePicSrcForPost(post, user) {
         src = Utils.imageURLForUser(user);
     } else {
         src = Utils.imageURLForUser(post.user_id);
+    }
+
+    if (fromAutoResponder(post)) {
+        return src;
     }
 
     if (post.props && post.props.from_webhook && !post.props.use_user_icon && global.window.mm_config.EnablePostIconOverride === 'true') {
