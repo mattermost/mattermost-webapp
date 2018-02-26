@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {getTeamByName} from 'mattermost-redux/selectors/entities/teams';
-import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import Constants from 'utils/constants';
 import {getGlobalItem} from 'selectors/storage';
@@ -11,17 +10,12 @@ import {getGlobalItem} from 'selectors/storage';
 import CenterChannel from './center_channel';
 
 const getLastChannelPath = (state, teamName) => {
-    let channelName = Constants.DEFAULT_CHANNEL;
     const team = getTeamByName(state, teamName);
 
     if (team) {
-        const channelId = getGlobalItem(state, team.id, null);
-        const channel = getChannel(state, channelId);
-        if (channel) {
-            channelName = channel.name;
-        }
+        return getGlobalItem(state, Constants.PREV_CHANNEL_KEY + team.id, Constants.DEFAULT_CHANNEL);
     }
-    return channelName;
+    return Constants.DEFAULT_CHANNEL;
 };
 
 const mapStateToProps = (state, ownProps) => ({

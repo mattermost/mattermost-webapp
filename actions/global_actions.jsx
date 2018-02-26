@@ -63,7 +63,7 @@ export function emitChannelClickEvent(channel) {
             reloadIfServerVersionChanged();
         });
 
-        BrowserStore.setGlobalItem(chan.team_id, chan.id);
+        BrowserStore.setGlobalItem(Constants.PREV_CHANNEL_KEY + chan.team_id, chan.name);
 
         loadProfilesForSidebar();
 
