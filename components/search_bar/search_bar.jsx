@@ -264,6 +264,7 @@ export default class SearchBar extends React.Component {
                             providers={this.suggestionProviders}
                             type='search'
                             autoFocus={this.props.isFocus && this.props.searchTerms === ''}
+                            delayInputUpdate={true}
                         />
                         <div
                             id='searchClearButton'
