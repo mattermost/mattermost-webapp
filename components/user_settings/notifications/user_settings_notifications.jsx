@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
+import {Client4} from 'mattermost-redux/client';
+
 import {updateUserNotifyProps} from 'actions/user_actions.jsx';
 import UserStore from 'stores/user_store.jsx';
 import Constants, {NotificationLevels} from 'utils/constants.jsx';
@@ -14,6 +17,7 @@ import SettingItemMin from 'components/setting_item_min.jsx';
 
 import DesktopNotificationSettings from './desktop_notification_settings.jsx';
 import EmailNotificationSetting from './email_notification_setting.jsx';
+import ManageAutoResponder from './manage_auto_responder.jsx';
 
 function getNotificationsStateFromStores() {
     const user = UserStore.getCurrentUser();
@@ -25,6 +29,11 @@ function getNotificationsStateFromStores() {
     let enableEmail = 'true';
     let pushActivity = NotificationLevels.MENTION;
     let pushStatus = Constants.UserStatuses.AWAY;
+    let autoResponderActive = false;
+    let autoResponderMessage = Utils.localizeMessage(
+        'user.settings.notifications.autoResponderDefault',
+        'Hello, I am out of office and unable to respond to messages.'
+    );
 
     if (user.notify_props) {
         if (user.notify_props.desktop) {
@@ -47,6 +56,14 @@ function getNotificationsStateFromStores() {
         }
         if (user.notify_props.push_status) {
             pushStatus = user.notify_props.push_status;
+        }
+
+        if (user.notify_props.auto_responder_active) {
+            autoResponderActive = user.notify_props.auto_responder_active === 'true';
+        }
+
+        if (user.notify_props.auto_responder_message) {
+            autoResponderMessage = user.notify_props.auto_responder_message;
         }
     }
 
@@ -93,6 +110,8 @@ function getNotificationsStateFromStores() {
         customKeysChecked: customKeys.length > 0,
         firstNameKey,
         channelKey,
+        autoResponderActive,
+        autoResponderMessage,
         notifyCommentsLevel: comments,
         isSaving: false,
     };
@@ -123,6 +142,15 @@ export default class NotificationsTab extends React.Component {
         data.push = this.state.pushActivity;
         data.push_status = this.state.pushStatus;
         data.comments = this.state.notifyCommentsLevel;
+        data.auto_responder_active = this.state.autoResponderActive.toString();
+        data.auto_responder_message = this.state.autoResponderMessage;
+
+        if (!data.auto_responder_message || data.auto_responder_message === '') {
+            data.auto_responder_message = Utils.localizeMessage(
+                'user.settings.notifications.autoResponderDefault',
+                'Hello, I am out of office and unable to respond to messages.'
+            );
+        }
 
         const mentionKeys = [];
         if (this.state.usernameKey) {
@@ -817,6 +845,56 @@ export default class NotificationsTab extends React.Component {
             );
         }
 
+        let autoResponderSection;
+        if (isMinimumServerVersion(Client4.getServerVersion(), 4, 9)) {
+            if (this.props.activeSection === 'auto-responder') {
+                autoResponderSection = (
+                    <div>
+                        <ManageAutoResponder
+                            autoResponderActive={this.state.autoResponderActive}
+                            autoResponderMessage={this.state.autoResponderMessage}
+                            updateSection={this.updateSection}
+                            setParentState={this.setStateValue}
+                            submit={this.handleSubmit}
+                            error={this.state.serverError}
+                            saving={this.state.isSaving}
+                        />
+                        <div className='divider-dark'/>
+                    </div>
+                );
+            } else {
+                const describe = this.state.autoResponderActive ? (
+                    <FormattedMessage
+                        id='user.settings.notifications.autoResponderEnabled'
+                        defaultMessage='Enabled'
+                    />
+                ) : (
+                    <FormattedMessage
+                        id='user.settings.notifications.autoResponderDisabled'
+                        defaultMessage='Disabled'
+                    />
+                );
+
+                autoResponderSection = (
+                    <div>
+                        <SettingItemMin
+                            title={
+                                <FormattedMessage
+                                    id='user.settings.notifications.autoResponder'
+                                    defaultMessage='Out Of Office: Auto Responder'
+                                />
+                            }
+                            width='medium'
+                            describe={describe}
+                            section={'auto-responder'}
+                            updateSection={this.updateSection}
+                        />
+                        <div className='divider-dark'/>
+                    </div>
+                );
+            }
+        }
+
         const pushNotificationSection = this.createPushNotificationSection();
         const enableEmail = this.state.enableEmail === 'true';
 
@@ -893,6 +971,8 @@ export default class NotificationsTab extends React.Component {
                     {keysSection}
                     <div className='divider-light'/>
                     {commentsSection}
+                    <div className='divider-light'/>
+                    {autoResponderSection}
                     <div className='divider-dark'/>
                 </div>
             </div>

@@ -10,6 +10,7 @@ import {UserStatuses} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 import BootstrapSpan from 'components/bootstrap_span.jsx';
 import StatusIcon from 'components/status_icon.jsx';
+import {showResetStatusModal} from 'actions/global_actions.jsx';
 
 export default class StatusDropdown extends React.Component {
     static propTypes = {
@@ -30,6 +31,10 @@ export default class StatusDropdown extends React.Component {
 
     state = {
         showDropdown: false,
+    }
+
+    isUserOutOfOffice = () => {
+        return this.props.status === UserStatuses.OUT_OF_OFFICE;
     }
 
     onToggle = (showDropdown) => {
@@ -68,20 +73,41 @@ export default class StatusDropdown extends React.Component {
         this.setStatus(UserStatuses.DND);
     }
 
+    showStatusChangeConfirmation = (status) => {
+        this.closeDropdown();
+        showResetStatusModal(status);
+    };
+
     renderStatusOnlineAction = () => {
+        if (this.isUserOutOfOffice()) {
+            return this.renderStatusAction(UserStatuses.ONLINE, () => this.showStatusChangeConfirmation('online'));
+        }
         return this.renderStatusAction(UserStatuses.ONLINE, this.setOnline);
     }
 
     renderStatusAwayAction = () => {
+        if (this.isUserOutOfOffice()) {
+            return this.renderStatusAction(UserStatuses.AWAY, () => this.showStatusChangeConfirmation('away'));
+        }
         return this.renderStatusAction(UserStatuses.AWAY, this.setAway);
     }
 
     renderStatusOfflineAction = () => {
+        if (this.isUserOutOfOffice()) {
+            return this.renderStatusAction(UserStatuses.OFFLINE, () => this.showStatusChangeConfirmation('offline'));
+        }
         return this.renderStatusAction(UserStatuses.OFFLINE, this.setOffline);
     }
 
     renderStatusDndAction = () => {
+        if (this.isUserOutOfOffice()) {
+            return this.renderStatusAction(UserStatuses.DND, () => this.showStatusChangeConfirmation('dnd'));
+        }
         return this.renderStatusAction(UserStatuses.DND, this.setDnd, localizeMessage('status_dropdown.set_dnd.extra', 'Disables Desktop and Push Notifications'));
+    }
+
+    renderStatusOutOfOfficeAction = () => {
+        return this.renderStatusAction(UserStatuses.OUT_OF_OFFICE, null, localizeMessage('status_dropdown.set_ooo.extra', 'Auto Responder is enabled.'));
     }
 
     renderProfilePicture = () => {
@@ -116,12 +142,17 @@ export default class StatusDropdown extends React.Component {
 
     render() {
         const profilePicture = this.renderProfilePicture();
-        const actions = [
+        let actions = [
             this.renderStatusOnlineAction(),
             this.renderStatusAwayAction(),
             this.renderStatusDndAction(),
             this.renderStatusOfflineAction(),
         ];
+
+        if (this.isUserOutOfOffice()) {
+            actions = [this.renderStatusOutOfOfficeAction(), ...actions];
+        }
+
         return (
             <Dropdown
                 id={'status-dropdown'}

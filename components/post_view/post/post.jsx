@@ -218,6 +218,7 @@ export default class Post extends React.PureComponent {
         const post = this.props.post || {};
 
         const isSystemMessage = PostUtils.isSystemMessage(post);
+        const fromAutoResponder = PostUtils.fromAutoResponder(post);
         const fromWebhook = post && post.props && post.props.from_webhook === 'true';
 
         let status = this.props.status;
@@ -238,13 +239,25 @@ export default class Post extends React.PureComponent {
                 />
             );
 
+            if (fromAutoResponder) {
+                profilePic = (
+                    <span className='auto-responder'>
+                        <ProfilePicture
+                            src={PostUtils.getProfilePicSrcForPost(post, this.props.user)}
+                            user={this.props.user}
+                            hasMention={true}
+                        />
+                    </span>
+                );
+            }
+
             if (fromWebhook) {
                 profilePic = (
                     <ProfilePicture
                         src={PostUtils.getProfilePicSrcForPost(post, this.props.user)}
                     />
                 );
-            } else if (PostUtils.isSystemMessage(post)) {
+            } else if (isSystemMessage && !fromAutoResponder) {
                 profilePic = (
                     <MattermostLogo className='icon'/>
                 );

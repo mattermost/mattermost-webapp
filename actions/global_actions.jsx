@@ -224,6 +224,14 @@ export function showGetPostLinkModal(post) {
     });
 }
 
+export function showResetStatusModal(newStatus) {
+    AppDispatcher.handleViewAction({
+        type: ActionTypes.TOGGLE_RESET_STATUS_MODAL,
+        value: true,
+        newStatus,
+    });
+}
+
 export function showGetPublicLinkModal(fileId) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_GET_PUBLIC_LINK_MODAL,

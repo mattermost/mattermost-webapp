@@ -218,6 +218,7 @@ export const ActionTypes = keyMirror({
     TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL: null,
     TOGGLE_CHANNEL_NAME_UPDATE_MODAL: null,
     TOGGLE_LEAVE_PRIVATE_CHANNEL_MODAL: null,
+    TOGGLE_RESET_STATUS_MODAL: null,
     SHOW_EDIT_POST_MODAL: null,
     HIDE_EDIT_POST_MODAL: null,
 
@@ -292,6 +293,7 @@ export const ModalIdentifiers = {
 };
 
 export const UserStatuses = {
+    OUT_OF_OFFICE: 'ooo',
     OFFLINE: 'offline',
     AWAY: 'away',
     ONLINE: 'online',
@@ -608,6 +610,7 @@ export const Constants = {
     POST_DELETED: 'deleted',
     POST_UPDATED: 'updated',
     SYSTEM_MESSAGE_PREFIX: 'system_',
+    AUTO_RESPONDER: 'system_auto_responder',
     SYSTEM_MESSAGE_PROFILE_IMAGE: logoImage,
     RESERVED_TEAM_NAMES: [
         'signup',
@@ -1102,6 +1105,7 @@ export const Constants = {
     MHPNS: 'https://push.mattermost.com',
     MTPNS: 'http://push-test.mattermost.com',
     BOT_NAME: 'BOT',
+    AUTO_RESPONDER_NAME: 'AUTO RESPONDER',
     MAX_PREV_MSGS: 100,
     POST_COLLAPSE_TIMEOUT: 1000 * 60 * 5, // five minutes
     PERMISSIONS_ALL: 'all',

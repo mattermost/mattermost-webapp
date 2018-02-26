@@ -131,6 +131,10 @@ export default class CreatePost extends React.Component {
          */
         maxPostSize: PropTypes.number.isRequired,
 
+        /**
+         * Whether to display a confirmation modal to reset status.
+         */
+        userIsOutOfOffice: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
 
             /**
@@ -346,13 +350,38 @@ export default class CreatePost extends React.Component {
         this.setState({showConfirmModal: true});
     }
 
+    getStatusFromSlashCommand = () => {
+        const {message} = this.state;
+        const tokens = message.split(' ');
+
+        if (tokens.length > 0) {
+            return tokens[0].substring(1);
+        }
+        return '';
+    };
+
+    isStatusSlashCommand = (command) => {
+        return command === 'online' || command === 'away' ||
+            command === 'dnd' || command === 'offline';
+    };
+
     handleSubmit = (e) => {
-        const updateChannel = this.props.currentChannel;
+        const {
+            currentChannel: updateChannel,
+            userIsOutOfOffice,
+        } = this.props;
 
         if (this.props.enableConfirmNotificationsToChannel &&
             this.props.currentChannelMembersCount > Constants.NOTIFY_ALL_MEMBERS &&
             PostUtils.containsAtChannel(this.state.message)) {
             this.showNotifyAllModal();
+            return;
+        }
+
+        const status = this.getStatusFromSlashCommand();
+        if (userIsOutOfOffice && this.isStatusSlashCommand(status)) {
+            GlobalActions.showResetStatusModal(status);
+            this.setState({message: ''});
             return;
         }
 
