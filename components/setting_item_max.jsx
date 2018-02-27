@@ -87,6 +87,11 @@ export default class SettingItemMax extends React.PureComponent {
          * Text of cancel button
          */
         cancelButtonText: PropTypes.node,
+
+        /**
+         * Avoid submitting when using SHIFT + ENTER
+         */
+        shiftEnter: PropTypes.bool
     }
 
     componentDidMount() {
@@ -98,6 +103,9 @@ export default class SettingItemMax extends React.PureComponent {
     }
 
     onKeyDown = (e) => {
+        if (this.props.shiftEnter && e.keyCode === Constants.KeyCodes.ENTER && e.shiftKey) {
+            return;
+        }
         if (e.keyCode === Constants.KeyCodes.ENTER && this.props.submit) {
             this.handleSubmit(e);
         }

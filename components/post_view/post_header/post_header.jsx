@@ -92,53 +92,55 @@ export default class PostHeader extends React.PureComponent {
     render() {
         const post = this.props.post;
         const isSystemMessage = PostUtils.isSystemMessage(post);
+        const fromAutoResponder = PostUtils.fromAutoResponder(post);
+        const fromWebhook = post && post.props && post.props.from_webhook === 'true';
 
-        let userProfile = (
-            <UserProfile
-                user={this.props.user}
-                displayNameType={this.props.displayNameType}
-                status={this.props.status}
-                isBusy={this.props.isBusy}
-                hasMention={true}
-            />
-        );
-        let botIndicator;
+        let indicator;
         let colon;
+        let userProfileProps = {};
 
-        if (post.props && post.props.from_webhook) {
+        if (fromWebhook || fromAutoResponder) {
             if (post.props.override_username && this.props.enablePostUsernameOverride) {
-                userProfile = (
-                    <UserProfile
-                        user={this.props.user}
-                        overwriteName={post.props.override_username}
-                        disablePopover={true}
-                    />
-                );
+                userProfileProps = {
+                    user: this.props.user,
+                    overwriteName: post.props.override_username,
+                    disablePopover: true
+                };
             } else {
-                userProfile = (
-                    <UserProfile
-                        user={this.props.user}
-                        displayNameType={this.props.displayNameType}
-                        disablePopover={true}
-                    />
-                );
+                userProfileProps = {
+                    user: this.props.user,
+                    displayNameType: this.props.displayNameType,
+                    disablePopover: true
+                };
             }
 
-            botIndicator = <div className='bot-indicator'>{Constants.BOT_NAME}</div>;
-        } else if (isSystemMessage) {
-            userProfile = (
-                <UserProfile
-                    user={{}}
-                    overwriteName={
-                        <FormattedMessage
-                            id='post_info.system'
-                            defaultMessage='System'
-                        />
-                    }
-                    overwriteImage={Constants.SYSTEM_MESSAGE_PROFILE_IMAGE}
-                    disablePopover={true}
-                />
-            );
+            indicator = <div className='bot-indicator'>{Constants.BOT_NAME}</div>;
+        } else if (isSystemMessage && !fromAutoResponder) {
+            userProfileProps = {
+                user: {},
+                overwriteName: (
+                    <FormattedMessage
+                        id='post_info.system'
+                        defaultMessage='System'
+                    />
+                ),
+                overwriteImage: Constants.SYSTEM_MESSAGE_PROFILE_IMAGE,
+                disablePopover: true
+            };
+        } else {
+            userProfileProps = {
+                user: this.props.user,
+                displayNameType: this.props.displayNameType,
+                status: this.props.status,
+                isBusy: this.props.isBusy,
+                hasMention: true
+            };
+        }
+
+        const userProfile = <UserProfile {...userProfileProps}/>;
+
+        if (fromAutoResponder) {
+            indicator = <div className='auto-responder-indicator'>{Constants.AUTO_RESPONSE_NAME}</div>;
         }
 
         if (this.props.compactDisplay) {
@@ -148,7 +150,7 @@ export default class PostHeader extends React.PureComponent {
         return (
             <div className='post__header'>
                 <div className='col col__name'>{userProfile}{colon}</div>
-                {botIndicator}
+                {indicator}
                 <div className='col'>
                     <PostInfo
                         post={post}

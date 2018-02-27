@@ -14,6 +14,7 @@ import SettingItemMin from 'components/setting_item_min.jsx';
 
 import DesktopNotificationSettings from './desktop_notification_settings.jsx';
 import EmailNotificationSetting from './email_notification_setting.jsx';
+import ManageAutoReply from './manage_auto_reply.jsx';
 
 function getNotificationsStateFromStores() {
     const user = UserStore.getCurrentUser();
@@ -25,6 +26,11 @@ function getNotificationsStateFromStores() {
     let enableEmail = 'true';
     let pushActivity = NotificationLevels.MENTION;
     let pushStatus = Constants.UserStatuses.AWAY;
+    let autoReplyActive = false;
+    let autoReplyMessage = Utils.localizeMessage(
+        'user.settings.notifications.autoResponderDefault',
+        'Hello, I am out of office and unable to respond to messages.'
+    );
 
     if (user.notify_props) {
         if (user.notify_props.desktop) {
@@ -47,6 +53,14 @@ function getNotificationsStateFromStores() {
         }
         if (user.notify_props.push_status) {
             pushStatus = user.notify_props.push_status;
+        }
+
+        if (user.notify_props.auto_reply_active) {
+            autoReplyActive = user.notify_props.auto_reply_active === 'true';
+        }
+
+        if (user.notify_props.auto_reply_message) {
+            autoReplyMessage = user.notify_props.auto_reply_message;
         }
     }
 
@@ -93,6 +107,8 @@ function getNotificationsStateFromStores() {
         customKeysChecked: customKeys.length > 0,
         firstNameKey,
         channelKey,
+        autoReplyActive,
+        autoReplyMessage,
         notifyCommentsLevel: comments,
         isSaving: false,
     };
@@ -123,6 +139,15 @@ export default class NotificationsTab extends React.Component {
         data.push = this.state.pushActivity;
         data.push_status = this.state.pushStatus;
         data.comments = this.state.notifyCommentsLevel;
+        data.auto_reply_active = this.state.autoReplyActive.toString();
+        data.auto_reply_message = this.state.autoReplyMessage;
+
+        if (!data.auto_reply_message || data.auto_reply_message === '') {
+            data.auto_reply_message = Utils.localizeMessage(
+                'user.settings.notifications.autoResponderDefault',
+                'Hello, I am out of office and unable to respond to messages.'
+            );
+        }
 
         const mentionKeys = [];
         if (this.state.usernameKey) {
@@ -816,6 +841,54 @@ export default class NotificationsTab extends React.Component {
             );
         }
 
+        let autoRespond;
+        if (this.props.activeSection === 'auto-reply') {
+            autoRespond = (
+                <div>
+                    <ManageAutoReply
+                        autoReplyActive={this.state.autoReplyActive}
+                        autoReplyMessage={this.state.autoReplyMessage}
+                        updateSection={this.updateSection}
+                        setParentState={this.setStateValue}
+                        submit={this.handleSubmit}
+                        error={this.state.serverError}
+                        saving={this.state.isSaving}
+                    />
+                    <div className='divider-dark'/>
+                </div>
+            );
+        } else {
+            const describe = this.state.autoReplyActive ? (
+                <FormattedMessage
+                    id='user.settings.notifications.autoResponderEnabled'
+                    defaultMessage='Enabled'
+                />
+            ) : (
+                <FormattedMessage
+                    id='user.settings.notifications.autoResponderDisabled'
+                    defaultMessage='Disabled'
+                />
+            );
+
+            autoRespond = (
+                <div>
+                    <SettingItemMin
+                        title={
+                            <FormattedMessage
+                                id='user.settings.notifications.autoResponder'
+                                defaultMessage='Auto Responder'
+                            />
+                        }
+                        width='medium'
+                        describe={describe}
+                        section={'auto-reply'}
+                        updateSection={this.updateSection}
+                    />
+                    <div className='divider-dark'/>
+                </div>
+            );
+        }
+
         const pushNotificationSection = this.createPushNotificationSection();
         const enableEmail = this.state.enableEmail === 'true';
 
@@ -892,6 +965,8 @@ export default class NotificationsTab extends React.Component {
                     {keysSection}
                     <div className='divider-light'/>
                     {commentsSection}
+                    <div className='divider-light'/>
+                    {autoRespond}
                     <div className='divider-dark'/>
                 </div>
             </div>
