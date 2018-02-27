@@ -14,7 +14,7 @@ describe('components/TeamSettings', () => {
         activeSection: 'team_icon',
         updateSection: () => () => true,
         closeModal: () => () => true,
-        collapseModal: () => () => true
+        collapseModal: () => () => true,
     };
 
     test('should handle bad updateTeamIcon function call', () => {
@@ -31,9 +31,9 @@ describe('components/TeamSettings', () => {
         wrapper.instance().updateTeamIcon({
             target: {
                 files: [{
-                    type: 'text/plain'
-                }]
-            }
+                    type: 'text/plain',
+                }],
+            },
         });
 
         expect(wrapper.state('clientError')).not.toBe('');
@@ -48,9 +48,9 @@ describe('components/TeamSettings', () => {
             target: {
                 files: [{
                     type: 'image/jpeg',
-                    size: 12345
-                }]
-            }
+                    size: 12345,
+                }],
+            },
         });
 
         expect(wrapper.state('clientError')).not.toBe('');

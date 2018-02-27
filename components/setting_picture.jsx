@@ -12,7 +12,7 @@ import FormError from 'components/form_error.jsx';
 export default class SettingPicture extends Component {
 
     static defaultProps = {
-        imageContext: 'profile'
+        imageContext: 'profile',
     };
 
     static propTypes = {
@@ -26,7 +26,7 @@ export default class SettingPicture extends Component {
         title: PropTypes.string,
         onFileChange: PropTypes.func,
         updateSection: PropTypes.func,
-        imageContext: PropTypes.string
+        imageContext: PropTypes.string,
     };
 
     constructor(props) {

@@ -55,7 +55,7 @@ class GeneralTab extends React.Component {
             clientError: '',
             teamIconFile: null,
             loadingIcon: false,
-            maxFileSize: global.window.mm_config.MaxFileSize
+            maxFileSize: global.window.mm_config.MaxFileSize,
         };
     }
 
@@ -223,7 +223,7 @@ class GeneralTab extends React.Component {
 
         this.setState({
             clientError: '',
-            serverError: ''
+            serverError: '',
         });
 
         this.setState({loadingIcon: true});
@@ -234,14 +234,14 @@ class GeneralTab extends React.Component {
             () => {
                 this.setState({
                     loadingIcon: false,
-                    submitActive: false
+                    submitActive: false,
                 });
                 this.updateSection('');
             },
             (err) => {
                 this.setState({
                     loadingIcon: false,
-                    serverError: err.message
+                    serverError: err.message,
                 });
             }
         );
@@ -273,23 +273,23 @@ class GeneralTab extends React.Component {
 
             if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
                 this.setState({
-                    clientError: Utils.localizeMessage('general_tab.teamIconInvalidFileType', 'Only JPG or PNG images may be used for team icons')
+                    clientError: Utils.localizeMessage('general_tab.teamIconInvalidFileType', 'Only JPG or PNG images may be used for team icons'),
                 });
             } else if (file.size > this.state.maxFileSize) {
                 this.setState({
-                    clientError: Utils.localizeMessage('general_tab.teamIconTooLarge', 'Only JPG or PNG images may be used for team icons')
+                    clientError: Utils.localizeMessage('general_tab.teamIconTooLarge', 'Only JPG or PNG images may be used for team icons'),
                 });
             } else {
                 this.setState({
                     teamIconFile: e.target.files[0],
                     clientError: '',
-                    submitActive: true
+                    submitActive: true,
                 });
             }
         } else {
             this.setState({
                 teamIconFile: null,
-                clientError: Utils.localizeMessage('general_tab.teamIconError', 'An error occured while selecting the image.')
+                clientError: Utils.localizeMessage('general_tab.teamIconError', 'An error occured while selecting the image.'),
             });
         }
     }
@@ -624,7 +624,7 @@ class GeneralTab extends React.Component {
                                     month='short'
                                     year='numeric'
                                 />
-                            )
+                            ),
                         }}
                     />
                 );
