@@ -8,8 +8,8 @@ export default class MentionsIcon extends React.PureComponent {
         return (
             <span {...this.props}>
                 <svg
-                    width='20px'
-                    height='20px'
+                    width='15px'
+                    height='15px'
                     viewBox='0 0 20 20'
                     version='1.1'
                 >
