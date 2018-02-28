@@ -29,7 +29,7 @@ export default class SignupEmail extends React.Component {
             privacyPolicyLink: PropTypes.string,
             customBrand: PropTypes.bool.isRequired,
             enableCustomBrand: PropTypes.bool.isRequired,
-            customDescriptionText: PropTypes.string.isRequired,
+            customDescriptionText: PropTypes.string,
         };
     }
 
