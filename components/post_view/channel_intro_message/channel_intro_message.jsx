@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {FormattedDate, FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import PropTypes from 'prop-types';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
@@ -14,13 +15,18 @@ import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import ProfilePicture from 'components/profile_picture.jsx';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
 import UserProfile from 'components/user_profile.jsx';
+import {showManagementOptions} from 'utils/channel_utils.jsx';
+import * as Utils from 'utils/utils.jsx';
 
-import {showManagementOptions} from './channel_utils.jsx';
-import * as Utils from './utils.jsx';
-
-export function createChannelIntroMessage(channel, fullWidthIntro) {
+const CreateChannelIntroMessage = ({
+    channel,
+    fullWidth,
+    isLicensed,
+    restrictPrivateChannelManageMembers,
+    restrictTeamInvite,
+}) => {
     let centeredIntro = '';
-    if (!fullWidthIntro) {
+    if (!fullWidth) {
         centeredIntro = 'channel-intro--centered';
     }
 
@@ -29,16 +35,24 @@ export function createChannelIntroMessage(channel, fullWidthIntro) {
     } else if (channel.type === Constants.GM_CHANNEL) {
         return createGMIntroMessage(channel, centeredIntro);
     } else if (ChannelStore.isDefault(channel)) {
-        return createDefaultIntroMessage(channel, centeredIntro);
+        return createDefaultIntroMessage(channel, centeredIntro, isLicensed, restrictTeamInvite);
     } else if (channel.name === Constants.OFFTOPIC_CHANNEL) {
-        return createOffTopicIntroMessage(channel, centeredIntro);
+        return createOffTopicIntroMessage(channel, centeredIntro, isLicensed, restrictPrivateChannelManageMembers);
     } else if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {
-        return createStandardIntroMessage(channel, centeredIntro);
+        return createStandardIntroMessage(channel, centeredIntro, isLicensed, restrictPrivateChannelManageMembers);
     }
     return null;
-}
+};
 
-export function createGMIntroMessage(channel, centeredIntro) {
+CreateChannelIntroMessage.propTypes = {
+    isLicensed: PropTypes.bool.isRequired,
+    restrictPrivateChannelManageMembers: PropTypes.string,
+    restrictTeamInvite: PropTypes.string,
+};
+
+export default CreateChannelIntroMessage;
+
+function createGMIntroMessage(channel, centeredIntro) {
     const profiles = UserStore.getProfileListInChannel(channel.id, true);
     const channelIntroId = 'channelIntro';
 
@@ -104,7 +118,7 @@ export function createGMIntroMessage(channel, centeredIntro) {
     );
 }
 
-export function createDMIntroMessage(channel, centeredIntro) {
+function createDMIntroMessage(channel, centeredIntro) {
     var teammate = Utils.getDirectTeammate(channel.id);
     const channelIntroId = 'channelIntro';
 
@@ -166,7 +180,7 @@ export function createDMIntroMessage(channel, centeredIntro) {
     );
 }
 
-export function createOffTopicIntroMessage(channel, centeredIntro) {
+function createOffTopicIntroMessage(channel, centeredIntro, restrictPrivateChannelManageMembers) {
     var uiType = (
         <FormattedMessage
             id='intro_messages.channel'
@@ -180,7 +194,7 @@ export function createOffTopicIntroMessage(channel, centeredIntro) {
     }
 
     let channelInviteButton = createInviteChannelMemberButton(channel, uiType);
-    if (channel.type === Constants.PRIVATE_CHANNEL && !isCurrentUserPermitted(global.window.mm_config.RestrictPrivateChannelManageMembers)) {
+    if (channel.type === Constants.PRIVATE_CHANNEL && !isCurrentUserPermitted(restrictPrivateChannelManageMembers)) {
         channelInviteButton = null;
     }
 
@@ -202,9 +216,9 @@ export function createOffTopicIntroMessage(channel, centeredIntro) {
     );
 }
 
-export function createDefaultIntroMessage(channel, centeredIntro) {
+function createDefaultIntroMessage(channel, centeredIntro, isLicensed, restrictTeamInvite) {
     let teamInviteLink = null;
-    if (isCurrentUserPermitted(global.window.mm_config.RestrictTeamInvite)) {
+    if (isCurrentUserPermitted(isLicensed, restrictTeamInvite)) {
         teamInviteLink = (
             <span
                 className='intro-links color--link cursor--pointer'
@@ -243,7 +257,7 @@ export function createDefaultIntroMessage(channel, centeredIntro) {
     );
 }
 
-export function createStandardIntroMessage(channel, centeredIntro) {
+function createStandardIntroMessage(channel, centeredIntro, isLicensed, restrictPrivateChannelManageMembers) {
     var uiName = channel.display_name;
     var creatorName = Utils.displayUsername(channel.creator_id);
     var uiType;
@@ -338,7 +352,7 @@ export function createStandardIntroMessage(channel, centeredIntro) {
     }
 
     let channelInviteButton = createInviteChannelMemberButton(channel, uiType);
-    if (channel.type === Constants.PRIVATE_CHANNEL && !isCurrentUserPermitted(global.window.mm_config.RestrictPrivateChannelManageMembers)) {
+    if (channel.type === Constants.PRIVATE_CHANNEL && !isCurrentUserPermitted(isLicensed, restrictPrivateChannelManageMembers)) {
         channelInviteButton = null;
     }
 
@@ -415,8 +429,8 @@ function showManagementOption(channel) {
     return true;
 }
 
-function isCurrentUserPermitted(permission) {
-    if (global.window.mm_license.IsLicensed !== 'true') {
+function isCurrentUserPermitted(isLicensed, permission) {
+    if (!isLicensed) {
         return true;
     }
 

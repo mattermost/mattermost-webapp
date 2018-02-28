@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow, mount} from 'enzyme';
 
-import FileAttachment from 'components/file_attachment.jsx';
+import FileAttachment from 'components/file_attachment/file_attachment.jsx';
 
 jest.mock('utils/utils.jsx', () => {
     const original = require.requireActual('utils/utils.jsx');
@@ -14,15 +14,7 @@ jest.mock('utils/utils.jsx', () => {
     };
 });
 
-jest.mock('utils/file_utils', () => {
-    const original = require.requireActual('utils/file_utils');
-    return {
-        ...original,
-        canDownloadFiles: jest.fn(() => true),
-    };
-});
-
-function createComponent({fileInfo, handleImageClick, index, compactDisplay} = {}) {
+function createComponent({fileInfo, handleImageClick, index, compactDisplay, canDownloadFiles = true} = {}) {
     const fileInfoProp = fileInfo || {
         id: 1,
         extension: 'pdf',
@@ -37,6 +29,7 @@ function createComponent({fileInfo, handleImageClick, index, compactDisplay} = {
             handleImageClick={handleImageClickProp}
             index={indexProp}
             compactDisplay={compactDisplay}
+            canDownloadFiles={canDownloadFiles}
         />
     );
 }
@@ -106,11 +99,8 @@ describe('component/FileAttachment', () => {
     });
 
     test('should match snapshot, without compact display and without can download', () => {
-        const fileUtilsMock = require.requireMock('utils/file_utils');
-        fileUtilsMock.canDownloadFiles.mockImplementation(() => false);
-        const wrapper = shallow(createComponent());
+        const wrapper = shallow(createComponent({canDownloadFiles: false}));
         expect(wrapper).toMatchSnapshot();
-        fileUtilsMock.canDownloadFiles.mockImplementation(() => true);
     });
 
     test('should match snapshot, file with long name', () => {

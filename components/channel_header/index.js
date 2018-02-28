@@ -11,7 +11,7 @@ import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getMyTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {getUserIdFromChannelName, isDefault, isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {withRouter} from 'react-router-dom';
 
@@ -40,8 +40,8 @@ function mapStateToProps(state, ownProps) {
         dmUserStatus = {status: getStatusForUserId(state, dmUserId)};
     }
 
+    const license = getLicense(state);
     const config = getConfig(state);
-    const enableWebrtc = config.EnableWebrtc === 'true';
 
     return {
         channel,
@@ -54,7 +54,8 @@ function mapStateToProps(state, ownProps) {
         dmUserStatus,
         enableFormatting: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'formatting', true),
         rhsState: getRhsState(state),
-        enableWebrtc,
+        isLicensed: license.IsLicensed === 'true',
+        enableWebrtc: config.EnableWebrtc === 'true',
     };
 }
 

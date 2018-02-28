@@ -59,6 +59,7 @@ export default class ChannelHeader extends React.Component {
         rhsState: PropTypes.oneOf(
             Object.values(RHSStates)
         ),
+        isLicensed: PropTypes.bool.isRequired,
         enableWebrtc: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             leaveChannel: PropTypes.func.isRequired,
@@ -309,7 +310,7 @@ export default class ChannelHeader extends React.Component {
         );
 
         let channelTitle = channel.display_name;
-        const isChannelAdmin = Utils.isChannelAdmin(this.props.channelMember.roles);
+        const isChannelAdmin = Utils.isChannelAdmin(this.props.isLicensed, this.props.channelMember.roles);
         const isTeamAdmin = !Utils.isEmptyObject(this.props.teamMember) && Utils.isAdmin(this.props.teamMember.roles);
         const isSystemAdmin = Utils.isSystemAdmin(this.props.currentUser.roles);
         const isDirect = (this.props.channel.type === Constants.DM_CHANNEL);
