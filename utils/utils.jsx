@@ -6,6 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 import {Posts} from 'mattermost-redux/constants';
+import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {browserHistory} from 'utils/browser_history';
 import {searchForTerm} from 'actions/post_actions';
@@ -20,6 +21,7 @@ import bing from 'images/bing.mp3';
 import icon50 from 'images/icon50x50.png';
 import iconWS from 'images/icon_WS.png';
 import {getSiteURL} from 'utils/url';
+import store from 'stores/redux_store.jsx';
 
 export function isEmail(email) {
     // writing a regex to match all valid email addresses is really, really hard. (see http://stackoverflow.com/a/201378)
@@ -1093,8 +1095,10 @@ export function displayUsername(userId) {
  * Gets the display name of the specified user, respecting the TeammateNameDisplay configuration setting
  */
 export function displayUsernameForUser(user) {
+    const config = getConfig(store.getState());
+
     if (user) {
-        const nameFormat = global.window.mm_config.TeammateNameDisplay;
+        const nameFormat = config.TeammateNameDisplay;
         let name = user.username;
         if (nameFormat === Constants.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME && user.nickname && user.nickname !== '') {
             name = user.nickname;
@@ -1350,7 +1354,11 @@ export function mod(a, b) {
 export const REACTION_PATTERN = /^(\+|-):([^:\s]+):\s*$/;
 
 export function canCreateCustomEmoji(user) {
-    if (global.window.mm_license.IsLicensed !== 'true') {
+    const state = store.getState();
+    const license = getLicense(state);
+    const config = getConfig(state);
+
+    if (license.IsLicensed !== 'true') {
         return true;
     }
 
@@ -1359,9 +1367,9 @@ export function canCreateCustomEmoji(user) {
     }
 
     // already checked for system admin for both these cases
-    if (window.mm_config.RestrictCustomEmojiCreation === 'system_admin') {
+    if (config.RestrictCustomEmojiCreation === 'system_admin') {
         return false;
-    } else if (window.mm_config.RestrictCustomEmojiCreation === 'admin') {
+    } else if (config.RestrictCustomEmojiCreation === 'admin') {
         // check whether the user is an admin on any of their teams
         if (TeamStore.isTeamAdminForAnyTeam()) {
             return true;

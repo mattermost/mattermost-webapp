@@ -1,18 +1,18 @@
 
 // Copyright (c) 2017-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
+//
+import {GeneralTypes} from 'mattermost-redux/action_types';
 
 import * as Utils from 'utils/utils.jsx';
+import store from 'stores/redux_store.jsx';
 
 describe('Utils.displayUsernameForUser', function() {
-    global.window.mm_config = {};
-
-    beforeEach(() => {
-        global.window.mm_config.TeammateNameDisplay = 'username';
-    });
-
     afterEach(() => {
-        global.window.mm_config = {};
+        store.dispatch({
+            type: GeneralTypes.CLIENT_CONFIG_RESET,
+            data: {},
+        });
     });
 
     const userA = {username: 'a_user', nickname: 'a_nickname', first_name: 'a_first_name', last_name: ''};
@@ -27,13 +27,26 @@ describe('Utils.displayUsernameForUser', function() {
     const userJ = {username: 'j_user', nickname: '', first_name: 'j_first_name', last_name: ''};
 
     test('Show display name of user with TeammateNameDisplay set to username', function() {
+        store.dispatch({
+            type: GeneralTypes.CLIENT_CONFIG_RECEIVED,
+            data: {
+                TeammateNameDisplay: 'username',
+            },
+        });
+
         [userA, userB, userC, userD, userE, userF, userG, userH, userI, userJ].forEach((user) => {
             expect(Utils.displayUsernameForUser(user)).toEqual(user.username);
         });
     });
 
-    test('Show display name of user with TeammateNameDisplay set to username', function() {
-        global.window.mm_config.TeammateNameDisplay = 'nickname_full_name';
+    test('Show display name of user with TeammateNameDisplay set to nickname_full_name', function() {
+        store.dispatch({
+            type: GeneralTypes.CLIENT_CONFIG_RECEIVED,
+            data: {
+                TeammateNameDisplay: 'nickname_full_name',
+            },
+        });
+
         for (const data of [
             {user: userA, result: userA.nickname},
             {user: userB, result: userB.nickname},
@@ -51,7 +64,13 @@ describe('Utils.displayUsernameForUser', function() {
     });
 
     test('Show display name of user with TeammateNameDisplay set to username', function() {
-        global.window.mm_config.TeammateNameDisplay = 'full_name';
+        store.dispatch({
+            type: GeneralTypes.CLIENT_CONFIG_RECEIVED,
+            data: {
+                TeammateNameDisplay: 'full_name',
+            },
+        });
+
         for (const data of [
             {user: userA, result: userA.first_name},
             {user: userB, result: userB.last_name},
@@ -70,14 +89,11 @@ describe('Utils.displayUsernameForUser', function() {
 });
 
 describe('Utils.sortUsersByStatusAndDisplayName', function() {
-    global.window.mm_config = {};
-
-    beforeEach(() => {
-        global.window.mm_config.TeammateNameDisplay = 'username';
-    });
-
     afterEach(() => {
-        global.window.mm_config = {};
+        store.dispatch({
+            type: GeneralTypes.CLIENT_CONFIG_RESET,
+            data: {},
+        });
     });
 
     const userA = {status: 'dnd', username: 'a_user', nickname: 'ja_nickname', first_name: 'a_first_name', last_name: 'ja_last_name'};
@@ -92,6 +108,13 @@ describe('Utils.sortUsersByStatusAndDisplayName', function() {
     const userJ = {status: 'online', username: 'j_user', nickname: 'aj_nickname', first_name: 'c_first_name', last_name: 'aj_last_name'};
 
     test('Users sort by status and displayname, TeammateNameDisplay set to username', function() {
+        store.dispatch({
+            type: GeneralTypes.CLIENT_CONFIG_RECEIVED,
+            data: {
+                TeammateNameDisplay: 'username',
+            },
+        });
+
         for (const data of [
             {
                 users: [userF, userA, userB, userC, userD, userE],
@@ -114,7 +137,13 @@ describe('Utils.sortUsersByStatusAndDisplayName', function() {
     });
 
     test('Users sort by status and displayname, TeammateNameDisplay set to nickname_full_name', function() {
-        global.window.mm_config.TeammateNameDisplay = 'nickname_full_name';
+        store.dispatch({
+            type: GeneralTypes.CLIENT_CONFIG_RECEIVED,
+            data: {
+                TeammateNameDisplay: 'nickname_full_name',
+            },
+        });
+
         for (const data of [
             {
                 users: [userF, userA, userB, userC, userD, userE],
@@ -137,7 +166,13 @@ describe('Utils.sortUsersByStatusAndDisplayName', function() {
     });
 
     test('Users sort by status and displayname, TeammateNameDisplay set to full_name', function() {
-        global.window.mm_config.TeammateNameDisplay = 'full_name';
+        store.dispatch({
+            type: GeneralTypes.CLIENT_CONFIG_RECEIVED,
+            data: {
+                TeammateNameDisplay: 'full_name',
+            },
+        });
+
         for (const data of [
             {
                 users: [userF, userA, userB, userC, userD, userE],
