@@ -4,7 +4,13 @@
 import React from 'react';
 import {Client4} from 'mattermost-redux/client';
 import {Preferences} from 'mattermost-redux/constants';
-import {getChannelsInCurrentTeam, getGroupChannels, getMyChannelMemberships} from 'mattermost-redux/selectors/entities/channels';
+import {
+    getChannelsInCurrentTeam,
+    getGroupChannels,
+    getMyChannelMemberships,
+    getSortedUnreadChannelIds,
+    makeGetChannel,
+} from 'mattermost-redux/selectors/entities/channels';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -14,6 +20,7 @@ import GlobeIcon from 'components/svg/globe_icon';
 import LockIcon from 'components/svg/lock_icon';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import store from 'stores/redux_store.jsx';
+import UserStore from 'stores/user_store.jsx';
 import {getChannelDisplayName, sortChannelsByDisplayName} from 'utils/channel_utils.jsx';
 import {ActionTypes, Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -155,11 +162,11 @@ export default class SwitchChannelProvider extends Provider {
 
             // Fetch data from the server and dispatch
             this.fetchUsersAndChannels(channelPrefix, suggestionId);
-
-            return true;
+        } else {
+            this.formatUnreadChannelsAndDispatch(suggestionId);
         }
 
-        return false;
+        return true;
     }
 
     async fetchUsersAndChannels(channelPrefix, suggestionId) {
@@ -198,6 +205,35 @@ export default class SwitchChannelProvider extends Provider {
         const users = Object.assign([], searchProfiles(state, channelPrefix, true)).concat(usersFromServer.users);
         const channels = getChannelsInCurrentTeam(state).concat(getGroupChannels(state)).concat(channelsFromServer);
         this.formatChannelsAndDispatch(channelPrefix, suggestionId, channels, users);
+    }
+
+    userWrappedChannel(user) {
+        let displayName = `@${user.username}`;
+
+        if ((user.first_name || user.last_name) && user.nickname) {
+            displayName += ` - ${Utils.getFullName(user)} (${user.nickname})`;
+        } else if (user.nickname) {
+            displayName += ` - (${user.nickname})`;
+        } else if (user.first_name || user.last_name) {
+            displayName += ` - ${Utils.getFullName(user)}`;
+        }
+
+        if (user.delete_at) {
+            displayName += ' - ' + Utils.localizeMessage('channel_switch_modal.deactivated', 'Deactivated');
+        }
+
+        return {
+            channel: {
+                display_name: displayName,
+                name: user.username,
+                id: user.id,
+                update_at: user.update_at,
+                type: Constants.DM_CHANNEL,
+                last_picture_update: user.last_picture_update || 0,
+            },
+            name: user.username,
+            deactivated: user.delete_at,
+        };
     }
 
     formatChannelsAndDispatch(channelPrefix, suggestionId, allChannels, users, skipNotInChannel = false) {
@@ -259,36 +295,12 @@ export default class SwitchChannelProvider extends Provider {
             }
 
             const isDMVisible = getBool(getState(), Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, user.id, false);
-            let displayName = `@${user.username}`;
 
             if (user.id === currentId) {
                 continue;
             }
 
-            if ((user.first_name || user.last_name) && user.nickname) {
-                displayName += ` - ${Utils.getFullName(user)} (${user.nickname})`;
-            } else if (user.nickname) {
-                displayName += ` - (${user.nickname})`;
-            } else if (user.first_name || user.last_name) {
-                displayName += ` - ${Utils.getFullName(user)}`;
-            }
-
-            if (user.delete_at) {
-                displayName += ' - ' + Utils.localizeMessage('channel_switch_modal.deactivated', 'Deactivated');
-            }
-
-            const wrappedChannel = {
-                channel: {
-                    display_name: displayName,
-                    name: user.username,
-                    id: user.id,
-                    update_at: user.update_at,
-                    type: Constants.DM_CHANNEL,
-                    last_picture_update: user.last_picture_update || 0,
-                },
-                name: user.username,
-                deactivated: user.delete_at,
-            };
+            const wrappedChannel = this.userWrappedChannel(user);
 
             if (isDMVisible) {
                 wrappedChannel.type = Constants.MENTION_CHANNELS;
@@ -319,6 +331,43 @@ export default class SwitchChannelProvider extends Provider {
                 type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
                 id: suggestionId,
                 matchedPretext: channelPrefix,
+                terms: channelNames,
+                items: channels,
+                component: SwitchChannelSuggestion,
+            });
+        }, 0);
+    }
+
+    formatUnreadChannelsAndDispatch(suggestionId) {
+        const getChannel = makeGetChannel();
+
+        const unreadChannelIds = getSortedUnreadChannelIds(getState(), false);
+
+        const channels = [];
+        for (let i = 0; i < unreadChannelIds.length; i++) {
+            const channel = getChannel(getState(), {id: unreadChannelIds[i]}) || {};
+
+            let wrappedChannel = {channel, name: channel.name, deactivated: false};
+            if (channel.type === Constants.GM_CHANNEL) {
+                wrappedChannel.name = getChannelDisplayName(channel);
+            } else if (channel.type === Constants.DM_CHANNEL) {
+                wrappedChannel = this.userWrappedChannel(
+                    UserStore.getProfile(Utils.getUserIdFromChannelId(channel.name))
+                );
+            }
+            wrappedChannel.type = Constants.MENTION_UNREAD_CHANNELS;
+            channels.push(wrappedChannel);
+        }
+
+        const channelNames = channels.
+            sort(quickSwitchSorter).
+            map((wrappedChannel) => wrappedChannel.channel.name);
+
+        setTimeout(() => {
+            AppDispatcher.handleServerAction({
+                type: ActionTypes.SUGGESTION_RECEIVED_SUGGESTIONS,
+                id: suggestionId,
+                matchedPretext: '',
                 terms: channelNames,
                 items: channels,
                 component: SwitchChannelSuggestion,
