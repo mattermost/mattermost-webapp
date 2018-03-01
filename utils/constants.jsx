@@ -1119,4 +1119,65 @@ export const Constants = {
     PREV_CHANNEL_KEY: 'team_prev_channel:',
 };
 
+import relayLightThemeImage from 'images/themes/relay_light.png';
+import relayDarkThemeImage from 'images/themes/relay_dark.png';
+
+Constants.THEMES.mattermostLight = Constants.THEMES.default;
+
+Constants.THEMES.default = {
+    type: 'Relay Light',
+    sidebarBg: '#252021',
+    sidebarText: '#e1e1e1',
+    sidebarUnreadText: '#ffffff',
+    sidebarTextHoverBg: '#4d4243',
+    sidebarTextActiveBorder: '#db4942',
+    sidebarTextActiveColor: '#ffffff',
+    sidebarHeaderBg: '#0d0c0c',
+    sidebarHeaderTextColor: '#ffffff',
+    onlineIndicator: '#e1382f',
+    awayIndicator: '#e0b333',
+    dndIndicator: '#f74343',
+    mentionBg: '#E1382F',
+    mentionColor: '#ffffff',
+    centerChannelBg: '#ffffff',
+    centerChannelColor: '#333333',
+    newMessageSeparator: '#f80',
+    linkColor: '#2389d7',
+    buttonBg: '#26a970',
+    buttonColor: '#ffffff',
+    errorTextColor: '#fd5960',
+    mentionHighlightBg: '#fff2bb',
+    mentionHighlightLink: '#2f81b7',
+    codeTheme: 'github',
+    image: relayLightThemeImage
+};
+
+Constants.THEMES.relayDark = {
+    type: 'Relay Dark',
+    sidebarBg: '#252021',
+    sidebarText: '#e1e1e1',
+    sidebarUnreadText: '#ffffff',
+    sidebarTextHoverBg: '#4d4243',
+    sidebarTextActiveBorder: '#db4942',
+    sidebarTextActiveColor: '#ffffff',
+    sidebarHeaderBg: '#0d0c0c',
+    sidebarHeaderTextColor: '#ffffff',
+    onlineIndicator: '#06d6a0',
+    awayIndicator: '#ffbc42',
+    dndIndicator: '#f74343',
+    mentionBg: '#ffffff',
+    mentionColor: '#3e3637',
+    centerChannelBg: '#252021',
+    centerChannelColor: '#ffffff',
+    newMessageSeparator: 'rgba(255,211,209,0.4)',
+    linkColor: '#db4942',
+    buttonBg: '#db4942',
+    buttonColor: '#ffffff',
+    errorTextColor: '#fd5960',
+    mentionHighlightBg: '#3e3637',
+    mentionHighlightLink: '#db4942',
+    codeTheme: 'solarized-dark',
+    image: relayDarkThemeImage
+};
+
 export default Constants;
