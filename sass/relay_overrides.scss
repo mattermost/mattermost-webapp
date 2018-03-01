@@ -35,21 +35,30 @@ body {
 	padding: 8px 16px;
 	flex-basis: initial;
 
-    #channelMemberIcon svg {
-        height: 32px;
-        width: 32px;
-    }
-
 	.icon, .search__icon {
 		display: flex;
 	    justify-content: center;
 	    align-items: center;
 
 		svg {
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
 		}
 	}
+
+    .search__icon {
+        top: 8px;
+        left: 8px;
+    }
+
+    .search__form {
+        padding: 0 40px;
+
+        .search-bar {
+            height: 40px;
+            font-size: 16px;
+        }
+    }
 
     .member-popover__trigger {
         display: flex;
@@ -66,7 +75,7 @@ body {
         height: auto;
         line-height: 24px;
         margin: 0;
-        min-width: 30px;
+        min-width: 32px;
         position: static;
         text-align: center;
         width: auto;
@@ -137,9 +146,31 @@ body {
 		opacity: 0.2;
 	}
 
+    .nav li > .sidebar-item {
+        display: flex;
+
+        span {
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    .nav li > .sidebar-item .icon.icon__globe {
+        top: 0;
+
+        svg {
+            width: 16px;
+            height: 16px;
+        }
+    }
+
 	.sidebar-item {
+        padding: 4px 0 4px 16px;
+
 		.icon {
-			width: 10px;
+			width: 16px;
+            margin: 0;
+            margin-right: 8px;
 		}
 
 		.icon__lock {
@@ -171,6 +202,14 @@ body {
 			opacity: 1;
 		}
 	}
+
+    .nav-more.cursor--pointer.style--none.btn--block {
+        padding: 4px 0 4px 16px;
+        
+        span {
+            padding-left: 24px;
+        }
+    }
 }
 
 //TEAM SIDEBAR
@@ -284,29 +323,85 @@ body {
 	top: 4px;
 }
 
+.post-create__container {
+
+    .textarea-wrapper {
+        textarea {
+            height: 48px !important;
+            font-size: 16px;
+            line-height: 24px;
+        }
+    }
+
+    .post-body__actions {
+
+        > span {
+            width: 48px;
+
+            div, > span {
+                height: 48px;
+                line-height: 48px;
+                display: flex;
+
+                > span {
+                    display: flex;
+                    flex: 1;
+                    justify-content: center;
+                    align-items: center;
+                }
+            }
+
+            > span {
+                flex: 1;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+
+        .icon--attachment, .icon--emoji {
+
+            svg {
+                width: 24px;
+                height: 24px;
+                top: 0;
+            }
+        }
+    }
+}
 
 
 //RIGHT SIDEBAR
-.sidebar--right__content {
+.sidebar--right {
     .search-bar__container.channel-header.alt {
         display: flex;
         align-items: center;
-    
-        .sidebar-right__table {
-            display: flex;
-            flex: 1;
-            padding: 0;
 
-            > div:not(.sidebar-collapse__container) {
+        .sidebar-right__table {
+            padding: 0;
+        }
+
+        #searchFormContainer {
+            padding: 0;
+        }
+    }
+
+    .sidebar-right__table {
+        display: flex;
+        flex: 1;
+
+        > div:not(.sidebar-collapse__container) {
+            display: flex;
+            align-items: center;
+            padding-left: 12px;
+
+            .channel-header__icon {
                 display: flex;
-                align-items: center;   
-                
-                &:last-child .channel-header__icon {
-                    margin: 0;
-                    display: flex;
-                    justify-content: center;
-                }
+                justify-content: center;
+            }
+            
+            &:last-child .channel-header__icon {
+                margin: 0;
             }
         }
-    }    
+    }
 }
