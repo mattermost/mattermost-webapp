@@ -1117,6 +1117,7 @@ export const Constants = {
     SEARCH_POST: 'searchpost',
     CHANNEL_ID_LENGTH: 26,
     TRANSPARENT_PIXEL: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
+    PREV_CHANNEL_KEY: 'team_prev_channel:',
 };
 
 export default Constants;

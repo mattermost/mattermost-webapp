@@ -12,11 +12,12 @@ import * as Utils from 'utils/utils';
 import AudioVideoPreview from 'components/audio_video_preview';
 import CodePreview from 'components/code_preview';
 import FileInfoPreview from 'components/file_info_preview';
-import ImagePreview from 'components/image_preview';
 import LoadingImagePreview from 'components/loading_image_preview';
-import ViewImagePopoverBar from 'components/view_image_popover_bar';
 import {AsyncComponent} from 'components/async_load.jsx';
 import loadPDFPreview from 'bundle-loader?lazy!components/pdf_preview';
+
+import ImagePreview from './image_preview';
+import PopoverBar from './popover_bar';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -42,6 +43,9 @@ export default class ViewImageModal extends React.PureComponent {
          * The index number of starting image
          **/
         startIndex: PropTypes.number.isRequired,
+
+        canDownloadFiles: PropTypes.bool.isRequired,
+        enablePublicLink: PropTypes.bool.isRequired,
     };
 
     static defaultProps = {
@@ -207,7 +211,12 @@ export default class ViewImageModal extends React.PureComponent {
             const fileType = Utils.getFileType(fileInfo.extension);
 
             if (fileType === FileTypes.IMAGE || fileType === FileTypes.SVG) {
-                content = <ImagePreview fileInfo={fileInfo}/>;
+                content = (
+                    <ImagePreview
+                        fileInfo={fileInfo}
+                        canDownloadFiles={this.props.canDownloadFiles}
+                    />
+                );
             } else if (fileType === FileTypes.VIDEO || fileType === FileTypes.AUDIO) {
                 content = (
                     <AudioVideoPreview
@@ -311,13 +320,15 @@ export default class ViewImageModal extends React.PureComponent {
                             <div className='modal-image__content'>
                                 {content}
                             </div>
-                            <ViewImagePopoverBar
+                            <PopoverBar
                                 show={this.state.showFooter}
                                 showPublicLink={showPublicLink}
                                 fileIndex={this.state.imageIndex}
                                 totalFiles={this.props.fileInfos.length}
                                 filename={fileName}
                                 fileURL={fileUrl}
+                                enablePublicLink={this.props.enablePublicLink}
+                                canDownloadFiles={this.props.canDownloadFiles}
                                 onGetPublicLink={this.handleGetPublicLink}
                             />
                         </div>
