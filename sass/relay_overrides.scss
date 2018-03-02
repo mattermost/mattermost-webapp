@@ -14,18 +14,19 @@ OVERRIDES
 //TYPOGRAPHY
 
 body {
-    font-size: 15px;
+    font-size: 16px;
+    font-family: 'Fira Sans', 'sans-serif' !important;
 
     .app__body.font--open_sans {
-        font-family: 'Lato', 'sans-serif' !important;    
+        font-family: 'Fira Sans', 'sans-serif' !important;
     }
 
     .post p, .post .post__body ul, .post .post__body ol {
-        font-size: 15px;    
+        font-size: 16px;    
     }
     
     .form-control {
-        font-size: 15px;
+        font-size: 16px;
     }
 }
 
@@ -110,7 +111,6 @@ body {
 	margin: 0;
 }
 
-
 .channel-header__info {
 	width: 100%;
 	margin-top: 0;
@@ -148,10 +148,60 @@ body {
 
     .nav li > .sidebar-item {
         display: flex;
+        padding: 4px 0 4px 16px;
 
         span {
             display: flex;
             align-items: center;
+        }
+
+        .icon {
+            width: 16px;
+            margin: 0;
+            margin-right: 8px;
+        }
+
+        .icon__lock {
+            top: 0;
+
+            svg {
+                width: 24px;
+                height: 24px;
+            }
+        }
+    }
+
+    .status {
+        margin: 0 8px 0 0;
+        width: 16px;
+        top: 0;
+
+        &.status--group {
+            width: 16px;
+            height: 16px;
+            margin: 0 8px 0 0;
+            left: 0;
+            top: 4px;
+            line-height: 16px;
+            border-radius: 4px;
+        }
+
+        svg {
+            max-height: 16px;
+        }
+    }
+
+    .status-wrapper .status {
+        top: 24px;
+        height: 16px;
+        right: -12px;
+        width: 16px;
+
+        svg {
+            top: 0;
+            left: 0;
+            width: 16px;
+            height: 16px;
         }
     }
 
@@ -164,27 +214,13 @@ body {
         }
     }
 
-	.sidebar-item {
-        padding: 4px 0 4px 16px;
-
-		.icon {
-			width: 16px;
-            margin: 0;
-            margin-right: 8px;
-		}
-
-		.icon__lock {
-			top: 0;
-		}
-	}
-
 	.nav.nav-pills.nav-stacked {
 		margin-bottom: 16px;
 	}
 
 	.nav li > h4 {
 		font-family: 'Montserrat', sans-serif;
-		font-size: 11px;
+		font-size: 12px;
 		font-weight: 800;
 	}
 
@@ -275,7 +311,11 @@ body {
 
 //POSTS
 .post {
-	padding: 8px 16px 4px;
+	padding: 4px 16px;
+
+    p,a,li,span,h1,h2,h3,h4,h5,h6 {
+        line-height: 1.44em;
+    }
 
 	&.same--root.same--user {
 		padding: 0 16px;
@@ -303,11 +343,35 @@ body {
 	}
 
 	.post__body {
-		padding: 2px 4px;
+		padding: 0 0 0 4px;
+
+        .post-reaction-list {
+            display: flex;
+            align-items: center;
+
+            .post-reaction {
+                margin: 0;
+                margin-right: 4px;
+                padding: 0 4px;
+
+                .post-reaction__add {
+                    font-size: 24px;
+                    margin: 0;
+                    top: 0;
+                    vertical-align: sub;
+                }
+            }
+
+            .post-add-reaction {
+
+            }
+        }
 	}
 
 	.post__header {
+        display: flex;
 		padding-left: 4px;
+        margin-bottom: 0;
 
         .col.col__reply {
             display: flex;
@@ -341,7 +405,7 @@ body {
                 display: flex;
                 flex: 1;
 
-                width: 32px;
+                width: 24px;
                 height: 24px;
 
                 &:hover {
@@ -363,16 +427,25 @@ body {
                     flex: 1;
                 }
             }
+
+            > button {
+                width: 32px;
+            }
         }
 
         .col__name .user-popover {
-            font-weight: 800
+            font-weight: 800;
+            line-height: 1.5em;
         }
 	}
 
 	.post__time {
 		font-size: 10px;
 	}
+
+    .post__content {
+        padding-left: 0;
+    }
 }
 
 .post .post__dropdown:after {
@@ -380,7 +453,7 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    width: 32px;
+    width: 24px;
     height: 24px;
     line-height: 16px;
 }
@@ -401,6 +474,11 @@ body {
     svg {
         height: 12px;
     }
+}
+
+.post.other--root.current--user .post__body {
+    padding: 4px;
+    border-radius: 4px;
 }
 
 .post-create__container {
@@ -449,6 +527,73 @@ body {
     }
 }
 
+.col__controls {
+    .dropdown {
+        left: -24px;
+
+        .dropdown-menu {
+            right: -24px;
+        }
+    }
+}
+
+.channel-intro {
+    margin: 0 auto 16px;
+    padding: 0 16px;
+
+    .channel-intro__title {
+        margin: 8px 0;
+    }
+
+    .channel-intro__content {
+        padding: 8px;
+        margin: 0 0 8px;
+    }
+
+    .intro-links {
+        margin-right: 16px;
+    }
+}
+
+.new-separator, .date-separator {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    align-items: flex-start;
+    margin: 16px 0;
+    padding: 0 16px;
+
+    hr.separator__hr {
+        flex: 1;
+        order: 2;
+        position: static;
+        width: 100%;
+    }
+
+    .separator__text {
+        font-size: 14px;
+        font-weight: 300;
+        padding: 0;
+        padding-right: 8px;
+        border-radius: 4px;
+        text-align: left;
+        color: #aaa;
+    }
+
+    &.hovered--after:before, &.hovered--before:after  {
+        display: none;
+    }
+}
+
+.new-separator {
+    margin-top: -16px;
+}
+
+.new-separator {
+    &.hovered--after:before, &.hovered--before:after {
+        display: none;
+    }
+}
 
 //RIGHT SIDEBAR
 .sidebar--right {
