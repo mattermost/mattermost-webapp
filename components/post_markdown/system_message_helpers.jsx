@@ -16,13 +16,15 @@ import PostAddChannelMember from 'components/post_view/post_add_channel_member';
 function renderUsername(value, options) {
     return renderFormattedText(value, {...options, markdown: false});
 }
-
+function renderUsernameForUserId(value, options) {
+    return renderUsername(Utils.displayUsername(value, options));
+}
 function renderFormattedText(value, options) {
     return <span dangerouslySetInnerHTML={{__html: formatText(value, options)}}/>;
 }
 
 function renderJoinChannelMessage(post, options) {
-    const username = renderUsername(Utils.displayUsername(post.user_id), options);
+    const username = renderUsernameForUserId(post.user_id, options);
 
     return (
         <FormattedMessage
@@ -34,7 +36,7 @@ function renderJoinChannelMessage(post, options) {
 }
 
 function renderLeaveChannelMessage(post, options) {
-    const username = renderUsername(Utils.displayUsername(post.user_id), options);
+    const username = renderUsernameForUserId(post.user_id, options);
 
     return (
         <FormattedMessage
@@ -46,7 +48,7 @@ function renderLeaveChannelMessage(post, options) {
 }
 
 function renderAddToChannelMessage(post, options) {
-    const username = renderUsername(Utils.displayUsername(post.user_id), options);
+    const username = renderUsernameForUserId(post.user_id, options);
     const addedUsername = renderUsername(post.props.addedUsername, options);
 
     return (
@@ -76,7 +78,7 @@ function renderRemoveFromChannelMessage(post, options) {
 }
 
 function renderJoinTeamMessage(post, options) {
-    const username = renderUsername(Utils.displayUsername(post.user_id), options);
+    const username = renderUsernameForUserId(post.user_id, options);
 
     return (
         <FormattedMessage
@@ -88,7 +90,7 @@ function renderJoinTeamMessage(post, options) {
 }
 
 function renderLeaveTeamMessage(post, options) {
-    const username = renderUsername(Utils.displayUsername(post.user_id), options);
+    const username = renderUsernameForUserId(post.user_id, options);
 
     return (
         <FormattedMessage
@@ -100,7 +102,7 @@ function renderLeaveTeamMessage(post, options) {
 }
 
 function renderAddToTeamMessage(post, options) {
-    const username = renderUsername(Utils.displayUsername(post.user_id), options);
+    const username = renderUsernameForUserId(post.user_id, options);
     const addedUsername = renderUsername(post.props.addedUsername, options);
 
     return (
@@ -116,7 +118,7 @@ function renderAddToTeamMessage(post, options) {
 }
 
 function renderRemoveFromTeamMessage(post, options) {
-    const removedUsername = renderUsername(Utils.displayUsername(post.user_id), options);
+    const removedUsername = renderUsernameForUserId(post.user_id, options);
 
     return (
         <FormattedMessage
@@ -139,7 +141,7 @@ function renderHeaderChangeMessage(post, options) {
         singleline: true,
     };
 
-    const username = renderUsername(Utils.displayUsername(post.user_id), options);
+    const username = renderUsernameForUserId(post.user_id, options);
     const oldHeader = post.props.old_header ? renderFormattedText(post.props.old_header, headerOptions) : null;
     const newHeader = post.props.new_header ? renderFormattedText(post.props.new_header, headerOptions) : null;
 
@@ -189,7 +191,7 @@ function renderDisplayNameChangeMessage(post, options) {
         return null;
     }
 
-    const username = renderUsername(Utils.displayUsername(post.user_id), options);
+    const username = renderUsernameForUserId(post.user_id, options);
     const oldDisplayName = post.props.old_displayname;
     const newDisplayName = post.props.new_displayname;
 
@@ -211,7 +213,7 @@ function renderPurposeChangeMessage(post, options) {
         return null;
     }
 
-    const username = renderUsername(Utils.displayUsername(post.user_id), options);
+    const username = renderUsernameForUserId(post.user_id, options);
     const oldPurpose = post.props.old_purpose;
     const newPurpose = post.props.new_purpose;
 
@@ -261,7 +263,7 @@ function renderChannelDeletedMessage(post, options) {
         return null;
     }
 
-    const username = renderUsername(Utils.displayUsername(post.user_id), options);
+    const username = renderUsernameForUserId(post.user_id, options);
 
     return (
         <FormattedMessage
