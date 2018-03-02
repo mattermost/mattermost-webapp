@@ -28,7 +28,7 @@ export default class UploadButton extends React.PureComponent {
         /*
          * Funtion to call on button click
          */
-        onClick: PropTypes.func
+        onClick: PropTypes.func,
     }
 
     render() {
@@ -36,7 +36,7 @@ export default class UploadButton extends React.PureComponent {
             status,
             primaryClass,
             disabled,
-            onClick
+            onClick,
         } = this.props;
 
         let buttonIcon;

@@ -7,20 +7,20 @@ import {Route, Switch} from 'react-router-dom';
 
 import Pluggable from 'plugins/pluggable';
 import AnnouncementBar from 'components/announcement_bar';
-import Integrations from 'components/integrations/components/integrations.jsx';
+import Integrations from 'components/integrations';
 import Emoji from 'components/emoji';
 import AddEmoji from 'components/emoji/add_emoji';
-import InstalledIncomingWebhooks from 'components/integrations/components/installed_incoming_webhooks';
-import AddIncomingWehook from 'components/integrations/components/add_incoming_webhook';
-import EditIncomingWebhook from 'components/integrations/components/edit_incoming_webhook';
-import InstalledOutgoingWebhooks from 'components/integrations/components/installed_outgoing_webhooks';
-import AddOutgoingWebhook from 'components/integrations/components/add_outgoing_webhook';
-import EditOutgoingWebhook from 'components/integrations/components/edit_outgoing_webhook';
-import InstalledOauthApps from 'components/integrations/components/installed_oauth_apps';
-import AddOauthApp from 'components/integrations/components/add_oauth_app';
-import EditOauthApp from 'components/integrations/components/edit_oauth_app';
-import CommandsContainer from 'components/integrations/components/commands_container';
-import ConfirmIntegration from 'components/integrations/components/confirm_integration';
+import InstalledIncomingWebhooks from 'components/integrations/installed_incoming_webhooks';
+import AddIncomingWehook from 'components/integrations/add_incoming_webhook';
+import EditIncomingWebhook from 'components/integrations/edit_incoming_webhook';
+import InstalledOutgoingWebhooks from 'components/integrations/installed_outgoing_webhooks';
+import AddOutgoingWebhook from 'components/integrations/add_outgoing_webhook';
+import EditOutgoingWebhook from 'components/integrations/edit_outgoing_webhook';
+import InstalledOauthApps from 'components/integrations/installed_oauth_apps';
+import AddOauthApp from 'components/integrations/add_oauth_app';
+import EditOauthApp from 'components/integrations/edit_oauth_app';
+import CommandsContainer from 'components/integrations/commands_container';
+import ConfirmIntegration from 'components/integrations/confirm_integration';
 
 import BackstageSidebar from './components/backstage_sidebar.jsx';
 import BackstageNavbar from './components/backstage_navbar';
@@ -53,7 +53,15 @@ export default class BackstageController extends React.Component {
         /**
          * Set to indicate user is system admin or a team admin for current team.
          */
-        isAdmin: PropTypes.bool
+        isAdmin: PropTypes.bool,
+
+        siteName: PropTypes.string,
+        enableCustomEmoji: PropTypes.bool.isRequired,
+        enableIncomingWebhooks: PropTypes.bool.isRequired,
+        enableOutgoingWebhooks: PropTypes.bool.isRequired,
+        enableCommands: PropTypes.bool.isRequired,
+        enableOAuthServiceProvider: PropTypes.bool.isRequired,
+        enableOnlyAdminIntegrations: PropTypes.bool.isRequired,
     }
 
     scrollToTop = () => {
@@ -74,12 +82,15 @@ export default class BackstageController extends React.Component {
             team: this.props.team,
             user: this.props.user,
             isAdmin: this.props.isAdmin,
-            scrollToTop: this.scrollToTop
+            scrollToTop: this.scrollToTop,
         };
         return (
             <div className='backstage'>
                 <AnnouncementBar/>
-                <BackstageNavbar team={this.props.team}/>
+                <BackstageNavbar
+                    team={this.props.team}
+                    siteName={this.props.siteName}
+                />
                 <Pluggable pluggableName='Root'/>
                 <div
                     className='backstage-body'
@@ -88,6 +99,12 @@ export default class BackstageController extends React.Component {
                     <BackstageSidebar
                         team={this.props.team}
                         user={this.props.user}
+                        enableCustomEmoji={this.props.enableCustomEmoji}
+                        enableIncomingWebhooks={this.props.enableIncomingWebhooks}
+                        enableOutgoingWebhooks={this.props.enableOutgoingWebhooks}
+                        enableCommands={this.props.enableCommands}
+                        enableOAuthServiceProvider={this.props.enableOAuthServiceProvider}
+                        enableOnlyAdminIntegrations={this.props.enableOnlyAdminIntegrations}
                     />
                     <Switch>
                         <BackstageRoute

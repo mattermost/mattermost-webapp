@@ -475,49 +475,9 @@ exports[`component/FileAttachment should match snapshot, with compact display 1`
 <div
   className="post-image__column"
 >
-  <a
-    className="post-image__thumbnail"
-    href="#"
-    onClick={[Function]}
-  >
-    <FileThumbnail
-      fileInfo={
-        Object {
-          "extension": "pdf",
-          "id": 1,
-          "name": "test.pdf",
-          "size": 100,
-        }
-      }
-    />
-  </a>
   <div
     className="post-image__details"
   >
-    <div
-      className="post-image__detail_wrapper"
-      onClick={[Function]}
-    >
-      <div
-        className="post-image__detail"
-      >
-        <span
-          className="post-image__name"
-        >
-          test.pdf
-        </span>
-        <span
-          className="post-image__type"
-        >
-          PDF
-        </span>
-        <span
-          className="post-image__size"
-        >
-          100B
-        </span>
-      </div>
-    </div>
     <FilenameOverlay
       canDownload={true}
       compactDisplay={true}

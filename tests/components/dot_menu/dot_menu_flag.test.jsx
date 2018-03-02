@@ -15,8 +15,8 @@ describe('components/dot_menu/DotMenuFlag', () => {
         postId: 'post_id_1',
         actions: {
             flagPost: jest.fn(),
-            unflagPost: jest.fn()
-        }
+            unflagPost: jest.fn(),
+        },
     };
 
     test('should match snapshot, unflagged on Center', () => {

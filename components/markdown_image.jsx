@@ -14,7 +14,7 @@ export default class MarkdownImage extends React.PureComponent {
         /*
          * The href of the image to be loaded
          */
-        href: PropTypes.string
+        href: PropTypes.string,
     }
 
     constructor(props) {

@@ -32,8 +32,8 @@ export default class AdminNavbarDropdown extends React.Component {
              * Action to attempt a navigation and set a callback
              * to execute after the navigation is confirmed
              */
-            deferNavigation: PropTypes.func
-        }).isRequired
+            deferNavigation: PropTypes.func,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -42,7 +42,7 @@ export default class AdminNavbarDropdown extends React.Component {
         this.state = {
             teams: TeamStore.getAll(),
             teamMembers: TeamStore.getMyTeamMembers(),
-            showAboutModal: false
+            showAboutModal: false,
         };
     }
 
@@ -84,7 +84,7 @@ export default class AdminNavbarDropdown extends React.Component {
     onTeamChange = () => {
         this.setState({
             teams: TeamStore.getAll(),
-            teamMembers: TeamStore.getMyTeamMembers()
+            teamMembers: TeamStore.getMyTeamMembers(),
         });
     };
 

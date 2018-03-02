@@ -15,7 +15,7 @@ describe('Reducers.RHS', () => {
         searchTerms: '',
         isSearchingTerm: false,
         isSearchingFlaggedPost: false,
-        isSearchingPinnedPost: false
+        isSearchingPinnedPost: false,
     };
 
     test('Initial state', () => {
@@ -33,32 +33,32 @@ describe('Reducers.RHS', () => {
             {
                 type: ActionTypes.UPDATE_RHS_STATE,
                 state: RHSStates.PIN,
-                channelId: '123'
+                channelId: '123',
             }
         );
 
         expect(nextState).toEqual({
             ...initialState,
             selectedChannelId: '123',
-            rhsState: RHSStates.PIN
+            rhsState: RHSStates.PIN,
         });
     });
 
     test(`should wipe selectedPostId on ${ActionTypes.UPDATE_RHS_STATE}`, () => {
         const nextState = rhsReducer(
             {
-                selectedPostId: '123'
+                selectedPostId: '123',
             },
             {
                 type: ActionTypes.UPDATE_RHS_STATE,
-                state: RHSStates.SEARCH
+                state: RHSStates.SEARCH,
             }
         );
 
         expect(nextState).toEqual({
             ...initialState,
             selectedPostId: '',
-            rhsState: RHSStates.SEARCH
+            rhsState: RHSStates.SEARCH,
         });
     });
 
@@ -66,45 +66,45 @@ describe('Reducers.RHS', () => {
         const nextState = rhsReducer(
             {},
             {
-                type: SearchTypes.SEARCH_POSTS_REQUEST
+                type: SearchTypes.SEARCH_POSTS_REQUEST,
             }
         );
 
         expect(nextState).toEqual({
             ...initialState,
-            isSearchingTerm: true
+            isSearchingTerm: true,
         });
     });
 
     test('should match isSearchingTerm state to false', () => {
         const nextState = rhsReducer(
             {
-                isSearchingTerm: true
+                isSearchingTerm: true,
             },
             {
-                type: SearchTypes.SEARCH_POSTS_FAILURE
+                type: SearchTypes.SEARCH_POSTS_FAILURE,
             }
         );
 
         expect(nextState).toEqual({
             ...initialState,
-            isSearchingTerm: false
+            isSearchingTerm: false,
         });
     });
 
     test('should match isSearchingTerm state to false', () => {
         const nextState = rhsReducer(
             {
-                isSearchingTerm: true
+                isSearchingTerm: true,
             },
             {
-                type: SearchTypes.SEARCH_POSTS_SUCCESS
+                type: SearchTypes.SEARCH_POSTS_SUCCESS,
             }
         );
 
         expect(nextState).toEqual({
             ...initialState,
-            isSearchingTerm: false
+            isSearchingTerm: false,
         });
     });
 
@@ -112,13 +112,13 @@ describe('Reducers.RHS', () => {
         const nextState = rhsReducer(
             {},
             {
-                type: ActionTypes.SEARCH_FLAGGED_POSTS_REQUEST
+                type: ActionTypes.SEARCH_FLAGGED_POSTS_REQUEST,
             }
         );
 
         expect(nextState).toEqual({
             ...initialState,
-            isSearchingFlaggedPost: true
+            isSearchingFlaggedPost: true,
         });
     });
 
@@ -126,13 +126,13 @@ describe('Reducers.RHS', () => {
         const nextState = rhsReducer(
             {},
             {
-                type: ActionTypes.SEARCH_FLAGGED_POSTS_SUCCESS
+                type: ActionTypes.SEARCH_FLAGGED_POSTS_SUCCESS,
             }
         );
 
         expect(nextState).toEqual({
             ...initialState,
-            isSearchingFlaggedPost: false
+            isSearchingFlaggedPost: false,
         });
     });
 
@@ -141,13 +141,13 @@ describe('Reducers.RHS', () => {
             {},
             {
                 type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
-                terms: 'testing'
+                terms: 'testing',
             }
         );
 
         expect(nextState).toEqual({
             ...initialState,
-            searchTerms: 'testing'
+            searchTerms: 'testing',
         });
     });
 
@@ -157,25 +157,25 @@ describe('Reducers.RHS', () => {
             {
                 type: ActionTypes.SELECT_POST,
                 postId: '123',
-                channelId: '321'
+                channelId: '321',
             }
         );
 
         expect(nextState1).toEqual({
             ...initialState,
             selectedPostId: '123',
-            selectedChannelId: '321'
+            selectedChannelId: '321',
         });
 
         const nextState2 = rhsReducer(
             {
-                state: RHSStates.PIN
+                state: RHSStates.PIN,
             },
             {
                 type: ActionTypes.SELECT_POST,
                 postId: '123',
                 channelId: '321',
-                previousRhsState: RHSStates.SEARCH
+                previousRhsState: RHSStates.SEARCH,
             }
         );
 
@@ -183,19 +183,19 @@ describe('Reducers.RHS', () => {
             ...initialState,
             selectedPostId: '123',
             selectedChannelId: '321',
-            previousRhsState: RHSStates.SEARCH
+            previousRhsState: RHSStates.SEARCH,
         });
 
         const nextState3 = rhsReducer(
             {
                 state: RHSStates.FLAG,
-                previousRhsState: RHSStates.SEARCH
+                previousRhsState: RHSStates.SEARCH,
             },
             {
                 type: ActionTypes.SELECT_POST,
                 postId: '123',
                 channelId: '321',
-                previousRhsState: RHSStates.FLAG
+                previousRhsState: RHSStates.FLAG,
             }
         );
 
@@ -203,20 +203,20 @@ describe('Reducers.RHS', () => {
             ...initialState,
             selectedPostId: '123',
             selectedChannelId: '321',
-            previousRhsState: RHSStates.FLAG
+            previousRhsState: RHSStates.FLAG,
         });
     });
 
     test(`should wipe rhsState on ${ActionTypes.SELECT_POST}`, () => {
         const nextState = rhsReducer(
             {
-                rhsState: RHSStates.PIN
+                rhsState: RHSStates.PIN,
             },
             {
                 type: ActionTypes.SELECT_POST,
                 postId: '123',
                 channelId: '321',
-                previousRhsState: RHSStates.PIN
+                previousRhsState: RHSStates.PIN,
             }
         );
 
@@ -225,7 +225,7 @@ describe('Reducers.RHS', () => {
             rhsState: null,
             selectedPostId: '123',
             selectedChannelId: '321',
-            previousRhsState: RHSStates.PIN
+            previousRhsState: RHSStates.PIN,
         });
     });
 });

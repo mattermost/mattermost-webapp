@@ -9,13 +9,13 @@ import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 import {FileTypes} from 'utils/constants.jsx';
 import {
     getFileType,
-    localizeMessage
+    localizeMessage,
 } from 'utils/utils';
 
 import {postListScrollChange} from 'actions/global_actions.jsx';
 
 import LoadingImagePreview from 'components/loading_image_preview';
-import ViewImageModal from 'components/view_image.jsx';
+import ViewImageModal from 'components/view_image';
 
 const PREVIEW_IMAGE_MAX_WIDTH = 1024;
 const PREVIEW_IMAGE_MAX_HEIGHT = 350;
@@ -27,11 +27,11 @@ export default class SingleImageView extends React.PureComponent {
         /**
          * FileInfo to view
          **/
-        fileInfo: PropTypes.object.isRequired
+        fileInfo: PropTypes.object.isRequired,
     };
 
     static defaultProps = {
-        fileInfo: {}
+        fileInfo: {},
     };
 
     constructor(props) {
@@ -40,7 +40,7 @@ export default class SingleImageView extends React.PureComponent {
         this.state = {
             loaded: false,
             showPreviewModal: false,
-            viewPortWidth: 0
+            viewPortWidth: 0,
         };
 
         this.imageLoaded = null;
@@ -110,21 +110,21 @@ export default class SingleImageView extends React.PureComponent {
 
     computeImageDimensions = () => {
         const {fileInfo} = this.props;
-        const {viewPortWidth} = this.state;
+        const viewPortWidth = this.state.viewPortWidth;
 
         let previewWidth = fileInfo.width;
         let previewHeight = fileInfo.height;
 
         if (viewPortWidth && previewWidth > viewPortWidth) {
             const origRatio = fileInfo.height / fileInfo.width;
-            previewWidth = Math.floor(Math.min(PREVIEW_IMAGE_MAX_WIDTH, fileInfo.width, viewPortWidth));
-            previewHeight = Math.floor(previewWidth * origRatio);
+            previewWidth = Math.min(PREVIEW_IMAGE_MAX_WIDTH, fileInfo.width, viewPortWidth);
+            previewHeight = previewWidth * origRatio;
         }
 
         if (previewHeight > PREVIEW_IMAGE_MAX_HEIGHT) {
             const heightRatio = PREVIEW_IMAGE_MAX_HEIGHT / previewHeight;
             previewHeight = PREVIEW_IMAGE_MAX_HEIGHT;
-            previewWidth = Math.floor(previewWidth * heightRatio);
+            previewWidth *= heightRatio;
         }
 
         return {previewWidth, previewHeight};
@@ -132,20 +132,22 @@ export default class SingleImageView extends React.PureComponent {
 
     render() {
         const {fileInfo} = this.props;
-        const {loaded} = this.state;
+        const {
+            loaded,
+            viewPortWidth,
+        } = this.state;
 
         const {previewHeight, previewWidth} = this.computeImageDimensions();
-
         let minPreviewClass = '';
         if (
             previewWidth < PREVIEW_IMAGE_MIN_DIMENSION ||
             previewHeight < PREVIEW_IMAGE_MIN_DIMENSION
         ) {
             minPreviewClass = 'min-preview ';
-        }
 
-        if (previewHeight > previewWidth) {
-            minPreviewClass += 'min-preview--portrait ';
+            if (previewHeight > previewWidth) {
+                minPreviewClass += 'min-preview--portrait ';
+            }
         }
 
         const fileHeader = (
@@ -169,10 +171,25 @@ export default class SingleImageView extends React.PureComponent {
 
         let viewImageModal;
         let loadingImagePreview;
-
         let fadeInClass = '';
-        let imageStyle = {height: previewHeight};
-        const imageContainerStyle = {height: previewHeight};
+
+        let height = previewHeight;
+        if (height < PREVIEW_IMAGE_MIN_DIMENSION) {
+            height = PREVIEW_IMAGE_MIN_DIMENSION;
+        }
+
+        let width = previewWidth;
+        if (width < PREVIEW_IMAGE_MIN_DIMENSION) {
+            width = PREVIEW_IMAGE_MIN_DIMENSION;
+        }
+
+        let imageStyle = {height};
+        let imageLoadedStyle = {height};
+        let imageContainerStyle = {};
+        if (width < viewPortWidth && height === PREVIEW_IMAGE_MAX_HEIGHT) {
+            imageContainerStyle = {width};
+        }
+
         if (loaded) {
             viewImageModal = (
                 <ViewImageModal
@@ -184,6 +201,7 @@ export default class SingleImageView extends React.PureComponent {
 
             fadeInClass = 'image-fade-in';
             imageStyle = {cursor: 'pointer'};
+            imageLoadedStyle = {};
         } else {
             loadingImagePreview = (
                 <LoadingImagePreview
@@ -205,10 +223,11 @@ export default class SingleImageView extends React.PureComponent {
                     {fileHeader}
                     <div
                         className='image-container'
+                        style={imageContainerStyle}
                     >
                         <div
                             className={`image-loaded ${fadeInClass}`}
-                            style={imageContainerStyle}
+                            style={imageLoadedStyle}
                         >
                             <img
                                 ref={this.setImageLoadedRef}

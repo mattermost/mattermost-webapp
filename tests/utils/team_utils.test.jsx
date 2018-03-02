@@ -19,7 +19,7 @@ describe('TeamUtils.filterAndSortTeamsByDisplayName', function() {
             {teams: [teamA, teamB, teamC, teamD, teamE], result: [teamA, teamB, teamC, teamD]},
             {teams: [teamE, teamD, teamC, teamB, teamA], result: [teamA, teamB, teamC, teamD]},
             {teams: [teamA, teamB, teamC, teamD, teamE, teamF, teamG], result: [teamA, teamB, teamC, teamD]},
-            {teams: [teamG, teamF, teamE, teamD, teamC, teamB, teamA], result: [teamA, teamB, teamC, teamD]}
+            {teams: [teamG, teamF, teamE, teamD, teamC, teamB, teamA], result: [teamA, teamB, teamC, teamD]},
         ]) {
             expect(TeamUtils.filterAndSortTeamsByDisplayName(data.teams)).toEqual(data.result);
         }

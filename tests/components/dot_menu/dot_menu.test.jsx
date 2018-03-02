@@ -11,7 +11,7 @@ jest.mock('utils/utils', () => {
     const original = require.requireActual('utils/utils');
     return {
         ...original,
-        isMobile: jest.fn(() => false)
+        isMobile: jest.fn(() => false),
     };
 });
 
@@ -19,7 +19,7 @@ jest.mock('utils/post_utils', () => {
     const original = require.requireActual('utils/post_utils');
     return {
         ...original,
-        isSystemMessage: jest.fn(() => false)
+        isSystemMessage: jest.fn(() => false),
     };
 });
 
@@ -46,8 +46,8 @@ describe('components/dot_menu/DotMenu', () => {
             unflagPost: jest.fn(),
             setEditingPost: jest.fn(),
             pinPost: jest.fn(),
-            unpinPost: jest.fn()
-        }
+            unpinPost: jest.fn(),
+        },
     };
 
     test('should match snapshot, on Center', () => {

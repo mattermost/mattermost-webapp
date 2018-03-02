@@ -34,29 +34,29 @@ export default class PushSettings extends AdminSettings {
 
     handleAgreeChange(e) {
         this.setState({
-            agree: e.target.checked
+            agree: e.target.checked,
         });
     }
 
     handleDropdownChange(id, value) {
         if (id === 'pushNotificationServerType') {
             this.setState({
-                agree: false
+                agree: false,
             });
 
             if (value === PUSH_NOTIFICATIONS_MHPNS) {
                 this.setState({
-                    pushNotificationServer: Constants.MHPNS
+                    pushNotificationServer: Constants.MHPNS,
                 });
             } else if (value === PUSH_NOTIFICATIONS_MTPNS) {
                 this.setState({
-                    pushNotificationServer: Constants.MTPNS
+                    pushNotificationServer: Constants.MTPNS,
                 });
             } else if (value === PUSH_NOTIFICATIONS_CUSTOM &&
                 (this.state.pushNotificationServerType === PUSH_NOTIFICATIONS_MTPNS ||
                 this.state.pushNotificationServerType === PUSH_NOTIFICATIONS_MHPNS)) {
                 this.setState({
-                    pushNotificationServer: ''
+                    pushNotificationServer: '',
                 });
             }
         }
@@ -78,7 +78,7 @@ export default class PushSettings extends AdminSettings {
         if (!config.EmailSettings.SendPushNotifications) {
             pushNotificationServerType = PUSH_NOTIFICATIONS_OFF;
         } else if (config.EmailSettings.PushNotificationServer === Constants.MHPNS &&
-            global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.MHPNS === 'true') {
+            this.props.license.IsLicensed === 'true' && this.props.license.MHPNS === 'true') {
             pushNotificationServerType = PUSH_NOTIFICATIONS_MHPNS;
             agree = true;
         } else if (config.EmailSettings.PushNotificationServer === Constants.MTPNS) {
@@ -96,7 +96,7 @@ export default class PushSettings extends AdminSettings {
             pushNotificationServerType,
             pushNotificationServer,
             pushNotificationContents: config.EmailSettings.PushNotificationContents,
-            agree
+            agree,
         };
     }
 
@@ -112,7 +112,7 @@ export default class PushSettings extends AdminSettings {
     renderSettings() {
         const pushNotificationServerTypes = [];
         pushNotificationServerTypes.push({value: PUSH_NOTIFICATIONS_OFF, text: Utils.localizeMessage('admin.email.pushOff', 'Do not send push notifications')});
-        if (global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.MHPNS === 'true') {
+        if (this.props.license.IsLicensed === 'true' && this.props.license.MHPNS === 'true') {
             pushNotificationServerTypes.push({value: PUSH_NOTIFICATIONS_MHPNS, text: Utils.localizeMessage('admin.email.mhpns', 'Use encrypted, production-quality HPNS connection to iOS and Android apps')});
         }
         pushNotificationServerTypes.push({value: PUSH_NOTIFICATIONS_MTPNS, text: Utils.localizeMessage('admin.email.mtpns', 'Use iOS and Android apps on iTunes and Google Play with TPNS')});
@@ -213,7 +213,7 @@ export default class PushSettings extends AdminSettings {
                     values={[
                         {value: 'generic_no_channel', text: Utils.localizeMessage('admin.email.genericNoChannelPushNotification', '"Send generic description with only sender name')},
                         {value: 'generic', text: Utils.localizeMessage('admin.email.genericPushNotification', 'Send generic description with sender and channel names')},
-                        {value: 'full', text: Utils.localizeMessage('admin.email.fullPushNotification', 'Send full message snippet')}
+                        {value: 'full', text: Utils.localizeMessage('admin.email.fullPushNotification', 'Send full message snippet')},
                     ]}
                     label={
                         <FormattedMessage

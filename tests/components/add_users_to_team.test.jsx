@@ -17,7 +17,7 @@ jest.mock('stores/team_store.jsx', () => {
         getCurrentId: jest.fn(() => 'current_team_id'),
         getCurrent: jest.fn(() => {
             return {display_name: 'display_name'};
-        })
+        }),
     };
 });
 
@@ -27,7 +27,7 @@ jest.mock('actions/user_actions.jsx', () => ({
         return new Promise((resolve) => {
             process.nextTick(() => resolve());
         });
-    })
+    }),
 }));
 
 describe('components/AddUsersToTeam', () => {
@@ -38,8 +38,8 @@ describe('components/AddUsersToTeam', () => {
                 return new Promise((resolve) => {
                     process.nextTick(() => resolve());
                 });
-            })
-        }
+            }),
+        },
     };
 
     test('should match snapshot', () => {
@@ -48,7 +48,7 @@ describe('components/AddUsersToTeam', () => {
                 return new Promise((resolve) => {
                     process.nextTick(() => resolve());
                 });
-            })
+            }),
         };
         const props = {...baseProps, actions};
         const wrapper = shallow(
@@ -136,7 +136,7 @@ describe('components/AddUsersToTeam', () => {
                 return new Promise((resolve) => {
                     process.nextTick(() => resolve());
                 });
-            })
+            }),
         };
         const props = {...baseProps, actions};
         const wrapper = shallow(

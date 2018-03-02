@@ -20,7 +20,7 @@ export default class ManageTeamsModal extends React.Component {
     static propTypes = {
         onModalDismissed: PropTypes.func.isRequired,
         show: PropTypes.bool.isRequired,
-        user: PropTypes.object
+        user: PropTypes.object,
     };
 
     constructor(props) {
@@ -29,7 +29,7 @@ export default class ManageTeamsModal extends React.Component {
         this.state = {
             error: null,
             teams: null,
-            teamMembers: null
+            teamMembers: null,
         };
     }
 
@@ -46,7 +46,7 @@ export default class ManageTeamsModal extends React.Component {
         if (userId !== nextUserId) {
             this.setState({
                 teams: null,
-                teamMembers: null
+                teamMembers: null,
             });
 
             if (nextProps.user) {
@@ -58,27 +58,27 @@ export default class ManageTeamsModal extends React.Component {
     loadTeamsAndTeamMembers = (user = this.props.user) => {
         TeamActions.getTeamsForUser(user.id, (teams) => {
             this.setState({
-                teams: filterAndSortTeamsByDisplayName(teams)
+                teams: filterAndSortTeamsByDisplayName(teams),
             });
         });
 
         TeamActions.getTeamMembersForUser(user.id, (teamMembers) => {
             this.setState({
-                teamMembers
+                teamMembers,
             });
         });
     }
 
     handleError = (error) => {
         this.setState({
-            error
+            error,
         });
     }
 
     handleMemberChange = () => {
         TeamActions.getTeamMembersForUser(this.props.user.id, (teamMembers) => {
             this.setState({
-                teamMembers
+                teamMembers,
             });
         });
     }
@@ -86,7 +86,7 @@ export default class ManageTeamsModal extends React.Component {
     handleMemberRemove = (teamId) => {
         this.setState({
             teams: this.state.teams.filter((team) => team.id !== teamId),
-            teamMembers: this.state.teamMembers.filter((teamMember) => teamMember.team_id !== teamId)
+            teamMembers: this.state.teamMembers.filter((teamMember) => teamMember.team_id !== teamId),
         });
     }
 

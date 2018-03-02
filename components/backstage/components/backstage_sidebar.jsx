@@ -15,12 +15,18 @@ export default class BackstageSidebar extends React.Component {
     static get propTypes() {
         return {
             team: PropTypes.object.isRequired,
-            user: PropTypes.object.isRequired
+            user: PropTypes.object.isRequired,
+            enableCustomEmoji: PropTypes.bool.isRequired,
+            enableIncomingWebhooks: PropTypes.bool.isRequired,
+            enableOutgoingWebhooks: PropTypes.bool.isRequired,
+            enableCommands: PropTypes.bool.isRequired,
+            enableOAuthServiceProvider: PropTypes.bool.isRequired,
+            enableOnlyAdminIntegrations: PropTypes.bool.isRequired,
         };
     }
 
     renderCustomEmoji() {
-        if (window.mm_config.EnableCustomEmoji !== 'true' || !Utils.canCreateCustomEmoji(this.props.user)) {
+        if (!this.props.enableCustomEmoji || !Utils.canCreateCustomEmoji(this.props.user)) {
             return null;
         }
 
@@ -40,23 +46,22 @@ export default class BackstageSidebar extends React.Component {
     }
 
     renderIntegrations() {
-        const config = window.mm_config;
         const isSystemAdmin = Utils.isSystemAdmin(this.props.user.roles);
-        if (config.EnableIncomingWebhooks !== 'true' &&
-            config.EnableOutgoingWebhooks !== 'true' &&
-            config.EnableCommands !== 'true' &&
-            config.EnableOAuthServiceProvider !== 'true') {
+        if (!this.props.enableIncomingWebhooks &&
+            !this.props.enableOutgoingWebhooks &&
+            !this.props.enableCommands &&
+            !this.props.enableOAuthServiceProvider) {
             return null;
         }
 
-        if (config.EnableOnlyAdminIntegrations !== 'false' &&
+        if (this.props.enableOnlyAdminIntegrations &&
             !isSystemAdmin &&
             !TeamStore.isTeamAdmin(this.props.user.id, this.props.team.id)) {
             return null;
         }
 
         let incomingWebhooks = null;
-        if (config.EnableIncomingWebhooks === 'true') {
+        if (this.props.enableIncomingWebhooks) {
             incomingWebhooks = (
                 <BackstageSection
                     name='incoming_webhooks'
@@ -71,7 +76,7 @@ export default class BackstageSidebar extends React.Component {
         }
 
         let outgoingWebhooks = null;
-        if (config.EnableOutgoingWebhooks === 'true') {
+        if (this.props.enableOutgoingWebhooks) {
             outgoingWebhooks = (
                 <BackstageSection
                     name='outgoing_webhooks'
@@ -86,7 +91,7 @@ export default class BackstageSidebar extends React.Component {
         }
 
         let commands = null;
-        if (config.EnableCommands === 'true') {
+        if (this.props.enableCommands) {
             commands = (
                 <BackstageSection
                     name='commands'
@@ -101,7 +106,7 @@ export default class BackstageSidebar extends React.Component {
         }
 
         let oauthApps = null;
-        if (config.EnableOAuthServiceProvider === 'true' && (isSystemAdmin || config.EnableOnlyAdminIntegrations !== 'true')) {
+        if (this.props.enableOAuthServiceProvider && (isSystemAdmin || !this.props.enableOnlyAdminIntegrations)) {
             oauthApps = (
                 <BackstageSection
                     name='oauth2-apps'

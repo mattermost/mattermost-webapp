@@ -13,9 +13,10 @@ import {StatTypes} from 'utils/constants.jsx';
 import Banner from 'components/admin_console/banner.jsx';
 import LineChart from 'components/analytics/line_chart.jsx';
 import StatisticCount from 'components/analytics/statistic_count.jsx';
-import {formatPostsPerDayData, formatUsersWithPostsPerDayData} from 'components/analytics/system_analytics.jsx';
 import TableChart from 'components/analytics/table_chart.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
+
+import {formatPostsPerDayData, formatUsersWithPostsPerDayData} from '../format.jsx';
 
 const LAST_ANALYTICS_TEAM = 'last_analytics_team';
 
@@ -42,8 +43,8 @@ export default class TeamAnalytics extends React.Component {
             /*
              * Function to get users in a team
              */
-            getProfilesInTeam: PropTypes.func.isRequired
-        }).isRequired
+            getProfilesInTeam: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -55,7 +56,7 @@ export default class TeamAnalytics extends React.Component {
             team: props.initialTeam,
             stats: AnalyticsStore.getAllTeam(teamId),
             recentlyActiveUsers: [],
-            newUsers: []
+            newUsers: [],
         };
     }
 
@@ -84,7 +85,7 @@ export default class TeamAnalytics extends React.Component {
 
         this.setState({
             recentlyActiveUsers,
-            newUsers
+            newUsers,
         });
     }
 
@@ -95,7 +96,7 @@ export default class TeamAnalytics extends React.Component {
     onChange = () => {
         const teamId = this.state.team ? this.state.team.id : '';
         this.setState({
-            stats: AnalyticsStore.getAllTeam(teamId)
+            stats: AnalyticsStore.getAllTeam(teamId),
         });
     }
 
@@ -110,7 +111,7 @@ export default class TeamAnalytics extends React.Component {
         });
 
         this.setState({
-            team
+            team,
         });
 
         BrowserStore.setGlobalItem(LAST_ANALYTICS_TEAM, teamId);
@@ -235,7 +236,7 @@ export default class TeamAnalytics extends React.Component {
                                 id='analytics.team.title'
                                 defaultMessage='Team Statistics for {team}'
                                 values={{
-                                    team: this.state.team.display_name
+                                    team: this.state.team.display_name,
                                 }}
                             />
                         </h3>

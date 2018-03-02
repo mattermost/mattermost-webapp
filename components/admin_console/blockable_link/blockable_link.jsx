@@ -25,8 +25,8 @@ export default class BlockableLink extends React.Component {
             /*
              * Function for deferring navigation while blocked
              */
-            deferNavigation: PropTypes.func.isRequired
-        }).isRequired
+            deferNavigation: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     handleClick = (e) => {

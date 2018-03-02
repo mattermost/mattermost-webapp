@@ -14,12 +14,12 @@ import * as Utils from 'utils/utils.jsx';
 const holders = defineMessages({
     removing: {
         id: 'admin.license.removing',
-        defaultMessage: 'Removing License...'
+        defaultMessage: 'Removing License...',
     },
     uploading: {
         id: 'admin.license.uploading',
-        defaultMessage: 'Uploading License...'
-    }
+        defaultMessage: 'Uploading License...',
+    },
 });
 
 class LicenseSettings extends React.Component {
@@ -33,7 +33,7 @@ class LicenseSettings extends React.Component {
         this.state = {
             fileSelected: false,
             fileName: null,
-            serverError: null
+            serverError: null,
         };
     }
 
@@ -105,11 +105,11 @@ class LicenseSettings extends React.Component {
         let licenseType;
         let licenseKey;
 
-        const issued = Utils.displayDate(parseInt(global.window.mm_license.IssuedAt, 10)) + ' ' + Utils.displayTime(parseInt(global.window.mm_license.IssuedAt, 10), true);
-        const startsAt = Utils.displayDate(parseInt(global.window.mm_license.StartsAt, 10));
-        const expiresAt = Utils.displayDate(parseInt(global.window.mm_license.ExpiresAt, 10));
+        const issued = Utils.displayDate(parseInt(this.props.license.IssuedAt, 10)) + ' ' + Utils.displayTime(parseInt(this.props.license.IssuedAt, 10), true);
+        const startsAt = Utils.displayDate(parseInt(this.props.license.StartsAt, 10));
+        const expiresAt = Utils.displayDate(parseInt(this.props.license.ExpiresAt, 10));
 
-        if (global.window.mm_license.IsLicensed === 'true') {
+        if (this.props.license.IsLicensed === 'true') {
             // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
             edition = 'Mattermost Enterprise Edition. Enterprise features on this server have been unlocked with a license key and a valid subscription.';
             licenseType = (
@@ -117,9 +117,9 @@ class LicenseSettings extends React.Component {
                     <p>
                         {'This software is offered under a commercial license.\n\nSee ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.\n\nYour subscription details are as follows:'}
                     </p>
-                    {`Name: ${global.window.mm_license.Name}`}<br/>
-                    {`Company or organization name: ${global.window.mm_license.Company}`}<br/>
-                    {`Number of users: ${global.window.mm_license.Users}`}<br/>
+                    {`Name: ${this.props.license.Name}`}<br/>
+                    {`Company or organization name: ${this.props.license.Company}`}<br/>
+                    {`Number of users: ${this.props.license.Users}`}<br/>
                     {`License issued: ${issued}`}<br/>
                     {`Start date of license: ${startsAt}`}<br/>
                     {`Expiry date of license: ${expiresAt}`}<br/>
@@ -276,8 +276,9 @@ class LicenseSettings extends React.Component {
 }
 
 LicenseSettings.propTypes = {
+    license: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
-    config: PropTypes.object
+    config: PropTypes.object,
 };
 
 export default injectIntl(LicenseSettings);

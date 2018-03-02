@@ -16,7 +16,7 @@ export default class AdminSidebarSection extends React.Component {
             parentLink: PropTypes.string,
             subsection: PropTypes.bool,
             children: PropTypes.node,
-            action: PropTypes.node
+            action: PropTypes.node,
         };
     }
 
@@ -24,7 +24,7 @@ export default class AdminSidebarSection extends React.Component {
         return {
             parentLink: '',
             subsection: false,
-            children: []
+            children: [],
         };
     }
 
@@ -47,7 +47,7 @@ export default class AdminSidebarSection extends React.Component {
 
                             return React.cloneElement(child, {
                                 parentLink: link,
-                                subsection: true
+                                subsection: true,
                             });
                         })
                     }

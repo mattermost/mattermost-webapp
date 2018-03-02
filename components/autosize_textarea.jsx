@@ -10,7 +10,7 @@ export default class AutosizeTextarea extends React.Component {
         defaultValue: PropTypes.string,
         placeholder: PropTypes.string,
         onChange: PropTypes.func,
-        onHeightChange: PropTypes.func
+        onHeightChange: PropTypes.func,
     };
 
     constructor(props) {
@@ -80,6 +80,8 @@ export default class AutosizeTextarea extends React.Component {
             value,
             defaultValue,
             placeholder,
+            disabled,
+            onInput,
 
             // TODO: The provided `id` is sometimes hard-coded and used to interface with the
             // component, e.g. `post_textbox`, so it can't be changed. This would ideally be
@@ -104,8 +106,10 @@ export default class AutosizeTextarea extends React.Component {
                     id={id}
                     {...heightProps}
                     {...otherProps}
+                    disabled={disabled}
                     placeholder={placeholder}
                     onChange={this.handleChange}
+                    onInput={onInput}
                     value={value}
                     defaultValue={defaultValue}
                 />
@@ -128,5 +132,5 @@ export default class AutosizeTextarea extends React.Component {
 
 const style = {
     container: {height: 0, overflow: 'hidden'},
-    reference: {height: 'auto', width: '100%'}
+    reference: {height: 'auto', width: '100%'},
 };

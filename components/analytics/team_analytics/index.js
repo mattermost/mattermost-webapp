@@ -20,7 +20,7 @@ function mapStateToProps(state, ownProps) {
     return {
         initialTeam: state.entities.teams.teams[teamId],
         teams,
-        ...ownProps
+        ...ownProps,
     };
 }
 
@@ -28,8 +28,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getTeams,
-            getProfilesInTeam
-        }, dispatch)
+            getProfilesInTeam,
+        }, dispatch),
     };
 }
 

@@ -13,8 +13,8 @@ function modalState(state = {}, action) {
             [action.modalId]: {
                 open: true,
                 dialogProps: action.dialogProps,
-                dialogType: action.dialogType
-            }
+                dialogType: action.dialogType,
+            },
         };
     case ActionTypes.MODAL_CLOSE:
         return {
@@ -22,8 +22,8 @@ function modalState(state = {}, action) {
             [action.modalId]: {
                 open: false,
                 dialogProps: action.dialogProps,
-                dialogType: action.dialogType
-            }
+                dialogType: action.dialogType,
+            },
         };
 
     default:
@@ -32,5 +32,5 @@ function modalState(state = {}, action) {
 }
 
 export default combineReducers({
-    modalState
+    modalState,
 });

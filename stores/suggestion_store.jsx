@@ -94,7 +94,7 @@ class SuggestionStore extends EventEmitter {
             terms: [],
             items: [],
             components: [],
-            selection: ''
+            selection: '',
         });
     }
 

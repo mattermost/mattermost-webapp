@@ -50,15 +50,6 @@ export async function getClusterStatus(success, error) {
     }
 }
 
-export async function testEmail(config, success, error) {
-    const {data, error: err} = await AdminActions.testEmail(config)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
 export async function ldapTest(success, error) {
     const {data, error: err} = await AdminActions.testLdap()(dispatch, getState);
     if (data && success) {
@@ -292,20 +283,20 @@ export async function elasticsearchPurgeIndexes(success, error) {
 export function setNavigationBlocked(blocked) {
     return {
         type: ActionTypes.SET_NAVIGATION_BLOCKED,
-        blocked
+        blocked,
     };
 }
 
 export function deferNavigation(onNavigationConfirmed) {
     return {
         type: ActionTypes.DEFER_NAVIGATION,
-        onNavigationConfirmed
+        onNavigationConfirmed,
     };
 }
 
 export function cancelNavigation() {
     return {
-        type: ActionTypes.CANCEL_NAVIGATION
+        type: ActionTypes.CANCEL_NAVIGATION,
     };
 }
 
@@ -319,7 +310,7 @@ export function confirmNavigation() {
         }
 
         thunkDispatch({
-            type: ActionTypes.CONFIRM_NAVIGATION
+            type: ActionTypes.CONFIRM_NAVIGATION,
         });
     };
 }

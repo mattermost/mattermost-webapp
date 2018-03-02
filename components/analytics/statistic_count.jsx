@@ -21,7 +21,7 @@ export default class StatisticCount extends React.PureComponent {
         /*
          * Data count
          */
-        count: PropTypes.number
+        count: PropTypes.number,
     }
 
     render() {

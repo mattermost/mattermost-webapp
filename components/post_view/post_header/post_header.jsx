@@ -81,12 +81,12 @@ export default class PostHeader extends React.PureComponent {
         /*
          * Set to render the post time when not hovering
          */
-        showTimeWithoutHover: PropTypes.bool
-    }
+        showTimeWithoutHover: PropTypes.bool,
 
-    constructor(props) {
-        super(props);
-        this.state = {};
+        /**
+         * Whether or not the post username can be overridden.
+         */
+        enablePostUsernameOverride: PropTypes.bool.isRequired,
     }
 
     render() {
@@ -106,7 +106,7 @@ export default class PostHeader extends React.PureComponent {
         let colon;
 
         if (post.props && post.props.from_webhook) {
-            if (post.props.override_username && global.window.mm_config.EnablePostUsernameOverride === 'true') {
+            if (post.props.override_username && this.props.enablePostUsernameOverride) {
                 userProfile = (
                     <UserProfile
                         user={this.props.user}

@@ -3,6 +3,8 @@
 
 import React from 'react';
 import {Parser, ProcessNodeDefinitions} from 'html-to-react';
+import {Client4} from 'mattermost-redux/client';
+import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import AtMention from 'components/at_mention';
 import LatexBlock from 'components/latex_block';
@@ -12,6 +14,7 @@ import PostEmoji from 'components/post_emoji';
 import ChannelStore from 'stores/channel_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
+import store from 'stores/redux_store.jsx';
 
 import Constants from 'utils/constants.jsx';
 import {formatWithRenderer} from 'utils/markdown';
@@ -41,7 +44,16 @@ export function isEdited(post) {
     return post.edit_at > 0;
 }
 
+export function getImageSrc(src, hasImageProxy) {
+    if (hasImageProxy) {
+        return Client4.getBaseRoute() + '/image?url=' + encodeURIComponent(src);
+    }
+    return src;
+}
+
 export function getProfilePicSrcForPost(post, user) {
+    const config = getConfig(store.getState());
+
     let src = '';
     if (user && user.id === post.user_id) {
         src = Utils.imageURLForUser(user);
@@ -49,7 +61,7 @@ export function getProfilePicSrcForPost(post, user) {
         src = Utils.imageURLForUser(post.user_id);
     }
 
-    if (post.props && post.props.from_webhook && !post.props.use_user_icon && global.window.mm_config.EnablePostIconOverride === 'true') {
+    if (post.props && post.props.from_webhook && !post.props.use_user_icon && config.EnablePostIconOverride === 'true') {
         if (post.props.override_icon_url) {
             src = post.props.override_icon_url;
         } else {
@@ -63,6 +75,9 @@ export function getProfilePicSrcForPost(post, user) {
 }
 
 export function canDeletePost(post) {
+    const license = getLicense(store.getState());
+    const config = getConfig(store.getState());
+
     if (post.type === Constants.PostTypes.FAKE_PARENT_DELETED) {
         return false;
     }
@@ -73,24 +88,27 @@ export function canDeletePost(post) {
     const isChannelAdmin = ChannelStore.isChannelAdminForCurrentChannel() || isTeamAdmin;
     const isAdmin = isChannelAdmin || isTeamAdmin || isSystemAdmin;
 
-    if (global.window.mm_license.IsLicensed === 'true') {
-        return (global.window.mm_config.RestrictPostDelete === Constants.PERMISSIONS_DELETE_POST_ALL && (isOwner || isChannelAdmin)) ||
-            (global.window.mm_config.RestrictPostDelete === Constants.PERMISSIONS_DELETE_POST_TEAM_ADMIN && isTeamAdmin) ||
-            (global.window.mm_config.RestrictPostDelete === Constants.PERMISSIONS_DELETE_POST_SYSTEM_ADMIN && isSystemAdmin);
+    if (license.IsLicensed === 'true') {
+        return (config.RestrictPostDelete === Constants.PERMISSIONS_DELETE_POST_ALL && (isOwner || isChannelAdmin)) ||
+            (config.RestrictPostDelete === Constants.PERMISSIONS_DELETE_POST_TEAM_ADMIN && isTeamAdmin) ||
+            (config.RestrictPostDelete === Constants.PERMISSIONS_DELETE_POST_SYSTEM_ADMIN && isSystemAdmin);
     }
 
     return isOwner || isAdmin;
 }
 
 export function canEditPost(post, editDisableAction) {
+    const license = getLicense(store.getState());
+    const config = getConfig(store.getState());
+
     const isOwner = isPostOwner(post);
     let canEdit = isOwner && !isSystemMessage(post);
 
-    if (canEdit && global.window.mm_license.IsLicensed === 'true') {
-        if (global.window.mm_config.AllowEditPost === Constants.ALLOW_EDIT_POST_NEVER) {
+    if (canEdit && license.IsLicensed === 'true') {
+        if (config.AllowEditPost === Constants.ALLOW_EDIT_POST_NEVER) {
             canEdit = false;
-        } else if (global.window.mm_config.AllowEditPost === Constants.ALLOW_EDIT_POST_TIME_LIMIT) {
-            const timeLeft = (post.create_at + (global.window.mm_config.PostEditTimeLimit * 1000)) - Utils.getTimestamp();
+        } else if (config.AllowEditPost === Constants.ALLOW_EDIT_POST_TIME_LIMIT) {
+            const timeLeft = (post.create_at + (config.PostEditTimeLimit * 1000)) - Utils.getTimestamp();
             if (timeLeft > 0) {
                 editDisableAction.fireAfter(timeLeft + 1000);
             } else {
@@ -168,7 +186,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                     />
                 );
                 return callAtMention;
-            }
+            },
         });
     }
 
@@ -185,7 +203,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                     />
                 );
                 return callPostEmoji;
-            }
+            },
         });
     }
 
@@ -204,7 +222,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                     />
                 );
                 return callMarkdownImage;
-            }
+            },
         });
     }
 
@@ -215,13 +233,13 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                 return (
                     <LatexBlock content={node.attribs['data-latex']}/>
                 );
-            }
+            },
         });
     }
 
     processingInstructions.push({
         shouldProcessNode: () => true,
-        processNode: processNodeDefinitions.processDefaultNode
+        processNode: processNodeDefinitions.processDefaultNode,
     });
 
     return parser.parseWithInstructions(html, isValidNode, processingInstructions);

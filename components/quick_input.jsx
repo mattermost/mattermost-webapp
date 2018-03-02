@@ -10,6 +10,12 @@ export default class QuickInput extends React.PureComponent {
     static propTypes = {
 
         /**
+         * Whether to delay updating the value of the textbox from props. Should only be used
+         * on textboxes that to properly compose CJK characters as the user types.
+         */
+        delayInputUpdate: PropTypes.bool,
+
+        /**
          * An optional React component that will be used instead of an HTML input when rendering
          */
         inputComponent: PropTypes.func,
@@ -17,12 +23,22 @@ export default class QuickInput extends React.PureComponent {
         /**
          * The string value displayed in this input
          */
-        value: PropTypes.string.isRequired
+        value: PropTypes.string.isRequired,
+    };
+
+    static defaultProps = {
+        delayInputUpdate: false,
     };
 
     componentDidUpdate(prevProps) {
         if (prevProps.value !== this.props.value) {
-            this.refs.input.value = this.props.value;
+            if (this.props.delayInputUpdate) {
+                requestAnimationFrame(() => {
+                    this.refs.input.value = this.props.value;
+                });
+            } else {
+                this.refs.input.value = this.props.value;
+            }
         }
     }
 
@@ -49,12 +65,14 @@ export default class QuickInput extends React.PureComponent {
     render() {
         const {value, inputComponent, ...props} = this.props;
 
+        Reflect.deleteProperty(props, 'delayInputUpdate');
+
         return React.createElement(
             inputComponent || 'input',
             {
                 ...props,
                 ref: 'input',
-                defaultValue: value // Only set the defaultValue since the real one will be updated using componentDidUpdate
+                defaultValue: value, // Only set the defaultValue since the real one will be updated using componentDidUpdate
             }
         );
     }

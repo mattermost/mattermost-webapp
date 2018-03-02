@@ -9,7 +9,7 @@ import ActivityLogModal from './activity_log_modal.jsx';
 
 function mapStateToProps(state, ownProps) {
     return {
-        ...ownProps
+        ...ownProps,
     };
 }
 
@@ -17,8 +17,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getSessions,
-            revokeSession
-        }, dispatch)
+            revokeSession,
+        }, dispatch),
     };
 }
 

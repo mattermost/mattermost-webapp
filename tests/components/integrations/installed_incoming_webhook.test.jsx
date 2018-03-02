@@ -5,8 +5,8 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {shallow} from 'enzyme';
 
-import DeleteIntegration from 'components/integrations/components/delete_integration.jsx';
-import InstalledIncomingWebhook from 'components/integrations/components/installed_incoming_webhook.jsx';
+import DeleteIntegration from 'components/integrations/delete_integration.jsx';
+import InstalledIncomingWebhook from 'components/integrations/installed_incoming_webhook.jsx';
 
 describe('components/integrations/InstalledIncomingWebhook', () => {
     let incomingWebhook = {};
@@ -21,7 +21,7 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
             id: '9w96t4nhbfdiij64wfqors4i1r',
             team_id: 'eatxocwc3bg9ffo9xyybnj4omr',
             update_at: 1502455422406,
-            user_id: 'zaktnt8bpbgu8mb6ez9k64r7sa'
+            user_id: 'zaktnt8bpbgu8mb6ez9k64r7sa',
         };
     });
 
@@ -37,11 +37,11 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 canChange={true}
                 team={{
                     id: teamId,
-                    name: 'test'
+                    name: 'test',
                 }}
                 channel={{
                     id: '1jiw9kphbjrntfyrm7xpdcya4o',
-                    name: 'town-square'
+                    name: 'town-square',
                 }}
             />
         );
@@ -60,11 +60,11 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 canChange={false}
                 team={{
                     id: teamId,
-                    name: 'test'
+                    name: 'test',
                 }}
                 channel={{
                     id: '1jiw9kphbjrntfyrm7xpdcya4o',
-                    name: 'town-square'
+                    name: 'town-square',
                 }}
             />
         );
@@ -83,11 +83,11 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 canChange={true}
                 team={{
                     id: teamId,
-                    name: 'test'
+                    name: 'test',
                 }}
                 channel={{
                     id: '1jiw9kphbjrntfyrm7xpdcya4o',
-                    name: 'town-square'
+                    name: 'town-square',
                 }}
             />
         );
@@ -107,11 +107,11 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 canChange={false}
                 team={{
                     id: teamId,
-                    name: 'test'
+                    name: 'test',
                 }}
                 channel={{
                     id: '1jiw9kphbjrntfyrm7xpdcya4o',
-                    name: 'town-square'
+                    name: 'town-square',
                 }}
             />
         );
@@ -132,11 +132,11 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 canChange={false}
                 team={{
                     id: teamId,
-                    name: 'test'
+                    name: 'test',
                 }}
                 channel={{
                     id: '1jiw9kphbjrntfyrm7xpdcya4o',
-                    name: 'town-square'
+                    name: 'town-square',
                 }}
             />
         );
@@ -155,11 +155,11 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 canChange={false}
                 team={{
                     id: teamId,
-                    name: 'test'
+                    name: 'test',
                 }}
                 channel={{
                     id: '1jiw9kphbjrntfyrm7xpdcya4o',
-                    name: 'town-square'
+                    name: 'town-square',
                 }}
             />
         );
@@ -178,11 +178,11 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 canChange={true}
                 team={{
                     id: teamId,
-                    name: 'test'
+                    name: 'test',
                 }}
                 channel={{
                     id: '1jiw9kphbjrntfyrm7xpdcya4o',
-                    name: 'town-square'
+                    name: 'town-square',
                 }}
             />
         );

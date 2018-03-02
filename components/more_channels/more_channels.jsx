@@ -11,9 +11,6 @@ import {browserHistory} from 'utils/browser_history';
 import {joinChannel, searchMoreChannels} from 'actions/channel_actions.jsx';
 import ChannelStore from 'stores/channel_store.jsx';
 import TeamStore from 'stores/team_store.jsx';
-import UserStore from 'stores/user_store.jsx';
-import {showCreateOption} from 'utils/channel_utils.jsx';
-import Constants from 'utils/constants.jsx';
 import SearchableChannelList from 'components/searchable_channel_list.jsx';
 
 const CHANNELS_CHUNK_SIZE = 50;
@@ -22,22 +19,16 @@ const SEARCH_TIMEOUT_MILLISECONDS = 100;
 
 export default class MoreChannels extends React.Component {
     static propTypes = {
+        showCreatePublicChannelOption: PropTypes.bool.isRequired,
         onModalDismissed: PropTypes.func,
         handleNewChannel: PropTypes.func,
         actions: PropTypes.shape({
-            getChannels: PropTypes.func.isRequired
-        }).isRequired
+            getChannels: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
         super(props);
-
-        this.onChange = this.onChange.bind(this);
-        this.handleJoin = this.handleJoin.bind(this);
-        this.handleHide = this.handleHide.bind(this);
-        this.handleExit = this.handleExit.bind(this);
-        this.nextPage = this.nextPage.bind(this);
-        this.search = this.search.bind(this);
 
         this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
 
@@ -47,7 +38,7 @@ export default class MoreChannels extends React.Component {
             show: true,
             search: false,
             channels: null,
-            serverError: null
+            serverError: null,
         };
     }
 
@@ -60,32 +51,32 @@ export default class MoreChannels extends React.Component {
         ChannelStore.removeChangeListener(this.onChange);
     }
 
-    handleHide() {
+    handleHide = () => {
         this.setState({show: false});
     }
 
-    handleExit() {
+    handleExit = () => {
         if (this.props.onModalDismissed) {
             this.props.onModalDismissed();
         }
     }
 
-    onChange(force) {
+    onChange = (force) => {
         if (this.state.search && !force) {
             return;
         }
 
         this.setState({
             channels: ChannelStore.getMoreChannelsList(),
-            serverError: null
+            serverError: null,
         });
     }
 
-    nextPage(page) {
+    nextPage = (page) => {
         this.props.actions.getChannels(TeamStore.getCurrentId(), page + 1, CHANNELS_PER_PAGE);
     }
 
-    handleJoin(channel, done) {
+    handleJoin = (channel, done) => {
         joinChannel(
             channel,
             () => {
@@ -105,7 +96,7 @@ export default class MoreChannels extends React.Component {
         );
     }
 
-    search(term) {
+    search = (term) => {
         clearTimeout(this.searchTimeoutId);
 
         if (term === '') {
@@ -162,10 +153,7 @@ export default class MoreChannels extends React.Component {
             </p>
         );
 
-        const isTeamAdmin = TeamStore.isTeamAdminForCurrentTeam();
-        const isSystemAdmin = UserStore.isSystemAdminForCurrentUser();
-
-        if (!showCreateOption(Constants.OPEN_CHANNEL, isTeamAdmin, isSystemAdmin)) {
+        if (!this.props.showCreatePublicChannelOption) {
             createNewChannelButton = null;
             createChannelHelpText = null;
         }

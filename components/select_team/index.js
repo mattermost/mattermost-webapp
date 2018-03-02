@@ -4,21 +4,30 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getTeams} from 'mattermost-redux/actions/teams';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {withRouter} from 'react-router-dom';
 
 import SelectTeam from './select_team.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
+    const license = getLicense(state);
+    const config = getConfig(state);
+
     return {
-        ...ownProps
+        isLicensed: license.IsLicensed === 'true',
+        customBrand: license.CustomBrand === 'true',
+        enableCustomBrand: config.EnableCustomBrand === 'true',
+        customDescriptionText: config.CustomDescriptionText,
+        enableTeamCreation: config.EnableTeamCreation === 'true',
+        siteName: config.SiteName,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getTeams
-        }, dispatch)
+            getTeams,
+        }, dispatch),
     };
 }
 

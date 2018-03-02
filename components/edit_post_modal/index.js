@@ -18,7 +18,7 @@ function mapStateToProps(state) {
     return {
         ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
         config: getConfig(state),
-        editingPost: getEditingPost(state)
+        editingPost: getEditingPost(state),
     };
 }
 
@@ -27,8 +27,8 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             addMessageIntoHistory,
             editPost,
-            hideEditPostModal
-        }, dispatch)
+            hideEditPostModal,
+        }, dispatch),
     };
 }
 

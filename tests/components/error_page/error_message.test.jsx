@@ -11,7 +11,7 @@ describe('components/error_page/ErrorMessage', () => {
     const baseProps = {
         type: ErrorPageTypes.LOCAL_STORAGE,
         message: '',
-        service: ''
+        service: '',
     };
 
     test('should match snapshot, local_storage type', () => {

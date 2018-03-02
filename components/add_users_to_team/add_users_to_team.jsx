@@ -25,8 +25,8 @@ export default class AddUsersToTeam extends React.Component {
     static propTypes = {
         onModalDismissed: PropTypes.func,
         actions: PropTypes.shape({
-            getProfilesNotInTeam: PropTypes.func.isRequired
-        }).isRequired
+            getProfilesNotInTeam: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -50,7 +50,7 @@ export default class AddUsersToTeam extends React.Component {
             search: false,
             saving: false,
             addError: null,
-            loadingUsers: true
+            loadingUsers: true,
         };
     }
 
@@ -88,7 +88,7 @@ export default class AddUsersToTeam extends React.Component {
 
         this.setState({
             saving: false,
-            addError
+            addError,
         });
     }
 
@@ -129,7 +129,7 @@ export default class AddUsersToTeam extends React.Component {
 
     setUsersLoadingState = (loadingState) => {
         this.setState({
-            loadingUsers: loadingState
+            loadingUsers: loadingState,
         });
     }
 
@@ -149,7 +149,7 @@ export default class AddUsersToTeam extends React.Component {
         }
 
         this.setState({
-            users
+            users,
         });
     }
 
@@ -233,7 +233,7 @@ export default class AddUsersToTeam extends React.Component {
                 id='multiselect.numPeopleRemaining'
                 defaultMessage='Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. '
                 values={{
-                    num: MAX_SELECTABLE_VALUES - this.state.values.length
+                    num: MAX_SELECTABLE_VALUES - this.state.values.length,
                 }}
             />
         );
@@ -265,7 +265,7 @@ export default class AddUsersToTeam extends React.Component {
                             values={{
                                 teamName: (
                                     <strong>{TeamStore.getCurrent().display_name}</strong>
-                                )
+                                ),
                             }}
                         />
                     </Modal.Title>

@@ -21,5 +21,5 @@ module.exports = {
             navigateToScreenThree().
             navigateToScreenOne().
             navigateWithNextButton();
-    }
+    },
 };

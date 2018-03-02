@@ -16,7 +16,7 @@ function mapStateToProps(state, ownProps) {
     const {currentUserId} = state.entities.users;
     return {
         ...ownProps,
-        autoResetPref: get(state, Preferences.CATEGORY_AUTO_RESET_MANUAL_STATUS, currentUserId, '')
+        autoResetPref: get(state, Preferences.CATEGORY_AUTO_RESET_MANUAL_STATUS, currentUserId, ''),
     };
 }
 
@@ -25,8 +25,8 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             autoResetStatus,
             setStatus,
-            savePreferences
-        }, dispatch)
+            savePreferences,
+        }, dispatch),
     };
 }
 

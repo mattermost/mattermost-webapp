@@ -23,7 +23,7 @@ export default class DiscardChangesModal extends React.PureComponent {
         /*
          * Action to call on cancel
          */
-        onCancel: PropTypes.func.isRequired
+        onCancel: PropTypes.func.isRequired,
 
     }
 

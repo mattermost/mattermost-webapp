@@ -2,6 +2,7 @@
 // See License.txt for license information.
 
 import * as ChannelUtilsRedux from 'mattermost-redux/utils/channel_utils';
+import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import ChannelStore from 'stores/channel_store.jsx';
 import LocalizationStore from 'stores/localization_store.jsx';
@@ -10,6 +11,7 @@ import TeamStore from 'stores/team_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 import Constants, {Preferences} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+import store from 'stores/redux_store.jsx';
 
 export function isFavoriteChannel(channel) {
     return PreferenceStore.getBool(Preferences.CATEGORY_FAVORITE_CHANNEL, channel.id);
@@ -49,21 +51,24 @@ export function getChannelDisplayName(channel) {
     return channel.display_name;
 }
 
-export function showCreateOption(channelType, isTeamAdmin, isSystemAdmin) {
-    if (global.window.mm_license.IsLicensed !== 'true') {
+export function showCreateOption(state, channelType, isTeamAdmin, isSystemAdmin) {
+    const license = state.entities.general.license;
+    const config = state.entities.general.config;
+
+    if (license.IsLicensed !== 'true') {
         return true;
     }
 
     if (channelType === Constants.OPEN_CHANNEL) {
-        if (global.window.mm_config.RestrictPublicChannelCreation === Constants.PERMISSIONS_SYSTEM_ADMIN && !isSystemAdmin) {
+        if (config.RestrictPublicChannelCreation === Constants.PERMISSIONS_SYSTEM_ADMIN && !isSystemAdmin) {
             return false;
-        } else if (global.window.mm_config.RestrictPublicChannelCreation === Constants.PERMISSIONS_TEAM_ADMIN && !(isTeamAdmin || isSystemAdmin)) {
+        } else if (config.RestrictPublicChannelCreation === Constants.PERMISSIONS_TEAM_ADMIN && !(isTeamAdmin || isSystemAdmin)) {
             return false;
         }
     } else if (channelType === Constants.PRIVATE_CHANNEL) {
-        if (global.window.mm_config.RestrictPrivateChannelCreation === Constants.PERMISSIONS_SYSTEM_ADMIN && !isSystemAdmin) {
+        if (config.RestrictPrivateChannelCreation === Constants.PERMISSIONS_SYSTEM_ADMIN && !isSystemAdmin) {
             return false;
-        } else if (global.window.mm_config.RestrictPrivateChannelCreation === Constants.PERMISSIONS_TEAM_ADMIN && !(isTeamAdmin || isSystemAdmin)) {
+        } else if (config.RestrictPrivateChannelCreation === Constants.PERMISSIONS_TEAM_ADMIN && !(isTeamAdmin || isSystemAdmin)) {
             return false;
         }
     }
@@ -72,29 +77,32 @@ export function showCreateOption(channelType, isTeamAdmin, isSystemAdmin) {
 }
 
 export function showManagementOptions(channel, isChannelAdmin, isTeamAdmin, isSystemAdmin) {
-    if (global.window.mm_license.IsLicensed !== 'true') {
+    const license = getLicense(store.getState());
+    const config = getConfig(store.getState());
+
+    if (license.IsLicensed !== 'true') {
         // policies are only enforced in enterprise editions
         return true;
     }
 
     if (channel.type === Constants.OPEN_CHANNEL) {
-        if (global.window.mm_config.RestrictPublicChannelManagement === Constants.PERMISSIONS_CHANNEL_ADMIN && !(isChannelAdmin || isTeamAdmin || isSystemAdmin)) {
+        if (config.RestrictPublicChannelManagement === Constants.PERMISSIONS_CHANNEL_ADMIN && !(isChannelAdmin || isTeamAdmin || isSystemAdmin)) {
             return false;
         }
-        if (global.window.mm_config.RestrictPublicChannelManagement === Constants.PERMISSIONS_TEAM_ADMIN && !(isTeamAdmin || isSystemAdmin)) {
+        if (config.RestrictPublicChannelManagement === Constants.PERMISSIONS_TEAM_ADMIN && !(isTeamAdmin || isSystemAdmin)) {
             return false;
         }
-        if (global.window.mm_config.RestrictPublicChannelManagement === Constants.PERMISSIONS_SYSTEM_ADMIN && !isSystemAdmin) {
+        if (config.RestrictPublicChannelManagement === Constants.PERMISSIONS_SYSTEM_ADMIN && !isSystemAdmin) {
             return false;
         }
     } else if (channel.type === Constants.PRIVATE_CHANNEL) {
-        if (global.window.mm_config.RestrictPrivateChannelManagement === Constants.PERMISSIONS_CHANNEL_ADMIN && !(isChannelAdmin || isTeamAdmin || isSystemAdmin)) {
+        if (config.RestrictPrivateChannelManagement === Constants.PERMISSIONS_CHANNEL_ADMIN && !(isChannelAdmin || isTeamAdmin || isSystemAdmin)) {
             return false;
         }
-        if (global.window.mm_config.RestrictPrivateChannelManagement === Constants.PERMISSIONS_TEAM_ADMIN && !(isTeamAdmin || isSystemAdmin)) {
+        if (config.RestrictPrivateChannelManagement === Constants.PERMISSIONS_TEAM_ADMIN && !(isTeamAdmin || isSystemAdmin)) {
             return false;
         }
-        if (global.window.mm_config.RestrictPrivateChannelManagement === Constants.PERMISSIONS_SYSTEM_ADMIN && !isSystemAdmin) {
+        if (config.RestrictPrivateChannelManagement === Constants.PERMISSIONS_SYSTEM_ADMIN && !isSystemAdmin) {
             return false;
         }
     }
@@ -103,7 +111,10 @@ export function showManagementOptions(channel, isChannelAdmin, isTeamAdmin, isSy
 }
 
 export function showDeleteOptionForCurrentUser(channel, isChannelAdmin, isTeamAdmin, isSystemAdmin) {
-    if (global.window.mm_license.IsLicensed !== 'true') {
+    const license = getLicense(store.getState());
+    const config = getConfig(store.getState());
+
+    if (license.IsLicensed !== 'true') {
         // policies are only enforced in enterprise editions
         return true;
     }
@@ -114,23 +125,23 @@ export function showDeleteOptionForCurrentUser(channel, isChannelAdmin, isTeamAd
     }
 
     if (channel.type === Constants.OPEN_CHANNEL) {
-        if (global.window.mm_config.RestrictPublicChannelDeletion === Constants.PERMISSIONS_CHANNEL_ADMIN && !(isChannelAdmin || isTeamAdmin || isSystemAdmin)) {
+        if (config.RestrictPublicChannelDeletion === Constants.PERMISSIONS_CHANNEL_ADMIN && !(isChannelAdmin || isTeamAdmin || isSystemAdmin)) {
             return false;
         }
-        if (global.window.mm_config.RestrictPublicChannelDeletion === Constants.PERMISSIONS_TEAM_ADMIN && !(isTeamAdmin || isSystemAdmin)) {
+        if (config.RestrictPublicChannelDeletion === Constants.PERMISSIONS_TEAM_ADMIN && !(isTeamAdmin || isSystemAdmin)) {
             return false;
         }
-        if (global.window.mm_config.RestrictPublicChannelDeletion === Constants.PERMISSIONS_SYSTEM_ADMIN && !isSystemAdmin) {
+        if (config.RestrictPublicChannelDeletion === Constants.PERMISSIONS_SYSTEM_ADMIN && !isSystemAdmin) {
             return false;
         }
     } else if (channel.type === Constants.PRIVATE_CHANNEL) {
-        if (global.window.mm_config.RestrictPrivateChannelDeletion === Constants.PERMISSIONS_CHANNEL_ADMIN && !(isChannelAdmin || isTeamAdmin || isSystemAdmin)) {
+        if (config.RestrictPrivateChannelDeletion === Constants.PERMISSIONS_CHANNEL_ADMIN && !(isChannelAdmin || isTeamAdmin || isSystemAdmin)) {
             return false;
         }
-        if (global.window.mm_config.RestrictPrivateChannelDeletion === Constants.PERMISSIONS_TEAM_ADMIN && !(isTeamAdmin || isSystemAdmin)) {
+        if (config.RestrictPrivateChannelDeletion === Constants.PERMISSIONS_TEAM_ADMIN && !(isTeamAdmin || isSystemAdmin)) {
             return false;
         }
-        if (global.window.mm_config.RestrictPrivateChannelDeletion === Constants.PERMISSIONS_SYSTEM_ADMIN && !isSystemAdmin) {
+        if (config.RestrictPrivateChannelDeletion === Constants.PERMISSIONS_SYSTEM_ADMIN && !isSystemAdmin) {
             return false;
         }
     }
@@ -139,18 +150,21 @@ export function showDeleteOptionForCurrentUser(channel, isChannelAdmin, isTeamAd
 }
 
 export function canManageMembers(channel, isChannelAdmin, isTeamAdmin, isSystemAdmin) {
-    if (global.window.mm_license.IsLicensed !== 'true') {
+    const license = getLicense(store.getState());
+    const config = getConfig(store.getState());
+
+    if (license.IsLicensed !== 'true') {
         return true;
     }
 
     if (channel.type === Constants.PRIVATE_CHANNEL) {
-        if (global.window.mm_config.RestrictPrivateChannelManageMembers === Constants.PERMISSIONS_CHANNEL_ADMIN && !(isChannelAdmin || isTeamAdmin || isSystemAdmin)) {
+        if (config.RestrictPrivateChannelManageMembers === Constants.PERMISSIONS_CHANNEL_ADMIN && !(isChannelAdmin || isTeamAdmin || isSystemAdmin)) {
             return false;
         }
-        if (global.window.mm_config.RestrictPrivateChannelManageMembers === Constants.PERMISSIONS_TEAM_ADMIN && !(isTeamAdmin || isSystemAdmin)) {
+        if (config.RestrictPrivateChannelManageMembers === Constants.PERMISSIONS_TEAM_ADMIN && !(isTeamAdmin || isSystemAdmin)) {
             return false;
         }
-        if (global.window.mm_config.RestrictPrivateChannelManageMembers === Constants.PERMISSIONS_SYSTEM_ADMIN && !isSystemAdmin) {
+        if (config.RestrictPrivateChannelManageMembers === Constants.PERMISSIONS_SYSTEM_ADMIN && !isSystemAdmin) {
             return false;
         }
     }

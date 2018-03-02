@@ -14,6 +14,11 @@ export default class ComplianceReports extends React.PureComponent {
     static propTypes = {
 
         /*
+         * Set if compliance reports are licensed
+         */
+        isLicensed: PropTypes.bool.isRequired,
+
+        /*
          * Set if compliance reports are enabled in the config
          */
         enabled: PropTypes.bool.isRequired,
@@ -38,20 +43,20 @@ export default class ComplianceReports extends React.PureComponent {
             /*
              * Function to save compliance reports
              */
-            createComplianceReport: PropTypes.func.isRequired
-        }).isRequired
+            createComplianceReport: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
         super(props);
 
         this.state = {
-            loadingReports: true
+            loadingReports: true,
         };
     }
 
     componentDidMount() {
-        if (global.window.mm_license.IsLicensed !== 'true' || !this.props.enabled) {
+        if (!this.props.isLicensed || !this.props.enabled) {
             return;
         }
 
@@ -115,7 +120,7 @@ export default class ComplianceReports extends React.PureComponent {
     }
 
     render() {
-        if (global.window.mm_license.IsLicensed !== 'true' || !this.props.enabled) {
+        if (!this.props.isLicensed || !this.props.enabled) {
             return <div/>;
         }
 
@@ -394,5 +399,5 @@ const style = {
     redStatus: {color: 'red'},
     dataCell: {whiteSpace: 'nowrap'},
     date: {whiteSpace: 'nowrap'},
-    serverError: {marginTop: '10px'}
+    serverError: {marginTop: '10px'},
 };

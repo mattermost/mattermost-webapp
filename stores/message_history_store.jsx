@@ -15,27 +15,27 @@ class MessageHistoryStoreClass {
     storeMessageInHistory(message) {
         store.dispatch({
             type: PostTypes.ADD_MESSAGE_INTO_HISTORY,
-            data: message
+            data: message,
         });
     }
 
     storeMessageInHistoryByIndex(index, message) {
         store.dispatch({
             type: PostTypes.ADD_MESSAGE_INTO_HISTORY_INDEX,
-            data: {message, index}
+            data: {message, index},
         });
     }
 
     resetAllHistoryIndex() {
         store.dispatch({
-            type: PostTypes.RESET_ALL_HISTORY_INDEX
+            type: PostTypes.RESET_ALL_HISTORY_INDEX,
         });
     }
 
     resetHistoryIndex(type) {
         store.dispatch({
             type: PostTypes.RESET_HISTORY_INDEX,
-            data: type
+            data: type,
         });
     }
 
@@ -47,12 +47,12 @@ class MessageHistoryStoreClass {
         if (keyCode === Constants.KeyCodes.UP) {
             store.dispatch({
                 type: PostTypes.MOVE_HISTORY_INDEX_BACK,
-                data: type
+                data: type,
             });
         } else if (keyCode === Constants.KeyCodes.DOWN) {
             store.dispatch({
                 type: PostTypes.MOVE_HISTORY_INDEX_FORWARD,
-                data: type
+                data: type,
             });
         }
 

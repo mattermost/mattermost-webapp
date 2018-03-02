@@ -78,7 +78,7 @@ export default class SamlSettings extends AdminSettings {
             nicknameAttribute: settings.NicknameAttribute,
             positionAttribute: settings.PositionAttribute,
             localeAttribute: settings.LocaleAttribute,
-            loginButtonText: settings.LoginButtonText
+            loginButtonText: settings.LoginButtonText,
         };
     }
 
@@ -159,7 +159,7 @@ export default class SamlSettings extends AdminSettings {
     }
 
     renderSettings() {
-        const licenseEnabled = global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.SAML === 'true';
+        const licenseEnabled = this.props.license.IsLicensed === 'true' && this.props.license.SAML === 'true';
         if (!licenseEnabled) {
             return null;
         }

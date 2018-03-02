@@ -15,7 +15,7 @@ import {
     getSortedDirectChannelIds,
     getSortedFavoriteChannelIds,
     getSortedPublicChannelIds,
-    getSortedPrivateChannelIds
+    getSortedPrivateChannelIds,
 } from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getBool as getBoolPreference} from 'mattermost-redux/selectors/entities/preferences';
@@ -23,8 +23,8 @@ import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selecto
 import {getCurrentTeam, isCurrentUserCurrentTeamAdmin} from 'mattermost-redux/selectors/entities/teams';
 
 import {goToChannelById} from 'actions/channel_actions.jsx';
-
-import {GroupUnreadChannels} from 'utils/constants.jsx';
+import {showCreateOption} from 'utils/channel_utils.jsx';
+import {GroupUnreadChannels, Constants} from 'utils/constants.jsx';
 
 import Sidebar from './sidebar.jsx';
 
@@ -58,6 +58,11 @@ function mapStateToProps(state) {
         directAndGroupChannelIds = getSortedDirectChannelWithUnreadsIds(state);
     }
 
+    const isSystemAdmin = isCurrentUserSystemAdmin(state);
+    const isTeamAdmin = isCurrentUserCurrentTeamAdmin(state);
+    const showCreatePublicChannelOption = showCreateOption(state, Constants.OPEN_CHANNEL, isTeamAdmin, isSystemAdmin);
+    const showCreatePrivateChannelOption = showCreateOption(state, Constants.PRIVATE_CHANNEL, isTeamAdmin, isSystemAdmin);
+
     return {
         config,
         showUnreadSection,
@@ -71,16 +76,16 @@ function mapStateToProps(state) {
         currentTeam: getCurrentTeam(state),
         currentUser: getCurrentUser(state),
         unreads: getUnreads(state),
-        isSystemAdmin: isCurrentUserSystemAdmin(state),
-        isTeamAdmin: isCurrentUserCurrentTeamAdmin(state)
+        showCreatePublicChannelOption,
+        showCreatePrivateChannelOption,
     };
 }
 
 function mapDispatchToProps() {
     return {
         actions: {
-            goToChannelById
-        }
+            goToChannelById,
+        },
     };
 }
 

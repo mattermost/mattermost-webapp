@@ -9,13 +9,13 @@ export default class SettingsGroup extends React.Component {
         return {
             show: PropTypes.bool.isRequired,
             header: PropTypes.node,
-            children: PropTypes.node
+            children: PropTypes.node,
         };
     }
 
     static get defaultProps() {
         return {
-            show: true
+            show: true,
         };
     }
 

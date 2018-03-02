@@ -12,7 +12,7 @@ import ChannelHeader from 'components/channel_header';
 import CreatePost from 'components/create_post';
 import FileUploadOverlay from 'components/file_upload_overlay.jsx';
 import PostView from 'components/post_view';
-import TutorialView from 'components/tutorial/tutorial_view.jsx';
+import TutorialView from 'components/tutorial';
 import {clearMarks, mark, measure, trackEvent} from 'actions/diagnostics_actions.jsx';
 
 export default class ChannelView extends React.PureComponent {
@@ -31,7 +31,7 @@ export default class ChannelView extends React.PureComponent {
         /**
          * Set to show the tutorial
          */
-        showTutorial: PropTypes.bool.isRequired
+        showTutorial: PropTypes.bool.isRequired,
     };
 
     constructor(props) {
@@ -80,7 +80,7 @@ export default class ChannelView extends React.PureComponent {
             clearMarks([
                 'SidebarChannelLink#click',
                 'ChannelView#componentDidUpdate',
-                'TeamLink#click'
+                'TeamLink#click',
             ]);
 
             if (dur1 !== -1) {

@@ -12,7 +12,7 @@ describe('components/SettingItemMin', () => {
         disableOpen: false,
         section: 'section',
         updateSection: jest.fn(),
-        describe: 'describe'
+        describe: 'describe',
     };
 
     test('should match snapshot', () => {

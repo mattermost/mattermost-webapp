@@ -15,7 +15,7 @@ export default class GetPostLinkModal extends React.PureComponent {
         /**
          * URL of current team
          */
-        currentTeamUrl: PropTypes.string.isRequired
+        currentTeamUrl: PropTypes.string.isRequired,
     };
 
     constructor(props) {
@@ -26,7 +26,7 @@ export default class GetPostLinkModal extends React.PureComponent {
 
         this.state = {
             show: false,
-            post: {}
+            post: {},
         };
     }
 
@@ -41,13 +41,13 @@ export default class GetPostLinkModal extends React.PureComponent {
     handleToggle(value, args) {
         this.setState({
             show: value,
-            post: args.post
+            post: args.post,
         });
     }
 
     hide() {
         this.setState({
-            show: false
+            show: false,
         });
     }
 

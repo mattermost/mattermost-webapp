@@ -32,7 +32,7 @@ export function uploadFile(file, name, channelId, clientId, successCallback, err
                 clientIds: [clientId],
                 channelId,
                 rootId: null,
-                error: err
+                error: err,
             };
 
             dispatch(batchActions([failure, getLogErrorAction(err)]), getState);
@@ -44,7 +44,7 @@ export function uploadFile(file, name, channelId, clientId, successCallback, err
             const data = res.body.file_infos.map((fileInfo, index) => {
                 return {
                     ...fileInfo,
-                    clientId: res.body.client_ids[index]
+                    clientId: res.body.client_ids[index],
                 };
             });
 
@@ -53,11 +53,11 @@ export function uploadFile(file, name, channelId, clientId, successCallback, err
                     type: FileTypes.RECEIVED_UPLOAD_FILES,
                     data,
                     channelId,
-                    rootId: null
+                    rootId: null,
                 },
                 {
-                    type: FileTypes.UPLOAD_FILES_SUCCESS
-                }
+                    type: FileTypes.UPLOAD_FILES_SUCCESS,
+                },
             ]), getState);
 
             if (successCallback) {

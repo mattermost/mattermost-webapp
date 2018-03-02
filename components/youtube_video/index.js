@@ -3,13 +3,18 @@
 
 import {connect} from 'react-redux';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import YoutubeVideo from './youtube_video.jsx';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
+    const config = getConfig(state);
+
+    const googleDeveloperKey = config.GoogleDeveloperKey;
+
     return {
-        ...ownProps,
-        currentChannelId: getCurrentChannelId(state)
+        currentChannelId: getCurrentChannelId(state),
+        googleDeveloperKey,
     };
 }
 

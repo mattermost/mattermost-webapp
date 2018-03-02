@@ -27,7 +27,7 @@ export default class PrivacySettings extends AdminSettings {
     getStateFromConfig(config) {
         return {
             showEmailAddress: config.PrivacySettings.ShowEmailAddress,
-            showFullName: config.PrivacySettings.ShowFullName
+            showFullName: config.PrivacySettings.ShowFullName,
         };
     }
 

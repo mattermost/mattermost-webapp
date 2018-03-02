@@ -26,7 +26,7 @@ export async function deleteEmoji(emojiId, success, error) {
         // Needed to remove recently used emoji
         AppDispatcher.handleServerAction({
             type: ActionTypes.REMOVED_CUSTOM_EMOJI,
-            id: emojiId
+            id: emojiId,
         });
 
         if (success) {
@@ -58,7 +58,7 @@ export function loadRecentlyUsedCustomEmojis() {
 export function incrementEmojiPickerPage() {
     return async (dispatch) => {
         dispatch({
-            type: ActionTypes.INCREMENT_EMOJI_PICKER_PAGE
+            type: ActionTypes.INCREMENT_EMOJI_PICKER_PAGE,
         });
 
         return {data: true};

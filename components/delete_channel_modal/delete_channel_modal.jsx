@@ -33,8 +33,8 @@ export default class DeleteChannelModal extends React.PureComponent {
             * Function called for deleting channel,
             */
 
-            deleteChannel: PropTypes.func.isRequired
-        })
+            deleteChannel: PropTypes.func.isRequired,
+        }),
     }
 
     constructor(props) {
@@ -79,7 +79,7 @@ export default class DeleteChannelModal extends React.PureComponent {
                             id='delete_channel.question'
                             defaultMessage='This will delete the channel from the team and make its contents inaccessible for all users. <br /><br />Are you sure you wish to delete the <strong>{display_name}</strong> channel?'
                             values={{
-                                display_name: this.props.channel.display_name
+                                display_name: this.props.channel.display_name,
                             }}
                         />
                     </div>

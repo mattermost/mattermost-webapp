@@ -13,24 +13,24 @@ export function createGetChildComponentsFunction(arrayOfComponents) {
 }
 
 export const notFoundParams = {
-    type: ErrorPageTypes.PAGE_NOT_FOUND
+    type: ErrorPageTypes.PAGE_NOT_FOUND,
 };
 
 const mfaPaths = [
     '/mfa/setup',
-    '/mfa/confirm'
+    '/mfa/confirm',
 ];
 
 const mfaAuthServices = [
     '',
     'email',
-    'ldap'
+    'ldap',
 ];
 
-export function checkIfMFARequired(path) {
-    if (window.mm_license.MFA === 'true' &&
-            window.mm_config.EnableMultifactorAuthentication === 'true' &&
-            window.mm_config.EnforceMultifactorAuthentication === 'true' &&
+export function checkIfMFARequired(license, config, path) {
+    if (license.MFA === 'true' &&
+            config.EnableMultifactorAuthentication === 'true' &&
+            config.EnforceMultifactorAuthentication === 'true' &&
             mfaPaths.indexOf(path) === -1) {
         const user = UserStore.getCurrentUser();
         if (user && !user.mfa_active &&

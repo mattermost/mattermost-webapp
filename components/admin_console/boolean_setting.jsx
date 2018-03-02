@@ -81,7 +81,7 @@ BooleanSetting.defaultProps = {
             defaultMessage='false'
         />
     ),
-    disabled: false
+    disabled: false,
 };
 
 BooleanSetting.propTypes = {
@@ -93,5 +93,5 @@ BooleanSetting.propTypes = {
     falseText: PropTypes.node,
     disabled: PropTypes.bool.isRequired,
     disabledText: PropTypes.node,
-    helpText: PropTypes.node.isRequired
+    helpText: PropTypes.node.isRequired,
 };

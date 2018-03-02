@@ -8,6 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {deletePost} from 'actions/post_actions.jsx';
 import ModalStore from 'stores/modal_store.jsx';
 import Constants from 'utils/constants.jsx';
+import * as UserAgent from 'utils/user_agent.jsx';
 
 var ActionTypes = Constants.ActionTypes;
 
@@ -15,15 +16,11 @@ export default class DeletePostModal extends React.Component {
     constructor(props) {
         super(props);
 
-        this.handleDelete = this.handleDelete.bind(this);
-        this.handleToggle = this.handleToggle.bind(this);
-        this.handleHide = this.handleHide.bind(this);
-
         this.state = {
             show: false,
             post: null,
             commentCount: 0,
-            error: ''
+            error: '',
         };
     }
 
@@ -45,7 +42,7 @@ export default class DeletePostModal extends React.Component {
         }
     }
 
-    handleDelete() {
+    handleDelete = () => {
         deletePost(
             this.state.post.channel_id,
             this.state.post,
@@ -58,17 +55,21 @@ export default class DeletePostModal extends React.Component {
         );
     }
 
-    handleToggle(value, args) {
+    handleToggle = (value, args) => {
         this.setState({
             show: value,
             post: args.post,
             commentCount: args.commentCount,
-            error: ''
+            error: '',
         });
     }
 
-    handleHide() {
+    handleHide = () => {
         this.setState({show: false});
+
+        if (!UserAgent.isMobile()) {
+            document.getElementById('post_textbox').focus();
+        }
     }
 
     render() {
@@ -88,7 +89,7 @@ export default class DeletePostModal extends React.Component {
                     id='delete_post.warning'
                     defaultMessage='This post has {count, number} {count, plural, one {comment} other {comments}} on it.'
                     values={{
-                        count: this.state.commentCount
+                        count: this.state.commentCount,
                     }}
                 />
             );
@@ -110,6 +111,7 @@ export default class DeletePostModal extends React.Component {
             <Modal
                 show={this.state.show}
                 onHide={this.handleHide}
+                enforceFocus={false}
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title>
@@ -117,7 +119,7 @@ export default class DeletePostModal extends React.Component {
                             id='delete_post.confirm'
                             defaultMessage='Confirm {term} Delete'
                             values={{
-                                term: (postTerm)
+                                term: (postTerm),
                             }}
                         />
                     </Modal.Title>
@@ -127,7 +129,7 @@ export default class DeletePostModal extends React.Component {
                         id='delete_post.question'
                         defaultMessage='Are you sure you want to delete this {term}?'
                         values={{
-                            term: (postTerm)
+                            term: (postTerm),
                         }}
                     />
                     <br/>

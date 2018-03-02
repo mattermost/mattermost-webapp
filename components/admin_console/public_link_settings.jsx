@@ -28,7 +28,7 @@ export default class PublicLinkSettings extends AdminSettings {
     getStateFromConfig(config) {
         return {
             enablePublicLink: config.FileSettings.EnablePublicLink,
-            publicLinkSalt: config.FileSettings.PublicLinkSalt
+            publicLinkSalt: config.FileSettings.PublicLinkSalt,
         };
     }
 

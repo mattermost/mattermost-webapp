@@ -3,10 +3,13 @@
 
 import EventEmitter from 'events';
 
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+
 import UserStore from 'stores/user_store.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import AppDispatcher from '../dispatcher/app_dispatcher.jsx';
+import store from 'stores/redux_store.jsx';
 
 const ActionTypes = Constants.ActionTypes;
 
@@ -59,13 +62,14 @@ class UserTypingStoreClass extends EventEmitter {
         }
 
         // Set the user and a timeout to remove it
+        const config = getConfig(store.getState());
         this.typingUsers[loc][name] = setTimeout(() => {
             Reflect.deleteProperty(this.typingUsers[loc], name);
             if (this.typingUsers[loc] === {}) {
                 Reflect.deleteProperty(this.typingUsers, loc);
             }
             this.emitChange();
-        }, parseInt(window.mm_config.TimeBetweenUserTypingUpdatesMilliseconds, 10));
+        }, parseInt(config.TimeBetweenUserTypingUpdatesMilliseconds, 10));
         this.emitChange();
     }
 

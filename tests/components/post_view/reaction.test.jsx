@@ -8,7 +8,7 @@ import {emitEmojiPosted} from 'actions/post_actions.jsx';
 import Reaction from 'components/post_view/reaction/reaction.jsx';
 
 jest.mock('actions/post_actions.jsx', () => ({
-    emitEmojiPosted: jest.fn()
+    emitEmojiPosted: jest.fn(),
 }));
 
 describe('components/post_view/Reaction', () => {
@@ -29,7 +29,7 @@ describe('components/post_view/Reaction', () => {
     const actions = {
         addReaction: () => {},              //eslint-disable-line no-empty-function
         getMissingProfilesByIds: () => {},   //eslint-disable-line no-empty-function
-        removeReaction: () => {}            //eslint-disable-line no-empty-function
+        removeReaction: () => {},            //eslint-disable-line no-empty-function
     };
 
     const baseProps = {
@@ -41,7 +41,7 @@ describe('components/post_view/Reaction', () => {
         otherUsersCount: 2,
         reactions,
         emojiImageUrl: 'emoji_image_url',
-        actions
+        actions,
     };
 
     test('should match snapshot', () => {
@@ -56,7 +56,7 @@ describe('components/post_view/Reaction', () => {
             ...baseProps,
             reactions: newReactions,
             profiles: newProfiles,
-            otherUsersCount: 1
+            otherUsersCount: 1,
         };
         const wrapper = shallow(<Reaction {...props}/>);
         expect(wrapper).toMatchSnapshot();

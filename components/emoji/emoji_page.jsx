@@ -31,13 +31,13 @@ export default class EmojiPage extends React.Component {
         /**
          * Function to scroll list to top.
          */
-        scrollToTop: PropTypes.func.isRequired
+        scrollToTop: PropTypes.func.isRequired,
     }
 
     static defaultProps = {
         teamName: '',
         teamDisplayName: '',
-        siteName: ''
+        siteName: '',
     }
 
     componentDidMount() {

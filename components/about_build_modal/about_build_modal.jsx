@@ -10,7 +10,7 @@ import MattermostLogo from 'components/svg/mattermost_logo';
 
 export default class AboutBuildModal extends React.PureComponent {
     static defaultProps = {
-        show: false
+        show: false,
     };
 
     static propTypes = {
@@ -38,7 +38,7 @@ export default class AboutBuildModal extends React.PureComponent {
         /**
          * Webapp build hash override. By default, webpack sets this (so it must be overridden in tests).
          */
-        webappBuildHash: PropTypes.string
+        webappBuildHash: PropTypes.string,
     };
 
     constructor(props) {
@@ -188,7 +188,7 @@ export default class AboutBuildModal extends React.PureComponent {
                                 id='about.copyright'
                                 defaultMessage='Copyright 2015 - {currentYear} Mattermost, Inc. All rights reserved'
                                 values={{
-                                    currentYear: new Date().getFullYear()
+                                    currentYear: new Date().getFullYear(),
                                 }}
                             />
                         </div>

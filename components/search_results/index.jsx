@@ -5,13 +5,14 @@ import {connect} from 'react-redux';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getSearchResults} from 'mattermost-redux/selectors/entities/posts';
 import * as PreferenceSelectors from 'mattermost-redux/selectors/entities/preferences';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {selectPostFromRightHandSideSearch} from 'actions/views/rhs';
 import {
     getSearchTerms,
     getIsSearchingTerm,
     getIsSearchingFlaggedPost,
-    getIsSearchingPinnedPost
+    getIsSearchingPinnedPost,
 } from 'selectors/rhs';
 import {Preferences} from 'utils/constants.jsx';
 
@@ -61,6 +62,11 @@ function makeMapStateToProps() {
             }
         }
 
+        const config = getConfig(state);
+
+        const dataRetentionEnableMessageDeletion = config.DataRetentionEnableMessageDeletion === 'true';
+        const dataRetentionMessageRetentionDays = config.DataRetentionMessageRetentionDays;
+
         return {
             results: posts,
             channels,
@@ -69,13 +75,15 @@ function makeMapStateToProps() {
             isSearchingTerm: getIsSearchingTerm(state),
             isSearchingFlaggedPost: getIsSearchingFlaggedPost(state),
             isSearchingPinnedPost: getIsSearchingPinnedPost(state),
-            compactDisplay: PreferenceSelectors.get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT
+            compactDisplay: PreferenceSelectors.get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
+            dataRetentionEnableMessageDeletion,
+            dataRetentionMessageRetentionDays,
         };
     };
 }
 
 const mapDispatchToProps = {
-    selectPost: selectPostFromRightHandSideSearch
+    selectPost: selectPostFromRightHandSideSearch,
 };
 
 export default connect(makeMapStateToProps, mapDispatchToProps)(SearchResults);

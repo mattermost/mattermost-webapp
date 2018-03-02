@@ -43,7 +43,7 @@ export default class LogSettings extends AdminSettings {
             fileLocation: config.LogSettings.FileLocation,
             fileFormat: config.LogSettings.FileFormat,
             enableWebhookDebugging: config.LogSettings.EnableWebhookDebugging,
-            enableDiagnostics: config.LogSettings.EnableDiagnostics
+            enableDiagnostics: config.LogSettings.EnableDiagnostics,
         };
     }
 
@@ -60,7 +60,7 @@ export default class LogSettings extends AdminSettings {
         const logLevels = [
             {value: 'DEBUG', text: 'DEBUG'},
             {value: 'INFO', text: 'INFO'},
-            {value: 'ERROR', text: 'ERROR'}
+            {value: 'ERROR', text: 'ERROR'},
         ];
 
         return (
@@ -190,7 +190,7 @@ export default class LogSettings extends AdminSettings {
                                             defaultMessage='Console Log Level'
                                         />
                                     </strong>
-                                )
+                                ),
                             }}
                         />
                     }

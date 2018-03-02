@@ -13,250 +13,250 @@ const allShortcuts = defineMessages({
     mainHeader: {
         default: {
             id: 'shortcuts.header',
-            defaultMessage: 'Keyboard Shortcuts\tCtrl|/'
+            defaultMessage: 'Keyboard Shortcuts\tCtrl|/',
         },
         mac: {
             id: 'shortcuts.header.mac',
-            defaultMessage: 'Keyboard Shortcuts\t⌘|/'
-        }
+            defaultMessage: 'Keyboard Shortcuts\t⌘|/',
+        },
     },
     navHeader: {
         id: 'shortcuts.nav.header',
-        defaultMessage: 'Navigation'
+        defaultMessage: 'Navigation',
     },
     navPrev: {
         default: {
             id: 'shortcuts.nav.prev',
-            defaultMessage: 'Previous channel:\tAlt|Up'
+            defaultMessage: 'Previous channel:\tAlt|Up',
         },
         mac: {
             id: 'shortcuts.nav.prev.mac',
-            defaultMessage: 'Previous channel:\t⌥|Up'
-        }
+            defaultMessage: 'Previous channel:\t⌥|Up',
+        },
     },
     navNext: {
         default: {
             id: 'shortcuts.nav.next',
-            defaultMessage: 'Next channel:\tAlt|Down'
+            defaultMessage: 'Next channel:\tAlt|Down',
         },
         mac: {
             id: 'shortcuts.nav.next.mac',
-            defaultMessage: 'Next channel:\t⌥|Down'
-        }
+            defaultMessage: 'Next channel:\t⌥|Down',
+        },
     },
     navUnreadPrev: {
         default: {
             id: 'shortcuts.nav.unread_prev',
-            defaultMessage: 'Previous unread channel:\tAlt|Shift|Up'
+            defaultMessage: 'Previous unread channel:\tAlt|Shift|Up',
         },
         mac: {
             id: 'shortcuts.nav.unread_prev.mac',
-            defaultMessage: 'Previous unread channel:\t⌥|Shift|Up'
-        }
+            defaultMessage: 'Previous unread channel:\t⌥|Shift|Up',
+        },
     },
     navUnreadNext: {
         default: {
             id: 'shortcuts.nav.unread_next',
-            defaultMessage: 'Next unread channel:\tAlt|Shift|Down'
+            defaultMessage: 'Next unread channel:\tAlt|Shift|Down',
         },
         mac: {
             id: 'shortcuts.nav.unread_next.mac',
-            defaultMessage: 'Next unread channel:\t⌥|Shift|Down'
-        }
+            defaultMessage: 'Next unread channel:\t⌥|Shift|Down',
+        },
     },
     navSwitcher: {
         default: {
             id: 'shortcuts.nav.switcher',
-            defaultMessage: 'Quick channel switcher:\tCtrl|K'
+            defaultMessage: 'Quick channel switcher:\tCtrl|K',
         },
         mac: {
             id: 'shortcuts.nav.switcher.mac',
-            defaultMessage: 'Quick channel switcher:\t⌘|K'
-        }
+            defaultMessage: 'Quick channel switcher:\t⌘|K',
+        },
     },
     navDMMenu: {
         default: {
             id: 'shortcuts.nav.direct_messages_menu',
-            defaultMessage: 'Direct messages menu:\tCtrl|Shift|K'
+            defaultMessage: 'Direct messages menu:\tCtrl|Shift|K',
         },
         mac: {
             id: 'shortcuts.nav.direct_messages_menu.mac',
-            defaultMessage: 'Direct messages menu:\t⌘|Shift|K'
-        }
+            defaultMessage: 'Direct messages menu:\t⌘|Shift|K',
+        },
     },
     navSettings: {
         default: {
             id: 'shortcuts.nav.settings',
-            defaultMessage: 'Account settings:\tCtrl|Shift|A'
+            defaultMessage: 'Account settings:\tCtrl|Shift|A',
         },
         mac: {
             id: 'shortcuts.nav.settings.mac',
-            defaultMessage: 'Account settings:\t⌘|Shift|A'
-        }
+            defaultMessage: 'Account settings:\t⌘|Shift|A',
+        },
     },
     navMentions: {
         default: {
             id: 'shortcuts.nav.recent_mentions',
-            defaultMessage: 'Recent mentions:\tCtrl|Shift|M'
+            defaultMessage: 'Recent mentions:\tCtrl|Shift|M',
         },
         mac: {
             id: 'shortcuts.nav.recent_mentions.mac',
-            defaultMessage: 'Recent mentions:\t⌘|Shift|M'
-        }
+            defaultMessage: 'Recent mentions:\t⌘|Shift|M',
+        },
     },
     navFocusCenter: {
         default: {
             id: 'shortcuts.nav.focus_center',
-            defaultMessage: 'Set focus to input field:\tCtrl|Shift|L'
+            defaultMessage: 'Set focus to input field:\tCtrl|Shift|L',
         },
         mac: {
             id: 'shortcuts.nav.focus_center.mac',
-            defaultMessage: 'Set focus to input field:\t⌘|Shift|L'
-        }
+            defaultMessage: 'Set focus to input field:\t⌘|Shift|L',
+        },
     },
     msgHeader: {
         id: 'shortcuts.msgs.header',
-        defaultMessage: 'Messages'
+        defaultMessage: 'Messages',
     },
     msgInputHeader: {
         id: 'shortcuts.msgs.input.header',
-        defaultMessage: 'Works inside an empty input field'
+        defaultMessage: 'Works inside an empty input field',
     },
     msgEdit: {
         id: 'shortcuts.msgs.edit',
-        defaultMessage: 'Edit last message in channel:\tUp'
+        defaultMessage: 'Edit last message in channel:\tUp',
     },
     msgReply: {
         id: 'shortcuts.msgs.reply',
-        defaultMessage: 'Reply to last message in channel:\tShift|Up'
+        defaultMessage: 'Reply to last message in channel:\tShift|Up',
     },
     msgReprintPrev: {
         default: {
             id: 'shortcuts.msgs.reprint_prev',
-            defaultMessage: 'Reprint previous message:\tCtrl|Up'
+            defaultMessage: 'Reprint previous message:\tCtrl|Up',
         },
         mac: {
             id: 'shortcuts.msgs.reprint_prev.mac',
-            defaultMessage: 'Reprint previous message:\t⌘|Up'
-        }
+            defaultMessage: 'Reprint previous message:\t⌘|Up',
+        },
     },
     msgReprintNext: {
         default: {
             id: 'shortcuts.msgs.reprint_next',
-            defaultMessage: 'Reprint next message:\tCtrl|Down'
+            defaultMessage: 'Reprint next message:\tCtrl|Down',
         },
         mac: {
             id: 'shortcuts.msgs.reprint_next.mac',
-            defaultMessage: 'Reprint next message:\t⌘|Down'
-        }
+            defaultMessage: 'Reprint next message:\t⌘|Down',
+        },
     },
     msgCompHeader: {
         id: 'shortcuts.msgs.comp.header',
-        defaultMessage: 'Autocomplete'
+        defaultMessage: 'Autocomplete',
     },
     msgCompUsername: {
         id: 'shortcuts.msgs.comp.username',
-        defaultMessage: 'Username:\t@|[a-z]|Tab'
+        defaultMessage: 'Username:\t@|[a-z]|Tab',
     },
     msgCompChannel: {
         id: 'shortcuts.msgs.comp.channel',
-        defaultMessage: 'Channel:\t~|[a-z]|Tab'
+        defaultMessage: 'Channel:\t~|[a-z]|Tab',
     },
     msgCompEmoji: {
         id: 'shortcuts.msgs.comp.emoji',
-        defaultMessage: 'Emoji:\t:|[a-z]|Tab'
+        defaultMessage: 'Emoji:\t:|[a-z]|Tab',
     },
     filesHeader: {
         id: 'shortcuts.files.header',
-        defaultMessage: 'Files'
+        defaultMessage: 'Files',
     },
     filesUpload: {
         default: {
             id: 'shortcuts.files.upload',
-            defaultMessage: 'Upload files:\tCtrl|U'
+            defaultMessage: 'Upload files:\tCtrl|U',
         },
         mac: {
             id: 'shortcuts.files.upload.mac',
-            defaultMessage: 'Upload files:\t⌘|U'
-        }
+            defaultMessage: 'Upload files:\t⌘|U',
+        },
     },
     browserHeader: {
         id: 'shortcuts.browser.header',
-        defaultMessage: 'Built-in Browser Commands'
+        defaultMessage: 'Built-in Browser Commands',
     },
     browserChannelPrev: {
         default: {
             id: 'shortcuts.browser.channel_prev',
-            defaultMessage: 'Back in history:\tAlt|Left'
+            defaultMessage: 'Back in history:\tAlt|Left',
         },
         mac: {
             id: 'shortcuts.browser.channel_prev.mac',
-            defaultMessage: 'Back in history:\t⌘|['
-        }
+            defaultMessage: 'Back in history:\t⌘|[',
+        },
     },
     browserChannelNext: {
         default: {
             id: 'shortcuts.browser.channel_next',
-            defaultMessage: 'Forward in history:\tAlt|Right'
+            defaultMessage: 'Forward in history:\tAlt|Right',
         },
         mac: {
             id: 'shortcuts.browser.channel_next.mac',
-            defaultMessage: 'Forward in history:\t⌘|]'
-        }
+            defaultMessage: 'Forward in history:\t⌘|]',
+        },
     },
     browserFontIncrease: {
         default: {
             id: 'shortcuts.browser.font_increase',
-            defaultMessage: 'Zoom in:\tCtrl|+'
+            defaultMessage: 'Zoom in:\tCtrl|+',
         },
         mac: {
             id: 'shortcuts.browser.font_increase.mac',
-            defaultMessage: 'Zoom in:\t⌘|+'
-        }
+            defaultMessage: 'Zoom in:\t⌘|+',
+        },
     },
     browserFontDecrease: {
         default: {
             id: 'shortcuts.browser.font_decrease',
-            defaultMessage: 'Zoom out:\tCtrl|-'
+            defaultMessage: 'Zoom out:\tCtrl|-',
         },
         mac: {
             id: 'shortcuts.browser.font_decrease.mac',
-            defaultMessage: 'Zoom out:\t⌘|-'
-        }
+            defaultMessage: 'Zoom out:\t⌘|-',
+        },
     },
     browserInputHeader: {
         id: 'shortcuts.browser.input.header',
-        defaultMessage: 'Works inside an input field'
+        defaultMessage: 'Works inside an input field',
     },
     browserHighlightPrev: {
         id: 'shortcuts.browser.highlight_prev',
-        defaultMessage: 'Highlight text to the previous line:\tShift|Up'
+        defaultMessage: 'Highlight text to the previous line:\tShift|Up',
     },
     browserHighlightNext: {
         id: 'shortcuts.browser.highlight_next',
-        defaultMessage: 'Highlight text to the next line:\tShift|Down'
+        defaultMessage: 'Highlight text to the next line:\tShift|Down',
     },
     browserNewline: {
         id: 'shortcuts.browser.newline',
-        defaultMessage: 'Create a new line:\tShift|Enter'
+        defaultMessage: 'Create a new line:\tShift|Enter',
     },
     info: {
         id: 'shortcuts.info',
-        defaultMessage: 'Begin a message with / for a list of all the commands at your disposal.'
-    }
+        defaultMessage: 'Begin a message with / for a list of all the commands at your disposal.',
+    },
 });
 
 class ShortcutsModal extends React.PureComponent {
     static propTypes = {
         intl: intlShape.isRequired,
-        isMac: PropTypes.bool.isRequired
+        isMac: PropTypes.bool.isRequired,
     }
 
     constructor(props) {
         super(props);
 
         this.state = {
-            show: false
+            show: false,
         };
     }
 
@@ -271,7 +271,7 @@ class ShortcutsModal extends React.PureComponent {
     handleToggle = () => {
         //toggles the state of shortcut dialog
         this.setState({
-            show: !this.state.show
+            show: !this.state.show,
         });
     }
 

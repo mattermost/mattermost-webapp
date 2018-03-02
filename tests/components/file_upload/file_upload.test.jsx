@@ -12,7 +12,7 @@ jest.mock('utils/file_utils', () => {
     const original = require.requireActual('utils/file_utils');
     return {
         ...original,
-        canDownloadFiles: jest.fn(() => true)
+        canDownloadFiles: jest.fn(() => true),
     };
 });
 
@@ -24,12 +24,11 @@ jest.mock('utils/utils', () => {
         generateId: jest.fn(() => 'generated_id_1').mockImplementationOnce(() => 'generated_id_2'),
         sortFilesByName: jest.fn((files) => {
             return files.sort((a, b) => a.name.localeCompare(b.name, 'en', {numeric: true}));
-        })
+        }),
     };
 });
 
 describe('components/FileUpload', () => {
-    global.window.mm_config = {};
     const MaxFileSize = 10;
     function emptyFunction() {} //eslint-disable-line no-empty-function
 
@@ -44,17 +43,10 @@ describe('components/FileUpload', () => {
         onUploadError: emptyFunction,
         onUploadStart: emptyFunction,
         postType: 'post',
-        uploadFile: emptyFunction
+        uploadFile: emptyFunction,
+        maxFileSize: MaxFileSize,
+        canUploadFiles: true,
     };
-
-    beforeEach(() => {
-        global.window.mm_config.EnableFileAttachments = 'true';
-        global.window.mm_config.MaxFileSize = MaxFileSize;
-    });
-
-    afterEach(() => {
-        global.window.mm_config = {};
-    });
 
     test('should match snapshot', () => {
         const wrapper = shallowWithIntl(
@@ -81,7 +73,7 @@ describe('components/FileUpload', () => {
         const props = {...baseProps, onFileUpload};
         const data = {
             file_infos: 'file_infos',
-            client_ids: {id1: 'id1'}
+            client_ids: {id1: 'id1'},
         };
 
         const wrapper = shallowWithIntl(
@@ -100,7 +92,7 @@ describe('components/FileUpload', () => {
         const props = {...baseProps, onUploadError};
         const params = {
             err: 'error_message',
-            clientId: 'client_id'
+            clientId: 'client_id',
         };
 
         const wrapper = shallowWithIntl(
@@ -230,7 +222,8 @@ describe('components/FileUpload', () => {
 
     test('should functions when handleDrop is called', () => {
         const onUploadError = jest.fn();
-        const props = {...baseProps, onUploadError};
+        const onFileUploadChange = jest.fn();
+        const props = {...baseProps, onUploadError, onFileUploadChange};
 
         const wrapper = shallowWithIntl(
             <FileUpload {...props}/>
@@ -246,5 +239,8 @@ describe('components/FileUpload', () => {
 
         expect(instance.uploadFiles).toBeCalled();
         expect(instance.uploadFiles).toHaveBeenCalledWith(e.originalEvent.dataTransfer.files);
+
+        expect(onFileUploadChange).toBeCalled();
+        expect(onFileUploadChange).toHaveBeenCalledWith();
     });
 });

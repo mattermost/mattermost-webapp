@@ -5,18 +5,18 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Link} from 'react-router-dom';
 
-import DeleteIntegration from 'components/integrations/components/delete_integration.jsx';
-import InstalledOutgoingWebhook from 'components/integrations/components/installed_outgoing_webhook.jsx';
+import DeleteIntegration from 'components/integrations/delete_integration.jsx';
+import InstalledOutgoingWebhook from 'components/integrations/installed_outgoing_webhook.jsx';
 
 describe('components/integrations/InstalledOutgoingWebhook', () => {
     const team = {
         id: 'testteamid',
-        name: 'test'
+        name: 'test',
     };
     const channel = {
         id: '1jiw9kphbjrntfyrm7xpdcya4o',
         name: 'town-square',
-        display_name: 'Town Square'
+        display_name: 'Town Square',
     };
     const outgoingWebhook = {
         callback_urls: ['http://adsfdasd.com'],
@@ -33,7 +33,7 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
         trigger_when: 0,
         trigger_words: ['build'],
         0: 'asdf',
-        update_at: 1508329149618
+        update_at: 1508329149618,
     };
 
     const baseProps = {
@@ -44,7 +44,7 @@ describe('components/integrations/InstalledOutgoingWebhook', () => {
         creator: {username: 'username'},
         canChange: true,
         team,
-        channel
+        channel,
     };
 
     test('should match snapshot', () => {

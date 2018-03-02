@@ -15,8 +15,8 @@ export function editPost(post) {
                 type: ActionTypes.RECEIVED_ERROR,
                 err: {
                     id: result.error.server_error_id,
-                    ...result.error
-                }
+                    ...result.error,
+                },
             });
         }
 

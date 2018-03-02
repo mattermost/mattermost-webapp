@@ -7,24 +7,15 @@ import {shallow} from 'enzyme';
 import DoVerifyEmail from 'components/do_verify_email/do_verify_email.jsx';
 
 describe('components/DoVerifyEmail', () => {
-    global.window.mm_config = {};
-
-    beforeEach(() => {
-        global.window.mm_config.SiteName = 'Mattermost';
-    });
-
-    afterEach(() => {
-        global.window.mm_config = {};
-    });
-
     const requiredProps = {
         location: {
             query: {
                 token: '9f392f193973g11ggh398h39hg0ghH',
-                email: 'test@example.com'
-            }
+                email: 'test@example.com',
+            },
         },
-        actions: {verifyUserEmail: jest.fn()}
+        siteName: 'Mattermost',
+        actions: {verifyUserEmail: jest.fn()},
     };
 
     test('should match snapshot', () => {

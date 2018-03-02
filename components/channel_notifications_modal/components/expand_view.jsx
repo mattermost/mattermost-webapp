@@ -19,7 +19,7 @@ export default function ExpandView({
     onChange,
     onSubmit,
     serverError,
-    onCollapseSection
+    onCollapseSection,
 }) {
     const inputs = [(
         <div key='channel-notification-level-radio'>
@@ -129,5 +129,5 @@ ExpandView.propTypes = {
     globalNotifyLevel: PropTypes.string,
     memberNotifyLevel: PropTypes.string.isRequired,
     section: PropTypes.string.isRequired,
-    serverError: PropTypes.string
+    serverError: PropTypes.string,
 };

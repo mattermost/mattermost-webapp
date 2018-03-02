@@ -6,6 +6,7 @@ import {bindActionCreators} from 'redux';
 import * as Actions from 'mattermost-redux/actions/posts';
 import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import ReactionList from './reaction_list.jsx';
 
@@ -13,10 +14,13 @@ function makeMapStateToProps() {
     const getReactionsForPost = makeGetReactionsForPost();
 
     return function mapStateToProps(state, ownProps) {
+        const config = getConfig(state);
+        const enableEmojiPicker = config.EnableEmojiPicker === 'true';
+
         return {
-            ...ownProps,
             reactions: getReactionsForPost(state, ownProps.post.id),
-            emojis: getCustomEmojisByName(state)
+            emojis: getCustomEmojisByName(state),
+            enableEmojiPicker,
         };
     };
 }
@@ -25,8 +29,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getReactionsForPost: Actions.getReactionsForPost,
-            addReaction: Actions.addReaction
-        }, dispatch)
+            addReaction: Actions.addReaction,
+        }, dispatch),
     };
 }
 

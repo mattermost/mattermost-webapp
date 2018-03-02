@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import EditCommand from 'components/integrations/components/edit_command/edit_command.jsx';
+import EditCommand from 'components/integrations/edit_command/edit_command.jsx';
 
 describe('components/integrations/EditCommand', () => {
     const getCustomTeamCommands = jest.fn(
@@ -33,16 +33,16 @@ describe('components/integrations/EditCommand', () => {
             team_id: 'm5gix3oye3du8ghk4ko6h9cq7y',
             update_at: 1504468859001,
             url: 'https://google.com/command',
-            username: 'username'
-        }
+            username: 'username',
+        },
     };
     const team = {
         name: 'test',
-        id: 'm5gix3oye3du8ghk4ko6h9cq7y'
+        id: 'm5gix3oye3du8ghk4ko6h9cq7y',
     };
     const editCommandRequest = {
         status: 'not_started',
-        error: null
+        error: null,
     };
 
     const baseProps = {
@@ -52,19 +52,10 @@ describe('components/integrations/EditCommand', () => {
         editCommandRequest,
         actions: {
             getCustomTeamCommands,
-            editCommand: jest.fn()
-        }
+            editCommand: jest.fn(),
+        },
+        enableCommands: true,
     };
-
-    global.window.mm_config = {};
-
-    beforeEach(() => {
-        global.window.mm_config.EnableCommands = 'true';
-    });
-
-    afterEach(() => {
-        global.window.mm_config = {};
-    });
 
     test('should match snapshot', () => {
         const wrapper = shallow(
@@ -87,12 +78,11 @@ describe('components/integrations/EditCommand', () => {
     });
 
     test('should match snapshot when EnableCommands is false', () => {
-        global.window.mm_config.EnableCommands = 'false';
         const actions = {
             getCustomTeamCommands: jest.fn(),
-            editCommand: jest.fn()
+            editCommand: jest.fn(),
         };
-        const props = {...baseProps, actions};
+        const props = {...baseProps, actions, enableCommands: false};
         const wrapper = shallow(
             <EditCommand {...props}/>
         );

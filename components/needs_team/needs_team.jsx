@@ -18,7 +18,6 @@ import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
-import {checkIfMFARequired} from 'utils/route';
 import {makeAsyncComponent} from 'components/async_load';
 import loadBackstageController from 'bundle-loader?lazy!components/backstage';
 import ChannelController from 'components/channel_layout/channel_controller';
@@ -39,9 +38,10 @@ export default class NeedsTeam extends React.Component {
             getMyTeamUnreads: PropTypes.func.isRequired,
             viewChannel: PropTypes.func.isRequired,
             markChannelAsRead: PropTypes.func.isRequired,
-            getMyChannelMembers: PropTypes.func.isRequired
+            getMyChannelMembers: PropTypes.func.isRequired,
         }).isRequired,
-        theme: PropTypes.object.isRequired
+        theme: PropTypes.object.isRequired,
+        mfaRequired: PropTypes.bool.isRequired,
     };
 
     constructor(params) {
@@ -52,7 +52,7 @@ export default class NeedsTeam extends React.Component {
 
         this.blurTime = new Date().getTime();
 
-        if (checkIfMFARequired(this.props.match.url)) {
+        if (this.props.mfaRequired) {
             this.props.history.push('/mfa/setup');
             return;
         }
@@ -72,7 +72,7 @@ export default class NeedsTeam extends React.Component {
 
         this.state = {
             team,
-            finishedFetchingChannels: false
+            finishedFetchingChannels: false,
         };
     }
 
@@ -107,7 +107,7 @@ export default class NeedsTeam extends React.Component {
         this.props.actions.fetchMyChannelsAndMembers(team.id).then(
             () => {
                 this.setState({
-                    finishedFetchingChannels: true
+                    finishedFetchingChannels: true,
                 });
             }
         );
@@ -135,11 +135,10 @@ export default class NeedsTeam extends React.Component {
         // Set up tracking for whether the window is active
         window.isActive = true;
         $(window).on('focus', async () => {
-            this.props.actions.markChannelAsRead(ChannelStore.getCurrentId());
+            await this.props.actions.markChannelAsRead(ChannelStore.getCurrentId());
             ChannelStore.emitChange();
             window.isActive = true;
 
-            await this.props.actions.viewChannel(ChannelStore.getCurrentId());
             if (new Date().getTime() - this.blurTime > UNREAD_CHECK_TIME_MILLISECONDS) {
                 this.props.actions.getMyChannelMembers(TeamStore.getCurrentId()).then(loadProfilesForSidebar);
             }
@@ -186,6 +185,7 @@ export default class NeedsTeam extends React.Component {
         if (this.state.team === null || this.state.finishedFetchingChannels === false) {
             return <div/>;
         }
+        const teamType = this.state.team ? this.state.team.type : '';
 
         return (
             <Switch>
@@ -201,7 +201,7 @@ export default class NeedsTeam extends React.Component {
                     render={(renderProps) => (
                         <ChannelController
                             pathName={renderProps.location.pathname}
-                            teamType={this.state.team ? this.state.team.type : ''}
+                            teamType={teamType}
                         />
                     )}
                 />

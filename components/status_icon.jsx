@@ -17,11 +17,11 @@ export default class StatusIcon extends React.PureComponent {
     static propTypes = {
         status: PropTypes.string,
         className: PropTypes.string,
-        type: PropTypes.string
+        type: PropTypes.string,
     };
 
     static defaultProps = {
-        className: ''
+        className: '',
     };
 
     render() {

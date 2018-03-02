@@ -26,20 +26,20 @@ describe('components/delete_channel_modal', () => {
         team_id: 'eatxocwc3bg9ffo9xyybnj4omr',
         total_msg_count: 0,
         type: 'O',
-        update_at: 1508265709607
+        update_at: 1508265709607,
     };
 
     const currentTeamDetails = {
-        name: 'mattermostDev'
+        name: 'mattermostDev',
     };
 
     const baseProps = {
         channel,
         currentTeamDetails,
         actions: {
-            deleteChannel: emptyFunction
+            deleteChannel: emptyFunction,
         },
-        onHide: emptyFunction
+        onHide: emptyFunction,
     };
 
     test('should match snapshot for delete_channel_modal', () => {
