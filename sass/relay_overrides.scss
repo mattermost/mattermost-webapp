@@ -205,7 +205,7 @@ body {
 
     .nav-more.cursor--pointer.style--none.btn--block {
         padding: 4px 0 4px 16px;
-        
+
         span {
             padding-left: 24px;
         }
@@ -281,6 +281,16 @@ body {
 		padding: 0 16px;
 	}
 
+    .flag-icon__container {
+        margin: 0;
+        top: 2px;
+        left: 8px;
+
+        svg {
+            height: 12px;
+        }
+    }
+
 	.post__img {
 		text-align: initial;
 		width: 44px;
@@ -298,15 +308,81 @@ body {
 
 	.post__header {
 		padding-left: 4px;
-	}
 
-	.post__header .col__name .user-popover {
-		font-weight: 800;
+        .col.col__reply {
+            display: flex;
+            justify-content: flex-end;
+            padding: 4px;
+            border-radius: 4px;
+
+            .comment-icon__container .comment-icon, .icon.icon--emoji, .reacticon__container.color--link.style--none {
+                margin: 0;
+                top: 0;
+                display: flex;
+                flex: 1;
+            }
+
+            .comment-icon__container {
+                flex: 0;
+                padding: 0 4px;
+                justify-content: flex-end;
+
+                .comment-icon {
+                    flex: 0;
+                }
+
+                .comment-count {
+                    font-size: 12px;
+                }
+            }
+
+            > div, > span, > button {
+                top: 0;
+                display: flex;
+                flex: 1;
+
+                width: 32px;
+                height: 24px;
+
+                &:hover {
+                    background: #f1f1f1;
+                    border-radius: 4px
+                }
+
+                > .open, > div {
+                    display: flex;
+                    justify-content: center;
+                    flex: 1;
+                }
+
+                span svg, svg {
+                    width: 16px;
+                    height: 16px;
+                    top: 0;
+
+                    flex: 1;
+                }
+            }
+        }
+
+        .col__name .user-popover {
+            font-weight: 800
+        }
 	}
 
 	.post__time {
 		font-size: 10px;
 	}
+}
+
+.post .post__dropdown:after {
+    content: '...';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 32px;
+    height: 24px;
+    line-height: 16px;
 }
 
 .post.same--root.same--user:not(.post--compact) .post__time {
@@ -321,6 +397,10 @@ body {
 	left: 28px;
 	margin-left: 8px;
 	top: 4px;
+
+    svg {
+        height: 12px;
+    }
 }
 
 .post-create__container {
