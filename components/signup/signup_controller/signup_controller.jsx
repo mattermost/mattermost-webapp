@@ -61,7 +61,7 @@ export default class SignupController extends React.Component {
             loading,
             serverError,
             noOpenServerError,
-            usedBefore
+            usedBefore,
         };
     }
 
@@ -103,7 +103,7 @@ export default class SignupController extends React.Component {
 
                         this.setState({ // eslint-disable-line react/no-did-mount-set-state
                             serverError: '',
-                            loading: false
+                            loading: false,
                         });
                     },
                     this.handleInvalidInvite
@@ -134,7 +134,7 @@ export default class SignupController extends React.Component {
         this.setState({
             noOpenServerError: true,
             loading: false,
-            serverError
+            serverError,
         });
     }
 
@@ -381,5 +381,5 @@ SignupController.propTypes = {
     enableLDAP: PropTypes.bool.isRequired,
     enableSAML: PropTypes.bool.isRequired,
     samlLoginButtonText: PropTypes.string,
-    siteName: PropTypes.string
+    siteName: PropTypes.string,
 };

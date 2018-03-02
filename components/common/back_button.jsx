@@ -17,11 +17,11 @@ export default class BackButton extends React.PureComponent {
         /**
          * An optional click handler that will trigger when the user clicks on the back button
          */
-        onClick: PropTypes.func
+        onClick: PropTypes.func,
     };
 
     static defaultProps = {
-        url: '/'
+        url: '/',
     };
 
     render() {

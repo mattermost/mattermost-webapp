@@ -25,8 +25,8 @@ export default class MoreChannels extends React.Component {
         onModalDismissed: PropTypes.func,
         handleNewChannel: PropTypes.func,
         actions: PropTypes.shape({
-            getChannels: PropTypes.func.isRequired
-        }).isRequired
+            getChannels: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -40,7 +40,7 @@ export default class MoreChannels extends React.Component {
             show: true,
             search: false,
             channels: null,
-            serverError: null
+            serverError: null,
         };
     }
 
@@ -70,7 +70,7 @@ export default class MoreChannels extends React.Component {
 
         this.setState({
             channels: ChannelStore.getMoreChannelsList(),
-            serverError: null
+            serverError: null,
         });
     }
 

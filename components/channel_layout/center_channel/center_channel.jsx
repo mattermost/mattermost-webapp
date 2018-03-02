@@ -13,13 +13,13 @@ export default class CenterChannel extends React.PureComponent {
     static propTypes = {
         match: PropTypes.object.isRequired,
         location: PropTypes.object.isRequired,
-        lastChannelPath: PropTypes.string.isRequired
+        lastChannelPath: PropTypes.string.isRequired,
     };
 
     constructor(props) {
         super(props);
         this.state = {
-            returnTo: ''
+            returnTo: '',
         };
     }
 

@@ -13,7 +13,7 @@ describe('components/channel_notifications_modal/CollapseView', () => {
         section: NotificationSections.DESKTOP,
         memberNotifyLevel: NotificationLevels.ALL,
         globalNotifyLevel: NotificationLevels.DEFAULT,
-        onExpandSection: () => {}   //eslint-disable-line no-empty-function
+        onExpandSection: () => {},   //eslint-disable-line no-empty-function
     };
 
     test('should match snapshot, DESKTOP on collapsed view', () => {

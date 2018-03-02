@@ -13,7 +13,7 @@ function mapStateToProps(state, ownProps) {
     const canManageOthersSlashCommands = haveITeamPermission(state, {team: ownProps.team.id, permission: Permissions.MANAGE_OTHERS_SLASH_COMMANDS});
 
     return {
-        canManageOthersSlashCommands
+        canManageOthersSlashCommands,
     };
 }
 
@@ -21,8 +21,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             regenCommandToken,
-            deleteCommand
-        }, dispatch)
+            deleteCommand,
+        }, dispatch),
     };
 }
 

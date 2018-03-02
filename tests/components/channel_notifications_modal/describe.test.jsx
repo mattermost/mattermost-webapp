@@ -12,7 +12,7 @@ describe('components/channel_notifications_modal/NotificationSection', () => {
     const baseProps = {
         section: NotificationSections.DESKTOP,
         memberNotifyLevel: NotificationLevels.DEFAULT,
-        globalNotifyLevel: NotificationLevels.DEFAULT
+        globalNotifyLevel: NotificationLevels.DEFAULT,
     };
 
     test('should match snapshot, on global DEFAULT', () => {

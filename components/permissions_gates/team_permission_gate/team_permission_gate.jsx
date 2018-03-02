@@ -11,7 +11,7 @@ export default class TeamPermissionGate extends React.Component {
     }
 
     static defaultProps = {
-        invert: false
+        invert: false,
     }
 
     static propTypes = {
@@ -39,7 +39,7 @@ export default class TeamPermissionGate extends React.Component {
         /**
          * Content protected by the permissions gate
          */
-        children: PropTypes.node.isRequired
+        children: PropTypes.node.isRequired,
     };
 
     render() {

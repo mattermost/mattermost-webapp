@@ -16,8 +16,8 @@ describe('PolicyRolesAdapter', function() {
                 permissions: [
                     Permissions.EDIT_POST,
                     Permissions.DELETE_POST,
-                    Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS
-                ]
+                    Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
+                ],
             },
             team_user: {
                 name: 'team_user',
@@ -29,21 +29,21 @@ describe('PolicyRolesAdapter', function() {
                     Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES,
                     Permissions.DELETE_PUBLIC_CHANNEL,
                     Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES,
-                    Permissions.DELETE_PRIVATE_CHANNEL
-                ]
+                    Permissions.DELETE_PRIVATE_CHANNEL,
+                ],
             },
             channel_admin: {
                 name: 'channel_admin',
                 permissions: [
-                    Permissions.MANAGE_CHANNEL_ROLES
-                ]
+                    Permissions.MANAGE_CHANNEL_ROLES,
+                ],
             },
             team_admin: {
                 name: 'team_admin',
                 permissions: [
                     Permissions.DELETE_POST,
-                    Permissions.DELETE_OTHERS_POSTS
-                ]
+                    Permissions.DELETE_OTHERS_POSTS,
+                ],
             },
             system_admin: {
                 name: 'system_admin',
@@ -53,27 +53,27 @@ describe('PolicyRolesAdapter', function() {
                     Permissions.ADD_USER_TO_TEAM,
                     Permissions.DELETE_POST,
                     Permissions.DELETE_OTHERS_POSTS,
-                    Permissions.EDIT_POST
-                ]
+                    Permissions.EDIT_POST,
+                ],
             },
             system_user: {
                 name: 'system_user',
                 permissions: [
-                    Permissions.CREATE_TEAM
-                ]
-            }
+                    Permissions.CREATE_TEAM,
+                ],
+            },
         };
         const teamPolicies = {
             restrictTeamInvite: 'all',
             restrictPublicChannelCreation: 'all',
-            restrictPrivateChannelCreation: 'all'
+            restrictPrivateChannelCreation: 'all',
         };
         const channelPolicies = {
             restrictPublicChannelManagement: 'all',
             restrictPublicChannelDeletion: 'all',
             restrictPrivateChannelManagement: 'all',
             restrictPrivateChannelManageMembers: 'all',
-            restrictPrivateChannelDeletion: 'all'
+            restrictPrivateChannelDeletion: 'all',
         };
         const restrictPostDelete = 'all';
         const allowEditPost = 'always';
@@ -81,7 +81,7 @@ describe('PolicyRolesAdapter', function() {
             ...teamPolicies,
             ...channelPolicies,
             restrictPostDelete,
-            allowEditPost
+            allowEditPost,
         };
     });
 

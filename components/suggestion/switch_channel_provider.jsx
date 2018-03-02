@@ -6,6 +6,7 @@ import {Client4} from 'mattermost-redux/client';
 import {Preferences} from 'mattermost-redux/constants';
 import {getChannelsInCurrentTeam, getGroupChannels, getMyChannelMemberships} from 'mattermost-redux/selectors/entities/channels';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, searchProfiles, getUserIdsInChannels, getUser} from 'mattermost-redux/selectors/entities/users';
 
@@ -162,13 +163,15 @@ export default class SwitchChannelProvider extends Provider {
     }
 
     async fetchUsersAndChannels(channelPrefix, suggestionId) {
-        const teamId = getCurrentTeamId(getState());
+        const state = getState();
+        const teamId = getCurrentTeamId(state);
         if (!teamId) {
             return;
         }
 
+        const config = getConfig(state);
         let usersAsync;
-        if (global.window.mm_config.RestrictDirectMessage === 'team') {
+        if (config.RestrictDirectMessage === 'team') {
             usersAsync = Client4.autocompleteUsers(channelPrefix, teamId, '');
         } else {
             usersAsync = Client4.autocompleteUsers(channelPrefix, '', '');
@@ -184,7 +187,7 @@ export default class SwitchChannelProvider extends Provider {
         } catch (err) {
             AppDispatcher.handleServerAction({
                 type: ActionTypes.RECEIVED_ERROR,
-                err
+                err,
             });
         }
 
@@ -192,8 +195,8 @@ export default class SwitchChannelProvider extends Provider {
             return;
         }
 
-        const users = Object.assign([], searchProfiles(getState(), channelPrefix, true)).concat(usersFromServer.users);
-        const channels = getChannelsInCurrentTeam(getState()).concat(getGroupChannels(getState())).concat(channelsFromServer);
+        const users = Object.assign([], searchProfiles(state, channelPrefix, true)).concat(usersFromServer.users);
+        const channels = getChannelsInCurrentTeam(state).concat(getGroupChannels(state)).concat(channelsFromServer);
         this.formatChannelsAndDispatch(channelPrefix, suggestionId, channels, users);
     }
 
@@ -281,10 +284,10 @@ export default class SwitchChannelProvider extends Provider {
                     id: user.id,
                     update_at: user.update_at,
                     type: Constants.DM_CHANNEL,
-                    last_picture_update: user.last_picture_update || 0
+                    last_picture_update: user.last_picture_update || 0,
                 },
                 name: user.username,
-                deactivated: user.delete_at
+                deactivated: user.delete_at,
             };
 
             if (isDMVisible) {
@@ -307,7 +310,7 @@ export default class SwitchChannelProvider extends Provider {
         if (skipNotInChannel) {
             channels.push({
                 type: Constants.MENTION_MORE_CHANNELS,
-                loading: true
+                loading: true,
             });
         }
 
@@ -318,7 +321,7 @@ export default class SwitchChannelProvider extends Provider {
                 matchedPretext: channelPrefix,
                 terms: channelNames,
                 items: channels,
-                component: SwitchChannelSuggestion
+                component: SwitchChannelSuggestion,
             });
         }, 0);
     }

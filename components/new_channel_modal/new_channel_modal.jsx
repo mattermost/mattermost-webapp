@@ -77,21 +77,21 @@ export default class NewChannelModal extends React.PureComponent {
         /**
          * Function to call when channel data is modified
          */
-        onDataChanged: PropTypes.func.isRequired
+        onDataChanged: PropTypes.func.isRequired,
     }
 
     constructor(props) {
         super(props);
 
         this.state = {
-            displayNameError: ''
+            displayNameError: '',
         };
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.show === true && this.props.show === false) {
             this.setState({
-                displayNameError: ''
+                displayNameError: '',
             });
         }
     }
@@ -104,7 +104,7 @@ export default class NewChannelModal extends React.PureComponent {
     }
 
     onEnterKeyDown = (e) => {
-        if (this.props.ctrlSend && e.keyCode === Constants.KeyCodes.ENTER && e.ctrlKey) {
+        if (this.props.ctrlSend && e.keyCode === Constants.KeyCodes.ENTER && Utils.cmdOrCtrlPressed(e)) {
             this.handleSubmit(e);
         } else if (!this.props.ctrlSend && e.keyCode === Constants.KeyCodes.ENTER && !e.shiftKey && !e.altKey) {
             this.handleSubmit(e);
@@ -127,7 +127,7 @@ export default class NewChannelModal extends React.PureComponent {
         const newData = {
             displayName: this.refs.display_name.value,
             header: this.refs.channel_header.value,
-            purpose: this.refs.channel_purpose.value
+            purpose: this.refs.channel_purpose.value,
         };
         this.props.onDataChanged(newData);
     }

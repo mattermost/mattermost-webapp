@@ -6,62 +6,62 @@ import {Permissions} from 'mattermost-redux/constants/index';
 function teamMapping(permission) {
     return {
         all: [
-            {roleName: 'team_user', permission, shouldHave: true}
+            {roleName: 'team_user', permission, shouldHave: true},
         ],
         team_admin: [
             {roleName: 'team_user', permission, shouldHave: false},
-            {roleName: 'team_admin', permission, shouldHave: true}
+            {roleName: 'team_admin', permission, shouldHave: true},
         ],
         system_admin: [
             {roleName: 'team_user', permission, shouldHave: false},
-            {roleName: 'team_admin', permission, shouldHave: false}
-        ]
+            {roleName: 'team_admin', permission, shouldHave: false},
+        ],
     };
 }
 
 function channelMapping(permission) {
     return {
         all: [
-            {roleName: 'channel_user', permission, shouldHave: true}
+            {roleName: 'channel_user', permission, shouldHave: true},
         ],
         channel_admin: [
             {roleName: 'channel_user', permission, shouldHave: false},
             {roleName: 'channel_admin', permission, shouldHave: true},
-            {roleName: 'team_admin', permission, shouldHave: true}
+            {roleName: 'team_admin', permission, shouldHave: true},
         ],
         team_admin: [
             {roleName: 'channel_user', permission, shouldHave: false},
             {roleName: 'channel_admin', permission, shouldHave: false},
-            {roleName: 'team_admin', permission, shouldHave: true}
+            {roleName: 'team_admin', permission, shouldHave: true},
         ],
         system_admin: [
             {roleName: 'channel_user', permission, shouldHave: false},
             {roleName: 'channel_admin', permission, shouldHave: false},
-            {roleName: 'team_admin', permission, shouldHave: false}
-        ]
+            {roleName: 'team_admin', permission, shouldHave: false},
+        ],
     };
 }
 
 function channelTeamMixedMapping(permission) {
     return {
         all: [
-            {roleName: 'team_user', permission, shouldHave: true}
+            {roleName: 'team_user', permission, shouldHave: true},
         ],
         channel_admin: [
             {roleName: 'team_user', permission, shouldHave: false},
             {roleName: 'channel_admin', permission, shouldHave: true},
-            {roleName: 'team_admin', permission, shouldHave: true}
+            {roleName: 'team_admin', permission, shouldHave: true},
         ],
         team_admin: [
             {roleName: 'team_user', permission, shouldHave: false},
             {roleName: 'channel_admin', permission, shouldHave: false},
-            {roleName: 'team_admin', permission, shouldHave: true}
+            {roleName: 'team_admin', permission, shouldHave: true},
         ],
         system_admin: [
             {roleName: 'team_user', permission, shouldHave: false},
             {roleName: 'channel_admin', permission, shouldHave: false},
-            {roleName: 'team_admin', permission, shouldHave: false}
-        ]
+            {roleName: 'team_admin', permission, shouldHave: false},
+        ],
     };
 }
 
@@ -69,20 +69,20 @@ const MAPPING = {
     restrictTeamInvite: {
         all: [
             {roleName: 'team_user', permission: Permissions.INVITE_USER, shouldHave: true},
-            {roleName: 'team_user', permission: Permissions.ADD_USER_TO_TEAM, shouldHave: true}
+            {roleName: 'team_user', permission: Permissions.ADD_USER_TO_TEAM, shouldHave: true},
         ],
         team_admin: [
             {roleName: 'team_user', permission: Permissions.INVITE_USER, shouldHave: false},
             {roleName: 'team_user', permission: Permissions.ADD_USER_TO_TEAM, shouldHave: false},
             {roleName: 'team_admin', permission: Permissions.INVITE_USER, shouldHave: true},
-            {roleName: 'team_admin', permission: Permissions.ADD_USER_TO_TEAM, shouldHave: true}
+            {roleName: 'team_admin', permission: Permissions.ADD_USER_TO_TEAM, shouldHave: true},
         ],
         system_admin: [
             {roleName: 'team_user', permission: Permissions.INVITE_USER, shouldHave: false},
             {roleName: 'team_user', permission: Permissions.ADD_USER_TO_TEAM, shouldHave: false},
             {roleName: 'team_admin', permission: Permissions.INVITE_USER, shouldHave: false},
-            {roleName: 'team_admin', permission: Permissions.ADD_USER_TO_TEAM, shouldHave: false}
-        ]
+            {roleName: 'team_admin', permission: Permissions.ADD_USER_TO_TEAM, shouldHave: false},
+        ],
     },
     restrictPublicChannelCreation: {...teamMapping(Permissions.CREATE_PUBLIC_CHANNEL)},
     restrictPrivateChannelCreation: {...teamMapping(Permissions.CREATE_PRIVATE_CHANNEL)},
@@ -97,49 +97,49 @@ const MAPPING = {
     allowEditPost: {
         always: [
             {roleName: 'channel_user', permission: Permissions.EDIT_POST, shouldHave: true},
-            {roleName: 'system_admin', permission: Permissions.EDIT_POST, shouldHave: true}
+            {roleName: 'system_admin', permission: Permissions.EDIT_POST, shouldHave: true},
         ],
         never: [
             {roleName: 'channel_user', permission: Permissions.EDIT_POST, shouldHave: false},
-            {roleName: 'system_admin', permission: Permissions.EDIT_POST, shouldHave: false}
-        ]
+            {roleName: 'system_admin', permission: Permissions.EDIT_POST, shouldHave: false},
+        ],
     },
 
     restrictPostDelete: {
         all: [
             {roleName: 'channel_user', permission: Permissions.DELETE_POST, shouldHave: true},
             {roleName: 'team_admin', permission: Permissions.DELETE_POST, shouldHave: true},
-            {roleName: 'team_admin', permission: Permissions.DELETE_OTHERS_POSTS, shouldHave: true}
+            {roleName: 'team_admin', permission: Permissions.DELETE_OTHERS_POSTS, shouldHave: true},
         ],
         team_admin: [
             {roleName: 'channel_user', permission: Permissions.DELETE_POST, shouldHave: false},
             {roleName: 'team_admin', permission: Permissions.DELETE_POST, shouldHave: true},
-            {roleName: 'team_admin', permission: Permissions.DELETE_OTHERS_POSTS, shouldHave: true}
+            {roleName: 'team_admin', permission: Permissions.DELETE_OTHERS_POSTS, shouldHave: true},
         ],
         system_admin: [
             {roleName: 'channel_user', permission: Permissions.DELETE_POST, shouldHave: false},
             {roleName: 'team_admin', permission: Permissions.DELETE_POST, shouldHave: false},
-            {roleName: 'team_admin', permission: Permissions.DELETE_OTHERS_POSTS, shouldHave: false}
-        ]
+            {roleName: 'team_admin', permission: Permissions.DELETE_OTHERS_POSTS, shouldHave: false},
+        ],
     },
 
     enableTeamCreation: {
         true: [{roleName: 'system_user', permission: Permissions.CREATE_TEAM, shouldHave: true}],
-        false: [{roleName: 'system_user', permission: Permissions.CREATE_TEAM, shouldHave: false}]
+        false: [{roleName: 'system_user', permission: Permissions.CREATE_TEAM, shouldHave: false}],
     },
 
     enableOnlyAdminIntegrations: {
         true: [
             {roleName: 'team_user', permission: Permissions.MANAGE_WEBHOOKS, shouldHave: false},
             {roleName: 'team_user', permission: Permissions.MANAGE_SLASH_COMMANDS, shouldHave: false},
-            {roleName: 'system_user', permission: Permissions.MANAGE_OAUTH, shouldHave: false}
+            {roleName: 'system_user', permission: Permissions.MANAGE_OAUTH, shouldHave: false},
         ],
         false: [
             {roleName: 'team_user', permission: Permissions.MANAGE_WEBHOOKS, shouldHave: true},
             {roleName: 'team_user', permission: Permissions.MANAGE_SLASH_COMMANDS, shouldHave: true},
-            {roleName: 'system_user', permission: Permissions.MANAGE_OAUTH, shouldHave: true}
-        ]
-    }
+            {roleName: 'system_user', permission: Permissions.MANAGE_OAUTH, shouldHave: true},
+        ],
+    },
 };
 
 /**

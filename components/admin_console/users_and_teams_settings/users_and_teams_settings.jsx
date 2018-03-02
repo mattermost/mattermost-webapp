@@ -28,8 +28,8 @@ export default class UsersAndTeamsSettings extends AdminSettings {
         rolesRequest: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             loadRolesIfNeeded: PropTypes.func.isRequired,
-            editRole: PropTypes.func.isRequired
-        }).isRequired
+            editRole: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     constructor(props) {
@@ -38,7 +38,7 @@ export default class UsersAndTeamsSettings extends AdminSettings {
         this.state = {
             ...this.state, // Brings the state in from the parent class.
             enableTeamCreation: null,
-            loaded: false
+            loaded: false,
         };
     }
 
@@ -64,7 +64,7 @@ export default class UsersAndTeamsSettings extends AdminSettings {
                 success = false;
                 this.setState({
                     saving: false,
-                    serverError: err.message
+                    serverError: err.message,
                 });
             }
         }));
@@ -107,7 +107,7 @@ export default class UsersAndTeamsSettings extends AdminSettings {
             teammateNameDisplay: config.TeamSettings.TeammateNameDisplay,
             maxChannelsPerTeam: config.TeamSettings.MaxChannelsPerTeam,
             maxNotificationsPerChannel: config.TeamSettings.MaxNotificationsPerChannel,
-            enableConfirmNotificationsToChannel: config.TeamSettings.EnableConfirmNotificationsToChannel
+            enableConfirmNotificationsToChannel: config.TeamSettings.EnableConfirmNotificationsToChannel,
         };
     }
 
@@ -253,7 +253,7 @@ export default class UsersAndTeamsSettings extends AdminSettings {
                     id='restrictDirectMessage'
                     values={[
                         {value: RESTRICT_DIRECT_MESSAGE_ANY, text: Utils.localizeMessage('admin.team.restrict_direct_message_any', 'Any user on the Mattermost server')},
-                        {value: RESTRICT_DIRECT_MESSAGE_TEAM, text: Utils.localizeMessage('admin.team.restrict_direct_message_team', 'Any member of the team')}
+                        {value: RESTRICT_DIRECT_MESSAGE_TEAM, text: Utils.localizeMessage('admin.team.restrict_direct_message_team', 'Any member of the team')},
                     ]}
                     label={
                         <FormattedMessage
@@ -275,7 +275,7 @@ export default class UsersAndTeamsSettings extends AdminSettings {
                     values={[
                         {value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_USERNAME, text: Utils.localizeMessage('admin.team.showUsername', 'Show username (default)')},
                         {value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME, text: Utils.localizeMessage('admin.team.showNickname', 'Show nickname if one exists, otherwise show first and last name')},
-                        {value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_FULLNAME, text: Utils.localizeMessage('admin.team.showFullname', 'Show first and last name')}
+                        {value: Constants.TEAMMATE_NAME_DISPLAY.SHOW_FULLNAME, text: Utils.localizeMessage('admin.team.showFullname', 'Show first and last name')},
                     ]}
                     label={
                         <FormattedMessage

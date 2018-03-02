@@ -43,7 +43,7 @@ function makeMapStateToProps() {
             reactionCount: ownProps.reactions.length,
             canAddReaction,
             canRemoveReaction,
-            emojiImageUrl
+            emojiImageUrl,
         };
     };
 }
@@ -53,8 +53,8 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             addReaction,
             removeReaction,
-            getMissingProfilesByIds
-        }, dispatch)
+            getMissingProfilesByIds,
+        }, dispatch),
     };
 }
 

@@ -86,7 +86,7 @@ export default class PostBody extends React.PureComponent {
         /**
          * Whether or not the post username can be overridden.
          */
-        enablePostUsernameOverride: PropTypes.bool.isRequired
+        enablePostUsernameOverride: PropTypes.bool.isRequired,
     }
 
     constructor(props) {
@@ -178,7 +178,7 @@ export default class PostBody extends React.PureComponent {
                             defaultMessage='Commented on {name}{apostrophe} message: '
                             values={{
                                 name,
-                                apostrophe
+                                apostrophe,
                             }}
                         />
                         <a

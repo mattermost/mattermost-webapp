@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {FormattedDate, FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import PropTypes from 'prop-types';
 
 import {Permissions} from 'mattermost-redux/constants';
 
@@ -19,11 +20,14 @@ import UserProfile from 'components/user_profile.jsx';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
-import * as Utils from './utils.jsx';
+import * as Utils from 'utils/utils.jsx';
 
-export function createChannelIntroMessage(channel, fullWidthIntro) {
+const CreateChannelIntroMessage = ({
+    channel,
+    fullWidth,
+}) => {
     let centeredIntro = '';
-    if (!fullWidthIntro) {
+    if (!fullWidth) {
         centeredIntro = 'channel-intro--centered';
     }
 
@@ -39,9 +43,15 @@ export function createChannelIntroMessage(channel, fullWidthIntro) {
         return createStandardIntroMessage(channel, centeredIntro);
     }
     return null;
-}
+};
 
-export function createGMIntroMessage(channel, centeredIntro) {
+CreateChannelIntroMessage.propTypes = {
+    isLicensed: PropTypes.bool.isRequired,
+};
+
+export default CreateChannelIntroMessage;
+
+function createGMIntroMessage(channel, centeredIntro) {
     const profiles = UserStore.getProfileListInChannel(channel.id, true);
     const channelIntroId = 'channelIntro';
 
@@ -83,7 +93,7 @@ export function createGMIntroMessage(channel, centeredIntro) {
                         id='intro_messages.GM'
                         defaultMessage='This is the start of your group message history with {names}.<br />Messages and files shared here are not shown to people outside this area.'
                         values={{
-                            names
+                            names,
                         }}
                     />
                 </p>
@@ -107,7 +117,7 @@ export function createGMIntroMessage(channel, centeredIntro) {
     );
 }
 
-export function createDMIntroMessage(channel, centeredIntro) {
+function createDMIntroMessage(channel, centeredIntro) {
     var teammate = Utils.getDirectTeammate(channel.id);
     const channelIntroId = 'channelIntro';
 
@@ -145,7 +155,7 @@ export function createDMIntroMessage(channel, centeredIntro) {
                         id='intro_messages.DM'
                         defaultMessage='This is the start of your direct message history with {teammate}.<br />Direct messages and files shared here are not shown to people outside this area.'
                         values={{
-                            teammate: teammateName
+                            teammate: teammateName,
                         }}
                     />
                 </p>
@@ -169,7 +179,7 @@ export function createDMIntroMessage(channel, centeredIntro) {
     );
 }
 
-export function createOffTopicIntroMessage(channel, centeredIntro) {
+function createOffTopicIntroMessage(channel, centeredIntro) {
     var uiType = (
         <FormattedMessage
             id='intro_messages.channel'
@@ -200,7 +210,7 @@ export function createOffTopicIntroMessage(channel, centeredIntro) {
                 id='intro_messages.offTopic'
                 defaultMessage='<h4 class="channel-intro__title">Beginning of {display_name}</h4><p class="channel-intro__content">This is the start of {display_name}, a channel for non-work-related conversations.<br/></p>'
                 values={{
-                    display_name: channel.display_name
+                    display_name: channel.display_name,
                 }}
             />
             {channelInviteButton}
@@ -254,7 +264,7 @@ export function createDefaultIntroMessage(channel, centeredIntro) {
                 id='intro_messages.default'
                 defaultMessage="<h4 class='channel-intro__title'>Beginning of {display_name}</h4><p class='channel-intro__content'><strong>Welcome to {display_name}!</strong><br/><br/>This is the first channel teammates see when they sign up - use it for posting updates everyone needs to know.</p>"
                 values={{
-                    display_name: channel.display_name
+                    display_name: channel.display_name,
                 }}
             />
             {teamInviteLink}
@@ -264,7 +274,7 @@ export function createDefaultIntroMessage(channel, centeredIntro) {
     );
 }
 
-export function createStandardIntroMessage(channel, centeredIntro) {
+function createStandardIntroMessage(channel, centeredIntro) {
     var uiName = channel.display_name;
     var creatorName = Utils.displayUsername(channel.creator_id);
     var uiType;
@@ -316,7 +326,7 @@ export function createStandardIntroMessage(channel, centeredIntro) {
                 values={{
                     name: (uiName),
                     type: (uiType),
-                    date
+                    date,
                 }}
             />
         );
@@ -330,7 +340,7 @@ export function createStandardIntroMessage(channel, centeredIntro) {
                         name: (uiName),
                         type: (uiType),
                         creator: (creatorName),
-                        date
+                        date,
                     }}
                 />
             </span>
@@ -346,7 +356,7 @@ export function createStandardIntroMessage(channel, centeredIntro) {
                     defaultMessage=" This {type}'s purpose is: {purpose}"
                     values={{
                         purpose: channel.purpose,
-                        type: (uiType)
+                        type: (uiType),
                     }}
                 />
             </span>
@@ -377,7 +387,7 @@ export function createStandardIntroMessage(channel, centeredIntro) {
                     id='intro_messages.beginning'
                     defaultMessage='Beginning of {name}'
                     values={{
-                        name: (uiName)
+                        name: (uiName),
                     }}
                 />
             </h4>
@@ -411,7 +421,7 @@ function createInviteChannelMemberButton(channel, uiType) {
                     id='intro_messages.invite'
                     defaultMessage='Invite others to this {type}'
                     values={{
-                        type: (uiType)
+                        type: (uiType),
                     }}
                 />
             </ToggleModalButton>

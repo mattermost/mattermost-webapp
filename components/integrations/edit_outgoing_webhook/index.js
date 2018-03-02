@@ -17,7 +17,7 @@ function mapStateToProps(state, ownProps) {
         hookId,
         hook: state.entities.integrations.outgoingHooks[hookId],
         updateOutgoingHookRequest: state.requests.integrations.createOutgoingHook,
-        enableOutgoingWebhooks
+        enableOutgoingWebhooks,
     };
 }
 
@@ -25,8 +25,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             updateOutgoingHook,
-            getOutgoingHook
-        }, dispatch)
+            getOutgoingHook,
+        }, dispatch),
     };
 }
 

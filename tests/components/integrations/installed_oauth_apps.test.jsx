@@ -20,7 +20,7 @@ describe('components/integrations/InstalledOAuthApps', () => {
             icon_url: 'https://test.com/icon',
             is_trusted: false,
             update_at: 1501365458934,
-            callback_urls: ['https://test.com/callback']
+            callback_urls: ['https://test.com/callback'],
         },
         fzcxd9wpzpbpfp8pad78xj75pr: {
             id: 'fzcxd9wpzpbpfp8pad78xj75pr',
@@ -33,8 +33,8 @@ describe('components/integrations/InstalledOAuthApps', () => {
             icon_url: 'https://test2.com/icon',
             is_trusted: true,
             update_at: 1501365479988,
-            callback_urls: ['https://test2.com/callback', 'https://test2.com/callback2']
-        }
+            callback_urls: ['https://test2.com/callback', 'https://test2.com/callback2'],
+        },
     };
 
     const baseProps = {
@@ -43,15 +43,15 @@ describe('components/integrations/InstalledOAuthApps', () => {
         canManageOauth: true,
         regenOAuthAppSecretRequest: {
             status: 'not_started',
-            error: null
+            error: null,
         },
         actions: {
             getOAuthApps: jest.fn(),
             regenOAuthAppSecret: jest.fn(),
-            deleteOAuthApp: jest.fn()
+            deleteOAuthApp: jest.fn(),
         },
         enableOAuthServiceProvider: true,
-        enableOnlyAdminIntegrations: true
+        enableOnlyAdminIntegrations: true,
     };
 
     test('should match snapshot', () => {

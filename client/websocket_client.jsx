@@ -161,7 +161,7 @@ export default class WebSocketClient {
         const msg = {
             action,
             seq: this.sequence++,
-            data
+            data,
         };
 
         if (responseCallback) {

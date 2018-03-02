@@ -42,7 +42,7 @@ const tutorialCommands = {
         return this.
             waitForElementVisible('@tutorialSkipLink', Constants.DEFAULT_WAIT).
             click('@tutorialSkipLink');
-    }
+    },
 };
 
 module.exports = {
@@ -62,14 +62,14 @@ module.exports = {
         tutorialIntroCircle1: {selector: '#tutorialIntroCircle1'},
         tutorialIntroCircle2: {selector: '#tutorialIntroCircle2'},
         tutorialNextButton: {selector: '#tutorialNextButton'},
-        tutorialSkipLink: {selector: '#tutorialSkipLink'}
+        tutorialSkipLink: {selector: '#tutorialSkipLink'},
     },
     sections: {
         postTextboxTipMessage: {
             selector: '#postTextboxTipMessage',
             elements: {
-                tipNextButton: {selector: '#tipNextButton'}
-            }
-        }
-    }
+                tipNextButton: {selector: '#tipNextButton'},
+            },
+        },
+    },
 };

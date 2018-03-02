@@ -47,5 +47,5 @@ module.exports = {
             assert.visible('@searchIcon').
             assert.visible('@searchBox').
             assert.hidden('@searchClearButton');
-    }
+    },
 };

@@ -16,31 +16,31 @@ describe('components/permissions_gates', () => {
         entities: {
             channels: {
                 myMembers: {
-                    channel_id: {channel_id: 'channel_id', roles: 'channel_role'}
-                }
+                    channel_id: {channel_id: 'channel_id', roles: 'channel_role'},
+                },
             },
             teams: {
                 myMembers: {
-                    team_id: {team_id: 'team_id', roles: 'team_role'}
-                }
+                    team_id: {team_id: 'team_id', roles: 'team_role'},
+                },
             },
             users: {
                 currentUserId: 'user_id',
                 profiles: {
                     user_id: {
                         id: 'user_id',
-                        roles: 'system_role'
-                    }
-                }
+                        roles: 'system_role',
+                    },
+                },
             },
             roles: {
                 roles: {
                     system_role: {permissions: ['test_system_permission']},
                     team_role: {permissions: ['test_team_permission']},
-                    channel_role: {permissions: ['test_channel_permission']}
-                }
-            }
-        }
+                    channel_role: {permissions: ['test_channel_permission']},
+                },
+            },
+        },
     };
     const store = mockStore(state);
 

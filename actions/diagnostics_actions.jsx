@@ -1,6 +1,9 @@
 // Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+
+import store from 'stores/redux_store.jsx';
 import UserStore from 'stores/user_store.jsx';
 
 const SUPPORTS_CLEAR_MARKS = isSupported([performance.clearMarks]);
@@ -9,7 +12,7 @@ const SUPPORTS_MEASURE_METHODS = isSupported([
     performance.measure,
     performance.getEntries,
     performance.getEntriesByName,
-    performance.clearMeasures
+    performance.clearMeasures,
 ]);
 
 export function trackEvent(category, event, props) {
@@ -17,16 +20,16 @@ export function trackEvent(category, event, props) {
         const properties = Object.assign({category, type: event, user_actual_id: UserStore.getCurrentId()}, props);
         const options = {
             context: {
-                ip: '0.0.0.0'
+                ip: '0.0.0.0',
             },
             page: {
                 path: '',
                 referrer: '',
                 search: '',
                 title: '',
-                url: ''
+                url: '',
             },
-            anonymousId: '00000000000000000000000000'
+            anonymousId: '00000000000000000000000000',
         };
         global.window.analytics.track('event', properties, options);
     }
@@ -118,5 +121,7 @@ function isSupported(checks) {
 }
 
 function isDevMode() {
-    return global.mm_config.EnableDeveloper === 'true';
+    const config = getConfig(store.getState());
+
+    return config.EnableDeveloper === 'true';
 }

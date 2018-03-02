@@ -66,12 +66,17 @@ class ProfilePopover extends React.Component {
          */
         hasMention: PropTypes.bool,
 
-        ...Popover.propTypes
+        /**
+         * Whether or not WebRtc is enabled.
+         */
+        enableWebrtc: PropTypes.bool.isRequired,
+
+        ...Popover.propTypes,
     }
 
     static defaultProps = {
         isRHS: false,
-        hasMention: false
+        hasMention: false,
     }
 
     constructor(props) {
@@ -83,7 +88,7 @@ class ProfilePopover extends React.Component {
         this.handleEditAccountSettings = this.handleEditAccountSettings.bind(this);
         this.state = {
             currentUserId: UserStore.getCurrentId(),
-            loadingDMChannel: -1
+            loadingDMChannel: -1,
         };
     }
     shouldComponentUpdate(nextProps) {
@@ -148,7 +153,7 @@ class ProfilePopover extends React.Component {
                 if (this.props.hide) {
                     this.props.hide();
                 }
-                browserHistory.push(`${TeamStore.getCurrentTeamRelativeUrl()}/messages/${user.username}`);
+                browserHistory.push(`${TeamStore.getCurrentTeamRelativeUrl()}/messages/@${user.username}`);
             }
         );
     }
@@ -194,11 +199,12 @@ class ProfilePopover extends React.Component {
         delete popoverProps.isRHS;
         delete popoverProps.hasMention;
         delete popoverProps.dispatch;
+        delete popoverProps.enableWebrtc;
 
         let webrtc;
         const userMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
-        const webrtcEnabled = global.mm_config.EnableWebrtc === 'true' && userMedia && Utils.isFeatureEnabled(PreReleaseFeatures.WEBRTC_PREVIEW);
+        const webrtcEnabled = this.props.enableWebrtc && userMedia && Utils.isFeatureEnabled(PreReleaseFeatures.WEBRTC_PREVIEW);
 
         if (webrtcEnabled && this.props.user.id !== this.state.currentUserId) {
             const isOnline = this.props.status !== UserStatuses.OFFLINE;
@@ -282,6 +288,7 @@ class ProfilePopover extends React.Component {
                     delayShow={Constants.WEBRTC_TIME_DELAY}
                     placement='top'
                     overlay={<Tooltip id='positionTooltip'>{position}</Tooltip>}
+                    key='user-popover-position'
                 >
                     <div
                         className='overflow--ellipsis text-nowrap padding-bottom'

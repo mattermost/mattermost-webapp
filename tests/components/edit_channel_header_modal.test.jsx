@@ -13,14 +13,14 @@ const KeyCodes = Constants.KeyCodes;
 
 jest.mock('react-dom', () => ({
     findDOMNode: () => ({
-        blur: jest.fn()
-    })
+        blur: jest.fn(),
+    }),
 }));
 
 describe('components/EditChannelHeaderModal', () => {
     const channel = {
         id: 'fake-id',
-        header: 'Fake Channel'
+        header: 'Fake Channel',
     };
 
     function emptyFunction() {} //eslint-disable-line no-empty-function
@@ -40,7 +40,7 @@ describe('components/EditChannelHeaderModal', () => {
     test('edit dirrect message channel', () => {
         const dmChannel = {
             ...channel,
-            type: Constants.DM_CHANNEL
+            type: Constants.DM_CHANNEL,
         };
 
         const wrapper = shallowWithIntl(
@@ -73,7 +73,7 @@ describe('components/EditChannelHeaderModal', () => {
     test('error with intl message', () => {
         const serverError = {
             server_error_id: 'model.channel.is_valid.header.app_error',
-            message: 'some error'
+            message: 'some error',
         };
 
         const wrapper = shallowWithIntl(
@@ -92,7 +92,7 @@ describe('components/EditChannelHeaderModal', () => {
             ctrSend: false,
             requestStatus: RequestStatus.FAILURE,
             onHide: emptyFunction,
-            actions: {patchChannel: emptyFunction}
+            actions: {patchChannel: emptyFunction},
         });
 
         expect(wrapper).toMatchSnapshot();
@@ -101,7 +101,7 @@ describe('components/EditChannelHeaderModal', () => {
     test('error without intl message', () => {
         const serverError = {
             server_error_id: 'fake-server-errror',
-            message: 'some error'
+            message: 'some error',
         };
 
         const wrapper = shallowWithIntl(
@@ -120,7 +120,7 @@ describe('components/EditChannelHeaderModal', () => {
             ctrSend: false,
             requestStatus: RequestStatus.FAILURE,
             onHide: emptyFunction,
-            actions: {patchChannel: emptyFunction}
+            actions: {patchChannel: emptyFunction},
         });
 
         expect(wrapper).toMatchSnapshot();
@@ -129,7 +129,7 @@ describe('components/EditChannelHeaderModal', () => {
     test('hide error message on new request', () => {
         const serverError = {
             server_error_id: 'fake-server-errror',
-            message: 'some error'
+            message: 'some error',
         };
 
         const wrapper = shallowWithIntl(
@@ -148,7 +148,7 @@ describe('components/EditChannelHeaderModal', () => {
             ctrSend: false,
             requestStatus: RequestStatus.FAILURE,
             onHide: emptyFunction,
-            actions: {patchChannel: emptyFunction}
+            actions: {patchChannel: emptyFunction},
         });
         wrapper.setProps({
             channel,
@@ -156,7 +156,7 @@ describe('components/EditChannelHeaderModal', () => {
             ctrSend: false,
             requestStatus: RequestStatus.STARTED,
             onHide: emptyFunction,
-            actions: {patchChannel: emptyFunction}
+            actions: {patchChannel: emptyFunction},
         });
 
         expect(wrapper).toMatchSnapshot();
@@ -178,7 +178,7 @@ describe('components/EditChannelHeaderModal', () => {
             ctrSend: false,
             requestStatus: RequestStatus.SUCCESS,
             onHide: emptyFunction,
-            actions: {patchChannel: emptyFunction}
+            actions: {patchChannel: emptyFunction},
         });
 
         expect(
@@ -238,7 +238,7 @@ describe('components/EditChannelHeaderModal', () => {
             which: KeyCodes.ENTER,
             shiftKey: false,
             altKey: false,
-            ctrlKey: true
+            ctrlKey: true,
         });
 
         expect(patchChannel).toBeCalledWith('fake-id', {header: 'Fake Channel'});
@@ -261,7 +261,7 @@ describe('components/EditChannelHeaderModal', () => {
             which: KeyCodes.ENTER,
             shiftKey: false,
             altKey: false,
-            ctrlKey: false
+            ctrlKey: false,
         });
 
         expect(patchChannel).toBeCalledWith('fake-id', {header: 'Fake Channel'});
@@ -285,7 +285,7 @@ describe('components/EditChannelHeaderModal', () => {
             which: KeyCodes.ENTER,
             shiftKey: false,
             altKey: false,
-            ctrlKey: true
+            ctrlKey: true,
         });
 
         expect(patchChannel).toBeCalledWith('fake-id', {header: 'Fake Channel'});

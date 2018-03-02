@@ -19,15 +19,15 @@ describe('components/integrations/EditOAuthApp', () => {
         icon_url: 'https://test.com/icon',
         is_trusted: true,
         update_at: 1501365458934,
-        callback_urls: ['https://test.com/callback', 'https://test.com/callback2']
+        callback_urls: ['https://test.com/callback', 'https://test.com/callback2'],
     };
     const team = {
         id: 'dbcxd9wpzpbpfp8pad78xj12pr',
-        name: 'test'
+        name: 'test',
     };
     const editOAuthAppRequest = {
         status: 'not_started',
-        error: null
+        error: null,
     };
 
     const baseProps = {
@@ -36,9 +36,9 @@ describe('components/integrations/EditOAuthApp', () => {
         editOAuthAppRequest,
         actions: {
             getOAuthApp: jest.fn(),
-            editOAuthApp: jest.fn()
+            editOAuthApp: jest.fn(),
         },
-        enableOAuthServiceProvider: true
+        enableOAuthServiceProvider: true,
     };
 
     test('should match snapshot, loading', () => {
@@ -121,7 +121,7 @@ describe('components/integrations/EditOAuthApp', () => {
                 return new Promise((resolve) => {
                     process.nextTick(() => resolve({
                         data: 'data',
-                        error: null
+                        error: null,
                     }));
                 });
             }
@@ -147,7 +147,7 @@ describe('components/integrations/EditOAuthApp', () => {
                 return new Promise((resolve) => {
                     process.nextTick(() => resolve({
                         data: null,
-                        error: {message: 'error message'}
+                        error: {message: 'error message'},
                     }));
                 });
             }

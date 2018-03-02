@@ -4,15 +4,15 @@
 import {connect} from 'react-redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import ViewImagePopoverBar from './view_image_popover_bar.jsx';
+import Root from './root.jsx';
 
 function mapStateToProps(state) {
     const config = getConfig(state);
-    const enablePublicLink = config.EnablePublicLink === 'true';
 
     return {
-        enablePublicLink
+        diagnosticsEnabled: config.DiagnosticsEnabled === 'true',
+        noAccounts: config.NoAccounts === 'true',
     };
 }
 
-export default connect(mapStateToProps)(ViewImagePopoverBar);
+export default connect(mapStateToProps)(Root);

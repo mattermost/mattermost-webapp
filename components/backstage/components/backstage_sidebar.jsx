@@ -25,7 +25,6 @@ export default class BackstageSidebar extends React.Component {
             enableOutgoingWebhooks: PropTypes.bool.isRequired,
             enableCommands: PropTypes.bool.isRequired,
             enableOAuthServiceProvider: PropTypes.bool.isRequired,
-            enableOnlyAdminIntegrations: PropTypes.bool.isRequired
         };
     }
 

@@ -52,8 +52,8 @@ export default class InstalledCommands extends React.PureComponent {
             /**
             * The function to call when Delete link is clicked
             */
-            deleteCommand: PropTypes.func.isRequired
-        }).isRequired
+            deleteCommand: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     regenCommandToken = (command) => {
@@ -146,7 +146,7 @@ export default class InstalledCommands extends React.PureComponent {
                                         defaultMessage='App Directory'
                                     />
                                 </a>
-                            )
+                            ),
                         }}
                     />
                 }

@@ -5,9 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import * as FileUtils from 'utils/file_utils';
-
-export default class ViewImagePopoverBar extends React.PureComponent {
+export default class PopoverBar extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -45,10 +43,12 @@ export default class ViewImagePopoverBar extends React.PureComponent {
          */
         enablePublicLink: PropTypes.bool.isRequired,
 
+        canDownloadFiles: PropTypes.bool.isRequired,
+
         /**
          * Function to call when click on "Get Public Link"
          */
-        onGetPublicLink: PropTypes.func
+        onGetPublicLink: PropTypes.func,
     };
 
     static defaultProps = {
@@ -57,7 +57,7 @@ export default class ViewImagePopoverBar extends React.PureComponent {
         totalFiles: 0,
         filename: '',
         fileURL: '',
-        showPublicLink: true
+        showPublicLink: true,
     };
 
     render() {
@@ -87,7 +87,7 @@ export default class ViewImagePopoverBar extends React.PureComponent {
         }
 
         let downloadLinks = null;
-        if (FileUtils.canDownloadFiles()) {
+        if (this.props.canDownloadFiles) {
             downloadLinks = (
                 <div className='image-links'>
                     {publicLink}
@@ -118,7 +118,7 @@ export default class ViewImagePopoverBar extends React.PureComponent {
                         defaultMessage='File {count, number} of {total, number}'
                         values={{
                             count: (this.props.fileIndex + 1),
-                            total: this.props.totalFiles
+                            total: this.props.totalFiles,
                         }}
                     />
                 </span>

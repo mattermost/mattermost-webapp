@@ -21,7 +21,7 @@ describe('components/admin_console/CustomPluginSettings', () => {
             name: 'testplugin',
             description: '',
             webapp: {
-                bundle_path: '/static/testplugin_bundle.js'
+                bundle_path: '/static/testplugin_bundle.js',
             },
             settings_schema: {
                 header: '# Header\n*This* is the **header**',
@@ -33,14 +33,14 @@ describe('components/admin_console/CustomPluginSettings', () => {
                         type: 'text',
                         default: 'setting_default',
                         help_text: 'This is some help text for the text field.',
-                        placeholder: 'e.g. some setting'
+                        placeholder: 'e.g. some setting',
                     },
                     {
                         key: 'settingb',
                         display_name: 'Setting Two',
                         type: 'bool',
                         default: true,
-                        help_text: 'This is some help text for the bool field.'
+                        help_text: 'This is some help text for the bool field.',
                     },
                     {
                         key: 'settingc',
@@ -50,9 +50,9 @@ describe('components/admin_console/CustomPluginSettings', () => {
                         options: [
                             {display_name: 'Option 1', value: 'option1'},
                             {display_name: 'Option 2', value: 'option2'},
-                            {display_name: 'Option 3', value: 'option3'}
+                            {display_name: 'Option 3', value: 'option3'},
                         ],
-                        help_text: 'This is some help text for the dropdown field.'
+                        help_text: 'This is some help text for the dropdown field.',
                     },
                     {
                         key: 'settingd',
@@ -62,9 +62,9 @@ describe('components/admin_console/CustomPluginSettings', () => {
                         options: [
                             {display_name: 'Option 1', value: 'option1'},
                             {display_name: 'Option 2', value: 'option2'},
-                            {display_name: 'Option 3', value: 'option3'}
+                            {display_name: 'Option 3', value: 'option3'},
                         ],
-                        help_text: 'This is some help text for the radio field.'
+                        help_text: 'This is some help text for the radio field.',
                     },
                     {
                         key: 'settinge',
@@ -72,17 +72,17 @@ describe('components/admin_console/CustomPluginSettings', () => {
                         type: 'generated',
                         help_text: 'This is some help text for the generated field.',
                         regenerate_help_text: 'This is help text for the regenerate button.',
-                        placeholder: 'e.g. 47KyfOxtk5+ovi1MDHFyzMDHIA6esMWb'
+                        placeholder: 'e.g. 47KyfOxtk5+ovi1MDHFyzMDHIA6esMWb',
                     },
                     {
                         key: 'settingf',
                         display_name: 'Setting Six',
                         type: 'username',
                         help_text: 'This is some help text for the user autocomplete field.',
-                        placeholder: 'Type a username here'
-                    }
-                ]
-            }
+                        placeholder: 'Type a username here',
+                    },
+                ],
+            },
         };
 
         config = {
@@ -94,10 +94,10 @@ describe('components/admin_console/CustomPluginSettings', () => {
                         settingc: 'option3',
                         settingd: 'option1',
                         settinge: 'Q6DHXrFLOIS5sOI5JNF4PyDLqWm7vh23',
-                        settingf: '3xz3r6n7dtbbmgref3yw4zg7sr'
-                    }
-                }
-            }
+                        settingf: '3xz3r6n7dtbbmgref3yw4zg7sr',
+                    },
+                },
+            },
         };
     });
 
@@ -120,8 +120,8 @@ describe('components/admin_console/CustomPluginSettings', () => {
                     name: 'testplugin',
                     description: '',
                     webapp: {
-                        bundle_path: '/static/testplugin_bundle.js'
-                    }
+                        bundle_path: '/static/testplugin_bundle.js',
+                    },
                 }}
             />
         );
@@ -133,8 +133,8 @@ describe('components/admin_console/CustomPluginSettings', () => {
             <CustomPluginSettings
                 config={{
                     PluginSettings: {
-                        Plugins: {}
-                    }
+                        Plugins: {},
+                    },
                 }}
                 plugin={plugin}
             />

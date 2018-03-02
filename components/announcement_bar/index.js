@@ -11,6 +11,7 @@ import AnnouncementBar from './announcement_bar.jsx';
 
 function mapStateToProps(state) {
     const canViewSystemErrors = haveISystemPermission(state, {permission: Permissions.MANAGE_SYSTEM});
+    const canViewAPIv3Banner = haveISystemPermission(state, {permission: Permissions.MANAGE_SYSTEM});
     const license = getLicense(state);
     const config = getConfig(state);
 
@@ -23,10 +24,12 @@ function mapStateToProps(state) {
     const bannerColor = config.BannerColor;
     const bannerTextColor = config.BannerTextColor;
     const enableSignUpWithGitLab = config.EnableSignUpWithGitLab === 'true';
+    const enableAPIv3 = config.EnableAPIv3 === 'true';
 
     return {
         isLoggedIn: Boolean(getCurrentUserId(state)),
         canViewSystemErrors,
+        canViewAPIv3Banner,
         licenseId,
         siteURL,
         sendEmailNotifications,
@@ -35,7 +38,8 @@ function mapStateToProps(state) {
         enableBanner,
         bannerColor,
         bannerTextColor,
-        enableSignUpWithGitLab
+        enableSignUpWithGitLab,
+        enableAPIv3,
     };
 }
 

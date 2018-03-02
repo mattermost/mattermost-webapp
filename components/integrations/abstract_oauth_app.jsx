@@ -48,7 +48,7 @@ export default class AbstractOAuthApp extends React.PureComponent {
         /**
         * The async function to run when the action button is pressed
         */
-        action: PropTypes.func.isRequired
+        action: PropTypes.func.isRequired,
     }
 
     constructor(props) {
@@ -69,14 +69,14 @@ export default class AbstractOAuthApp extends React.PureComponent {
             is_trusted: app.is_trusted || false,
             has_icon: Boolean(app.icon_url),
             saving: false,
-            clientError: null
+            clientError: null,
         };
     }
 
     imageLoaded = () => {
         this.setState({
             has_icon: true,
-            icon_url: this.refs.icon_url.value
+            icon_url: this.refs.icon_url.value,
         });
     }
 
@@ -89,7 +89,7 @@ export default class AbstractOAuthApp extends React.PureComponent {
 
         this.setState({
             saving: true,
-            clientError: ''
+            clientError: '',
         });
 
         if (!this.state.name) {
@@ -100,7 +100,7 @@ export default class AbstractOAuthApp extends React.PureComponent {
                         id='add_oauth_app.nameRequired'
                         defaultMessage='Name for the OAuth 2.0 application is required.'
                     />
-                )
+                ),
             });
 
             return;
@@ -114,7 +114,7 @@ export default class AbstractOAuthApp extends React.PureComponent {
                         id='add_oauth_app.descriptionRequired'
                         defaultMessage='Description for the OAuth 2.0 application is required.'
                     />
-                )
+                ),
             });
 
             return;
@@ -128,7 +128,7 @@ export default class AbstractOAuthApp extends React.PureComponent {
                         id='add_oauth_app.homepageRequired'
                         defaultMessage='Homepage for the OAuth 2.0 application is required.'
                     />
-                )
+                ),
             });
 
             return;
@@ -151,7 +151,7 @@ export default class AbstractOAuthApp extends React.PureComponent {
                         id='add_oauth_app.callbackUrlsRequired'
                         defaultMessage='One or more callback URLs are required.'
                     />
-                )
+                ),
             });
 
             return;
@@ -163,7 +163,7 @@ export default class AbstractOAuthApp extends React.PureComponent {
             homepage: this.state.homepage,
             description: this.state.description,
             is_trusted: this.state.is_trusted,
-            icon_url: this.state.icon_url
+            icon_url: this.state.icon_url,
         };
 
         this.props.action(app).then(() => this.setState({saving: false}));
@@ -171,39 +171,39 @@ export default class AbstractOAuthApp extends React.PureComponent {
 
     updateName = (e) => {
         this.setState({
-            name: e.target.value
+            name: e.target.value,
         });
     }
 
     updateTrusted = (e) => {
         this.setState({
-            is_trusted: e.target.value === 'true'
+            is_trusted: e.target.value === 'true',
         });
     }
 
     updateDescription = (e) => {
         this.setState({
-            description: e.target.value
+            description: e.target.value,
         });
     }
 
     updateHomepage = (e) => {
         this.setState({
-            homepage: e.target.value
+            homepage: e.target.value,
         });
     }
 
     updateIconUrl = (e) => {
         this.setState({
             has_icon: false,
-            icon_url: e.target.value
+            icon_url: e.target.value,
         });
         this.image.src = e.target.value;
     }
 
     updateCallbackUrls = (e) => {
         this.setState({
-            callbackUrls: e.target.value
+            callbackUrls: e.target.value,
         });
     }
 

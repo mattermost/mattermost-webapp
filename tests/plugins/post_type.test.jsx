@@ -17,7 +17,7 @@ class PostTypePlugin extends React.PureComponent {
 describe('plugins/PostMessageView', () => {
     const post = {type: 'testtype', message: 'this is some text'};
     const pluginPostTypes = {
-        testtype: {component: PostTypePlugin}
+        testtype: {component: PostTypePlugin},
     };
 
     const requiredProps = {
@@ -27,7 +27,7 @@ describe('plugins/PostMessageView', () => {
         team: {name: 'team_name'},
         emojis: {name: 'smile'},
         theme: {id: 'theme_id'},
-        enableFormatting: true
+        enableFormatting: true,
     };
 
     test('should match snapshot with extended post type', () => {

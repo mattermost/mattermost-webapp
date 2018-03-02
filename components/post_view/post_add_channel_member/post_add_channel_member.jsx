@@ -61,8 +61,8 @@ export default class PostAddChannelMember extends React.PureComponent {
             /*
             * Function to remove post (ephemeral)
             */
-            removePost: PropTypes.func.isRequired
-        }).isRequired
+            removePost: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     handleAddChannelMember = () => {

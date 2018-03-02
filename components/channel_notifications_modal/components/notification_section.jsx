@@ -48,7 +48,7 @@ export default class NotificationSection extends React.PureComponent {
         /**
          * Error string from the server
          */
-        serverError: PropTypes.string
+        serverError: PropTypes.string,
     }
 
     handleOnChange = (e) => {
@@ -70,7 +70,7 @@ export default class NotificationSection extends React.PureComponent {
             memberNotificationLevel,
             onSubmit,
             section,
-            serverError
+            serverError,
         } = this.props;
 
         if (expand) {

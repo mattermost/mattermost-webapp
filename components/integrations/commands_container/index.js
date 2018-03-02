@@ -17,15 +17,15 @@ function mapStateToProps(state) {
     return {
         commands: Object.values(getCommands(state)),
         users: getUsers(state),
-        enableCommands
+        enableCommands,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getCustomTeamCommands
-        }, dispatch)
+            getCustomTeamCommands,
+        }, dispatch),
     };
 }
 

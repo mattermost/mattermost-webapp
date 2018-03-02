@@ -12,7 +12,7 @@ import Constants from 'utils/constants.jsx';
 export default class SidebarHeaderDropdownButton extends React.PureComponent {
     static propTypes = {
         bsRole: PropTypes.oneOf(['toggle']).isRequired, // eslint-disable-line react/no-unused-prop-types
-        onClick: PropTypes.func.isRequired
+        onClick: PropTypes.func.isRequired,
     };
 
     render() {

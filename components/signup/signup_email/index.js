@@ -27,7 +27,7 @@ function mapStateToProps(state) {
         privacyPolicyLink,
         customBrand,
         enableCustomBrand,
-        customDescriptionText
+        customDescriptionText,
     };
 }
 

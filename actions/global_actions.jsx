@@ -8,11 +8,12 @@ import {
     getMyChannelMember,
     joinChannel,
     markChannelAsRead,
-    selectChannel
+    selectChannel,
 } from 'mattermost-redux/actions/channels';
 import {getPostThread} from 'mattermost-redux/actions/posts';
 import {removeUserFromTeam} from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import {browserHistory} from 'utils/browser_history';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
@@ -63,14 +64,14 @@ export function emitChannelClickEvent(channel) {
             reloadIfServerVersionChanged();
         });
 
-        BrowserStore.setGlobalItem(chan.team_id, chan.id);
+        BrowserStore.setGlobalItem(Constants.PREV_CHANNEL_KEY + chan.team_id, chan.name);
 
         loadProfilesForSidebar();
 
         AppDispatcher.handleViewAction({
             type: ActionTypes.CLICK_CHANNEL,
             id: chan.id,
-            team_id: chan.team_id
+            team_id: chan.team_id,
         });
     }
 
@@ -94,12 +95,12 @@ export async function doFocusPost(channelId, postId, data) {
         type: ActionTypes.RECEIVED_FOCUSED_POST,
         postId,
         channelId,
-        post_list: data
+        post_list: data,
     });
 
     dispatch({
         type: ActionTypes.RECEIVED_FOCUSED_POST,
-        data: postId
+        data: postId,
     });
 
     const member = getState().entities.channels.myMembers[channelId];
@@ -142,28 +143,28 @@ export function emitLeaveTeam() {
 export function emitUserPostedEvent(post) {
     AppDispatcher.handleServerAction({
         type: ActionTypes.CREATE_POST,
-        post
+        post,
     });
 }
 
 export function emitUserCommentedEvent(post) {
     AppDispatcher.handleServerAction({
         type: ActionTypes.CREATE_COMMENT,
-        post
+        post,
     });
 }
 
 export function showAccountSettingsModal() {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_ACCOUNT_SETTINGS_MODAL,
-        value: true
+        value: true,
     });
 }
 
 export function toggleShortcutsModal() {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_SHORTCUTS_MODAL,
-        value: true
+        value: true,
     });
 }
 
@@ -172,7 +173,7 @@ export function showDeletePostModal(post, commentCount = 0) {
         type: ActionTypes.TOGGLE_DELETE_POST_MODAL,
         value: true,
         post,
-        commentCount
+        commentCount,
     });
 }
 
@@ -180,7 +181,7 @@ export function showChannelHeaderUpdateModal(channel) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_CHANNEL_HEADER_UPDATE_MODAL,
         value: true,
-        channel
+        channel,
     });
 }
 
@@ -188,7 +189,7 @@ export function showChannelPurposeUpdateModal(channel) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL,
         value: true,
-        channel
+        channel,
     });
 }
 
@@ -196,7 +197,7 @@ export function showChannelNameUpdateModal(channel) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_CHANNEL_NAME_UPDATE_MODAL,
         value: true,
-        channel
+        channel,
     });
 }
 
@@ -204,7 +205,7 @@ export function showGetPostLinkModal(post) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_GET_POST_LINK_MODAL,
         value: true,
-        post
+        post,
     });
 }
 
@@ -212,35 +213,35 @@ export function showGetPublicLinkModal(fileId) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_GET_PUBLIC_LINK_MODAL,
         value: true,
-        fileId
+        fileId,
     });
 }
 
 export function showGetTeamInviteLinkModal() {
     AppDispatcher.handleViewAction({
         type: Constants.ActionTypes.TOGGLE_GET_TEAM_INVITE_LINK_MODAL,
-        value: true
+        value: true,
     });
 }
 
 export function showInviteMemberModal() {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_INVITE_MEMBER_MODAL,
-        value: true
+        value: true,
     });
 }
 
 export function showLeaveTeamModal() {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_LEAVE_TEAM_MODAL,
-        value: true
+        value: true,
     });
 }
 
 export function showLeavePrivateChannelModal(channel) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.TOGGLE_LEAVE_PRIVATE_CHANNEL_MODAL,
-        value: channel
+        value: channel,
     });
 }
 
@@ -248,21 +249,21 @@ export function emitSuggestionPretextChanged(suggestionId, pretext) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.SUGGESTION_PRETEXT_CHANGED,
         id: suggestionId,
-        pretext
+        pretext,
     });
 }
 
 export function emitSelectNextSuggestion(suggestionId) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.SUGGESTION_SELECT_NEXT,
-        id: suggestionId
+        id: suggestionId,
     });
 }
 
 export function emitSelectPreviousSuggestion(suggestionId) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.SUGGESTION_SELECT_PREVIOUS,
-        id: suggestionId
+        id: suggestionId,
     });
 }
 
@@ -270,21 +271,21 @@ export function emitCompleteWordSuggestion(suggestionId, term = '') {
     AppDispatcher.handleViewAction({
         type: Constants.ActionTypes.SUGGESTION_COMPLETE_WORD,
         id: suggestionId,
-        term
+        term,
     });
 }
 
 export function emitClearSuggestions(suggestionId) {
     AppDispatcher.handleViewAction({
         type: Constants.ActionTypes.SUGGESTION_CLEAR_SUGGESTIONS,
-        id: suggestionId
+        id: suggestionId,
     });
 }
 
 export function emitPreferenceChangedEvent(preference) {
     AppDispatcher.handleServerAction({
         type: Constants.ActionTypes.RECEIVED_PREFERENCE,
-        preference
+        preference,
     });
 
     if (addedNewDmUser(preference)) {
@@ -295,7 +296,7 @@ export function emitPreferenceChangedEvent(preference) {
 export function emitPreferencesChangedEvent(preferences) {
     AppDispatcher.handleServerAction({
         type: Constants.ActionTypes.RECEIVED_PREFERENCES,
-        preferences
+        preferences,
     });
 
     if (preferences.findIndex(addedNewDmUser) !== -1) {
@@ -310,7 +311,7 @@ function addedNewDmUser(preference) {
 export function emitPreferencesDeletedEvent(preferences) {
     AppDispatcher.handleServerAction({
         type: Constants.ActionTypes.DELETED_PREFERENCES,
-        preferences
+        preferences,
     });
 }
 
@@ -326,7 +327,7 @@ export function sendEphemeralPost(message, channelId, parentId) {
         update_at: timestamp,
         root_id: parentId,
         parent_id: parentId,
-        props: {}
+        props: {},
     };
 
     handleNewPost(post);
@@ -346,8 +347,8 @@ export function sendAddToChannelEphemeralPost(user, addedUsername, channelId, po
         parent_id: postRootId,
         props: {
             username: user.username,
-            addedUsername
-        }
+            addedUsername,
+        },
     };
 
     handleNewPost(post);
@@ -360,7 +361,7 @@ export function newLocalizationSelected(locale) {
         AppDispatcher.handleServerAction({
             type: ActionTypes.RECEIVED_LOCALE,
             locale,
-            translations: en
+            translations: en,
         });
     } else {
         Client4.getTranslations(localeInfo.url).then(
@@ -372,7 +373,7 @@ export function newLocalizationSelected(locale) {
                 AppDispatcher.handleServerAction({
                     type: ActionTypes.RECEIVED_LOCALE,
                     locale,
-                    translations
+                    translations,
                 });
             }
         ).catch(
@@ -392,7 +393,8 @@ export function loadCurrentLocale() {
 }
 
 export function loadDefaultLocale() {
-    let locale = global.window.mm_config.DefaultClientLocale;
+    const config = getConfig(getState());
+    let locale = config.DefaultClientLocale;
 
     if (!I18n.getLanguageInfo(locale)) {
         locale = 'en';
@@ -406,14 +408,16 @@ export function emitLocalUserTypingEvent(channelId, parentId) {
     const t = Date.now();
     const membersInChannel = ChannelStore.getStats(channelId).member_count;
 
-    if (global.mm_license.IsLicensed === 'true' && global.mm_config.ExperimentalTownSquareIsReadOnly === 'true') {
+    const license = getLicense(getState());
+    const config = getConfig(getState());
+    if (license.IsLicensed === 'true' && config.ExperimentalTownSquareIsReadOnly === 'true') {
         const channel = ChannelStore.getChannelById(channelId);
         if (channel && ChannelStore.isDefault(channel)) {
             return;
         }
     }
 
-    if (((t - lastTimeTypingSent) > global.window.mm_config.TimeBetweenUserTypingUpdatesMilliseconds) && membersInChannel < global.window.mm_config.MaxNotificationsPerChannel && global.window.mm_config.EnableUserTypingMessages === 'true') {
+    if (((t - lastTimeTypingSent) > config.TimeBetweenUserTypingUpdatesMilliseconds) && membersInChannel < config.MaxNotificationsPerChannel && config.EnableUserTypingMessages === 'true') {
         WebSocketClient.userTyping(channelId, parentId);
         lastTimeTypingSent = t;
     }
@@ -424,7 +428,7 @@ export function emitRemoteUserTypingEvent(channelId, userId, postParentId) {
         type: Constants.ActionTypes.USER_TYPING,
         channelId,
         userId,
-        postParentId
+        postParentId,
     });
 }
 
@@ -466,7 +470,7 @@ export function toggleSideBarRightMenuAction() {
 export function emitBrowserFocus(focus) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.BROWSER_CHANGE_FOCUS,
-        focus
+        focus,
     });
 }
 
@@ -521,7 +525,7 @@ export async function redirectUserToDefaultTeam() {
 export function postListScrollChange(forceScrollToBottom = false) {
     AppDispatcher.handleViewAction({
         type: EventTypes.POST_LIST_SCROLL_CHANGE,
-        value: forceScrollToBottom
+        value: forceScrollToBottom,
     });
 }
 
@@ -529,7 +533,7 @@ export function emitPopoverMentionKeyClick(isRHS, mentionKey) {
     AppDispatcher.handleViewAction({
         type: ActionTypes.POPOVER_MENTION_KEY_CLICK,
         isRHS,
-        mentionKey
+        mentionKey,
     });
 }
 

@@ -12,8 +12,8 @@ import SettingUpload from './setting_upload.jsx';
 const holders = defineMessages({
     importSlack: {
         id: 'team_import_tab.importSlack',
-        defaultMessage: 'Import from Slack (Beta)'
-    }
+        defaultMessage: 'Import from Slack (Beta)',
+    },
 });
 
 class TeamImportTab extends React.Component {
@@ -26,7 +26,7 @@ class TeamImportTab extends React.Component {
 
         this.state = {
             status: 'ready',
-            link: ''
+            link: '',
         };
     }
 
@@ -94,7 +94,7 @@ class TeamImportTab extends React.Component {
                         defaultMessage='To import a team from Slack, go to {exportInstructions}. See {uploadDocsLink} to learn more.'
                         values={{
                             exportInstructions: uploadExportInstructions,
-                            uploadDocsLink
+                            uploadDocsLink,
                         }}
                     />
                 </p>
@@ -103,7 +103,7 @@ class TeamImportTab extends React.Component {
                         id='team_import_tab.importHelpLine3'
                         defaultMessage='To import posts with attached files, see {slackAdvancedExporterLink} for details.'
                         values={{
-                            slackAdvancedExporterLink: uploadExporterLink
+                            slackAdvancedExporterLink: uploadExporterLink,
                         }}
                     />
                 </p>
@@ -227,7 +227,7 @@ class TeamImportTab extends React.Component {
 TeamImportTab.propTypes = {
     intl: intlShape.isRequired,
     closeModal: PropTypes.func.isRequired,
-    collapseModal: PropTypes.func.isRequired
+    collapseModal: PropTypes.func.isRequired,
 };
 
 export default injectIntl(TeamImportTab);

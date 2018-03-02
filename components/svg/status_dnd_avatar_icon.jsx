@@ -40,5 +40,5 @@ export default class StatusDndAvatarIcon extends React.PureComponent {
 }
 
 const style = {
-    enableBackground: 'new -299 391 12 12'
+    enableBackground: 'new -299 391 12 12',
 };

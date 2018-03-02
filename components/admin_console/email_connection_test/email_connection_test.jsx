@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {testEmail} from 'actions/admin_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 export default class EmailConnectionTestButton extends React.Component {
@@ -13,52 +12,52 @@ export default class EmailConnectionTestButton extends React.Component {
         return {
             config: PropTypes.object.isRequired,
             getConfigFromState: PropTypes.func.isRequired,
-            disabled: PropTypes.bool.isRequired
+            disabled: PropTypes.bool.isRequired,
+            actions: PropTypes.shape({
+                testEmail: PropTypes.func.isRequired,
+            }).isRequired,
         };
     }
 
     constructor(props) {
         super(props);
 
-        this.handleTestConnection = this.handleTestConnection.bind(this);
-
         this.state = {
             testing: false,
             success: false,
-            fail: null
+            fail: null,
         };
     }
 
-    handleTestConnection(e) {
+    handleTestConnection = (e) => {
         e.preventDefault();
 
         this.setState({
             testing: true,
             success: false,
-            fail: null
+            fail: null,
         });
 
         const config = JSON.parse(JSON.stringify(this.props.config));
         this.props.getConfigFromState(config);
 
-        testEmail(
-            config,
-            () => {
-                this.setState({
-                    testing: false,
-                    success: true
-                });
-            },
-            (err) => {
-                let fail = err.message;
-                if (err.detailed_error) {
-                    fail += ' - ' + err.detailed_error;
+        this.props.actions.testEmail(config).then(
+            (data) => {
+                if (data.error) {
+                    let fail = data.error.message;
+                    if (data.error.detailed_error) {
+                        fail += ' - ' + data.error.detailed_error;
+                    }
+                    this.setState({
+                        testing: false,
+                        fail,
+                    });
+                } else {
+                    this.setState({
+                        testing: false,
+                        success: true,
+                    });
                 }
-
-                this.setState({
-                    testing: false,
-                    fail
-                });
             }
         );
     }
@@ -83,7 +82,7 @@ export default class EmailConnectionTestButton extends React.Component {
                         id='admin.email.emailFail'
                         defaultMessage='Connection unsuccessful: {error}'
                         values={{
-                            error: this.state.fail
+                            error: this.state.fail,
                         }}
                     />
                 </div>

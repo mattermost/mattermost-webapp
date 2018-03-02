@@ -8,7 +8,7 @@ import {OverlayTrigger} from 'react-bootstrap';
 import Pluggable from 'plugins/pluggable';
 import * as Utils from 'utils/utils.jsx';
 
-import ProfilePopover from './profile_popover.jsx';
+import ProfilePopover from './profile_popover';
 
 export default class UserProfile extends React.Component {
     constructor(props) {
@@ -105,7 +105,7 @@ UserProfile.defaultProps = {
     overwriteImage: '',
     disablePopover: false,
     isRHS: false,
-    hasMention: false
+    hasMention: false,
 };
 UserProfile.propTypes = {
     user: PropTypes.object,
@@ -116,5 +116,5 @@ UserProfile.propTypes = {
     status: PropTypes.string,
     isBusy: PropTypes.bool,
     isRHS: PropTypes.bool,
-    hasMention: PropTypes.bool
+    hasMention: PropTypes.bool,
 };

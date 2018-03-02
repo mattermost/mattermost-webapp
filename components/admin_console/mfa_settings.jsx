@@ -18,7 +18,7 @@ export default class MfaSettings extends AdminSettings {
 
         this.state = Object.assign(this.state, {
             enableMultifactorAuthentication: props.config.ServiceSettings.EnableMultifactorAuthentication,
-            enforceMultifactorAuthentication: props.config.ServiceSettings.EnforceMultifactorAuthentication
+            enforceMultifactorAuthentication: props.config.ServiceSettings.EnforceMultifactorAuthentication,
         });
     }
 
@@ -32,7 +32,7 @@ export default class MfaSettings extends AdminSettings {
     getStateFromConfig(config) {
         return {
             enableMultifactorAuthentication: config.ServiceSettings.EnableMultifactorAuthentication,
-            enforceMultifactorAuthentication: config.ServiceSettings.EnableMultifactorAuthentication && config.ServiceSettings.EnforceMultifactorAuthentication
+            enforceMultifactorAuthentication: config.ServiceSettings.EnableMultifactorAuthentication && config.ServiceSettings.EnforceMultifactorAuthentication,
         };
     }
 

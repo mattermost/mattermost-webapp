@@ -7,9 +7,9 @@ import React from 'react';
 import Constants, {FileTypes} from 'utils/constants.jsx';
 import {getFileType} from 'utils/utils';
 
-import FileAttachment from 'components/file_attachment.jsx';
+import FileAttachment from 'components/file_attachment';
 import SingleImageView from 'components/single_image_view.jsx';
-import ViewImageModal from 'components/view_image.jsx';
+import ViewImageModal from 'components/view_image';
 
 export default class FileAttachmentList extends React.Component {
     static propTypes = {
@@ -39,8 +39,8 @@ export default class FileAttachmentList extends React.Component {
             /*
              * Function to get file metadata for a post
              */
-            getMissingFilesForPost: PropTypes.func.isRequired
-        }).isRequired
+            getMissingFilesForPost: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -133,5 +133,5 @@ export default class FileAttachmentList extends React.Component {
 }
 
 const style = {
-    minHeightPlaceholder: {minHeight: '385px'}
+    minHeightPlaceholder: {minHeight: '385px'},
 };

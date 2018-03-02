@@ -18,11 +18,12 @@ const CATEGORY_SEARCH_RESULTS = 'searchResults';
 const EMOJI_HEIGHT = 27;
 const EMOJI_CONTAINER_HEIGHT = 300;
 const EMOJI_CONTAINER_STYLE = {
-    height: EMOJI_CONTAINER_HEIGHT
+    height: EMOJI_CONTAINER_HEIGHT,
 };
 const EMOJI_LAZY_LOAD_BUFFER = 75;
 const EMOJI_PER_ROW = 9;
 const EMOJI_TO_LOAD_PER_UPDATE = 135;
+const SYSTEM_EMOJIS_COUNT = 1476;
 const EMOJI_LAZY_LOAD_SCROLL_THROTTLE = 100;
 
 const CATEGORIES = {
@@ -31,71 +32,71 @@ const CATEGORIES = {
         className: 'fa fa-clock-o',
         id: 'emoji_picker.recent',
         message: 'Recently Used',
-        offset: 0
+        offset: 0,
     },
     people: {
         name: 'people',
         className: 'fa fa-smile-o',
         id: 'emoji_picker.people',
         message: 'People',
-        offset: 0
+        offset: 0,
     },
     nature: {
         name: 'nature',
         className: 'fa fa-leaf',
         id: 'emoji_picker.nature',
         message: 'Nature',
-        offset: 0
+        offset: 0,
     },
     foods: {
         name: 'foods',
         className: 'fa fa-cutlery',
         id: 'emoji_picker.foods',
         message: 'Foods',
-        offset: 0
+        offset: 0,
     },
     activity: {
         name: 'activity',
         className: 'fa fa-futbol-o',
         id: 'emoji_picker.activity',
         message: 'Activity',
-        offset: 0
+        offset: 0,
     },
     places: {
         name: 'places',
         className: 'fa fa-plane',
         id: 'emoji_picker.places',
         message: 'Places',
-        offset: 0
+        offset: 0,
     },
     objects: {
         name: 'objects',
         className: 'fa fa-lightbulb-o',
         id: 'emoji_picker.objects',
         message: 'Objects',
-        offset: 0
+        offset: 0,
     },
     symbols: {
         name: 'symbols',
         className: 'fa fa-heart-o',
         id: 'emoji_picker.symbols',
         message: 'Symbols',
-        offset: 0
+        offset: 0,
     },
     flags: {
         name: 'flags',
         className: 'fa fa-flag-o',
         id: 'emoji_picker.flags',
         message: 'Flags',
-        offset: 0
+        offset: 0,
     },
     custom: {
         name: 'custom',
         className: 'fa fa-at',
         id: 'emoji_picker.custom',
         message: 'Custom',
-        offset: 0
-    }
+        offset: 0,
+    },
 };
 
 function getEmojiFilename(emoji) {
@@ -118,15 +119,15 @@ export default class EmojiPicker extends React.PureComponent {
         actions: PropTypes.shape({
             getCustomEmojis: PropTypes.func.isRequired,
             searchCustomEmojis: PropTypes.func.isRequired,
-            incrementEmojiPickerPage: PropTypes.func.isRequired
-        }).isRequired
+            incrementEmojiPickerPage: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     static defaultProps = {
         rightOffset: 0,
         topOffset: 0,
         customEmojiPage: 0,
-        customEmojisEnabled: false
+        customEmojisEnabled: false,
     };
 
     constructor(props) {
@@ -150,7 +151,7 @@ export default class EmojiPicker extends React.PureComponent {
             filter: '',
             cursor: [0, 0], // categoryIndex, emojiIndex
             divTopOffset: 0,
-            emojisToShow: EMOJI_TO_LOAD_PER_UPDATE
+            emojisToShow: SYSTEM_EMOJIS_COUNT,
         };
     }
 
@@ -180,7 +181,7 @@ export default class EmojiPicker extends React.PureComponent {
             if (difference <= 0) {
                 const numToLoad = EMOJI_TO_LOAD_PER_UPDATE + Math.ceil((difference / EMOJI_HEIGHT) * EMOJI_PER_ROW * -1);
                 this.setState((state) => ({
-                    emojisToShow: state.emojisToShow + numToLoad
+                    emojisToShow: state.emojisToShow + numToLoad,
                 }));
             }
         }
@@ -249,13 +250,13 @@ export default class EmojiPicker extends React.PureComponent {
 
         this.setState(() => ({
             filter,
-            cursor: [0, 0]
+            cursor: [0, 0],
         }));
     }
 
     handleItemOver(categoryIndex, emojiIndex) {
         this.setState({
-            cursor: [categoryIndex, emojiIndex]
+            cursor: [categoryIndex, emojiIndex],
         });
     }
 
@@ -350,7 +351,7 @@ export default class EmojiPicker extends React.PureComponent {
     getCategoriesByKey(key) {
         return this.state.filter ? {
             id: CATEGORY_SEARCH_RESULTS,
-            name: CATEGORY_SEARCH_RESULTS
+            name: CATEGORY_SEARCH_RESULTS,
         } : this.state.categories[key];
     }
 
@@ -397,7 +398,7 @@ export default class EmojiPicker extends React.PureComponent {
                 allEmojis[fileName] = {
                     ...currentEmoji,
                     visible: false,
-                    offset: null
+                    offset: null,
                 };
                 if (!currentEmoji.filename) {
                     // if custom emoji, set proper attributes
@@ -405,14 +406,14 @@ export default class EmojiPicker extends React.PureComponent {
                         ...allEmojis[fileName],
                         aliases: [currentEmoji.name],
                         category: 'custom',
-                        filename: fileName
+                        filename: fileName,
                     };
                 }
             }
         }
         this.setState({
             categories,
-            allEmojis
+            allEmojis,
         });
     }
 
@@ -559,8 +560,8 @@ export default class EmojiPicker extends React.PureComponent {
                     ...state.categories,
                     [categoryName]: {
                         ...state.categories[categoryName],
-                        offset
-                    }
+                        offset,
+                    },
                 }}));
         }
     }
@@ -573,7 +574,7 @@ export default class EmojiPicker extends React.PureComponent {
                 pickerStyle = {
                     top: this.props.style.top,
                     bottom: this.props.style.bottom,
-                    right: this.props.rightOffset
+                    right: this.props.rightOffset,
                 };
             } else {
                 pickerStyle = {...this.props.style};

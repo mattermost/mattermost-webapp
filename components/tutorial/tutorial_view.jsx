@@ -44,9 +44,9 @@ TutorialView.propTypes = {
     appDownloadLink: PropTypes.string,
     isLicensed: PropTypes.bool.isRequired,
     restrictTeamInvite: PropTypes.string.isRequired,
-    supportEmail: PropTypes.string.isRequired
+    supportEmail: PropTypes.string.isRequired,
 };
 
 TutorialView.defaultProps = {
-    isRoot: true
+    isRoot: true,
 };

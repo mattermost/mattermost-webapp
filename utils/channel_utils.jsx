@@ -59,7 +59,7 @@ export function canManageMembers(channel) {
             {
                 channelId: channel.id,
                 teamId: channel.team_id,
-                permission: Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS
+                permission: Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS,
             }
         );
     }
@@ -70,7 +70,7 @@ export function canManageMembers(channel) {
             {
                 channelId: channel.id,
                 teamId: channel.team_id,
-                permission: Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS
+                permission: Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
             }
         );
     }

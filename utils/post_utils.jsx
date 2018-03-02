@@ -4,6 +4,7 @@
 import React from 'react';
 import {Parser, ProcessNodeDefinitions} from 'html-to-react';
 import {Client4} from 'mattermost-redux/client';
+import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
@@ -52,6 +53,8 @@ export function getImageSrc(src, hasImageProxy) {
 }
 
 export function getProfilePicSrcForPost(post, user) {
+    const config = getConfig(store.getState());
+
     let src = '';
     if (user && user.id === post.user_id) {
         src = Utils.imageURLForUser(user);
@@ -59,7 +62,7 @@ export function getProfilePicSrcForPost(post, user) {
         src = Utils.imageURLForUser(post.user_id);
     }
 
-    if (post.props && post.props.from_webhook && !post.props.use_user_icon && global.window.mm_config.EnablePostIconOverride === 'true') {
+    if (post.props && post.props.from_webhook && !post.props.use_user_icon && config.EnablePostIconOverride === 'true') {
         if (post.props.override_icon_url) {
             src = post.props.override_icon_url;
         } else {
@@ -89,15 +92,18 @@ export function canEditPost(post, editDisableAction) {
     }
 
     let canEdit = false;
+    const license = getLicense(store.getState());
+    const config = getConfig(store.getState());
+
     const isOwner = isPostOwner(post);
     canEdit = haveIChannelPermission(store.getState(), {channel: post.channel_id, team: post.team_id, permission: Permissions.EDIT_POST});
     if (!isOwner) {
         canEdit = canEdit && haveIChannelPermission(store.getState(), {channel: post.channel_id, team: post.team_id, permission: Permissions.EDIT_OTHERS_POSTS});
     }
 
-    if (canEdit && global.window.mm_license.IsLicensed === 'true') {
-        if (global.window.mm_config.PostEditTimeLimit !== -1) {
-            const timeLeft = (post.create_at + (global.window.mm_config.PostEditTimeLimit * 1000)) - Utils.getTimestamp();
+    if (canEdit && license.IsLicensed === 'true') {
+        if (config.PostEditTimeLimit !== -1) {
+            const timeLeft = (post.create_at + (config.PostEditTimeLimit * 1000)) - Utils.getTimestamp();
             if (timeLeft > 0) {
                 editDisableAction.fireAfter(timeLeft + 1000);
             } else {
@@ -176,7 +182,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                     />
                 );
                 return callAtMention;
-            }
+            },
         });
     }
 
@@ -193,7 +199,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                     />
                 );
                 return callPostEmoji;
-            }
+            },
         });
     }
 
@@ -212,7 +218,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                     />
                 );
                 return callMarkdownImage;
-            }
+            },
         });
     }
 
@@ -223,13 +229,13 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                 return (
                     <LatexBlock content={node.attribs['data-latex']}/>
                 );
-            }
+            },
         });
     }
 
     processingInstructions.push({
         shouldProcessNode: () => true,
-        processNode: processNodeDefinitions.processDefaultNode
+        processNode: processNodeDefinitions.processDefaultNode,
     });
 
     return parser.parseWithInstructions(html, isValidNode, processingInstructions);

@@ -76,7 +76,7 @@ export default function WebserverModeDropdownSetting(props) {
             values={[
                 {value: 'gzip', text: Utils.localizeMessage('admin.webserverModeGzip', 'gzip')},
                 {value: 'uncompressed', text: Utils.localizeMessage('admin.webserverModeUncompressed', 'Uncompressed')},
-                {value: 'disabled', text: Utils.localizeMessage('admin.webserverModeDisabled', 'Disabled')}
+                {value: 'disabled', text: Utils.localizeMessage('admin.webserverModeDisabled', 'Disabled')},
             ]}
             label={
                 <FormattedMessage
@@ -97,5 +97,5 @@ WebserverModeDropdownSetting.defaultProps = {
 WebserverModeDropdownSetting.propTypes = {
     value: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
-    disabled: PropTypes.bool.isRequired
+    disabled: PropTypes.bool.isRequired,
 };

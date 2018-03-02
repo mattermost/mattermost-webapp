@@ -8,22 +8,46 @@ import ReactDOM from 'react-dom';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import {checkIfTeamExists, createTeam} from 'actions/team_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as URL from 'utils/url.jsx';
 import logoImage from 'images/logo.png';
 
-export default class TeamUrl extends React.Component {
+export default class TeamUrl extends React.PureComponent {
+    static propTypes = {
+
+        /*
+         * Object containing team's display_name and name
+         */
+        state: PropTypes.object,
+
+        /*
+         * Function that updates parent component with state props
+         */
+        updateParent: PropTypes.func,
+
+        /*
+         * Object with redux action creators
+         */
+        actions: PropTypes.shape({
+
+            /*
+             * Action creator to check if a team already exists
+             */
+            checkIfTeamExists: PropTypes.func.isRequired,
+
+            /*
+             * Action creator to create a new team
+             */
+            createTeam: PropTypes.func.isRequired,
+        }).isRequired,
+    }
+
     constructor(props) {
         super(props);
 
-        this.submitBack = this.submitBack.bind(this);
-        this.submitNext = this.submitNext.bind(this);
-        this.handleFocus = this.handleFocus.bind(this);
-
         this.state = {
             nameError: '',
-            isLoading: false
+            isLoading: false,
         };
     }
 
@@ -31,25 +55,27 @@ export default class TeamUrl extends React.Component {
         trackEvent('signup', 'signup_team_02_url');
     }
 
-    submitBack(e) {
+    submitBack = (e) => {
         e.preventDefault();
-        this.props.state.wizard = 'display_name';
-        this.props.updateParent(this.props.state);
+        const newState = this.props.state;
+        newState.wizard = 'display_name';
+        this.props.updateParent(newState);
     }
 
-    submitNext(e) {
+    submitNext = async (e) => {
         e.preventDefault();
 
         const name = ReactDOM.findDOMNode(this.refs.name).value.trim();
         const cleanedName = URL.cleanUpUrlable(name);
         const urlRegex = /^[a-z]+([a-z\-0-9]+|(__)?)[a-z0-9]+$/g;
+        const {actions: {checkIfTeamExists, createTeam}} = this.props;
 
         if (!name) {
             this.setState({nameError: (
                 <FormattedMessage
                     id='create_team.team_url.required'
                     defaultMessage='This field is required'
-                />)
+                />),
             });
             return;
         }
@@ -61,9 +87,9 @@ export default class TeamUrl extends React.Component {
                     defaultMessage='Name must be {min} or more characters up to a maximum of {max}'
                     values={{
                         min: Constants.MIN_TEAMNAME_LENGTH,
-                        max: Constants.MAX_TEAMNAME_LENGTH
+                        max: Constants.MAX_TEAMNAME_LENGTH,
                     }}
-                />)
+                />),
             });
             return;
         }
@@ -73,7 +99,7 @@ export default class TeamUrl extends React.Component {
                 <FormattedMessage
                     id='create_team.team_url.regex'
                     defaultMessage="Use only lower case letters, numbers and dashes. Must start with a letter and can't end in a dash."
-                />)
+                />),
             });
             return;
         }
@@ -84,7 +110,7 @@ export default class TeamUrl extends React.Component {
                     <FormattedHTMLMessage
                         id='create_team.team_url.taken'
                         defaultMessage='This URL <a href="https://docs.mattermost.com/help/getting-started/creating-teams.html#team-url" target="_blank">starts with a reserved word</a> or is unavailable. Please try another.'
-                    />)
+                    />),
                 });
                 return;
             }
@@ -95,37 +121,31 @@ export default class TeamUrl extends React.Component {
         teamSignup.team.type = 'O';
         teamSignup.team.name = name;
 
-        checkIfTeamExists(name,
-            (foundTeam) => {
-                if (foundTeam) {
-                    this.setState({nameError: (
-                        <FormattedMessage
-                            id='create_team.team_url.unavailable'
-                            defaultMessage='This URL is taken or unavailable. Please try another.'
-                        />)
-                    });
-                    this.setState({isLoading: false});
-                    return;
-                }
+        const {exists} = await checkIfTeamExists(name);
 
-                createTeam(teamSignup.team,
-                    (rteam) => {
-                        this.props.history.push('/' + rteam.name + '/channels/town-square');
-                        trackEvent('signup', 'signup_team_03_complete');
-                    },
-                    (err) => {
-                        this.setState({nameError: err.message});
-                        this.setState({isLoading: false});
-                    }
-                );
-            },
-            (err) => {
-                this.setState({nameError: err.message});
-            }
-        );
+        if (exists) {
+            this.setState({nameError: (
+                <FormattedMessage
+                    id='create_team.team_url.unavailable'
+                    defaultMessage='This URL is taken or unavailable. Please try another.'
+                />),
+            });
+            this.setState({isLoading: false});
+            return;
+        }
+
+        const {data, error} = await createTeam(teamSignup.team);
+
+        if (data) {
+            this.props.history.push('/' + data.name + '/channels/town-square');
+            trackEvent('signup', 'signup_team_03_complete');
+        } else if (error) {
+            this.setState({nameError: error.message});
+            this.setState({isLoading: false});
+        }
     }
 
-    handleFocus(e) {
+    handleFocus = (e) => {
         e.preventDefault();
         e.currentTarget.select();
     }
@@ -242,8 +262,3 @@ export default class TeamUrl extends React.Component {
         );
     }
 }
-
-TeamUrl.propTypes = {
-    state: PropTypes.object,
-    updateParent: PropTypes.func
-};

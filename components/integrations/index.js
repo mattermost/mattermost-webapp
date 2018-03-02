@@ -21,7 +21,7 @@ function mapStateToProps(state) {
         enableOutgoingWebhooks,
         enableCommands,
         enableOAuthServiceProvider,
-        enableOnlyAdminIntegrations
+        enableOnlyAdminIntegrations,
     };
 }
 

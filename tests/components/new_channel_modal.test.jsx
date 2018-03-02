@@ -24,7 +24,7 @@ describe('components/NewChannelModal', () => {
         onModalDismissed: jest.fn(),
         onTypeSwitched: jest.fn(),
         onChangeURLPressed: jest.fn(),
-        onDataChanged: jest.fn()
+        onDataChanged: jest.fn(),
     };
 
     test('should match snapshot, modal not showing', () => {
@@ -77,31 +77,31 @@ describe('components/NewChannelModal', () => {
         const state = {
             entities: {
                 channels: {
-                    myMembers: []
+                    myMembers: [],
                 },
                 teams: {
-                    myMembers: []
+                    myMembers: [],
                 },
                 users: {
                     currentUserId: 'user_id',
                     profiles: {
                         user_id: {
                             id: 'user_id',
-                            roles: 'system_admin'
-                        }
-                    }
+                            roles: 'system_admin',
+                        },
+                    },
                 },
                 roles: {
                     roles: {
                         system_admin: {
                             permissions: [
                                 Permissions.CREATE_PUBLIC_CHANNEL,
-                                Permissions.CREATE_PRIVATE_CHANNEL
-                            ]
-                        }
-                    }
-                }
-            }
+                                Permissions.CREATE_PRIVATE_CHANNEL,
+                            ],
+                        },
+                    },
+                },
+            },
         };
         const store = mockStore(state);
 
@@ -134,25 +134,25 @@ describe('components/NewChannelModal', () => {
         const state = {
             entities: {
                 channels: {
-                    myMembers: []
+                    myMembers: [],
                 },
                 teams: {
-                    myMembers: []
+                    myMembers: [],
                 },
                 users: {
                     currentUserId: 'user_id',
                     profiles: {
                         user_id: {
                             id: 'user_id',
-                            roles: ''
-                        }
-                    }
+                            roles: '',
+                        },
+                    },
                 },
                 roles: {
                     roles: {
-                    }
-                }
-            }
+                    },
+                },
+            },
         };
         const store = mockStore(state);
 

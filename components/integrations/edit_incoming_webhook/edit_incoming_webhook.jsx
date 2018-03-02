@@ -59,8 +59,8 @@ export default class EditIncomingWebhook extends React.PureComponent {
             /**
             * The function to call to get an incoming webhook
             */
-            getIncomingHook: PropTypes.func.isRequired
-        }).isRequired
+            getIncomingHook: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -68,7 +68,7 @@ export default class EditIncomingWebhook extends React.PureComponent {
 
         this.state = {
             showConfirmModal: false,
-            serverError: ''
+            serverError: '',
         };
     }
 

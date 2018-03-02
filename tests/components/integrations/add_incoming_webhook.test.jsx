@@ -11,15 +11,15 @@ describe('components/integrations/AddIncomingWebhook', () => {
     const props = {
         team: {
             id: 'testteamid',
-            name: 'test'
+            name: 'test',
         },
         createIncomingHookRequest: {
             status: 'not_started',
-            error: null
+            error: null,
         },
         enablePostUsernameOverride: true,
         enablePostIconOverride: true,
-        actions: {createIncomingHook}
+        actions: {createIncomingHook},
     };
 
     test('should match snapshot', () => {
@@ -33,7 +33,7 @@ describe('components/integrations/AddIncomingWebhook', () => {
             display_name: 'display_name',
             description: 'description',
             username: 'username',
-            icon_url: 'icon_url'
+            icon_url: 'icon_url',
         };
         const wrapper = shallow(<AddIncomingWebhook {...props}/>);
         wrapper.instance().addIncomingHook(hook);

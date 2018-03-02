@@ -47,7 +47,7 @@ export default class LoginController extends React.Component {
             experimentalPrimaryTeam: PropTypes.string,
             ldapLoginFieldName: PropTypes.string,
             samlLoginButtonText: PropTypes.string,
-            siteName: PropTypes.string
+            siteName: PropTypes.string,
         };
     }
 
@@ -74,7 +74,7 @@ export default class LoginController extends React.Component {
             loginId,
             password: '',
             showMfa: false,
-            loading: false
+            loading: false,
         };
     }
 
@@ -132,10 +132,10 @@ export default class LoginController extends React.Component {
                     <FormattedMessage
                         id={msgId}
                         values={{
-                            ldapUsername: this.props.ldapLoginFieldName || Utils.localizeMessage('login.ldapUsernameLower', 'AD/LDAP username')
+                            ldapUsername: this.props.ldapLoginFieldName || Utils.localizeMessage('login.ldapUsernameLower', 'AD/LDAP username'),
                         }}
                     />
-                )
+                ),
             });
             return;
         }
@@ -147,7 +147,7 @@ export default class LoginController extends React.Component {
                         id='login.noPassword'
                         defaultMessage='Please enter your password'
                     />
-                )
+                ),
             });
             return;
         }
@@ -213,7 +213,7 @@ export default class LoginController extends React.Component {
                                 id='login.userNotFound'
                                 defaultMessage="We couldn't find an account matching your login credentials."
                             />
-                        )
+                        ),
                     });
                 } else if (err.id === 'api.user.check_user_password.invalid.app_error' || err.id === 'ent.ldap.do_login.invalid_password.app_error') {
                     this.setState({
@@ -224,7 +224,7 @@ export default class LoginController extends React.Component {
                                 id='login.invalidPassword'
                                 defaultMessage='Your password is incorrect.'
                             />
-                        )
+                        ),
                     });
                 } else {
                     this.setState({showMfa: false, serverError: err.message, loading: false});
@@ -253,13 +253,13 @@ export default class LoginController extends React.Component {
 
     handleLoginIdChange(e) {
         this.setState({
-            loginId: e.target.value
+            loginId: e.target.value,
         });
     }
 
     handlePasswordChange(e) {
         this.setState({
-            password: e.target.value
+            password: e.target.value,
         });
     }
 
@@ -429,6 +429,7 @@ export default class LoginController extends React.Component {
                                 placeholder={this.createLoginPlaceholder()}
                                 spellCheck='false'
                                 autoCapitalize='off'
+                                autoFocus='true'
                             />
                         </div>
                         <div className={'form-group' + errorClass}>

@@ -12,15 +12,15 @@ function mapStateToProps(state, ownProps) {
 
     return {
         ...ownProps,
-        userAccessTokens: state.entities.admin.userAccessTokens[userId]
+        userAccessTokens: state.entities.admin.userAccessTokens[userId],
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getUserAccessTokensForUser
-        }, dispatch)
+            getUserAccessTokensForUser,
+        }, dispatch),
     };
 }
 

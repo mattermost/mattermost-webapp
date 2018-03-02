@@ -56,7 +56,6 @@ export default class BackstageController extends React.Component {
         enableOutgoingWebhooks: PropTypes.bool.isRequired,
         enableCommands: PropTypes.bool.isRequired,
         enableOAuthServiceProvider: PropTypes.bool.isRequired,
-        enableOnlyAdminIntegrations: PropTypes.bool.isRequired
     }
 
     scrollToTop = () => {
@@ -76,7 +75,7 @@ export default class BackstageController extends React.Component {
         const extraProps = {
             team: this.props.team,
             user: this.props.user,
-            scrollToTop: this.scrollToTop
+            scrollToTop: this.scrollToTop,
         };
         return (
             <div className='backstage'>
@@ -98,7 +97,6 @@ export default class BackstageController extends React.Component {
                         enableOutgoingWebhooks={this.props.enableOutgoingWebhooks}
                         enableCommands={this.props.enableCommands}
                         enableOAuthServiceProvider={this.props.enableOAuthServiceProvider}
-                        enableOnlyAdminIntegrations={this.props.enableOnlyAdminIntegrations}
                     />
                     <Switch>
                         <BackstageRoute

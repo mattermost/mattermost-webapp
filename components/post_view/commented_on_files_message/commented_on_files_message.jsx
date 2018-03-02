@@ -23,8 +23,8 @@ export default class CommentedOnFilesMessage extends React.PureComponent {
             /*
              * Function to get file metadata for a post
              */
-            getFilesForPost: PropTypes.func.isRequired
-        }).isRequired
+            getFilesForPost: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     componentDidMount() {
@@ -45,7 +45,7 @@ export default class CommentedOnFilesMessage extends React.PureComponent {
                     id='post_body.plusMore'
                     defaultMessage=' plus {count, number} other {count, plural, one {file} other {files}}'
                     values={{
-                        count: this.props.fileInfos.length - 1
+                        count: this.props.fileInfos.length - 1,
                     }}
                 />
             );

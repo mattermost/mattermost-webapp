@@ -77,8 +77,8 @@ export default class Reaction extends React.PureComponent {
             /*
              * Function to remove a reaction from a post
              */
-            removeReaction: PropTypes.func.isRequired
-        })
+            removeReaction: PropTypes.func.isRequired,
+        }),
     }
 
     constructor(props) {
@@ -136,7 +136,7 @@ export default class Reaction extends React.PureComponent {
                         defaultMessage='{users} and {otherUsers, number} other {otherUsers, plural, one {user} other {users}}'
                         values={{
                             users: users.join(', '),
-                            otherUsers: otherUsersCount
+                            otherUsers: otherUsersCount,
                         }}
                     />
                 );
@@ -146,7 +146,7 @@ export default class Reaction extends React.PureComponent {
                         id='reaction.othersReacted'
                         defaultMessage='{otherUsers, number} {otherUsers, plural, one {user} other {users}}'
                         values={{
-                            otherUsers: otherUsersCount
+                            otherUsers: otherUsersCount,
                         }}
                     />
                 );
@@ -158,7 +158,7 @@ export default class Reaction extends React.PureComponent {
                     defaultMessage='{users} and {lastUser}'
                     values={{
                         users: users.slice(0, -1).join(', '),
-                        lastUser: users[users.length - 1]
+                        lastUser: users[users.length - 1],
                     }}
                 />
             );
@@ -206,7 +206,7 @@ export default class Reaction extends React.PureComponent {
                 values={{
                     users: <b>{names}</b>,
                     reactionVerb,
-                    emoji: <b>{':' + this.props.emojiName + ':'}</b>
+                    emoji: <b>{':' + this.props.emojiName + ':'}</b>,
                 }}
             />
         );

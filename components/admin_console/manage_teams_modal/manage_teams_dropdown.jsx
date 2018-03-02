@@ -15,7 +15,7 @@ export default class ManageTeamsDropdown extends React.Component {
         teamMember: PropTypes.object.isRequired,
         onError: PropTypes.func.isRequired,
         onMemberChange: PropTypes.func.isRequired,
-        onMemberRemove: PropTypes.func.isRequired
+        onMemberRemove: PropTypes.func.isRequired,
     };
 
     constructor(props) {
@@ -31,7 +31,7 @@ export default class ManageTeamsDropdown extends React.Component {
         this.handleMemberRemove = this.handleMemberRemove.bind(this);
 
         this.state = {
-            show: false
+            show: false,
         };
     }
 

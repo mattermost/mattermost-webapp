@@ -23,15 +23,15 @@ export default class Audits extends React.PureComponent {
             /*
              * Function to fetch audits
              */
-            getAudits: PropTypes.func.isRequired
-        }).isRequired
+            getAudits: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
         super(props);
 
         this.state = {
-            loadingAudits: true
+            loadingAudits: true,
         };
     }
 
@@ -102,5 +102,5 @@ export default class Audits extends React.PureComponent {
 }
 
 const style = {
-    auditTable: {margin: 10}
+    auditTable: {margin: 10},
 };

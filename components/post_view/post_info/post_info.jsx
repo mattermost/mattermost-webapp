@@ -108,8 +108,8 @@ export default class PostInfo extends React.PureComponent {
             /*
              * Function to add a reaction to the post
              */
-            addReaction: PropTypes.func.isRequired
-        }).isRequired
+            addReaction: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     constructor(props) {
@@ -117,7 +117,7 @@ export default class PostInfo extends React.PureComponent {
 
         this.state = {
             showEmojiPicker: false,
-            reactionPickerOffset: 21
+            reactionPickerOffset: 21,
         };
     }
 

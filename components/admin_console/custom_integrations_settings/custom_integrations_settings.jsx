@@ -21,8 +21,8 @@ export default class WebhookSettings extends AdminSettings {
         rolesRequest: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             loadRolesIfNeeded: PropTypes.func.isRequired,
-            editRole: PropTypes.func.isRequired
-        }).isRequired
+            editRole: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     constructor(props) {
@@ -30,7 +30,7 @@ export default class WebhookSettings extends AdminSettings {
         this.state = {
             ...this.state, // Brings the state in from the parent class.
             enableOnlyAdminIntegrations: null,
-            loaded: false
+            loaded: false,
         };
     }
 
@@ -56,7 +56,7 @@ export default class WebhookSettings extends AdminSettings {
                 success = false;
                 this.setState({
                     saving: false,
-                    serverError: err.message
+                    serverError: err.message,
                 });
             }
         }));
@@ -98,7 +98,7 @@ export default class WebhookSettings extends AdminSettings {
             enablePostUsernameOverride: config.ServiceSettings.EnablePostUsernameOverride,
             enablePostIconOverride: config.ServiceSettings.EnablePostIconOverride,
             enableOAuthServiceProvider: config.ServiceSettings.EnableOAuthServiceProvider,
-            enableUserAccessTokens: config.ServiceSettings.EnableUserAccessTokens
+            enableUserAccessTokens: config.ServiceSettings.EnableUserAccessTokens,
         };
     }
 

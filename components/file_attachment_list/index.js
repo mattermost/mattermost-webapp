@@ -24,7 +24,7 @@ function makeMapStateToProps() {
         return {
             ...ownProps,
             fileInfos,
-            fileCount
+            fileCount,
         };
     };
 }
@@ -32,8 +32,8 @@ function makeMapStateToProps() {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getMissingFilesForPost
-        }, dispatch)
+            getMissingFilesForPost,
+        }, dispatch),
     };
 }
 

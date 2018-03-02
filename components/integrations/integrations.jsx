@@ -28,7 +28,7 @@ export default class Integrations extends React.Component {
             enableOutgoingWebhooks: PropTypes.bool,
             enableCommands: PropTypes.bool,
             enableOAuthServiceProvider: PropTypes.bool,
-            enableOnlyAdminIntegrations: PropTypes.bool
+            enableOnlyAdminIntegrations: PropTypes.bool,
         };
     }
 
@@ -181,7 +181,7 @@ export default class Integrations extends React.Component {
                                         defaultMessage='App Directory'
                                     />
                                 </a>
-                            )
+                            ),
                         }}
                     />
                 </div>

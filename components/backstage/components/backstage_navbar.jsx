@@ -12,7 +12,7 @@ export default class BackstageNavbar extends React.Component {
     static get propTypes() {
         return {
             team: PropTypes.object.isRequired,
-            siteName: PropTypes.string
+            siteName: PropTypes.string,
         };
     }
 
@@ -33,7 +33,7 @@ export default class BackstageNavbar extends React.Component {
                             id='backstage_navbar.backToMattermost'
                             defaultMessage='Back to {siteName}'
                             values={{
-                                siteName: this.props.siteName
+                                siteName: this.props.siteName,
                             }}
                         />
                     </span>

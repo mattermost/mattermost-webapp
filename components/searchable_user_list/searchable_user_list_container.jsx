@@ -17,7 +17,7 @@ export default class SearchableUserListContainer extends React.Component {
         actions: PropTypes.arrayOf(PropTypes.func),
         actionProps: PropTypes.object,
         actionUserProps: PropTypes.object,
-        focusOnMount: PropTypes.bool
+        focusOnMount: PropTypes.bool,
     };
 
     constructor(props) {
@@ -31,7 +31,7 @@ export default class SearchableUserListContainer extends React.Component {
 
         this.state = {
             term: '',
-            page: 0
+            page: 0,
         };
     }
 

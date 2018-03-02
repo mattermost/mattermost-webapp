@@ -45,11 +45,12 @@ export default class SidebarHeaderDropdown extends React.Component {
         enableUserCreation: PropTypes.bool.isRequired,
         experimentalPrimaryTeam: PropTypes.string,
         helpLink: PropTypes.string,
-        reportAProblemLink: PropTypes.string
+        reportAProblemLink: PropTypes.string,
+        restrictTeamInvite: PropTypes.string,
     };
 
     static defaultProps = {
-        teamType: ''
+        teamType: '',
     };
 
     constructor(props) {
@@ -81,7 +82,7 @@ export default class SidebarHeaderDropdown extends React.Component {
             showDropdown: false,
             showTeamSettingsModal: false,
             showTeamMembersModal: false,
-            showAddUsersToTeamModal: false
+            showAddUsersToTeamModal: false,
         };
     }
 
@@ -110,7 +111,7 @@ export default class SidebarHeaderDropdown extends React.Component {
 
         this.setState({
             showAboutModal: true,
-            showDropdown: false
+            showDropdown: false,
         });
     }
 
@@ -138,13 +139,13 @@ export default class SidebarHeaderDropdown extends React.Component {
 
         this.setState({
             showAddUsersToTeamModal: true,
-            showDropdown: false
+            showDropdown: false,
         });
     }
 
     hideAddUsersToTeamModal() {
         this.setState({
-            showAddUsersToTeamModal: false
+            showAddUsersToTeamModal: false,
         });
     }
 
@@ -169,13 +170,13 @@ export default class SidebarHeaderDropdown extends React.Component {
 
         this.setState({
             showDropdown: false,
-            showTeamSettingsModal: true
+            showTeamSettingsModal: true,
         });
     }
 
     hideTeamSettingsModal = () => {
         this.setState({
-            showTeamSettingsModal: false
+            showTeamSettingsModal: false,
         });
     }
 
@@ -183,13 +184,13 @@ export default class SidebarHeaderDropdown extends React.Component {
         e.preventDefault();
 
         this.setState({
-            showTeamMembersModal: true
+            showTeamMembersModal: true,
         });
     }
 
     hideTeamMembersModal() {
         this.setState({
-            showTeamMembersModal: false
+            showTeamMembersModal: false,
         });
     }
 
@@ -201,7 +202,7 @@ export default class SidebarHeaderDropdown extends React.Component {
         this.setState({
             teamMembers: TeamStore.getMyTeamMembers(),
             teamListings: TeamStore.getTeamListings(),
-            showDropdown: false
+            showDropdown: false,
         });
     }
 

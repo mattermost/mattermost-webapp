@@ -38,7 +38,7 @@ export default class CustomBrandSettings extends AdminSettings {
             siteName: config.TeamSettings.SiteName,
             enableCustomBrand: config.TeamSettings.EnableCustomBrand,
             customBrandText: config.TeamSettings.CustomBrandText,
-            customDescriptionText: config.TeamSettings.CustomDescriptionText
+            customDescriptionText: config.TeamSettings.CustomDescriptionText,
         };
     }
 

@@ -8,6 +8,7 @@ import {ChannelTypes} from 'mattermost-redux/action_types';
 import {markChannelAsRead, markChannelAsUnread, markChannelAsViewed} from 'mattermost-redux/actions/channels';
 import * as Selectors from 'mattermost-redux/selectors/entities/channels';
 import {isFromWebhook, isSystemMessage, shouldIgnorePost} from 'mattermost-redux/utils/post_utils';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import UserStore from 'stores/user_store.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
@@ -165,12 +166,12 @@ class ChannelStoreClass extends EventEmitter {
     setCurrentId(id) {
         store.dispatch(batchActions([{
             type: ChannelTypes.SELECT_CHANNEL,
-            data: id
+            data: id,
         }, {
             type: ActionTypes.SELECT_CHANNEL_WITH_MEMBER,
             data: id,
             channel: this.getChannelById(id),
-            member: this.getMyMember(id)
+            member: this.getMyMember(id),
         }]));
     }
 
@@ -266,7 +267,7 @@ class ChannelStoreClass extends EventEmitter {
         store.dispatch({
             type: ChannelTypes.RECEIVED_CHANNELS,
             data: channels,
-            teamId: channels[0].team_id
+            teamId: channels[0].team_id,
         });
     }
 
@@ -281,21 +282,21 @@ class ChannelStoreClass extends EventEmitter {
     storeMyChannelMember(channelMember) {
         store.dispatch({
             type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER,
-            data: channelMember
+            data: channelMember,
         });
     }
 
     storeMyChannelMembers(channelMembers) {
         store.dispatch({
             type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBERS,
-            data: Object.values(channelMembers)
+            data: Object.values(channelMembers),
         });
     }
 
     storeMyChannelMembersList(channelMembers) {
         store.dispatch({
             type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBERS,
-            data: channelMembers
+            data: channelMembers,
         });
     }
 
@@ -306,7 +307,7 @@ class ChannelStoreClass extends EventEmitter {
     saveMembersInChannel(channelId, members) {
         store.dispatch({
             type: ChannelTypes.RECEIVED_CHANNEL_MEMBERS,
-            data: Object.values(members)
+            data: Object.values(members),
         });
     }
 
@@ -327,7 +328,7 @@ class ChannelStoreClass extends EventEmitter {
         store.dispatch({
             type: ChannelTypes.RECEIVED_CHANNELS,
             data: channels,
-            teamId
+            teamId,
         });
     }
 
@@ -433,7 +434,9 @@ class ChannelStoreClass extends EventEmitter {
             return false;
         }
 
-        return Utils.isChannelAdmin(member.roles);
+        const isLicensed = getLicense(store.getState()).IsLicensed === 'true';
+
+        return Utils.isChannelAdmin(isLicensed, member.roles);
     }
 
     isChannelAdmin(userId, channelId) {
@@ -445,7 +448,8 @@ class ChannelStoreClass extends EventEmitter {
         const channelMember = channelMembers[userId];
 
         if (channelMember) {
-            return Utils.isChannelAdmin(channelMember.roles);
+            const isLicensed = getLicense(store.getState()).IsLicensed === 'true';
+            return Utils.isChannelAdmin(isLicensed, channelMember.roles);
         }
 
         return false;
@@ -469,14 +473,14 @@ class ChannelStoreClass extends EventEmitter {
         if (markRead) {
             actions.push({
                 type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER,
-                data: {...member, msg_count: channel.total_msg_count}
+                data: {...member, msg_count: channel.total_msg_count},
             });
         }
 
         actions.push(
             {
                 type: ChannelTypes.RECEIVED_CHANNEL,
-                data: channel
+                data: channel,
             }
         );
         store.dispatch(batchActions(actions));
@@ -498,7 +502,7 @@ class ChannelStoreClass extends EventEmitter {
             member.mention_count++;
             store.dispatch({
                 type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER,
-                data: member
+                data: member,
             });
         }
     }
@@ -549,7 +553,7 @@ ChannelStore.dispatchToken = AppDispatcher.register((payload) => {
     case ActionTypes.RECEIVED_CHANNEL_STATS:
         store.dispatch({
             type: ChannelTypes.RECEIVED_CHANNEL_STATS,
-            data: action.stats
+            data: action.stats,
         });
         break;
 
@@ -561,14 +565,17 @@ ChannelStore.dispatchToken = AppDispatcher.register((payload) => {
         }
 
         let markAsRead = false;
+        let markAsReadOnServer = false;
         if (post.user_id === UserStore.getCurrentId() && !isSystemMessage(post) && !isFromWebhook(post)) {
             markAsRead = true;
+            markAsReadOnServer = false;
         } else if (action.post.channel_id === ChannelStore.getCurrentId() && window.isActive) {
             markAsRead = true;
+            markAsReadOnServer = true;
         }
 
         if (markAsRead) {
-            dispatch(markChannelAsRead(post.channel_id, null, false));
+            dispatch(markChannelAsRead(post.channel_id, null, markAsReadOnServer));
             dispatch(markChannelAsViewed(post.channel_id));
         } else {
             dispatch(markChannelAsUnread(data.team_id, post.channel_id, data.mentions));

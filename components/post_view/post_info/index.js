@@ -24,7 +24,7 @@ function mapStateToProps(state, ownProps) {
         useMilitaryTime: getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, false),
         isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, ownProps.post.id, null) != null,
         isMobile: state.views.channel.mobileView,
-        enableEmojiPicker
+        enableEmojiPicker,
     };
 }
 
@@ -32,8 +32,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             removePost,
-            addReaction
-        }, dispatch)
+            addReaction,
+        }, dispatch),
     };
 }
 

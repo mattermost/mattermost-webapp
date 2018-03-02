@@ -49,7 +49,7 @@ export default class AbstractOutgoingWebhook extends React.Component {
         /**
          * The async function to run when the action button is pressed
          */
-        action: PropTypes.func.isRequired
+        action: PropTypes.func.isRequired,
     }
 
     constructor(props) {
@@ -84,7 +84,7 @@ export default class AbstractOutgoingWebhook extends React.Component {
             triggerWhen: hook.trigger_when || 0,
             callbackUrls,
             saving: false,
-            clientError: null
+            clientError: null,
         };
     }
 
@@ -97,7 +97,7 @@ export default class AbstractOutgoingWebhook extends React.Component {
 
         this.setState({
             saving: true,
-            clientError: ''
+            clientError: '',
         });
 
         const triggerWords = [];
@@ -119,7 +119,7 @@ export default class AbstractOutgoingWebhook extends React.Component {
                         id='add_outgoing_webhook.triggerWordsOrChannelRequired'
                         defaultMessage='A valid channel or a list of trigger words is required'
                     />
-                )
+                ),
             });
 
             return;
@@ -142,7 +142,7 @@ export default class AbstractOutgoingWebhook extends React.Component {
                         id='add_outgoing_webhook.callbackUrlsRequired'
                         defaultMessage='One or more callback URLs are required'
                     />
-                )
+                ),
             });
 
             return;
@@ -156,7 +156,7 @@ export default class AbstractOutgoingWebhook extends React.Component {
             callback_urls: callbackUrls,
             display_name: this.state.displayName,
             content_type: this.state.contentType,
-            description: this.state.description
+            description: this.state.description,
         };
 
         this.props.action(hook).then(() => this.setState({saving: false}));
@@ -164,43 +164,43 @@ export default class AbstractOutgoingWebhook extends React.Component {
 
     updateDisplayName = (e) => {
         this.setState({
-            displayName: e.target.value
+            displayName: e.target.value,
         });
     }
 
     updateDescription = (e) => {
         this.setState({
-            description: e.target.value
+            description: e.target.value,
         });
     }
 
     updateContentType = (e) => {
         this.setState({
-            contentType: e.target.value
+            contentType: e.target.value,
         });
     }
 
     updateChannelId = (e) => {
         this.setState({
-            channelId: e.target.value
+            channelId: e.target.value,
         });
     }
 
     updateTriggerWords = (e) => {
         this.setState({
-            triggerWords: e.target.value
+            triggerWords: e.target.value,
         });
     }
 
     updateTriggerWhen = (e) => {
         this.setState({
-            triggerWhen: e.target.value
+            triggerWhen: e.target.value,
         });
     }
 
     updateCallbackUrls = (e) => {
         this.setState({
-            callbackUrls: e.target.value
+            callbackUrls: e.target.value,
         });
     }
 

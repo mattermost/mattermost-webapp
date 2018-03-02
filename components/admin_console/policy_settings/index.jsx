@@ -13,7 +13,7 @@ import PolicySettings from './policy_settings.jsx';
 function mapStateToProps(state) {
     return {
         roles: getRoles(state),
-        rolesRequest: state.requests.roles.getRolesByNames
+        rolesRequest: state.requests.roles.getRolesByNames,
     };
 }
 
@@ -21,8 +21,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             loadRolesIfNeeded,
-            editRole
-        }, dispatch)
+            editRole,
+        }, dispatch),
     };
 }
 

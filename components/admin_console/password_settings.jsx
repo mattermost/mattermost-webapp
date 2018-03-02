@@ -31,7 +31,7 @@ export default class PasswordSettings extends AdminSettings {
             passwordNumber: props.config.PasswordSettings.Number,
             passwordUppercase: props.config.PasswordSettings.Uppercase,
             passwordSymbol: props.config.PasswordSettings.Symbol,
-            maximumLoginAttempts: props.config.ServiceSettings.MaximumLoginAttempts
+            maximumLoginAttempts: props.config.ServiceSettings.MaximumLoginAttempts,
         });
 
         // Update sample message from config settings
@@ -56,7 +56,7 @@ export default class PasswordSettings extends AdminSettings {
                     default='Your password must contain between {min} and {max} characters.'
                     values={{
                         min: (this.state.passwordMinimumLength || Constants.MIN_PASSWORD_LENGTH),
-                        max: Constants.MAX_PASSWORD_LENGTH
+                        max: Constants.MAX_PASSWORD_LENGTH,
                     }}
                 />
             );
@@ -84,7 +84,7 @@ export default class PasswordSettings extends AdminSettings {
             passwordNumber: config.PasswordSettings.Number,
             passwordUppercase: config.PasswordSettings.Uppercase,
             passwordSymbol: config.PasswordSettings.Symbol,
-            maximumLoginAttempts: config.ServiceSettings.MaximumLoginAttempts
+            maximumLoginAttempts: config.ServiceSettings.MaximumLoginAttempts,
         };
     }
 
@@ -117,7 +117,7 @@ export default class PasswordSettings extends AdminSettings {
                     default='Your password must contain between {min} and {max} characters.'
                     values={{
                         min: (minLength || Constants.MIN_PASSWORD_LENGTH),
-                        max: Constants.MAX_PASSWORD_LENGTH
+                        max: Constants.MAX_PASSWORD_LENGTH,
                     }}
                 />
             );
@@ -165,7 +165,7 @@ export default class PasswordSettings extends AdminSettings {
                                 defaultMessage='Minimum number of characters required for a valid password. Must be a whole number greater than or equal to {min} and less than or equal to {max}.'
                                 values={{
                                     min: Constants.MIN_PASSWORD_LENGTH,
-                                    max: Constants.MAX_PASSWORD_LENGTH
+                                    max: Constants.MAX_PASSWORD_LENGTH,
                                 }}
                             />
                         }

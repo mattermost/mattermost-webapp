@@ -56,7 +56,7 @@ export default class ChangeURLModal extends React.PureComponent {
         /**
          * Function to call when modal is dimissed
          */
-        onModalDismissed: PropTypes.func.isRequired
+        onModalDismissed: PropTypes.func.isRequired,
     }
 
     static defaultProps = {
@@ -64,7 +64,7 @@ export default class ChangeURLModal extends React.PureComponent {
         title: 'Change URL',
         submitButtonText: 'Save',
         currentURL: '',
-        serverError: null
+        serverError: null,
     }
 
     constructor(props) {
@@ -72,7 +72,7 @@ export default class ChangeURLModal extends React.PureComponent {
         this.state = {
             currentURL: props.currentURL,
             urlError: '',
-            userEdit: false
+            userEdit: false,
         };
     }
 
@@ -81,7 +81,7 @@ export default class ChangeURLModal extends React.PureComponent {
         // because of user status check
         if (!this.state.userEdit) {
             this.setState({
-                currentURL: nextProps.currentURL
+                currentURL: nextProps.currentURL,
             });
         }
     }

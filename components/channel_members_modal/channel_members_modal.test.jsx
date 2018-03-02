@@ -20,8 +20,8 @@ describe('components/ChannelMembersModal', () => {
                 display_name: 'testchannel',
                 header: '',
                 name: 'testchannel',
-                purpose: ''
-            }
+                purpose: '',
+            },
         };
         reduxState = {};
         function reducer() {

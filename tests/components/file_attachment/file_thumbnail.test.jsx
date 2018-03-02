@@ -12,7 +12,7 @@ describe('components/file_attachment/FileThumbnail', () => {
         extension: 'jpg',
         width: 100,
         height: 80,
-        has_preview_image: true
+        has_preview_image: true,
     };
 
     test('should match snapshot, small size image', () => {

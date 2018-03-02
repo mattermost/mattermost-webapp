@@ -10,7 +10,7 @@ export default class FloatingTimestamp extends React.PureComponent {
         isScrolling: PropTypes.bool.isRequired,
         isMobile: PropTypes.bool,
         createAt: PropTypes.number,
-        isRhsPost: PropTypes.bool
+        isRhsPost: PropTypes.bool,
     }
 
     render() {

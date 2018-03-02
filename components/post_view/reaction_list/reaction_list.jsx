@@ -55,15 +55,15 @@ export default class ReactionListView extends React.PureComponent {
             /**
              * Function to add a reaction to the post
              */
-            addReaction: PropTypes.func.isRequired
-        })
+            addReaction: PropTypes.func.isRequired,
+        }),
     }
 
     constructor(props) {
         super(props);
 
         this.state = {
-            showEmojiPicker: false
+            showEmojiPicker: false,
         };
     }
 

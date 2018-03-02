@@ -8,7 +8,7 @@ import {Link} from 'react-router-dom';
 
 import {Permissions} from 'mattermost-redux/constants';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
+import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import {addUserToTeamFromInvite} from 'actions/team_actions.jsx';
 import TeamStore from 'stores/team_store.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
@@ -23,9 +23,15 @@ import SelectTeamItem from './components/select_team_item.jsx';
 
 export default class SelectTeam extends React.Component {
     static propTypes = {
+        isLicensed: PropTypes.bool.isRequired,
+        customBrand: PropTypes.bool.isRequired,
+        enableCustomBrand: PropTypes.bool.isRequired,
+        customDescriptionText: PropTypes.string,
+        enableTeamCreation: PropTypes.bool.isRequired,
+        siteName: PropTypes.string,
         actions: PropTypes.shape({
-            getTeams: PropTypes.func.isRequired
-        }).isRequired
+            getTeams: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -55,7 +61,7 @@ export default class SelectTeam extends React.Component {
             teams: TeamStore.getAll(),
             teamMembers: TeamStore.getMyTeamMembers(),
             teamListings: TeamStore.getTeamListings(),
-            loaded
+            loaded,
         };
     }
 
@@ -69,17 +75,22 @@ export default class SelectTeam extends React.Component {
             (error) => {
                 this.setState({
                     error,
-                    loadingTeamId: ''
+                    loadingTeamId: '',
                 });
             }
         );
     };
 
+    handleLogoutClick = (e) => {
+        e.preventDefault();
+        emitUserLoggedOutEvent('/login');
+    }
+
     clearError = (e) => {
         e.preventDefault();
 
         this.setState({
-            error: null
+            error: null,
         });
     };
 
@@ -204,8 +215,8 @@ export default class SelectTeam extends React.Component {
         }
 
         let description = null;
-        if (global.window.mm_license.IsLicensed === 'true' && global.window.mm_license.CustomBrand === 'true' && global.window.mm_config.EnableCustomBrand === 'true') {
-            description = global.window.mm_config.CustomDescriptionText;
+        if (this.props.isLicensed && this.props.customBrand && this.props.enableCustomBrand) {
+            description = this.props.customDescriptionText;
         } else {
             description = (
                 <FormattedMessage
@@ -225,7 +236,7 @@ export default class SelectTeam extends React.Component {
                 <div className='signup-header'>
                     <a
                         href='#'
-                        onClick={GlobalActions.emitUserLoggedOutEvent}
+                        onClick={this.handleLogoutClick}
                     >
                         <span className='fa fa-chevron-left'/>
                         <FormattedMessage id='web.header.logout'/>
@@ -243,7 +254,7 @@ export default class SelectTeam extends React.Component {
                             className='signup-team-logo'
                             src={logoImage}
                         />
-                        <h1>{global.window.mm_config.SiteName}</h1>
+                        <h1>{this.props.siteName}</h1>
                         <h4 className='color--light'>
                             {description}
                         </h4>

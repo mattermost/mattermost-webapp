@@ -38,14 +38,14 @@ export default class ColorSetting extends React.PureComponent {
         /*
          * Set to disable the setting
          */
-        disabled: PropTypes.bool
+        disabled: PropTypes.bool,
     }
 
     constructor(props) {
         super(props);
 
         this.state = {
-            showPicker: false
+            showPicker: false,
         };
     }
 

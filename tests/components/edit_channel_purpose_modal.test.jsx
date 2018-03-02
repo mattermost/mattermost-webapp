@@ -8,7 +8,7 @@ import Constants from 'utils/constants.jsx';
 describe('comoponents/EditChannelPurposeModal', () => {
     const channel = {
         id: 'fake-id',
-        purpose: 'purpose'
+        purpose: 'purpose',
     };
 
     it('should match on init', () => {
@@ -29,7 +29,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
     it('should match with display name', () => {
         const channelWithDisplayName = {
             ...channel,
-            display_name: 'channel name'
+            display_name: 'channel name',
         };
 
         const wrapper = shallow(
@@ -49,7 +49,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
     it('should match for private channel', () => {
         const privateChannel = {
             ...channel,
-            type: 'P'
+            type: 'P',
         };
 
         const wrapper = shallow(
@@ -95,7 +95,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
 
         const serverError = {
             id: 'api.context.invalid_param.app_error',
-            message: 'error'
+            message: 'error',
         };
 
         wrapper.setProps({
@@ -104,7 +104,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             ctrlSend: false,
             requestStatus: RequestStatus.FAILURE,
             onModalDismissed: jest.fn(),
-            actions: {patchChannel: jest.fn()}
+            actions: {patchChannel: jest.fn()},
         });
 
         expect(wrapper).toMatchSnapshot();
@@ -124,7 +124,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
 
         const serverError = {
             id: 'fake-error-id',
-            message: 'error'
+            message: 'error',
         };
 
         wrapper.setProps({
@@ -133,7 +133,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             ctrlSend: false,
             requestStatus: RequestStatus.FAILURE,
             onModalDismissed: jest.fn(),
-            actions: {patchChannel: jest.fn()}
+            actions: {patchChannel: jest.fn()},
         });
 
         expect(wrapper).toMatchSnapshot();
@@ -153,7 +153,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
 
         const serverError = {
             id: 'fake-error-id',
-            message: 'error'
+            message: 'error',
         };
 
         wrapper.setProps({
@@ -162,7 +162,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             ctrlSend: false,
             requestStatus: RequestStatus.FAILURE,
             onModalDismissed: jest.fn(),
-            actions: {patchChannel: jest.fn()}
+            actions: {patchChannel: jest.fn()},
         });
 
         wrapper.setProps({
@@ -171,7 +171,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             ctrlSend: false,
             requestStatus: RequestStatus.STARTED,
             onModalDismissed: jest.fn(),
-            actions: {patchChannel: jest.fn()}
+            actions: {patchChannel: jest.fn()},
         });
 
         expect(wrapper).toMatchSnapshot();
@@ -193,7 +193,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             'change',
             {
                 preventDefault: jest.fn(),
-                target: {value: 'new info'}
+                target: {value: 'new info'},
             }
         );
 
@@ -217,7 +217,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             ctrlSend: false,
             requestStatus: RequestStatus.SUCCESS,
             onModalDismissed: jest.fn(),
-            actions: {patchChannel: jest.fn()}
+            actions: {patchChannel: jest.fn()},
         });
 
         expect(wrapper.state('show')).toBeFalsy();
@@ -259,7 +259,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
         wrapper.find('textarea').simulate('keydown', {
             preventDefault: jest.fn(),
             keyCode: Constants.KeyCodes.ENTER,
-            ctrlKey: true
+            ctrlKey: true,
         });
 
         expect(patchChannel).toBeCalledWith('fake-id', {purpose: 'purpose'});
@@ -282,7 +282,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
         wrapper.find('textarea').simulate('keydown', {
             preventDefault: jest.fn(),
             keyCode: Constants.KeyCodes.ENTER,
-            ctrlKey: false
+            ctrlKey: false,
         });
 
         expect(patchChannel).toBeCalledWith('fake-id', {purpose: 'purpose'});

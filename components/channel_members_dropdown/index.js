@@ -17,7 +17,7 @@ function mapStateToProps(state, ownProps) {
         {
             channel: ownProps.channel.id,
             team: ownProps.channel.team_id,
-            permission: Permissions.MANAGE_CHANNEL_ROLES
+            permission: Permissions.MANAGE_CHANNEL_ROLES,
         }
     );
     const license = getLicense(state);
@@ -28,15 +28,15 @@ function mapStateToProps(state, ownProps) {
     return {
         isLicensed,
         canChangeMemberRoles,
-        canRemoveMember
+        canRemoveMember,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getChannelStats
-        }, dispatch)
+            getChannelStats,
+        }, dispatch),
     };
 }
 

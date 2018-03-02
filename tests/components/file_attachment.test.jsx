@@ -4,30 +4,22 @@
 import React from 'react';
 import {shallow, mount} from 'enzyme';
 
-import FileAttachment from 'components/file_attachment.jsx';
+import FileAttachment from 'components/file_attachment/file_attachment.jsx';
 
 jest.mock('utils/utils.jsx', () => {
     const original = require.requireActual('utils/utils.jsx');
     return {
         ...original,
-        loadImage: jest.fn((id, callback) => callback())
+        loadImage: jest.fn((id, callback) => callback()),
     };
 });
 
-jest.mock('utils/file_utils', () => {
-    const original = require.requireActual('utils/file_utils');
-    return {
-        ...original,
-        canDownloadFiles: jest.fn(() => true)
-    };
-});
-
-function createComponent({fileInfo, handleImageClick, index, compactDisplay} = {}) {
+function createComponent({fileInfo, handleImageClick, index, compactDisplay, canDownloadFiles = true} = {}) {
     const fileInfoProp = fileInfo || {
         id: 1,
         extension: 'pdf',
         name: 'test.pdf',
-        size: 100
+        size: 100,
     };
     const indexProp = index || 3;
     const handleImageClickProp = handleImageClick || jest.fn();
@@ -37,6 +29,7 @@ function createComponent({fileInfo, handleImageClick, index, compactDisplay} = {
             handleImageClick={handleImageClickProp}
             index={indexProp}
             compactDisplay={compactDisplay}
+            canDownloadFiles={canDownloadFiles}
         />
     );
 }
@@ -54,7 +47,7 @@ describe('component/FileAttachment', () => {
             name: 'test.png',
             width: 600,
             height: 400,
-            size: 100
+            size: 100,
         };
         const wrapper = shallow(createComponent({fileInfo}));
         expect(wrapper).toMatchSnapshot();
@@ -67,7 +60,7 @@ describe('component/FileAttachment', () => {
             name: 'test.png',
             width: 16,
             height: 16,
-            size: 100
+            size: 100,
         };
         const wrapper = shallow(createComponent({fileInfo}));
         expect(wrapper).toMatchSnapshot();
@@ -80,7 +73,7 @@ describe('component/FileAttachment', () => {
             name: 'test.svg',
             width: 600,
             height: 400,
-            size: 100
+            size: 100,
         };
         const wrapper = shallow(createComponent({fileInfo}));
         expect(wrapper).toMatchSnapshot();
@@ -93,7 +86,7 @@ describe('component/FileAttachment', () => {
             name: 'test.png',
             width: 600,
             height: 400,
-            size: 100
+            size: 100,
         };
         const wrapper = shallow(createComponent());
         wrapper.setProps({fileInfo});
@@ -106,11 +99,8 @@ describe('component/FileAttachment', () => {
     });
 
     test('should match snapshot, without compact display and without can download', () => {
-        const fileUtilsMock = require.requireMock('utils/file_utils');
-        fileUtilsMock.canDownloadFiles.mockImplementation(() => false);
-        const wrapper = shallow(createComponent());
+        const wrapper = shallow(createComponent({canDownloadFiles: false}));
         expect(wrapper).toMatchSnapshot();
-        fileUtilsMock.canDownloadFiles.mockImplementation(() => true);
     });
 
     test('should match snapshot, file with long name', () => {
@@ -118,7 +108,7 @@ describe('component/FileAttachment', () => {
             id: 1,
             extension: 'pdf',
             name: 'a-quite-long-filename-to-test-the-filename-shortener.pdf',
-            size: 100
+            size: 100,
         };
         const wrapper = shallow(createComponent({fileInfo}));
         expect(wrapper).toMatchSnapshot();

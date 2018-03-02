@@ -33,7 +33,7 @@ function mapStateToProps(state) {
         enableLDAP,
         enableSAML,
         samlLoginButtonText,
-        siteName
+        siteName,
     };
 }
 

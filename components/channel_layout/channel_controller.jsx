@@ -34,7 +34,7 @@ import CenterChannel from 'components/channel_layout/center_channel';
 export default class ChannelController extends React.Component {
     static propTypes = {
         pathName: PropTypes.string.isRequired,
-        teamType: PropTypes.string.isRequired
+        teamType: PropTypes.string.isRequired,
     };
 
     shouldComponentUpdate(nextProps) {

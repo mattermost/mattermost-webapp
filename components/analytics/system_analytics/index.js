@@ -11,7 +11,7 @@ function mapStateToProps(state) {
     const isLicensed = license.IsLicensed === 'true';
 
     return {
-        isLicensed
+        isLicensed,
     };
 }
 

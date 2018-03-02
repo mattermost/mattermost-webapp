@@ -12,11 +12,11 @@ describe('components/RenameChannelModal', () => {
     const channel = {
         id: 'fake-id',
         name: 'fake-channel',
-        display_name: 'Fake Channel'
+        display_name: 'Fake Channel',
     };
 
     const team = {
-        name: 'Fake Team', display_name: 'fake-team', type: 'O'
+        name: 'Fake Team', display_name: 'fake-team', type: 'O',
     };
 
     const baseProps = {
@@ -26,7 +26,7 @@ describe('components/RenameChannelModal', () => {
         requestStatus: RequestStatus.NOT_STARTED,
         team: {...team},
         currentTeamUrl: 'fake-channel',
-        actions: {updateChannel: jest.fn()}
+        actions: {updateChannel: jest.fn()},
     };
 
     test('should match snapshot', () => {

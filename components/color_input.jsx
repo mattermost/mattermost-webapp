@@ -17,13 +17,13 @@ class ColorInput extends React.Component {
         /*
          * Function called when color changed. Takes hex format of color Ex: #ffeec0
          */
-        onChange: PropTypes.func
+        onChange: PropTypes.func,
     };
 
     constructor(props) {
         super(props);
         this.state = {
-            idOpened: false
+            idOpened: false,
         };
     }
 
@@ -83,7 +83,7 @@ class ColorInput extends React.Component {
                     <i
                         className='color-icon'
                         style={{
-                            backgroundColor: color
+                            backgroundColor: color,
                         }}
                     />
                 </span>

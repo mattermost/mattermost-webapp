@@ -50,12 +50,12 @@ export default class Navbar extends React.Component {
         actions: PropTypes.shape({
             closeRightHandSide: PropTypes.func,
             updateRhsState: PropTypes.func,
-            showPinnedPosts: PropTypes.func
-        })
+            showPinnedPosts: PropTypes.func,
+        }),
     };
 
     static defaultProps = {
-        teamDisplayName: ''
+        teamDisplayName: '',
     };
 
     constructor(props) {
@@ -69,7 +69,7 @@ export default class Navbar extends React.Component {
             showRenameChannelModal: false,
             showQuickSwitchModal: false,
             showChannelNotificationsModal: false,
-            quickSwitchMode: 'channel'
+            quickSwitchMode: 'channel',
         };
     }
 
@@ -121,7 +121,7 @@ export default class Navbar extends React.Component {
             currentUser: UserStore.getCurrentUser(),
             isFavorite: channel && ChannelUtils.isFavoriteChannel(channel),
             contactId,
-            isBusy: WebrtcStore.isBusy()
+            isBusy: WebrtcStore.isBusy(),
         };
     }
 
@@ -173,13 +173,13 @@ export default class Navbar extends React.Component {
 
     showEditChannelHeaderModal = () => {
         this.setState({
-            showEditChannelHeaderModal: true
+            showEditChannelHeaderModal: true,
         });
     }
 
     hideEditChannelHeaderModal = () => {
         this.setState({
-            showEditChannelHeaderModal: false
+            showEditChannelHeaderModal: false,
         });
     }
 
@@ -187,37 +187,37 @@ export default class Navbar extends React.Component {
         e.preventDefault();
 
         this.setState({
-            showChannelNotificationsModal: true
+            showChannelNotificationsModal: true,
         });
     }
 
     hideChannelNotificationsModal = () => {
         this.setState({
-            showChannelNotificationsModal: false
+            showChannelNotificationsModal: false,
         });
     }
 
     showChannelPurposeModal = () => {
         this.setState({
-            showEditChannelPurposeModal: true
+            showEditChannelPurposeModal: true,
         });
     }
 
     hideChannelPurposeModal = () => {
         this.setState({
-            showEditChannelPurposeModal: false
+            showEditChannelPurposeModal: false,
         });
     }
 
     showRenameChannelModal = () => {
         this.setState({
-            showRenameChannelModal: true
+            showRenameChannelModal: true,
         });
     }
 
     hideRenameChannelModal = () => {
         this.setState({
-            showRenameChannelModal: false
+            showRenameChannelModal: false,
         });
     }
 
@@ -251,7 +251,7 @@ export default class Navbar extends React.Component {
     hideQuickSwitchModal = () => {
         this.setState({
             showQuickSwitchModal: false,
-            quickSwitchMode: 'channel'
+            quickSwitchMode: 'channel',
         });
     }
 
@@ -328,7 +328,8 @@ export default class Navbar extends React.Component {
     }
 
     generateWebrtcIcon() {
-        if (!this.isWebrtcEnabled()) {
+        const channel = this.state.channel || {};
+        if (!this.isWebrtcEnabled() || channel.type !== Constants.DM_CHANNEL) {
             return null;
         }
 
@@ -840,7 +841,7 @@ export default class Navbar extends React.Component {
                             id='channel_header.directchannel.you'
                             defaultMessage='{displayname} (you) '
                             values={{
-                                displayname: Utils.displayUsername(teammateId)
+                                displayname: Utils.displayUsername(teammateId),
                             }}
                         />
                     );

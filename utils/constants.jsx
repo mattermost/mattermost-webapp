@@ -42,7 +42,7 @@ export const PluginSettings = {
     TYPE_RADIO: 'radio',
     TYPE_DROPDOWN: 'dropdown',
     TYPE_GENERATED: 'generated',
-    TYPE_USERNAME: 'username'
+    TYPE_USERNAME: 'username',
 };
 
 export const Preferences = {
@@ -74,7 +74,7 @@ export const Preferences = {
     INTERVAL_IMMEDIATE: 30, // "immediate" is a 30 second interval
     INTERVAL_FIFTEEN_MINUTES: 15 * 60,
     INTERVAL_HOUR: 60 * 60,
-    INTERVAL_NEVER: 0
+    INTERVAL_NEVER: 0,
 };
 
 export const ActionTypes = keyMirror({
@@ -239,7 +239,7 @@ export const ActionTypes = keyMirror({
 
     SELECT_CHANNEL_WITH_MEMBER: null,
 
-    INCREMENT_EMOJI_PICKER_PAGE: null
+    INCREMENT_EMOJI_PICKER_PAGE: null,
 });
 
 export const WebrtcActionTypes = keyMirror({
@@ -256,7 +256,7 @@ export const WebrtcActionTypes = keyMirror({
     MUTED: null,
     IN_PROGRESS: null,
     DISABLED: null,
-    RHS: null
+    RHS: null,
 });
 
 export const ModalIdentifiers = {
@@ -265,26 +265,26 @@ export const ModalIdentifiers = {
     CHANNEL_NOTIFICATIONS: 'channel_notifications',
     CHANNEL_INVITE: 'channel_invite',
     CREATE_DM_CHANNEL: 'create_dm_channel',
-    EDIT_CHANNEL_HEADER: 'edit_channel_header'
+    EDIT_CHANNEL_HEADER: 'edit_channel_header',
 };
 
 export const UserStatuses = {
     OFFLINE: 'offline',
     AWAY: 'away',
     ONLINE: 'online',
-    DND: 'dnd'
+    DND: 'dnd',
 };
 
 export const UserStatusesWeight = {
     online: 0,
     away: 1,
     offline: 2,
-    dnd: 3
+    dnd: 3,
 };
 
 export const UserSearchOptions = {
     ALLOW_INACTIVE: 'allow_inactive',
-    WITHOUT_TEAM: 'without_team'
+    WITHOUT_TEAM: 'without_team',
 };
 
 export const SocketEvents = {
@@ -323,7 +323,7 @@ export const SocketEvents = {
     REACTION_REMOVED: 'reaction_removed',
     EMOJI_ADDED: 'emoji_added',
     PLUGIN_ACTIVATED: 'plugin_activated',
-    PLUGIN_DEACTIVATED: 'plugin_deactivated'
+    PLUGIN_DEACTIVATED: 'plugin_deactivated',
 };
 
 export const TutorialSteps = {
@@ -331,7 +331,7 @@ export const TutorialSteps = {
     POST_POPOVER: 1,
     CHANNEL_POPOVER: 2,
     MENU_POPOVER: 3,
-    FINISHED: 999
+    FINISHED: 999,
 };
 
 export const PostTypes = {
@@ -352,7 +352,7 @@ export const PostTypes = {
     FAKE_PARENT_DELETED: 'system_fake_parent_deleted',
     EPHEMERAL: 'system_ephemeral',
     EPHEMERAL_ADD_TO_CHANNEL: 'system_ephemeral_add_to_channel',
-    REMOVE_LINK_PREVIEW: 'remove_link_preview'
+    REMOVE_LINK_PREVIEW: 'remove_link_preview',
 };
 
 export const StatTypes = keyMirror({
@@ -375,7 +375,7 @@ export const StatTypes = keyMirror({
     TOTAL_MASTER_DB_CONNECTIONS: null,
     TOTAL_READ_DB_CONNECTIONS: null,
     DAILY_ACTIVE_USERS: null,
-    MONTHLY_ACTIVE_USERS: null
+    MONTHLY_ACTIVE_USERS: null,
 });
 
 export const StorageTypes = keyMirror({
@@ -386,7 +386,7 @@ export const StorageTypes = keyMirror({
     CLEAR: null,
     ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX: null,
     ACTION_ON_ITEMS_WITH_PREFIX: null,
-    STORAGE_REHYDRATE: null
+    STORAGE_REHYDRATE: null,
 });
 
 export const StoragePrefixes = {
@@ -395,21 +395,21 @@ export const StoragePrefixes = {
     DRAFT: 'draft_',
     LOGOUT: '__logout__',
     LOGIN: '__login__',
-    ANNOUNCEMENT: '__announcement__'
+    ANNOUNCEMENT: '__announcement__',
 };
 
 export const ErrorPageTypes = {
     LOCAL_STORAGE: 'local_storage',
     OAUTH_MISSING_CODE: 'oauth_missing_code',
     PAGE_NOT_FOUND: 'page_not_found',
-    PERMALINK_NOT_FOUND: 'permalink_not_found'
+    PERMALINK_NOT_FOUND: 'permalink_not_found',
 };
 
 export const JobTypes = {
     DATA_RETENTION: 'data_retention',
     ELASTICSEARCH_POST_INDEXING: 'elasticsearch_post_indexing',
     LDAP_SYNC: 'ldap_sync',
-    MESSAGE_EXPORT: 'message_export'
+    MESSAGE_EXPORT: 'message_export',
 };
 
 export const JobStatuses = {
@@ -418,7 +418,7 @@ export const JobStatuses = {
     SUCCESS: 'success',
     ERROR: 'error',
     CANCEL_REQUESTED: 'cancel_requested',
-    CANCELED: 'canceled'
+    CANCELED: 'canceled',
 };
 
 export const ErrorBarTypes = {
@@ -427,7 +427,8 @@ export const ErrorBarTypes = {
     LICENSE_PAST_GRACE: 'error_bar.past_grace',
     PREVIEW_MODE: 'error_bar.preview_mode',
     SITE_URL: 'error_bar.site_url',
-    WEBSOCKET_PORT_ERROR: 'channel_loader.socketError'
+    APIV3_ENABLED: 'error_bar.apiv3_enabled',
+    WEBSOCKET_PORT_ERROR: 'channel_loader.socketError',
 };
 
 export const FileTypes = {
@@ -441,40 +442,40 @@ export const FileTypes = {
     PDF: 'pdf',
     PATCH: 'patch',
     SVG: 'svg',
-    OTHER: 'other'
+    OTHER: 'other',
 };
 
 export const NotificationLevels = {
     DEFAULT: 'default',
     ALL: 'all',
     MENTION: 'mention',
-    NONE: 'none'
+    NONE: 'none',
 };
 
 export const NotificationSections = {
     MARK_UNREAD: 'markUnread',
     DESKTOP: 'desktop',
     PUSH: 'push',
-    NONE: ''
+    NONE: '',
 };
 
 export const RHSStates = {
     MENTION: 'mention',
     SEARCH: 'search',
     FLAG: 'flag',
-    PIN: 'pin'
+    PIN: 'pin',
 };
 
 export const UploadStatuses = {
     LOADING: 'loading',
     COMPLETE: 'complete',
-    DEFAULT: ''
+    DEFAULT: '',
 };
 
 export const GroupUnreadChannels = {
     DISABLED: 'disabled',
     DEFAULT_ON: 'default_on',
-    DEFAULT_OFF: 'default_off'
+    DEFAULT_OFF: 'default_off',
 };
 
 export const Constants = {
@@ -497,7 +498,7 @@ export const Constants = {
 
     PayloadSources: keyMirror({
         SERVER_ACTION: null,
-        VIEW_ACTION: null
+        VIEW_ACTION: null,
     }),
 
     StatTypes,
@@ -509,7 +510,7 @@ export const Constants = {
         BOTTOM: 2,
         SIDEBBAR_OPEN: 3,
         NEW_MESSAGE: 4,
-        POST: 5
+        POST: 5,
     },
 
     SPECIAL_MENTIONS: ['all', 'channel', 'here'],
@@ -535,7 +536,7 @@ export const Constants = {
         code: codeIcon,
         word: wordIcon,
         patch: patchIcon,
-        other: genericIcon
+        other: genericIcon,
     },
     ICON_NAME_FROM_TYPE: {
         audio: 'audio',
@@ -546,7 +547,7 @@ export const Constants = {
         code: 'code',
         word: 'word',
         patch: 'patch',
-        other: 'generic'
+        other: 'generic',
     },
     MAX_DISPLAY_FILES: 5,
     MAX_UPLOAD_FILES: 5,
@@ -593,14 +594,14 @@ export const Constants = {
         'channel',
         'post',
         'api',
-        'oauth'
+        'oauth',
     ],
     RESERVED_USERNAMES: [
         'valet',
         'all',
         'channel',
         'here',
-        'matterbot'
+        'matterbot',
     ],
     MONTHS: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
     MAX_DMS: 20,
@@ -641,7 +642,7 @@ export const Constants = {
             mentionHighlightBg: '#ffe577',
             mentionHighlightLink: '#166de0',
             codeTheme: 'github',
-            image: mattermostThemeImage
+            image: mattermostThemeImage,
         },
         organization: {
             type: 'Organization',
@@ -668,7 +669,7 @@ export const Constants = {
             mentionHighlightBg: '#f3e197',
             mentionHighlightLink: '#2f81b7',
             codeTheme: 'github',
-            image: defaultThemeImage
+            image: defaultThemeImage,
         },
         mattermostDark: {
             type: 'Mattermost Dark',
@@ -695,7 +696,7 @@ export const Constants = {
             mentionHighlightBg: '#984063',
             mentionHighlightLink: '#a4ffeb',
             codeTheme: 'solarized-dark',
-            image: mattermostDarkThemeImage
+            image: mattermostDarkThemeImage,
         },
         windows10: {
             type: 'Windows Dark',
@@ -722,119 +723,119 @@ export const Constants = {
             mentionHighlightBg: '#784098',
             mentionHighlightLink: '#a4ffeb',
             codeTheme: 'monokai',
-            image: windows10ThemeImage
-        }
+            image: windows10ThemeImage,
+        },
     },
     THEME_ELEMENTS: [
         {
             group: 'sidebarElements',
             id: 'sidebarBg',
-            uiName: 'Sidebar BG'
+            uiName: 'Sidebar BG',
         },
         {
             group: 'sidebarElements',
             id: 'sidebarText',
-            uiName: 'Sidebar Text'
+            uiName: 'Sidebar Text',
         },
         {
             group: 'sidebarElements',
             id: 'sidebarHeaderBg',
-            uiName: 'Sidebar Header BG'
+            uiName: 'Sidebar Header BG',
         },
         {
             group: 'sidebarElements',
             id: 'sidebarHeaderTextColor',
-            uiName: 'Sidebar Header Text'
+            uiName: 'Sidebar Header Text',
         },
         {
             group: 'sidebarElements',
             id: 'sidebarUnreadText',
-            uiName: 'Sidebar Unread Text'
+            uiName: 'Sidebar Unread Text',
         },
         {
             group: 'sidebarElements',
             id: 'sidebarTextHoverBg',
-            uiName: 'Sidebar Text Hover BG'
+            uiName: 'Sidebar Text Hover BG',
         },
         {
             group: 'sidebarElements',
             id: 'sidebarTextActiveBorder',
-            uiName: 'Sidebar Text Active Border'
+            uiName: 'Sidebar Text Active Border',
         },
         {
             group: 'sidebarElements',
             id: 'sidebarTextActiveColor',
-            uiName: 'Sidebar Text Active Color'
+            uiName: 'Sidebar Text Active Color',
         },
         {
             group: 'sidebarElements',
             id: 'onlineIndicator',
-            uiName: 'Online Indicator'
+            uiName: 'Online Indicator',
         },
         {
             group: 'sidebarElements',
             id: 'awayIndicator',
-            uiName: 'Away Indicator'
+            uiName: 'Away Indicator',
         },
         {
             group: 'sidebarElements',
             id: 'dndIndicator',
-            uiName: 'Away Indicator'
+            uiName: 'Away Indicator',
         },
         {
             group: 'sidebarElements',
             id: 'mentionBg',
-            uiName: 'Mention Jewel BG'
+            uiName: 'Mention Jewel BG',
         },
         {
             group: 'sidebarElements',
             id: 'mentionColor',
-            uiName: 'Mention Jewel Text'
+            uiName: 'Mention Jewel Text',
         },
         {
             group: 'centerChannelElements',
             id: 'centerChannelBg',
-            uiName: 'Center Channel BG'
+            uiName: 'Center Channel BG',
         },
         {
             group: 'centerChannelElements',
             id: 'centerChannelColor',
-            uiName: 'Center Channel Text'
+            uiName: 'Center Channel Text',
         },
         {
             group: 'centerChannelElements',
             id: 'newMessageSeparator',
-            uiName: 'New Message Separator'
+            uiName: 'New Message Separator',
         },
         {
             group: 'centerChannelElements',
             id: 'errorTextColor',
-            uiName: 'Error Text Color'
+            uiName: 'Error Text Color',
         },
         {
             group: 'centerChannelElements',
             id: 'mentionHighlightBg',
-            uiName: 'Mention Highlight BG'
+            uiName: 'Mention Highlight BG',
         },
         {
             group: 'linkAndButtonElements',
             id: 'linkColor',
-            uiName: 'Link Color'
+            uiName: 'Link Color',
         },
         {
             group: 'centerChannelElements',
             id: 'mentionHighlightLink',
-            uiName: 'Mention Highlight Link'
+            uiName: 'Mention Highlight Link',
         },
         {
             group: 'linkAndButtonElements',
             id: 'buttonBg',
-            uiName: 'Button BG'
+            uiName: 'Button BG',
         },
         {
             group: 'linkAndButtonElements',
             id: 'buttonColor',
-            uiName: 'Button Text'
+            uiName: 'Button Text',
         },
         {
             group: 'centerChannelElements',
@@ -845,28 +846,28 @@ export const Constants = {
                     id: 'solarized-dark',
                     uiName: 'Solarized Dark',
                     cssURL: solarizedDarkCSS,
-                    iconURL: solarizedDarkIcon
+                    iconURL: solarizedDarkIcon,
                 },
                 {
                     id: 'solarized-light',
                     uiName: 'Solarized Light',
                     cssURL: solarizedLightCSS,
-                    iconURL: solarizedLightIcon
+                    iconURL: solarizedLightIcon,
                 },
                 {
                     id: 'github',
                     uiName: 'GitHub',
                     cssURL: githubCSS,
-                    iconURL: githubIcon
+                    iconURL: githubIcon,
                 },
                 {
                     id: 'monokai',
                     uiName: 'Monokai',
                     cssURL: monokaiCSS,
-                    iconURL: monokaiIcon
-                }
-            ]
-        }
+                    iconURL: monokaiIcon,
+                },
+            ],
+        },
     ],
     DEFAULT_CODE_THEME: 'github',
     KeyCodes: {
@@ -964,7 +965,7 @@ export const Constants = {
         TILDE: 192,
         OPEN_BRACKET: 219,
         BACK_SLASH: 220,
-        CLOSE_BRACKET: 221
+        CLOSE_BRACKET: 221,
     },
     CODE_PREVIEW_MAX_FILE_SIZE: 500000, // 500 KB
     HighlightedLanguages: {
@@ -1025,15 +1026,15 @@ export const Constants = {
         vbscript: {name: 'VBScript', extensions: ['vbs']},
         verilog: {name: 'Verilog', extensions: ['v', 'veo']},
         xml: {name: 'HTML, XML', extensions: ['xml', 'html', 'xhtml', 'rss', 'atom', 'xsl', 'plist']},
-        yaml: {name: 'YAML', extensions: ['yaml'], aliases: ['yml']}
+        yaml: {name: 'YAML', extensions: ['yaml'], aliases: ['yml']},
     },
     PostsViewJumpTypes: {
         BOTTOM: 1,
         POST: 2,
-        SIDEBAR_OPEN: 3
+        SIDEBAR_OPEN: 3,
     },
     NotificationPrefs: {
-        MENTION: 'mention'
+        MENTION: 'mention',
     },
     Integrations: {
         COMMAND: 'commands',
@@ -1041,18 +1042,18 @@ export const Constants = {
         START_PAGE_NUM: 0,
         INCOMING_WEBHOOK: 'incoming_webhooks',
         OUTGOING_WEBHOOK: 'outgoing_webhooks',
-        OAUTH_APP: 'oauth2-apps'
+        OAUTH_APP: 'oauth2-apps',
     },
     FeatureTogglePrefix: 'feature_enabled_',
     PRE_RELEASE_FEATURES: {
         MARKDOWN_PREVIEW: {
             label: 'markdown_preview', // github issue: https://github.com/mattermost/platform/pull/1389
-            description: 'Show markdown preview option in message input box'
+            description: 'Show markdown preview option in message input box',
         },
         WEBRTC_PREVIEW: {
             label: 'webrtc_preview',
-            description: 'Enable WebRTC one on one calls'
-        }
+            description: 'Enable WebRTC one on one calls',
+        },
     },
     OVERLAY_TIME_DELAY_SMALL: 100,
     OVERLAY_TIME_DELAY: 400,
@@ -1114,11 +1115,12 @@ export const Constants = {
     TEAMMATE_NAME_DISPLAY: {
         SHOW_USERNAME: 'username',
         SHOW_NICKNAME_FULLNAME: 'nickname_full_name',
-        SHOW_FULLNAME: 'full_name'
+        SHOW_FULLNAME: 'full_name',
     },
     SEARCH_POST: 'searchpost',
     CHANNEL_ID_LENGTH: 26,
-    TRANSPARENT_PIXEL: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
+    TRANSPARENT_PIXEL: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
+    PREV_CHANNEL_KEY: 'team_prev_channel:',
 };
 
 export default Constants;

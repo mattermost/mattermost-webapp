@@ -12,7 +12,7 @@ describe('components/admin_console/brand_image_setting/UploadButton', () => {
         status: UploadStatuses.DEFAULT,
         primaryClass: 'btn btn-primary',
         disabled: false,
-        onClick: () => {}         //eslint-disable-line no-empty-function
+        onClick: () => {},         //eslint-disable-line no-empty-function
     };
 
     test('should match snapshot', () => {

@@ -44,7 +44,7 @@ function mapStateToProps(state, ownProps) {
         enableLdap,
         enableSaml,
         enableSignUpWithOffice365,
-        experimentalEnableAuthenticationTransfer
+        experimentalEnableAuthenticationTransfer,
     };
 }
 
@@ -57,8 +57,8 @@ function mapDispatchToProps(dispatch) {
             revokeUserAccessToken,
             enableUserAccessToken,
             disableUserAccessToken,
-            clearUserAccessTokens
-        }, dispatch)
+            clearUserAccessTokens,
+        }, dispatch),
     };
 }
 

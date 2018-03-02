@@ -14,7 +14,7 @@ function mapStateToProps(state) {
 
     return {
         displayNameType: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, 'name_format', 'false'),
-        enablePostUsernameOverride
+        enablePostUsernameOverride,
     };
 }
 

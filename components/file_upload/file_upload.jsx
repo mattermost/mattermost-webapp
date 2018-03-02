@@ -12,7 +12,7 @@ import Constants from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
 import {
     isIosChrome,
-    isMobileApp
+    isMobileApp,
 } from 'utils/user_agent.jsx';
 import {
     clearFileInput,
@@ -20,7 +20,7 @@ import {
     generateId,
     isFileTransfer,
     localizeMessage,
-    sortFilesByName
+    sortFilesByName,
 } from 'utils/utils.jsx';
 
 import AttachmentIcon from 'components/svg/attachment_icon';
@@ -28,20 +28,20 @@ import AttachmentIcon from 'components/svg/attachment_icon';
 const holders = defineMessages({
     limited: {
         id: 'file_upload.limited',
-        defaultMessage: 'Uploads limited to {count, number} files maximum. Please use additional posts for more files.'
+        defaultMessage: 'Uploads limited to {count, number} files maximum. Please use additional posts for more files.',
     },
     filesAbove: {
         id: 'file_upload.filesAbove',
-        defaultMessage: 'Files above {max}MB could not be uploaded: {filenames}'
+        defaultMessage: 'Files above {max}MB could not be uploaded: {filenames}',
     },
     fileAbove: {
         id: 'file_upload.fileAbove',
-        defaultMessage: 'File above {max}MB could not be uploaded: {filename}'
+        defaultMessage: 'File above {max}MB could not be uploaded: {filename}',
     },
     pasted: {
         id: 'file_upload.pasted',
-        defaultMessage: 'Image Pasted at '
-    }
+        defaultMessage: 'Image Pasted at ',
+    },
 });
 
 const OVERLAY_TIMEOUT = 500;
@@ -112,13 +112,13 @@ class FileUpload extends React.PureComponent {
         /**
          * Whether or not file upload is allowed.
          */
-        canUploadFiles: PropTypes.bool.isRequired
+        canUploadFiles: PropTypes.bool.isRequired,
     };
 
     constructor(props) {
         super(props);
         this.state = {
-            requests: {}
+            requests: {},
         };
     }
 
@@ -242,6 +242,8 @@ class FileUpload extends React.PureComponent {
         if (typeof files !== 'string' && files.length) {
             this.uploadFiles(files);
         }
+
+        this.props.onFileUploadChange();
     }
 
     registerDragEvents = (containerSelector, overlaySelector) => {
@@ -285,19 +287,17 @@ class FileUpload extends React.PureComponent {
                     dragTimeout.cancel();
 
                     self.handleDrop(e);
-                }
+                },
             };
         } else {
             dragsterActions = {
                 drop(dragsterEvent, e) {
                     self.handleDrop(e);
-                }
+                },
             };
         }
 
         $(containerSelector).dragster(dragsterActions);
-
-        this.props.onFileUploadChange();
     }
 
     pasteUpload = (e) => {

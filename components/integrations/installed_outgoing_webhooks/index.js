@@ -27,7 +27,7 @@ function mapStateToProps(state) {
         users: getUsers(state),
         teamId,
         canManageOthersWebhooks,
-        enableOutgoingWebhooks
+        enableOutgoingWebhooks,
     };
 }
 
@@ -36,8 +36,8 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             getOutgoingHooks: Actions.getOutgoingHooks,
             removeOutgoingHook: Actions.removeOutgoingHook,
-            regenOutgoingHookToken: Actions.regenOutgoingHookToken
-        }, dispatch)
+            regenOutgoingHookToken: Actions.regenOutgoingHookToken,
+        }, dispatch),
     };
 }
 

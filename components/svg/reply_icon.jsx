@@ -24,5 +24,5 @@ export default class ReplyIcon extends React.PureComponent {
 }
 
 const style = {
-    enableBackground: 'new -158 242 18 18'
+    enableBackground: 'new -158 242 18 18',
 };

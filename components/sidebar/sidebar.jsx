@@ -92,12 +92,12 @@ export default class Sidebar extends React.PureComponent {
         showUnreadSection: PropTypes.bool.isRequired,
 
         actions: PropTypes.shape({
-            goToChannelById: PropTypes.func.isRequired
-        }).isRequired
+            goToChannelById: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     static defaultProps = {
-        currentChannel: {}
+        currentChannel: {},
     }
 
     constructor(props) {
@@ -114,7 +114,7 @@ export default class Sidebar extends React.PureComponent {
         this.state = {
             newChannelModalType: '',
             showDirectChannelsModal: false,
-            showMoreChannelsModal: false
+            showMoreChannelsModal: false,
         };
     }
 
@@ -213,8 +213,13 @@ export default class Sidebar extends React.PureComponent {
     }
 
     setFirstAndLastUnreadChannels() {
+        const {
+            currentChannel,
+            unreadChannelIds,
+        } = this.props;
+
         this.getDisplayedChannels().map((channelId) => {
-            if (channelId !== this.props.currentChannel.id && this.props.unreadChannelIds.includes(channelId)) {
+            if (channelId !== currentChannel.id && unreadChannelIds.includes(channelId)) {
                 if (!this.firstUnreadChannel) {
                     this.firstUnreadChannel = channelId;
                 }
@@ -239,7 +244,7 @@ export default class Sidebar extends React.PureComponent {
             currentChannel,
             currentTeam,
             currentTeammate,
-            unreads
+            unreads,
         } = this.props;
 
         if (currentChannel && currentTeam) {
@@ -315,7 +320,7 @@ export default class Sidebar extends React.PureComponent {
 
         this.setState({
             showTopUnread,
-            showBottomUnread
+            showBottomUnread,
         });
     }
 
@@ -396,8 +401,15 @@ export default class Sidebar extends React.PureComponent {
     }
 
     getDisplayedChannels = (props = this.props) => {
-        return props.unreadChannelIds.
-            concat(props.favoriteChannelIds).
+        if (props.showUnreadSection) {
+            return props.unreadChannelIds.
+                concat(props.favoriteChannelIds).
+                concat(props.publicChannelIds).
+                concat(props.privateChannelIds).
+                concat(props.directAndGroupChannelIds);
+        }
+
+        return props.favoriteChannelIds.
             concat(props.publicChannelIds).
             concat(props.privateChannelIds).
             concat(props.directAndGroupChannelIds);
@@ -442,7 +454,7 @@ export default class Sidebar extends React.PureComponent {
     openQuickSwitcher = (e) => {
         e.preventDefault();
         AppDispatcher.handleViewAction({
-            type: ActionTypes.TOGGLE_QUICK_SWITCH_MODAL
+            type: ActionTypes.TOGGLE_QUICK_SWITCH_MODAL,
         });
     }
 
@@ -466,7 +478,7 @@ export default class Sidebar extends React.PureComponent {
             publicChannelIds,
             privateChannelIds,
             unreadChannelIds,
-            showUnreadSection
+            showUnreadSection,
         } = this.props;
 
         // Check if we have all info needed to render

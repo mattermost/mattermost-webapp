@@ -148,11 +148,11 @@ SidebarHeader.propTypes = {
     teamName: PropTypes.string,
     teamType: PropTypes.string,
     currentUser: PropTypes.object,
-    enableTutorial: PropTypes.bool.isRequired
+    enableTutorial: PropTypes.bool.isRequired,
 };
 
 SidebarHeader.defaultProps = {
     teamDisplayName: '',
     teamDescription: '',
-    teamType: ''
+    teamType: '',
 };

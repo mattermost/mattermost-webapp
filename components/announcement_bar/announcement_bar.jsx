@@ -33,6 +33,7 @@ export default class AnnouncementBar extends React.PureComponent {
          * Set if the user can view system errors
          */
         canViewSystemErrors: PropTypes.bool.isRequired,
+        canViewAPIv3Banner: PropTypes.bool.isRequired,
         licenseId: PropTypes.string,
         siteURL: PropTypes.string,
         sendEmailNotifications: PropTypes.bool.isRequired,
@@ -41,7 +42,8 @@ export default class AnnouncementBar extends React.PureComponent {
         enableBanner: PropTypes.bool.isRequired,
         bannerColor: PropTypes.string,
         bannerTextColor: PropTypes.string,
-        enableSignUpWithGitLab: PropTypes.bool.isRequired
+        enableSignUpWithGitLab: PropTypes.bool.isRequired,
+        enableAPIv3: PropTypes.bool.isRequired,
     }
 
     constructor(props) {
@@ -67,6 +69,9 @@ export default class AnnouncementBar extends React.PureComponent {
                 return;
             } else if (!this.props.sendEmailNotifications) {
                 ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.PREVIEW_MODE});
+                return;
+            } else if (this.props.canViewAPIv3Banner && this.props.enableAPIv3) {
+                ErrorStore.storeLastError({notification: true, message: ErrorBarTypes.APIV3_ENABLED});
                 return;
             }
         }
@@ -105,7 +110,7 @@ export default class AnnouncementBar extends React.PureComponent {
                 color: this.props.bannerColor,
                 textColor: this.props.bannerTextColor,
                 type: BAR_ANNOUNCEMENT_TYPE,
-                allowDismissal
+                allowDismissal,
             };
         }
 
@@ -240,6 +245,13 @@ export default class AnnouncementBar extends React.PureComponent {
                     defaultMessage='Preview Mode: Email notifications have not been configured'
                 />
             );
+        } else if (message === ErrorBarTypes.APIV3_ENABLED) {
+            message = (
+                <FormattedHTMLMessage
+                    id={ErrorBarTypes.APIV3_ENABLED}
+                    defaultMessage='API version 3 is deprecated and scheduled for removal. <a href="https://api.mattermost.com/#tag/APIv3-Deprecation" target="_blank">Learn how to migrate to APIv4</a>.'
+                />
+            );
         } else if (message === ErrorBarTypes.LICENSE_EXPIRING) {
             message = (
                 <FormattedHTMLMessage
@@ -247,7 +259,7 @@ export default class AnnouncementBar extends React.PureComponent {
                     defaultMessage='Enterprise license expires on {date}. <a href="{link}" target="_blank">Please renew</a>.'
                     values={{
                         date: displayExpiryDate(),
-                        link: renewalLink
+                        link: renewalLink,
                     }}
                 />
             );
@@ -257,7 +269,7 @@ export default class AnnouncementBar extends React.PureComponent {
                     id={ErrorBarTypes.LICENSE_EXPIRED}
                     defaultMessage='Enterprise license is expired and some features may be disabled. <a href="{link}" target="_blank">Please renew</a>.'
                     values={{
-                        link: renewalLink
+                        link: renewalLink,
                     }}
                 />
             );
@@ -310,7 +322,7 @@ export default class AnnouncementBar extends React.PureComponent {
                                     defaultMessage='the System Console'
                                 />
                             </Link>
-                        )
+                        ),
                     }}
                 />
             );

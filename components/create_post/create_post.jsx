@@ -81,7 +81,7 @@ export default class CreatePost extends React.Component {
         draft: PropTypes.shape({
             message: PropTypes.string.isRequired,
             uploadsInProgress: PropTypes.array.isRequired,
-            fileInfos: PropTypes.array.isRequired
+            fileInfos: PropTypes.array.isRequired,
         }).isRequired,
 
         /**
@@ -174,12 +174,12 @@ export default class CreatePost extends React.Component {
             /**
              *  func called for opening the last replayable post in the RHS
              */
-            selectPostFromRightHandSideSearchByPostId: PropTypes.func.isRequired
-        }).isRequired
+            selectPostFromRightHandSideSearchByPostId: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     static defaultProps = {
-        latestReplyablePostId: ''
+        latestReplyablePostId: '',
     }
 
     constructor(props) {
@@ -190,7 +190,7 @@ export default class CreatePost extends React.Component {
             showPostDeletedModal: false,
             enableSendButton: false,
             showEmojiPicker: false,
-            showConfirmModal: false
+            showConfirmModal: false,
         };
 
         this.lastBlurAt = 0;
@@ -207,7 +207,7 @@ export default class CreatePost extends React.Component {
 
         // wait to load these since they may have changed since the component was constructed (particularly in the case of skipping the tutorial)
         this.setState({
-            enableSendButton
+            enableSendButton,
         });
     }
 
@@ -223,7 +223,7 @@ export default class CreatePost extends React.Component {
             this.setState({
                 message: draft.message,
                 submitting: false,
-                serverError: null
+                serverError: null,
             });
         }
     }
@@ -299,7 +299,7 @@ export default class CreatePost extends React.Component {
                         this.setState({
                             serverError: err.message,
                             submitting: false,
-                            message: post.message
+                            message: post.message,
                         });
                     }
                 }
@@ -315,7 +315,7 @@ export default class CreatePost extends React.Component {
             submitting: false,
             postError: null,
             serverError: null,
-            enableSendButton: false
+            enableSendButton: false,
         });
 
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
@@ -376,7 +376,7 @@ export default class CreatePost extends React.Component {
             actions,
             currentChannel,
             currentUserId,
-            draft
+            draft,
         } = this.props;
 
         post.channel_id = currentChannel.id;
@@ -391,7 +391,7 @@ export default class CreatePost extends React.Component {
         actions.onSubmitPost(post, draft.fileInfos);
 
         this.setState({
-            submitting: false
+            submitting: false,
         });
     }
 
@@ -418,7 +418,7 @@ export default class CreatePost extends React.Component {
     }
 
     postMsgKeyPress = (e) => {
-        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
+        const ctrlOrMetaKeyPressed = Utils.cmdOrCtrlPressed(e);
         if (!UserAgent.isMobile() && ((this.props.ctrlSend && ctrlOrMetaKeyPressed) || !this.props.ctrlSend)) {
             if (e.which === KeyCodes.ENTER && !e.shiftKey && !e.altKey) {
                 e.preventDefault();
@@ -436,30 +436,30 @@ export default class CreatePost extends React.Component {
         const enableSendButton = this.handleEnableSendButton(message, this.props.draft.fileInfos);
         this.setState({
             message,
-            enableSendButton
+            enableSendButton,
         });
 
         const draft = {
             ...this.props.draft,
-            message
+            message,
         };
 
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
     }
 
     handleFileUploadChange = () => {
-        this.focusTextbox();
+        this.focusTextbox(true);
     }
 
     handleUploadStart = (clientIds, channelId) => {
         const uploadsInProgress = [
             ...this.props.draft.uploadsInProgress,
-            ...clientIds
+            ...clientIds,
         ];
 
         const draft = {
             ...this.props.draft,
-            uploadsInProgress
+            uploadsInProgress,
         };
 
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
@@ -486,7 +486,7 @@ export default class CreatePost extends React.Component {
 
         if (channelId === this.props.currentChannel.id) {
             this.setState({
-                enableSendButton: true
+                enableSendButton: true,
             });
         }
     }
@@ -506,7 +506,7 @@ export default class CreatePost extends React.Component {
                 const uploadsInProgress = draft.uploadsInProgress.filter((item, itemIndex) => index !== itemIndex);
                 const modifiedDraft = {
                     ...draft,
-                    uploadsInProgress
+                    uploadsInProgress,
                 };
                 this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, modifiedDraft);
             }
@@ -533,7 +533,7 @@ export default class CreatePost extends React.Component {
 
                 modifiedDraft = {
                     ...draft,
-                    uploadsInProgress
+                    uploadsInProgress,
                 };
 
                 // draft.uploadsInProgress.splice(index, 1);
@@ -544,7 +544,7 @@ export default class CreatePost extends React.Component {
 
             modifiedDraft = {
                 ...draft,
-                fileInfos
+                fileInfos,
             };
         }
 
@@ -557,7 +557,8 @@ export default class CreatePost extends React.Component {
     }
 
     showShortcuts(e) {
-        if ((e.ctrlKey || e.metaKey) && e.keyCode === KeyCodes.FORWARD_SLASH) {
+        const FORWARD_SLASH_KEY = ['/', 191];
+        if (Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, FORWARD_SLASH_KEY)) {
             e.preventDefault();
 
             GlobalActions.toggleShortcutsModal();
@@ -581,13 +582,13 @@ export default class CreatePost extends React.Component {
         const lastMessage = this.props.messageInHistoryItem;
         if (lastMessage) {
             this.setState({
-                message: lastMessage
+                message: lastMessage,
             });
         }
     }
 
     handleKeyDown = (e) => {
-        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
+        const ctrlOrMetaKeyPressed = Utils.cmdOrCtrlPressed(e);
         const messageIsEmpty = this.state.message.length === 0;
         const draftMessageIsEmpty = this.props.draft.message.length === 0;
         const ctrlEnterKeyCombo = this.props.ctrlSend && e.keyCode === KeyCodes.ENTER && ctrlOrMetaKeyPressed;
@@ -622,7 +623,10 @@ export default class CreatePost extends React.Component {
         } else {
             type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
         }
-        this.props.actions.setEditingPost(lastPost.id, this.props.commentCountForPost, '#post_textbox', type);
+        if (this.refs.textbox) {
+            this.refs.textbox.blur();
+        }
+        this.props.actions.setEditingPost(lastPost.id, this.props.commentCountForPost, 'post_textbox', type);
     }
 
     replyToLastPost = (e) => {
@@ -649,13 +653,13 @@ export default class CreatePost extends React.Component {
 
     showPostDeletedModal = () => {
         this.setState({
-            showPostDeletedModal: true
+            showPostDeletedModal: true,
         });
     }
 
     hidePostDeletedModal = () => {
         this.setState({
-            showPostDeletedModal: false
+            showPostDeletedModal: false,
         });
     }
 
@@ -716,7 +720,7 @@ export default class CreatePost extends React.Component {
             fullWidthTextBox,
             getChannelView,
             showTutorialTip,
-            readOnlyChannel
+            readOnlyChannel,
         } = this.props;
         const members = currentChannelMembersCount - 1;
 
@@ -739,7 +743,7 @@ export default class CreatePost extends React.Component {
                 id='notify_all.question'
                 defaultMessage='By using @all or @channel you are about to send notifications to {totalMembers} people. Are you sure you want to do this?'
                 values={{
-                    totalMembers: members
+                    totalMembers: members,
                 }}
             />
         );

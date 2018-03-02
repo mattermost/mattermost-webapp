@@ -44,11 +44,11 @@ export default class QuickSwitchModal extends React.PureComponent {
         /**
          * Set to show team switcher
          */
-        showTeamSwitcher: PropTypes.bool
+        showTeamSwitcher: PropTypes.bool,
     }
 
     static defaultProps = {
-        initialMode: CHANNEL_MODE
+        initialMode: CHANNEL_MODE,
     }
 
     constructor(props) {
@@ -73,7 +73,7 @@ export default class QuickSwitchModal extends React.PureComponent {
 
         this.state = {
             text: '',
-            mode: props.initialMode
+            mode: props.initialMode,
         };
     }
 
@@ -102,13 +102,13 @@ export default class QuickSwitchModal extends React.PureComponent {
 
     onShow() {
         this.setState({
-            text: ''
+            text: '',
         });
     }
 
     onHide() {
         this.setState({
-            text: ''
+            text: '',
         });
         this.props.onHide();
     }
@@ -326,6 +326,7 @@ export default class QuickSwitchModal extends React.PureComponent {
                         listStyle='bottom'
                         completeOnTab={false}
                         renderDividers={renderDividers}
+                        delayInputUpdate={true}
                     />
                 </Modal.Body>
             </Modal>

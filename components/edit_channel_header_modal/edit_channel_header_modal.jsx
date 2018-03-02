@@ -17,8 +17,8 @@ const KeyCodes = Constants.KeyCodes;
 const holders = defineMessages({
     error: {
         id: 'edit_channel_header_modal.error',
-        defaultMessage: 'This channel header is too long, please enter a shorter one'
-    }
+        defaultMessage: 'This channel header is too long, please enter a shorter one',
+    },
 });
 
 class EditChannelHeaderModal extends React.PureComponent {
@@ -62,8 +62,8 @@ class EditChannelHeaderModal extends React.PureComponent {
             /*
              * patch channel redux-action
              */
-            patchChannel: PropTypes.func.isRequired
-        }).isRequired
+            patchChannel: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -72,7 +72,7 @@ class EditChannelHeaderModal extends React.PureComponent {
         this.state = {
             header: props.channel.header,
             show: true,
-            showError: false
+            showError: false,
         };
     }
 
@@ -91,7 +91,7 @@ class EditChannelHeaderModal extends React.PureComponent {
 
     handleChange = (e) => {
         this.setState({
-            header: e.target.value
+            header: e.target.value,
         });
     }
 
@@ -117,14 +117,14 @@ class EditChannelHeaderModal extends React.PureComponent {
 
     handleKeyDown = (e) => {
         const {ctrlSend} = this.props;
-        if (ctrlSend && e.keyCode === KeyCodes.ENTER && e.ctrlKey === true) {
+        if (ctrlSend && e.keyCode === KeyCodes.ENTER && Utils.cmdOrCtrlPressed(e)) {
             this.handleKeyPress(e);
         }
     }
 
     handleKeyPress = (e) => {
         const {ctrlSend} = this.props;
-        if (!UserAgent.isMobile() && ((ctrlSend && e.ctrlKey) || !ctrlSend)) {
+        if (!UserAgent.isMobile() && ((ctrlSend && Utils.cmdOrCtrlPressed(e)) || !ctrlSend)) {
             if (e.which === KeyCodes.ENTER && !e.shiftKey && !e.altKey) {
                 e.preventDefault();
                 ReactDOM.findDOMNode(this.refs.editChannelHeaderTextbox).blur();
@@ -167,7 +167,7 @@ class EditChannelHeaderModal extends React.PureComponent {
                     id='edit_channel_header_modal.title'
                     defaultMessage='Edit Header for {channel}'
                     values={{
-                        channel: this.props.channel.display_name
+                        channel: this.props.channel.display_name,
                     }}
                 />
             );

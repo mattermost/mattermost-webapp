@@ -32,7 +32,7 @@ function mapStateToProps(state, ownProps) {
         previewCollapsed,
         previewEnabled: getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, true),
         isEmbedVisible,
-        enablePostUsernameOverride
+        enablePostUsernameOverride,
     };
 }
 

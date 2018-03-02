@@ -84,5 +84,5 @@ export default class ClaimController extends React.Component {
 ClaimController.propTypes = {
     location: PropTypes.object.isRequired,
     siteName: PropTypes.string,
-    ldapLoginFieldName: PropTypes.string
+    ldapLoginFieldName: PropTypes.string,
 };

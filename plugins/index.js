@@ -26,7 +26,7 @@ export function registerComponents(id, components = {}, postTypes = {}) {
 
     store.dispatch({
         type: ActionTypes.RECEIVED_PLUGIN_COMPONENTS,
-        data: wrappedComponents
+        data: wrappedComponents,
     });
 
     const wrappedPostTypes = {};
@@ -36,7 +36,7 @@ export function registerComponents(id, components = {}, postTypes = {}) {
 
     store.dispatch({
         type: ActionTypes.RECEIVED_PLUGIN_POST_TYPES,
-        data: wrappedPostTypes
+        data: wrappedPostTypes,
     });
 }
 

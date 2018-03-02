@@ -10,8 +10,8 @@ import MoreChannels from './more_channels.jsx';
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getChannels
-        }, dispatch)
+            getChannels,
+        }, dispatch),
     };
 }
 

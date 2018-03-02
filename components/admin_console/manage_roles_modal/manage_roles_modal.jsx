@@ -19,7 +19,7 @@ function getStateFromProps(props) {
         hasPostAllRole: UserUtils.hasPostAllRole(roles),
         hasPostAllPublicRole: UserUtils.hasPostAllPublicRole(roles),
         hasUserAccessTokenRole: UserUtils.hasUserAccessTokenRole(roles),
-        isSystemAdmin: UserUtils.isSystemAdmin(roles)
+        isSystemAdmin: UserUtils.isSystemAdmin(roles),
     };
 }
 
@@ -51,8 +51,8 @@ export default class ManageRolesModal extends React.PureComponent {
             /**
              * Function to update a user's roles
              */
-            updateUserRoles: PropTypes.func.isRequired
-        }).isRequired
+            updateUserRoles: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     constructor(props) {
@@ -70,7 +70,7 @@ export default class ManageRolesModal extends React.PureComponent {
 
     handleError = (error) => {
         this.setState({
-            error
+            error,
         });
     }
 
@@ -84,19 +84,19 @@ export default class ManageRolesModal extends React.PureComponent {
 
     handleUserAccessTokenChange = (e) => {
         this.setState({
-            hasUserAccessTokenRole: e.target.checked
+            hasUserAccessTokenRole: e.target.checked,
         });
     };
 
     handlePostAllChange = (e) => {
         this.setState({
-            hasPostAllRole: e.target.checked
+            hasPostAllRole: e.target.checked,
         });
     };
 
     handlePostAllPublicChange = (e) => {
         this.setState({
-            hasPostAllPublicRole: e.target.checked
+            hasPostAllPublicRole: e.target.checked,
         });
     };
 

@@ -93,7 +93,7 @@ export default class SuggestionBox extends React.Component {
         /**
          * If true, the suggestion box is disabled
          */
-        disabled: PropTypes.bool
+        disabled: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -102,7 +102,7 @@ export default class SuggestionBox extends React.Component {
         completeOnTab: true,
         isRHS: false,
         requiredCharacters: 1,
-        openOnFocus: false
+        openOnFocus: false,
     }
 
     constructor(props) {
@@ -280,7 +280,7 @@ export default class SuggestionBox extends React.Component {
         if (this.props.onChange) {
             // fake an input event to send back to parent components
             const e = {
-                target: textbox
+                target: textbox,
             };
 
             // don't call handleChange or we'll get into an event loop

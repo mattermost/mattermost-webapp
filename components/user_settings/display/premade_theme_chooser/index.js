@@ -12,7 +12,7 @@ function mapStateToProps(state) {
     const allowedThemes = (config.AllowedThemes && config.AllowedThemes.split(',')) || [];
 
     return {
-        allowedThemes
+        allowedThemes,
     };
 }
 

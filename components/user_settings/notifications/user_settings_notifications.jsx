@@ -94,7 +94,7 @@ function getNotificationsStateFromStores() {
         firstNameKey,
         channelKey,
         notifyCommentsLevel: comments,
-        isSaving: false
+        isSaving: false,
     };
 }
 
@@ -103,7 +103,7 @@ const prevSections = {
     email: 'desktop',
     push: 'email',
     keys: 'push',
-    comments: 'keys'
+    comments: 'keys',
 };
 
 export default class NotificationsTab extends React.Component {
@@ -540,7 +540,7 @@ export default class NotificationsTab extends React.Component {
                                     id='user.settings.notifications.sensitiveName'
                                     defaultMessage='Your case sensitive first name "{first_name}"'
                                     values={{
-                                        first_name: user.first_name
+                                        first_name: user.first_name,
                                     }}
                                 />
                             </label>
@@ -566,7 +566,7 @@ export default class NotificationsTab extends React.Component {
                                 id='user.settings.notifications.sensitiveUsername'
                                 defaultMessage='Your non-case sensitive username "{username}"'
                                 values={{
-                                    username: user.username
+                                    username: user.username,
                                 }}
                             />
                         </label>
@@ -631,7 +631,7 @@ export default class NotificationsTab extends React.Component {
                         id='user.settings.notifications.mentionsInfo'
                         defaultMessage='Mentions trigger when someone sends a message that includes your username (@{username}) or any of the options selected above.'
                         values={{
-                            username: user.username
+                            username: user.username,
                         }}
                     />
                 </span>
@@ -876,7 +876,7 @@ export default class NotificationsTab extends React.Component {
                         activeSection={this.props.activeSection}
                         updateSection={this.props.updateSection}
                         enableEmail={enableEmail}
-                        emailInterval={Utils.getEmailInterval(enableEmail)}
+                        emailInterval={Utils.getEmailInterval(this.props.enableEmailBatching, enableEmail)}
                         onSubmit={this.handleSubmit}
                         onCancel={this.handleCancel}
                         saving={this.state.isSaving}
@@ -912,12 +912,12 @@ NotificationsTab.propTypes = {
     sendEmailNotifications: PropTypes.bool,
     enableEmailBatching: PropTypes.bool,
     siteName: PropTypes.string,
-    sendPushNotifications: PropTypes.bool
+    sendPushNotifications: PropTypes.bool,
 };
 
 NotificationsTab.defaultProps = {
     user: null,
     activeSection: '',
     prevActiveSection: '',
-    activeTab: ''
+    activeTab: '',
 };

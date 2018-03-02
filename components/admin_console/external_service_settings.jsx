@@ -26,7 +26,7 @@ export default class ExternalServiceSettings extends AdminSettings {
 
     getStateFromConfig(config) {
         return {
-            googleDeveloperKey: config.ServiceSettings.GoogleDeveloperKey
+            googleDeveloperKey: config.ServiceSettings.GoogleDeveloperKey,
         };
     }
 

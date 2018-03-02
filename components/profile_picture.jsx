@@ -7,7 +7,7 @@ import {OverlayTrigger} from 'react-bootstrap';
 
 import Pluggable from 'plugins/pluggable';
 
-import ProfilePopover from './profile_popover.jsx';
+import ProfilePopover from './profile_popover';
 import StatusIcon from './status_icon.jsx';
 
 export default class ProfilePicture extends React.PureComponent {
@@ -15,7 +15,7 @@ export default class ProfilePicture extends React.PureComponent {
         width: '36',
         height: '36',
         isRHS: false,
-        hasMention: false
+        hasMention: false,
     };
 
     static propTypes = {
@@ -26,7 +26,7 @@ export default class ProfilePicture extends React.PureComponent {
         user: PropTypes.object,
         isBusy: PropTypes.bool,
         isRHS: PropTypes.bool,
-        hasMention: PropTypes.bool
+        hasMention: PropTypes.bool,
     };
 
     hideProfilePopover = () => {

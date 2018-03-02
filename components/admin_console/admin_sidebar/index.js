@@ -19,15 +19,15 @@ function mapStateToProps(state) {
         config: state.entities.admin.config,
         plugins: state.entities.admin.plugins,
         buildEnterpriseReady,
-        siteName
+        siteName,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getPlugins
-        }, dispatch)
+            getPlugins,
+        }, dispatch),
     };
 }
 

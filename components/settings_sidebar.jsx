@@ -66,8 +66,8 @@ SettingsSidebar.propTypes = {
     tabs: PropTypes.arrayOf(PropTypes.shape({
         name: PropTypes.string.isRequired,
         uiName: PropTypes.string.isRequired,
-        icon: PropTypes.string.isRequired
+        icon: PropTypes.string.isRequired,
     })).isRequired,
     activeTab: PropTypes.string,
-    updateTab: PropTypes.func.isRequired
+    updateTab: PropTypes.func.isRequired,
 };

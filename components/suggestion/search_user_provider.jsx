@@ -79,7 +79,7 @@ export default class SearchUserProvider extends Provider {
                         matchedPretext: usernamePrefix,
                         terms: mentions,
                         items: users,
-                        component: SearchUserSuggestion
+                        component: SearchUserSuggestion,
                     });
                 }
             );

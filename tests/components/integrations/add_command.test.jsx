@@ -15,7 +15,7 @@ describe('components/integrations/AddCommand', () => {
                 team={{name: 'test'}}
                 addCommandRequest={{
                     status: 'not_started',
-                    error: null
+                    error: null,
                 }}
                 actions={{addCommand: emptyFunction}}
             />

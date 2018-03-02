@@ -22,7 +22,6 @@ function mapStateToProps(state) {
     const enableOutgoingWebhooks = config.EnableOutgoingWebhooks === 'true';
     const enableCommands = config.EnableCommands === 'true';
     const enableOAuthServiceProvider = config.EnableOAuthServiceProvider === 'true';
-    const enableOnlyAdminIntegrations = config.EnableOnlyAdminIntegrations === 'true';
 
     return {
         user,
@@ -33,7 +32,6 @@ function mapStateToProps(state) {
         enableOutgoingWebhooks,
         enableCommands,
         enableOAuthServiceProvider,
-        enableOnlyAdminIntegrations
     };
 }
 

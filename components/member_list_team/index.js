@@ -11,15 +11,16 @@ import MemberListTeam from './member_list_team.jsx';
 function mapStateToProps(state, ownProps) {
     const canManageTeamMembers = haveITeamPermission(state, {team: ownProps.teamId, permission: Permissions.MANAGE_TEAM_MEMBERS});
     return {
-        canManageTeamMembers
+        canManageTeamMembers,
+        ...ownProps,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getTeamStats
-        }, dispatch)
+            getTeamStats,
+        }, dispatch),
     };
 }
 

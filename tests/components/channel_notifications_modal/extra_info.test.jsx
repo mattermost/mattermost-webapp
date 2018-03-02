@@ -10,7 +10,7 @@ import ExtraInfo from 'components/channel_notifications_modal/components/extra_i
 
 describe('components/channel_notifications_modal/ExtraInfo', () => {
     const baseProps = {
-        section: NotificationSections.DESKTOP
+        section: NotificationSections.DESKTOP,
     };
 
     test('should match snapshot, on DESKTOP', () => {

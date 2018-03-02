@@ -112,8 +112,8 @@ export default class AdminConsole extends React.Component {
             /*
              * Function to cancel navigation away from unsaved changes
              */
-            cancelNavigation: PropTypes.func.isRequired
-        }).isRequired
+            cancelNavigation: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     componentWillMount() {

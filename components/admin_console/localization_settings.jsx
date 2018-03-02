@@ -24,7 +24,7 @@ export default class LocalizationSettings extends AdminSettings {
             hasErrors: false,
             languages: Object.keys(locales).map((l) => {
                 return {value: locales[l].value, text: locales[l].name, order: locales[l].order};
-            }).sort((a, b) => a.order - b.order)
+            }).sort((a, b) => a.order - b.order),
         });
     }
 
@@ -40,7 +40,7 @@ export default class LocalizationSettings extends AdminSettings {
         return {
             defaultServerLocale: config.LocalizationSettings.DefaultServerLocale,
             defaultClientLocale: config.LocalizationSettings.DefaultClientLocale,
-            availableLocales: config.LocalizationSettings.AvailableLocales ? config.LocalizationSettings.AvailableLocales.split(',') : []
+            availableLocales: config.LocalizationSettings.AvailableLocales ? config.LocalizationSettings.AvailableLocales.split(',') : [],
         };
     }
 

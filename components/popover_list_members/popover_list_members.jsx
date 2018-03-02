@@ -30,8 +30,8 @@ export default class PopoverListMembers extends React.Component {
         memberCount: PropTypes.number,
         currentUserId: PropTypes.string.isRequired,
         actions: PropTypes.shape({
-            getProfilesInChannel: PropTypes.func.isRequired
-        }).isRequired
+            getProfilesInChannel: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -48,7 +48,7 @@ export default class PopoverListMembers extends React.Component {
             showChannelMembersModal: false,
             showChannelInviteModal: false,
             teamMembers: UserStore.getProfilesUsernameMap(),
-            sortedMembers: []
+            sortedMembers: [],
         };
     }
 
@@ -101,7 +101,7 @@ export default class PopoverListMembers extends React.Component {
 
         this.setState({
             showPopover: false,
-            showChannelMembersModal: true
+            showChannelMembersModal: true,
         });
     }
 
@@ -136,7 +136,7 @@ export default class PopoverListMembers extends React.Component {
 
         const {
             sortedMembers,
-            teamMembers
+            teamMembers,
         } = this.state;
 
         if (this.props.members && teamMembers) {

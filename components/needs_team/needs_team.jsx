@@ -18,7 +18,6 @@ import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
-import {checkIfMFARequired} from 'utils/route';
 import {makeAsyncComponent} from 'components/async_load';
 import loadBackstageController from 'bundle-loader?lazy!components/backstage';
 import ChannelController from 'components/channel_layout/channel_controller';
@@ -39,9 +38,10 @@ export default class NeedsTeam extends React.Component {
             getMyTeamUnreads: PropTypes.func.isRequired,
             viewChannel: PropTypes.func.isRequired,
             markChannelAsRead: PropTypes.func.isRequired,
-            getMyChannelMembers: PropTypes.func.isRequired
+            getMyChannelMembers: PropTypes.func.isRequired,
         }).isRequired,
-        theme: PropTypes.object.isRequired
+        theme: PropTypes.object.isRequired,
+        mfaRequired: PropTypes.bool.isRequired,
     };
 
     constructor(params) {
@@ -52,7 +52,7 @@ export default class NeedsTeam extends React.Component {
 
         this.blurTime = new Date().getTime();
 
-        if (checkIfMFARequired(this.props.match.url)) {
+        if (this.props.mfaRequired) {
             this.props.history.push('/mfa/setup');
             return;
         }
@@ -72,7 +72,7 @@ export default class NeedsTeam extends React.Component {
 
         this.state = {
             team,
-            finishedFetchingChannels: false
+            finishedFetchingChannels: false,
         };
     }
 
@@ -107,7 +107,7 @@ export default class NeedsTeam extends React.Component {
         this.props.actions.fetchMyChannelsAndMembers(team.id).then(
             () => {
                 this.setState({
-                    finishedFetchingChannels: true
+                    finishedFetchingChannels: true,
                 });
             }
         );

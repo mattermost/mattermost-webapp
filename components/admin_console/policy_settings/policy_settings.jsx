@@ -29,8 +29,8 @@ export default class PolicySettings extends AdminSettings {
         rolesRequest: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             loadRolesIfNeeded: PropTypes.func.isRequired,
-            editRole: PropTypes.func.isRequired
-        }).isRequired
+            editRole: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     constructor(props) {
@@ -46,13 +46,13 @@ export default class PolicySettings extends AdminSettings {
             restrictPrivateChannelManagement: '',
             restrictPublicChannelDeletion: '',
             restrictPrivateChannelDeletion: '',
-            restrictPrivateChannelManageMembers: ''
+            restrictPrivateChannelManageMembers: '',
         };
 
         this.state = {
             ...this.state, // Brings the state in from the parent class.
             ...this.roleBasedPolicies,
-            loaded: false
+            loaded: false,
         };
     }
 
@@ -102,7 +102,7 @@ export default class PolicySettings extends AdminSettings {
                 success = false;
                 this.setState({
                     saving: false,
-                    serverError: err.message
+                    serverError: err.message,
                 });
             }
         }));
@@ -129,7 +129,7 @@ export default class PolicySettings extends AdminSettings {
             bannerText: config.AnnouncementSettings.BannerText,
             bannerColor: config.AnnouncementSettings.BannerColor,
             bannerTextColor: config.AnnouncementSettings.BannerTextColor,
-            allowBannerDismissal: config.AnnouncementSettings.AllowBannerDismissal
+            allowBannerDismissal: config.AnnouncementSettings.AllowBannerDismissal,
         };
     }
 
@@ -153,7 +153,7 @@ export default class PolicySettings extends AdminSettings {
                     values={[
                         {value: Constants.PERMISSIONS_ALL, text: Utils.localizeMessage('admin.general.policy.permissionsAll', 'All team members')},
                         {value: Constants.PERMISSIONS_TEAM_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsAdmin', 'Team and System Admins')},
-                        {value: Constants.PERMISSIONS_SYSTEM_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsSystemAdmin', 'System Admins')}
+                        {value: Constants.PERMISSIONS_SYSTEM_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsSystemAdmin', 'System Admins')},
                     ]}
                     label={
                         <FormattedMessage
@@ -175,7 +175,7 @@ export default class PolicySettings extends AdminSettings {
                     values={[
                         {value: Constants.PERMISSIONS_ALL, text: Utils.localizeMessage('admin.general.policy.permissionsAll', 'All team members')},
                         {value: Constants.PERMISSIONS_TEAM_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsAdmin', 'Team and System Admins')},
-                        {value: Constants.PERMISSIONS_SYSTEM_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsSystemAdmin', 'System Admins')}
+                        {value: Constants.PERMISSIONS_SYSTEM_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsSystemAdmin', 'System Admins')},
                     ]}
                     label={
                         <FormattedMessage
@@ -198,7 +198,7 @@ export default class PolicySettings extends AdminSettings {
                         {value: Constants.PERMISSIONS_ALL, text: Utils.localizeMessage('admin.general.policy.permissionsAllChannel', 'All channel members')},
                         {value: Constants.PERMISSIONS_CHANNEL_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsChannelAdmin', 'Channel, Team and System Admins')},
                         {value: Constants.PERMISSIONS_TEAM_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsAdmin', 'Team and System Admins')},
-                        {value: Constants.PERMISSIONS_SYSTEM_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsSystemAdmin', 'System Admins')}
+                        {value: Constants.PERMISSIONS_SYSTEM_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsSystemAdmin', 'System Admins')},
                     ]}
                     label={
                         <FormattedMessage
@@ -221,7 +221,7 @@ export default class PolicySettings extends AdminSettings {
                         {value: Constants.PERMISSIONS_ALL, text: Utils.localizeMessage('admin.general.policy.permissionsAllChannel', 'All channel members')},
                         {value: Constants.PERMISSIONS_CHANNEL_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsChannelAdmin', 'Channel, Team and System Admins')},
                         {value: Constants.PERMISSIONS_TEAM_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsAdmin', 'Team and System Admins')},
-                        {value: Constants.PERMISSIONS_SYSTEM_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsSystemAdmin', 'System Admins')}
+                        {value: Constants.PERMISSIONS_SYSTEM_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsSystemAdmin', 'System Admins')},
                     ]}
                     label={
                         <FormattedMessage
@@ -247,7 +247,7 @@ export default class PolicySettings extends AdminSettings {
                                             defaultMessage='command line tool'
                                         />
                                     </a>
-                                )
+                                ),
                             }}
                         />
                     }
@@ -257,7 +257,7 @@ export default class PolicySettings extends AdminSettings {
                     values={[
                         {value: Constants.PERMISSIONS_ALL, text: Utils.localizeMessage('admin.general.policy.permissionsAll', 'All team members')},
                         {value: Constants.PERMISSIONS_TEAM_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsAdmin', 'Team and System Admins')},
-                        {value: Constants.PERMISSIONS_SYSTEM_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsSystemAdmin', 'System Admins')}
+                        {value: Constants.PERMISSIONS_SYSTEM_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsSystemAdmin', 'System Admins')},
                     ]}
                     label={
                         <FormattedMessage
@@ -280,7 +280,7 @@ export default class PolicySettings extends AdminSettings {
                         {value: Constants.PERMISSIONS_ALL, text: Utils.localizeMessage('admin.general.policy.permissionsAllChannel', 'All channel members')},
                         {value: Constants.PERMISSIONS_CHANNEL_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsChannelAdmin', 'Channel, Team and System Admins')},
                         {value: Constants.PERMISSIONS_TEAM_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsAdmin', 'Team and System Admins')},
-                        {value: Constants.PERMISSIONS_SYSTEM_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsSystemAdmin', 'System Admins')}
+                        {value: Constants.PERMISSIONS_SYSTEM_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsSystemAdmin', 'System Admins')},
                     ]}
                     label={
                         <FormattedMessage
@@ -303,7 +303,7 @@ export default class PolicySettings extends AdminSettings {
                         {value: Constants.PERMISSIONS_ALL, text: Utils.localizeMessage('admin.general.policy.permissionsAllChannel', 'All channel members')},
                         {value: Constants.PERMISSIONS_CHANNEL_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsChannelAdmin', 'Channel, Team and System Admins')},
                         {value: Constants.PERMISSIONS_TEAM_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsAdmin', 'Team and System Admins')},
-                        {value: Constants.PERMISSIONS_SYSTEM_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsSystemAdmin', 'System Admins')}
+                        {value: Constants.PERMISSIONS_SYSTEM_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsSystemAdmin', 'System Admins')},
                     ]}
                     label={
                         <FormattedMessage
@@ -326,7 +326,7 @@ export default class PolicySettings extends AdminSettings {
                         {value: Constants.PERMISSIONS_ALL, text: Utils.localizeMessage('admin.general.policy.permissionsAllChannel', 'All channel members')},
                         {value: Constants.PERMISSIONS_CHANNEL_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsChannelAdmin', 'Channel, Team and System Admins')},
                         {value: Constants.PERMISSIONS_TEAM_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsAdmin', 'Team and System Admins')},
-                        {value: Constants.PERMISSIONS_SYSTEM_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsSystemAdmin', 'System Admins')}
+                        {value: Constants.PERMISSIONS_SYSTEM_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsSystemAdmin', 'System Admins')},
                     ]}
                     label={
                         <FormattedMessage
@@ -352,7 +352,7 @@ export default class PolicySettings extends AdminSettings {
                                             defaultMessage='command line tool'
                                         />
                                     </a>
-                                )
+                                ),
                             }}
                         />
                     }
@@ -362,7 +362,7 @@ export default class PolicySettings extends AdminSettings {
                     values={[
                         {value: Constants.PERMISSIONS_DELETE_POST_ALL, text: Utils.localizeMessage('admin.general.policy.permissionsDeletePostAll', 'Message authors can delete their own messages, and Administrators can delete any message')},
                         {value: Constants.PERMISSIONS_DELETE_POST_TEAM_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsDeletePostAdmin', 'Team Admins and System Admins')},
-                        {value: Constants.PERMISSIONS_DELETE_POST_SYSTEM_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsDeletePostSystemAdmin', 'System Admins')}
+                        {value: Constants.PERMISSIONS_DELETE_POST_SYSTEM_ADMIN, text: Utils.localizeMessage('admin.general.policy.permissionsDeletePostSystemAdmin', 'System Admins')},
                     ]}
                     label={
                         <FormattedMessage
