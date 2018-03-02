@@ -3,8 +3,12 @@
 .form-control {
     @include border-radius($border-rad);
 
-    &:focus {
-        @include box-shadow(none);
+    // &:focus {
+    //     @include box-shadow(none);
+    // }
+
+    .js-focus-visible :focus:not(.focus-visible) {
+        outline: 0;
     }
 
     &.no-padding {
