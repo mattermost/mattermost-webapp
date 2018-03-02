@@ -111,9 +111,13 @@
         height: 25px;
         font-size: 12px;
 
-        &:focus{
-            outline: none;
-        }
+        // &:focus{
+        //     outline: none;
+        // }
+
+        .js-focus-visible :focus:not(.focus-visible) {
+            outline: 0;
+          }
     }
 }
 

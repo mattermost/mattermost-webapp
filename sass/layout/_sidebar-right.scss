@@ -189,7 +189,7 @@
         line-height: 0;
         margin: 11px 0 0;
         opacity: .5;
-        outline: none;
+        //outline: none;
         padding: 0;
         width: 30px;
 
@@ -200,6 +200,10 @@
 
         i {
             position: relative;
+        }
+
+        .js-focus-visible :focus:not(.focus-visible) {
+            outline: 0;
         }
     }
 

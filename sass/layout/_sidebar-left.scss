@@ -205,18 +205,22 @@
                 border-radius: 0;
                 display: block;
                 line-height: 1.5;
-                outline: none;
+                //outline: none;
                 overflow: hidden;
                 padding: 5px 0 5px 15px;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+
+                .js-focus-visible :focus:not(.focus-visible) {
+                    outline: 0;
+                }
             }
 
             .sidebar-item {
                 @include single-transition(none);
                 border-radius: 0;
                 line-height: 1.5;
-                outline: none;
+                //outline: none;
                 overflow: hidden;
                 padding: 5px 0 5px 15px;
                 text-align: left;
@@ -274,6 +278,10 @@
                     opacity: 0.5;
                 }
 
+                .js-focus-visible :focus:not(.focus-visible) {
+                    outline: 0;
+                }
+
             }
 
             &.active {
@@ -327,12 +335,17 @@
         font-weight: 700;
         line-height: 18px;
         margin: -2px 0 0 0;
-        outline: none;
+        //outline: none;
+        overflow: hidden; // box around + sign
         padding: 0 5px;
         text-decoration: none;
 
         &:hover {
             color: #666666;
+        }
+
+        .js-focus-visible :focus:not(.focus-visible) {
+            outline: 0;
         }
     }
 
@@ -415,8 +428,13 @@
         color: $white;
     }
 
-    &:focus,
+    // &:focus,
+    // span {
+    //     outline: none;
+    // }
+
+    .js-focus-visible :focus:not(.focus-visible),
     span {
-        outline: none;
-    }
+        outline: 0;
+      }
 }
