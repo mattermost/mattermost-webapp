@@ -1583,9 +1583,13 @@
         top: 1px;
         visibility: hidden;
 
-        &:focus {
-            outline: none;
-        }
+        // &:focus {
+        //     outline: none;
+        // }
+
+        .js-focus-visible :focus:not(.focus-visible) {
+            outline: 0;
+          }
 
         &.icon--visible {
             visibility: visible;
