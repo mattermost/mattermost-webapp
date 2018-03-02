@@ -6,6 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 import {Posts} from 'mattermost-redux/constants';
+import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {browserHistory} from 'utils/browser_history';
 import {searchForTerm} from 'actions/post_actions';
@@ -20,6 +21,7 @@ import bing from 'images/bing.mp3';
 import icon50 from 'images/icon50x50.png';
 import iconWS from 'images/icon_WS.png';
 import {getSiteURL} from 'utils/url';
+import store from 'stores/redux_store.jsx';
 
 export function isEmail(email) {
     // writing a regex to match all valid email addresses is really, really hard. (see http://stackoverflow.com/a/201378)
@@ -58,6 +60,13 @@ export function cmdOrCtrlPressed(e, allowAlt = false) {
     return (isMac() && e.metaKey) || (!isMac() && e.ctrlKey && !e.altKey);
 }
 
+export function isKeyPressed(event, key) {
+    if (typeof event.key !== 'undefined' && event.key !== 'Unidentified' && event.key !== 'Dead') {
+        return event.key === key[0];
+    }
+    return event.keyCode === key[1];
+}
+
 export function isInRole(roles, inRole) {
     if (roles) {
         var parts = roles.split(' ');
@@ -71,8 +80,8 @@ export function isInRole(roles, inRole) {
     return false;
 }
 
-export function isChannelAdmin(roles) {
-    if (global.mm_license.IsLicensed !== 'true') {
+export function isChannelAdmin(isLicensed, roles) {
+    if (!isLicensed) {
         return false;
     }
 
@@ -1086,8 +1095,10 @@ export function displayUsername(userId) {
  * Gets the display name of the specified user, respecting the TeammateNameDisplay configuration setting
  */
 export function displayUsernameForUser(user) {
+    const config = getConfig(store.getState());
+
     if (user) {
-        const nameFormat = global.window.mm_config.TeammateNameDisplay;
+        const nameFormat = config.TeammateNameDisplay;
         let name = user.username;
         if (nameFormat === Constants.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME && user.nickname && user.nickname.trim().length > 0) {
             name = user.nickname;
@@ -1187,17 +1198,6 @@ export function fileSizeToString(bytes) {
     }
 
     return bytes + 'B';
-}
-
-// Gets the websocket port to use. Configurable on the server.
-export function getWebsocketPort(protocol) {
-    if ((/^wss:/).test(protocol)) { // wss://
-        return ':' + global.window.mm_config.WebsocketSecurePort;
-    }
-    if ((/^ws:/).test(protocol)) {
-        return ':' + global.window.mm_config.WebsocketPort;
-    }
-    return '';
 }
 
 // Generates a RFC-4122 version 4 compliant globally unique identifier.
@@ -1354,7 +1354,11 @@ export function mod(a, b) {
 export const REACTION_PATTERN = /^(\+|-):([^:\s]+):\s*$/;
 
 export function canCreateCustomEmoji(user) {
-    if (global.window.mm_license.IsLicensed !== 'true') {
+    const state = store.getState();
+    const license = getLicense(state);
+    const config = getConfig(state);
+
+    if (license.IsLicensed !== 'true') {
         return true;
     }
 
@@ -1363,9 +1367,9 @@ export function canCreateCustomEmoji(user) {
     }
 
     // already checked for system admin for both these cases
-    if (window.mm_config.RestrictCustomEmojiCreation === 'system_admin') {
+    if (config.RestrictCustomEmojiCreation === 'system_admin') {
         return false;
-    } else if (window.mm_config.RestrictCustomEmojiCreation === 'admin') {
+    } else if (config.RestrictCustomEmojiCreation === 'admin') {
         // check whether the user is an admin on any of their teams
         if (TeamStore.isTeamAdminForAnyTeam()) {
             return true;
@@ -1505,7 +1509,7 @@ export function removePrefixFromLocalStorage(prefix) {
     }
 }
 
-export function getEmailInterval(isEmailEnabled) {
+export function getEmailInterval(enableEmailBatching, isEmailEnabled) {
     const {
         INTERVAL_NEVER,
         INTERVAL_IMMEDIATE,
@@ -1524,7 +1528,7 @@ export function getEmailInterval(isEmailEnabled) {
 
     let emailInterval;
 
-    if (global.mm_config.EnableEmailBatching === 'true') {
+    if (enableEmailBatching) {
         // when email batching is enabled, the default interval is 15 minutes
         emailInterval = PreferenceStore.getInt(CATEGORY_NOTIFICATIONS, EMAIL_INTERVAL, INTERVAL_FIFTEEN_MINUTES);
 

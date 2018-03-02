@@ -9,7 +9,7 @@ import React from 'react';
 import {IntlProvider} from 'react-intl';
 import FastClick from 'fastclick';
 import {Route, Switch, Redirect} from 'react-router-dom';
-import {getClientConfig, getLicenseConfig, setUrl} from 'mattermost-redux/actions/general';
+import {setUrl} from 'mattermost-redux/actions/general';
 import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {Client4} from 'mattermost-redux/client';
@@ -83,11 +83,14 @@ const LoggedInRoute = ({component: Component, ...rest}) => (
 );
 
 export default class Root extends React.Component {
+    static propTypes = {
+        diagnosticsEnabled: PropTypes.bool,
+        noAccounts: PropTypes.bool,
+        children: PropTypes.object,
+    }
+
     constructor(props) {
         super(props);
-        this.localizationChanged = this.localizationChanged.bind(this);
-        this.redirectIfNecessary = this.redirectIfNecessary.bind(this);
-        this.onConfigLoaded = this.onConfigLoaded.bind(this);
 
         // Redux
         setUrl(window.location.origin);
@@ -141,11 +144,11 @@ export default class Root extends React.Component {
         };
     }
 
-    onConfigLoaded() {
+    onConfigLoaded = () => {
         const segmentKey = Constants.DIAGNOSTICS_SEGMENT_KEY;
 
         /*eslint-disable */
-        if (segmentKey != null && segmentKey !== '' && window.mm_config.DiagnosticsEnabled === 'true') {
+        if (segmentKey != null && segmentKey !== '' && this.props.diagnosticsEnabled) {
             !function(){var analytics=global.window.analytics=global.window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.0.1";
                 analytics.load(segmentKey);
 
@@ -200,16 +203,16 @@ export default class Root extends React.Component {
         }
     }
 
-    localizationChanged() {
+    localizationChanged = () => {
         const locale = LocalizationStore.getLocale();
 
         Client4.setAcceptLanguage(locale);
         this.setState({locale, translations: LocalizationStore.getTranslations()});
     }
 
-    redirectIfNecessary(props) {
+    redirectIfNecessary = (props) => {
         if (props.location.pathname === '/') {
-            if (global.mm_config.NoAccounts === 'true') {
+            if (this.props.noAccounts) {
                 this.props.history.push('/signup_user_complete');
             } else if (UserStore.getCurrentUser()) {
                 GlobalActions.redirectUserToDefaultTeam();
@@ -222,24 +225,7 @@ export default class Root extends React.Component {
     }
 
     componentDidMount() {
-        // Load config
-        if (document.cookie.indexOf('MMUSERID=') > -1) {
-            loadMeAndConfig(this.onConfigLoaded);
-        } else {
-            getClientConfig()(store.dispatch, store.getState).then(
-                ({data: config}) => {
-                    global.window.mm_config = config;
-
-                    getLicenseConfig()(store.dispatch, store.getState).then(
-                        ({data: license}) => {
-                            global.window.mm_license = license;
-                            this.onConfigLoaded();
-                        }
-                    );
-                }
-            );
-        }
-
+        loadMeAndConfig(this.onConfigLoaded);
         trackLoadTime();
     }
 
@@ -342,10 +328,3 @@ export default class Root extends React.Component {
         );
     }
 }
-
-Root.defaultProps = {
-};
-
-Root.propTypes = {
-    children: PropTypes.object,
-};

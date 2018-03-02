@@ -24,9 +24,9 @@ export function canUploadFiles(state) {
     return true;
 }
 
-export function canDownloadFiles() {
-    if (UserAgent.isMobileApp() && window.mm_license.IsLicensed === 'true' && window.mm_license.Compliance === 'true') {
-        return window.mm_config.EnableMobileFileDownload !== 'false';
+export function canDownloadFiles(license, config) {
+    if (UserAgent.isMobileApp() && license.IsLicensed === 'true' && license.Compliance === 'true') {
+        return config.EnableMobileFileDownload !== 'false';
     }
 
     return true;
